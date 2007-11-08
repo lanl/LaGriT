@@ -35,7 +35,10 @@ C                             which an interior march may start.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/fndface2.f_a  $
+C        $Log: fndface2.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.12   30 Sep 2004 10:02:42   dcg
 CPVCS    use iand in place of .and. with integer variables

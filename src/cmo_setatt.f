@@ -67,7 +67,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 c
 c     change history -
 C
-C        $Log:   /pvcs.config/t3d/src/cmo_setatt_nosb.f_a  $
+C        $Log: cmo_setatt.f,v $
+C        Revision 2.00  2007/11/05 19:45:50  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.16   03 Jan 2007 15:14:22   gable
 CPVCS    No change.

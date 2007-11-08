@@ -43,7 +43,10 @@ C                  0 ==>  flip is not-possible
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/fnd3to2i.f_a  $
+C        $Log: fnd3to2i.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   05 Jan 2001 12:59:32   dcg
 CPVCS    use dble in place of float so as not to lose digits

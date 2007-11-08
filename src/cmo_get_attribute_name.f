@@ -16,7 +16,10 @@ C
 C     attribute_name  name of attribute
 C     icscode   completion code (0 for good completion)
 C   CHANGE HISTORY
-C$Log:   /pvcs.config/t3d/src/cmo_get_attribute_name_nosb.f_a  $
+C$Log: cmo_get_attribute_name.f,v $
+CRevision 2.00  2007/11/05 19:45:48  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Feb 07 11:16:32 2000   dcg
 CPVCS    

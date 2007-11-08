@@ -10,7 +10,10 @@ C
 C     OUTPUT ARGUMENTS -
 C
 C     CHANGE HISTORY -
-C $Log:   /pvcs.config/t3d/src/forcedmove.f_a  $
+C $Log: forcedmove.f,v $
+C Revision 2.00  2007/11/05 19:45:56  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   31 Jan 2000 17:12:16   kuprat
 CPVCS    Initial revision.

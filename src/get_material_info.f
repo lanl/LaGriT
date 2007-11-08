@@ -16,7 +16,10 @@ c     names  material region names
 c     matno  material number for mregion
 c     ierror  return flag
 c
-c $Log:   /pvcs.config/t3d/src/get_material_info.f_a  $
+c $Log: get_material_info.f,v $
+c Revision 2.00  2007/11/05 19:45:56  spchu
+c Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.0   25 Feb 2000 09:53:10   dcg
 CPVCS    Initial revision.

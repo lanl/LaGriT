@@ -20,7 +20,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/delaunay_connect2d_lg_nosb.f_a  $
+C        $Log: delaunay_connect2d_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   02 Aug 2005 08:19:48   gable
 CPVCS    Change ifadd to lifadd.

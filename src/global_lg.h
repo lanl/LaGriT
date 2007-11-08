@@ -10,7 +10,10 @@ C###########################################################################
 C
 C  CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/global_lg.h_a  $
+C    $Log: global_lg.h,v $
+C    Revision 2.00  2007/11/05 19:45:58  spchu
+C    Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Thu Mar 02 10:48:00 2000   dcg
 CPVCS    correct length of global_character array

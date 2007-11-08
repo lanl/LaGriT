@@ -45,7 +45,10 @@ c       IERROR - error return
 c
 c    CHANGE HISTORY -
 c
-C $Log:   /pvcs.config/t3d/src/cer_chain.f_a  $
+C $Log: cer_chain.f,v $
+C Revision 2.00  2007/11/05 19:45:47  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.12   07 Jan 2002 14:00:56   dcg
 CPVCS    add error return argument to refine_edge_add_tet call

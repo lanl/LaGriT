@@ -74,6 +74,16 @@ C
 C original version modified from copypts.f version 1.26
 C
 C Q: does adding the attribute automatically set length??
+C
+C
+C        $Log: copyatt_mpary_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
 C#######################################################################
  
       implicit none

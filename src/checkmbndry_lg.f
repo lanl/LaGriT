@@ -17,7 +17,10 @@ C    none
 C
 C     CHANGE HISTORY -
 C
-C   $Log:   /pvcs.config/t3d/src/checkmbndry_lg.f_a  $
+C   $Log: checkmbndry_lg.f,v $
+C   Revision 2.00  2007/11/05 19:45:47  spchu
+C   Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Tue Oct 12 16:45:38 1999   dcg
 CPVCS    Initial revision.

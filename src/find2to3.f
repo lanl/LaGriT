@@ -31,7 +31,10 @@ c         ierflg - error return (0 flip okay - 1 flip bad)ifalg
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/find2to3.f_a  $
+C        $Log: find2to3.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   15 Nov 2004 10:31:12   dcg
 CPVCS    replace .and. with function iand

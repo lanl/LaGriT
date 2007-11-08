@@ -25,7 +25,10 @@ C        jd      - the "jtet" coordinates of the two new tets
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/find2to2.f_a  $
+C        $Log: find2to2.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   Tue Sep 22 11:48:08 1998   dcg
 CPVCS    replace idebug.ne.0 with idebug.gt.0

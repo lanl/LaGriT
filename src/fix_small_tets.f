@@ -19,7 +19,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/fix_small_tets_nosb.f_a  $
+C        $Log: fix_small_tets.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   08 Feb 2006 14:35:34   dcg
 CPVCS    "enforce lower case - add external statements for shift routines

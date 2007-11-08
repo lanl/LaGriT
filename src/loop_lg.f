@@ -12,7 +12,10 @@ C
 C   INPUT/OUTPUT
 C         ierr   - INTEGER ERROR FLAG (==0 ==> OK, <>0 ==> AN ERROR)
 C
-C         $Log:   /pvcs.config/t3d/src/loop_lg.f_a  $
+C         $Log: loop_lg.f,v $
+C         Revision 2.00  2007/11/05 19:46:00  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   19 Apr 2002 15:38:12   gable
 CPVCS    Correct error checking.

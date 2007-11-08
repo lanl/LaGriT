@@ -22,7 +22,10 @@ C     Then the following routines are called if point is on the plane
 C       inside_quad2d
 C       inside_tri2d
 C
-C     $Log:   /pvcs.config/t3d/src/inside_lg.f_a  $
+C     $Log: inside_lg.f,v $
+C     Revision 2.00  2007/11/05 19:45:58  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   03 Jan 2007 12:02:12   tam
 CPVCS    pass in itmp instead of iflfag, use itmp for debug flag

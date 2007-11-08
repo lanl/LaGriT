@@ -11,7 +11,10 @@ C        statement functions in the subroutine.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/statementfunctions.h_a  $
+C        $Log: statementfunctions.h,v $
+C        Revision 2.00  2007/11/05 19:46:03  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   14 May 2001 09:00:28   kuprat
 CPVCS    Put in DSZAREA function which returns signed area of triangle.

@@ -24,7 +24,10 @@
 !!
 !!  CHANGE HISTORY
 !!
-!!    $Log:   /pvcs.config/t3d/src/colormap.f9a  $
+!!    $Log: colormap.f90,v $
+!!    Revision 2.00  2007/11/05 19:45:50  spchu
+!!    Import to CVS
+!!
 !!PVCS  
 !!PVCS     Rev 1.2   Fri Nov 05 13:29:12 1999   dcg
 !!PVCS  remove dictionary dependencies

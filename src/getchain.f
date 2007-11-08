@@ -27,7 +27,10 @@ C        ipar1   - the parent point
 C
 C     HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/getchain.f_a  $
+C        $Log: getchain.f,v $
+C        Revision 2.00  2007/11/05 19:45:57  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.8   29 Jul 2005 07:33:10   gable
 CPVCS    No change.

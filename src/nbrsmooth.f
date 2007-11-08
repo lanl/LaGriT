@@ -62,7 +62,10 @@ C defining inverted tets, and if this fails the smoothing is aborted.
 C
 C      CHANGE HISTORY -
 C
-C $Log:   /pvcs.config/t3d/src/nbrsmooth.f_a  $
+C $Log: nbrsmooth.f,v $
+C Revision 2.00  2007/11/05 19:46:02  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   14 Dec 2000 14:56:22   jtg
 CPVCS    fixed error occuring when no neighbors

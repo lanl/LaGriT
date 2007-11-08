@@ -22,7 +22,10 @@ c        none
 c
 c     change history -
 c
-c        $log:   /pvcs.config/t3d/src/matbld1.f_a  $
+c        $Log: matbld1.f,v $
+c        Revision 2.00  2007/11/05 19:46:01  spchu
+c        Import to CVS
+c
 cpvcs
 cpvcs       rev 1.9   06 nov 2002 08:16:48   dcg
 cpvcs    make routine implicit none

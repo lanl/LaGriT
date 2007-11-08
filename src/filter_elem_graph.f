@@ -54,7 +54,10 @@ C
 C     FORMAT -
 C        filter / element / [search_range] / [delete|nodelete]
 C
-C        $Log:   /pvcs.config/t3d/src/filter_elem_graph.f_a  $
+C        $Log: filter_elem_graph.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   01 Aug 2005 10:08:38   gable
 CPVCS    Initial revision.

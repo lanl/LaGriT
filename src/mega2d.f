@@ -20,7 +20,10 @@ c         ierror - error return code (==0 ==> ok, <>0 ==> error)
 c
 c     change history -
 c
-c        $Log:   /pvcs.config/t3d/src/mega2d_nosb.f_a  $
+c        $Log: mega2d.f,v $
+c        Revision 2.00  2007/11/05 19:46:01  spchu
+c        Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.1   30 Sep 2004 11:20:44   dcg
 CPVCS    make alf,tolx double precision

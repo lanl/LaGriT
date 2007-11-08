@@ -323,7 +323,10 @@ c-2.500000000000E-01 -2.500000000000E-01 -2.500000000000E-01 0.000000000000E+00
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/matbld3d_stor.f_a  $
+C         $Log: matbld3d_stor.f,v $
+C         Revision 2.00  2007/11/05 19:46:01  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.28   10 May 2006 16:54:08   gable
 CPVCS    Modified format of negative coef. screen output so if fits on

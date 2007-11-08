@@ -18,7 +18,10 @@ C        ierror - Error flag.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/addmesh_append_nosb.f_a  $
+C        $Log: addmesh_append.f,v $
+C        Revision 2.00  2007/11/05 19:45:45  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   24 Jan 2007 09:34:24   gable
 CPVCS    Made changes to handle cases where one MO is empty or has not elements.

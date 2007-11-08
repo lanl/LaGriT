@@ -7,7 +7,10 @@ C       Declarations for search information
 C
 C     CHANGE HISTORY -
 C
-C  $Log:   /pvcs.config/t3d/src/search.h_a
+C  $Log: search.h,v $
+C  Revision 2.00  2007/11/05 19:46:03  spchu
+C  Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.6   Tue Oct 26 14:08:18 1999   dcg
 CPVCS    No change.

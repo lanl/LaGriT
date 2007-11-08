@@ -72,7 +72,10 @@ C         Carl W. Gable  gable@lanl.gov (Los Alamos National Laboratory)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/identify_dot.f_a  $
+C        $Log: identify_dot.f,v $
+C        Revision 2.00  2007/11/05 19:45:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   Tue Mar 10 14:52:02 1998   tam
 CPVCS    moved edge logic after faces, used epsilon for face checks

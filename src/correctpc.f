@@ -2,7 +2,19 @@
       subroutine correctpc(iparent,isurv,iremov,iparsurv,iparremov,
      &   itettyp,iseedtet,itp1,itet,itetoff,jtet,jtetoff,nelts,
      &   ipielts,nef_cmo,mbndry,imt1,isn1,itetclr,lmoved)
- 
+C
+C ######################################################################
+C
+C        $Log: correctpc.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
+C ######################################################################
+C
       implicit none
  
       include 'local_element.h'

@@ -132,7 +132,10 @@
 !!
 !!    CHANGE HISTORY
 !!
-!!        $Log:   /pvcs.config/t3d/src/LowPassFilterModule.f9a  $
+!!        $Log: LowPassFilterModule.f90,v $
+!!        Revision 2.00  2007/11/05 19:45:45  spchu
+!!        Import to CVS
+!!
 !PVCS
 !PVCS   Rev 1.2   Sat May 01 22:08:50 1999   nnc
 !PVCSMade argument MASK of CreateLaplacian intent(in).

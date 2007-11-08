@@ -19,7 +19,10 @@ C                  POINT TYPES, MATERIAL TYPES, AND INTERFACE LOCATIONS.
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/get_epsilon_nosb.f_a  $
+C$Log: get_epsilon.f,v $
+CRevision 2.00  2007/11/05 19:45:56  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Wed Jan 19 17:29:30 2000   dcg
 CPVCS    Initial revision.

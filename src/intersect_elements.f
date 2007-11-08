@@ -24,7 +24,10 @@ C        imsgin()  - INTEGER ARRAY OF COMMAND INPUT VALUES
 C        msgtype() - INTEGER ARRAY OF COMMAND INPUT TYPE
 C        nwds      - NO. OF WORDS OF COMMAND INPUT VALUES
 C
-C     $Log:   /pvcs.config/t3d/src/intersect_elements.f_a  $
+C     $Log: intersect_elements.f,v $
+C     Revision 2.00  2007/11/05 19:45:59  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.10   23 Jun 2006 08:27:16   tam
 CPVCS    check for incoming attribute containing negative values

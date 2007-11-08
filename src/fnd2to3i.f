@@ -39,7 +39,10 @@ C         jd      - the "jtet" values of the three new tets
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/fnd2to3i.f_a  $
+C        $Log: fnd2to3i.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   30 Sep 2004 10:01:42   dcg
 CPVCS    use iand in place of .and. for integer variables

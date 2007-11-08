@@ -17,7 +17,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/mega_error.f_a  $
+C        $Log: mega_error.f,v $
+C        Revision 2.00  2007/11/05 19:46:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   22 Jan 2001 14:49:48   dcg
 CPVCS    clean-up make implicit none

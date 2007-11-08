@@ -29,7 +29,10 @@ C        (ip)edges _ local edge numbers
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/get_elements_on_edge.f_a  $
+C        $Log: get_elements_on_edge.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   19 Dec 2001 13:47:58   dcg
 CPVCS    add subroutine get_elements_on_edge_test

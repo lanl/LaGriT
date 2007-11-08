@@ -47,7 +47,10 @@ c         The output file is in the FEHM .stor format
 c         Refer to matbld3d_stor.f for more information.
 c
 c
-c$Log:   /pvcs.config/t3d/src/anothermatbld3d_wrapper.f_a  $
+c$Log: anothermatbld3d_wrapper.f,v $
+cRevision 2.00  2007/11/05 19:45:46  spchu
+cImport to CVS
+c
 CPVCS    
 CPVCS       Rev 1.13   10 May 2001 13:52:24   jan
 CPVCS    deleted embedded underscore

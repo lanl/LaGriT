@@ -21,7 +21,10 @@ C                        node.
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/get_xcontab.f_a  $
+C        $Log: get_xcontab.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   Mon Apr 14 16:49:38 1997   pvcs
 CPVCS    No change.

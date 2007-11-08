@@ -22,7 +22,10 @@ C         None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/flp2to0b.f_a  $
+C        $Log: flp2to0b.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.10   30 Sep 2004 09:59:02   dcg
 CPVCS    use iand in place of .and. with integer variables

@@ -26,7 +26,10 @@ C        arathex : The aspect ratio of the hex.
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/aratio_hex.f_a  $
+C$Log: aratio_hex.f,v $
+CRevision 2.00  2007/11/05 19:45:46  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Fri Aug 29 14:11:30 1997   dcg
 CPVCS    Initial revision.

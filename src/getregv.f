@@ -33,7 +33,10 @@ C        ierr - ERROR FLAG
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/getregv_nosb.f_a  $
+C        $Log: getregv.f,v $
+C        Revision 2.00  2007/11/05 19:45:57  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Fri Apr 07 10:15:40 2000   dcg
 CPVCS    remove machine.h

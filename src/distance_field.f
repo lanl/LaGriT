@@ -19,7 +19,10 @@ C
 C######################################################################
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/distance_field.f_a  $
+C        $Log: distance_field.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   05 Jun 2007 15:33:24   gable
 CPVCS    Initial revision.

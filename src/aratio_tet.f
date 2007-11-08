@@ -23,7 +23,10 @@ C        arattet : The aspect ratio of the tet.
 C
 C     CHANGE HISTORY -
 C
-C $Log:   /pvcs.config/t3d/src/aratio_tet.f_a  $
+C $Log: aratio_tet.f,v $
+C Revision 2.00  2007/11/05 19:45:46  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Fri Jan 08 16:59:12 1999   kuprat
 CPVCS    We now prevent zero divides using SAFE.

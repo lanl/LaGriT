@@ -271,7 +271,10 @@ C    - see also the notes above each subroutine
 C
 C   CHANGE HISTORY -
 C
-C  $Log:   /pvcs.config/t3d/src/lower_d_lg.f_a  $
+C  $Log: lower_d_lg.f,v $
+C  Revision 2.00  2007/11/05 19:46:00  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.21   28 Jul 2001 14:13:04   jtg
 CPVCS    fixed test for increasing d0_clrlen_att

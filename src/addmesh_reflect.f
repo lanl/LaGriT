@@ -27,7 +27,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/addmesh_reflect.f_a  $
+C        $Log: addmesh_reflect.f,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   10 Jan 2001 14:26:26   dcg
 CPVCS    remove duplicate definitions
@@ -269,7 +272,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: addmesh_reflect.f,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
 C
 C ######################################################################
 C
@@ -403,7 +409,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: addmesh_reflect.f,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
  
 C
 C ######################################################################

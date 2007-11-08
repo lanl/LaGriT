@@ -23,7 +23,10 @@ C        iposbest -  the position of the best face.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/findface.f_a  $
+C        $Log: findface.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.14   30 Sep 2004 09:54:50   dcg
 CPVCS    use iand in place of .and. with integers

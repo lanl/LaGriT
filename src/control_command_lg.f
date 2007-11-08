@@ -11,7 +11,10 @@ C        ierror -- error flag (ierror=0 means no errors)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/control_command_lg.f_a  $
+C        $Log: control_command_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.14   11 Apr 2002 15:29:56   gable
 CPVCS    Added support for define/VAR/remove.
@@ -258,7 +261,10 @@ C        ierror -- error flag (ierror=0 means no errors)
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: control_command_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 C
 C#######################################################################
 C
@@ -319,7 +325,10 @@ C        ierror -- error flag (ierror=0 means no errors)
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: control_command_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 C
 C#######################################################################
 C
@@ -373,7 +382,10 @@ C        ierror -- error flag (ierror=0 means no errors)
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: control_command_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 C
 C#######################################################################
 C
@@ -462,7 +474,10 @@ C        ierror -- error flag (ierror=0 means no errors)
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: control_command_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 C
 C#######################################################################
 C
@@ -587,7 +602,10 @@ C        ierror -- error flag (ierror=0 means no errors)
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: control_command_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 C
 C#######################################################################
 C

@@ -21,7 +21,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/closed_surfaces_nosb.f_a  $
+C        $Log: closed_surfaces.f,v $
+C        Revision 2.00  2007/11/05 19:45:47  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   29 Sep 2004 15:58:48   dcg
 CPVCS    remove line that set value for pie - this is set in initlagrit

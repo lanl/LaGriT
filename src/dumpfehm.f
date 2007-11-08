@@ -17,7 +17,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dumpfehm.f_a  $
+C        $Log: dumpfehm.f,v $
+C        Revision 2.00  2007/11/05 19:45:53  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.34   23 Feb 2005 08:29:04   tam
 CPVCS    added argument imat_select to dump_material_list call that

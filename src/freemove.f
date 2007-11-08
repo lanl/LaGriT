@@ -49,7 +49,10 @@ C        DZ
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/freemove_nosb.f_a  $
+C$Log: freemove.f,v $
+CRevision 2.00  2007/11/05 19:45:56  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   10 Apr 2002 10:29:44   dcg
 CPVCS    test isdiscrete for surface nodes

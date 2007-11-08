@@ -23,7 +23,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/derefine.f_a  $
+C        $Log: derefine.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   Thu Apr 06 08:22:42 2000   dcg
 CPVCS    remove get_info_i calls

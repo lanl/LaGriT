@@ -22,7 +22,10 @@ C        aratqud : The aspect ratio of the quad.
 C
 C     CHANGE HISTORY -
 C
-C $Log:   /pvcs.config/t3d/src/aratio_qud.f_a  $
+C $Log: aratio_qud.f,v $
+C Revision 2.00  2007/11/05 19:45:46  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Fri Aug 29 14:11:36 1997   dcg
 CPVCS    Initial revision.

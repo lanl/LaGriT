@@ -23,7 +23,14 @@ C        ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:
+C
+C        $Log: cmo_get_mesh_type.f,v $
+C        Revision 2.00  2007/11/05 19:45:49  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
 C
 C#######################################################################
 C

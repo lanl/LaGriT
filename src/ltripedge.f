@@ -16,7 +16,10 @@ C     OUTPUT ARGUMENTS -
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/ltripedge.f_a  $
+C        $Log: ltripedge.f,v $
+C        Revision 2.00  2007/11/05 19:46:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Fri Sep 03 10:47:12 1999   kuprat
 CPVCS    Added documentation.

@@ -30,7 +30,10 @@ C                  0 ==>  flip is not-possible
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/find3to2.f_a  $
+C        $Log: find3to2.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.8   05 Jan 2001 12:56:04   dcg
 CPVCS    use dble in place of float so as not to lose digits

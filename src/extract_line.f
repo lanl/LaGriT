@@ -29,7 +29,10 @@ C        msgtype() - INTEGER ARRAY OF COMMAND INPUT TYPE
 C        nwds      - NO. OF WORDS OF COMMAND INPUT VALUES
 C
 C     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/extract_line.f_a  $
+C$Log: extract_line.f,v $
+CRevision 2.00  2007/11/05 19:45:54  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   07 Feb 2000 17:42:40   dcg
 CPVCS    remove comdict.h

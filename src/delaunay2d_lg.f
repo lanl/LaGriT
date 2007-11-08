@@ -16,7 +16,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/delaunay2d_lg.f_a  $
+C        $Log: delaunay2d_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.10   02 Apr 2004 13:36:28   gable
 CPVCS    Get rid of loop which zeros out the ioff array.

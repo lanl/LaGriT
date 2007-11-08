@@ -69,7 +69,10 @@
 !!
 !!  CHANGE HISTORY
 !!
-!!    $Log:   /pvcs.config/t3d/src/lpfilter.f9a  $
+!!    $Log: lpfilter.f90,v $
+!!    Revision 2.00  2007/11/05 19:46:00  spchu
+!!    Import to CVS
+!!
 !PVCS
 !PVCS   Rev 1.3   Sat May 01 22:09:46 1999   nnc
 !PVCSFixed error in which the smoothed position of a child node was

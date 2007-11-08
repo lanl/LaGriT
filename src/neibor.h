@@ -4,7 +4,10 @@ C######################################################################
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/neibor.h_a  $
+C        $Log: neibor.h,v $
+C        Revision 2.00  2007/11/05 19:46:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.10   Fri Nov 12 09:06:48 1999   dcg
 CPVCS    remove unused variables

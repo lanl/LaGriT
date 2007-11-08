@@ -24,7 +24,10 @@ C     nconew		connection number for each new point
 C     ierr              error return
 C
 C  CHANGE HISTORY
-C $Log:   /pvcs.config/t3d/src/ifaceptv_nosb.f_a  $
+C $Log: ifaceptv.f,v $
+C Revision 2.00  2007/11/05 19:45:58  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   14 Feb 2000 17:16:42   dcg
 CPVCS    use geom_name in surface info find block calls

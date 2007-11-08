@@ -33,7 +33,10 @@ C         ierflg- return flag 0=> flip okay, 1=> not okay
 c
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/find4to4.f_a  $
+C        $Log: find4to4.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.8   18 Jun 2001 11:03:20   kuprat
 CPVCS    Made sure expensive diagnostic requires IDEBUG>=10.

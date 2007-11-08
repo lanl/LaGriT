@@ -27,7 +27,10 @@ c
 c     IFIRST,LIST,LINK,NEXT may be modified by this routine.
 c
 c     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/insertll.f_a  $
+C        $Log: insertll.f,v $
+C        Revision 2.00  2007/11/05 19:45:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Thu Apr 09 19:22:46 1998   kuprat
 CPVCS    We now order inserts.

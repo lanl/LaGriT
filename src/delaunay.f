@@ -15,7 +15,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/delaunay.f_a  $
+C        $Log: delaunay.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.24   30 Sep 2004 09:43:18   dcg
 CPVCS    use iand in place of .and. with integers

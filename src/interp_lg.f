@@ -3,7 +3,10 @@
 C
 C#######################################################################
 C
-C $Log:   /pvcs.config/t3d/src/interp_lg.f_a  $
+C $Log: interp_lg.f,v $
+C Revision 2.00  2007/11/05 19:45:59  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   30 Sep 2004 09:15:52   dcg
 CPVCS    replace calls to real( with calls to dble(

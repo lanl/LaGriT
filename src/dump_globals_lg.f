@@ -17,7 +17,10 @@ C        ierror  - Error Return Code (==0 ==> OK, <>0 ==> Error).
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dump_globals_lg_nosb.f_a  $
+C        $Log: dump_globals_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Mon Feb 07 14:08:58 2000   dcg
 C#######################################################################

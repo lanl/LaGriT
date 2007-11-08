@@ -17,7 +17,13 @@ C
 C
 C     CHANGE HISTORY -
 C
-C $Log $
+C        $Log: mega_hessian.f,v $
+C        Revision 2.00  2007/11/05 19:46:01  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
 C
 C ######################################################################
 C

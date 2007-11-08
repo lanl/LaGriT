@@ -40,7 +40,7 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Lognfig/t3d/src/dump_multi_mat_con.f_a  
+C        $Lognfig/t3d/src/dump_multi_mat_con.f_a $ 
 CPVCS    
 CPVCS       Rev 1.0   Wed Jul 02 09:19:16 1997   gable
 CPVCS    Initial revision.

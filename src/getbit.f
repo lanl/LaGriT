@@ -20,7 +20,10 @@ CD1  bits are arranged from least-significant-bit (0 which is on the
 CD1  right) to the most-significant-bit (nbitnum which is on the left).
 CD1
 C***********************************************************************
-CD2 $Log:   /pvcs.config/t3d/src/getbit.f_a  $
+CD2 $Log: getbit.f,v $
+CD2 Revision 2.00  2007/11/05 19:45:57  spchu
+CD2 Import to CVS
+CD2
 CPVCS    
 CPVCS       Rev 1.4   Mon Jan 25 17:54:58 1999   nnc
 CPVCS    Changed declaration of ISHFT as EXTERNAL to INTRINSIC.

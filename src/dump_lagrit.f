@@ -22,7 +22,10 @@ C     ierror error flag
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dump_lagrit_nosb.f_a  $
+C        $Log: dump_lagrit.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   06 Mar 2006 09:47:30   gable
 CPVCS    No change.

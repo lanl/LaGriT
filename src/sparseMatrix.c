@@ -26,7 +26,10 @@ This routine is used in conjunction with anothermatbld3d.c and
 anothermatbld3d_wrapper.f.
  
  
-$Log:   /pvcs.config/t3d/src/sparseMatrix.c_a  $
+$Log: sparseMatrix.c,v $
+Revision 2.00  2007/11/05 19:46:03  spchu
+Import to CVS
+
 *PVCS    
 *PVCS       Rev 1.7   10 Jan 2007 16:21:10   tam
 *PVCS    added missing underscore to called routines

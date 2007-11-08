@@ -17,7 +17,10 @@ C        None
 C                                                                       
 C     CHANGE HISTORY -                                                  
 C                                                                       
-C        $Log:   /pvcs.config/t3d/src/angle3.f_a  $
+C        $Log: angle3.f,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Wed Apr 05 13:34:02 2000   nnc
 CPVCS    Minor source modifications required by the Absoft compiler.
@@ -44,7 +47,10 @@ ccht
 ccht find the cosine and sine of the angle with reference to the z-axis
 ccht
 C
-C     $Log$
+C     $Log: angle3.f,v $
+C     Revision 2.00  2007/11/05 19:45:46  spchu
+C     Import to CVS
+C
 C
       xnoise=1.0e-10
       dsxysq=(xxj-xxi)**2 + (yyj-yyi)**2

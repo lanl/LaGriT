@@ -32,7 +32,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/filter.f_a  $
+C        $Log: filter.f,v $
+C        Revision 2.00  2007/11/05 19:45:54  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.32   29 Aug 2007 10:53:50   gable
 CPVCS    Added option [min|max/attribute] and some additional error checking.
@@ -924,7 +927,10 @@ C                     ARRAY.
 C
 C      CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: filter.f,v $
+C        Revision 2.00  2007/11/05 19:45:54  spchu
+C        Import to CVS
+C
 C
 C NOV 2003 tam
 C Added from Harold's sgi code for the amr option of refinement

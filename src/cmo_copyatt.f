@@ -66,7 +66,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 c
 c     change history -
 C
-C   $Log:   /pvcs.config/t3d/src/cmo_copyatt_nosb.f_a  $
+C   $Log: cmo_copyatt.f,v $
+C   Revision 2.00  2007/11/05 19:45:48  spchu
+C   Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   17 Jun 2004 10:11:44   gable
 CPVCS    Allow copy of node attribute into an element attribute

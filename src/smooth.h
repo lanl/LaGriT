@@ -17,7 +17,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/smooth.h_a  $
+C        $Log: smooth.h,v $
+C        Revision 2.00  2007/11/05 19:46:03  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   20 Feb 2002 16:59:38   kuprat
 CPVCS    Added MAXEL parameter.

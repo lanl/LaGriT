@@ -9,7 +9,10 @@ c     ifile - Base file name (.flow is appended)
 c
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cPVCS
-C$Log:   /pvcs.config/t3d/src/dumpflotran.f_a  $
+C$Log: dumpflotran.f,v $
+CRevision 2.00  2007/11/05 19:45:53  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Tue Jun 08 10:43:06 1999   murphy
 CPVCS    Converted to left-handed coordinate system.

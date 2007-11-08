@@ -28,7 +28,10 @@ C        XNEW,YNEW,  -- Safe new positions for the node.
 C        ZNEW
 C
 C     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/getxyz.f_a  $
+C$Log: getxyz.f,v $
+CRevision 2.00  2007/11/05 19:45:58  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   30 Sep 2004 11:17:54   dcg
 CPVCS    make factionlost double precision

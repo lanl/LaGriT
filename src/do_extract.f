@@ -22,7 +22,10 @@ C        ierr1   - error returned (zero if no errors)
 C
 C     CHANGE HISTORY -
 C
-c $Log:   /pvcs.config/t3d/src/do_extract_nosb.f_a  $
+c $Log: do_extract.f,v $
+c Revision 2.00  2007/11/05 19:45:52  spchu
+c Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.5   01 Oct 2007 08:17:14   gable
 CPVCS    Modified to give warning and continue instead of crash when the MO

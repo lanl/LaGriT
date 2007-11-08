@@ -6,7 +6,10 @@ C       Declarations for geometry information
 C
 C     CHANGE HISTORY -
 C
-C  $Log:   /pvcs.config/t3d/src/geom_lg.h_a  $
+C  $Log: geom_lg.h,v $
+C  Revision 2.00  2007/11/05 19:45:56  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Thu Feb 03 13:28:44 2000   dcg
 CPVCS    Initial revision.

@@ -39,7 +39,15 @@ c         ierr -         error return.
 c
 c     change history -
 c
-c         $log$
+C        $Log: nearestpoint.f,v $
+C        Revision 2.00  2007/11/05 19:46:02  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
+C#######################################################################
  
       implicit none
       include 'consts.h'

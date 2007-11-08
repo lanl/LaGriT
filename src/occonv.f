@@ -26,6 +26,14 @@ C
 C        HT0823AA-87, HT0908AA-87
 C
 C
+C        $Log: occonv.f,v $
+C        Revision 2.00  2007/11/05 19:46:02  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
 C#######################################################################
 C
       implicit real*8 (a-h, o-z)

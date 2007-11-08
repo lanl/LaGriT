@@ -130,7 +130,10 @@ C          and is only for simplicies, and does not have a distance option
 C
 C   CHANGE HISTORY -
 C
-C  $Log:   /pvcs.config/t3d/src/neighbor_recolor_lg_nosb.f_a  $
+C  $Log: neighbor_recolor_lg.f,v $
+C  Revision 2.00  2007/11/05 19:46:02  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   05 May 2000 17:51:42   jtg
 CPVCS    corrections made re 'dotask' destroying cmsgin etc

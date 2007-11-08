@@ -29,7 +29,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/matbld2d_stor.f_a  $
+C         $Log: matbld2d_stor.f,v $
+C         Revision 2.00  2007/11/05 19:46:01  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.13   08 Feb 2006 14:35:42   dcg
 CPVCS    "enforce lower case - add external statements for shift routines

@@ -10,7 +10,10 @@ C
 C     OUTPUT ARGUMENTS -
 C
 C     CHANGE HISTORY -
-C $Log:   /pvcs.config/t3d/src/getnoditet1.f_a  $
+C $Log: getnoditet1.f,v $
+C Revision 2.00  2007/11/05 19:45:57  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   31 Jan 2000 17:12:40   kuprat
 CPVCS    Initial revision.

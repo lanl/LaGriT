@@ -18,7 +18,10 @@ C     OUTPUT ARGUMENTS -
 C         IERROR -- error return
 C
 C     CHANGE HISTORY -
-C     $Log:   /pvcs.config/t3d/src/hess3d.f_a  $
+C     $Log: hess3d.f,v $
+C     Revision 2.00  2007/11/05 19:45:58  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   26 Feb 2002 12:05:26   dcg
 CPVCS    fix overflow of cbuf character string

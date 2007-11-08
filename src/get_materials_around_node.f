@@ -31,7 +31,10 @@ C        (ip)mtrls - materials surrounding the node
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/get_materials_around_node.f_a  $
+C$Log: get_materials_around_node.f,v $
+CRevision 2.00  2007/11/05 19:45:56  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Thu Jan 14 09:27:04 1999   dcg
 CPVCS    move mmget calls outside subroutine for

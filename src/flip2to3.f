@@ -28,7 +28,10 @@ C         None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/flip2to3.f_a  $
+C        $Log: flip2to3.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.8   08 Jan 2002 08:25:30   dcg
 CPVCS    remove warning message about increasing array size

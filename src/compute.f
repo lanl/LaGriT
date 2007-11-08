@@ -14,7 +14,10 @@ C
 C######################################################################
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/compute.f_a  $
+C        $Log: compute.f,v $
+C        Revision 2.00  2007/11/05 19:45:50  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   05 Jun 2007 15:33:08   gable
 CPVCS    Initial revision.

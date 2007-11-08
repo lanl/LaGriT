@@ -18,7 +18,10 @@ C       ierr - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C      CHANGE HISTORY -
 C
-C   $Log:   /pvcs.config/t3d/src/createpts_lg.f_a  $
+C   $Log: createpts_lg.f,v $
+C   Revision 2.00  2007/11/05 19:45:51  spchu
+C   Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   07 May 2003 14:36:20   gable
 CPVCS    Added option createpts / interp

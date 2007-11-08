@@ -20,7 +20,10 @@ C
 C
 C      CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/nurbp.f_a  $
+C      $Log: nurbp.f,v $
+C      Revision 2.00  2007/11/05 19:46:02  spchu
+C      Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   Mon Apr 14 16:55:56 1997   pvcs
 CPVCS    No change.

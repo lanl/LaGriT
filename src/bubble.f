@@ -43,7 +43,10 @@ C        msgtype() - INTEGER ARRAY OF COMMAND INPUT TYPE
 C        nwds      - NO. OF WORDS OF COMMAND INPUT VALUES
 C
 C     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/bubble.f_a  $
+C$Log: bubble.f,v $
+CRevision 2.00  2007/11/05 19:45:47  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   07 Feb 2000 17:37:14   dcg
 CPVCS    remove unused comdict.h

@@ -12,7 +12,10 @@ C
 C
 C      CHANGE HISTORY:
 C
-C         $Log:   /pvcs.config/t3d/src/cmo.h_a  $
+C         $Log: cmo.h,v $
+C         Revision 2.00  2007/11/05 19:45:47  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.18   Tue Mar 07 08:25:06 2000   dcg
 CPVCS    remove references to ign1

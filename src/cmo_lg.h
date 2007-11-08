@@ -7,7 +7,10 @@ c
 C#######################################################################
 c
 c  CHANGE HISTORY
-C  $Log:   /pvcs.config/t3d/src/cmo_lg.h_a  $
+C  $Log: cmo_lg.h,v $
+C  Revision 2.00  2007/11/05 19:45:49  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   10 Apr 2001 10:56:36   dcg
 CPVCS    change number_of_default_attparam_names to number_of_default_attparam_name

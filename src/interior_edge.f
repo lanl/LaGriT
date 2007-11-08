@@ -25,7 +25,14 @@ C        (ip)edges _ local edge numbers
 C
 C     CHANGE HISTORY -
 C
-C        $Log $
+C        $Log: interior_edge.f,v $
+C        Revision 2.00  2007/11/05 19:45:59  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
 C ######################################################################
 C
       implicit none

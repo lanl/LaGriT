@@ -49,7 +49,10 @@ C
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/angle3v.f_a  $
+C        $Log: angle3v.f,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   29 Sep 2004 15:54:52   dcg
 CPVCS    use pie from common - make routine implicit none

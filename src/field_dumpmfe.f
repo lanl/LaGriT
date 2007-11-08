@@ -24,7 +24,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/field_dumpmfe.f_a  $
+C        $Log: field_dumpmfe.f,v $
+C        Revision 2.00  2007/11/05 19:45:54  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   30 Sep 2004 09:04:36   dcg
 CPVCS     change call to real to call to dble

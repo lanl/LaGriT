@@ -30,7 +30,10 @@ C        (ip)elts - elements containing node
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/get_elements_around_node.f_a  $
+C        $Log: get_elements_around_node.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   30 Oct 2006 13:55:02   gable
 CPVCS    Minor changes to IO format and clean up of comments.

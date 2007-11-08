@@ -43,7 +43,10 @@ C         Carl W. Gable  gable@lanl.gov (Los Alamos National Laboratory)
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/mask_icr.f_a  $
+C        $Log: mask_icr.f,v $
+C        Revision 2.00  2007/11/05 19:46:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   07 Feb 2000 18:31:52   gable
 CPVCS    Modified by RVG to use ibnd temp array instead of icr array.

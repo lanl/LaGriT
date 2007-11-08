@@ -50,7 +50,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/intradd_nosb.f_a  $
+C        $Log: intradd.f,v $
+C        Revision 2.00  2007/11/05 19:45:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.10   24 Apr 2001 10:19:58   jan
 CPVCS    deleted duplicate definition for epsilon1

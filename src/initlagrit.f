@@ -22,7 +22,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/initlagrit_nosb.f_a  $
+C        $Log: initlagrit.f,v $
+C        Revision 2.00  2007/11/05 19:45:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   03 Oct 2007 08:18:10   tam
 CPVCS    removed extra args version and compiled from writinit call

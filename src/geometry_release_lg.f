@@ -22,7 +22,10 @@ c      OUTPUT
 c         ierror -  return flag (0= ok, 1=error)
 c
 c      CHANGE
-C  $Log:   /pvcs.config/t3d/src/geometry_release_lg.f_a  $
+C  $Log: geometry_release_lg.f,v $
+C  Revision 2.00  2007/11/05 19:45:56  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   22 Mar 2002 16:42:14   dcg
 CPVCS    allow for a mesh object with no geometry

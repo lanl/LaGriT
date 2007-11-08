@@ -32,7 +32,10 @@ C        iextbdy   - 1 => an external boundary has been found
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/edgelst.f_a  $
+C        $Log: edgelst.f,v $
+C        Revision 2.00  2007/11/05 19:45:53  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   05 Jan 2001 12:55:56   dcg
 CPVCS    use dble in place of float so as not to lose digits

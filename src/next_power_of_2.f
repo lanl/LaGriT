@@ -1,6 +1,17 @@
 *dk next_power_of_2
       integer function next_power_of_2(ii)
 C
+C#######################################################################
+C        $Log: next_power_of_2.f,v $
+C        Revision 2.00  2007/11/05 19:46:02  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
+C#######################################################################
+C
 C  Calculate the power of 2 >= ii
 C  i.e.  2**ceiling(log2(ii))
 C

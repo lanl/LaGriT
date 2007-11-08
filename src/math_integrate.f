@@ -51,7 +51,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C  $Log:   /pvcs.config/t3d/src/math_integrate.f_a  $
+C  $Log: math_integrate.f,v $
+C  Revision 2.00  2007/11/05 19:46:01  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   09 May 2002 08:59:56   dcg
 CPVCS    allow for 'real' scalar attributes

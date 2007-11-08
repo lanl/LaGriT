@@ -39,7 +39,10 @@ C                         NODHYB array.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/getnodhyb.f_a  $
+C        $Log: getnodhyb.f,v $
+C        Revision 2.00  2007/11/05 19:45:57  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   24 Feb 2000 11:20:36   jtg
 CPVCS    numlocnod count was incorrect if qud, lin, or pnt elements

@@ -51,7 +51,10 @@ C     Error checking added - T.Cherry - 9/97
 C     
 C#######################################################################
 C
-C      $Log:   /pvcs.config/t3d/src/boundary_components_nosb.f_a  $
+C      $Log: boundary_components.f,v $
+C      Revision 2.00  2007/11/05 19:45:46  spchu
+C      Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   11 Apr 2007 14:41:44   gable
 CPVCS    Clean up some parsing of input arguments.

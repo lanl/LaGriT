@@ -16,7 +16,10 @@ c        none
 c
 c     change history -
 c
-C        $Log:   /pvcs.config/t3d/src/dumpinventor_nosb.f_a  $
+C        $Log: dumpinventor.f,v $
+C        Revision 2.00  2007/11/05 19:45:53  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   10 Apr 2001 11:17:10   dcg
 CPVCS    remove bad line

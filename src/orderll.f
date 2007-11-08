@@ -27,7 +27,10 @@ c               for domain item I.
 c     LIST    - The output list of ordered sublists.
 c
 c     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/orderll.f_a  $
+C$Log: orderll.f,v $
+CRevision 2.00  2007/11/05 19:46:03  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Apr 14 16:56:16 1997   pvcs
 CPVCS    No change.

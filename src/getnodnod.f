@@ -1,6 +1,9 @@
       subroutine getnodnod(ipnodnod,nnfirst,itet,jtet,mpary,mpno,
      &   nelements,nnodes,mbndry)
-CPVCS $Log:   /pvcs.config/t3d/src/getnodnod.f_a  $
+CPVCS $Log: getnodnod.f,v $
+CPVCS Revision 2.00  2007/11/05 19:45:57  spchu
+CPVCS Import to CVS
+CPVCS
 CPVCS    
 CPVCS       Rev 1.7   04 Apr 2000 12:05:12   kuprat
 CPVCS    Added MBNDRY into argument list.

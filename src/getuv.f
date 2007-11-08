@@ -25,7 +25,10 @@ C        V(0:NDEG)     with '0' corresponding to NODE, and >0 corresponding
 C                      to the neighbours.
 C
 C     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/getuv.f_a  $
+C$Log: getuv.f,v $
+CRevision 2.00  2007/11/05 19:45:57  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Apr 14 16:50:06 1997   pvcs
 CPVCS    No change.

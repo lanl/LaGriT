@@ -29,10 +29,16 @@ c         ierr -         error return.
 c
 c     change history -
 c
-c$Log:   /pvcs.config/t3d/src/kdtree.f_a  $
+c     $Log: kdtree.f,v $
+c     Revision 2.00  2007/11/05 19:45:59  spchu
+c     Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.3   Wed Sep 30 13:13:06 1998   dcg
-CPVCS    fix changes comment $Log$
+CPVCS    fix changes comment $Log: kdtree.f,v $
+CPVCS    fix changes comment Revision 2.00  2007/11/05 19:45:59  spchu
+CPVCS    fix changes comment Import to CVS
+CPVCS    fix changes comment
  
       implicit none
       include 'consts.h'

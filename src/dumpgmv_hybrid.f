@@ -16,7 +16,10 @@ c        none
 c
 c     change history -
 c
-c        $Log:   /pvcs.config/t3d/src/dumpgmv_hybrid_nosb.f_a  $
+c        $Log: dumpgmv_hybrid.f,v $
+c        Revision 2.00  2007/11/05 19:45:53  spchu
+c        Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.20   03 Oct 2005 08:39:16   gable
 CPVCS    Fixed case where nnodes=nelements which caused incorrect output.

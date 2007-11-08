@@ -24,7 +24,10 @@ C         None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/flip2to0.f_a  $
+C        $Log: flip2to0.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.8   05 Jan 2001 12:55:52   dcg
 CPVCS    use dble in place of float so as not to lose digits

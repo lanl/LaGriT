@@ -30,7 +30,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/ifacereg_nosb.f_a  $
+C        $Log: ifacereg.f,v $
+C        Revision 2.00  2007/11/05 19:45:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Wed Apr 05 13:34:34 2000   nnc
 CPVCS    Minor source modifications required by the Absoft compiler.
@@ -195,7 +198,10 @@ C                 2 - NO REGIONS FOUND
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/x3d/src/ifacereg.f_a  $
+C        $Log: ifacereg.f,v $
+C        Revision 2.00  2007/11/05 19:45:58  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.3   06/20/95 15:43:50   dcg
 CPVCS    remove character literals from arguments list to hgetprt

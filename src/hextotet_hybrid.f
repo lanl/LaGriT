@@ -39,7 +39,10 @@ C
 C      CHANGE HISTORY -
 C
 C
-C$Log:   /pvcs.config/t3d/src/hextotet_hybrid_nosb.f_a  $
+C        $Log: hextotet_hybrid.f,v $
+C        Revision 2.00  2007/11/05 19:45:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.19   16 Oct 2007 10:49:26   gable
 CPVCS    Removed some print statements I accidently left in during debugging.
@@ -4416,7 +4419,10 @@ C                     ARRAY.
 C
 C      CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: hextotet_hybrid.f,v $
+C        Revision 2.00  2007/11/05 19:45:58  spchu
+C        Import to CVS
+C
 C
 C#######################################################################
 C

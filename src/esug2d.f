@@ -26,7 +26,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/esug2d_nosb.f_a  $
+C        $Log: esug2d.f,v $
+C        Revision 2.00  2007/11/05 19:45:54  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   04 Apr 2000 12:04:56   kuprat
 CPVCS    Added MBNDRY into argument list.

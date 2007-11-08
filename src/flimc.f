@@ -18,6 +18,15 @@ C         ich3 - NAME OF FSET
 C         iptmpftet - POINTER TO ARRAY OF ELEMENT FACE INDICES
 C         mpno - number of faces in the set
 C
+C      CHANGE HISTORY -
+C
+C        $Log: flimc.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
 C
 C#######################################################################
 C

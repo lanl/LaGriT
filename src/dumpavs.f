@@ -33,7 +33,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dumpavs_nosb.f_a  $
+C        $Log: dumpavs.f,v $
+C        Revision 2.00  2007/11/05 19:45:53  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.10   03 Jan 2007 07:11:20   tam
 CPVCS    initialized ch_string with length to avoid compiler complaints

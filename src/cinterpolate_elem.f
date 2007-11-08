@@ -62,7 +62,10 @@ C        cinterpolate_elem - RESULTANT FUNCTION VALUE
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/cinterpolate_elem.f_a  $
+C        $Log: cinterpolate_elem.f,v $
+C        Revision 2.00  2007/11/05 19:45:47  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   23 Jun 2006 08:02:44   tam
 CPVCS    changed volume checks to use epsilonv instead of epsilonl

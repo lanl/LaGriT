@@ -25,7 +25,10 @@ C     CHANGE HISTORY -
 C
 C
 C ######################################################################
-C$Log:   /pvcs.config/t3d/src/intersect_cmo.f_a  $
+C        $Log: intersect_cmo.f,v $
+C        Revision 2.00  2007/11/05 19:45:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.12   21 Apr 2000 07:05:44   gable
 CPVCS    Made setting and getting of mbndry value dynamic and problem size dependent.

@@ -31,6 +31,14 @@ C
 C         HT1023AA-87, HT1109AA-87, HT1112AA-87
 C
 C
+C        $Log: conset.f,v $
+C        Revision 2.00  2007/11/05 19:45:50  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
 C#######################################################################
 C
       implicit real*8 (a-h, o-z)

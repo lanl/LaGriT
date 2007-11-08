@@ -14,7 +14,10 @@ c
 c     number  material number for mregion
 c     ierror  return flag
 c
-c $Log:   /pvcs.config/t3d/src/get_material_number_nosb.f_a  $
+c $Log: get_material_number.f,v $
+c Revision 2.00  2007/11/05 19:45:56  spchu
+c Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.0   Tue Feb 08 15:08:50 2000   dcg
 CPVCS    Initial revision.

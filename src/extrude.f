@@ -49,7 +49,10 @@ C        msgtype() - INTEGER ARRAY OF COMMAND INPUT TYPE
 C        nwds      - NO. OF WORDS OF COMMAND INPUT VALUES
 C
 C     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/extrude.f_a  $
+C$Log: extrude.f,v $
+CRevision 2.00  2007/11/05 19:45:54  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   30 Sep 2004 11:15:10   dcg
 CPVCS    make epsln double precision

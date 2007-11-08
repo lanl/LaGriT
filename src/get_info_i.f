@@ -25,7 +25,10 @@ C        icscode - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/get_info_i_nosb.f_a  $
+C        $Log: get_info_i.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   24 Jan 2000 16:21:00   dcg
 CPVCS    Initial revision.

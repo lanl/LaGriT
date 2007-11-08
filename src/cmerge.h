@@ -21,7 +21,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/cmerge.h_a  $
+C        $Log: cmerge.h,v $
+C        Revision 2.00  2007/11/05 19:45:47  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.11   Fri Nov 12 09:06:42 1999   dcg
 CPVCS    remove unused variables

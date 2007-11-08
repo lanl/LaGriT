@@ -6,7 +6,10 @@ C        DEFINES variables used in command processing
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/commands_lg.h_a  $
+C        $Log: commands_lg.h,v $
+C        Revision 2.00  2007/11/05 19:45:50  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   Tue Oct 26 14:07:44 1999   dcg
 CPVCS    No change.

@@ -19,7 +19,10 @@ C         ierror_return - ERROR RETURN CODE (==0 ==> OK, <>0 ==> ERROR)
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dotaskx3d.f_a  $
+C        $Log: dotaskx3d.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   Wed Nov 10 09:18:58 1999   dcg
 CPVCS    remove references to icdname

@@ -1,3 +1,17 @@
+/*
+  ######################################################################
+
+         $Log: skiplist.ch,v $
+         Revision 2.00  2007/11/05 19:46:03  spchu
+         Import to CVS
+
+ PVCS
+ PVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+ PVCS    original version
+
+  ######################################################################
+*/
+
 /* This header file contains the definitions for use with the generic
  * SkipList package.
  *

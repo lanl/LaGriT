@@ -59,7 +59,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 c
 c     change history -
 C
-C        $Log:   /pvcs.config/t3d/src/math_nosb.f_a
+C        $Log: math.f,v $
+C        Revision 2.00  2007/11/05 19:46:01  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.2   Wed Apr 05 13:34:42 2000   nnc
 CPVCS    Minor source modifications required by the Absoft compiler.

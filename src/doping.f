@@ -56,7 +56,10 @@ C                        nodes of the sink.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/doping_nosb.f_a  $
+C        $Log: doping.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   27 Jan 2000 12:54:14   dcg
 CPVCS    Initial revision.

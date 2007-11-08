@@ -56,7 +56,10 @@ C*
 C*  CHANGE HISTORY --
 C*
 C*
-C*   $Log:   /pvcs.config/t3d/src/extract_surfmesh.f_a  $
+C*   $Log: extract_surfmesh.f,v $
+C*   Revision 2.00  2007/11/05 19:45:54  spchu
+C*   Import to CVS
+C*
 CPVCS    
 CPVCS       Rev 1.5   01 Oct 2007 08:16:16   gable
 CPVCS    Modified to give warning and continue instead of crash when the MO

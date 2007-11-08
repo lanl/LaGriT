@@ -21,7 +21,10 @@ C        arattri : The aspect ratio of the tri.
 C
 C     CHANGE HISTORY -
 C
-C $Log:   /pvcs.config/t3d/src/aratio_tri.f_a  $
+C $Log: aratio_tri.f,v $
+C Revision 2.00  2007/11/05 19:45:46  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Fri Jan 08 16:58:28 1999   kuprat
 CPVCS    We now prevent zero divides using SAFE.

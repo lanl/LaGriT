@@ -27,7 +27,10 @@ C
 C
 C      CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/eltlimc_nosb.f_a  $
+C$Log: eltlimc.f,v $
+CRevision 2.00  2007/11/05 19:45:53  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Wed Apr 05 13:34:20 2000   nnc
 CPVCS    Minor source modifications required by the Absoft compiler.

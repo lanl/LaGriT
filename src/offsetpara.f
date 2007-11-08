@@ -32,7 +32,10 @@ C        msgtype() - INTEGER ARRAY OF COMMAND INPUT TYPE
 C        nwds      - NO. OF WORDS OF COMMAND INPUT VALUES
 C
 C     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/offsetpara.f_a  $
+C     $Log: offsetpara.f,v $
+C     Revision 2.00  2007/11/05 19:46:03  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   08 Feb 2006 14:35:36   dcg
 CPVCS    "enforce lower case - add external statements for shift routines

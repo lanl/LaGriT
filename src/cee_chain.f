@@ -40,7 +40,10 @@ c       IERROR - error return
 c
 c    CHANGE HISTORY -
 c
-C $Log:   /pvcs.config/t3d/src/cee_chain.f_a  $
+C $Log: cee_chain.f,v $
+C Revision 2.00  2007/11/05 19:45:47  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   01 Mar 2002 14:45:42   dcg
 CPVCS    adaptive merging

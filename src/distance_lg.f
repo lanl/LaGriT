@@ -14,7 +14,10 @@ c    ierror  -- error flag - 0 means no error
 c
 c  Change log
 c
-c  $Log:   /pvcs.config/t3d/src/distance_lg.f_a  $
+c  $Log: distance_lg.f,v $
+c  Revision 2.00  2007/11/05 19:45:52  spchu
+c  Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.0   Wed Mar 01 11:15:20 2000   dcg
 CPVCS    Initial revision.

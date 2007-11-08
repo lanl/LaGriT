@@ -17,7 +17,10 @@ C        ierror - ERROR FLAG (=0 ==> OK, <>0 ==> ERROR).
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dumpchad_nosb.f_a  $
+C        $Log: dumpchad.f,v $
+C        Revision 2.00  2007/11/05 19:45:53  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Wed Apr 05 13:48:56 2000   dcg
 CPVCS    fix call to cmo_get_attinfo
@@ -636,7 +639,10 @@ C        ierror - ERROR FLAG (=0 ==> OK, <>0 ==> ERROR).
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/x3d/src/dumpchad.f_a  $
+C        $Log: dumpchad.f,v $
+C        Revision 2.00  2007/11/05 19:45:53  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.1   02/16/95 07:35:28   het
 CPVCS    Correct format errors in dump and read commands

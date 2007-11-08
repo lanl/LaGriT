@@ -8,7 +8,10 @@ C       attempt to break these connections by adding points
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/multi_material_nosb.f_a  $
+C        $Log: multi_material.f,v $
+C        Revision 2.00  2007/11/05 19:46:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.11   26 Jul 2006 15:31:46   gable
 CPVCS    Recover previous edits, remove PC type line returns, merge rev 1.9 1.10.

@@ -70,7 +70,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/eset_nosb.f_a  $
+C$Log: eset.f,v $
+CRevision 2.00  2007/11/05 19:45:54  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.17   01 Oct 2007 08:18:44   gable
 CPVCS    Modified to give warning and continue instead of crash when the MO

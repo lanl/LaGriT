@@ -28,7 +28,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dump_interface_list.f_a  $   
+C        $Log: dump_interface_list.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C   
 CPVCS    
 CPVCS       Rev 1.2   Wed Jul 02 09:16:58 1997   gable
 CPVCS    Added calculation or min/max material numbers. This

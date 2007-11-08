@@ -19,7 +19,10 @@ C         ierror_return - ERROR RETURN CODE (==0 ==> OK, <>0 ==> ERROR)
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/ocnulvec.f_a  $
+C        $Log: ocnulvec.f,v $
+C        Revision 2.00  2007/11/05 19:46:03  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Mon Apr 14 16:56:14 1997   pvcs
 CPVCS    No change.

@@ -63,7 +63,10 @@ C         Carl W. Gable  gable@lanl.gov (Los Alamos National Laboratory)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/assign_quadrant_id.f_a  $
+C        $Log: assign_quadrant_id.f,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Mar 02 08:27:24 1998   tam
 CPVCS    added epsilon to call identify_dot()

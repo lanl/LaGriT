@@ -18,7 +18,10 @@ C        NONE
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/conbld.f_a  $
+C        $Log: conbld.f,v $
+C        Revision 2.00  2007/11/05 19:45:50  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.17   18 Apr 2000 13:24:14   dcg
 CPVCS    implement release option for surfaces, regions and mregions

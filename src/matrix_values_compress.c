@@ -1,3 +1,17 @@
+/*
+  ######################################################################
+
+         $Log: matrix_values_compress.c,v $
+         Revision 2.00  2007/11/05 19:46:01  spchu
+         Import to CVS
+
+ PVCS
+ PVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+ PVCS    original version
+
+  ######################################################################
+*/
+
 /***********************************************************************
                          Copyright, 1996                              
  Parts of this program was prepared by the Regents of the University of        

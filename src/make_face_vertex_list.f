@@ -18,7 +18,10 @@ C        none
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/make_face_vertex_list.f_a  $
+C        $Log: make_face_vertex_list.f,v $
+C        Revision 2.00  2007/11/05 19:46:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   16 Jun 2000 14:10:50   dcg
 C

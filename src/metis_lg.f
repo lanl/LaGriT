@@ -16,7 +16,10 @@ C  METIS:
 C  METIS: See      www-users.cs.umn.edu/~karypis/metis                             
 C  METIS:---------WARNING-------------------------------                           
 C  
-C   $Log:   /pvcs.config/t3d/src/metis_lg.f_a  $
+C   $Log: metis_lg.f,v $
+C   Revision 2.00  2007/11/05 19:46:01  spchu
+C   Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   21 Feb 2003 11:23:38   gable
 CPVCS    Made change in message sent to screen and log file.

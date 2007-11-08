@@ -18,7 +18,10 @@ C  boxsize etc will be set in common
 C
 C  CHANGE CONTROL
 C
-C  $Log:   /pvcs.config/t3d/src/make_big_tet.f_a  $
+C  $Log: make_big_tet.f,v $
+C  Revision 2.00  2007/11/05 19:46:00  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Mon Aug 18 14:55:14 1997   dcg
 CPVCS    Initial revision.

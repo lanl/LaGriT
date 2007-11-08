@@ -17,7 +17,10 @@ C         ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/cmo_status_nosb.f_a  $
+C         $Log: cmo_status.f,v $
+C         Revision 2.00  2007/11/05 19:45:50  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   27 Jul 2001 11:08:12   tam
 CPVCS    add coption to arguments enabling choice of brief

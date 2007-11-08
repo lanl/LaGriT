@@ -35,7 +35,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/getreg_nosb.f_a  $
+C        $Log: getreg.f,v $
+C        Revision 2.00  2007/11/05 19:45:57  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   Fri Apr 07 10:11:46 2000   dcg
 CPVCS    replace use of KNWPN for length calculation with mmgetblk type 3

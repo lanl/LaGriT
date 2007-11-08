@@ -13,7 +13,10 @@ C        ierror -- error flag (ierror=0 means no errors)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dotask.f_a  $
+C        $Log: dotask.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Mon Feb 22 15:05:20 1999   dcg
 CPVCS    Initial revision.

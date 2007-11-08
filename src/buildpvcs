@@ -1,4 +1,17 @@
 #!/bin/csh -f
+#
+# ######################################################################
+#
+#        $Log: buildpvcs,v $
+#        Revision 2.00  2007/11/05 19:45:47  spchu
+#        Import to CVS
+#
+#PVCS
+#PVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+#PVCS    original version
+#
+# ######################################################################
+#
 # run this first to check out files then
 # compile with sun -g  option
 #

@@ -30,7 +30,10 @@ C                 0 IF IT IS INSIDE THE TET, OR A POSITIVE NUMBER
 C                 CORRESPONDING TO THE FACE OF THE TET IT IS ON.
 C
 C
-C     $Log:   /pvcs.config/t3d/src/inside_element.f_a  $
+C     $Log: inside_element.f,v $
+C     Revision 2.00  2007/11/05 19:45:58  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   03 Jan 2007 10:59:38   tam
 CPVCS    make implicit none, write value of iflag if debug

@@ -28,7 +28,16 @@ c         ierr -         error return.
 c
 c     change history -
 c
-c         $log$
+C        $Log: lineseg_inter.f,v $
+C        Revision 2.00  2007/11/05 19:46:00  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
+C#######################################################################
+C
  
       implicit none
       include 'consts.h'

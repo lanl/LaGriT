@@ -68,7 +68,10 @@ C     ierror - ERROR FLAG
 C     
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/crush_thin_tets.f_a  $
+C        $Log: crush_thin_tets.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   14 Jun 2007 07:57:24   tam
 CPVCS    Initial revision.

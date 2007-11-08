@@ -2,6 +2,19 @@
       subroutine voronoi_center_2d(x1,y1,z1,x2,y2,z2,
      *                   x3,y3,z3,xcnt,ycnt,zcnt)
 C
+C ######################################################################
+C
+C        $Log: coefficient.f,v $
+C        Revision 2.00  2007/11/05 19:45:50  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
+C ######################################################################
+C
+C
 C  calculate voronoi center of a triangle with vertices
 C  x1,y1,z1,x2,y2,z2,x3,y3,z3
 C  return results in xcnt,ycnt,zcnt

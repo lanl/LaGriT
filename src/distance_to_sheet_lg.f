@@ -44,7 +44,10 @@ c         ierr -         error return.
 c
 c     change history -
 c
-c         $Log:   /pvcs.config/t3d/src/distance_to_sheet_lg.f_a  $
+c         $Log: distance_to_sheet_lg.f,v $
+c         Revision 2.00  2007/11/05 19:45:52  spchu
+c         Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.0   28 Jan 2002 13:15:18   dcg
 CPVCS    Initial revision.

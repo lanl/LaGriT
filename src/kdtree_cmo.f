@@ -35,7 +35,10 @@ c         ierr -         error return.
 c
 c     change history -
 c
-c         $Log:   /pvcs.config/t3d/src/kdtree_cmo.f_a  $
+c         $Log: kdtree_cmo.f,v $
+c         Revision 2.00  2007/11/05 19:45:59  spchu
+c         Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.3   13 Jun 2007 07:47:36   tam
 CPVCS    before deleting attributes, check if they exist

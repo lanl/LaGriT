@@ -22,7 +22,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 c
 c     change history -
 C
-C   $Log:   /pvcs.config/t3d/src/cmo_dump_cmo_nosb.f_a  $
+C   $Log: cmo_dump_cmo.f,v $
+C   Revision 2.00  2007/11/05 19:45:48  spchu
+C   Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Mon Feb 07 14:10:42 2000   dcg
 CPVCS    

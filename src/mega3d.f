@@ -26,7 +26,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/mega3d_nosb.f_a  $
+C        $Log: mega3d.f,v $
+C        Revision 2.00  2007/11/05 19:46:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.22   22 Sep 2003 12:53:48   dcg
 CPVCS    use ierror only for major errors

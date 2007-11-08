@@ -46,7 +46,10 @@ C        msgtype() - INTEGER ARRAY OF COMMAND INPUT TYPE
 C        nwds      - NO. OF WORDS OF COMMAND INPUT VALUES
 C
 C
-C     $Log:   /pvcs.config/t3d/src/calc_rdist.f_a  $
+C     $Log: calc_rdist.f,v $
+C     Revision 2.00  2007/11/05 19:45:47  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   30 Sep 2004 11:12:00   dcg
 CPVCS    make epsln double precision

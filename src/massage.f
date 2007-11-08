@@ -24,7 +24,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/massage.f_a  $
+C        $Log: massage.f,v $
+C        Revision 2.00  2007/11/05 19:46:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.40   19 Jul 2005 07:17:40   gable
 CPVCS    Added norecon option.

@@ -17,7 +17,10 @@ C        ierror return - 0 for successful completion - -1 otherwise
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/msgtty_nosb.f_a  $
+C        $Log: msgtty.f,v $
+C        Revision 2.00  2007/11/05 19:46:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.35   14 Jun 2007 14:31:08   tam
 CPVCS    added new command crush_thin_tets

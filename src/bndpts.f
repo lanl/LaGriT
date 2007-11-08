@@ -20,7 +20,10 @@ C        NONE
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/bndpts_nosb.f_a  $
+C        $Log: bndpts.f,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   06 Nov 2003 14:07:04   gable
 CPVCS    Changed i6 format to i9.

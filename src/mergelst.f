@@ -22,7 +22,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/mergelst.f_a  $
+C        $Log: mergelst.f,v $
+C        Revision 2.00  2007/11/05 19:46:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Wed Jun 03 08:39:14 1998   dcg
 CPVCS    Initial revision.

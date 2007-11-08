@@ -25,7 +25,10 @@ C        F - Array of adaption function values.
 C
 C     CHANGE HISTORY -
 C
-C     $Log:   /pvcs.config/t3d/src/fadpt.f_a  $
+C     $Log: fadpt.f,v $
+C     Revision 2.00  2007/11/05 19:45:54  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.8   Mon Apr 14 16:45:12 1997   pvcs
 CPVCS    No change.

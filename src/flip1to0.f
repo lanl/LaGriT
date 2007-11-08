@@ -19,7 +19,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/flip1to0.f_a  $
+C        $Log: flip1to0.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   Wed Feb 03 15:30:02 1999   dcg
 CPVCS    remove calls to fluxing routines and associated memory.

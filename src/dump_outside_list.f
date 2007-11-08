@@ -28,7 +28,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dump_outside_list.f_a  $
+C        $Log: dump_outside_list.f,v $
+C        Revision 2.00  2007/11/05 19:45:53  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.15   19 Jul 2007 15:22:36   tam
 CPVCS    added minmax option for outside directions

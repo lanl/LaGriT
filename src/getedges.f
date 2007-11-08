@@ -33,7 +33,10 @@ C                    mass point.
 C        IEDGES_FIRST - Mapping from nodes into the IEDGES array.  For a
 C                       node N, IEDGES_FIRST(N) gives the position in 
 C                       IEDGES of the first neighbour mass point to N.
-C $Log:   /pvcs.config/t3d/src/getedges.f_a  $
+C $Log: getedges.f,v $
+C Revision 2.00  2007/11/05 19:45:57  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   22 Aug 2007 15:02:06   gable
 CPVCS    Added getedges_d subroutine to get all edges around each node.

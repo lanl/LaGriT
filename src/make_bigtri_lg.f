@@ -15,7 +15,10 @@ C  boxsize etc will be set in common
 C
 C  CHANGE CONTROL
 C
-C  $Log:   /pvcs.config/t3d/src/make_bigtri_lg.f_a  $
+C  $Log: make_bigtri_lg.f,v $
+C  Revision 2.00  2007/11/05 19:46:00  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.13   30 Jan 2001 10:06:42   dcg
 CPVCS    change test on number of arguments to command to accept coord of

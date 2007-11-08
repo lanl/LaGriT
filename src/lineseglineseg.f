@@ -1,5 +1,8 @@
 C
-C     $Log:   /pvcs.config/t3d/src/lineseglineseg.f_a  $
+C     $Log: lineseglineseg.f,v $
+C     Revision 2.00  2007/11/05 19:46:00  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   22 Mar 2000 08:42:54   dcg
 CPVCS    remove unused epsilon variable

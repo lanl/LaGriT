@@ -40,7 +40,10 @@ C        ierr - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C $Log:   /pvcs.config/t3d/src/mode_lg.f_a  $
+C $Log: mode_lg.f,v $
+C Revision 2.00  2007/11/05 19:46:02  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   24 Apr 2003 17:11:20   dcg
 CPVCS    add option to turn off recon (set ivoronoi to 5)

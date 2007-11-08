@@ -8,7 +8,10 @@ C      to generate mesh-neighbor connectivity.  See notes for each subroutine.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/geniee.f_a  $
+C        $Log: geniee.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.29   12 Jul 2007 07:34:20   gable
 CPVCS    Install bug fixes to normal_check_flip by Andrew Kuprat. There were some problems with the way itet and jtet arrays were updated. That has been fixed. Also fixed problems with flipping and repair of quad mesh objects.
@@ -1158,7 +1161,10 @@ c  IEE(nef,numel)	: element connectivity
 c
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/x3d/src/geniee.f_a  $
+C        $Log: geniee.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.4   06/27/95 11:10:54   dcg
 CPVCS    remove second literal argument in memory management calls
@@ -1708,7 +1714,10 @@ C        None  (correct neighbor connectivity will be in jtet atribute)
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: geniee.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
 C
 C NOV 2003 tam
 C Added from Harold's sgi code for the amr option of refinement

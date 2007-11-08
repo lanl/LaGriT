@@ -15,7 +15,10 @@ c      OUTPUT
 c         ierror_return  return flag (0= ok, 1=error)
 c
 c      CHANGE
-C  $Log:   /pvcs.config/t3d/src/cmo_geometry_nosb.f_a  $
+C  $Log: cmo_geometry.f,v $
+C  Revision 2.00  2007/11/05 19:45:48  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Mar 20 17:05:46 2000   dcg
 CPVCS    fix mesh object/ geometry correspondence

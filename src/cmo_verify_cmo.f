@@ -17,7 +17,10 @@ C        ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/cmo_verify_cmo_nosb.f_a  $
+C        $Log: cmo_verify_cmo.f,v $
+C        Revision 2.00  2007/11/05 19:45:50  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Thu Feb 03 13:12:22 2000   dcg
 CPVCS    

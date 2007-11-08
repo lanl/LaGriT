@@ -19,7 +19,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/contable.f_a  $
+C        $Log: contable.f,v $
+C        Revision 2.00  2007/11/05 19:45:50  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.12   Fri May 09 12:03:14 1997   dcg
 CPVCS    correctly set flag for merging point on line to

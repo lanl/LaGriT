@@ -21,7 +21,10 @@ c         ierror - error return code (==0 ==> ok, <>0 ==> error)
 c
 c     change history -
 c
-c        $Log:   /pvcs.config/t3d/src/laplace2d_nosb.f_a  $
+c        $Log: laplace2d.f,v $
+c        Revision 2.00  2007/11/05 19:46:00  spchu
+c        Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.0   08 Feb 2000 10:01:40   dcg
 CPVCS    Initial revision.

@@ -44,7 +44,10 @@ C        DZ       which decrease POLYFUN sufficiently.
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/damp_pt_by_value.f_a  $
+C$Log: damp_pt_by_value.f,v $
+CRevision 2.00  2007/11/05 19:45:51  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   30 Sep 2004 11:13:36   dcg
 CPVCS    make alf,tolx double precision

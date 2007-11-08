@@ -29,7 +29,10 @@ C        itfound                    array of candidate elements
 C        iflag                      error flag, 0 if successful.
 C
 C
-C     $Log:   /pvcs.config/t3d/src/kdtreeselect.f_a  $
+C     $Log: kdtreeselect.f,v $
+C     Revision 2.00  2007/11/05 19:45:59  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   28 Mar 2000 14:09:20   dcg
 CPVCS    remove include 'machine.h'

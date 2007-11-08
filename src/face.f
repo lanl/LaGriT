@@ -23,7 +23,10 @@ C                       in the face (ranges from 1 to 4)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/face.f_a  $
+C        $Log: face.f,v $
+C        Revision 2.00  2007/11/05 19:45:54  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   30 Sep 2004 09:53:58   dcg
 CPVCS    use iand in place of .and. with integers

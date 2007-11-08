@@ -53,7 +53,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 c
 c     change history -
 C
-C        $Log:   /pvcs.config/t3d/src/boundary_nosb.f_a
+C        $Log: boundary.f,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Wed Apr 05 13:55:52 2000   dcg
 CPVCS    use character*32 for geom_name

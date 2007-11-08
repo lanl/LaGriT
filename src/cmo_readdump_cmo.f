@@ -21,7 +21,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 c
 c     change history -
 C
-C   $Log:   /pvcs.config/t3d/src/cmo_readdump_cmo_nosb.f_a  $
+C   $Log: cmo_readdump_cmo.f,v $
+C   Revision 2.00  2007/11/05 19:45:49  spchu
+C   Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   07 Oct 2003 16:05:30   dcg
 CPVCS    define cfield as a character*32 field

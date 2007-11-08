@@ -24,7 +24,10 @@ C                            in radians.
 C
 C     CHANGE HISTORY -
 C
-C  $Log:   /pvcs.config/t3d/src/dihangle_element.f_a  $
+C  $Log: dihangle_element.f,v $
+C  Revision 2.00  2007/11/05 19:45:52  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Fri Aug 29 14:06:56 1997   dcg
 CPVCS    Initial revision.

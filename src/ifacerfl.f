@@ -20,7 +20,10 @@ C        NONE
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/ifacerfl_nosb.f_a  $
+C        $Log: ifacerfl.f,v $
+C        Revision 2.00  2007/11/05 19:45:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   30 Jan 2001 08:26:14   dcg
 CPVCS    fix bad arguments in call to cmo_get_intinfo for ncon50

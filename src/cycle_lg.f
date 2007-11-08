@@ -19,7 +19,10 @@ c       IERROR - error return
 c
 c    CHANGE HISTORY -
 c
-C $Log:   /pvcs.config/t3d/src/cycle_lg.f_a  $
+C $Log: cycle_lg.f,v $
+C Revision 2.00  2007/11/05 19:45:51  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.17   19 Sep 2003 13:08:02   dcg
 CPVCS    set nconbnd to zero if attribute does not exist

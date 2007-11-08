@@ -38,7 +38,10 @@ C        DX,DY,-  Safe changes to add to X(NODE), Y(NODE), Z(NODE),
 C        DZ       which prevent tet inversion.
 C
 C     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/damp_pt_by_volume.f_a  $
+C$Log: damp_pt_by_volume.f,v $
+CRevision 2.00  2007/11/05 19:45:51  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   09 Apr 2001 15:23:30   kuprat
 CPVCS    We reinstate previous version.

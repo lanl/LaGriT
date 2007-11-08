@@ -17,7 +17,10 @@ C          ipitadd  -
 C
 C     CHANGE HISTORY - 11/26/94 algorithm changes by D. Kilcrease.
 C
-C        $Log:   /pvcs.config/t3d/src/bingrid.f_a  $
+C        $Log: bingrid.f,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   Thu Apr 06 08:12:22 2000   dcg
 CPVCS    remove get_info_i calls

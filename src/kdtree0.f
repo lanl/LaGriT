@@ -29,7 +29,10 @@ c         ierr -         error return.
 c
 c     change history -
 c
-C         $Log:   /pvcs.config/t3d/src/kdtree0.f_a  $
+C         $Log: kdtree0.f,v $
+C         Revision 2.00  2007/11/05 19:45:59  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   Tue Sep 22 13:45:32 1998   dcg
 CPVCS    replace single precision constants

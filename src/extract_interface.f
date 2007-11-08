@@ -28,7 +28,10 @@ C        ierr1   - ERROR RETURNED (ZERO IF NO ERRORS)
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/extract_interface.f_a  $
+C$Log: extract_interface.f,v $
+CRevision 2.00  2007/11/05 19:45:54  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.23   17 Jun 2003 16:15:42   dcg
 CPVCS    do not release cmo if it exists - doing this means that added attributes will be

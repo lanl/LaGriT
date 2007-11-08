@@ -28,7 +28,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dump_parent_list.f_a  $
+C        $Log: dump_parent_list.f,v $
+C        Revision 2.00  2007/11/05 19:45:53  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   29 Jun 2001 07:03:54   gable
 CPVCS    Changes to mdnode file header and default to method 2 for

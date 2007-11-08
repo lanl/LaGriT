@@ -21,7 +21,10 @@ C
 C     CHANGE HISTORY -
 C
 
-C        $Log:   /pvcs.config/t3d/src/blockcom.h_a  $
+C        $Log: blockcom.h,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   20 Jun 2001 15:37:04   kuprat
 CPVCS    Propagated Tinka's fix from blockcom_nosb.f:

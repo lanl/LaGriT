@@ -26,7 +26,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/connect_nosb.f_a  $
+C        $Log: connect.f,v $
+C        Revision 2.00  2007/11/05 19:45:50  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.16   23 Jun 2006 11:08:08   tam
 CPVCS    previous version did not have shiftl defined as external

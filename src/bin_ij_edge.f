@@ -28,7 +28,10 @@ C        ipif     - pointer to array of face numbers
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/bin_ij_edge.f_a  $
+C        $Log: bin_ij_edge.f,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Wed Jul 09 09:54:00 1997   gable
 CPVCS    Initial revision.

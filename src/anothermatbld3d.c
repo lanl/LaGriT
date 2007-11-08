@@ -5,7 +5,10 @@ implementation of matbld3d_stor.f.
  
 (See anothermatbld_wrapper.f for more.)
  
-$Log:   /pvcs.config/t3d/src/anothermatbld3d.c_a  $
+$Log: anothermatbld3d.c,v $
+Revision 2.00  2007/11/05 19:45:46  spchu
+Import to CVS
+
 *PVCS    
 *PVCS       Rev 1.10   04 Jun 2001 07:49:04   dcg
 *PVCS    get rid of embedded underscore

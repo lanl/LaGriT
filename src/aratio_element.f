@@ -22,7 +22,10 @@ C        aratelm : The aspect ratio of the element.
 C
 C     CHANGE HISTORY -
 C
-C $Log:   /pvcs.config/t3d/src/aratio_element.f_a  $
+C $Log: aratio_element.f,v $
+C Revision 2.00  2007/11/05 19:45:46  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Fri Aug 29 14:13:02 1997   dcg
 CPVCS    Initial revision.

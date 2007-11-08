@@ -27,7 +27,10 @@ C        ierror - Error flag.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/addmesh_delete_nosb.f_a  $
+C        $Log: addmesh_delete.f,v $
+C        Revision 2.00  2007/11/05 19:45:45  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   03 Feb 2000 09:08:26   dcg
 CPVCS    
@@ -159,7 +162,10 @@ C        ierror - Error flag.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/x3d/src/addmesh_delete.f_a  $
+C        $Log: addmesh_delete.f,v $
+C        Revision 2.00  2007/11/05 19:45:45  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.12   Thu Nov 21 19:08:54 1996   het
 CPVCS

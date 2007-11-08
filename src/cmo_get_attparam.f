@@ -26,7 +26,10 @@ C        ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error).
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/cmo_get_attparam_nosb.f_a  $
+C        $Log: cmo_get_attparam.f,v $
+C        Revision 2.00  2007/11/05 19:45:48  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   13 Apr 2006 14:20:20   tam
 CPVCS    Illegal error messege removed and replaced with messege only if

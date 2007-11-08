@@ -18,7 +18,10 @@ C        None
 C                                                                       
 C     CHANGE HISTORY -                                                  
 C                                                                       
-C        $Log:   /pvcs.config/t3d/src/angle3c.f_a  $
+C        $Log: angle3c.f,v $
+C        Revision 2.00  2007/11/05 19:45:46  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Mon Apr 14 16:38:58 1997   pvcs
 CPVCS    No change.

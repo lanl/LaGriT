@@ -24,7 +24,10 @@ C           should be nonnegative, and need only be a rough estimate.
 C
 C     CHANGE HISTORY -
 C
-C     $Log:   /pvcs.config/t3d/src/erradpt.f_a  $
+C     $Log: erradpt.f,v $
+C     Revision 2.00  2007/11/05 19:45:54  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   08 Jan 2001 16:33:02   dcg
 CPVCS    change for alpha compilers 

@@ -17,7 +17,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/matbld0tri.f_a  $
+C        $Log: matbld0tri.f,v $
+C        Revision 2.00  2007/11/05 19:46:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.18   08 Feb 2006 14:38:12   dcg
 CPVCS     "enforce lower case - add external statements for shift routines

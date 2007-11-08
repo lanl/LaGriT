@@ -29,7 +29,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/copypts_nosb.f_a  $
+C        $Log: copypts.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   01 Oct 2007 08:16:06   gable
 CPVCS    No change.

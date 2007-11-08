@@ -7,7 +7,10 @@ C       Declarations for local element information
 C
 C     CHANGE HISTORY -
 C
-C  $Log:   /pvcs.config/t3d/src/local_element.h_a  
+C  $Log: local_element.h,v $
+C  Revision 2.00  2007/11/05 19:46:00  spchu
+C  Import to CVS
+C  
 CPVCS    
 CPVCS       Rev 1.7   Tue Oct 26 14:07:58 1999   dcg
 CPVCS    No change.

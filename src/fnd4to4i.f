@@ -27,7 +27,10 @@ C         jd    - the "jtet" coordinates of the four new tets
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/fnd4to4i.f_a  $
+C        $Log: fnd4to4i.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.11   Tue Sep 22 11:48:28 1998   dcg
 CPVCS    replace idebug.ne.0 with idebug.gt.0

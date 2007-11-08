@@ -25,7 +25,10 @@ C         none
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/flp3to2i.f_a  $
+C        $Log: flp3to2i.f,v $
+C        Revision 2.00  2007/11/05 19:45:55  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   Wed Feb 03 15:23:44 1999   dcg
 CPVCS    remove calls to fluxing routines and associated memory.

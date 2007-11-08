@@ -51,7 +51,10 @@ C  bad tets.
 c
 c     change history -
 C
-C $Log:   /pvcs.config/t3d/src/coupling_coef_wrapper_nosb.f_a  $
+C $Log: coupling_coef_wrapper.f,v $
+C Revision 2.00  2007/11/05 19:45:51  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   30 Sep 2004 09:36:34   dcg
 CPVCS    replace .or. syntax of integers with call to ior

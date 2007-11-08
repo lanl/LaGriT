@@ -19,7 +19,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dump_geometries_lg_nosb.f_a  $
+C        $Log: dump_geometries_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   22 Mar 2002 16:41:42   dcg
 CPVCS    allow for a mesh object with no geometry

@@ -25,7 +25,10 @@ C                    array which gives the position of the first JTET
 C                    in NODJTET that corresponds to a given node.
 C
 C     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/getnodjtet.f_a  $
+C$Log: getnodjtet.f,v $
+CRevision 2.00  2007/11/05 19:45:57  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Fri Oct 03 11:01:48 1997   dcg
 CPVCS    reorder declarations as per DEC compiler

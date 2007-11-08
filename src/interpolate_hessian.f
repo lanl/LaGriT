@@ -32,7 +32,10 @@ C        HXX,HXY,HXZ, - Six components of Hessian (element arrays)
 C        HYY,HYZ,HZZ
 C
 C     CHANGE HISTORY -
-C     $Log:   /pvcs.config/t3d/src/interpolate_hessian.f_a  $
+C     $Log: interpolate_hessian.f,v $
+C     Revision 2.00  2007/11/05 19:45:59  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   08 Feb 2006 14:38:12   dcg
 CPVCS     "enforce lower case - add external statements for shift routines

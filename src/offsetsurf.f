@@ -37,7 +37,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/offsetsurf_nosb.f_a  $
+C        $Log: offsetsurf.f,v $
+C        Revision 2.00  2007/11/05 19:46:03  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   01 Sep 2006 13:44:32   gable
 CPVCS    Added option of area weighted or angle weighted synthetic normal vectors.

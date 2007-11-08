@@ -25,6 +25,15 @@ C     CHANGE HISTORY -
 C
 C        DF0704AA-87, DF0331AA-88
 C
+C
+C        $Log: mflip.f,v $
+C        Revision 2.00  2007/11/05 19:46:02  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
 C ######################################################################
 C
       include "neibor.h"

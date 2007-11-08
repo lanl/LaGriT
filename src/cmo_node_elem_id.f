@@ -42,7 +42,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 c
 c     change history -
 C
-C        $Log:   /pvcs.config/t3d/src/cmo_node_elem_id.f_a  $
+C        $Log: cmo_node_elem_id.f,v $
+C        Revision 2.00  2007/11/05 19:45:49  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   10 Apr 2001 11:09:24   dcg
 CPVCS    use logical variables correctly

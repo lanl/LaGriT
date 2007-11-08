@@ -18,7 +18,10 @@ C        ierror - Error flag.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/addmesh_intersection.f_a  $
+C        $Log: addmesh_intersection.f,v $
+C        Revision 2.00  2007/11/05 19:45:45  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   21 Apr 2000 08:49:26   gable
 CPVCS    Got rid of zq commands and added finish to some of the dotask commands.

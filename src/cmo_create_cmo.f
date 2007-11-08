@@ -22,7 +22,10 @@ C        ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/cmo_create_cmo_nosb.f_a  $
+C        $Log: cmo_create_cmo.f,v $
+C        Revision 2.00  2007/11/05 19:45:48  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   27 Jul 2001 11:27:40   tam
 CPVCS    changed call to cmo_mesh_type to cmo_set_mesh_type

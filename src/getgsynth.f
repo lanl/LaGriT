@@ -27,7 +27,10 @@ C        LEN_GSYNTH -- length of output array.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/getgsynth.f_a  $
+C        $Log: getgsynth.f,v $
+C        Revision 2.00  2007/11/05 19:45:57  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   30 Sep 2004 10:54:08   dcg
 CPVCS    make constants double precision

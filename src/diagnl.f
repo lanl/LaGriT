@@ -38,6 +38,13 @@ C     CHANGE HISTORY -
 C
 C        HT06XXAA-89
 C
+C        $Log: diagnl.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
 C
 C#######################################################################
 C

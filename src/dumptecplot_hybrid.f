@@ -28,7 +28,10 @@ C             TECLIB=$TECLIBDIR/$TECLIBNAME                            #
 C                                                                      #
 C ######################################################################
 C
-C         $Log:   /pvcs.config/t3d/src/dumptecplot_hybrid.f_a  $
+C         $Log: dumptecplot_hybrid.f,v $
+C         Revision 2.00  2007/11/05 19:45:53  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   15 May 2007 12:08:18   gable
 CPVCS    Fixed typo in header information. 

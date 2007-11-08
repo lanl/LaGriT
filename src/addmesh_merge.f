@@ -19,7 +19,10 @@ C        ierror - Error flag.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/addmesh_merge.f_a  $
+C        $Log: addmesh_merge.f,v $
+C        Revision 2.00  2007/11/05 19:45:45  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   21 Mar 2002 11:19:12   dcg
 CPVCS    add addmesh_match and addmesh_match1
@@ -80,7 +83,10 @@ C        ierror - Error flag.
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: addmesh_merge.f,v $
+C        Revision 2.00  2007/11/05 19:45:45  spchu
+C        Import to CVS
+C
 C
 C ######################################################################
 C

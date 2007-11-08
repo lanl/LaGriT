@@ -1,5 +1,8 @@
 C
-C     $Log:   /pvcs.config/t3d/src/linesegtri.f_a  $
+C     $Log: linesegtri.f,v $
+C     Revision 2.00  2007/11/05 19:46:00  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   17 Jul 2000 15:19:10   bap
 CPVCS    Modified the code to more accurately report the intersection point in the 

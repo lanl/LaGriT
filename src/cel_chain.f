@@ -44,7 +44,10 @@ c       IERROR - error return
 c
 c    CHANGE HISTORY -
 c
-C $Log:   /pvcs.config/t3d/src/cel_chain.f_a  $
+C $Log: cel_chain.f,v $
+C Revision 2.00  2007/11/05 19:45:47  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.22   21 Apr 2004 18:21:28   kuprat
 CPVCS    Changed algorithm so that cmode='truncated' works.

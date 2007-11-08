@@ -4,7 +4,10 @@ C#######################################################################
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/logcom1.h_a  $
+C        $Log: logcom1.h,v $
+C        Revision 2.00  2007/11/05 19:46:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Tue Oct 26 14:08:00 1999   dcg
 CPVCS    No change.

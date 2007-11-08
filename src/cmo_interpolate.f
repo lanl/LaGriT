@@ -37,7 +37,10 @@ C         ierror_return - ERROR RETURN CODE (==0 ==> OK, <>0 ==> ERROR)
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/cmo_interpolate_nosb.f_a  $
+C        $Log: cmo_interpolate.f,v $
+C        Revision 2.00  2007/11/05 19:45:49  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.13   04 Dec 2001 10:25:42   dcg
 CPVCS    check replacement index against correct array length - source length or
@@ -896,7 +899,10 @@ C        cinterpolate - RESULANT FUNCTION VALUE.
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: cmo_interpolate.f,v $
+C        Revision 2.00  2007/11/05 19:45:49  spchu
+C        Import to CVS
+C
 C
 C ######################################################################
 C

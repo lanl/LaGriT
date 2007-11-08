@@ -29,7 +29,10 @@ C        ierr - ERROR FLAG
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/chkregv_nosb.f_a  $
+C        $Log: chkregv.f,v $
+C        Revision 2.00  2007/11/05 19:45:47  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Fri Apr 07 10:10:42 2000   dcg
 CPVCS    replace use of KNWPN for length calculation with mmgetblk type 3

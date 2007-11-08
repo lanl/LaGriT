@@ -3,6 +3,16 @@ C
 C
 C ######################################################################
 C
+C        $Log: partition.f,v $
+C        Revision 2.00  2007/11/05 19:46:03  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
+C#######################################################################
+C
       implicit none
 C
       include "local_element.h"

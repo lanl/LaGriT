@@ -21,7 +21,10 @@ c         ierror - error return code (==0 ==> ok, <>0 ==> error)
 c
 c     change history -
 c
-c        $Log:   /pvcs.config/t3d/src/elliptic2d_nosb.f_a  $
+c        $Log: elliptic2d.f,v $
+c        Revision 2.00  2007/11/05 19:45:53  spchu
+c        Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.0   08 Feb 2000 09:56:34   dcg
 CPVCS    Initial revision.

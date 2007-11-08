@@ -20,7 +20,10 @@ C        None
 C                                                                       
 C     CHANGE HISTORY -                                                  
 C                                                                       
-C        $Log:   /pvcs.config/t3d/src/inter3.f_a  $
+C        $Log: inter3.f,v $
+C        Revision 2.00  2007/11/05 19:45:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Apr 14 16:51:58 1997   pvcs
 CPVCS    No change.

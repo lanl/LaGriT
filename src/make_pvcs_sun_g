@@ -1,3 +1,16 @@
+#
+# ######################################################################
+#
+#        $Log: make_pvcs_sun_g,v $
+#        Revision 2.00  2007/11/05 19:46:00  spchu
+#        Import to CVS
+#
+#PVCS
+#PVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+#PVCS    original version
+#
+# ######################################################################
+#
 .RejectInitFile
 .Archive .f_a(.f)
 .Archive .f9a(.f90)

@@ -23,6 +23,16 @@ c  Output Arguments:
 c         ierr1 - (=0 for successful call to routine), (= -1 otherwise)
 c         ierr  - (returned from routine)
 c
+C  CHANGE HISTORY:
+C
+C        $Log: geo_help.f,v $
+C        Revision 2.00  2007/11/05 19:45:56  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
 c-----------------------------------------------------------------------
 c
 c

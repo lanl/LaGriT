@@ -17,7 +17,10 @@ C        V,W ...  Orthonormal vectors to complete a righthanded
 C            orthonormal basis for R^3.
 C
 C     CHANGE HISTORY -
-C $Log:   /pvcs.config/t3d/src/finishbasis.f_a  $
+C $Log: finishbasis.f,v $
+C Revision 2.00  2007/11/05 19:45:55  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   31 Jan 2000 17:11:52   kuprat
 CPVCS    Initial revision.

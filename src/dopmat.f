@@ -26,7 +26,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dopmat.f_a  $
+C        $Log: dopmat.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.12   25 May 2000 14:21:50   nnc
 CPVCS    Removed duplicate variable declarations.
@@ -521,7 +524,10 @@ C                   RETURNS 0 IF NO TPROBLEMS, <0 IF SOME OTHER PROBLEM.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/intrp_element_dop.f_a  $
+C        $Log: dopmat.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.1   Mon Apr 14 16:52:18 1997   pvcs
 CPVCS    No change.
@@ -992,7 +998,10 @@ C
 C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
-C $Log:   /pvcs.config/t3d/src/dopint.f_a  $
+C $Log: dopmat.f,v $
+C Revision 2.00  2007/11/05 19:45:52  spchu
+C Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.1   Fri Jun 20 16:01:36 1997   dcg
 CPVCS    separate out kdtree0 and nearestpoint0

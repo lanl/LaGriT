@@ -29,7 +29,10 @@ C         ierror    - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/getmpary.f_a  $
+C        $Log: getmpary.f,v $
+C        Revision 2.00  2007/11/05 19:45:57  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Thu Apr 06 09:05:12 2000   dcg
 CPVCS    remove get_info_i calls

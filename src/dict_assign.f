@@ -22,7 +22,10 @@ C         ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/dict_assign_nosb.f_a  $
+C         $Log: dict_assign.f,v $
+C         Revision 2.00  2007/11/05 19:45:52  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   03 Feb 2000 09:22:00   dcg
 CPVCS    

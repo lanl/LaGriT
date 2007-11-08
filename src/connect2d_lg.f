@@ -25,7 +25,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/connect2d_lg_nosb.f_a  $
+C        $Log: connect2d_lg.f,v $
+C        Revision 2.00  2007/11/05 19:45:50  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.12   08 Feb 2006 14:38:14   dcg
 CPVCS     "enforce lower case - add external statements for shift routines

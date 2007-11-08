@@ -34,7 +34,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/dump_material_list.f_a  $   
+C        $Log: dump_material_list.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C   
 CPVCS    
 CPVCS       Rev 1.8   07 Dec 2005 07:19:56   gable
 CPVCS    Modified format of screen output in case of no nodes found in a

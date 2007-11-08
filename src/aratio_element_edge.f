@@ -27,7 +27,10 @@ C        edge_min_edge_max_ratio : The computed edge min to edge max ratio.
 C
 C     CHANGE HISTORY -
 C
-C $Log:   /pvcs.config/t3d/src/aratio_element_edge.f_a  $
+C $Log: aratio_element_edge.f,v $
+C Revision 2.00  2007/11/05 19:45:46  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   20 Jun 2006 18:25:14   gable
 CPVCS    Initial revision.

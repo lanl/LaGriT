@@ -11,7 +11,10 @@ c
 c----------------------------------------------------------------
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/lagrit.h_a  $
+C        $Log: lagrit.h,v $
+C        Revision 2.00  2007/11/05 19:46:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.23   03 Oct 2007 11:11:34   tam
 CPVCS    cleaned up keywords

@@ -22,7 +22,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/helpdic_nosb.f_a  $
+C         $Log: helpdic.f,v $
+C         Revision 2.00  2007/11/05 19:45:58  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   03 Jul 2006 16:42:36   gable
 CPVCS    Updated to point to correct URL.

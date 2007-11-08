@@ -17,7 +17,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/cr_copy.f_a  $
+C        $Log: cr_copy.f,v $
+C        Revision 2.00  2007/11/05 19:45:51  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   14 Mar 2001 13:20:38   dcg
 CPVCS    get rid of upper case

@@ -12,7 +12,10 @@ C
 C######################################################################
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/cmo_get_stdptrs.f_a  $
+C        $Log: cmo_get_stdptrs.f,v $
+C        Revision 2.00  2007/11/05 19:45:49  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   14 Jun 2007 14:37:38   tam
 CPVCS    preserve errors for return out of subroutine

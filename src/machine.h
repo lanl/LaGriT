@@ -1,5 +1,8 @@
  
-C$Log:   /pvcs.config/t3d/src/machine.h_a  $
+C$Log: machine.h,v $
+CRevision 2.00  2007/11/05 19:46:00  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   Tue Oct 26 14:08:04 1999   dcg
 CPVCS    No change.

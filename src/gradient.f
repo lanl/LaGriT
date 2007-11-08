@@ -38,7 +38,10 @@ C          ipieadd  -  pointer to array of local edges to be refined
 C
 C     CHANGE HISTORY - 11/26/94 algorithm changes by D. Kilcrease.
 C
-C        $Log:   /pvcs.config/t3d/src/gradient.f_a  $
+C        $Log: gradient.f,v $
+C        Revision 2.00  2007/11/05 19:45:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.14   14 Mar 2001 14:19:32   dcg
 CPVCS    get rid of upper case

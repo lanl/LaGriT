@@ -27,6 +27,14 @@ C
 C        FO0825AA-89, FO0828AA-89, FO0918AB-89
 C
 C
+C        $Log: chglocl.f,v $
+C        Revision 2.00  2007/11/05 19:45:47  spchu
+C        Import to CVS
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
 C#######################################################################
 C
       implicit none

@@ -56,7 +56,10 @@ C                   RETURNS 0 IF NO TPROBLEMS, <0 IF SOME OTHER PROBLEM.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/intrp_element_mat.f_a  $
+C        $Log: intrp_element_mat.f,v $
+C        Revision 2.00  2007/11/05 19:45:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Wed Feb 04 10:11:00 1998   kmb
 CPVCS    Removed commented out lines

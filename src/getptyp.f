@@ -19,7 +19,10 @@ C        ierror - error return(0=ok, -1=error)
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/getptyp.f_a  $
+C$Log: getptyp.f,v $
+CRevision 2.00  2007/11/05 19:45:57  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Apr 14 16:49:56 1997   pvcs
 CPVCS    No change.

@@ -20,7 +20,10 @@ C        IERROR -- error return.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/mergepts_simplex.f_a  $
+C        $Log: mergepts_simplex.f,v $
+C        Revision 2.00  2007/11/05 19:46:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.8   30 Aug 2002 10:13:56   dcg
 CPVCS    check that merge candidate has not already been merged away

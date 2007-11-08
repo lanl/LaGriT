@@ -34,7 +34,10 @@ c       IERROR - error return
 c
 c    CHANGE HISTORY -
 c
-c $Log:   /pvcs.config/t3d/src/agd3d.f_a  $
+c $Log: agd3d.f,v $
+c Revision 2.00  2007/11/05 19:45:46  spchu
+c Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.41   29 Apr 2002 13:56:10   dcg
 CPVCS    fix unassigned index error (nbr)

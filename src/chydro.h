@@ -15,7 +15,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/chydro.h_a  $
+C        $Log: chydro.h,v $
+C        Revision 2.00  2007/11/05 19:45:47  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.30   10 Apr 2001 09:49:14   dcg
 CPVCS    remove rinter

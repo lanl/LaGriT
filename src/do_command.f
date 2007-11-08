@@ -26,7 +26,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/do_command.f_a  $
+C        $Log: do_command.f,v $
+C        Revision 2.00  2007/11/05 19:45:52  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Apr 14 16:43:18 1997   pvcs
 CPVCS    No change.

@@ -18,7 +18,10 @@ C
 C     EDGE_ERROR   the error for the input edge
 C
 C     CHANGE HISTORY -
-C     $Log:   /pvcs.config/t3d/src/edgefun_lg.f_a  $
+C     $Log: edgefun_lg.f,v $
+C     Revision 2.00  2007/11/05 19:45:53  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   10 Sep 2002 13:19:14   kuprat
 CPVCS    Divided error estimator by 8, since error=xHx/8.
