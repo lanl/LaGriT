@@ -1,0 +1,35 @@
+#!/bin/csh -f
+# run this first to check out files then
+# compile with sun -g  option
+#
+# set some variables and run correct makefile
+# makefiles are saved in directory makes
+#
+source /n/env/local.forte.7
+set LAGRIT_LIBS = /home/tam/src/lagrit/libs/ 
+set COPT = _g
+set DATETAG = `date '+_%y%m%d'`
+set OSTYPE = `uname -a | awk '{print $1}'` 
+if ($OSTYPE == 'SunOS') then
+  set OSTAG = _sun
+else
+  echo 'Need to run on SunOS, OS $OSTYPE not correct. ' 
+  exit 1
+endif
+
+set makename = make_pvcs_sun_g 
+set libname = lagrit$OSTAG$COPT.a
+set libname_date = lagrit$OSTAG$COPT$DATETAG.a
+
+echo "Working on OS $OSTYPE $libname and  $libname_date" 
+'rm' -f *.o
+'rm' -f *.f *.f90 *.h *.c *.ch
+'rm' -f logpvcs_all
+
+/usr/local/pvcs/build -script make_pvcs_sun_g -DirectErrors logpvcs_err -DirectAll logpvcs_all
+echo "Done with $makename"
+cp -p lagrit.a $LAGRIT_LIBS$libname 
+cp -p lagrit.a $LAGRIT_LIBS$libname_date 
+ls -lrt $LAGRIT_LIBS/lagrit*$DATETAG*
+
+exit 
