@@ -18,7 +18,10 @@ C        ierror - RETURN ERROR CODE (== 0 ==> OK, <> 0 ==> AN ERROR)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/readdatex_nosb.f_a  $
+C        $Log: readdatex.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Tue Mar 07 08:24:16 2000   dcg
 CPVCS    remove references to ign1

@@ -35,7 +35,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/writinit.f_a  $
+C        $Log: writinit.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.19   17 Oct 2007 15:11:44   tam
 CPVCS    Version was not being written to SunOS

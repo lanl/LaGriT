@@ -7,7 +7,10 @@ C
 C
 C    CHANGE CONTROL
 C
-C  $Log:   /pvcs.config/t3d/src/remove_bigtet.f_a  $
+C  $Log: remove_bigtet.f,v $
+C  Revision 2.00  2007/11/09 20:04:01  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Mon Oct 06 10:05:14 1997   dcg
 CPVCS    add cmo_newlen call

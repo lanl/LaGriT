@@ -29,7 +29,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/writloga.f_a  $
+C        $Log: writloga.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   14 Mar 2000 14:56:46   dcg
 CPVCS    set error flag to zero

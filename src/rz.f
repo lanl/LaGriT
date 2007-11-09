@@ -108,7 +108,10 @@ C
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/rz.f_a  $
+C        $Log: rz.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.27   29 Sep 2004 17:00:30   dcg
 CPVCS    remove line that set value for pie - this is set in initlagrit

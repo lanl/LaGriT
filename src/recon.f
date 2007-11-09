@@ -23,7 +23,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/recon.f_a  $
+C        $Log: recon.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   24 Apr 2003 17:12:48   dcg
 CPVCS    add check for ivornoi==5 which means recon has been disabled

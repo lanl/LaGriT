@@ -31,7 +31,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/sbinit_nosb.f_a  $
+C        $Log: sbinit.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.17   09 Nov 2005 09:25:06   dcg
 CPVCS    return mbndry value to 16000000

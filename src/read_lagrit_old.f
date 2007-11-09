@@ -20,7 +20,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/read_lagrit_old.f_a  $
+C        $Log: read_lagrit_old.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   24 Feb 2000 16:27:26   dcg
 CPVCS    Initial revision.

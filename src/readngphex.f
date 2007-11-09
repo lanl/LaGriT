@@ -17,7 +17,10 @@ C        ierror - RETURN ERROR CODE (== 0 ==> OK, <> 0 ==> AN ERROR)
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/readngphex.f_a  $
+C         $Log: readngphex.f,v $
+C         Revision 2.00  2007/11/09 20:03:59  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   03 Oct 2000 09:48:14   dcg
 CPVCS    remove unused references to ialias

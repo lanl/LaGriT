@@ -39,7 +39,10 @@ C        voltri - THE AREA OF THE TRI.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/volume_tri.f_a  $
+C        $Log: volume_tri.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Tue Oct 19 13:16:10 1999   jtg
 CPVCS    changed comment lines to actually correspond to a tri

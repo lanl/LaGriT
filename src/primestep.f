@@ -23,7 +23,10 @@ C         N         - The next element in the permutation.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/primestep.f_a  $
+C        $Log: primestep.f,v $
+C        Revision 2.00  2007/11/09 20:03:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Fri Dec 18 17:43:14 1998   kuprat
 CPVCS    Corrected documentation.

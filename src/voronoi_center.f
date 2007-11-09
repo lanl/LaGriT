@@ -12,7 +12,10 @@ c     Mike Murphy called compute_center.
 C
 C      CHANGE HISTORY -
 C
-C      $Log:   /pvcs.config/t3d/src/voronoi_center.f_a  $
+C      $Log: voronoi_center.f,v $
+C      Revision 2.00  2007/11/09 20:04:06  spchu
+C      Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   08 Feb 2006 14:38:08   dcg
 CPVCS     "enforce lower case - add external statements for shift routines

@@ -17,7 +17,10 @@ C        ierror - RETURN ERROR CODE (== 0 ==> OK, <> 0 ==> AN ERROR)
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/readvrml.f_a  $
+C        $Log: readvrml.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Mon Jan 26 11:01:54 1998   llt
 CPVCS    Initial revision.

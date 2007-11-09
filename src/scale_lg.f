@@ -25,7 +25,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/scale_lg.f_a  $
+C        $Log: scale_lg.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Thu Apr 06 14:21:42 2000   dcg
 CPVCS    replace get_info_i calls

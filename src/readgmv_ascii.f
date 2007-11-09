@@ -16,7 +16,10 @@ c        none
 c
 c     change history -
 c
-C        $Log:   /pvcs.config/t3d/src/readgmv_ascii_nosb.f_a  $
+C        $Log: readgmv_ascii.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   22 Jul 2004 14:24:02   gable
 CPVCS    Found error in tet and hex connectivity. Insert code to invert
@@ -1011,7 +1014,10 @@ c        none
 c
 c     change history -
 c
-C        $Log:   /pvcs.config/t3d/src/readgmv_ascii.f_a  $
+C        $Log: readgmv_ascii.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.11   Tue Jul 06 19:29:08 1999   jtg
 CPVCS    modifed call to geniee (put at end)

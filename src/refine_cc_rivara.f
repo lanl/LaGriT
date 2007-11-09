@@ -10,7 +10,10 @@ C  currently it will do this one edge at a time by creating a pset
 c  of exactly the nodes in the edge and requesting the refinement
 c  to a length 1/2 of the current length
 C
-C $Log:   /pvcs.config/t3d/src/refine_cc_rivara.f_a  $
+C $Log: refine_cc_rivara.f,v $
+C Revision 2.00  2007/11/09 20:04:00  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Thu Apr 06 13:47:14 2000   dcg
 CPVCS    replace get_info_i call

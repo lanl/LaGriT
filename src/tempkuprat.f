@@ -1,5 +1,8 @@
 C  temp files for use by Andrew Kuprat
-C        $Log:   /pvcs.config/t3d/src/tempkuprat.f_a  $
+C        $Log: tempkuprat.f,v $
+C        Revision 2.00  2007/11/09 20:04:04  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.46   31 Jan 2000 17:13:36   kuprat
 CPVCS    Broke out 8 subroutines.
@@ -437,7 +440,10 @@ C     OUTPUT ARGUMENTS -
 C        CONBASIS... R^3 basis suitable for satisfying all constraints.
 C
 C     CHANGE HISTORY -
-C$Log$
+C$Log: tempkuprat.f,v $
+CRevision 2.00  2007/11/09 20:04:04  spchu
+CImport to CVS
+C
 C ######################################################################
 C        Given the velocity constraint operator
 C        XCONTAB of exact linear constraints and the matrix

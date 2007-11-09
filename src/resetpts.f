@@ -73,7 +73,10 @@ C  temporary options are color and fixitet
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/resetpts.f_a  $
+C$Log: resetpts.f,v $
+CRevision 2.00  2007/11/09 20:04:01  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.19   04 Apr 2007 10:32:20   gable
 CPVCS    Added return in the case of MO with zero nodes.

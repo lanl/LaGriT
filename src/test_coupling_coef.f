@@ -242,7 +242,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 c
 c     change history -
 C
-C $Log:   /pvcs.config/t3d/src/test_coupling_coef.f_a  $
+C $Log: test_coupling_coef.f,v $
+C Revision 2.00  2007/11/09 20:04:04  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   Thu Apr 06 14:23:16 2000   dcg
 CPVCS    replace get_info_i call

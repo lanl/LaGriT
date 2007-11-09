@@ -55,7 +55,10 @@ C        voltet - THE VOLUME OF THE TET.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/volume_tet.f_a  $
+C        $Log: volume_tet.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   08 Feb 2006 14:35:38   dcg
 CPVCS    "enforce lower case - add external statements for shift routines
@@ -168,7 +171,10 @@ C        voltet - THE VOLUME OF THE TET.
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: volume_tet.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 C
 C#######################################################################
 C

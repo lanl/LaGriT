@@ -37,7 +37,10 @@ C
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/quadxy.f_a  $
+C         $Log: quadxy.f,v $
+C         Revision 2.00  2007/11/09 20:03:58  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   05 Mar 2002 13:06:22   gable
 CPVCS    Changed log file output format from i6 to i9

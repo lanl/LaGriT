@@ -31,7 +31,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/rotateln_nosb.f_a  $
+C        $Log: rotateln.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   29 Sep 2004 16:59:02   dcg
 CPVCS    add chydro include file to supply value for pie

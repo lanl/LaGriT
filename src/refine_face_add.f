@@ -29,7 +29,10 @@ C     OUTPUT ARGUMENTS -
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/refine_face_add.f_a  $
+C        $Log: refine_face_add.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.44   30 Oct 2006 14:06:38   gable
 CPVCS    Put commented out lines back in so that refine/addpts adds points
@@ -237,7 +240,10 @@ C
 C     OUTPUT ARGUMENTS -
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: refine_face_add.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 C
 C     ##################################################################
 C
@@ -991,7 +997,10 @@ C
 C     OUTPUT ARGUMENTS -
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/x3d/src/refine_face_add.f_a  $
+C        $Log: refine_face_add.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.12   11/07/95 17:24:44   dcg
 CPVCS    change flag to 2 in mmgetblk calls

@@ -8,7 +8,10 @@ C  coef and attempts to refine the 'bad' edges by projecting the
 C  4th point of the tet onto the bad face and then projecting this
 C  point onto the 'bad' edge
 C
-C $Log:   /pvcs.config/t3d/src/refine_coupling_coef.f_a  $
+C $Log: refine_coupling_coef.f,v $
+C Revision 2.00  2007/11/09 20:04:00  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   07 Jan 2002 13:48:48   dcg
 CPVCS    add error return argument to refine_edge_add_tet call

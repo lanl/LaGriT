@@ -34,7 +34,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/sphere1_nosb.f_a  $
+C        $Log: sphere1.f,v $
+C        Revision 2.00  2007/11/09 20:04:03  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Wed Apr 05 13:35:04 2000   nnc
 CPVCS    Minor source modifications required by the Absoft compiler.

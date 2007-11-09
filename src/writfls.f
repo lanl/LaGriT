@@ -18,7 +18,10 @@ C        ierr   - ERROR FLAG. = 0  ==> O.K.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/writfls.f_a  $
+C        $Log: writfls.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   07 Feb 2000 11:10:32   tam
 CPVCS    No change.

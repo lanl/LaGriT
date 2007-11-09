@@ -23,7 +23,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/smooth.f_a  $
+C        $Log: smooth.f,v $
+C        Revision 2.00  2007/11/09 20:04:03  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.37   05 Sep 2000 12:44:46   dcg
 CPVCS    comment out error message if mmrelprt fails (some options do not 

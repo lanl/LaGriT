@@ -25,7 +25,10 @@ C        ierr      - a flag that is set to "1" if there is an error
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/vorfclst.f_a  $
+C        $Log: vorfclst.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   05 Jan 2001 12:55:58   dcg
 CPVCS    use dble in place of float so as not to lose digits

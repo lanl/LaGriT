@@ -28,7 +28,10 @@ C        ibits
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/set_bit_type.f_a  $   
+C        $Log: set_bit_type.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C   
 CPVCS    
 CPVCS       Rev 1.1   Mon Apr 14 17:01:04 1997   pvcs
 CPVCS    No change.

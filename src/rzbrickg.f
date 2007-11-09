@@ -107,6 +107,14 @@ C
 C         HT0106AC-87, HT0404AB-87, JP0803AA-87, HT1023AA-87
 C         HT1117AA-87
 C
+C        $Log: rzbrickg.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
 C
 C#######################################################################
 C

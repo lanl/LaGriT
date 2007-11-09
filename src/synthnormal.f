@@ -27,7 +27,10 @@ C        LSOMEREVERSED -- .TRUE. if there are some reversed triangles.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/synthnormal.f_a  $
+C        $Log: synthnormal.f,v $
+C        Revision 2.00  2007/11/09 20:04:04  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Wed Nov 25 16:13:14 1998   dcg
 CPVCS    fix confusion between angle and cos of angle if cos = 0

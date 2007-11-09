@@ -34,7 +34,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/rmsurf_nosb.f_a  $
+C         $Log: rmsurf.f,v $
+C         Revision 2.00  2007/11/09 20:04:01  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Wed Feb 02 11:59:00 2000   dcg
 CPVCS    

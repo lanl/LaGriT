@@ -9,7 +9,10 @@ C      verify that edge connectivity is correct
 c
 c    CHANGE HISTORY -
 c
-C $Log:   /pvcs.config/t3d/src/verify_edges.f_a  $
+C $Log: verify_edges.f,v $
+C Revision 2.00  2007/11/09 20:04:05  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   04 May 2000 16:12:40   dcg
 CPVCS    Initial revision.

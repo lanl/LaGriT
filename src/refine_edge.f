@@ -3,7 +3,10 @@
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/refine_edge.f_a  $
+C        $Log: refine_edge.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   05 May 2000 15:22:42   dcg
 CPVCS    refresh mbndry value after cmo_newlen

@@ -22,7 +22,10 @@ C         icscode - (integer) Error flag.
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/unpacktp.f_a  $
+C        $Log: unpacktp.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.12   30 Sep 2004 10:03:44   dcg
 CPVCS    use iand, ior in place of .and., .or. with integer variables

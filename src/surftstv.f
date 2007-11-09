@@ -35,7 +35,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/surftstv_nosb.f_a  $
+C        $Log: surftstv.f,v $
+C        Revision 2.00  2007/11/09 20:04:04  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   Wed Apr 05 13:35:08 2000   nnc
 CPVCS    Minor source modifications required by the Absoft compiler.

@@ -22,7 +22,10 @@ C        ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error).
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/set_global_nosb.f_a  $
+C        $Log: set_global.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   19 Jul 2000 08:35:44   dcg
 CPVCS    don't change integer if real variable

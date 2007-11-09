@@ -8,7 +8,15 @@ C
 C      CHANGE HISTORY -
 C
 C      Original version - T.Cherry - 97
-C         $Log:
+C
+C        $Log: temptam.f,v $
+C        Revision 2.00  2007/11/09 20:04:04  spchu
+C        Import to CVS
+C
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
 C
 C#####################################################################
  

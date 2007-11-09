@@ -17,6 +17,14 @@ C        ierror - RETURN ERROR CODE (== 0 ==> OK, <> 0 ==> AN ERROR)
 C
 C      CHANGE HISTORY -
 C
+C        $Log: readngptet.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
 C
 C
 C#######################################################################

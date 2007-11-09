@@ -152,7 +152,10 @@ C
 C
 C   CHANGE HISTORY
 C         t.cherry 7/96  - initial version
-C         $Log:   /pvcs.config/t3d/src/read_trilayers.f_a  
+C         $Log: read_trilayers.f,v $
+C         Revision 2.00  2007/11/09 20:03:59  spchu
+C         Import to CVS
+C  
 CPVCS    
 CPVCS       Rev 1.10   Thu Apr 06 13:42:16 2000   dcg
 CPVCS    replace get_info_i call

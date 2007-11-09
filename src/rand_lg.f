@@ -44,7 +44,10 @@ C         (see code for meaning).
 C
 C ............................................................
 C
-C$Log:   /pvcs.config/t3d/src/rand_lg.f_a  
+C       $Log: rand_lg.f,v $
+C       Revision 2.00  2007/11/09 20:03:59  spchu
+C       Import to CVS
+C  
 CPVCS    
 CPVCS       Rev 1.3   Wed Jul 21 15:25:44 1999   jtg
 CPVCS    gave block data statement a name

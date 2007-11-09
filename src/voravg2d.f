@@ -21,7 +21,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/voravg2d.f_a  $
+C        $Log: voravg2d.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Apr 14 17:05:46 1997   pvcs
 CPVCS    No change.

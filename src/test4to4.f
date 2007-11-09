@@ -24,7 +24,10 @@ C                   1 => flip is possible
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/test4to4.f_a  $
+C        $Log: test4to4.f,v $
+C        Revision 2.00  2007/11/09 20:04:04  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   Mon May 25 00:49:54 1998   kuprat
 CPVCS    Dropped last two arguments in parameter list (which were

@@ -43,7 +43,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/pset_nosb.f_a  $
+C        $Log: pset.f,v $
+C        Revision 2.00  2007/11/09 20:03:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.33   01 Oct 2007 08:17:40   gable
 CPVCS    Modified to give warning and continue instead of crash when the MO

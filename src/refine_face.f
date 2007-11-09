@@ -3,7 +3,10 @@
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/refine_face.f_a  $
+C        $Log: refine_face.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   05 May 2000 15:33:58   dcg
 CPVCS    refresh mbndry value after cmo_newlen

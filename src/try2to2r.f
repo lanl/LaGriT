@@ -19,7 +19,10 @@ C        n2to2   - THE NUMBER OF BOUNDARY FLIPS PERFORMED
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/try2to2r.f_a  $
+C        $Log: try2to2r.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.11   05 Jan 2001 12:58:18   dcg
 CPVCS    use dble in place of float so as not to lose digits

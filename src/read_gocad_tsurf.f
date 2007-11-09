@@ -8,7 +8,10 @@ C    INPUT ARGUMENTS - imsgin,xmsgin,cmsgin,msgtyp,nwds
 C
 C    OUTPUT - Triangle mesh object
 C
-C        $Log:   /pvcs.config/t3d/src/read_gocad_tsurf.f_a  $
+C        $Log: read_gocad_tsurf.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   18 Oct 2005 16:07:08   gable
 CPVCS    Extend input file name length to 132 characters.

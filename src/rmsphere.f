@@ -24,7 +24,10 @@ C
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/rmsphere.f_a  $
+C         $Log: rmsphere.f,v $
+C         Revision 2.00  2007/11/09 20:04:01  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Mon Apr 14 17:00:00 1997   pvcs
 CPVCS    No change.

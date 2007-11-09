@@ -16,7 +16,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/reconloop2d.f_a  $
+C        $Log: reconloop2d.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.17   15 May 2001 14:44:14   kuprat
 CPVCS    We now pass the parameters TOLDAMAGE, LCHECKAXY, EPSILONA

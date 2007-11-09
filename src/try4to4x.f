@@ -22,7 +22,10 @@ C                      1 => flip was performed
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/try4to4x.f_a  $
+C        $Log: try4to4x.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   05 Jan 2001 12:58:10   dcg
 CPVCS    use dble in place of float so as not to lose digits

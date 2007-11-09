@@ -19,7 +19,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/read_geometries_lg_nosb.f_a  $
+C        $Log: read_geometries_lg.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   15 May 2002 11:01:26   dcg
 CPVCS    read a blank record if number of surfaces is zero

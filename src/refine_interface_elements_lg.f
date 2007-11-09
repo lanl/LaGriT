@@ -24,7 +24,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/refine_interface_elements_lg.f_a  $
+C$Log: refine_interface_elements_lg.f,v $
+CRevision 2.00  2007/11/09 20:04:01  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   Thu Apr 06 13:53:40 2000   dcg
 CPVCS    replace get_info_i calls

@@ -65,7 +65,10 @@ C
 C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
-C $Log:   /pvcs.config/t3d/src/upscale.f_a  $
+C $Log: upscale.f,v $
+C Revision 2.00  2007/11/09 20:04:05  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   18 Jun 2007 07:18:02   tam
 CPVCS    better logic regarding search and keepatt option

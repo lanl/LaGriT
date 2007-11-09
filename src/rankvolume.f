@@ -24,7 +24,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/rankvolume.f_a  $
+C        $Log: rankvolume.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   30 Jan 2001 08:12:42   dcg
 CPVCS    change format to allow for larger element numbers

@@ -28,7 +28,10 @@ C        volelm - THE VOLUME OF THE ELEMENT.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/volume_element.f_a  $
+C        $Log: volume_element.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Tue Oct 19 13:20:20 1999   jtg
 CPVCS    alternate way of calculating volume using "minimum area
@@ -351,7 +354,10 @@ C        voledge - THE EDGE VOLUMES, returned only for tets
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: volume_element.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 C
 C#######################################################################
 C

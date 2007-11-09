@@ -33,7 +33,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/surftst_nosb.f_a  $
+C        $Log: surftst.f,v $
+C        Revision 2.00  2007/11/09 20:04:04  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Thu Mar 09 09:03:16 2000   dcg
 CPVCS    pass sheet name correctly to sheet test routine

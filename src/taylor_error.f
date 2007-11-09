@@ -33,7 +33,10 @@ C     PFX, ... First derivatives of the smoothing functional.
 C     PFXX,... Second derivatives of the smoothing functional.
 C
 C     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/taylor_error.f_a  $
+C$Log: taylor_error.f,v $
+CRevision 2.00  2007/11/09 20:04:04  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Fri Jan 22 16:51:28 1999   dcg
 CPVCS    remove duplicate declaration

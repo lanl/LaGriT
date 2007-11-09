@@ -72,7 +72,10 @@ C
 C     Initial version  07/31/96       tcherry
 C
 C
-C        $Log:   /pvcs.config/t3d/src/read_sheetij.f_a  $
+C        $Log: read_sheetij.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   18 Oct 2005 16:06:52   gable
 CPVCS    Extend input file name length to 132 characters.

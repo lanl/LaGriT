@@ -46,7 +46,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C $Log:   /pvcs.config/t3d/src/quality.f_a  $
+C $Log: quality.f,v $
+C Revision 2.00  2007/11/09 20:03:58  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.26   20 Jun 2006 18:16:58   gable
 CPVCS    Added options to detect sliver, cap, needle and wedge elements.

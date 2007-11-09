@@ -31,7 +31,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/shtgtsf_nosb.f_a  $
+C        $Log: shtgtsf.f,v $
+C        Revision 2.00  2007/11/09 20:04:03  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   30 Sep 2004 11:23:36   dcg
 CPVCS    make chzero double precision

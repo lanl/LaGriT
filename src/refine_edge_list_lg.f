@@ -21,7 +21,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/refine_edge_list_lg.f_a  $
+C$Log: refine_edge_list_lg.f,v $
+CRevision 2.00  2007/11/09 20:04:00  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   04 May 2004 16:22:18   gable
 CPVCS    B. Aagaard: Fixed bug, ityp = itettyp(it) was not being set correctly.

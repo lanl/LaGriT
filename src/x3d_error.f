@@ -19,7 +19,10 @@ C        NONE
 C
 C     CHANGE HISTORY -
 C
-C     $Log:   /pvcs.config/t3d/src/x3d_error.f_a  $
+C     $Log: x3d_error.f,v $
+C     Revision 2.00  2007/11/09 20:04:06  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   11 Jan 2000 01:11:44   jtg
 CPVCS    call to writloga modified so doesn't crash code if the

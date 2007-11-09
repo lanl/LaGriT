@@ -36,7 +36,10 @@ C        (ip)icrnew _ New constraint flags for points to be added
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/refine_fix_add.f_a  $
+C        $Log: refine_fix_add.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   Mon Jun 14 17:36:08 1999   dcg
 CPVCS    make changes so that this will work for triangles in 2d

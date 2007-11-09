@@ -23,7 +23,10 @@ C                      1 => flip was performed
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/try4to4xv.f_a  $
+C        $Log: try4to4xv.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.11   18 Jun 2003 08:12:04   dcg
 CPVCS    check value of iopt2to2, if zero skip interface recons

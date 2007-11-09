@@ -20,7 +20,10 @@ C     OUTPUT ARGUMENTS -
 C
 C
 C      CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/readnurbs_iges_grid.f_a  $
+C$Log: readnurbs_iges_grid.f,v $
+CRevision 2.00  2007/11/09 20:04:00  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   18 Oct 2005 16:06:36   gable
 CPVCS    Extend input file name length to 132 characters.

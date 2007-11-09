@@ -16,7 +16,10 @@ c        none
 c
 c     change history -
 c
-C        $Log:   /pvcs.config/t3d/src/readgmv_binary_nosb.f_a  $
+C        $Log: readgmv_binary.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   12 Jun 2003 11:53:06   tam
 CPVCS    initialized ctype and cmoattnam to 32 blanks for opt SGI

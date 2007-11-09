@@ -1,7 +1,10 @@
 *dk,readdcm
       subroutine readdcm(ifile,ierror)
 C
-C$Log:   /pvcs.config/t3d/src/readdcm.f_a  $
+C$Log: readdcm.f,v $
+CRevision 2.00  2007/11/09 20:03:59  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   30 Sep 2004 09:21:42   dcg
 CPVCS    replace calls to real( with calls to dble(

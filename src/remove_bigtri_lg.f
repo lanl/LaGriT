@@ -7,7 +7,10 @@ C
 C
 C    CHANGE CONTROL
 C
-C  $Log:   /pvcs.config/t3d/src/remove_bigtri_lg.f_a  $
+C  $Log: remove_bigtri_lg.f,v $
+C  Revision 2.00  2007/11/09 20:04:01  spchu
+C  Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Fri Mar 19 13:14:58 1999   dcg
 CPVCS    Initial revision.

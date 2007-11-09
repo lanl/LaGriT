@@ -47,7 +47,10 @@ C                   RETURNS 0 IF NO TPROBLEMS, <0 IF SOME OTHER PROBLEM.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/table_element.f_a  $
+C        $Log: table_element.f,v $
+C        Revision 2.00  2007/11/09 20:04:04  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.10   30 Jan 2002 10:28:00   dcg
 CPVCS    remove duplicate declarations - put declarations in order

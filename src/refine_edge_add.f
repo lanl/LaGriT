@@ -29,7 +29,10 @@ C     OUTPUT ARGUMENTS -
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/refine_edge_add.f_a  $
+C        $Log: refine_edge_add.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.52   01 Mar 2002 14:45:26   dcg
 CPVCS    adaptive merging
@@ -344,7 +347,10 @@ c        oflag           -  0 no error
 c                          1 refinment failed
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/x3d/src/refine_edge_add.f_a  $
+C        $Log: refine_edge_add.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.16   11/07/95 17:24:34   dcg
 CPVCS    change flag to 2 in mmgetblk calls

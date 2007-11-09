@@ -24,7 +24,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/writset.f_a  $
+C        $Log: writset.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Apr 14 17:06:08 1997   pvcs
 CPVCS    No change.

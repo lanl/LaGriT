@@ -77,7 +77,10 @@ C         Also constrained r to be positive for rtz,rtp
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/ranpts_lg.f_a  $
+C        $Log: ranpts_lg.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   23 Aug 2001 12:58:14   jtg
 CPVCS    generates warning instead of error if ndimensions_geom not 3

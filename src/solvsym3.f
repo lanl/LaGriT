@@ -20,7 +20,10 @@ C
 C        X1,X2,X3                - Solution vector.
 C
 C     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/solvsym3.f_a  $
+C$Log: solvsym3.f,v $
+CRevision 2.00  2007/11/09 20:04:03  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Apr 14 17:02:00 1997   pvcs
 CPVCS    No change.

@@ -9,7 +9,10 @@ c
 c
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/set_jtetoff.f_a  $
+C        $Log: set_jtetoff.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Tue Feb 01 16:21:58 2000   dcg
 CPVCS    Initial revision.

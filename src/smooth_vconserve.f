@@ -40,7 +40,10 @@ c       coord, ierr2
 c
 c    CHANGE HISTORY -
 c
-c $Log:   /pvcs.config/t3d/src/smooth_vconserve.f_a  $
+c $Log: smooth_vconserve.f,v $
+c Revision 2.00  2007/11/09 20:04:03  spchu
+c Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.3   18 Feb 2001 16:29:20   nnc
 CPVCS    Trivial constant change to satisfy Absoft compiler.

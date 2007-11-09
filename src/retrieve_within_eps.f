@@ -28,7 +28,10 @@ c         ierr -         error return.
 c
 c     change history -
 c
-c         $Log:   /pvcs.config/t3d/src/retrieve_within_eps.f_a  $
+c         $Log: retrieve_within_eps.f,v $
+c         Revision 2.00  2007/11/09 20:04:01  spchu
+c         Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.0   Tue May 19 01:18:36 1998   kuprat
 CPVCS    Initial revision.

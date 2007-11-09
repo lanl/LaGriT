@@ -3,7 +3,10 @@
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/refine_edge_2d.f_a  $
+C        $Log: refine_edge_2d.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.36   23 Jul 2007 09:31:50   gable
 CPVCS    Fix error in checking in Rev 1.35 overwrote with geniee.f. Oops.
@@ -827,7 +830,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/x3d/src/refine_edge_2d.f_a  $
+C        $Log: refine_edge_2d.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.1   03/28/95 12:34:50   het
 CPVCS    Add the binary dumpx3d/readx3d commands and correct associated mm-errors.

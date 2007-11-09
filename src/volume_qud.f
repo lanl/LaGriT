@@ -37,7 +37,10 @@ C        volqud - THE VOLUME OF THE QUD.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/volume_qud.f_a  $
+C        $Log: volume_qud.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Tue Oct 19 15:13:20 1999   jtg
 CPVCS    fixed form of inv3x3 call

@@ -22,7 +22,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/refine_nosb.f_a  $
+C        $Log: refine.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.13   05 Jan 2007 12:34:58   tam
 CPVCS    removed lines with integer idebug, already declared in

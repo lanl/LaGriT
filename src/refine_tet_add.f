@@ -37,7 +37,10 @@ C     OUTPUT ARGUMENTS -
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/refine_tet_add.f_a  $
+C        $Log: refine_tet_add.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.35   26 Feb 2004 10:33:18   dcg
 CPVCS    remove duplicate declarations
@@ -1661,7 +1664,10 @@ c                      mesh
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/x3d/src/refine_tet_add.f_a  $
+C        $Log: refine_tet_add.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.8   10/20/95 10:47:40   het
 CPVCS    Fix iparent memory management error and add new refine options.
@@ -2732,7 +2738,10 @@ C           Oct 22 2003 tam
 C           add implicit none
 C           add this routine to refine_tet_add.f
 C
-C        $Log:   /pvcs.config/x3d/src/refine_tet_add.f_a  $
+C        $Log: refine_tet_add.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.26   Fri Feb 20 20:50:12 1998   het
 CPVCS    Change the dotaskx3d( calles to dotaskgen(

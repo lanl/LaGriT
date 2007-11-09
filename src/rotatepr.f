@@ -18,7 +18,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/rotatepr.f_a  $
+C        $Log: rotatepr.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   30 Sep 2004 11:08:36   dcg
 CPVCS    make implicit none

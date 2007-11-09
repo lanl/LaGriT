@@ -14,7 +14,10 @@ c is created for each tet.  The range is between 0 and 1.  A 1 signifies
 c the tet is OK.  Anything less than 1 means the tet is bad.  The purpose
 c of this attribute is so that the bad tetrahedra can be visually
 c identified using GMV or some other visualization program.
-C        $Log:   /pvcs.config/t3d/src/pcc_test.f_a  
+C        $Log: pcc_test.f,v $
+C        Revision 2.00  2007/11/09 20:03:58  spchu
+C        Import to CVS
+C  
 CPVCS    
 CPVCS       Rev 1.3   Wed Oct 13 11:03:44 1999   dcg
 CPVCS    remove extra comma in write statement that ibm compiler didn't like

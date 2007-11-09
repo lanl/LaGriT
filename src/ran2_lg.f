@@ -20,7 +20,10 @@ C         ran2_lg - uniform random deviate between 0.0 and 1.0
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/ran2_lg.f_a  $
+C        $Log: ran2_lg.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   Wed Jul 07 13:46:32 1999   kuprat
 CPVCS    Initial revision.

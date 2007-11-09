@@ -35,7 +35,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/rzstrat.f_a  $
+C        $Log: rzstrat.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Mon Apr 14 17:00:38 1997   pvcs
 CPVCS    No change.

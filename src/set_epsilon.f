@@ -18,7 +18,10 @@ C        NONE
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/set_epsilon_nosb.f_a  $
+C$Log: set_epsilon.f,v $
+CRevision 2.00  2007/11/09 20:04:02  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   03 May 2001 15:22:42   kuprat
 CPVCS    Removed obsolete IF clause.

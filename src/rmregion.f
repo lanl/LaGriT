@@ -29,7 +29,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/rmregion_nosb.f_a  $
+C        $Log: rmregion.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   Thu Feb 17 10:54:38 2000   dcg
 CPVCS    use geom_name for geometry info arrays

@@ -85,7 +85,10 @@ C
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/rzbrick3.f_a  $
+C         $Log: rzbrick3.f,v $
+C         Revision 2.00  2007/11/09 20:04:02  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.27   07 May 2003 14:36:40   gable
 CPVCS    Added options, fixed bugs, documented functionality in rzinterp

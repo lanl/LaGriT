@@ -29,7 +29,10 @@ C
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/pntlimc_nosb.f_a  $
+C        $Log: pntlimc.f,v $
+C        Revision 2.00  2007/11/09 20:03:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   30 Aug 2007 10:01:12   tam
 CPVCS    format 9100 had a misplaced comma

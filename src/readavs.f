@@ -25,7 +25,10 @@ C
 C        ierror - RETURN ERROR CODE (== 0 ==> OK, <> 0 ==> AN ERROR)
 C
 C      CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/readavs_nosb.f_a  $
+C$Log: readavs.f,v $
+CRevision 2.00  2007/11/09 20:03:59  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   15 Mar 2006 08:56:04   gable
 CPVCS    Fixed some cases where there is only some stuff in the AVS

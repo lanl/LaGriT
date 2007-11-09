@@ -52,6 +52,14 @@ C      CHANGE HISTORY -
 C
 C        original version - Carl Gable - 97
 C
+C        $Log: tempgable.f,v $
+C        Revision 2.00  2007/11/09 20:04:04  spchu
+C        Import to CVS
+C
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
 C
 C#####################################################################
 C

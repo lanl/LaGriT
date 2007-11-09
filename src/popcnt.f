@@ -18,7 +18,10 @@ C        popcnt - THE (INTEGER) COUNT OF BITS TURNED ON.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/popcnt.f_a  $
+C        $Log: popcnt.f,v $
+C        Revision 2.00  2007/11/09 20:03:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   30 Sep 2004 09:46:20   dcg
 CPVCS    use iand in place of .and. for integers

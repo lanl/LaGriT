@@ -18,7 +18,10 @@ C
 C      OUTPUT:
 C
 C    CHANGE HISTORY
-C$Log:   /pvcs.config/t3d/src/test_argument_type.f_a  $
+C$Log: test_argument_type.f,v $
+CRevision 2.00  2007/11/09 20:04:04  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Fri Oct 03 11:03:06 1997   dcg
 CPVCS    reorder declarations as per DEC compiler

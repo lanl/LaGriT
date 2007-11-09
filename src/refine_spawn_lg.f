@@ -23,7 +23,10 @@ C        IERROR -- error return.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/refine_spawn_lg.f_a  $
+C        $Log: refine_spawn_lg.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   07 Jan 2002 13:47:20   dcg
 CPVCS    add error condition argument to refine_edge_add_tet call

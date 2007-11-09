@@ -70,7 +70,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/surfpts_nosb.f_a  $
+C        $Log: surfpts.f,v $
+C        Revision 2.00  2007/11/09 20:04:04  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   01 Nov 2002 14:17:46   dcg
 CPVCS    fix errors in surface option - access geometry info through geom_name

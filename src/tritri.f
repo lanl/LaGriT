@@ -1,5 +1,8 @@
 C
-C     $Log:   /pvcs.config/t3d/src/tritri.f_a  $
+C     $Log: tritri.f,v $
+C     Revision 2.00  2007/11/09 20:04:05  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   03 Jan 2007 12:31:56   tam
 CPVCS    save iflag and pass itmp to routines instead

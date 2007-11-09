@@ -2,6 +2,20 @@
       subroutine precondition(nrows, ncols, ncoefs, AFP,
      *                  INDEX_ROW, INDEX_COL, UMAT, BMAT, DMAT, XMAT)
 C
+C ######################################################################
+C
+C        $Log: precondition.f,v $
+C        Revision 2.00  2007/11/09 20:03:58  spchu
+C        Import to CVS
+C
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
+C#######################################################################
+C
+C
 C     SCALE ALL THE EMEMENTS IN THE 2D MATRIX SUCH THAT THE
 C        DIAGONAL ELEMENTS ARE UNITY.
 C

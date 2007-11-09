@@ -104,7 +104,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 c
 c     change history -
 C
-C        $Log:   /pvcs.config/t3d/src/zq_nosb.f_a  $
+C        $Log: zq.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Thu Feb 03 08:42:38 2000   dcg
 CPVCS    

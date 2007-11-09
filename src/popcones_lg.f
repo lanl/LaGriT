@@ -26,7 +26,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/popcones_lg.f_a  $
+C        $Log: popcones_lg.f,v $
+C        Revision 2.00  2007/11/09 20:03:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   07 Jan 2002 13:50:56   dcg
 CPVCS     add error return argument to refine_edge_add_tet call

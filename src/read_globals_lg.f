@@ -18,7 +18,10 @@ C        ierror  - Error Return Code (==0 ==> OK, <>0 ==> Error).
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/read_globals_lg_nosb.f_a  $
+C        $Log: read_globals_lg.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   05 May 2000 08:55:04   dcg
 CPVCS    extend test for ascii/binary reads

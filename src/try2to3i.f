@@ -32,7 +32,10 @@ C                   1 => flip is indicated
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/try2to3i.f_a  $
+C        $Log: try2to3i.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   05 Jan 2001 12:58:12   dcg
 CPVCS    use dble in place of float so as not to lose digits

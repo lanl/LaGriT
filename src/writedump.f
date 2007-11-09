@@ -23,7 +23,10 @@ C         ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/writedump_nosb.f_a  $
+C         $Log: writedump.f,v $
+C         Revision 2.00  2007/11/09 20:04:06  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.17   19 Jul 2007 15:24:44   tam
 CPVCS    added zone_outside_minmax to syntax

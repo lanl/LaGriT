@@ -72,7 +72,10 @@ C
 c       Modified:
 c       vcg - summer/96  - initial code
 c       t.cherry -  fall/96   - corrections to itet, itetoffset, mem
-C         $Log:   /pvcs.config/t3d/src/pgg.f_a  
+C         $Log: pgg.f,v $
+C         Revision 2.00  2007/11/09 20:03:58  spchu
+C         Import to CVS
+C  
 CPVCS    
 CPVCS       Rev 1.8   Wed Apr 05 13:34:50 2000   nnc
 CPVCS    Minor source modifications required by the Absoft compiler.

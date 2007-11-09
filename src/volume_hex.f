@@ -56,7 +56,10 @@ C        volhex - THE VOLUME OF THE HEX.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/volume_hex.f_a  $
+C        $Log: volume_hex.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   Tue Oct 19 13:18:02 1999   jtg
 CPVCS    alternate way of calculating volume using "minimum area

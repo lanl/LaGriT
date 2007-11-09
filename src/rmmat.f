@@ -43,7 +43,10 @@ C
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/rmmat_nosb.f_a  $
+C         $Log: rmmat.f,v $
+C         Revision 2.00  2007/11/09 20:04:01  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   07 Feb 2000 17:35:36   dcg
 CPVCS    Initial revision.

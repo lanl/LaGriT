@@ -27,7 +27,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/shttstv_nosb.f_a  $
+C        $Log: shttstv.f,v $
+C        Revision 2.00  2007/11/09 20:04:03  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   29 Aug 2007 16:30:16   gable
 CPVCS    Modified so that if the input region sheet MO is empty, code continues without

@@ -26,7 +26,10 @@ C
 C       createpts/vorornoi/ 
 C
 
-C        $Log:   /pvcs.config/t3d/src/vorpts_lg.f_a  $
+C        $Log: vorpts_lg.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   02 Nov 2000 10:06:58   dcg
 CPVCS    Initial revision.

@@ -17,7 +17,10 @@ C        None
 C                                                                       
 C     CHANGE HISTORY -                                                  
 C                                                                       
-C        $Log:   /pvcs.config/t3d/src/xsumsp2r.f_a  $
+C        $Log: xsumsp2r.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   Mon Apr 14 17:06:14 1997   pvcs
 CPVCS    No change.

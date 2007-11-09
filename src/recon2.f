@@ -20,7 +20,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/recon2_nosb.f_a  $
+C        $Log: recon2.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   30 Sep 2004 13:58:56   dcg
 CPVCS    use iand, ior in place of .and. .or. with integer variables

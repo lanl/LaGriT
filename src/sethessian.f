@@ -26,7 +26,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/sethessian.f_a  $
+C        $Log: sethessian.f,v $
+C        Revision 2.00  2007/11/09 20:04:03  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   07 Jan 2002 20:29:24   kuprat
 CPVCS    Corrected bug where MMRELPRT called after no memory management.

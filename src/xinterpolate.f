@@ -17,7 +17,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/xinterpolate.f_a  $
+C        $Log: xinterpolate.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Thu Nov 04 16:46:50 1999   dcg
 CPVCS    fix error return to not change input

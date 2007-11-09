@@ -21,7 +21,10 @@ C        it2      - the second tet that is removed.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/try2to0.f_a  $
+C        $Log: try2to0.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   05 Jan 2001 12:58:20   dcg
 CPVCS    use dble in place of float so as not to lose digits

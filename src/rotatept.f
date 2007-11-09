@@ -32,7 +32,10 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/rotatept_nosb.f_a  $
+C        $Log: rotatept.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   04 Jun 2002 09:32:02   dcg
 CPVCS    fix typo

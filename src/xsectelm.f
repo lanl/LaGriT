@@ -24,7 +24,10 @@ C        iflag                    Returns 0 if the elements intersect,
 C
 C######################################################################
 C
-C    $Log:   /pvcs.config/t3d/src/xsectelm.f_a  $
+C    $Log: xsectelm.f,v $
+C    Revision 2.00  2007/11/09 20:04:06  spchu
+C    Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.8   03 Jan 2007 13:02:22   tam
 CPVCS    add debug using iflag value

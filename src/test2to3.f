@@ -24,7 +24,10 @@ C                   1 => flip is possible
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/test2to3.f_a  $
+C        $Log: test2to3.f,v $
+C        Revision 2.00  2007/11/09 20:04:04  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Mon Apr 14 17:04:36 1997   pvcs
 CPVCS    No change.

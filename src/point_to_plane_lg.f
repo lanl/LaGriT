@@ -21,7 +21,10 @@ c  ierror = 0 normal completion
 c         = 1 plane ill defined (probably nodes are collinear)
 c         = 2 projected node outside triangle
 C
-C $Log:   /pvcs.config/t3d/src/point_to_plane_lg.f_a  $
+C $Log: point_to_plane_lg.f,v $
+C Revision 2.00  2007/11/09 20:03:58  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   01 Feb 2002 10:40:02   dcg
 CPVCS    add subroutine project_point_to_line

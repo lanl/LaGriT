@@ -50,7 +50,10 @@ C     PFX, ... First derivatives of the smoothing functional.
 C     PFXX,... Second derivatives of the smoothing functional.
 C
 C     CHANGE HISTORY -
-C     $Log:   /pvcs.config/t3d/src/polyfun_nosb.f_a  $
+C     $Log: polyfun.f,v $
+C     Revision 2.00  2007/11/09 20:03:58  spchu
+C     Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.12   04 Mar 2002 16:25:26   dcg
 CPVCS    adaptive merging

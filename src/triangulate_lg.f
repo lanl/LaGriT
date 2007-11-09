@@ -21,7 +21,10 @@ c         triangulate/[clockwise|counterclockwise]
 C
 C     CHANGE HISTORY -
 C
-C$Log:   /pvcs.config/t3d/src/triangulate_lg.f_a  $
+C$Log: triangulate_lg.f,v $
+CRevision 2.00  2007/11/09 20:04:05  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   22 Mar 2000 08:32:58   dcg
 CPVCS    replace epsilon with local_eps

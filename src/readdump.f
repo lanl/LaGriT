@@ -22,7 +22,10 @@ C         ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/readdump.f_a  $
+C         $Log: readdump.f,v $
+C         Revision 2.00  2007/11/09 20:03:59  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.43   18 Oct 2005 16:06:04   gable
 CPVCS    Extend input file name length to 132 characters.

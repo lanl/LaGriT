@@ -32,7 +32,10 @@ C        ierr - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/translate.f_a  $
+C        $Log: translate.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.14   02 Nov 2005 13:43:50   gable
 CPVCS    Modified so that if mesh object does not have any nodes then

@@ -17,7 +17,10 @@ C        ierror - RETURN ERROR CODE (== 0 ==> OK, <> 0 ==> AN ERROR)
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/readngptri.f_a  $
+C         $Log: readngptri.f,v $
+C         Revision 2.00  2007/11/09 20:04:00  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.11   Mon Apr 14 16:57:56 1997   pvcs
 CPVCS    No change.

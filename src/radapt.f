@@ -24,7 +24,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/radapt.f_a  $
+C        $Log: radapt.f,v $
+C        Revision 2.00  2007/11/09 20:03:59  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   04 Jun 2003 15:27:26   dcg
 CPVCS    initialized ctrl to zero

@@ -9,7 +9,10 @@ C  cmo and attr give the mesh object and the attribute to be set
 C  idfield is the character string passed in through the command
 C
 C  Change Record
-C$Log:   /pvcs.config/t3d/src/set_user_bounds.f_a  $
+C$Log: set_user_bounds.f,v $
+CRevision 2.00  2007/11/09 20:04:03  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Tue Mar 03 09:14:26 1998   dcg
 CPVCS    version to use with solve_poisson cone in cube geom.

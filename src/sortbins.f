@@ -87,7 +87,10 @@ C
 C    END OF Old Syntax still supported
 C
 C     CHANGE HISTORY -
-C        $Log:   /pvcs.config/t3d/src/sortbins.f_a  $
+C        $Log: sortbins.f,v $
+C        Revision 2.00  2007/11/09 20:04:03  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.9   29 Aug 2007 10:52:50   gable
 CPVCS    Corrected spelling of keyword descending. Left in option of using misspelled

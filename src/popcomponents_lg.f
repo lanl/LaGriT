@@ -46,7 +46,10 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/popcomponents_lg.f_a  $
+C        $Log: popcomponents_lg.f,v $
+C        Revision 2.00  2007/11/09 20:03:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.11   08 Feb 2006 14:35:32   dcg
 CPVCS    "enforce lower case - add external statements for shift routines

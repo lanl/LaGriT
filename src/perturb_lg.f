@@ -13,7 +13,10 @@ c
 c       IERROR - error return
 c
 c    CHANGE HISTORY -
-C $Log:   /pvcs.config/t3d/src/perturb_lg.f_a  $
+C $Log: perturb_lg.f,v $
+C Revision 2.00  2007/11/09 20:03:58  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.3   06 Feb 2002 12:10:10   dcg
 CPVCS    fix calling sequence

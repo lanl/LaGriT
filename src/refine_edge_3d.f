@@ -2,7 +2,10 @@
 C
 C     CHANGE HISTORY -
 C
-C $Log:   /pvcs.config/t3d/src/refine_edge_3d.f_a  $
+C $Log: refine_edge_3d.f,v $
+C Revision 2.00  2007/11/09 20:04:00  spchu
+C Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   08 Feb 2006 14:38:18   dcg
 CPVCS     "enforce lower case - add external statements for shift routines

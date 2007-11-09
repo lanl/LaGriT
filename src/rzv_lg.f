@@ -131,7 +131,10 @@ C         but may be very different than desired
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/rzv_lg.f_a  $
+C        $Log: rzv_lg.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   22 Aug 2001 12:46:58   jtg
 CPVCS    warning rather that error generated if ndimension_geom not 3

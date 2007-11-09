@@ -1,4 +1,18 @@
       subroutine readruby_lg(ifile,cmo3dname,nbinx,nbiny,nbinz,ierror)
+C
+C ######################################################################
+C
+C        $Log: readruby_lg.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
+C
+CPVCS
+CPVCS       Rev 1.21   02 Oct 2007 12:40:28   spchu
+CPVCS    original version
+C
+C#######################################################################
+C
 c
 c  read ruby input file off iunit
 c  identify vias - make surface, mregion, region command for each via

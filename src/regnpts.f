@@ -86,7 +86,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/regnpts_nosb.f_a  $
+C        $Log: regnpts.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.7   06 Nov 2003 14:00:56   gable
 CPVCS    Increased format for screen output from i6 to i9.
@@ -1434,7 +1437,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log$
+C        $Log: regnpts.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 C
 C#######################################################################
 C

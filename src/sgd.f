@@ -28,7 +28,10 @@ c       IERROR - error return
 c
 c    CHANGE HISTORY -
 c
-c $Log:   /pvcs.config/t3d/src/sgd.f_a  $
+c $Log: sgd.f,v $
+c Revision 2.00  2007/11/09 20:04:03  spchu
+c Import to CVS
+c
 CPVCS    
 CPVCS       Rev 1.21   01 Mar 2002 14:45:36   dcg
 CPVCS    adaptive merging

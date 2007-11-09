@@ -17,7 +17,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/reconloop3d.f_a  $
+C        $Log: reconloop3d.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   15 May 2001 14:45:54   kuprat
 CPVCS    We now pass TOLDAMAGE to RECON2.

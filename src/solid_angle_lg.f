@@ -12,7 +12,10 @@ C       solid angle
 C       (units: stereradians or however you spell it: circle is 4pi)
 C
 C     CHANGE HISTORY -
-C$Log:   /pvcs.config/t3d/src/solid_angle_lg.f_a  
+C       $Log: solid_angle_lg.f,v $
+C       Revision 2.00  2007/11/09 20:04:03  spchu
+C       Import to CVS
+C  
 CPVCS    
 CPVCS       Rev 1.0   Fri Sep 17 17:27:30 1999   jtg
 CPVCS    Initial revision.

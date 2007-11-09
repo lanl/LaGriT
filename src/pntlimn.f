@@ -31,7 +31,10 @@ C
 C
 C      CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/pntlimn_nosb.f_a  $
+C        $Log: pntlimn.f,v $
+C        Revision 2.00  2007/11/09 20:03:58  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.0   24 Jan 2000 16:21:06   dcg
 CPVCS    Initial revision.

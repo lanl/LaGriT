@@ -19,7 +19,10 @@ C                   1 => flip causes acceptable damage
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/testdamage.f_a  $
+C        $Log: testdamage.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.2   30 Jan 2002 10:36:58   dcg
 CPVCS    remove duplicate declarations

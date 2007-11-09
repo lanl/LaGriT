@@ -12,7 +12,10 @@ c
 C  INPUT  cmoin name of mesh object
 C  OUPUT  none
 C
-C$Log:   /pvcs.config/t3d/src/recon2d.f_a  $
+C$Log: recon2d.f,v $
+CRevision 2.00  2007/11/09 20:04:00  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.27   08 Feb 2006 14:35:36   dcg
 CPVCS    "enforce lower case - add external statements for shift routines

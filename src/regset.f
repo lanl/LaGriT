@@ -22,7 +22,10 @@ C
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/regset_nosb.f_a  $
+C        $Log: regset.f,v $
+C        Revision 2.00  2007/11/09 20:04:01  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.8   29 Sep 2004 16:02:06   dcg
 CPVCS    remove line that set value for pie - this is set in initlagrit 

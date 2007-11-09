@@ -44,7 +44,10 @@ C
 C     CHANGE HISTORY -
 C
 C ######################################################################
-C$Log:   /pvcs.config/t3d/src/safemove.f_a  $
+C$Log: safemove.f,v $
+CRevision 2.00  2007/11/09 20:04:02  spchu
+CImport to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   08 Feb 2006 14:35:40   dcg
 CPVCS    "enforce lower case - add external statements for shift routines

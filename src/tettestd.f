@@ -19,7 +19,10 @@ C        ierror - error flag: nonzero on return if error
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/tettestd.f_a  $
+C        $Log: tettestd.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.25   05 Jan 2001 12:57:24   dcg
 CPVCS    use dble in place of float so as not to lose digits
@@ -615,7 +618,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/x3d/src/tettestd.f_a  $
+C        $Log: tettestd.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS
 CPVCS       Rev 1.3   12/27/94 23:05:36   het
 CPVCS    Modified the definition of mbndry to be min(4*ntets+1,16000000).

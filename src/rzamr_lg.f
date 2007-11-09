@@ -28,7 +28,10 @@ C       the default number_of_levels is one
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/rzamr_lg_nosb.f_a  $
+C        $Log: rzamr_lg.f,v $
+C        Revision 2.00  2007/11/09 20:04:02  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   02 Nov 2005 09:37:12   gable
 CPVCS    Fixed syntax of format statement 110.

@@ -33,7 +33,10 @@ C                   array.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/recvr20.f_a  $
+C        $Log: recvr20.f,v $
+C        Revision 2.00  2007/11/09 20:04:00  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.5   05 Jan 2001 12:57:18   dcg
 CPVCS    use dble in place of float so as not to lose digits

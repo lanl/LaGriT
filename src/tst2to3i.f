@@ -30,7 +30,10 @@ C                        in a 2-to-3 flip.
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/tst2to3i.f_a  $
+C        $Log: tst2to3i.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Mon Apr 14 17:05:22 1997   pvcs
 CPVCS    No change.

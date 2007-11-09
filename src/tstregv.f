@@ -26,7 +26,10 @@ C        ierr - ERROR FLAG
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/tstregv.f_a  $
+C        $Log: tstregv.f,v $
+C        Revision 2.00  2007/11/09 20:04:05  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.1   Wed Apr 05 13:35:34 2000   nnc
 CPVCS    Minor source modifications required by the Absoft compiler.

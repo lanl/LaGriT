@@ -22,7 +22,10 @@ C        distsq - the Voronoi radius squared
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/vorpoint.f_a  $
+C        $Log: vorpoint.f,v $
+C        Revision 2.00  2007/11/09 20:04:06  spchu
+C        Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.4   Mon Apr 14 17:05:54 1997   pvcs
 CPVCS    No change.

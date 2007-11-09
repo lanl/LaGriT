@@ -143,7 +143,10 @@ C
 C
 C      CHANGE HISTORY -
 C
-C         $Log:   /pvcs.config/t3d/src/ung2avs.f_a  $
+C         $Log: ung2avs.f,v $
+C         Revision 2.00  2007/11/09 20:04:05  spchu
+C         Import to CVS
+C
 CPVCS    
 CPVCS       Rev 1.6   18 May 2006 15:04:56   gable
 CPVCS    Modified output format so code will work with more than 9999 elements.
