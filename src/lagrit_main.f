@@ -16,7 +16,10 @@ C        None
 C
 C     CHANGE HISTORY -
 C
-C        $Log:   /pvcs.config/t3d/src/adrivgen.f_a  $
+C        $Log: lagrit_main.f,v $
+C        Revision 2.00  2007/11/05 19:48:30  spchu
+C        Import to CVS and change file name from adrivgen.f to lagrit_main.f
+C
 CPVCS    
 CPVCS       Rev 1.12   09 Mar 2000 10:07:06   dcg
 CPVCS    changes for no storage block version of lagrit
@@ -59,7 +62,10 @@ C        ierr1 - 0 for successful completion - -1 otherwise
 C
 C
 C #####################################################################
-C$Log$
+C$Log: lagrit_main.f,v $
+CRevision 2.00  2007/11/05 19:48:30  spchu
+CImport to CVS and change file name from adrivgen.f to lagrit_main.f
+C
       character*32 cmsgin(nwds)
       integer imsgin(nwds),msgtyp(nwds)
       integer nwds,ierr1,lenc
