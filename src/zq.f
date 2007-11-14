@@ -338,6 +338,7 @@ c
       isubname='zq'
       cnamz='zq2'
       cpart='part'
+      isubname='zq'
 c
 c  get mesh object
       call cmo_get_name(cmo,ierror)
