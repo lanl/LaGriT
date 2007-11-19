@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Alphabetic Listing of LaGriT Commands</title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+
+<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
+
+<meta name="keywords" content=" "/>
+
+<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
+<link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
+
+
+</head>
+<body class="home">
+
+<!-- OPEN include for banner area -->
+<!--#include virtual="/source/includes/xbanner.inc" -->
+<!-- CLOSE include for banner area -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/identifier.inc -->
+<!--#include virtual="includes/identifier.inc" -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc -->
+<!--#include virtual="includes/toolbar.inc" -->
+
+<div id="content-org">
+  <table id="mid-section1" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="236"  valign="top" class="col1">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/nav1.inc -->
+
+<!--#include virtual="includes/nav1.inc" -->
+<!--#include virtual="includes/groups.inc" -->
+<!--#include virtual="includes/contacts.inc" -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/contacts.inc -->
+        <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+     
+   <td width="924" valign="top" class="col2-420">
+ <a name="content"></a>
+<!-- OPTIONAL: OPEN include for content area -->
+
+  
+        <h1><font face="Times New Roman,Times"> Alphabetic Listing of LaGriT Commands</font></h1>
+        <p>&nbsp;</p>
+        <p><a href="docs/ADDMESH.html">ADDMESH</a></font> (join meshes)  <br />   
+		   <a href="docs/ASSIGN.html">ASSIGN</a></font> (set global variables)<br />
+
+			<a href="docs/BOUNDAR1.html">BOUNDARY</a></font> (set attributes on surfaces)<br />
+            <a href="docs/CMO2.html">CMO</a></font> (modify mesh object) <br />
+            <a href="docs/COMPUTE.html">COMPUTE</a></font> (compute a new mesh attribte value) <br />
+           <a href="docs/CONNECT1.html">CONNECT</a></font> (make tetrahedral mesh) <br />
+            <a href="docs/COORDSY.HTML">COORDSYS</a></font> (change coordinate system) <br />
+            <a href="docs/COPYPTS.html">COPYPTS</a></font> (copy existing points) <br />
+            <a href="docs/createpts.html">CREATEPTS</a></font> (create points)  <br />     
+          <a href="docs/DEREFINE.html">DEREFINE</a></font> (merge nodes away)
+          <br />
+            <a href="docs/DUMP2.html">DUMP</a></font> (write output files)    <br />     
+            <a href="docs/ELTSET2.html">ELTSET</a></font> (select, name a set of elements)  <br />      
+          <a href="docs/EXTRACT1.html">EXTRACT</a></font> (extract a surface) <br />
+            <a href="docs/extrude.html">EXTRUDE</a></font> (extrude a surface)   <br />             
+            <a href="docs/FIELD.html">FIELD</a></font> (manipulate a field attribute) <br />
+            <a href="docs/FILTER.html">FILTER</a></font> (filter nodes)<br /> 
+			<a href="docs/FSET.html">FSET</a></font> (define a face set)<br /> 
+            <a href="docs/GENIEE.html">GENIEE</a></font> (make element connectivity) <br />             
+            <a href="docs/geometry.html">GEOMETRY</a></font> (set the geometry name)<br />
+            <a href="docs/HEXTOTE.html">HEXTOTET</a></font> (convert element types)<br />
+            <a href="docs/INPUT.html">INPUT</a></font> (read input from a file) <br />        
+            <a href="docs/main_interpolate.html">INTERPOLATE</a>(values from nodes or elements)<br />    
+            <a href="docs/INTERSECT.html">INTERSECT</a></font> (..2 2d meshes to get line)<br />
+            <a href="docs/intersectelements.html">INTERSECT_ELEMENTS</a></font> ( ..2 meshes) <br />   
+            <a href="docs/kdtree.html">KDTREE</a></font> (represent mesh as kd-tree) <br />
+            <a href="docs/LOG.html">LOG</a></font> (turn log file off and on) <br />
+            <a href="docs/lower_d.html">LOWER_D</a></font> (create lower dimen. structs.)<br />
+            <a href="docs/MASSAGE.html">MASSAGE</a></font>(optimize the grid) <br />
+            <a href="docs/MATH.html">MATH</a></font> (do math on attributes)<br />
+            <a href="docs/MERGE.html">MERGE</a></font> (remove nodes) <br />
+            <a href="docs/MREGION.html">MREGION</a></font> (define a material region)<br />
+            <a href="docs/MODE.html">MODE</a></font> (set modes)<br />
+            <a href="docs/OFFSETSURF.html">OFFSETSURF</a></font> (..triangulated surface)<br />
+            <a href="docs/PERTURB.html">PERTURB</a></font> (perturb node locations)<br />
+            <a href="docs/PSET.html">PSET</a></font> (define, name sets of nodes) <br />       
+            <a href="docs/QUADXY.html">QUADXY</a></font> (define a logical xy node set) <br />
+            <a href="docs/QUADXYZ1.HTML">QUADXYZ</a></font> (define a logical xyz node set) <br />
+            <a href="docs/QUALITY.html">QUALITY</a></font> (evaluate mesh quality) <br />
+            <a href="docs/RADAPT.html">RADAPT</a></font> (adaptive smoothing) <br />
+            <a href="docs/rankvolume.html">RANKVOLUME</a></font></u>(list small volume elements) <br />
+            <a href="docs/READ.html">READ</a></font> (read data)<br />
+            <a href="docs/RECON.html">RECON</a></font> (swap edges/faces) <br />
+ 		    <a href="docs/REFINE.html">REFINE</a></font> (refine elements, edges)<br />
+ 		    <a href="docs/REGION.html">REGION</a></font> (define a geometric region) <br />
+ 		    <a href="docs/REGNPTS.html">REGNPTS</a></font> (distributes nodes in region) <br />
+ 		    <a href="docs/RM.html">RM</a></font> (remove nodes in area)<br />
+ 		    <a href="docs/RMMAT.html">RMMAT</a></font> (remove a material) <br />
+ 		    <a href="docs/RMPOINT.html">RMPOINT</a></font> (remove nodes/elements)<br />
+ 		    <a href="docs/RMREGION.html">RMREGION</a></font> (remove a geometric region) <br />
+ 		    <a href="docs/RMSURF.html">RMSURF</a></font> (remove nodes in /on a surface)<br />
+ 		    <a href="docs/RMSPHERE.html">RMSPHERE</a></font> (remove nodes in a sphere) <br />
+ 		    <a href="docs/ROTATELN.html">ROTATELN</a></font> (rotate nodes about a line) <br />
+ 		    <a href="docs/ROTATEPT.html">ROTATEPT</a></font>&nbsp; (rotate nodes about a point) <br />
+ 		    <a href="docs/RZBRICK.html">RZBRICK</a></font> (create a brick, hex mesh) <br />
+ 		    <a href="docs/SETPTS.html">SETPTS</a></font> (set node type and material) <br />
+ 		    <a href="docs/SETTETS.html">SETTETS</a></font> (make child nodes, set element material) <br />
+ 		    <a href="docs/SCALE.html">SCALE</a></font> (scale node coordinates)<br />
+ 		    <a href="docs/SMOOTH.html">SMOOTH</a></font> (node smoothing) <br />
+ 		    <a href="docs/SORT.html">SORT</a></font> (sort an attribute) <br />
+ 		    <a href="docs/STACK.html">STACK</a></font> (read,merge surfaces) <br />
+ 		    <a href="docs/SURFACE.html">SURFACE</a></font> (define a geometric surface)<br />
+            <a href="docs/SURFPTS.html">SURFPTS</a></font> (make nodes on a surface) <br />
+	   
+            <a href="docs/TRIAGN.html">TRIANGULATE</a></font> (make triangles) <br />
+            <a href="docs/TRANS.html">TRANS</a></font> (translate node coordinates) <br />     
+            <a href="docs/UNG2AVS.html">UNG2AVS</a></font> (UNGenerate to AVS) <br />
+            <a href="docs/UPSCALE.html">UPSCALE</a></font> (attributes from a fine grid to a coarse grid) <br />
+ 
+         </p>
+        </p>
+        <p align="left"><img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/xtransparent.gif" /> </p>
+      <p align="left"><a href="index.shtml">Return to LaGriT Home Page</a></p></td>
+      <td valign="top" class="col3-180">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/related_links.inc -->
+<!--#include virtual="includes/related_links.inc" -->
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="ratext">&nbsp;</p></td>
+
+     
+    </tr>
+  </table>
+</div>
+
+<!-- OPEN include for footer area -->
+<!--#include virtual="/source/includes/xfooter.inc" -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc -->
+
+<!--#include virtual="../includes/email.inc" -->
+
+<!-- CLOSE include for footer area -->
+</body>
+</html>

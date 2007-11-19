@@ -1,0 +1,187 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name=""Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+<! header for style of html ------------------------------------------------ >
+<! command name for window banner >
+   <title>cmo/addatt</title>
+
+<! font and other body information should be in the style statement here.>
+<style type="text/css">
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+       }
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+&nbsp;
+<! end header --------------------------------------------------------------- >
+
+<! command name for this page >
+<h2>cmo/addatt</h2>
+
+<! command overview ---------- >
+<blockquote>
+The <b>cmo/addatt</b> command is used to add and initialize a new mesh object attribute. 
+There are two variations on the command syntax. 
+The general form is used to add a new attribute to a mesh object.
+The second syntax uses keywords to create and/or fill a valid attribute with
+calculated values. This syntax can also derive a vector attribute from three
+attributes or derive three scalar attributes from a vector attribute.
+<br> 
+<br>For the general form ,the first two parameters, 
+<font face="Courier">mo_name/att_name </font> are
+required. All other parameters will resort to default settings if not included
+on the command line.
+See the <b><a href="cmo_modatt.html">modatt</a></b>command for details 
+on these parameters.
+<br>
+<br>
+The keyword syntax uses the fourth token on the command line to define the
+type of attribute to create. The syntax for each keyword is unique. 
+If the named attribute already exists,
+values will be overwritten with values as indicated by the keyword.
+<br>
+
+<! command syntax or format ------------ >
+<br><br>
+GENERAL FORMAT:
+<blockquote>
+  <b>cmo/addatt</b>
+  / <font face="Courier"> mo_name </font> 
+  / <font face="Courier"> att_name </font> 
+  / [ <font face="Courier">type</font> 
+  / <font face="Courier">rank</font> 
+  / <font face="Courier">length</font> 
+  / <font face="Courier">interpolate</font> 
+  / <font face="Courier">persistence</font> 
+  / <font face="Courier">ioflag</font> 
+  / <font face="Courier">value ] </font>
+</blockquote>
+
+<br>
+KEYWORD FORMAT:
+<blockquote>
+  <b>cmo/addatt</b>
+  / <font face="Courier"> mo_name </font> 
+  / <b> area_normal </b> 
+  / <font face="Courier"> normal_type </font> 
+  / <font face="Courier"> att_v_name </font> 
+<br>
+  <b>cmo/addatt</b>
+  / <font face="Courier"> mo_name </font> 
+  / <b> unit_area_normal </b> 
+  / <font face="Courier"> normal_type </font> 
+  / <font face="Courier"> att_v_name </font>
+<br>
+  <b>cmo/addatt</b>
+  / <font face="Courier"> mo_name </font> 
+  / <b> volume </b> 
+  / <font face="Courier"> att_name </font>
+<br>
+  <b>cmo/addatt</b>
+  / <font face="Courier"> mo_name </font> 
+  / <b> vector </b> 
+  / <font face="Courier"> att_v_snk </font>
+  / <font face="Courier"> att_1src, </font>
+  <font face="Courier">att_2src, </font>
+  <font face="Courier">att_3src</font>
+<br>
+  <b>cmo/addatt</b>
+  / <font face="Courier"> mo_name </font> 
+  / <b> scalar </b> 
+  / <font face="Courier"> att_1snk, </font>
+  <font face="Courier">att_2snk, </font>
+  <font face="Courier">att_3snk </font>
+  / <font face="Courier"> att_v_src </font>
+</blockquote>
+
+<! parameter descriptions ---------- >
+<br>
+<blockquote>
+<b>area_normal</b>:
+creates vector attribute <font face="Courier">att_v_name</font> 
+and fills with the x,y,z components of area normals for each face. The new attribute
+is nelements in length, type is VDOUBLE, and rank is vector. 
+<font face="Courier">normal_type</font> choices include 
+<b> xyz, rtz</b>, and <b>rtp</b>.
+The area normal is a vector perpendicular to the triangle face with 
+length equal to the area of the triangle. 
+Currently implemented for <b>xyz</b> on triangles only.
+<br><br>
+<b>unit_area_normal</b>: is a vector perpendicular to the triangle 
+face with length equal to one. This command has the same format as
+<b>area_normal</b>.  
+<br><br>
+<b>volume</b> or <b>area</b>: creates an attribute nelements in length and type VDOUBLE.
+For <b>volume</b> keyword the <font face="Courier">att_name</font> attribute is filled 
+with <b>volume</b>(if 3D), <b>area</b>(if 2D) or <b>length</b>(if lines). 
+Currently implemented for triangle areas.
+<br><br>
+<b>vector</b>: creates <font face="Courier">att_v_snk</font>
+of rank vector from three existing attributes
+<font face="Courier">att_1src, att_2src</font>, and
+<font face="Courier"> att_3src </font> 
+<br><br>
+<b>scalar</b>: creates three attributes 
+<font face="Courier">att_1snk, att_2snk</font>, and
+<font face="Courier"> att_3snk </font>
+from an attribute 
+<font face="Courier">att_v_src</font> of rank vector.
+<br><br>
+</blockquote>
+
+<! command examples >
+<br><br>
+EXAMPLES:
+<br>
+
+<blockquote>
+<b>cmo</b>/<b>addatt</b>/<font face="Courier">cmo1</font>/<font face="Courier">boron1</font>/<b>VDOUBLE</b>/<b>scalar</b>/<b>nnodes</b>/<b>asinh</b>/<b>permanent</b>
+<dir> Create node attribute named boron1 with interpolate method of asinh. 
+</dir>
+<b>cmo/addatt/</b>-cmo-/<font face="Courier">boron2</font>
+<b>/VDOUBLE/scalar/nnodes/asinh/permanent/gl/</b>2.0
+<dir> Create node attribute named boron2 and fill with value 2.0, write to 
+gmv and lagrit dumps. 
+</dir>
+<b>cmo/addatt/</b><font face="Courier">cmo1/boron3</font>
+<b>/VDOUBLE/scalar/nnodes/user/temporary</b>
+<dir> Create temporary node attribute named boron3. 
+</dir>
+<b>cmo/addatt/-default-/</b><font face="Courier">boron3</font>
+<dir> Create attribute named boron3 with default mesh object settings. 
+</dir>
+<b>cmo/addatt</b>/<font face="Courier"> cmotri </font> / 
+<b>area_normal</b> / <font face="Courier">anorm</font>
+<dir> Create and fill element vector named anorm with 
+the x,y,z components for area normals of each triangle. 
+</dir>
+<b>cmo/addatt</b>/<font face="Courier"> cmotri / </font>
+<b>unit_area_normal</b> /<font face="Courier"> n_face</font>
+<dir> Create and fill element vector named n_face with 
+the x,y,z components for unit area normals of each triangle. 
+</dir>
+<b>cmo/addatt</b>/<font face="Courier">cmo1</font>/ 
+<b>scalar</b> / <font face="Courier">xnorm, ynorm, znorm / anorm</font>
+<dir> Create attributes xnorm, ynorm, znorm from the three components
+of the vector attribute anorm. 
+</dir>
+<b>cmo/addatt</b>/<font face="Courier">cmo1</font>/ <b>vector </b>
+/ <font face="Courier">vnorm /xnorm, ynorm, znorm</font>
+<dir> Create vector attribute vnorm from the three attributes xnorm, ynorm, znorm.
+</dir>
+<b>cmo/addatt</b>/<font face="Courier"> cmotri </font>
+/ <b>area </b>/ <font face="Courier">darea</font>
+<dir> Create and fill attribute named darea with area of each triangle. 
+</dir>
+
+</blockquote>
+
+</body>
+</html>

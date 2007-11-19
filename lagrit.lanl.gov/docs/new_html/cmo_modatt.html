@@ -1,0 +1,251 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Jan Wills">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote>
+<blockquote>&nbsp;</blockquote>
+<b><font face="Times">modatt/</font></b><font face="Courier">mo_name</font><font face="Times">/</font><font face="Courier">att_name</font><font face="Times">/</font><font face="Courier">field_name/new_field/</font>
+<br><font face="Times">Modifies the field </font><font face="Courier">field_name</font><font face="Times">
+for attribute </font><font face="Courier">att_name</font><font face="Times">
+in </font><font face="Courier">Mesh Object</font><font face="Times"> </font><font face="Courier">mo_name</font><font face="Times">.</font>
+<blockquote><font face="Courier">mo_name</font><font face="Times"> required.</font>
+<br><font face="Courier">att_name</font><font face="Times"> required.</font>
+<br><font face="Courier">field_name</font><font face="Times"> is type character,
+required</font>
+<br><font face="Courier">new_field </font><font face="Times">is the type
+of the field, required</font>
+<br><font face="Courier">Field_names</font><font face="Times"> (may be
+lower or upper case):</font></blockquote>
+</blockquote>
+
+<center><table COLS=2 WIDTH="90%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><b><font face="Courier">n</font><font face="Times New Roman,Times">ame</font></b><font face="Times New Roman,Times">
+-&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">(character) Attribute name&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="30%" NOSAVE><font face="Times New Roman,Times">t<b>ype -</b></font></td>
+
+<td><font face="Times New Roman,Times">character) Attribute type</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><font face="Times New Roman,Times"><b>INT</b>- Integer</font>
+<br><font face="Times New Roman,Times"><b>REAL</b> - Real number</font>
+<br><font face="Times New Roman,Times"><b>CHARACTER </b>- character variable
+of length 32</font></td>
+</tr>
+
+<tr NOSAVE>
+<td></td>
+
+<td NOSAVE><font face="Times New Roman,Times"><b>VINT</b> - Vector of integer&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td></td>
+
+<td NOSAVE><font face="Times New Roman,Times"><b>VDOUBLE</b> - Vector of
+real*8 (this is the default)</font>
+<br><font face="Times New Roman,Times"><b>VCHAR</b> - Vector of character*32</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><b>rank</b> -&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">(character) Attribute rank (must
+be an attribute for this Mesh object)&nbsp; default is scalar</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE><font face="Times New Roman,Times"><b>length</b> -&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">(character) Attribute length (must
+be an attribute for this Mesh object) default is nnodes</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><b>interpolation</b> -</font></td>
+
+<td><font face="Times New Roman,Times">(character) Interpolation option:&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><font face="Times New Roman,Times"><b>constant
+</b>-&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">Constant value&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER VALIGN=TOP NOSAVE><font face="Times New Roman,Times"><b>sequence
+</b>-</font></td>
+
+<td><font face="Times New Roman,Times">Set to the node number</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER VALIGN=TOP NOSAVE><font face="Times New Roman,Times"><b>copy
+</b>-&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">Copy values</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><font face="Times New Roman,Times"><b>linear</b>
+-&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">Linear interpolation&nbsp; - this
+is the default</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><font face="Times New Roman,Times">&nbsp;<b>user</b>
+-&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">User provides a subroutine named
+user_interpolate (<a href="miscell.html">see IV. e.8</a>)</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><font face="Times New Roman,Times"><b>log </b>-&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">Logarithmic interpolation</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><font face="Times New Roman,Times"><b>asinh</b>
+-&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">Asinh interpolation</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><font face="Times New Roman,Times"><b>min </b>-</font></td>
+
+<td><font face="Times New Roman,Times">Set to the minimum</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><font face="Times New Roman,Times"><b>max </b>-</font></td>
+
+<td><font face="Times New Roman,Times">Set to the maximum</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><font face="Times New Roman,Times"><b>incmin </b>-</font></td>
+
+<td><font face="Times New Roman,Times">Set to the minimum plus one (vint
+attribute only)</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><font face="Times New Roman,Times"><b>incmax </b>-</font></td>
+
+<td><font face="Times New Roman,Times">Set to the maximum plus one (vint
+attribute only)</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><b>and</b> -</td>
+
+<td>'and' the bits</td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><b>or</b> -</td>
+
+<td>'or' the bits</td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=LEFT NOSAVE><font face="Times New Roman,Times"><b>persistence</b>
+-</font></td>
+
+<td><font face="Times New Roman,Times">(character) Attribute persistence:</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><b><font face="Times New Roman,Times">permanent
+-</font></b></td>
+
+<td><font face="Times New Roman,Times">Can not be deleted&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><font face="Times New Roman,Times"><b>temporary</b>
+-</font></td>
+
+<td><font face="Times New Roman,Times">Temporary attribute - this is the
+default</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><b>ioflag</b> -</font></td>
+
+<td><font face="Times New Roman,Times">(character) Attribute IO flag:</font>
+<br><font face="Times New Roman,Times">default is <b>ag</b></font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><b><font face="Times New Roman,Times">a&nbsp;</font></b></td>
+
+<td NOSAVE><font face="Times New Roman,Times">Put this attribute on avs
+dumps</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><b><font face="Times New Roman,Times">g&nbsp;</font></b></td>
+
+<td><font face="Times New Roman,Times">Put this attribute on gmv dumps</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><b><font face="Times New Roman,Times">f</font></b></td>
+
+<td NOSAVE><font face="Times New Roman,Times">Put this attribute on fehm
+dumps&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><b>l</b></td>
+
+<td>Put this attribute on LaGriT dumps</td>
+</tr>
+
+<tr NOSAVE>
+<td ALIGN=CENTER NOSAVE><b><font face="Times New Roman,Times">L</font></b></td>
+
+<td><font face="Times New Roman,Times">Do not write this attribute to LaGriT
+dumps</font></td>
+</tr>
+
+<tr>
+<td><b><font face="Times New Roman,Times">&nbsp;default</font></b></td>
+
+<td><font face="Times New Roman,Times">(real) Attribute value</font></td>
+</tr>
+</table></center>
+
+<br>&nbsp;
+<blockquote><font face="Times"><b>&nbsp;</b>EXAMPLES:</font>
+<blockquote><b><font face="Times">cmo/modatt/</font></b><font face="Courier">mo_tet2</font><font face="Times">/</font><font face="Courier">boron</font><font face="Times">/</font><b><font face="Courier">length</font></b>
+<br><b><font face="Times
+<BR><FONT FACE=">cmo/modatt/-cmo-/</font></b><font face="Courier">boron</font><font face="Times">/</font><b><font face="Courier">length</font><font face="Times">/</font><font face="Courier">nnodes</font></b>
+<br><b><font face="Times">cmo/modatt/-cmo-/</font></b><font face="Courier">boron</font><font face="Times">/</font><b><font face="Courier">default</font></b><font face="Times">/10.0</font>
+<br><b><font face="Times">cmo/modatt/-def-/</font></b><font face="Courier">boron</font><b><font face="Times">/</font><font face="Courier">default</font><font face="Times">/</font></b><font face="Times">10.0</font>
+<br><font face="Times"><b>cmo/modatt/</b>-def-boron/<b>interp/user</b></font></blockquote>
+</blockquote>
+
+</body>
+</html>

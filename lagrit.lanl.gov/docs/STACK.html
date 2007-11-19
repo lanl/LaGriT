@@ -1,0 +1,300 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<! Template for LaGriT online manual command definition >
+<! Search and Replace _name   >
+
+<! header for style of html ------------------------------------------------ >
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]">
+<! Template for LaGriT online manual command definition >
+<! Search and Replace _name   >
+<!    b = bold = literal parameter names >
+<!    u = underline = default parameter setting >
+<!    font face="Courier" = variable parameter names >
+<!    the br command indicates a line break >
+<! Note: If a html composer is used it will overwrite this file when saved. >
+<! header for style of html ------------------------------------------------ >
+<! command name for window banner >
+   <title>STACK</title>
+
+<! font and other body information should be in the style statement here.>
+<style type="text/css">
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+       }
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+&nbsp;
+<! end header --------------------------------------------------------------- >
+
+
+<! command name for this page >
+<h2>STACK</h2>
+
+<! command overview ---------- >
+<blockquote>
+The <b>stack/layers</b> command is used to 
+read surfaces and merge into a single stacked layers cmo. 
+The surfaces must have the same number of nodes, and the x,y coordinates 
+of each layer must be the same. 
+(i.e. x_n,y_n of surface M must equal x_n,y_n of surface N),
+and the surfaces must be single valued functions of z. 
+The layers are stacked with the first file on the bottom, last file is the 
+top surface. 
+The lower elevation of each layer truncates the upper. 
+The second from last
+surface can be made to truncate all lower surfaces, commonly done with
+a topographic surface.  
+<br>
+<br>
+The <b>stack/layers</b> command adds three scalar attributes that are used
+in the <b>stack/fill</b> command. See syntax below.
+ nlayers are the total number of layers
+in the stacked cmo, this includes layers added for refinement. 
+nnperlayer are the number of nodes in each of the layers.
+neperlayer are the number of elements in each of the layers.
+<blockquote>
+The node attribute VINT layertyp is created to indicate what type
+of layer each node is in.  
+<br>-1   bottom surface
+<br>-2   top    surface
+<br> 0   original input surfaces (usually interfaces)
+<br> 1   derived surface to buffer interfaces
+<br> 2   derived surface added as refinement layer
+</blockquote>
+<br>
+The <b>layers</b> option is followed by a list of surface files and
+their material numbers. Further options include the
+<font face="Courier">file_type</font> either AVS or GMV,
+<font face="Courier">layer_refinement</font> and
+<font face="Courier">pinch_options</font>.
+<br>
+<br>
+<b>stack/layers/</b>
+ file_type / [xy_subset] / file_list / [buffer_opt]
+[truncate_opt] [pinchout_opt] [flip_opt]
+</blockquote><br>
+
+<! parameter 2 ---------- >
+<br>
+<font face="Courier"> file_type </font>
+The third parameter indicates the type of files to read as surfaces.
+<! parameter description >
+<blockquote>
+  <u><b>avs</b></u> 
+ will read AVS UCD files as a surfaces. 
+  <br>
+  <b>gmv</b>
+ will read GMV files as a surfaces. 
+</blockquote>
+
+<! optional parameter  ---------- >
+<br>
+<font face="Courier"> xy_subset </font>
+This option allows a subset of the surfaces to be used. The syntax is
+<font face="Courier">
+minx, miny, maxx, maxy
+</font>
+<br>
+<br>
+
+
+<! parameter 2 ---------- >
+<br>
+<font face="Courier"> file_list </font>
+This is the list of files to read from bottom surface to top.
+Each surface can be followed by an integer value to indicate
+a material number, and an integer value to indicate the number
+of layers to add as refinement between input surfaces.
+The file list has this syntax:
+<font face="Courier">
+file1 mat_num, file2 mat_num [ref_num], file3 mat_num [ref_num] ... 
+</font>
+<! parameter description >
+<blockquote>
+  <font face="Courier">file1 thru filen</font>
+ can be quad or tri surface files.
+<br>
+  <font face="Courier">mat_num </font>
+is the material number for the unit defined by upper and
+  lower surface. These values will detirmine the element colors when
+  the layers are filled with element volumes.
+<br>
+  <font face="Courier">ref_num</font>
+ is the number of refinement layers to add between two surfaces.
+ Refinement is done proportionallly, creating new layers between
+ the choosen surfaces. The first filename can not have a refinement
+ number, units start at second file name. See examples below.
+  <br>
+</blockquote>
+
+<! optional parameter  ---------- >
+<br>
+<font face="Courier"> buffer_option </font>
+This optional parameter creates buffer layers around interfaces at a distance
+equal to <font face="Courier">xvalue</font>. It derives layers above and
+below each surface that is read in to the stack routine. Buffers are not
+created around refinement layers or on the top and bottom surfaces.
+The buffer option has this syntax:
+<b>buffer</b> <font face="Courier"> xvalue </font>
+<br>
+<br>
+
+<! optional parameter  ---------- >
+<br>
+<font face="Courier"> truncate_option </font>
+This optional parameter causes all layers below the choosen surface
+to be truncated. The truncating surface is indicated by the integer
+number. For instance 5 will truncate all layers below the 5th surface
+by the 5th surface.
+<b>trunc</b> <font face="Courier"> nth_file </font>
+<br>
+<br>
+
+<! optional parameter  ---------- >
+<br>
+<font face="Courier"> pinchout_options </font>
+These optional parameters control how layers are pinched out where they cross.
+They will also help to control the minimum thickness in a unit between layers.
+<! parameter description >
+<blockquote>
+  <b>pinch</b> <font face="Courier"> xthick </font>
+  real value <font face="Courier">xthick </font>
+  is mininum thickness allowed in a layer. 
+  This allows upper surface elevation to be equal to ower surface 
+  elevation if upper surface dips below lower surface. 
+  By default, <b>pinch</b> is set to 0.
+<br>
+  <b>dpinch</b> <font face="Courier"> dvalue </font>
+  <b>dmin</b> <font face="Courier"> mvalue </font>
+  These options are used along with buffers to help elements to follow 
+  the interface boundarys. These options differ from the simple 
+  <b>pinch</b> option. This option uses the beads_ona_ring algrithm 
+  to move points vertically after all the layers are stacked.
+  <br>
+  If layer thickness <= dvalue then thickness is set to zero.
+  <br>
+  If layer thickness is < dvalue < mvalue, set thickness to mvalue. 
+  <br>
+  (default dvalue = mvalue = 0.0, no post processing) 
+</blockquote>
+
+<! optional parameter  ---------- >
+<br>
+<b> flip </b>
+optional parameter will flip elements so the normals point positive Z direction.
+<br>
+<br>
+<br>
+
+<! Done with parameter explanations >
+
+<b>stack/fill</b> /<font face="Courier"> cmo_3D / cmo_stack </font>
+<br>
+is a command used after the files are stacked into a single cmo.
+The units are filled between the layers with 3D elements.
+For triangulated
+surfaces, the elements will be prisms, and for quad sheets the filler
+elements will be hex. 
+<br>
+<br>
+
+
+
+
+<! command syntax or format ------------ >
+<br><br>
+FORMAT:
+<blockquote>
+<dir><b> stack/layers </b>
+<br><b> [avs | gmv ]  </b>
+<br> [<font face="Courier New,Courier">minx,miny, maxx,maxy]</font>
+<br> <font face="Courier New,Courier">filename(1) [matno] filename(i) [matnum, addnum]
+filename(n) [matnum, addnum]</font>
+<b>[ flip ]</b>
+<br><b> [ buffer </b><font face="Courier New,Courier">[xdistance] ]</font>
+<br><b> [ pinch</b> font face="Courier New,Courier">[xthick] ]</font>
+<br><b>[ trunc</b><font face="Courier New,Courier"> [ifile]</font>
+<br><b>[ dpinch </b><font face="Courier New,Courier">xvalue /</font>
+<br><b>dmin </b><font face="Courier New,Courier">xvalue ]</font>
+<br>&nbsp;
+<br>&nbsp;
+</blockquote>
+
+<! command examples >
+<br><br>
+EXAMPLES:
+<blockquote>
+cmo create cmo_stack
+<br><b>stack/layers/avs</b>/
+<font face="Courier New,Courier">fsrf575.inp&nbsp;&nbsp;1/ 
+fsrf09.inp&nbsp;&nbsp;2/ fsrf44.inp&nbsp;&nbsp;2</font> 
+/<b>flip/pinch </b>1.0
+<br>This command will read 3 triangulated
+surface files, flip the normal from down to up, and pinch layers less than
+1.0 meter apart. When converted to a 3D grid, this will be two elements
+thick in the z direction.
+<br> A surface is assigned the material value that occurs with it on
+the command line. When the surfaces are filled with volumes, the
+nodes on the bottom surface will detirmine the material of volume
+elements on and above that surface. So nodes on fsrf575.inp and above
+will all have imt values of 1. Nodes on fsrf09.inp and above will
+have imt equal to 2.
+<br><br>
+ cmo create cmo_stack
+<br><b>stack/layers/avs </b>/
+<font face="Courier New,Courier">fsrf575.inp&nbsp;&nbsp;1/&nbsp; 
+ fsrf09.inp&nbsp;&nbsp;2/fsrf44.inp&nbsp;&nbsp;2/</font>
+ <b>flip </b>/ <b>buffer </b>
+ <font face="Courier New,Courier">3.0</font>
+ / <b>dpinch</b> 1.0 / <b>dmin</b>
+ <font face="Courier New,Courier"> 3.0</font>
+<br>Same surfaces are used but buffer
+layers are added at 3 meters below and 3 meters above the unit interface
+fsrf09.inp. The units are pinched at anything less than 1 meter and the
+mininum distance to next layer is 3 meters.
+<br><br>
+cmo create cmo_stack
+<br><b>stack/layers/avs</b> /
+surf-12.inp&nbsp;&nbsp;1/ surf-5.inp&nbsp;&nbsp;2&nbsp;3&nbsp;/ 
+surf5.inp&nbsp;&nbsp;3&nbsp;&nbsp;/ surf2_slope.inp&nbsp;&nbsp;4/
+surf25.inp&nbsp;&nbsp;4&nbsp;1&nbsp;/ 
+<b>truncate</b> 4 / <b>pinch</b> 0.
+<br><b>stack/fill/</b>cmohex/cmo_stack
+<br><b>hextotet//</b>cmotet/cmohex
+<br><br>
+This command reads a list of quad
+surfaces and assigns material values 1 through 4. The first unit (between
+surf-12.inp and surf-5.inp) is refined&nbsp; by 3, so that 3 layers are
+added between these surfaces. All materials will be 1 in this refined unit. 
+The next two units, material 2 and 3, 
+will have no refinement layers added. The last unit is
+refined once, with a layer between the surfaces surf2_slope.inp and surf25.inp. 
+<br>The fill option will fill the space between quad surfaces with
+hex elements. This hex grid will have 4 units and 10 layers.
+<br>The hextotet command can be used to convert the hex grid to
+a tet grid. Note that the second option to hextotet is defaulted.
+This allows hextotet to check on the grid's mesh type and use the
+appropriate tet conversion. There will be 6 tet from each hex and
+there are 3 tets from each prism.
+</blockquote>
+
+<! links to further explanation or demo pages >
+<br><br>
+LINKS:
+<blockquote>
+  <a href="stack_demo.html">Simple Examples for stack</a> 
+  <br><br>
+  <a href="stack_demo2.html">Advanced Examples for stack</a> 
+</blockquote>
+ 
+</body>
+</html>
+
+

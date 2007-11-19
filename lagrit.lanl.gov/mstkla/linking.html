@@ -1,0 +1,110 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#DCDCDC" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+
+<CENTER><A HREF="mstkla.html#EXECUTABLE"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="example.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+
+
+<P>
+<HR WIDTH="100%">
+<CENTER><B>INCLUDE FILES FOR MSTKLA</B></CENTER>
+
+<CENTER>
+<HR WIDTH="100%"></CENTER>
+
+
+<P><B><FONT COLOR="#FF0000">#include</FONT> "mstkla.h"</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+with the addition of <B>-I/home/rao/meshing/mstkla/1.0/include</B> in the
+link line
+<BR><B><FONT COLOR="#FF0000">#include</FONT> "gmtkla.h"</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+with the addition of <B>-I/home/rao/meshing/mstkla/1.0/include</B> in the
+link line
+<BR><B><FONT COLOR="#FF0000">#include</FONT> "utilities.h"</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+with the addition of <B>-I/home/rao/utilities/1.0/include</B> in the link
+line
+<BR><B><FONT COLOR="#FF0000">#include</FONT> "macros.h"</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+with the addition of <B>-I/home/rao/meshing/mstkla/1.0/include</B> in the
+link line
+<CENTER>
+<HR WIDTH="100%">&nbsp;<B> Linking with MSTKLA&nbsp;</B>&nbsp;
+<HR WIDTH="100%"></CENTER>
+
+
+<P><B>MSTKLA</B> (and the embedded <B>GMTKLA</B>) are in the following
+libs:
+
+<P><B>/home/rao/develop/meshing/mstkla/1.0/lib/$ARCHOS/</B>
+
+<P>where
+
+<P><B>$ARCHOS </B>is a variable that combines the architecture and operating
+system info.
+<BR>You can have it set in your <B>Makefile</B> by appropriately calling
+the script
+<BR><B>/home/rao/bin/getarch</B> (See the <B>Makefile</B> in <B>/home/rao/develop/meshing/test</B>)
+
+<P>The libraries are <B>libmstk.a </B>(debug version) and <B>libmstk-O.a
+</B>(optimized version)
+
+<P>
+<HR WIDTH="100%">
+
+<P><B>MSTKLA</B> also uses 2 other modules called '<B>clagrit</B>' and
+'<B>utilities</B>'. The libs for clagrit&nbsp; are in
+
+<P><B>/home/rao/develop/meshing/clagrit/1.0/lib/$ARCHOS/</B>
+
+<P>The libs are l<B>ibclagrit.a </B>(debug) and <B>libclagrit-O.a </B>(optimized).
+<BR>&nbsp;
+
+<P>The libs for utilities are in
+
+<P><B>/home/rao/develop/utilities/1.0/lib/$ARCHOS/</B>
+
+<P>and the libs are <B>libutilities.a</B> (debug) and <B>libutilities-O.a</B>
+(optimized)
+
+<P>
+<HR WIDTH="100%">
+<BR>Also, the standard l<B>agrit</B> and <B>util</B> libs have to be included.
+
+<P>They are located in
+
+<P><B>/pvcs.config/t3d/bin</B>
+
+<P>The libs are <B>liblagrit_$ARCH.a</B>, <B>libutil_$ARCH.a </B>(debug)
+and <B>liblagrit_$ARCH_opt.a</B>, <B>libutil_$ARCH_opt.a </B>(optimized).
+Here, <B>$ARCH</B> is as follows:
+
+<P>&nbsp;&nbsp;&nbsp; Solaris:&nbsp;&nbsp;&nbsp;&nbsp; sol
+<BR>&nbsp;&nbsp;&nbsp; HP:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+hp
+<BR>&nbsp;&nbsp;&nbsp; DEC:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dec
+<BR>&nbsp;&nbsp;&nbsp; SGI:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+sgi
+<BR>&nbsp;&nbsp;&nbsp; SGI/64:&nbsp;&nbsp;&nbsp;&nbsp; sgi_64
+<BR>&nbsp;&nbsp;&nbsp; IBM:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ibm
+
+<P>
+<HR WIDTH="100%">
+<BR>The order of libraries that works while linking (until more complicated
+library interdependencies creep in) is
+<BR>&nbsp;
+
+<P><B>-L$(MSTKLA_LIBDIR) -lmstkla -L$(CLAGRIT_LIBDIR) -lclagrit \</B>
+<BR><B>-L$(MYUTIL_LIBDIR)&nbsp; -lutilities \</B>
+<BR><B>-L $(LAGRIT_LIBDIR) -llagrit_$(ARCH)&nbsp; -L $(CLAGRIT_LIBDIR)
+-lclagrit \</B>
+<BR><B>-L$(UTIL_LIBDIR) -lutil \</B>
+<BR><B>-lm</B>
+<BR>&nbsp;
+<CENTER>&nbsp;<A HREF="mstkla.html#EXECUTABLE"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="utilities.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+
+</BODY>
+</HTML>

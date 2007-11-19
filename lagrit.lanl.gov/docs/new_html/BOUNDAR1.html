@@ -1,0 +1,103 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+   <title>BOUNDARY</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times New Roman,Times">BOUNDARY</font></u></b>
+<blockquote><font face="Times New Roman,Times">The boundary routine operates
+on the current mesh object. For the nodes lying on the specified surface(s),
+it sets the specified node based attribute to the specified value. Optionally
+boundary will call the user supplied subroutine set_user_bounds <a href="miscell.html">(see
+IV. e.8)</a></font></blockquote>
+<font face="Times New Roman,Times">FORMAT:</font>
+<blockquote><b><font face="Times New Roman,Times">boundary/dirichlet</font></b><font face="Courier">/attr_name/[value|identifier]/surface_list</font>
+<br><font face="Times">where:</font></blockquote>
+
+<center><table WIDTH="70%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="30%" NOSAVE><b><font face="Times New Roman,Times">dirichlet</font></b></td>
+
+<td><font face="Times New Roman,Times">is currently unused but must be
+specified&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">attr_name</font></td>
+
+<td><font face="Times New Roman,Times">is the name of the attribute to
+be set&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">value&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">is a constant, and is the value
+to which the attribute is set</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE><font face="Times New Roman,Times">identifier&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">is a character string that will
+be passed to</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><font face="Times New Roman,Times">subroutine set_user_bounds&nbsp;</font></td>
+</tr>
+</table></center>
+
+<blockquote>
+<blockquote><font face="Times New Roman,Times">surface_list is one of:</font>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote><font face="Times New Roman,Times"><b>-all-</b> (all boundary
+nodes)</font>
+<br><font face="Times New Roman,Times">surface_name/<b>inclusive</b> (all
+bndry nodes on surface)</font>
+<br><font face="Times New Roman,Times">surface_name/<b>exclusive</b> (all
+bndry nodes ONLY on surface)</font>
+<br><font face="Times New Roman,Times">surface_name/ (same as exclusive)</font>
+<br><font face="Times New Roman,Times">surface_name1/surface_name2/<b>inclusive</b></font>
+<br><font face="Times New Roman,Times">(all bndry nodes on the union of
+the surfaces)</font>
+<br><font face="Times New Roman,Times">surface_name1/surface_name2/<b>exclusive</b>
+(default)</font>
+<br><font face="Times New Roman,Times">(all bndry nodes ONLY on the intersection
+of the surfaces)</font>
+<br><font face="Times New Roman,Times">surface_name1/surface_name2/ surface_name3/....
+(same as exclusive)</font></blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<p><br><font face="Times New Roman,Times">EXAMPLES:</font>
+<blockquote><font face="Times New Roman,Times"><b>boundary</b>/<b>dirichlet</b>/vd_v/7.0/<b>-all-</b>/</font>
+<br><font face="Times New Roman,Times">sets the attribute vd_v for all
+boundary nodes to be 7.0</font>
+<br><font face="Times New Roman,Times"><b>boundary</b>/<b>dirichlet</b>/vi_s/8.0/pbot/</font>
+<br><font face="Times New Roman,Times"><b>boundary</b>/<b>dirichlet</b>/vd_v/9.0/pbot/<b>inclusive</b>/</font>
+<br><font face="Times New Roman,Times">sets the attribute vd_v for the
+nodes that are on the surface pbot to be 9.0</font>
+<br><font face="Times New Roman,Times"><b>boundary</b>/<b>dirichlet</b>/vd_s/13.0/pfrt</font>
+<br><font face="Times New Roman,Times">sets the attribute vd_s for the
+nodes that are on the union of the surfaces pfrt and prgt to 13.0</font>
+<br><font face="Times New Roman,Times"><b>boundary</b>/<b>dirichlet</b>/vi_t/12.0/prgt/</font>
+<br><font face="Times New Roman,Times"><b>boundary</b>/<b>dirichlet</b>/bconds/top_plane/s1,s2,s3/</font>
+<br><font face="Times New Roman,Times">will pass the set of nodes on the
+intersection of surfaces s1,s2 and s3 along with the string <font size=+1>top-plane
+to subroutine set_user_bounds.</font></font></blockquote>
+</blockquote>
+
+</body>
+</html>

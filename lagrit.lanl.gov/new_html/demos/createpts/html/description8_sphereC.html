@@ -1,0 +1,58 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97/98">
+   <meta name="Template" content="Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>*arguments:</title>
+</head>
+<body bgcolor="#FFFFFF" link="#0000FF" vlink="#800080">
+
+<blockquote><font face="Times New Roman,Times"><font size=+1>Example 8:
+creatpts in a spherical geometry using shells as region boundaries</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+0>The objective
+is to create a spherical mesh using the <b>createpts/sphere </b>command.</font></font><font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times"><font size=+0>A spherical geometry
+is defined containing three regions, each defined as the region between
+two</font> <font size=+0>spherical shells. The <b>createpts/sphere/itype=2</b>
+command is used to create a point distribution between</font> <font size=+0>spherical
+shells for all diamonds of the defining icosahedron. The output consists
+of one gmv file.</font></font></blockquote>
+<font face="Times New Roman,Times"><font size=+1></font></font>
+<p><br><font face="Times New Roman,Times"><font size=+1>Images of GMV output</font></font><font face="Times New Roman,Times"></font>
+<p><a href="image/image8a.gif"><img SRC="image/image8tn.gif" NOSAVE BORDER=0 height=153 width=156></a><font face="Times New Roman,Times"><font size=+0>
+<a href="image/image8a.gif">View A&nbsp;<a href="image/image8b.gif"><img SRC="image/image8btn.gif" NOSAVE BORDER=0 height=160 width=170></a></a>
+<a href="image/image8b.gif">View B</a></font></font>
+<br><font face="Times New Roman,Times"><font size=+0></font></font>&nbsp;
+<br><font face="Times New Roman,Times"><font size=+0></font></font>&nbsp;<font face="Times New Roman,Times"><font size=+0></font></font>
+<p><font face="Times New Roman,Times"><font size=+1>Input file</font></font>
+<br><font face="Times New Roman,Times">*TEST createpts/sphere (lagrit_input_createsphere3)</font>
+<br><font face="Times New Roman,Times">&nbsp; cmo/create/cmo1/</font>
+<br><font face="Times New Roman,Times">&nbsp; surface/s1/reflect/sphere/0.,0.,0.,3./</font>
+<br><font face="Times New Roman,Times">&nbsp; surface/s2/intrface/sphere/0.,0.,0.,2./</font>
+<br><font face="Times New Roman,Times">&nbsp; surface/s3/intrface/sphere/0.,0.,0.,1./</font>
+<br><font face="Times New Roman,Times">&nbsp; region/r1/ le s1 and gt s2
+/</font>
+<br><font face="Times New Roman,Times">&nbsp; region/r2/ le s2 and ge s3
+/</font>
+<br><font face="Times New Roman,Times">&nbsp; region/r3/ lt s3 /</font>
+<br><font face="Times New Roman,Times">&nbsp; mregion/mr1/ le s1 and gt
+s2 /</font>
+<br><font face="Times New Roman,Times">&nbsp; mregion/mr2/ lt s2 and gt
+s3 /</font>
+<br><font face="Times New Roman,Times">&nbsp; mregion/mr3/ lt s3 /</font>
+<br><font face="Times New Roman,Times">&nbsp; createpts/sphere/8/5/162/1.0,0.5/0.,0.,0./1,0.,0.</font>
+<br><font face="Times New Roman,Times">&nbsp; filter/1,0,0/</font>
+<br><font face="Times New Roman,Times">&nbsp; geniee</font>
+<br><font face="Times New Roman,Times">&nbsp; *zq/imt/1,0,0/1/</font>
+<br><font face="Times New Roman,Times">&nbsp; setpts</font>
+<br><font face="Times New Roman,Times">&nbsp; settets</font>
+<br><font face="Times New Roman,Times">&nbsp; dump/gmv/output_createsphere3.gmv/</font>
+<br><font face="Times New Roman,Times">* begin compare here</font>
+<br><font face="Times New Roman,Times">cmo/status</font>
+<br><font face="Times New Roman,Times">cmo/printatt//-all-/minmax</font>
+<br><font face="Times New Roman,Times">quality</font></blockquote>
+
+</body>
+</html>

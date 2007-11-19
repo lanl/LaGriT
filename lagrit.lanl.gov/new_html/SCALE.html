@@ -1,0 +1,48 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>SCALE</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">SCALE</font></u></b></blockquote>
+
+<dir>
+<dir>Scale a point distribution specified by<b> </b><font face="Courier">ifirst,ilast,istride
+</font><font face="Times">according
+to the scale factors </font><font face="Courier">iscale,jscale</font><font face="Times">,
+and </font><font face="Courier">kscale</font><font face="Times">.&nbsp;
+One can substitute the syntax</font><font face="Times New Roman,Times"><b>
+pse</b>t get </font><font face="Courier New,Courier">pset_name</font><font face="Times">&nbsp;
+for the </font><font face="Courier New,Courier">ifirst, ilast, istride</font><font face="Times">
+variable to access a pset.&nbsp; The letters </font><font face="Courier">i,j,</font><font face="Times">
+and </font><font face="Courier">k</font><font face="Times"> in the scale
+factors correspond to coordinates specified by one of the
+</font><font face="Courier">geometry
+</font><font face="Times">types
+[<b>xyz</b> (Cartesian), <b>rtz</b> (cylindrical),
+<b>rtp</b> (spherical)].&nbsp;&nbsp;
+For example,</font>
+<dir><font face="Times">if </font><font face="Courier">geometry = <b>rtz</b></font><font face="Times">
+then </font><font face="Courier">iscale = </font><font face="Times New Roman,Times">radial
+coordinate</font><font face="Courier">, jscale = </font><font face="Times New Roman,Times">theta
+coordiante</font><font face="Courier">,</font><font face="Times"> and</font><font face="Courier">
+kscale = z </font><font face="Times New Roman,Times">coordinate</font><font face="Times">.</font>
+<br><font face="Times">If geometry = <b>rtp</b> the iscale = radial coordiante,
+jscale = theta coordinate and kscale = phi coordinate.</font></dir>
+<font face="Times">If the </font><font face="Courier">scaling</font><font face="Times">
+option is <b>relative</b> then the scaling factors are unitless multipliers
+with reference to some geometric center (</font><font face="Courier">xcen,ycen,zcen</font><font face="Times">).&nbsp;&nbsp;
+If the </font><font face="Courier">scaling</font><font face="Times"> option
+is <b>absolute</b> then the scaling factors are constants added on to the
+existing coordinates.&nbsp; That is, absolute is really a translation rather
+than a rescale.</font></dir>
+<b><font face="Times">FORMAT:</font></b>
+<dir><font face="Times"><b>scale</b>/</font><font face="Courier">ifirst,ilast,istride</font><font face="Times">/</font><b><font face="Courier">absolute</font></b><font face="Times">|<b>relative</b>/xyz/|</font><font face="Courier New,Courier">rtz|rtp</font><font face="Times">/</font><font face="Courier">iscale,jscale,kscale/xcen,ycen,zcen</font></dir>
+</dir>
+
+</body>
+</html>

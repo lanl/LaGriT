@@ -1,0 +1,384 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<p><b><font face="Times New Roman,Times"><font size=+2>ROUTINE:&nbsp; stack
+/ layers</font></font></b>
+<br>
+<hr WIDTH="100%">
+<p><b><font face="Times New Roman,Times"><font size=+2>Feature:&nbsp; truncating
+surface</font></font></b>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h1>
+<b><font face="Times New Roman,Times"><font size=+1>x5</font></font></b></h1>
+cmo/create/cmo1
+<br>stack/layers/avs/ surf-12.inp 1/ surf-5.inp 2/ surf5.inp 3/surf_slope3.inp
+4/ surf25.inp 4 / trunc 4 / pinch 0.
+<p><img SRC="x5.gif" height=400 width=550 align=LEFT>
+<p><tt>Read 5 surface files, truncate by 4th surface.</tt>
+<br><tt>No buffers at interfaces, no refinements.</tt>
+<p><tt>................................................................</tt>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surface name&nbsp;
+layer color type llcorner&nbsp; zic</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-12.inp&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; -1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1)&nbsp; -1.200000E+01</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-5.inp&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+37)&nbsp; -5.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surf5.inp&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 73)&nbsp;&nbsp; 5.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf_slope3.inp&nbsp;&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+109)&nbsp;&nbsp; 1.800000E+01</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf25.inp&nbsp;&nbsp;&nbsp;&nbsp;
+5&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp; -2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+145)&nbsp;&nbsp; 2.500000E+01</tt>
+<p><tt>Elements per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+48 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 240</tt>
+<br><tt>Nodes&nbsp;&nbsp;&nbsp; per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+36 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 180</tt>
+<br><tt>Layers truncated by surf_slope3.inp layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4</tt>
+<p><tt>STACK DONE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 files
+read out of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5</tt>
+<p><tt>................................................................</tt>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><b><font face="Times New Roman,Times"><font size=+1>x5buff</font></font></b>
+<br>cmo create cmo1
+<br>stack/layers/avs/ surf-12.inp 1/ surf-5.inp 2/ surf5.inp 3/ surf_slope3.inp
+4/ surf25.inp 4 / trunc 4 / buffer 1. pinch 0.
+<p><img SRC="x5_buff.gif" height=400 width=550 align=LEFT>
+<p><tt>Read 5 surface files, truncate by 4th surface.</tt>
+<br><tt>buffers at interfaces, no refinements.</tt>
+<p><tt>................................................................</tt>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surface name&nbsp;
+layer color type llcorner&nbsp; zic</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-12.inp&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; -1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1)&nbsp; -1.200000E+01</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 37)&nbsp; -6.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-5.inp&nbsp;&nbsp;&nbsp;&nbsp;
+3&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+73)&nbsp; -5.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 109)&nbsp; -4.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 145)&nbsp;&nbsp; 4.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surf5.inp&nbsp;&nbsp;&nbsp;&nbsp; 6&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 181)&nbsp;&nbsp; 5.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 217)&nbsp;&nbsp; 6.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 8&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 253)&nbsp;&nbsp; 1.700000E+01</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf_slope3.inp&nbsp;&nbsp;&nbsp;&nbsp;
+9&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+289)&nbsp;&nbsp; 1.800000E+01</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp; 10&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+325)&nbsp;&nbsp; 1.900000E+01</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf25.inp&nbsp;&nbsp;&nbsp;
+11&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp; -2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+361)&nbsp;&nbsp; 2.500000E+01</tt>
+<p><tt>Elements per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+48 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 528</tt>
+<br><tt>Nodes&nbsp;&nbsp;&nbsp; per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+36 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 396</tt>
+<br><tt>Layers truncated by surf_slope3.inp layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+9</tt>
+<p><tt>STACK DONE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 files
+read out of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5</tt>
+<br><tt>STACK DONE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6 layers
+created for total&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11</tt>
+<br>&nbsp;
+<br>&nbsp;
+<p><tt>&nbsp;</tt>
+<br>&nbsp;
+<br>&nbsp;
+<p><b><font face="Times New Roman,Times"><font size=+1>x5top</font></font></b>
+<br>cmo create cmo1
+<br>stack/layers/avs/surf-12.inp 1/surf-5.inp 2/surf5.inp 3/surf_slope3.inp
+4/ trunc 4 / pinch 0.
+<p><img SRC="x5top.gif" height=400 width=550 align=LEFT>
+<br><tt>Read 4 surface files, truncate by last surface.</tt>
+<br><tt>No buffers at interfaces, no refinements.</tt>
+<p><tt>................................................................</tt>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surface name&nbsp;
+layer color type llcorner&nbsp; zic</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-12.inp&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; -1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1)&nbsp; -1.200000E+01</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-5.inp&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+37)&nbsp; -5.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surf5.inp&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 73)&nbsp;&nbsp; 5.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf_slope3.inp&nbsp;&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp; -2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+109)&nbsp;&nbsp; 1.800000E+01</tt>
+<p><tt>Elements per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+48 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192</tt>
+<br><tt>Nodes&nbsp;&nbsp;&nbsp; per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+36 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 144</tt>
+<br><tt>Layers truncated by surf_slope3.inp layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4</tt>
+<p><tt>STACK DONE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 files
+read out of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4</tt>
+<p><tt>................................................................</tt>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><b><font face="Times New Roman,Times"><font size=+1>x5top_buff</font></font></b>
+<br>cmo create cmo1
+<br>stack/layers/avs/surf-12.inp 1/surf-5.inp 2/surf5.inp 3/surf_slope3.inp
+4/ trunc 4 / buffer 1. pinch 0.
+<p><img SRC="x5top_buff.gif" height=400 width=550 align=LEFT>
+<p><tt>Read 5 surface files, truncate by last surface.</tt>
+<br><tt>buffers at interfaces, no refinements.</tt>
+<p><tt>WARNING: znext for buffer not found&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6&nbsp; 0.500000E+01</tt>
+<br><tt>WARNING: znext for buffer not found&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6&nbsp; 0.500000E+01</tt>
+<br><tt>WARNING: znext for buffer not found&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6&nbsp; 0.500000E+01</tt>
+<br><tt>WARNING: znext for buffer not found&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6&nbsp; 0.500000E+01</tt>
+<p><tt>................................................................</tt>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surface name&nbsp;
+layer color type llcorner&nbsp; zic</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-12.inp&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; -1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1)&nbsp; -1.200000E+01</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 37)&nbsp; -6.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-5.inp&nbsp;&nbsp;&nbsp;&nbsp;
+3&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+73)&nbsp; -5.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 109)&nbsp; -4.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 145)&nbsp;&nbsp; 4.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surf5.inp&nbsp;&nbsp;&nbsp;&nbsp; 6&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 181)&nbsp;&nbsp; 5.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 217)&nbsp;&nbsp; 6.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf_slope3.inp&nbsp;&nbsp;&nbsp;&nbsp;
+8&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp; -2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+253)&nbsp;&nbsp; 1.800000E+01</tt>
+<p><tt>Elements per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+48 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 384</tt>
+<br><tt>Nodes&nbsp;&nbsp;&nbsp; per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+36 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 288</tt>
+<br><tt>Layers truncated by surf_slope3.inp layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+7</tt>
+<p><tt>STACK DONE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 files
+read out of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4</tt>
+<br><tt>STACK DONE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 layers
+created for total&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8</tt>
+<p><tt>................................................................</tt>
+<p><tt>Warnings are from post-processer that checks buffer points.</tt>
+<br><tt>It happens because there is not a buffer under the truncated surface.</tt>
+<p><tt>IMPLEMENTATION QUESTION: Should this top layer be buffered?</tt>
+<br><tt>As is, code does not buffer the top layer, just the interfaces.</tt>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><b><font face="Times New Roman,Times"><font size=+2>Feature:&nbsp; bead
+algorithm for post processing</font></font></b>
+<br>&nbsp;
+<p><font face="Times New Roman,Times"><font size=+1>Images are 250 high
+by 500 wide, gmv = gmv -w&nbsp; 0&nbsp; 0&nbsp; 550 275</font></font>
+<h1>
+<font face="Times New Roman,Times"><font size=+1>bead0</font></font></h1>
+<img SRC="bead.gif" height=250 width=500 align=LEFT>
+<br>buffer 2.&nbsp;&nbsp; pinch 0.
+<br>unit 2 thickness = 1.
+<p><tt>SUMMARY VOLUME/AREA of ELEMENT COLORS</tt>
+<br><tt>Color nelem&nbsp; volume&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fractional volume</tt>
+<br><tt>1&nbsp;&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.2140000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.180743243</tt>
+<br><tt>2&nbsp;&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.1620000E+04&nbsp;&nbsp;&nbsp;&nbsp;
+0.013682432</tt>
+<br><tt>3&nbsp;&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.2618000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.221114865</tt>
+<br><tt>4&nbsp;&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.6920000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.584459459</tt>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h1>
+<font face="Times New Roman,Times"><font size=+1>bead1</font></font></h1>
+<img SRC="bead1.gif" height=250 width=500 align=LEFT>
+<br>buffer 2.&nbsp; / dpinch 0.0&nbsp; dmin 1.
+<p>Post process node changes =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+76
+<br>unit 2 thickness = 2.0
+<p><tt>SUMMARY VOLUME/AREA of ELEMENT COLORS</tt>
+<br><tt>Color nelem&nbsp; volume&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fractional volume</tt>
+<br><tt>1&nbsp;&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.1942000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.164020270</tt>
+<br><tt>2&nbsp;&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.3600000E+04&nbsp;&nbsp;&nbsp;&nbsp;
+0.030405405</tt>
+<br><tt>3&nbsp;&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.2618000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.221114865</tt>
+<br><tt>4&nbsp;&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.6920000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.584459459</tt>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h1>
+<font face="Times New Roman,Times"><font size=+1>bead3</font></font></h1>
+<img SRC="bead3.gif" height=250 width=500 align=LEFT>
+<br>buffer 2. /&nbsp; dpinch .0&nbsp;&nbsp; dmin 1.5&nbsp;&nbsp; move 3
+<br>unit 2 thickness = 3.
+<p><tt>SUMMARY VOLUME/AREA of ELEMENT COLORS</tt>
+<br><tt>Color nelem&nbsp; volume&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fractional volume</tt>
+<br><tt>1&nbsp;&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.1706000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.144087838</tt>
+<br><tt>2&nbsp;&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.5400000E+04&nbsp;&nbsp;&nbsp;&nbsp;
+0.045608108</tt>
+<br><tt>3&nbsp;&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.2674000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.225844595</tt>
+<br><tt>4&nbsp;&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.6920000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.584459459</tt>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h1>
+<font face="Times New Roman,Times"><font size=+1>bead4</font></font></h1>
+<img SRC="bead4.gif" height=250 width=500 align=LEFT>
+<br>buffer 2. / dpinch .0&nbsp;&nbsp; dmin 1.5&nbsp;&nbsp;&nbsp; move 2
+<p><tt>SUMMARY VOLUME/AREA of ELEMENT COLORS</tt>
+<br><tt>Color nelem&nbsp; volume&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fractional volume</tt>
+<br><tt>1&nbsp;&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.2140000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.180743243</tt>
+<br><tt>2&nbsp;&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.5400000E+04&nbsp;&nbsp;&nbsp;&nbsp;
+0.045608108</tt>
+<br><tt>3&nbsp;&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.2430000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.205236486</tt>
+<br><tt>4&nbsp;&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.6730000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.568412162</tt>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h1>
+<font face="Times New Roman,Times"><font size=+1>bead5</font></font></h1>
+<img SRC="bead5.gif" height=250 width=500 align=LEFT>
+<br>buffer 2. / dpinch .0&nbsp;&nbsp; dmin 1.5&nbsp;&nbsp; move 1
+<p><tt>SUMMARY VOLUME/AREA of ELEMENT COLORS</tt>
+<br><tt>Color nelem&nbsp; volume&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fractional volume</tt>
+<br><tt>1&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.1923000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.162415541</tt>
+<br><tt>2&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.5400000E+04&nbsp;&nbsp;&nbsp;&nbsp;
+0.045608108</tt>
+<br><tt>3&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.2552000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.215540541</tt>
+<br><tt>4&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.6825000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.576435811</tt>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h1>
+<font face="Times New Roman,Times"><font size=+1>bead2 - last image</font></font></h1>
+<img SRC="bead2.gif" height=250 width=500 align=LEFT>
+<br>buffer 2. / dpinch 1.0&nbsp;&nbsp; dmin 2.0
+<p><tt>SUMMARY VOLUME/AREA of ELEMENT COLORS</tt>
+<br><tt>Color nelem&nbsp; volume&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fractional volume</tt>
+<br><tt>1&nbsp;&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.2284000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.192905405</tt>
+<br><tt>2&nbsp;&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.0000000E+00&nbsp;&nbsp;&nbsp;&nbsp;
+0.000000000</tt>
+<br><tt>3&nbsp;&nbsp;&nbsp;&nbsp; 432&nbsp;&nbsp;&nbsp; 0.2636000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.222635135</tt>
+<br><tt>4&nbsp;&nbsp;&nbsp;&nbsp; 288&nbsp;&nbsp;&nbsp; 0.6920000E+05&nbsp;&nbsp;&nbsp;&nbsp;
+0.584459459</tt>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><tt><font size=+2><a href="STACK.html">Main</a></font></tt>
+</body>
+</html>

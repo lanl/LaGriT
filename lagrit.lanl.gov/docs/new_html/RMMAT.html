@@ -1,0 +1,53 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>RMMAT</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+ 
+<blockquote><b><u><font face="Times">RMMAT</font></u></b>
+<blockquote><font face="Times New Roman,Times">This routine is used to
+remove points that are of a specified material type.&nbsp; Elements with
+the specified material types are flagged by setting the element material
+type negative.&nbsp; After using <b>rmmat</b>, <b><a href="RMPOINT.html">rmpoints/</a></b>compress
+will delete elements whose material type is negative and the dudded nodes.</font></blockquote>
+<font face="Times New Roman,Times">&nbsp;<b> FORMAT</b></font>
+<blockquote><font face="Times New Roman,Times"><b>rmmat</b>/</font><font face="Courier New,Courier">material
+number/[</font><b><font face="Times New Roman,Times">all|node|element</font></b><font face="Courier New,Courier">]/[</font><b><font face="Times New Roman,Times">exclusive</font></b><font face="Courier New,Courier">]</font>
+<br><font face="Courier New,Courier">default is: </font><font face="Times New Roman,Times"><b>rmmat</b>/</font><font face="Courier New,Courier">material
+number or </font><font face="Times New Roman,Times"><b>rmmat</b>/</font><font face="Courier New,Courier">material
+number/</font><b><font face="Times New Roman,Times">all</font></b>
+<br><font face="Times New Roman,Times">removes nodes with
+</font><font face="Courier New,Courier">imt
+</font><font face="Times New Roman,Times">=
+material number and removes elements with </font><font face="Courier New,Courier">itetclr</font><font face="Times New Roman,Times">=
+material number</font>
+<p><font face="Times New Roman,Times">other options are:</font>
+<p><font face="Times New Roman,Times"><b>rmmat</b>/</font><font face="Courier New,Courier">material
+number/</font><b><font face="Times New Roman,Times">node</font></b>
+<br><font face="Times New Roman,Times">removes nodes&nbsp; with </font><font face="Courier New,Courier">imt</font><font face="Times New Roman,Times">
+= material number</font>
+<p><font face="Times New Roman,Times"><b>rmmat</b>/</font><font face="Courier New,Courier">material
+number/</font><b><font face="Times New Roman,Times">element</font></b>
+<br><font face="Times New Roman,Times">removes elements with </font><font face="Courier New,Courier">itetclr</font><font face="Times New Roman,Times">=
+material number</font>
+<p><font face="Times New Roman,Times"><b>rmmat</b>/</font><font face="Courier New,Courier">material
+number//</font><font face="Times New Roman,Times"><b>exclusive or rmmat</b>/</font><font face="Courier New,Courier">material
+number/</font><b><font face="Times New Roman,Times">all/exclusive</font></b>
+<br><font face="Courier New,Courier">r</font><font face="Times New Roman,Times">emoves
+everything except nodes with </font><font face="Courier New,Courier">imt</font><font face="Times New Roman,Times">
+=material and removes everything except elements with </font><font face="Courier New,Courier">itetclr</font><font face="Times New Roman,Times">=
+material</font>
+<br><font face="Times New Roman,Times"></font>&nbsp;
+<br><font face="Times New Roman,Times"></font>&nbsp;
+<br><font face="Times New Roman,Times"></font>&nbsp;</blockquote>
+<font face="Times New Roman,Times"><a href="demos/rmmat/test/html/main_rmmat.html">Click
+here for demos</a></font>
+<blockquote>&nbsp;</blockquote>
+</blockquote>
+ 
+</body>
+</html>

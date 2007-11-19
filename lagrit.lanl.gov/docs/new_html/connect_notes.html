@@ -1,0 +1,98 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+</head>
+<body>
+Notes on connect algorithm:
+<p>Connect uses the standard point insertion method of tetrahedralization
+which consists of the following steps:
+<blockquote>First an enclosing tetrahedra is constructed which contains
+the nodes to be tetrahedralized.
+<br>Then the nodes are processed in a random order and inserted one at
+a time.
+<br>To insert node n+1:
+<blockquote>Find a tetrahedra whose circumsphere contains node n+1.&nbsp;
+Place this tetrahedron on the stack.&nbsp; Pop a tetrahedron off the stack.&nbsp;
+Look at all face neighbors of this containing tetrahedron to determine
+if their circumspheres contain node n+1.&nbsp; Place the containing neighbor
+tetrahedra onto the stack.&nbsp; Continue until the stack is empty.&nbsp;
+Keep track of the set of containing tetrahedra as the stack is depleted.&nbsp;
+The union of these tetrahedra is the insertion cavity into which the new
+node is placed; so we remove the containing tetrahedra and construct new
+tetrahedra by connecting the new node to the faces of the cavity.
+<br>If for some reason a node cannot be inserted, it is placed in a fail
+list and subsequent passes will attempt to insert the node by using looser
+'inside' tests.</blockquote>
+When all nodes are inserted, we inspect all edges to see if there are any
+edges that cross material interfaces. If so we construct a node at the
+intersection of the edge and interface.&nbsp; These new nodes (if any)
+are then inserted into the mesh using the algorithm described above.&nbsp;
+This process is repeated until no more 'multi-material' edges are encountered
+or until the maximum number of iterations is reached.&nbsp; This step is
+skipped if the <b>noadd </b>option has been specified.
+<p>Finally the initial enclosing tetrahedron vertices and the attached
+tetrahedra are removed.
+<p>To determine if a node is 'inside' a tetrahedron's circumsphere we compare
+the distance from the tetrahedron's voronoi point to a vertex of the tetrahedron
+(i.e. the circumsphere radius) with the distance from the voronoi point
+to the node in question.&nbsp; If the second distance is less than the
+first, the node is 'inside' the circumsphere.&nbsp; Obviously the comparison
+of these distances should involve an epsilon which is dependent upon both
+the machine accuracy and the problem scale.&nbsp; For computational efficiency
+we compare the distances squared.
+<p>Currently the 'inside' test is as follows:
+<blockquote>Since we are comparing distances squared the appropriate test
+is an area test.&nbsp; We construct a variable called <b>smalarea </b>=
+<br>[ ((machine precision)*10,000)**(boxsizex*boxsizey*boxsizez)**(2.d0/3.d0)]
+<br>where boxsize is the (max coordinate value - min coordinate value)
+in each of the 3 directions,
+<br>machine precision is usually around 2*10-16 for double precision.
+<br>So for a unit cube the test value is about 7*10-11.
+<br>For a 1000x1000x1000 cube the test value is about .07.
+<br>For the first pass we use smalarea*100.
+<br>We loop until no more nodes can be added using this value.
+<br>For the second pass we use smalarea
+<br>For the third pass smalarea/100.
+<br>For the fourth pass we use zero
+<br>For the fifth pass we use -100*smalarea</blockquote>
+The inside test requires that the coordinates of the circumcenter of the
+new tetrahedra be calculated.&nbsp; As this calculation uses the squares
+of the coordinates of the vertices, we first translate the tetrahedron
+so that the coordinates one of its vertices lie at zero.&nbsp; This simplifies
+the calculation and avoids loss of precision when the values of the coordinates
+are very large.&nbsp; After calculating the coordinates of the circumcenter,
+the tetrahedron and its circumcenter are translated back to their original
+location.
+<p>As the insertion cavity is filled with new tetrahedra, the new tetrahedra
+are subjected to two tests.&nbsp; The first test checks that the volume
+of each new tetrahedron is positive.&nbsp; This test uses a volume epsilon
+that represents the smallest volume that can be handled computationally.&nbsp;
+We use the mesh object attribute <b>epsilonv </b>which is set to [ ((machine
+precision)*1000)**(boxsizex*boxsizey*boxsizez)].&nbsp; The second test
+compares the sum of the volumes of the new tetrahedra to the sum of the
+volumes of the removed tetrahedra.&nbsp; This test fails if: [ | (volnewt-vololdt)/vololdt
+| > machine precision*10**8].
+<p>The user can change the 'tightness' of the circumsphere test by adding
+an attribute to the mesh object called <b>circumsphere_factor </b>and setting
+this factor, e.g.:
+<br><b>cmo</b>/<b>addatt</b>//<b>circumsphere_factor</b>/<b>REAL</b>/<b>scalar</b>/<b>scalar</b>
+<br><b>cmo</b>/<b>setatt</b>//<b>circumsphere_factor</b>/1,0,0/.125
+<br>This factor will only be required in extreme circumstances.&nbsp; If
+a node distribution has an extremely high aspect ratio, the user might
+see warning messages about circumsphere problems and connect may fail to
+connect all nodes.&nbsp; In this case one might try adjusting the circumsphere_factor.</blockquote>
+The requirement for a delaunay tessellation is that the circumcircle or
+circumsphere of each element enclose no other nodes in the tessellation.&nbsp;
+If nodes on the boundary of the mesh are nearly coplanar or nearly collinear,
+it is possible that the big tetrahedron or big triangle constructed automatically
+will not be large enough.&nbsp; For illustration purposes consider the
+2D case in which there are 3 nodes on the boundary that are nearly collinear
+say (0,0,0) (.5,.05,0.) and (1,0,0), then the circumcircle determined by
+these three nodes is very large and may contain node(s) of the big triangle,
+and the triangle consisting of these three nodes will not be formed.&nbsp;&nbsp;
+In this case it is necessary for the user to supply the coordinates of
+the 'big' triangle in the connect command.
+</body>
+</html>

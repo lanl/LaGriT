@@ -1,0 +1,69 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>NEGATIVE_AIJ</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">NEGATIVE_AIJ</font></u></b>
+<blockquote>This command tests all edges of all boundary faces for negative
+coupling coefficients.</blockquote>
+</blockquote>
+
+<dir>
+<dir>It adds three attributes to the mesh object:
+<dir>
+<dir><font face="Courier">num_neg_coup_coeff</font><font face="Times">,
+type=INT, length=scalar -number of negative coupling coefficients</font>
+<p><font face="Courier">neg_coup_coeff</font><font face="Times">, type=VDOUBLE,
+length=</font><font face="Courier">num_neg_coup_coeff</font><font face="Times">
+- value of coupling coefficient</font>
+<p><font face="Courier">ietet_aij</font><font face="Times">, type=VINT,
+length=</font><font face="Courier">num_neg_coup_coeff,</font><font face="Times">rank</font><font face="Courier">=vector</font><font face="Times">
+-</font>
+<br><font face="Times">for each negative coupling coefficient</font><font face="Courier">,
+i</font><font face="Times">: </font><font face="Courier">ietet_aij(1,i)
+</font><font face="Times">contains
+the tetrahedron number which contributes the most negative portion to the
+coupling coefficient, </font><font face="Courier">ietet_aij(2,i)
+</font><font face="Times">contains
+the local face number that contains the local edge (</font><font face="Courier">ietet_aij(3,i))
+</font><font face="Times">which
+has the negative coupling coefficient</font></dir>
+</dir>
+<font face="Times">These attributes can be used to generate a set of points
+to be added to the mesh in an attempt to reduce the number of negative
+coupling coefficients by the <b>refine</b> option. The points added are
+created by projecting the fourth node of the tetrahedron onto the identified
+face and then projecting this projection onto the identified edge. If the
+final projected point lies between the end points of the identified edge,
+this edge is refined. The identification and refinement steps may be iterated
+up to </font><font face="Courier">maxiter </font><font face="Times">times.
+Alternatively the attribute may be used to create an <b>eltset </b>of the
+identified elements.</font>
+<br><font face="Times">The <b>rivara</b> option uses a rivara refinement
+method to add nodes on exterior boundary edges until all coupling coefficients
+are positive or until a maximum number of iterations has been exceeded.</font></dir>
+<font face="Times">FORMAT:</font>
+<dir><b><font face="Times">negative_aij</font></b>
+<br><font face="Times"><b>negative_aij</b>/<b>refine</b></font>
+<br><font face="Times"><b>negative_aij</b>/<b>refine</b>/</font><font face="Courier">maxiter</font>
+<br><b><font face="Times">negative_aij</font>/eltset/</b><font face="Courier">eltset_name</font>
+<br><b><font face="Times">negative_aij</font>/rivara</b></dir>
+EXAMPLES:
+<dir><b>negative_aij</b>
+<br><b>negative_aij/refine </b>only one iteration will be performed
+<br><b>negative_aij/refine/5</b><font face="Courier"> </font><font face="Times">a
+maximum of 5 iterations will be performed</font>
+<br><font face="Times"><b>negative_aij</b>/<b>eltset</b>/bad_tets an element
+set called </font><font face="Courier">bad_tets</font><font face="Times">
+will be made no refinement will be performed/ <b>negative_aij/rivara</b></font>
+<br><b><font face="Times"></font></b>&nbsp;</dir>
+<font face="Times"><a href="demos/refine_rivara/test/html/main_rivara.html">Click
+here for demos</a></font></dir>
+
+</body>
+</html>

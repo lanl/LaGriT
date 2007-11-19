@@ -1,0 +1,71 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>DEREFINE</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote>&nbsp;
+<p><b><u><font face="Times New Roman,Times">DEREFINE</font></u></b></blockquote>
+
+<blockquote>
+<blockquote><font face="Times New Roman,Times">This routine derefines a
+mesh by deleting points using the merge routine based on one of the following
+</font><font face="Courier New,Courier">refine_type</font><font face="Times New Roman,Times">s.
+<b>edge</b>
+will refine if element edge length is less then </font><font face="Courier New,Courier">value</font><font face="Times New Roman,Times">.
+<b>volume</b>
+will merge if element volume is less than </font><font face="Courier New,Courier">value.</font><font face="Times New Roman,Times">
+The merge routine will first attempt the smallest element edge then the
+next smallest, etc. <b>aspect</b> will derefine where aspect ratio is less
+than </font><font face="Courier New,Courier">value</font><font face="Times New Roman,Times">.
+<b>pinchedge</b> will allow merging of adjacent points across a thin layer
+to eliminate the layer where it is too thin. <b>pinchedge</b> should be
+used only with</font><font face="Courier New,Courier"> pointtype1</font><font face="Times New Roman,Times">
+and </font><font face="Courier New,Courier">pointtype2</font><font face="Times New Roman,Times">
+both equal to 2.</font>
+<br><font face="Times New Roman,Times">Two criteria are currently enabled;
+<b>minsize</b> and <b>merge</b>. <b>minsize</b> allows merges if the calculation
+implied by </font><font face="Courier New,Courier">refine_type</font><font face="Times New Roman,Times">
+is less than </font><font face="Courier New,Courier">value</font><font face="Times New Roman,Times">.
+<b>merge</b>
+will merge the following </font><font face="Courier New,Courier">first_point</font><font face="Times New Roman,Times">
+and </font><font face="Courier New,Courier">second_point</font><font face="Times New Roman,Times">.
+The </font><font face="Courier New,Courier">field</font><font face="Times New Roman,Times">
+option is not enabled and should be left default. The user specifies which
+merges are acceptable by designating the allowable </font><font face="Courier New,Courier">pointtypes</font><font face="Times New Roman,Times">.
+Nodes with </font><font face="Courier New,Courier">pointtype1</font><font face="Times New Roman,Times">
+are merged to nodes of </font><font face="Courier New,Courier">pointtype2</font><font face="Times New Roman,Times">.
+If </font><font face="Courier New,Courier">pointtype1</font><font face="Times New Roman,Times">
+and </font><font face="Courier New,Courier">pointtype2</font><font face="Times New Roman,Times">
+are both equal to 2, the code only merges if the nodes are both on the
+same material interface (use <b>pinchedge</b> if deleted nodes should be
+on different interfaces of the same material).
+<b>derefine</b> will not
+merge if an unacceptable element is created. <b>derefine</b> will work
+on material interfaces if all the children are set with the <b>settets</b>
+command. Various combinations of <b>derefine</b> may be used to improve
+the mesh.
+<b>recon</b> may be used to return to a delaunay mesh after using
+the
+<b>derefine</b> command.</font></blockquote>
+<font face="Times New Roman,Times">FORMAT:</font>
+<blockquote><font face="Times New Roman,Times"><b>derefine/minsize</b>/field/pointtype1
+pointtype2/refine_type/first_point/last_point/stride/value</font>
+<br><font face="Times New Roman,Times"><b>derefine</b>/<b>merge</b>/first_point/second_point</font></blockquote>
+<font face="Times New Roman,Times">EXAMPLE:</font>
+<blockquote><font face="Times New Roman,Times"><b>derefine/minsize</b>//0
+0/<b>aspect</b>/ 1 0 0/1.e-3</font>
+<br><font face="Times New Roman,Times"><b>derefine/minsize</b>//0 2/<b>volume</b>/<b>pset,get</b>,apset/5.</font>
+<br><font face="Times New Roman,Times"><b>derefine/minsize</b>//10&nbsp;
+10<b>/edge</b>/1 0 0/5.</font>
+<br><font face="Times New Roman,Times"><b>derefine/minsize</b>//2 2/<b>pinchedge</b>/1
+0 0/1</font>
+<br><font face="Times New Roman,Times"><b>derefine/merge</b>/21/22</font></blockquote>
+</blockquote>
+
+</body>
+</html>

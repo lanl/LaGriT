@@ -1,0 +1,601 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]">
+   <title>a</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><font face="Times New Roman,Times">a.&nbsp;&nbsp; <u>Mesh
+Object Definition</u></font></b></blockquote>
+
+<dir>
+<dir><font face="Times New Roman,Times">The data structure which contains
+the information necessary to define a mesh is called a Mesh Object. A Mesh
+Object consists of attributes. There is a default template for a Mesh Object
+composed of the following attributes:</font>
+<dir>
+<dir><font face="Times New Roman,Times"><b>name</b> (character*32 -- mesh
+object name)</font>
+<br><font face="Times New Roman,Times"><b>scalar</b> (integer -- defined
+to have value 1)</font>
+<br><font face="Times New Roman,Times"><b>vector</b> (integer -- defined
+to have value 3)</font>
+<br><font face="Times New Roman,Times"><b>nnodes</b> (integer -- number
+of nodes in the mesh)</font>
+<br><font face="Times New Roman,Times"><b>nelements</b> (integer -- number
+of elements in the mesh, e.g. triangles, tetrahedra)</font>
+<br><font face="Times New Roman,Times"><b>nfaces</b> (integer -- number
+of unique topological facets in the mesh, e.g. number of edges in 2D or
+number of element faces in 3D) -- (not set or maintained by LaGriT; may
+be set and maintained by the user)</font>
+<br><font face="Times New Roman,Times"><b>nedges</b> (integer -- number
+of unique edges in mesh) -- (not set or maintained by LaGriT; may be set
+and maintained by the user)</font>
+<br><font face="Times New Roman,Times"><b>mbndry</b> (integer -- value
+signifying that if the node number is greater that mbndry then the node
+is a boundary node) -- (default 16000000) (must be greater than 48*nnodes
+and may be reset by <b><a href="CONNECT1.html">connect</a></b>) (for an
+example of usage see <a href="meshobjcon.html#mbndry">Section III.d</a>)</font>
+<br><font face="Times New Roman,Times"><b>ndimensions_topo</b> (integer
+-- topological dimensionality,1, 2 or 3, i.e. a non-planar surface would
+have ndimensions_topo = 2 and ndimensions_geom = 3.)</font>
+<br><font face="Times New Roman,Times"><b>ndimensions_geom</b> (integer
+-- 1, 2 or 3 for dimension of geometry) (default 3)</font>
+<br><font face="Times New Roman,Times"><b>nodes_per_element </b>(integer
+-- value dependent on type of mesh; e.g. for tetrahedral mesh the value
+will be 4)</font>
+<br><font face="Times New Roman,Times"><b>edges_per_element </b>(integer
+-- value dependent on type of mesh; e.g. for tetrahedral mesh the value
+will be 6)</font>
+<br><font face="Times New Roman,Times"><b>faces_per_element</b> (integer
+-- topological number of facets per element (i.e. in 1D this number is
+always 2, for 2D use the number of edges of the element, for 3D use the
+number of faces of the element.--( value dependent on type of mesh; e.g.
+for tetrahedral mesh the value will be 4))</font>
+<br><font face="Times New Roman,Times"><b>isetwd</b> (integer array containing
+pset membership information, see <b><a href="PSET.html">pset</a></b> command
+definition)</font>
+<br><font face="Times New Roman,Times"><b>ialias</b> (integer array of
+alternate node numbers, i.e. for merged points)</font>
+<br><font face="Times New Roman,Times"><b>imt1</b> (integer array of node
+material)</font>
+<br><font face="Times New Roman,Times"><b>itp1</b> (integer array of node
+type if type > 20 node will be invisible)</font>
+<dir>
+<dir>&nbsp;
+<table BORDER=0 WIDTH="80%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="15%" NOSAVE><u><font face="Times New Roman,Times">point type</font></u></td>
+
+<td WIDTH="10%" NOSAVE><u><font face="Times New Roman,Times">name</font></u></td>
+
+<td WIDTH="100%" NOSAVE><u><font face="Times New Roman,Times">description</font></u></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">0&nbsp;</font></td>
+
+<td WIDTH="10%" NOSAVE><font face="Times New Roman,Times">int</font></td>
+
+<td WIDTH="90%" NOSAVE><font face="Times New Roman,Times">Interior</font></td>
+</tr>
+
+<tr NOSAVE>
+<td VALIGN=CENTER NOSAVE><font face="Times New Roman,Times">2</font></td>
+
+<td><font face="Times New Roman,Times">ini&nbsp;</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">Interface</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">3</font></td>
+
+<td><font face="Times New Roman,Times">vrt</font></td>
+
+<td ALIGN=LEFT NOSAVE><font face="Times New Roman,Times">Virtual</font></td>
+</tr>
+
+<tr>
+<td>4</td>
+
+<td>vin</td>
+
+<td>Virtual + interface</td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">8&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">vif</font></td>
+
+<td><font face="Times New Roman,Times">Virtual + interface + free</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">9</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">alb</font></td>
+
+<td><font face="Times New Roman,Times">Virtual + Interface + free + reflective</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">10</font></td>
+
+<td><font face="Times New Roman,Times">rfl&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">Reflective boundary node&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">11</font></td>
+
+<td><font face="Times New Roman,Times">fre</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">Free boundary node&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">12</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">irb</font></td>
+
+<td><font face="Times New Roman,Times">Interface node on reflective boundary&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">13</font></td>
+
+<td><font face="Times New Roman,Times">ifb</font></td>
+
+<td><font face="Times New Roman,Times">Interface node on free boundary</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">14</font></td>
+
+<td><font face="Times New Roman,Times">rfb</font></td>
+
+<td><font face="Times New Roman,Times">Node on intersection of free boundary
+and&nbsp; reflective boundary</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">15</font></td>
+
+<td><font face="Times New Roman,Times">irf&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">Interface node on intersection of
+free boundary&nbsp;</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">and reflective boundary&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE><font face="Times New Roman,Times">16&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">vrb&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">Virtual node on reflective boundary</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">17</font></td>
+
+<td><font face="Times New Roman,Times">vfb</font></td>
+
+<td WIDTH="90%" NOSAVE><font face="Times New Roman,Times">Virtual node
+on free boundary&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">18&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">vrf</font></td>
+
+<td><font face="Times New Roman,Times">Virtual node on free + reflective
+boundary&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">19</font></td>
+
+<td><font face="Times New Roman,Times">vir</font></td>
+
+<td><font face="Times New Roman,Times">Virtual + interface node on reflective
+boundary</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">20</font></td>
+
+<td><font face="Times New Roman,Times">mrg</font></td>
+
+<td><font face="Times New Roman,Times">Merged node&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">21</font></td>
+
+<td><font face="Times New Roman,Times">dud&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">Dudded node</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">41&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">par</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">Parent node</font></td>
+</tr>
+</table>
+</dir>
+</dir>
+<font face="Times New Roman,Times"><b>icr1</b> (integer array of constraint
+numbers for nodes; the value of this array is an index into the <b>icontab</b>
+table of node constraints described later in this section)</font>
+<br><font face="Times New Roman,Times"><b>isn1</b> (integer array of child,
+parent node correspondence)</font>
+<br><font face="Times New Roman,Times">Points on material interfaces are
+given point type 41 (parent). One child point is spawned for each material
+meeting at the parent point. The isn1 field of the parent point will contain
+the point number of the first child point. The isn1 field of the first
+child will contain the point number of the next child. The isn1 field of
+the last child will contain the point number of the parent. The point types
+of the child points will be 2, 12, 13, 15 or 19 depending on whether the
+interface point is also on an exterior boundary. This parent, child relationship
+is established by the <b>settets</b> command.</font>
+<br><font face="Times New Roman,Times"><b>xic</b>, <b>yic</b>, <b>zic</b>
+(real arrays of node coordinates)</font>
+<br><font face="Times New Roman,Times"><b>itetclr</b> (integer array of
+element material)</font>
+<br><font face="Times New Roman,Times"><b>itettyp</b> (element shape)&nbsp;
+(for an example of usage see <a href="meshobjcon.html#itettyp">Section
+III.d</a>)</font>
+<dir>
+<dir>&nbsp;
+<table COLS=3 WIDTH="50%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="15%" NOSAVE><u><font face="Times New Roman,Times">name</font></u></td>
+
+<td WIDTH="10%" NOSAVE><u><font face="Times New Roman,Times">value</font></u></td>
+
+<td><font face="Times New Roman,Times">&nbsp;<u>description</u></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ifelmpnt</font></td>
+
+<td><font face="Times New Roman,Times">1</font></td>
+
+<td><font face="Times New Roman,Times">point&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ifelmlin</font></td>
+
+<td><font face="Times New Roman,Times">2</font></td>
+
+<td><font face="Times New Roman,Times">line&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ifelmtri</font></td>
+
+<td><font face="Times New Roman,Times">3</font></td>
+
+<td><font face="Times New Roman,Times">triangle&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ifelmqud</font></td>
+
+<td><font face="Times New Roman,Times">4</font></td>
+
+<td><font face="Times New Roman,Times">quadrilateral&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ifelmtet</font></td>
+
+<td><font face="Times New Roman,Times">5</font></td>
+
+<td><font face="Times New Roman,Times">tetrahedron&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">ifelmpyr</font></td>
+
+<td><font face="Times New Roman,Times">6</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">pyramid</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ifelmpri</font></td>
+
+<td><font face="Times New Roman,Times">7</font></td>
+
+<td><font face="Times New Roman,Times">prism&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">ifelmhex</font></td>
+
+<td><font face="Times New Roman,Times">8</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">hexahedron&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ifelmhyb</font></td>
+
+<td><font face="Times New Roman,Times">9</font></td>
+
+<td><font face="Times New Roman,Times">hybrid</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ifelmply</font></td>
+
+<td><font face="Times New Roman,Times">10</font></td>
+
+<td><font face="Times New Roman,Times">polygon</font></td>
+</tr>
+</table>
+</dir>
+</dir>
+</dir>
+<b><font face="Times New Roman,Times"><a href="supported.html">See supported
+element types.</a></font></b>
+<p><font face="Times New Roman,Times"><b>xtetwd</b> (real array containing
+eltset membership information, see eltset command definition )</font>
+<br><font face="Times New Roman,Times"><b>itetoff</b> (index into itet
+array for an element)&nbsp; (for an example of usage see <a href="meshobjcon.html#itetoff">Section
+III.d</a>)</font>
+<br><b><font face="Times New Roman,Times">jtetoff</font></b><font face="Times New Roman,Times">
+(index into jtet array for an element)&nbsp; (for an example of usage see
+<a href="meshobjcon.html#jtetoff">Section III.d</a>)</font>
+<br><font face="Times New Roman,Times"><b>itet</b> (integer array of node
+vertices for each element)&nbsp; (for an example of usage see <a href="meshobjcon.html#itet">Section
+III.d</a>)</font>
+<br><font face="Times New Roman,Times"><b>jtet </b>(integer array of element
+connectivity)&nbsp; (for an example of usage see <a href="meshobjcon.html#jtet">Section
+III.d</a>)</font>
+<br><font face="Times New Roman,Times"><b>ipolydat</b> (character default
+<b>yes</b>)
+flag to <b><a href="DUMP2.html">dump/gmv </a></b>to output polygon data</font>
+<br><font face="Times New Roman,Times"><b>vor2d&nbsp;</b> (character default
+<b>yes</b>)
+flag to <b><a href="DUMP2.html">dump/gmv</a> </b>to output voronoi cells
+and median mesh cells for 2D meshes.</font>
+<br><font face="Times New Roman,Times"><b>vor3d&nbsp;</b> (character default
+<b>no</b>)
+flag to <b><a href="DUMP2.html">dump/gmv</a> </b>to output voronoi cells
+and median mesh cells for 3D meshes.</font>
+<br><font face="Times New Roman,Times"><b>epsilon </b>(real) value of machine
+epsilon which will be calculated by the code.</font>
+<br><font face="Times New Roman,Times"><b>epsilonl </b>(real) value of
+smallest edge that the code can distinguish will be set internally by the
+code (see <a href="SETSIZE.html">setsize</a>).</font>
+<br><font face="Times New Roman,Times"><b>epsilona </b>(real) value of
+smallest area that the code can distinguish will be set internally by the
+code.</font>
+<br><font face="Times New Roman,Times"><b>epsilonv </b>(real) value of
+smallest volume that the code can distinguish will be set internally by
+the code.</font>
+<br><font face="Times New Roman,Times"><b>ipointi </b>(integer) node number
+of the first node of the last set of nodes generated, used by&nbsp; the
+0,0,0 <b><a href="PSET.html">pset</a> </b>syntax</font>
+<br><font face="Times New Roman,Times"><b>ipointj</b>(integer) node number
+of the last node of the last set of nodes generated, used by&nbsp; the
+0,0,0 <b><a href="PSET.html">pset</a> </b>syntax</font>
+<br><font face="Times New Roman,Times"><b>idebug </b>(integer) debug flag
+values greater than 0 produce increasing levels of output.</font>
+<br><font face="Times New Roman,Times"><b>itypconv_sm</b> (integer)</font>
+<br><font face="Times New Roman,Times"><b>maxiter_sm </b>(integer default
+25) number of smoothing iterations in the <a href="SMOOTH.html">smooth
+</a>and
+<a href="RADAPT.html">radapt</a>
+routines.</font>
+<br><font face="Times New Roman,Times"><b>tolconv_sm </b>(real)</font>
+<br><font face="Times New Roman,Times"><b>nnfreq</b> (integer default 1)
+flag to control reconnection after <a href="REFINE.html">refine</a> - set
+to zero to turn off reconnection.</font>
+<br><font face="Times New Roman,Times"><b>ivoronoi</b> (integer default
+1) flag to control reconnection criterion :</font>
+<dir><font face="Times New Roman,Times">+1 means restore delaunay</font>
+<br><font face="Times New Roman,Times">-2 means improve geometric quality
+of the elements</font>
+<br><font face="Times New Roman,Times">+2 means adaptive reconnection with
+user supplied routine (see <a href="RECON.html">recon)</a></font>
+<br><font face="Times New Roman,Times">+5 means disable all reconnection</font></dir>
+<font face="Times New Roman,Times"><b>iopt2to2 </b>(integer default 2)
+flag to contol boundary flips during reconnection (see <a href="RECON.html">recon)</a>:</font>
+<dir><font face="Times New Roman,Times">0=exterior boundaries</font>
+<br><font face="Times New Roman,Times">1=interfaces</font>
+<br><font face="Times New Roman,Times">2=exterior boundaries and interfaces</font>
+<br><font face="Times New Roman,Times">3=all</font></dir>
+<font face="Times New Roman,Times"><b>dumptype </b>(character default binary)
+Type of gmv file to write.</font>
+<br><font face="Times New Roman,Times"><b>velname</b> (character default
+vels) Name of velocity attribute.</font>
+<br><font face="Times New Roman,Times"><b>densname</b> (character default
+ric) Name of density attribute.</font>
+<br><font face="Times New Roman,Times"><b>presname</b> (character default
+pic) Name of pressure attribute.</font>
+<br><font face="Times New Roman,Times"><b>enername</b> (character default
+eic) Name of energy attribute.</font>
+<br><font face="Times New Roman,Times"><b>xmin</b> (real default 1) minimum
+x coordinate of nodes in mesh set by <a href="SETSIZE.html">setsize</a>)</font>
+<br><font face="Times New Roman,Times"><b>xmax</b> (real default 1) maximum
+x coordinate of nodes in mesh set by <a href="SETSIZE.html">setsize</a>)</font>
+<br><font face="Times New Roman,Times"><b>ymin</b> (real default 1) minimum
+y coordinate of nodes in mesh set by<a href="SETSIZE.html"> setsize</a>)</font>
+<br><font face="Times New Roman,Times"><b>ymax </b>(real default 1) maximum
+y coordinate of nodes in mesh set by <a href="SETSIZE.html">setsize</a>)</font>
+<br><font face="Times New Roman,Times"><b>zmin</b> (real default 1) minimum
+z coordinate of nodes in mesh set by <a href="SETSIZE.html">setsize</a>)</font>
+<br><font face="Times New Roman,Times"><b>zmax</b> (real default 1) maximum
+z coordinate of nodes in mesh set by <a href="SETSIZE.html">setsize</a>)</font>
+<br><font face="Times New Roman,Times"><b>kdtree_level </b>(integer default
+0) resolution level of<a href="kdtree.html"> kdtree </a>-- 0 means terminal
+nodes contain 1 member.</font>
+<br><font face="Times New Roman,Times"><b>max_number_of_sets</b> (integer
+default 32) number of<a href="PSET.html"> pset </a>and <a href="ELTSET2.html">eltsets</a>
+allowed - currently restricted to 32.</font>
+<br><font face="Times New Roman,Times"><b>number_of_psets </b>(integer)
+number of defined psets in the mesh.</font>
+<br><font face="Times New Roman,Times"><b>number_of_eltsets </b>(integer)
+number of defined eltsets in the mesh.</font>
+<br><font face="Times New Roman,Times"><b>geom_name </b>(character default
+-defaultgeom-) name of geometry associated with this mesh.&nbsp; (see <a href="cmo_geom.html">geom)</a></font></dir>
+</dir>
+</dir>
+
+<dir>
+<dir>
+<dir>&nbsp;</dir>
+</dir>
+<font face="Times New Roman,Times">The current state of a mesh object can
+be displayed by the <a href="cmo_status.html"><b>cmo/status</b> </a>command</font>
+<br><font face="Times New Roman,Times">Note: Many commands and the cmo_get_info
+subroutine accept <b>itp </b>as equivalent to <b>itp1; icr</b> to <b>icr1,
+isn </b>to <b>isn1</b>; <b>imt</b> to <b>imt</b>1. The user should never
+add an attribute whose name is<b> itp,imt,icr,isn.</b></font>
+<br>&nbsp;
+<dir><font face="Times New Roman,Times">The default Mesh Object can be
+expanded by adding user defined attributes (see <a href="cmo_addatt.html"><b>cmo</b>/<b>addatt</b></a>).</font>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>&nbsp;</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+<font face="Times New Roman,Times">The value of parameters can be changed
+by the cmo/setatt command.</font>
+<br><font face="Times New Roman,Times">(e.g. <b><a href="cmo_setatt.html">cmo/setatt/</a></b>/epsilonl/1.d-9)</font>
+<p><font face="Times New Roman,Times">LaGriT will add attributes to the
+mesh object in certain instances. For example, if there are any constrained
+surfaces, reflect, virtual or intrcons types, the following attributes
+are added to the mesh object:</font>
+<br>&nbsp;
+<center><table COLS=2 WIDTH="50%" NOSAVE >
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">NCONBND</font></td>
+
+<td WIDTH="80%" NOSAVE><font face="Times New Roman,Times">number of combinations
+of constrained surfaces&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ICONTAB(50,NCONBND)</font></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ICONTAB(1,i)</font></td>
+
+<td><font face="Times New Roman,Times">number of surfaces contributing
+to the ith constraint&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">ICONTAB(2,i)&nbsp;</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">degree of freedom of the
+ith constraint&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ICONTAB(2+j,i)&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">Surface number of the jth surface
+contributing to the ith constraint</font></td>
+</tr>
+</table></center>
+
+<dir><font face="Times New Roman,Times">In order to determine which constraint
+entry applies to node ip, retrieve the value</font>
+<br><font face="Times New Roman,Times">i=icr1 (ip), i.e. ICONTAB(1, icr1(ip))
+gives the number of surfaces that ip is `on'.</font>
+<br><font face="Times New Roman,Times">If icr1(ip) is zero there is no
+constraint on that node.&nbsp; The number of the surfaces that</font>
+<br><font face="Times New Roman,Times">ip is 'on' are stored in ICONTAB(3,icrl(ip))...ICONTAB(2
++ ICONTAB(1,icr1(ip))).</font></dir>
+
+<center><table COLS=2 WIDTH="50%" NOSAVE >
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">TENSOR&nbsp;</font></td>
+
+<td WIDTH="80%" NOSAVE><font face="Times New Roman,Times">Dimension of
+XCONTAB&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE><font face="Times New Roman,Times">XCONTAB(TENSOR,NPOINTS)</font></td>
+
+<td WIDTH="90%" NOSAVE><font face="Times New Roman,Times">This is a 3x3
+matrix which multiplied by the velocity vector, constrains the velocity
+to the degrees of freedom possessed by the node.&nbsp; May be constructed
+by calls to constrainv.</font></td>
+</tr>
+
+<tr NOSAVE>
+<td></td>
+
+<td NOSAVE></td>
+</tr>
+</table></center>
+
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir>&nbsp;</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+
+</body>
+</html>

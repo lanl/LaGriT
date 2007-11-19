@@ -1,0 +1,1 @@
+*TEST connect (2d) (LaGriT_input_2dconnect)cmo / create / cmotri / / / triread / avs / input.inp / cmotri*cmo/setatt/cmotri/ndimensions_geom/1 0 0/2cmo/setatt/cmotri/imt/1 0 0/1setsize*connect*dump / gmv / output_2d_conn.gmv / cmotri*begin compare herecmo/statuscmo/printatt//-all-/minmaxqualityfinish

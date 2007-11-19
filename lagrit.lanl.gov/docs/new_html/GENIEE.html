@@ -1,0 +1,129 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+            
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+            
+  <meta name="Generator" content="Microsoft Word 98">
+            
+  <meta name="GENERATOR"
+ content="Mozilla/4.51C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+  <title>GENIEE</title>
+    
+</head>
+<body text="#000000" bgcolor="#ffffff" link="#0000ee" vlink="#551a8b"
+ alink="#ff0000">
+   &nbsp;   
+<blockquote><b><u><font face="Times">GENIEE</font></u></b>       
+  <blockquote>OPTION1:<br>
+  Generate element connectivity list (jtet) that gives neighbor information.
+ Element connectivity is maintained by LaGriT, but can also be generated
+by  the user with this command. <br>
+             
+    <p>The jtet attribute contains for each facet of an element the neighboring 
+ element and its local face.&nbsp; For 3D grids the jtet relationship is reflexsive;
+each element-face pair has exactly one neighboring element-face pair.&nbsp;
+For 2D grids the jtet relationship can include cycles; a triangle or quad
+edge may have many edge neighbors.&nbsp; In this case the jtet is constructed
+as a closed cycle where the jtet of one element-edge pair will be a neighboring
+element-edge pair whose jtet wil be another neighboring element-edge pair
+and so on until all neighbors are included in the cycle exactly once. </p>
+           
+    <p>The jtet is constructed by looking at matching node numbers and will 
+ use the parent nodes if they exist.&nbsp; Faces with matching node coordinates 
+ but different node numbers will not be matched. <br>
+  For hybrid grids that contain degenerate elements there are two options.&nbsp; 
+ If the mesh object attribute jtet_reduce_nnd exists and is set to 1, then 
+ faces with repeated node numbers will be matched to faces with the same numbers
+but not repeated.&nbsp; For example if a degenerate hex has a face 1 1 2
+3 and there is an element (prism, tet, pyramid) with face 1 2 3 and if jtet_reduce_nnd
+is 1, then these faces will be matched.&nbsp; Otherwise they will be marked
+as external boundary faces.<br>
+      </p>
+           
+    <p>OPTION2:<br>
+  Attempt to make the topological orientation (itet array) of a triangle, 
+quad, or hybrid tri/quad mesh consistent so that shared edges are traversed 
+in opposite directions. This is only possible in a mesh with jtet_loop_max 
+= 2. For networks with jtet_loop_max &gt; 2 there may not be a configuration
+ that meets the goal.</p>
+           
+    <p>This command could also be used to flip the normals of a mesh that
+ is already consistent. For example:<br>
+  geniee / -def- / 2dnormal / -1</p>
+           
+    <p><i>Note:</i> For the case where a mesh is not completely edge connected,
+ this module will detect that all elements have not been tested and will
+warn  the user and suggest a command line syntax to test elements not visited.<br>
+      <br>
+      <i>Note:</i> Code not set up for a mesh with parent/child chains. When
+ check is made, it compares child points. When permutation of elements is
+done, only itet and jtet arrays are updated.<br>
+      </p>
+    </blockquote>
+   FORMAT:       
+  <blockquote>OPTION 1:<br>
+      <b>geniee</b><br>
+  OPTION 2:<br>
+      <b>geniee</b> / <b>cmoname</b> / <b>2dnormal</b> / <b>reference_element_number</b>
+ / [addatt]<br>
+      <b>cmoname</b> - name of mesh object to operate on. Can be /&nbsp;
+/  or /-def-/<br>
+      <b>2dnormal</b> - keyword to cause this module to execute<br>
+      <b>reference_element_number</b> - default = 1<br>
+      <br>
+  This is the element number that will be the reference element that all
+other  elements are compared to. If this parameter is a negative number,
+the orientation  of element number abs(reference_element_number) is reversed
+and then used  as the reference.<br>
+      <br>
+   <b>reference_element_number</b> = 0 will check and report if orientation
+ is consistent, but will not do any flipping.<br>
+      <br>
+      <b>addatt</b> - if the keyword addatt is included, two new arrays are
+ added to the mesh object. <br>
+   <b>ipath</b> - The order in which elements are visited.<br>
+   <b>ifflip</b> -&nbsp;&nbsp;&nbsp; 0 if the element orientation was NOT 
+changed<br>
+   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+ 1 if the element orientation was changed<br>
+      <br>
+    </blockquote>
+      EXAMPLE:     
+  <blockquote>geniee / cmo / 2dnormal <br>
+    <br>
+Check orientation of tri/quad elements and if their orientation is different
+than element 1, then flip their orientation.<br>
+    <br>
+geniee / cmo/2dnormal/-1<br>
+    <br>
+Flip the orientation of element one and then make the rest of the mesh consistent
+with element 1. If the mesh object is already consistent, then this command
+will reverse the orientation of all the elements in a surface (tri, quad)
+mesh.<br>
+    <br>
+ geniee / -def- / 2dnormal / 17<br>
+    <br>
+Check orientation of tri/quad elements and if their orientation is different
+than element 17, then flip their orientation.<br>
+    <br>
+ geniee / cmo / 2dnormal / 0<br>
+    <br>
+Check orientation of tri/quad elements and if their orientation is different
+than element 1, report the difference but do not change the mesh object orientation.<br>
+    <br>
+ geniee / cmo / 2dnormal / 0 / addatt<br>
+    <br>
+Check orientation of tri/quad elements and if their orientation is different 
+than element 1, report the difference but do not change the mesh object orientation.
+Create two new attributes. ipath is the search path the algorithm followed
+through the mesh. ifflip reports the orientation of each element as compared
+to element 1.<br>
+    <br>
+    <br>
+    </blockquote>
+   </blockquote>
+  
+</body>
+</html>

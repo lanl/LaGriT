@@ -1,0 +1,35 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="Microsoft Word 98">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+ 
+<B><FONT FACE="Times"><P>&#9;<A NAME="_Toc374864041"><A NAME="_Toc375390638"><A NAME="_Toc390510541"><A NAME="_Toc390570210"><A NAME="_Toc390573616"><A NAME="_Toc390581206"><A NAME="_Toc397506926"><A NAME="_Toc397507074"><A NAME="_Toc397507199"><A NA
+<DIR>
+ 
+</B></U><P>&#9;</FONT><FONT FACE="Times">The <B>region</B> command is used to divide the enclosing volume into regions.  The directional operators <B>lt</B>, <B>le</B>,<B> gt</B>,<B> </B>and <B>ge </B>are applied to previously defined surfaces ac
+<DIR>
+ 
+</FONT><FONT FACE="Times"><P>&#9;</FONT><B><FONT FACE="Times">lt --</B> if the surface following is a volume then <B>lt</B> means inside not including the surface of the volume.  If the surface is a plane or a sheet <B>lt </B>means the space on t
+</FONT><B><FONT FACE="Times"><P>&#9;</FONT><FONT FACE="Times">le --</B> if the surface following is a volume then <B>le</B> means inside  including the surface of the volume.  If the surface is a plane or a sheet <B>le </B>means the space on the
+<P>&#9;<B>gt --</B> if the surface following is a volume then <B>gt</B> means outside not including the surface of the volume.  If the surface is a plane or a sheet <B>gt </B>means the space on the same side of the plane or sheet as the normal not in
+</FONT><B><FONT FACE="Times"><P>&#9;</FONT><FONT FACE="Times">ge --</B> if the surface following is a volume then <B>ge</B> means outside including the surface of the volume.  If the surface is a plane or a sheet <B>ge </B>means the spaon on the
+</DIR>
+ 
+</FONT><FONT FACE="Times"><P>&#9;</FONT><FONT FACE="Times">In region comands, surface names must be preceeded by a directional operator.  The logical operators <B>or</B>, <B>and</B>, and <B>not</B> mean union, intersection and complement respecti
+<P>&#9;&#9;<B>region</B>/top/ <B>le</B> cube <B>and</B> <B>gt</B> cutplane /</P><DIR>
+<DIR>
+ 
+</FONT><FONT FACE="Times"><P>&#9;</FONT><B><FONT FACE="Times">region</B>/bottom/ <B>le</B> cube <B>and</B> <B>le</B> cutplane /</P></DIR>
+</DIR>
+ 
+<P>The region <I>bottom</I> contains the interface <I>cutplane;</I> <I>top</I> contains none of the interface.  Interior interfaces must be included in one and only one region.</P>
+<P>If a region touches an external boundary,  include the surface that defines the enclosing volume in <B>region </B>and <B>mregion</B> commands.  For example, the regions <I>top</I> and<I> bottom </I> are enclosed by the surface <I>cube</P>
+</I></FONT><FONT FACE="Times"><P>&#9;<img src="new_html/Image224.gif" width=344 height=239></P>
+ 
+<P>&nbsp;</P></DIR>
+</DIR>
+</FONT>
+</BODY>
+</HTML>

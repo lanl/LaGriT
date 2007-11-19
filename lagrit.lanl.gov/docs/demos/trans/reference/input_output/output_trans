@@ -1,0 +1,539 @@
+ 
+ 
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+*            *                                             *                    
+*            *     Program:  LaGriT                        *                    
+*            *     Version:  1.004                         *                    
+*            *     Compiled: 00/05/25 at 10:00:00          *                    
+*            *                                             *                    
+*            *                                             *                    
+*            *     This run was processed                  *                    
+*            *      on day:  Thu Sep  7 2000               *                    
+*            *      at time: 15:47:38                      *                    
+*            *                                             *                    
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+ 
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+ Enter a command
+*TEST trans (lagrit_input_trans)                                                
+ Enter a command
+*                                                                               
+ Enter a command
+*define geometric regions                                                       
+ Enter a command
+* first region                                                                  
+ Enter a command
+cmo/create/mbox1/hex                                                            
+ Enter a command
+surface/outer1/reflect/box/0,0,0/1,1,1                                          
+Illegal CMO_GET_INFO option: mbox1                                              
+                                                                         nconbnd
+cmo/addatt//ncon50/INT/scalar/scalar/constant/permanent/l/0                     
+finish                                                                          
+cmo/addatt//nconbnd/INT/scalar/scalar/constant/permanent/l/0                    
+finish                                                                          
+cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0                 
+finish                                                                          
+ Enter a command
+region/r1/le outer1/                                                            
+ Enter a command
+* second region                                                                 
+ Enter a command
+cmo/create/mbox2/hex                                                            
+ Enter a command
+surface/outer2/reflect/box/2,0,0/3,1,1                                          
+Illegal CMO_GET_INFO option: mbox2                                              
+                                                                         nconbnd
+cmo/addatt//ncon50/INT/scalar/scalar/constant/permanent/l/0                     
+finish                                                                          
+cmo/addatt//nconbnd/INT/scalar/scalar/constant/permanent/l/0                    
+finish                                                                          
+cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0                 
+finish                                                                          
+ Enter a command
+region/r2/le outer2/                                                            
+ Enter a command
+* define material regions                                                       
+ Enter a command
+mregion/mr1/le outer1/                                                          
+ Enter a command
+mregion/mr2/le outer2/                                                          
+ Enter a command
+* add point distribution to region 1 (min/max as cell centers)                  
+ Enter a command
+cmo/select/mbox1                                                                
+ Enter a command
+createpts/xyz/3,3,3/0,0,0/1,1,1                                                 
+  RZ GENERATED POINTS                    1 TO                   27              
+ Enter a command
+setpts                                                                          
+ FOR imt=   1 NAME= mr1      THERE ARE              27 POINTS                   
+ Enter a command
+connect                                                                         
+ Coordinates of enclosing tetraheron are:                                       
+          -0.11667D+01-0.33333D+00-0.33333D+00                                  
+           0.50000D+00-0.33333D+00 0.30000D+01                                  
+           0.21667D+01-0.33333D+00-0.33333D+00                                  
+           0.50000D+00 0.30000D+01 0.50000D+00                                  
+ 
+ There are     15 points that failed step       1                               
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+ Enter a command
+* point distribution for region 2 (min/max as cell vertices)                    
+ Enter a command
+cmo/select/mbox2                                                                
+ Enter a command
+createpts/xyz/3,3,3/2,0,0/3,1,1/1,1,1                                           
+  RZ GENERATED POINTS                    1 TO                   27              
+ Enter a command
+setpts                                                                          
+ FOR icr   1 TYPE surface    2   0   0 THERE ARE    26 POINTS                   
+ FOR imt=   2 NAME= mr2      THERE ARE              27 POINTS                   
+ Enter a command
+connect                                                                         
+ Coordinates of enclosing tetraheron are:                                       
+           0.00000D+00-0.75000D+00-0.75000D+00                                  
+           0.25000D+01-0.75000D+00 0.42500D+01                                  
+           0.50000D+01-0.75000D+00-0.75000D+00                                  
+           0.25000D+01 0.42500D+01 0.50000D+00                                  
+ 
+ There are     15 points that failed step       1                               
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+ Enter a command
+* output both regions in one mesh                                               
+ Enter a command
+addmesh merge mbox3 mbox1 mbox2                                                 
+ Enter a command
+filter 1 0 0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.256395024851E-12                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+ Enter a command
+dump gmv output1.gmv mbox3                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+ Enter a command
+cmo release mbox3                                                               
+     Released Mesh Object: mbox3                                                
+ Enter a command
+*                                                                               
+ Enter a command
+*translate the point distribution of region 1                                   
+ Enter a command
+*                                                                               
+ Enter a command
+cmo/select/mbox1                                                                
+ Enter a command
+trans/1,0,0/0.,0.,1./0.,0.,2./                                                  
+cmo/addatt/mbox1/transauto/VDOUBLE/scalar/vector/user/permanent/x/0.0           
+finish                                                                          
+ Enter a command
+*                                                                               
+ Enter a command
+*translate the point distribution of region 2                                   
+ Enter a command
+*                                                                               
+ Enter a command
+cmo/select/mbox2                                                                
+ Enter a command
+trans/1,0,0/2,0,0/2,0,2/                                                        
+cmo/addatt/mbox2/transauto/VDOUBLE/scalar/vector/user/permanent/x/0.0           
+finish                                                                          
+ Enter a command
+*                                                                               
+ Enter a command
+addmesh merge mbox3 mbox1 mbox2                                                 
+ Enter a command
+filter 1 0 0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.256395024851E-12                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+ Enter a command
+dump/gmv/output2.gmv/mbox3                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+ Enter a command
+* begin compare here                                                            
+ Enter a command
+cmo/status                                                                      
+ 
+ 
+The current-mesh-object(CMO) is: mbox3                                          
+ 
+ 
+  1   Mesh Object name: -default-                        type=type status=status
+   nnodes=        54 elements=        96 mbndry=  16000000                      
+   nsdgeom=   3 nsdtopo=   3 nen=   4 nef=   4 nee=   6                         
+ 
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  0.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  0.000E+00  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
+ 37         ipointi  INT     scalar          scalar const perma   l  0.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  0.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 
+ 
+  2   Mesh Object name: mbox1                            type=type status=status
+   nnodes=        27 elements=        48 mbndry=  16000000                      
+   nsdgeom=   3 nsdtopo=   3 nen=   4 nef=   4 nee=   6                         
+ 
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  2.700E+01  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  4.800E+01  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  2.564E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  2.961E-13  
+ 36        epsilonv REAL     scalar          scalar const perma   l  6.579E-14  
+ 37         ipointi  INT     scalar          scalar const perma   l  2.700E+01  
+ 38         ipointj  INT     scalar          scalar const perma   l  2.700E+01  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  1.667E-01  
+ 52            ymin REAL     scalar          scalar const perma   l  1.667E-01  
+ 53            zmin REAL     scalar          scalar const perma   l  1.167E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  8.333E-01  
+ 55            ymax REAL     scalar          scalar const perma   l  8.333E-01  
+ 56            zmax REAL     scalar          scalar const perma   l  1.833E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64          ncon50  INT     scalar          scalar const tempo   l  2.500E+03  
+ 65         nconbnd  INT     scalar          scalar const tempo   l  2.000E+00  
+ 66         icontab VINT     scalar          ncon50 const tempo   l  0.000E+00  
+ 67       transauto VDOU     scalar          vector  user tempo   x  0.000E+00  
+ 
+ 
+  3   Mesh Object name: mbox2                            type=type status=status
+   nnodes=        27 elements=        48 mbndry=  16000000                      
+   nsdgeom=   3 nsdtopo=   3 nen=   4 nef=   4 nee=   6                         
+ 
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  2.700E+01  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  4.800E+01  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  3.846E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  6.661E-13  
+ 36        epsilonv REAL     scalar          scalar const perma   l  2.220E-13  
+ 37         ipointi  INT     scalar          scalar const perma   l  2.700E+01  
+ 38         ipointj  INT     scalar          scalar const perma   l  2.700E+01  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  2.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  2.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  3.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  3.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64          ncon50  INT     scalar          scalar const tempo   l  2.500E+03  
+ 65         nconbnd  INT     scalar          scalar const tempo   l  2.000E+00  
+ 66         icontab VINT     scalar          ncon50 const tempo   l  0.000E+00  
+ 67       transauto VDOU     scalar          vector  user tempo   x  0.000E+00  
+ 
+ 
+  4   Mesh Object name: mbox3                            type=type status=status
+   nnodes=        54 elements=        96 mbndry=  16000000                      
+   nsdgeom=   3 nsdtopo=   3 nen=   4 nef=   4 nee=   6                         
+ 
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  5.400E+01  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  9.600E+01  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  2.564E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  2.961E-13  
+ 36        epsilonv REAL     scalar          scalar const perma   l  6.579E-14  
+ 37         ipointi  INT     scalar          scalar const perma   l  2.800E+01  
+ 38         ipointj  INT     scalar          scalar const perma   l  5.400E+01  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  1.667E-01  
+ 52            ymin REAL     scalar          scalar const perma   l  1.667E-01  
+ 53            zmin REAL     scalar          scalar const perma   l  1.167E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  8.333E-01  
+ 55            ymax REAL     scalar          scalar const perma   l  8.333E-01  
+ 56            zmax REAL     scalar          scalar const perma   l  1.833E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64          ncon50  INT     scalar          scalar const tempo   l  2.500E+03  
+ 65         nconbnd  INT     scalar          scalar const tempo   l  2.000E+00  
+ 66         icontab VINT     scalar          ncon50 const tempo   l  0.000E+00  
+ 67       transauto VDOU     scalar          vector  user tempo   x  0.000E+00  
+ Enter a command
+cmo/printatt//-all-/minmax                                                      
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ -def-                0.00000E+00    0.00000E+00    0.00000E+00        54       
+ scalar                         1              1              0         1       
+ vector                         3              3              0         1       
+ nnodes                        54             54              0         1       
+ nedges                         0              0              0         1       
+ nfaces                         0              0              0         1       
+ nelements                     96             96              0         1       
+ mbndry                  16000000       16000000              0         1       
+ ndimensions_topo               3              3              0         1       
+ ndimensions_geom               3              3              0         1       
+ nodes_per_element              4              4              0         1       
+ edges_per_element              6              6              0         1       
+ faces_per_element              4              4              0         1       
+ isetwd               0.00000E+00    0.00000E+00    0.00000E+00        54       
+ ialias                         0             27             27        54       
+ imt1                           1              2              1        54       
+ itp1                           0             10             10        54       
+ icr1                           0              1              1        54       
+ isn1                           0              0              0        54       
+ xic                  1.66667E-01    3.00000E+00    2.83333E+00        54       
+ yic                  0.00000E+00    1.00000E+00    1.00000E+00        54       
+ zic                  1.16667E+00    3.00000E+00    1.83333E+00        54       
+ xtetwd               0.00000E+00    0.00000E+00    0.00000E+00        96       
+ itetclr                        1              2              1        96       
+ itettyp                        5              5              0        96       
+ itetoff                        0            380            380        96       
+ jtetoff                        0            380            380        96       
+ itet                           1             27             26        96 x  4  
+ jtet                           4       16000000       15999996        96 x  4  
+unavailable attribute type for minmax: CHARACTER                                
+minmax failed for attribute ipolydat                                            
+ 
+ Enter a command
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   2.5639502E-13  1.6855001E-38                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :         96                          
+min aspect ratio =  0.6230E+00  max aspect ratio =  0.7321E+00                  
+ 
+epsilonvol:   1.1533984E-12                                                     
+---------------------------------------                                         
+element volumes b/w  0.6173E-02 and  0.7873E-02:        48                      
+element volumes b/w  0.7873E-02 and  0.1004E-01:         0                      
+element volumes b/w  0.1004E-01 and  0.1281E-01:         0                      
+element volumes b/w  0.1281E-01 and  0.1633E-01:         0                      
+element volumes b/w  0.1633E-01 and  0.2083E-01:        48                      
+element volumes b/w  0.1633E-01 and  0.2083E-01:        48                      
+min volume =   6.1728395E-03  max volume =   2.0833333E-02                      
+-----------------------------------------------------------                     
+        96 total elements evaluated.                                            
+ 
+ Enter a command
+finish                                                                          
+LaGriT successfully completed                                                   

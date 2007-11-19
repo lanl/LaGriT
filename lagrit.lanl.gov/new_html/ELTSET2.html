@@ -1,0 +1,51 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>ELTSET </title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times New Roman,Times">ELTSET</font></u></b>
+<blockquote><font face="Times New Roman,Times">This command creates eltsets
+or element sets with membership criteria:</font>
+<blockquote><font face="Times New Roman,Times">1. equal to, greater than
+or less than value of an element attribute</font>
+<br><font face="Times New Roman,Times">2. inclusive pset membership - all
+elements any of whose nodes is in pset</font>
+<br><font face="Times New Roman,Times">3. exclusive pset membership - all
+elements all of whose nodes are in pset</font>
+<br><font face="Times New Roman,Times">4. union, intersection, not, delete
+other eltsets</font>
+<br><font face="Times New Roman,Times">5. region or mregion membership</font>
+<br><font face="Times New Roman,Times">6. quality criteria (volume or aspect
+ratio)</font></blockquote>
+</blockquote>
+
+<blockquote><font face="Times New Roman,Times">The <b>mregion </b>and <b>region</b>
+form of this command calculate the center of mass of the element and determine
+which mregion or region the center lies in. It is possible if the interface
+surfaces are curved that the center will not lie in the same mregion or
+region as the vertices. Using itetclr will give the better result.</font></blockquote>
+<font face="Times New Roman,Times">FORMAT:</font>
+<blockquote><b>e<font face="Times New Roman,Times">ltset</font></b><font face="Times New Roman,Times">/</font><font face="Courier New,Courier">eset_name/element_attribute_name</font><font face="Times New Roman,Times">/<b>eq</b>|<b>ne</b>|<b>lt</b>|<b>gt</b>|<b>le</b>|<b>ge</b>/value/</font>
+<br><b><font face="Times New Roman,Times">eltset/</font></b><font face="Courier New,Courier">eset_nam<b>e</b></font><b><font face="Times New Roman,Times">/union|inter|not|delete/</font></b><font face="Courier New,Courier">eset_list</font><font face="Times New Roman,Times">/</font>
+<br><b><font face="Times New Roman,Times">eltset/</font></b><font face="Courier New,Courier">eset_name<b>/</b></font><b><font face="Times New Roman,Times">inclusive|exclusive/pset/get</font><font face="Courier New,Courier">/</font></b><font face="Courier New,Courier">pset_name/</font>
+<br><b><font face="Times New Roman,Times">eltset/</font></b><font face="Courier New,Courier">eset_name</font><b><font face="Times New Roman,Times">/region|mregion/</font></b><font face="Courier New,Courier">region_name</font><b><font face="Times New Roman,Times">|</font></b><font face="Courier New,Courier">mregion_name</font><b><font face="Times New Roman,Times">/</font></b>
+<br><font face="Times New Roman,Times"><b>eltset</b>/</font><font face="Courier New,Courier">eset_name</font><font face="Times New Roman,Times">
+/<b>volume/ eq|ne|lt|gt|le|ge</b> /value</font>
+<br><font face="Times New Roman,Times"><b>eltset</b>/e</font><font face="Courier New,Courier">set_name</font><font face="Times New Roman,Times">
+/</font>
+<br><font face="Times New Roman,Times"><b>aspect</b>/<b> eq|ne|lt|gt|le|ge</b>
+/value</font></blockquote>
+EXAMPLES:
+<blockquote><b>eltset/</b><font face="Courier">element_set1</font><font face="Times">/<b>itetclr</b>/<b>eq</b>/</font><font face="Courier">4</font>
+<br><b><font face="Times">eltset</font>/</b><font face="Courier">element_set2</font><font face="Times">/<b>inclusive</b>/<b>pset</b>/<b>get</b>/mypset</font>
+<br><font face="Times"><b>eltset</b>/</font><font face="Courier">element_set3</font><font face="Times">/<b>region</b>/</font><font face="Courier">upper</font>
+<br><font face="Times"><b>eltset</b>/</font><font face="Courier">element_set4</font><font face="Times">/<b>volume</b>/<b>lt</b>/3.0</font></blockquote>
+</blockquote>
+
+</body>
+</html>

@@ -1,0 +1,540 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title> READ</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><b><u><font face="Times New Roman,Times">UNG2AVS</font></u></b>
+<blockquote>This rountine is used to convert files in UNGenerate FORMAT
+to AVS format.
+<br>UNGenerate files are produced by ARCINFO.</blockquote>
+</blockquote>
+
+<blockquote><font face="Times">FORMAT:</font>
+<blockquote><font face="Times"><b>ung2av/</b>avs_file_out/ung_file_in/[constant]/
+&amp; [xy, xz, yx, zx, yz, zy]</font></blockquote>
+<font face="Times New Roman,Times">default is:</font>
+<blockquote><b><font face="Courier">ung2avs</font></b><font face="Times New Roman,Times">/avs_file_out/ung_file_in</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp; converts
+ung_file_in to avs_file_out with a constant default z value of 0.0</font>
+<p><font face="Times New Roman,Times">&nbsp; or</font>
+<p><b><font face="Courier">ung2avs</font></b><font face="Times New Roman,Times">/avs_file_out/ung_file_in/7.0</font>
+<br><font face="Times New Roman,Times">converts ung_file_in to avs_file_out
+with a constant default z value of 7.0 in xy order</font>
+<p><font face="Times New Roman,Times">&nbsp; or</font>
+<p><b><font face="Courier">ung2avs</font></b><font face="Times New Roman,Times">/avs_file_out/ung_file_in/15.0/xz</font>
+<br><font face="Times New Roman,Times">converts ung_file_in to avs_file_out
+with a constant y value of 15.0 in xz order</font>
+<br>&nbsp;</blockquote>
+<font face="Times New Roman,Times">UNG file format:</font>
+<blockquote><font face="Times New Roman,Times">The UNG format contains
+a file of xy values, in groups of sequentially numbered sets, of connected
+line segments, each ending with END. The format for connected lines that
+form polygons or that do not form polygons is very similar. To make sets
+of connected lines that are polygons the first xy pair for each set of
+lines must be on the same line as the set number. Closed polygons will
+be formed by connecting the last point of a point set to the first point
+of the&nbsp; point set. The set number is on a line by itself for non-polygons.
+Spacing on a line must not contain tabs.</font></blockquote>
+<font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp; FORMAT for connected
+lines that do not form polygons:</font>
+<blockquote><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+END</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; Y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font></blockquote>
+
+<blockquote><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+END</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+n</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+END</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+END</font>
+<p><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp; FORMAT for polygons:</font>
+<p><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1 x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+END</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2 x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+END</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+n x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+x&nbsp;&nbsp; y</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+END</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+END</font>
+<p><font face="Times New Roman,Times">SAMPLE of connected, non-polygon,
+lines:</font>
+<blockquote>&nbsp;
+<table WIDTH="50%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="30%" NOSAVE><font face="Times New Roman,Times">UNG file</font></td>
+
+<td WIDTH="20%" NOSAVE></td>
+
+<td><font face="Times New Roman,Times">&nbsp;AVS file</font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times">1</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">10&nbsp; 7 0 0 0</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">10.00&nbsp; 15.00</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">1&nbsp;&nbsp; 10.0000 15.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">&nbsp;10.50&nbsp; 15.50</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">2&nbsp;&nbsp; 10.5000 15.5000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr NOSAVE>
+<td>
+<center><font face="Times New Roman,Times">11.00&nbsp; 16.00</font></center>
+</td>
+
+<td></td>
+
+<td NOSAVE><font face="Times New Roman,Times">3&nbsp;&nbsp; 11.0000 16.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">&nbsp;END&nbsp;</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">4&nbsp;&nbsp; 20.0000 25.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">2&nbsp;</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">5&nbsp;&nbsp; 20.5000 25.5000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE>
+<center><font face="Times New Roman,Times">20.00&nbsp; 25.00&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">6&nbsp;&nbsp; 21.0000 26.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">20.50&nbsp; 25.50&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">7&nbsp;&nbsp; 22.0000 27.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">21.00&nbsp; 26.00&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">8&nbsp;&nbsp; 30.0000 35.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">22.00&nbsp; 27.00&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">9&nbsp;&nbsp; 30.5000 35.5000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">&nbsp;END&nbsp;</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">10&nbsp;&nbsp; 31.0000 36.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">&nbsp;3&nbsp;</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">1&nbsp; 1 line&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp; 2</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">30.00&nbsp; 35.00</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">2&nbsp; 1 line&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp; 3</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">30.50&nbsp; 35.50&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">3&nbsp; 2 line&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp; 5</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">31.00&nbsp; 36.00&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">4&nbsp; 2 line&nbsp;&nbsp;&nbsp;
+5&nbsp;&nbsp;&nbsp; 6</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">&nbsp;END&nbsp;</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">5&nbsp; 2 line&nbsp;&nbsp;&nbsp;
+6&nbsp;&nbsp;&nbsp; 7</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">&nbsp;END&nbsp;</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">6&nbsp; 3 line&nbsp;&nbsp;&nbsp;
+8&nbsp;&nbsp;&nbsp; 9</font></td>
+</tr>
+
+<tr NOSAVE>
+<td></td>
+
+<td></td>
+
+<td NOSAVE><font face="Times New Roman,Times">7&nbsp; 3 line&nbsp;&nbsp;&nbsp;
+9&nbsp;&nbsp; 10</font></td>
+</tr>
+</table>
+</blockquote>
+<font face="Times New Roman,Times">&nbsp;SAMPLE of polygons:</font>
+<blockquote>&nbsp;
+<table WIDTH="50%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="30%" NOSAVE><font face="Times New Roman,Times">UNG file</font></td>
+
+<td WIDTH="20%" NOSAVE></td>
+
+<td><font face="Times New Roman,Times">&nbsp;AVS file</font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times">1&nbsp;&nbsp;&nbsp;&nbsp;
+11.00&nbsp; 16.00</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">10&nbsp; 10&nbsp; 0 0 0</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">10.00&nbsp; 15.00</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">1&nbsp;&nbsp; 10.0000 15.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">&nbsp;10.50&nbsp; 15.50</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">2&nbsp;&nbsp; 10.5000 15.5000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">11.00&nbsp; 16.00</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">3&nbsp;&nbsp; 11.0000 16.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">&nbsp;END&nbsp;</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">4&nbsp;&nbsp; 20.0000 25.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">&nbsp;2&nbsp;&nbsp; 22.00&nbsp;
+27.00</font></td>
+
+<td></td>
+
+<td NOSAVE><font face="Times New Roman,Times">5&nbsp;&nbsp; 20.5000 25.5000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE>
+<center><font face="Times New Roman,Times">20.00&nbsp; 25.00&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">6&nbsp;&nbsp; 21.0000 26.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">20.50&nbsp; 25.50&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">7&nbsp;&nbsp; 22.0000 27.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE>
+<center><font face="Times New Roman,Times">21.00&nbsp; 26.00&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">8&nbsp;&nbsp; 30.0000 35.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE>
+<center><font face="Times New Roman,Times">22.00&nbsp; 27.00&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">9&nbsp;&nbsp; 30.5000 35.5000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">&nbsp;END&nbsp;</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">10&nbsp;&nbsp; 31.0000 36.0000&nbsp;
+0.0000</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">&nbsp;3&nbsp;&nbsp;&nbsp; 31.00&nbsp;
+36.00&nbsp;</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">1&nbsp;&nbsp; 1 line&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp; 2</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">30.00&nbsp; 35.00</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">2&nbsp;&nbsp; 1 line&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp; 3</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">30.50&nbsp; 35.50&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">3&nbsp;&nbsp; 1 line&nbsp;&nbsp;&nbsp;
+3&nbsp;&nbsp;&nbsp; 1</font></td>
+</tr>
+
+<tr>
+<td>
+<center><font face="Times New Roman,Times">31.00&nbsp; 36.00&nbsp;</font></center>
+</td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">4&nbsp;&nbsp; 2 line&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp; 5</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">&nbsp;END&nbsp;</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">5&nbsp;&nbsp; 2 line&nbsp;&nbsp;&nbsp;
+5&nbsp;&nbsp;&nbsp; 6</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">&nbsp;END&nbsp;</font></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">6&nbsp;&nbsp; 2 line&nbsp;&nbsp;&nbsp;
+6&nbsp;&nbsp;&nbsp; 7</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">7&nbsp;&nbsp; 2 line&nbsp;&nbsp;&nbsp;
+7&nbsp;&nbsp;&nbsp; 4</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">8&nbsp;&nbsp; 3 line&nbsp;&nbsp;&nbsp;
+8&nbsp;&nbsp;&nbsp; 9</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">9&nbsp;&nbsp; 3 line&nbsp;&nbsp;&nbsp;
+9&nbsp;&nbsp; 10</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td><font face="Times New Roman,Times">10&nbsp; 3 line&nbsp;&nbsp; 10&nbsp;&nbsp;&nbsp;
+8</font></td>
+</tr>
+</table>
+</blockquote>
+</blockquote>
+
+<blockquote>&nbsp;</blockquote>
+</blockquote>
+
+</body>
+</html>

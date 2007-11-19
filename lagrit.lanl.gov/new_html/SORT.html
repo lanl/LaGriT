@@ -1,0 +1,156 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.79 [en] (X11; U; Linux 2.4.18-3 i686) [Netscape]">
+   <title>sort</title>
+<! Template for LaGriT online manual command definition >
+<! Search and Replace _name   >
+<! header for style of html ------------------------------------------------ >
+<!    the br command indicates a line break >
+<! Note: If a html composer is used it will overwrite this file when saved. >
+<! header for style of html ------------------------------------------------ >
+<! command name for window banner >
+<! font and other body information should be in the style statement here.>
+<style type="text/css">
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+       }
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+<! end header --------------------------------------------------------------- ><! command name for this page >
+<h2>
+sort</h2>
+<! command overview ---------- >
+<blockquote>The <b>sort</b> command creates a sort key for choosen node
+or element attributes. Sort can be in ascending or decending order and
+will not alter current mesh object values. One can perform a sort on a
+single attribute or in the case of <b>index</b> or <b>rank</b> sorting,
+one can perform a multi-key sort. The sort key that is created can be used
+in the <b>reorder</b> command to change the node or element ordering of
+a mesh object.</blockquote>
+
+<p><br><! Short paragraph listing all parameters >
+<blockquote>The command parameters include the <font face="Courier">cmo_name</font>,
+followed by the <font face="Courier">sort_type</font>. The ordering is
+indicated by <b>ascending</b> or <b>decending</b>. A new attribute is created
+with the <font face="Courier">sort_key_name</font>. Sorting is performed
+on the <font face="Courier">sort_attributes</font> which can be a single
+attribute name or a list of attribute names. This list is formed with attribute
+names <font face="Courier">in_att1, in_att2,</font> through <font face="Courier">in_attn</font>.</blockquote>
+
+<p><br><! parameter 1 ---------- >
+<br><font face="Courier">cmo_name:
+</font>The choices for first parameter
+are the name of a valid mesh object or <b>-def-</b> which select the currently
+active mesh object.
+<br><! parameter description ><! parameter 2 ---------- >
+<br><font face="Courier">sort_type: </font>The sorting methods include
+<b>bins</b>, <b>index</b> or <b>rank</b>.<! parameter description >
+<blockquote><b>bins</b> A single-key sort which assigns each <font face="Courier">in_att1</font>
+value a bin number. If <font face="Courier">in_att1</font> is an integer
+then bins each have a unique integer value associated with them. If <font face="Courier">in_att1</font>
+is a real number, bins are created with values which are within +-epsilon
+of each other, where epsilon=1.e-10*abs(
+<font face="Courier">in_att1(1)</font>).
+If all array values are unique, then the maximum value of the index array
+will equal the number of entries in the sorted list. Otherwise, the maximum
+value of the index array will be less than the number of entries in the
+sorted list but will equal the number of unique entries in the list.
+<br><b>index</b> Constructs a single or multi-key index table such that
+<font face="Courier">in_att1(ikey(1))</font>
+is the first entry in the sorted array, <font face="Courier">in_att1(ikey(2))</font>
+is the second, etc.
+<br><b>rank</b> Constructs a single or multi-key rank table such that the
+tables ith entry give the rank of the ith entry of the sorted arrays. The
+rank table is derived from the index table by:
+<br>foreach j = 1,N
+<br>rank(index(j)) = j
+<br>end</blockquote>
+<! parameter 3 ---------- >
+<br><font face="Courier">sort_order: </font>Choose between <b><u>ascending</u></b>
+or <b>decending</b><! parameter description >
+<blockquote><b><u>ascending</u></b> Sort <font face="Courier">sort_attributes</font>
+in <b><u>ascending</u></b> order
+<br><b>decending</b> Sort <font face="Courier">sort_attributes</font> in
+<b>decending</b> order</blockquote>
+<! parameter 4 ---------- >
+<br><font face="Courier">sort_key_name: </font>The name for an integer
+vector (VINT) which will hold the output sort key values. If the name exists
+it will be used, if it does not exist it will be created. If no name is
+given for <font face="Courier">sort_key_name</font> A name will be created
+which will be the concatination of <b>'ikey_</b>' and the first attribute
+name in <font face="Courier">sort_attributes</font>. (i.e. /-def-/imt will
+produce a sort key named ikey_imt)
+<br><! parameter 5,6,7... ---------- >
+<br><font face="Courier">sort_attributes: </font>The name of one or more
+existing attribute names. Each attribute will be used as a node of element
+based array upon which the sorting routine will sort. Multi-key sorts can
+have an arbitrary number of input attributes. Attribute <font face="Courier">in_att1(n)</font>
+has priority over <font face="Courier">in_att2(n)</font> in breaking ties.
+Note: all attributes are put into a real*8 work array before being sent
+to the sort routine.
+<p><! Done with parameter explanations ><! command syntax or format ------------ >
+<p>SINGLE KEY FORMAT:
+<blockquote><b>sort</b> / <font face="Courier">cmo_name</font> / <b>bins</b>
+/ [ <b><u>ascending</u> | decending</b> ] / <font face="Courier">sort_key_name
+</font>/ <font face="Courier">sort_attribute</font></blockquote>
+MULTI-KEY FORMAT:
+<blockquote><b>sort</b>/ <font face="Courier">cmo_name</font> / <b>index
+| rank</b> / [ <b><u>ascending</u> | decending</b> ] / <font face="Courier">sort_key_name
+</font>/ <font face="Courier">in_att1, in_att2, in_att3 ...</font></blockquote>
+<! command examples >
+<p>EXAMPLES:
+<blockquote><b>sort</b> / cmo / <b>index / ascending</b> / ikey / imt zic
+yic xic
+<br>Multi-key sort first by imt then to break ties consider z coordinate,
+then if there are further ties, use y coordinate. Use x coordinate as final
+tie breaker.
+<p><b>sort</b> / cmo <b>/ rank / decending</b> / ikey / yic
+<br>Produce ranking of nodes based on y coordinate in decending order.
+<p><b>sort</b> / cmo / <b>index /-def-/-def-</b>/ xic yic zic
+<br>Produce index of noded coordinates. This would be like a line sweep
+sort where the sweep is first along x coordinate then y then z.
+<p><b>sort</b> / cmo / <b>bins / ascending </b>/ i_index / xic
+<br><b>sort</b>/ cmo / <b>bins / ascending</b> / j_index / yic
+<br><b>sort</b> / cmo / <b>bins / ascending</b> / k_index / zic
+<br>If the cmo were a finite difference grid of points, the above three
+commands would produce the finite difference indexing. All points with
+the same x value would be in the same i_index bin, all points with the
+same y value would be in the same j_index bin, etc.
+<p><b>sort / xyz / bins</b>
+<br>Old version no longer supported but syntax will work. Result is the
+same as previous three commands.</blockquote>
+<! links to further explanation or demo pages >
+<p>LINKS:
+<blockquote><a href="sort_lagrit_input_1">Example 1 for sort and reorder</a>
+<br><a href="sort_lagrit_input_2">Example 2 for sort and reorder</a></blockquote>
+
+<p><! Original format  ---------- >
+<p>BEGIN OLD FORMAT - No longer supported but syntax will still work.
+<br>Old Format - <b>sort / xyz / [ <u>index</u> | bins | rank</b> ]
+<blockquote>sort/xyz/index - sorts the x,y,z coordinate integer arrays
+i_index, j_index, k_index such that xic(i_index(i)) i=1,..nnodes lists
+the coordinate in ascending order.
+<br>sort/xyz/bins - sorts the x,y,z coordinates and assigns each i_index,
+j_index, k_index values in ascending order of the bin number of the sorted
+list.
+<br>sort/xyz/rank - sorts the x,y,z coordinates and assigns each i_index,
+j_index, k_index values the ranking of the node in the sorted list.
+<br>If all array values are unique, then the maximum value of the index
+array will equal the number of entries in the sorted list. Otherwise, the
+maximum value of the index array will be less than the number of entries
+in the sorted list but will equal the number of unique entries in the list.
+<br>For example given x = 0, 1, 2, 1, 0
+<br>sort/xyz/index returns i_index = 5, 1, 4, 2, 3
+<br>sort/xyz/bins returns i_index = 1, 2, 3, 2, 1
+<br>sort/xyz/rank returns i_index = 2, 4, 5, 3, 1</blockquote>
+END OLD FORMAT - No longer supported but syntax will still work.
+<br>&nbsp;
+</body>
+</html>

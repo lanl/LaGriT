@@ -1,0 +1,64 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Jan Wills">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>edges.html</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+&nbsp;
+<BLOCKQUOTE><B>I. Edges: </B>Each edge is tested separately to see if it
+should be tagged for refinement or derefinement.
+ 
+<P>&nbsp;&nbsp;&nbsp;&nbsp; Definition:
+<BLOCKQUOTE>c = a user supplied tolerance
+<BR>f(i) = value of the field variable f at node i
+<BR>L = length of the edge</BLOCKQUOTE>
+&nbsp;&nbsp;&nbsp;&nbsp; For the edge between nodes 1 and 2, we have
+<BLOCKQUOTE><IMG SRC="new_html/image5.jpg" HEIGHT=55 WIDTH=129></BLOCKQUOTE>
+&nbsp;&nbsp;&nbsp;&nbsp; Criteria:
+ 
+<P>&nbsp;&nbsp;&nbsp;&nbsp; 1) Junction: Refine if the edge field values
+straddle c.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tag for refinement
+if
+<BLOCKQUOTE>
+<BLOCKQUOTE>f(1) > c and f(2) &lt; c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f(1) &lt; c and f(2)
+> c
+<BR>example: For c = 0, refine if f changes sign across the edge.</BLOCKQUOTE>
+</BLOCKQUOTE>
+&nbsp;&nbsp;&nbsp;&nbsp; 2) Constant: Refine if the edge&iacute;s field
+values exceed c.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tag for refinement
+if
+<BLOCKQUOTE>
+<BLOCKQUOTE>f(1) > c or f(2) > c</BLOCKQUOTE>
+</BLOCKQUOTE>
+&nbsp;&nbsp;&nbsp;&nbsp; 3) Maxsize: Refine if the edge length exceeds
+c.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tag if l > c
+ 
+<P>&nbsp;&nbsp;&nbsp;&nbsp; 4) Delta: Refine if the magnitude of the difference
+of the field values at the edge ends exceeds c.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tag if
+<BLOCKQUOTE>
+<BLOCKQUOTE>| f(1) - f(2) | > c</BLOCKQUOTE>
+</BLOCKQUOTE>
+&nbsp;&nbsp;&nbsp;&nbsp; 5) Lambda Refine: Refine if lambda/dx &lt; c.
+Where dx&nbsp; is a scale length (here taken to be the edge length</BLOCKQUOTE>
+ 
+<BLOCKQUOTE>
+<BLOCKQUOTE>Generally lambda/dx is a quality measure of the discretization.
+A larger value of usually indicates a better grid discretization.&nbsp;
+There are some special cases.&nbsp; If&nbsp; one of the field values is
+zero as could happen on a boundary, then lambda/dx 1/2.&nbsp; If f(1) is
+equal to&nbsp; f(2) then lambda/dx&nbsp; is divergent but the algorithm
+uses a&nbsp; small number e = .000001 added to the denominator lambda/dx
+to give a large but finite value of lambda/dx thus indicating a good discretization.
+<BLOCKQUOTE><IMG SRC="new_html/image33.jpg" HEIGHT=55 WIDTH=167></BLOCKQUOTE>
+</BLOCKQUOTE>
+</BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

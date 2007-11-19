@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Online Manual </title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+
+<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
+
+<meta name="keywords" content=" "/>
+
+<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
+<link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
+
+
+</head>
+<body class="home">
+
+<!-- OPEN include for banner area -->
+<!--#include virtual="/source/includes/xbanner.inc" -->
+<!-- CLOSE include for banner area -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/identifier.inc -->
+<!--#include virtual="includes/identifier.inc" -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc -->
+<!--#include virtual="includes/toolbar.inc" -->
+
+<div id="content-org">
+  <table id="mid-section1" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="236"  valign="top" class="col1">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/nav1.inc -->
+
+<!--#include virtual="includes/nav1.inc" -->
+<!--#include virtual="includes/groups.inc" -->
+<!--#include virtual="includes/contacts.inc" -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/contacts.inc -->
+        <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+     
+   <td width="757" valign="top" class="col2-420">
+ <a name="content"></a>
+<!-- OPTIONAL: OPEN include for content area -->
+
+  
+        <h1>Online Manual </h1>
+        <p>&nbsp;</p>
+        <h3><b>I.&nbsp; INTRODUCTION</b> </h3>
+        <blockquote>A. <a href="docs/LaGriT.html">LaGriT</a> <br />
+  B.&nbsp;<a href="docs/Tutoria1.html">Tutorial</a></blockquote>
+        <h3> II.&nbsp; LaGriT COMMANDS</h3>
+        <blockquote>
+          <p>A. <a href="docs/conventions.html">Conventions</a> <br />
+  B.&nbsp;<a href="commands.shtml">Alphabetic listing of LaGriT commands</a><br />
+          C.&nbsp;<a href="commands_cat.shtml">LaGriT commands by Category</a></p>
+        </blockquote>
+		<h3> III. MESH OBJECTS</h3>
+            <blockquote>
+              <p>A. <a href="docs/meshobject.html">Mesh Object Definition</a> <br />
+                  B.<a href="docs/commandi.html"> Command Interface</a> <br />
+                  C. <a href="docs/fortran.html">Fortran Interface</a> <br />
+                  D. <a href="docs/meshobjcon.html">Mesh Object Connectivity</a> <br />
+              E. <a href="docs/geometries.html">Geometries</a>
+        </blockquote>
+            <h3> IV.&nbsp; INTERFACING USER ROUTINES TO LaGriT</font></h3>
+        <blockquote>
+          <p>&nbsp;A. <a href="docs/build.html">Building an Executable and Running LaGriT</a> <br />
+  &nbsp;B. <a href="docs/issuing.html">Issuing Commands from a User Program</a> <br />
+  &nbsp;C. <a href="docs/writing.html">Writing User Commands</a> <br />
+  &nbsp;D. <a href="docs/accessing.html">Accessing the Mesh Object</a> <br />
+  &nbsp;E.&nbsp; <a href="util.shtml">Utility Subroutines</a></p>
+        </blockquote>
+            <dir>
+            <blockquote>
+              <blockquote>
+                <div align="left"></div>
+              </blockquote>
+            </blockquote>
+</dir>
+
+            <h3> V.&nbsp; ERRORS</h3>
+            <dir>
+            <p>A. <a href="docs/errors.html#parse">Errors in parsing or executing commands</a>. <br />
+B.&nbsp; <a href="docs/errors.html#memory">Out of memory errors.</a> <br />
+C.&nbsp; <a href="docs/errors.html#panic">Fatal memory management errors</a> (PANIC!)
+</dir>
+        <h3>&nbsp;</h3>
+
+ <h3><a href="docs/References.html">LaGriT REFERENCES</a></h3>
+   <dir>
+            <table width="500" border="0">
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+        </table>
+        <p align="left"><img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/xtransparent.gif" /> </p>
+      <p align="left"><a href="index.shtml">Return to LaGriT Home Page</a></p></td>
+      <td width="313" valign="top" class="col3-180">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/related_links.inc -->
+<!--#include virtual="includes/related_links.inc" -->
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="ratext">&nbsp;</p></td>
+
+     
+    </tr>
+  </table>
+</div>
+
+<!-- OPEN include for footer area -->
+<!--#include virtual="/source/includes/xfooter.inc" -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc -->
+
+<!--#include virtual="../includes/email.inc" -->
+
+<!-- CLOSE include for footer area -->
+</body>
+</html>

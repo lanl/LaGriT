@@ -1,0 +1,150 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]">
+   <title>RZS</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">RZV</font></u></b></blockquote>
+
+<blockquote>
+<blockquote>This routine is used to ratio zone the region of space spanned
+by the input number n<sub>i </sub>of copies of the input vector v<sub>ij</sub>
+away from the initial point v<sub>0j</sub> using the desired coordinate
+system. No attempt is made to insure that the 3 vectors are independent.
+<br>For ratio_method = component (default), the j-th component of the i-th
+vector v<sub>ij</sub> is reduced by&nbsp; r<sub>ij&nbsp; </sub>after the
+k<sub>i</sub> -th
+<br>step in the i-th direction away from the initial point.&nbsp; For this
+ratio_method the ratio flags f<sub>i </sub>are not used.&nbsp; In this
+case an initial step of 1 for the j-th component of the i-th direction
+would become, for r<sub>ij&nbsp; </sub>=&nbsp; 1/2, a step of the j-th
+component of the i-th direction of 1/2 at k<sub>i </sub>=&nbsp; 1, 1/4
+at&nbsp; k<sub>i </sub>=&nbsp; 2, 1/8 at&nbsp; k<sub>i </sub>=&nbsp; 3,
+1/16 at k<sub>i </sub>=&nbsp; 4,etc.
+<br>For ratio_method = vector and fj =1 (the default), the j-th vecor is
+reduced by r<sub>ij&nbsp; </sub>after the k<sub>i</sub> -th step in the
+i-th direction.&nbsp; In this case an initial step of 1 in the j-th direction
+would become, for&nbsp; r<sub>ij&nbsp; </sub>=&nbsp; 1/2, a setp in the
+j-th direction of 1/2 at k<sub>i </sub>=&nbsp; 1, 1/4 at&nbsp; k<sub>i
+</sub>=&nbsp;
+2, 1/8 at&nbsp; k<sub>i </sub>=&nbsp; 3, 1/16 at k<sub>i
+</sub>=&nbsp;
+4,etc.
+<br>For ratio_method = vector and fj =0, the j-th vecor is reduced by [1
+- (1-r<sub>ij&nbsp; </sub>)*2/(k<sub>i</sub> +&nbsp; 1)] after the k<sub>i</sub>
+-th step in the i-th direction.&nbsp; In this case an initial step of 1
+in the j-th direction would become, for&nbsp; r<sub>ij&nbsp; </sub>=&nbsp;
+1/2, a step in the j-th direction of 1/2 at k<sub>i </sub>=&nbsp; 1, 1/3
+at&nbsp; k<sub>i </sub>=&nbsp; 2, 1/4 at&nbsp; k<sub>i </sub>=&nbsp; 3,
+1/5 at k<sub>i </sub>=&nbsp; 4,etc.</blockquote>
+<font face="Times New Roman,Times">FORMAT:</font></blockquote>
+
+<dir>
+<dir><font face="Times New Roman,Times"><b>rzv/xyz</b>|<b>rtz</b>|<b>rtp</b>
+/</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ n1,n2,n3</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/v11,v12,v13/v21,v22,v23/v31,v32,v33</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/v01,v02,v03</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/r11,r12,r13/r21,r22,r23/r31,r32,r33</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/<b>component</b>|<b>vector</b></font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/f1,f2,f3]</font>
+<br><font face="Times New Roman,Times">default = <b>xyz</b></font>
+<br>default = 0:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; n<sub>i</sub>, v<sub>i</sub>,
+v<sub>0j</sub>
+<br>default = 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r<sub>ij</sub>
+<br>default = <b>component</b></dir>
+<font face="Times New Roman,Times">EXAMPLES:</font>
+<dir><font face="Times New Roman,Times">spiral of points</font>
+<dir><font face="Times New Roman,Times"><b>rzv/rtz</b>/n1,0,0/.1,10.,1/
+, , / , , / , , /1.1,1,.9/</font></dir>
+<font face="Times New Roman,Times">sc (simple cubic) point distribution</font>
+<dir><font face="Times New Roman,Times"><b>rzv/xyz</b>/n1,n2,n3/1,0,0/0,1,0/0,0,1/</font></dir>
+<font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+same as</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>rz/xyz/</b>n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1</font>
+<br><font face="Times New Roman,Times">bcc (body centered cubic) point
+distribution</font>
+<dir><font face="Times New Roman,Times"><b>rzv/xyz/</b>n1,n2,n3/.5,.5,.5/.5,.5,-.5/.5,-.5,-.5/</font>
+<br><font face="Times New Roman,Times">compare the two command sequence
+(different bounding box)</font>
+<dir><font face="Times New Roman,Times"><b>rz/xyz/</b>n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz/</b>n1&nbsp; ,n2&nbsp;
+,n3&nbsp; /0,0,0/n1,n2,n3/0,0,0</font></dir>
+</dir>
+<font face="Times New Roman,Times">fcc (face centered cubic) point distribution</font>
+<dir><font face="Times New Roman,Times"><b>rzv/xyz</b>/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/</font>
+<br><font face="Times New Roman,Times">compare the four command sequence
+(different bounding box)</font>
+<dir><font face="Times New Roman,Times"><b>rz/xyz/</b>n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz</b>/n1&nbsp; ,n2&nbsp;
+,n3+1/0,0,0/n1,n2,n3/0,0,1</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz/n</b>1&nbsp; ,n2+1,n3&nbsp;
+/0,0,0/n1,n2,n3/0,1,0</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz</b>/n1+1,n2&nbsp; ,n3&nbsp;
+/0,0,0/n1,n2,n3/1,0,0</font></dir>
+</dir>
+<font face="Times New Roman,Times">hexagonal lattice of points in x,y plane,
+repeated in z direction</font>
+<dir><font face="Times New Roman,Times"><b>rzv/xyz</b>/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/</font></dir>
+<font face="Times New Roman,Times">diamond point distribution</font> <font face="Times New Roman,Times">(two
+command sequence)</font>
+<dir><font face="Times New Roman,Times"><b>rzv/xyz</b>/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/</font></dir>
+<font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>rzv/xyz</b>/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/.25,.25,.25</font>
+<dir><font face="Times New Roman,Times">compare the eight command sequence
+(different bounding box)</font>
+<dir><font face="Times New Roman,Times"><b>rz/xyz</b>/n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1</font></dir>
+<font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>
+rz/xyz/</b>n1&nbsp; ,n2&nbsp; ,n3+1/0,0,0/n1,n2,n3/0,0,1</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>rz/xyz</b>/n1&nbsp; ,n2+1,n3&nbsp; /0,0,0/n1,n2,n3/0,1,0</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>rz/xyz</b>/n1+1,n2&nbsp; ,n3&nbsp; /0,0,0/n1,n2,n3/1,0,0</font>
+<dir><font face="Times New Roman,Times"><b>rz/xyz</b>/n1+1,n2+1,n3+1/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/1,1,1</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz</b>/n1&nbsp; ,n2&nbsp;
+,n3+1/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/0,0,1</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz/</b>n1&nbsp; ,n2+1,n3&nbsp;
+/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/0,1,0</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz</b>/n1+1,n2&nbsp; ,n3&nbsp;
+/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/1,0,0</font></dir>
+</dir>
+<font face="Times New Roman,Times">&nbsp;hcp (hexagonal close pack) point
+distribution</font>&nbsp;<font face="Times New Roman,Times"> (two command
+sequence)</font>
+<dir><font face="Times New Roman,Times"><b>rzv/xyz</b>/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/</font>
+<br><font face="Times New Roman,Times"><b>rzv/xyz</b>/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/.5,0.289,.5/</font></dir>
+<font face="Times New Roman,Times">nice 2-d distribution of points in a
+circle of radius 1</font>
+<dir><font face="Times New Roman,Times"><b>rzv/xyz/</b>10,60,0/0.1,0,0/0,60,0/0,0,1/0,0,0/1,0.5,1/1,1,1/1,1,1/<b>vector</b>/0,0,0</font></dir>
+
+<p><br><font face="Times New Roman,Times">&nbsp;&nbsp; CAVEATS -</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *
+filter should be used afterwards to remove possibly duplicate points</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *
+this can create some really bizzare point distributions</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *
+mistyped input after "rzv/[cgeom]" always returns successful point addition,</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; but
+may be very different than desired</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *
+ratio_flag might better be a scalar or a matix, and its use might want
+to be extended to ratio_method=component.</font></dir>
+</dir>
+
+</body>
+</html>

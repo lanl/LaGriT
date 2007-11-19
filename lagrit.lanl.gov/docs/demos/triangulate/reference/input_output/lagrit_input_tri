@@ -1,0 +1,37 @@
+*TEST triangulate (lagrit_input_tri)
+cmo / create / cmotri1 / / / tri
+read / avs / input_concave.inp / cmotri1
+*dump / gmv / output_concave.gmv /cmotri1
+triangulate/counterclockwise
+resetpts / itp
+dump / gmv / output_tri1.gmv /cmotri1
+refine/rivara///edge/1 0 0/.3///inclusive 
+dump / gmv / output_tri2.gmv / cmotri1
+
+smooth/position/esug/ 1 0 0
+refine/rivara///edge/1 0 0/.15///inclusive 
+dump / gmv / output_tri3.gmv / cmotri1
+smooth/position/esug/ 1 0 0
+recon / 0
+smooth/position/esug/ 1 0 0
+recon / 0
+smooth/position/esug/ 1 0 0
+recon / 0
+smooth/position/esug/ 1 0 0
+recon / 0
+smooth/position/esug/ 1 0 0
+recon / 0
+smooth/position/esug/ 1 0 0
+recon / 0
+smooth/position/esug/ 1 0 0
+recon / 0
+*
+dump / gmv / output_tri4.gmv / cmotri1
+recon / 1
+dump / gmv / output_tri5.gmv / cmotri1
+*
+* begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish

@@ -1,0 +1,76 @@
+cmo/create/abc                                                                  
+surface/pbot/reflect/plane/0,0,0/1,0,0/1,1,0/                                   
+surface/ptop/reflect/plane/0,0,1/1,0,1/1,1,1/                                   
+surface/prgt/reflect/plane/1,0,0/1,1,0/1,1,1/                                   
+surface/plft/reflect/plane/0,0,0/0,1,0/0,1,1/                                   
+surface/pfrt/reflect/plane/0,0,0/1,0,0/1,0,1/                                   
+surface/pbck/reflect/plane/0,1,0/1,1,0/1,1,1/                                   
+surface/mid/intrface/plane/0,0,.5/1,0,.5/1,1,.5/                                
+region/top/ge pbot and le ptop and ge plft and le prgt and ge pbck and le pfrt a
+nd ge mid/                                                                      
+region/bot/ge pbot and le ptop and ge plft and le prgt and ge pbck and le pfrt a
+nd lt mid/                                                                      
+mregion/mattop/ge pbot and le ptop and ge plft and le prgt and ge pbck and le pf
+rt and gt mid/                                                                  
+mregion/matbot/ge pbot and le ptop and ge plft and le prgt and ge pbck and le pf
+rt and lt mid/                                                                  
+rz/xyz/3,3,3/0,0,0/1,1,1/1,1,1                                                  
+setpts                                                                          
+connect                                                                         
+settets                                                                         
+pset/p0/surface/prgt                                                            
+zq/xic/pset,get,p0                                                              
+cmo/printatt/abc/-xyz-/pset,get,p0/                                             
+zq/xic////                                                                      
+cmo/printatt/abc/-xyz-//                                                        
+pset/p0/list                                                                    
+pset/p0/delete                                                                  
+pset/p0/surface/mid                                                             
+pset/p0/list                                                                    
+pset/p0/delete                                                                  
+pset/p0/surface/mid/1,0,0                                                       
+pset/p0/list                                                                    
+pset/p0/delete                                                                  
+pset/p0/surface/-all-                                                           
+pset/p0/list                                                                    
+pset/p0/delete                                                                  
+pset/p0/surface/-interface-                                                     
+pset/p0/list                                                                    
+pset/p0/delete                                                                  
+pset/p0/surface/-boundary-/1,0,0                                                
+pset/p0/list                                                                    
+pset/p0/delete                                                                  
+pset/p1/region/top                                                              
+pset/p2/region/top/1,0,0                                                        
+pset/p1/list                                                                    
+pset/p2/list                                                                    
+pset/p1/delete                                                                  
+pset/p1/surface/ptop                                                            
+pset/p1/list                                                                    
+pset/p3/union/p1/p2                                                             
+pset/p3/list                                                                    
+pset/p4/inter/p1/p3                                                             
+pset/p4/list                                                                    
+pset/p2/delete                                                                  
+pset/p2/surface/pbck                                                            
+pset/p2/list                                                                    
+pset/p5/not/p1/p2                                                               
+pset/p5/list                                                                    
+pset/p8/seq/19,19,1                                                             
+pset/p8/list                                                                    
+pset/p9/not/p1/p2/p8                                                            
+pset/p9/list                                                                    
+pset/p6/not/p1                                                                  
+pset/p6/list                                                                    
+pset/p7/not/p2                                                                  
+pset/p7/list                                                                    
+pset/p8/attribute/xic/1,0,0/.1/lt                                               
+pset/p9/attribute/xic/1,0,0/ne .1                                               
+pset/p10/attribute/xic/1,0,0/0./eq                                              
+pset/p11/attribute/xic/1,0,0/0./ne                                              
+pset/p12/attribute/xic/1,0,0/GT/.9                                              
+dump/gmv/output_pset.gmv                                                        
+cmo/status                                                                      
+cmo/printatt//-all-/minmax                                                      
+quality                                                                         
+finish                                                                          

@@ -1,0 +1,167 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]">
+</HEAD>
+<BODY>
+
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.html#MESH EDGE:"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshVertex.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A></CENTER>
+
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+<CENTER>&nbsp;&nbsp; <B>MESH EDGES:</B></CENTER>
+
+<HR WIDTH="100%">
+
+<P>Since LaGriT does not really store mesh edges, the mesh edge data
+<BR>structure (<I>MeshEdge</I>, <I>PMeshEdge</I>) is created on the fly
+whenever edge
+<BR>information is requested. Therefore after utilizing the edge(s) get
+<BR>information, it (they) should be destroyed by calling ME_Delete
+<BR>operator.
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>ME_Number</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+e);
+
+<P>** This will return 0 for now since I haven't yet decided on a good
+<BR>** way to assign a unique number to the (virtual) edges of the mesh.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>ME_Delete</B>(<I>PMeshEdge</I> e);
+
+<P>Free the data structure associated with this edge created on the fly.
+<BR>(There is an operator for creation but I cannot yet imagine needing
+to
+<BR>make that a publicly available operator).
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27>** IMPORTANT
+**
+<BR><FONT COLOR="#FF0000">ME_Delete will not remove any connections in
+the mesh. It just destroys the</FONT>
+<BR><FONT COLOR="#FF0000">temporary data structure used to store the edge
+info</FONT>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>ME_IsParent</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+pe);
+
+<P>If both vertices of the edge are parents, the edge is a parent.
+
+<P>
+<HR WIDTH="100%"><I>PMeshEdge</I> <B>ME_Parent</B>(<I>PMeshObj</I> mesh,
+<I>PMeshEdge</I> pe);
+
+<P>The parents of each vertex of the edge are obtained and a new 'parent'
+<BR>edge is constructed from them.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>ME_Children</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+pe, <I>int </I>*nec, <I>PMeshEdge</I> **ec);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>*** NOT YET
+IMPLEMENTED ***
+
+<P>Child vertices of the face are found and appropriate combinations of
+these vertices are used to construct the new 'child' faces. For a combination
+to be appropriate, the vertices of the child face has to point to the same
+material region.
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MEs_areSame</B>(<I>PMeshEdge</I> e1, <I>PMeshEdge</I>
+e2);
+
+<P>Compare the data in two MeshEdge data structures and see if they
+<BR>represent the same connection in the mesh. This operator is needed
+<BR>since the on-the-fly <I>PMeshEdge</I> pointers may not be the same
+and they
+<BR>do not directly point to any persistent "object" in the database.
+
+<P>
+<HR WIDTH="100%"><I>PGeomEntity</I> <B>ME_GMentity</B>(<I>PMeshObj</I>
+mesh, <I>PMeshEdge</I> e);
+
+<P>Return the geometric model entity the edge is on. In the absence of
+explicit
+<BR>edge representation in the database, this may be problematic in a few
+cases
+<BR>cases where multiple classifications are possible.
+
+<P>
+<HR WIDTH="100%"><I>GType</I> <B>ME_GMtype</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+e);
+
+<P>Return the type of geometric model entity the edge is on. This (I
+<BR>think) is more deterministically found from the classifications of
+its
+<BR>vertices but still there may be some incorrect cases. The way around
+<BR>is complicated and will not be implemented for now.
+
+<P>
+<HR WIDTH="100%"><I>PMeshVert</I><B> ME_Vertex</B>(<I>PMeshObj</I> mesh,
+<I>PMeshEdge</I> e, <I>int </I>i);
+
+<P>Return the i'th vertex of the mesh edge. i can only be 0 or 1.
+<BR>Parent edges return parent vertices and child edges return child vertices.
+<BR>If a vertex is not on an interface the vertex itself is returned.
+
+<P>
+<HR WIDTH="100%"><IMG SRC="../images/new1.gif" NOSAVE HEIGHT=12 WIDTH=31><I>PMeshVert</I><B>
+ME_OtherVertex</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I> e, <I>PMeshVert</I>
+v);
+
+<P>Return the other vertex of the mesh edge (obviously the one that is
+not v).
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>ME_Faces</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+e, <I>int </I>*nef, <I>PMeshFace</I> **efaces);
+
+<P>Get the "faces" of an "edge". The faces data structures are also
+<BR>constructed on the fly since they do not exist in the LaGriT
+<BR>database. Also, as with other upward connectivity queries, this can
+<BR>execute usefully only if the routine MESH_BldUpAdj is called
+<BR>beforehand. Also, see note on freeing the <I>PMeshFace</I> structures
+listed
+<BR>under MV_Edges and MV_Faces.
+
+<P>The behavior of this operator for parent and child edges is similar
+to
+<BR>MV_Edges.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>ME_Regions</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+e, <I>int </I>*ner, <I>PMeshRegn</I> **eregions);
+
+<P>Get the regions connected to an edge. MESH_BldUpAdj must be called before
+this operator can be called usefully.
+
+<P>The behavior of this operator for child and parent edges is similar
+to
+<BR>that of MV_Regions.
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27>** IMPORTANT
+**
+
+<P><FONT COLOR="#FF0000">Since MESH_BldUpAdj builds explicit upward adjacency
+information, this</FONT>
+<BR><FONT COLOR="#FF0000">routine does not require a seed region to be
+provided. Also, this</FONT>
+<BR><FONT COLOR="#FF0000">routine will work regardless of whether there
+is a complete cycle of</FONT>
+<BR><FONT COLOR="#FF0000">regions around the edge and whether the edge
+is an arbitrary type of</FONT>
+<BR><FONT COLOR="#FF0000">non-manifold edge!!</FONT>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>ME_EntOnBdry</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+pe, <I>PMeshVert</I>e pv);
+
+<P>Check if vertex is on the boundary of edge. In other words, is this
+<BR>vertex one of the edges vertices.
+<BR>&nbsp;
+<BR>&nbsp;
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.html#MESH EDGE:"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshVertex.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A></CENTER>
+&nbsp;
+</BODY>
+</HTML>

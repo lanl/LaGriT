@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Jan Wills">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+ 
+<br><BLOCKQUOTE><B>II. Faces: </B>Each face is tested separately for refinement
+or derefinement. For the tetrahedral face defined by nodes 1, 2, and 3,
+we have
+<BR>&nbsp;
+<BLOCKQUOTE><IMG SRC="image1.jpg" HEIGHT=111 WIDTH=154></BLOCKQUOTE>
+&nbsp; where A is the area of the face.
+ 
+<P>&nbsp;&nbsp;&nbsp;&nbsp; Criteria:
+ 
+<P>1) Junction: Refine if any of the faces field values straddle c.
+ 
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tag for refinement
+if
+<BLOCKQUOTE>&nbsp;&nbsp;&nbsp;&nbsp; f(1) > c and f(2), f(3) &lt; c
+<BR>or
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f(2) > c and f(1), f(3) &lt; c
+ 
+<P>or
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f(3) > c and f(1), f(2) &lt; c
+ 
+<P>or
+<BR>all of the above with > and &lt; interchanged.
+<BR>example: For c = 0, refine if f changes sign between any of the three
+nodes.</BLOCKQUOTE>
+&nbsp;2) Constant: Refine if any of the face field values exceed c.
+ 
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tag for refinement if
+<BR>&nbsp;
+<BLOCKQUOTE>&nbsp;&nbsp;&nbsp;&nbsp; f(1) > 2 or f(2) > c or f(3) > c.</BLOCKQUOTE>
+&nbsp;
+<BR>3)Maxsize:&nbsp; Refine if the face area exceeds c.</BLOCKQUOTE>
+ 
+<BLOCKQUOTE>&nbsp;&nbsp;&nbsp; Tag if A > c.
+ 
+<P>4) Aspect Ratio: Refine if the faces aspect ratio is less than c.
+<BLOCKQUOTE>The aspect ratio (AR) is defined as the ratio of the radius
+of the inscribed circle of the&nbsp; triangular face to the radius of the
+circumscribed circle. We renormalize this ratio of multiplying by 2 so
+that the ratio equals one for an equilateral triangle.
+<BR>&nbsp;
+<BLOCKQUOTE>AR = 2 RIN/ROUT&nbsp; where
+<BLOCKQUOTE>
+<BLOCKQUOTE>RIN = radius of inscribed circle
+<BR>ROUT = radius of circumscribed circle
+<BR>AR is never greater than one.</BLOCKQUOTE>
+</BLOCKQUOTE>
+</BLOCKQUOTE>
+Tag if AR &lt; c.&nbsp; Generally the smaller AR is the more elongated
+the face is.</BLOCKQUOTE>
+</BLOCKQUOTE>
+ 
+<BLOCKQUOTE>5) Lambda Refine: Refine if lamda/dx&nbsp; &lt;c.&nbsp; Where
+dx&nbsp; is taken to be the radius of the circumscribed circle&nbsp; RIN
+of the triangular face
+<BR>&nbsp;
+<BLOCKQUOTE>
+<BLOCKQUOTE>
+<BLOCKQUOTE>
+<BLOCKQUOTE>lambda = f(xcen)/grad f
+<BR>f(xcen) = (f(1) + f(2) +f(3))/3 where
+<BR>&nbsp;</BLOCKQUOTE>
+</BLOCKQUOTE>
+</BLOCKQUOTE>
+</BLOCKQUOTE>
+xcen is the centroid of&nbsp; the triangular face,&nbsp; and we have assumed
+a linear interpolation of f. grad f is evaluated on the face by a suitable
+approximation involving a linear interpolation of f and&nbsp; the line
+integral around the edge of the face.</BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

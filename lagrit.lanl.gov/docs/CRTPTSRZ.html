@@ -1,0 +1,70 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>RZ</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">CREATEPTS/xyz|rtz|rtp|line</font></u></b>
+<blockquote>This command adds points to the mesh. It can distribute points
+evenly or according to a ratio zoning method.
+<br><b>xyz </b>specifies Cartesian coordinates.
+<br><b>rtz </b>specifies cylindrical coordinates.
+<br><b>rtp</b> specifies spherical coordinates.
+<br><b>line </b>this option implies xyz and will distribute n1 nodes from
+(xmin,ymin,zmin) to (xmax,ymax,zmaz)
+<br>When using the rtz or rtp coordinate systems the center is at <b>(</b><font face="Courier">0,0,0)</font><font face="Times">.
+Use a <b>trans</b> command to move the center. For the <b>rtz </b>command,
+minimum and maximum coordinates are the triplets: radius from the cylinder's
+axis, angle in the xy-plane measured from the x-axis and height along the
+z-axis. For the <b>rtp </b>command minimum and maximum coordinates are
+the triplets: radius from the center of the sphere axis, angle in the zy-plane
+measured from the positive z-axis and the angle in the xy-plane measured
+from the positive x-axis (<a href="conventions.html">see II.a.11</a>).
+Note that the <b>rtz </b>always results in a (partial) cylinder of points
+centered around the z axis. Use the <b>rotateln </b>command to orient the
+cylinder. For example, to center the cylinder around the y axis, specify
+the x axis as the line of rotation in the <b>rotateln </b>command.</font>
+<p><font face="Courier">ni,nj,nk</font><font face="Times"> number of points
+to be created in each direction.</font>
+<br><font face="Courier">xmin,ymin,zmin </font><font face="Times">minimums
+for coordinates.</font>
+<br><font face="Courier">xmax,ymax,zmax </font><font face="Times">maximums
+for coordinates.</font>
+<br><font face="Courier">iiz,ijz,ikz </font><font face="Times">if =0 then
+mins and maxs are used as cell centers</font>
+<br><font face="Times">if =1 then mins and maxs are used as cell vertices</font>
+<br><font face="Courier">iirat,ijrat,ikrat </font><font face="Times">ratio
+zoning switches (0=off,1=on)</font>
+<br><font face="Courier">xrz,yrz,zrz </font><font face="Times">ratio zoning
+value - distance is multiplied by this value for each subsequent point.</font>
+<br>&nbsp;</blockquote>
+<font face="Times">FORMAT:</font>
+<br>&nbsp;
+<dir><font face="Times"><b>createpts</b>/<b>xyz</b>|<b>rtz</b>|<b>rtp</b>|</font><font face="Courier">ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/</font>
+<br><font face="Courier">iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/]</font>
+<br><b>createpts/line</b><font face="Courier">/</font><font face="Times">np</font><font face="Courier">///xmin,ymin,zmin,xmax,ymax,zmax/iiz,ijz,ikz/</font></dir>
+EXAMPLES:
+<blockquote><font face="Times New Roman,Times"><b>createpts/xyz</b>/</font><font face="Courier New,Courier">5,3,10/0.,2.,0./5.,6.,2./1,1,1/</font>
+<br><font face="Times New Roman,Times">This results in a set of 150 points,
+five across from x=0. to x=5., 3 deep from y=2. to y=6. and 10 high from
+z=0. to z=2.</font>
+<br><b><font face="Times New Roman,Times">createpts/rtz/</font></b><font face="Courier New,Courier">4,6,11/0.,0.,0./3.,360.,10./1,0,1/</font>
+<br><font face="Times New Roman,Times">This results in 264 points arranged
+around the z- axis. There are 3 rings of points at distances r=1., r=2.
+and r=3. from the z-axis. There are 11 sets of these three rings of points
+and heights z=0., z=1., z=2.,...,z=10. In each ring there are 6 points
+where each pair of points is separated by 60&deg;; note that ijz=0 requests
+that points be placed at cell centers, hence the first point will be at
+30&deg; not at 0&deg;. Corresponding to r=0, there will be 6 identical
+points at 11 intervals along the z-axis at heights z=0., z=1., z=2.,...z=10.
+Filter should be used to remove these duplicate points.</font></blockquote>
+<font face="Times New Roman,Times"></font>
+<dir>&nbsp;</dir>
+</blockquote>
+
+</body>
+</html>

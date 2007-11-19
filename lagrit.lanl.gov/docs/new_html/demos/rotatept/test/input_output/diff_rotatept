@@ -1,0 +1,19 @@
+*** compare_rotatept	Thu Sep  7 16:02:22 2000
+--- ../../reference/reference_rotatept	Thu Sep  7 15:49:45 2000
+***************
+*** 165,171 ****
+   nodes_per_element              4              4              0         1       
+   edges_per_element              6              6              0         1       
+   faces_per_element              4              4              0         1       
+!  isetwd               0.00000E+00    2.12200-314    0.00000E+00        90       
+   ialias                         0              0              0        90       
+   imt1                           0              0              0        90       
+   itp1                           0              0              0        90       
+--- 165,171 ----
+   nodes_per_element              4              4              0         1       
+   edges_per_element              6              6              0         1       
+   faces_per_element              4              4              0         1       
+!  isetwd               0.00000E+00    2.12200-314    2.12200-314        90       
+   ialias                         0              0              0        90       
+   imt1                           0              0              0        90       
+   itp1                           0              0              0        90       

@@ -1,0 +1,37 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>DUMP</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<b><u><font face="Times">DUMP_RECOLOR</font></u></b>
+<dir><font face="Times">This command is similar to the regular <a href="DUMP2.html">dump</a>
+command except that the mesh object is recolored before being dumped.&nbsp;
+There are two options specific to this version.&nbsp; If<b> restore</b>
+is specified&nbsp; (the default), the original itetclr and imt1 values
+are restored, leaving the mesh object unaltered.&nbsp; If <b>norestore
+</b>is specified the mesh object is left recolored (and the original values
+of itetclr and imt1 lost).&nbsp; If <b>create</b> is specified (the default)
+then a new colormap is created and used to recolor.&nbsp; Otherwise if
+<b>existing </b>is specified, the existing colormap is used to recolor
+the mesh object.&nbsp; Three dump types are available:&nbsp; "<b>gmv</b>",
+"<b>lagrit</b>" and "<b>avs</b>". iomode can be <b>ascii </b>or<b> binary</b>;<b><u>
+binary</u></b> is the default.</font></dir>
+<font face="Times">FORMAT:</font>
+<blockquote><b><font face="Times">dump_recolor/</font></b><font face="Courier New,Courier">type/file/mo/</font><font face="Times New Roman,Times">[<b>restore|
+norestore</b>]/[<b>create|existing</b>] /</font><font face="Courier New,Courier">imode</font></blockquote>
+<font face="Times">EXAMPLE:</font>
+<blockquote><font face="Times"><b>dump_recolor/gmv</b>/mesh.gmv////<b>ascii</b></font>
+<br><font face="Times">Writes an ascii gmv dump to the fine mesh.gmv.&nbsp;
+The mesh object that is dumped is the current mesh object recolored according
+to its own material adjacency.</font>
+<p><font face="Times"><b>dump_recolor/gmv</b>/mesh.gmv//<b>norestore/existing</b></font>
+<br><font face="Times">Recolors the current mesh object using the existing
+colormap and then writes a binary gmv dump to the fine mesh.gmv.</font></blockquote>
+ 
+<br>&nbsp;
+</body>
+</html>

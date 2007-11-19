@@ -1,0 +1,66 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97/98">
+   <meta name="Template" content="Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>*arguments:</title>
+</head>
+<body bgcolor="#FFFFFF" link="#0000FF" vlink="#800080">
+
+<blockquote><font face="Times New Roman,Times"><font size=+1>Example 2:
+addmesh / amr</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+0>The objective
+is to join two meshes to create a third using the <b>addmesh / amr </b>command.</font></font>
+<p><font face="Times New Roman,Times"><font size=+0>Two cubes, one smaller
+than the other, each having a different grid resolution are combined. The
+<b>amr
+</b>option
+finds the intersection and refines one mesh to interface with the boundary
+of the other mesh using adaptive mesh refinement.</font></font></blockquote>
+
+<blockquote>&nbsp;
+<p><font face="Times New Roman,Times"><font size=+1>Output Images</font></font>
+<br>&nbsp;
+<table BORDER COLS=3 WIDTH="52%" HEIGHT="183" NOSAVE vspace="2" hspace="2" >
+<tr>
+<td HEIGHT="166"><u><font face="Times New Roman,Times"><a href="image/addmesh_amr/addmesh_amr1.gif">mesh
+1</a></font></u><a href="image/addmesh_amr/addmesh_amr1.gif"><img SRC="image/addmesh_amr/addmesh_amr1_tn.gif" NOSAVE BORDER=0 height=89 width=114 align=LEFT></a></td>
+
+<td HEIGHT="166"><u><font face="Times New Roman,Times"><a href="image/addmesh_amr/addmesh_amr2.gif">mesh
+2</a></font></u><a href="image/addmesh_amr/addmesh_amr2.gif"><img SRC="image/addmesh_amr/addmesh_amr2_tn.gif" NOSAVE BORDER=0 height=89 width=114 align=LEFT></a></td>
+
+<td HEIGHT="166"><u><font face="Times New Roman,Times"><a href="image/addmesh_amr/addmesh_amr3.gif">combined
+(view 1)</a></font></u><img SRC="image/addmesh_amr/addmesh_amr3_tn.gif" NOSAVE BORDER=0 height=89 width=114 align=LEFT></td>
+</tr>
+
+<tr>
+<td HEIGHT="180"><u><font face="Times New Roman,Times"><a href="image/addmesh_amr/addmesh_amr4.gif">combined
+(view 2)&nbsp;</a></font></u><a href="image/addmesh_amr/addmesh_amr4.gif"><img SRC="image/addmesh_amr/addmesh_amr4_tn.gif" NOSAVE BORDER=0 height=89 width=114 align=LEFT></a></td>
+
+<td HEIGHT="180"><u><font face="Times New Roman,Times"><a href="image/addmesh_amr/addmesh_amr5.gif">combined
+(view 3)&nbsp;</a></font></u><a href="image/addmesh_amr/addmesh_amr5.gif"><img SRC="image/addmesh_amr/addmesh_amr5_tn.gif" NOSAVE BORDER=0 height=89 width=114 align=LEFT></a></td>
+
+<td HEIGHT="180"></td>
+</tr>
+</table>
+
+<br>&nbsp;
+<p><font face="Times New Roman,Times"><font size=+1>Input file</font></font>
+<br><font face="Times New Roman,Times">*TEST addmesh/amr (lagrit_input_amr)</font>
+<br><font face="Times New Roman,Times">read gmv input_mesh1.gmv cmo1</font>
+<br><font face="Times New Roman,Times">*dump/ gmv / out_mesh1.gmv</font>
+<br><font face="Times New Roman,Times">read gmv input_mesh2.gmv cmo2</font>
+<br><font face="Times New Roman,Times">*dump/ gmv / out_mesh2.gmv</font>
+<br><font face="Times New Roman,Times">addmesh amr cmo3 cmo1 cmo2</font>
+<br><font face="Times New Roman,Times">dump/ gmv / output_amr.gmv</font>
+<br><font face="Times New Roman,Times">* begin compare here</font>
+<br><font face="Times New Roman,Times">cmo/status</font>
+<br><font face="Times New Roman,Times">cmo/printatt//-all-/minmax</font>
+<br><font face="Times New Roman,Times">quality</font>
+<br><font face="Times New Roman,Times">finish</font></blockquote>
+</blockquote>
+
+</body>
+</html>

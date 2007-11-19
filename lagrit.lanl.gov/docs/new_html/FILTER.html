@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <meta name="Generator" content="Microsoft Word 98">
+  <meta name="GENERATOR"
+ content="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+  <title>FILTER</title>
+</head>
+<body alink="#ff0000" bgcolor="#ffffff" link="#0000ee" text="#000000"
+ vlink="#551a8b">
+&nbsp;
+<blockquote><b><u><font face="Times">FILTER</font></u></b>
+  <blockquote><b>Filter </b>is used in either node or element
+mode.&nbsp; In 'node' mode it is used to mark for deletion nodes that
+lie
+within a distance, epsilon, of one another.&nbsp; In 'element' mode it
+either marks or deletes elements which have the exact same set of
+nodes. The test is on node numbers, not the geometric position of nodes
+so for this to work one should filter the nodes first.<big><big><span
+ style="font-weight: bold;"></span></big></big><br>
+    <b><br>
+Node Mode:</b><br>
+Used to filter (mark for deletion) points that are geometricly close,
+(mesh object epsilon value)<span style="font-family: times;">, or if
+the </span><big><span style="font-family: monospace;">tolerance</span></big><span
+ style="font-family: times;"> parameter is given, closer than the
+tolerance </span><font face="Times">specified by the user. This
+command changes the node type of the deleted points to type 'dudded'
+(itp=21) but does not remove them from the point list. Note that at
+least one point must be specified in the point range (</font><font
+ face="Courier">ifirst,ilast,istride)</font><font face="Times"> in
+order for this command to work properly. Dudded points
+(itp=21) can be removed from the mesh object by calling <span
+ style="font-weight: bold;"><a href="RMPOINT.html">rmpoint/compress</a>.</span><br>
+    <br>
+    <b>Element Mode:</b><br>
+Search a mesh object for duplicate elements. A duplicate element is
+defined
+as having the exact same set of nodes in the element connectivity list
+(itet).
+The order of the nodes in the connectivity does not matter. </font><font
+ face="Times">The element with the larger itetclr value (master) will
+be
+kept. </font><font face="Times">The duplicate element will have its
+material color (itetclr) changed to max(itetclr) + 1. Two new element
+attributes</font><font face="Times"> (iclr1, iclr2)</font><font
+ face="Times"> are added to the
+mesh object to keep track of the correspondence of
+master(retained)/duplicate(removed) elements and their original
+material id (itetclr).&nbsp; <br>
+    </font></blockquote>
+</blockquote>
+<div style="margin-left: 80px;"><font face="Times">For all elements the
+values of iclr1 are set their original itetclr values.<br>
+For any element that is neither master nor duplicate, the value of icr2
+is set to its itetclr value.<br>
+For an element that is a master, icrl2 is set to the original itetclr
+value of its duplicate.<br>
+</font><font face="Times">For an element that is a duplicate, icrl2 is
+set to the original itetclr value of its master.</font><font
+ face="Times"> <br>
+</font></div>
+<blockquote>
+  <blockquote><font face="Times">For example, consider the 4 element
+mesh, where element 2 and 3 are duplicates and:<br>
+    </font>
+    <div style="margin-left: 40px;"><font face="Times">Element 1,2
+itetclr = 1</font><br>
+    <font face="Times">Element 3,4 itetclr = 2</font><br>
+    <font face="Times">then after:</font><br>
+    <font face="Times"><span style="font-weight: bold;">filter</span>/<span
+ style="font-weight: bold;">element</span>/10/<span
+ style="font-weight: bold;">nodelete&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <br>
+    <font face="Times">Maximum material id
+max(itetclr)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">Duplicate Elements will be set to itetclr
+=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">search_range&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">nelements
+searched&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">Number of duplicate element
+found&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <br>
+    <font face="Times">cmo/printatt/cmohex1/itetclr/1 0
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">Attribute:
+itetclr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <br>
+    <font face="Times">cmo/printatt/cmohex1/iclr1/1 0
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">Attribute:
+iclr1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <br>
+    <font face="Times">cmo/printatt/cmohex1/iclr2/1 0
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">Attribute:
+iclr2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    <font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><br>
+    </div>
+    <font face="Times"> <br>
+All elements are tested. The search for each element's duplicate does
+not occur over the entire
+element
+list. The default for search_range is 10 and results in looking at the
+10
+elements in the element list sequentially above and 10 elements
+sequentially
+below the test element.&nbsp; In the example given below the elements
+are sorted so that elements that are physically close to each other
+will be close to each other in the element list.</font><font
+ face="Times"><br>
+    <br>
+    </font><font face="Times"> The&nbsp;</font><big><span
+ style="font-family: monospace;">search_range</span></big><font
+ face="Times"> can be set by the user. Setting </font><big><span
+ style="font-family: monospace;">search_range</span></big><font
+ face="Times"> to a number larger than the number of elements will
+cause
+all elements to be searched.<br>
+    <br>
+The algorithm will only detect one duplicate element per element. If
+there are more than two elements with the same connectivity, they can
+be found by calling <b>filter/element</b> multiple times.<br>
+    <br>
+The default behavior is to not delete the duplicate elements.&nbsp;
+However the duplicate elements will be deleted from the mesh if the
+parameter <span style="font-weight: bold;">delete </span>is specified.<br>
+    <br>
+In general if you are merging together two meshes and then want to
+delete duplicate elements the commands might be:<br>
+    <big><big><small><small></small></small></big></big><br>
+* Merge two mesh objects<br>
+    <b> addmesh / </b> merge / cmohex / cmohex1 / cmohex2<br>
+* Create an attribute with the median x,y,z coordinate of each element<br>
+    <span style="font-weight: bold;">createpts</span> / <span
+ style="font-weight: bold;">median<br>
+    </span>* Sort and reorder the elements based on the median points.
+This will insure that elements that occupy the<br>
+* same location will have element numbers near one another.<br>
+    <span style="font-weight: bold;">sort</span> / -def- / <span
+ style="font-weight: bold;">index</span> / <span
+ style="font-weight: bold;">ascending</span> / ikey / xmed ymed zmed <br>
+    <span style="font-weight: bold;">reorder</span>/ -def- /ikey<br>
+* Filter and remove duplicate nodes.<br>
+    <span style="font-weight: bold;">filter</span> / 1 0 0<br>
+    <span style="font-weight: bold;">rmpoint</span> / <span
+ style="font-weight: bold;">compress<br>
+    </span>* Filter and remove duplicate elements.<br>
+    <span style="font-weight: bold;">filter</span> / <span
+ style="font-weight: bold;">element</span> / / <span
+ style="font-weight: bold;">delete</span><br>
+    <br>
+    </font></blockquote>
+  <font face="Times"> </font></blockquote>
+<font face="Times"> </font>
+<blockquote><font face="Times"><font face="Times">FORMAT:</font> </font>
+  <blockquote><font face="Times"><font face="Times"><b>filter</b> / </font></font><big><font
+ style="font-family: monospace;">ifirst,ilast,istride</font></big><font
+ face="Times"><font face="Times"> / [</font><font face="Courier">tolerance</font><font
+ face="Times">]<br>
+    <br>
+    <b>filter</b> / <span style="font-weight: bold;">element</span> /
+[</font></font><big><span style="font-family: monospace;">search_range</span></big><font
+ face="Times"><font face="Times"><span
+ style="font-family: courier new,courier,monospace;">]</span> / [ <b
+ style="text-decoration: underline;">nodelete</b> | <span
+ style="font-weight: bold;">delete</span> ]<br>
+    </font></font></blockquote>
+  <font face="Times"> &nbsp;EXAMPLES:<br>
+  </font>
+  <blockquote><font face="Times"><b>filter</b><br>
+Filter all nodes and delete duplicates with epsilon tolerance is set
+automaticly.<br>
+    <br>
+    <b>filter</b> / 1 0 0 / 1.e-3<br>
+Filter all nodes and delete duplicates where epsilon tolerance is set
+by user to 1.e-3.<br>
+    <br>
+    <b>filter</b> / <span style="font-weight: bold;">pset</span> <span
+ style="font-weight: bold;">get</span> point_set<br>
+Filter a subset of the nodes and delete duplicates with epsilon
+tolerance is set automaticly.<br>
+    <br>
+    <font face="Times"><b>filter</b> / <span style="font-weight: bold;">element</span><br>
+Filter all elements and set itetclr of duplicates to max(itetclr) + 1.
+Assign values to iclr1 and iclr2 arrays.</font></font><br>
+    <br>
+    <font face="Times"><b>filter</b> / <span style="font-weight: bold;">element</span>
+/ / <span style="font-weight: bold;">nodelete</span><br>
+Filter elements and set itetclr of duplicates to max(itetclr) + 1.
+Assign values to iclr1 and iclr2 arrays.</font><font face="Times"><br>
+    <br>
+    <font face="Times"><b>filter</b> / <span style="font-weight: bold;">element</span>
+/ / <span style="font-weight: bold;">delete</span><br>
+    </font><font face="Times">Filter elements and delete duplicate
+elements. Assign values to iclr1 and iclr2 arrays.</font></font><br>
+    <br>
+    <font face="Times"><b>filter</b> / <span style="font-weight: bold;">element</span>
+/ 1e20 / <span style="font-weight: bold;">delete</span><br>
+    </font><font face="Times">Filter all elements (assuming there are
+less than 1e20)&nbsp; with an exhaustive search and delete duplicate
+elements. Assign values to iclr1 and iclr2 arrays.</font><br>
+  </blockquote>
+</blockquote>
+<font face="Times"> &nbsp; <br>
+</font> <br>
+</body>
+</html>

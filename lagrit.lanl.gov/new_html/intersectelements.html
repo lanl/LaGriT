@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>INTERSECTELEMENTS</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+ 
+<body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#551A8B" alink="#FF0000">
+<p><b><u><font face="Times New Roman, Times, serif">INTERSECT_ELEMENTS</font></u></b></p>
+<blockquote>
+  <p>This command takes two meshes and creates an element-based attribute in mesh1
+    that contains the number of elements in mesh2 that intersected the respective
+    element in mesh1. </p>
+  <p>We define intersection as two elements sharing any common point.</p>
+</blockquote>
+<p>FORMAT:</p>
+<blockquote>
+  <p><b><font face="Times New Roman, Times, serif">intersect_elements</font></b>
+    / <font face="Courier New, Courier, mono">mesh1</font> / <font face="Courier New, Courier, mono">mesh2</font>
+    / <font face="Courier New, Courier, mono">[attrib_name]</font></p>
+</blockquote>
+<p>NOTES:</p>
+<blockquote>
+  <p><font face="Courier New, Courier, mono">[attrib_name]</font> specifies the
+    name of the element based attribute in mesh1 that is created by this command.
+    The default name for this attribute is <font face="Courier New, Courier, mono">in_&lt;mesh2&gt;</font>.
+    For example, if the comand syntax was:</p>
+  <blockquote>
+    <p><b><font face="Times New Roman, Times, serif">intersect_elements</font></b>/<font face="Courier New, Courier, mono">cmo_strat</font>/<font face="Courier New, Courier, mono">cmo_well</font>/</p>
+  </blockquote>
+  <p>the element based attribute that stores the number of intersections would
+    be named <font face="Courier New, Courier, mono">in_cmo_well</font>. It is
+    worth noting that GMV does not take kindly to names that are longer than eight
+    characters and will truncate them without even thinking twice, resulting in
+    the name used in our example being changed to <font face="Courier New, Courier, mono">in_cmo_w</font>.
+    Therefore, it is good practice to use your own attribute names less than eight
+    characters if possible.</p>
+  <p>This code has been slightly modified to work with AMR grids produced in X3D.
+    This modification depends on an element based attribute that X3D creates called
+    <b>itetkid</b>. If this attribute is not present, <b><font face="Times New Roman, Times, serif">intersect_elements</font></b>
+    will <b>NOT</b> be able to recognize the AMR grid, and will intersect all
+    elements of the octree. With the itetkid attribute present, only leaves of
+    the octree which intersect will be flagged.</p>
+  <p><b><font face="Times New Roman, Times, serif">intersect_elements</font></b>
+    is not designed to work with every element-element combination, but it is
+    pretty thorough. The following table shows what element/element intersetion
+    capabilities are available. An <b>X</b> in the box means that the intersection
+    is supported.</p>
+  <table width="75%" border="1" align="center">
+    <tr align="center" valign="middle">
+      <td width="15%">&nbsp;</td>
+      <td width="15%">point</td>
+      <td width="11%">line</td>
+      <td width="7%">tri</td>
+      <td width="15%">quad</td>
+      <td width="8%">tet</td>
+      <td width="11%">pyr</td>
+      <td width="18%">hex</td>
+    </tr>
+    <tr align="center" valign="middle">
+      <td width="15%">point</td>
+      <td width="15%"><b>X</b></td>
+      <td width="11%"><b>X</b></td>
+      <td width="7%"><b>X</b></td>
+      <td width="15%"><b>X</b></td>
+      <td width="8%"><b>X</b></td>
+      <td width="11%"><b>X</b></td>
+      <td width="18%"><b>X</b></td>
+    </tr>
+    <tr align="center" valign="middle">
+      <td width="15%"> line </td>
+      <td width="15%"><b>X</b></td>
+      <td width="11%"><b>X</b></td>
+      <td width="7%"><b>X</b></td>
+      <td width="15%"><b>X</b></td>
+      <td width="8%"><b>X</b></td>
+      <td width="11%">&nbsp;</td>
+      <td width="18%"><b>X</b></td>
+    </tr>
+    <tr align="center" valign="middle">
+      <td width="15%">tri</td>
+      <td width="15%"><b>X</b></td>
+      <td width="11%"><b>X</b></td>
+      <td width="7%"><b>X</b></td>
+      <td width="15%"><b>X</b></td>
+      <td width="8%"><b>X</b></td>
+      <td width="11%">&nbsp;</td>
+      <td width="18%"><b>X</b></td>
+    </tr>
+    <tr align="center" valign="middle">
+      <td width="15%">quad</td>
+      <td width="15%"><b>X</b></td>
+      <td width="11%"><b>X</b></td>
+      <td width="7%"><b>X</b></td>
+      <td width="15%"><b>X</b></td>
+      <td width="8%"><b>X</b></td>
+      <td width="11%">&nbsp;</td>
+      <td width="18%"><b>X</b></td>
+    </tr>
+    <tr align="center" valign="middle">
+      <td width="15%">tet</td>
+      <td width="15%"><b>X</b></td>
+      <td width="11%"><b>X</b></td>
+      <td width="7%"><b>X</b></td>
+      <td width="15%"><b>X</b></td>
+      <td width="8%"><b>X</b></td>
+      <td width="11%">&nbsp;</td>
+      <td width="18%"><b>X</b></td>
+    </tr>
+    <tr align="center" valign="middle">
+      <td width="15%">pyr</td>
+      <td width="15%"><b>X</b></td>
+      <td width="11%">&nbsp;</td>
+      <td width="7%">&nbsp;</td>
+      <td width="15%">&nbsp;</td>
+      <td width="8%">&nbsp;</td>
+      <td width="11%">&nbsp;</td>
+      <td width="18%">&nbsp;</td>
+    </tr>
+    <tr align="center" valign="middle">
+      <td width="15%">hex</td>
+      <td width="15%"><b>X</b></td>
+      <td width="11%"><b>X</b></td>
+      <td width="7%"><b>X</b></td>
+      <td width="15%"><b>X</b></td>
+      <td width="8%"><b>X</b></td>
+      <td width="11%">&nbsp;</td>
+      <td width="18%"><b>X</b></td>
+    </tr>
+  </table>
+  <p>For example, this means that if you have a mesh that has hexes and tets in
+    it, you could intersect it with a mesh that has anything but pyramids in it.</p>
+  <p>Finally, <b><font face="Times New Roman, Times, serif">intersect_elements</font></b>
+    is based on a k-D-R tree implementation to improve performance in many circumstances.
+    Unfortunately, there is no way to improve performance if the elements being
+    intersected have many candidate elements in their bounding boxes. As such,
+    there are situations where running time may be improved by refining mesh2
+    such that its elements are of comparable size with those of mesh1.</p>
+</blockquote>
+<p>EXAMPLES:</p>
+<blockquote>
+  <p><b><font face="Times New Roman, Times, serif">intersect_elements</font></b>/<font face="Courier New, Courier, mono">cmo_grid</font>/<font face="Courier New, Courier, mono">cmo_sphere</font>/</p>
+  <p><b><font face="Times New Roman, Times, serif">intersect_elements</font></b>/<font face="Courier New, Courier, mono">cmo_grid</font>/<font face="Courier New, Courier, mono">cmo_well</font>/<font face="Courier New, Courier, mono">obswell</font></p
+</blockquote>
+</body>
+</html>

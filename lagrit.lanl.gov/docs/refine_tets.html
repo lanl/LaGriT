@@ -1,0 +1,66 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Jan Wills">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+ 
+<BLOCKQUOTE><B></B>
+ 
+<BR><P><B>III. Tets: </B>Each tetrahedron is tested separately for refinement
+or derefinement</BLOCKQUOTE>
+ 
+<BLOCKQUOTE>
+<BLOCKQUOTE><IMG SRC="new_html/image4.jpg" HEIGHT=134 WIDTH=155></BLOCKQUOTE>
+where V is the volume of the tetrahedron.
+<BR>Criteria:
+ 
+<P>&nbsp;&nbsp;&nbsp;&nbsp; 1) Junction: Refine if any of the tets field
+values straddle c.
+<BLOCKQUOTE>&nbsp;&nbsp;&nbsp;&nbsp; example: For c = 0 refine if f changes
+sign between any of the four nodes.</BLOCKQUOTE>
+&nbsp;&nbsp;&nbsp;&nbsp; 2) Constant: Refine if any of the tets field values
+exceed c.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tag for refinement
+if
+<BLOCKQUOTE>
+<BLOCKQUOTE>f(1) > c or f(2) > c or f(3) > c or f(4) > c</BLOCKQUOTE>
+</BLOCKQUOTE>
+&nbsp;&nbsp;&nbsp;&nbsp; 3) Maxsize: Refine if the tet volume exceeds c.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tag if V > c
+ 
+<P>&nbsp;&nbsp;&nbsp;&nbsp; 4) Aspect Ratio: Refine if the tets aspect
+ratio is less than c. For the tet the aspect ratio (AR) is defined as the
+ratio of the radius of the inscribed sphere
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; of the tet to the
+radius of the circumscribed sphere. We renormalize this ratio by multiplying
+by three so that the ratio equals one for a regular
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tetrahedron (composed&nbsp;
+of equilateral triangular faces).
+<BLOCKQUOTE>&nbsp;AR = 3 RIN/ROUT&nbsp; where
+<BLOCKQUOTE>RIN radius of inscribed sphere
+<BR>ROUT radius of circumscribed sphere
+<BR>AR is never greater than one.</BLOCKQUOTE>
+</BLOCKQUOTE>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tag if AR &lt; c.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Generally the
+smaller AR is, the more elongated the tet is.
+ 
+<P>&nbsp;&nbsp;&nbsp;&nbsp; 5) Lambda Refine: Refine if lamda/dx > c . Where
+lambda is taken to be the radius of the circumscribed sphere ROUT of the
+tet.
+<BLOCKQUOTE>
+<BLOCKQUOTE>lambda = |f(xcen)| /grad f
+<BR>f(xcen) = (f(1) + f(2) + f(3) + f(4))/4</BLOCKQUOTE>
+&nbsp;where xcen is the centroid of the tet, and we have assumed linear
+interpolations of f.&nbsp; grad f is evaluated for the tet by an approximation
+involving linear&nbsp; interpolation au the surface integral&nbsp; over
+the surface of the tet.</BLOCKQUOTE>
+&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;</BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

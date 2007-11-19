@@ -1,0 +1,19 @@
+*** compare_regnpts	Thu Sep  7 16:02:21 2000
+--- ../../reference/reference_regnpts	Thu Sep  7 15:49:39 2000
+***************
+*** 167,173 ****
+   nodes_per_element              4              4              0         1       
+   edges_per_element              6              6              0         1       
+   faces_per_element              4              4              0         1       
+!  isetwd               0.00000E+00    1.27320-313    0.00000E+00       277       
+   ialias                         0            277            277       277       
+   imt1                           1              2              1       277       
+   itp1                           0             41             41       277       
+--- 167,173 ----
+   nodes_per_element              4              4              0         1       
+   edges_per_element              6              6              0         1       
+   faces_per_element              4              4              0         1       
+!  isetwd               0.00000E+00    1.27320-313    1.27320-313       277       
+   ialias                         0            277            277       277       
+   imt1                           1              2              1       277       
+   itp1                           0             41             41       277       

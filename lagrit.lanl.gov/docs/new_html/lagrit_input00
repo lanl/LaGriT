@@ -1,0 +1,40 @@
+* test sheetij basic setups
+*
+cmo create cmo1
+read sheetij test.dat /5,4 /0.0,0.0 / 5.0,5.0 / ascii
+dump gmv zall.gmv
+hextotet/4/tri_cmo/cmo1
+*dump gmv zall_tri.gmv
+*
+cmo create cmox
+read sheetij test.dat /5,4 /0.0,0.0 / 5.0,5.0 / xflip, ascii
+*dump gmv zall_xflip.gmv
+*
+cmo create cmoy
+read sheetij test.dat /5,4 /0.0,0.0 / 5.0,5.0 / yflip, ascii
+dump gmv zall_yflip.gmv
+*
+cmo create cmoxy
+read sheetij test.dat /5,4 /0.0,0.0 / 5.0,5.0 / xflip, yflip, ascii
+*dump gmv zall_xyflip.gmv
+*
+cmo create cmosxy
+read sheetij test.dat /5,4 /3.0,1.0 / 5.0,5.0 / 2,5, 2,4/ xflip, yflip
+, ascii
+*dump gmv zsub_xyflip.gmv
+*
+cmo create cmohdr
+read sheetij test_hdr.dat -header- ascii
+*dump gmv zall_hdr.gmv
+*
+* begin compare here
+cmo printatt cmo1 zic
+cmo printatt cmohdr zic
+cmo printatt cmox zic
+cmo printatt cmoy zic
+cmo printatt cmoxy zic
+* end compare here
+*
+*
+finish
+

@@ -1,0 +1,40 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Jan Wills">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><b><u><font face="Times">cmo/geometry</font></u></b>
+<blockquote><font face="Times"><b>cmo/geometry </b>/</font><font face="Courier New,Courier">cmo_name/geometry_name</font>
+<p><font face="Times">Associate the geometry named </font><font face="Courier New,Courier">geometry_name
+</font><font face="Times New Roman,Times">with
+the mesh object named</font><font face="Courier New,Courier"> cmo_name.
+</font><font face="Times New Roman,Times">The
+value of the mesh object attribute </font><font face="Courier New,Courier">geom_name
+</font><font face="Times New Roman,Times">will
+be set to </font><font face="Courier New,Courier">geometry_name.
+</font><font face="Times New Roman,Times">All
+geometry information will be updated to the geometry information of </font><font face="Courier New,Courier">geometry_name</font><font face="Times New Roman,Times">.&nbsp;
+This includes number of surfaces, regions, material regions, current geometry
+name, and definitions of active surfaces, regions and material regions.
+</font><font face="Courier New,Courier">cmo_name
+</font><font face="Times New Roman,Times">and
+</font><font face="Courier New,Courier">geometry_name</font><font face="Times New Roman,Times">
+must have been previously created.&nbsp; <a href="geometries.html">See
+III. E</a> for a discussion of geometry.&nbsp; The <b><a href="cmo_constraint.html">cmo/constraint
+</a></b>command
+might also be required.</font></blockquote>
+</blockquote>
+
+<blockquote><font face="Times">EXAMPLES:</font>
+<blockquote><font face="Times"><b>geometry/create/</b>blobgeom/</font>
+<br><b><font face="Times">cmo/create/</font></b><font face="Times New Roman,Times">cmo1</font>
+<br><b><font face="Times">cmo/geometry/</font></b><font face="Times New Roman,Times">cmo1/blobgeom/</font>
+<br><b><font face="Times">cmo/constraints/</font></b><font face="Times New Roman,Times">cmo_sink/cmo_src</font></blockquote>
+</blockquote>
+
+</body>
+</html>

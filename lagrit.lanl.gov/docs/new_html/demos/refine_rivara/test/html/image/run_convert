@@ -1,0 +1,9 @@
+convert -crop 15% image1.rgb rivera1.gif
+convert -geometry 15% rivera1.gif rivera1_tn.gif
+echo 'rivera1.gif and rivera1_tn.gif done\n'
+convert -crop 15% image2.rgb rivera2.gif
+convert -geometry 15% rivera2.gif rivera2_tn.gif
+echo 'rivera2.gif and rivera2_tn.gif done\n'
+convert -crop 15% image3.rgb rivera3.gif
+convert -geometry 15% rivera3.gif rivera3_tn.gif
+echo 'rivera3.gif and rivera3_tn.gif done\n'

@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Geometry</title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+
+<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
+
+<meta name="keywords" content=" "/>
+
+<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
+<link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
+
+</head>
+<body class="home">
+
+<!-- OPEN include for banner area -->
+<!--#include virtual="/source/includes/xbanner.inc" -->
+<!-- CLOSE include for banner area -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/identifier.inc -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc -->
+<div id="content-org">
+  <table id="mid-section1" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="236"  valign="top" class="col1">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/nav1.inc -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/contacts.inc -->
+      <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+     
+   <td width="924" valign="top" class="col2-420">
+<!-- OPTIONAL: OPEN include for content area -->
+
+  
+        <p>* create a 3-D tetrahedral mesh object and name it 3dmesh<br />
+          cmo/create/3dmesh/<br />
+          * unit cube<br />
+          surface/cube/reflect/box/0.0,0.0,0.0/1.0,1.0,1.0/<br />
+          * define z plane as tilted interface<br />
+          surface/cutplane/intrface/plane/0.,0.,.5/1.,0.,1./1.,1.,1./ <br />
+          *define geometric regions<br />
+          region/top/ le cube and gt cutplane /<br />
+          region/bottom/ le cube and le cutplane /<br />
+          * define material regions<br />
+          mregion/mattop/ le cube and gt cutplane /<br />
+          mregion/matbot le cube and lt cutplane /<br />
+          * create 25 points (5x5x1) in a plane above the unit cube<br />
+          * place points on the boundaries in the x and y directions (1,1,0)<br />
+          rz/xyz/7,6,1/0.,0.,1.1/1.,1.,1.1/1,1,0/<br />
+          * give the points defined by the rz command the name, rayend<br />
+          pset/rayend/seq/1,0,0/<br />
+          * create rays between points in rayend and the plane below the cube<br />
+          * distribute 3 points along these rays in the region top<br />
+          * add one point at the upper external boundary for each ray<br />
+          regnpts/top/3/pset,get,rayend/xyz/0.,0.,-1./1.,0.,-1./1.,1.,-1./0,0/<br />
+          * distribute 4 points along these rays in the region bottom<br />
+          * add one point at the lower external boundary for each ray<br />
+          * add one point at the material interface for each ray since<br />
+          * bottom contains the interface - a total of 5 points for each ray.<br />
+          * points will be distributed such that the ratio of distances between<br />
+          * any two consecutive pairs of points is 0.6 traveling from the source<br />
+          * of the ray (the plane) to the ray end.<br />
+          regnpts/bottom/4/pset,get,rayend/xyz/0.,0.,-1./1.,0.,-1./1.,1.,-1./1,.6/<br />
+          * eliminate coincident or nearly coincident points<br />
+          * 1,0,0 means consider all points<br />
+          filter/1,0,0/<br />
+          * give all points a default material type<br />
+          zq/imt/1,0,0/1/<br />
+          * rayend points are set to invisible (dud is the code for invisible)<br />
+          * they were used as end points of the rays in the regnpts command<br />
+          zq/itp/pset,get,rayend/dud/<br />
+          * assign material colors to the points<br />
+          * identify points that are on material interfaces<br />
+          * identify constrained points<br />
+          setpts<br />
+          * connect the points into a Delaunay tetrahedral mesh<br />
+          * do not connect across material interfaces -<br />
+          * add points if necessary to resolve material interfaces<br />
+          search<br />
+          * set element material type (color)<br />
+          settets<br />
+          * dump mesh to some output form<br />
+          dump/gmv/gmv.regnpts<br />
+          * terminate processing<br />
+        finish</p>
+        <h1>&nbsp;</h1>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <table width="500" border="0">
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+        </table>
+        <p>&nbsp;</p>
+        <p align="left"><img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/xtransparent.gif" /> </p>
+      <p align="left"><a href="index.shtml">Return to LaGriT Home Page</a></p></td>
+      <td width="161" valign="top" class="col3-180">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/related_links.inc -->
+      <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+    </tr>
+  </table>
+</div>
+
+<!-- OPEN include for footer area -->
+<!--#include virtual="/source/includes/xfooter.inc" -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc -->
+
+<!--#include virtual="../includes/email.inc" -->
+
+<!-- CLOSE include for footer area -->
+</body>
+</html>

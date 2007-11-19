@@ -1,0 +1,60 @@
+*--- Input deck for r-adaption of hexahedral mesh, using
+*--- the 'gyroscope' function.
+*--- R-adaption entails moving the nodes in order to best represent
+*--- the function.
+ 
+*--- Create hexahedral mesh
+ 
+cmo create 3dmesh /// hex
+ 
+*--- Define six surfaces of a box.  The box takes
+*--- up the region [-1,1] x [-1,1] x [-1,1].
+ 
+surface/bot/reflect/plane/-1.,-1.,-1./1.,-1.,-1./1.,1.,-1./
+surface/top/reflect/plane/-1.,-1.,1./1.,1.,1./1.,-1.,1./
+surface/left/reflect/plane/-1.,-1.,-1./-1.,1.,-1./-1.,1.,1./
+surface/right/reflect/plane/1.,-1.,-1./1.,1.,-1./1.,1.,1./
+surface/front/reflect/plane/-1.,-1.,1./1.,-1.,1./1.,-1.,-1./
+surface/back/reflect/plane/-1.,1.,1./1.,1.,1./1.,1.,-1./
+ 
+*--- Define gyrospace region to be inside the box.
+ 
+region/gyrospace/ ge left and le right and ge front and &
+le back and ge bot and ge top /
+mregion/mgyrospace/ ge left and le right and ge front and &
+le back and ge bot and ge top /
+ 
+*--- Distribute points
+ 
+rz/xyz/11,11,11/-1.,-1.,-1./1.,1.,1./1,1,1/
+filter/1,0,0/
+zq/imt/1,0,0/1/
+setpts
+ 
+*--- Create hex mesh
+rzbrick/xyz/11,11,11/1,0,0/connect/
+settets
+ 
+*--- add 'density' field attribute
+ 
+cmo/select/3dmesh
+cmo/addatt/3dmesh/density/vdouble/scalar/nnodes/linear/permanent//0.
+ 
+*--- dope the '3dmesh' density field with
+*--- user-supplied FADPT values at given time.
+ 
+assign///time/0.
+doping/user/density/set/1,0,0
+dump gmv gyro.3dhex.initial.gmv
+ 
+*--- Perform r-adaption on the hex mesh.
+ 
+assign///maxiter_sm/50
+radapt/position/mega/1,0,0/user
+ 
+*--- redope the '3dmesh' density field with
+*--- user-supplied FADPT values at given time.
+ 
+doping/user/density/set/1,0,0
+dump gmv gyro.3dhex.adapted.gmv
+finish

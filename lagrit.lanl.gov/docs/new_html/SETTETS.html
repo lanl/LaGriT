@@ -1,0 +1,63 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>SETTETS</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">SETTETS</font></u></b></blockquote>
+
+<dir>
+<dir>Set element color<b> (</b><font face="Courier">itetclr</font><font face="Times">)
+and create child points at interior interfaces. This command can also be
+used to set the node color from the element color.</font>
+<p><font face="Times">If there are no options <b>settets</b> and <b>settets/color_tets</b>
+sets the color of all elements using the following tests. If the element
+contains a non-interface point, the element color is set to this value.
+If the element is comprised entirely of interface points, the centroid
+of the element is calculated and the material region containing this point
+is determined; the element color is set to this material. If the centroid
+of the element is not in any material region, the centroid must be on an
+interface surface. In this case all vertices of the element are examined
+and the material common to all vertices is selected as the element color.</font>
+<p><font face="Times"><b>settets</b>/
+<b>parents</b> has exactly the same
+behavior as <b>settets </b>except that existing values of </font><font face="Courier">itetclr</font><font face="Times">
+are used for elements containing non-interface nodes.</font>
+<p><font face="Times"><b>geometry</b>&nbsp; sets the&nbsp; element color&nbsp;
+based on the material region containing the centroid of the element for
+all elements; existing values of </font><font face="Courier">itetclr</font><font face="Times">
+are ignored.</font>
+<p><font face="Times"><b>color_points</b>&nbsp; sets the node material
+(</font><font face="Courier">imt1</font><font face="Times">) from the element
+color (</font><font face="Courier">itetclr</font><font face="Times">);
+existing values of </font><font face="Courier">itetclr</font><font face="Times">
+are not changed.</font>
+<p><b><font face="Times">settets/newtets </font></b><font face="Times">has
+the same behavior<b> </b>as<b> settets </b>except that existing positive
+values of </font><font face="Courier">itetclr</font><font face="Times">
+are not changed.</font>
+<p><font face="Times"><b>settets/normal</b> assigns the </font><font face="Courier New,Courier">itetclr</font><font face="Times">
+array of a triangle mesh to an integer value depending on the normal vector
+direction.&nbsp; There are 26 possible direction that correspond to the
+6 faces, 12 edges and 8 corners of a cube.&nbsp; In general most triangles
+will be assigned one of 6 values which correspond to the 6 sectors which
+are within 45 degrees of the 6 unit vectors: 1 0 0 , 0 1 0 , 0 0 1, -1
+0 0, 0 -1 0, 0 0 -1</font>
+<br><font face="Times">NOTE:&nbsp; Valid only for triangle mesh.</font>
+<br>&nbsp;
+<br>&nbsp;</dir>
+<font face="Times">FORMAT:</font>
+<dir><b><font face="Times">settets</font></b>
+<br><font face="Times"><b>settets</b>/<b>parents</b></font>
+<br><font face="Times"><b>settets</b>/<b>geometry</b></font>
+<br><font face="Times"><b>settets</b>/<b>color_tets</b></font>
+<br><font face="Times"><b>settets</b>/<b>color_points</b></font>
+<br><b><font face="Times">settets/normal</font></b></dir>
+</dir>
+
+</body>
+</html>

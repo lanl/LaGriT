@@ -1,0 +1,99 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; SunOS 5.7 sun4u) [Netscape]">
+   <title>DUMP</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><b><u><font face="Times">DUMP</font></u></b></blockquote>
+
+<dir>
+<dir>This command produces an output file from a <font face="Courier">Mesh
+Object</font><font face="Times">. If the option is <b>lagrit</b>, a restart
+dump is made; a subsequent <b>read/lagrit</b> command will restart the
+code at the state at which the dump command was issued.&nbsp; Except for
+lagrit dumps, the default gmv file type is binary.&nbsp; To create an ASCII
+formated gmv dump preceed the dump command with this command:</font>
+<br><font face="Times">cmo/setatt/dumptype=ascii/ or include dumptype in
+the command.</font>
+<br>&nbsp;NOTE:&nbsp; For LaGriT versions dated after October 1999 that
+do not use the dictionary, use assign///ipolydat/no to prevent ploygon
+data to be written to GMV files.</dir>
+<font face="Times">FORMAT:</font>
+<dir><font face="Times"><b>dump</b>/file_type/file_name/[cmo_name]/</font>
+<br><font face="Times">valid file_types are: <b>coord</b>, <b>zone</b>,
+<b>gmv</b>,
+<b>avs</b>,
+<b>chad</b>,
+<b>fehm</b>, <b>datex ,std, geom </b>and <b>lagrit</b></font>
+<br><font face="Times"><b>dump </b>/<b> coord </b>/file_name/[cmo_name]/</font>
+<br><font face="Times">Will output a file with node list x,y,z values and
+element connectivity list.</font>
+<br><font face="Times"><b>dump</b> / <b>zone</b> /file_name/[cmo_name]/</font>
+<br><font face="Times">Will output a set of 3 files.</font>
+<br><font face="Times">file_name_<b>material</b>.<b>zone</b> is node list
+for each material (imt) value.</font>
+<br><font face="Times">file_name_<b>outside</b>.<b>zone</b> is a node list
+for each of 6 (top , bottom, left, right, front, back) possible external
+boundaries for rectangular geometries.</font>
+<dir><font face="Times">Note that a node can belong to more than 1 list.
+For example a corner node can belong to both the front and the side.</font></dir>
+<font face="Times">file_name_<b>multi_mat.zone</b> is a list of edges (defined
+by the two nodes that comprise them) that cross material boundaries. It
+is organized into a series of lists.</font>
+<dir><font face="Times">Each list consists of a header followed by list
+entries.</font>
+<br><font face="Times">The header consists of the material number followed
+by the string "</font><tt>multi-material connections</tt><font face="Times">"
+on the same line, followed by nnum on the next line, followed by the number
+of entries inthe list. (The notation nnum is a holdback from the earlier
+version of this command, and really should be nedges.)</font>
+<br><font face="Times">The list entries consist of two nodes. The first
+node is the oneinside the material in question, thee second is the node
+in the other material. The lists are sorted by the first node, but are
+not sorted by the second. Each list entry is on its own separate line,
+and the nodes in each entry are separated by a comma.</font></dir>
+<font face="Times"><b>dump</b> /<b> avs</b> /file_name/[cmo_name] / iopt_points
+/ iopt_elements / iopt_values</font>
+<br><font face="Times">Output in AVS UCD (Unstructured Cell Data) format.
+One can turn on or off the output of node coordinates (iopt_points), element
+connectivity (iopt_elements) and node attributes (iopt_values). 1 (default)
+is on, 0 is off.</font>
+<br><font face="Times"><b>dump</b> / <b>stl</b> /file_name/[cmo_name]/</font>
+<br><font face="Times">Output in STL, stereo lithography format. This is
+only valid for triangular sheets.</font>
+<br><b><font face="Times">dump/geom/</font></b><font face="Courier">file</font><font face="Times">
+will write an ascii file containing the geometry information for the current
+run. This information includes the region and mregion definitions and surface,
+names, types and definitions.</font>
+<br><font face="Times"><b>dump/lagrit</b>/file_name/[cmo_name]/</font>
+[<b>ascii </b>| <b>binary</b>]
+<br><font face="Times">will write an restart file that contains geometry
+and mesh object information.&nbsp; cmo_name can be '<b>-all-</b>' in which
+case all mesh objects are written to the file or it can specify a list
+of mesh objects to be written.</font>&nbsp; The default is <b>ascii</b>.
+<br><font face="Times"><b>dump/recolor</b>/file_name</font>
+<br><font face="Times">This command writes the existing <b>colormap</b>
+to the specified file.&nbsp; (See <b><a href="COLORMAP.html">colormap</a></b>
+command)</font>
+<br><font face="Times"><b>dump/gmv</b>/file-name/[mesh-object]/[<b><u>ascii
+</u></b>|
+<b>binary</b>]</font>
+<br><font face="Times">Write a file to be read by the graphics program
+GMV.&nbsp; The defaults are binary and current mesh object.</font>
+<br><a href="DUMP3.html"><font face="Times"><b>dump/fehm</b>/</font><font face="Courier New,Courier">file_name</font><font face="Times">/[</font><font face="Courier New,Courier">cmo_name</font><font face="T
+[<B>binary</B> |<B>ascii</B> | <B><U>binaryc</U></B>| <B>asciic</B> ]</FONT> 
+//</A>
+<BR><FONT FACE=">[<b><u>scalar|vector|both|area_scalar|area_vector|area_both</u></b>]/[<b>delatt,keepatt</b>]</font></a></dir>
+
+<br>&nbsp;
+<p><font face="Times">EXAMPLE:</font>
+<dir><font face="Times"><b>dump</b>/<b>gmv</b>/</font><font face="Courier">gmv.out/3dmesh/</font>
+<br><b><font face="Times">dump</font>/lagrit/</b><font face="Courier">LaGriT.out/<b>-all-</b>/<b>binary</b></font></dir>
+</dir>
+
+</body>
+</html>

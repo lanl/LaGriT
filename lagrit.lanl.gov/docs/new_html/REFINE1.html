@@ -1,0 +1,58 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Jan Wills">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>REFINE1.html</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<FONT FACE="Times New Roman,Times">&nbsp;</FONT>
+<BLOCKQUOTE><B><FONT FACE="Times New Roman,Times"><FONT SIZE=+1>Grid Refinement
+and&nbsp; Criteria - Algorithms</FONT></FONT></B>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">The Refine command for the
+grid generation code LaGriT uses various criteria to tag grid elements
+for refinement or derefinement. When utilizing unstructured grids generated
+by LaGriT for applications such as solution of partial differential equations
+(PDE) for physical systems, it is desirable to modify the grid in order
+to optimize it for the particular problem based on several principles.
+The goal is to produce a better solution by creating better grid elements
+in various regions of the domain of the PDE's. This can involve physical
+criteria such as choosing smaller elements where physical variables are
+rapidly changing or larger elements where the variables are relatively
+constant in order not to waste computational effort. Grid elements can
+also be chosen on various geometric criteria related to their shape such
+as different formulations of an aspect ratio. In time dependent problems,
+it may be necessary to refine and derefine the grid after each time step
+in order to follow various changing phenomena such as moving concentration
+fronts, shock waves, or advancing oxide layers. These factors make mesh
+refinement crucial to the practical solution of physical modeling problems.
+We therefore will detail several algorithms that are currently implemented
+for identifying which grid elements should be refined or derefined based
+on geometric and physical criteria. New algorithms will be added to this
+list and the current ones modified as we obtain feed back from users.</FONT>
+<BLOCKQUOTE>
+ 
+<P><FONT FACE="Times New Roman,Times"><A HREF="edges.html">I.
+Edges: Each edge is tested separately to see if it should be tagged for
+refinement or derefinement</A></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><A HREF="refine_faces.html">II.
+Faces: Each face is tested separately for refinement or derefinement.</A></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><A HREF="refine_tets.html">III.
+Tets: Each tetrahedron is tested separately for refinement or derefinement</A></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">IV. Face Edges: Same algorithms of
+the Faces category except all edges of the face are tagged for refinement
+or derefinement if the condition is met for the</FONT>&nbsp; <FONT FACE="Times New Roman,Times">face.</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">V. Tet Edges: Same algorithms of
+the tet category except all edges of the tet are tagged for refinement
+or derefinement if the condition is met for the tet.</FONT></BLOCKQUOTE>
+</BLOCKQUOTE>
+</BLOCKQUOTE>
+ 
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">&nbsp;</FONT></BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

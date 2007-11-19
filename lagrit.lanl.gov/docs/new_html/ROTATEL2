@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 98">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.06 (Macintosh; I; PPC) [Netscape]">
+   <TITLE>ROTATELN</TITLE>
+</HEAD>
+<BODY>
+<B><U><FONT FACE="Times">ROTATELN</FONT></U></B>
+<DIR><B>Rotates a point distribution (specified by </B><FONT FACE="Courier">ifirst,ilast,istride</FONT><FONT FACE="Times">)
+about a line. The <B>copy</B> option allows the user to make a copy of
+the original points as well as the rotated points, while <B>nocopy</B>
+just keeps the rotated points themselves. The line of rotation defined
+by </FONT><FONT FACE="Courier">x1</FONT><FONT FACE="Times"> through </FONT><FONT FACE="Courier">z2</FONT><FONT FACE="Times">
+needs to be defined such that the endpoints extend beyond the point distribution
+being rotated. </FONT><FONT FACE="Courier">theta</FONT><FONT FACE="Times">
+(in degrees) is the angle of rotation whose positive direction is determined
+by the right-hand-rule, that is, if the thumb of your right hand points
+in the direction of the line (1 to 2), then your fingers will curl in the
+direction of rotation. </FONT><FONT FACE="Courier">xcen,ycen,zcen</FONT><FONT FACE="Times">
+is the point where the line can be shifted to before rotation takes place.</FONT>
+<P><FONT FACE="Times">FORMAT:</FONT>
+<P><FONT FACE="Times"><B>rotateln</B> /</FONT><FONT FACE="Courier">ifirst,ilast,istride</FONT><FONT FACE="Times">/
+[<B>no</B>] <B>copy</B> / </FONT><FONT FACE="Courier">x1,y1,z1/x2,y2,z2/theta/</FONT></DIR>
+<FONT FACE="Courier">xcen,ycen,zcen/</FONT>
+<BR>&nbsp;
+<BR>&nbsp;
+</BODY>
+</HTML>

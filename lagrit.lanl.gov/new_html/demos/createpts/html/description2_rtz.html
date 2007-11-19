@@ -1,0 +1,46 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97/98">
+   <meta name="Template" content="Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>*arguments:</title>
+</head>
+<body bgcolor="#FFFFFF" link="#0000FF" vlink="#800080">
+
+<blockquote><font face="Times New Roman,Times"><font size=+1>Example 2:
+createpts in a cylindrical geometry</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+0>The objective
+is to add points to a cylindrical mesh using the <b>createpts </b>command.</font></font><font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times"><font size=+0>A cylindrical geometry
+is defined. The <b>createpts/rtz</b> command is used to create a point
+distribution within the geometry exercising various options available to
+the command. The output consists of one gmv file.</font></font></blockquote>
+
+<blockquote><font face="Times New Roman,Times"><font size=+0></font></font>&nbsp;</blockquote>
+<font face="Times New Roman,Times"><font size=+1>Output Image</font></font>
+<blockquote><a href="image/image2.gif"><img SRC="image/image2tn.gif" NOSAVE height=138 width=116></a><u><font face="Times New Roman,Times"><font size=+0>
+<a href="image/image2.gif">cylindrical grid</a></font></font></u></blockquote>
+<font face="Times New Roman,Times"><font size=+0></font></font><font face="Times New Roman,Times"><font size=+0></font></font>
+<p><font face="Times New Roman,Times"><font size=+1>Input file</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>*TEST createpts/rtz
+(lagrit_input_creatertz)</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>cmo/create/3dmesh</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>surface/outer/reflect/cylinder/0,0,0/1,0,0/1/</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>region/r1/ le outer
+/</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>mregion/m1/ le outer
+/</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>createpts/rtz/4,6,11/0,0,0/3,45,10/1,0,1/</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>dump/gmv/output_creatertz.gmv</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>* begin compare here</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>cmo/status</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>cmo/printatt//-all-/minmax</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>quality</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>finish</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+0></font></font>&nbsp;</blockquote>
+</blockquote>
+
+</body>
+</html>

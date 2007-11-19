@@ -1,0 +1,13 @@
+* TEST addmesh/match (lagrit_input_match)
+read   gmv   input_mesh3.gmv  cmo1
+read   gmv   input_mesh4.gmv  cmo2
+addmesh   match   cmo3   cmo1   cmo2 / &
+      2.0 0.0 0.0 / 3.0 0.0 0.0 / 2.0 0.0 2.0 &
+      2.0 0.0 0.0 / 2.0 1.0 0.0 / 2.0 0.0 2.0 
+filter 1 0 0
+dump   gmv   output_match.gmv  cmo3
+* begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish

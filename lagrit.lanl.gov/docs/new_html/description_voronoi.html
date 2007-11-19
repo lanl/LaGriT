@@ -1,0 +1,164 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<! Template for LaGriT online manual - demo page  >
+<! Search and Replace _name   >
+<!    b = bold = literal parameter names >
+<!    u = underline = default parameter setting >
+<!    font face="Courier" = variable parameter names >
+<!    the br command indicates a line break >
+<! Note: If a html composer is used it will overwrite this file when saved. >
+
+<! header for style of html ------------------------------------------------ >
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]">
+   <! command name for window banner >
+   <title>interpolate / voronoi </title>
+
+<! font and other body information should be in the style statement here.>
+<style type="text/css">
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+          }
+   table {
+          font-family:sans-serif;
+          border-width: 0;
+          color:black;
+          background:white; 
+          }
+   td    { text-align:center;
+            text-valign:middle;
+            font-family:sans-serif;
+            color:black; 
+         }
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+&nbsp;
+<! end header --------------------------------------------------------------- >
+
+<! command name for this demo page>
+<h2>interpolate / voronoi </h2>
+
+<! goal statement for this lagrit demo - one statement per lagrit input deck >
+<br><br>
+<font size="4">
+Example 1: show results from using the <b>voronoi</b> (nearest node) option of interpolate. 
+</font>
+<br><br>
+
+<! objective description for this example >
+<blockquote>
+For each point in the sink grid, the nearest node is found from the
+source or background grid. The attribute value associated with the sink point is
+assigned the attribute value from the source node. 
+</blockquote>
+
+<blockquote>
+The output consists of GMV files.
+</blockquote>
+
+<blockquote>
+The input consists of AVS and GMV files.
+The input deck for this example is 
+<a href="../input_output/lagrit_input_voronoi">lagrit_input_voronoi</a>
+</blockquote>
+
+<br><br> 
+<font size="4">
+Results from Example 1:
+</font>
+<br><br> 
+<! objective description for demo 1 >
+<blockquote>
+The objective is to test the ability of <b>interpolate</b> to find the nearest
+node in a coarse hex grid to each point of a refined triangle grid.
+The imt value of each found node is copied to the sink imt attribute.
+Image shows the imt colors of the coarse hex grid and the refined triangle sink grid. 
+</blockquote>
+
+
+<! This table is 3 columns wide, use thumbnail _tn images in table >
+<! make thumbnail: convert -geometry 15% image.gif image_tn.gif
+<! Use td to indicate a new cell, Use tr to start a new row >
+<table WIDTH="750" COLS=3 >
+
+<! row 1 with 3 table_data_cells accross >
+<! leave empty if not using a td data cell >
+<tr>
+  <td>
+  <a href="image/vor1.gif"> source hex and sink tri grids</a>
+  <br>
+  <a href="image/vor1.gif"> <img src="image/vor1_TN.GIF" > </a>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+</table>
+
+<! objective description for demo 2 >
+<blockquote>
+The objective is to test the ability of <b>interpolate</b> to find the nearest
+node in a quad grid and copy imt values to sink quad grid.
+Image shows both the irregular quad grid and the refined quad sink grid. 
+</blockquote>
+
+<table WIDTH="750" COLS=3 >
+
+<! row 1 with 3 table_data_cells accross >
+<! leave empty if not using a td data cell >
+<tr>
+  <td>
+  <a href="image/vor_rand.gif"> source and sink quad grids</a>
+  <br>
+  <a href="image/vor_rand.gif"> <img src="image/vor_rand_TN.GIF" > </a>
+  </td>
+  <td>
+  </td>
+  <td>
+  </td>
+</table>
+
+<! objective description for demo 3 >
+<blockquote>
+The objective is to test the ability of <b>interpolate</b> to find the nearest
+node in a tet sphere and copy to a 2D triangle sphere surface.
+The 2D surface has a radius slightly smaller than the 3D sphere.
+Image on left is the 3D tet sphere. 
+Image on right is the triangulated surface with imt values copied from the
+3D source sphere. The ends have been cutaway to show the surface elements.
+</blockquote>
+
+<table WIDTH="750" COLS=3 >
+
+<! row 1 with 3 table_data_cells accross >
+<! leave empty if not using a td data cell >
+<tr>
+  <td>
+  <a href="image/vor_sphere_src.gif"> Source 3D tet grid</a>
+  <br>
+  <a href="image/vor_sphere_src.gif"> <img src="image/vor_sphere_src_TN.GIF" > </a>
+  </td>
+  <td>
+  <a href="image/vor_sphere_cut.gif"> Sink 2D tri grid</a>
+  <br>
+  <a href="image/vor_sphere_cut.gif"> <img src="image/vor_sphere_cut_TN.GIF" > </a>
+  </td>
+  <td>
+  </td>
+</table>
+
+<br><br>
+<br><br>
+<! back to main page for demo selection >
+<a href="main_interpolate.html#DEMOS" > Back to main page. </a>
+<br><br>
+
+</BODY>
+</HTML>
+

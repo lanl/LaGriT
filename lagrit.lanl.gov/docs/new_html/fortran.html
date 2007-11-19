@@ -1,0 +1,65 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>c</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><font face="Times New Roman,Times">c. <u>FORTRAN Interface</u></font></b></blockquote>
+
+<dir>
+<dir><font face="Courier New,Courier">Mesh Object </font><font face="Times New Roman,Times">attribute
+data are accessed through a set of subroutines. An example of accessing
+an existing Mesh Object and creating a new mesh object is given in <a href="accessing.html">Section
+IV.d</a>; that example should be used as a template when operating with</font><font face="Courier New,Courier">
+Mesh Objects.</font><font face="Times New Roman,Times"> The subroutine
+set includes:</font>
+<dir>
+<dir><font face="Times New Roman,Times"><a href="meshob.html#cmo_get_name">cmo_get_name</a>
+retrieve active mesh object name</font>
+<p><font face="Times New Roman,Times"><a href="meshob.html#cmo_set_name">cmo_set_name</a>
+set active mesh object name</font>
+<p><font face="Times New Roman,Times"><a href="meshob.html#cmo_get_info">cmo_get_info
+</a>retrieve
+mesh object pointer</font>
+<p><font face="Times New Roman,Times"><a href="meshob.html#cmo_get_intinfo">cmo_get_intinfo</a>
+retrieve mesh object integer data</font>
+<p><font face="Times New Roman,Times"><a href="meshob.html#cmo_get_attinfo">cmo_get_attinfo</a>
+retrieve mesh real or character data</font>
+<p><font face="Times New Roman,Times"><a href="meshob.html#cmo_set_info">cmo_set_info</a>
+set mesh object integer data</font>
+<p><font face="Times New Roman,Times"><a href="meshob.html#cmo_set_attinfo">cmo_set_attinfo</a>
+set mesh real or character data</font>
+<p><font face="Courier New,Courier"><a href="meshob.html#cmo_newlen">cmo_newlen</a></font>
+adjust the lengths of mesh object data based on the values of<font face="Times New Roman,Times">
+number of nodes and number of elements which are stored as integer mesh
+object attributes (nnodes, nelements)</font>
+<p><font face="Times New Roman,Times">Only data from the active</font><font face="Courier New,Courier">Mesh
+Object</font><font face="Times New Roman,Times">may be retrieved; calling
+</font><b><font face="Courier New,Courier">cmo_set_name</font></b><font face="Times New Roman,Times">
+will make the referenced </font><font face="Courier New,Courier">Mesh Object</font><font face="Times New Roman,Times">
+active. Scalar quantities are retrieved and stored using </font><font face="Courier New,Courier"><b>cmo_get_intinfo</b>,
+<b>cmo_get_attinfo</b>,&nbsp;</font><font face="Times New Roman,Times">
+and </font><b><font face="Courier New,Courier">cmo_set_info</font></b><font face="Times New Roman,Times">.
+Vector quantities are referred to by their pointers. The length of the
+vectors is calculated internal to LaGriT based on the values of the scalar
+mesh object attributes. Memory allocation for a new mesh object or for
+a mesh object which will grow in size is accommodated by first setting
+the appropriate scalars for the </font><font face="Courier New,Courier">Mesh
+Object</font><font face="Times New Roman,Times"> by using&nbsp; </font><b><font face="Courier New,Courier">cmo_set_intinfo</font></b><font face="Times New Roman,Times">
+with the new number of elements and/or nodes and then calling</font><b><font face="Courier New,Courier">cmo_newlen</font></b><font face="Times New Roman,Times">.
+These two steps must be taken before adding to the size of a </font><font face="Courier New,Courier">Mesh
+Object</font><font face="Times New Roman,Times">.</font>
+<p><font face="Times New Roman,Times">Mesh object parameters are retrieved
+with the <a href="meshob.html#cmo_get_attparam">cmo_get_attparam</a> subroutine.</font>
+<p><font face="Times New Roman,Times">See <a href="meshob.html">IV.e.2</a>
+for a list of&nbsp; mesh object subroutines .</font></dir>
+</dir>
+</dir>
+</dir>
+
+</body>
+</html>

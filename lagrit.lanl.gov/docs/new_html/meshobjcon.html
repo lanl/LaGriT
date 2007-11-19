@@ -1,0 +1,298 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>d</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><font face="Times New Roman,Times">d. <u>Mesh Object Connectivity</u></font></b></blockquote>
+
+<dir>
+<dir><font face="Times New Roman,Times">The Mesh Object attributes<b>,
+itettyp, itetoff, jtetoff, itet,</b> and<b> jtet </b>along with the variables
+contained in the include file local_element.h completely describe the mesh
+connectivity. The following discussion is based on the concept of local
+facets and local edges for an element. The nodes comprising a given element
+are always specified in a well-defined order; hence when one references
+the 'second facet' of an element, one references a pre-defined set of points.
+Consider a tetrahedral element, with nodes labeled as in the diagram:</font>
+<dir><img SRC="Image232.gif" height=188 width=196></dir>
+&nbsp;<font face="Times New Roman,Times">The points are oriented so that
+the triple product&nbsp; I1I2 <font size=+4>.</font> I2I3 x I2I4&nbsp;
+is positive, and the volume of the tet is one-sixth of the triple product
+and the right-hand-normals of the facets point outward. The local facets
+are defined as follows:</font></dir>
+</dir>
+
+<center><table CELLSPACING=0 CELLPADDING=2 WIDTH="100" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="60%" NOSAVE><font face="Times New Roman,Times">F1</font></td>
+
+<td VALIGN=TOP WIDTH="5%"><font face="Times New Roman,Times">=</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I2</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I3</font></td>
+
+<td VALIGN=TOP WIDTH="40%" NOSAVE><font face="Times New Roman,Times">I4</font></td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="7%"><font face="Times New Roman,Times">F2&nbsp;</font></td>
+
+<td VALIGN=TOP WIDTH="5%"><font face="Times New Roman,Times">=&nbsp;</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I1</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I4</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I3</font></td>
+</tr>
+
+<tr NOSAVE>
+<td VALIGN=TOP WIDTH="7%"><font face="Times New Roman,Times">F3&nbsp;</font></td>
+
+<td VALIGN=TOP WIDTH="5%"><font face="Times New Roman,Times">=&nbsp;</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I1</font></td>
+
+<td VALIGN=TOP WIDTH="9%" NOSAVE><font face="Times New Roman,Times">I2</font></td>
+
+<td VALIGN=TOP WIDTH="9%" NOSAVE><font face="Times New Roman,Times">I4</font></td>
+</tr>
+
+<tr NOSAVE>
+<td VALIGN=TOP WIDTH="7%"><font face="Times New Roman,Times">F4&nbsp;</font></td>
+
+<td VALIGN=TOP WIDTH="5%"><font face="Times New Roman,Times">=&nbsp;</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I1</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I3</font></td>
+
+<td VALIGN=TOP WIDTH="70%" NOSAVE><font face="Times New Roman,Times">I2</font></td>
+</tr>
+</table></center>
+
+<blockquote>
+<blockquote><font face="Times New Roman,Times">&nbsp;The local edges for
+a tetrahedral are defined as follows:</font></blockquote>
+</blockquote>
+
+<center><table CELLSPACING=0 CELLPADDING=2 WIDTH="100" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="60%" NOSAVE><font face="Times New Roman,Times">E1</font></td>
+
+<td VALIGN=TOP WIDTH="9%" NOSAVE><font face="Times New Roman,Times">I1</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I2</font></td>
+</tr>
+
+<tr NOSAVE>
+<td VALIGN=TOP WIDTH="7%" NOSAVE><font face="Times New Roman,Times">E2&nbsp;</font></td>
+
+<td VALIGN=TOP WIDTH="9%" NOSAVE><font face="Times New Roman,Times">I1</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I3</font></td>
+</tr>
+
+<tr NOSAVE>
+<td VALIGN=TOP WIDTH="7%"><font face="Times New Roman,Times">E3&nbsp;</font></td>
+
+<td VALIGN=TOP WIDTH="9%" NOSAVE><font face="Times New Roman,Times">I1</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I4</font></td>
+</tr>
+
+<tr NOSAVE>
+<td VALIGN=TOP WIDTH="7%"><font face="Times New Roman,Times">E4&nbsp;</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I2</font></td>
+
+<td VALIGN=TOP WIDTH="9%"><font face="Times New Roman,Times">I3</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">E5</font></td>
+
+<td><font face="Times New Roman,Times">I2</font></td>
+
+<td><font face="Times New Roman,Times">I4</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">E6</font></td>
+
+<td><font face="Times New Roman,Times">I3</font></td>
+
+<td><font face="Times New Roman,Times">I4</font></td>
+</tr>
+</table></center>
+
+<blockquote>
+<blockquote><font face="Times New Roman,Times">Similarly, local facets
+and local edges are defined for all element types.&nbsp; (see <a href="supported.html">supported
+element types</a>)</font></blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote>
+<blockquote><a NAME="itettyp"></a><font face="Times New Roman,Times"><b>itettyp(it)
+</b>gives
+the element type of element <b>it.</b></font>
+<br><a NAME="itetoff"></a><font face="Times New Roman,Times"><b>itetoff(it)
+</b>gives
+the offset to the first node in element <b>it.</b></font>
+<br><a NAME="itet"></a><font face="Times New Roman,Times"><b>itet(itetoff(it)+j)
+</b>gives
+the jth node of element <b>it.</b></font>
+<br><font face="Times New Roman,Times"><b>nelmnen(itettyp(it)) </b>gives
+the number of nodes of element<b> it.</b></font>
+<br><font face="Times New Roman,Times">To loop through all the nodes of
+all elements in the mesh:</font>
+<p><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;</font><font face="Courier New,Courier">
+do it=1,ntets</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+do j=1,nelmnen(itettyp(it))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+k=itet(itetoff(it)+j)</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+enddo</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp; enddo</font>
+<p><font face="Times New Roman,Times"><b>nelmnef(itettyp(it)) </b>gives
+the number of facets of element <b>it</b>. <b>ielmface0(iface,itettyp(it))
+</b>gives
+the number of nodes on facet<b> iface</b> of element<b> it</b>.
+<b>ielmface1(local_node,iface,itettyp(it))
+</b>gives
+the increment to the node number<b> (local_node) </b>on facet<b> iface</b>
+of element<b> it.</b></font>
+<br><font face="Times New Roman,Times">To loop through all the nodes, <b>k,</b>
+of all elements in the mesh by facets<b>:</b></font>
+<p><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp; </font><font face="Courier New,Courier">do
+it=1,ntets</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+do i=1,nelmnef(itettyp(it))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+do j=1,ielmface0(i,itettyp(it))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+k=itet(itetoff(it)+</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ielmface1(j,i,itettyp(it)))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+enddo</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+enddo</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp; enddo</font>
+<p><font face="Times New Roman,Times"><b>nelmnee(itettyp(it)) </b>gives
+the number of edges of element <b>it. ielmface2(inode,iface,itettyp(it))
+</b>gives
+the edge number associated with <b>inode</b> on facet <b>iface</b> of element
+<b>it.</b></font>
+<br><font face="Times New Roman,Times"><b>ielmedge1(1|2,iedge,itettyp(it))
+</b>gives
+the node offset associated with edge <b>iedge</b> of element <b>it.</b></font>
+<br><font face="Times New Roman,Times">To loop through all pairs of edge
+nodes <b>(i1,i2)</b> of all elements in the mesh :</font>
+<p><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;</font><font face="Courier New,Courier">
+do it=1,ntets</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp; do i=1,nelmnee(itettyp(it))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+i1=itet(itetoff(it)+</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ielmedge1(1,i,itettyp(it)))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+i2=itet(itetoff(it)+</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ielmedge1(2,i,itettyp(it))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp; enddo</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp; enddo</font>
+<p><font face="Times New Roman,Times">To loop through all pairs of edge
+nodes (<b>i1,i2</b>) of all elements in the mesh by facets<b>:</b></font>
+<p><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp; </font><font face="Courier New,Courier">do
+it=1,ntets</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+do i=1,nelmnef(itettyp(it))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+do j=1,ielmface0(i,itettyp(it))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ie=ielmface2(j,i,itettype(it))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+i1=itet(itetoff(it)+</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ielmedge1(1,ie,itettyp(it)))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+i2=itet(itetoff(it)+</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ielmedge1(2,ie,itettyp(it)))</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+enddo</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+enddo</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp; enddo</font>
+<p><a NAME="jtet"></a><font face="Times New Roman,Times"><b>jtet(jtetoff(it)+j)
+</b>gives
+the element number and local facet number of the neighbor to element <b>it</b>,
+facet <b>j</b>.</font>
+<br><font face="Times New Roman,Times">To loop to find all face neighbors
+of elements<b> </b>( <b>jt </b>is the neighbor element number<b>, jf </b>is
+the local facet of the neighboring element) if<b> jt </b>is a neighbor
+of element<b> it </b>and local face<b> if </b>of <b>it </b>is the shared
+face<b> jf </b>of<b> jt </b>then <b>jtet </b>(<b>jtetoff(it) </b>+<b> if</b>)
+=<b> nef_cmo * </b>(<b>jt-</b>1)+<b>jf,
+</b>where<b> nef_cmo i</b>s the
+number of faces per element. Similarily,<b> jtet </b>(<b>jtetoff(jt)
+</b>+<b>
+jf</b>) =<b> nef_cmo * </b>(<b>it </b>-1)<b> </b>+<b> if&nbsp;<a NAME="mbndry"></a>(mbndry
+</b>is
+the value added to
+<b>jtet</b> if element <b>it </b>is on a boundary or
+interface; the <b>jtet</b> value of an element <b>it</b> with facet
+<b>j
+</b>on
+an exterior boundary will be exactly <b>mbndry;</b> the <b>jtet</b> value
+of an element it with facet
+<b>j
+</b>on an interior interface will be <b>mbndry
+</b>+
+the <b>jtet</b> value calculated from the neighboring element number and
+neighbor element local_facet number):</font></blockquote>
+</blockquote>
+</blockquote>
+
+<dir>
+<dir>
+<dir><font face="Courier New,Courier">c get number of faces per element
+for this mesh object</font>
+<br><font face="Courier New,Courier">call cmo_get_info(`faces_per_element',cmo_name,</font>
+<br><font face="Courier New,Courier">nef_cmo,ilen,ity,ics)</font>
+<br><font face="Courier New,Courier">do it=1,ntets</font>
+<br><font face="Courier New,Courier">&nbsp;do i=1,nelmnef(itettyp(it))</font>
+<br><font face="Courier New,Courier">c check if element face is on an external
+boundry</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp; if(jtet(jtetoff(it)+i).eq.mbndry)
+then</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jt=0</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jf=0</font>
+<br><font face="Courier New,Courier">c check if element face is on an internal
+boundry</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font><font face="Courier New,Courier">elseif(jtet(jtetoff(it)+i).gt.mbndry)then</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp; jt=1+(jtet(jtetoff(it)+i)-mbndry-1)/nef_cmo</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp; jf=jtet(jtetoff(it)+i)-mbndry-nef_cmo*(jt-1)</font>
+<br><font face="Courier New,Courier">C Volume element</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font face="Courier New,Courier">
+else</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp; jt=1+(jtet(jtetoff(it)+i)-1)/nef_cmo</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp;&nbsp;&nbsp; jf=jtet(jtetoff(it)+i)-nef_cmo*(jt-1)</font>
+<br><font face="Courier New,Courier">&nbsp;&nbsp; endif</font>
+<br><font face="Courier New,Courier">&nbsp;enddo</font>
+<br><font face="Courier New,Courier">enddo</font></dir>
+</dir>
+</dir>
+
+<br>&nbsp;
+</body>
+</html>

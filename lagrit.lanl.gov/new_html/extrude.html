@@ -1,0 +1,206 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <meta name="CREATED" content="20000607;11524800">
+   <meta name="CHANGED" content="20000620;14051600">
+   <title>EXTRUDE</title>
+<style>
+	<!--
+		TD P { color: #000000 }
+		P { color: #000000 }
+		BLOCKQUOTE { color: #000000 }
+		A:link { color: #0000ff }
+		A:visited { color: #551a8b }
+	-->
+	</style>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" vlink="#551A8B">
+
+<blockquote>&nbsp;
+<p><b><u><font face="Times New Roman, Times, serif">EXTRUDE</font></u></b></blockquote>
+
+<blockquote>
+<blockquote>This command takes a topologically 1d or 2d mesh (a line, a
+set of line segments, or a planar or non-planar surface) and extrudes it
+into three dimensions along either the normal to the curve or surface (default),
+along a user defined vector, or to a set of points that the user has specified.</blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote>If the extrusion was along the normal of the surface or along
+a user defined vector, the command can optionally find the external surface
+of the volume created and return that to the user.</blockquote>
+FORMAT:
+<blockquote><b><font face="Times New Roman, Times, serif">extrude</font></b>/<font face="Courier New, Courier, mono">mesh1</font>/<font face="Courier New, Courier, mono">mesh2</font>/<b><font face="Times New Roman, Times, serif">const|min</font></b>/<font face="Courier New, Courier, mono">offset</font>/<b><font face="Times New Roman, Times, serif">volume|bubble</font></b>/[<b><font face="Times New Roman, Times, serif">norm</font></b>|<font face="Courier New, Courier, mono">x1,y1,z1</font>]</blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote>OR</blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote><b><font face="Times New Roman, Times, serif">extrude</font></b>/<font face="Courier New, Courier, mono">mesh1</font>/<font face="Courier New, Courier, mono">mesh2</font>/<b><font face="Times New Roman, Times, serif">interp</font></b>/<font face="Courier New, Courier, mono">layers</font>/<b><font face="Times New Roman, Times, serif">range1/range2</font></b></blockquote>
+</blockquote>
+
+<blockquote STYLE="margin-left: 0.79in">
+<blockquote STYLE="margin-left: 0.79in"><font face="Times New Roman, Times, serif">where<b>
+range1 </b>and<b> range2 </b>are defined as <b>[pset,get,</b><tt>pset_name</tt><b>|</b><tt>ifirst,ilast,istride</tt><b>]</b></font></blockquote>
+<font face="Courier New, Courier, mono">mesh1</font> is the name of the
+resulting mesh.
+<p><font face="Courier New, Courier, mono">mesh2</font> is the name of
+the initial mesh. This mesh must be made up of <b>lines, tris, quads, or
+hybrids</b>.
+<p><b><font face="Times New Roman, Times, serif">const</font></b> is a
+keyword that indicates that the distance from each of the points in the
+initial mesh along the extruding vector will be equal to offset.Therefore,
+if you wanted the extruded mesh to have the same surface or edge characteristics
+as the original mesh on both the initial and newly formed surface or edge,
+you would use <b><font face="Times New Roman, Times, serif">const</font></b>.
+<p><b><font face="Times New Roman, Times, serif">min</font></b> is a keyword
+and indicates that the minimum distance along the extruding vector to a
+reference plane that is perpendicular to the extruding vector will be equal
+to offset. This means that if you want an extruded mesh with at least one
+flat side, you would use <b><font face="Times New Roman, Times, serif">min</font></b>.
+This also means that if you use <b><font face="Times New Roman, Times, serif">min</font></b>,
+extrude computes the "bottom point" on the initial mesh, or the point closest
+to the reference plane, and then extrudes that point by min, all the other
+points will therefore be extruded by a larger distance. This avoids the
+problem of having the initial mesh intersect the reference plane that forms
+the "bottom" of the created mesh.
+<p><b>interp</b> is a keyword and indicates a different kind of extrusion.
+Instead of giving the initial mesh a direction in which to be extruded,
+this keyword specifies that the initial mesh is made up of two sets of
+points to be connected. These point sets are defined by <b>range1</b> and
+<b>range2</b>.
+The ranges can be defined using the standard LaGrit techniques of <b>pset</b>,
+<b>get</b>,
+&lt;<font face="courier, monospace">pset name</font>> or <font face="courier, monospace">ifirst</font>,
+<font face="courier, monospace">ilast</font>,
+<font face="courier, monospace">istride</font>.
+<p><font face="Courier New, Courier, mono">layers </font><font face="times, serif">is
+the number of layers of elements that will be placed between the original
+two surfaces. This is a good point distribution technique. The final number
+of layers of points will be equal to layers+1. It must be an integer.</font>
+<p><font face="Courier New, Courier, mono">offset</font> is the length
+of extrusion. It can either be an integer or a real.
+<p><b>volume</b> is a keyword and indicates that the volume that was extruded
+is to be returned to the user (i.e., the operation will result in either
+a topologically 2d (quad) mesh if the initial mesh was topologically 1d,
+or a topologically 3d (prism or hex) mesh if the initial mesh was topologically
+2d). <b>bubble</b> is a keyword and indicates that the external surface
+of the volume created will be returned. If bubble is used, hextotet will
+be called on the final surface, as well as extract.
+<p>The final argument is optional. It must either be the keyword
+<b><font face="Times New Roman, Times, serif">norm</font></b>,
+or a three valued vector (in cartesian space) specifying a direction. The
+default, if no argument is provided, is <b><font face="Times New Roman, Times, serif">norm</font></b>.
+If <b><font face="Times New Roman, Times, serif">norm</font></b> is chosen,
+the element area weighted normal to the surface or curve is computed, and
+the initial mesh is extruded in that direction. Otherwise, if a vector
+value is specified, the vector is normalized, and its direction used to
+extrude the initial mesh.
+<p>NOTES:
+<blockquote STYLE="margin-left: 0.79in">This code works on meshes containing
+lines, quads, triangles, or hybrid polygons. If there are lines in the
+initial mesh, they become quads; tris become prisms; and quads become hexes.
+If bubble is used, however, lines are not permitted because they do not
+result in a mesh that extract and hextotet agree with. The code will error
+out in this situation.</blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote>It is very possible to create an invalid mesh object with this
+command, especially if the initial mesh is a multivalued surface, or if
+the extruding vector is in a direction parallel to the plane the initial
+surface is in. You have been warned.</blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote>If the <b>interp</b> keyword is used, the code expects the
+number of points in <b>range1</b> and <b>range2</b> to be equal, and to
+correspond such that the first point in <b>range1</b> will connect to the
+first point in <b>range2 </b>in the final mesh object, etc. Other setups
+will result in a twisted, perhaps invalid mesh object.</blockquote>
+EXAMPLES:
+<blockquote><b><font face="Times New Roman, Times, serif">extrude</font></b>/<font face="Courier New, Courier, mono">cmo_hex</font>/<font face="Courier New, Courier, mono">cmo_quad</font>/<b><font face="Times New Roman, Times, serif">const</font></b>/<font face="Courier New, Courier, mono">5.0</font>/<b><font face="Times New Roman, Times, serif">volume</font></b></blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote>This would result in hexes being created out of the initial
+quad sheet. First, since <b><font face="Times New Roman, Times, serif">const</font></b>
+and <b><font face="Times New Roman, Times, serif">volume</font></b> are
+used, the quad sheet will be extruded a constant amount from each point.
+Second, since the extruding vector and <b><font face="Times New Roman, Times, serif">norm</font></b>
+are omitted, the extrusion will occur on the average normal to the plane.
+Therefore, this command will result in a mesh of hexahedrons extruded 5.0
+units in an orthogonal direction. (Or, more succinctly, a mesh of parallelopipeds
+of height 5.)</blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote><b><font face="Times New Roman, Times, serif">extrude</font></b>/<font face="Courier New, Courier, mono">cmo_prism</font>/<font face="Courier New, Courier, mono">cmo_tri</font>/<b><font face="Times New Roman, Times, serif">min</font></b>/<font face="Courier New, Courier, mono">10</font>/<b><font face="Times New Roman, Times, serif">volume</font></b>/<font face="Courier New, Courier, mono">1,2,-1</font></blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote>This command would result in prisms being created out of the
+initial tri sheet. First, since <b><font face="Times New Roman, Times, serif">min</font></b>
+is used, the "bottom" of the extruded volume would be a plane. Second,
+because the vector 1, 2, -1 is specified, the extrusion will be in that
+direction (again the magnitude is not important, the vector is normalized
+to a unit vector), not in the direction of the average normal.</blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote><b><font face="Times New Roman, Times, serif">extrude</font></b>/<font face="Courier New, Courier, mono">cmo_bigbox</font>/<font face="Courier New, Courier, mono">cmo_quad</font>/<b><font face="Times New Roman, Times, serif">const</font></b>/<font face="Courier New, Courier, mono">5.0</font>/<b>bubble/</b></blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote>This would result in a surface surrounding an amalgamation
+of parallelopipeds created from the initial quad sheet. First, since <b><font face="Times New Roman, Times, serif">const</font></b>
+is used the quads will be extruded a constant amount from each point in
+the quad sheet. Second, since the extruding vector and <b><font face="Times New Roman, Times, serif">norm</font></b>
+are omitted, the extrusion will occur on the average normal to the plane.
+Therefore, this command will result in a mesh of tris that form the surface
+of a group of parallelopipeds extruded 5.0 units in an orthogonal direction.</blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote><b><font face="Times New Roman, Times, serif">extrude</font></b>/<font face="Courier New, Courier, mono">cmo_arbshape</font>/<font face="Courier New, Courier, mono">cmo_tri</font>/<b><font face="Times New Roman, Times, serif">min</font></b>/<font face="Courier New, Courier, mono">7.5</font>/<b>bubble</b>/<font face="Courier New, Courier, mono">3,-2.5,-6</font></blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote>This command would result in a mesh of tris that form a surface
+enclosing a volume of prisms being created out of the initial tri sheet.
+First, since <b><font face="Times New Roman, Times, serif">min</font></b>
+is used, the "bottom" of the surface would be a plane. Second, because
+the vector 3, -2.5, -6 is specified, the extrusion will be in that direction
+(again the magnitude is not important, the vector is normalized to a unit
+vector), not in the direction of the average normal of the initial tri
+surface.</blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote><b><font face="Times New Roman, Times, serif">extrude</font></b>/<font face="Courier New, Courier, mono">cmo_prism</font>/<font face="Courier New, Courier, mono">cmo_tris</font>/<b><font face="Times New Roman, Times, serif">interp</font></b>/<font face="Courier New, Courier, mono">14</font>/<b><font face="Times New Roman, Times, serif">pset,
+get, </font></b><font face="courier, monospace">bottom</font><b><font face="Times New Roman, Times, serif">/pset,
+get, </font></b><font face="courier, monospace">top</font></blockquote>
+</blockquote>
+
+<blockquote STYLE="font-weight: medium">
+<blockquote STYLE="font-weight: medium"><font face="times, serif">This
+command would result in a mesh of prisms being created out of the two sets
+of tri sheets in </font><font face="courier, monospace">cmo_tris</font><font face="times, serif">
+as well as 14-1 layers of additional tris that would be interpolated. First,
+since interp is used, the pset defined by </font><font face="courier, monospace">bottom</font><font face="times, serif">
+would end up connected to the pset defined by </font><font face="courier, monospace">top</font><font face="times, serif">.
+Second, there would be 14 layers of elements that would be placed between
+the psets </font><font face="courier, monospace">top</font><font face="times, serif">
+and
+</font><font face="courier, monospace">bottom</font><font face="times, serif">,
+so that the resulting grid would have 15 layers of points that would be
+connected to one another to form prisms.</font></blockquote>
+</blockquote>
+
+</body>
+</html>

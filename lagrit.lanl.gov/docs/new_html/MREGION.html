@@ -1,0 +1,68 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>MREGION</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">MREGION</font></u></b>
+<blockquote>Define a material region from a set of surfaces by logically
+combining the surface names and region names. A material region may be
+removed from the geometry by specifying the release keyword.
+<p>To define material rgion, the operator <b>lt, le, gt</b>, and <b>ge</b>
+are applied to previously defined surfaces according to the following rules.</blockquote>
+</blockquote>
+
+<dir>
+<dir>
+<dir><b>lt </b>-- if the surface following is a volume then <b>lt</b> means
+inside not including the surface of the volume. If the surface is a plane
+or a sheet lt means the space on the side of the plane or sheet opposite
+to the normal not including the plane or sheet itself.
+<p><b>le </b>-- if the surface following is a volume then <b>le </b>means
+inside including the surface of the volume. If the surface is a plane or
+a sheet le means the space on the side of the plane or sheet opposite to
+the normal including the plane or sheet itself.
+<p><b>gt </b>-- if the surface following is a volume then <b>gt</b> means
+outside not including the surface of the volume. If the surface is a plane
+or a sheet <b>gt</b> means the space on the same side of the plane or sheet
+as the normal not including the plane or sheet itself.
+<p><b>ge </b>-- if the surface following is a volume then <b>ge</b> means
+outside including the surface of the volume. If the surface is a plane
+or a sheet <b>ge </b>means the space on the same side of the plane or sheet
+as the normal including the plane or sheet itself.</dir>
+The operators <b>or, and</b>, and <b>not</b> applied to regions or modified
+surfaces mean union, intersection and complement respectively. Parentheses
+are operators and are used for nesting. Spaces are required as delimiters
+to separate operators and operands; parentheses are operators and must
+be surrounded by spaces. Internal interfaces should be excluded when defining
+material regions. (i.e. use <b>lt</b> and <b>gt</b> ). External boundaries
+should be included when defining material regions. If a material regions
+consists of more than one region and the regions touch (i.e. share a region
+interface), then the region interface is not a material interface -- all
+the points on the region interface are interior to the material region.
+In this case use <b>le </b>or<b> ge</b> to include these region interface
+points in the material region as interior points.
+<p>Defining a material region will cause the information associated with
+this material region to be stored under the name of the<a href="geometries.html">
+geometry </a>of the current mesh object.&nbsp; Releasing the material region
+will remove this information.
+<br>&nbsp;</dir>
+FORMAT:
+<dir>&nbsp;<b>mregion/</b><font face="Courier">material_region_name/region
+definition</font></dir>
+<font face="Times">EXAMPLES:</font>
+<dir><font face="Times"><b>mregion/ </b>material_region_name/<b>release</b></font>
+<br><b><font face="Times">mregion</font></b><font face="Courier">/</font><font face="Times">mat1/<b>
+le </b>box1 <b>and </b>(<b> lt</b> sphere1 <b>and</b> ( <b>lt</b> plane1
+<b>or
+gt</b> plane2 ) ) /</font>
+<br><b><font face="Times">mregion</font></b><font face="Courier">/</font><font face="Times">mat2/
+regiona <b>or</b> regionb /</font></dir>
+</dir>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 98">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</HEAD>
+<BODY>
+&nbsp;
+<BLOCKQUOTE><B><FONT FACE="Times New Roman,Times">2. <U>Define an enclosing
+volume</U></FONT></B></BLOCKQUOTE>
+ 
+<DIR>
+<DIR><FONT FACE="Times New Roman,Times">Define an enclosing volume using
+the<A HREF="SURFACE.html">
+<B>surface</B></A> command. Since we are defining an exterior boundary,
+the boundary type is <B>reflect</B>. The next item of information needed
+is the geometry of the volume; some common geometry types are <B>box</B>,
+<B>cylinder</B>, <B>sphere. </B>Geometry types, <B>box</B> and <B>sphere,</B>
+define closed volumes; whereas a <B>cylinder </B>is open on both ends and
+must be capped by planes<B>.</B> Along with the geometry type, the extent
+of the volume is defined by specifying for the box its corners, or for
+the cylinder its radius and end point of its axis of rotation. The enclosing
+volume must be convex. Complicated enclosing volumes can be described by
+their bounding surfaces including planes and sheets . Some simple examples
+of enclosing volumes are:</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">* unit cube</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>surface</B>/cube/<B>reflect</B>/<B>box</B>/0.0,0.0,0.0/1.0,1.0,1.0/</FONT>
+<CENTER><IMG SRC="Image219.gif" HEIGHT=211 WIDTH=237></CENTER>
+ 
+ 
+<P><FONT FACE="Times New Roman,Times">* cylinder whose axis is the x axis
+with radius 1 and height 1</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>surface/cyl_vol/reflect/cylinder</B>/0.,0.,0./1.,0.,0./1./</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>surface/end1/reflect/plane</B>/0.,0.,0./0.,0.,1./0.,1.,1./</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>surface/end2/reflect/plane</B>/1.,0.,0./1.,0.,1./1.,1.,1./</FONT>
+ 
+<P><IMG SRC="Image220.gif" HEIGHT=177 WIDTH=225><IMG SRC="Image221.gif" HEIGHT=247 WIDTH=238></DIR>
+</DIR>
+ 
+</BODY>
+</HTML>

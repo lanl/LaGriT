@@ -1,0 +1,114 @@
+ 
+ 
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+*            *                                             *                    
+*            *     Program:  LaGriT                        *                    
+*            *     Version:  1.004                         *                    
+*            *     Compiled: 00/05/25 at 10:00:00          *                    
+*            *                                             *                    
+*            *                                             *                    
+*            *     This run was processed                  *                    
+*            *      on day:  Thu Sep  7 2000               *                    
+*            *      at time: 15:47:31                      *                    
+*            *                                             *                    
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+ 
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+ Enter a command
+* TEST rmmat (lagrit_input_rmmat)                                               
+ Enter a command
+*                                                                               
+ Enter a command
+define/nx/15                                                                    
+ Enter a command
+define/ny/15                                                                    
+ Enter a command
+define/nz/2                                                                     
+ Enter a command
+                                                                                
+cmo/create/mesh_object///tet                                                    
+ Enter a command
+createpts/xyz/nx,ny,nz/0. 0. 0./1. 1. 0.2/1 1 1                                 
+  RZ GENERATED POINTS                    1 TO                  450              
+ Enter a command
+cmo/setatt/mesh_object/imt/1 0 0/1                                              
+Warning: nelements = 0                                                          
+       450 values reset for attribute imt1                                      
+ 
+ Enter a command
+connect                                                                         
+ Coordinates of enclosing tetraheron are:                                       
+          -0.75000D+00-0.75000D+00-0.40000D+00                                  
+          -0.75000D+00 0.42500D+01 0.10000D+00                                  
+          -0.75000D+00-0.75000D+00 0.60000D+00                                  
+           0.42500D+01 0.50000D+00 0.10000D+00                                  
+ ntets=       500     mpnt=      212     nlstfail=     285 %done=  18.36        
+ ntets=       500     mpnt=      229     nlstfail=     286 %done=  18.36        
+ ntets=       500     mpnt=      246     nlstfail=     287 %done=  18.36        
+ ntets=       500     mpnt=      263     nlstfail=     288 %done=  18.36        
+ ntets=       500     mpnt=      280     nlstfail=     289 %done=  18.36        
+ ntets=       500     mpnt=      297     nlstfail=     290 %done=  18.36        
+ ntets=       500     mpnt=      314     nlstfail=     291 %done=  18.36        
+ 
+ There are    334 points that failed step       1                               
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+ Enter a command
+*resetpts / itp                                                                 
+ Enter a command
+cmo/printatt//-all-/minmax                                                      
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ -def-                0.00000E+00    0.00000E+00    0.00000E+00       450       
+ scalar                         1              1              0         1       
+ vector                         3              3              0         1       
+ nnodes                       450            450              0         1       
+ nedges                         0              0              0         1       
+ nfaces                         0              0              0         1       
+ nelements                   1169           1169              0         1       
+ mbndry                  16000000       16000000              0         1       
+ ndimensions_topo               3              3              0         1       
+ ndimensions_geom               3              3              0         1       
+ nodes_per_element              4              4              0         1       
+ edges_per_element              6              6              0         1       
+ faces_per_element              4              4              0         1       
+ isetwd               0.00000E+00    0.00000E+00    0.00000E+00       450       
+ ialias                         0              0              0       450       
+ imt1                           1              1              0       450       
+ itp1                           0              0              0       450       
+ icr1                           0              0              0       450       
+ isn1                           0              0              0       450       
+ xic                  0.00000E+00    1.00000E+00    1.00000E+00       450       
+ yic                  0.00000E+00    1.00000E+00    1.00000E+00       450       
+ zic                  0.00000E+00    2.00000E-01    2.00000E-01       450       
+ xtetwd               0.00000E+00    0.00000E+00    0.00000E+00      1169       
+ itetclr                        1              1              0      1169       
+ itettyp                        5              5              0      1169       
+ itetoff                        0           4672           4672      1169       
+ jtetoff                        0           4672           4672      1169       
+ itet                           1            447            446      1169 x  4  
+ jtet                           1       16000000       15999999      1169 x  4  
+unavailable attribute type for minmax: CHARACTER                                
+minmax failed for attribute ipolydat                                            
+ 
+ Enter a command
+dump/gmv/output_rmmat1.gmv/mesh_object                                          
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+ Enter a command
+*                                                                               
+ Enter a command
+surface/cyl_surf/intrface/cylinder/0.5,0.5,-1/0.5,0.5,1.0/0.25                  
+ Enter a command
+mregion/mr1/gt cyl_surf                                                         
+ Enter a command
+mregion/mr2/lt cyl_surf                                                         
+ Enter a command
+setpts                                                                          
+ Inconsistent geometry - surfaces defined but no regions code will stop         

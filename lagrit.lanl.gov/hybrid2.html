@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Semiconductor  </title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+
+<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
+
+<meta name="keywords" content=" "/>
+
+<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
+<link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
+
+</head>
+<body class="home">
+
+<!-- OPEN include for banner area -->
+<!--#include virtual="/source/includes/xbanner.inc" -->
+<!-- CLOSE include for banner area -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/identifier.inc -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc -->
+<div id="content-org">
+  <table id="mid-section1" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="236"  valign="top" class="col1">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/nav1.inc -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/contacts.inc -->
+      <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+     
+   <td width="924" valign="top" class="col2-420">
+<!-- OPTIONAL: OPEN include for content area -->
+<p>* create a 3-D hexahedral mesh object and name it 3dmesh<br />
+  cmo/create/3dmesh///hex/<br />
+  * create a cylinder inside a cylinder<br />
+  * inner cylinder will be replaced by tet grid<br />
+  surface/cyl1/reflect/cylinder/0.0,0.0,0.0/0.0,0.0,10.0/5.0/<br />
+  surface/top/reflect/plane/0.,0.,10./1.,0.,10./1.,1.,10. /<br />
+  surface/bot/reflect/plane/0.,0.,0./1.,0.,0./1.,1.,0. /<br />
+  surface/cyl2/intrface/cylinder/0.0,0.0,1.0/0.0,0.0,9.0/4.0/<br />
+  surface/cutpl1/intrface/plane/0.,0.,1./1.,0.,1./1.,1.,1./ <br />
+  surface/cutpl2/intrface/plane/0.,0.,9./1.,0.,9./1.,1.,9./ <br />
+  *define geometric regions<br />
+  region/inner/ lt cyl2 and lt cutpl2 and gt cutpl1 /<br />
+  region/outer/ le cyl1 and le top and ge bot and &amp;<br />
+( ge cyl2 or ge cutpl2 or le cutpl1 )<br />
+* define material regions<br />
+mregion/inner/ lt cyl2 and lt cutpl2 and gt cutpl1 /<br />
+mregion/outer/ le cyl1 and le top and ge bot and &amp;<br />
+( gt cyl2 or gt cutpl2 or lt cutpl1 )<br />
+* distribute points in cylindrical arrangement<br />
+rz/rtz/11,61,21/0.,0.,0./5.,360.,10./1,1,1/<br />
+* assign material colors to the points<br />
+* identify points that are on material interfaces<br />
+* identify constrained points<br />
+* connect hex mesh<br />
+rzbrick/xyz/61,11,21/1,0,0/connect/<br />
+zq/itp/1,0,0/0<br />
+zq/imt/1,0,0/0<br />
+zq/icr/1,0,0/0<br />
+setpts<br />
+dump/x3d/x3d1<br />
+settets<br />
+zq/itp/100,130,1<br />
+dump/gmv/gmv1<br />
+* remove inner region<br />
+rmmat/inner<br />
+rmpoint/compress<br />
+geniee<br />
+*zq/xic/1,0,0<br />
+*zq/itp/1,0,0<br />
+dump/gmv/gmv2<br />
+* grid tet part<br />
+cmo/create/tetgrid///tet<br />
+rz/rtz/9,61,17/0.,0.,1./1.,360.,9./1,1,1/<br />
+filter/1,0,0/<br />
+search<br />
+zq/imt/1,0,0/1<br />
+zq/xic/1,0,0<br />
+zq/itp/1,0,0<br />
+* add meshes<br />
+dump/x3d/x3d1<br />
+addmesh/pyramid/hybrid/tetgrid/3dmesh/<br />
+surface/cyl1/reflect/cylinder/0.0,0.0,0.0/0.0,0.0,6.0/2.0/<br />
+surface/top/reflect/plane/0.,0.,6./1.,0.,6./1.,1.,6. /<br />
+surface/bot/reflect/plane/0.,0.,0./1.,0.,0./1.,1.,0. /<br />
+surface/cyl2/intrface/cylinder/0.0,0.0,2.0/0.0,0.0,4.0/1.0/<br />
+surface/cutpl1/intrface/plane/0.,0.,2./1.,0.,2./1.,1.,2./ <br />
+surface/cutpl2/intrface/plane/0.,0.,4./1.,0.,4./1.,1.,4./ <br />
+*define geometric regions<br />
+region/inner/ le cyl2 and le cutpl2 and ge cutpl1 /<br />
+region/outer/ le cyl1 and le top and ge bot and &amp;<br />
+( gt cyl2 or gt cutpl2 or lt cutpl1 )<br />
+* define material regions<br />
+mregion/inner/ lt cyl2 and lt cutpl2 and gt cutpl1 /<br />
+mregion/outer/ le cyl1 and le top and ge bot and &amp;<br />
+( gt cyl2 or gt cutpl2 or lt cutpl1 )<br />
+filter/1,0,0/<br />
+dump/x3d/x3d2<br />
+geniee<br />
+zq/imt/1,0,0/0/<br />
+zq/itp/1,0,0/0/<br />
+zq/icr/1,0,0/0/<br />
+setpts<br />
+settets<br />
+* dump mesh to some output form<br />
+dump/gmv/gmv.hybrid/hybrid<br />
+* terminate processing<br />
+finish</p>
+        <p>&nbsp;</p>
+        <table width="500" border="0">
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+        </table>
+        <p>&nbsp;</p>
+        <p align="left"><img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/xtransparent.gif" /> </p>
+      <p align="left"><a href="index.shtml">Return to LaGriT Home Page</a></p></td>
+      <td width="161" valign="top" class="col3-180">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/related_links.inc -->
+      <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+    </tr>
+  </table>
+</div>
+
+<!-- OPEN include for footer area -->
+<!--#include virtual="/source/includes/xfooter.inc" -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc -->
+
+<!--#include virtual="../includes/email.inc" -->
+
+<!-- CLOSE include for footer area -->
+</body>
+</html>

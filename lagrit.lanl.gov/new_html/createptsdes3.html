@@ -1,0 +1,84 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 97/98">
+   <META NAME="Template" CONTENT="Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>*arguments:</TITLE>
+</HEAD>
+<BODY LINK="#0000FF" VLINK="#800080">
+ 
+<BLOCKQUOTE><U><FONT FACE="Times New Roman,Times"><FONT SIZE=+1>Description</FONT></FONT></U>
+<BR>&nbsp;
+<BLOCKQUOTE>createpts/rtp/2,6,30/0,0,0/1,45,360/1,1,1
+<BR>Add points using spherical coordinates.
+<BR>&nbsp;
+ 
+<P>Arguments:</BLOCKQUOTE>
+&nbsp;
+<CENTER><TABLE COLS=2 WIDTH="70%" NOSAVE >
+<TR>
+<TD WIDTH="5%"><FONT FACE="Times New Roman,Times">&nbsp;rtp</FONT></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">specifies sperical coordinates</FONT></TD>
+</TR>
+ 
+<TR>
+<TD><FONT FACE="Times New Roman,Times">2,6,30&nbsp;</FONT></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">create 2 points in the r direction,
+create 6 points in the t direction, create 30 points in the z direction</FONT></TD>
+</TR>
+ 
+<TR NOSAVE>
+<TD><FONT FACE="Times New Roman,Times">0,0,0</FONT></TD>
+ 
+<TD NOSAVE><FONT FACE="Times New Roman,Times">rmin = 0, tmin = 0, zmin
+= 0</FONT></TD>
+</TR>
+ 
+<TR NOSAVE>
+<TD><FONT FACE="Times New Roman,Times">1,45,360</FONT></TD>
+ 
+<TD NOSAVE><FONT FACE="Times New Roman,Times">radius from 0 to 1, angle
+in the xy-plane is 45 degrees, angle in the zy-plane is 360 degrees</FONT></TD>
+</TR>
+ 
+<TR>
+<TD><FONT FACE="Times New Roman,Times">1,0,1</FONT></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">rmins and rmaxs are used as cell
+vertices, tmins and tmaxs are used as cell vertices, zmins and zmaxs are
+used as cell vertices</FONT></TD>
+</TR>
+ 
+<TR>
+<TD></TD>
+ 
+<TD></TD>
+</TR>
+</TABLE></CENTER>
+&nbsp;</BLOCKQUOTE>
+ 
+<BLOCKQUOTE>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Input deck:
+<BLOCKQUOTE>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">cmo/create/cmo1/</FONT>
+<BR><FONT FACE="Times New Roman,Times">surface/s3/reflect/sphere/0.,0.,0./1.,1.,1./</FONT>
+<BR><FONT FACE="Times New Roman,Times">region/r3/ lt s3 /</FONT>
+<BR><FONT FACE="Times New Roman,Times">mregion/mr3/ lt s3 /</FONT>
+<BR><FONT FACE="Times New Roman,Times">createpts/rtp/2,6,30/0,0,0/1,45,360/1,1,1</FONT>
+<BR><FONT FACE="Times New Roman,Times">dump/gmv/gmv2/</FONT>
+<BR><FONT FACE="Times New Roman,Times">finish</FONT></BLOCKQUOTE>
+&nbsp;</BLOCKQUOTE>
+&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;</BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

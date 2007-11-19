@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Jan Wills">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</HEAD>
+<BODY>
+
+<BLOCKQUOTE><B><U><FONT FACE="Times New Roman,Times">read/iges_grid</FONT></U></B>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">reads and processes an IGES
+file containing surfaces, curves and points in IGES nurbs format.</FONT>
+<BR>&nbsp;</BLOCKQUOTE>
+<FONT FACE="Times New Roman,Times">FORMAT:</FONT>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times"><B>read</B>/<B>iges_grid</B>/file_name/[iopt_nurbs]/[iopt_nurbl]/[iopt_nurp]/[ksi]/[ksj]/[kli]</FONT>
+<BR>&nbsp;
+<TABLE COLS=3 WIDTH="50%" NOSAVE >
+<TR NOSAVE>
+<TD WIDTH="10%" NOSAVE>iopt-nurbs</TD>
+
+<TD WIDTH="15%" NOSAVE>default=1</TD>
+
+<TD>read quad nurb surface if =1</TD>
+</TR>
+
+<TR>
+<TD>iopt-nurbl</TD>
+
+<TD>default=0</TD>
+
+<TD>read triangle nurb surface if = 2</TD>
+</TR>
+
+<TR>
+<TD>iopt-nurbp</TD>
+
+<TD>default=0</TD>
+
+<TD>read triangle nurb curves if = 1</TD>
+</TR>
+
+<TR>
+<TD>ksi, ksj</TD>
+
+<TD></TD>
+
+<TD>dimensions of surface nurb</TD>
+</TR>
+
+<TR>
+<TD>kli</TD>
+
+<TD></TD>
+
+<TD>dimension of line nurb</TD>
+</TR>
+</TABLE>
+&nbsp;</BLOCKQUOTE>
+</BLOCKQUOTE>
+
+</BODY>
+</HTML>

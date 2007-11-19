@@ -1,0 +1,74 @@
+This is the README file for instructions on creating additional
+test cases in the lagrit_test_suite/test_cases/ directory structure.
+
+Last Revised: 28 NOV 2000
+              Carl Hagelberg LANL EES-5 hagelberg@lanl.gov
+
+All directory and file creations are within the lagrit_test_suite/test_cases/
+directory. 
+
+To create a new test case called "newtest", first create a directory structure
+as follows:
+
+mkdir newtest
+cd newtest
+mkdir test
+cd test
+mkdir input_output
+mkdir html
+cd html
+mkdir mkdir image
+cd ..
+
+Note that the only name specific to newtest is the newtest directory itself,
+the directories within newtest are standardized names.
+
+cd input_output
+
+1. create the lagrit input file named "lagrit_input_newtest", the suffix being
+   specific to the new test.
+
+2. Any input files required for the lagrit script to run should be named
+   as "input_*.gmv" or "input_*.inp" (.inp files are not preferred but sometimes
+   neccessary).
+3. Within the lagrit_input_newtest file there should be a header describing
+   the input file, and ample comments throughout:
+
+   *TEST newtestcommand (lagrit_input_newtest)
+   *
+   * Simple Example to ... 
+   *
+   * Create a cmo with hexahedral storage arrays
+   cmo/create/cmo/ / / hex
+   *
+
+4. Any dumps should be in gmv format when possible and follow the file name
+   convention "output_newtest.gmv" or output_newtest1.gmv, output_newtest2.gmv,
+   etc. for multiple output files.
+
+5. At the end of lagrit_input_newtest there should be a section for creating
+   the test suite comparison files (used by the test scripts) as follows:
+
+   * begin compare here
+   cmo/status
+   cmo/printatt//-all-/minmax
+   quality
+   finish
+                  
+6. finish should be followed by a carriage return for use on sgi's.                                    
+7. Any visualizations can be placed in ../html/image in *.gif format.
+   I've been using gmv to create rgb snapshots called image1.rgb, image2.rgb,
+   etc. Then I run a short script that invokes convert to create gif files,
+   one at usable size and one reduced to a thumbnail for use in html files:
+
+   #
+   convert -crop 15% image1.rgb newtest1.gif
+   convert -geometry 15% newtest1.gif newtest1_tn.gif
+   echo 'newtest1.gif and newtest1_tn.gif done\n'
+   #
+   convert -crop 15% image2.rgb newtest2.gif
+   convert -geometry 15% newtest2.gif newtest2_tn.gif
+   echo 'newtest2.gif and newtest2_tn.gif done\n'
+
+For discussion of running the test suite scripts see
+lagrit_test_suite/scripts/00README

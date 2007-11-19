@@ -1,0 +1,208 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<! Template for LaGriT online manual - demo page  >
+<! Search and Replace _name   >
+<!    b = bold = literal parameter names >
+<!    u = underline = default parameter setting >
+<!    font face="Courier" = variable parameter names >
+<!    the br command indicates a line break >
+<! Note: If a html composer is used it will overwrite this file when saved. >
+
+<! header for style of html ------------------------------------------------ >
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]">
+   <! command name for window banner >
+   <title>interpolate / map </title>
+
+<! font and other body information should be in the style statement here.>
+<style type="text/css">
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+          }
+   table {
+          font-family:sans-serif;
+          border-width: 0;
+          color:black;
+          background:white; 
+          }
+   td    { text-align:center;
+            text-valign:middle;
+            font-family:sans-serif;
+            color:black; 
+         }
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+&nbsp;
+<! end header --------------------------------------------------------------- >
+
+<! command name for this demo page>
+<h2>interpolate / map </h2>
+
+<! goal statement for this lagrit demo - one statement per lagrit input deck >
+<br><br>
+<font size="4">
+Example 2: show results from using the <b>map</b> option of interpolate. 
+</font>
+<br><br>
+
+<! objective description for this example >
+<blockquote>
+For each point in the sink grid, the enclosing element is found from the
+source grid. The attribute value associated with the sink point is
+assigned the attribute value from the associated source element. 
+</blockquote>
+
+<blockquote>
+The output consists of GMV files.
+</blockquote>
+
+<blockquote>
+The input consists of AVS and GMV files.
+The input deck for this example is 
+<a href="../input_output/lagrit_input_map">lagrit_input_map</a>
+</blockquote>
+
+<br><br> 
+<font size="4">
+Results from Example 2:
+</font>
+<br><br> 
+<! objective description for demo 1 >
+<blockquote>
+The objective is to test the ability of <b>interpolate</b> to find the enclosing
+element in a coarse hex grid associated with each point of a refined triangle grid.
+The itetclr value of each found element is copied to the sink imt attribute.
+<br>
+The left image shows the source hex grid with itetclr values 1(blue), 2(green), and 3(red).
+The high resolution sink triangle grid is in the image to show relative location. 
+<br>
+The right two images show the sink grid after using interpolate to color sink imt1
+from the source itetclr values.  
+The top nodes of the sink tri grid are located within two source elements,
+on shared edge. A single element is chosen by the tiebreaker option which
+selects either the mininum or maximum source element value.
+<br>
+The middle image shows the result of using default <b>tiemax</b> option. 
+<br>
+The right image shows the result of using the <b>tiemin</b> option. 
+</blockquote>
+
+
+<! This table is 3 columns wide, use thumbnail _tn images in table >
+<! make thumbnail: convert -geometry 15% image.gif image_tn.gif
+<! Use td to indicate a new cell, Use tr to start a new row >
+<table WIDTH="750" COLS=3 >
+
+<! row 1 with 3 table_data_cells accross >
+<! leave empty if not using a td data cell >
+<tr>
+  <td>
+  <a href="image/view_map01.gif"> source and sink grids</a>
+  <br>
+  <a href="image/view_map01.gif"> <img src="image/view_map01_TN.GIF" > </a>
+  </td>
+  <td>
+  <a href="image/map01_max.gif"> tiebreaker tiemax</a>
+  <br>
+  <a href="image/map01_max.gif"> <img src="image/map01_max_TN.GIF" > </a>
+  </td>
+  <td>
+  <a href="image/map01_min.gif"> tiebreaker tiemin</a>
+  <br>
+  <a href="image/map01_min.gif"> <img src="image/map01_min_TN.GIF" > </a>
+  </td>
+</table>
+
+<! objective description for demo 2  >
+<blockquote>
+Demo 2 shows how the flag option is used for points outside the source grid.
+The sink grid has been translated so that part of the grid lies outside the source grid. 
+The left image shows the course source grid and the refined sink grid together to 
+show relative position. 
+The source grid itetclr values are 1(blue) thru 3(red).
+<br>
+The middle image shows the sink grid after it has had imt values assigned from
+source itetclr values using the flag option <b>plus1</b>. 
+The sink points located outside the source grid were found not
+to have any enclosing elements. 
+These points are flagged with the value of maximum itetclr value, plus one, which in this cas
+e is 4.
+<br>
+The image on the right is the same intrp run, except that outside points are
+flagged with the <b>nearest</b> point imt1 value of the source grid.
+Note that the keyword <b>nearest</b> must be followed with a node attribute
+name of source values to be used for the flagged points.
+</blockquote>
+
+<table WIDTH="750" COLS=3 >
+
+<! row 1 with 3 table_data_cells accross >
+<! leave empty if not using a td data cell >
+<tr>
+  <td>
+  <a href="image/view_map02.gif"> source and sink grids</a>
+  <br>
+  <a href="image/view_map02.gif"> <img src="image/view_map02_TN.GIF" > </a>
+  </td>
+  <td>
+  <a href="image/map02_plus1.gif"> flag with plus1</a>
+  <br>
+  <a href="image/map02_plus1.gif"> <img src="image/map02_plus1_TN.GIF" > </a>
+  </td>
+  <td>
+  <a href="image/map02_nearest.gif"> flag with nearest</a>
+  <br>
+  <a href="image/map02_nearest.gif"> <img src="image/map02_nearest_TN.GIF" > </a>
+  </td>
+</table>
+
+<! objective description for demo 3 >
+<blockquote>
+Demo 3 shows
+how to map values from source elements to sink elements (centroid point).
+Image on the left shows the hex source grid colored by element id numbers 1 through 36. 
+The image on the right is the resulting
+tetrahedra sink grid with elements colored from the source grid. 
+If the sink attribute is element type, centroids for each element are
+calculated and used as the sink points. 
+The sink image has the nine materials exploded for better viewing. 
+  
+</blockquote>
+
+<table WIDTH="750" COLS=3 >
+
+<! row 1 with 3 table_data_cells accross >
+<! leave empty if not using a td data cell >
+<tr>
+  <td>
+  <a href="image/map03_src.gif"> Source hex grid</a>
+  <br>
+  <a href="image/map03_src.gif"> <img src="image/map03_src_TN.GIF" > </a>
+  </td>
+  <td>
+  <a href="image/map03_view.gif"> Sink and Source grids</a>
+  <br>
+  <a href="image/map03_view.gif"> <img src="image/map03_view_TN.GIF" > </a>
+  </td>
+  <td>
+  <a href="image/map03_sink.gif"> Sink tet grid</a>
+  <br>
+  <a href="image/map03_sink.gif"> <img src="image/map03_sink_TN.GIF" > </a>
+  </td>
+</table>
+
+<br><br>
+<br><br>
+<! back to main page for demo selection >
+<a href="main_interpolate.html#DEMOS" > Back to main page. </a>
+<br><br>
+
+</BODY>
+</HTML>
+

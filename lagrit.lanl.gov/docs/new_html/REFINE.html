@@ -1,0 +1,417 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+   
+  <meta name="Generator" content="Microsoft Word 98">
+   
+  <meta name="GENERATOR"
+ content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+  <title>REFINE</title>
+       <!-- Note: If a html composer is used it will overwrite this file when saved. --><!-- header for style of html ------------------------------------------------ --><!-- command name for window banner --><!-- font and other body information should be in the style statement here.-->
+  <style type="text/css">
+   h1 { font-family:Times; font-weight:bold; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+       }
+  </style>
+</head>
+ <body link="#0000ff" vlink="#800080">
+ <!-- end header --------------------------------------------------------------- --><!-- command name for this page --> 
+<h2>REFINE</h2>
+ <!-- command overview ---------- --> 
+<blockquote>The <b>refine</b> command is used to create more elements. The
+method in which these new elements are formed is based on the <font
+ face="Courier">refine_option</font> chosen. The refine criteria used in
+these methods are defined in the <a
+ href="http://lagrit.lanl.gov/new_html/REFINE1.html">Grid Refinement</a>
+Section.</blockquote>
+ 
+<p><br>
+ <!-- command parameters --></p>
+ 
+<p>COMMAND ARGUMENTS: </p>
+ 
+<blockquote>The refinement choice is followed on the command line by options 
+that are needed for the type of refinement chosen. See the details for each 
+  <font face="Courier">refine_option</font> for a description of parameters 
+specific to the refine type. See examples below for various formats. In general
+the refine arguments include:   
+  <p><b>refine</b> / <font face="Courier">refine_option</font> / <font
+ face="Courier">field</font> / <font face="Courier">interpolation</font>
+/ <font face="Courier">refine_type</font> / <font face="Courier">range</font>
+/ <font face="Courier">xvalue</font>   <br>
+ / [ <font face="Courier">xvalue2 / xvalue3 </font>/ <font
+ face="Courier">inclusive_flag   </font>]</p>
+ </blockquote>
+ <!-- parameter 1 ---------- --> <br>
+ <font face="Courier">refine_option: </font>indicates the choice of refinement
+method. The choices for first parameter are: 
+<blockquote>   
+  <ul>
+     <li>       <b>junction</b> will refine object where <font
+ face="Courier">field       </font>crosses       <font face="Courier">xvalue</font></li>
+     <li>       <b>constant</b> will refine object where       <font
+ face="Courier">field</font> &gt; <font face="Courier">xvalue</font></li>
+     <li>       <b>delta</b> will refine object where delta(<font
+ face="Courier">field</font>) &gt; <font face="Courier">xvalue</font></li>
+     <li>       <b>lambda</b> will refine object where lambda(<font
+ face="Courier">field</font>) &lt; <font face="Courier">xvalue</font></li>
+     <li>       <b>maxsize</b> will refine object where object &gt; <font
+ face="Courier">xvalue</font>. Size refers to volume for tets, area for face,
+and length for edges.</li>
+     <li>       <b>aspect</b> will refine where aspect <font
+ face="Courier">ratio</font> &lt; <font face="Courier">xvalue</font></li>
+     <li>       <b>addpts</b> will refine explicitly by adding a set of nodes</li>
+     <li>       <b>rivara </b>edges longer than <font face="Courier">xvalue</font> 
+will be refined according to the principle that a refined edge candidate
+is the longest edge in any element that contains it. This results in a recursive 
+refinement procedure that adds neighboring edges to the refinement candidate 
+list until no neighbor edge is longer then the candidate. <font
+ face="Courier">refine_type</font> must be <b>edge</b>. Arguments <font
+ face="Courier">field</font> and <font face="Courier">interpolation</font> 
+are ignored. This method of refinement, when used with a pset, produces a
+nicely graded mesh.</li>
+     <li>       <b>rivara_boundary</b> applies the rivara algorithm, but
+only bisect edges on external boundaries.</li>
+     <li>       <b>rivera_truncated</b> applies the rivara algorithm, but 
+restricts the neighborhood search to the edges in the selected pset. If the
+pset is the entire mesh, this option has the same behavior as <b>rivara</b>.</li>
+     <li>       <b>roughness</b> will refine based on the distance of the 
+endpoint of an edge to the plane determined by the synthetic normal with
+respect to a specified surface at the other endpoint of the edge. This is
+intended to increase refinement on surfaces near corners or around sharp
+bends in surfaces.       <font face="Courier">xvalue</font> is the distance,
+the surface name must follow the distance argument.</li>
+     <li>       <b>edge_list</b> will bisect a set of edges specified by
+the node numbers of the endpoints of the edges.       <font
+ face="Courier">refine_type</font> must be <b>edge</b> followed by a list
+of end points making up the <font face="Courier">edge_list</font>.</li>
+     <li>       <b>element_set</b> (or <b>eltset</b>) will refine all elements 
+in a specified element set. The mesh object may be tri, quad, tet or hex.&nbsp; 
+Internally a node set will be created from the chosen elements.&nbsp; Because
+of the conversion from element set to point set, it is possible that some 
+element not in the original element set will have all of its nodes as members 
+of the internally constructed points set and hence will be refined.&nbsp; 
+Refinement_method is <b>constant</b>; refine_type is       <b>element</b>;
+inclusion_flag is <b>exclusive</b>.&nbsp; The element range       <b>eltset,get,</b>ename
+is the only argument after <b>element_set</b>.&nbsp;&nbsp; </li>
+ The refine command generated internally is :     <br>
+     <b>refine</b>/<b>constant</b>/<b>imt1</b>/<b>linear</b>/<b>element</b>/<b>pset</b>,<b>get</b>,internal_psetname/ 
+-1.,0.,0./<b>exclusive</b>     <br>
+ directional refinement is available through <b>amr</b> keyword (see OCTREE
+examples below):     <br>
+ refine/constant/imt1/linear/element/<b>pset,get,psetname</b>/-1.,0.,0./exclusive/<b> 
+amr prd_choice</b>     <li><b>interface</b> will bisect a set of non-interface
+edges of tets all of whose vertices are interface nodes. Valid only for 3D
+tetrahedral grids and is useful to 'unlock' tetrahedra that are stuck because
+all of their vertices lie on interface surfaces.&nbsp; After the refine operation 
+these tetrahedral will be replaced by tetrahedra containing a vertex that
+is not on the surface - thus allowing later smooth or massage operations more 
+freedom to improve the grid.</li>
+   
+  </ul>
+ </blockquote>
+ <!-- end refine_option --><font face="Courier">refine_type</font> specifies 
+what object will be refined and how that object will be refined: 
+<blockquote><b>element </b>in 3D will refine elements by placing a point in
+the center of the element.   <br>
+ &nbsp;&nbsp;&nbsp;&nbsp; in 2D (triangle) will refine element by refining 
+all edges of the triangle.   <br>
+   <b>face </b>in 3D will refine facets by placing a point in the center of
+the facet.   <br>
+ &nbsp;&nbsp;&nbsp;&nbsp; in 2D (triangle) will refine face by refining all
+edges of the face.   <br>
+   <b>edge </b>will refine edges by placing a point on the midpoint of the
+edge.   <br>
+   <b>faceedge</b> will refine facets by refining all edges of the facet. 
+  <br>
+   <b>tetedge</b> will refine elements by refining all edges of the element.</blockquote>
+ <font face="Courier">field</font> must refer to a previously defined attribute 
+of the current Mesh Object. 
+<p><font face="Courier">interpolation </font>specifies how to interpolate 
+the field to give field values to the new nodes created. The implemented values
+are: </p>
+ 
+<blockquote><b>linear</b>   <br>
+   <b>log</b>   <br>
+   <b>asinh</b></blockquote>
+ 
+<p><br>
+ <font face="Courier">range</font> is the selection of points designated by
+node numbers for <font face="Courier">ifirst,ilast,istride</font> or <b>pset,get</b>,<font
+ face="Courier">pname</font>. <b>/1,0,0/</b> will select all nodes in the
+Mesh object. </p>
+ 
+<p><font face="Courier">xvalue [/xvalue2/xvalue3/]</font> is the real number 
+usually indicating a size for the different refine options. Most of the refine
+options do not use the second and third values so their places will be empty
+<b>///</b>. See examples. </p>
+ 
+<p><font face="Courier">inclusion_flag</font> is an optional flag specifing 
+if refinement is an inclusive or an exclusive operation. By default, all operations
+are <b>exclusive</b>. For <b>inclusive</b>, if an edge refinement is specified
+restricted to a pset, then an edge is eligible for refinement if either or
+both of the end points belong to the pset selected. If the <font
+ face="Courier">inclusion_flag </font>is <b>exclusive</b> then both end points
+must be in the pset. The implemented values are: </p>
+ 
+<blockquote><b>inclusive</b>   <br>
+   <b><u>exclusive</u></b></blockquote>
+ QUADTREE and OCTREE REFINEMENT: 
+<p>Quad and hexahedral elements may be refined creating quad tree and octree 
+meshes. Three new Mesh object attributes are added during this operation. 
+The <font face="Courier">refine_type</font> must be <b>element</b>. The <font
+ face="Courier">refine_option</font> must be <b>constant,</b> <b>junction 
+</b>or <b>maxsize</b>. The values for <font face="Courier">/xvalue/xvalue2/xvalue3/</font>
+should be <font face="Courier">/-1.,0.,0./</font>. For an element set, use
+the shortened syntax <b>refine/element_set/eltset,get,</b><font
+ face="Courier">esetname</font>. <br>
+ The element attributes added to the Mesh object are: </p>
+ 
+<blockquote><b>itetlev</b>(ie) is an integer with the level of refinement.
+An unrefined mesh element has  <b>itetlev</b>(ie)=0, one level of refinement
+  <b>itetlev</b>(ie)=1, etc.<br>
+ <b>itetkid</b>(ie) is a pointer to a child element number. If nothing has
+been done to change element numbering, it is element number of the first
+child element created and the rest of the children are in sequence after
+the first child. If<b> itetkid</b>(ie)=0 , the element has not been refined
+further.<br>
+ <b>itetpar</b>(ie)is a pointer to the parent element at refinement level&nbsp;
+ <b>itetlev</b>(ie)-1.<br>
+  <br>
+Quad meshes will have 4 children for each refined element. Hex meshes will
+have 8 children. The children are generated sequentially; The first child 
+will contain the first local node of the parent element, the other elements 
+are created in the order shown in this diagram.   <br>
+  <br>
+For example in the picture below, element e1 is refined to create 8 children,
+c1, c2, c3, c4, c5, c6, c7, c8.<br>
+  <br>
+  <table cellpadding="2" cellspacing="2" border="0" width="30%">
+    <tbody>
+      <tr>
+        <td valign="middle" align="right">Label<br>
+        </td>
+        <td valign="top" align="right">Element #<br>
+        </td>
+        <td valign="top" align="right">itetlev<br>
+        </td>
+        <td valign="top" align="right">itetkid<br>
+        </td>
+        <td valign="top" align="right">itetpar<br>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="right">e1<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+        <td valign="top" align="right">0<br>
+        </td>
+        <td valign="top" align="right">2<br>
+        </td>
+        <td valign="top" align="right">0<br>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="right">c1<br>
+        </td>
+        <td valign="top" align="right">2<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+        <td valign="top" align="right">0<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="right">c2<br>
+        </td>
+        <td valign="top" align="right">3<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+        <td valign="top" align="right">0<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="right">c3<br>
+        </td>
+        <td valign="top" align="right">4<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+        <td valign="top" align="right">0<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="right">c4<br>
+        </td>
+        <td valign="top" align="right">5<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+        <td valign="top" align="right">0<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="right">c5<br>
+        </td>
+        <td valign="top" align="right">6<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+        <td valign="top" align="right">0<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="right">c6<br>
+        </td>
+        <td valign="top" align="right">7<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+        <td valign="top" align="right">0<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="right">c7<br>
+        </td>
+        <td valign="top" align="right">8<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+        <td valign="top" align="right">0<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" align="right">c8<br>
+        </td>
+        <td valign="top" align="right">9<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+        <td valign="top" align="right">0<br>
+        </td>
+        <td valign="top" align="right">1<br>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+   <img alt="octree refinement" src="./dsquare.gif"
+ style="width: 339px; height: 181px;">
+</blockquote>
+ <br>
+ &nbsp; 
+<blockquote>   
+  <p> One can control refinement so that a hex is broken into either 8, 4
+or 2 elements and a quad is broken into either 4 or 2 elements. This is controlled
+with the principal refine direction choice (prd_choice) parameter. This syntax
+works assuming imt values are greater or equal to zero with principal refine
+direction chosen through a combination of "123" prd_choice indicators as
+defined below. The command line used is:<br>
+ refine/constant/itetclr/linear/element/1,0,0/-1.,0.,0./exclusive/amr <b>prd_choice</b> 
+  <br>
+ or with element selection (based on pset and inclusive/exclusive options): 
+refine/constant/imt1/linear/element/<b>pset,get,pname</b>/-1.,0.,0./<b>inclusive</b>/ 
+amr <b>prd_choice</b>   </p>
+   
+  <p> <b>prd_choice</b> indicates the chosen principal refinement direction
+based on the local hex element topology as defined by edge numbers, for instance,
+quad edge 1 is in the x direction relative to the local topology.   <br>
+ = 1 refine along x direction, 1 hex-&gt;2 hex, 1 quad-&gt;2 quad (quad edges
+1 and 4)   <br>
+ = 2 refine along y direction, 1 hex-&gt;2 hex, 1 quad-&gt;2 quad (quad edges
+2 and 3)   <br>
+ = 3 refine along z direction, 1 hex-&gt;2 hex, 1 quad-&gt;4 quad   <br>
+ = 12 refine along x and y direction, 1 hex-&gt;4 hex, 1 quad-&gt;4 quad 
+ <br>
+ = 13 refine along x and z direction, 1 hex-&gt;4 hex, 1 quad-&gt;4 quad 
+ <br>
+ = 23 refine along y and z direction, 1 hex-&gt;4 hex, 1 quad-&gt;4 quad 
+ <br>
+ = 123 refine xyz with prd amr routines, 1 hex-&gt;8 hex, 1 quad-&gt;4 quad 
+  <br>
+ = 0 refine xyz with default amr refinement, 1 hex-&gt;8 hex, 1 quad-&gt;4
+quad </p>
+ </blockquote>
+ <br>
+ 
+<p>FORMATS: </p>
+ 
+<blockquote><b>refine</b>/<font face="Courier">refine_option</font>/ [<font
+ face="Courier">field]</font>/ [<font face="Courier">interpolation]/refine_type
+/ifirst, ilast, istride/xrefine/yrefine/zrefine/inclusive_flag/</font>  
+  <br>
+   <b>refine/roughness///edge</b><font face="Courier">/ifirst,ilast,istride/distance/surface_name/</font><b>exclusive|inclusive</b> 
+  <br>
+   <b>refine/edge_list///edge/</b><font face="Courier">edge_list/</font> 
+ <br>
+   <b>refine/interface/// edge/pset,get</b>,psetname   <br>
+   <b>refine/element_set / eltset,get</b>,esetname   <br>
+   <b>refine/eltset / eltset,get</b>,esetname</blockquote>
+ EXAMPLES: 
+<blockquote><b>refine</b>/<b>maxsize</b>///<b>edge</b>/<b>pset,get,</b>something 
+/ .25   
+  <dir>will refine element where edge is longer than .25</dir>
+   <b>refine</b>/<b>constant</b>/concentration/<b>log</b>/<b>edge</b>/ 1,0,0/25.0///<b>inclusive</b> 
+  
+  <dir>will refine where concentration is greater than 25.</dir>
+   <b>refine</b>/<b>addpts</b>///<b>tet</b>/<b>pset,get,</b>newpoints/  
+  <dir>refine explicitly by adding the new nodes in the set newpoints</dir>
+   <b>refine</b>/<b>rivara</b>///<b>edge/pset,get,</b>p1/.5///<b>inclusive</b> 
+  
+  <dir>refine all edges containing at least one node in pset p1 that are longer
+than .5. Using the 'rivera' algorithm may result in edges not containing nodes
+in the pset to be refined.</dir>
+   <b>refine/rivara_truncated///edge/pset,get,p1/</b>.5///<b>exclusive</b> 
+  
+  <dir>rivera_truncated, exclusive will refine only edges both of whose endpoints 
+are in the selected pset named p1</dir>
+   <b>refine/rivara_boundary///edge/1,0,0/</b>.25   
+  <dir>rivara_boundary will only refine boundary edges.</dir>
+   <b>refine/roughness///edge/1,0,0/</b>.28/ptop<b>/inclusive</b>   
+  <dir>will refine based on .28 distance to the surface named ptop.</dir>
+   <b>refine/edge_list///edge/</b>1 2 23 47   
+  <dir>will refine the edge with endpoints 1 and 2 AND the edge with endpoints 
+23 and 47.</dir>
+   <b>eltset</b> / elem3 / id_elem1 / <b>eq</b> / 3   <br>
+   <b>refine/eltset</b> / <b>eltset,get</b>, elem3   
+  <dir>will create a node set from the element set named elem3 and refine 
+using the constant option.</dir>
+   <b>refine/constant/</b>imt1/linear/<b>element/pset,get,</b>pbox /-1.,0.,0./<b>inclusive</b> 
+  
+  <dir>create a quadtree refined quad mesh</dir>
+   <b>eltset</b> / elm2 / itetclr / <b>eq</b> / 2 <br>
+   <b>pset</b>/ pelm2 / <b>eltset</b> elm2 <br>
+   <b>refine/constant/imt1/linear/element/pset,get,</b>pelm2<b>/-1.,0.,0./</b>inclusive/<b>amr</b> 
+12   
+  <dir>refine the material 2 elements of a hex mesh , do not refine in the
+vertical direction </dir>
+   <b>refine/constant/imt1/linear/element/pset,get,</b>pelm2<b>/-1.,0.,0./</b>inclusive/<b>amr</b> 
+3   
+  <dir>refine the material 2 elements of a hex mesh , refine only in the
+vertical direction </dir>
+ </blockquote>
+ <!-- end examples --> <br>
+</body>
+</html>

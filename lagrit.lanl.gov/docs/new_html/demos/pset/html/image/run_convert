@@ -1,0 +1,6 @@
+convert -crop 15% out.rgb pset1.gif
+convert -geometry 15% pset1.gif pset1_tn.gif
+echo 'pset1.gif and pset1_tn.gif done\n'
+convert -crop 15% out2.rgb pset2.gif
+convert -geometry 15% pset2.gif pset2_tn.gif
+echo 'pset2.gif and pset2_tn.gif done\n'

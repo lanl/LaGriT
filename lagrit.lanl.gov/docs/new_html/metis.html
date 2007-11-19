@@ -1,0 +1,69 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+</head>
+<body>
+&nbsp;METIS
+<br>&nbsp;
+<blockquote>Interface METIS graph partition and reorder package with LAGriT.
+For details of METIS algorithms and descriptions of the third command line
+argument see:
+<br><a href="http://www-users.cs.umn.edu/~karypic/metis">http://www-users.cs.umn.edu/~karypis/metis</a><a href="http://www-users.cs.umn.edu/~karypic/metis"></a>
+<p>Partition algorithm divides mesh into npartition parts attempting to
+assign an equal number of graph vertices (nodes or elements) to each partition
+and also the number of adjacent elements assigned to different processors
+is minimized. New attributes are created to hold partition information.
+Node partition number is in inodeprt, element partition number is in ielemprt.
+<p>Reorder algorithm computes a permutation vector, iperm, and an inverse
+permutation vector, invperm. The mesh can be reordered using the permutation
+vector in reorder. The reorder algorithms will compute fill-reducing orderings
+of sparse matrices.
+<br>&nbsp;</blockquote>
+METIS Interface to LAGriT
+<blockquote>&nbsp;
+<br>The standard libraries, liblagrit.a and libutil.a do not contain METIS.
+In order to utilize the METIS functions one must download the METIS package,
+build the METIS libraries on your local system and link them with the LAGriT
+libraries. One must also remove the dummy metis routines from the liblagrit.a
+library.
+<p>For example, on an SGI the following steps are required. Different compile
+and link flags are required for different operating systems.
+<p>Remove the dummy metis routines from the library: ar -dlv liblagrit_sgi.a
+metis_lg.o
+<p>Compile the main program:
+<br>f77 -g -c -n32 -r10000 -avoid_gp_overflow
+<br>$LAGRIT_SRC_PATH/adrivgen.f
+<p>Link the LaGriT and METIS libraries to build an executable:
+<br>f90 -g -n32 -r10000 -avoid_gp_overflow -o xlagrit_g_metis \
+<br>adrivgen.o liblagrit_sgi.a libmetis.a libutil_sgi.a
+<br>&nbsp;</blockquote>
+FORMAT (partition):
+<blockquote>&nbsp;
+<br>metis / partition / metis_partmeshnodal | metis_partmeshdual/ node
+| dual / npartitions / inodeprt / ielemprt</blockquote>
+
+<p><br>FORMAT (reorder):
+<blockquote>metis / reorder / metis_edgend | metis_nodend / node | dual
+/ [iperm] / [invperm]</blockquote>
+FORMAT (reorder with weights):
+<blockquote>metis / reorder / mmetis_nodewnd / node | dual / [iperm] /
+[invperm] / ivert_weight</blockquote>
+EXAMPLES (partition):
+<blockquote>metis / partition / metis_partmeshnodal / node / 32 / inodeprt
+/ ielemprt
+<br>metis / partition / metis_partmeshdual / dual / 32 / inodeprt / ielemprt
+<br>metis / partition / metis_partmeshnodal / node / 32 / -def- / -def-
+<br>metis / partition / metis_partmeshnodal / node / 32</blockquote>
+EXAMPLES (reorder):
+<blockquote>metis / reorder / metis_edgend / dual
+<br>metis / reorder / metis_nodend / node
+<br>metis / reorder / metis_nodend / dual
+<br>metis / reorder / metis_nodend / dual / -def- / -def-
+<br>metis / reorder / metis_nodend / dual / ieprm1 / ieinvprm1
+<br>metis / reorder / metis_edgend / node
+<br>reorder/-def-/ieprm1</blockquote>
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Jan Wills">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<dir>
+<dir>&nbsp;</dir>
+</dir>
+
+<dir><b><font face="Times">create/</font></b><font face="Courier">mo_name</font><font face="Times">/[</font><font face="Courier">npoints</font><font face="Times">/</font><font face="Courier">nelements</font><font face="Times">/<b>
+tet|hex|pri|pyr|tri|qua|hyb|triplane/</b>]</font></dir>
+
+<dir>
+<dir><font face="Times">Creates a new Mesh Object '</font><font face="Courier">mo_name</font><font face="Times">',
+which becomes the </font><font face="Courier">Current Mesh Object</font><font face="Times">.</font>
+<br><font face="Times">If a Mesh is created using the first (mesh_type)
+format, then values are supplied for the other parameters as follows:</font>
+<br>&nbsp;
+<table COLS=6 WIDTH="50%" NOSAVE >
+<tr>
+<td><font face="Times">mesh&nbsp;</font></td>
+
+<td><font face="Times">ndimension</font></td>
+
+<td><font face="Times">ndimension&nbsp;</font></td>
+
+<td><font face="Times">nodes_per</font></td>
+
+<td><font face="Times">faces_per</font></td>
+
+<td><font face="Times">edges_per</font></td>
+</tr>
+
+<tr>
+<td><font face="Times">name</font></td>
+
+<td><font face="Times">geom</font></td>
+
+<td><font face="Times">topo</font></td>
+
+<td><font face="Times">element</font></td>
+
+<td><font face="Times">element</font></td>
+
+<td><font face="Times">element</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><b><font face="Times">tet</font></b></td>
+
+<td><font face="Times">3</font></td>
+
+<td><font face="Times">3</font></td>
+
+<td>4</td>
+
+<td>4</td>
+
+<td>6</td>
+</tr>
+
+<tr NOSAVE>
+<td><b><font face="Times">hex</font></b></td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td NOSAVE>8</td>
+
+<td>6</td>
+
+<td>12</td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>pri</b>(sm)</font></td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td>6</td>
+
+<td>5</td>
+
+<td>9</td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>pyr</b>(amid)&nbsp;</font></td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td>5</td>
+
+<td>5</td>
+
+<td>8</td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>tri</b>(angle)</font></td>
+
+<td>3</td>
+
+<td>2</td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td>3</td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>qua</b>(d)</font></td>
+
+<td>3</td>
+
+<td>2</td>
+
+<td>4</td>
+
+<td>4</td>
+
+<td>4</td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>hyb</b>(rid)</font></td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td>10</td>
+
+<td>10</td>
+
+<td>12</td>
+</tr>
+
+<tr>
+<td><b>lin(e)</b></td>
+
+<td>3</td>
+
+<td>1</td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>1</td>
+</tr>
+
+<tr>
+<td><b>triplane</b></td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td>3</td>
+</tr>
+</table>
+</dir>
+
+<dir><font face="Times">If </font><font face="Courier">mo_name</font><font face="Times">
+exists nothing happens.</font>
+<br><font face="Courier">mo_name</font><font face="Times"> required.</font>
+<p>Note:&nbsp; If values are supplied for npoints and/or nelements space
+is allocated, but values are not entered for the mesh object attributes:
+<b>nnodes</b>
+and <b>nelements</b>
+<br>&nbsp;</dir>
+<font face="Times">EXAMPLES:</font>
+<dir><b><font face="Times">cmo/create/</font></b><font face="Courier">mo_tet2</font>
+<br><b><font face="Times">cmo/create/</font></b><font face="Courier">mo_tet2</font><font face="Times">/</font><font face="Courier">0</font><font face="Times">/</font><font face="Courier">0</font><b><font face="Times">/hex</font></b></dir>
+</dir>
+
+</body>
+</html>

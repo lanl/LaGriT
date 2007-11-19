@@ -1,0 +1,25 @@
+cmo/create/3dmesh/tet/                                                          
+surface/cube/reflect/box/0.0,0.0,0.0/1.0,1.0,1.0/                               
+surface/innercube/intrface/box/0.25,0.25,0.250/.75,.75,.75                      
+region/outside/le cube and gt innercube/                                        
+region/inside/le innercube/                                                     
+mregion/moutside/le cube and gt innercube/                                      
+mregion/minside/lt innercube/                                                   
+createpts/xyz/5,5,1/0.,0.,1.1/1.,1.,1.1/1,1,0/                                  
+pset/rayend/seq/1,0,0/                                                          
+regnpts/outside/3/pset,get,rayend/xyz/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/0,0/        
+pset/poutside/seq/1,0,0                                                         
+regnpts/inside/4/pset,get,rayend/xyz/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/1,.6/        
+pset/pinside/seq/1,0,0                                                          
+filter/1,0,0/                                                                   
+cmo/setatt/imt/1,0,0/1/                                                         
+cmo/setatt/imt/pset,get,inside/2/                                               
+cmo/setatt/imt/pset,get,outside/3/                                              
+setpts                                                                          
+connect                                                                         
+settets                                                                         
+dump/gmv/output.gmv                                                             
+cmo/status                                                                      
+cmo/printatt//-all-/minmax                                                      
+quality                                                                         
+finish                                                                          

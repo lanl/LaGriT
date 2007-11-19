@@ -1,0 +1,7 @@
+ Note: IEEE floating-point exception flags raised: 
+    Inexact;  Invalid Operation; 
+ See the Numerical Computation Guide, ieee_flags(3M) 
+
+real        1.8
+user        0.3
+sys         0.1

@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Geometry</title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+
+<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
+
+<meta name="keywords" content=" "/>
+
+<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
+<link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
+
+</head>
+<body class="home">
+
+<!-- OPEN include for banner area -->
+<!--#include virtual="/source/includes/xbanner.inc" -->
+<!-- CLOSE include for banner area -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/identifier.inc -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc -->
+<div id="content-org">
+  <table id="mid-section1" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="236"  valign="top" class="col1">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/nav1.inc -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/contacts.inc -->
+      <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+     
+   <td width="924" valign="top" class="col2-420">
+<!-- OPTIONAL: OPEN include for content area -->
+
+  
+        <p>cmo/create/3dmesh<br />
+          surface/outsurf/reflect/sphere/0.,0.,0./1.0/<br />
+          region/outside/ le outsurf /<br />
+          mregion/moutside/ le outsurf /<br />
+          rzs/2/2,200/0.,1./0.,0.,0.0/1/0,0.0/<br />
+          filter/1,0,0<br />
+          dump/gmv/gmv.points<br />
+          setpts<br />
+          search/delaunay<br />
+          settets/<br />
+          dump/gmv/gmv.spheres<br />
+        finish</p>
+        <h1>&nbsp;</h1>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <table width="500" border="0">
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+        </table>
+        <p>&nbsp;</p>
+        <p align="left"><img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/xtransparent.gif" /> </p>
+      <p align="left"><a href="index.shtml">Return to LaGriT Home Page</a></p></td>
+      <td width="161" valign="top" class="col3-180">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/related_links.inc -->
+      <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+    </tr>
+  </table>
+</div>
+
+<!-- OPEN include for footer area -->
+<!--#include virtual="/source/includes/xfooter.inc" -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc -->
+
+<!--#include virtual="../includes/email.inc" -->
+
+<!-- CLOSE include for footer area -->
+</body>
+</html>

@@ -1,0 +1,9 @@
+#
+convert -crop 15% image1.rgb trans1.gif
+convert -geometry 15% trans1.gif trans1_tn.gif
+echo 'trans1.gif and trans1_tn.gif done\n'
+#
+convert -crop 15% image2.rgb trans2.gif
+convert -geometry 15% trans2.gif trans2_tn.gif
+echo 'trans2.gif and trans2_tn.gif done\n'
+#

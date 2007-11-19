@@ -1,0 +1,111 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>RZS</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">CREATEPTS/VECTOR</font></u></b></blockquote>
+
+<blockquote>
+<blockquote>This routine is used to ratio zone the region of space spanned
+by the input number n<sub>i </sub>of copies of the input vector v<sub>ij</sub>
+away from the initial point v<sub>0j</sub> using the desired coordinate
+system. The j-th component of the i-th vector V<sub>ij</sub> is reduced
+by r<sub>ij</sub> at each step in the i-th direction away from the initial
+point. No attempt is made to insure that the 3 vectors are independent.</blockquote>
+<font face="Times New Roman,Times">FORMAT:</font></blockquote>
+
+<dir>
+<dir><font face="Times New Roman,Times"><b>createpts/vector/</b>[ |xyz|rtz|rtp
+/</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ n1,n2,n3</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/v11,v12,v13/v21,v22,v23/v31,v32,v33</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/v01,v02,v03</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/r11,r12,r13/r21,r22,r23/r31,r32,r33</font> ]
+<p>default = 0:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; n<sub>i</sub>, v<sub>i</sub>,
+v<sub>0j</sub>
+<br>default = 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r<sub>ij</sub>
+<br>&nbsp;</dir>
+<font face="Times New Roman,Times">EXAMPLES:</font>
+<dir><font face="Times New Roman,Times">spiral of points</font>
+<dir><font face="Times New Roman,Times"><b>createpts/vector/rtz</b>/n1,0,0/.1,10.,1/
+, , / , , / , , /1.1,1,.9/</font></dir>
+<font face="Times New Roman,Times">sc (simple cubic) point distribution</font>
+<dir><font face="Times New Roman,Times"><b>createpts/vector/xyz</b>/n1,n2,n3/1,0,0/0,1,0/0,0,1/</font></dir>
+<font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+same as</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>rz/xyz/</b>n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1</font>
+<br><font face="Times New Roman,Times">bcc (body centered cubic) point
+distribution</font>
+<dir><font face="Times New Roman,Times"><b>createpts/vector/xyz/</b>n1,n2,n3/.5,.5,.5/.5,.5,-.5/.5,-.5,-.5/</font>
+<br><font face="Times New Roman,Times">compare the two command sequence
+(different bounding box)</font>
+<dir><font face="Times New Roman,Times"><b>rz/xyz/</b>n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz/</b>n1&nbsp; ,n2&nbsp;
+,n3&nbsp; /0,0,0/n1,n2,n3/0,0,0</font></dir>
+</dir>
+<font face="Times New Roman,Times">fcc (face centered cubic) point distribution</font>
+<dir><font face="Times New Roman,Times"><b>createpts/xyz</b>/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/</font>
+<br><font face="Times New Roman,Times">compare the four command sequence
+(different bounding box)</font>
+<dir><font face="Times New Roman,Times"><b>rz/xyz/</b>n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz</b>/n1&nbsp; ,n2&nbsp;
+,n3+1/0,0,0/n1,n2,n3/0,0,1</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz/n</b>1&nbsp; ,n2+1,n3&nbsp;
+/0,0,0/n1,n2,n3/0,1,0</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz</b>/n1+1,n2&nbsp; ,n3&nbsp;
+/0,0,0/n1,n2,n3/1,0,0</font></dir>
+</dir>
+<font face="Times New Roman,Times">hexagonal lattice of points in x,y plane,
+repeated in z direction</font>
+<dir><font face="Times New Roman,Times"><b>createpts/xyz</b>/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/</font></dir>
+<font face="Times New Roman,Times">diamond point distribution</font> <font face="Times New Roman,Times">(two
+command sequence)</font>
+<dir><font face="Times New Roman,Times"><b>createpts/xyz</b>/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/</font></dir>
+<font face="Times New Roman,Times">&nbsp;<b>createpts/xyz</b>/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/.25,.25,.25</font>
+<br><font face="Times New Roman,Times">compare the eight command sequence
+(different bounding box)</font>
+<dir><font face="Times New Roman,Times"><b>rz/xyz</b>/n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1</font></dir>
+<font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>
+rz/xyz/</b>n1&nbsp; ,n2&nbsp; ,n3+1/0,0,0/n1,n2,n3/0,0,1</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>rz/xyz</b>/n1&nbsp; ,n2+1,n3&nbsp; /0,0,0/n1,n2,n3/0,1,0</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>rz/xyz</b>/n1+1,n2&nbsp; ,n3&nbsp; /0,0,0/n1,n2,n3/1,0,0</font>
+<dir><font face="Times New Roman,Times"><b>rz/xyz</b>/n1+1,n2+1,n3+1/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/1,1,1</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz</b>/n1&nbsp; ,n2&nbsp;
+,n3+1/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/0,0,1</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz/</b>n1&nbsp; ,n2+1,n3&nbsp;
+/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/0,1,0</font>
+<br><font face="Times New Roman,Times"><b>rz/xyz</b>/n1+1,n2&nbsp; ,n3&nbsp;
+/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/1,0,0</font></dir>
+<font face="Times New Roman,Times">&nbsp;hcp (hexagonal close pack) point
+distribution</font>&nbsp;<font face="Times New Roman,Times"> (two command
+sequence)</font>
+<dir><font face="Times New Roman,Times"><b>createpts/xyz</b>/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/</font>
+<br><font face="Times New Roman,Times"><b>createpts/xyz</b>/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/.5,0.289,.5/</font></dir>
+<font face="Times New Roman,Times">&nbsp;&nbsp; CAVEATS -</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *
+filter should be used afterwards to remove possibly duplicate points</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *
+this can create some really bizzare point distributions</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *
+mistyped input after "rzv/[cgeom]" always returns successful point addition,</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; but
+may be very different than desired</font></dir>
+</dir>
+
+</body>
+</html>

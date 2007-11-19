@@ -1,0 +1,50 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 98">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>The inside set of subroutines test whether a query point is strictly inside, strictly outside or on the surface of the specified element</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<FONT FACE="Times New Roman,Times"></FONT>&nbsp;
+<BLOCKQUOTE><B><U><FONT FACE="Times New Roman,Times">INSIDE</FONT></U></B>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">The <B>inside</B> set of
+subroutines that test whether a query point is strictly inside, strictly outside
+or on the surface of the specified element. The value returned in iflag
+is 0 if the query point is inside the element, -1 if outside, or is set
+to the local face number containing the query point. Coordinates of the
+query point are in xq, yq, zq. Coordinates of the vertices of the element
+are in x1, y1, z1, x2..... The coordinates of the element must be specified
+in the correct order (see the section on Mesh Object Connectivity).</FONT>
+<BR><FONT FACE="Times New Roman,Times"></FONT>&nbsp;</BLOCKQUOTE>
+</BLOCKQUOTE>
+ 
+<BLOCKQUOTE>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times"><B>inside_pyr</B>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,xq,yq,zq,iflag)</FONT><FONT FACE="Times New Roman,Times"></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>inside_pri</B>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6xq,yq,zq,iflag)</FONT><FONT FACE="Times New Roman,Times"></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>inside_hex</B>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6,x7,y7,z7,x8,y8,z8,</FONT><FONT FACE="Times New Roman,Times"></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">xq,yq,zq,iflag)</FONT><FONT FACE="Times New Roman,Times"></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>inside_te</B>t(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,xq,yq,zq,iflag)</FONT><FONT FACE="Times New Roman,Times"></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>inside_quad2d</B>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,xq,yq,zq,iflag)</FONT><FONT FACE="Times New Roman,Times"></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>inside_tri2d</B>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,xq,yq,zq,iflag)</FONT>
+<BR><FONT FACE="Times New Roman,Times"></FONT>&nbsp;</BLOCKQUOTE>
+<FONT FACE="Times New Roman,Times">These routines should not be confused
+with</FONT>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times"></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>inside_quad</B>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,xq,yq,zq,iflag)</FONT><FONT FACE="Times New Roman,Times"></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>inside_tri</B>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,xq,yq,zq,iflag)</FONT><FONT FACE="Times New Roman,Times"></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">which return in iflag: 1 if the query
+point is on the plane of the element, 0 if below the plane and -1 if above.</FONT></BLOCKQUOTE>
+</BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

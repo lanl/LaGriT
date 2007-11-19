@@ -1,0 +1,94 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><font face="Times New Roman,Times"><font size=+1>Conventions</font></font></b></blockquote>
+ 
+<dir>
+<dir><font face="Times New Roman,Times">Following in Section II.b is a
+alphabetic list of the LaGriT commands. Conventions that apply to all commands
+include:</font>
+<p><font face="Times New Roman,Times">1.&nbsp;&nbsp; Lines are a maximum
+of 80 characters long, identifiers are a maximum of 32 characters long.</font>
+<br><font face="Times New Roman,Times">2.&nbsp;&nbsp; Continuation lines
+are signaled by an "&amp;" as the last character of a line to be continued.
+A command can be up to 1024 characters long.</font>
+<br><font face="Times New Roman,Times">3.&nbsp;&nbsp; Delimiters are comma,
+slash, equal sign, or blank. (',' '/' '='' ').</font>
+<dir><font face="Times New Roman,Times">Blanks on either side of other
+delimiters are ignored. Leading blanks are ignored. Commas are usually
+used for parameters that belong to the same logical set such as first point,
+last point, stride. Slashes are usually used to separate sets of parameters.</font></dir>
+<font face="Times New Roman,Times">4.&nbsp;&nbsp; The three parameters:
+first point, last point, stride can have integer values which refer to
+actual sequential point numbers or they can have the character- string
+values:</font>
+<dir><font face="Times New Roman,Times"><b><a href="PSET.html">pset</a></b>,
+<b>get</b>,
+name where name has been defined by a previous <b><a href="PSET.html">pset</a></b>
+command.</font>
+<br><font face="Times New Roman,Times">The triplet: 1, 0, 0 refers to all
+points.</font>
+<br><font face="Times New Roman,Times">The triplet: 0, 0, 0 refers to the
+set of points defined in the last geometry command.</font></dir>
+<font face="Times New Roman,Times">5. Commands should be typed in lower
+case, however names are case sensitive.</font>
+<dir><font face="Times New Roman,Times">In the command description that
+follows certain symbols have special meaning.</font></dir>
+ 
+<dir>
+<dir><font face="Times New Roman,Times">[ ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surround optional parameters</font>
+<br><font face="Times New Roman,Times">|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+signifies alternate choices</font>
+<br><font face="Times New Roman,Times">, or /&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+separates parameters</font>
+<br><font face="Times New Roman,Times">___&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+underline specifies default</font></dir>
+</dir>
+<font face="Times New Roman,Times">6.</font><font face="Courier New,Courier">
+Courier</font><font face="Times New Roman,Times"> font is used for variable
+names such as </font><font face="Courier New,Courier">ifirst.</font>
+<dir><font face="Times New Roman,Times"><b>bold</b> is used for literal
+keywords such as <b>xyz</b>.</font></dir>
+<font face="Times New Roman,Times">7. Comments are identified by * in the
+first column. Comments are parsed; avoid using special characters especially
+`&amp;' in comments.</font>
+<br><font face="Times New Roman,Times">8. All names ( surface, region,
+pset,...) should be limited to 32 characters.</font>
+<br><font face="Times New Roman,Times">9. The right hand rule is used to
+determine normals to planes and to sheet surfaces. The first two points
+determin the first vector and the first and third point determine the second
+vector. By curling the fingers of the right hand from the first vector
+toward the second vector, the right thumb will point in the direction of
+the normal.</font>
+<br><img SRC="Image230.gif" height=148 width=189>
+<p><font face="Times New Roman,Times">10. To separate commands on the same
+line use a semicolon (;).</font>
+<br><font face="Times New Roman,Times">11. Three coordinate systems are
+used.</font>
+<dir>
+<dir><font face="Times New Roman,Times"><b>xyz</b> refers to the standard
+Cartesian coordinate system</font>
+<br><font face="Times New Roman,Times"><b>rtz </b>refers to a cylindrical
+coordinate system aligned along the z-axis, where <b>r </b>is the radius
+measured from the zaxis, <b>t </b>(theta) is the angle measured in the
+xy-plane from the positive x-axis toward the positive y-axis and <b>z</b>
+is the height measured from the xy-plane.</font>
+<p><font face="Times New Roman,Times"><b>rtp </b>refers to a spherical
+coordinate system, where <b>r </b>is the radius measured from the origin,
+<b>p</b>
+(phi) is the angle in the xy-plane measured from the positive x-axis toward
+the positive y-axis, <b>t</b> (theta) is the angle measured from the positive
+z-axis to the positive y axis.</font></dir>
+</dir>
+<img SRC="Image231.gif" height=264 width=411></dir>
+</dir>
+ 
+</body>
+</html>

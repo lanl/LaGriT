@@ -1,0 +1,1 @@
+*TEST addmesh/add (LaGriT_input_add)read / gmv / input_mesh1.gmv / cmo_mesh1read / gmv / input_mesh2.gmv / cmo_mesh2*addmesh / add / cmo3 / cmo_mesh1 / cmo_mesh2 / 3 / edge*resetpts / itpdump / gmv / output_add.gmv/ cmo3* begin compare herecmo/statuscmo/printatt//-all-/minmaxqualityfinish

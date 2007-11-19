@@ -1,0 +1,19 @@
+convert -crop 15% image1.rgb rmmat1.gif
+convert -geometry 15% rmmat1.gif rmmat1_tn.gif
+echo 'rmmat1.gif and rmmat1_tn.gif done\n'
+#
+convert -crop 15% image2.rgb rmmat2.gif
+convert -geometry 15% rmmat2.gif rmmat2_tn.gif
+echo 'rmmat2.gif and rmmat2_tn.gif done\n'
+#
+convert -crop 15% image3.rgb rmmat3.gif
+convert -geometry 15% rmmat3.gif rmmat3_tn.gif
+echo 'rmmat3.gif and rmmat3_tn.gif done\n'
+#
+convert -crop 15% image4.rgb rmmat4.gif
+convert -geometry 15% rmmat4.gif rmmat4_tn.gif
+echo 'rmmat4.gif and rmmat4_tn.gif done\n'
+#
+convert -crop 15% image5.rgb rmmat5.gif
+convert -geometry 15% rmmat5.gif rmmat5_tn.gif
+echo 'rmmat5.gif and rmmat5_tn.gif done\n'

@@ -1,0 +1,14 @@
+define/nx/20                                                                    
+define/ny/20                                                                    
+define/nz/20                                                                    
+cmo/create/cmo///tet                                                            
+rz/xyz/nx,ny,nz/0. 0. 0./1. 1. 1./1 1 1                                         
+cmo/setatt/cmo/imt/1 0 0/1                                                      
+dump/gmv/output_conn1.gmv/cmo                                                   
+connect/noadd                                                                   
+resetpts/itp                                                                    
+dump/gmv/output_conn2.gmv/cmo                                                   
+cmo/status                                                                      
+cmo/printatt//-all-/minmax                                                      
+quality                                                                         
+finish                                                                          

@@ -1,0 +1,19 @@
+*** compare_pset	Thu Sep  7 15:59:19 2000
+--- ../../reference/reference_pset	Thu Sep  7 15:46:56 2000
+***************
+*** 167,173 ****
+   nodes_per_element              4              4              0         1       
+   edges_per_element              6              6              0         1       
+   faces_per_element              4              4              0         1       
+!  isetwd            nan            nan            nan                   45       
+   ialias                         0             45             45        45       
+   imt1                           1              2              1        45       
+   itp1                           2             41             39        45       
+--- 167,173 ----
+   nodes_per_element              4              4              0         1       
+   edges_per_element              6              6              0         1       
+   faces_per_element              4              4              0         1       
+!  isetwd            -NaN           -NaN           -NaN                  45       
+   ialias                         0             45             45        45       
+   imt1                           1              2              1        45       
+   itp1                           2             41             39        45       

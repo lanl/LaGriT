@@ -1,0 +1,141 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>1</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<b><font face="Times New Roman,Times">&nbsp;&nbsp; Memory Manager</font></b>
+<dir>
+<dir><font face="Times New Roman,Times">LaGriT uses dynamic memory allocation.
+Memory is referenced by a two part name, block name and partition name.
+It is allocated in integer or real blocks(real is implemented as real*8).
+Each memory block is preceeded by a header and terminated by a trailer.
+The memory manager always returns the pointer to the data section of the
+memory block. Length is specified in words. Type indicates if the words
+are integer or real. Different platforms will have different values for
+integer and real word lengths. These machine dependent values are collected
+in the include file machine.h.</font>
+<br><font face="Times New Roman,Times">The following parameter names are
+used by the memory management routines:</font>
+<br><font face="Times New Roman,Times"></font>&nbsp;
+<center><table WIDTH="90%" NOSAVE >
+<tr NOSAVE>
+<td>blk</td>
+
+<td NOSAVE>block name of memory block</td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">prt</font></td>
+
+<td><font face="Times New Roman,Times">partition name of memory block&nbsp;</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">iadr</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">pointer to memory block (data
+section)&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">length</font></td>
+
+<td><font face="Times New Roman,Times">number of words in block or to be
+allocated</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">itype</font></td>
+
+<td><font face="Times New Roman,Times">1 for integer, 2 for real(real*8)
+, 3 for character</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">icscode</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">return code, 0 for no errors&nbsp;</font></td>
+</tr>
+
+<tr>
+<td>increment</td>
+
+<td>numbers of words to use as increment to size of memory block</td>
+</tr>
+
+<tr>
+<td>need</td>
+
+<td>required size of memory block</td>
+</tr>
+
+<tr>
+<td>extra</td>
+
+<td>extra amount to add to size of memory block when increasing its size</td>
+</tr>
+</table></center>
+<font face="Times New Roman,Times">In the following list underlined parameters
+are required input parameters.</font>
+<br><font face="Times New Roman,Times"></font>&nbsp;
+<dir><font face="Times New Roman,Times">Allocate a block of memory:</font>
+<br><font face="Times New Roman,Times"><b>mmgetblk</b>(<u>blk,prt,</u>iadr,<u>length,itype,</u>icscode)</font>
+<p><font face="Times New Roman,Times">Release a block of memory:</font>
+<br><font face="Times New Roman,Times"><b>mmrelblk</b>(<u>blk,prt,</u>iadr,icscode)</font>
+<dir>&nbsp;</dir>
+<font face="Times New Roman,Times">Release a partition of memory -- all
+blocks belonging to this partition will be released:</font>
+<br><font face="Times New Roman,Times"><b>mmrelprt</b>(<u>prt,</u>icscode)</font>
+<p><font face="Times New Roman,Times">Increment a block of memory by increment:</font>
+<br><font face="Times New Roman,Times"><b>mmincblk</b>(<u>blk,prt,</u>iadr,<u>increment</u>,icscode)</font>
+<dir>&nbsp;</dir>
+<font face="Times New Roman,Times">Find pointer (idar) and length (length)
+to a block of memory:</font>
+<br><font face="Times New Roman,Times"><b>mmfindbk</b>(<u>blk,prt,</u>iadr,length,icscode)</font>
+<dir>&nbsp;</dir>
+<font face="Times New Roman,Times">Return type (itype) of a block of memory:</font>
+<br><font face="Times New Roman,Times"><b>mmgettyp</b>(<u>iadr</u>,itype,icscode)</font>
+<dir>&nbsp;</dir>
+<font face="Times New Roman,Times">Return number of words (length) in a
+block of memory given the address of the block:</font>
+<br><font face="Times New Roman,Times"><b>mmgetlen</b>(<u>iadr</u>,length,icscode)</font>
+<dir>&nbsp;</dir>
+<font face="Times New Roman,Times">Return number of words (length) in a
+block of memory given the name of the block:</font>
+<br><b><font face="Times New Roman,Times">mmblklen</font></b><font face="Times New Roman,Times">(<u>blk,prt</u>,iadr,length,icscode)</font>
+<p><font face="Times New Roman,Times">Return name (blk, prt) of a block
+of memory:</font>
+<br><font face="Times New Roman,Times"><b>mmgetnam</b>(<u>iadr</u>,blk,prt,icscode)</font>
+<p><font face="Times New Roman,Times">Return address (iadr) of a block
+of memory:</font>
+<br><font face="Times New Roman,Times"><b>mmgetpr </b>(<u>blk, prt,</u>iadr,icscode)</font>
+<p><font face="Times New Roman,Times">Print a dump of allocated memory.
+This is useful for debugging purposes; the dump is listed by increasing
+pointer address:</font>
+<br><font face="Times New Roman,Times"><b>mmprint</b>()</font>
+<p><font face="Times New Roman,Times">Verify memory integrity. Print debug
+information if the memory block headers or trailers have been overwritten.</font>
+<br><font face="Times New Roman,Times"><b>mmverify</b>()</font>
+<p><font face="Times New Roman,Times">Find a block of memory, increase
+it if shorter than length, or allocate it if it doesn't exist;</font>
+<br><font face="Times New Roman,Times"><b>mmggetbk</b>(<u>blk,prt</u>,iadr,l<u>ength,itype</u>,icscode)</font>
+<p><font face="Times New Roman,Times">Change the length of a block of memory
+to length.</font>
+<br><font face="Times New Roman,Times"><b>mmnewlen</b>(<u>blk,prt,</u>iadr,<u>length</u>,icscode)</font>
+<p><font face="Times New Roman,Times">Change the name of a partition to
+prt1 from prt2</font>
+<br><font face="Times New Roman,Times"><b>mmnamprt</b>(<u>prt1,prt2</u>,icscode)</font>
+<p><font face="Times New Roman,Times">Get the address of the requested
+block and change the size of the storage to need+extra if need > length.&nbsp;
+Always return in length the new length of the block.&nbsp; If length is
+0 on entry, allocate a new block.</font>
+<br><font face="Times New Roman,Times"><b>mm_ovall</b>(<u>blk,prt</u>,iadr,<u>need,extra,length,type</u>,status)</font></dir>
+</dir>
+</dir>
+
+</body>
+</html>

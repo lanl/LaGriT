@@ -1,0 +1,10 @@
+* TEST hextotet (lagrit_input_hextotet)
+*
+read gmv input_hex.gmv cmo_hex
+hextotet 24 cmo_tet cmo_hex
+dump gmv output_tet.gmv cmo_tet
+*begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish

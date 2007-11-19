@@ -1,0 +1,75 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>SETPTS</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><b><u><font face="Times">SETPTS</font></u></b></blockquote>
+
+<dir>
+<dir>Sets point types and material regions by calling<b> surfset </b>and<b>
+regset</b> routines.<b> </b>Generate constraint table. The material (<font face="Courier">imt1</font><font face="Times">)
+attribute is set based on the <b>mregion</b> commands. Interior and external
+boundary nodes should be assigned to exactly one <b>mregion</b>; these
+nodes will be assigned an </font><b><font face="Courier">imt1</font></b><font face="Times">
+value that corresponds to the <b>mregion.</b> A node which is on an interface
+will be assigned to any<b> mregion </b>and will be given an </font><b><font face="Courier">imt1</font></b><font face="Times">
+value of "<b>interface</b>" (an integer equal to one more than the number
+of material regions.) Node types are assigned based on whether a node is
+on a surface and what type the surface(s) is.</font>
+<br><font face="Times">This command must be executed before <b>connect.</b></font></dir>
+<font face="Times">FORMAT:</font>
+<dir><b><font face="Times">setpts</font></b>
+<br><b><font face="Times">setpts/</font><font face="Courier">no_interface</font></b>
+<br><font face="Times">This allows one to set the imt values of nodes without
+getting any nodes labeled imt=interface. This is useful if you do not want
+settets to create parent child chains at interface points. The actual imt
+value given may be determined by roundoff error so should not be used in
+cases where there are a large number of interface points.&nbsp; It is useful
+for setting imt values of an rzbrick mesh in which interface points only
+occur due to the coincidental point very near the geometry defining surface.</font>
+<br><font face="Times"><b>setpts</b>/<b>closed_surfaces</b>/<b>reflect</b></font>
+<br><font face="Times">The <b>closed_surfaces</b> option works with geometries
+in which all regions and mregions are defined by closed surfaces. The nodes
+that fall on more than one surface are labeled as interface nodes. Nodes
+which fall on exactly one surface are labled external reflective boundary
+nodes. Nodes which are external boundary interface nodes are not labeled
+correctly and <b>resetpts/itp</b> must be called to correct the point types.
+An input file using the closed_surfaces option might look like:</font>
+<dir>
+<dir>
+<dir>
+<dir>
+<dir><font face="Times">cmo/create/s1///tri</font>
+<br><font face="Times">read/avs/surfaces</font>
+<br><font face="Times">cmo/create/3dmesh</font>
+<br><font face="Times">surface/surface1/inticons/sheet/s1</font>
+<br><font face="Times">copyts/3dmesh/s1/</font>
+<br><font face="Times">cmo/release/s1/</font>
+<br><font face="Times">cmo/create/52///tri/</font>
+<br><font face="Times">read/avs/surf2.avs</font>
+<br><font face="Times">surface/surface2/inticons/sheet/s2</font>
+<br><font face="Times">copypts/3dmesh/s2</font>
+<br><font face="Times">cmo/release/s2/</font>
+<br><font face="Times">region/release/s2</font>
+<br><font face="Times">region/r1/le surface1</font>
+<br><font face="Times">region/r2/le surface2</font>
+<br><font face="Times">mregion/mr1/lt surface1</font>
+<br><font face="Times">mregion/mr2/lt surface2</font>
+<br><font face="Times">setpts/closed_surfaces/reflect</font>
+<br><font face="Times">connect</font>
+<br><font face="Times">settets</font>
+<br><font face="Times">resetpts/itp</font></dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+</dir>
+
+</body>
+</html>

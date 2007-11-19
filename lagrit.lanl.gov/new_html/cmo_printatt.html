@@ -1,0 +1,54 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Jan Wills">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+ 
+<BLOCKQUOTE>&nbsp;
+<BR><FONT FACE="Times"><B>printatt/</B>c</FONT><FONT FACE="Courier">mo_name</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier">attribute_name</FONT>
+<BR><FONT FACE="Times"><B>printatt/</B>c</FONT><FONT FACE="Courier">mo_name</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier">attribute_name/
+[print_opt] / [index_set]</FONT>
+<BLOCKQUOTE><FONT FACE="Times"><B>attribute_name -&nbsp;&nbsp;</B> name
+of valid cmo attribute or category of attributes</FONT></BLOCKQUOTE>
+<FONT FACE="Times"><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; node&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</B>= all attributes of nnodes length</FONT>
+<BR><FONT FACE="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>&nbsp;
+element&nbsp;&nbsp;</B>&nbsp; = all attributes of nelements length</FONT>
+<BLOCKQUOTE><FONT FACE="Times"><B>-all-</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+= all attributes of the cmo</FONT>
+<BR><FONT FACE="Times"><B>-xyz-&nbsp;</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+= xic, yic, and zic attributes of the cmo</FONT></BLOCKQUOTE>
+<FONT FACE="Times"><B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; print_opt</B>&nbsp;&nbsp;
+='value' or 'list' or 'minmax'</FONT>
+<BLOCKQUOTE><FONT FACE="Times"><B>value</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+= this is default, prints attribute values</FONT>
+<BR><FONT FACE="Times">l<B>ist</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=print attribute name along with its length</FONT>
+<BR><FONT FACE="Times"><B>minmax</B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = print
+name, min and max of the attribute field, and its l length</FONT>
+<BR><FONT FACE="Times">&nbsp;</FONT></BLOCKQUOTE>
+<FONT FACE="Times">EXAMPLES:</FONT>
+<DIR><FONT FACE="Times">print field values:</FONT>
+<DIR><FONT FACE="Times"><B>cmo/printatt/</B>c</FONT><FONT FACE="Courier">mo1/zic/3,8,0</FONT>
+<BR><FONT FACE="Times"><B>cmo/printatt/</B>c</FONT><FONT FACE="Courier">mo1/itetclr/<B>eltset,get</B>,eset1</FONT></DIR>
+<FONT FACE="Times">print attribute names:</FONT>
+<DIR><B><FONT FACE="Times">cmo printatt/</FONT></B><FONT FACE="Courier">cmo1<B>/-all-/list</B></FONT>
+<BR><B><FONT FACE="Times">cmo printatt</FONT><FONT FACE="Courier">/</FONT></B><FONT FACE="Courier">cmo1<B>/node/list</B></FONT></DIR>
+<FONT FACE="Times">print min and max of attribute fields:</FONT>
+<DIR><B><FONT FACE="Times">cmo printatt/</FONT></B><FONT FACE="Courier">cmo1<B>/-all-/minmax</B></FONT>
+<BR><B><FONT FACE="Times">cmo printatt</FONT><FONT FACE="Courier">/</FONT></B><FONT FACE="Courier">cmo1<B>/-xyz-/minmax</B></FONT>
+<BR><B><FONT FACE="Times">cmo printatt/</FONT></B><FONT FACE="Courier">cmo1/xic/<B>minmax/</B>7,10,0</FONT>
+<BR><B><FONT FACE="Times New Roman,Times">cmo printatt/</FONT></B><FONT FACE="Courier New,Courier">cmo1</FONT><FONT FACE="Times New Roman,Times"><B>/</B>itp1<B>/minmax/pset,get</B>,psetr1</FONT>
+<BR><FONT FACE="Times New Roman,Times">attribute itp1 has length 'nnodes'
+hence the pset syntax is valid</FONT>
+<BR><B><FONT FACE="Times New Roman,Times">cmo printatt/</FONT></B><FONT FACE="Courier New,Courier">cmo1</FONT><FONT FACE="Times New Roman,Times"><B>/</B>itetclr<B>/minmax/eset,get</B>,smallets</FONT>
+<BR><FONT FACE="Times New Roman,Times">attribute itetclr has length 'nelements'
+hence the eset syntax is valid</FONT>
+<BR>&nbsp;</DIR>
+</DIR>
+&nbsp;</BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,45 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>TRANS</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><b><u><font face="Times New Roman,Times">TRANS</font></u></b></blockquote>
+
+<dir>
+<dir><font face="Times">In the first form of this command, <b>trans</b>
+translates a selected set of points (</font><font face="Courier">ifirst,ilast,istride</font><font face="Times">)
+in X,Y,Z space by picking one specific point (</font><font face="Courier">xold,yold,zold</font><font face="Times">)
+in the set of points and moving it to new coordinates (</font><font face="Courier">xnew,ynew,znew</font><font face="Times">)
+with a linear translation. This will then cause the remaining points in
+the set to be moved by the same translation.</font>
+<p><font face="Times">In the second form, if <b>center </b>is selected,
+the points set is translated so that (0,0,0) is located at the midpoint
+of min x,y,z and max x,y,z of the mesh. If <b>zero </b>is selected, the
+points set is translated so that (0,0,0) is located at the min x,y,z of
+the mesh. If <b>original </b>is selected, the points set is translated
+to the original location before <b>center</b> or <b>zero</b> was called.
+Currently all translations are <b>xyz </b>(<b>rtp</b> and <b>rtz </b>are
+reserved for future implementation). The values in the next optional field
+indicate the axes along which to translate. For example,</font><font face="Courier">
+1,1,0</font><font face="Times"> or </font><font face="Courier">x,y</font><font face="Times">
+will translate along the x and y axes, the z values will not change.</font>
+<br>&nbsp;</dir>
+<font face="Times">FORMAT:</font>
+<dir><font face="Times"><b>trans</b>/</font><font face="Courier">ifirst,ilast,istride</font><font face="Times">/</font><font face="Courier">xold,yold,zold/xnew,ynew,znew</font>
+<br><b><font face="Times">trans</font>/</b><font face="Courier">ifirst,ilast,istride</font><font face="Times">/<b>center</b>|<b>zero</b>|<b>original</b>/[<b>xyz</b>|<b>rtp</b>|<b>rtz</b>]/</font>
+<br><font face="Times">[</font><font face="Courier">xdim,ydim,zdim</font><font face="Times">]</font></dir>
+<font face="Times">EXAMPLE:</font>
+<dir><font face="Times"><b>trans</b>/<b>pset,get,</b></font><font face="Courier">mypoints/0.,0.,0./2.0,2.0,0.</font><font face="Times">/</font>
+<br><font face="Times">The points in the <b>pset</b> </font><font face="Courier">mypoints</font><font face="Times">
+will be moved 2 in the positive x direction and 2 in the positive y direction.</font>
+<br><font face="Times"></font>&nbsp;</dir>
+<font face="Times"><a href="demos/trans/test/html/main_trans.html">Click
+here for demos</a></font></dir>
+
+</body>
+</html>

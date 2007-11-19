@@ -1,0 +1,185 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>RADAPT</title>
+</head>
+<body link="#0000FF" vlink="#800080">
+&nbsp;
+<blockquote><b><u><font face="Times">RADAPT</font></u></b>
+<blockquote>The command radapt performs r-adaption on 2D or 3D mesh objects.
+For simple smoothing see command smooth. radapt takes a 2D or 3D mesh object
+and moves nodes (specifically the nodes selected by <font face="Courier">ifirst,ilast,istride</font><font face="Times">),
+without changing the connectivity of the grid, in order to adapt the mesh
+to best capture the behavior of a specified field or to an <i>adaptionfunction</i>
+(</font><font face="Courier">fadpt</font><font face="Times">) supplied
+by the user.</font></blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote><font face="Times">There are two adaptive smoothing algorithms
+available:</font>
+<br><font face="Times">1. <b>esug</b> --- Elliptic Smoothing for Unstructured
+Grids. This can only be used on triangular 2D mesh objects. If field is
+specified in the command line, <b>esug</b> will attempt to adapt the grid
+to the specified field. If the keyword <b>user</b> is specified in the
+command line, <b>esug</b> will attempt to adapt the grid to an <i>adaption
+function</i> defined by the user-supplied </font><font face="Courier">subroutine
+fadpt</font><font face="Times">. (Ahmed Khamayseh and Andrew Kuprat, "Anisotropic
+Smoothing and Solution Adaption for Unstructured Grids", Int. J. Num. Meth.
+Eng., Vol. 39, pp. 3163-3174 (1996)).</font>
+<br><font face="Times">2. <b>mega</b> --- Minimum Error Gradient Adaption.
+For adaptive smoothing purposes, <b>mega</b> can only be used on 3D meshes,
+and only in conjunction with a user-supplied subroutine fadpt or with a
+user specified attribute field. If adaption is to an attribute field, then
+<b>radapt</b>
+may be instructed to use the interpolation mode associated with the attribute
+to <b>refresh </b>the attribute values. The default is <b>stale </b>in
+which case the attribute value will not be updated to reflect the new node
+position. In either case, the user is cautioned to carefully consider the
+validity of the data used for the adaption. <b>mega</b> can be used to
+adapt hybrid meshes as well as tetrahedral meshes. (Randolph E. Bank and
+R. Kent Smith, "Mesh Smoothing Using A Posteriori Error Estimates", SIAM
+J. Num. Anal. Vol. 34, Issue 3, pp. 979-997 (1997))</font>
+<br><font face="Times">In the field adaption form, the user has specified
+a valid field from the current mesh object, and r-adaption is to be based
+upon this field. Typically, if the field has large gradients or curvature
+in a particular region, r-adaption using this field will cause nodes to
+be attracted to the region of interest. (<b>esug </b>adapts especially
+to large gradients, <b>mega </b>adapts especially to large second derivatives---"curvature".)
+If adaption is to an attribute field, then <b>radapt</b> may be instructed
+to use the interpolation mode associated with the attribute field to <b>refresh
+</b>the
+attribute values. The default is <b>stale </b>in which case the attribute
+value will not be updated to reflect the new node position adaption. In
+this case, the user should reduce the number of adaption iterations to
+less than 4, since r-adaption with stale data becomes meaningless. (See
+<b>maxiter</b>_<b>sm</b>
+variable description below.) The user takes on the task of refreshing the
+field values by e.g. re-solving a PDE for the new field values on the new
+mesh. If <b>refresh</b> is specified, the r-adaption routine will automatically
+interpolate the new field values every iteration, using a call to the <b>doping</b>
+command. In this case, the number of adaption iterations need not be reduced
+from the default value of 25. In either case, the user is cautioned to
+carefully consider the validity of the data used for the adaption.</font>
+<br><font face="Times">In the <b>user</b> form, the mesh will r-adapt to
+the function returned by the </font><font face="Courier">subroutine fadpt</font><font face="Times">
+which must be supplied by the user.</font>
+<br><font face="Times">Specifying <b>position</b> signifies that the x-y-z
+values of the nodes in the current mesh object will be altered. (Other
+argument values allow for modification options that are not yet implemented.)</font>
+<br><font face="Times">If <b>esug</b> is used (currently available in 2D
+only), the degree of node adaption will depend on the scale of the specified
+field. In this case, the results of adaption of the grid to the field can
+be altered by using one or more <b>field</b> commands beforehand to modify
+the field. For example, by increasing the scale of a field using <b>field</b>/<b>scale</b>,
+the <b>esug</b> algorithm will produce grids with increased numbers of
+nodes in the regions where the field experiences relatively large gradients.
+By volume averaging a field using <b>field</b>/<b>volavg</b>, <b>esug</b>
+will cause a more gentle form of adaption with a better grading of elements.
+By composing the values of the field with <b>log</b> or <b>asinh</b> using
+<b>field</b>
+/<b>compose</b>, one can cause <b>esug</b> to shift nodes to where the
+logarithm (or hyperbolic arcsine) of the field has interesting features,
+rather than where the field itself has interesting features.<i> Note: Since
+the</i> <b>mega</b> <i>adaptive smoothing algorithm is rigorously based
+on error minimization, it is in general of little or no value to modify
+the adaption function for this algorithm. In particular, rescaling has
+no effect on the output.</i></font>
+<br><font face="Times">The code variable <b>maxiter</b>_<b>sm</b> (default=25)
+can be set using the <b>assign</b> command before calling <b>radapt</b>.
+This controls the maximum number of adaption iterations to be performed
+by <b>radapt</b>. If convergence is detected , fewer iterations will be
+performed. If field data is allowed to become <b>stale</b> during the course
+of r-adaption, <b>maxiter</b>_<b>sm</b> should be reduced (e.g. less than
+4).</font></blockquote>
+<font face="Times">FORMAT:</font>
+<blockquote><font face="Times"><b>radapt </b>/<b>[position</b>]/<b> </b>[<b>esug</b>|<b>mega</b>]/[</font><font face="Courier">ifirst,ilast,istride]</font><font face="Times">
+/[</font><font face="Courier">field]</font><font face="Times">/</font>
+<br><font face="Times">[<b>refresh</b>|<b>stale</b>]</font>
+<br><font face="Times"><b>radapt </b>/ [<b>position</b>]/<b> </b>[<b>esug</b>|<b>mega</b>
+]/ [</font><font face="Courier">ifirst,ilast,istride</font><font face="Times">]
+/ [<b>user</b>]</font></blockquote>
+<font face="Times">EXAMPLES:</font>
+<blockquote><font face="Times">Using <b>esug</b>, adapt all nodes in 2dmesh
+to the density field. Do not update data.</font>
+<blockquote><b><font face="Times">radapt / / esug / </font></b><font face="Courier">1,0,0</font><font face="Times">
+/ </font><font face="Courier">density</font></blockquote>
+<font face="Times">Assuming a default 3D cmo, use <b>mega</b> to adapt
+the mesh to the adaption function supplied by the user via </font><font face="Courier">subroutine
+fadpt</font><font face="Times">. Afterwards dope the density field with
+the fadpt function values.</font>
+<blockquote><font face="Times"><b>radapt </b>/ / / </font><font face="Courier">1,0,0</font><font face="Times">
+/ <b>user</b></font>
+<br><font face="Times"><b>doping </b>/<b> user </b>/ </font><font face="Courier">density</font><font face="Times">
+/ <b>set </b>/</font><font face="Courier">1,0,0</font><font face="Times">/</font></blockquote>
+</blockquote>
+<font face="Times">FORMAT FOR fadpt:</font>
+<blockquote><font face="Courier">subroutine fadpt(xvec,yvec,zvec,imtvec,nvec,time,fvec)</font>
+<br><font face="Courier">xvec, yvec, zvec</font><font face="Times"> ---
+Vectors of x, y, and z coordinates of the points where the function is
+to be evaluated.</font>
+<br><font face="Courier">imtvec</font><font face="Times"> --- Vector of
+<b>imt</b>
+values (material types) for the case where function value depends on material
+type as well as position (ie. functions with discontinuities).</font>
+<br><font face="Courier">nvec</font><font face="Times"> --- Vector length
+(= number of places where function is to be evaluated).</font>
+<p><font face="Courier">time</font><font face="Times"> --- Time (scalar),
+for time-dependent functions.</font>
+<p><font face="Courier">fvec</font><font face="Times"> --- Vector of adaption
+function values.</font></blockquote>
+
+<p><br><font face="Times">SAMPLE FUNCTIONS AND INPUT DECKS</font>
+<blockquote><font face="Times">To demonstrate adaptive smoothing using
+<b>mega</b>,
+examples are available which use the files </font><font face="Courier"><a href="fadpt_boron.f">fadpt_boron.f</a>,<a href="input.boron.3dtet">input.boron.3dtet</a></font><font face="Times">,</font><font face="Courier"><a href="input.boron.3dhex">input.boron.3dhex</a></font><font face="Times">,</font><font face="Courier"><a href="fadpt_gyro.f">fadpt_gyro.f</a>,
+<a href="input.gyro.3dtet">input.gyro.3dtet</a></font><font face="Times">,</font><font face="Courier"><a href="input.gyro.3dhex">input.gyro.3dhex</a></font><font face="Times">.</font></blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote><font face="Times">1. Boron density </font><font face="Courier">function
+fadpt_boron.f</font><font face="Times">. Load the file </font><font face="Courier">fadpt</font><font face="Times">_</font><font face="Courier">boron.f
+</font><font face="Times New Roman,Times">ahead
+of the </font><b><font face="Courier">LaGriT</font></b> libraries; this
+will cause the default <font face="Courier">fadpt</font><font face="Times">
+subroutine to be displaced by the one in this file. The result is that
+now 3D adaptive smoothing will attempt to adapt 3D tetrahedral or hybrid
+meshes to the boron density function devised by Kent Smith of Bell Labs.
+This function has a maximum value of 1.1 x 10<font size=-2>18</font>, and
+drops rapidly to zero; the function attains its largest values on a T-shaped
+region in space and provides very challenging isosurfaces to capture. Two
+input decks use this function:</font>
+<blockquote><font face="Times">a.</font><font face="Courier"> input.boron.3dtet</font><font face="Times">.
+This deck generates and adapts a tetrahedral mesh to the boron function.&nbsp;
+A snapshot of the adapted grid may be seen at <a href="image/boron.png">boron.png</a>.</font>
+<br><font face="Times">b. </font><font face="Courier">input.boron.3dhex</font><font face="Times">.
+This deck generates and adapts a hexahedral mesh to the boron function.&nbsp;&nbsp;
+A snapshot of the adapted grid may be seen at <a href="image/boron.hex.png">boron.hex.png.</a></font></blockquote>
+<font face="Times">2. "Gyroscope function"</font><font face="Courier">
+fadpt_gyro.f</font><font face="Times">. This function has large second
+derivatives near three rings of unit diameter which are aligned with each
+of the three coordinate planes which pass through the origin. Adaption
+to this function results in the pulling of the grid towards the rings when
+running the following two input decks:</font>
+<blockquote><font face="Times">a. </font><font face="Courier">input.gyro.3dtet</font><font face="Times">.
+This deck generates and adapts a tetrahedral mesh to the "gyroscope" function.&nbsp;&nbsp;
+A snapshot of the adapted grid may be seen at <a href="image/gyro.png">gyro.png</a>.</font>
+<br><font face="Times">b. </font><font face="Courier">input.gyro.3dhex</font><font face="Times">.
+This deck generates and adapts a hexahedral mesh to the "gyr/scope" function.&nbsp;&nbsp;
+A snapshot of the adapted grid may be seen at <a href="image/gyro.hex.png">gyro.hex.png</a>.</font></blockquote>
+<font face="Times">RELEVANT LaGriT VARIABLE FOR radapt</font>
+<br><font face="Times">The <b>maxiter_sm</b> variable is provided to control
+the maximum number of iterations used by <b>radapt</b> on a single call.
+By default, this variable is set to 25, but this can be changed by the
+user. For example,</font>
+<br><font face="Times"><b>assign </b>/ / /<b> maxiter_sm </b>/<b> </b></font><font face="Courier">50</font>
+<br><font face="Times">changes the maximum number of iterations to 50.
+If <b>radapt </b>detects a sufficient amount of convergence, it will terminate
+smoothing in less than <b>maxiter_sm</b> iterations.</font></blockquote>
+</blockquote>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+*TEST regnpts (lagrit_input_regnpts)
+* create a 3-D tetrahedral mesh object and name it 3dmesh
+cmo/create/3dmesh/tet/
+* unit cube
+surface/cube/reflect/box/0.0,0.0,0.0/1.0,1.0,1.0/
+*put cube inside cube
+surface/innercube/intrface/box/0.25,0.25,0.250/.75,.75,.75
+*define geometric regions
+region/outside/ le cube and gt innercube /
+region/inside/ le innercube  /
+* define material regions
+mregion/moutside/ le cube and gt innercube /
+mregion/minside/ lt innercube  /
+* create 25 points (5x5x1) in a plane above the unit cube
+* place points on the boundaries in the x and y directions (1,1,0)
+createpts/xyz/5,5,1/0.,0.,1.1/1.,1.,1.1/1,1,0/
+* give the points defined by the createpts command the name, rayend
+pset/rayend/seq/1,0,0/
+* create rays between points in rayend and the plane below the cube
+* distribute 3 points along these rays in the region "outside"
+* add one point at the upper external boundary for each ray
+regnpts/outside/3/pset,get,rayend/xyz/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/0,0/
+pset/poutside/seq/1,0,0
+* distribute 4 points along these rays in the region "inside"
+* add one point at the lower external boundary for each ray
+* add one point at the material interface for each ray since
+* bottom contains the interface - a total of 5 points for each ray.
+* points will be distributed such that the ratio of distances between
+* any two consecutive pairs of points is 0.6 traveling from the source
+* of the ray (the plane) to the ray end.
+*cmo/printatt//-xyz-/26,123,1
+regnpts/inside/4/pset,get,rayend/xyz/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/1,.6/
+pset/pinside/seq/1,0,0
+*  eliminate coincident or nearly coincident points
+*  1,0,0 means consider all points
+*cmo/printatt//-xyz-/124,159,1
+filter/1,0,0/
+*  give all points a default material type
+cmo/setatt/imt/1,0,0/1/
+cmo/setatt/imt/pset,get,inside/2/
+cmo/setatt/imt/pset,get,outside/3/
+*  rayend points are set to invisible (dud is the code for invisible)
+*  they were used as end points of the rays in the regnpts command
+*cmo/setatt/itp/pset,get,rayend/dud/
+*  assign material colors to the points
+*  identify points that are on material interfaces
+*  identify constrained points
+setpts
+*  connect the points into a Delaunay tetrahedral mesh
+*  do not connect across material interfaces -
+*  add points if necessary to resolve material interfaces
+*search(?)
+connect
+*  set element (tetrahedral) type
+settets
+*  dump mesh to some output form
+dump/gmv/output.gmv
+* begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish

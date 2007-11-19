@@ -1,0 +1,38 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>PSET</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">PERTURB</font></u></b></blockquote>
+
+<dir>
+<dir><font face="Times New Roman,Times">This command moves node coordinates
+in the following manner.</font><font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times">Three pairs random numbers between
+0 and 1 are obtained. These pairs refer to the x, y and z coordinates of
+the nodes respectively. The first random number of each pair is multiplied
+by the factor given in thecommand. The second random number is used to
+determine if the calculated offset is to be added or subtracted from the
+coordinate. No checking is done to see if elements are inverted by this
+perturbation.&nbsp; It is assumed that the mesh is not yet connected.</font>
+<br>&nbsp;</dir>
+<font face="Times">FORMAT:</font>
+<dir><font face="Times New Roman,Times"><b>perturb/pset,get,psetnam</b>e/</font><font face="Courier New,Courier">xfactor,yfactor,zfactor</font>
+<br><font face="Times New Roman,Times"></font>&nbsp;</dir>
+<font face="Times New Roman,Times">EXAMPLES</font>
+<dir><font face="Times New Roman,Times"><b>perturb/</b>1,0,0/0.5,0,0&nbsp;&nbsp;
+add offsets to only the xcoordinates of all nodes</font>
+<br><b><font face="Times New Roman,Times">perturb/pset,get,mypset</font></b><font face="Times New Roman,Times">/0.001,0.001,0.001&nbsp;
+add small offsets to all coordinates of the nodes in the <b>pset</b> named
+<b>mypset.</b></font>
+<br><font face="Times New Roman,Times"></font>&nbsp;</dir>
+<font face="Times New Roman,Times"><a href
+="new_html/demos/pset/test/html/main_pset.html"></a></font></dir>
+
+</body>
+</html>

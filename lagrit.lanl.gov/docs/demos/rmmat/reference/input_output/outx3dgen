@@ -1,0 +1,126 @@
+ 
+ 
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+*            *                                             *                    
+*            *     Program:  LaGriT                        *                    
+*            *     Version:  1.004                         *                    
+*            *     Compiled: 00/05/25 at 10:00:00          *                    
+*            *                                             *                    
+*            *                                             *                    
+*            *     This run was processed                  *                    
+*            *      on day:  Thu Sep  7 2000               *                    
+*            *      at time: 15:47:31                      *                    
+*            *                                             *                    
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+ 
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+define/nx/15                                                                    
+define/ny/15                                                                    
+define/nz/2                                                                     
+cmo/create/mesh_object///tet                                                    
+createpts/xyz/nx,ny,nz/0. 0. 0./1. 1. 0.2/1 1 1                                 
+  RZ GENERATED POINTS                    1 TO                  450              
+cmo/setatt/mesh_object/imt/1 0 0/1                                              
+Warning: nelements = 0                                                          
+       450 values reset for attribute imt1                                      
+ 
+connect                                                                         
+ Coordinates of enclosing tetraheron are:                                       
+          -0.75000D+00-0.75000D+00-0.40000D+00                                  
+          -0.75000D+00 0.42500D+01 0.10000D+00                                  
+          -0.75000D+00-0.75000D+00 0.60000D+00                                  
+           0.42500D+01 0.50000D+00 0.10000D+00                                  
+ ntets=       500     mpnt=      212     nlstfail=     285 %done=  18.36        
+ ntets=       500     mpnt=      229     nlstfail=     286 %done=  18.36        
+ ntets=       500     mpnt=      246     nlstfail=     287 %done=  18.36        
+ ntets=       500     mpnt=      263     nlstfail=     288 %done=  18.36        
+ ntets=       500     mpnt=      280     nlstfail=     289 %done=  18.36        
+ ntets=       500     mpnt=      297     nlstfail=     290 %done=  18.36        
+ ntets=       500     mpnt=      314     nlstfail=     291 %done=  18.36        
+ 
+ There are    334 points that failed step       1                               
+      444    359    368     59    193    318    425      7     56    105        
+      229    329    261    293    225    332    347    430     46    153        
+      202    251     96    373    305      6    371    386     60     75        
+      124    173    297    397    106    213    248    400    415     48        
+      131    238    270    429    418    101    235    133    199     21        
+      128    143    319    249    441    142    174    281    296    228        
+       33    192    275    382     15     64    308    169    303    411        
+      267    374    306    338    387    402     76    210    335    442        
+       24     73    379    311    343     17     83    242    349    364        
+      447     63    170    102    151    406    132    393    237    388        
+      420     77     92    141    190    122     54    144    278    310        
+      417    432     65    148    255    287    219    268    200     28        
+      322     23     38    145    160    209    266     25    314    246        
+      346    378    282     50    167    292    416     32     81    336        
+       36    130    390     91    216    323    355    404    325    186        
+      320    159    414    123    230    245    328    436     93    227        
+      259     26    298    313    118    252    284     34    100    149        
+      366    381     14     97    352    191    391    423     22    410        
+      254    405    437     94    109     41     90    396    428    161        
+      295    327    434    449     82    165    272    204    119    168        
+      217     45    339     40     55    162    177    353    158    241        
+      139    263    363    395    350     67    184    309    433     49        
+      304    236    285    164    407    108    233    340    372    421        
+       20    334     42    348    431    140    247    262    345    377        
+       51    117    166     98     30    274    135    269    301    408        
+      440     39     88    178    110    244    176    208    315    330        
+      413    445    136    185    344    111    427    342    203    354        
+      369     43     58    234      1     16     99    312      4    276        
+      383    398    107     62    356     57     72    179    321    126        
+      288     31    114    280    380    412    384    211    260    326        
+      182    289    221    253    302    232     84    201    250    357        
+      389    115    370    175    258    424    125    157    264    279        
+      438     37    127    450     66    448     47    291    152    286        
+      394     85    134    183                                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+cmo/printatt//-all-/minmax                                                      
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ -def-                0.00000E+00    0.00000E+00    0.00000E+00       450       
+ scalar                         1              1              0         1       
+ vector                         3              3              0         1       
+ nnodes                       450            450              0         1       
+ nedges                         0              0              0         1       
+ nfaces                         0              0              0         1       
+ nelements                   1169           1169              0         1       
+ mbndry                  16000000       16000000              0         1       
+ ndimensions_topo               3              3              0         1       
+ ndimensions_geom               3              3              0         1       
+ nodes_per_element              4              4              0         1       
+ edges_per_element              6              6              0         1       
+ faces_per_element              4              4              0         1       
+ isetwd               0.00000E+00    0.00000E+00    0.00000E+00       450       
+ ialias                         0              0              0       450       
+ imt1                           1              1              0       450       
+ itp1                           0              0              0       450       
+ icr1                           0              0              0       450       
+ isn1                           0              0              0       450       
+ xic                  0.00000E+00    1.00000E+00    1.00000E+00       450       
+ yic                  0.00000E+00    1.00000E+00    1.00000E+00       450       
+ zic                  0.00000E+00    2.00000E-01    2.00000E-01       450       
+ xtetwd               0.00000E+00    0.00000E+00    0.00000E+00      1169       
+ itetclr                        1              1              0      1169       
+ itettyp                        5              5              0      1169       
+ itetoff                        0           4672           4672      1169       
+ jtetoff                        0           4672           4672      1169       
+ itet                           1            447            446      1169 x  4  
+ jtet                           1       16000000       15999999      1169 x  4  
+unavailable attribute type for minmax: CHARACTER                                
+minmax failed for attribute ipolydat                                            
+ 
+dump/gmv/output_rmmat1.gmv/mesh_object                                          
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+surface/cyl_surf/intrface/cylinder/0.5,0.5,-1/0.5,0.5,1.0/0.25                  
+mregion/mr1/gt cyl_surf                                                         
+mregion/mr2/lt cyl_surf                                                         
+setpts                                                                          
+ Inconsistent geometry - surfaces defined but no regions code will stop         

@@ -1,0 +1,41 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+   <title>QUADXYZ</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">QUADXYZ</font></u></b>
+<blockquote>Define an arbitrary, logical hexahedron of points in 3D(xyz)
+space. <font face="Courier">nx </font><font face="Times">specifies the
+number of points between the 1st and 2nd point.&nbsp; </font><font face="Courier">ny
+</font><font face="Times">specifies
+the number of points between the 1st and 4th point and
+</font><font face="Courier">nz
+</font><font face="Times">specifies
+the number of points between the 1st and 5th point.&nbsp; The eight corners
+of the hex are then listed as two sets of quads, each set of four nodes
+is given in counter clockwise order . Points 1 to 4 specify one face of
+the hex, points 5 to 8 the corresponding face opposite (point 5 is logically
+behind point 1, point 6 behind point 2 and so on.)</font></blockquote>
+</blockquote>
+
+<dir><font face="Times">FORMAT:</font>
+<dir><font face="Times"><b>quadxyz</b>/</font><font face="Courier">nx</font><font face="Times">,</font><font face="Courier">ny</font><font face="Times">,</font><font face="Courier">nz</font><font face="Times">/</font><font face="Courier">x1</font><fo
+<br></dir>
+<font face="Times">EXAMPLES:</font>
+<dir><font face="Times">quadxyz/5 25 7/ 0. 0. 0. /1. 0. 0. /1. .0 10. /0.
+.0 10. /0. 2.0 0. /1. 2. 0. &amp;</font>
+<br><font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/1.0 2. 10.0 /0. 2. 10.0 /</font>
+<br><font face="Times">quadxyz/5 25 7/ 0. 0. 0. /1. 0. 0. /1. 2. 0. /0.
+2. 0. /&amp;</font>
+<dir><font face="Times">0. 0. 10. /1. 0. 10. /1. 2. 10. /0. 2. 10. /</font></dir>
+</dir>
+</dir>
+
+</body>
+</html>

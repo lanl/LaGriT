@@ -1,0 +1,9 @@
+convert -crop 15% image1.rgb regnpts1.gif
+convert -geometry 15% regnpts1.gif regnpts1_tn.gif
+echo 'regnpts1.gif and regnpts1_tn.gif done\n'
+convert -crop 15% image2.rgb regnpts2.gif
+convert -geometry 15% regnpts2.gif regnpts2_tn.gif
+echo 'regnpts2.gif and regnpts2_tn.gif done\n'
+convert -crop 15% image3.rgb regnpts3.gif
+convert -geometry 15% regnpts3.gif regnpts3_tn.gif
+echo 'regnpts3.gif and regnpts3_tn.gif done\n'

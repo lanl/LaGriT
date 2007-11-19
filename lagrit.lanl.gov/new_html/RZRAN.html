@@ -1,0 +1,142 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Jan Wills">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<B><FONT FACE="Times New Roman,Times"></FONT></B>&nbsp;
+<BLOCKQUOTE><B><U><FONT FACE="Times New Roman,Times">RZRAN</FONT></U></B>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">This routine is used to
+add random points with a given target spacing to the region of space defined
+by the input minimum and maximum coordinate values using the specified
+geometry (xyz, rtz, or rtp), and the given local origin (specified in xyz
+coordinates).</FONT> <FONT FACE="Times New Roman,Times">Within the bounding
+geometry, the points are distributed uniformly in space, with the average
+separation targeted at the input value of the spacing.&nbsp; Near the boundaries
+of the geometry, the uniform distribution is modified slightly in order
+to create a well defined outer boundary.&nbsp; Points are added separately
+on the corners, edges, and surfaces of the bounding geometry, uniformly
+randomly distributed with the same target spacing on each of these boundary
+objects. Points in the interior are offset by the sepcified edge protection
+distance from the exterior.&nbsp; This separation helps LaGriT's connect
+algorithm avoid creating artificial "pits" in the interface surfaces.</FONT></BLOCKQUOTE>
+</BLOCKQUOTE>
+&nbsp;
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">FORMAT</FONT></BLOCKQUOTE>
+ 
+<BLOCKQUOTE>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times"><B>rzran</B> / <B>cgeom
+</B>/ <B>spacing</B> / </FONT><FONT FACE="Courier New,Courier">rmin1,rmin2,rmin3</FONT><FONT FACE="Times New Roman,Times">
+/ </FONT><FONT FACE="Courier New,Courier">rmax1,rmax2,rmax3</FONT><FONT FACE="Times New Roman,Times">&nbsp;
+&amp; [/</FONT><FONT FACE="Courier New,Courier"> xoff,yoff,zoff</FONT><FONT FACE="Times New Roman,Times">
+/ </FONT><FONT FACE="Courier New,Courier">edgedist</FONT><FONT FACE="Times New Roman,Times">
+/</FONT><FONT FACE="Courier New,Courier"> ranseed1,ranseed2</FONT><FONT FACE="Times New Roman,Times">
+]</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">while only <B>rzran</B> is required
+(will result in a single point at the origin), it is recommended that you
+use as the minimal command:<B> rzran</B> / <B>cgeom </B>/ spacing /&nbsp;
+rmin1,rmin2,rmin3 / rmax1,rmax2,rmax3</FONT>
+ 
+<P><B><FONT FACE="Times New Roman,Times">cgeom</FONT></B>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; geometry label (same
+convention as for rz)</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; allowed values: xyz|rtp|rtz</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; default: <U>xyz </U>if
+not present, error return if not allowed</FONT>
+ 
+<P><B><FONT FACE="Times New Roman,Times">spacing</FONT></B>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; target separation between
+the random points</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; allowed values: spacing>0</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; default: spacing=1</FONT>
+ 
+<P><FONT FACE="Courier New,Courier">rmin1,rmin2,rmin3</FONT><FONT FACE="Times New Roman,Times">
+/ </FONT><FONT FACE="Courier New,Courier">rmax1,rmax2,rmax3</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; minimum and maximum
+coordinate values</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; allowed values:</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; all
+geometries: rmax.ge.rmin</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <B>rtz:</B>
+rmin1.ge.0, rmax2-rmin2.le.360</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <B>rtp</B>:
+rmin1.ge.0, rmin2.ge.0, rmax2.le.180, rmax3-rmin3.le.360</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp;&nbsp; defaults: rmin=0,
+rmax=rmin</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">xoff,yoff,zoff (specified in xyz
+coordinate system)</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; local origin shift</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; defaults: 0</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">edgedist</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; edge protection distance
+aka interior-exterior offset</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; default: spacing/2</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; recommended value:
+spacing/2</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">ranseed1,ranseed2</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; seeds for the random
+number generator</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; defaults: -1 (do not
+re-seed, recommended)</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+either seed is .le. zero, the seeds are ignored</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; recommended values
+if reseed:</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; large-ish
+integers, ranseed1>ranseed2>0, ranseed2 odd.</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; No initial seeds are
+needed, and repeating the command</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; with the identical
+parameters and seeds should result</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; in the identical point
+distribution. Repeating the</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; command with no seeds
+specified should result in</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; different point locations
+with the same distribution.</FONT>
+<BR>&nbsp;</BLOCKQUOTE>
+</BLOCKQUOTE>
+ 
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">EXAMPLES</FONT>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times"><B>rzran</B> / <B>xyz</B>
+/ .1 / 0 0 0 / 1 1 1 /</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; random points with
+target spacing 0.1 in a 1x1x1 box</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>rzran</B>/<B> rtz</B> / .1 /&nbsp;
+0,0,0 / 1,180,360 / 2,3,4 / 0.2</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; random points with
+target spacing 0.1 in a cylinder</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; of radius 1 centered
+at xyz=(2,3,4) and with an</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; edge protection distance
+of 0.2</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>rzran/ rtp</B> / .5 /&nbsp; 5,0,0
+/ 5,180,360 /&nbsp; , ,&nbsp; /&nbsp; / 98765 4321/</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; random points with
+target spacing 0.5 on the surface</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; of a sphere of radius
+5 centered at the origin</FONT>
+<BR><FONT FACE="Times New Roman,Times">&nbsp;&nbsp; with new random seeds</FONT></BLOCKQUOTE>
+<FONT FACE="Times New Roman,Times">CAVEATS</FONT>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">Filter should be used afterwards
+to remove possibly duplicate points. The algorithm to insure the points
+are uniformly distributed in space is not clever about handling values
+outside the allowed range for<B> rtz</B> and <B>rtp </B>geometries and
+so it simply truncates them to the allowed range if possible or aborts.
+Most importantly, angles are in degrees and theta for the rtp geometry
+runs from 0 to 180 degrees, with 0 degrees being the +z axis. It does know
+about the angular periodicity and there should be only the "corner" point
+artifacts of, eg, the +x axis being the origin of phi (rtp) or theta (rtz)
+if a full 360 degrees for these two variables in their respective coordinate
+systems is used.</FONT></BLOCKQUOTE>
+</BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

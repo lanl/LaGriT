@@ -1,0 +1,220 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]">
+</HEAD>
+<BODY>
+
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.html#MSTKLA_Init"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/prelim.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A></CENTER>
+
+<CENTER>
+<HR WIDTH="100%">
+<HR WIDTH="100%"></CENTER>
+
+<CENTER><FONT SIZE=+1><B>MESH INITIALIZATION:</B>&nbsp;</FONT>&nbsp;
+<HR WIDTH="100%"></CENTER>
+&nbsp;
+<BR><I>void</I> <B>MSTKLA_Init</B>(<I>void</I>);
+
+<P>Initialize the mesh toolkit.
+<CENTER>
+<HR WIDTH="100%">
+<HR WIDTH="100%"></CENTER>
+
+<CENTER><B><FONT SIZE=+1>MESH OPERATORS</FONT></B></CENTER>
+&nbsp;
+
+<P>These operators work on variables of type<I> PMeshObj.</I>
+
+<P>
+<HR WIDTH="100%">
+<BR><I>PMeshObj</I> <B>MESH_Create</B>();
+
+<P>Creates a default mesh object and returns it - At this point all the
+info
+<BR>in it is useless.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MESH_InitFromFile</B>(<I>PMeshObj</I> mesh,
+<I>char *</I>filename, <I>char *</I>format, <I>int</I> iotype, <I>char
+**</I>name);
+
+<P>Read a mesh in from "<I>filename</I>" and initialize the "<I>mesh</I>".
+<BR>The file is in the format "<I>format</I>" ("<I>lagrit</I>" for LaGriT
+dumps, "<I>gmv</I>" for GMV files, "<I>avs</I>" for AVS files).
+<BR><I>'iotype'</I> is 1 for ascii and 0 for binary.
+<BR>'<I>name</I>' is the name of the mesh that is read and returned
+<BR>If a LaGriT file is read, the geometric model info will be read as
+well.
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_InitFromCMO</B>(<I>PMeshObj</I> mesh, <I>char</I>
+*cmoname);
+
+<P>Initialize the mesh object from a given cmo. If '<I>cmoname</I>' is
+NULL (say sent in as the character string ""), the mesh object is initialized
+from the default mesh object. If not the given cmo is made is active and
+the mesh object is
+<BR>initialized from that.
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>This implies
+that sometime in the middle of a LaGriT subroutine, one can call a C routine
+which initializes a mesh object and then uses the functionality of MSTKLA!!
+(Cool!)
+
+<P>
+<HR WIDTH="100%">
+<BR><I>int</I> <B>MESH_Select</B>(<I>PMeshObj </I>mesh);
+
+<P>Make a particular mesh object active
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MESH_Delete</B>(<I>PMeshObj</I> mesh);
+
+<P>Delete a particular mesh object.
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>** NOT YET
+IMPLEMENTED ** WILL BE IN SOON
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MESH_WriteToFile</B>(<I>PMeshObj</I> mesh,
+<I>char</I> *filename, <I>char</I> *format, <I>int </I>iotype);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>** NOT YET
+IMPLEMENTED ** WILL BE IN SOON **
+
+<P>
+<HR WIDTH="100%"><I>PMeshObj</I> <B>MESH_Duplicate</B>(<I>PMeshObj</I>
+mesh);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>** NOT YET
+IMPLEMENTED **
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MESH_NumVertices</B>(<I>PMeshObj</I> mesh);
+
+<P>Number of vertices (nodes) in the mesh.
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27>*** IMPORTANT
+***
+<BR><FONT COLOR="#FF0000">This count may include deleted vertices, parent
+vertices and other</FONT>
+<BR><FONT COLOR="#FF0000">types of vertices that should be ignored. So
+when looping through</FONT>
+<BR><FONT COLOR="#FF0000">vertices of a mesh, one should check if the vertex
+is to be ignored</FONT>
+<BR><FONT COLOR="#FF0000">by checking if MV_Type returns VIGNORE or VDELETED.</FONT>
+
+<P>
+<HR WIDTH="100%"><I>int</I> <B>MESH_NumRegions</B>(<I>PMeshObj</I> mesh);
+
+<P>Number of regions (elements) in the mesh.
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27>*** IMPORTANT
+***
+<BR><FONT COLOR="#FF0000">This count may include deleted regions. While
+looping through the</FONT>
+<BR><FONT COLOR="#FF0000">regions of a mesh, one should check if the region
+is to be ignored</FONT>
+<BR><FONT COLOR="#FF0000">by checking if MR_Type returns RDELETED.</FONT>
+
+<P>
+<HR WIDTH="100%">
+<BR><I>PMeshVert</I> <B>MESH_Vertex</B>(<I>PMeshObj</I> mesh, <I>int</I>
+i);
+
+<P>Fetch the i'th vertex (node) of the mesh (This is C so remember i
+<BR>starts from 0) The returned mesh vertex object can be queried for
+<BR>information. The returned vertex must always be checked for its type
+<BR>to see if it deleted or must otherwise be ignored.
+
+<P>
+<HR WIDTH="100%"><I>PMeshRegn</I> <B>MESH_Region</B>(<I>PMeshObj</I> mesh,
+<I>int </I>i);
+
+<P>Fetch the i'th region (element) of the mesh. The returned mesh region
+<BR>can be queried for information. The returned region must be checked
+if
+<BR>it is a deleted region.
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_BldUpAdj</B>(<I>PMeshObj</I> mesh);
+
+<P>Build the vertex to region connectivity. This will allow upward
+<BR>adjacency operator MV_Regions to be called. In fact those operators
+<BR>will function properly only after this is called.
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_DelUpAdj</B>(<I>PMeshObj</I> mesh);
+
+<P>Delete the vertex to region connectivity information to save
+<BR>memory. It is not possible for MSTKLA to determine when this
+<BR>information is not needed and call this routine automatically.
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_IncrNodeLists</B>(<I>PMeshObj</I> mesh);
+
+<P>Increment all the node lists.
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>(** NOT FULLY
+TESTED **)
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_IncrElemLists</B>(<I>PMeshObj</I> mesh);
+
+<P>Increment all the element lists.
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>(** NOT FULLY
+TESTED **)
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_CmprNodeLists</B>(<I>PMeshObj</I> mesh);
+
+<P>Compress all the element lists.
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>*** NOT YET
+IMPLEMENTED ***
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27>*** IMPORTANT
+!!! ***
+
+<P><FONT COLOR="#FF0000">There is one side effect of compression of lists.
+If one is storing a</FONT>
+<BR><FONT COLOR="#FF0000">list of node numbers or PMeshVerts (which for
+the LaGriT interface are</FONT>
+<BR><FONT COLOR="#FF0000">just integers cast as pointers), then after compression,
+the node</FONT>
+<BR><FONT COLOR="#FF0000">numbers or PMeshVert "addresses" may not be referring
+to the nodes you</FONT>
+<BR><FONT COLOR="#FF0000">think they are.</FONT>
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_CmprElemLists</B>(<I>PMeshObj</I> mesh);
+
+<P>Compress all the element lists.&nbsp; *** NOT YET IMPLEMENTED ***
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27>*** IMPORTANT
+!!! ***
+
+<P><FONT COLOR="#FF0000">There is one side effect of compression of lists.
+If one is storing a</FONT>
+<BR><FONT COLOR="#FF0000">list of element numbers or PMeshRegns (which
+for the LaGriT interface</FONT>
+<BR><FONT COLOR="#FF0000">are just integers cast as pointers), then after
+compression, the</FONT>
+<BR><FONT COLOR="#FF0000">element numbers or PMeshRegn "addresses" may
+not be referring to the</FONT>
+<BR><FONT COLOR="#FF0000">elements you think they are.</FONT>
+<BR><FONT COLOR="#FF0000">&nbsp;</FONT>
+<BR>&nbsp;
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.html#MSTKLA_Init"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/prelim.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A></CENTER>
+&nbsp;
+</BODY>
+</HTML>

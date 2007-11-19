@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+<TITLE>*arguments:</TITLE>
+</HEAD>
+<BODY LINK="#0000FF" VLINK="#800080" bgcolor="#ffffff">
+<BLOCKQUOTE> 
+  <p><font face="Times New Roman,Times" size="3"><font face="Times New Roman, Times, serif" size="4">Description: 
+    test addmesh</font></font> </p>
+  <BLOCKQUOTE> 
+    <p><font face="Times New Roman,Times" size="3">The objective is to join two 
+      meshes using the <B>addmesh </B>command, excercising its various options. 
+      (add, amr, append, delete, intersect, match, and merge)</font> <font face="Times New Roman,Times" size="3">The 
+      test consists of seven examples each exercising the <B>addmesh</B> using 
+      one of the mesh operations <B>add</B>, <B>amr</B>, <B>append</B>, <B>delete</B>, 
+      <B>intersect</B>, <B>match</B>, and <B>merge</B>.</font><font size="3"> 
+      Each example has one gmv output file.</font></p>
+    <p><font size="4"><font face="Times New Roman, Times, serif">Inidvidual Descriptions:</font></font> 
+    </p>
+    <table BORDER cols=3 width="85%" NOSAVE >
+      <tr align=LEFT valign=TOP NOSAVE> 
+        <td valign=TOP NOSAVE><a href="description1_add.html"><font size="3" face="Times New Roman, Times, serif">Example 
+          1</font></a><font size="4">&nbsp;&nbsp;</font> <b><font size="3" face="Times New Roman, Times, serif">add</font></b>&nbsp; 
+          <br>
+          <a href="description1_add.html"><img src="image/addmesh_add/addmesh_out2_tn.gif" NOSAVE height=89 width=114 border="0"></a></td>
+        <td NOSAVE><a href="description2_amr.html"><font size="3" face="Times New Roman, Times, serif">Example 
+          2</font></a><font size="3">&nbsp;</font> <b><font size="3">amr</font></b>&nbsp; 
+          <br>
+          <a href="description2_amr.html"><img src="image/addmesh_amr/addmesh_amr4_tn.gif" NOSAVE height=89 width=114 align=TEXTTOP border="0"></a>&nbsp;</td>
+        <td NOSAVE><a href="description3_append.html"><font size="3" face="Times New Roman, Times, serif">Example 
+          3</font></a>&nbsp; <b><font face="Times New Roman, Times, serif">append</font></b>&nbsp; 
+          <br>
+          <a href="description3_append.html"><img src="image/addmesh_append/addmesh_append3_tn.gif" NOSAVE height=89 width=114 align=TEXTTOP border="0"></a></td>
+      </tr>
+      <tr> 
+        <td><font size="3" face="Times New Roman, Times, serif">&nbsp;<a href="description4_delete.html">Example 
+          4</a>&nbsp; <b>delete</b></font>&nbsp; <br>
+          <a href="description4_delete.html"><img src="image/addmesh_delete/addmesh_delete_tn.gif" NOSAVE height=89 width=114 border="0" name="delete"></a></td>
+        <td><a href="description5_intersect.html"><font size="3" face="Times New Roman, Times, serif">Example 
+          5</font></a><font size="3" face="Times New Roman, Times, serif">&nbsp; 
+          <b>intersect</b></font>&nbsp; <br>
+          <a href="description5_intersect.html"><img src="image/addmesh_intersect/addmesh_delete_tn.gif%20copy" NOSAVE height=89 width=114 border="0"></a></td>
+        <td><a href="description6_match.html"><font size="3" face="Times New Roman, Times, serif">Example 
+          6</font></a><font size="3" face="Times New Roman, Times, serif">&nbsp; 
+          <b>match</b></font>&nbsp; <br>
+          <a href="description6_match.html"><img src="image/addmesh_match/addmesh_mesh3_tn.gif" NOSAVE height=89 width=114 border="0"></a></td>
+      </tr>
+      <tr> 
+        <td height="116"><a href="description7_merge.html"><font size="3" face="Times New Roman, Times, serif">Example 
+          7</font></a><font size="3" face="Times New Roman, Times, serif">&nbsp; 
+          <b>merge</b></font>&nbsp; <br>
+          <a href="description7_merge.html"><img src="image/addmesh_merge/addmesh_mesh3_tn.gif" NOSAVE height=89 width=114 border="0"></a></td>
+        <td height="116">&nbsp; <br>
+        </td>
+      </tr>
+    </table>
+    <p><font size="3"> </font></p>
+  </BLOCKQUOTE>
+</BLOCKQUOTE>
+</BODY>
+</HTML>

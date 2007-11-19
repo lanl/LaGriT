@@ -1,0 +1,55 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>*arguments:</title>
+</head>
+<body bgcolor="#FFFFFF" link="#0000FF" vlink="#800080">
+
+<blockquote><font face="Times New Roman,Times"><font size=+1>Example 1:
+addmesh / add</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+0>The objective
+is to join two meshes to create a third using the <b>addmesh / add </b>command.</font></font><font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times"><font size=+0>Two cubes, one smaller
+than the other, each having a different grid resolution are combined. The
+<b>add </b>option finds the intersection and refines one mesh to interface
+with the boundary of the other mesh using cell volume ration criterion.</font></font>
+<br><font face="Times New Roman,Times"><font size=+0><a href="../input_output/LaGriT_input_add"></a></font></font>&nbsp;</blockquote>
+
+<blockquote><font face="Times New Roman,Times"><font size=+1>Images of
+GMV output</font></font>
+<br><font face="Times New Roman,Times"></font>&nbsp;
+<table BORDER COLS=3 WIDTH="80%" NOSAVE >
+<tr>
+<td><a href="image/addmesh_add/addmesh_mesh1.gif"><img SRC="image/addmesh_add/addmesh_mesh1_tn.gif" NOSAVE BORDER=0 height=87 width=112 align=TEXTTOP></a><font face="Times New Roman,Times"><a href="image/addmesh_add/addmesh_mesh1.gif">
+<font size=+0>Input1</font></a></font></td>
+
+<td><a href="image/addmesh_add/addmesh_mesh2.gif"><img SRC="image/addmesh_add/addmesh_mesh2_tn.gif" NOSAVE BORDER=0 height=89 width=114 align=TEXTTOP></a><font face="Times New Roman,Times"><font size=+0><a href="image/addmesh_add/addmesh_mesh2.gif">
+Input2</a></font></font></td>
+
+<td><a href="image/addmesh_add/addmesh_out2.gif"><img SRC="image/addmesh_add/addmesh_out2_tn.gif" NOSAVE BORDER=0 height=89 width=114 align=TEXTTOP></a><font face="Times New Roman,Times"><a href="image/addmesh_add/addmesh_out2.gif">
+<font size=+0>Output</font></a></font></td>
+</tr>
+</table>
+<font face="Times New Roman,Times"></font>
+<br><font face="Times New Roman,Times"></font>&nbsp;<font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times"><font size=+1>Input file</font></font>
+<br><font face="Times New Roman,Times">*TEST addmesh/add (LaGriT_input_add)</font>
+<br><font face="Times New Roman,Times">read / gmv / input_mesh1.gmv / cmo_mesh1</font>
+<br><font face="Times New Roman,Times">read / gmv / input_mesh2.gmv / cmo_mesh2</font>
+<br><font face="Times New Roman,Times">*</font>
+<br><font face="Times New Roman,Times">addmesh / add / cmo3 / cmo_mesh1
+/ cmo_mesh2 / 3 / edge</font>
+<br><font face="Times New Roman,Times">*</font>
+<br><font face="Times New Roman,Times">resetpts / itp</font>
+<br><font face="Times New Roman,Times">dump / gmv / output_add.gmv/ cmo3</font>
+<br><font face="Times New Roman,Times">* begin compare here</font>
+<br><font face="Times New Roman,Times">cmo/status</font>
+<br><font face="Times New Roman,Times">cmo/printatt//-all-/minmax</font>
+<br><font face="Times New Roman,Times">quality</font>
+<br><font face="Times New Roman,Times">finish</font></blockquote>
+</blockquote>
+
+</body>
+</html>

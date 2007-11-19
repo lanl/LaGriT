@@ -1,0 +1,139 @@
+*
+*  Test the various options of the sort and reorder command.
+*  There are also a number of invalid commands that result in
+*  error messages. 
+*
+*  Carl Gable gable@lanl.gov
+*
+*
+define / cmo_active / cmo1
+*
+cmo / create / cmo_active / / / hex
+*
+define / nx / 3
+define / ny / 3
+define / nz / 3
+*
+* Create a 3x3x3 point distribution on a unit cube.
+*
+createpts/brick/xyz/nx ny nz/0.,0.,0./1.,1.,1./1,1,1 
+*
+* Assign values to some of the default arrays.
+*
+cmo / setatt / cmo_active / imt / 1 0 0 / 1
+cmo / setatt / cmo_active / imt / 3 5 1 / 2
+cmo / setatt / cmo_active / imt / 6 7 1 / 3
+cmo / setatt / cmo_active / imt / 8 8 1 / 8
+cmo / modatt / cmo_active / itp / ioflag / l
+cmo / modatt / cmo_active / isn / ioflag / l
+cmo / modatt / cmo_active / icr / ioflag / l
+*
+dump / avs / output_1_01.inp / cmo_active
+*
+* Check some of the error checking
+* The next 7 commands result in error messages.
+*
+reorder / cmo_active / jtet
+reorder / cmo_active / xic
+reorder / cmo_active / imt
+*
+sort / cmo_active / rank / other / ikey_bx /  xic
+sort / cmo_active / rank / ascending / ikey_bx /  itetclr
+sort / cmo_active / other / ascending / ikey_bx /  xic
+sort / cmox / rank / ascending / ikey_bz /  zic
+*
+* Check a multi-key sort and reorder
+*
+cmo / copy / cmo2 / cmo_active
+define / cmo_active / cmo2
+sort / cmo_active / index / ascending / ikey / imt1 zic yic xic
+reorder / cmo_active / ikey
+dump / avs / output_1_02.inp / cmo_active
+*
+* Check a single key sort and reorder
+*
+define / cmo_active / cmo2
+sort / cmo_active / index / ascending / ikey / yic
+reorder / cmo_active / ikey
+dump / avs / output_1_03.inp / cmo_active
+*
+* Check a single key sort and reorder in decending order
+*
+define / cmo_active / cmo2
+sort / cmo_active / index / decending / ikey / yic
+reorder / cmo_active / ikey
+dump / avs / output_1_04.inp / cmo_active
+*
+* Check naming of default sort key
+*
+define / cmo_active / cmo2
+sort / cmo_active / rank / ascending /  / xic yic zic
+dump / avs / output_1_05.inp / cmo_active
+*
+* Check bins command
+*
+cmo / copy / cmo6 / cmo2
+define / cmo_active / cmo6
+sort / cmo_active / bins / ascending / ikey_bx /  xic
+sort / cmo_active / bins / ascending / ikey_by /  yic
+sort / cmo_active / bins / ascending / ikey_bz /  zic
+ 
+dump / avs / output_1_06.inp / cmo_active
+*
+* Check bin command in decending order
+*
+cmo / copy / cmo7 / cmo6
+define / cmo_active / cmo7
+sort / cmo_active / bins / decending / ikey_bx /  xic
+sort / cmo_active / bins / decending / ikey_by /  yic
+sort / cmo_active / bins / decending / ikey_bz /  zic
+ 
+dump / avs / output_1_07.inp / cmo_active
+*
+* Check index sort on new keys
+*
+cmo / copy / cmo8 / cmo7
+define / cmo_active / cmo8
+sort / cmo_active / index / ascending / ikey_bx /  xic
+sort / cmo_active / index / ascending / ikey_by /  yic
+sort / cmo_active / index / ascending / ikey_bz /  zic
+*
+* Check index sort on a single integer attribute
+*
+cmo / copy / cmo9 / cmo8
+define / cmo_active / cmo9
+sort / cmo_active / index / ascending / ikey_bimt /  imt1
+ 
+dump / avs / output_1_08.inp / cmo_active
+*
+* Check rank sorting
+*
+cmo / copy / cmo10 / cmo9
+define / cmo_active / cmo10
+sort / cmo_active / rank / ascending / ikey_bx /  xic
+sort / cmo_active / rank / ascending / ikey_by /  yic
+sort / cmo_active / rank / ascending / ikey_bz /  zic
+ 
+dump / avs / output_1_09.inp / cmo_active
+*
+* Check if old syntax works
+*
+cmo / copy / cmo11 / cmo10
+define / cmo_active / cmo3
+sort / xyz / index 
+
+dump / avs / output_1_10.inp / cmo_active
+
+cmo / copy / cmo12 / cmo11
+define / cmo_active / cmo12
+sort / xyz / rank
+sort / xyz / bins
+dump / avs / output_1_11.inp / cmo_active
+*
+*begin compare here
+*
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+
+finish

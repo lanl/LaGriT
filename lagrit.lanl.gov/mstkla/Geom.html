@@ -1,0 +1,64 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]">
+</HEAD>
+<BODY>
+
+<CENTER><A HREF="mstkla.html#GMTKLA_Init"><IMG SRC="../images/arrow2.gif" WIDTH=30 HEIGHT=30 border="0" NOSAVE></A>&nbsp;<A HREF="GenRegion.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="GeomEntity.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+
+<CENTER>
+<HR WIDTH="100%">
+<HR WIDTH="100%">&nbsp;<B>GEOMETRIC MODEL INITIALIZATION:</B></CENTER>
+&nbsp;
+<HR WIDTH="100%">
+<BR><I>void</I> <B>GMTKLA_Init</B>(<I>void</I>);
+
+<P>Initialize the geometric model interface (does nothing for now but
+<BR>include it for completeness sake).
+<CENTER>
+<HR WIDTH="100%">
+<HR WIDTH="100%">&nbsp;&nbsp; <B>MODEL OPERATORS:</B></CENTER>
+&nbsp;
+<HR WIDTH="100%">&nbsp;<I>int </I><B>GM_NumRegions</B>(<I>void</I>);
+
+<P>Number of model regions. Note this has nothing to do with number of
+<BR>material attributes. That is the analysis preprocessing concern not
+<BR>the mesh generator's or the geometric modeler's. The number of model
+<BR>regions refers to the number of distinct volumes in the geometric
+<BR>model.
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>GM_NumFaces</B>(<I>void</I>);
+
+<P>Number of model faces. For now, this just returns the number of
+<BR>surfaces in the geometric model although they are strictly not the
+<BR>same.
+
+<P>
+<HR WIDTH="100%"><I>PGeomRegn</I> <B>GM_Region</B>(<I>int </I>i);
+
+<P>Return the i'th geometric model region
+
+<P>
+<HR WIDTH="100%"><I>PGeomFace</I> <B>GM_Face</B>(<I>int</I> i);
+
+<P>Return the i'th geometric model face
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>GM_Regions</B>(<I>int</I> *nr, <I>PGeomRegn</I>
+**gregs);
+
+<P>Get all the model regions
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>GM_Faces</B>(<I>int</I> *nf, <I>PGeomFace</I>
+**gfaces);
+
+<P>Get all the model faces
+<CENTER><A HREF="mstkla.html#GMTKLA_Init"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="GenRegion.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="GeomEntity.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+
+</BODY>
+</HTML>

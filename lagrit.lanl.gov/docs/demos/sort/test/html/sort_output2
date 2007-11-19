@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+	<TITLE>Untitled</TITLE>
+	<META NAME="generator" CONTENT="BBEdit 5.1.1">
+</HEAD>
+<BODY>
+<font size="3" face="Times New Roman, Times, serif"><br>
+<br>
+* * * * * * * * * * * * * * * * * * * * * * * * * <br>
+* * * <br>
+* * Program: LaGriT * <br>
+* * Version: 1.004 * <br>
+* * Compiled: 00/05/25 at 10:00:00 * <br>
+* * * <br>
+* * * <br>
+* * This run was processed * <br>
+* * on day: Tue Jun 27 2000 * <br>
+* * at time: 16:30:50 * <br>
+* * * <br>
+* * * * * * * * * * * * * * * * * * * * * * * * * <br>
+<br>
+<br>
+<br>
+Output log file: outx3dgen <br>
+Command log file: logx3dgen <br>
+<br>
+read gmv input_sort.gmv mesh1 <br>
+<font color="#FF0000"><b>sort/xyz/bins</b></font></font> <font size="3" face="Times New Roman, Times, serif"><br>
+cmo/addatt//i_index/vint/scalar/nnodes///gax/0 <br>
+finish <br>
+cmo/addatt//j_index/vint/scalar/nnodes///gax/0 <br>
+finish <br>
+cmo/addatt//k_index/vint/scalar/nnodes///gax/0 <br>
+finish <br>
+<font color="#FF0000">cmo/printatt/mesh1/i_index// </font><br>
+Warning: nelements = 0 <br>
+<font color="#E600FF">Attribute: i_index <br>
+1 1 <br>
+2 2 <br>
+3 3 <br>
+4 2 <br>
+5 1 </font></font><font color="#FF0000" size="3" face="Times New Roman, Times, serif"><br>
+</font><font size="3" face="Times New Roman, Times, serif"><br>
+<font color="#FF0000">cmo/printatt/mesh1/j_index// </font><br>
+Warning: nelements = 0 <br>
+<font color="#E600FF">Attribute: j_index <br>
+1 1 <br>
+2 1 <br>
+3 1 <br>
+4 2 <br>
+5 2 <br>
+</font><br>
+<font color="#FF0000"><b>sort/xyz/index</b></font></font> <font size="3" face="Times New Roman, Times, serif"><br>
+<font color="#FF0000">cmo/printatt/mesh1/i_index// </font><br>
+Warning: nelements = 0 <br>
+<font color="#E600FF">Attribute: i_index <br>
+1 5 <br>
+2 1 <br>
+3 4 <br>
+4 2 <br>
+5 3 <br>
+</font><br>
+<font color="#FF0000">cmo/printatt/mesh1/j_index// </font><br>
+Warning: nelements = 0 <br>
+<font color="#E600FF">Attribute: j_index <br>
+1 1 <br>
+2 3 <br>
+3 2 <br>
+4 5 <br>
+5 4 <br>
+</font><br>
+<b><font color="#FF0000">sort/xyz/rank </font></b><br>
+<font color="#FF0000">cmo/printatt/mesh1/i_index// </font><br>
+Warning: nelements = 0 <br>
+<font color="#E600FF">Attribute: i_index <br>
+1 2 <br>
+2 4 <br>
+3 5 <br>
+4 3 <br>
+5 1 </font><br>
+<br>
+<font color="#FF0000">cmo/printatt/mesh1/j_index// </font><br>
+Warning: nelements = 0 <br>
+<font color="#E600FF">Attribute: j_index <br>
+1 1 <br>
+2 3 <br>
+3 2 <br>
+4 5 <br>
+5 4 <br>
+</font><br>
+cmo/status <br>
+<br>
+<br>
+The current-mesh-object(CMO) is: mesh1 <br>
+<br>
+<br>
+1 Mesh Object name: -default- type=type status=status<br>
+nnodes= 5 elements= 0 mbndry= 16000000 <br>
+nsdgeom= 3 nsdtopo= 3 nen= 4 nef= 4 nee= 6 <br>
+<br>
+<br>
+NAME TYPE RANK LENGTH INTER PERSI IO VALUE <br>
+<br>
+1 -def- VDOU scalar nnodes linea tempo agl 0.000E+00 <br>
+2 scalar INT scalar scalar const perma l 1.000E+00 <br>
+3 vector INT scalar scalar const perma l 3.000E+00 <br>
+4 nnodes INT scalar scalar const perma l 0.000E+00 <br>
+5 nedges INT scalar scalar const perma l 0.000E+00 <br>
+6 nfaces INT scalar scalar const perma l 0.000E+00 <br>
+7 nelements INT scalar scalar const perma l 0.000E+00 <br>
+8 mbndry INT scalar scalar const perma l 1.600E+07 <br>
+9 ndimensions_top INT scalar scalar const perma l 3.000E+00 <br>
+10 ndimensions_geo INT scalar scalar const perma l 3.000E+00 <br>
+11 nodes_per_eleme INT scalar scalar const perma l 4.000E+00 <br>
+12 edges_per_eleme INT scalar scalar const perma l 6.000E+00 <br>
+13 faces_per_eleme INT scalar scalar const perma l 4.000E+00 <br>
+14 isetwd VDOU scalar nnodes or perma l 0.000E+00 <br>
+15 ialias VINT scalar nnodes seque perma l 0.000E+00 <br>
+16 imt1 VINT scalar nnodes max perma gal 0.000E+00 <br>
+17 itp1 VINT scalar nnodes min perma gal 0.000E+00 <br>
+18 icr1 VINT scalar nnodes min perma gal 0.000E+00 <br>
+19 isn1 VINT scalar nnodes user perma gal 0.000E+00 <br>
+20 xic VDOU scalar nnodes linea perma l 0.000E+00 <br>
+21 yic VDOU scalar nnodes linea perma l 0.000E+00 <br>
+22 zic VDOU scalar nnodes linea perma l 0.000E+00 <br>
+23 xtetwd VDOU scalar nelements or perma l 0.000E+00 <br>
+24 itetclr VINT scalar nelements user perma l 0.000E+00 <br>
+25 itettyp VINT scalar nelements user perma l 0.000E+00 <br>
+26 itetoff VINT scalar nelements user perma l 0.000E+00 <br>
+27 jtetoff VINT scalar nelements user perma l 0.000E+00 <br>
+28 itet VINT nodes_per_ nelements user perma l 0.000E+00 <br>
+29 jtet VINT faces_per_ nelements user perma l 0.000E+00 <br>
+30 ipolydat CHAR scalar scalar const perma l yes <br>
+31 vor2d CHAR scalar scalar const perma l yes <br>
+32 vor3d CHAR scalar scalar const perma l no <br>
+33 epsilon REAL scalar scalar const perma l 1.000E-15 <br>
+34 epsilonl REAL scalar scalar const perma l 1.000E-08 <br>
+35 epsilona REAL scalar scalar const perma l 1.000E-08 <br>
+36 epsilonv REAL scalar scalar const perma l 1.000E-08 <br>
+37 ipointi INT scalar scalar const perma l 0.000E+00 <br>
+38 ipointj INT scalar scalar const perma l 0.000E+00 <br>
+39 idebug INT scalar scalar const perma l 0.000E+00 <br>
+40 itypconv_sm INT scalar scalar const perma l 1.000E+00 <br>
+41 maxiter_sm INT scalar scalar const perma l 2.500E+01 <br>
+42 tolconv_sm REAL scalar scalar const perma l 1.000E+00 <br>
+43 nnfreq INT scalar scalar const perma l 1.000E+00 <br>
+44 ivoronoi INT scalar scalar const perma l 1.000E+00 <br>
+45 iopt2to2 INT scalar scalar const perma l 2.000E+00 <br>
+46 dumptype CHAR scalar scalar const perma l binary <br>
+47 velname CHAR scalar scalar const perma l vels <br>
+48 densname CHAR scalar scalar const perma l ric <br>
+49 presname CHAR scalar scalar const perma l pic <br>
+50 enername CHAR scalar scalar const perma l eic <br>
+51 xmin REAL scalar scalar const perma l -1.000E+00 <br>
+52 ymin REAL scalar scalar const perma l -1.000E+00 <br>
+53 zmin REAL scalar scalar const perma l -1.000E+00 <br>
+54 xmax REAL scalar scalar const perma l 1.000E+00 <br>
+55 ymax REAL scalar scalar const perma l 1.000E+00 <br>
+56 zmax REAL scalar scalar const perma l 1.000E+00 <br>
+57 kdtree_level INT scalar scalar const perma l 0.000E+00 <br>
+58 max_number_sets INT scalar scalar const perma l 3.200E+01 <br>
+59 number_of_psets INT scalar scalar const perma l 0.000E+00 <br>
+60 number_of_eltse INT scalar scalar const perma l 0.000E+00 <br>
+61 psetnames VCHA scalar max_number_sets const perma l <br>
+62 eltsetnames VCHA scalar max_number_sets const perma l <br>
+63 geom_name CHAR scalar max_number_sets const perma l -defaultge <br>
+<br>
+<br>
+2 Mesh Object name: mesh1 type=type status=status<br>
+nnodes= 5 elements= 0 mbndry= 16000000 <br>
+nsdgeom= 3 nsdtopo= 3 nen= 4 nef= 4 nee= 6 <br>
+<br>
+<br>
+NAME TYPE RANK LENGTH INTER PERSI IO VALUE <br>
+<br>
+1 -def- VDOU scalar nnodes linea tempo agl 0.000E+00 <br>
+2 scalar INT scalar scalar const perma l 1.000E+00 <br>
+3 vector INT scalar scalar const perma l 3.000E+00 <br>
+4 nnodes INT scalar scalar const perma l 5.000E+00 <br>
+5 nedges INT scalar scalar const perma l 0.000E+00 <br>
+6 nfaces INT scalar scalar const perma l 0.000E+00 <br>
+7 nelements INT scalar scalar const perma l 0.000E+00 <br>
+8 mbndry INT scalar scalar const perma l 1.600E+07 <br>
+9 ndimensions_top INT scalar scalar const perma l 3.000E+00 <br>
+10 ndimensions_geo INT scalar scalar const perma l 3.000E+00 <br>
+11 nodes_per_eleme INT scalar scalar const perma l 4.000E+00 <br>
+12 edges_per_eleme INT scalar scalar const perma l 6.000E+00 <br>
+13 faces_per_eleme INT scalar scalar const perma l 4.000E+00 <br>
+14 isetwd VDOU scalar nnodes or perma l 0.000E+00 <br>
+15 ialias VINT scalar nnodes seque perma l 0.000E+00 <br>
+16 imt1 VINT scalar nnodes max perma gal 0.000E+00 <br>
+17 itp1 VINT scalar nnodes min perma gal 0.000E+00 <br>
+18 icr1 VINT scalar nnodes min perma gal 0.000E+00 <br>
+19 isn1 VINT scalar nnodes user perma gal 0.000E+00 <br>
+20 xic VDOU scalar nnodes linea perma l 0.000E+00 <br>
+21 yic VDOU scalar nnodes linea perma l 0.000E+00 <br>
+22 zic VDOU scalar nnodes linea perma l 0.000E+00 <br>
+23 xtetwd VDOU scalar nelements or perma l 0.000E+00 <br>
+24 itetclr VINT scalar nelements user perma l 0.000E+00 <br>
+25 itettyp VINT scalar nelements user perma l 0.000E+00 <br>
+26 itetoff VINT scalar nelements user perma l 0.000E+00 <br>
+27 jtetoff VINT scalar nelements user perma l 0.000E+00 <br>
+28 itet VINT nodes_per_ nelements user perma l 0.000E+00 <br>
+29 jtet VINT faces_per_ nelements user perma l 0.000E+00 <br>
+30 ipolydat CHAR scalar scalar const perma l yes <br>
+31 vor2d CHAR scalar scalar const perma l yes <br>
+32 vor3d CHAR scalar scalar const perma l no <br>
+33 epsilon REAL scalar scalar const perma l 1.000E-15 <br>
+34 epsilonl REAL scalar scalar const perma l 1.000E-08 <br>
+35 epsilona REAL scalar scalar const perma l 1.110E-12 <br>
+36 epsilonv REAL scalar scalar const perma l 1.110E-12 <br>
+37 ipointi INT scalar scalar const perma l 1.000E+00 <br>
+38 ipointj INT scalar scalar const perma l 5.000E+00 <br>
+39 idebug INT scalar scalar const perma l 0.000E+00 <br>
+40 itypconv_sm INT scalar scalar const perma l 1.000E+00 <br>
+41 maxiter_sm INT scalar scalar const perma l 2.500E+01 <br>
+42 tolconv_sm REAL scalar scalar const perma l 1.000E+00 <br>
+43 nnfreq INT scalar scalar const perma l 1.000E+00 <br>
+44 ivoronoi INT scalar scalar const perma l 1.000E+00 <br>
+45 iopt2to2 INT scalar scalar const perma l 2.000E+00 <br>
+46 dumptype CHAR scalar scalar const perma l binary <br>
+47 velname CHAR scalar scalar const perma l vels <br>
+48 densname CHAR scalar scalar const perma l ric <br>
+49 presname CHAR scalar scalar const perma l pic <br>
+50 enername CHAR scalar scalar const perma l eic <br>
+51 xmin REAL scalar scalar const perma l 0.000E+00 <br>
+52 ymin REAL scalar scalar const perma l 0.000E+00 <br>
+53 zmin REAL scalar scalar const perma l 0.000E+00 <br>
+54 xmax REAL scalar scalar const perma l 2.000E+00 <br>
+55 ymax REAL scalar scalar const perma l 1.000E+00 <br>
+56 zmax REAL scalar scalar const perma l 0.000E+00 <br>
+57 kdtree_level INT scalar scalar const perma l 0.000E+00 <br>
+58 max_number_sets INT scalar scalar const perma l 3.200E+01 <br>
+59 number_of_psets INT scalar scalar const perma l 0.000E+00 <br>
+60 number_of_eltse INT scalar scalar const perma l 0.000E+00 <br>
+61 psetnames VCHA scalar max_number_sets const perma l <br>
+62 eltsetnames VCHA scalar max_number_sets const perma l <br>
+63 geom_name CHAR scalar max_number_sets const perma l -defaultge <br>
+64 i_index VINT scalar nnodes linea tempo gax 0.000E+00 <br>
+65 j_index VINT scalar nnodes linea tempo gax 0.000E+00 <br>
+66 k_index VINT scalar nnodes linea tempo gax 0.000E+00 <br>
+cmo/printatt//-all-/minmax <br>
+Warning: nelements = 0 <br>
+ATTRIBUTE NAME MIN MAX DIFFERENCE ATT LENGTH <br>
+-def- 0.00000E+00 0.00000E+00 0.00000E+00 5 <br>
+scalar 1 1 0 1 <br>
+vector 3 3 0 1 <br>
+nnodes 5 5 0 1 <br>
+nedges 0 0 0 1 <br>
+nfaces 0 0 0 1 <br>
+nelements 0 0 0 1 <br>
+mbndry 16000000 16000000 0 1 <br>
+ndimensions_topo 3 3 0 1 <br>
+ndimensions_geom 3 3 0 1 <br>
+nodes_per_element 4 4 0 1 <br>
+edges_per_element 6 6 0 1 <br>
+faces_per_element 4 4 0 1 <br>
+isetwd 0.00000E+00 0.00000E+00 0.00000E+00 5 <br>
+ialias 0 0 0 5 <br>
+imt1 2 2 0 5 <br>
+itp1 0 0 0 5 <br>
+icr1 0 0 0 5 <br>
+isn1 0 0 0 5 <br>
+xic 0.00000E+00 2.00000E+00 2.00000E+00 5 <br>
+yic 0.00000E+00 1.00000E+00 1.00000E+00 5 <br>
+zic 0.00000E+00 0.00000E+00 0.00000E+00 5 <br>
+0 length attribute: xtetwd <br>
+0 length attribute: itetclr <br>
+0 length attribute: itettyp <br>
+0 length attribute: itetoff <br>
+0 length attribute: jtetoff <br>
+0 length attribute: itet <br>
+0 length attribute: jtet <br>
+unavailable attribute type for minmax: CHARACTER <br>
+minmax failed for attribute ipolydat <br>
+<br>
+quality <br>
+0 total elements in mesh. <br>
+<br>
+finish <br>
+LaGriT successfully completed <br>
+</font> 
+</BODY>
+</HTML>

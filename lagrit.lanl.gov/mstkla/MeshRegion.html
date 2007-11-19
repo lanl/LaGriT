@@ -1,0 +1,155 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]">
+</HEAD>
+<BODY>
+
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.html#MESH REGION:"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/Mesh.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+&nbsp;
+<CENTER>
+<HR WIDTH="100%">
+<HR WIDTH="100%">&nbsp;&nbsp; <B>MESH REGIONS</B>:</CENTER>
+
+<HR WIDTH="100%">&nbsp;<I>int </I><B>MR_Number</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r);
+
+<P>Number ID for mesh region
+
+<P>
+<HR WIDTH="100%"><I>PGeomEntity</I> <B>MR_GMEntity</B>(<I>PMeshObj</I>
+mesh, <I>PMeshRegn</I> r);
+
+<P>Geometric entity (can only be a region) mesh region is classified on
+
+<P>
+<HR WIDTH="100%"><I>ElType</I> <B>MR_Type</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r);
+
+<P>Type of element that mesh region is (TET, HEX etc)
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MR_NumVerts</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r);
+
+<P>Number of vertices in the element
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MR_Vertices</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r, <I>int </I>*nv, <I>PMeshVert</I> **verts);
+
+<P>List of vertices of a mesh region
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MR_VerticesE</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r, <I>PMeshEdge</I> e, <I>PMeshVert</I> *rverts);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31><B>THIS OPERATOR
+IS APPLICABLE ONLY TO TETS</B>
+
+<P>Return the vertices of the given tet w.r.t to the given edge. The
+<BR>vertices v1 and v2 are vertices of the edge (maybe (0,1) or (1,0))
+-
+<BR>these are returned as rverts[0] and rverts[1]. The vertices rverts[2]
+<BR>(call it k1) and rverts[3] (k2) are returned such that if the vertices
+<BR>are above the edge then looking from vertex 0 to vertex 1 of the edge
+<BR>k2 is to the left of k1. Mathematically,
+
+<P>&nbsp;&nbsp; (v2k1 X v2k2) . v2v1 > 0
+
+<P>where v2k1 is the vector from v2 to k1, etc.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MR_VerticesLocE</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r, <I>int </I>enum, <I>PMeshVert</I> *rverts);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31><B>THIS OPERATOR
+IS APPLICABLE ONLY TO TETS</B>
+
+<P>Same as MR_VerticesE (above) but the edge is specified by a local edge
+<BR>number of the region instead of an explicit pointer.
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MR_NumFaces</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r);
+
+<P>Number of faces of element
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MR_Edges</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r, <I>int </I>*num, <I>PMeshEdge</I> **edge);
+
+<P>List of edges of a mesh region
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MR_Faces</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r, <I>int </I>*num, <I>PMeshFace</I> **faces);
+
+<P>List of faces of a mesh region
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MR_LocEdgeNum</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r, <I>PMeshEdge</I> e);
+
+<P>Local edge number of the given edge in the given region
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MR_LocFaceNum</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r, <I>PMeshFace</I> f);
+
+<P>Local face number of the given face in the given region.
+
+<P>
+<HR WIDTH="100%"><I>int<B> MR_EntOnBdry</B></I>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r, MType mtype, PMeshEntity pent);
+
+<P>Check if mesh entity of type 'mtype' is on the boundary of mesh
+<BR>region. mtype can be MFACE, MEDGE or MVERTEX. In other words, the
+<BR>operator checks if mesh region is made up of mesh face, edge or vertex
+<BR>in question.
+<BR>&nbsp;
+<BR>
+<HR WIDTH="100%"><I>PMeshRegn</I> <B>MR_FaceNebr</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r, <I>int </I>lfnum);
+
+<P>Return the mesh region adjacent to face number 'lfnum' of region 'r'
+<BR>The local face numbering starts from 0 in C style.
+<BR>&nbsp;
+<BR>
+<HR WIDTH="100%">
+<BR><A NAME="MR-Attribs"></A><I>int</I> <B>MR_GetAttVal</B>(<I>PMeshObj</I>
+mesh, <I>PMeshRegn</I> r, <I>char *</I>attname, <I>int *</I>ival,
+<BR><I>double *</I>rval, <I>char *</I>cval, <I>void **</I>pval, <I>AttType
+*</I>atype);
+
+<P>Depending on the type of the attribute, the appropriate field will be
+<BR>filled on succesful completion. Arrays are returned in pval, integer
+in
+<BR>ival and real number in rval (I don't think lagrit supports character
+<BR>attributes)
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27> Will only
+work for solid meshes
+
+<P>
+<HR WIDTH="100%">
+<BR><I>int</I> <B>MR_SetAttVal</B>(<I>PMeshObj </I>mesh, <I>PMeshRegn</I>
+r, <I>char *</I>attname, <I>int</I> ival,
+<BR><I>double</I> rval, <I>char</I> cval, <I>void *</I>pval);
+
+<P>This is similar to the GetAttVal routine - depending on the type and
+<BR>rank, one sends in a value with the right variable
+
+<P>*** PERHAPS these routines need an additional variable, "rank" but for
+<BR>now.....
+
+<P>&nbsp;
+<BR><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27> Will only
+work for solid meshes
+<BR>&nbsp;
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.html#MESH REGION:"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/Mesh.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+&nbsp;
+</BODY>
+</HTML>

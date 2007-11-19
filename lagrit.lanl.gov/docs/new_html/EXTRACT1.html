@@ -1,0 +1,130 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="Template" content="Macintosh HD:Applications:Microsoft Office 98:Word Custom Install:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]">
+   <title>EXTRACT </title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u>EXTRACT</u></b>
+<blockquote><font face="Times New Roman,Times">This command produces a
+2D mesh object from a 3D mesh object. A material interface, a plane , an
+isosurface or a network may be extracted. A plane may be defined by three
+points in the plane, by a vector normal to the plane, by three points on
+the axes of the space, or by the coefficients of the plane equation ax+by+cz=d.
+An isosurface is defined by the value of the surface and the mesh object
+attribute to test for this value. An interface is defined by the material(s)
+bounding the interface. </font><font face="Courier">region1, [region2]</font><font face="Times New Roman,Times">are
+the material numbers or the material region (mregion) names whose interface
+is to be extracted. Use <b>-all-</b> to extract from all interfaces. The
+<b><a href="conventions.html">pset</a></b>
+syntax can be used to limit the action of the extract with the interface
+and network options only. The other options ignore pset.&nbsp; The output
+2D mesh object is </font><font face="Courier">cmoout; </font><font face="Times New Roman,Times">the
+input 3D mesh object is </font><font face="Courier">cmoin</font><font face="Times">.</font>
+<p><font face="Times New Roman,Times">A network is defined as the material
+interface network from the mesh object. Unlike the other extract forms,
+this extracts the "parent" interface and not the "child" interface, and
+ignores boundaries. The output cmo also contains a new attribute "map"
+which maps nodes in the output cmo to (parent) nodes in the input cmo.
+This is supposed to work for 2D meshes (tri, quad, or hybrid) in 2D or
+3D and 3D meshes (tet, pyr, pri, hex or hybrid).</font>
+<p><font face="Times New Roman,Times">The surfmesh option is described
+by following the link: <b><a href="EXTRACT_SURFMESH.html">extract/surfmesh.</a></b></font>
+<p><font face="Times New Roman,Times">The output MO will be oriented such
+that the outward normal of the plane that defines the surface will point
+in the same direction as the normals for the triangles in the output MO.
+If the command extracts on an isosurface, the output MO will be oriented
+such that the normals for the triangles point in the direction of increasing
+field. If the command extracts on an interface, the output MO triangles
+will be oriented the same as the triangles extracted from region1 of the
+input MO. In the case of a plane extracted along all or a portion of a
+material interface, only those points that lie inside the material (i.e.:
+away from the direction of the normal) will be picked up. If the extraction
+is on a boundary, the normal to the extraction plane must point out of
+the material in order for points to be picked up.</font></blockquote>
+<font face="Times New Roman,Times">FORMAT:</font>
+<br>&nbsp;
+<dir><font face="Times New Roman,Times"><b>extract</b>/<b>plane</b>/<b>threepts</b></font><font face="Times">/</font><font face="Courier">x1,y1,z1/x2,y2,z2/x3,y3,z3/ifirst,ilast,istride</font><font face="Times">/</font><font face="Courier">cmoout</font><font face="Times">/</font><font face="Courier">cmoin</font>
+<br><font face="Times New Roman,Times"><b>extract</b>/<b>plane</b>/<b>ptnorm</b></font><font face="Times">/</font><font face="Courier">x1,y1,z1/xn,yn,zn</font><font face="Times">/
+</font><font face="Courier">ifirst,ilast,istride</font><font face="Times">/</font><font face="Courier">cmoout</font><font face="Times">/</font><font face="Courier">cmoin</font>
+<br><font face="Times New Roman,Times"><b>extract</b>/<b>plane</b>/<b>axes</b>/</font><font face="Courier">xv,yv,zv/ifirst,ilast,istride</font><font face="Times">/</font><font face="Courier">cmoout</font><font face="Times">/</font>
+<br><b><font face="Times New Roman,Times">extract</font></b><font face="Courier
+<BR><FONT FACE=">/<b>plane</b>/<b>abcd</b></font><font face="Times">/</font><font face="Courier">a,b,c,d</font><font face="Times">/
+</font><font face="Courier">ifirst,ilast,istride</font><font face="Times">/</font><font face="Courier">cmoout</font><font face="Times">/</font><font face="Courier">cmoin</font>
+<br><font face="Times New Roman,Times"><b>extract</b>/<b>isosurf</b></font><font face="Times">/</font><font face="Courier New,Courier">attribute</font><font face="Courier">/value</font><font face="Times">/
+</font><font face="Courier">ifirst,ilast,istride</font><font face="Times">/</font><font face="Courier">cmoout</font><font face="Times">/</font><font face="Courier">cmoin</font>
+<br><font face="Times New Roman,Times"><b>extract</b>/<b>intrface</b></font><font face="Times">/</font><font face="Courier">region1/ifirst,ilast,istride</font><font face="Times">/</font><font face="Courier">cmoout</font><font face="Times">/</font><tt>cmoin</tt>
+<br><font face="Times New Roman,Times"><b>extract</b>/<b>intrfac2</b></font><font face="Times">/</font><font face="Courier">region1/region2</font><font face="Times">/</font><font face="Courier">ifirst,ilast,istride</font><font face="Times">/</font><font face="Courier">cmoout</font><font face="Times">/</font><tt>cmoin</tt>
+<br><b><font face="Times New Roman,Times">extract/network</font></b><font face="Times">/</font><font face="Courier">ifirst,ilast,istride/cmoout/cmoin</font>
+<br><b><font face="Times New Roman,Times">extract/surfmesh</font></b><font face="Times">/</font><font face="Courier New,Courier">1,0,0/cmoout/[cmoin]</font></dir>
+<font face="Times New Roman,Times">EXAMPLE:</font>
+<dir><font face="Courier New,Courier">cmo/create/3dmesh/</font>
+<br><font face="Courier New,Courier">* add an attribute to contain a field
+for refinement and extraction</font>
+<br><font face="Courier New,Courier">cmo/addatt/3dmesh/boron</font>
+<br><font face="Courier New,Courier">cmo/modatt/3dmesh/boron/ioflag/gx/</font>
+<br><font face="Courier New,Courier">cmo/modatt/3dmesh/boron/interp/linear/</font>
+<br><font face="Courier New,Courier">*&nbsp; simple unit cube divided into
+2 region by a horizontal plane</font>
+<br><font face="Courier New,Courier">surface/cube/reflect/box/.0,.0,.0/1.,1.,1./</font>
+<br><font face="Courier New,Courier">surface/mid/intrface/plane/0.,0.,.5/1.,0.,.5/1.,1.,.5/</font>
+<br><font face="Courier New,Courier">region/r1/ le cube and le mid /</font>
+<br><font face="Courier New,Courier">mregion/m1/ le cube and lt mid /</font>
+<br><font face="Courier New,Courier">region/r2/ le cube and gt mid /</font>
+<br><font face="Courier New,Courier">mregion/m2/ le cube and gt mid /</font>
+<br><font face="Courier New,Courier">* start out with just a few nodes</font>
+<br><font face="Courier New,Courier">createpts/xyz/3,3,3/0.,0.,0./1.,1.,1./1,1,1/</font>
+<br><font face="Courier New,Courier">setpts</font>
+<br><font face="Courier New,Courier">search</font>
+<br><font face="Courier New,Courier">settets</font>
+<br><font face="Courier New,Courier">* put some values on the field</font>
+<br><font face="Courier New,Courier">doping/gaussian/boron/set/1,0,0/xyz/0.0,0.0,0.0/1.,0.,0./0.5/
+&amp;</font>
+<br><font face="Courier New,Courier">&nbsp;3.23e+20/0.063/</font>
+<br><font face="Courier New,Courier">* use refine to add more detail -
+note only linear interpolation</font>
+<br><font face="Courier New,Courier">* between the few original nodes -
+one would never really do this without</font>
+<br><font face="Courier New,Courier">* recalculating the field on the finer
+mesh</font>
+<br><font face="Courier New,Courier">refine/maxsize///edge/1,0,0/0.01,0.0,0.0/</font>
+<br><font face="Courier New,Courier">recon</font>
+<br><font face="Courier New,Courier">refine/constant/boron/linear/edge/1,0,0/1.3+20/</font>
+<br><font face="Courier New,Courier">recon</font>
+<br><font face="Courier New,Courier">* extract a plane</font>
+<br><font face="Courier New,Courier">extract/plane/threepts/0.,0.,0./1.,0.,0./1.,0.,1./1,0,0/2dmesh/3dmesh</font>
+<br><font face="Courier New,Courier">pset/p1/geom/xyz/0.,0.,0./.5,.5,.5/</font>
+<br><font face="Courier New,Courier">* extract a plane - note pset is ignored!</font>
+<br><font face="Courier New,Courier">extract/plane/threepts/0.,0.,0./1.,0.,0./1.,0.,1./pset,get,p1/2dm1/3dmesh</font>
+<br><font face="Courier New,Courier">dump/gmv/gmv.3dm/3dmesh/</font>
+<br><font face="Courier New,Courier">dump/gmv/gmv.2dm/2dmesh/</font>
+<br><font face="Courier New,Courier">dump/gmv/gmv.2d1m/2dm1/</font>
+<br><font face="Courier New,Courier">cmo/select/3dmesh</font>
+<br><font face="Courier New,Courier">* refine some more</font>
+<br><font face="Courier New,Courier">refine/constant/boron/linear/edge/1,0,0/1.3+20/</font>
+<br><font face="Courier New,Courier">recon</font>
+<br><font face="Courier New,Courier">* now get an isosurface</font>
+<br><font face="Courier New,Courier">extract/isosurf/boron/1.0e+20/1,0,0/2dm2/3dmesh</font>
+<br><font face="Courier New,Courier">dump/gmv/gmv.2dm2/2dm2</font>
+<br><font face="Courier New,Courier">* get the boundary of one region</font>
+<br><font face="Courier New,Courier">extract/intrface/m1/1,0,0/2dm3/3dmesh</font>
+<br><font face="Courier New,Courier">dump/gmv/gmv.2dm3/2dm3</font>
+<br><font face="Courier New,Courier">* get the interface between two regions</font>
+<br><font face="Courier New,Courier">extract/intrfac2/m1/m2/1,0,0/2dm4/3dmesh</font>
+<br><font face="Courier New,Courier">dump/gmv/gmv.2dm4/2dm4</font>
+<br><font face="Courier New,Courier">* try the network option</font>
+<br><font face="Courier New,Courier">extract/network/1,0,0/2dm5/3dmesh</font>
+<br><font face="Courier New,Courier">dump/gmv/gmv.2dm5/2dm5</font>
+<br><font face="Courier New,Courier">* get the surface mesh - note interface
+plane is included</font>
+<br><font face="Courier New,Courier">extract/surfmesh/1,0,0/2dm6/3dmesh</font>
+<br><font face="Courier New,Courier">dump/gmv/gmv.2dm6/2dm6</font>
+<br><font face="Courier New,Courier">finish</font></dir>
+</blockquote>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <meta name="Generator" content="Microsoft Word 98">
+  <meta name="GENERATOR"
+ content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+  <title>CONNECT</title>
+</head>
+<body alink="#ff0000" bgcolor="#ffffff" link="#0000ee" text="#000000"
+ vlink="#551a8b">
+&nbsp; <br>
+&nbsp;
+<blockquote><b><u><font face="Times">CONNECT</font></u></b> <br>
+&nbsp;
+  <blockquote><font face="Times New Roman,Times">Connect the nodes into
+a Delaunay tetrahedral or triangle grid. The Delaunay criterion
+requires that
+the circumsphere (circumcircle) defined by each tetrahedron (triangle)
+contains
+no mesh nodes in its interior. At present only the <b>delaunay</b>
+option
+is implemented; this option will be the default. The delaunay algorithm
+used
+requires that a "big tet" be constructed that contains all nodes in its
+interior.
+The user has the option of providing the coordinates of this "big tet".
+The
+user also has the option of selecting a subset of nodes to
+connect.&nbsp;&nbsp;
+Connect will by default detect material interfaces and will look for
+edges
+that intersect the interfaces.&nbsp; Nodes will be added to the mesh at
+these
+intersections to create a conforming mesh.&nbsp; This activity may be
+turned
+off by using the <b>noadd</b> option</font>.<br>
+    <br>
+The <font face="Times New Roman,Times"><b>check_interface</b></font>
+option
+is more expensive but does a more exhaustive job of making sure there
+are
+no edges of the mesh that cross a material boundary.<br>
+    <br>
+    <font face="Times New Roman,Times"><b>Connect</b> may refuse to add
+nodes
+that will result in near zero-volume</font> <font
+ face="Times New Roman,Times">tetahedra. The volume tests are based on
+the
+mesh object epsilons. To ensure that these epsilons are based on the
+geometry,
+issue a <b><a href="http://lagrit.lanl.gov/new_html/SETSIZE.html">setsize
+    </a></b>command before <b><a
+ href="http://lagrit.lanl.gov/new_html/SETPTS.html">setpts</a></b>.&nbsp;
+Expert users may adjust the epsilons with the&nbsp; <a
+ href="http://lagrit.lanl.gov/new_html/cmo_setatt.html">cmo/setatt</a>&nbsp;
+command.&nbsp; <b>Connect</b> will generate a 2D triangular mesh if
+both <a href="http://lagrit.lanl.gov/new_html/meshobject.html"><b>ndimensions_geom</b>
+and <b>ndimenions_topo</b></a> are 2.&nbsp; In this case all nodes
+must lie
+in a plane.</font> <br>
+    <font face="Times New Roman,Times"><a
+ href="http://lagrit.lanl.gov/new_html/connect_notes.html">Click here
+for
+more details on the connect algorithm</a>.</font>
+    <p><font face="Times New Roman,Times">The following instructions
+are
+for connecting points on a planar surface.&nbsp; The mesh must have <b>ndimensions_topo</b>=2
+and <b>ndimensions_geom</b>=2.</font> </p>
+    <p><font face="Times New Roman,Times"><b>cmo</b>/<b>create/</b>trimesh///<b>tri</b></font>
+    <br>
+    <font face="Times New Roman,Times"><b>cmo</b>/<b>modatt</b>//<b>ndimensions_geom</b>/<b>default</b>/2</font>
+    <br>
+    <font face="Times New Roman,Times">...</font> <br>
+    <b><font face="Times New Roman,Times">connect</font></b> </p>
+    <p><font face="Times New Roman,Times">an alternate way to achieve
+this is:</font> <br>
+    <font face="Times New Roman,Times"><b>cmo</b>/<b>create</b>/trimesh///<b>triplane</b></font>
+    <br>
+    <font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp; ...</font> <br>
+    <b><font face="Times New Roman,Times">connect</font></b> <br>
+&nbsp;</p>
+  </blockquote>
+  <font face="Times New Roman,Times">FORMAT:</font>
+  <blockquote><font face="Times New Roman,Times"><b>connect</b>/[<b>delaunay</b>]</font>/<font
+ face="Courier">ifirst,ilast,istride</font><font face="Times">/</font><font
+ face="Courier">big_tet_coordinates</font> <br>
+    <font face="Times New Roman,Times"><b>connect</b>/<b>noadd</b></font><font
+ face="Times New Roman,Times"><b><br>
+connect</b>/<b>check_interface</b></font></blockquote>
+  <font face="Times New Roman,Times">EXAMPLES:</font>
+  <blockquote><b><font face="Times New Roman,Times">connect</font></b> <br>
+    <font face="Times New Roman,Times">Create the Delaunay tetrahedral
+connectivity
+of all nodes in the mesh</font>. Add nodes to break multi-material
+connections.<br>
+    <font face="Times New Roman,Times"><b><br>
+connect</b>/<b>delaunay</b></font><font face="Times">/</font> <br>
+    <font face="Times New Roman,Times">Create the Delaunay tetrahedral
+connectivity
+of all nodes in the mesh</font>. Add nodes to break multi-material
+connections.<br>
+    <b><font face="Times New Roman,Times"><br>
+connect/delaunay</font></b>/<font face="Times New Roman,Times">1,0,0/
+0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./<br>
+    </font><b><font face="Times New Roman,Times">connect/</font></b><font
+ face="Times New Roman,Times">1,0,0/
+0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./</font>noadd<br>
+    <b><font face="Times New Roman,Times">connect/delaunay</font></b>/<font
+ face="Times New Roman,Times">1,0,0/
+0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./</font>noadd<br>
+    <b><font face="Times New Roman,Times">connect/delaunay</font></b>/<font
+ face="Times New Roman,Times">1,0,0/
+0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./</font>check_interface<br>
+    <font face="Times New Roman,Times">Create the Delaunay tetrahedral
+connectivity
+of all nodes in the mesh and specify explicitly the coordinates of the
+enclosing
+tetrahedron</font> <br>
+    <b><font face="Times New Roman,Times"><br>
+    <b><font face="Times New Roman,Times">connect/pset get points<br>
+    </font></b></font></b><font face="Times New Roman,Times"><font
+ face="Times New Roman,Times">Create the Delaunay tetrahedral
+connectivity
+of a subset of nodes.</font></font><b><font face="Times New Roman,Times"><b><font
+ face="Times New Roman,Times"><br>
+    <br>
+    </font></b></font></b><b><font face="Times New Roman,Times">connect/noadd</font></b><br>
+    <font face="Times New Roman,Times">Create the Delaunay tetrahedral
+connectivity
+of&nbsp; all nodes in the mesh and disregard material interfaces.</font><br>
+    <b><font face="Times New Roman,Times"><br>
+connect/<font face="Times New Roman,Times"><b>check_interface</b></font></font></b><br>
+    <font face="Times New Roman,Times">Create the Delaunay tetrahedral
+connectivity
+of&nbsp; all nodes in the mesh with added checking of edges that have
+both
+nodes tagged as itp='intrface' to be sure that the edge does not cross
+a
+material interface. This option is more expensive but may fix
+situations
+where multi-material edges do not get refined because they connect an
+'intrface'
+node to an 'intrface' node.</font><br>
+  </blockquote>
+  <font face="Times New Roman,Times"><a
+ href="http://lagrit.lanl.gov/new_html/demos/2d_connect/test/html/main_2d_connect.html">Click
+here for 2D demos</a></font> <br>
+  <font face="Times New Roman,Times"><a
+ href="http://lagrit.lanl.gov/new_html/demos/connect/test/html/main_connect.html">Click
+here for 3D demos</a></font></blockquote>
+<br>
+&nbsp; <br>
+</body>
+</html>

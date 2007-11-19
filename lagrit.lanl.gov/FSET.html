@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+   
+  <meta name="Generator" content="Microsoft Word 98">
+   
+  <meta name="GENERATOR"
+ content="Mozilla/4.79 [en] (X11; U; Linux 2.4.18-3 i686) [Netscape]">
+  <title>FSET</title>
+  <meta name="description" content="FSET - define a face set">
+  <link media="all" title="LANLScreenStyle" href="file:///V|/gable/styles/site.css" type="text/css" rel="stylesheet" />
+<link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
+
+</head>
+  <body>
+ &nbsp; <span
+ style="text-decoration: underline;"><span style="font-weight: bold;"><br>
+ <font size="+2"><span style="text-decoration: underline;">FSET</span></font><br>
+ </span></span> 
+<blockquote><font face="Times New Roman,Times"><font size="+1">This command&nbsp;
+is used to&nbsp; define a&nbsp; set&nbsp; of element faces. Defining face
+sets can be useful for either defining boundary conditions, material interfaces,
+or surfa</font></font><font face="Times New Roman,Times"><font size="+1">ce
+subsets for further mesh processing.<br>
+   </font></font></blockquote>
+ 
+<blockquote><font face="Times New Roman,Times"><font size="+1">FORMAT:</font></font> 
+  
+  <blockquote><span style="font-family: times new roman,times;"><font
+ size="+1"><span style="font-weight: bold;">fset </span>/ name / pset, get,
+pointsetname /</font><br>
+     <span style="font-weight: bold;"><br>
+     </span><font size="+1">The fset name must be an integer or character
+string. Currently, only 32 named face sets may exist. However, any number
+of integer-numbered face sets (up to the total number of faces in the problem)
+may be defined. Face sets may be used in all of the usual ways that eltsets
+and psets may be used, e.g :<br>
+     <br>
+     </font></span><font face="Times"><b>cmo/setatt</b>/     </font><font
+ face="Courier">3dmesh/fluid_structure<span style="font-weight: bold;"></span>/</font><font
+ face="Times"><b>fset</b>,<b>get</b>,blue/<br>
+     <br>
+     <br>
+     <font size="+1">where fluid_structure is the name of a face set attribute.</font></font><span
+ style="font-family: times new roman,times;"><font size="+1"> &nbsp;&nbsp;&nbsp;
+    <br>
+     </font></span><font size="+1"><b><font face="Times New Roman,Times"><br>
+    </font></b><font face="Times New Roman,Times">NOTE: All modules do not
+support use of fset.</font><b><font face="Times New Roman,Times"><br>
+     </font></b></font></blockquote>
+   <font face="Times New Roman,Times"><font size="+1">EXAMPLE:</font></font> 
+  
+  <blockquote>&nbsp;fset / fname / pset, get psetname<br>
+ &nbsp; <br>
+  </blockquote>
+ </blockquote>
+ <br>
+</body>
+</html>

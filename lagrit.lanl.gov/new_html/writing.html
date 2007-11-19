@@ -1,0 +1,80 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<p><b><font face="Times New Roman,Times"><font size=+1>Writing user commands</font></font></b>
+<dir>
+<dir><font face="Times New Roman,Times">The access to user written subroutines
+is through the LaGriT subroutine,</font><font face="Times"> </font><font face="Courier">user_sub.
+</font><font face="Times New Roman,Times">It is passed the parsed command
+input line. The parser breaks up the input line into tokens and returns
+to LaGriT a count of number of tokens, an array containing the token types,
+and the tokens themselves. The parameters returned by the parser are:</font>
+<dir>
+<dir><font face="Courier">nwds</font><font face="Times"> </font><font face="Times New Roman,Times">(
+number of tokens)</font>
+<br><font face="Courier">msgtyp</font><font face="Times"> (</font><font face="Times New Roman,Times">integer
+array of token types : 1 for integer, 2 for real, 3 for character, </font><font face="Courier New,Courier">msgtyp</font><font face="Times New Roman,Times">(nwds+1)
+= -1)</font>
+<br><font face="Courier">imsgin</font><font face="Times"> </font><font face="Times New Roman,Times">(array
+of integer tokens, e.g. if msgtyp(i)=1 then the ith token is type integer
+and imsgin(i) contains its value)</font>
+<br><font face="Courier">xmsgin</font><font face="Times"> </font><font face="Times New Roman,Times">(array
+of real tokens, e.g. if msgtyp(i)=2 then the ith token is type real and
+xmsgin(i) contains its value)</font>
+<br><font face="Courier">cmsgin</font><font face="Times"> </font><font face="Times New Roman,Times">(array
+of character tokens, e.g. if msgtyp(i)=3 then the ith token is type character
+and cmsgin(i) contains its value)</font></dir>
+</dir>
+<font face="Times New Roman,Times">Null fields are given the integer value
+0, real value 0, and character value '-def-'. </font><font face="Times">I</font><font face="Times New Roman,Times">f
+the user has written a subroutine,</font><font face="Times"> </font><font face="Courier">my_routine,</font><font face="Times New Roman,Times">that
+responds to the command</font><font face="Times">,
+</font><font face="Courier">my_comnd,
+</font><font face="Times New Roman,Times">the
+call from </font><font face="Courier">user_sub </font><font face="Times New Roman,Times">should
+look like:</font>
+<dir><font face="Courier">elseif (cmsgin(1).eq. 'my_comnd')</font></dir>
+<font face="Courier">&nbsp; x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+call my_routine(nwds,imsgin,xmsgin,cmsgin,msgtyp,ierr1)</font>
+<br><font face="Times New Roman,Times">The subroutine </font><font face="Courier">my_routine
+</font><font face="Times New Roman,Times">should
+set </font><font face="Courier">ierr1 </font><font face="Times New Roman,Times">to
+zero if the command is processed successfully and should use the </font><font face="Courier"><a href="meshob.html">cmo</a></font><font face="Times">
+i</font><font face="Times New Roman,Times">nterface routines to access
+the components of th</font><font face="Times">e </font><font face="Courier">Mesh
+Object </font><font face="Times New Roman,Times">that it needs, for example:</font>
+<dir>&nbsp;
+<br>&nbsp;&nbsp;<font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp; subroutine
+my_routine(nwds,imsgin,xmsgin,cmsgin,msgtyp,ierr1)</font>
+<br><font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; integer nwds, imsgin(*),msgtyp(*),ierr1</font>
+<br><font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; real xmsgin(*)</font>
+<br><font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; character*32 cmsgin(*)</font>
+<br><font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ....</font></dir>
+
+<dir><font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; character*32 cmo</font>
+<br><font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointer (ipimt1,
+imt1(*))</font>
+<br><font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; integer ierror,ilen,ityp,nnodes</font>
+<br><font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ....</font>
+<br><font face="Courier">c get the name of the current mesh object</font>
+<br><font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call cmo_get_name(cmo_name,ierror)</font>
+<br><font face="Courier">c get the number of nodes and the material ids</font>
+<br><font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call cmo_get_intinfo('nnodes',cmo_name,nnodes,ilen,ityp,ierror)</font>
+<br><font face="Courier">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call cmo_get_info('imt1',cmo_name,ipimt1,ilen,ityp,ierror)</font>
+<br><font face="Courier"></font>&nbsp;</dir>
+<font face="Times New Roman,Times">LaGriT will check it's internal command
+list and if the input command is not found it will call user_sub.&nbsp;
+If user_sub does not find the command, LaGriT will issue&nbsp; the error
+message: 'Illegal command' and continue with the next command.</font>
+<br><font face="Times New Roman,Times">An empty user_sub is distributed
+with the sample driver program contained in the file adrivgen.f</font></dir>
+</dir>
+
+</body>
+</html>

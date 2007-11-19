@@ -1,0 +1,49 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 98">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>EDIT</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<B><FONT FACE="Times"></FONT></B>&nbsp;
+<BLOCKQUOTE><B><U><FONT FACE="Times">EDIT</FONT></U></B>
+<BLOCKQUOTE>Prints an edit of various quantities based on the value of
+the option argument, the point limits, and/or a material specification.
+<FONT FACE="Courier">iopt </FONT><FONT FACE="Times">specifies what to print
+as follows:</FONT>
+<BLOCKQUOTE><FONT FACE="Times">no value for </FONT><FONT FACE="Courier">iopt
+</FONT><FONT FACE="Times">--edit of sums, averages, and extrema of position
+coordinates (x,y,z), and of mesh object attribute fields</FONT>
+<BR><FONT FACE="Times"><B>two</B>--gives same information as the default,
+but only for the two points specified.</FONT>
+<BR><FONT FACE="Times"><B>parts</B>--gives a list of materials types, their
+names, count and sequence.</FONT>
+<BR><FONT FACE="Times"><B>points</B>--lists up to 4 cell-center array values
+for a set of points. Possible array values are: xic,yic,zic,or mesh object
+attribute name</FONT></BLOCKQUOTE>
+</BLOCKQUOTE>
+</BLOCKQUOTE>
+ 
+<BLOCKQUOTE><FONT FACE="Times">FORMAT:</FONT>
+<BLOCKQUOTE><FONT FACE="Times"><B>edit</B> / </FONT><FONT FACE="Courier">iopt</FONT><FONT FACE="Times">
+/ </FONT><FONT FACE="Courier">ifirst,ilast,istride</FONT><FONT FACE="Times">
+/ </FONT><FONT FACE="Courier">material_#_or_name</FONT><FONT FACE="Times">/</FONT>
+<BR><FONT FACE="Times"><B>edit</B>/ <B>angular</B>/</FONT><FONT FACE="Courier">ifirst,ilast,istride</FONT><FONT FACE="Times">
+/</FONT><FONT FACE="Courier">material_#_or_name</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier">xcen</FONT><FONT FACE="Times">,<B>edit</B>/
+<B>radial</B> /</FONT><FONT FACE="Courier">ifirst,ilast,istride</FONT><FONT FACE="Times">
+/</FONT><FONT FACE="Courier">material_#_or_name</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier">xcen</FONT><FONT FACE="Times">,<B>edit</B></FONT><B><FONT FACE="">/
+points /</FONT></B><FONT FACE="Courier">ifirst,ilast,istride</FONT><FONT FACE="Times">
+/</FONT><FONT FACE="Courier">material_#_or_name</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier">array1</FONT><FONT FACE="Times">,</FONT><FONT FACE="Courier">array3</FONT><FONT FACE="Times">,</FONT><FONT FACE="Courier">array4/</FONT>
+<BR>&nbsp;</BLOCKQUOTE>
+<FONT FACE="Times">EXAMPLES:</FONT>
+<BR>&nbsp;
+<BLOCKQUOTE><FONT FACE="Times"><B>edit</B>/ <B>parts</B>/</FONT>
+<BR><FONT FACE="Times"><B>edit</B>/</FONT>
+ 
+<P><FONT FACE="Times"><B>edit</B>/<B>points</B>/<B>pset</B>,<B>get</B>,</FONT><FONT FACE="Courier">some+points</FONT><FONT FACE="Times">/</FONT>
+<BR><FONT FACE="">&nbsp;</FONT></BLOCKQUOTE>
+</BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

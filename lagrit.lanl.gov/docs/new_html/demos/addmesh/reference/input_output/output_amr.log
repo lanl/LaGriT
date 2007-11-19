@@ -1,0 +1,8 @@
+read gmv input_mesh1.gmv cmo1                                                   
+read gmv input_mesh2.gmv cmo2                                                   
+addmesh amr cmo3 cmo1 cmo2                                                      
+dump/gmv/output_amr.gmv                                                         
+cmo/status                                                                      
+cmo/printatt//-all-/minmax                                                      
+quality                                                                         
+finish                                                                          

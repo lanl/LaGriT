@@ -1,0 +1,162 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 98">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>DUMP</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+ 
+<BLOCKQUOTE>
+ 
+<P><FONT FACE="Times"><B>dump/fehm</B>/</FONT><FONT FACE="Courier New,Courier">file_name</FONT><FONT FACE="Times">/[</FONT><FONT FACE="Courier New,Courier">cmo_name</FONT><FONT FACE="Times">]/
+[<B>binary</B> |<B>ascii</B> | <B><U>binaryc</U></B>| <B>asciic</B> ]</FONT>&nbsp;
+// [<FONT FACE="Times"><B><U>scalar,vector,both,area_scalar,area_vector,area_both,alternate_scalar</U></B>]
+/&nbsp; [<B>delatt,keepatt</B>]</FONT>
+<BR>
+<BR>
+<BR><FONT FACE="Times New Roman,Times">The <B>dump / fehm </B>command will
+call the<B> dump/coord</B> and <B>dump/zone</B> options first. The main
+function of the <B>dump / fehm</B> command is to form a sparse coefficient
+matrix used for solving PDE on a triangular or tetrahedral delaunay grid.</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">Options for the 5th argument are:</FONT>
+<TABLE COLS=2 WIDTH="90%" NOSAVE >
+<TR NOSAVE>
+<TD WIDTH="10%" NOSAVE><FONT FACE="Times New Roman,Times"><B>binary</B>(default)</FONT></TD>
+ 
+<TD NOSAVE><FONT FACE="Times New Roman,Times">Output sparse matrix in Fortran
+unformatted format</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD><FONT FACE="Times New Roman,Times"><B>ascii</B>&nbsp;</FONT></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">Output sparse matrix as ASCII format</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD><B><FONT FACE="Times New Roman,Times">binaryc&nbsp;</FONT></B></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">Output sparse matrix as Fortran
+unformatted format with a compression</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">algorithm applied to the area coefficients.</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD><B><FONT FACE="Times New Roman,Times">asciic&nbsp;</FONT></B></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">Output sparse matrix as ASCII format
+with a compression</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">algorithm applied to the area coefficients.</FONT>&nbsp;</TD>
+</TR>
+</TABLE>
+<FONT FACE="Times New Roman,Times">The 6th argument is empty.</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">Options for the 7th argument are:</FONT>
+<TABLE COLS=2 WIDTH="90%" NOSAVE >
+<TR NOSAVE>
+<TD WIDTH="10%" NOSAVE><FONT FACE="Times New Roman,Times"><B><U>scalar</U></B>(default)&nbsp;</FONT></TD>
+ 
+<TD NOSAVE><FONT FACE="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+coefficients are output as scalars</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD><B><FONT FACE="Times New Roman,Times">vector</FONT></B></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+coefficients are output as vectors</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD><B><FONT FACE="Times New Roman,Times">both</FONT></B></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+coefficients are output as scalars and vectors</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR NOSAVE>
+<TD><B><FONT FACE="Times New Roman,Times">area_scalar&nbsp;</FONT></B></TD>
+ 
+<TD NOSAVE><FONT FACE="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+coefficients are output as scalars</FONT></TD>
+</TR>
+ 
+<TR>
+<TD><B><FONT FACE="Times New Roman,Times">area_vector</FONT></B></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+coefficients are output as vectors</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD><B><FONT FACE="Times New Roman,Times">area_both&nbsp;</FONT></B></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+coefficients are output as scalars and vectors</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD><B><FONT FACE="Times New Roman,Times">alternate_scalar</FONT></B></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+coefficients are output as scalars with compression of coefficients</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
+applied during calculation of coefficients.</FONT>&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;
+ 
+<P><FONT FACE="Times New Roman,Times">Options for the 8th aregument are:</FONT>
+<TABLE COLS=2 WIDTH="90%" NOSAVE >
+<TR NOSAVE>
+<TD WIDTH="10%" NOSAVE><FONT FACE="Times New Roman,Times"><B><U>delatt</U></B>(default)</FONT></TD>
+ 
+<TD NOSAVE><FONT FACE="Times New Roman,Times">No new node attributes are
+created.</FONT></TD>
+</TR>
+ 
+<TR>
+<TD><FONT FACE="Times New Roman,Times"><B>ascii</B>&nbsp;</FONT></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">Output sparse matrix as ASCII format</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD><B><FONT FACE="Times New Roman,Times">keepatt</FONT></B></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">Six node attributes are created
+(top, bottom, left_w, right_e,back_n, front_s) which</FONT>&nbsp;</TD>
+</TR>
+ 
+<TR>
+<TD></TD>
+ 
+<TD><FONT FACE="Times New Roman,Times">are assigned values according to
+the direction of the octant of their normal vector.</FONT>&nbsp;
+<BR><FONT FACE="Times New Roman,Times">&nbsp;</FONT>&nbsp;</TD>
+</TR>
+</TABLE>
+&nbsp;</BLOCKQUOTE>
+<FONT FACE="Times">EXAMPLE:</FONT>
+<BLOCKQUOTE><FONT FACE="Times"><B>dump</B>/<B>gmv</B>/</FONT><FONT FACE="Courier">gmv.out/3dmesh/</FONT>
+<BR><B><FONT FACE="Times">dump</FONT>/lagrit/</B><FONT FACE="Courier">LaGriT.out/<B>-all-</B>/binary</FONT></BLOCKQUOTE>
+&nbsp;
+</BODY>
+</HTML>

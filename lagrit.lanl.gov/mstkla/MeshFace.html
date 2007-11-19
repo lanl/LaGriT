@@ -1,0 +1,201 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]">
+</HEAD>
+<BODY>
+
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.html#MESH FACE:"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+<CENTER>&nbsp;&nbsp;&nbsp;<B> MESH FACES:</B></CENTER>
+
+<HR WIDTH="100%">
+<BR>Since LaGriT does not really store mesh faces, the mesh face data
+<BR>structure (MeshFace, <I>PMeshFace</I>) is created on the fly whenever
+face
+<BR>information is requested. Therefore after utilizing the face(s) get
+<BR>information, it (they) should be destroyed by calling MF_Delete
+<BR>operator.
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MF_Number</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+f);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>** This will
+return 0 for now since I haven't yet decided on a good
+<BR>** way to assign a unique number to the (virtual) faces of the mesh.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MF_Delete</B>(<I>PMeshFace</I> f);
+
+<P>Free the data structure associated with this face created on the fly.
+<BR>(There is an operator for creation but I cannot yet imagine needing
+to
+<BR>make that a publicly available operator).
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27>** IMPORTANT
+**
+<BR><FONT COLOR="#FF0000">MF_Delete will not remove any connections in
+the mesh. It just</FONT>
+<BR><FONT COLOR="#FF0000">destroys the temporary data structure used to
+store the face info</FONT>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MF_IsParent</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+pf);
+
+<P>If all vertices of the face are parents, the face is a parent.
+
+<P>
+<HR WIDTH="100%"><I>PMeshFace</I> <B>MF_Parent</B>(<I>PMeshObj</I> mesh,
+<I>PMeshFace</I> pf);
+
+<P>The parents of all vertices of the face are obtained and a new
+<BR>'parent' face is constructed from them.
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MF_Children</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+pf, <I>int </I>*nfc, <I>PMeshFace</I> **fc);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>*** NOT YET
+IMPLEMENTED ***
+
+<P>Child vertices of the face are found and appropriate combinations of
+these vertices are used to construct the new 'child' faces. For a combination
+to be appropriate, the vertices of the child face has to point to the same
+material region.
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MFs_areSame</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+f1, <I>PMeshFace</I> f2);
+
+<P>Compare the data in two MeshFace data structures and see if they
+<BR>represent the same connection in the mesh. This operator is needed
+<BR>since the on-the-fly <I>PMeshFace</I> pointers may not be the same
+and they
+<BR>do not directly point to any persistent "object" in the database.
+
+<P>
+<HR WIDTH="100%"><I>PGeomEntity</I> <B>MF_GMentity</B>(<I>PMeshObj</I>
+mesh, <I>PMeshFace</I> f);
+
+<P>Return the geometric model entity the face is on. In the absence of
+<BR>explicit face representation in the database, this may be problematic
+<BR>in a few cases cases where multiple classifications are possible.
+
+<P>
+<HR WIDTH="100%"><I>GType</I> <B>MF_GMtype</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+f);
+
+<P>Return the type of geometric model entity the face is on. This (I
+<BR>think) is more deterministically found from the classifications of
+its
+<BR>vertices but some problems may still occur. See Comments in ME_GMtype.
+
+<P>
+<HR WIDTH="100%"><I>PMeshVert</I> <B>MF_Vertices</B>(<I>PMeshObj</I> mesh,
+<I>PMeshFace</I> f, <I>int </I>*nfv, <I>PMeshVert</I>ex **fverts);
+
+<P>Return the vertices of the mesh face. The vertices are in no
+<BR>particular order.&nbsp; Parent faces return parent vertices and child
+faces
+<BR>child vertices. If a vertex is not on an non-manifold boundary
+<BR>(interface) the vertex itself is returned.
+
+<P>
+<HR WIDTH="100%"><I>PMeshVert</I> <B>MF_VerticesOrd</B>(<I>PMeshObj</I>
+mesh, <I>PMeshFace</I> f, <I>int </I>*nfv, <I>PMeshVert</I>ex **fverts);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>** NOT YET
+IMPLEMENTED **
+
+<P>Return the vertices of the mesh face. The vertices are ordered such
+<BR>that the smallest one is the first. Also, the sequence is such that
+<BR>the face points out of the region connected to it or in case there
+are
+<BR>two regions connected to it, such that it points out of the region
+<BR>with the lower ID Number. The behavior of the operator for parent and
+<BR>child faces is the same as MF_Vertices
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MF_Edges</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+f, <I>int </I>*nef, <I>PMeshFace</I> **efaces);
+
+<P>Get the "edges" of an "face". The edges data structures are
+<BR>constructed on the fly since they do not exist in the LaGriT
+<BR>database. See note on freeing the <I>PMeshFace</I> structures listed
+under
+<BR>MV_Edges and MV_Faces. Parent faces return parent edges and child
+<BR>faces return child edges.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MF_Regions</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+f, <I>PMeshRegn</I> fregions[2]);
+
+<P>Get the regions connected to an face. MESH_BldUpAdj must be called
+<BR>before this operator can be called usefully. The regions will be
+<BR>returned such that the face 'f' as defined will point out fregions[0]
+<BR>(if it exists) and into fregions[1] (if it exists).
+
+<P>A parent face will return both regions connected to it while a child
+<BR>face will return a region only on its side of the interface. If a
+<BR>"child" face constructed from interior nodes and child nodes on an
+<BR>interface, both regions connected to it are returned.
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27>** IMPORTANT
+**
+
+<P><FONT COLOR="#FF0000">Since MESH_BldUpAdj builds explicit upward adjacency
+information, this</FONT>
+<BR><FONT COLOR="#FF0000">routine does not require a seed region to be
+provided.</FONT>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MF_EntOnBdry</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+f, MType mtype, PMeshEntity pent);
+
+<P>Check if mesh entity of type 'mtype' is on the boundary of mesh
+<BR>face. mtype can only be MEDGE or MVERTEX. In other words, check if
+<BR>mesh face is made up of mesh edge or vertex in question.
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>
+<HR WIDTH="100%">
+<BR><A NAME="MF-Attribs"></A><I>int</I> <B>MF_GetAttVal</B>(<I>PMeshObj</I>
+mesh, <I>PMeshFace</I> f, <I>char *</I>attname, <I>int *</I>ival,
+<BR><I>double *</I>rval, <I>char *</I>cval, <I>void **</I>pval, <I>AttType
+*</I>atype);
+
+<P>Depending on the type of the attribute, the appropriate field will be
+<BR>filled on succesful completion. Arrays are returned in pval, integer
+in
+<BR>ival and real number in rval (I don't think lagrit supports character
+<BR>attributes)
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27> Will only
+work for surface meshes
+
+<P>
+<HR WIDTH="100%">
+<BR><I>int</I> <B>MR_SetAttVal</B>(<I>PMeshObj </I>mesh, <I>PMeshFace</I>
+f, <I>char *</I>attname, <I>int</I> ival,
+<BR><I>double</I> rval, <I>char</I> cval, <I>void *</I>pval);
+
+<P>This is similar to the GetAttVal routine - depending on the type and
+<BR>rank, one sends in a value with the right variable
+
+<P>*** PERHAPS these routines need an additional variable, "rank" but for
+<BR>now.....
+
+<P>&nbsp;
+<BR><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27> Will only
+work for surface meshes
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.html#MESH FACE:"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+&nbsp;
+</BODY>
+</HTML>

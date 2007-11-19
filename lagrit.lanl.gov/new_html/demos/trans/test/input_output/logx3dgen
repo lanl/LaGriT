@@ -1,0 +1,31 @@
+cmo/create/mbox1/hex                                                            
+surface/outer1/reflect/box/0,0,0/1,1,1                                          
+region/r1/le outer1/                                                            
+cmo/create/mbox2/hex                                                            
+surface/outer2/reflect/box/2,0,0/3,1,1                                          
+region/r2/le outer2/                                                            
+mregion/mr1/le outer1/                                                          
+mregion/mr2/le outer2/                                                          
+cmo/select/mbox1                                                                
+createpts/xyz/3,3,3/0,0,0/1,1,1                                                 
+setpts                                                                          
+connect                                                                         
+cmo/select/mbox2                                                                
+createpts/xyz/3,3,3/2,0,0/3,1,1/1,1,1                                           
+setpts                                                                          
+connect                                                                         
+addmesh merge mbox3 mbox1 mbox2                                                 
+filter 1 0 0                                                                    
+dump gmv output1.gmv mbox3                                                      
+cmo release mbox3                                                               
+cmo/select/mbox1                                                                
+trans/1,0,0/0.,0.,1./0.,0.,2./                                                  
+cmo/select/mbox2                                                                
+trans/1,0,0/2,0,0/2,0,2/                                                        
+addmesh merge mbox3 mbox1 mbox2                                                 
+filter 1 0 0                                                                    
+dump/gmv/output2.gmv/mbox3                                                      
+cmo/status                                                                      
+cmo/printatt//-all-/minmax                                                      
+quality                                                                         
+finish                                                                          

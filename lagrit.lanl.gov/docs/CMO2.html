@@ -1,0 +1,266 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="Template" content="Macintosh HD:Applications:Microsoft Office 98:Word Custom Install:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>CMO</title>
+</head>
+<body link="#0000FF" vlink="#800080">
+&nbsp;
+<blockquote><b><u><font face="Times New Roman,Times">CMO</font></u></b>
+<blockquote><font face="Times New Roman,Times">The <b>cmo</b> command operates
+on the</font><font face="Times"> </font><font face="Courier">Mesh Object(MO</font><font face="Times">).
+There can be many </font><font face="Courier">Mesh Objects</font><font face="Times">
+in the code for a given problem. Only one of these </font><font face="Courier">Mesh
+Objects </font><font face="Times">may by the </font><font face="Courier">Current
+Mesh Object.</font><font face="Times"> There is also one</font><font face="Courier">
+Default Mesh Object</font><font face="Times"> which is used as the template
+for generating new </font><font face="Courier">Mesh Objects</font><font face="Times">.</font></blockquote>
+</blockquote>
+
+<blockquote><font face="Times">FORMAT:</font></blockquote>
+
+<dir>
+<dir><font face="Times New Roman,Times">Add a user defined attribute to
+a Mesh Object</font>
+<br><font face="Times"><a href="cmo_addatt.html"><b>cmo</b>/<b>addatt</b></a>
+/</font><font face="Courier">mo_name</font><font face="Times
+">/</font><font face="Courier">att_name</font><font face="Times
+">/</font><font face="Courier">type/rank/
+</font><font face="Courier New,Courier">length/interpolate/persistence/ioflag/value</font>
+<br><font face="Times"><a href="cmo_addatt.html"><b>cmo</b>/<b>addatt</b></a>
+/</font><font face="Courier">mo_name</font><font face="Times "> /</font><font face="Courier">keyword</font><font face="Times ">
+/</font><font face="Courier"> keyword_parameters</font>
+<p><font face="Times New Roman,Times">Shorten all memory managed arrays
+associated with </font><font face="Courier New,Courier">mo_name</font><font face="Times New Roman,Times">
+to their actual lengths</font>
+<br><font face="Times"><b><a href="cmo_compress.html">cmo/compress</a></b>/</font><font face="Courier">mo_name</font><font face="Times">/</font>
+<p><font face="Times">Associate the surface constraint information of the
+mesh object </font><font face="Courier New,Courier">cmo_src</font><font face="Times">
+with </font><font face="Courier New,Courier">cmo_sink</font><font face="Times">:</font>
+<br><font face="Times"><a href="cmo_constraint.html"><b>cmo/constraint</b>/</a></font><font face="Courier New,Courier">cmo_sink/cmo_src</font>
+<p><font face="Times New Roman,Times">Copy </font><font face="Courier New,Courier">master_mo
+</font><font face="Times New Roman,Times">to
+</font><font face="Courier New,Courier">mo_name:</font>
+<br><font face="Times"><b><a href="cmo_copy.html">cmo/copy</a></b>/</font><font face="Courier">mo_name</font><font face="Times">/</font><font face="Courier">master_mo</font><font face="Times">/</font>
+<p><font face="Times">Copy a mesh object attribute:</font>
+<br><font face="Times"><b><a href="cmo_copyatt.html">cmo/copyatt</a></b>/</font><font face="Courier">cmosink/cmo_src/att_nam_sink/att_nam_src</font>
+<p><font face="Times New Roman,Times">Create a new mesh object:</font>
+<br><b><font face="Times"><a href="cmo_create.html">cmo/create</a></font>/</b><font face="Courier">mo_name</font><font face="Times">/[</font><font face="Courier">npoints/nelements/mesh-type]</font>
+<p><font face="Times New Roman,Times">Delete an existing mesh object:</font>
+<br><b><font face="Times"><a href="cmo_delatt.html">cmo/delatt</a></font>/</b><font face="Courier">mo_name</font><font face="Times">/</font><font face="Courier">att_name</font><font face="Times">/</font><font face="Times"></font>
+<p><font face="Times New Roman,Times">Delete an existing mesh object even
+it has 'permanent' persistance:</font>
+<br><b><font face="Times"><a href="cmo_delatt.html">cmo/DELATT</a></font>/</b><font face="Courier">mo_name</font><font face="Times">/</font><font face="Courier">att_name</font><font face="Times">/</font>
+<p><font face="Times">Copy the structure of </font><font face="Courier New,Courier">master_mo</font><font face="Times">
+to </font><font face="Courier New,Courier">mo_name</font><font face="Times">,
+but copy no data:</font>
+<br><font face="Times"><b><a href="cmo_derive.html">cmo/derive</a></b>/</font><font face="Courier">mo_name</font><font face="Times">/</font><font face="Courier">master_mo</font><font face="Times">/</font>
+<p><font face="Times">Associate the geometry named </font><font face="Courier New,Courier">geometry_name</font><font face="Times">
+with the mesh object </font><font face="Courier New,Courier">mo_name:</font>
+<br><b><font face="Times"><a href="cmo_geom.html">cmo/geometry</a>/</font></b><font face="Courier New,Courier">mo_name</font><font face="Times">/</font><font face="Courier New,Courier">geometry_name</font>
+<p><font face="Times New Roman,Times">Print the memory length of attribute
+</font><font face="Courier New,Courier">att_name</font><font face="Times New Roman,Times">
+for Mesh Object, </font><font face="Courier New,Courier">mo_name:</font>
+<br><font face="Times"><b><a href="cmo_length.html">cmo/length</a></b>/</font><font face="Courier">mo_name</font><font face="Times">/</font><font face="Courier">att_name</font><font face="Times">/</font>
+<p><font face="Times">List all mesh objects:</font>
+<br><b><font face="Times"><a href="cmo_list.html">cmo/list</a></font></b>
+<p><font face="Times">Adjust the memory manages arrays associated with
+</font><font face="Courier New,Courier">mo_name
+</font><font face="Times">to
+the</font>
+<br><font face="Times">lengths required by</font><font face="Courier New,Courier">
+number_nodes</font><font face="Times"> and </font><font face="Courier New,Courier">number_elements:</font>
+<br><font face="Times"><a href="cmo_memory.html"><b>cmo/memory</b>/
+</a></font><font face="Courier">mo_name</font><font face="Times">/</font><font face="Courier">number_nodes/number_elements
+</font><font face="Times">/</font>
+<p><font face="Times">Modify an attribute parameter value:</font>
+<br><font face="Times New Roman,Times"><a href="cmo_modatt.html"><b>cmo</b>/<b>modatt</b>/</a></font><font face="Times
+<BR><B><FONT FACE=">mo_name/att_name/field_name/new_field/</font>
+<p><font face="Times New Roman,Times">Change the name of a mesh object:</font>
+<br><font face="Times"><b><a href="cmo_move.html">cmo/move</a></b>/</font><font face="Courier">mo_name
+</font><font face="Times">/</font><font face="Courier">master_mo
+</font><font face="Times">/</font>
+<p><font face="Times">Adjust the memory length of </font><font face="Courier New,Courier">mo_name</font><font face="Times">
+based on the values of </font><font face="Courier New,Courier">nnodes </font><font face="Times">and</font>
+<br><font face="Courier New,Courier">nelements:</font>
+<br><font face="Times"><b><a href="cmo_newlen.html">cmo/newlen</a></b>/</font><font face="Courier">mo_name</font><font face="Times">/</font>
+<p><font face="Times">Print the value of an attribute:</font>
+<br><font face="Times"><b><a href="cmo_printatt.html">cmo/printatt</a></b>/</font><font face="Courier">mo_name</font><font face="Times">/</font><font face="Courier">att_name|-<b>all-</b>|<b>-xyz-</b>|<b>nod
+</b>/
+[<b>minmax</b>|<b>list</b>|<b>value</b>]<b> </b>/[ifirst,ilast,istride]</font>
+<p><font face="Times New Roman,Times">Read values for an attribute from
+a file</font><font face="Courier">:</font>
+<br><font face="Times"><b><a href="cmo_readatt.html">cmo/readatt</a></b>/</font><font face="Courier">mo_name/att_name/[...]/operation/file_name</font>
+<p><font face="Times New Roman,Times">Release a mesh object (same as delete):</font>
+<br><b><font face="Times"><a href="cmo_release.html">cmo/release</a></font></b><font face="Courier">/mo_name</font><font face="Times">/</font>
+<p><font face="Times">Make </font><font face="Courier New,Courier">mo_name
+</font><font face="Times">the
+active mesh object:</font>
+<br><font face="Times"><b><a href="cmo_select.html">cmo/select</a></b>/</font><font face="Courier">mo_name</font><font face="Times">/</font>
+<p><font face="Times">Set the value of an attribute:</font>
+<br><font face="Times"><b><a href="cmo_setatt.html">cmo/setatt</a></b>/</font><font face="Courier">mo_name</font><font face="Times">/</font><font face="Courier">att_name</font><font face="Times">/</font><font face="Courier">ifirst,ilast,istride/value</font>
+<p>Create an integer attribute that contains the node or element number:
+<br><b><font face="Times New Roman,Times"><a href="cmo_setid.html">cmo/set_id/</a></font></b><font face="Courier">mo_name/<b>node</b>
+|<b>element</b> |<b>both</b>/[att_nam1]/[att_nam2]</font>
+<p><font face="Times New Roman,Times">Print the mesh object status (all
+attributes and values of scalars)</font>
+<br><font face="Times"><a href="cmo_status.html"><b>cmo/status</b>/</a></font><font face="Courier">mo_name/[<b>brief</b>]</font>
+<p><font face="Times New Roman,Times">Verifie that memory allocation of
+Mesh Object </font><font face="Courier New,Courier">mo_name</font><font face="Times New Roman,Times">
+is consistent:</font>
+<br><font face="Times"><b><a href="cmo_verify.html">cmo/verify</a></b>/</font><font face="Courier">mo_name</font><font face="Times">/</font>
+<br>&nbsp;</dir>
+<font face="Times">CONVENTION: As a result of any command that generates
+a new mesh object, the newly generated mesh object becomes active</font><font face="Courier">.
+</font><font face="Times New Roman,Times">As
+a result of any command the changes a mesh</font>
+<br><font face="Times New Roman,Times">object (e.g. copyatt) the changed
+mesh object becomes active.&nbsp; Use </font><font face="Courier New,Courier">cmo/select</font><font face="Times New Roman,Times">
+to explicitly</font>
+<br><font face="Times New Roman,Times">specify the active mesh object.</font>
+<p><font face="Times">RESERVED NAMES: The following names are reserved
+and may not be used for </font><font face="Courier">Mesh Object</font><font face="Times">names:</font>
+<dir><b><font face="Times">-cmo-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></b><font face="Courier">the
+Current Mesh Object</font>
+<br><font face="Times"><b>-default-&nbsp;&nbsp;&nbsp;&nbsp; </b>the </font><font face="Courier">Default
+Mesh Object</font>
+<br><b><font face="Times">-all-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></b><font face="Courier">all
+Mesh Objects</font><font face="Times"> or </font><font face="Courier">Attributes</font></dir>
+<font face="Times">TYPES, DEFAULTS and POSSIBLE VALUES:</font>
+<center><table COLS=2 WIDTH="75%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="25%" NOSAVE><font face="Courier">mo_name&nbsp;</font></td>
+
+<td><font face="Times">is type character</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE><font face="Courier">att_name</font></td>
+
+<td><font face="Times">is type character</font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="50%" NOSAVE><font face="Courier">mesh_type</font></td>
+
+<td><font face="Times">is type character</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><font face="Times">&nbsp;(<b>tet,hex,pri,pyr,tri,qua,hyb,line,point</b>)</font></td>
+</tr>
+
+<tr>
+<td><font face="Courier">type</font></td>
+
+<td><font face="Times">&nbsp;is type character, default is <b>VDOUBLE</b></font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><font face="Times">&nbsp;(<b>VDOUBLE, VINT, VCHAR, INT, REAL, CHARACTER)</b></font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><b><font face="Times">VDOUBLE </font></b>real array</td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE></td>
+
+<td><b><font face="Times">VINT </font></b>integer array
+<br><b>VCHAR </b>array of character*32</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><font face="Times"><b>INT</b> </font>a single integer variable (<font face="Courier">length</font><font face="Times">
+=1 </font><font face="Courier">rank</font><font face="Times"> =1 by definition)</font>
+<br><font face="Times"><b>REAL</b> </font>a single real variable (<font face="Courier">length</font><font face="Times">
+=1
+</font><font face="Courier">rank</font><font face="Times"> =1 by definition)</font>
+<br><font face="Times"><b>CHARACTER </b>a single character*32 variable
+</font>(<font face="Courier">length</font><font face="Times">
+=1
+</font><font face="Courier">rank</font><font face="Times"> =1 by definition)</font></td>
+</tr>
+
+<tr>
+<td><font face="Courier">rank</font></td>
+
+<td><font face="Times">is type character, default is <b>scalar</b></font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><font face="Times">(<b>scalar,vector,tensor</b>)</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><font face="Times"><b>scalar </b>one entry per array element</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><font face="Times"><b>vector </b>3 entries per array element</font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><font face="Times"><b>tensor </b>9 entries per array element</font></td>
+</tr>
+
+<tr NOSAVE>
+<td></td>
+
+<td NOSAVE><font face="Times">any previously defined <b>INT</b> attribute
+including user defined attributes may be used as </font><font face="Courier">rank</font></td>
+</tr>
+
+<tr VALIGN=TOP NOSAVE>
+<td VALIGN=TOP NOSAVE><font face="Courier">length</font></td>
+
+<td VALIGN=TOP NOSAVE><font face="Times">is type character, default is
+<b>nnodes</b></font>
+<br><font face="Courier">(<b>nnodes, nelements</b>)</font>
+<br><font face="Times">any previously defined <b>INT</b> attribute including
+user defined attributes may be used as </font><font face="Courier">length&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Courier">interpolate</font></td>
+
+<td><font face="Times">is type character, default is <b>linear</b></font></td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><font face="Times">(<b>copy, sequence, linear, log, asinh, max,</b></font>
+<br><font face="Times"><b>min, user,and,or,incmax</b>)</font></td>
+</tr>
+
+<tr>
+<td><font face="Courier New,Courier">ioflag</font></td>
+
+<td><font face="Times">(<b>a, g, f, l, no </b>-- for avs,gmv,fehms,LaGriT)</font></td>
+</tr>
+</table></center>
+</dir>
+
+</body>
+</html>

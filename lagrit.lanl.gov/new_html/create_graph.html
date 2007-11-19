@@ -1,0 +1,44 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+</head>
+<body>
+CREATE_GRAPH
+<blockquote>Create a node or dual (element) adjacency graph. If node option
+is selected, the graph of node adjacency is created, if dual option is
+selected, the graph of element adjacency (dual graph) is created.
+<br>For details of METIS algorithms and descriptions of the third command
+line argument see:
+<br><a href="http://www-users.cs.umn.edu/~karypic/metis">http://www-users.cs.umn.edu/~karypis/metis</a>
+<br>See <a href="metis.html">METIS </a>documentation for description of
+graph format.
+<br>The default name of the attributes that are created are different depending
+on which option (metis or lagrit) is used.
+<p>create_graph / metis / [node | dual] / [nxadj] / [nadjncy]
+<br>create_graph/ lagrit / dual / jtetoff / jtet</blockquote>
+
+<p><br>LIMITATIONS
+<blockquote>The metis option will not work on a hybrid mesh. Supported
+element types are tri, tet, quad, hex.
+<p>The lagrit option will only produce the dual adjacency graph. The only
+option for the name of the graph arrays are jtetoff and jtet. The present
+implementation is just a wrapper on the geniee command.
+<br>METIS Interface to LAGriT
+<p>The standard libraries, liblagrit.a and libutil.a do not contain METIS.
+In order to utilize the METIS functions one must download the METIS package,
+build the METIS libraries on your local system and link them with the LAGriT
+libraries. See instructions in documentation of the <a href="metis.html">metis</a>
+command.</blockquote>
+FORMAT:
+<blockquote>create_graph / metis / [node | dual] / [nxadj] / [nadjncy]</blockquote>
+EXAMPLES:
+<blockquote>create_graph / metis / dual / -def- / -def-
+<br>create_graph / metis / node / -def- / -def-
+<br>create_graph / metis / dual / ie1 / ieadj1
+<br>create_graph / metis / node / in1 / inadj1
+<br>create_graph/ lagrit / dual / jtetoff / jtet</blockquote>
+
+</body>
+</html>

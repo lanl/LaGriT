@@ -1,0 +1,95 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Jan Wills">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<b><u><font face="Times New Roman,Times">CREATEPTS/AMR</font></u></b>
+<blockquote><font face="Times New Roman,Times"><b>CREATEPTS/AMR </b>uses
+an octree type refinement applied to an existing hexahedral mesh to all
+nodes in a specified region.&nbsp; No additional elements are kept,&nbsp;
+the intention is that the resulting node distribution will be passed toconnect
+to generate a tetrahedra mesh.</font>
+<p><font face="Times New Roman,Times">FORMAT:</font>
+<blockquote><font face="Times New Roman,Times"><b>createpts/amr</b>/region_name/number_of_levels</font>
+<br><font face="Times New Roman,Times">*&nbsp; region_name&nbsp;&nbsp;&nbsp;
+name of region to refine.&nbsp; If blank,&nbsp; all regions will be refined.&nbsp;
+An element will be refined if any node of the element is in the specified
+region.</font>
+<br><font face="Times New Roman,Times">*&nbsp; number_of_levels&nbsp;&nbsp;&nbsp;
+is the number of times the refinement will be performed.&nbsp; After each
+level, the code will determine which of the new nodes are in the specified
+region and will refine the associated elements.&nbsp; Default is 1.</font></blockquote>
+<font face="Times New Roman,Times">EXAMPLES:</font>
+<blockquote><font face="Times New Roman,Times"><b>createpts/amr</b>&nbsp;&nbsp;&nbsp;
+refine the entire mesh</font>
+<br><font face="Times New Roman,Times"><b>createpts/amr</b> /r1/3&nbsp;&nbsp;&nbsp;
+refine elements with nodes in the region r1 three times</font>
+<p><font face="Times New Roman,Times">examples of use of <b>createpts/amr</b>:</font>
+<p><font face="Times New Roman,Times">*create the hex mesh</font>
+<br><font face="Times New Roman,Times">cmo/create/cmo///hex</font>
+<br><font face="Times New Roman,Times">* define geometry</font>
+<br><font face="Times New Roman,Times">surface/inside/reflect/box/0,0,0/1,1,1</font>
+<br><font face="Times New Roman,Times">surface/diag/intrface/plane/0,0,0/1,0,1/1,1,1</font>
+<br><font face="Times New Roman,Times">region/lin/ le inside and ge diag
+/</font>
+<br><font face="Times New Roman,Times">region/rin/ le inside and lt diag
+/</font>
+<br><font face="Times New Roman,Times">mregion/mlin/ le inside and gt diag
+/</font>
+<br><font face="Times New Roman,Times">mregion/mrin/ le inside and lt diag
+/</font>
+<br><font face="Times New Roman,Times">* distribute nodes</font>
+<br><font face="Times New Roman,Times">quadxyz/2,2,2/0.,0.,0./1.,0.,0./1.,1.,0./0.,1.,0./
+&amp;</font>
+<br><font face="Times New Roman,Times">0.,0.,1./1.,0.,1./1.,1.,1./0.,1.,1./</font>
+<br><font face="Times New Roman,Times">* set node types and materials</font>
+<br><font face="Times New Roman,Times">setpts</font>
+<br><font face="Times New Roman,Times">* connect up the hex mesh</font>
+<br><font face="Times New Roman,Times">createpts/brick/xyz/2,2,2/1,0,0/connect</font>
+<br><font face="Times New Roman,Times">* refine the hex mesh</font>
+<br><font face="Times New Roman,Times">createpts/amr/lin/1</font>
+<br><font face="Times New Roman,Times">createpts/amr/rin/3</font>
+<br><font face="Times New Roman,Times">* create the tet mesh</font>
+<br><font face="Times New Roman,Times">cmo/create/cmot///tet</font>
+<br><font face="Times New Roman,Times">* define geometry again for tet
+mesh</font>
+<br><font face="Times New Roman,Times">surface/inside/reflect/box/0,0,0/1,1,1</font>
+<br><font face="Times New Roman,Times">surface/diag/intrface/plane/0,0,0/1,0,1/1,1,1</font>
+<br><font face="Times New Roman,Times">region/lin/ le inside and ge diag
+/</font>
+<br><font face="Times New Roman,Times">region/rin/ le inside and lt diag
+/</font>
+<br><font face="Times New Roman,Times">mregion/mlin/ le inside and gt diag
+/</font>
+<br><font face="Times New Roman,Times">mregion/mrin/ le inside and lt diag
+/</font>
+<br><font face="Times New Roman,Times">* copy in the nodes from the hex
+mesh to the tet mesh</font>
+<br><font face="Times New Roman,Times">copypts/cmot/cmo</font>
+<br><font face="Times New Roman,Times">cmo/select/cmot</font>
+<br><font face="Times New Roman,Times">cmo/release/cmo</font>
+<br><font face="Times New Roman,Times">* reset node types and materials
+so that setpts will use</font>
+<br><font face="Times New Roman,Times">* geometry to figure out the correct
+values</font>
+<br><font face="Times New Roman,Times">cmo/setatt/cmot/itp/1,0,0/0</font>
+<br><font face="Times New Roman,Times">cmo/setatt/cmot/imt/1,0,0/0</font>
+<br><font face="Times New Roman,Times">* set node types and materials</font>
+<br><font face="Times New Roman,Times">setpts</font>
+<br><font face="Times New Roman,Times">* connect up the tet mesh</font>
+<br><font face="Times New Roman,Times">connect</font>
+<br><font face="Times New Roman,Times">* set element materials</font>
+<br><font face="Times New Roman,Times">* and create parent/child nodes
+on interfaces</font>
+<br><font face="Times New Roman,Times">settets</font>
+<br><font face="Times New Roman,Times">dump/gmv/gmvtet</font>
+<br><font face="Times New Roman,Times">finish</font>
+<br>&nbsp;
+<br>&nbsp;</blockquote>
+</blockquote>
+
+</body>
+</html>

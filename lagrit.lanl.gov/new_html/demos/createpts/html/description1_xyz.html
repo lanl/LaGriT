@@ -1,0 +1,43 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97/98">
+   <meta name="Template" content="Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>*arguments:</title>
+</head>
+<body bgcolor="#FFFFFF" link="#0000FF" vlink="#800080">
+
+<blockquote><font face="Times New Roman,Times"><font size=+1>Example 1:
+createpts in a rectangular geometry</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+0>The objective
+is to add points to a rectangular mesh using the <b>createpts </b>command.</font></font><font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times"><font size=+0>A rectangular geometry
+is defined. The <b>createpts/xyz</b> command is used to create a point
+distribution within the geometry exercising various options available to
+the command. The output consists of one gmv file.</font></font></blockquote>
+
+<blockquote><font face="Times New Roman,Times"><font size=+0><a href="../input_output/lagrit_input_createxyz"></a></font></font>&nbsp;</blockquote>
+<font face="Times New Roman,Times"><font size=+1>Images of GMV output</font></font>
+<blockquote><a href="image/image1.gif"><img SRC="image/image1tn.gif" NOSAVE BORDER=1 height=87 width=112 align=ABSCENTER></a><font face="Times New Roman,Times"><font size=+0><a href="image/image1.gif">
+rectangular grid</a></font></font>
+<br><font face="Times New Roman,Times"><font size=+0></font></font>&nbsp;
+<br><font face="Times New Roman,Times"><font size=+0></font></font>&nbsp;</blockquote>
+<font face="Times New Roman,Times"><font size=+1>Input file</font></font>
+<br><font face="Times New Roman,Times">*TEST createpts/xyz (lagrit_input_createxyz)</font>
+<br><font face="Times New Roman,Times">cmo/create/3dmesh</font>
+<br><font face="Times New Roman,Times">surface/outer/reflect/box/0,0,0/1,1,1</font>
+<br><font face="Times New Roman,Times">region/r1/ le outer /</font>
+<br><font face="Times New Roman,Times">mregion/m1/ le outer /</font>
+<br><font face="Times New Roman,Times">createpts/xyz/5,3,4/0,0,0/1,1,1/1,1,1/1,0,0/1.5,1,1/</font>
+<br><font face="Times New Roman,Times">setpts</font>
+<br><font face="Times New Roman,Times">dump/gmv/output_createxyz.gmv</font>
+<br><font face="Times New Roman,Times">* begin compare here</font>
+<br><font face="Times New Roman,Times">cmo/status</font>
+<br><font face="Times New Roman,Times">cmo/printatt//-all-/minmax</font>
+<br><font face="Times New Roman,Times">quality</font>
+<br><font face="Times New Roman,Times">finish</font></blockquote>
+
+</body>
+</html>

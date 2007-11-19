@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 98">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>FIELD</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+&nbsp;
+<BLOCKQUOTE><B><U><FONT FACE="Times">FIELD</FONT></U></B>
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">The FIELD Command option
+manipulates one or more specified fields in the Current Mesh Object</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">*For all points in the specified
+point set, we compose the field value with the specifie</FONT>d <FONT FACE="Courier">composition
+function</FONT><FONT FACE="Times">. T</FONT><FONT FACE="Times New Roman,Times">he
+composition functions allowed are currently <B>asinh</B> and <B>log</B>.
+So, for example, if 'i' is in the point set and <B>asinh</B> is</FONT><FONT FACE="Times">
+the </FONT><FONT FACE="Courier">composition function</FONT><FONT FACE="Times">,
+</FONT><FONT FACE="Times New Roman,Times">we have the assignment:</FONT>
+<BLOCKQUOTE><FONT FACE="Courier">field(i) = asinh(field(i))</FONT><FONT FACE="Times">.</FONT></BLOCKQUOTE>
+<FONT FACE="Times">*</FONT><FONT FACE="Times New Roman,Times">The <B>field</B>/<B>mfedraw
+</B>command causes a binary dump of the specified fields to two files in
+the <B>mfedraw</B> input format. <B>mfedraw</B> is a graphics package for
+visualizing moving piecewise linear functions of two variables, such as
+those originally encountered in Moving Finite Elements. The files are named
+'</FONT><FONT FACE="Courier New,Courier">root1.bin</FONT><FONT FACE="Times New Roman,Times">'
+and '</FONT><FONT FACE="Courier New,Courier">root2.bin</FONT><FONT FACE="Times New Roman,Times">',
+where 'root' is the root file name argument. Because the graphics data
+are a function of two variables, you must supply two orthonormal vectors
+(</FONT><FONT FACE="Courier New,Courier">x1,y1,z1</FONT><FONT FACE="Times New Roman,Times">)
+and (</FONT><FONT FACE="Courier New,Courier">x2,y2,z2</FONT><FONT FACE="Times New Roman,Times">)
+which specify the graphics coordinate axes. More precisely, given 3D coordinates
+(x,y,z), the 2D graphic coordinates will then be (</FONT><FONT FACE="Courier New,Courier">x*x1+y*y1+z*z1
+, x*x2+y*y2+z*z2)</FONT><FONT FACE="Times New Roman,Times">. So, for example,
+the choice:</FONT>
+<BLOCKQUOTE><FONT FACE="Courier">/x1,y1,z1/x2,y2,z2/ = /1.,0.,0./0.,1.,0./</FONT></BLOCKQUOTE>
+<FONT FACE="Times New Roman,Times">causes the 'z' coordinate to be discarded
+while the 'x' and 'y' coordinates are unchanged.</FONT><FONT FACE="Times New Roman,Times"></FONT>
+ 
+<P><FONT FACE="Times New Roman,Times">*The <B>field</B>/<B>scale</B> option
+scales the field values of the specified points. </FONT><FONT FACE="Courier New,Courier">scale
+option</FONT><FONT FACE="Times New Roman,Times"> can take on the values
+<B>normalize</B>, <B>multiply</B>, and <B>divide</B>. If <B>normalize </B>is
+specified, we multiply all the field values by </FONT><B><FONT FACE="Courier New,Courier">factor</FONT></B><FONT FACE="Times New Roman,Times">/(fieldmax-fieldmin),
+where 'fieldmax' and 'fieldmin' are the maximum and minimum values taken
+over the point set. This has the effect of normalizing the field so that
+the new difference between the maximum and minimum values is equal to </FONT><B><FONT FACE="Courier New,Courier">factor</FONT></B><FONT FACE="Times New Roman,Times">.
+If <B>multiply</B> is specified, we multiply all the field values in the
+point set by </FONT><B><FONT FACE="Courier New,Courier">factor</FONT></B><FONT FACE="Times New Roman,Times">.
+If <B>divide </B>is specified, we divide all the field values in the point
+set by </FONT><B><FONT FACE="Courier New,Courier">factor</FONT><FONT FACE="Times New Roman,Times">.</FONT></B><FONT FACE="Times New Roman,Times"></FONT><FONT FACE="Times New Roman,Times"></FONT>
+ 
+<P><FONT FACE="Times">*The <B>field</B>/<B>volavg</B> option, for all the
+members of the point set and for all specified fields, replaces the point
+field values with values that represent the average of the field(s) over
+the control volumes associated with the points. The </FONT><FONT FACE="Courier">averaging</FONT><FONT FACE="Times">
+</FONT><FONT FACE="Courier">option</FONT><FONT FACE="Times"> specifies
+what kind of control volume is to be used; the choices are <B>voronoi</B>
+and<B> median</B>. </FONT><FONT FACE="Courier">iterations</FONT><FONT FACE="Times">
+is an integer that specifies a repeat count for how many times this procedure
+is to be performed on the field(s). The affect of this process is to broaden
+and smooth the features of the field(s), similar to the effect of a diffusion
+process. The <B>voronoi </B>choice, unlike the <B>median</B>. choice, produces
+a diffusive effect independent of mesh connectivity. However, again unlike
+the <B>median</B>. choice, it <U>requires</U> that the mesh be Delaunay,
+or incorrect results will occur.</FONT></BLOCKQUOTE>
+<FONT FACE="Times">FORMAT:</FONT>
+<BLOCKQUOTE><FONT FACE="Times"><B>field</B>/<B>compose</B>/</FONT><FONT FACE="Courier">composition
+function</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier">ifirst,ilast,istride</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier">field
+list/</FONT>
+<BR><FONT FACE="Times"><B>field</B>/<B>mfedraw</B>/</FONT><FONT FACE="Courier">root
+file name/x1,y1,z1/x2,y2,z2/field list/</FONT>
+<BR><B><FONT FACE="Times">field</FONT>/scale /</B><FONT FACE="Courier">scale
+option/factor/ifirst,ilast,istride/ field list</FONT><FONT FACE="Times">
+/</FONT>
+<BR><FONT FACE="Times"><B>field</B>/<B>volavg</B>/</FONT><FONT FACE="Courier">averaging</FONT><FONT FACE="Times">
+</FONT><FONT FACE="Courier">option/iterations</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier">ifirst,ilast,istride</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier New,Courier">filed
+list/</FONT></BLOCKQUOTE>
+ 
+ 
+<P><FONT FACE="Times">EXAMPLES:</FONT>
+<BLOCKQUOTE><FONT FACE="Times"><B>field</B>/<B>compose</B>/<B>asinh</B>/</FONT><FONT FACE="Courier">1,0,0</FONT><FONT FACE="Times">/<B>field</B>/<B>scale</B>/<B>normalize</B>/</FONT><FONT FACE="Courier">4</FONT><FONT FACE="Times">.</FONT><FONT FACE="
+<BR><FONT FACE="Times"><B>field</B>/<B>volavg</B>/<B>voronoi</B>/</FONT><FONT FACE="Courier">4</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier">1,</FONT></BLOCKQUOTE>
+<FONT FACE="Courier">&nbsp;</FONT>
+<BR><FONT FACE="Courier">&nbsp;</FONT></BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

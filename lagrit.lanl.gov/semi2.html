@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Semiconductor  </title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+
+<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
+
+<meta name="keywords" content=" "/>
+
+<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
+<link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
+
+</head>
+<body class="home">
+
+<!-- OPEN include for banner area -->
+<!--#include virtual="/source/includes/xbanner.inc" -->
+<!-- CLOSE include for banner area -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/identifier.inc -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc -->
+<div id="content-org">
+  <table id="mid-section1" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="236"  valign="top" class="col1">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/nav1.inc -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/contacts.inc -->
+      <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+     
+   <td width="924" valign="top" class="col2-420">
+<!-- OPTIONAL: OPEN include for content area -->
+<p>&nbsp;</p>
+        <p>cmo/create/3dmesh<br />
+          surface/brt/reflect /plane/1.0,0.0,0.0/1.0,1.0,0.0/1.0,0.0,1.0/<br />
+          surface/blt/reflect /plane/0.0,0.0,0.0/0.0,0.0,1.0/0.0,1.0,0.0/<br />
+          surface/btp/reflect /plane/0.0,0.0,2.0/1.0,0.0,2.0/0.0,1.0,2.0/<br />
+          surface/bbt/reflect /plane/0.0,0.0,0.0/0.0,1.0,0.0/1.0,0.0,0.0/<br />
+          surface/bfr/reflect /plane/0.0,-0.2,0.0/1.0,-0.2,0.0/0.0,-0.2,1.0/<br />
+          surface/bbk/intrface/plane/0.0, 1.0,0.0/0.0, 1.0,1.0/1.0, 1.0,0.0/<br />
+          surface/b1 /intrface/plane/0.4,0.0,0.0/0.4,1.0,0.0/0.4,0.0,1.0/<br />
+          surface/b2 /intrface/plane/0.6,0.0,0.0/0.6,1.0,0.0/0.6,0.0,1.0/<br />
+          surface/b3 /intrface/plane/0.7,0.0,0.0/0.7,1.0,0.0/0.7,0.0,1.0/<br />
+          surface/pl1/intrface/plane/0.0,0.0,2.0/0.4,0.0,2.0/0.4,0.0,0.0/<br />
+          surface/pl2/intrface/plane/0.4,0.0,2.0/0.6,0.05,2.0/0.6,0.05,0.0/<br />
+          surface/pl3/intrface/plane/0.6,0.05,2.0/0.7,0.2,2.0/0.7,0.2,0.0/<br />
+          surface/pl4/intrface/plane/0.7,0.2,2.0/1.0,0.2,2.0/1.0,0.2,0.0/<br />
+          surface/pl5/intrface/plane/0.0,-0.01,2.0/0.4,-0.01,2.0/0.4,-0.01,0.0/<br />
+          surface/pl6/intrface/plane/0.4,-0.01,2.0/0.6,0.04,2.0/0.6,0.04,0.0/<br />
+          surface/pl7/intrface/plane/0.6,0.04,2.0/0.7,-0.1,2.0/0.7,-0.1,0.0/<br />
+          surface/pl8/intrface/plane/0.7,-0.1,2.0/1.0,-0.1,2.0/1.0,-0.1,0.0/<br />
+          surface/pl9/intrface/plane/0.0,0.0,0.5/1.0,0.0,0.5/0.0,1.0,0.5/<br />
+          surface/pla/intrface/plane/0.0,1.0,1.5/1.0,0.0,1.5/0.0,0.0,1.5/<br />
+          surface/plb/intrface/plane/0.0,0.0,0.1/1.0,0.0,0.1/0.0,1.0,0.1/<br />
+          surface/plc/intrface/plane/0.0,1.0,0.4/1.0,0.0,0.4/0.0,0.0,0.4/<br />
+          surface/pld/intrface/plane/0.0,0.0,1.6/1.0,0.0,1.6/0.0,1.0,1.6/<br />
+          surface/ple/intrface/plane/0.0,1.0,1.9/1.0,0.0,1.9/0.0,0.0,1.9/<br />
+          surface/plf/intrface/plane/0.0,-0.15,2.0/0.4,-0.15,2.0/0.4,-0.15,0.0/<br />
+          surface/plg/reflect /plane/0.0,1.2,0.0/0.0,1.2,2.0/1.0,1.2,0.0/<br />
+          mregion/reg1/ ( le blt and lt b1 and le btp and le bbt and lt bbk &amp;<br />
+and gt pl1 ) or &amp;<br />
+( ge b1 and lt b2 and le btp and le bbt and lt bbk &amp;<br />
+and gt pl2 ) or &amp;<br />
+( ge b2 and lt b3 and le btp and le bbt and lt bbk &amp;<br />
+and gt pl3 ) or &amp;<br />
+( ge b3 and le brt and le btp and le bbt and lt bbk &amp;<br />
+and gt pl4 )<br />
+mregion/reg2/ ( le blt and lt b1 &amp;<br />
+and lt pl1 and gt pl5 and gt pl9 and gt pla ) or &amp;<br />
+( ge b1 and le b2 &amp;<br />
+and lt pl2 and gt pl6 and gt pl9 and gt pla ) or &amp;<br />
+( gt b2 and lt b3 and le btp and le bbt &amp;<br />
+and lt pl3 and gt pl7 ) or &amp;<br />
+( ge b3 and le brt and le btp and le bbt &amp;<br />
+and lt pl4 and gt pl8 )<br />
+mregion/reg3/ ( le blt and le b1 and le bbt and le bfr &amp;<br />
+and lt pl1 and lt plb ) or &amp;<br />
+( le blt and le b1 and le bfr &amp;<br />
+and lt plf and ge plb and ge plc ) or &amp;<br />
+( le blt and le b1 and le bfr &amp;<br />
+and lt pl1 and lt plc and lt pl9 ) or &amp;<br />
+( le blt and le b1 and le bfr &amp;<br />
+and lt plf and ge pl9 and ge pla ) or &amp;<br />
+( le blt and le b1 and le bfr &amp;<br />
+and lt pl1 and lt pla and lt pld ) or &amp;<br />
+( le blt and le b1 and le bfr &amp;<br />
+and lt plf and ge pld and ge ple ) or &amp;<br />
+( le blt and le b1 and le btp and le bfr &amp;<br />
+and lt pl1 and lt ple ) or &amp;<br />
+( gt b1 and lt b2 and le bfr &amp;<br />
+and lt plf and ge pl9 and ge pla ) or &amp;<br />
+( gt b1 and lt b2 and le bfr and le btp and le bbt &amp;<br />
+and lt pl2 and ( lt pl9 or lt pla ) ) or &amp;<br />
+( ge b2 and le b3 and le bfr &amp;<br />
+and lt plf and ge pl9 and ge pla ) or &amp;<br />
+( ge b2 and le b3 and le bfr and le btp and le bbt &amp;<br />
+and lt pl7 and ( lt pl9 or lt pla ) ) or &amp;<br />
+( gt b3 and le brt and le btp and le bfr &amp;<br />
+and lt pl8 and le bbt )<br />
+mregion/reg4/ ( le blt and lt b1 &amp;<br />
+and lt pl1 and gt plf and gt plb and gt plc )<br />
+mregion/reg5/ ( le blt and lt b1 &amp;<br />
+and lt pl1 and gt plf and gt pld and gt ple )<br />
+mregion/reg6/ ( le blt and lt b1 &amp;<br />
+and lt pl5 and gt plf and gt pl9 and gt pla ) or &amp;<br />
+( ge b1 and lt b2 &amp;<br />
+and lt pl6 and gt plf and gt pl9 and gt pla ) or &amp;<br />
+( ge b2 and lt b3 &amp;<br />
+and lt pl7 and gt plf and gt pl9 and gt pla )<br />
+mregion/reg7/ le plg and le brt and le blt and le btp and le bbt &amp;<br />
+and gt bbk<br />
+region/reg1a/( le blt and lt b1 and le btp and le bbt and lt bbk &amp;<br />
+and gt pl1 )<br />
+region/reg1b/( ge b1 and lt b2 and le btp and le bbt and lt bbk &amp;<br />
+and ge pl2 )<br />
+region/reg1c/( ge b2 and lt b3 and le btp and le bbt and lt bbk &amp;<br />
+and ge pl3 )<br />
+region/reg1d/( ge b3 and le brt and le btp and le bbt and lt bbk &amp;<br />
+and ge pl4 )<br />
+region/reg2a/( le blt and lt b1 &amp;<br />
+and le pl1 and ge pl5 and ge pl9 and ge pla )<br />
+region/reg2b/( ge b1 and lt b2 &amp;<br />
+and lt pl2 and ge pl6 and ge pl9 and ge pla )<br />
+region/reg2c/( ge b2 and lt b3 and le btp and le bbt &amp;<br />
+and lt pl3 and ge pl7 )<br />
+region/reg2d/( ge b3 and le brt and le btp and le bbt &amp;<br />
+and lt pl4 and ge pl8 )<br />
+region/reg3a/ ( le blt and le b1 and le bbt and le bfr &amp;<br />
+and le pl1 and lt plb )<br />
+region/reg3b/( le blt and le b1 and le bfr &amp;<br />
+and lt plf and ge plb and ge plc )<br />
+region/reg3c/( le blt and le b1 and le bfr &amp;<br />
+and le pl1 and lt plc and lt pl9 )<br />
+region/reg3d/( le blt and le b1 and le bfr &amp;<br />
+and lt plf and ge pl9 and ge pla )<br />
+region/reg3e/( le blt and le b1 and le bfr &amp;<br />
+and le pl1 and lt pla and lt pld )<br />
+region/reg3f/( le blt and le b1 and le bfr &amp;<br />
+and lt plf and ge pld and ge ple )<br />
+region/reg3g/( le blt and le b1 and le btp and le bfr &amp;<br />
+and le pl1 and lt ple )<br />
+region/reg3h/( gt b1 and lt b2 and le bfr &amp;<br />
+and lt plf and ge pl9 and ge pla )<br />
+region/reg3i/( gt b1 and lt b2 and le btp and le bbt and le bfr &amp;<br />
+and lt pl2 and ( lt pl9 or lt pla ) )<br />
+region/reg3j/( ge b2 and le b3 and le bfr &amp;<br />
+and lt plf and ge pl9 and ge pla )<br />
+region/reg3k/( ge b2 and le b3 and le btp and le bbt and le bfr &amp;<br />
+and lt pl7 and ( lt pl9 or lt pla ) )<br />
+region/reg3l/( gt b3 and le brt and le btp and le bfr and le bbt &amp;<br />
+and lt pl8 )<br />
+region/reg4/ ( le blt and le b1 &amp;<br />
+and le pl1 and ge plf and ge plb and ge plc )<br />
+region/reg5/ ( le blt and le b1 &amp;<br />
+and le pl1 and ge plf and ge pld and ge ple )<br />
+region/reg6a/( le blt and lt b1 &amp;<br />
+and lt pl5 and ge plf and ge pl9 and ge pla )<br />
+region/reg6b/( ge b1 and lt b2 &amp;<br />
+and lt pl6 and ge plf and ge pl9 and ge pla )<br />
+region/reg6c/( ge b2 and le b3 &amp;<br />
+and lt pl7 and ge plf and ge pl9 and ge pla )<br />
+region/reg7/ ( le plg and le brt and le blt and le btp and le bbt &amp;<br />
+and ge bbk )<br />
+rz/xyz/ 5,1, 4/0.0,3.0,0.0/0.4,3.0,0.1/1,0,1/<br />
+rz/xyz/9,1,7/0.0,3.0,0.1/0.4,3.0,0.4/1,0,1/<br />
+rz/xyz/ 5,1, 4/0.0,3.0,0.4/0.4,3.0,0.5/1,0,1/<br />
+rz/xyz/ 5,1,13/0.0,3.0,0.5/0.4,3.0,1.5/1,0,1/<br />
+rz/xyz/ 5,1, 4/0.0,3.0,1.5/0.4,3.0,1.6/1,0,1/<br />
+rz/xyz/9,1,7/0.0,3.0,1.6/0.4,3.0,1.9/1,0,1/<br />
+rz/xyz/ 5,1, 4/0.0,3.0,1.9/0.4,3.0,2.0/1,0,1/<br />
+rz/xyz/ 5,1, 7/0.4,3.0,0.0/0.6,3.0,0.5/1,0,1/<br />
+rz/xyz/ 9,1,13/0.4,3.0,0.5/0.6,3.0,1.5/1,0,1/<br />
+rz/xyz/ 5,1, 7/0.4,3.0,1.5/0.6,3.0,2.0/1,0,1/<br />
+rz/xyz/ 5,1, 7/0.6,3.0,0.0/0.7,3.0,0.5/1,0,1/<br />
+rz/xyz/ 5,1,13/0.6,3.0,0.5/0.7,3.0,1.5/1,0,1/<br />
+rz/xyz/ 5,1, 7/0.6,3.0,1.5/0.7,3.0,2.0/1,0,1/<br />
+rz/xyz/ 5,1,13/0.7,3.0,0.0/1.0,3.0,2.0/1,0,1/<br />
+pset/rays/seq/1,0,0/<br />
+regnpts/reg1a/ 7/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/1,2./<br />
+regnpts/reg1b/ 7/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/1,2./<br />
+regnpts/reg1c/ 7/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/1,2./<br />
+regnpts/reg1d/ 7/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/1,2./<br />
+regnpts/reg2a/ 2/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg2b/ 2/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg2c/ 4/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg2d/ 4/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3a/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3b/ 3/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3c/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3d/ 3/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3e/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3f/ 3/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3g/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3h/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3i/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3j/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3k/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg3l/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg6a/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg6b/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg6c/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg7/ 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg4 / 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+regnpts/reg5 / 5/pset,get,rays/xyz/0.0,-1.0,2.0/1.0,-1.0,2.0/1.0,-1.0,0.0/<br />
+zq/itp/pset,get/rays/21<br />
+filter/1,0,0/<br />
+setpts<br />
+dump/x3d/x3d.mos3d.1<br />
+search<br />
+dump/x3d/x3d.mos3d.2<br />
+settets<br />
+dump/x3d/x3d.mos3d.3<br />
+dump/gmv/gmv.mos3d<br />
+finish</p>
+        <table width="500" border="0">
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+        </table>
+        <p>&nbsp;</p>
+        <p align="left"><img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/xtransparent.gif" /> </p>
+      <p align="left"><a href="index.shtml">Return to LaGriT Home Page</a></p></td>
+      <td width="161" valign="top" class="col3-180">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/related_links.inc -->
+      <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+    </tr>
+  </table>
+</div>
+
+<!-- OPEN include for footer area -->
+<!--#include virtual="/source/includes/xfooter.inc" -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc -->
+
+<!--#include virtual="../includes/email.inc" -->
+
+<!-- CLOSE include for footer area -->
+</body>
+</html>

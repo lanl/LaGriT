@@ -1,0 +1,254 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Jan Wills">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><b><font face="Times New Roman,Times"><font size=+1>read/sheetij</font></font></b>
+<blockquote><font face="Times New Roman,Times"><font size=+1><b>&nbsp;</b>creates
+a quad mesh from an elevation file using syntax similar to avs type .fld header file. Note the input
+file is assumed to contain elevation values and are read as Z(i,j) into the cmo attribute "zic".
+For node attribute values of f(i,j), use addatt and copyatt as shown in the examples below.
+</font></font></blockquote>
+<font face="Times New Roman,Times"><font size=+1>FORMAT:</font>
+<blockquote>
+
+<br><b>read</b>/<b>sheetij</b>/ file_name /nx,ny/minx,miny/dx,dy [options]
+<br><b>read</b>/<b>sheetij</b>/ file_name /nx,ny/minx,miny/dx,dy/ skip n / [options]
+<br><b>read</b>/<b>sheetij</b>/ file_name /nx,ny/minx,miny/dx,dy/istart,jstart,istop,jstop/[options]
+
+<br><b>read</b>/<b>sheetij</b>/ file_name/-header-/[options]</font></font>
+
+
+
+<br>&nbsp;
+<table COLS=2 WIDTH="70%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times"><font size=+1>nx</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>columns in x direction</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1>ny</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>rows in y direction</font></font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times"><font size=+1>min,
+miny</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>location of lower
+left corner</font></font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times"><font size=+1>xinc, yinc</font></font></td>
+
+<td NOSAVE><font face="Times New Roman,Times"><font size=+1>cell size in
+x and y direction</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1> -header- </font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>keyword meaning read
+nx, ny,miny,xinc,yinc,from file</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1>skip n</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>skip n number of header lines
+</font></font></td>
+</tr>
+
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1>istart,istop,jstart,jstop</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>gives indices of ij subset
+&nbsp;</font></font></td>
+</tr>
+
+
+</table>
+</blockquote>
+<font face="Times New Roman,Times"><font size=+1>options are:</font></font>
+<blockquote>&nbsp;
+<table COLS=2 WIDTH="70%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times"><font size=+1><b>ascii</b>
+or <b>binary</b></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>file-type (default-<b>ascii</b>)</font></font></td>
+</tr>
+
+<tr>
+<td><b><font face="Times New Roman,Times"><font size=+1>center</font></font></b></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>assume elevation at
+cell center (default = lower left corner)</font></font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times"><font size=+1><b>connect</b>
+or <b>points</b></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1><b>connect</b> causes
+quad grid to be formed and is default.</font></font></td>
+</tr>
+
+<tr NOSAVE>
+<td></td>
+
+<td NOSAVE><font face="Times New Roman,Times"><font size=+1><b>points</b>
+keeps data as points only.</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1><b>float</b> or <b>double</b></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>size of data (default
+= <b>float</b>)</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1><b>xflip</b> or <b>yflip</b></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>reflect along x or
+y axis (default = no reflection)&nbsp;</font></font></td>
+</tr>
+</table>
+</blockquote>
+<font face="Times New Roman,Times"><font size=+1>EXAMPLES:</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+1>&nbsp;for
+data file with header - test_hdr.dat:</font></font>
+<font face="Times New Roman,Times"><font size=+1>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; showing nx, ny, min x, min y, dx, dy
+ </font></font>
+
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp; </font></font>
+
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp; </font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.0000000&nbsp;&nbsp;
+</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.0000000&nbsp;&nbsp;
+</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.000000&nbsp;&nbsp;&nbsp;
+</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.000000&nbsp;&nbsp;&nbsp;
+</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#</font></font>
+<p><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+to read elevations using information in the file header</font></font>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cmo create cmohdr
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+read sheetij test_hdr.dat / -header- / ascii
+</p>
+
+<p><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+to subset read ascii file with header and subset from i=2,5 and j=3,4</font></font>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+read sheetij test_hdr.dat / -header- / 2,5, 3,4 / ascii
+</p>
+
+<p><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+for binary files with no headers where nx=5, ny=4, minx=miny=0., xinc=yinc=5.</font></font>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+read sheetij test.bin /5,4 /0.0,0.0 / 5.0,5.0 / binary
+</p>
+
+<p><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+to flip along the x-axis</font></font>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+read sheetij test.bin /5,4 /0.0,0.0 / 5.0,5.0 / xflip, binary
+</p>
+<p><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+read temperature values from file instead of elevation</font></font>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmo create cmot
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; read sheetij temp.dat / 150,183 /1602850.,1727950. / &
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     500.0,500.0 / skip 6
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmo / addatt / cmot / tempval / VDOUBLE / scalar / nnodes
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmo / copyatt / cmot / cmot / tempval / zic
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmo / setatt / cmot / zic / 0.
+</p>
+
+</blockquote>
+</blockquote>
+<br>
+
+<font face="Times New Roman,Times"><font size=+1>TEST EXAMPLES:</font></font>
+
+<table BORDER COLS=3 >
+<tr><td colspan="3">
+<br>
+Test file for sheetij: <a href="lagrit_input00" target="_blank">lagrit_input00 </a> 
+<br> Test data for sheetij: <a href="test_data" target="_blank">test_data</a> 
+</td></tr>
+
+<tr>
+<td>
+<img SRC="image/zall_200w.GIF" ALT="Quad sheet" width="200" >
+<br>* read ascii elevations into quad sheet
+<br>cmo create cmo1
+<br>read sheetij test_data /5,4 /0.0,0.0 &
+<br>/ 5.0,5.0 / ascii</td>
+
+<td><img SRC="image/zall_xflip_200w.GIF" ALT="Quad sheet with xflip"  width="200">
+<br>* read ascii elevations and flip x 
+<br>cmo create cmo1
+<br>read sheetij test_data /5,4 /0.0,0.0 &
+<br>/ 5.0,5.0 / xflip, ascii</td>
+
+<td><img SRC="image/zall_xyflip_200w.GIF" ALT="Quad sheet with xy flip"  width="200">
+<br>* read ascii elevations and flip xy 
+<br>cmo create cmo1
+<br>read sheetij test_data /5,4 /0.0,0.0 & 
+<br>/ 5.0,5.0 / xflip, yflip, ascii</td>
+</tr>
+
+<tr><td colspan="3">
+<br>
+Test file for binary sheetij: <a href="lagrit_input01" target="_blank">lagrit_input01 </a> 
+<br> Binary test file not included.
+</td></tr>
+<tr>
+<td>
+<img SRC="image/binsurf_200w.GIF" ALT="Quad sheet from binary file" width="200" >
+<br>* read binary elevations  
+<br>cmo create cmo1<br>read sheetij qbog50_l.float /31,21 &
+<br>/ 0.0, 0.0 / 50.0,50.0 / binary / float
+</td>
+
+<td colspan="2">
+<img SRC="image/view_binsurf_subset_200w.GIF" ALT="Quad sheet from binary file" width="200" >
+<br>* read binary elevations and subset along ij  
+<br>cmo create cmo1a<br>read sheetij qbog50_l.float /31,21/ 0. 0./ 50.0,50.0 &
+<br> /10,25  1,10/ binary / float
+<br>* combine grids for viewing
+<br>math/sub/cmo1a/zic/1,0,0/cmo1a/zic/500.
+<br>addmesh merge cmov cmo1 cmo1a
+<br> dump gmv view_binsurf_subset.gmv cmov
+</td>
+
+<td>
+</td>
+</tr>
+
+</table>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+
+<!
+	http://www.iam.unibe.ch:80/~scg/Src/Doc/form.html
+!>
+
+<head>
+<TITLE>HTGREP Form</TITLE>
+</head>
+
+<body>
+
+<H1>HTGREP Form</H1>
+
+
+Here is a sample form for specifying the arguments to htgrep. You can
+tailor this form to suit your own application needs. Normally most of
+the parameters listed here will be hard-wired into a wrapper script,
+and only the search string will be provided by the user.
+You can also hard-wire parameters using the <code>TYPE="hidden"</code>
+tag within a form.
+See one of the various overviews of how to write
+<a href=http://www.ncsa.uiuc.edu/SDG/Software/Mosaic/Docs/fill-out-forms/overview.html>Forms</a> for more details.
+<p>
+
+<hr>
+
+<h2>Generic Form</h2>
+
+<FORM ACTION="htgrep.cgi">
+<P>
+<INPUT
+	NAME="file"
+	SIZE=30
+	VALUE="/~scg/Src/Doc/htgrep.html"
+>
+<!
+	VALUE="/~scg/Src/Doc/htgrep.html"
+!>
+<B>File to search</B> (relative to WWW home)
+<BR>
+<INPUT NAME="isindex" SIZE=30>
+<B>Query</B>
+<INPUT TYPE="submit" VALUE="Submit">
+<INPUT TYPE="reset" VALUE="Reset">
+
+<dl>
+
+<dt><B>Query style:</B>
+<dd>
+<input type="checkbox" name="case" value="yes">
+Case Sensitive
+<dd>
+<input type="radio" name="boolean" value="auto" checked="yes">
+Automatic Keyword/Regex
+<input type="radio" name="boolean" value="yes">
+Multiple Keywords
+<input type="radio" name="boolean" value="no">
+Regular Expression
+
+<dt><B>HTML Files:</B>
+<dd>
+<input type="radio" name="style" value="none" checked="yes">
+Ordinary Paragraphs
+<input type="radio" name="style" value="ol">
+Numbered list
+<input type="radio" name="style" value="ul">
+Bullet list
+<input type="radio" name="style" value="dl">
+Description list
+
+<dt><B>Plain Text:</B>
+<input type="radio" name="style" value="pre">
+(preformatted)
+<dd>
+<input type="checkbox" name="grab" value="yes">
+Make URLs live (works with plain text only)
+
+<dt><b>Refer Bibliography files:</b>
+<input type="checkbox" name="refer" value="yes">
+<dd>
+<input type="checkbox" name="abstract" value="yes">
+Show Abstract
+<input type="checkbox" name="ftpstyle" value="dir">
+Link to directories, not files (for refer files)
+<dd>
+<input type="radio" name="style" value="ul">
+Bullet list (instead of numbered)
+
+<dt><B>Max records to return:</B>
+<INPUT NAME="max" VALUE="250" SIZE=10>
+</dl>
+
+</FORM>
+
+<HR>
+
+<i>Back to <a href=http://www.iam.unibe.ch/~scg/Src/Doc/htgrep.html>htgrep FAQ</a></i>
+<p>
+
+</body>
+

@@ -1,0 +1,1 @@
+* TEST addmesh/delete (LaGriT_input_delete)read / gmv / input_mesh1.gmv / cmo1read / gmv / input_mesh2.gmv / cmo2*addmesh / delete / cmo3 / cmo1 / cmo2 *resetpts / itpdump / gmv / output_delete.gmv / cmo3* begin compare herecmo/statuscmo/printatt//-all-/minmaxqualityfinish

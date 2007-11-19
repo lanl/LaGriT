@@ -1,0 +1,9 @@
+convert -crop 17% image1.rgb rotatept1.gif
+convert -geometry 15% rotatept1.gif rotatept1_tn.gif
+echo 'rotatept1.gif and rotatept1_tn.gif done\n'
+convert -crop 17% image2.rgb rotatept2.gif
+convert -geometry 15% rotatept2.gif rotatept2_tn.gif
+echo 'rotatept2.gif and rotatept2_tn.gif done\n'
+convert -crop 17% image3.rgb rotatept3.gif
+convert -geometry 15% rotatept3.gif rotatept3_tn.gif
+echo 'rotatept3.gif and rotatept3_tn.gif done\n'

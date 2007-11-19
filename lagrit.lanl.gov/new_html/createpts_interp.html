@@ -1,0 +1,132 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+        
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+        
+  <meta name="Generator" content="Microsoft Word 98">
+        
+  <meta name="GENERATOR"
+ content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+  <title>createpts/interp</title>
+   
+</head>
+<body text="#000000" bgcolor="#ffffff" link="#0000ee" vlink="#551a8b"
+ alink="#ff0000">
+  &nbsp;  
+<blockquote><b><u><font face="Times">CREATEPTS/interp/npoint/i1 i2 i3/j1 j2
+j3/cmo_new</font></u></b>    
+  <blockquote>This command adds points to a mesh object. It creates points
+by linear interpolation of coordinates between two point sets. For some special 
+cases, it will also produce element connectivity between the point sets.<br>
+     <br>
+The combinations of input and output are:<br>
+    <br>
+     
+    <table cellpadding="2" cellspacing="2" border="1" width="50%">
+       <tbody>
+         <tr>
+           <td valign="top"><b>Source Element Type<br>
+           </b></td>
+           <td valign="top"><b>Result Element Type<br>
+           </b></td>
+         </tr>
+         <tr>
+           <td valign="top">point<br>
+           </td>
+           <td valign="top">point (no connectivity)<br>
+           </td>
+         </tr>
+         <tr>
+           <td valign="top">line<br>
+           </td>
+           <td valign="top">quad<br>
+           </td>
+         </tr>
+         <tr>
+           <td valign="top">tri<br>
+           </td>
+           <td valign="top">prism<br>
+           </td>
+         </tr>
+         <tr>
+           <td valign="top">quad<br>
+           </td>
+           <td valign="top">hex<br>
+           </td>
+         </tr>
+         <tr>
+           <td valign="top">hybrid (quad,tri)<br>
+           </td>
+           <td valign="top">hybrid (hex, prism)<br>
+           </td>
+         </tr>
+       
+      </tbody>     
+    </table>
+   </blockquote>
+  <font face="Times">FORMAT:</font>   
+  <dir><font face="Times"><b>createpts</b>/<b>interp/npoint/i1,i2,i3/j1,j2,j3/cmo_new</b></font><br>
+   <br>
+   </dir>
+   <b>npoint&nbsp; </b>specifies the number of points to create between the 
+specified point sets.<b><br>
+i1,i2,i3 </b>specifies the point set coordinate interpolation starts FROM.<br>
+   <b>j1,j2,j3</b> specifies  the point set coordinate interpolation goes
+TO.<br>
+   <b>cmo_new </b>&nbsp;is the name of the mesh object the result goes into<font
+ face="Times">. The source mesh object is the current mesh object.</font>
+   <br>
+   
+  <dir></dir>
+ i1,i2,i3 and j1,j2,j3 can specify either a)start, stop, stride or b) 1 0
+0 &nbsp;for everything or c)pset get pset_name<br>
+  <br>
+It is up to the user to insure that the number of nodes specified by  i1,i2,i3
+is equal to the number of nodes specified by <br>
+   j1,j2,j3 .<br>
+  <br>
+If the 1, 0, 0 format is used the code will use:<br>
+i1 = 1, i2 = nnodes/2, i3 = 1, j1 = (nnodes/2)+1, j2 = nnodes, j3 = 1<br>
+  <br>
+ &nbsp; EXAMPLES:    
+  <blockquote>Example 1<br>
+ Create a point distribution between the two point sets created by the createpts/line 
+commands<br>
+     <br>
+ createpts/line/10///-1.,0.,0.,1.,0.,0.<br>
+ createpts/line/10///0.,-1.,1.,0.,1.,1.<br>
+ createpts/ interp / 10 / 1 0 0 / 1 0 0 / cmo_pts<br>
+     <br>
+ Example 2<br>
+ Create a hex mesh by linear interpolation between two quad surfaces. It
+is up to the user to be sure that the ordering of the quads are as intended. 
+The first node of first quad surface (cmo1) is interpolated to the first node
+of the second quad surface (cmo2)<br>
+    <br>
+ cmo create cmo1///quad<br>
+ quadxy 5 5/ 0. 0. 0. / 20. 0. 0./20. 20. 0. / 0. 20. 0.<br>
+ createpts/brick/xyz/5,5,1/1,0,0/connect<br>
+ cmo create cmo2///quad<br>
+ quadxy 5 5/ 0. 0. 10. / 20. 0. 25./20. 20. 15. / 0. 20. 35.<br>
+ createpts/brick/xyz/5,5,1/1,0,0/connect<br>
+ addmesh / merge / cmo3 / cmo1 / cmo2<br>
+ cmo / select / cmo3<br>
+ createpts / interp / 6 / 1 0 0 / 1 0 0 / cmo_hex<br>
+     <br>
+ Example 3<br>
+ Starting with cmo3 from Example 2, this will interpolate from node 1 of
+cmo3 to node 49 of cmo3 and interpolate from node 2 of cmo3 to node 50 of
+cmo3.<br>
+     <br>
+ createpts / interp / 20 / 1 2 1 / 49 50 1 / cmo_pts<br>
+     <br>
+     </blockquote>
+      
+  <dir>&nbsp;</dir>
+  </blockquote>
+   <br>
+ 
+</body>
+</html>

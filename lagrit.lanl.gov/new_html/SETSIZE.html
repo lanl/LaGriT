@@ -1,0 +1,87 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>SETSIZE</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><b><u><font face="Times">SETSIZE</font></u></b></blockquote>
+
+<blockquote>
+<blockquote><font face="Times New Roman,Times"><b>setsize</b> will set
+the mesh object attributes </font><font face="Courier">xmin,xmax,ymin,ymax,zmin,zmax</font><font face="Times">
+from the</font><font face="Courier"> xic,yic,zic</font> <font face="Times">values
+of all 'real' points (dudded and merged points will be ignored).&nbsp;
+It also sets </font><font face="Courier">epsilon, epsilona</font><font face="Times">
+and
+</font><font face="Courier">epsilonv</font><font face="Times"> as follows:&nbsp;
+setsize is called internally by LaGriT commands that add nodes to the mesh;<b><a href="COPYPTS.html">copypts</a></b>,<b><a href="createpts.html">
+createpts</a></b>, <b><a href="REGNPTS.html">regpnts</a></b>,
+<b><a href="RECON.html">recon</a></b>,<b><a href="SCALE.html">scale</a></b>,
+<b><a href="TRANS.html">translate</a></b></font>
+<br><font face="Courier New,Courier">epsilonv=abs(xmax-xmin)*abs(ymax-ymin)*abs(zmax-zmin)*epsilonr*1000.</font>
+<br><font face="Courier New,Courier">epsilona=((xmax-xmin)**2+(ymax-ymin)**2+(zmax-zmin)**2)*epsilonr*1000.</font>
+<br><font face="Courier New,Courier">epsilonr </font><font face="Times New Roman,Times">is
+set at initialization time by:</font>
+<blockquote>
+<blockquote>
+<blockquote><font face="Courier">x2=one</font>
+<br><font face="Courier">do i=1,1000</font>
+<blockquote><font face="Courier">x2=x2/two</font>
+<br><font face="Courier">x1=one+x2</font>
+<br><font face="Courier">if(x1.le.one) go to 11</font></blockquote>
+<font face="Courier">enddo</font>
+<br><font face="Courier">11 epsilonr=x2*2.</font></blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+
+<dir>
+<dir><font face="Times">where the values of 'one' and '</font><font face="Courier">two'</font><font face="Times">
+are obtained from the include file '</font><font face="Courier">consts</font><font face="Times">.</font><font face="Courier">h'.</font>
+<br><font face="Times">The command<b><a href="cmo_printatt.html"> cmo/printatt
+</a></b>can
+be used to view any of these cmo attributes:</font>
+<br><font face="Times">e.g. <b>cmo/printatt</b>//<b>xmax</b></font>
+<br><font face="Times">The programmer interface is the subroutine </font><font face="Courier New,Courier">s</font><font face="Courier">etsize</font><font face="Times">
+(see Section e.7)</font>
+<br><font face="Times">The variables </font><font face="Courier New,Courier">epsilonl,
+epsilona and epsilonv </font><font face="Times">are mesh object attributes;
+hence they may be different for all meshes in a given run.&nbsp; </font><font face="Courier New,Courier">epsilona,
+epsilonv</font><font face="Times"> and </font><font face="Courier New,Courier">epsilon1</font><font face="Times">
+may be set by the user with the <b><a href="cmo_setatt.html">cmo/setatt</a></b>
+command.&nbsp; They also will be written to lagrit dumps and subsequently
+will be read in at restart. The variables in consts.h (</font><font face="Courier">epsilon</font><font face="Times">
+and </font><font face="Courier">epsilonr</font><font face="Times">) are
+machine and run dependent. They are not written to lagrit dumps and there
+is only one copy per run.</font>
+<br><font face="Times"></font>&nbsp;</dir>
+<font face="Times">FORMAT:</font>
+<dir><b><font face="Times">setsize</font></b>
+<br><font face="Times">if </font><font face="Courier New,Courier">epsilonv
+</font><font face="Times">is
+very small </font><font face="Courier New,Courier">epislonv</font><font face="Times">is
+set to </font><font face="Courier New,Courier">epsilona</font>
+<br><font face="Courier New,Courier">epsilon1 </font><font face="Times New Roman,Times">is
+set by a call to set_epsilon</font>
+<br><font face="Courier New,Courier">epsilon1</font><font face="Times New Roman,Times">
+is set to the square root of</font><font face="Courier New,Courier"> epsilona
+</font><font face="Times New Roman,Times">unless
+this number would be too small in which case </font><font face="Courier New,Courier">epsilon1</font><font face="Times New Roman,Times">
+is to (( xmax-xmin) + (ymax-ymin) + (zmax-zmin)) * 1.e=8/3</font>
+<p><font face="Times New Roman,Times">Many LaGriT algorithms use </font><font face="Courier New,Courier">epsilon1</font><font face="Times New Roman,Times">;
+for example, if a node falls on a interface or boundary surface.&nbsp;
+It uses </font><font face="Courier New,Courier">epsilonv</font><font face="Times New Roman,Times">
+to determine if a node can be connected.&nbsp; Errors from <b>setpts</b>
+and <b>connect</b> may result if inconsistant or wrong values of epsilons
+are used.</font>
+<br>&nbsp;
+<br>&nbsp;</dir>
+</dir>
+
+</body>
+</html>

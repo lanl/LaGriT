@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]">
+</HEAD>
+<BODY>
+
+<CENTER><A HREF="mstkla.html#MESH VERTEX:"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="MeshEdge.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="GenRegion.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A></CENTER>
+&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+<CENTER>&nbsp;&nbsp; <B>MESH ATTRIBUTE OPERATORS</B></CENTER>
+&nbsp;
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_AddAtt</B>(<I>PMeshObj</I> mesh, <I>char *</I>attname,
+<I>AttType</I> attype, <I>Rank</I> rank,
+<BR><I>MType</I> mtype, <I>Interp</I> interp, <I>int</I> persist, <I>char
+*</I>ioflags, <I>double</I> defval);
+
+<P><I>AttType</I>, <I>Rank</I> and <I>Interp</I> are typedef enums which
+are available if one
+<BR>includes "<I>mstkla.h</I>". The specific names (which are pretty much
+the strings
+<BR>that are used in LaGriT) are given in <I>mstkla_types.h </I>(See <A HREF="prelim.html">MSTKLA
+typedefs</A>)
+
+<P>'persist' must be 0 for temporary atts and 1 for permanent attribs
+
+<P>'ioflags' is a string as in lagrit&nbsp; (may be any combination of
+'a', 'g', 'f', 's', 'x', 'no' for
+<BR>AVS, GMV, FEHM, SGI, LaGriT or None)
+
+<P>mtype is <B>MVERTEX</B> if the attribute is to be node based and is
+<B>MFACE</B> or
+<BR><B>MREGION</B> if the attribute is to be element based depending on
+whether the mesh
+<BR>is 2D or 3D respectively.
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_ModAtt</B>(<I>PMeshObj</I> mesh, <I>char *</I>attname,
+<I>char *</I>fieldname, <I>int</I> inew,
+<BR><I>double </I>rnew, <I>char *</I>cnew);
+
+<P>Here depending on the fieldname, one has to fill the right value for
+inew,
+<BR>rnew or cnew.
+<BR>*** NOT TESTED ***
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_CopyAtt</B>(<I>PMeshObj</I> trgmsh, <I>PMeshObj</I>
+srcmsh, <I>char</I> *trgatt, <I>char </I>*srcatt);
+
+<P>*** NOT TESTED ***
+
+<P>
+<HR WIDTH="100%">&nbsp;<I>void</I> <B>MESH_DelAtt</B>(<I>PMeshObj</I> mesh,
+<I>char *</I>attname);
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_SetAtt</B>(<I>PMeshObj</I> mesh, <I>char *</I>attname,
+<I>int</I> ifirst, <I>int</I> ilast, <I>int</I>
+<BR>istride, <I>char *</I>psetname, <I>double</I> value);
+
+<P>If psetname is specified ifirst is ignored
+
+<P>*** NOT TESTED ***
+<BR>
+<HR WIDTH="100%">
+<BR>
+<HR WIDTH="100%">
+
+<P>Once attributes have been created, one can go to an individual mesh
+entity
+<BR>and ask for the value of an attribute for that entity or change the
+value.
+<BR>The entities can be Mesh Vertices (always), Mesh Faces (for a surface
+mesh
+<BR>only), Mesh Regions (for a solid mesh only).
+
+<P>For example one can use <B>MR_GetAttVal </B>operator to get the value
+of an
+<BR>attribute for a given element or use <B>MR_SetAttVal </B>to set it.
+
+<P>See attribute operators for<A HREF="MeshVertex.html#MV-Attribs"> Mesh
+Vertices</A>, <A HREF="MeshRegion.html#MR-Attribs">Mesh&nbsp;Regions</A>
+and <A HREF="MeshFace.html#MF-Attribs">Mesh Faces</A>
+<BR>&nbsp;
+<CENTER><A HREF="mstkla.html#MESH VERTEX:"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="MeshEdge.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="GenRegion.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A></CENTER>
+&nbsp;
+</BODY>
+</HTML>

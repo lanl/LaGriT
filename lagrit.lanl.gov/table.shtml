@@ -1,0 +1,426 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>LANL | LaGriT Table | </title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
+<meta name="Keywords" content=" "/>
+<link media="all" title="LANLScreenStyle" href="styles/site.css" type="text/css" rel="stylesheet" />
+<link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
+</head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]">
+   <title>Document2-1</title>
+</head>
+<br />
+<body text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+<form action="http://searcher-green.lanl.gov/search">
+      <input type="text" name="q" size="25" maxlength="255" value="">
+      <input type="submit" name="btnG" value="Search Online Manual">
+      <input type="hidden" name="client" value="outside_lanl">
+      <input type="hidden" name="proxyreload" value="1" />
+      <input type="hidden" name="proxystylesheet" value="outside_lanl">
+      <input type="hidden" name="site" value="lagrit_docs">
+      <input type="hidden" name="output" value="xml_no_dtd">
+</form>
+
+&nbsp;
+<div align=right></div>
+<table BORDER COLS=3 WIDTH="100%" NOSAVE >
+<tr>
+<td><p><a href="docs/ADDMESH.html">ADDMESH</a></font>
+  (add one mesh to another)</p></td>
+
+<td><p><a href="docs/ASSIGN.html">ASSIGN</a></font>
+  (set global variables)</font></p></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/BOUNDAR1.html">BOUNDARY</a></font>
+  (set attributes on surfaces)</font></p></td>
+
+<td><p><a href="docs/BOUNDARY_C.html">BOUNDARY_COMPONENTS</a></font>
+  (count bc's)</font></p></td>
+
+<td><p><a href="docs/bubble.html">BUBBLE</a></font>
+  (extrude to 3d and extract bndry)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/calc_rdist.html">CALC_RDIST</a></font>
+  (calculate radial distance)</font></p></td>
+
+<td><p><a href="docs/CMO2.html">CMO</a></font>
+  (modify mesh object)</font></p></td>
+
+<td><p><a href="docs/COLORMAP.html">COLORMAP</a></font>
+  (build adjacency map)</font></p></td>
+
+</tr>
+<tr>
+<td><p><a href="docs/COMPUTE.html">COMPUTE</a></font>
+  (compute a new mesh attribute)</font></p></td>
+  
+<td><p><a href="docs/CONNECT1.html">CONNECT</a></font>
+  (2D and 3D Delaunay algorithm)</font></p></td>
+
+<td><p><a href="docs/COPYPTS.html">COPYPTS</a></font>(copy points)</p></td>
+</tr>
+
+<tr>
+
+<td>
+<p><a href="docs/COORDSY.HTML">COORDSYS</a></font>
+  (change coordinate system)</font></p></td>
+
+<td><p><a href="docs/createpts.html">CREATEPTS</a></font>
+  (create points)</font></p></td>
+
+<td><p><a href="docs/create_graph.html">CREATE_GRAPH
+  </a></font>(create
+  adjacency graph)</font></p></td>
+
+</tr>
+
+<tr>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/DEFINE.html">DEFINE</a></font>
+  (give a name to a number)</font></p></td>
+
+<td><p><a href="docs/DEREFINE.html">DEREFINE</a></font>
+  (merge nodes away)</font></p></td>
+
+<td><p><a href="docs/DOPING1.html">DOPING</a></font>
+  (set an attribute, see interpolate)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/DUMP2.html">DUMP</a></font>
+  (write output files)</font></p></td>
+
+<td><p><a href="docs/DUMP_RECOLOR.html">DUMP_RECOLOR</a></font>
+  (use adjacency map)</font></p></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/EDIT2.html">EDIT</a></font>
+  (prints some mesh info)</font></p></td>
+
+<td><p><a href="docs/ELTSET2.html">ELTSET</a></font>
+  (select, name a set of elements)</font></p></td>
+
+<td><p><a href="docs/EXTRACT1.html">EXTRACT</a></font>
+  (extract a surface)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/extrude.html">EXTRUDE</a></font>
+  (extrude a surface)</font></p></td>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/FIELD.html">FIELD</a></font>
+  (manipulate a field attribute)</font></p></td>
+
+<td><p><a href="docs/FILTER.html">FILTER</a></font>
+  (detect and remove duplicate nodes)</font></p></td>
+
+<td><p><a href="docs/FINISH.html">FINISH</a></font>
+  (end processing, EXIT)</font></p></td>
+</tr>
+
+<tr>
+  <td><p><a href="docs/FSET.html">FSET</a> (define a face set) </p></td>
+  <td>&nbsp;</td>
+  <td></td>
+</tr>
+<tr>
+<td><p><a href="docs/GENIEE.html">GENIEE</a></font>
+  (make/update element connectivity)</font></p></td>
+
+<td><p><a href="docs/geometry.html">GEOMETRY</a></font>
+  (set the geometry name)</font></p></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/HELP.html">HELP</a></font>
+  (print global variable)</font></p></td>
+
+<td><p><a href="docs/HEXTOTE.html">HEXTOTET</a></font>
+  (convert element types)</font></p></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/INPUT.html">INFILE</a></font>
+  (read input from a file)</font></p></td>
+
+<td><p><a href="docs/INPUT.html">INPUT</a></font>
+  (read input from a file)</font></p></td>
+
+<td><p><a href="docs/intersectelements.html">INTERSECT_ELEMENTS</a></font>
+  ( .. of 2 meshes)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/INTERSECT.html">INTERSECT</a></font>
+  (..2 2d meshes to get line)</font></p></td>
+
+<td><p><a href="docs/main_interpolate.html">INTERPOLATE</a></font>
+  (.. attribute values</font>)</p></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/kdtree.html">KDTREE</a></font>
+  (represent mesh as kd-tree)</font></p></td>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/LOG.html">LOG</a></font>
+  (turn log file off and on)</font></p></td>
+
+<td><p><a href="docs/loop.html">LOOP</a></font>
+  (execute command multiple times)</font></p></td>
+
+<td><p><a href="docs/lower_d.html">LOWER_D</a></font>
+  (create lower dimen. structs.)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/MASSAGE.html">MASSAGE</a></font>
+  (optimize the grid)</font></p></td>
+
+<td><p><a href="docs/MATH.html">MATH</a></font>
+  (do math on attributes)</font></p></td>
+
+<td><p><a href="docs/MERGE.html">MERGE</a></font>
+  (remove nodes)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/metis.html">METIS</a></font>
+  (graph partition algorithms)</font></p></td>
+
+<td><p><a href="docs/MODE.html">MODE</a></font>
+  (set modes)</font></p></td>
+
+<td><p><a href="docs/MREGION.html">MREGION</a></font>
+  (define a material region)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/NEGATIVE.html">NEGATIVE_AIJ</a></font>
+  (test bndry for neg. coef.)</font></p></td>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/OFFSETSURF.html">OFFSETSURF</a></font>
+  (..triangulated surface)</font></p></td>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/PSTATUS.html">PSTATUS</a></font>
+  (operate on point set)</font></p></td>
+
+<td><p><a href="docs/PERTURB.html">PERTURB</a></font>
+  (perturb node locations)</font></p></td>
+
+<td><p><a href="docs/PSET.html">PSET</a></font>
+  (define, name sets of nodes)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/QUADXY.html">QUADXY</a></font>
+  (define a logical xy node set)</font></p></td>
+
+<td><p><a href="docs/QUADXYZ1.HTML">QUADXYZ</a></font>
+  (define a logical xyz node set)</font></p></td>
+
+<td><p><a href="docs/QUALITY.html">QUALITY</a></font>
+  (evaluate mesh quality)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/RADAPT.html">RADAPT</a></font>
+  (adaptive smoothing)</font></p></td>
+
+<td><p><font face="Times New Roman,Times"><u><font size=-1><a href="docs/rankvolume.html">RANKVOLUME</a></font></u>(list
+  small volume elements)</font></p></td>
+
+<td><p><a href="docs/READ.html">READ</a></font>
+  (read data)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/RECON.html">RECON</a></font>
+  (swap edges/faces)</font></p></td>
+
+<td><p><a href="docs/REFINE.html">REFINE</a></font>
+  (refine elements, edges)</font></p></td>
+
+<td><p><a href="docs/REGION.html">REGION</a></font>
+  (define a geometric region)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/REGNPTS.html">REGNPTS</a></font>
+  (distributes nodes in region)</font></p></td>
+
+<td><p><a href="docs/REORDER.html">REORDER</a></font>
+  (reorder nodes in a mesh)</font></p></td>
+
+<td><p><a href="docs/RESETPT.html">RESETPTS</a></font>
+  (reset node values)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/RM.html">RM</a></font>
+  (remove nodes in area)</font></p></td>
+
+<td><p><a href="docs/RMMAT.html">RMMAT</a></font>
+  (remove a material)</font></p></td>
+
+<td><p><a href="docs/RMPOINT.html">RMPOINT</a></font>
+  (remove nodes/elements)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/RMREGION.html">RMREGION</a></font>
+  (remove a geometric region)</font></p></td>
+
+<td><p><a href="docs/RMSPHERE.html">RMSPHERE</a></font>
+  (remove nodes in a sphere)</font></p></td>
+
+<td><p><a href="docs/RMSURF.html">RMSURF</a></font>
+  (remove nodes in /on a surface)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/ROTATELN.html">ROTATELN</a></font>
+  (rotate nodes about a line)</font></p></td>
+
+<td><p><a href="docs/ROTATEPT.html">ROTATEPT</a></font>&nbsp; (rotate nodes about a point)</font></p></td>
+
+<td><p><a href="docs/RZ.html">RZ</a></font>
+  (see createpts)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/RZAMR.html">RZAMR</a></font>
+  (see createpts)</font></p></td>
+
+<td><p><a href="docs/RZBRICK.html">RZBRICK</a></font>
+  (see createpts)</font></p></td>
+
+<td><p><a href="docs/RZRAN.html">RZRAN</a></font>
+  (see createpts)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/RZS.html">RZS</a></font>
+  (see createpts)</font></p></td>
+
+<td><p><a href="docs/RZV_LG.html">RZV</a></font>
+  (see createpts)</font></p></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/SCALE.html">SCALE</a></font>
+  (scale node coordinates)</font></p></td>
+
+<td><p><a href="docs/SETPTS.html">SETPTS</a></font>
+  (set node type, itp, and material, imt)</font></p></td>
+
+<td><p><a href="docs/SETSIZE.html">SETSIZE</a></font>
+  (calc size of space, set epsilon)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/SETTETS.html">SETTETS</a></font>
+  (make child nodes, etc)</font></p></td>
+
+<td><p><a href="docs/SMOOTH.html">SMOOTH</a></font>
+  (node smoothing)</font></p></td>
+
+<td><p><a href="docs/SORT.html">SORT</a></font>
+  (sort an attribute)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/STACK.html">STACK</a></font>
+  (read,merge,stack,surfaces)</font></p></td>
+
+<td><p><a href="docs/SURFACE.html">SURFACE</a></font>
+  (define a geometric surface)</font></p></td>
+
+<td><p><a href="docs/SURFPTS.html">SURFPTS</a></font>
+  (make nodes on a surface)</font></p></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/TRANS.html">TRANS</a></font>
+  (translate node coordinates)</font></p></td>
+
+<td><p><a href="docs/TRIAGN.html">TRIANGULATE</a></font>
+  ( ..a polygon)</font></p></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/UNG2AVS.html">UNG2AVS</a></font>
+  (UNGenerate to AVS)</font></p></td>
+
+<td><p><a href="docs/UPSCALE.html">UPSCALE</a> (attribute from fine to coarse grid) </p></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><p><a href="docs/ZQ.html">ZQ</a></font>
+  (see <a href="docs/cmo_setatt.html">cmo/setatt</a>)</font></p></td>
+
+<td></td>
+
+<td></td>
+</tr>
+</table>
+
+<blockquote>&nbsp;</blockquote>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]">
+   <TITLE>MSTKLA Online Manual</TITLE>
+</HEAD>
+<BODY>
+
+<CENTER><IMG SRC="../images/construction24.gif" NOSAVE HEIGHT=87 WIDTH=249><IMG SRC="../images/construc6.gif" NOSAVE HEIGHT=166 WIDTH=248></CENTER>
+
+<CENTER>
+<HR WIDTH="100%"></CENTER>
+
+<CENTER><B><FONT SIZE=+3>MSTKLA - Mesh ToolKit interface to <A HREF="http://lagrit.lanl.gov">LAgrit</A></FONT></B>
+</CENTER>
+
+<CENTER>(LA-UR-99-6711)</CENTER>
+
+<CENTER>
+<HR WIDTH="100%"><B><FONT SIZE=+1>DIRECT LINKS</FONT></B></CENTER>
+
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/Geom.html"><IMG SRC="../images/model.gif" NOSAVE HEIGHT=24 WIDTH=142></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/Mesh.html"><IMG SRC="../images/mesh.gif" NOSAVE HEIGHT=26 WIDTH=143></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/utilities.html"><IMG SRC="../images/utilities.gif" NOSAVE HEIGHT=25 WIDTH=143></A>&nbsp;<A HREF="MeshAttributes.html"><IMG SRC="../images/attributes.gif" NOSAVE HEIGHT=26 WIDTH=145></A></CENTER>
+
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GeomEntity.html"><IMG SRC="../images/modelenty.gif" NOSAVE HEIGHT=24 WIDTH=144></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GeomRegion.html"><IMG SRC="../images/modelregn.gif" NOSAVE HEIGHT=25 WIDTH=141></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GeomFace.html"><IMG SRC="../images/modelface.gif" NOSAVE HEIGHT=26 WIDTH=143></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GeomEdge.html"><IMG SRC="../images/modeledge.gif" NOSAVE HEIGHT=25 WIDTH=143></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.html"><IMG SRC="../images/modelvert.gif" NOSAVE HEIGHT=24 WIDTH=142></A></CENTER>
+
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.html"><IMG SRC="../images/genregn.gif" NOSAVE HEIGHT=25 WIDTH=145></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.html"><IMG SRC="../images/meshregn.gif" NOSAVE HEIGHT=25 WIDTH=143></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.html"><IMG SRC="../images/meshface.gif" NOSAVE HEIGHT=26 WIDTH=143></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.html"><IMG SRC="../images/meshedge.gif" NOSAVE HEIGHT=25 WIDTH=143></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshVertex.html"><IMG SRC="../images/meshvert.gif" NOSAVE HEIGHT=25 WIDTH=143></A></CENTER>
+
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/trivia.html"><IMG SRC="../images/trivia.gif" NOSAVE HEIGHT=25 WIDTH=144></A></CENTER>
+
+<CENTER>
+<HR WIDTH="100%"></CENTER>
+
+<CENTER>
+<HR WIDTH="100%"></CENTER>
+
+<CENTER>Questions, Comments, Suggestions? Contact:</CENTER>
+
+
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Rao V Garimella, PostDoc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Tel: (505) 665-4636
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+EES-5, MS D450&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+'\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FAX: (505) 665-6459
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Los Alamos National Lab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(&nbsp; )-(&nbsp; )&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Email: <A HREF="mailto:rao@lanl.gov">rao@lanl.gov</A>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Los Alamos, NM 87545
+<BR>
+<HR WIDTH="100%">
+<BR>&nbsp;
+
+<P><B>MSTKLA</B> is a C interface to the <B>LaGriT</B> code which is designed
+to make it easier to use the LaGriT functionality. It tries to hide some
+of the internals of LaGriT and provides an API that works in a somewhat
+object oriented way. It does not attempt to provide or enhance interactive
+commands that exist in LaGriT. Rather, it is designed more with writing
+automated mesh generation procedures and complex meshing algorithms within
+LaGriT in mind.
+
+<P>MSTKLA has one or more <I>mesh objects</I>, which have mesh <B><I>regions</I></B>,
+mesh <B><I>faces,</I></B> mesh <B><I>edges</I></B> and mesh <B><I>vertices</I></B>
+(nodes). <I>Mesh faces and mesh edges are objects defined on the fly in
+terms of their vertices.</I> One can ask these objects various questions
+or modify their info through operators. In addition there is a <B><I>geometric
+model</I></B> and <I><B>geometric model objects</B> </I>(In the spirit
+of consistent naming, I am labeling this set of functions <B>GMTKLA</B>).
+Since LaGriT does not really store curves or points in the database, these
+are also faked on the fly.
+
+<P>The mesh and model entities are related through the concept of <B><I><U>CLASSIFICATION</U></I></B>.
+
+<P><B><I>"A mesh entity is classified on a model entity if it forms all
+or part of that model entity's discretization (grid) but not its boundary's".</I></B>
+
+<P>So mesh regions can be classified only on a model region.&nbsp; Mesh
+faces can be classified on a model face or a model region. Mesh vertices
+can be classified on a model vertex, model edge, model face or model region.
+
+<P>Classification information can be queried from MSTKLA if it is available.
+In particular, in LaGriT, only <B><I>external faces</I></B> (what LaGriT
+calls <B><I>"reflective" boundaries</I></B>) and <B><I>internal faces or
+interfaces</I></B> <U>created with the option <B><I>"intrcons"</I></B>
+in the <B><I><A HREF="http://www.t12.lanl.gov/~lagrit/new_html/SURFACE.html">surface</A></I></B>
+command</U> have the information required to retrieve full classification
+information. Full classification information includes the <B><I>type </I></B>of
+geometric model entity the mesh entity is classified on, the <B><I>ID of
+that geometric model entity</I></B> and <B><I>a pointer to the geometric
+model object</I></B> (which can be further queried). Interface surfaces
+created with the surface command option "<B><I>intrface</I></B>" <B><U>do
+not</U></B> have the necessary information to relate the mesh and the model
+fully. (In the future, I may put in code to take the "intrface" type surfaces
+and add the info needed to find out the classification information).
+
+<P>Note that the current interface works for querying an existing mesh
+but not <B><U>yet</U></B> for modifying it. The operators for this are
+on the way. Operators for calling the actual meshing operators (connect,
+refine, smooth, etc) will also be added in the near future.
+
+<P>Finally, the basic interface (low level query and modification operators)
+are expected to retain the same format regardless of what the underlying
+database is (LaGriT or something else). So, for example, I am hoping that
+an operator to retrieve the nodes of an element will retain the same form
+shown below regardless of how it functions internally:
+
+<P><I>void</I> <B>MR_Vertices</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+reg, <I>int *</I>nv, <I>PMeshVert *</I>rverts);
+
+<P>I will try hard to maintain this API constant but cannot absolutely
+guarantee it.
+<BR>&nbsp;
+
+<P><A NAME="parent-child"></A>Also see <B><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/parent-child.html">Parent-Child
+Node (Vertex) Issues</A></B>
+<BR>
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+<BR><A NAME="typedefs"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/prelim.html">TYPEDEFS</A>&nbsp;
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+
+<P><A NAME="MSTKLA_Init"></A><B><FONT SIZE=+1>MSTKLA Interface Operators</FONT></B>
+<BR>
+<HR WIDTH="100%">
+<BR>
+<HR WIDTH="100%">
+<BR><B>MESH INITIALIZATION:</B>
+<BR>&nbsp;
+<BR><I>void</I> <B>MSTKLA_Init</B>(<I>void</I>);
+
+<P>Initialize the mesh toolkit.
+
+<P>
+<HR WIDTH="100%">
+<BR><B>MESH OPERATORS:</B>
+<BR>&nbsp;
+<BR>&nbsp;<A NAME="MESH OBJECT:"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/Mesh.html">MESH
+OBJECT:</A>
+
+<P>&nbsp;<A NAME="MESH REGION:"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.html">MESH
+REGION:</A>
+
+<P>&nbsp;<A NAME="MESH FACE:"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.html">MESH
+FACE:</A>
+
+<P>&nbsp;<A NAME="MESH EDGE:"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.html">MESH
+EDGE:</A>
+
+<P>&nbsp;<A NAME="MESH VERTEX:"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshVertex.html">MESH
+VERTEX:</A>
+<BR>&nbsp;
+<BR>&nbsp;<A NAME="GENERIC MESH REGION QUERIES:"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.html">GENERIC
+MESH REGION QUERIES:</A>
+<BR>
+<HR WIDTH="100%">
+<BR>
+<HR WIDTH="100%">
+<BR><A NAME="GMTKLA_Init"></A><B>GEOMETRIC MODEL INITIALIZATION:</B>
+
+<P><I>void</I> <B>GMTKLA_Init</B>(<I>void</I>);
+
+<P>Initialize the geometric model interface.
+
+<P>
+<HR WIDTH="100%">
+<BR><B>MODEL OPERATORS:</B>
+
+<P>&nbsp;<A NAME="GEOMETRIC MODEL:"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/Geom.html">GEOMETRIC
+MODEL:</A>
+
+<P>&nbsp;<A NAME="MODEL ENTITY:"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GeomEntity.html">MODEL
+ENTITY:</A>
+
+<P>&nbsp;<A NAME="MODEL REGION:"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GeomRegion.html">MODEL
+REGION:</A>
+
+<P>&nbsp;<A NAME="MODEL FACE:"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GeomFace.html">MODEL
+FACE:</A>
+
+<P>&nbsp;<A NAME="MODEL EDGE:"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GeomEdge.html">MODEL
+EDGE:</A>
+
+<P>&nbsp;<A NAME="MODEL VERTEX"></A><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.html">MODEL
+VERTEX</A> ---> Not implemented fully
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<BR>
+<HR WIDTH="100%">
+<BR><A NAME="UTILITIES:"></A><B><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/utilities.html">UTILITIES:</A></B>
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+
+<P><A NAME="EXAMPLE"></A><B><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/example.html">EXAMPLE
+OF PROGRAMMING WITH MSTKLA</A></B>
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+
+<P><A NAME="EXECUTABLE"></A><B><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/linking.html">LIBRARIES,
+INCLUDE FILES AND CREATING AN EXECUTABLE</A></B>
+</BODY>
+</HTML>

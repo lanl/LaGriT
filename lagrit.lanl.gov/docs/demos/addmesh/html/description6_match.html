@@ -1,0 +1,57 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97/98">
+   <meta name="Template" content="Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>*arguments:</title>
+</head>
+<body bgcolor="#FFFFFF" link="#0000FF" vlink="#800080">
+
+<blockquote><font face="Times New Roman,Times"><font size=+1>Example 6:
+addmesh / match</font></font><font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times"><font size=+0>The objective is to
+join two meshes to create a third using the <b>addmesh/match </b>command.</font>
+<font size=+0>Two rectangular meshes are combined. The match option concatenates
+two meshes but allows the second to be translated, rotated, and scaled.</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+0></font></font>&nbsp;</blockquote>
+<font face="Times New Roman,Times"><font size=+1>Images of GMV output</font></font>
+<br><font face="Times New Roman,Times"></font>&nbsp;
+<table BORDER COLS=3 WIDTH="80%" NOSAVE >
+<tr NOSAVE>
+<td NOSAVE><a href="image/addmesh_match/addmesh_mesh1.gif"><img SRC="image/addmesh_match/addmesh_mesh1_tn.gif" NOSAVE BORDER=0 height=89 width=114></a><font face="Times New Roman,Times">
+<a href="image/addmesh_match/addmesh_mesh1.gif">mesh1</a></font></td>
+
+<td><a href="image/addmesh_match/addmesh_mesh2.gif"><img SRC="image/addmesh_match/addmesh_mesh2_tn.gif" NOSAVE BORDER=0 height=89 width=114></a><font face="Times New Roman,Times">
+<a href="image/addmesh_match/addmesh_mesh2.gif">mesh2</a></font></td>
+
+<td><a href="image/addmesh_match/addmesh_mesh3.gif"><img SRC="image/addmesh_match/addmesh_mesh3_tn.gif" NOSAVE BORDER=0 height=89 width=114></a><font face="Times New Roman,Times">
+<a href="/test/html/image/addmesh_match/addmesh_mesh3.gif">mesh3</a></font></td>
+</tr>
+</table>
+<font face="Times New Roman,Times"><font size=+0>&nbsp;</font></font><font face="Times New Roman,Times"><font size=+0></font></font>
+<p><font face="Times New Roman,Times"><font size=+1>Input file</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>* TEST addmesh/match
+(LaGriT_input_match)</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>read&nbsp;&nbsp; gmv&nbsp;&nbsp;
+input_mesh3.gmv&nbsp; cmo1</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>read&nbsp;&nbsp; gmv&nbsp;&nbsp;
+input_mesh4.gmv&nbsp; cmo2</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>addmesh&nbsp;&nbsp;
+match&nbsp;&nbsp; cmo3&nbsp;&nbsp; cmo1&nbsp;&nbsp; cmo2 / &amp;</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2.0 0.0 0.0 / 3.0 0.0 0.0 / 2.0 0.0 2.0 &amp;</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2.0 0.0 0.0 / 2.0 1.0 0.0 / 2.0 0.0 2.0</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>filter 1 0 0</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>dump&nbsp;&nbsp; gmv&nbsp;&nbsp;
+output_match.gmv&nbsp; cmo3</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>* begin compare here</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>cmo/status</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>cmo/printatt//-all-/minmax</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>quality</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>finish</font></font></blockquote>
+
+</body>
+</html>

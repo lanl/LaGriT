@@ -1,0 +1,352 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <meta name="Generator" content="Microsoft Word 98">
+  <meta name="Template"
+ content="Macintosh HD:Applications:Microsoft Office 98:Word Custom Install:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+  <meta name="GENERATOR"
+ content="Mozilla/4.8 [en] (X11; U; SunOS 5.8 sun4u) [Netscape]">
+  <title>MASSAGE</title>
+</head>
+<body alink="#ff0000" bgcolor="#ffffff" link="#0000ee" text="#000000"
+ vlink="#551a8b">
+&nbsp;
+<blockquote><b><u>MASSAGE</u></b>
+  <p><font face="Times New Roman,Times"><b>MASSAGE</b> creates,
+annihilates, and moves nodes and swaps connections in a 2D or 3D mesh
+in order to improve element aspect ratios and establish user-desired
+edge lengths.</font> </p>
+  <p><font face="Times New Roman,Times">Specifically, <b>MASSAGE</b>
+performs up to four iterations of a loop which calls AGD3D (a routine
+for automated merging of nodes), RECON (a routine for automated
+reconnection of edges), and SGD (a routine for element aspect ratio
+improvement using smoothing). <b>MASSAGE</b> then calls CEL_CHAIN
+which performs Rivara edge refinement and then another call to
+RECON.&nbsp; In the case of 2-D surface grids,
+this is then followed by a call to CER_CHAIN which is another edge
+refinement
+routine and then a final call to RECON if necessary.</font> </p>
+  <p><font face="Times New Roman,Times">AGD3D will attempt to merge
+edges that are shorter than <span style="font-weight: bold;">merge_length</span>.&nbsp;
+CEL_CHAIN will attempt to bisect edges</font> <font
+ face="Times New Roman,Times">that are longer than <span
+ style="font-weight: bold;">bisection_length</span>.&nbsp; For 2-D
+surface grids, CER_CHAIN will attempt to bisect edges that deviate from
+an averaged surface normal ("have a roughness of") greater than <span
+ style="font-weight: bold;">tolroughness</span>. RECON will attempt to
+create 'nice' elements by using face swapping.&nbsp; (The LaGriT
+command <span style="font-weight: bold;">MODE</span>/<span
+ style="font-weight: bold;">RECON</span> can alter the meaning of
+'nice'.&nbsp; The default is to reconnect to restore the delaunay
+criterion.&nbsp; Calling </font><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">MODE</span>/<span style="font-weight: bold;">RECON/GEOM
+  </span>prior to the <span style="font-weight: bold;">MASSAGE </span>call
+will </font><font face="Times New Roman,Times">create 'plumper'
+elements).&nbsp; SGD will attempt to improve element aspect ratios by
+moving nodes.</font> </p>
+  <p><font face="Times New Roman,Times">The actions of <span
+ style="font-weight: bold;">MASSAGE</span> are controlled by values of </font><font
+ face="Times New Roman,Times">these four parameters:</font><font
+ face="Times New Roman,Times"><br>
+  </font></p>
+  <ul>
+    <li><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">bisection_length</span></font>&nbsp; - edge
+length that will trigger bisection.</li>
+    <li><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">merge_length</span></font> - edge length
+that will trigger merging.</li>
+    <li><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">toldamage</span></font> - maximum grid
+deformation of interfaces and external boundaries allowed in a single
+merge, smooth or reconnection event.<br>
+    </li>
+    <li><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">tolroughness</span></font> - (for 2D
+surface grids only)&nbsp; measure of grid roughness (deviation from
+average surface normal) that triggers refinement.<br>
+    </li>
+  </ul>
+  <p> </p>
+  <p><font face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><font
+ face="Times New Roman,Times"> is a parameter which controls how much
+the grid will be deformed.&nbsp; The 'damage' is a measure of how much
+interfaces and external boundaries are deformed.&nbsp; Roughly, it
+measures</font> <font face="Times New Roman,Times">the depths of
+'dents' that are invariably introduced when nodes are moved,
+annihilated, and faces are swapped.</font> <font
+ face="Times New Roman,Times">We guarantee that the damage of any
+single node movement, node annihilation, or face swap is bounded by </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><font
+ face="Times New Roman,Times">.</font> <font
+ face="Times New Roman,Times">So if </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><font
+ face="Times New Roman,Times"> is set to an extremely small number, one
+can expect hardly any node movements, annihilations, or face swaps will
+be allowed.&nbsp; Conversely, if </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><font
+ face="Times New Roman,Times"> is set too large, physical interfaces
+may be significantly deformed by the action of <b>MASSAGE</b>.&nbsp;
+Experience has shown that setting </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><font
+ face="Times New Roman,Times"> equal to approximately .01 times the
+diameter of the mesh frequently gives acceptable results. &nbsp;</font>
+  </p>
+  <p><font face="Times New Roman,Times">The guidelines for selecting </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">bisection_length</span></font><font
+ face="Times New Roman,Times">, </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">merge_length</span></font><font
+ face="Times New Roman,Times">, </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><font
+ face="Times New Roman,Times"> </font><font
+ face="Times New Roman,Times">, and </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">tolroughness</span></font><font
+ face="Times New Roman,Times"> are as follows.&nbsp; </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">bisection_length</span></font><font
+ face="Times New Roman,Times"> should not be smaller than </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">merge_length</span></font><font
+ face="Times New Roman,Times">, or the action of merging nodes together
+will be largely pointless because the newer, longer edges created by
+merging
+will simply be bisected again.&nbsp; In fact, merging all edges of
+length
+&gt; </font><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">merge_length</span></font><font
+ face="Times New Roman,Times"> together can easily create edges of
+length roughly 3*</font><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">merge_length</span></font><font
+ face="Times New Roman,Times">
+in the mesh.&nbsp; Hence it is recommended that </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">bisection_length
+  </span></font><font face="Times New Roman,Times">be at least three
+times as large as merge length.</font> </p>
+  <p><font face="Times New Roman,Times">Merges of edges of length &lt;=
+  </font><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">merge_length</span></font><font
+ face="Times New Roman,Times"> are meant to coarsen the mesh, but are
+not meant to deform surfaces</font> <font face="Times New Roman,Times">and
+material interfaces on this scale.&nbsp; The amount of material/surface
+deformation (</font><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">toldamage</span></font><font
+ face="Times New Roman,Times">) is meant to be
+considerably less than </font><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">merge_length</span></font><font
+ face="Times New Roman,Times">.</font> </p>
+  <p><font face="Times New Roman,Times">On the other hand, the maximum
+roughness tolerated in the graph (</font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">tolroughness</span></font><font
+ face="Times New Roman,Times">) should be considerably more than </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><font
+ face="Times New Roman,Times">, or roughness refinement will be
+triggered by actions such as flipping or
+merging.</font> </p>
+  <p><font face="Times New Roman,Times">Hence, our guidelines for
+selecting the parameters are:</font> </p>
+  <font face="Times New Roman,Times"><span style="font-weight: bold;">bisection_length</span></font><font
+ face="Times New Roman,Times"> &gt;= 3*</font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">merge_length</span></font><font
+ face="Times New Roman,Times">&gt;&gt; </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><br>
+  <font face="Times New Roman,Times"><span style="font-weight: bold;">tolroughness</span></font><font
+ face="Times New Roman,Times"> &gt;= 10*</font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><font
+ face="Times New Roman,Times">&nbsp; (for 2-D surface grids).</font>
+  <p><font face="Times New Roman,Times">For example, for a grid with
+diameter of order three, we have used:</font> </p>
+  <p><font face="Times New Roman,Times"><span style="font-weight: bold;">bisection_length</span></font><font
+ face="Times New Roman,Times">, </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">merge_length</span></font><font
+ face="Times New Roman,Times">, </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><font
+ face="Times New Roman,Times">, </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">tolroughness</span></font><font
+ face="Times New Roman,Times"> =.3, .1, .01, .1</font> </p>
+  <p><font face="Times New Roman,Times">If one of {</font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">bisection_length</span></font><font
+ face="Times New Roman,Times">, </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">merge_length</span></font><font
+ face="Times New Roman,Times">} is omitted, the omitted one will be set
+so that </font><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">bisection_length</span></font><font
+ face="Times New Roman,Times">=3*</font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">merge_length</span></font><font
+ face="Times New Roman,Times">.</font> <br>
+  <font face="Times New Roman,Times">If they are both omitted, they
+will both be taken to be infinity.</font> <br>
+  <font face="Times New Roman,Times">If </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><font
+ face="Times New Roman,Times"> is not specified, no
+node annihilation will take place.</font> <br>
+  <font face="Times New Roman,Times">If </font><font
+ face="Times New Roman,Times"><span style="font-weight: bold;">tolroughness</span></font><font
+ face="Times New Roman,Times"> is not specified,
+no refinement on roughness will occur and thus the format is compatible
+with old decks where refinement on roughness did not occur.</font> </p>
+  <p><font face="Times New Roman,Times">The final, optional keywork
+argument(s) can be
+one or more of <span style="font-weight: bold;">nosmoot</span>h, </font><font
+ style="font-weight: bold;" face="Times New Roman,Times">norecon</font><font
+ face="Times New Roman,Times">, <span style="font-weight: bold;">lite,
+ignoremats, strictmergelength, checkaxy, semiexclusive</span>, and <span
+ style="font-weight: bold;">exclusive</span>.&nbsp; <br>
+  </font></p>
+</blockquote>
+<div style="margin-left: 40px;">
+<ul>
+  <li><font face="Times New Roman,Times">Specifying <span
+ style="font-weight: bold;">nosmooth</span> will turn off the 'smooth'
+step by skipping the call to SGD.</font></li>
+  <li><font face="Times New Roman,Times">Specifying <span
+ style="font-weight: bold;">norecon</span> will turn off all 'recon'
+steps.</font></li>
+  <li><font face="Times New Roman,Times">If <span
+ style="font-weight: bold;">lite</span> is specified, only one
+iteration of the merging/reconnection/smoothing loop is executed, and a
+reconnection after edge refinement is</font> <font
+ face="Times New Roman,Times">omitted.&nbsp; This is suitable for
+applications, such as Gradient Weighted Moving Finite Elements, where <b>MASSAGE</b>
+is called repeatedly.</font></li>
+  <li><font face="Times New Roman,Times">The optional argument <span
+ style="font-weight: bold;">ignoremats</span> causes <b>MASSAGE</b> to
+process the multimaterial mesh in a single material mode; it ignores
+the
+material interfaces.&nbsp; </font></li>
+  <li><font face="Times New Roman,Times">The optional argument <span
+ style="font-weight: bold;">strictmergelength</span> forces strict
+interpretation of </font><font face="Times New Roman,Times"><span
+ style="font-weight: bold;">merge_length</span></font><font
+ face="Times New Roman,Times"> so that there is no merging along the
+edges of flat elements.&nbsp; This is important if <span
+ style="font-weight: bold;">ignoremats</span> is specified to avoid
+losing the interfaces.</font> </li>
+  <li>&nbsp;<font face="Times New Roman,Times">If <span
+ style="font-weight: bold;">checkaxy</span> is given, then
+we insure that for 2D meshes, the output mesh will have positive
+xy-projected triangle areas,</font> <font face="Times New Roman,Times">provided
+that
+the input mesh had them in the first place.</font>&nbsp; </li>
+  <li>If <span style="font-weight: bold;">exclusive</span> is given,
+then edge refinement operations will only be performed on edges whose
+endpoints are <i>both</i>
+in the PSET that <b><font face="Times New Roman,Times">MASSAGE</font></b>
+is working on.&nbsp; (As usual, new nodes created by refinement are
+added
+to the PSET so that <b><font face="Times New Roman,Times">MASSAGE</font></b>
+can refine edges recursively.)&nbsp; The default behavior is
+'inclusive',
+where only ONE edge endpoint has to belong to the PSET for the edge to
+be
+eligible for refinement. </li>
+  <li>If <span style="font-weight: bold;">semiexclusive</span> is
+given, refinement will only be triggered by edges with both endpoints
+in the PSET, but some edges with less than two endpoints in the PSET
+might
+be refined as part of a 'Rivara chain' triggered by the refinement of
+an
+edge with both endpoints in the PSET.&nbsp; This represents an
+intermediate
+case between 'inclusive' and <span style="font-weight: bold;">exclusive</span>
+  </li>
+</ul>
+</div>
+<blockquote>
+  <p><font face="Times New Roman,Times">Note:&nbsp; Since CEL_CHAIN is
+called only once at the end of <b>MASSAGE</b>, it may be necessary to
+call <b>MASSAGE</b> twice for optimal results.&nbsp; This is because
+annihilation of nodes is done with an intent to improve element aspect
+ratios, but cannot be effective if there are too few nodes initially.</font>
+  </p>
+  <p><font face="Times New Roman,Times">Note: The user may wish to
+issue a
+"<b>RMPOINT/COMPRESS</b>" after <b>MASSAGE </b>operations that merge
+a significant
+number of nodes.</font> </p>
+  <p><font face="Times">FORMAT:</font> </p>
+  <dir><b><font face="Times New Roman,Times">massage</font></b><font
+ face="Times">/</font><font face="Courier">bisection_length/merge_length</font><font
+ face="Times">/</font><font face="Courier">toldamage</font><font
+ face="Times">/[</font><big><span style="font-family: monospace;">tolroughness</span></big><font
+ face="Times">]/</font><font face="Courier">[ifirst,ilast,istride]/</font>
+  <br>
+  <font face="Courier">&nbsp;&nbsp;&nbsp; [<b>nosmooth</b>]/[<b>norecon</b>][<b>strictmergelength</b>]/[<b>ignoremats</b>]/[<b>lite]</b>/[<b>checkaxy</b>]/[<b>semiexclusive</b>]/<b>[exclusive</b>]</font></dir>
+  <p><br>
+  <font face="Times">EXAMPLES:</font> </p>
+  <dir><b><font face="Times New Roman,Times">massage</font></b><font
+ style="font-family: courier;" face="Courier New,Courier">/<span
+ style="font-family: courier new,courier,monospace;">0.3/0.1/0.01</span>/</font>
+  <br>
+  <font face="Times">&nbsp;</font><font face="Times New Roman,Times">Mesh
+edges longer than 0.3 will be bisected; mesh edges shorter than 0.1
+might be collapsed if that causes damage (normal surface motion) to
+material interfaces or external boundaries less than 0.01 ; smoothing
+of nodes causing damage less than 0.01 is allowed ; face swapping
+causing damage less than 0.01
+is allowed.</font>
+  <p><font face="Times New Roman,Times"><b>massage<small
+ style="font-family: courier new,courier,monospace;">/</small></b></font><span
+ style="font-family: courier;"><span
+ style="font-family: courier new,courier,monospace;">0.3/0.1/0.01/0.1</span>/</span><small
+ style="font-family: courier;"> </small><br>
+  <font face="Times New Roman,Times">Same as above but for 2-D surface
+meshes, roughness greater than 0.1 will trigger refinement.</font> </p>
+  <p><b><font face="Times New Roman,Times">massage</font></b><font
+ style="font-family: courier new,courier,monospace;" face="Arial,Times">/0.3/0.1/0.01/</font><font
+ face="Times"><span style="font-family: courier;"></span><b>pset,get,</b><span
+ style="font-family: courier new,courier,monospace;">pset1</span></font>
+  <br>
+  <font face="Times New Roman,Times">Mesh edges (containing at least
+one endpoint in pset1) longer than 0.3 will be bisected; mesh edges
+shorter than 0.1 might be collapsed if that causes
+damage (normal surface motion) to material interfaces or external
+boundaries
+less than 0.01 and if the annihilated node is in pset1;&nbsp; smoothing
+of nodes in pset1 causing damage less than 0.01 is allowed; face
+swapping
+causing damage less than 0.01 is allowed (unfortunately, LaGriT at this
+time
+does not restrict swapping to </font><font face="Courier New,Courier">pset1</font><font
+ face="Times New Roman,Times">).</font> </p>
+  <p><b><font face="Times New Roman,Times">massage</font></b><font
+ style="font-family: courier new,courier,monospace;" face="Arial,Times">/0.3/0.1/0.01/</font><font
+ face="Times New Roman,Times"><b>pset,get<span
+ style="font-family: courier new,courier,monospace;">,</span></b><span
+ style="font-family: courier new,courier,monospace;">pset1</span><b><span
+ style="font-family: courier new,courier,monospace;">/</span>nosmooth</b></font>
+  <br>
+&nbsp;<font face="Arial,Times"></font><font face="Times New Roman,Times">As
+above, but without smoothing.</font> </p>
+  <p><b><font face="Times New Roman,Times">massage</font></b><font
+ face="Courier New,Courier">/1.e+20/0.1/0.1/1,0,0</font><font
+ face="Arial,Times">/</font><b><font face="Times New Roman,Times">nosmooth</font></b>
+  <br>
+  <font face="Times New Roman,Times">Because of the virtually infinite
+value of</font><font face="Arial,Times"> </font><span
+ style="font-weight: bold;">bisection_length</span><font
+ face="Courier New,Courier">,</font>no<font face="Times New Roman,Times">
+edges will be bisected.&nbsp; Since</font><font face="Arial,Times"> </font><font
+ style="font-weight: bold;">merge_length=toldamage</font><font
+ face="Arial,Times">=0.1, </font><font face="Times New Roman,Times">merging
+of edges&nbsp; of length less than 0.1 will be considered, and will not
+be
+rejected because of excessive damage.&nbsp; Hence we expect that all
+edges of length less than 0.1 will be merged away (except in those
+cases where
+merging would invert tetrahedra or change material
+topology).&nbsp;&nbsp; Because </font><b><font
+ face="Courier New,Courier">nosmooth</font></b><font face="Arial,Times">
+i</font><font face="Times New Roman,Times">s specified, no smoothing
+will take place.&nbsp; Face swapping causing damage less than <span
+ style="font-weight: bold;">toldamage</span> is allowed</font> </p>
+  <p><b>massage</b><span
+ style="font-family: courier new,courier,monospace;">/1.e+20/1.e-9/1.e-9/1,0,0</span>/<b>nosmooth</b>/<b>strictmergelength</b>/<b>ignoremats</b>
+  <br>
+This set of arguments will remove degenerate elements from a mesh by
+merging nodes that have the same coordinate values ( within 1.e-9). <br>
+&nbsp;</p>
+  </dir>
+</blockquote>
+<br>
+</body>
+</html>

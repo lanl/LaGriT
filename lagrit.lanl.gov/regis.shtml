@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>LANL | LaGriT Licensing, Distribution, and Installation  | </title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
+<meta name="Keywords" content=" "/>
+<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
+<link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
+</head>
+<body class="home">
+<!-- OPEN include for banner area -->
+<!--#include virtual="/source/includes/xbanner.inc" -->
+<!-- CLOSE include for banner area -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/locator.inc -->
+<!--#include virtual="includes/identifier.inc" -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/toolbar.inc -->
+<!--#include virtual="includes/toolbar.inc" -->
+
+<div id="content-org"> 
+  <table id="mid-section1" cellspacing="0" cellpadding="0">
+    <tr> 
+      <td class="col1"valign="top"> 
+        <!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/nav1.inc -->
+        <!--#include virtual="includes/nav1.inc" --> 
+		<!--#include virtual="includes/groups.inc" -->
+		<!--#include virtual="includes/contacts.inc" -->
+		 <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> 
+      </td>
+      <td class="col2-420" valign="top"> 
+	  <img border="0" alt="" width="302" height="247" src="images/3d_uz_grid_sw_small.jpg" /> 
+        <a name="content"></a> 
+        <!-- OPTIONAL: OPEN include for content area -->
+		<h2>LaGriT Licensing, Distribution, and Installation </h2>
+		<p>&nbsp;</p>
+		<p>Thanks for your interest in LaGriT.<br />
+Available platforms are HP, DEC, IBM RISC, SGI, SUN, Linux with the Absoft compiler. <br />
+To obtain the code we you to send us a signed license form and you need to fill out a web form <br />
+with some information about the system on which you plan to run the code.</p>
+		<p><br />
+	      1 A signed version of the <a href="licensing.shtml">software license agreement</a> sent to:</p>
+		<p>NOTE: Read it carefully to be sure you will meet the conditions <br />
+		  set out in the license aggreement. A signed original must be sent <br />
+		  before the code will be made available. Do not fax. <br />
+		&nbsp;<br />
+		  Dr. Carl W. Gable <br />
+		  EES-6, MS T003 <br />
+		  Los Alamos National Laboratory <br />
+		  Los Alamos NM 87545<br />
+	    </p>
+		<p> 2 <a href="http://eesext.lanl.gov/LaGriT/form.php">Click here to enter registration information.</a> </p>
+		<p>Note: you will need hostid and operating system information. <br />
+  For example, to obtain this information, type the following at the your command prompt: </p>
+		<p>your_machine_name% uname -a <br />
+		  SunOS your_machine_name 5.8 Generic_108528-11 sun4u sparc SUNW,Sun-Blade-1000 <br />
+		  your_machine_name% hostid <br />
+		  703a2de0 </p>
+		<p>Contact me, (<a href="mailto:gable@lanl.gov">gable@lanl.gov</a>) if you have questions.</p>
+		<p>&nbsp;</p>
+		<p><a href="index.shtml">Return to LaGriT Home Page</a></p>
+        <p>&nbsp;</p>
+        <img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/xtransparent.gif" /> 
+      </td>
+      <td class="col3-180"><img src="images/blank.jpg" border="0" alt="photograph of ocean swirling showing currents" width="180" height="120" />
+        <!--#include virtual="includes/related_links.inc" -->
+        <img alt="" class="strut" height="1" width="180" src="http://www.lanl.gov/images/xtransparent.gif" /></td>
+    </tr>
+  </table>
+</div>
+<!-- OPEN include for footer area -->
+<!--#include virtual="/source/includes/xfooter.inc" -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/email.inc -->
+<!--#include virtual="../ees2/includes/email.inc" -->
+<!-- CLOSE include for footer area -->
+</body>
+</html>

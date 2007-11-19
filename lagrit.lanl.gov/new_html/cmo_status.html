@@ -1,0 +1,48 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Jan Wills">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<dir>
+<dir><font face="Times"><b>status/</b>[</font><font face="Courier">mo_name]</font><font face="Times">/[<b>brief</b>]</font>
+<dir><font face="Courier">mo_name</font><font face="Times"> is type character,
+default is '<b>-all-'</b></font>
+<br><font face="Times">Prints the status of </font><font face="Courier">Mesh
+Object</font><font face="Times">s.&nbsp; This includes a header with information
+about the type of mesh object and the size of the mesh object.&nbsp; After
+the header information, a table lists all variables associated with a mesh
+object and includes the variable's type, rank, length, interpolation mode,
+persistence, ioflag and default value.&nbsp; If <b>brief </b>is specified
+only the header information is printed.</font></dir>
+</dir>
+</dir>
+
+<dir>
+<dir><font face="Times"><b>&nbsp;</b>EXAMPLES:</font></dir>
+
+<dir>
+<dir><b><font face="Times">cmo/status/</font></b><font face="Courier">mo_tet2</font>
+<br><b><font face="Times">cmo/status/-cmo-</font></b>
+<br><b><font face="Times">cmo/status/</font></b><font face="Courier">mo_tet2/</font><b><font face="Times">brief</font></b>
+<br><b><font face="Times">cmo/status</font></b>
+<br><b><font face="Times">cmo/status/-all-</font></b>
+<br><b><font face="Times">cmo/status/-default-</font></b><b><font face="Times"></font></b>
+<p><font face="Times">An example of header information follows:</font>
+<br><font face="Courier New,Courier">1 Mesh Object name: cmo1</font>
+<br><font face="Courier New,Courier">number of nodes= 143988&nbsp; number
+of elements = 314159</font>
+<br><font face="Courier New,Courier">dimensions geometry = 3&nbsp; element
+type = tet</font>
+<br><font face="Courier New,Courier">dimensions topology = 3&nbsp; 4 nodes&nbsp;&nbsp;
+4 faces&nbsp;&nbsp; 6 edges</font>
+<br><font face="Courier New,Courier">boundary flag = 16000000&nbsp; status
+= inactive</font></dir>
+</dir>
+</dir>
+
+</body>
+</html>

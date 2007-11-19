@@ -1,0 +1,55 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 98">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>RM</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<B><FONT FACE="Times"></FONT></B>&nbsp;
+<BLOCKQUOTE><B><U><FONT FACE="Times">RM</FONT></U></B>
+<BLOCKQUOTE><FONT FACE="Times">Removes any points that are within the specified
+point range and specified volume of space. This is done in Cartesian (<B>xyz</B>),
+cylindrical (<B>rtz</B>), or spherical (<B>rtp</B>) coordinates. It should
+be noted that in cylindrical coordinates, </FONT><FONT FACE="Courier">theta</FONT><FONT FACE="Times">
+is the angle in the XY- plane with respect to the x-axis, while in spherical
+coordinates </FONT><FONT FACE="Courier">theta</FONT><FONT FACE="Times">
+is the angle with respect to the Z-axis and </FONT><FONT FACE="Courier">phi</FONT><FONT FACE="Times">
+is the angle in the XY-plane with respect to the X-axis. In cylindrical
+coordinates the cylinder always lines up along the z axis; use the <B>coordsys
+</B>command before issuing the <B>rm </B>command if the points to be removed
+are not aligned with the z-axis; then issue a final <B>coordsys</B> command
+to return to normal. Also note that the points that are removed become
+dudded out (point type set to 21) and are not removed from the data array.</FONT>
+ 
+<P><FONT FACE="Times">The other options are:</FONT>
+ 
+<P><FONT FACE="Courier">geometry</FONT><FONT FACE="Times"> -- <B>xyz</B>,
+<B>rtz</B>, <B>rtp</B></FONT>
+<BR><FONT FACE="Courier">ifirst,ilast,istride</FONT><FONT FACE="Times">
+-- point range to search</FONT>
+<BR><FONT FACE="Courier">xmin, ymin, zmin </FONT><FONT FACE="Times">--
+minimums of </FONT><FONT FACE="Courier">geometry</FONT><FONT FACE="Times">
+type coordinates</FONT>
+<BR><FONT FACE="Courier">xmax, ymax, zmax </FONT><FONT FACE="Times">--
+maximums of </FONT><FONT FACE="Courier">geometry</FONT><FONT FACE="Times">
+type coordinates</FONT>
+<BR><FONT FACE="Courier">xcen, ycen, zcen </FONT><FONT FACE="Times">--
+center of removal space for </FONT><FONT FACE="Courier">geometry</FONT>
+<BR><FONT FACE="Courier">xscale, yscale, zscale </FONT><FONT FACE="Times">--
+scaling factors for </FONT><FONT FACE="Courier">geometry </FONT><FONT FACE="Times">limits</FONT></BLOCKQUOTE>
+</BLOCKQUOTE>
+&nbsp;
+<BLOCKQUOTE><FONT FACE="Times">FORMAT:</FONT>
+<BLOCKQUOTE><FONT FACE="Times"><B>rm </B>/ </FONT><FONT FACE="Courier">geometry</FONT><FONT FACE="Times">
+/</FONT><FONT FACE="Courier">ifirst,ilast,istride</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier">xmin,ymin,zmin</FONT><FONT FACE="Times">/</FONT><FONT FACE="Courier">xmax,ymax,zmax</FONT><FONT FACE="Times">/</FONT>
+<FONT FACE="Courier">xcen,ycen,zcen</FONT><FONT FACE="Times"> / [</FONT><FONT FACE="Courier">xscale,yscale,zscale</FONT><FONT FACE="Times">]</FONT></BLOCKQUOTE>
+ 
+ 
+<P><FONT FACE="Times">EXAMPLE:</FONT>
+<DIR><FONT FACE="Times"><B>rm</B>/<B>xyz</B>/</FONT><FONT FACE="Courier">1,0,0/2.,2.,2./4.,4.,4./0.,0.,0./</FONT>
+<BR><B><FONT FACE="Times">rm</FONT>/rtz/</B><FONT FACE="Courier">1,0,0/0.,0.,0./1.,360.,10./0.,0.,0./</FONT></DIR>
+</BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

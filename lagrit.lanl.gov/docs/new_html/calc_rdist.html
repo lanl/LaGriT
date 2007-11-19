@@ -1,0 +1,56 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+   <title>CALC_RDIST</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" vlink="#551A8B" alink="#FF0000">
+
+<blockquote>&nbsp;
+<p><b><u><font face="Times New Roman,Times">CALC_RDIST</font></u></b>
+<blockquote><font face="Times New Roman,Times">This command is a macro
+command that calculates the radial distance from a specified point to a
+set of points. That set of points can be defined using the standard LaGriT
+syntax of psets and range. If the specification for a set of points is
+omitted, the whole grid is used. The command operates on the current mesh
+object.</font>
+<p><font face="Times New Roman,Times">This operation will (often) result
+in two attributes being added to the current mesh object. The first, a
+real named rdist, contains the radial distance from the point of interest.
+The second, an integer named</font> <font face="Courier New,Courier">ictrpt</font>,
+c<font face="Times New Roman,Times">ontains an index that specifies the
+center point that was used for this calculatio</font>n.</blockquote>
+FORMAT:
+<blockquote><b><font face="Times New Roman,Times">calc_rdist</font></b><font face="Courier New,Courier">/x0,y0,z0/[radius_index]</font><font face="Times New Roman,Times">/[<b>pset,get,</b></font><font face="Courier New,Courier">pset_name|ifirst,ilast,istride]</font>
+<p><font face="Times New Roman,Times">x0,y0,z0 are the coordinates of the
+center point used in the calculation.</font>
+<br><font face="Times New Roman,Times">radius_index is an optional integer.
+It serves as an index for a specific center point.&nbsp; Its value is placed
+in the attribute</font>
+<br><font face="Times New Roman,Times">ictrpt throughout the range affected
+by the command. If it is not specified, no changes are made to the attribute
+ictrpt. The non-value for this attribute is 0 (i.e., if there is no radius
+index, the value of ictrpt will be 0).</font>
+<p><font face="Times New Roman,Times">The last argument that
+<b>calc_rdist</b>
+takes specifies the range over which the command will be executed. If it
+is omitted, the whole grid is assumed.</font></blockquote>
+<font face="Times New Roman,Times">NOTES:</font>
+<blockquote><font face="Times New Roman,Times">This command is a macro
+command. It does not add any new functionality.</font></blockquote>
+<font face="Times New Roman,Times">EXAMPLES:</font>
+<blockquote><b><font face="Times New Roman,Times">calc_rdist/</font></b><font face="Courier New,Courier">0,0,0</font>
+<blockquote><font face="Times New Roman,Times">This command would calculate
+the distance from the origin to all points in the mesh, and place the values
+in rdist. It would not modify ictrpt in any way.</font></blockquote>
+<b><font face="Times New Roman,Times">calc_rdist</font></b><font face="Courier New,Courier">/1,0.25,1/10/pset,get,big_sphere</font>
+<blockquote><font face="Times New Roman,Times">This command would calculate
+the distance from the point 1,0.25,1 to all the points within the pset
+big_sphere. It would place those distances into rdist within that pset,
+and would replace the value of ictrpt with 10 within that pset as well.</font></blockquote>
+</blockquote>
+</blockquote>
+
+</body>
+</html>

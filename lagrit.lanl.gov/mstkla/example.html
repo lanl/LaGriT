@@ -1,0 +1,215 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]">
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#DCDCDC" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+
+<CENTER>&nbsp;<A HREF="mstkla.html#EXAMPLE"><IMG SRC= "../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="utilities.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="linking.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+
+
+<P>/*
+<BR>==========================================================================
+<BR>##########################################################################
+<BR>&nbsp; Example program with MSTKLA
+<BR>##########################################################################
+<BR>==========================================================================
+<BR>*/
+
+<P><FONT COLOR="#000099">#include </FONT>&lt;stdio.h>
+<BR><FONT COLOR="#000099">#include</FONT> &lt;stdlib.h>
+<BR><FONT COLOR="#000099">#include</FONT> "mstkla.h"
+<BR><FONT COLOR="#000099">#include</FONT> "gmtkla.h"
+
+<P><FONT COLOR="#000099">int</FONT> main(<FONT COLOR="#000099">int</FONT>
+argc, <FONT COLOR="#000099">char</FONT> *argv[]) {
+<BR>&nbsp; <FONT COLOR="#000099">char</FONT> *meshname;
+<BR>&nbsp; <FONT COLOR="#006600">PMeshObj</FONT> mesh;
+<BR>&nbsp; <FONT COLOR="#006600">PMeshVert</FONT> vert, rverts[8];
+<BR>&nbsp; <FONT COLOR="#006600">PMeshRegn</FONT> reg, oreg;
+<BR>&nbsp; <FONT COLOR="#006600">ElType</FONT> type;
+<BR>&nbsp; <FONT COLOR="#000099">int</FONT> nv, nf, nr, nrv, i, j, *rfside,
+nrf, ngr, ngf;
+<BR>&nbsp; <FONT COLOR="#000099">double</FONT> xyz[3];
+<BR>&nbsp; <FONT COLOR="#006600">PGeomEntity </FONT>gent;
+<BR>&nbsp; <FONT COLOR="#006600">PGeomFace</FONT> *rflist, *gflist;
+<BR>&nbsp; <FONT COLOR="#006600">PGeomRegn</FONT> *grlist;
+<BR>&nbsp;
+
+<P>&nbsp;<B><I> <FONT COLOR="#663366">/* Initialization */</FONT></I></B>
+<BR>&nbsp;
+<BR>&nbsp; MSTKLA_Init();
+<BR>&nbsp; GMTKLA_Init();
+<BR>&nbsp;
+<BR>&nbsp; <B><I><FONT COLOR="#663366">/* Create a mesh object and fill
+in the data after reading from a file */</FONT></I></B>
+<BR>&nbsp; mesh = MESH_Create();
+<BR>&nbsp; MESH_InitFromFile(mesh, argv[1], argv[2], 1, &amp;meshname);
+<BR>&nbsp;
+<BR>&nbsp;<FONT COLOR="#663366"> <B><I>/* Model info */</I></B></FONT>
+<BR>&nbsp;
+<BR>&nbsp; ngr = GM_NumRegions();
+<BR>&nbsp; fprintf(stderr,"Number of model regions: %d\n",ngr);
+<BR>&nbsp;
+<BR>&nbsp; ngf = GM_NumFaces();
+<BR>&nbsp; fprintf(stderr,"Number of model faces: %d\n",ngf);
+<BR>&nbsp;
+<BR>&nbsp;<B><I> <FONT COLOR="#663366">/* Get all the regions in the model
+*/</FONT></I></B>
+<BR>&nbsp; GM_Regions(&amp;ngr, &amp;grlist);
+<BR>&nbsp;
+<BR>&nbsp;<B><I> <FONT COLOR="#663366">/* Loop through the regions and
+print out info about the faces</FONT></I></B>
+<BR><B><I><FONT COLOR="#663366">&nbsp;&nbsp;&nbsp;&nbsp; bounding this
+region</FONT></I></B>
+<BR><B><I><FONT COLOR="#663366">&nbsp;&nbsp;&nbsp;&nbsp; */</FONT></I></B>
+<BR>&nbsp;
+<BR>&nbsp; for (i = 0; i &lt; ngr; i++) {
+<BR>&nbsp;&nbsp;&nbsp; fprintf(stderr,"Region %-d\n:\n",(i+1));
+<BR>&nbsp;
+<BR>&nbsp;&nbsp;&nbsp;<FONT COLOR="#663366"> <B><I>/* Faces of the region
+*/</I></B></FONT>
+<BR>&nbsp;
+<BR>&nbsp;&nbsp;&nbsp; GR_Faces(grlist[i],&amp;nrf,&amp;rflist,&amp;rfside);
+<BR>&nbsp;
+<BR>&nbsp;&nbsp;&nbsp; fprintf(stderr,"&nbsp; %d Faces\n",nrf);
+<BR>&nbsp;&nbsp;&nbsp; for (j = 0; j &lt; nrf; j++) {
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fprintf(stderr,"Face %-d&nbsp; Dir %-d
+Type %-d\n",
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GF_Number(rflist[j]),rfside[j],GF_Type(rflist[j]));
+<BR>&nbsp;&nbsp;&nbsp; }
+<BR>&nbsp; }
+
+<P>&nbsp; for (i = 0; i &lt; ngr; i++)
+<BR>&nbsp;&nbsp;&nbsp; GR_Delete(grlist[i]);
+<BR>&nbsp; free(grlist);
+
+<P>&nbsp; <FONT COLOR="#663366">/<B><I>* Just get the all the faces of
+the model */</I></B></FONT>
+<BR><B><I><FONT COLOR="#663366">&nbsp; /* Delete the objects containing
+that info - the surfaces themselves</FONT></I></B>
+<BR><B><I><FONT COLOR="#663366">&nbsp;&nbsp;&nbsp;&nbsp; don't get deleted</FONT></I></B>
+<BR><B><I><FONT COLOR="#663366">&nbsp;&nbsp;&nbsp;&nbsp; */</FONT></I></B>
+
+<P>&nbsp; GM_Faces(&amp;ngf, &amp;gflist);
+<BR>&nbsp; for (i = 0; i &lt; ngf; i++)
+<BR>&nbsp;&nbsp;&nbsp; GF_Delete(gflist[i]);
+<BR>&nbsp; free(gflist);
+<BR>&nbsp;
+
+<P>&nbsp;<B><I><FONT COLOR="#663366"> /* Mesh Info */</FONT></I></B>
+
+<P>&nbsp; fprintf(stderr,"Number of nodes in mesh:\t%d\n",MESH_NumVertices(mesh));
+<BR>&nbsp; fprintf(stderr,"Number of elements in mesh:\t%d\n",MESH_NumRegions(mesh));
+
+<P>&nbsp;<FONT COLOR="#663366"> <B><I>/* Loop through each mesh vertex
+and print some info about it */</I></B></FONT>
+
+<P>&nbsp; nv = MESH_NumVertices(mesh);
+<BR>&nbsp; for (i = 0; i &lt; nv; i++) {
+<BR>&nbsp;&nbsp;&nbsp; vert = MESH_Vertex(mesh,i);
+
+<P>&nbsp;&nbsp;&nbsp; if (MV_Type(mesh,vert) == VDELETED || MV_Type(mesh,vert)
+== VIGNORE)
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; continue;
+
+<P>&nbsp;&nbsp;&nbsp;<B><I><FONT COLOR="#663366"> /* Get the classification
+(model entity that mesh entity is on) of</FONT></I></B>
+<BR><B><I><FONT COLOR="#663366">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the
+mesh vertex</FONT></I></B>
+<BR><B><I><FONT COLOR="#663366">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</FONT></I></B>
+
+<P>&nbsp;&nbsp;&nbsp; gent = MV_GMentity(mesh,vert);
+
+<P>&nbsp;&nbsp;&nbsp; <B><I><FONT COLOR="#663366">/* Get the coordinates
+of the mesh vertex */</FONT></I></B>
+
+<P>&nbsp;&nbsp;&nbsp; MV_Coords(mesh, vert, xyz);
+
+<P>&nbsp;&nbsp;&nbsp; if (gent)
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fprintf(stderr,"V%-d [ G%-d (order %1d)
+---&nbsp; %lf %lf %lf\n",
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MV_Number(mesh,vert),GEnt_Number(gent),
+MV_GMtype(mesh,vert),
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xyz[0],xyz[1],xyz[2]);
+<BR>&nbsp;&nbsp;&nbsp; else
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fprintf(stderr,"V%-d [ G* (order %1d)
+---&nbsp; %lf %lf %lf\n",
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MV_Number(mesh,vert),MV_GMtype(mesh,vert),
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xyz[0],xyz[1],xyz[2]);
+<BR>&nbsp; }
+
+<P>&nbsp; fprintf(stderr,"\n\n");
+
+<P>&nbsp; nr = MESH_NumRegions(mesh);
+
+<P>&nbsp;<B><I> /<FONT COLOR="#663366">* Loop through each mesh regions
+and print some info about it */</FONT></I></B>
+
+<P>&nbsp; for (i = 0; i &lt; nr; i++) {
+<BR>&nbsp;&nbsp;&nbsp; reg = MESH_Region(mesh,i);
+
+<P>&nbsp;&nbsp;&nbsp; <B><I><FONT COLOR="#663366">/* Region type - TET,
+PYRAMID, PRISM, HEX? */</FONT></I></B>
+
+<P>&nbsp;&nbsp;&nbsp; type = MR_Type(mesh,reg);
+<BR>&nbsp;
+<BR>&nbsp;&nbsp;&nbsp; <B><I><FONT COLOR="#663366">/* Vertices of region
+aka nodes of element */</FONT></I></B>
+
+<P>&nbsp;&nbsp;&nbsp; MR_Vertices(mesh, reg, &amp;nrv, (PMeshVert *) rverts);
+<BR>&nbsp;
+<BR>&nbsp;&nbsp;&nbsp;<FONT COLOR="#663366"> <B><I>/* Classification of
+mesh region i.e. what model region it is in */</I></B></FONT>
+
+<P>&nbsp;&nbsp;&nbsp; gent = MR_GMentity(mesh,reg);
+<BR>&nbsp;&nbsp;&nbsp; if (GEnt_Type(gent) != GREGION)
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fprintf(stderr,"Mesh Region not classified
+on model region???\n");
+<BR>&nbsp;
+
+<P>&nbsp;&nbsp;&nbsp; fprintf(stderr,"R%-d [ G%-d --- ", MR_Number(mesh,reg),
+GEnt_Number(gent));
+<BR>&nbsp;&nbsp;&nbsp; for (j = 0; j &lt; nrv; j++)
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fprintf(stderr,"%d&nbsp; ", MV_Number(mesh,rverts[j]));
+<BR>&nbsp;&nbsp;&nbsp; fprintf(stderr,"\n");
+<BR>&nbsp; }
+<BR>&nbsp;
+
+<P>&nbsp;<B><I> <FONT COLOR="#663366">/* Loop through the regions of the
+mesh and print the face neighbor info */</FONT></I></B>
+
+<P>&nbsp; for (i = 0; i &lt; nr; i++) {
+<BR>&nbsp;&nbsp;&nbsp; reg = MESH_Region(mesh,i);
+
+<P>&nbsp;&nbsp;&nbsp; fprintf(stderr,"Region %-d neighbors: ", MR_Number(mesh,reg));
+
+<P>&nbsp;&nbsp;&nbsp; type = MR_Type(mesh,reg);
+<BR>&nbsp;&nbsp;&nbsp; nf = RType_NumFaces(type);
+
+<P>&nbsp;&nbsp;&nbsp; for (j = 0; j &lt; nf; j++) {
+
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <B><I><FONT COLOR="#663366">/* Find the
+other region sharing face 'j' of 'reg' */</FONT></I></B>
+
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; oreg = MR_FaceNebr(mesh,reg,j);
+
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (oreg) {<FONT COLOR="#663366"> <B><I>/*
+a region exists on the other side of face, print info */</I></B></FONT>
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fprintf(stderr,"R%-d
+",MR_Number(mesh,oreg));
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+<BR>&nbsp;&nbsp;&nbsp; }
+<BR>&nbsp;&nbsp;&nbsp; fprintf(stderr,"\n");
+<BR>&nbsp; }
+<BR>&nbsp;
+
+<P>}
+<BR>&nbsp;
+<BR>&nbsp;
+<CENTER>&nbsp;<A HREF="mstkla.html#EXAMPLE"><IMG SRC= "../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="utilities.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="linking.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+
+</BODY>
+</HTML>

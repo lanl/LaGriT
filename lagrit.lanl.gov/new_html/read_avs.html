@@ -1,0 +1,83 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Jan Wills">
+   <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><b><u><font face="Times New Roman,Times"><font size=+1>read/avs</font></font></u></b></blockquote>
+
+<blockquote>
+<blockquote><font face="Times New Roman,Times"><font size=+1>read in an
+AVS file.&nbsp; This file format contains no geometry information.&nbsp;
+This command requires either cmo-name to be given in the command or for
+a mesh object to have been created previously.</font></font></blockquote>
+<font face="Times New Roman,Times"><font size=+1></font></font><font face="Times New Roman,Times"><font size=+1></font></font>
+<p><font face="Times New Roman,Times"><font size=+1>FORMAT:</font></font>
+<blockquote><font size=+1><font face="Times New Roman,Times"><b>read</b>/<b>avs</b>/filename/[</font><font face="Courier New,Courier">cmo-name</font><font face="Times New Roman,Times">]/[</font><font face="Courier New,Courier">node_flags</font><font face="Times New Roman,Times">/element_flag/attribute_flag]</font></font>
+<br><font face="Times New Roman,Times"><font size=+1></font></font>&nbsp;
+<table COLS=3 WIDTH="50%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="10%" NOSAVE><font face="Times New Roman,Times"><font size=+1>node_flag</font></font></td>
+
+<td WIDTH="10%" NOSAVE><font face="Times New Roman,Times"><font size=+1>(default=1)</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>0 skip node data</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>1 read node data</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1>element_flag</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>(default=1)</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>0 skip element data</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>1 read element data</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1>attribute_flag</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>(default=1)</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>0 skip attribute data</font></font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
+
+<td NOSAVE><font face="Times New Roman,Times"><font size=+1>1 read attribute
+data</font></font></td>
+</tr>
+</table>
+<font face="Times New Roman,Times"><font size=+1></font></font></blockquote>
+<font face="Times New Roman,Times"><font size=+1>&nbsp;EXAMPLES:</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+1><b>read</b>/<b>avs</b>/file1/cmo1</font></font>
+<br><font face="Times New Roman,Times"><font size=+1><b>read/avs</b>/file2//1/1/0&nbsp;&nbsp;&nbsp;
+(skip attribute data)</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(mesh object must already exist)</font></font></blockquote>
+</blockquote>
+<font face="Times New Roman,Times"><font size=+1></font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+1></font></font>&nbsp;</blockquote>
+
+</body>
+</html>

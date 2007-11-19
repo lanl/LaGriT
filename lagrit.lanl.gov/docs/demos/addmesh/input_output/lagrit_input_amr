@@ -1,0 +1,1 @@
+*TEST addmesh/amr (LaGriT_input_amr)read gmv input_mesh1.gmv cmo1*dump/ gmv / out_mesh1.gmvread gmv input_mesh2.gmv cmo2*dump/ gmv / out_mesh2.gmvaddmesh amr cmo3 cmo1 cmo2dump/ gmv / output_amr.gmv* begin compare herecmo/statuscmo/printatt//-all-/minmaxqualityfinish

@@ -1,0 +1,12 @@
+* TEST addmesh/intersect (lagrit_input_inter)
+read / gmv / input_mesh1.gmv / cmo1
+read / gmv / input_mesh2.gmv / cmo2
+*
+* get nodes of cmo1 that intersect elements of mesh cmo2
+* and put them into a pset called pset_overlap
+addmesh / intersect / pset_overlap / cmo1 / cmo2
+* begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish

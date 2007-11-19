@@ -1,0 +1,71 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="Template" content="Macintosh HD:Applications:Microsoft Office 98:Word Custom Install:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.5 [en] (X11; I; IRIX 6.3 IP32) [Netscape]">
+   <title>EXTRACT </title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times New Roman,Times">EXTRACT/SURFMESH</font></u></b>
+<br>&nbsp;
+<blockquote><font face="Times New Roman,Times">This routine extracts the
+boundary of a mesh. If the original mesh is a solid mesh, it extracts the
+surface mesh.&nbsp; If it is a surface mesh, it extracts the edge mesh.
+If the interface elements have "uses" i.e.&nbsp; "parent-child" nodes,
+then only the parent nodes and elements are extracted.&nbsp; Due to the
+nature of this extraction, not all attributes in the&nbsp; output mesh
+object are given values.&nbsp; Among the array-valued attributes,&nbsp;
+only </font><font face="Courier New,Courier">xic,yic,zic,itet,jtet,itetoff,itettyp</font><font face="Times New Roman,Times">,
+and </font><font face="Courier New,Courier">icr1</font><font face="Times New Roman,Times">
+are set. The</font><font face="Courier New,Courier">&nbsp; icontab</font><font face="Times New Roman,Times">
+array is copied from the input mesh object to the output mesh object.&nbsp;
+Two element based attributes, "</font><font face="Courier New,Courier">itetclr0</font><font face="Times New Roman,Times">"
+and "</font><font face="Courier New,Courier">itetclr1</font><font face="Times New Roman,Times">"
+are added to the output mesh indicating the material regions on each side
+of the mesh faces, i.e., the color of elements that existed on each side
+of a face in the original mesh. The convention is that the "</font><font face="Courier New,Courier">itetclr0"</font><font face="Times New Roman,Times">
+indicates the color of the elements on the side of the face normal (0 if
+the face is on an external boundary) and </font><font face="Courier New,Courier">"itetclr1</font><font face="Times New Roman,Times">"&nbsp;
+indicates the color of the elements on the opposite side of the normal.</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|------> normal</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+|</font>
+<br><font face="Times New Roman,Times">&nbsp;mregion5&nbsp; |&nbsp;&nbsp;
+mregion1</font>
+<p><font face="Times New Roman,Times">For the face shown in the figure
+above i</font><font face="Courier New,Courier">tetclr0</font><font face="Times New Roman,Times">
+= 1, </font><font face="Courier New,Courier">itetclr1</font><font face="Times New Roman,Times">
+= 5</font>
+<p><font face="Times New Roman,Times">In addition another attribute called
+'facecol' is added to the elements&nbsp; of the new mesh. The 'facecol'
+attribute is a model face number constructed from the </font><font face="Courier New,Courier">itetclr0
+</font><font face="Times New Roman,Times">and
+</font><font face="Courier New,Courier">itetclr1</font><font face="Times New Roman,Times">
+attributes. The facecol&nbsp; attribute does not guarantee that the same
+ID will not be given to two disjoint patces of mesh faces.</font><font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times">If the keyword </font><font face="Courier New,Courier"><b>external
+</b>is supplied, only the exterior surface mesh will be extracted.&nbsp;
+I.e., the interior interfaces between materials will not be extracted.&nbsp;
+The default is for the interior interfaces to be extracted as well.</font>
+<p><font face="Times New Roman,Times">NOTE TO DEVELOPERS: The comments
+in the file extract_surfmesh.f say that&nbsp; the </font><font face="Courier New,Courier">jtet</font><font face="Times New Roman,Times">
+array is not set in the new mesh. This is incorrect. Since the introduction
+of </font><font face="Courier New,Courier">jtet</font><font face="Times New Roman,Times">
+cycles to accomodate multiple number of faces coming into an edge in a
+surface mesh, <b>extract_surfmesh</b> has been modified to&nbsp; update</font><font face="Courier New,Courier">
+jtet</font><font face="Times New Roman,Times"> values in the output mesh.
+This is not adequately reflected&nbsp; in the code comments.</font></blockquote>
+
+<p><br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp; FORMAT:</font>
+<p><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>extract/surfmesh</b>/1,0,0/</font><font face="Courier New,Courier">cmo_out/[cmo_in]/[<b>external</b>]</font></blockquote>
+
+</body>
+</html>

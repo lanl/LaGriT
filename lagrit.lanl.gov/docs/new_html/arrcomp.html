@@ -1,0 +1,52 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>6</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<b><font face="Times New Roman,Times"><font size=+1>&nbsp; Array Compression</font></font></b>
+<blockquote><font face="Times New Roman,Times">The following utility routines
+compress arrays. Note that the output array may be the same as the input
+array in which case the compression is done in place. Also the mask array
+may be the same as the input array. The name suffixes of the compression
+routine may be decoded as <b>m </b>minus (negative), <b>n</b> non-zero,
+<b>p</b>
+positive, <b>z</b> equal to zero. If the routine name ends in
+<b>rrr</b>,
+the mask, input and output arrays are all real. If the name ends in a single
+<b>r</b>
+, the mask is real, the input and output arrays are integers. Otherwise
+the mask, input and output arrays are all integers. For example kmprsn(100,int,1,int,1,int,1,num)
+will compress all the zeros out of array in</font><font face="Times">t.</font>
+<dir><b><font face="Times">kmprsm</font>(<u>n</u>,<u>z</u>,<u>iz</u>,<u>x</u>,<u>ix</u>,y,<u>iy</u>,count)</b>
+<dir><font face="Times">n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+length of z and x</font>
+<br><font face="Times">z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+array of masks</font>
+<br><font face="Times">iz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+stride in z</font>
+<br><font face="Times">x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+array of source</font>
+<br><font face="Times">ix&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+stride in x</font>
+<br><font face="Times">y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+array of output</font>
+<br><font face="Times">iy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+stride in y</font>
+<br><font face="Times">count&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; length
+of y</font></dir>
+<b><font face="Times">kmprsn</font>(<u>n</u>,<u>z</u>,<u>iz</u>,<u>x</u>,<u>ix</u>,y,<u>iy</u>,count)</b>
+<br><b>kmprsnr(<u>n</u>,<u>z</u>,<u>iz</u>,<u>x</u>,<u>ix</u>,y,<u>iy</u>,count)</b>
+<br><b>kmprsnrrr(<u>n</u>,<u>z</u>,<u>iz</u>,<u>x</u>,<u>ix</u>,y,<u>iy</u>,count)</b>
+<br><b>kmprsp(<u>n</u>,<u>z</u>,<u>iz</u>,<u>x</u>,<u>ix</u>,y,<u>iy</u>,count)</b>
+<br><b>kmprspr(<u>n</u>,<u>z</u>,<u>iz</u>,<u>x</u>,<u>ix</u>,y,<u>iy</u>,count)</b>
+<br><b>kmprsz(<u>n</u>,<u>z</u>,<u>iz</u>,<u>x</u>,<u>ix</u>,y,<u>iy</u>,count)</b>
+<br><b>kmprszr(<u>n</u>,<u>z</u>,<u>iz</u>,<u>x</u>,<u>ix</u>,y,<u>iy</u>,count)</b></dir>
+</blockquote>
+
+<br>&nbsp;
+</body>
+</html>

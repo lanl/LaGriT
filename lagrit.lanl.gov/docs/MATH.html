@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <meta name="Generator" content="Microsoft Word 98">
+  <meta name="GENERATOR"
+ content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+  <title>MATH</title>
+<!-- font and other body information should be in the style statement here.-->
+  <style type="text/css">
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+       }
+  </style>
+</head>
+<body link="#0000ff" vlink="#800080">
+<!-- end header --------------------------------------------------------------- --><!-- command name for this page -->
+<h2> MATH</h2>
+<!-- command overview ---------- -->
+<blockquote>The <b>math</b> routine operates on attributes of a mesh
+object(s). It performs arithmetic operations or evaluates mathematical
+functions on the source mesh object or objects, and places the results
+in the sink mesh object.
+The source and sink mesh objects can be the same, and there can be
+either
+one or two source objects, depending on the operation selected.
+  <p>All attributes must have the same type, rank, and length. <br>
+The last parameter, <font face="Courier">value</font>, may or may not
+be used according to the operation details listed below. <br>
+For the standard arithmetic operations, <font face="Courier">value</font>
+can be either a constant or an attribute<font face="Courier"></font>.
+These arithmetic operations work for all types of attributes. <br>
+For the mathematical functions other than <b>floor</b> and <b>ceiling</b>,&nbsp;
+  <font face="Courier">value</font> is omitted, and the function is
+performed on the <font face="Courier">src_attr</font> and stored in
+the <font face="Courier">sink_attr</font>. Mathematical functions
+other than <b>floor</b> and <b>ceiling </b>are not implemented for
+attributes whose values are integers.</p>
+</blockquote>
+<!-- command syntax or format ------------ -->
+<p>FORMAT: </p>
+<blockquote><b>math</b> /<font face="Courier"> operation </font>/
+cmo_sink/attr_sink /<font face="Courier"> range </font>/cmo_src/attr_src
+/<font face="Courier"> [ value ]</font></blockquote>
+<!-- parameter 1 ---------- --> <br>
+<font face="Courier">operation: </font><!-- parameter description -->The
+first parameter is one of the following keywords that indicates the
+type of work to perform.
+<blockquote><b>plus, add, minus, sub, subtract, times,&nbsp; multiply,
+mult, divide, min, max</b> are arithmetic operators; the result is
+stored in sink_attr:<br>
+  <font face="Courier">sink_attr</font> = <font face="Courier">(src_attr)</font>
+operator <font face="Courier">(value)</font>, where <font
+ face="Courier">value</font> can be either a numerical constant or a
+second mesh object attribute.<span style="font-weight: bold;"><br>
+min, max </span>are not to be confused with the minimum or maximum
+value of an attribute; rather the the result is a comparison of pairs
+of source values.<br>
+  <p><b>sin, cos, tan, ln</b> (natural log), and <b>log10</b> are
+mathematical functions. The <font face="Courier">value</font>
+parameter is omitted,
+and the function is performed on the src_attr and stored in the
+sink_attr.
+These functions are not implemented for integer attributes. </p>
+  <p><b>floor</b> and <b>ceiling</b> are mathematical functions where <font
+ face="Courier">value</font> is used as the lower or upper limit, the
+value(s) of src_attr are checked against <font face="Courier">value</font>,
+and the results are stored in the sink_attr. These functions work for
+all types of attributes. </p>
+  <p><b>power</b> function uses both <font face="Courier">value</font>
+parameters. The first value or src_attr is raised to the power of the
+second value
+or attribute. You cannot use two constants. At least one of the sources
+must be an attribute. The result is stored in the sink_attr. </p>
+  <p><b>exp</b> and <b>exp10</b> functions raise the constant e or the
+constant 10 to the power specified by src_attr and stores the result in
+the sink_attr. </p>
+  <><b>integrate</b> function computes the product of 'field_value
+'times 'element volume' at each element and either saves these products
+or sums the products and saves the integrated result. <br>
+The syntax is: <span style="font-weight: bold;">math/integrate/</span></><big><span
+ style="font-family: monospace;">cmo_sink/attr_sink/range/attr_src_field</span></big><><span
+ style="font-weight: bold;"></span><br>
+  </><>The 'field_value'
+for an element is either the value of attr_src (if the attr_src is an
+element attribute and has
+length 'nelements') or is the average of the values at the vertices of
+the
+element (if the attr_src is a node attribute has length 'nnodes'). <br>
+If sink_attr does not exist or if it exists and has length 'nelements'
+and type 'VDOUBLE' the products (</><> </><>'field_value' times
+'element_volume') are stored in sink_attr.<br>
+If sink_attr exists and has length 'scalar' and type 'REAL', then the
+products are summed up and the resulting sum if stored in sink_attr.
+(If the user requires just the integrated sum this alternative avoids
+having to use the pair of commands '<span style="font-weight: bold;">integrate,
+sum</span>' and also avoids creating the 'nelement' long sink attribute)<br>
+It is assumed that the sink and source attributes are in the same mesh
+object and the second cmo name is ignored. <br>
+If <font face="Courier">range</font> is used, it must refer to a set
+of elements. </>
+  <p><b>sum</b> adds all node or element values in <font face="Courier">attr_src</font>,
+within the selected <font face="Courier">range</font> and writes the
+result to <font face="Courier">attr_sink</font>. The sink attribute
+must be of type 'REAL' or 'INT' (length='scalar') and will be created
+if it does not exist.</p>
+</blockquote>
+<!-- parameter 2,3 ---------- --> <br>
+<font face="Courier">cmo_sink, attr_sink: </font>are the sink cmo and
+sink attribute for the math results to be written to. These parameters
+are
+required for all math operations. <br>
+<!-- parameter 4,5,6 ---------- --> <br>
+<font face="Courier">range:</font> is the selection set of elements or
+nodes for the math operation and may be in one of these 3 forms:
+<blockquote>/<font face="Courier">ifirst,ilast,istride</font> / numbers
+indicating attribute set&nbsp; (1,0,0 means all elements or nodes)<br>
+/<b>pset,get</b>,<font face="Courier"> pset_name</font> / for
+attributes with length = 'nnodes'&nbsp; (all nodes in the named point
+set)<br>
+/<b>eltset,get</b>,<font face="Courier"> eltset_name</font> / for
+attributes with length = 'nelements' (all elements in the named element
+set)<br>
+</blockquote>
+<!-- parameter 7 (command token 8 including math word ) ---------- --> <br>
+<font face="Courier">value:</font> is required by some math operations
+and can be of type constant or can be a cmo attribute. The following
+are possible forms:
+<blockquote>/<font face="Courier">cmo_src2/attr_src2/</font> where <font
+ face="Courier">cmo_src2</font> may be the same name as the source cmo,
+or the name of a second source cmo. <br>
+/<font face="Courier">attr_src2/</font> assumes attribute is a part of <font
+ face="Courier">cmo_src</font> <br>
+/<font face="Courier">constant</font>/ is a numerical value</blockquote>
+<p><br>
+<font face="Times">EXAMPLES:</font> </p>
+<dir><font face="Times"><b>math</b>/<b>multiply</b></font><font
+ face="Courier">/sink_mo/sink_attribute/50,60,3/src_mo/src_attribute/1.0</font>
+<br>
+<b><font face="Times">math</font>/add/</b><font face="Courier">mo/attribute/50,60,3/mo/attribute/100.0</font>
+<br>
+<b><font face="Times">math</font>/sub/</b><font face="Courier">sink_mo/sink_attribute/50,60,3/src_mo1/src_attribute1/src_mo2/src_attribute2</font><font
+ face="Times">/</font> <br>
+<b><font face="Times">math</font>/min/</b><font face="Courier">sink_mo/sink_attribute/1,0,0/src_mo1/src_attribute1/src_mo2/src_attribute2</font><font
+ face="Times">/</font><br>
+<font face="Times"><b>math</b>/<b>ln</b>/</font><font face="Courier">sink_mo/sink_attribute/1,0,0/src_mo/src_attribute/</font>
+<br>
+<b><font face="Times">math</font>/floor/</b><font face="Courier">sink_mo/sink_attribute/1,0,0/src_mo/src_attribute/2.0/</font>
+<br>
+<b><font face="Times">math</font>/power</b><font face="Courier">/sink_mo/sink_attribute/1,0,0/src_mo/src_attribute/2.0/</font>
+<br>
+<b><font face="Times">math</font>/power</b><font face="Courier">/sink_mo/sink_attribute/1,0,0/2.0/src_mo/src_attribute/</font>
+<br>
+<b><font face="Times">math</font>/power</b><font face="Courier">/sink_mo/sink_attribute/1,0,0/base_mo/base_attribute/
+power_mo/power_attr</font> <br>
+<b><font face="Times">math</font>/exp</b><font face="Courier">/sink_mo/sink_attribute/1,0,0/src_mo/src_attribute/</font>
+<br>
+<b><font face="Times">math</font>/exp10</b><font face="Courier">/sink_mo/sink_attribute/1,0,0/src_mo/src_attribute/</font>
+<br>
+<b>math/integrate/</b><font face="Courier"> cmotri /Vf /1,0,0/ cmotri/
+Fn</font> <br>
+<b>math/sum/</b><font face="Courier"> cmotri / Vfsum /1,0,0/ cmotri /
+Vf</font> <br>
+<b>math/sum/</b><font face="Courier"> cmotri / area_sum /1,0,0/ cmotri
+/ darea</font> <br>
+&nbsp;</dir>
+<!-- end list of examples -->
+<p><!-- links to further explanation or demo pages --> </p>
+<br>
+</body>
+</html>

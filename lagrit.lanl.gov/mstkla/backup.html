@@ -1,0 +1,923 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]">
+</HEAD>
+<BODY>
+
+<CENTER><A HREF="mstkla.html"><IMG SRC="../images/arrow2.gif" WIDTH=30 HEIGHT=30 border="0" NOSAVE></A>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30>
+</CENTER>
+
+<CENTER><B><FONT SIZE=+1></FONT></B></CENTER>
+
+<CENTER><B><FONT SIZE=+1>MESH OPERATORS</FONT></B></CENTER>
+&nbsp;
+
+<P>These operators work on variables of type<I> PMeshObj.</I>
+
+<P>
+<HR WIDTH="100%">
+<BR><I>PMeshObj</I> <B>MESH_Create</B>();
+
+<P>Creates a default mesh object and returns it - At this point all the
+info
+<BR>in it is useless.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MESH_InitFromFile</B>(<I>PMeshObj</I> mesh,
+<I>char *</I>filename, <I>char *</I>format, <I>int</I> iotype, <I>char
+**</I>name);
+
+<P>Read a mesh in from "<I>filename</I>" and initialize the "<I>mesh</I>".
+<BR>The file is in the format "<I>format</I>" ("<I>lagrit</I>" for LaGriT
+dumps, "<I>gmv</I>" for GMV files, "<I>avs</I>" for AVS files).
+<BR><I>'iotype'</I> is 1 for ascii and 0 for binary.
+<BR>'<I>name</I>' is the name of the mesh that is read and returned
+<BR>If a LaGriT file is read, the geometric model info will be read as
+well.
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_InitFromCMO</B>(<I>PMeshObj</I> mesh, <I>char</I>
+*cmoname);
+
+<P>Initialize the mesh object from a given cmo. If '<I>cmoname</I>' is
+NULL (say sent in as the character string ""), the mesh object is initialized
+from the default mesh object. If not the given cmo is made is active and
+the mesh object is
+<BR>initialized from that.
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>This implies that sometime in
+the middle of a LaGriT subroutine, one can call a C routine which initializes
+a mesh object and then uses the functionality of MSTKLA!! (Cool!)
+
+<P>
+<HR WIDTH="100%">
+<BR><I>int</I> <B>MESH_Select</B>(<I>PMeshObj </I>mesh);
+
+<P>Make a particular mesh object active
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MESH_Delete</B>(<I>PMeshObj</I> mesh);
+
+<P>Delete a particular mesh object.
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>** NOT YET IMPLEMENTED ** WILL
+BE IN SOON
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MESH_WriteToFile</B>(<I>PMeshObj</I> mesh,
+<I>char</I> *filename, <I>char</I> *format, <I>int </I>iotype);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>** NOT YET IMPLEMENTED ** WILL
+BE IN SOON **
+
+<P>
+<HR WIDTH="100%"><I>PMeshObj</I> <B>MESH_Duplicate</B>(<I>PMeshObj</I>
+mesh);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>** NOT YET IMPLEMENTED **
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MESH_NumVertices</B>(<I>PMeshObj</I> mesh);
+
+<P>Number of vertices (nodes) in the mesh.
+
+<P><IMG SRC="bullet12.gif" HEIGHT=31 WIDTH=27>*** IMPORTANT ***
+<BR><FONT COLOR="#FF0000">This count may include deleted vertices, parent
+vertices and other</FONT>
+<BR><FONT COLOR="#FF0000">types of vertices that should be ignored. So
+when looping through</FONT>
+<BR><FONT COLOR="#FF0000">vertices of a mesh, one should check if the vertex
+is to be ignored.</FONT>
+
+<P>
+<HR WIDTH="100%"><I>int</I> <B>MESH_NumRegions</B>(<I>PMeshObj</I> mesh);
+
+<P>Number of regions (elements) in the mesh.
+
+<P><IMG SRC="bullet12.gif" HEIGHT=31 WIDTH=27>*** IMPORTANT ***
+<BR><FONT COLOR="#FF0000">This count may include deleted regions. While
+looping through the</FONT>
+<BR><FONT COLOR="#FF0000">regions of a mesh, one should check if the region
+is to be ignored.</FONT>
+
+<P>
+<HR WIDTH="100%">
+<BR><I>PMeshVert</I> <B>MESH_Vertex</B>(<I>PMeshObj</I> mesh, <I>int</I>
+i);
+
+<P>Fetch the i'th vertex (node) of the mesh (This is C so remember i
+<BR>starts from 0) The returned mesh vertex object can be queried for
+<BR>information. The returned vertex must always be checked for its type
+<BR>to see if it deleted or must otherwise be ignored.
+
+<P>
+<HR WIDTH="100%"><I>PMeshRegn</I> <B>MESH_Region</B>(<I>PMeshObj</I> mesh,
+<I>int </I>i);
+
+<P>Fetch the i'th region (element) of the mesh. The returned mesh region
+<BR>can be queried for information. The returned region must be checked
+if
+<BR>it is a deleted region.
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_BldUpAdj</B>(<I>PMeshObj</I> mesh);
+
+<P>Build the vertex to region connectivity. This will allow upward
+<BR>adjacency operator MV_Regions to be called. In fact those operators
+<BR>will function properly only after this is called.
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_DelUpAdj</B>(<I>PMeshObj</I> mesh);
+
+<P>Delete the vertex to region connectivity information to save
+<BR>memory. It is not possible for MSTKLA to determine when this
+<BR>information is not needed and call this routine automatically.
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_IncrNodeLists</B>(<I>PMeshObj</I> mesh);
+
+<P>Increment all the node lists.
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>(** NOT FULLY TESTED **)
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_IncrElemLists</B>(<I>PMeshObj</I> mesh);
+
+<P>Increment all the element lists.
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>(** NOT FULLY TESTED **)
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_CmprNodeLists</B>(<I>PMeshObj</I> mesh);
+
+<P>Compress all the element lists.
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>*** NOT YET IMPLEMENTED ***
+
+<P><IMG SRC="bullet12.gif" HEIGHT=31 WIDTH=27>*** IMPORTANT !!! ***
+
+<P><FONT COLOR="#FF0000">There is one side effect of compression of lists.
+If one is storing a</FONT>
+<BR><FONT COLOR="#FF0000">list of node numbers or PMeshVerts (which for
+the LaGriT interface are</FONT>
+<BR><FONT COLOR="#FF0000">just integers cast as pointers), then after compression,
+the node</FONT>
+<BR><FONT COLOR="#FF0000">numbers or PMeshVert "addresses" may not be referring
+to the nodes you</FONT>
+<BR><FONT COLOR="#FF0000">think they are.</FONT>
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MESH_CmprElemLists</B>(<I>PMeshObj</I> mesh);
+
+<P>Compress all the element lists.&nbsp; *** NOT YET IMPLEMENTED ***
+
+<P><IMG SRC="bullet12.gif" HEIGHT=31 WIDTH=27>*** IMPORTANT !!! ***
+
+<P><FONT COLOR="#FF0000">There is one side effect of compression of lists.
+If one is storing a</FONT>
+<BR><FONT COLOR="#FF0000">list of element numbers or PMeshRegns (which
+for the LaGriT interface</FONT>
+<BR><FONT COLOR="#FF0000">are just integers cast as pointers), then after
+compression, the</FONT>
+<BR><FONT COLOR="#FF0000">element numbers or PMeshRegn "addresses" may
+not be referring to the</FONT>
+<BR><FONT COLOR="#FF0000">elements you think they are.</FONT>
+<BR><FONT COLOR="#FF0000">&nbsp;</FONT><FONT COLOR="#FF0000"></FONT>
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+<BR>&nbsp;&nbsp; <B>MESH VERTEX OPERATORS</B>
+<BR>&nbsp;
+<HR WIDTH="100%">
+<BR><I>int </I><B>MV_Number</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v);
+
+<P>Return an ID number for the mesh vertex.
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%"><I>VType</I> <B>MV_Type</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v);
+
+<P>Return the mesh vertex type. Most useful in checking if a mesh vertex
+<BR>has been deleted or if it is a parent vertex on an interface
+
+<P>
+<HR WIDTH="100%"><I>PGeomEntity</I> <B>MV_GMEntity</B>(<I>PMeshObj</I>
+mesh, <I>PMeshVert</I> v);
+
+<P>Return the geometric model entity the mesh vertex is classified on.
+
+<P>
+<HR WIDTH="100%"><I>GType</I> <B>MV_GMtype</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v);
+
+<P>Return the type of geometric model entity the mesh vertex is
+<BR>classified on (GREGION, GFACE, GEDGE, GVERTEX, GUNKNOWN).
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MV_Coords</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v, <I>double</I> *xyz);
+
+<P>Coordinates of mesh vertex
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MV_IsParent</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>A vertex not on an interface
+is its own parent - return value will be 1
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MV_IsChild</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>A vertex not on an interface
+is its own child - return value will be 1
+
+<P>
+<HR WIDTH="100%"><I>PMeshVert</I> <B>MV_Parent</B>(<I>PMeshObj</I> mesh,
+<I>PMeshVert</I> v);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>For a vertex not on an interface,
+the vertex itself is returned
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MV_Children</B>(<I>PMeshVert</I> mesh,
+<I>PMeshVert</I> v, <I>int </I>*nvc, <I>PMeshVert</I> **vc)
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>For a vertex not on an interface,
+a 1 item array with the vertex
+<BR>pointer itself is returned and nvc = 1
+<BR>&nbsp;
+<BR>
+<HR WIDTH="100%"><I>void</I> <B>MV_Edges</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v, <I>int </I>*nve, <I>PMeshEdge</I> **vedges);
+
+<P>List of mesh edges connected to vertex. For this routine to work
+<BR>properly, one must call MESH_BldAdj first. If not the routine will
+<BR>just return 0.
+
+<P>If the vertex is a parent vertex, then the operator will return all
+<BR>the edges connected to all the child vertices of the vertex. The edge
+<BR>returned will be of type PARENT. Each of these edges will be made up
+<BR>of 'v' and any other parent vertex it is connected to. If it is a
+<BR>child vertex, then it will return edges connected only to itself.&nbsp;
+In
+<BR>this case all the edges will be of type CHILD. Each edge will be made
+<BR>up of the child vertex 'v' and any other child vertex it is connected
+<BR>to. Note that vertices on 2-manifold (single material) boundaries and
+<BR>in the interior can be considered a parent or a child as required.
+
+<P><IMG SRC="bullet12.gif" HEIGHT=31 WIDTH=27>*** IMPORTANT ***
+<BR><FONT COLOR="#FF0000">When finished with the list of edges, call ME_Delete
+on each of the</FONT>
+<BR><FONT COLOR="#FF0000">edges and free the vedges list. This is important
+since the MeshEdge</FONT>
+<BR><FONT COLOR="#FF0000">data structures are created on the fly and the
+MESH object does not</FONT>
+<BR><FONT COLOR="#FF0000">keep track of them.</FONT>
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MV_Faces</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v, <I>int </I>*nvf, <I>PMeshFace</I> **vfaces);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>** NOT YET TESTED **
+
+<P>List of mesh faces connected to vertex. For this routine to work
+<BR>properly, one must call MESH_BldAdj first. If not the routine will
+<BR>just return 0.
+
+<P>The behavior of the operator for parent and child vertices is the same
+<BR>as it is for MV_Edges.
+
+<P><IMG SRC="bullet12.gif" HEIGHT=31 WIDTH=27>*** IMPORTANT ***
+<BR><FONT COLOR="#FF0000">When finished with the list of faces, call MF_Delete
+on each of the</FONT>
+<BR><FONT COLOR="#FF0000">faces and free the vfaces list. This is important
+since the MeshFace</FONT>
+<BR><FONT COLOR="#FF0000">data structures are created on the fly and the
+MESH object does not</FONT>
+<BR><FONT COLOR="#FF0000">keep track of them.</FONT>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MV_numRegions</B>(<I>PMeshObj</I> mesh,
+<I>PMeshVert</I> v);
+
+<P>Number of mesh regions connected to mesh vertex. For this routine to
+<BR>work properly, one must call MESH_BldUpAdj first. If not the routine
+<BR>will just return 0.
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MV_Regions</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v, <I>int </I>*nr, <I>PMeshRegn</I> **regns);
+
+<P>List of mesh regions connected to mesh vertex. For this routine to
+<BR>work properly, one must call MESH_BldUpAdj first. If not the routine
+<BR>will just return 0 for the number of regions and a NULL pointer for
+<BR>the region list.
+<BR>&nbsp;
+
+<P>For a parent vertex, mesh regions in all the material regions
+<BR>connected to all its children are returned. For a child vertex, only
+<BR>mesh regions in the particular material region pointed to by the child
+<BR>are returned.
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+<BR>&nbsp;&nbsp; <B>MESH EDGES:</B>
+<BR>
+<HR WIDTH="100%">
+
+<P>Since LaGriT does not really store mesh edges, the mesh edge data
+<BR>structure (<I>MeshEdge</I>, <I>PMeshEdge</I>) is created on the fly
+whenever edge
+<BR>information is requested. Therefore after utilizing the edge(s) get
+<BR>information, it (they) should be destroyed by calling ME_Delete
+<BR>operator.
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>ME_Number</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+e);
+
+<P>** This will return 0 for now since I haven't yet decided on a good
+<BR>** way to assign a unique number to the (virtual) edges of the mesh.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>ME_Delete</B>(<I>PMeshEdge</I> e);
+
+<P>Free the data structure associated with this edge created on the fly.
+<BR>(There is an operator for creation but I cannot yet imagine needing
+to
+<BR>make that a publicly available operator).
+
+<P><IMG SRC="bullet12.gif" HEIGHT=31 WIDTH=27>** IMPORTANT **
+<BR><FONT COLOR="#FF0000">ME_Delete will not remove any connections in
+the mesh. It just destroys the</FONT>
+<BR><FONT COLOR="#FF0000">temporary data structure used to store the edge
+info</FONT><FONT COLOR="#FF0000"></FONT>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>ME_IsParent</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+pe);
+
+<P>If both vertices of the edge are parents, the edge is a parent.
+
+<P>
+<HR WIDTH="100%"><I>PMeshEdge</I> <B>ME_Parent</B>(<I>PMeshObj</I> mesh,
+<I>PMeshEdge</I> pe);
+
+<P>The parents of each vertex of the edge are obtained and a new 'parent'
+<BR>edge is constructed from them.
+
+<P>
+<HR WIDTH="100%"><I>void</I> ME_Children(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+pe, <I>int </I>*nec, <I>PMeshEdge</I> **ec);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>*** NOT YET IMPLEMENTED ***
+
+<P>Child vertices of the face are found and appropriate combinations of
+these vertices are used to construct the new 'child' faces. For a combination
+to be appropriate, the vertices of the child face has to point to the same
+material region.
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MEs_areSame</B>(<I>PMeshEdge</I> e1, <I>PMeshEdge</I>
+e2);
+
+<P>Compare the data in two MeshEdge data structures and see if they
+<BR>represent the same connection in the mesh. This operator is needed
+<BR>since the on-the-fly <I>PMeshEdge</I> pointers may not be the same
+and they
+<BR>do not directly point to any persistent "object" in the database.
+
+<P>
+<HR WIDTH="100%"><I>PGeomEntity</I> <B>ME_GMentity</B>(<I>PMeshObj</I>
+mesh, <I>PMeshEdge</I> e);
+
+<P>Return the geometric model entity the edge is on. In the absence of
+explicit
+<BR>edge representation in the database, this may be problematic in a few
+cases
+<BR>cases where multiple classifications are possible.
+
+<P>
+<HR WIDTH="100%"><I>GType</I> <B>ME_GMtype</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+e);
+
+<P>Return the type of geometric model entity the edge is on. This (I
+<BR>think) is more deterministically found from the classifications of
+its
+<BR>vertices but still there may be some incorrect cases. The way around
+<BR>is complicated and will not be implemented for now.
+
+<P>
+<HR WIDTH="100%"><I>PMeshVert</I><B> ME_Vertex</B>(<I>PMeshObj</I> mesh,
+<I>PMeshEdge</I> e, <I>int </I>i);
+
+<P>Return the i'th vertex of the mesh edge. i can only be 0 or 1.
+<BR>Parent edges return parent vertices and child edges return child vertices.
+<BR>If a vertex is not on an interface the vertex itself is returned.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>ME_Faces</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+e, <I>int </I>*nef, <I>PMeshFace</I> **efaces);
+
+<P>Get the "faces" of an "edge". The faces data structures are also
+<BR>constructed on the fly since they do not exist in the LaGriT
+<BR>database. Also, as with other upward connectivity queries, this can
+<BR>execute usefully only if the routine MESH_BldUpAdj is called
+<BR>beforehand. Also, see note on freeing the <I>PMeshFace</I> structures
+listed
+<BR>under MV_Edges and MV_Faces.
+
+<P>The behavior of this operator for parent and child edges is similar
+to
+<BR>MV_Edges.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>ME_Regions</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+e, <I>int </I>*ner, <I>PMeshRegn</I> **eregions);
+
+<P>Get the regions connected to an edge. MESH_BldUpAdj must be called before
+this operator can be called usefully.
+
+<P>The behavior of this operator for child and parent edges is similar
+to
+<BR>that of MV_Regions.
+
+<P><IMG SRC="bullet12.gif" HEIGHT=31 WIDTH=27>** IMPORTANT **
+
+<P><FONT COLOR="#FF0000">Since MESH_BldUpAdj builds explicit upward adjacency
+information, this</FONT>
+<BR><FONT COLOR="#FF0000">routine does not require a seed region to be
+provided. Also, this</FONT>
+<BR><FONT COLOR="#FF0000">routine will work regardless of whether there
+is a complete cycle of</FONT>
+<BR><FONT COLOR="#FF0000">regions around the edge and whether the edge
+is an arbitrary type of</FONT>
+<BR><FONT COLOR="#FF0000">non-manifold edge!!</FONT>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>ME_EntOnBdry</B>(<I>PMeshObj</I> mesh, <I>PMeshEdge</I>
+pe, <I>PMeshVert</I>e pv);
+
+<P>Check if vertex is on the boundary of edge. In other words, is this
+<BR>vertex one of the edges vertices.
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+<BR>&nbsp;&nbsp;&nbsp;<B> MESH FACES:</B>
+<BR>
+<HR WIDTH="100%">
+<BR>Since LaGriT does not really store mesh faces, the mesh face data
+<BR>structure (MeshFace, <I>PMeshFace</I>) is created on the fly whenever
+face
+<BR>information is requested. Therefore after utilizing the face(s) get
+<BR>information, it (they) should be destroyed by calling MF_Delete
+<BR>operator.
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MF_Number</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+f);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>** This will return 0 for now
+since I haven't yet decided on a good
+<BR>** way to assign a unique number to the (virtual) faces of the mesh.
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MF_Delete</B>(<I>PMeshFace</I> f);
+
+<P>Free the data structure associated with this face created on the fly.
+<BR>(There is an operator for creation but I cannot yet imagine needing
+to
+<BR>make that a publicly available operator).
+
+<P><IMG SRC="bullet12.gif" HEIGHT=31 WIDTH=27>** IMPORTANT **
+<BR><FONT COLOR="#FF0000">MF_Delete will not remove any connections in
+the mesh. It just</FONT>
+<BR><FONT COLOR="#FF0000">destroys the temporary data structure used to
+store the face info</FONT><FONT COLOR="#FF0000"></FONT>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MF_IsParent</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+pf);
+
+<P>If all vertices of the face are parents, the face is a parent.
+
+<P>
+<HR WIDTH="100%"><I>PMeshFace</I> <B>MF_Parent</B>(<I>PMeshObj</I> mesh,
+<I>PMeshFace</I> pf);
+
+<P>The parents of all vertices of the face are obtained and a new
+<BR>'parent' face is constructed from them.
+
+<P>
+<HR WIDTH="100%">
+<BR><I>void</I> <B>MF_Children</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+pf, <I>int </I>*nfc, <I>PMeshFace</I> **fc);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>*** NOT YET IMPLEMENTED ***
+
+<P>Child vertices of the face are found and appropriate combinations of
+these vertices are used to construct the new 'child' faces. For a combination
+to be appropriate, the vertices of the child face has to point to the same
+material region.
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MFs_areSame</B>(<I>PMeshFace</I> f1, <I>PMeshFace</I>
+f2);
+
+<P>Compare the data in two MeshFace data structures and see if they
+<BR>represent the same connection in the mesh. This operator is needed
+<BR>since the on-the-fly <I>PMeshFace</I> pointers may not be the same
+and they
+<BR>do not directly point to any persistent "object" in the database.
+
+<P>
+<HR WIDTH="100%"><I>PGeomEntity</I> <B>MF_GMentity</B>(<I>PMeshObj</I>
+mesh, <I>PMeshFace</I> f);
+
+<P>Return the geometric model entity the face is on. In the absence of
+<BR>explicit face representation in the database, this may be problematic
+<BR>in a few cases cases where multiple classifications are possible.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>GType</I> <B>MF_GMtype</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+f);
+
+<P>Return the type of geometric model entity the face is on. This (I
+<BR>think) is more deterministically found from the classifications of
+its
+<BR>vertices but some problems may still occur. See Comments in ME_GMtype.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>PMeshVert</I> <B>MF_Vertices</B>(<I>PMeshObj</I> mesh,
+<I>PMeshFace</I> f, <I>int </I>*nfv, <I>PMeshVert</I>ex *fverts);
+
+<P>Return the vertices of the mesh face. The vertices are in no
+<BR>particular order.&nbsp; Parent faces return parent vertices and child
+faces
+<BR>child vertices. If a vertex is not on an non-manifold boundary
+<BR>(interface) the vertex itself is returned.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>PMeshVert</I> <B>MF_VerticesOrd</B>(<I>PMeshObj</I>
+mesh, <I>PMeshFace</I> f, <I>int </I>*nfv, <I>PMeshVert</I>ex *fverts);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>** NOT YET IMPLEMENTED **
+
+<P>Return the vertices of the mesh face. The vertices are ordered such
+<BR>that the smallest one is the first. Also, the sequence is such that
+<BR>the face points out of the region connected to it or in case there
+are
+<BR>two regions connected to it, such that it points out of the region
+<BR>with the lower ID Number. The behavior of the operator for parent and
+<BR>child faces is the same as MF_Vertices<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MF_Edges</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+f, <I>int </I>*nef, <I>PMeshFace</I> **efaces);
+
+<P>Get the "edges" of an "face". The edges data structures are
+<BR>constructed on the fly since they do not exist in the LaGriT
+<BR>database. See note on freeing the <I>PMeshFace</I> structures listed
+under
+<BR>MV_Edges and MV_Faces. Parent faces return parent edges and child
+<BR>faces return child edges.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MF_Regions</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+f, <I>PMeshRegn</I> fregions[2]);
+
+<P>Get the regions connected to an face. MESH_BldUpAdj must be called
+<BR>before this operator can be called usefully. The regions will be
+<BR>returned such that the face 'f' as defined will point out fregions[0]
+<BR>(if it exists) and into fregions[1] (if it exists).
+
+<P>A parent face will return both regions connected to it while a child
+<BR>face will return a region only on its side of the interface. If a
+<BR>"child" face constructed from interior nodes and child nodes on an
+<BR>interface, both regions connected to it are returned.
+
+<P><IMG SRC="bullet12.gif" HEIGHT=31 WIDTH=27>** IMPORTANT **
+
+<P><FONT COLOR="#FF0000">Since MESH_BldUpAdj builds explicit upward adjacency
+information, this</FONT>
+<BR><FONT COLOR="#FF0000">routine does not require a seed region to be
+provided.</FONT><I></I>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MF_EntOnBdry</B>(<I>PMeshObj</I> mesh, <I>PMeshFace</I>
+f, MType mtype, PMeshEntity pent);
+
+<P>Check if mesh entity of type 'mtype' is on the boundary of mesh
+<BR>face. mtype can only be MEDGE or MVERTEX. In other words, check if
+<BR>mesh face is made up of mesh edge or vertex in question.
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">&nbsp;&nbsp; <B>MESH REGIONS</B>:
+<BR>
+<HR WIDTH="100%">&nbsp;<I>int </I><B>MR_Number</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r);
+
+<P>Number ID for mesh region
+
+<P>
+<HR WIDTH="100%"><I>PGeomEntity</I> <B>MR_GMEntity</B>(<I>PMeshObj</I>
+mesh, <I>PMeshRegn</I> r);
+
+<P>Geometric entity (can only be a region) mesh region is classified on<I></I>
+
+<P>
+<HR WIDTH="100%"><I>ElType</I> <B>MR_Type</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r);
+
+<P>Type of element that mesh region is (TET, HEX etc)<I></I>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MR_NumVerts</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r);
+
+<P>Number of vertices in the element<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MR_Vertices</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r, <I>int </I>*nv, <I>PMeshVert</I> **verts);
+
+<P>List of vertices of a mesh region<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MR_VerticesE</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r, <I>PMeshEdge</I> e, <I>PMeshVert</I> *rverts);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>THIS OPERATOR IS APPLICABLE
+ONLY TO TETS
+
+<P>Return the vertices of the given tet w.r.t to the given edge. The
+<BR>vertices v1 and v2 are vertices of the edge (maybe (0,1) or (1,0))
+-
+<BR>these are returned as rverts[0] and rverts[1]. The vertices rverts[2]
+<BR>(call it k1) and rverts[3] (k2) are returned such that if the vertices
+<BR>are above the edge then looking from vertex 0 to vertex 1 of the edge
+<BR>k2 is to the left of k1. Mathematically,
+
+<P>&nbsp;&nbsp; (v2k1 X v2k2) . v2v1 > 0
+
+<P>where v2k1 is the vector from v2 to k1, etc.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MR_VerticesLocE</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r, <I>int </I>enum, <I>PMeshVert</I> *rverts);
+
+<P><IMG SRC="../images/note1.gif" HEIGHT=32 WIDTH=31>THIS OPERATOR IS APPLICABLE
+ONLY TO TETS
+
+<P>Same as MR_VerticesE (above) but the edge is specified by a local edge
+<BR>number of the region instead of an explicit pointer.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MR_NumFaces</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r);
+
+<P>Number of faces of element<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MR_Edges</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r, <I>int </I>*num, <I>PMeshEdge</I> **edge);
+
+<P>List of edges of a mesh region<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MR_Faces</B>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r, <I>int </I>*num, <I>PMeshFace</I> **faces);
+
+<P>List of faces of a mesh region<I></I>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MR_LocEdgeNum</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r, <I>PMeshEdge</I> e);
+
+<P>Local edge number of the given edge in the given region<I></I>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MR_LocFaceNum</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r, <I>PMeshFace</I> f);
+
+<P>Local face number of the given face in the given region.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>int<B> MR_EntOnBdry</B></I>(<I>PMeshObj</I> mesh, <I>PMeshRegn</I>
+r, MType mtype, PMeshEntity pent);
+
+<P>Check if mesh entity of type 'mtype' is on the boundary of mesh
+<BR>region. mtype can be MFACE, MEDGE or MVERTEX. In other words, the
+<BR>operator checks if mesh region is made up of mesh face, edge or vertex
+<BR>in question.
+<BR>&nbsp;
+<BR>
+<HR WIDTH="100%"><I>PMeshRegn</I> <B>MR_FaceNebr</B>(<I>PMeshObj</I> mesh,
+<I>PMeshRegn</I> r, <I>int </I>lfnum);
+
+<P>Return the mesh region adjacent to face number 'lfnum' of region 'r'
+<BR>The local face numbering starts from 0 in C style.
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">&nbsp; <B>GENERIC REGION TYPE OPERATORS</B>
+<BR>
+<HR WIDTH="100%">&nbsp;<I>int </I><B>RType_NumVerts</B>(<I>ElType</I> type);
+
+<P>Number of vertices for a generic element of a particular type<I></I>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>RType_NumEdges</B>(<I>ElType</I> type);
+
+<P>Number of edges for a generic element of a particular type<I></I>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>RType_NumFaces</B>(<I>ElType</I> type);
+
+<P>Number of faces for a generic element of a particular type<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>RType_EdgeVertMap</B>(<I>ElType</I> type,
+<I>int </I>ienum, <I>int </I>*evnums);
+
+<P>Get the local vertex numbers for local edge 'ienum' of element type.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>RType_FaceVertMap</B>(<I>ElType</I> type,
+<I>int </I>ifnum, <I>int </I>*nfv, <I>int </I>**fvnums);
+
+<P>Get the local vertex numbers for local facee 'ifnum' of element type.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>RType_FaceEdgeMap</B>(<I>ElType</I> type,
+<I>int </I>ifnum, <I>int </I>*nfe, <I>int </I>**fenums);
+
+<P>Get the local edge numbers for local face 'ifnum' of element type.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>RType_EdgeVertMap</B>(<I>ElType</I> type,
+<I>int </I>ienum, <I>int </I>*evnums);
+
+<P>Get the local vertex numbers for local edge 'ienum' of element type.
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">&nbsp;&nbsp; UTILITIES:
+<BR>&nbsp;
+<HR WIDTH="100%">&nbsp;<I>void</I> <B>ReportError</B>(<I>char</I> *modulename,
+<I>char</I> *message, ErrType severity);
+
+<P>Report an error message. The severity may be specified as
+
+<P><B>MESSG</B>: Print a message to the screen
+<BR><B>WARNING</B>: Print message with attention grabbing text
+<BR><B>ERROR</B>: Print message with additional attention grabbing text
+<BR><B>FATAL</B>: Print attention grabbing message and exit.
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">&nbsp;<B>GEOMETRIC MODEL INITIALIZATION:</B>
+<BR>&nbsp;
+<HR WIDTH="100%">
+<BR><I>void</I> <B>GMTKLA_Init</B>(<I>void</I>);
+
+<P>Initialize the geometric model interface (does nothing for now but
+<BR>include it for completeness sake).
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">&nbsp;&nbsp; <B>MODEL OPERATORS:</B>
+<BR>&nbsp;
+<HR WIDTH="100%">&nbsp;<I>int </I><B>GM_NumRegions</B>(<I>void</I>);
+
+<P>Number of model regions. Note this has nothing to do with number of
+<BR>material attributes. That is the analysis preprocessing concern not
+<BR>the mesh generator's or the geometric modeler's. The number of model
+<BR>regions refers to the number of distinct volumes in the geometric
+<BR>model.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>GM_NumFaces</B>(<I>void</I>);
+
+<P>Number of model faces. For now, this just returns the number of
+<BR>surfaces in the geometric model although they are strictly not the
+<BR>same.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>PGeomRegn</I> <B>GM_Region</B>(<I>int </I>i);
+
+<P>Return the i'th geometric model region<I></I>
+
+<P>
+<HR WIDTH="100%"><I>PGeomFace</I> <B>GM_Face</B>(<I>int</I> i);
+
+<P>Return the i'th geometric model face<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>GM_Regions</B>(<I>int</I> *nr, <I>PGeomRegn</I>
+**gregs);
+
+<P>Get all the model regions<I></I>
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>GM_Faces</B>(<I>int</I> *nf, <I>PGeomFace</I>
+**gfaces);
+
+<P>Get all the model faces&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">&nbsp;&nbsp; <B>MODEL REGION OPERATORS:</B>&nbsp;&nbsp;
+<HR WIDTH="100%"><I>void</I> <B>GR_Faces</B>(<I>PGeomRegn</I> gr, <I>int</I>
+*nf, <I>PGeomFace</I> *faces);
+
+<P>Get the model faces that form the boundary of a model region.<I></I>
+
+<P>
+<HR WIDTH="100%"><I>int</I> <B>GR_FaceDir</B>(<I>PGeomRegn</I> gr, <I>PGeomFace</I>
+gf);
+
+<P>Get the sense in which a model region is using a face, i.e., is the
+<BR>face normal pointing into the region (return value 0), out of the
+<BR>region (return value 1), both (return value 2) or none (return value
+<BR>-1). ***** MUST VERIFY THiS WITH CODE VALUES ******<I></I>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>GR_OnBoundary</B>(<I>PGeomRegn</I> this,
+<I>PGeomEntity</I> gent);
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+<BR>&nbsp;&nbsp;<B> MODEL FACE OPERATORS:</B>
+<BR>
+<HR WIDTH="100%">&nbsp;<I>void</I> <B>GF_Regions</B>(<I>PGeomFace</I> gf,
+<I>PGeomRegn</I> gr[2]);
+
+<P>Get the regions on either side of the face. gr[0] is the region on the
+<BR>opposite side of the normal while gr[1] is the region on the same side
+<BR>of the normal.&nbsp; In principle (not in LaGriT), both entries of
+gr may
+<BR>be filled _AND_ gr[0] may be equal to gr[1]. Also in principle, both
+<BR>entries of gr may be NULL.
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%"><B>MODEL ENTITY OPERATORS:</B>
+<BR>
+<HR WIDTH="100%"><I>GType</I> <B>GEnt_Type</B>(<I>PGeomEntity</I> gent);
+
+<P>Type of a geometric model entity (GREGION, GFACE, GEDGE, GVERTEX,
+<BR>GUNKNOWN).&nbsp; Typically can be used in conjunction with the operator
+to
+<BR>get mesh entity classification. So one can get the model entity a mesh
+<BR>vertex is on, query what type it is and do something based on the
+<BR>response (e.g. reposition the vertex only if it is classified in a
+<BR>model region).
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>GEnt_Number</B>(<I>PGeomEntity</I> gent);
+
+<P>ID Number of geometric model entity. Can be called instead of
+<BR>GR_Number, GF_Number, GE_Number and GV_Number.
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>GEnt_OnBoundary</B>(<I>PGeomEntity</I> g1,
+<I>PGeomEntity</I> g2);
+
+<P>Check if g2 is on the boundary of g1 (Check if a face is on the
+<BR>boundary of a region, an edge is on the boundary of a face, a vertex
+<BR>is on the boundary of a region)
+<BR>&nbsp;
+<CENTER><A HREF="mstkla.html"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30>
+</CENTER>
+&nbsp;
+</BODY>
+</HTML>

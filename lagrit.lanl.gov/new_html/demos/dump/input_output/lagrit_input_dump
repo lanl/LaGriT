@@ -1,0 +1,11 @@
+* TEST dump/* (lagrit_input_dump)
+read / avs / input_unit_tet.inp / cmo
+dump / fehm / output / cmo / binary / / scalar
+dump / gmv / output.gmv / cmo /
+dump / lagrit / output.lg / cmo /
+dump / avs / output.avs / cmo /
+*begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish

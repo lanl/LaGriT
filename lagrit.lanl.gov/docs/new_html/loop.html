@@ -1,0 +1,123 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Carl Gable">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>loop</title>
+<! header for style of html ------------------------------------------------ >
+<! command name for window banner >
+<! font and other body information should be in the style statement here.>
+<style type="text/css">
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+       }
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+&nbsp;
+<h2>
+loop</h2>
+&nbsp;
+<blockquote>The <b>loop</b> command repeatedly executes any LaGriT command
+with either a do loop type or foreach type variable argument control.
+<br><b>loop</b> supports loops up to 10 deep with a maximum of 250 tokens
+in the /foreach/ list.</blockquote>
+
+<br>&nbsp;
+<p>FORMAT:
+<blockquote><b>loop</b>/ <font face="Courier"><b>do</b> / variable / loop_start
+/ loop_stop / loop_stride / <b>loop_end</b> / lagrit_command</font></blockquote>
+
+<blockquote><b>loop</b>/ <font face="Courier"><b>foreach</b> / variable
+/ list_var1 list_var2 ... list_varN / <b>loop_end</b> / lagrit_command</font></blockquote>
+
+<blockquote><font face="Courier"><b>do</b> or <b>foreach</b> :
+</font>are
+keywords that determine the type of loop operation.
+<p><font face="Courier">variable :
+</font>is a character string that can
+be used in the <font face="Courier New,Courier">lagrit_command.</font>
+The <font face="Courier New,Courier">variable</font> values are controled
+by the loop range or given in a variable list.
+<p><font face="Courier">loop range: loop_start / loop_stop / loop_stride
+:
+</font>Integers that specify the initial, limit, and increment of <font face="Courier New,Courier">variable</font>.
+<p><font face="Courier">variable_list: list_var1 list_var2 ... list_varN
+:
+</font>Integers, reals or characters that are substituted into <font face="Courier New,Courier">variable</font>
+prior to each execution of the <font face="Courier New,Courier">lagrit_command</font>.
+<p><font face="Courier"><b>loop_end</b>:
+</font>Required keyword string
+to terminate a foreach list. It is also REQUIRED after loop_stride.
+<p><font face="Courier">lagrit_command:
+</font>Any valid LaGriT command
+including another <b>loop</b> command.
+<br>&nbsp;
+<br>&nbsp;</blockquote>
+EXAMPLES:
+<blockquote><b>loop <font face="Courier">/ foreach</font></b><font face="Courier">
+/ MO / cmo1 cmo2 cmo3 / <b>loop_end </b>/ <b>cmo</b> / <b>delete</b> /
+MO</font>
+<dir>&nbsp;
+<br>Delete a list of mesh objects.</dir>
+<b>loop</b> <font face="Courier">/ <b>foreach</b> / FILE / file1 file2
+file3 / <b>loop_end</b> &amp;</font>
+<dir><b>loop</b> <font face="Courier">/ <b>foreach</b> / MO / cmo1 cmo2
+cmo3 / <b>loop_end</b> &amp;</font></dir>
+
+<dir>
+<dir><font face="Courier"><b>infile</b> lagrit.input_control_file</font></dir>
+</dir>
+
+<dir>&nbsp;
+<br>Execute a set of commands in a LaGriT control file that utilize the
+variables FILE and MO.</dir>
+
+<p><br><b>loop</b> <font face="Courier">/ <b>do</b> / NX 2 3 1 / <b>loop_end</b>
+&amp;</font>
+<dir><b>loop</b> <font face="Courier">/ <b>do</b> / NY 4 5 1 / <b>loop_end</b>
+&amp;</font></dir>
+
+<dir>
+<dir><b>loop</b> <font face="Courier">/ <b>do</b> / NZ 6 7 1 / <b>loop_end</b>
+&amp;</font></dir>
+</dir>
+
+<dir>
+<dir>
+<dir><b>loop</b> <font face="Courier">/ <b>foreach</b> / X0 0 5.5 10.2345678
+/ <b>loop_end </b>&amp;</font></dir>
+</dir>
+</dir>
+
+<dir>
+<dir>
+<dir>
+<dir><font face="Courier"><b>createpts</b>/<b>xyz</b>/NX,NY,NZ/X0 0. 0.
+/ 100. 100. 100.</font></dir>
+</dir>
+</dir>
+</dir>
+
+<dir>&nbsp;
+<br>Execute a set of commands in a LaGriT control file that utilize the
+variables NX,NY,NZ,X0.</dir>
+<b>loop</b> <font face="Courier">/ <b>foreach</b> / MO cmo1 cmo2 cmo3 /
+<b>loop_end</b> &amp;</font>
+<dir><b>loop</b> <font face="Courier">/ <b>foreach</b> / ATTRIBUTE / icr
+isn itp / <b>loop_end </b>&amp;</font></dir>
+
+<dir>
+<dir><font face="Courier"><b>cmo</b>/<b>modatt</b>/MO/ATTRIBUTE/<b>ioflag</b>/l</font></dir>
+</dir>
+
+<dir>&nbsp;
+<br>Modify IO flags of three attributes in three different mesh objects.</dir>
+</blockquote>
+<font face="Times"><a href="demos/trans/test/html/main_trans.html"></a></font>
+</body>
+</html>

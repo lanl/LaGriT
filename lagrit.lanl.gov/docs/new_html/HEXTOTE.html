@@ -1,0 +1,152 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.51C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+<! command name for window banner >
+   <title>HEXTOTET</title>
+
+<! font and other body information should be in the style statement here.>
+<style type="text/css">
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+       }
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+&nbsp;
+<! end header --------------------------------------------------------------- >
+
+
+<! command name for this page >
+<h2>HEXTOTET</h2>
+
+<! command overview ---------- >
+<blockquote>
+The <b>hextotet</b> command creates a tetrahedral grid from 3D grids. 
+In 2D the elements are converted to triangles.
+The first parameter <font face="Courier">ioption</font> 
+determines how the conversion is performed. 
+</blockquote><br>
+
+<! command syntax or format ------------ >
+<br><br>
+FORMAT:
+<blockquote>
+  <b>hextotet</b>/
+  [ <font face="Courier">ioption</font> ]
+  / <font face="Courier">cmo_snk / cmo_src  </font>
+  /  [<b>rmvolume</b>]
+</blockquote>
+
+
+<! parameter 1 ---------- >
+<br>
+<font face="Courier">
+ioption:
+</font>
+is a numerical number indicating the number of tets or triangles to break each
+element into. If this parameter is missing then default settings are used. 
+The defaults are underlined and will be detirmined by reading
+the mesh_type of the mesh_object. If mesh_type is quad, <b>2</b> is used.
+If mesh_type is prism, <b>3</b> is used. If mesh_type is hex, <b>6</b> is used.
+Otherwise <b>24</b> is the default value for <font face="Courier">ioption</font>. 
+<br>
+The selections include: 
+<! parameter description >
+<blockquote>
+  <b><u>2</u></b>&nbsp;&nbsp; 
+  quad to 2 triangles, no new points. 
+  <br>
+  <b><u>3</u></b>&nbsp;&nbsp;
+   prism to 3 tets, no new points. 
+  <br>
+  <b>4</b>&nbsp;&nbsp;
+  quad to 4 triangles, with one new point.
+  <br>
+  <b>4</b>&nbsp;&nbsp;
+  pyramid to 4 tets, with one new point. 
+  <br>
+  <b>5</b>&nbsp;&nbsp;
+  hex to 5 tets, no new points. 
+  <br>
+  <b><u>6</u></b>&nbsp;&nbsp;
+  hex to 6 tets, no new points. 
+  <br>
+  <b>14</b>&nbsp;&nbsp;
+  prism to 14 tets, four new points (1 + 3 faces). 
+  <br>
+  <b>18</b>&nbsp;&nbsp;
+  prism to 18 tets, six new points (1 + 5 faces). 
+  <br>
+  <b><u>24</u></b>&nbsp;&nbsp;
+  hex to 24 tets, seven new points (1 + 6 faces). 
+  <br>
+</blockquote>
+
+<br>
+<font face="Courier">
+cmo_snk / cmo_src :
+</font>
+are the mesh_object names. <font face="Courier">cmo_src</font> is the
+original grid. <font face="Courier">cmo_snk</font> is the name for the
+new tet or triangle grid.
+<br>
+<br>
+<b>rmvolume </b>:
+ keyword is optional and will assign hextotet_remove_volume 
+and hextotet_remove_duplicates
+to 'yes'. This will enable hextotet to use its own algorithm for removing
+elements with zero volume and duplicate points. It may be prone to epsilon
+errors for grids over large areas. By default, zero volumes and duplicate points
+are not removed from the new mesh object <font face="Courier">cmo_snk</font>.
+<br>
+<! end parameter descriptions >
+<br><br>
+
+<! command examples >
+<br><br>
+EXAMPLES:
+<blockquote>
+  <b>hextotet</b> /<b> 24 </b>/
+  <font face="Courier">cmo_tet / cmo_hex</font>
+  <dir>Convert each hex element in cmo_hex to 24 tets 
+  and name the new grid cmo_tet.</dir>
+  <br>
+  <b>hextotet</b> / /
+  <font face="Courier">cmo_tri / cmo_quad</font> 
+  <dir>No value is given for ioption, so the default settings are used.
+  The mesh_type of cmo_quad is quad, so each element is 
+  converted to two triangles. The new mesh_object is named cmo_tri. 
+  </dir>
+  <br>
+  <b>hextotet</b> /<b> 3 </b>/
+  <font face="Courier">cmo_tet / cmo_pri /</font> <b>rmvolume</b>
+  <dir>
+  Each prism element in cmo_pri is converted to three tet elements.
+  Zero volume elements and duplicate points are removed. The new
+  tet mesh object is called cmo_tet.
+  </dir>
+  <br>
+
+</blockquote>
+
+<! links to further explanation or demo pages >
+<br><br>
+LINKS:
+<blockquote>
+<a href="demos/hextotet/test/html/main_hextet.html">Click
+here for demos</a>
+</blockquote>
+
+
+
+<br><br>
+<br><br>
+ 
+</body>
+</html>

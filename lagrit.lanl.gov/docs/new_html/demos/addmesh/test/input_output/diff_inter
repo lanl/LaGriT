@@ -1,0 +1,19 @@
+*** compare_inter	Thu Sep  7 15:58:56 2000
+--- ../../reference/reference_inter	Thu Sep  7 15:45:55 2000
+***************
+*** 308,314 ****
+   nodes_per_element              4              4              0         1       
+   edges_per_element              6              6              0         1       
+   faces_per_element              4              4              0         1       
+!  isetwd               0.00000E+00    2.12200-314    0.00000E+00       325       
+   ialias                         0              0              0       325       
+   imt1                           1              2              1       325       
+   itp1                           0             10             10       325       
+--- 308,314 ----
+   nodes_per_element              4              4              0         1       
+   edges_per_element              6              6              0         1       
+   faces_per_element              4              4              0         1       
+!  isetwd               0.00000E+00    2.12200-314    2.12200-314       325       
+   ialias                         0              0              0       325       
+   imt1                           1              2              1       325       
+   itp1                           0             10             10       325       

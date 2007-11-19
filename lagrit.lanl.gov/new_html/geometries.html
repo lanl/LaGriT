@@ -1,0 +1,39 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>c</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><font face="Times New Roman,Times">e. Geometries</font></b></blockquote>
+
+<dir>
+<dir><font face="Times New Roman,Times">A geometry consists of a set of
+surfaces and regions that are defined in terms of existing surfaces.&nbsp;
+A name is associated with the geometry data and the default name is&nbsp;
+-</font><font face="Courier New,Courier">defaultgeom</font><font face="Times New Roman,Times">-.&nbsp;
+A geometry may be named using the <b><a href="geom_create.html">geometry/create</a></b>
+command which must precede the <b>surface</b>,
+<b>region</b>, and <b>mregion</b>
+commands that define this geometry.&nbsp; A geometry may be associated
+with more than one mesh object.&nbsp; <b><a href="cmo_geom.html">cmo/geometry</a></b>
+and <b><a href="cmo_constraint.html">cmo/constraint</a></b> command are
+used to associate geometries with mesh objects.</font>
+<p><font face="Times New Roman,Times">The data for a geometry are contained
+in a set of memory managed arrays whose partition name is the geometry
+name and in common blocks </font><font face="Courier New,Courier">geom</font><font face="Times New Roman,Times">
+and </font><font face="Courier New,Courier">cgeom</font><font face="Times New Roman,Times">
+defined in the geom_lg.h file.&nbsp; This file also contains the pointer
+statements that can be used to access the data arrays directly.</font>
+<p><font face="Times New Roman,Times">At present access routines to the
+geometry information have not been written except for </font><font face="Courier New,Courier">getregv
+</font><font face="Times New Roman,Times">which
+accepts as input the coordinates of a set of query points and which returns
+a list of region numbers into which each query point falls.</font></dir>
+</dir>
+
+</body>
+</html>

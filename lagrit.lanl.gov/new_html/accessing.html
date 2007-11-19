@@ -1,0 +1,141 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>d</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<b><font face="Times New Roman,Times"><font size=+2>Accessing the Mesh
+Object</font></font></b>
+<dir>
+<dir><font face="Times New Roman,Times">The following template is an example
+of using the an existing mesh object and of creating a new mesh object.
+The existing mesh object is a 3d object. The object to be created is a
+2d object. It is first necessary to set up the pointer statements for both
+the existing and new mesh objects. All mesh object attributes are integers
+except for xic,yix,zic which are real*8.</font></dir>
+<font face="Courier">C Definitions for incoming (existing) cmo</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">pointer (ipimt1, imt1)</font>
+<br><font face="Courier">pointer (ipitp1, itp1)</font>
+<br><font face="Courier">pointer (ipicr1, icr1)</font>
+<br><font face="Courier">pointer (ipisn1, isn1)</font>
+<br><font face="Courier">integer imt1(1000000), itp1(1000000),</font>
+<br><font face="Courier">* icr1(1000000), isn1(1000000)</font>
+<br><font face="Courier">pointer (ipxic, xic)</font>
+<br><font face="Courier">pointer (ipyic, yic)</font>
+<br><font face="Courier">pointer (ipzic, zic)</font>
+<br><font face="Courier">real*8 xic(1000000), yic(1000000), zic(1000000)</font>
+<br><font face="Courier">pointer (ipitetclr, itetclr)</font>
+<br><font face="Courier">pointer (ipitettyp, itettyp)</font>
+<br><font face="Courier">pointer (ipitetoff, itetoff)</font>
+<br><font face="Courier">pointer (ipjtetoff, jtetoff)</font>
+<br><font face="Courier">pointer (ipitet, itet)</font>
+<br><font face="Courier">pointer (ipjtet, jtet)</font>
+<br><font face="Courier">integer itetclr(1000000), itettyp(1000000),</font>
+<br><font face="Courier">* itetoff(1000000), jtetoff(1000000)</font>
+<br><font face="Courier">integer itet(4,1000000) , jtet(4,1000000)</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">C Definitions for cmo that is to be created</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">pointer (ipimt1a, imt1a)</font>
+<br><font face="Courier">pointer (ipitp1a, itp1a)</font>
+<br><font face="Courier">pointer (ipicr1a, icr1a)</font>
+<br><font face="Courier">pointer (ipisn1a, isn1a)</font>
+<br><font face="Courier">integer imt1a(1000000), itp1a(1000000),</font>
+<br><font face="Courier">* icr1a(1000000), isn1a(1000000)</font>
+<br><font face="Courier">pointer (ipxica, xica)</font>
+<br><font face="Courier">pointer (ipyica, yica)</font>
+<br><font face="Courier">pointer (ipzica, zica)</font>
+<br><font face="Courier">real*8 xica(1000000), yica(1000000), zica(1000000)</font>
+<br><font face="Courier">pointer (ipitetclra, itetclra)</font>
+<br><font face="Courier">pointer (ipitettypa, itettypa)</font>
+<br><font face="Courier">pointer (ipitetoffa, itetoffa)</font>
+<br><font face="Courier">pointer (ipjtetoffa, jtetoffa)</font>
+<br><font face="Courier">pointer (ipiteta, iteta)</font>
+<br><font face="Courier">pointer (ipjteta, jteta)</font>
+<br><font face="Courier">integer itetclra(1000000), itettypa(1000000),</font>
+<br><font face="Courier">* itetoffa(1000000), jtetoffa(1000000)</font>
+<br><font face="Courier">integer iteta(3,1000000) , jteta(3,1000000)</font>
+<br><font face="Courier">C Get the existing cmo - its name is in the variable
+cmoin</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">call cmo_get_name(cmoin,ier)</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">C Get the scalar mesh variables</font>
+<br><font face="Courier">call cmo_get_intinfo('nnodes',cmoin,npoints,lencm,itypcm,ier)</font>
+<br><font face="Courier">call cmo_get_intinfo('nelements',cmoin,ntets,lencm,itypcm,ier)</font>
+<br><font face="Courier">call cmo_get_intinfo('ndimensions_topo',cmoin,ndt,lencm,itypcm,ier)</font>
+<br><font face="Courier">call cmo_get_intinfo('ndimensions_geom',cmoin,ndg,lencm,itypcm,ier)</font>
+<br><font face="Courier">call cmo_get_intinfo('nodes_per_element',cmoin,npe,lencm,itypcm,ier)</font>
+<br><font face="Courier">call cmo_get_intinfo('faces_per_element',cmoin,nfpe,lencm,itypcm,ier)</font>
+<br><font face="Courier">call cmo_get_intinfo('mbndry',cmoin,mbndry,lencm,itypcm,ier)</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">C Get pointers to the vector variables</font>
+<br><font face="Courier">call cmo_get_info('ialias',cmoin,ipialias,lenialias,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('imt1',cmoin,ipimt1,lenimt1,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('itp1',cmoin,ipitp1,lenitp1,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('icr1',cmoin,ipicr1,lenicr1,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('isn1',cmoin,ipisn1,lenisn1,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('xic',cmoin,ipxic,lenxic,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('yic',cmoin,ipyic,lenyic,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('zic',cmoin,ipzic,lenzic,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('itetclr',cmoin,ipitetclr,lenitetclr,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('itettyp',cmoin,ipitettyp,lenitettyp,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('itetoff',cmoin,ipitetoff,lenitetoff,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('jtetoff',cmoin,ipjtetoff,lenjtetoff,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('itet',cmoin,ipitet,lenitet,ictype,ier)</font>
+<br><font face="Courier">call cmo_get_info('jtet',cmoin,ipjtet,lenjtet,icmotype,ier)</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">C Create the new 2d cmo - call it cmoout.</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">call cmo_exist(cmoout,ier)</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">C ier.eq.0 means that the cmo already exists -
+if so release it.</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">if(ier.eq.0) call cmo_release(cmoout,idelete)</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">C Set active cmo to cmoout</font>
+<br><font face="Courier">call cmo_set_name(cmoout,ier)</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">C set scalar mesh variables</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">call cmo_set_intinfo('nnodes',cmoout,npoints,1,1,ier)</font>
+<br><font face="Courier">call cmo_set_intinfo('nelements',cmoout,ntets,1,1,ier)</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">C the following scalars need to be set for a 2d
+cmo</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">call cmo_set_info('ndimensions_topo',cmoout,2,1,1,ier)</font>
+<br><font face="Courier">call cmo_set_info('ndimensions_geom',cmoout,3,1,1,ier)</font>
+<br><font face="Courier">call cmo_set_info('nodes_per_element',cmoout,3,1,1,ier)</font>
+<br><font face="Courier">call cmo_set_info('faces_per_element',cmoout,3,1,1,ier)</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">C allocate memory for vector variables</font>
+<br><font face="Courier">call cmo_newlen(cmoout,ier)</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">C now get the pointers to the allocated memory
+for the vector data</font>
+<br><font face="Courier">call cmo_get_info('imt1',cmoout,ipimt1a,lenimt1a,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('itp1',cmoout,ipitp1a,lenitp1a,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('icr1',cmoout,ipicr1a,lenicr1a,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('isn1',cmoout,ipisn1a,lenisn1a,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('xic',cmoout,ipxica,lenxica,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('yic',cmoout,ipyica,lenyica,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('zic',cmoout,ipzica,lenzica,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('itetclr',cmoout,ipitetclra,lenclra,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('itettyp',cmoout,ipitettypa,lentypa,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('itetoff',cmoout,ipitetoffa,lenoffa,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('jtetoff',cmoout,ipjtetoffa,lenoffa,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('itet',cmoout,ipiteta,leniteta,icmotype,ier)</font>
+<br><font face="Courier">call cmo_get_info('jtet',cmoout,ipjteta,lenjteta,icmotype,ier)</font>
+<br><font face="Courier">C</font>
+<br><font face="Courier">C now the values for the vector components of
+the 2d mesh</font>
+<br><font face="Courier">C object can be set.</font></dir>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97/98">
+   <meta name="Template" content="Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>*arguments:</title>
+</head>
+<body link="#0000FF" vlink="#800080">
+
+<blockquote><u><font face="Times New Roman,Times"><font size=+1>Description</font></font></u>
+<blockquote>qquadxyz/5 25 7/ 0. 0. 0. /1. 0. 0. /1. 2. 0. /0. 2. 0. /&amp;
+<br>0. 0. 10. /1. 0. 10. /1. 2. 10. /0. 2. 10. /
+<p>Define an arbitrary, logical hexahedron of points in the xy plane.
+<br>&nbsp;</blockquote>
+
+<blockquote>Arguments:</blockquote>
+
+<center><table COLS=2 WIDTH="70%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="15%" NOSAVE><font face="Times New Roman,Times">5 25 7</font></td>
+
+<td><font face="Times New Roman,Times">create 5 points between the 1st
+and 2nd point.&nbsp;</font>
+<br><font face="Times New Roman,Times">create 25 points between the 1st
+and 4th point.</font>
+<br><font face="Times New Roman,Times">create 7 points between the 1st
+and 5th point.</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">0. 0. 0.</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">first corner of first quad</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">1. 0. 0.</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">second corner of first quad</font></td>
+</tr>
+
+<tr>
+<td>1. 2. 0.</td>
+
+<td><font face="Times New Roman,Times">third corner of first quad</font></td>
+</tr>
+
+<tr>
+<td>0. 2. 0.</td>
+
+<td><font face="Times New Roman,Times">fourth corner of first quad</font></td>
+</tr>
+
+<tr>
+<td>0. 0. 10.</td>
+
+<td><font face="Times New Roman,Times">first corner of second quad</font></td>
+</tr>
+
+<tr>
+<td>1. 0. 10.</td>
+
+<td><font face="Times New Roman,Times">second corner of second quad</font></td>
+</tr>
+
+<tr>
+<td>1. 2. 10.</td>
+
+<td><font face="Times New Roman,Times">third corner of second quad</font></td>
+</tr>
+
+<tr>
+<td>0. 2. 10.</td>
+
+<td><font face="Times New Roman,Times">fourth corner of second quad</font></td>
+</tr>
+</table></center>
+</blockquote>
+
+<blockquote>
+<blockquote>Input file:
+<blockquote><font face="Times New Roman,Times">*input.hex</font>
+<br><font face="Times New Roman,Times">* create a hexaheral grid</font>
+<br><font face="Times New Roman,Times">cmo create abc///hex</font>
+<br><font face="Times New Roman,Times">quadxyz/5 25 7/ 0. 0. 0. /1. 0.
+0. /1. 2. 0. /0. 2. 0. /&amp;</font>
+<br><font face="Times New Roman,Times">0. 0. 10. /1. 0. 10. /1. 2. 10.
+/0. 2. 10. /</font>
+<br><font face="Times New Roman,Times">*cmo/printatt//-xyz-</font>
+<br><font face="Times New Roman,Times">setpts</font>
+<br><font face="Times New Roman,Times">creatpts/brick/xyz/5 25 7/1,0,0/connect/</font>
+<br><font face="Times New Roman,Times">settets</font>
+<br><font face="Times New Roman,Times">dump/gmv/gmv.myhex</font>
+<br><font face="Times New Roman,Times">dump/avs/avs.myhex/abc/</font>
+<br><font face="Times New Roman,Times">finish</font></blockquote>
+</blockquote>
+</blockquote>
+
+</body>
+</html>

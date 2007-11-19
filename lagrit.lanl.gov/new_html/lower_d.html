@@ -1,0 +1,309 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>FIELD</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times New Roman,Times">LOWER_D</font></u></b>
+<blockquote><font face="Times New Roman,Times">This suite of commands creates
+and handles the lower dimension structures associated with a mesh.&nbsp;
+The existing mesh is labeled 'd0'.&nbsp; The next lower dimension mesh
+'d1' and so on.&nbsp; For an original 3D mesh, the d1 structures are the
+surfaces (2D) separating material regions, the d2 structures are the lines
+separating the d1 surfaces and the d3 structures are the nodes at the ends
+of the d2 lines.</font>
+<br><font face="Times New Roman,Times">Several new attributes are created
+which belong the original mesh object:</font>
+<br>&nbsp;
+<table COLS=3 WIDTH="80%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times">name</font></td>
+
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times">type</font></td>
+
+<td><font face="Times New Roman,Times">length</font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="10%" NOSAVE><font face="Times New Roman,Times">d0_nnodes_topo</font>
+<p><font face="Times New Roman,Times">&nbsp;</font></td>
+
+<td WIDTH="25%" NOSAVE><font face="Times New Roman,Times">VINT, nnodes</font>
+<p><font face="Times New Roman,Times">&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">0 = interior</font>
+<br><font face="Times New Roman,Times">1 = surface node</font>
+<br><font face="Times New Roman,Times">2 = line node</font>
+<br><font face="Times New Roman,Times">3 = line end node</font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="1%" NOSAVE><font face="Times New Roman,Times">d1_nnodes</font></td>
+
+<td WIDTH="80%" NOSAVE><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td WIDTH="47%" NOSAVE><font face="Times New Roman,Times">number of nodes
+in this structure</font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times">d1_elements</font></td>
+
+<td WIDTH="1%" NOSAVE><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td><font face="Times New Roman,Times">number of elements in this structure</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">d1_nef_cmo</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td WIDTH="50%" NOSAVE><font face="Times New Roman,Times">number of facets/element
+in this structure</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">d1_nee_cmo</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td WIDTH="80%" NOSAVE><font face="Times New Roman,Times">number of edges/element
+in this structure</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d1_nen_cmo</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td><font face="Times New Roman,Times">number of nodes/element in this
+structure</font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times">d1_jtet_cycle_max</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td><font face="Times New Roman,Times">the longest jtet cycle in this structure</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d1_itettyp</font></td>
+
+<td><font face="Times New Roman,Times">VINT d1_elements</font></td>
+
+<td><font face="Times New Roman,Times">element type</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d1_itetclr</font></td>
+
+<td><font face="Times New Roman,Times">VINT d1_elements</font></td>
+
+<td><font face="Times New Roman,Times">element selection number</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d1_itet off</font></td>
+
+<td><font face="Times New Roman,Times">VINT d1_elements</font></td>
+
+<td><font face="Times New Roman,Times">offset to d1_itet</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">d1_jtet off</font></td>
+
+<td><font face="Times New Roman,Times">VINT d1_elements</font></td>
+
+<td WIDTH="2%" NOSAVE><font face="Times New Roman,Times">offset to d1_jtet</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d1_itet</font></td>
+
+<td><font face="Times New Roman,Times">VINT d1_elements xd1_neu_cmo</font></td>
+
+<td><font face="Times New Roman,Times">list of nodes for each element</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d1_jtet</font></td>
+
+<td><font face="Times New Roman,Times">VINT d1_elements xd1_nef_cmo</font></td>
+
+<td><font face="Times New Roman,Times">list of face neighbors</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d1_elm_d0</font></td>
+
+<td><font face="Times New Roman,Times">VINT d1_elements&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">elements face # in original mesh
+that this element came from</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_nnodes</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td><font face="Times New Roman,Times">number of nodes in this structure</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_elements</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td><font face="Times New Roman,Times">number of elements in this structure</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_nef_cmo</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td><font face="Times New Roman,Times">number of facets/element in this
+structure</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_nee_cmo</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td><font face="Times New Roman,Times">number of edges/element in this
+structure</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d3_nen_cmo</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td><font face="Times New Roman,Times">number of nodes/element in this
+structure</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_jtet_cycle_max</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td><font face="Times New Roman,Times">the longest jtet cycle in this structure</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_itettyp</font></td>
+
+<td><font face="Times New Roman,Times">VINT d2_elements</font></td>
+
+<td><font face="Times New Roman,Times">element type</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_itetclr</font></td>
+
+<td><font face="Times New Roman,Times">VINT d2_elements</font></td>
+
+<td><font face="Times New Roman,Times">element material number</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_itet off</font></td>
+
+<td><font face="Times New Roman,Times">VINT d2_elements</font></td>
+
+<td><font face="Times New Roman,Times">offset to d2_itet</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_jtet off</font></td>
+
+<td><font face="Times New Roman,Times">VINT d2_elements</font></td>
+
+<td><font face="Times New Roman,Times">offset to d2_jtet</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_itet</font></td>
+
+<td><font face="Times New Roman,Times">VINT d2_elements xd2_neu_cmo</font></td>
+
+<td><font face="Times New Roman,Times">list of nodes for each element</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_jtet</font></td>
+
+<td><font face="Times New Roman,Times">VINT d2_elements xd2_nef_cmo</font></td>
+
+<td><font face="Times New Roman,Times">list of face neighbors&nbsp;</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d2_elm_d1</font></td>
+
+<td><font face="Times New Roman,Times">VINT d2_elements</font></td>
+
+<td><font face="Times New Roman,Times">element &amp; face that this element
+came from in next higher level structure</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">d3_nnodes</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td><font face="Times New Roman,Times">number of nodes in this structure</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">lower_d_flag</font></td>
+
+<td><font face="Times New Roman,Times">INT, scalar</font></td>
+
+<td><font face="Times New Roman,Times">0= no lower d structure exist</font>
+<br><font face="Times New Roman,Times">=1 lower_d structures exist and
+are valid</font>
+<br><font face="Times New Roman,Times">=2 lower_d structures not valid</font></td>
+</tr>
+</table>
+
+<p><font face="Times New Roman,Times">The above set of attributes are created
+if the original mesh is 3D.&nbsp; If the original mesh is 2D then the d1
+structures are created, but the d2 structures are simply the d2_nnodes.&nbsp;
+If the original mesh is 1D, then only the d1_nnodes structure is created.</font>
+<p><font face="Times New Roman,Times">At the time the lower_d structures
+are created color table attributes: d0_clrtab, d0_nclrs, .. are also created.</font></blockquote>
+<font face="Times New Roman,Times">FORMAT:</font>
+<blockquote><font face="Times New Roman,Times"><b>lower_d </b>/ <b>create</b>/
+[cmo_name]</font>
+<br><font face="Times New Roman,Times">&nbsp; create lower_d structures
+in mesh object</font>
+<br><font face="Times New Roman,Times"><b>lower_d</b> /<b> release</b>/
+[cmo_name]</font>
+<br><font face="Times New Roman,Times">&nbsp;release lower_d structures</font>
+<br><font face="Times New Roman,Times"><b>lower_d</b> / <b>extract</b>/
+[cmo_name/cmo1/cmo2/cmo2]</font>
+<br><font face="Times New Roman,Times">&nbsp;create lower_d structures
+into named mesh objects cmo1, cmo2, cmo3.</font>
+<br><font face="Times New Roman,Times"><b>lower_d</b> /<b> filter</b>/
+[cmo_name] /[iclr1 | itp | <b>imt </b>| <b>clr </b>] / value [ <b>and</b>
+| <b>or</b> | <b>new</b> ]</font>
+<br><font face="Times New Roman,Times">&nbsp; these commands are advised
+for expert users only.</font></blockquote>
+<font face="Times New Roman,Times">EXAMPLES:</font>
+<blockquote>&nbsp;</blockquote>
+</blockquote>
+
+</body>
+</html>

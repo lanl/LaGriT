@@ -1,0 +1,176 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]">
+   <title>QUALITY</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">QUALITY</font></u></b>
+<blockquote><font face="Times New Roman,Times">quality provides a collection
+of mesh quality measures</font></blockquote>
+</blockquote>
+
+<dir>&nbsp;
+<br>&nbsp;FORMAT:
+<dir><b><font face="Times New Roman,Times">quality /</font></b>[<font face="Times New Roman,Times">quality_type]</font>
+/ <font face="Times New Roman,Times">[quality_type options]</font>
+<br><font face="Times New Roman,Times">Where quality-type can be <b>aspect</b>,
+<b>pcc</b>,<b>
+volume</b>, <b>angle</b> or<b> taylor </b>Quality-type options depends
+on quality-type.</font>
+<br><font face="Times New Roman,Times"><b>quality </b>(no arguments)</font>
+<br><font face="Times New Roman,Times">writes to screen and outx3dgen logfile
+giving volume and aspect ratio distribution information. Aspect ratios
+and element volumes are binned into 5 bins then totaled, min and max values
+are also reported.</font>
+<br><font face="Times New Roman,Times"><b>quality/aspect</b>/[<b>y</b>]</font>
+<br><font face="Times New Roman,Times">displays a count of the number of
+elements whose aspect ratio falls in each of 7 bins .&nbsp; If <b>y </b>is
+specified create an attribute named aratio that will contain the value
+of the aspect ratio of each element.</font>
+<br><font face="Times New Roman,Times"><b>quality</b>/<b>angle</b>/<b>gt</b>|<b>lt</b>/</font><font face="Courier">value</font><font face="Times">]/</font>
+<br><font face="Times New Roman,Times">displays a count of the number of
+elements with a dihedral angle that is greater than or less than the supplied
+value.</font>
+<br><font face="Times New Roman,Times"><b>quality</b>/<b>pcc</b></font>
+<br><font face="Times New Roman,Times">creates an element based attribute
+called 'neg_coup_coeff' which is a "negative coupling coefficient" indicator.&nbsp;
+A value of 1 means the coupling coefficient is OK.&nbsp; Anything less
+than 1 means it is negative.&nbsp; This is&nbsp; <b>element</b> attribute
+and is useful when viewing a mesh with GMV to find the negative coupling
+coefficients.</font>
+<br><font face="Times"><b>quality</b>/<b>taylor</b></font>/<font face="Courier">fieldname</font><font face="Times">/</font><font face="Courier">value/</font>
+<br><font face="Times">displays a count of the number of element-edge pairs
+with a taylor error estimate value whose absolute value is greater than
+the supplied value<font size=-1>.</font></font>
+<br><b><font face="Times">quality/volume</font></b>
+<br><font face="Times">quality/volume can appear with or without any of
+the following options:</font>
+<br><font face="Times"><b>quality</b>/<b>volume </b>/<b> </b></font><font face="Courier">number_of_bins</font>
+<br><font face="Times">number_of_bins is an integer value controlling the
+number of bins in which to distribute the volume values for display. if
+number_of_bins is 0, then binning of distributed volumes is skipped, and
+only min and max volumes are reported. number_of_bins must be the 2nd argument
+to <b>quality</b> if used.</font>
+<br><font face="Times"><b>quality/volume</b>/</font><b><font face="Courier">itetclr</font></b>
+<br><font face="Times New Roman,Times">&nbsp;output element volume distributions
+with 5 bins. loop through<b> itetclr</b> values and report total volume
+for each material</font>
+<br><font face="Times"><b>quality</b>/<b>volume</b>/</font><font face="Courier">number_of_bins/<b>itetclr</b></font>
+<br><font face="Times"><b>itetclr</b> is a keyword that will give volume
+information according to the values in the itetclr attribute. Number_of_bins
+applies to each tetclr value.&nbsp; For each itetclr value, the volume
+of elements will be totaled.</font>
+<br><font face="Times"><b>quality/volume</b>/</font><font face="Courier"><b>lt</b>|<b>gt</b>|<b>eq</b>|<b>ne</b></font><font face="Times New Roman,Times">/</font><font face="Courier">xvalue</font>
+<br><font face="Times">will report volumes based on compare operator and
+given xvalue, for instance quality/volume/<b>lt</b> 0.0/ will report total
+number of elements with volumes less than 0.0 It may be used in combination
+of other volume options. if used with itetclr keyword, values will be reported
+by itetclr value</font>
+<br><font face="Times"><b>quality/volume</b>/<b>eltset</b>,<b>get</b>,ename</font>
+<br><font face="Times">eltset,get,ename will report volumes on elements
+in defined eltset can be used in combination with previous options with
+operations done only on the chosen eltset. itetclr will still report for
+each of the values in itetclr .</font>
+<p><font face="Times">Any combination of quality_type options may occur
+with the <b>volume</b> quality_type, for example:</font>
+<br><font face="Times"><b>quality</b>/<b>volume</b>/number_of_bins/<b>itetclr</b>/<b>lt</b>|
+<b>gt</b>
+| <b>eq </b>| <b>ne</b> | xvalue/<b>eltset</b>,<b>get</b>,ename.</font>
+<br>&nbsp;
+<p><font face="Times">EXAMPLES:</font>
+<table BORDER=3 CELLSPACING=3 CELLPADDING=3 >
+<tr>
+<td><font face="Times"><b>quality</b>/&nbsp;</font></td>
+
+<td><font face="Times">display volume and aspect ratio</font></td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>quality</b>/<b>aspect</b>/&nbsp;</font></td>
+
+<td><font face="Times">display aspect ratiodistribution in 7 bins</font></td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>quality</b>/<b>aspect</b>/<b>y</b>/&nbsp;</font></td>
+
+<td><font face="Times">display aspect ratio distribution and add attribute
+named aratio</font></td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>quality</b>/<b>angle</b>/<b>gt</b>/179/&nbsp;</font></td>
+
+<td><font face="Times">return count of elements with a dihedral angle >
+179.</font></td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>quality</b>/<b>taylor</b>/</font><font face="Courier">boron</font><font face="Times">/</font><font face="Courier">1.e-10/</font></td>
+
+<td><font face="Times">run taylor error estimate and return count of element
+edge pairs with absolute error greater than value</font></td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>quality</b>/<b>volume</b></font></td>
+
+<td><font face="Times">output element volume distribution with 5 bins</font></td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>quality</b>/<b>volume</b> / </font><font face="Courier">2</font></td>
+
+<td><font face="Times">output element volume distribution with 2 bins</font></td>
+</tr>
+
+<tr>
+<td><font face="Courier"><b>quality</b>/<b>volume</b>/<b>itetclr</b></font></td>
+
+<td><font face="Times New Roman,Times">loop through<b> itetclr</b> values
+and report total volume for each material</font></td>
+</tr>
+
+<tr>
+<td><font face="Courier"><b>quality</b>/<b>volume</b>/<b>lt .03</b></font></td>
+
+<td><font face="Times New Roman,Times">count and report element volumes
+lt .03</font></td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>quality</b>/<b>volume</b> /</font><font face="Courier"><b>itetclr</b>/<b>lt
+.03</b></font></td>
+
+<td><font face="Times">count and report element volumes lt .03 by <b>itetclr</b>
+value</font></td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>quality</b>/<b>volume</b>/</font><font face="Courier"><b>eltset</b>,<b>get</b>,e2</font></td>
+
+<td><font face="Times">report on element volumes only for those in the
+set e2</font></td>
+</tr>
+
+<tr>
+<td><font face="Times"><b>quality</b>/<b>volume</b>/</font><font face="Courier"><b>itetclr</b>/<b>eltset,get,e2</b></font></td>
+
+<td><font face="Times">report on element volumes only for those in the
+set e2, loop through each of the <b>itetclr</b> values, report total volume
+by material for elements in set e2</font></td>
+</tr>
+</table>
+
+<dir><font face="Times"></font>&nbsp;
+<br><font face="Times"></font>&nbsp;</dir>
+</dir>
+<font face="Times"><a href="demos/quality_pcc/test/html/main_qual.html">Click
+here for demos</a></font></dir>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 98">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>RZ</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<B><FONT FACE="Times"></FONT></B>&nbsp;
+<BLOCKQUOTE><B><U><FONT FACE="Times">RZ</FONT></U></B>
+<BLOCKQUOTE>This command adds points to the mesh. It can distribute points
+evenly or according to a ratio zoning method.
+<BR><B>xyz </B>specifies Cartesian coordinates.
+<BR><B>rtz </B>specifies cylindrical coordinates.
+<BR><B>rtp</B> specifies spherical coordinates.
+<BR><B>line </B>this option implies xyz and will distribute n1 nodes from (xmin,ymin,zmin)
+to (xmax,ymax,zmaz)
+<BR>When using the rtz or rtp coordinate systems the center is at <B>(</B><FONT FACE="Courier">0,0,0)</FONT><FONT FACE="Times">.
+Use a <B>trans</B> command to move the center. For the <B>rtz </B>command,
+minimum and maximum coordinates are the triplets: radius from the cylinder's
+axis, angle in the xy-plane measured from the x-axis and height along the
+z-axis. For the <B>rtp </B>command minimum and maximum coordinates are
+the triplets: radius from the center of the sphere axis, angle in the zy-plane
+measured from the positive z-axis and the angle in the xy-plane measured
+from the positive x-axis (see II.a.11). Note that the <B>rtz </B>always
+results in a (partial) cylinder of points centered around the z axis. Use
+the <B>rotateln </B>command to orient the cylinder. For example, to center
+the cylinder around the y axis, specify the x axis as the line of rotation
+in the <B>rotateln </B>command.</FONT>
+ 
+<P><FONT FACE="Courier">ni,nj,nk</FONT><FONT FACE="Times"> number of points
+to be created in each direction.</FONT>
+<BR><FONT FACE="Courier">xmin,ymin,zmin </FONT><FONT FACE="Times">minimums
+for coordinates.</FONT>
+<BR><FONT FACE="Courier">xmax,ymax,zmax </FONT><FONT FACE="Times">maximums
+for coordinates.</FONT>
+<BR><FONT FACE="Courier">iiz,ijz,ikz </FONT><FONT FACE="Times">if =0 then
+mins and maxs are used as cell centers</FONT>
+<BR><FONT FACE="Times">if =1 then mins and maxs are used as cell vertices</FONT>
+<BR><FONT FACE="Courier">iirat,ijrat,ikrat </FONT><FONT FACE="Times">ratio
+zoning switches (0=off,1=on)</FONT>
+<BR><FONT FACE="Courier">xrz,yrz,zrz </FONT><FONT FACE="Times">ratio zoning
+value - distance is multiplied by this value for each subsequent point.</FONT>
+<BR>&nbsp;</BLOCKQUOTE>
+<FONT FACE="Times">FORMAT:</FONT>
+<DIR><FONT FACE="Times"><B>rz</B>/<B>xyz</B>|<B>rtz</B>|<B>rtp</B>|</FONT><FONT FACE="Courier">ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/</FONT>
+<BR><FONT FACE="Courier">iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/]</FONT>
+<BR><B><FONT FACE="Times">rz</FONT>/line</B><FONT FACE="Courier">/</FONT><FONT FACE="Times">np</FONT><FONT FACE="Courier">///xmin,ymin,zmin,xmax,ymax,zmax/iiz,ijz,ikz/</FONT>
+<BR><FONT FACE="Courier"></FONT>&nbsp;</DIR>
+<FONT FACE="Times">EXAMPLES:</FONT>
+<DIR><FONT FACE="Times"><B>rz</B>/<B>xyz</B>/<B>5,3,10</B>/<B>0.,2.,0.</B>/<B>5.,6.,2.</B>/<B>1,1,1</B>/</FONT>
+<BR><FONT FACE="Times">This results in a set of 150 points, five across
+from x=0. to x=5., 3 deep from y=2. to y=6. and 10 high from z=0. to z=2.</FONT>
+<BR><FONT FACE="Times"><B>rz/rtz/4,6,11</B>/<B>0.,0.,0.</B>/<B>3.,360.,10.</B>/<B>1,0,1</B>/</FONT>
+<BR><FONT FACE="Times">This results in 264 points arranged around the z-
+axis. There are 3 rings of points at distances r=1., r=2. and r=3. from
+the z-axis. There are 11 sets of these three rings of points and heights
+z=0., z=1., z=2.,...,z=10. In each ring there are 6 points where each pair
+of points is separated by 60&deg;; note that ijz=0 requests that points
+be placed at cell centers, hence the first point will be at 30&deg; not
+at 0&deg;. Corresponding to r=0, there will be 6 identical points at 11
+intervals along the z-axis at heights z=0., z=1., z=2.,...z=10. <B>Filter</B>
+should be used to remove these duplicate points.</FONT></DIR>
+</BLOCKQUOTE>
+ 
+</BODY>
+</HTML>

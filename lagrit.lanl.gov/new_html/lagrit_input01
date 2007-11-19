@@ -1,0 +1,51 @@
+* test sheetij
+* binary full with subset and ascii with skip lines
+***************************************************************
+* read binary file
+* ncols 1501
+* nrows 1001
+* xllcorner 0.0
+* yllcorner 0.0
+* cell size 1
+* though these are centered at 0.0, 0.0
+* actual sheet coordinates are at 1639275 1758775 
+* actual topo coordinates are at 1639299.5 1758799.5
+*
+* READ BINARY FLOAT
+cmo create cmo1
+read sheetij qbog50_l.float /31,21 / &
+     0.0, 0.0 / 50.0,50.0 / binary / float
+*dump gmv binsurf.gmv
+
+* READ BINARY FLOAT SUBSET
+cmo create cmo1a
+read sheetij qbog50_l.float /31,21 / &
+     0.0, 0.0 / 50.0,50.0 /10,25,1,10 binary / float
+*dump gmv binsurf_subset.gmv cmo1a
+math/sub/cmo1a/zic/1,0,0/cmo1a/zic/500.
+addmesh merge cmov cmo1 cmo1a
+*dump gmv view_binsurf_subset.gmv cmov
+
+* start compare here
+  cmo printatt cmo1 -xyz- minmax
+  cmo printatt cmo1a -xyz- minmax
+* end compare here
+cmo delete cmo1
+
+* READ ASCII
+cmo create cmo2
+read sheetij test.dat /5,4 /0.0,0.0 / 5.0,5.0 / ascii
+
+* READ ASCII WITH FAKE HEADER TO SKIP
+* test skip header
+cmo create cmo2a
+read sheetij test_skip.dat /5,4 /0.0,0.0 / 5.0,5.0 / skip 3 / ascii
+
+* begin compare here
+  cmo printatt cmo2 zic 
+  cmo printatt cmo2a zic 
+* end compare here
+
+
+finish
+

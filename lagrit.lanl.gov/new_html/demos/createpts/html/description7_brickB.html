@@ -1,0 +1,50 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97/98">
+   <meta name="Template" content="Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>*arguments:</title>
+</head>
+<body bgcolor="#FFFFFF" link="#0000FF" vlink="#800080">
+
+<blockquote><font face="Times New Roman,Times"><font size=+1>Example 7:
+creatpts in a logically rectangular geometry</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+0>The objective
+is to create a brick mesh using the <b>createpts/brick </b>command.</font></font><font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times"><font size=+0>A logically rectangular
+geometry is defined. The <b>createpts/brick</b> command is used</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>to create a point
+distribution and mesh connectivity list. The output consists of one gmv
+file.</font></font></blockquote>
+</blockquote>
+
+<blockquote><font face="Times New Roman,Times"></font>&nbsp;<font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times"><font size=+1>Images of GMV output</font></font><font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times"><font size=+0>&nbsp;&nbsp;&nbsp;&nbsp;<a href="image/image7a.gif"><img SRC="image/image7tn.gif" NOSAVE height=167 width=164></a>
+<a href="image/image7a.gif">View A<a href="image/image7b.gif"><img SRC="image/image7btn.gif" NOSAVE height=175 width=225></a></a>
+<a href="image/image7b.gif">View B</a></font></font>
+<br><font face="Times New Roman,Times"><font size=+0></font></font>&nbsp;
+<br><font face="Times New Roman,Times"><font size=+0></font></font>&nbsp;
+<br><font face="Times New Roman,Times"><font size=+0></font></font>&nbsp;<font face="Times New Roman,Times"><font size=+0></font></font>
+<p><font face="Times New Roman,Times"><font size=+1>Input file</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>*TEST createpts/brick
+(lagrit_input_createbrick2)</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>cmo/create/abc///hex</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>quadxyz/5 7 5/ 0.
+0. 0. /1. 0. 0./ 1. 0. 0.75 /0. 0. 1./ &amp;</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>&nbsp;0. 0.8 0./ 1.
+1.25 0./ 1.0 1.0 1.2/ 0. 1. 0.8/</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>setpts</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>creatpts/brick/xyz/5,7,5/1,0,0/connect/</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>settets</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>dump/gmv/output_createbrick2.gmv</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>* begin compare here</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>cmo/status</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>cmo/printatt//-all-/minmax</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>quality</font></font>
+<br><font face="Times New Roman,Times"><font size=+0>finish</font></font></blockquote>
+
+</body>
+</html>

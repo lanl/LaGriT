@@ -1,0 +1,10 @@
+read/gmv/input_mesh1.gmv/cmo1                                                   
+read/gmv/input_mesh2.gmv/cmo2                                                   
+addmesh/intersect/pset_overlap/cmo1/cmo2                                        
+cmo/setatt/cmo1/imt/1 0 0/1                                                     
+cmo/setatt/cmo1/imt/pset get pset_overlap/2                                     
+dump/gmv/output_inter.gmv/cmo1                                                  
+cmo/status                                                                      
+cmo/printatt//-all-/minmax                                                      
+quality                                                                         
+finish                                                                          

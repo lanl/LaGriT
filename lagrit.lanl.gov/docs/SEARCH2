@@ -1,0 +1,25 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="Microsoft Word 98">
+<TITLE>SEARCH</TITLE>
+</HEAD>
+<BODY>
+
+<B><U><FONT FACE="Times"><P>&lt;a name="search"&gt;<A NAME="_Toc357949416"><A NAME="_Toc357951885"><A NAME="_Toc359984368"><A NAME="_Toc359986068"><A NAME="_Toc371820264"><A NAME="_Toc374864098"><A NAME="_Toc375390695"><A NAME="_Toc390510600"><A NAME="_Toc390570269"><A NAME="_Toc390573675"><A NAME="_Toc390581265"><A NAME="_Toc397506986"><A NAME="_Toc397507134"><A NAME="_Toc397507260"><A NAME="_Toc397938304"><A NAME="_Toc397939378"><A NAME="_Toc398007624"><A NAME="_Toc398019743"><A NAME="_Toc400955163"><A NAME="_Toc407510814"><A NAME="_Toc410708770"><A NAME="_Toc410718412"><A NAME="_Toc414027182"><A NAME="_Toc414033530"><A NAME="_Toc414725311"><A NAME="_Toc420983742"><A NAME="_Toc420996174"><A NAME="_Toc434740418">SEARCH</A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></U>&lt;/a&gt;</P><DIR>
+
+</B><P>The preferred command is <B>search</B>/<B>delaunay</B>.  This option assures the resulting grid meets the insphere delaunay criterion.  The algorithm may refuse to insert points if the points will result in near-zero volume elements.  The near-zero test is based on the geometry.  If you notice problems with <B>search</B> refusing to add all points, issue the <B>setsize </B>command before<B> setpts.  </B>This will adjust the volume epsilon to the geometry.  The user may also adjust both epsilonl and epsilonv with the<B> assign </B>command;  this is<B> </B>recommended for expert users only.</P>
+<P>This other form of the command is: </P>
+</FONT><FONT FACE="Courier"><P>isrchopt</FONT><FONT FACE="Times"> -  </P>
+<P>0 =&gt; Set up the mesh for specified points.  If points are not specified, set up the mesh for the entire problem.  Also, remove the enclosing tetrahedron after generating the mesh. </P>
+<P>1 =&gt; Same as 0 except do not remove tetrahedra associated with the enclosing tetrahedron.</P>
+<P>2 =&gt; Add specified points to the existing mesh and remove tetrahedra associated with the enclosing tetrahedron. </P>
+<P>3 =&gt; Add specified points to the existing mesh and do not remove tetrahedra associated with the enclosing tetrahedron. </P>
+<P>4 =&gt; Just remove tetrahedra associated with the enclosing tetrahedron. </P>
+<P>FORMAT:  </P>
+<B><P>search </B>/<B>delaunay</P>
+<P>search</B>/isrchopt/ifirst,ilast,istride/</P>
+</DIR>
+
+<P>&nbsp;</P></FONT></BODY>
+</HTML>

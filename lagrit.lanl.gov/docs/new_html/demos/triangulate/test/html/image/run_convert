@@ -1,0 +1,28 @@
+#
+convert -crop 15% image1.rgb triang1.gif
+convert -geometry 15% triang1.gif triang1_tn.gif
+echo 'triang1.gif and triang1_tn.gif done\n'
+#
+convert -crop 15% image2.rgb triang2.gif
+convert -geometry 15% triang2.gif triang2_tn.gif
+echo 'triang2.gif and triang2_tn.gif done\n'
+#
+convert -crop 15% image3.rgb triang3.gif
+convert -geometry 15% triang3.gif triang3_tn.gif
+echo 'triang3.gif and triang3_tn.gif done\n'
+#
+convert -crop 15% image4.rgb triang4.gif
+convert -geometry 15% triang4.gif triang4_tn.gif
+echo 'triang4.gif and triang4_tn.gif done\n'
+#
+convert -crop 15% image4b.rgb triang4b.gif
+convert -geometry 15% triang4b.gif triang4b_tn.gif
+echo 'triang4.gif and triang4_tn.gif done\n'
+#
+convert -crop 15% image5.rgb triang5.gif
+convert -geometry 15% triang5.gif triang5_tn.gif
+echo 'triang5.gif and triang5_tn.gif done\n'
+#
+convert -crop 15% image5b.rgb triang5b.gif
+convert -geometry 15% triang5b.gif triang5b_tn.gif
+echo 'triang5.gif and triang5_tn.gif done\n'

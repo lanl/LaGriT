@@ -1,0 +1,38 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.51C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>MERGE</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">MERGE</font></u></b>
+<blockquote>Merge pairs of points together. On return, the <font face="Courier">first_point</font><font face="Times">
+of a pair is the survivor unless </font><font face="Courier">first_point</font><font face="Times">
+may not be removed ( a corner point for example), then the command operates
+as if </font><font face="Courier">first_point</font><font face="Times">
+and </font><font face="Courier">second_point</font><font face="Times">
+have been interchanged. If there is no confirmation of the merge, one or
+both of the points may be inactive, or the merge may be illegal because
+the points are not neighbors or because this merge is disallowed by the
+merge tables. Merging may trigger other merges by the reconnection step
+that follows the merge.</font>
+<br><font face="Times">The command <a href="MASSAGE.html">massage</a>
+may be used to merge nodes together based on the edge distance separating
+the nodes.</font></blockquote>
+</blockquote>
+ 
+<blockquote><font face="Times">FORMAT:</font>
+<blockquote><font face="Times"><b>merge</b>/</font><font face="Courier">first_point</font><font face="Times">/</font><font face="Courier">second_point</font>
+<br><font face="Times"><b>merge</b>/1st</font><font face="Courier">_of_pair1</font><font face="Times">/2nd</font><font face="Courier">_of_pair1/1st_of_pair2</font><font face="Times">/2nd</font><font face="Courier">_of_pair2/../
+1st_of_pairn/2nd_of_pairn/</font></blockquote>
+</blockquote>
+ 
+<dir><font face="Times">EXAMPLE:</font>
+<dir><font face="Times"><b>merge</b>/21,22/</font></dir>
+</dir>
+ 
+</body>
+</html>

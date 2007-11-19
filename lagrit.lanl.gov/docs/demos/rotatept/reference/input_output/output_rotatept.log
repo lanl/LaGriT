@@ -1,0 +1,14 @@
+cmo/create/abc/tet                                                              
+createpts/rtz/9,5,2/0.,0.,0./10.,360.,2./1,1,1/                                 
+pset/rays/seq/1,0,0                                                             
+dump/gmv/output1.gmv/abc                                                        
+zq/xic/pset,get,rays                                                            
+rotatept/pset,get,rays/nocopy/0.,0.,0./0./30.                                   
+dump/gmv/output2.gmv/abc                                                        
+rotatept/pset,get,rays/nocopy/0.,0.,0./15./00.                                  
+dump/gmv/output3.gmv/abc                                                        
+zq/xic/1,0,0                                                                    
+cmo/status                                                                      
+cmo/printatt//-all-/minmax                                                      
+quality                                                                         
+finish                                                                          

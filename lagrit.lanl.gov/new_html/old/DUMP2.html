@@ -1,0 +1,193 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+                                                                
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+                                                                
+  <meta name="Generator" content="Microsoft Word 98">
+                                                                
+  <meta name="GENERATOR"
+ content="Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]">
+  <title>DUMP</title>
+    
+</head>
+ <body alink="#ff0000" bgcolor="#ffffff" link="#0000ee" text="#000000"
+ vlink="#551a8b">
+                                
+<blockquote><b><u><font face="Times">DUMP</font></u></b></blockquote>
+                                
+<dir>                
+<dir>This command produces an output file from a <font face="Courier">Mesh
+        Object</font><font face="Times">. If the option is <b>lagrit</b>,
+a  restart      dump is made; a subsequent <b>read/lagrit</b> command will
+restart  the   code  at the state at which the dump command was issued.&nbsp;
+The default   file  type is binary.&nbsp; To create an ASCII formatted gmv
+dump precede   the dump  command with this command:</font> <br>
+               <font face="Times"><b>cmo</b>/<b>setatt</b>/<b>dumptype</b>=<b>ascii</b>/
+        or include '<b>ascii'</b> in the command.</font> <br>
+               &nbsp;NOTE:&nbsp; For LaGriT versions dated after October
+1999,    use   <b>cmo</b>/<b>setatt</b>//<b>ipolydat</b>/<b>no</b>    to
+prevent  polygon    data to be written to GMV files.</dir>
+                <font face="Times">FORMAT:</font>                
+<dir><font face="Times"><b>dump</b>/file_type/file_name/[cmo_name]/</font>
+                      
+<dir><font face="Times">valid file_types are: <b>coord</b>, <b>zone</b>,
+<b>gmv</b>,  <b>avs</b>, <b>chad</b>, <b>fehm</b>, <b>datex ,std, geom </b>and
+<b>lagrit</b></font></dir>
+                <font face="Times"><b>dump </b>/<b> coord </b>/file_name/[cmo_name]/</font>
+                      
+<dir><font face="Times">Will output a file with node list x,y,z values and 
+       element connectivity list in FEHM format.</font></dir>
+                <font face="Times"><b>dump</b> / <b>zone</b> /file_name/[cmo_name]/[<b><u>delatt|</u>keepatt</b>]</font>
+        <br>
+               <font face="Times">Will output a set of 4 files.</font>  
+             
+<dir><font face="Times">file_name_<b>material</b>.<b>zone</b> is node list
+        for each material (imt) value.</font> <br>
+               <font face="Times">file_name_<b>outside</b>.<b>zone</b> is 
+a  node   list   for  each of 6 (top , bottom, left, right, front, back) possible
+ external    boundaries  for rectangular geometries.&nbsp; If <b>keepatt
+ </b>is  specified,    then 6 node based attributes are added to the mesh
+object.&nbsp;  If <b>delatt</b>     is specified mesh object is not modified.&nbsp;
+The attribute names are   <b>top</b>,  <b>bottom</b>,<b> left_w</b>, <b>right_e</b>,
+ <b>back_n</b>,   <b>front_s</b>.</font>  <br>
+               <font face="Times">Note that a node can belong to more than
+ 1  list.    For   example in an orthogonal cube aligned with the coordinate
+ axes, a  corner   node can belong to 3 lists (e.g. front_s, top and left_w
+ lists).</font>   <br>
+               <font face="Times">file_name_<b>outside</b>.<b>area</b> is 
+a  list   of  the   outside area associated with each node in the file_name_<b>outside</b>.<b>zone</b>
+        list.&nbsp; Areas are vector areas such that the magnitude of the
+vector       is the scalar area associated with the node and the direction
+of the  vector     is the area weighted normal vector of the node.</font>
+<br>
+               <font face="Times">file_name_<b>multi</b>_<b>mat</b>.<b>zone</b> 
+   is  a  list  of list of nodes for each material that are connected by an
+  edge  to  a node  of a different material. Each list consists of a header 
+  followed  by list entries. The header consists of the material number followed 
+  by "multi-material   connections" on the same line, followed by "nnum" on
+  the next line, followed   by the number of entries in the list. (The notation
+   nnum is a holdback from   the earlier version of this command, and really
+   should be nedges.)&nbsp;  The list entries consist of two nodes. The first
+   node is the one inside the  material in question, the second is the node
+  in the other material. The lists  are sorted by the first node, but are
+not  sorted by the second. Each list  entry is on its own separate line,
+and the  nodes in each entry are separated  by a comma.</font> <br>
+               <font face="Times">file_name_<b>outside</b>.<b>area </b>is 
+a  list   of  2D  areas associated with each node.</font></dir>
+                <font face="Times"><b>dump</b> / <b>zone_imt</b> /file_name/[cmo_name]</font>
+                      
+<dir><font face="Times">Will output only one file:</font> <br>
+               <font face="Times">file_name_<b>material</b>.<b>zone</b> is
+ node   list   for  each material (imt) value.</font></dir>
+                <font face="Times"><b>dump</b> / <b>zone_outside </b>/ file_name/[cmo_name]
+        / [<b>delatt</b>|<b>keepatt</b>]</font>                
+<dir><font face="Times">Will output only two files:</font> <br>
+               <font face="Times">file_name_<b>outside</b>.<b>zone</b> is 
+a  node   list   for  each of 6 possible external boundaries.</font> <br>
+               <font face="Times">file_name_<b>outside</b>.<b>area </b>is 
+a  list   of  2D  areas associated with each node.</font></dir>
+                <font face="Times"><b>dump</b> /<b> avs</b> /file_name/[cmo_name] 
+    /  iopt_points   / iopt_elements / iopt_node_attributes/iopt_element_attributes</font>
+                   
+<dir><font face="Times">Output in AVS UCD (Unstructured Cell Data) format.
+        One can turn on or off the output of node coordinates (iopt_points),
+   element     connectivity (iopt_elements), node attributes (iopt_node_attributes)
+   and element attributes (iopt_element_attributes). 1 (default)     is on,
+  0 is off.<br>
+       For file format specification see <a
+ href="http://help.avs.com/Express/doc/help/reference/dvmac/UCD_Form.htm">http://help.avs.com/Express/doc/help/reference/dvmac/UCD_Form.htm</a></font></dir>
+                <font face="Times"><b>dump / avs2 / </b>file_name/[cmo_name]/[iopt_points]/iopt_elements]/[iopt_node_attributes]/[iopt_element_attributes]<b><br>
+        </b>       
+<dir>This option will output integers as integers, the other avs option converts
+integers to reals on output. The /avs/ option above    outputs all attributes
+as real numbers. This option is slower but the files    are smaller if there
+are integers in the node or element attributes.</dir>
+       </font>   <font face="Times">  <b>dump</b> / <b>stl</b> /file_name/[cmo_name]/</font>
+       
+<dir><font face="Times">Output in STL, stereo lithography format. This is 
+       only valid for triangular sheets.</font></dir>
+                <b><font face="Times">dump/geom/</font></b><font
+ face="Courier">file</font>                    
+<dir><font face="Times">will write an ascii file containing the geometry
+information for the current run. This information includes the region and
+mregion definitions and surface, names, types and definitions.</font></dir>
+                <font face="Times"><b>dump/lagrit</b>/file_name/[cmo_name]/</font>
+     [<b>ascii    </b>| <b>binary</b>]                
+<dir><font face="Times">will write an restart file that contains geometry
+        and mesh object information.&nbsp; cmo_name can be '<b>-all-</b>'
+in   which     case all mesh objects are written to the file or it can specify
+   a list  of  mesh objects to be written.</font>&nbsp; The default is <b>ascii</b>.</dir>
+                <font face="Times"><b>dump/recolor</b>/file_name</font> 
+              
+<dir><font face="Times">This command writes the existing <b>colormap</b>
+to the specified file.&nbsp; (See <b><a
+ href="http://lagrit.lanl.gov/new_html/COLORMAP.html">colormap</a></b>  
+  command)</font></dir>
+                <font face="Times"><b>dump/elem_adj_node</b>/file_name/mo_name</font> 
+           
+<dir><font face="Times">Write adjacency information to an ascii file. Write 
+     list of all elements adjacent to each node.  <br>
+          File format: <br>
+          node_number number_of_adjacent_elem   e1 e2 ... en  &nbsp;</font></dir>
+               <font face="Times"><b>dump/elem_adj_elem</b>/file_name/mo_name</font> 
+           
+<dir><font face="Times">Write adjacency information to an ascii file. Write 
+     list of all elements adjacent to each element. <br>
+          File format: <br>
+          elem_number number_of_adjacent_elem   e1 e2 ... en &nbsp;</font></dir>
+           <font face="Times"><b>dump/gmv</b>/file-name/[mesh-object]/[<b><u>ascii
+      </u></b>|  <b>binary</b>]</font>                
+<dir><font face="Times">Write a file to be read by the graphics program GMV.&nbsp; 
+       The defaults are binary and current mesh object.</font></dir>
+                <a href="http://lagrit.lanl.gov/new_html/DUMP3.html"><font
+ face="Times"><b>dump/fehm</b>/</font><font face="Courier New,Courier">file_name</font><font
+ face="Times">/[</font><font face="Courier New,Courier">cmo_name</font><font
+ face="T
+[&lt;B&gt;binary&lt;/B&gt; |&lt;B&gt;ascii&lt;/B&gt; | &lt;B&gt;&lt;U&gt;binaryc&lt;/U&gt;&lt;/B&gt;| &lt;B&gt;asciic&lt;/B&gt; ]&lt;/FONT&gt;&nbsp;
+//&lt;/A&gt;
+&lt;BR&gt;&lt;FONT FACE=">[<b><u>scalar|vector|both|area_scalar|area_vector|area_both</u></b>]/[<b>delatt,keepatt</b>]</font></a> 
+<br>
+     
+<dir> Write out a series of files for the FEHM flow and transport code. The 
+file_name is the file root name for:<br>
+ file_name.fehm ( see dump/cord/... command)<br>
+ file_name_material.zone ( see dump/zone_imt/... command)<br>
+ file_name_outside.zone (see dump/zone_outside/... command)<br>
+ file_name_outside.area (see dump/zone_outside/... command)<br>
+ file_name_interface.zone ( output of FEHM zone format files of nodes along 
+an interface )<br>
+ file_name-multi_mat.zone ( output of FEHM zone format files of multi-material 
+connections )<br>
+ file_name.stor ( output of FEHM format file with geometric coefficient matrix, 
+these are the Voronoi (control volume) area and volume associated with each 
+node and the sparce matrix structure.</dir>
+</dir>
+<br>
+<p><font face="Times">EXAMPLE:</font> </p>
+                             
+<dir><font face="Times"> <b>dump</b>/gmv/</font>file_name.gmv/cmo_name/<br>
+ <b>dump</b>/gmv/file_name.gmv/cmo_name/ascii<br>
+ <b>dump</b>/lagrit/file_name.lg/-all-/binary<br>
+ <b>dump</b>/avs/file_name.inp/cmo_name<br>
+ <b>dump</b>/avs/file_name.inp/cmo_name/1 0 0 0 (output only node coordinates)<br>
+ <b>dump</b>/avs/file_name.inp/cmo_name/1 1 0 0 (output node coordinates
+and element connectivity)<br>
+ <b>dump</b>/avs/file_name.inp/cmo_name/1 1 1 0 (output node coordinates,
+element connectivity and node attributes)<br>
+ <b>dump</b>/avs/file_name.inp/cmo_name/0 0 0 1 (output element attributes)<br>
+ <br>
+ </dir>
+                                
+<p><br>
+               <font face="Times New Roman,Times"><a
+ href="http://lagrit.lanl.gov/new_html/demos/dump/test/html/main_dump.html">Click
+    here for demos</a></font></p>
+               </dir>
+                 <br>
+                     <br>
+              <br>
+     
+</body>
+</html>

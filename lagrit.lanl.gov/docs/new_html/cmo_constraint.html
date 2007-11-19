@@ -1,0 +1,40 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Jan Wills">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</head>
+<body>
+<b><font face="Times New Roman,Times">cmo/constraint</font></b><font face="Times New Roman,Times"></font>
+<p><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<b>cmo/constraint</b>/cmo_sink/cmo_src</font>
+<blockquote><font face="Times New Roman,Times">Associate the surface constraint
+information of the mesh object cmo_src with cmo_sink.&nbsp; The number
+of constraints and the constraint table </font>( <font face="Courier New,Courier">nconbnd,
+icontrab</font>) <font face="Times New Roman,Times">are copied from the
+source mesh object to the sink mesh object.&nbsp; Since</font> <font face="Courier New,Courier">nconbnd</font>
+and <font face="Courier New,Courier">icontab</font> <font face="Times New Roman,Times">are
+mesh object attributes, they must be explicity copied if a new mesh is
+to use an existing geometry.&nbsp; <a href="meshobject.html">See
+III.A</a>&nbsp; for a description of</font><font face="Courier New,Courier">
+nconbnd</font><font face="Times New Roman,Times"> and</font><font face="Courier New,Courier">
+incontab</font><font face="Times New Roman,Times">.</font></blockquote>
+ 
+<p><br>&nbsp;&nbsp;&nbsp; <font face="Times New Roman,Times">EXAMPLES:</font>
+<blockquote><font face="Times New Roman,Times"><b>cmo/create</b>/</font><font face="Courier New,Courier">cmotet</font>
+<br><b><font face="Times New Roman,Times">geometry/create/</font></b><font face="Courier New,Courier">boxg</font>
+<br><b><font face="Times New Roman,Times">surface/s1/</font></b>
+<br><b><font face="Times New Roman,Times">surface/s2</font></b>
+<br><b><font face="Times New Roman,Times">region</font></b>
+<br><b><font face="Times New Roman,Times">mregion</font></b>
+<br><font face="Courier New,Courier">...</font>
+<br><b><font face="Times New Roman,Times">cmo/create/</font></b><font face="Courier New,Courier">cmohex</font><b><font face="Times New Roman,Times">///hex</font></b>
+<br><font face="Times New Roman,Times"><b>cmo/geometry</b>/</font><font face="Courier New,Courier">boxg</font>
+<br><b><font face="Times New Roman,Times">cmo/constraint/</font></b><font face="Courier New,Courier">cmohex/cmotet</font><font face="Courier New,Courier"></font>
+<p><font face="Times New Roman,Times">This example will use the geometry
+(surfaces regions and material regions) defined when creating </font><font face="Courier New,Courier">cmotest</font><font face="Times New Roman,Times">
+and apply the geometry to the mesh object </font><font face="Courier New,Courier">cmohex</font><font face="Times New Roman,Times">.</font></blockquote>
+ 
+</body>
+</html>

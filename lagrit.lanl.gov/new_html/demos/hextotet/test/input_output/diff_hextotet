@@ -1,0 +1,19 @@
+*** compare_hextotet	Thu Sep  7 15:59:18 2000
+--- ../../reference/reference_hextotet	Thu Sep  7 15:46:53 2000
+***************
+*** 237,243 ****
+   nodes_per_element              4              4              0         1       
+   edges_per_element              6              6              0         1       
+   faces_per_element              4              4              0         1       
+!  isetwd               0.00000E+00    1.41919-310    0.00000E+00       830       
+   ialias                         0            830            830       830       
+   imt1                           1             18             17       830       
+   itp1                           0             10             10       830       
+--- 237,243 ----
+   nodes_per_element              4              4              0         1       
+   edges_per_element              6              6              0         1       
+   faces_per_element              4              4              0         1       
+!  isetwd               0.00000E+00    1.41919-310    1.41919-310       830       
+   ialias                         0            830            830       830       
+   imt1                           1             18             17       830       
+   itp1                           0             10             10       830       

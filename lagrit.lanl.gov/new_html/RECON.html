@@ -1,0 +1,73 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]">
+   <title>RECON</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">RECON</font></u></b>
+<blockquote>This command flips connections in the mesh to get restore the
+Delaunay criterion or to improve element shapes. The option 1 (recommended
+for 2D meshes only) adds points on the boundaries if needed. The option
+0 (default) specifies that no points are to be added on the boundaries.
+The standard method used by recon is to flip connections based on the in-sphere
+test (the circumsphere of a tetrahedral element should contain no other
+nodes). Additional flipping criteria are available. The Minimum Error Gradient
+Adaption (<a href="RADAPT.html">mega</a>) can be invoked by changing the
+value of the code variable <a href="meshobject.html">ivoronoi</a> (<b>cmo/setatt</b>//ivoronoi/-2).
+The effect of this option is to generate well shaped elements; however
+the grid will not be Delaunay. If the user has a function to used for adaptive
+reconnection this option is available by setting the code variable <font face="Courier">ivoronoi</font><font face="Times New Roman,Times">
+</font><font face="Times">to 2 (<b>cmo/setatt</b>//</font><font face="Courier">ivoronoi</font><font face="Times">/2).
+The user will have to supply an external function.</font></blockquote>
+</blockquote>
+
+<blockquote>
+<blockquote><font face="Times">If </font><font face="Courier">damage </font><font face="Times">is
+specified then flips on exterior boundaries are checked to verify that
+the maximum depth of deformation of the external boundary does not exceed
+the value of </font><font face="Courier">damage. </font><font face="Times">The
+default value of </font><font face="Courier">damage </font><font face="Times">is
+1% of the problem size. This setting prevents connecting across corners
+if the external boundary is a reflective box.</font>
+<p><font face="Times">If the keyword <b>checkaxy </b>is provided, then
+2D flips are suppressed if the new triangles</font>
+<br><font face="Times">would have xy-projected areas less than EPSILONA.</font><font face="Times"></font>
+<p><font face="Times"><b>recon</b> is called by other LaGriT commands such
+as <b>massage</b>.&nbsp; To disable recon set </font><font face="Courier New,Courier">ivoronoi
+</font><font face="Times">to 5 (<b>cmo/setatt</b>//</font><font face="Courier">ivoronoi</font><font face="Times">/5).</font><font face="Times"></font>
+<p><font face="Times"><b>recon</b> will by default reconnect across interface
+edges.&nbsp; To restrict reconnection to interior faces and exterior boundary
+faces, set </font><font face="Courier New,Courier"><a href="meshobject.html">iopt2to2</a></font><font face="Times">
+to 0 (<b>cmo/setatt</b>//</font><font face="Courier New,Courier">iopt2to2</font><font face="Times">/0)</font></blockquote>
+<font face="Times">FORMAT:</font>
+<blockquote><font face="Times"><b>recon</b>/[<b>1</b>|<b>0</b>]/[damage]/[<b>checkaxy</b>]</font></blockquote>
+<font face="Times">EXAMPLES:</font>
+<blockquote><font face="Times"><b>recon</b>&nbsp;&nbsp; attempt to restore
+Delaunay</font>
+<p><b>cmo/setatt</b>//ivoronoi/-2
+<p><font face="Times"><b>recon&nbsp;</b>&nbsp;&nbsp; attempt to improve
+geometric mesh quality</font>
+<p><font face="Times"><b>recon</b>/<b>1</b>&nbsp; for 2d meshes add nodes
+on boundaries to guarantee Delaunay</font>
+<p><font face="Times"><b>recon</b>//.001&nbsp; reconnect limit interface
+and boundary damage to a maximum of .001.</font>
+<p><b>recon</b>/0/.001/<b>checkaxy</b>&nbsp; for 2d meshes reconnect, limiting
+damage to a maximum of .001
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+and preventing creation of any negatively oriented or small triangles
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(with respect to the xy-plane).
+<br>&nbsp;
+<br>&nbsp;</blockquote>
+<font face="Times"><a href="demos/2d_recon/test/html/main_2d_recon.html">Click
+here for demos</a></font>
+<blockquote>&nbsp;</blockquote>
+</blockquote>
+
+<br>&nbsp;
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Jan Wills">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><b><font face="Times New Roman,Times"><font size=+1>read/sheetij</font></font></b>
+<blockquote><font face="Times New Roman,Times"><font size=+1><b>&nbsp;</b>creates
+a quad mesh from an elevation file using syntax similar to avs type .fld
+header file.</font></font></blockquote>
+<font face="Times New Roman,Times"><font size=+1>FORMAT:</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+1><b>read</b>/<b>sheetij</b>/file_name/-header-/[options]/nx,ny/minx,miny/xinc,yinc/[istart,istop,jstart,jstop]/[options]</font></font>
+<br><font face="Times New Roman,Times"><font size=+1><b>read</b>/<b>sheetij</b>/file_name/-header-/[options]</font></font>
+<br>&nbsp;
+<table COLS=2 WIDTH="70%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times"><font size=+1>nx</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>columns in x direction</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1>ny</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>rows in y direction</font></font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times"><font size=+1>min,
+miny</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>location of lower
+left corner</font></font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times"><font size=+1>xinc, yinc</font></font></td>
+
+<td NOSAVE><font face="Times New Roman,Times"><font size=+1>cell size in
+x and y direction</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1>- header -</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>keyword meaning read
+nx, ny,miny,xinc,yinc,from file</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1>istart,istop,jstart,jstop</font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>gives indices of subset
+of data&nbsp;</font></font></td>
+</tr>
+</table>
+</blockquote>
+<font face="Times New Roman,Times"><font size=+1>options are:</font></font>
+<blockquote>&nbsp;
+<table COLS=2 WIDTH="70%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times"><font size=+1><b>ascii</b>
+or <b>binary</b></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>file-type (default-<b>ascii</b>)</font></font></td>
+</tr>
+
+<tr>
+<td><b><font face="Times New Roman,Times"><font size=+1>center</font></font></b></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>assume elevation at
+cell center (default = lower left corner)</font></font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="20%" NOSAVE><font face="Times New Roman,Times"><font size=+1><b>connect</b>
+or <b>points</b></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1><b>connect</b> causes
+quad grid to be formed and is default.</font></font></td>
+</tr>
+
+<tr NOSAVE>
+<td></td>
+
+<td NOSAVE><font face="Times New Roman,Times"><font size=+1><b>points</b>
+keeps data as points only.</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1><b>float</b> or <b>double</b></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>size of data (default
+= <b>float</b>)</font></font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=+1><b>xflip</b> or <b>yflip</b></font></font></td>
+
+<td><font face="Times New Roman,Times"><font size=+1>reflect along x or
+y axis (default = no reflection)&nbsp;</font></font></td>
+</tr>
+</table>
+</blockquote>
+<font face="Times New Roman,Times"><font size=+1>EXAMPLES:</font></font>
+<blockquote><font face="Times New Roman,Times"><font size=+1>&nbsp;for
+data file with header - test_hdr.dat:</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp; 5&nbsp;&nbsp;&nbsp;&nbsp; nx</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp; ny</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.0000000&nbsp;&nbsp;
+min x</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.0000000&nbsp;&nbsp;
+min y</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.000000&nbsp;&nbsp;&nbsp;
+dx</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5.000000&nbsp;&nbsp;&nbsp;
+dy</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+#</font></font>
+<p><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+to read elevations using information in the file header</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cmo create cmohdr</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+read sheetij test_hdr.dat / -header- / ascii</font></font>
+<p><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+to subset read ascii file with header and subset from i=2,5 and j=3,4</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+read sheetij test_hdr.dat / -header- / 2,5, 3,4 / ascii</font></font>
+<p><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+for binary files with no headers where nx=5, ny=4, minx=miny=0., xinc=yinc=5.</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+read sheetij test.bin /5,4 /0.0,0.0 / 5.0,5.0 / binary</font></font>
+<p><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+to flip along the x-axis</font></font>
+<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+read sheetij test.bin /5,4 /0.0,0.0 / 5.0,5.0 / xflip, binary</font></font>
+<br>&nbsp;
+<br>&nbsp;</blockquote>
+</blockquote>
+
+</body>
+</html>

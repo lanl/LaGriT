@@ -1,0 +1,12 @@
+Lagrit Test Suite Log File.
+Thu Sep  7 15:57:53 MDT 2000
+ 
+	 creating 2d_connect/.../diff_2dconnect
+	 creating 2d_recon/.../diff_2drecon
+	 creating addmesh/.../diff_inter
+	 creating connect/.../diff_connect
+	 creating hextotet/.../diff_hextotet
+	 creating pset/.../diff_pset
+	 creating refine_rivara/.../diff_rivara
+	 creating regnpts/.../diff_regnpts
+	 creating rotatept/.../diff_rotatept

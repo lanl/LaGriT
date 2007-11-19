@@ -1,0 +1,65 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>RZS</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><b><u><font face="Times">CREATEPTS/SPHERE</font></u></b></blockquote>
+
+<dir>
+<dir><font face="Times New Roman,Times">Builds a sphere by generating coordinates
+of points and also modifies zoning by ratio-zoning point distributions.
+See the<b> rz </b>command for more details. The</font><b> </b><font face="Courier">itype</font><font face="Times">
+flag defines what type of sphere will be generated.</font>
+<br><font face="Courier">itype</font><font face="Times">=1 generates a
+sphere by gridding the faces of a cube and then projecting the vertices
+onto a sphere. The number of nodes per shell is of the form 6*i**2.</font>
+<br><font face="Courier">itype</font><font face="Times">=2 generates a
+sphere by subdividing an icosahedron placed on the surface of a sphere.</font>
+<br><font face="Times">Icosahedral gridding is made up of 10 diamonds per
+shell. Each diamond is made up of n**2 nodes (where n must be of the form
+2**i+1). There are 2 nodes (the poles of the sphere) at which 5 diamonds
+meet and 10 nodes where 3 diamonds meet; hence there are a minimum of 12
+nodes per shell. The number of nodes per shell can be 12, 42, 162, 642,...</font>
+<br><font face="Courier">itype= 1 or 2</font><font face="Times"> or diamond
+distributes points only, call <b>connect</b> to generate connectivity information.</font>
+<br><font face="Courier">nr </font><font face="Times">is the number of
+radial shells</font>
+<br><font face="Courier">npt </font><font face="Times">is the upper limit
+of the number of points in a shell</font>
+<br><font face="Courier">itype=8 </font><font face="Times">generates a
+hexahedral icosahedron grid. This option distributes points and generates
+the grid connectivity data structures.</font>
+<br><font face="Courier">xirad,xorad </font><font face="Times">are the
+inner and outer radii of the sphere. For itype=8 reverse inner and outer
+radii.</font>
+<br><font face="Courier">xcen,ycen,zcen </font><font face="Times">are the
+coordinates of the center of the sphere</font>
+<br><font face="Courier">iz&nbsp; </font><font face="Times">if =0 then
+mins and maxs are used as cell centers</font>
+<br><font face="Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if =1 then mins and maxs are used as cell vertices</font>
+<br><font face="Courier">irat </font><font face="Times">is ratio zoning
+switch (0=off,1=on)</font>
+<br><font face="Courier">rz </font><font face="Times">is ratio zoning value
+- distance is multiplied by the value for each subsequent point.</font>
+<br><font face="Courier">itype = </font><font face="Times New Roman,Times">diamond
+generates the points for one diamond of the icosahedron</font></dir>
+FORMAT:
+<dir><b>createpts/sphere/</b><font face="Courier">itype</font><font face="Times">/</font><font face="Courier">nr,npt,xirad,xorad/xcen,ycen,zcen/iz/irat,rz/</font></dir>
+
+<p><br><font face="Times New Roman,Times">EXAMPLES</font>:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font face="Times New Roman,Times">createpts/sphere/8/5/162/1.0,0.5/0.,0.,0./1,0,0.0/</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+createpts/sphere/2/5/162/0.5,1.0/0.,0.,0./1,0,0.0/</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+createpts/sphere/diamond/5/162/1,.5/0,0,0/1,</font>
+<br>&nbsp;
+<br><font face="Times New Roman,Times"></font>&nbsp;</dir>
+
+</body>
+</html>

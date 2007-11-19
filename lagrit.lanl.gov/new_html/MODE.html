@@ -1,0 +1,61 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>FIELD</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">MODE</font></u></b>
+<blockquote><font face="Times New Roman,Times">The MODE Command&nbsp; sets
+up several optimization options</font>
+<br><font face="Times New Roman,Times">Currently implemented are:</font>
+<br><font face="Times New Roman,Times">(1) discrete optimization:</font>
+<br><font face="Times New Roman,Times">
+<b>mode/discrete</b>/</font><font face="Courier New,Courier">surface_cmo</font><font face="Times New Roman,Times">/</font><font face="Courier New,Courier">tolldamage</font>
+<blockquote><font face="Times New Roman,Times">if this mode is set, <b>refine,</b>
+<b>smooth</b>, <b>merge</b> will require any operation that involves nodes
+on the specified surface to result in a mesh whose surface nodes are also
+members of the surface_cmo.</font>
+<br><font face="Times New Roman,Times">A mesh object attribute associated
+with the 3d mesh named </font><font face="Courier New,Courier">discrete_optimize
+</font><font face="Times New Roman,Times">will be created and its value
+will be the name of the surface mesh object.</font></blockquote>
+<font face="Times New Roman,Times">(2) error_adaption</font>
+<br><font face="Times New Roman,Times"><b>mode</b>/<b>adaption_field</b>/</font><font face="Courier New,Courier">field_name</font>
+<blockquote><font face="Times New Roman,Times">if this mode is set, optimization
+operations will be based on reducing error.&nbsp; A mesh object attribute
+associated with the 3d mesh named 'adaption_field' will be created and
+it's value will be the name of the field.</font></blockquote>
+<font face="Times New Roman,Times">(3) reconnection</font>
+<br><b><font face="Times New Roman,Times">mode/recon</font></b><font face="Times New Roman,Times">/<b>geom</b></font>
+<br><b><font face="Times New Roman,Times">mode/recon</font></b><font face="Times New Roman,Times">/<b>delaunay</b></font>
+<br><b><font face="Times New Roman,Times">mode/recon</font></b><font face="Times New Roman,Times">/<b>adaption</b></font>
+<blockquote><font face="Times New Roman,Times">Setting this mode will determine
+the criterion used to <a href="RECON.html">reconnect</a> the mesh.&nbsp;
+The default mode is <b>delaunay</b> and setting mode to <b>delaunay</b>
+will cause recon to attempt to create a <a href="CONNECT1.html">delaunay
+mesh</a>.&nbsp; Setting mode to <b>geom</b> will reconnect to increase
+inscribed radii of elements.&nbsp; Setting mode to adaption will reconnect
+to reduce solution error.&nbsp; </font><font face="Courier New,Courier">Field_name</font><font face="Times New Roman,Times">
+must be set with the <b>mode</b>/<b>adaption_field </b>command.</font></blockquote>
+</blockquote>
+<font face="Times">FORMAT:</font>
+<blockquote><font face="Times New Roman,Times"><b>mode/discrete</b>/</font><font face="Courier New,Courier">surface_cmo</font><font face="Times New Roman,Times">/</font><font face="Courier New,Courier">tolldamage</font>
+<br><font face="Times New Roman,Times"><b>mode</b>/<b>adaption_field</b>/</font><font face="Courier New,Courier">field_name</font>
+<br><b><font face="Times New Roman,Times">mode/recon</font></b><font face="Times New Roman,Times">/<b>geom</b>|<b>delaunay</b>|<b>adaptio</b>n</font>
+<br><font face="Courier New,Courier"></font>&nbsp;</blockquote>
+<font face="Times">EXAMPLES:</font>
+<blockquote><font face="Times New Roman,Times"><b>mode</b>/<b>adaption_field</b>/</font><font face="Courier New,Courier">solution</font>
+<br><font face="Times New Roman,Times"><b>mode</b>/<b>recon</b>/<b>adaption</b></font><b><font face="Times New Roman,Times"></font></b>
+<p><font face="Times New Roman,Times">All optimization including <b><a href="MASSAGE.html">massage</a>
+</b>commands that follow will be performed to reduce error in the user
+defined field </font><font face="Courier New,Courier">solution.</font></blockquote>
+<font face="Courier New,Courier"></font>
+<blockquote><font face="Courier"></font>&nbsp;</blockquote>
+</blockquote>
+
+</body>
+</html>

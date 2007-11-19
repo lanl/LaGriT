@@ -1,0 +1,11 @@
+cmo/create/abc///hex                                                            
+quadxyz/5 7 5/0. 0. 0./1. 0. 0./1. 0. 0.75/0. 0. 1./0. 0.8 0./1. 1.25 0./1.0 1.0
+ 1.2/0. 1. 0.8/                                                                 
+setpts                                                                          
+creatpts/brick/xyz/5,7,5/1,0,0/connect/                                         
+settets                                                                         
+dump/gmv/output_createbrick2.gmv                                                
+cmo/status                                                                      
+cmo/printatt//-all-/minmax                                                      
+quality                                                                         
+finish                                                                          

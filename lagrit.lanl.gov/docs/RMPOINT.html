@@ -1,0 +1,60 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>RMPOINT</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">RMPOINT</font></u></b>
+<blockquote>Removes nodes or marks nodes for removal points or removes
+elements from a mesh.&nbsp;&nbsp; The first option sets the node type flag&nbsp;<font face="Times">
+[itp=<b>ifitpdud</b> (21)] to indicate that the set of nodes are treated
+as invisible, but does not actually remove the nodes.&nbsp; Elements will
+also be removed.&nbsp; If&nbsp; <b>inclusive </b>is specified, any element
+containing a marked node will be removed.&nbsp; If&nbsp; <b>exclusive </b>is
+specified (default), any element containing a retained node is retained.&nbsp;
+The second option, <b>compress</b>, removes the invisible nodes (i.e. those
+nodes whose itp1 value is 21) from the data structure and material-wise
+resequences all remaining nodes.&nbsp; The third option, <b>zero_volume</b>,
+will remove elements whose volumes are less than or equal to the specified
+threshold.&nbsp; The fourth option,<b> element, </b>will remove all marked
+elements from the mesh.&nbsp; Marked elements have a negative value for
+the first entry in the itet vertex list.&nbsp; The fifth option will remove
+a specified list of elements from the mesh.&nbsp; The sixth option will
+remove elements that are specified in a named element set from the mesh.
+The seventh option, <b>womesh </b>will delete stray nodes that are not
+connected to any element and that are not parent nodes.</font></blockquote>
+</blockquote>
+
+<dir><font face="Times">FORMAT:</font>
+<dir><font face="Times"><b>rmpoint</b>/</font><font face="Courier">ifirst,ilast,istride</font><font face="Times">/[<b>exclusive</b>|<b>inclusive
+</b>]</font>
+<br><font face="Times"><b>rmpoint</b>/<b>compress</b>/</font>
+<br><font face="Times"><b>rmpoint/zero_volume</b>/</font><font face="Courier">threshold</font>
+<br><b><font face="Times">rmpoint/element</font></b>
+<br><font face="Times"><b>rmpoint/element</b>/</font><font face="Courier">tet
+list</font>
+<br><font face="Times"><b>rmpoint/element/eltset,</b>get,esetname</font>
+<br><b><font face="Times">rmpoint/womesh</font></b></dir>
+<font face="Times">EXAMPLES:</font>
+<br>&nbsp;
+<dir><font face="Times"><b>rmpoint/pset, </b>get, pset1</font>
+<br><font face="Times">&nbsp;&nbsp;&nbsp; mark all the nodes in pset1 for
+removal.&nbsp; Remove elements all of whose vertices are members of pset1.</font>
+<br><b><font face="Times">rmpoint/compress</font></b>
+<br><font face="Times"><b>&nbsp;&nbsp;&nbsp; </b>remove all marked nodes
+and correct the itet array</font>
+<br><font face="Times"><b>rmpoint/zero_volume/</b>1.e-16</font>
+<br><font face="Times">&nbsp;&nbsp;&nbsp;&nbsp; remove all elements with
+volumes less than 1.e-16</font>
+<br><font face="Times"><b>rmpoint/element/</b>27 259 1009</font>
+<br><font face="Times">&nbsp;&nbsp;&nbsp;&nbsp; remove the three specified
+elements</font>
+<br><font face="Times"><b>rmpoint/element/eltset, </b>get, myeset</font></dir>
+</dir>
+
+</body>
+</html>

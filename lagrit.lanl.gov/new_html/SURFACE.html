@@ -1,0 +1,151 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="Template" content="Macintosh HD:Applications:Microsoft Office 98:Word Custom Install:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>SURFACE</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u>SURFACE</u></b></blockquote>
+
+<dir>
+<dir><font face="Times New Roman,Times">Defines a boundary surface of the
+type specified in </font><font face="Courier New,Courier">ibtype.</font>
+<br><font face="Times New Roman,Times">Releases a previously defined surface.</font>
+<br><font face="Courier New,Courier">ibtype</font><font face="Times New Roman,Times">
+can be <b>free</b>, <b>intrface</b>,
+<b>reflect, intrcons </b>or<b> virtual</b>.
+Use <b>reflect </b>or <b>free</b> for external boundaries, <b>intrface</b>
+for interior interfaces, <b>intrcons</b> for constrained interior interfaces.
+Use <b>virtual</b> for virtual interfaces.&nbsp; Nodes on <b>reflect</b>,
+<b>intrcons</b>, or <b>virtual&nbsp; </b>interfaces will be assigned icrl
+values corresponding to the surfaces on which the nodes sit. The command
+<b>settets </b>will generate parent/child node chains (isn1) for nodes
+on <b>intrface</b> or <b>intrcons. </b>Surfaces which have different materials
+on either side of the surface virtual interfaces do not separate material
+regions but are intended to identify other structural features of a geometry.&nbsp;
+The surface is defined by a set of surface-parameters.</font>
+<br><font face="Courier New,Courier">istype</font><font face="Times New Roman,Times">
+can be <b>plane</b>, <b>box,</b> <b>parallel</b>(piped), <b>sphere</b>,
+<b>cylinder</b>,
+<b>cone</b>,
+<b>ellipse</b>(oid),
+<b>tabular</b>
+(rotated tabular profile), or <b>sheet</b>. Surface-parameters are specified
+with the surface type in mind.</font>
+<br><font face="Courier New,Courier">isurname i</font><font face="Times New Roman,Times">s
+the name of the surface and must be unique for each surface defined by
+<b>surface</b>.</font></dir>
+<font face="Times New Roman,Times">FORMAT:</font>
+<dir><b><font face="Times New Roman,Times">surface</font></b><font face="Courier New,Courier">/i</font><font face="Courier">surname</font><font face="Times">/</font><font face="Courier">ibtype</font><font face="Times">/</font><font face="Courier">istype/surface-parameters</font>
+<br><b><font face="Times">s</font><font face="Times New Roman,Times">urface</font></b><font face="Courier">/isurname</font><font face="Times">/</font><font face="Courier">ibtype</font><font face="Times">/<b>sheet</b>/cmo-name</font>
+<br><b><font face="Times New Roman,Times">surface</font></b><font face="Courier New,Courier">/i</font><font face="Courier">surname</font><font face="Times">/<b>release</b></font></dir>
+<font face="Times New Roman,Times">EXAMPLES:</font>
+<dir>
+<dir><font face="Times"><b>surface</b>/</font><font face="Courier New,Courier">s1</font><font face="Courier">/</font><b><font face="Times">release</font></b>
+<br><font face="Times">Release the previously defined surface named s1.&nbsp;
+Remove all references from the geometry data structures and remove all
+constraints associated with this surface.</font>
+<br><b><font face="Times">surface</font></b><font face="Courier New,Courier">/sbox/</font><font face="Courier">ibtype</font><font face="Times">/<b>box</b></font><font face="Courier New,Courier">/xm</font><font face="Courier">in,ymin,zmin/xmax,ymax,zmax/</font>
+<br><font face="Times New Roman,Times">Where </font><font face="Courier">xmin,ymin,zmin
+</font><font face="Times New Roman,Times">and</font><font face="Courier">
+xmax,ymax,zmax </font><font face="Times New Roman,Times">are the coordinates
+of opposite corners of a cube, i.e bottom left and top right corners.</font>
+<br><b><font face="Times">surface</font></b><font face="Courier">/mysurf/ibtype</font><font face="Times">/<b>cone</b></font><font face="Courier New,Courier">/x</font><font face="Courier">1,y1,z1/x2,y2,z2/radius</font><font face="Times">/</font>
+<br><font face="Times New Roman,Times">Where point 1 is the vertex and
+point 2 is the top center of the cone with radius from that point. A cone
+is finite but open. To create a closed cone cap the open end with a plane.</font>
+<br><b><font face="Times">surface</font></b><font face="Courier New,Courier">/acyl/</font><font face="Courier">ibtype</font><font face="Times">/</font><b><font face="Times New Roman,Times">cylinder</font></b><font face="Courier New,Courier">/x</font><font face="Courier">1,y1,z1/x2,y2,z2/radius</font>
+<br><font face="Times New Roman,Times">Where point 1 is the bottom center
+and point 2 is the top center of the cylinder. radius is the radius of
+the cylinder. Cylinders are open but finite.&nbsp; To create a closed cylinder
+cap both ends with planes.</font>
+<br><b><font face="Times">surface</font></b><font face="Courier New,Courier">/sellip</font><font face="Courier">/ibtype</font><font face="Times">/</font><b><font face="Times New Roman,Times">ellipse</font></b><font face="Courier New,Courier">/</font><font face="Courier">x1,y1,z1/x2,y2,z2/x3,y3,z3/ar,br,cr/</font>
+<br><font face="Times New Roman,Times">Where point 1 is the center of the
+ellipsoid and point 2 is on the a semi-axis (new x), point 3 is on the
+b semi-axis (new y), and ar, br, cr are radii on their respective semi-axes.</font>
+<br><b><font face="Times New Roman,Times">surface</font></b><font face="Courier New,Courier">/s2/ibtype</font><font face="Times New Roman,Times">/<b>parallel</b>/</font><font face="Courier New,Courier">x1,y1,z1/x2,y2,z2/x3,y3,z3/x4,y4,z4</font><font face="Times New Roman,Times">/</font>
+<br><font face="Times New Roman,Times">Where points 1, 2, 3 are the front
+left, front right and back left points of the base and point 4 is the upper
+left point of the front face.</font>
+<br><b><font face="Times New Roman,Times">surface</font></b><font face="Courier New,Courier">/s1/</font><font face="Courier">ibtype</font><font face="Times">/</font><b><font face="Times New Roman,Times">plane</font></b><font face="Courier New,Courier">/x1,y1,z1/x2,y2,z2/x3,y3,z3</font>
+<br><b><font face="Times New Roman,Times">surface</font></b><font face="Courier">/top/ibtype</font><font face="Times">/</font><b><font face="Times New Roman,Times">planexyz</font></b><font face="Courier New,Courier">/x1,y1,z1/x2,
+z2/x3,y3,z3</font>
+<br><font face="Times New Roman,Times">the direction of the normal to the
+plane is determined by the order of the points according to the right hand
+rule.</font>
+<br><b><font face="Times New Roman,Times">surface</font></b><font face="Courier New,Courier">/bot/i</font><font face="Courier">btype</font><font face="Times">/</font><b><font face="Times New Roman,Times">planertz</font></b><font face="Courier New,Courier">/radius1,theta1,z1,radius2,theta2,z2,radius
+,zcen/</font>
+<br><b><font face="Times New Roman,Times">surface</font></b><font face="Courier New,Courier">/s10/</font><font face="Courier">ibtype</font><font face="Times">/</font><b><font face="Times New Roman,Times">planertp</font></b><font face="Courier New,Courier">/radius1,theta1,p</font>
+<br><b><font face="Times New Roman,Times">surface</font></b><font face="Courier New,Courier">/asheet</font><font face="Courier">/ibtype</font><font face="Times">/</font><b><font face="Times New Roman,Times">sheet</font></b><font face="Courier">/cmo_name/</font><font face="Times">&lt;</font>
+<br><font face="Times New Roman,Times">Sheet surfaces may be input by specifying
+a </font><font face="Courier New,Courier">cmo_name.</font><font face="Times New Roman,Times">
+The Mesh Object must be either a 2D quad Mesh Object or a 2D triangle Mesh
+Object. A discussion of inside and outside with respect to sheet surfaces
+is presented after the EXAMPLES section.</font>
+<br><b><font face="Times New Roman,Times">surface</font></b><font face="Courier New,Courier">/sphere1</font><font face="Courier">/ibtype</font><font face="Times">/</font><b><font face="Times New Roman,Times">sphere</font></b><font face="Times">/</font><font face="Courier New,Courier">x_center,y_center,z_center,radius</font>
+<br><b><font face="Times New Roman,Times">surface</font></b><font face="Courier New,Courier">/s3</font><font face="Courier">/ibtype</font><font face="Times">/</font><b><font face="Courier New,Courier">tabular</font></b><font face="Courier">/x1,y1,z1/x2,y2,z2/rz|rt/&amp;</font>
+<p><font face="Courier">r1,z1 &amp;</font>
+<br><font face="Courier">r2,z2 &amp;</font>
+<br><font face="Courier">r3,z3 &amp;</font>
+<br><font face="Courier">....</font>
+<br><font face="Courier">rn,zn &amp;</font>
+<br><font face="Courier">end</font>
+<p><font face="Times">or</font>
+<p><font face="Courier">r1,theta1 &amp;</font>
+<br><font face="Courier">r2,theta2 &amp;</font>
+<br><font face="Courier">r3,theta3 &amp;</font>
+<br><font face="Courier">...</font>
+<br><font face="Courier">rn,thetan &amp;</font>
+<br><font face="Courier">end</font>
+<p><font face="Times New Roman,Times">Where point 1 and point 2 define
+the axis of rotation for the tabular profile with point 1 as the origin.
+This is followed by pairs of profile descriptors depending on the value
+of</font><font face="Times"> </font><font face="Courier">geom.</font><font face="Times New Roman,Times">If</font><font face="Courier">geom</font><font face="Times">
+is set to <b>rz</b>, t</font><font face="Times New Roman,Times">hen the
+r value is a radius normal to the axis of rotation and z is the distance
+along the new axis of rotation. If</font><font face="Times"> </font><font face="Courier New,Courier">geom</font><font face="Times New Roman,Times">is
+set to <b>rt</b> the</font><font face="Times">n
+</font><font face="Courier">theta</font><font face="Times">
+i</font><font face="Times New Roman,Times">s the angle from the axis of
+rotation at point 1 and</font><font face="Courier">r</font><font face="Times New Roman,Times">is
+the distance from point 1 along </font><font face="Courier">theta</font><font face="Times">.
+</font><font face="Times New Roman,Times">The
+first pair must start on a new line and all lines must contain pairs of
+data. The last pair of data must be followed by end.</font>
+<p><b><font face="Times">Inside/outside </font></b><font face="Times New Roman,Times">with
+respect to<b> sheet surfaces</b> will be determined by the following algorithm:</font>
+<dir><font face="Times">* </font><font face="Times New Roman,Times">For
+the point being considered, p, find the nearest sheet triangle and the
+closest point, q, to p that lies on that triangle.</font>
+<p><font face="Times">* </font><font face="Times New Roman,Times">Construct
+the vector<img SRC="Image255.gif" height=15 width=10>, from q to p.</font>
+<p><font face="Times">*</font><font face="Times New Roman,Times"> Construct
+the outward normal to the triangle,&nbsp;<img SRC="Image256.gif" height=12 width=9>.
+The outward normal is constructed using the right hand rule and the order
+of the points in the sheet. Sheets may be specified as quad Mesh Object
+(i.e. a 2 dimensional array of points containing the coordinates of the
+corners of each quad). Either two triangles (divide each quad in two using
+point (i,j) and (i+1,j+1)) or four triangles (add a point in the center
+of the quad) are generated by each quad. Applying the right hand rule to
+the points (i,j), (i+1,j), (i+1,j+1) gives the direction of the normal
+for all triangles created from the quad.</font>
+<p><font face="Times New Roman,Times">* If&nbsp;<img SRC="Image255.gif" height=15 width=10>*&nbsp;<img SRC="Image256.gif" height=12 width=9>&lt;
+0 then the point is inside. If&nbsp;<img SRC="Image255.gif" height=15 width=10>*&nbsp;<img SRC="Image256.gif" height=12 width=9>>0
+the point is outside. If&nbsp;<img SRC="Image255.gif" height=15 width=10><img SRC="Image256.gif" height=12 width=9>*
+n = 0, and if p is on the triangle then p=q and p in on the triangle.</font>
+<p><font face="Times New Roman,Times">* If&nbsp;<img SRC="Image255.gif" height=15 width=10>*<img SRC="Image256.gif" height=12 width=9>
+= 0 and p is not on the triangle then p is outside.</font></dir>
+<img SRC="Image257.gif" height=206 width=203>
+<p><font face="Times New Roman,Times">One implication of this definition
+is that the concept of shadows cast by open sheets no longer is valid.
+Sheets may be considered to extend to the boundary of the geometry.</font>
+<br><img SRC="Image259.gif" height=247 width=341></dir>
+</dir>
+</dir>
+
+</body>
+</html>

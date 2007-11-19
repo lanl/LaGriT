@@ -1,0 +1,188 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]">
+</HEAD>
+<BODY>
+
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.html#MESH VERTEX:"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<HR WIDTH="100%">
+<CENTER>&nbsp;&nbsp; <B>MESH VERTEX OPERATORS</B></CENTER>
+&nbsp;
+<HR WIDTH="100%">
+<BR><I>int </I><B>MV_Number</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v);
+
+<P>Return an ID number for the mesh vertex.
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%"><I>VType</I> <B>MV_Type</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v);
+
+<P>Return the mesh vertex type. Most useful in checking if a mesh vertex
+<BR>has been deleted or if it is a parent vertex on an interface
+
+<P>
+<HR WIDTH="100%"><I>PGeomEntity</I> <B>MV_GMEntity</B>(<I>PMeshObj</I>
+mesh, <I>PMeshVert</I> v);
+
+<P>Return the geometric model entity the mesh vertex is classified on.
+
+<P>
+<HR WIDTH="100%"><I>GType</I> <B>MV_GMtype</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v);
+
+<P>Return the type of geometric model entity the mesh vertex is
+<BR>classified on (GREGION, GFACE, GEDGE, GVERTEX, GUNKNOWN).
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MV_Coords</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v, <I>double</I> *xyz);
+
+<P>Coordinates of mesh vertex
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MV_IsParent</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>A vertex not
+on an interface is its own parent - return value will be 1
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MV_IsChild</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>A vertex not
+on an interface is its own child - return value will be 1
+
+<P>
+<HR WIDTH="100%"><I>PMeshVert</I> <B>MV_Parent</B>(<I>PMeshObj</I> mesh,
+<I>PMeshVert</I> v);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>For a vertex
+not on an interface, the vertex itself is returned
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MV_Children</B>(<I>PMeshVert</I> mesh,
+<I>PMeshVert</I> v, <I>int </I>*nvc, <I>PMeshVert</I> **vc)
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>For a vertex
+not on an interface, a 1 item array with the vertex
+<BR>pointer itself is returned and nvc = 1
+<BR>&nbsp;
+<BR>
+<HR WIDTH="100%"><I>void</I> <B>MV_Edges</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v, <I>int </I>*nve, <I>PMeshEdge</I> **vedges);
+
+<P>List of mesh edges connected to vertex. For this routine to work
+<BR>properly, one must call MESH_BldAdj first. If not the routine will
+<BR>just return 0.
+
+<P>If the vertex is a parent vertex, then the operator will return all
+<BR>the edges connected to all the child vertices of the vertex. The edge
+<BR>returned will be of type PARENT. Each of these edges will be made up
+<BR>of 'v' and any other parent vertex it is connected to. If it is a
+<BR>child vertex, then it will return edges connected only to itself.&nbsp;
+In
+<BR>this case all the edges will be of type CHILD. Each edge will be made
+<BR>up of the child vertex 'v' and any other child vertex it is connected
+<BR>to. Note that vertices on 2-manifold (single material) boundaries and
+<BR>in the interior can be considered a parent or a child as required.
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27>*** IMPORTANT
+***
+<BR><FONT COLOR="#FF0000">When finished with the list of edges, call ME_Delete
+on each of the</FONT>
+<BR><FONT COLOR="#FF0000">edges and free the vedges list. This is important
+since the MeshEdge</FONT>
+<BR><FONT COLOR="#FF0000">data structures are created on the fly and the
+MESH object does not</FONT>
+<BR><FONT COLOR="#FF0000">keep track of them.</FONT>
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MV_Faces</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v, <I>int </I>*nvf, <I>PMeshFace</I> **vfaces);
+
+<P><IMG SRC="../images/note1.gif" NOSAVE HEIGHT=32 WIDTH=31>** NOT YET
+TESTED **
+
+<P>List of mesh faces connected to vertex. For this routine to work
+<BR>properly, one must call MESH_BldAdj first. If not the routine will
+<BR>just return 0.
+
+<P>The behavior of the operator for parent and child vertices is the same
+<BR>as it is for MV_Edges.
+
+<P><IMG SRC="../images/bullet12.gif" NOSAVE HEIGHT=31 WIDTH=27>*** IMPORTANT
+***
+<BR><FONT COLOR="#FF0000">When finished with the list of faces, call MF_Delete
+on each of the</FONT>
+<BR><FONT COLOR="#FF0000">faces and free the vfaces list. This is important
+since the MeshFace</FONT>
+<BR><FONT COLOR="#FF0000">data structures are created on the fly and the
+MESH object does not</FONT>
+<BR><FONT COLOR="#FF0000">keep track of them.</FONT>
+
+<P>
+<HR WIDTH="100%"><I>int </I><B>MV_numRegions</B>(<I>PMeshObj</I> mesh,
+<I>PMeshVert</I> v);
+
+<P>Number of mesh regions connected to mesh vertex. For this routine to
+<BR>work properly, one must call MESH_BldUpAdj first. If not the routine
+<BR>will just return 0.
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%"><I>void</I> <B>MV_Regions</B>(<I>PMeshObj</I> mesh, <I>PMeshVert</I>
+v, <I>int </I>*nr, <I>PMeshRegn</I> **regns);
+
+<P>List of mesh regions connected to mesh vertex. For this routine to
+<BR>work properly, one must call MESH_BldUpAdj first. If not the routine
+<BR>will just return 0 for the number of regions and a NULL pointer for
+<BR>the region list.
+<BR>&nbsp;
+
+<P>For a parent vertex, mesh regions in all the material regions
+<BR>connected to all its children are returned. For a child vertex, only
+<BR>mesh regions in the particular material region pointed to by the child
+<BR>are returned.
+
+<P>
+<HR WIDTH="100%">
+<BR><A NAME="MV-Attribs"></A><I>int</I> <B>MV_GetAttVal</B>(<I>PMeshObj</I>
+mesh, <I>PMeshVert</I> v, <I>char *</I>attname, <I>int *</I>ival,
+<BR><I>double *</I>rval, <I>char *</I>cval, <I>void **</I>pval, <I>AttType
+*</I>atype);
+
+<P>Depending on the type of the attribute, the appropriate field will be
+<BR>filled on succesful completion. Arrays are returned in pval, integer
+in
+<BR>ival and real number in rval (I don't think lagrit supports character
+<BR>attributes)
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%">
+<BR><I>int</I> <B>MV_SetAttVal</B>(<I>PMeshObj </I>mesh, <I>PMeshVert</I>
+v, <I>char *</I>attname, <I>int</I> ival,
+<BR><I>double</I> rval, <I>char</I> cval, <I>void *</I>pval);
+
+<P>This is similar to the GetAttVal routine - depending on the type and
+<BR>rank, one sends in a value with the right variable
+
+<P>*** PERHAPS these routines need an additional variable, "rank" but for
+<BR>now.....
+<BR>&nbsp;
+<BR>&nbsp;
+<CENTER><A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.html#MESH VERTEX:"><IMG SRC="../images/arrow2.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.html"><IMG SRC="../images/arrow3.gif" NOSAVE HEIGHT=30 WIDTH=30></A>&nbsp;<A HREF="http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.html"><IMG SRC="../images/arrow4.gif" NOSAVE HEIGHT=30 WIDTH=30></A>
+</CENTER>
+&nbsp;
+</BODY>
+</HTML>

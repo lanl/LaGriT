@@ -1,0 +1,44 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+</head>
+<body>
+ERRORS
+<br>&nbsp;
+<blockquote>Errors in Parsing or Executing Commands:
+<br>These errors cause an error message to be written to the output batch
+file, called logx3dgen by default and to the standard output file.&nbsp;
+The messages are self-explanatory and will alert the user to the required
+change.&nbsp; For example one of the errors related to the region command
+is "<i>token </i>is an invalid operation or a non-defined surface or region."&nbsp;&nbsp;
+In this case the user must inspect the corresponding command in the vicinity
+of <i>token </i>which is the place in parsing the string that LaGriT could
+not proceed, to see if there might be a spelling error in specifying a
+operator, region name or surface name or perhaps the user left out an operator.&nbsp;
+If the correct commands should read:
+<br>surface/s1/reflect/box/0,0,0/1,1,1
+<br>surface/s2/intrface/box/.2,.2,.2/.4,.4,.4/
+<br>region/r1/le s1 and ge s2
+<br>region/r2/ le s2
+<br>If the user had mistakenly typed:
+<br>region/r1/le s1 and gg s2
+<br>the error "REGION&nbsp;ERROR: gg is an invalid operation or a non-defined
+surface or region" would appear
+<br>followed by "error in command&nbsp;:&nbsp;region/r1/le s1 and gg s2
+<p>Out of Memory Errors:
+<br>If a&nbsp; user specifies a probelem that is too large, LaGriT will
+fail with and "MALLOCF: Out of memory" or "REALLOCF: Reallocation error
+- aborting" mesage.&nbsp; The user must decrease the size of the problem
+or move to a more powerful platform.
+<p>Fatal Memory Management Errors:
+<br>Fatal memory management errors are signaled by a message containing
+":PANIC!"&nbsp; This type of error should be reported to the code manager,
+and the report should include all files and other information necessary
+to reproduce the error.
+<br>&nbsp;
+<br>&nbsp;</blockquote>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+define/nx/15                                                                    
+define/ny/15                                                                    
+define/nz/2                                                                     
+cmo/create/mesh_object///tet                                                    
+createpts/xyz/nx,ny,nz/0. 0. 0./1. 1. 0.2/1 1 1                                 
+cmo/setatt/mesh_object/imt/1 0 0/1                                              
+connect                                                                         
+cmo/printatt//-all-/minmax                                                      
+dump/gmv/output_rmmat1.gmv/mesh_object                                          
+surface/cyl_surf/intrface/cylinder/0.5,0.5,-1/0.5,0.5,1.0/0.25                  
+mregion/mr1/gt cyl_surf                                                         
+mregion/mr2/lt cyl_surf                                                         
+setpts                                                                          

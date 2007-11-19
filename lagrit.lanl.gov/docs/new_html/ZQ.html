@@ -1,0 +1,40 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title> ZQ</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><font face="Times"><b><u>ZQ</u></b>&nbsp;&nbsp; Deprecated
+command;<b> cmo/setatt</b> is now preferred</font></blockquote>
+
+<dir>
+<dir><font face="Times">Set or print node attribute values of a selected
+set of nodes.</font>
+<br><font face="Times">To print, omit the `value' field.</font>
+<br><font face="Times">For printing, attributes are grouped as follows:</font>
+<br><font face="Times">Group1: isq,imt,itp (material type and point types)</font>
+<br><font face="Times">Group2: x,y,z (coordinates)</font>
+<br><font face="Times">To print, specify any one of a group and all will
+be printed.</font>
+<br><font face="Times">To set an attribute value, set </font><font face="Courier">value
+</font><font face="Times">and
+all selected nodes will be set to this value.</font>
+<br><font face="Times">Attribute added with a <b>cmo/addatt</b> command
+may also be printed or changed.</font></dir>
+<font face="Times">FORMAT:</font>
+<dir><font face="Times"><b>zq</b>/</font><font face="Courier">iattribute/ifirst,ilast,istride/value</font></dir>
+<font face="Times">EXAMPLE:</font>
+<dir><font face="Times"><b>zq</b>/<b>imt</b>/1,100,2/material1/</font>
+<br><font face="Times">will set all odd numbered points between 1 and 100
+to material type `material 1'</font></dir>
+
+<dir><font face="Times"><b>zq/xic</b>/1,0,0/</font>
+<br><font face="Times">will print coordinates of all points</font></dir>
+</dir>
+
+</body>
+</html>

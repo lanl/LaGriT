@@ -1,0 +1,41 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>TRANS</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+ 
+<blockquote><b><u><font face="Times New Roman,Times">TRIANGULATE</font></u></b></blockquote>
+ 
+<dir>
+<dir><font face="Times New Roman,Times"><b>triangulate</b> will take an
+ordered set of nodes in the current 2d mesh object that define a perimeter
+of a polygon and create a trangulation of the polygon.&nbsp; The nodes
+are assumed to lie in the xy plane; the z coordinate is ignored.&nbsp;
+No checks are performed to verify that the nodes define a legal perimeter
+(i.e. that segments of the perimeter do not cross).&nbsp; The code will
+connect the last node to the first node to complete the perimeter.</font></dir>
+<font face="Times New Roman,Times">FORMAT:</font>
+<dir><font face="Times New Roman,Times"><b>triangulate </b>[/<b>clockwise</b>
+| <b>counterclockwise</b>]</font>
+<br><font face="Times New Roman,Times">clockwise is the default.&nbsp;
+Orientation is defined with the viewer above the xy plane.</font>
+<dir>&nbsp;</dir>
+</dir>
+<font face="Times New Roman,Times">EXAMPLES:</font>
+<dir><b><font face="Times New Roman,Times">triangulate</font></b>
+<br><b><font face="Times New Roman,Times">triangulate/counterclockwise</font></b>
+<p><font face="Times New Roman,Times"><b>cmo/create</b>/2dmesh///<b>tri</b></font>
+<p><font face="Times New Roman,Times"><b>read</b>/<b>avs</b>/2dfile.avs</font>
+<p><b><font face="Times New Roman,Times">triangulate</font></b>
+<br><b><font face="Times New Roman,Times"></font></b>&nbsp;</dir>
+<b><font face="Times New Roman,Times"></font></b>
+<p><br><font face="Times New Roman,Times"><a href="demos/triangulate/html/main_tri.html">Click
+here for demos</a></font>
+<br><a href="demos/triangulate/test/test/html/main_tri.html"></a>&nbsp;</dir>
+ 
+</body>
+</html>

@@ -1,0 +1,99 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 97/98">
+   <META NAME="Template" CONTENT="Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>*arguments:</TITLE>
+</HEAD>
+<BODY LINK="#0000FF" VLINK="#800080">
+
+<BLOCKQUOTE><U><FONT FACE="Times New Roman,Times"><FONT SIZE=+1>Description</FONT></FONT></U>
+
+<P>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; createpts/rtz/4,6,11/0,0,0/3,45,10/1,0,1
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">Distribute points using
+the rtz cylindrical coordinate system.&nbsp; This results in 264 points
+arranged around the z- axis. There are 3 rings of points at distances r=1.,
+r=2. and r=3. from the z-axis. There are11 sets of these three rings of
+points and heights z=0., z=1., z=2.,...,z=10. In each ring there are 6
+points where each pair of points is separated by 60&deg;; note that ijz=0
+requests that points be placed at cell centers, hence the first point will
+be at 30&deg; not at 0&deg;. Corresponding to r=0, there will be 6 identical
+points at 11 intervals along the z-axis at heights z=0., z=1., z=2.,...z=10.
+Filter should be used to remove these duplicate points.&nbsp; Note: Cylinders
+are open but finite.&nbsp; To create a closed cylinder cap both ends with
+planes.</FONT></BLOCKQUOTE>
+
+<BLOCKQUOTE>Arguments:</BLOCKQUOTE>
+&nbsp;
+<CENTER><TABLE COLS=2 WIDTH="70%" NOSAVE >
+<TR>
+<TD WIDTH="5%"><FONT FACE="Times New Roman,Times">rtz&nbsp;</FONT></TD>
+
+<TD><FONT FACE="Times New Roman,Times">specifies cylindrical coordinates</FONT></TD>
+</TR>
+
+<TR>
+<TD><FONT FACE="Times New Roman,Times">4,6,11&nbsp;</FONT></TD>
+
+<TD><FONT FACE="Times New Roman,Times">create 4 points in the r direction,
+create 6 points in the t direction, create 11 points in the z direction</FONT></TD>
+</TR>
+
+<TR NOSAVE>
+<TD><FONT FACE="Times New Roman,Times">0,0,0</FONT></TD>
+
+<TD NOSAVE><FONT FACE="Times New Roman,Times">rmin = 0, tmin = 0, zmin
+= 0</FONT></TD>
+</TR>
+
+<TR NOSAVE>
+<TD><FONT FACE="Times New Roman,Times">3,45,10</FONT></TD>
+
+<TD NOSAVE><FONT FACE="Times New Roman,Times">radius from 0 to 3, angle
+in the xy-plane is 45, height along the z-axis is 10</FONT></TD>
+</TR>
+
+<TR>
+<TD><FONT FACE="Times New Roman,Times">1,0,1</FONT></TD>
+
+<TD><FONT FACE="Times New Roman,Times">rmins and rmaxs are used as cell
+vertices, tmins and tmaxs are used as cell centers, zmins and zmaxs are
+used as cell vertices</FONT></TD>
+</TR>
+
+<TR>
+<TD></TD>
+
+<TD></TD>
+</TR>
+
+<TR>
+<TD></TD>
+
+<TD></TD>
+</TR>
+</TABLE></CENTER>
+&nbsp;</BLOCKQUOTE>
+
+<BLOCKQUOTE>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Input deck:
+<BLOCKQUOTE><FONT FACE="Times New Roman,Times">cmo/create/3dmesh</FONT>
+<BR><FONT FACE="Times New Roman,Times">surface/outer/reflect/cylinder/0,0,0/1,0,0/1/</FONT>
+<BR><FONT FACE="Times New Roman,Times">region/r1/ le outer /</FONT>
+<BR><FONT FACE="Times New Roman,Times">mregion/m1/ le outer /</FONT>
+<BR><FONT FACE="Times New Roman,Times">createpts/rtz/4,6,11/0,0,0/3,45,10/1,0,1/</FONT>
+<BR><FONT FACE="Times New Roman,Times">dump/gmv/gmv2</FONT>
+<BR><FONT FACE="Times New Roman,Times">finish</FONT></BLOCKQUOTE>
+
+
+<P>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;
+<BR>&nbsp;</BLOCKQUOTE>
+
+</BODY>
+</HTML>

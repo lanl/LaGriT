@@ -1,0 +1,9 @@
+convert -crop 15% image1.rgb qual1.gif
+convert -geometry 15% qual1.gif qual1_tn.gif
+echo 'qual1.gif and qual1_tn.gif done\n'
+convert -crop 15% image2.rgb qual1skew.gif
+convert -geometry 15% qual1skew.gif qua11skew_tn.gif
+echo 'qual1skew.gif and qual1skew_tn.gif done\n'
+convert -crop 15% image3.rgb qual3.gif
+convert -geometry 15% qual3.gif qual3_tn.gif
+echo 'qual3.gif and qual3_tn.gif done\n'

@@ -1,0 +1,101 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>3</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<b><font face="Times New Roman,Times">&nbsp;&nbsp; Point Selection</font></b>
+<blockquote><font face="Times New Roman,Times"><b>getptyp(</b><u>point_type_name,</u>point_type,ierror)</font>
+<blockquote><font face="Times New Roman,Times">This routine converts point
+type names to point types.</font>
+<br><font face="Times New Roman,Times"><a href="meshobject.html">See III.a
+</a>for a list of point types, names and meanings</font>
+<br><font face="Times New Roman,Times">point_type_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+name of point type (character*32)</font>
+<br><font face="Times New Roman,Times">point_type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+value of point type (integer)</font></blockquote>
+<font face="Times New Roman,Times"><b>unpackpc(</b><u>npoints,itp,isn,iparents</u>)</font>
+<blockquote><font face="Times New Roman,Times">This routine returns in
+the array iparents the parent point corresponding to each child point i,
+if point i is a child point. Ordinary points are their own parents.&nbsp;
+The first three arguments are usually mesh object attributes described
+in <a href="meshobject.html">Section III.a</a></font>
+<br><font face="Times New Roman,Times">npoints&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+input number of nodes (integer)</font>
+<br><font face="Times New Roman,Times">itp1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+input array of point types (integer array)</font>
+<br><font face="Times New Roman,Times">isn1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+input array of parent child links (integer array)</font>
+<br><font face="Times New Roman,Times">iparents&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+input/output array of parent node number for each point (integer array)</font></blockquote>
+<font face="Times New Roman,Times"><b>unpacktp</b>(<u>ioptitp,iopt2,inum,ipitp1,ipitp2</u>,ierror)</font>
+<dir><font face="Times New Roman,Times">This routine sets, or's in, or
+and's in (depending on iopt2) a 1 in the array pointed to by ipitp2 for
+each point that fits the criterion specified by ioptitp. ioptitp uses the
+point types as defined in <a href="meshobject.html">Section III.a&nbsp;</a>&nbsp;
+and ipitp1is the pointer to the integer array of point types.</font>
+<br><font face="Times New Roman,Times">A zero is set, or'd or and'd otherwise.</font>
+<p><font face="Times New Roman,Times">ioptitp criterion</font>
+<dir><font face="Times New Roman,Times"><b>&nbsp; allreal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>(0<u>&lt;</u>itp1(i)<u>&lt;</u>19)</font>
+<br><font face="Times New Roman,Times"><b>&nbsp; interior&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>(itp1(i)=0)</font>
+<br><font face="Times New Roman,Times"><b>&nbsp; inteintf</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(itp1(i)=2,3,4)</font>
+<br><font face="Times New Roman,Times"><b>&nbsp; matlintr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</b>(itp1(i)=2,4,8,9,12,13,15,19)</font>
+<br><font face="Times New Roman,Times"><b>&nbsp; boundary&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>(8<u>&lt;</u>itp1(i)<u>&lt;</u>19)</font>
+<br><font face="Times New Roman,Times"><b>&nbsp; reflect&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>(itp1(i)=9,10, 12, 14, 15,16,18,19)</font>
+<br><font face="Times New Roman,Times"><b>&nbsp; free&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>(itp1(i)=8,9,11, 13, 14, 15,17,18)</font>
+<br><font face="Times New Roman,Times"><b>&nbsp; intrface&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>(itp1(i)=2,3,4,8,9,12, 13,15,16,17,18,19)</font>
+<br><font face="Times New Roman,Times"><b>&nbsp; virtual</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(itp(i)=3,4,8,9,16,17,18,19)</font>
+<br><font face="Times New Roman,Times"><b>&nbsp; removed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>(20<u>&lt;</u>itp1(i)<u>&lt;</u>29)</font>
+<br><font face="Times New Roman,Times"><b>&nbsp; merged&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>(itp1(i)=20)</font>
+<br><font face="Times New Roman,Times"><b>&nbsp; dudded&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>(itp1(i)=21)</font></dir>
+<font face="Times New Roman,Times">opt2&nbsp;&nbsp;&nbsp;&nbsp; operation</font>
+<br><font face="Times New Roman,Times"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+set&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>set itp2 to 1 or 0</font>
+<br><font face="Times New Roman,Times"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+or&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>or in a 1 or 0 in itp2</font>
+<br><font face="Times New Roman,Times"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+and&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</b>and in a 1 or 0 in itp2</font></dir>
+</blockquote>
+<font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+inum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+input number of nodes in the array pointed to by ipitp1</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ipitp1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+input pointer to integer array of point types (length inum)</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ipitp2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+input pointer to output integer array of 1's or 0's (length inum)</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+on output array pointed to will have been filled.</font>
+</body>
+</html>

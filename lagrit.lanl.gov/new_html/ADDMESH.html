@@ -1,0 +1,126 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+   <title>ADDMESH</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times New Roman,Times">ADDMESH</font></u></b>
+<blockquote><font face="Times New Roman,Times">This routine joins two meshes
+together at their common interface to produce a third mesh.</font></blockquote>
+<font face="Times New Roman,Times">FORMAT:</font>
+<blockquote><b><font face="Times New Roman,Times">addmesh / add /</font></b><font face="Courier New,Courier">mesh3
+/ mesh1 / mesh2 /[refine_factor]</font><font face="Times New Roman,Times">/[<b>tet</b>|<b>edge</b>]</font>
+<br><font face="Times New Roman,Times"><b>addmesh </b>/<b> amr </b>/</font><font face="Courier New,Courier">
+mesh3 / mesh1 / mesh2</font><font face="Times New Roman,Times"> /</font>
+<br><font face="Times New Roman,Times"><b>addmesh / append
+</b>/ </font><font face="Courier New,Courier">mesh3
+/ mesh1 / mesh2 /</font>
+<br><font face="Times New Roman,Times"><b>addmesh / delete
+</b>/</font><font face="Courier New,Courier">
+mesh3 / mesh1 / mesh2 /</font>
+<br><font face="Times New Roman,Times"><b>addmesh / glue
+</b>/ </font><font face="Courier New,Courier">mesh3
+/ mesh1 / mesh2</font><font face="Times New Roman,Times"> /</font>
+<br><font face="Times New Roman,Times"><b>addmesh / intersect
+</b>/ </font><font face="Courier New,Courier">pset_name
+/ mesh1 / mesh2 /</font>
+<br><font face="Times New Roman,Times"><b>addmesh / match
+</b>/ </font><font face="Courier New,Courier">mesh3
+/ mesh1 / mesh2 / i1 12 i3 i4 i5 i6</font><font face="Times New Roman,Times">/</font>
+<br><font face="Times New Roman,Times"><b>addmesh / match
+</b>/ </font><font face="Courier New,Courier">mesh3
+/ mesh1 / mesh2 /rx1 ry1 rz1/rx2 ry2 rz2/rx3 ry3 rz3/rx4 ry4 rz4/rx5 ry5
+rz5/rx6/ry6/rz6/</font>
+<br><font face="Times New Roman,Times"><b>addmesh / merge</b>/
+</font><font face="Courier New,Courier">mesh3
+/ mesh1 / mesh2 /</font>
+<br><b><font face="Times New Roman,Times">addmesh / pyramid
+</font></b><font face="Courier New,Courier">/
+mesh3 / mesh1 / mesh2 </font><font face="Times New Roman,Times">/</font></blockquote>
+</blockquote>
+
+<blockquote><font face="Times New Roman,Times"><b>add</b> - Find the intersection
+of </font><font face="Courier New,Courier">mesh1</font><font face="Times New Roman,Times">
+and</font><font face="Courier New,Courier"> mesh2</font><font face="Times New Roman,Times">.
+Refine
+</font><font face="Courier New,Courier">mesh1</font><font face="Times New Roman,Times">
+where it overlaps
+</font><font face="Courier New,Courier">mesh2</font><font face="Times New Roman,Times">
+using the following criteria. </font><font face="Courier New,Courier">refine_factor</font><font face="Times New Roman,Times">
+specifies the number of times that the background mesh will be refined.
+If this number is negative, or if it does not appear, then the it will
+use the default. The default method determines the number of refinement
+iterations based on the volumes of the tets. It continues to refine until
+the elements on the interface boundary of the background mesh object are
+within a given factor (5.0) of the volume of the elements on the border
+of the incoming mesh object. This factor is a parameter constant called
+</font><font face="Courier New,Courier">size_differenc</font><font face="Times New Roman,Times">e
+in the code </font><font face="Courier New,Courier">continue_refinement</font><font face="Times New Roman,Times">.f.
+For example, if </font><font face="Courier New,Courier">size_difference
+i</font><font face="Times New Roman,Times">s set to 5.0, then the background
+mesh will be refined until the maximum volume element on the boundary with
+the incoming mesh object is no bigger than 5 times the volume of the maximum
+volume element on the border of the incoming mesh. </font><font face="Courier New,Courier">refine_type</font><font face="Times New Roman,Times">
+is the type of refinement that is executed. If the string <b>tet</b> appears,
+then tetrahedral refinement is performed. Otherwise, <b>edge</b> based
+refinement is performed. After the above refine steps have been done, the
+intersection of mesh1 and mesh2 is found, elements that overlap are deleted
+from </font><font face="Courier New,Courier">mesh1</font><font face="Times New Roman,Times">
+and mesh2 is appended to mesh1 to create mesh3.</font>
+<p><font face="Times New Roman,Times"><b>merge</b> - Append
+</font><font face="Courier New,Courier">mesh2</font><font face="Times New Roman,Times">
+to to </font><font face="Courier New,Courier">mesh1</font><font face="Times New Roman,Times">
+and create mesh3. Essentially this just concatenates two mesh objects.</font>
+<p><font face="Times New Roman,Times"><b>glue</b> - Synonym for <b>merge</b>.</font>
+<p><font face="Times New Roman,Times"><b>append</b> - Append
+</font><font face="Courier New,Courier">mesh2</font><font face="Times New Roman,Times">
+to</font><font face="Courier New,Courier"> mesh1</font><font face="Times New Roman,Times">
+and create
+</font><font face="Courier New,Courier">mesh3.</font><font face="Times New Roman,Times">
+Similar to
+<b>merge</b> except</font><font face="Courier New,Courier">
+imt, icr, itetclr</font><font face="Times New Roman,Times"> of </font><font face="Courier New,Courier">mesh2</font><font face="Times New Roman,Times">
+have the value max(imt(mesh1)) added to</font><font face="Courier New,Courier">
+mesh2</font><font face="Times New Roman,Times">.</font>
+<p><font face="Times New Roman,Times"><b>delete</b> - Create mesh3 which
+is </font><font face="Courier New,Courier">mesh1</font><font face="Times New Roman,Times">
+with elements that intersect </font><font face="Courier New,Courier">mesh2</font><font face="Times New Roman,Times">
+deleted.</font>
+<p><font face="Times New Roman,Times"><b>intersect</b> - Create a pset
+called </font><font face="Courier New,Courier">pset_name</font><font face="Times New Roman,Times">
+that contains all nodes in mesh1 which intersect elements of </font><font face="Courier New,Courier">mesh2</font><font face="Times New Roman,Times">.</font>
+<p><font face="Times New Roman,Times"><b>amr</b> - Use Adaptive mesh refinement
+to connect background mesh1 with submesh </font><font face="Courier New,Courier">mesh2
+a</font><font face="Times New Roman,Times">nd create </font><font face="Courier New,Courier">mesh3</font><font face="Times New Roman,Times">.</font>
+<p><font face="Times New Roman,Times"><b>match</b> - Same as <b>merge</b>
+except the second mesh can be moved, rotated and translated. The first
+mesh does not move scale or rotate. If the interface needs to be scaled,
+translated and rotated that is accomplished by specifing 3 node numbers
+in each mesh or 3 node coordinates from each mesh that are to become coincident.
+If nodes are given match i1-i4, i2-i5, i3-i6. If coordinates are given
+match (x1,y1,z1)-(x4,y4,z4), etc.</font>
+<p><font face="Times New Roman,Times"><b>pyramid</b> - join a hex mesh
+to a tet mesh. The common surface must have matching nodes (i.e. there
+must be exactly two triangle faces on the tet grid that fit into one quad
+face of the hex grid). Pyramid elements will be constructed in the region
+where the two meshes join.</font></blockquote>
+
+<blockquote><font face="Times New Roman,Times">NOTE: Care must be taken
+when using these commands because nothing is done to clean up the point
+type (itp) array after the <b>addmesh</b> operation. The user must often
+execute a series of <a href="RESETPT.html"><b>resetpts</b>/<b>itp</b></a>
+and <b><a href="FILTER.html">filter</a></b> commands to get the final desired
+result.</font>
+<p><font face="Times New Roman,Times">NOTE:&nbsp; Some operations may only
+work with tet meshes.</font>
+<br>&nbsp;
+<p><font face="Times New Roman,Times"><a href="demos/addmesh/html/main_addmesh.html">Click
+here for demos</a></font></blockquote>
+
+<br>&nbsp;
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.76 [en] (X11; U; SunOS 5.7 sun4u) [Netscape]">
+   <title>INTERPOLATE</title>
+<! Template for LaGriT online manual command definition >
+<! Search and Replace _name   >
+<!    b = bold = literal parameter names >
+<!    u = underline = default parameter setting >
+<!    font face="Courier" = variable parameter names >
+<!    the br command indicates a line break >
+<! Note: If a html composer is used it will overwrite this file when saved. >
+<! header for style of html ------------------------------------------------ >
+<! command name for window banner >
+<style type="text/css">
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+       }
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+<! end header ------------------------------------------------------------- >
+<! command name >
+<h2>
+INTERPOLATE</h2>
+<! command description ---------- >
+<blockquote>The <b>interpolate</b> (or <b>intrp</b>) command is used to
+interpolate attribute values from nodes or elements of a source mesh to
+node or element attributes of a sink mesh. Normally the source grid is
+coarser or the same resolution as the sink grid. <b>interpolate</b> replaces
+method options in the <b>doping</b> command called <b>integer1, integer2</b>,
+and <b>table</b>.
+
+<p>The <b>interpolate</b> methods depend on the location of sink nodes
+as they relate to the source grid nodes or elements. The interpolations
+are from either source nodes or elements on to sink points. The <b>interpolate</b>
+values are written to the indicated sink attribute for each sink point.
+If the indicated sink attribute is of element type, then the centroids
+for each element are calculated and used for the interpolated sink points.
+
+<p>The <font face="Courier">intrp_method</font> parameter includes
+<b>map</b>, <b>voronoi</b>, and <b>continuous</b>. 
+The <b>map</b> method copies the value from the
+enclosing source element. <b>continuous</b> interpolates on to
+a sink point using the enclosing source element nodes. Method <b>voronoi</b>
+copies the value from the nearest source node.
+
+<p>The remaining <b>interpolate</b> parameters are all optional on the
+command line. <font face="Courier">tie_option</font>
+is used to break a tie when a sink point has more
+than one valid candidate source node or element. 
+<font face="Courier">flag_option</font>
+is used to assign an error value, or to assign a value for points not inside
+the source mesh.
+<font face="Courier">intrp_function</font> allows the
+interpolation function associated with the sink attribute to be set. A
+kdtree node or element search is used to pair the source mesh to the sink
+mesh points. Each sink point is paired with either an element or point
+found with the search. This one-to-one correspondence can be saved as a
+sink cmo attribute. These attributes are reused during multiple calls to
+the <b>interpolate</b> command instead of repeating a long search. The
+keyword that allows the attributes to be kept as part of the sink cmo is
+<b>keepatt</b>.
+
+<p>The valid element types depend on the <b>interpolate</b> method being
+used. For instance, a valid <b>continuous</b> interpolation can not currently
+be applied using a hex element. Use <b>hextotet</b> to convert hex elements
+of the source grid to tets.
+<br>For valid combinations of <b>interpolate</b> methods and options, 
+see the <a href="#TABLE1">Tables</a> below.
+</blockquote>
+
+<br>
+<br>
+<blockquote>
+The format for the command line is as follows:
+<br>
+<b>interpolate </b>/ <font face="Courier">intrp_method / cmosink,
+attsink / 1,0,0 / cmosrc, attsrc /<br>
+ [tie_option] [flag_option] [keep_option] [intrp_function]</font>
+<br>
+Parameters appearing after the source cmo attribute name are optional.
+<br>
+
+<br><! parameter intrp_method ---------- >
+<br><font face="Courier">intrp_method
+</font>is the choice of interpolation
+methods. These methods evolved from methods available in the <b>doping</b>
+command. The <b>map</b> method replaces <b>doping/integer1</b> which copied
+source itetclr values to sink imt values. The <b>voronoi</b> method replaces
+<b>doping/integer2</b> which copied nearest node source imt to sink imt.
+<b>continuous</b> evolved from the <b>doping/table</b> command. These commands
+are still similar to the old versions except that they have been generalized
+to include user chosen attributes and more element types. The choices for
+<font face="Courier">intrp_method </font>are as follows:
+<blockquote>
+<b>map</b> - For each sink point, search source cmo for an
+enclosing element. Copy the found source element value to the sink attribute.
+The source attribute is of type element. To copy from a source attribute
+of type node, use <b>voronoi</b> method.
+<br>
+<b>voronoi</b> - For each sink point, search the source cmo for a nearest
+node. Copy found source node value to the sink attribute. The source attribute
+is of type node. To copy from a source attribute of type element, use <b>map</b>
+method. By selecting the nearest source points, Voronoi regions
+are generated around each sink point.
+The sink point (node or centroid) is given the value of the attribute
+associated with the Voronoi generating point whose Voronoi cell the sink
+point lands in.
+<br>
+<b>continuous</b> - For each sink point, search the source cmo for
+an enclosing element. Use the vertices of enclosing element to interpolate
+a value on to the sink point. The source attribute is of type node. The
+interpolation is the sum of vertice values multiplied by the relative volume
+of elements formed by the sink point location on or inside the found element.
+The element is divided into volumes as determined by the sink point location
+and its relationship to the vertices of the enclosing element. A triangle
+becomes three triangles each with a vertices on the sink point. A quad
+becomes four quads. A tet becomes four tets. WARNING: A hex becomes 8 hexs
+which depends on orthogonal hexs and so is not currently supported. Use
+hextotet to convert hex elements to tets. Each vertice value of the found
+element is multiplied by these relative volumes. The assigned sink point
+value is the sum of these values divided by the number of element vertices.
+The interpolation function belonging to the attribute is applied to the
+vertice values before being summed. These interpolate types include LINEAR,
+ASINH, and LOG. Other interpolate functions such as min, max, and copy
+pass the value unchanged. See the cinterpolate() routine for how these
+interpolation types are handled. The final value of the sink point has
+the inverse function operation applied.
+<br><b>default</b> - 
+If source attribute is element type then use <b><u>map</u></b>.
+If source attribute is node type then use <b><u>continuous</u></b>.</blockquote>
+
+<! parameter cmosink, attsink ---------- >
+<br><font face="Courier">cmosink, attsink </font>are the cmo name and attribute
+name to write interpolated values into. The interpolation are applied 
+to the points of the sink cmo. 
+If the sink attribute is element type,
+centroids are calculated for each element and these are used for the interpolation
+methods. All integer attributes are converted to double for the interpolation
+routines. The interpolated values are then converted to integer if the
+sink attribute is integer. 
+
+<br><! parameter indexed_set ---------- >
+<p><font face="Courier">indexed_set </font>is the set of sink nodes or
+elements to write interpolated values to. 1,0,0 will select all sink nodes
+or elements.&nbsp;<! parameter cmosrc, attsrc ---------- >
+<p><font face="Courier">cmosrc, attsrc </font>are the cmo name and attribute
+name are the cmo and attribute to interpolate from. Points from the sink
+grid will be located within source elements or nearest source nodes depending
+on the method used.
+<br>&nbsp;
+<br>&nbsp;
+
+<p>The following parameters are optional for the command <b>interpolate</b>.&nbsp;<! parameter tie_option ---------- >
+<p><font face="Courier">tie_option </font> provides a method of choice
+when multiple candidates are found for nearest node or enclosing element.
+Along with kdtree search, nearestpoint() and retrieve_within_eps() routines
+return a list of candidate objects for a sink point. These can be either
+a list of closest points, or a list of elements the point is on or inside.
+<font face="Courier">tie_option </font>chooses one candidate from the possible
+candidates. The result is a one-to-one correspondence with each sink point
+paired with a single source node or a single source element.
+<blockquote><b><u>tiemax</u></b> selects the maximum value from candidate
+nodes or elements. This is the default selection.
+<br><b>tiemin</b> selects the minimum value from candidate nodes or elements.
+</blockquote>
+
+<! parameter flag_option ---------- >
+<p><font face="Courier">flag_option </font>is the value used to initialize
+the sink attribute. These flag values indicate either that there was an error
+and a value could not be written to the sink attribute.
+The kdtree element search will assign a flag value
+if a sink point is located outside the source grid.
+<blockquote>
+<b><u>plus1</u></b> will assign a flag value of maximum source
+value plus 1.
+<br><b>nearest/</b><font face="Courier">near_attribute </font>will find
+the nearest source node and use the node's attribute value as the flag value.
+The keyword <b>nearest</b> must be followed with the name of the source
+node attribute to use for the flag values.
+<br><font face="Courier">flag_option </font>given as an integer or real
+value will use the user's numeric value for the flag assignments.
+</blockquote>
+
+<! parameter keep_option ---------- >
+<p><font face="Courier">keep_option </font>is used during multiple calls
+to <b>interpolate</b> with the same two grids. It keeps attributes created
+during the search routines and uses these attributes to look up associated
+node or element numbers. The <b>interpolate</b> command uses kdtree to
+create sink attributes that pair sink points to associated source node
+or element numbers. If <b>map</b> or <b>continuous</b> methods are used,
+the element attribute named el_gtg will be created. If <b>voronoi</b> or
+the <font face="Courier">flag_option </font><b>nearest</b> are used, the
+node attribute named pt_gtg will be created.
+<blockquote>
+<b><u>delatt</u></b> deletes any attributes created during
+the kdtree searches. By default these attributes are removed.
+<br><b>keepatt</b> keeps any attributes created during the kdtree searches.
+The attribute names are pt_gtg for nearest node numbers, and el_gtg for enclosing
+element numbers.
+</blockquote>
+
+<! parameter intrp_func ---------- >
+<p><font face="Courier">intrp_function </font>replaces the interpolation
+function associated with the sink attribute. This interpolation function
+is applied to the final interpolated field value. Valid interpolate functions
+are linear, asinh, log, copy, sequence, min, incmin, max, incmax, and,
+or, user. 
+Functions such as min and max pass the interpolation value unchanged.
+<br>&nbsp;
+<br>&nbsp;
+<p><! tables ><a NAME="TABLE1"></a>The following tables identify what combinations
+of methods, options, and element types are supported with the command <b>interpolate</b>.
+
+<p>This table indicates the type of attributes that can be used with the
+interpolation methods. If a sink attribute is of type element,
+centroids are calculated for each sink element and used for the interpolation
+methods.
+<br>&nbsp;
+<table BORDER COLS=3 WIDTH="400" >
+<tr>
+<td></td>
+
+<td ALIGN=CENTER><b><font size=+1>SOURCE&nbsp;</font></b>
+<br><b>node</b></td>
+
+<td ALIGN=CENTER><b><font size=+1>SOURCE&nbsp;</font></b>
+<br><b>element</b></td>
+</tr>
+
+<tr>
+<td ALIGN=CENTER><b><font size=+1>SINK</font></b></td>
+
+<td>&nbsp;</td>
+
+<td>&nbsp;</td>
+</tr>
+
+<tr>
+<td><b>map node</b></td>
+
+<td ALIGN=CENTER>no</td>
+
+<td ALIGN=CENTER>yes</td>
+</tr>
+
+<tr>
+<td><b>map element</b></td>
+
+<td ALIGN=CENTER>no</td>
+
+<td ALIGN=CENTER>yes</td>
+</tr>
+
+<tr>
+<td><b>continuous node</b></td>
+
+<td ALIGN=CENTER>yes</td>
+
+<td ALIGN=CENTER>no</td>
+</tr>
+
+<tr>
+<td><b>continuous element</b></td>
+
+<td ALIGN=CENTER>yes</td>
+
+<td ALIGN=CENTER>no</td>
+</tr>
+
+<tr>
+<td><b>voronoi node</b></td>
+
+<td ALIGN=CENTER>yes</td>
+
+<td ALIGN=CENTER>no</td>
+</tr>
+
+<tr>
+<td><b>voronoi element</b></td>
+
+<td ALIGN=CENTER>yes</td>
+
+<td ALIGN=CENTER>no</td>
+</tr>
+</table>
+
+<br><br>
+<p>This table shows supported applications for each of the interpolation
+methods.
+<br>(parenthesis) means the option should work, but is not untested
+<br>NOT means Not Supported
+<br><br>
+
+<table BORDER WIDTH="790" NOSAVE >
+<tr>
+<td></td>
+
+<td><b><font size=+1>MAP</font></b>
+<br><font size=-1>copy element value to enclosed point</font></td>
+
+<td><b><font size=+1>CONTINUOUS</font></b>
+<br><font size=-1>interpolate element nodes to enclosed point</font></td>
+
+<td><b><font size=+1>VORONOI</font></b>
+<br><font size=-1>copy nearest node value</font></td>
+</tr>
+
+<tr>
+<td><b><font size=+1>source</font></b>
+<br><b><font size=+1>elements</font></b></td>
+
+<td>tri, quad, hex, tet, (pyr), (pri), (line)</td>
+
+<td>tri, quad, NOT hex, tet, (pyr), (pri), (line)</td>
+
+<td>tri, quad, hex, tet, (pyr), (pri), (line), (pnt)</td>
+</tr>
+
+<tr>
+<td><b><font size=+1>sink</font></b>
+<br><b><font size=+1>elements</font></b></td>
+
+<td>tri, quad, hex, tet, (pyr), (pri), (line), (pnt)</td>
+
+<td>tri, quad, hex, tet, (pyr), (pri), (line), (pnt)</td>
+
+<td>tri, quad, hex, tet, (pyr), (pri), (line), (pnt)</td>
+</tr>
+
+<tr>
+<td><b><font size=+1>source</font></b>
+<br><b><font size=+1>attribute</font></b></td>
+
+<td>element</td>
+
+<td>node</td>
+
+<td>node</td>
+</tr>
+
+<tr>
+<td><b><font size=+1>sink</font></b>
+<br><b><font size=+1>attribute</font></b></td>
+
+<td>node or element (centroid)</td>
+
+<td>node or element (centroid)</td>
+
+<td>node or element (centroid)</td>
+</tr>
+
+<tr>
+<td><b><font size=+1>source</font></b>
+<br><b><font size=+1>attribute type</font></b></td>
+
+<td>integer or double</td>
+
+<td>integer or double</td>
+
+<td>integer or double</td>
+</tr>
+
+<tr>
+<td><b><font size=+1>sink</font></b>
+<br><b><font size=+1>attribute type</font></b></td>
+
+<td>integer or double</td>
+
+<td>NOT integer, double</td>
+
+<td>integer or double</td>
+</tr>
+
+<tr>
+<td><b><font size=+1>interpolation</font></b>
+<br><b><font size=+1>function</font></b></td>
+
+<td>linear, log, sinh
+<br>all others pass value unaltered</td>
+
+<td>linear, log, sinh
+<br>all others pass value unaltered</td>
+
+<td>linear, log, sinh
+<br>all others pass value unaltered</td>
+</tr>
+
+<tr>
+<td><b><font size=+1>tiebreaker</font></b></td>
+
+<td>tiemin or tiemax</td>
+
+<td>tiemin or tiemax</td>
+
+<td>tiemin or tiemax</td>
+</tr>
+
+<tr>
+<td><b><font size=+1>error flag</font></b></td>
+
+<td>plus1, nearest, or user value</td>
+
+<td>plus1, nearest, or user value</td>
+
+<td>plus1 or user value</td>
+</tr>
+
+<tr>
+<td><b><font size=+1>added</font></b>
+<br><b><font size=+1>attributes</font></b></td>
+
+<td>
+<br>keepatt creates attribute el_gtg</td>
+
+<td>
+<br>keepatt creates attribute el_gtg</td>
+
+<td>
+<br>keepatt creates attribute pt_gtg</td>
+</tr>
+</table>
+
+<p><! command syntax or format ------------ >
+<br><br>
+<p>FORMAT:
+<blockquote>
+<b>interpolate </b>/ <font face="Courier">intrp_method / cmosink,
+attsink / 1,0,0 / cmosrc, attsrc / &
+<br>[tie_option] [flag_option] [keep_option] [intrp_function]</font>
+
+<p><b>interpolate | intrp</b>&nbsp;&nbsp; /&nbsp; 
+<b>map | voronoi | continuous | default
+</b>&nbsp;/&nbsp; &
+<br><font face="Courier">cmosink, attsink 
+&nbsp;/ &nbsp; 1,0,0
+&nbsp; /&nbsp; cmosrc, attsrc 
+&nbsp;/&nbsp; </font>[ <b>tiemin | <u>tiemax</u></b> ] &nbsp;&nbsp;& 
+<br>[ <font face="Courier">flag_value</font>&nbsp; |&nbsp; <b><u>plus1</u>&nbsp; | nearest,</b><font face="Courier"> near_attribute </font> ]
+&nbsp;[ <b>keepatt | <u>delatt</u></b> ] 
+&nbsp;[ <font face="Courier">intrp_function</font> ]
+</blockquote>
+
+<! command examples >
+<p>EXAMPLES:
+<blockquote><b>interpolate / map /</b> cmo_sink imt /1,0,0/ cmo_src itetclr
+<br>For each node in cmo_sink find an enclosing element from mesh cmo_src.
+Assign the element's itetclr value to the corresponding imt attribute of
+cmo_sink.</blockquote>
+
+<blockquote><b>interpolate/ map /</b> cmo_sink Pval /1,0,0/ cmo_src Vval
+/ tiemin, log
+<br>This command will assign source Vval values to sink Pval for elements
+enclosing cmo_sink points. If the sink point is found within more than
+one element, the min value of the candidate elements will be chosen. Since
+the interpolation function "log" is named, it will be applied to the source
+Vval value before being written to sink attribute Pval.</blockquote>
+
+<blockquote><b>interpolate/ voronoi </b>/ cmo_sink imt /1,0,0/ cmo_src
+imt
+<br>For each node in cmo_sink, find the closest node in cmo_src. Assign
+the imt value from the closest cmo_src node to the imt attribute of cmo_sink.</blockquote>
+
+<blockquote><b>interpolate/ continuous</b> / cmo_sink xval /1,0,0/ cmo_src
+Pv
+<br>For each node in cmo_sink, find a cmo_src element the node is inside.
+Interpolate the element node values in Pv on to the sink point and write to
+the sink attribute xval.</blockquote>
+
+<blockquote><b>interpolate/ map</b> /cmo_sink imt /1,0,0/ cmo_src itetclr
+/ <b>nearest,</b> imt / <b>keepatt</b>
+<br><b>interpolate/ map </b>/cmo_sink imtreal /1,0,0/ cmo_src itetreal
+/ <b>nearest,</b> imtreal
+<br>The first call to interpolate will assign itetclr values from source
+elements to imt in the sink cmo for points inside the source elements.
+Any sink point not inside the source grid will be assigned the imt value
+of the nearest source point. Since keepatt is set, both attributes pt_gtg
+and el_gtg will be kept as sink cmo attributes and hold the node and element
+numbers for each sink point.
+<br>The second call to interpolate will find the sink attributes pt_gtg
+and el_gtg. 
+The nearest point and enclosing element kdtree searches will be skipped.
+This time the element value in attribute itetreal will be assigned to the
+sink node attribute imtreal. For points outside the grid, values from nearest
+node attribute imtreal will be used. Note that the <b>delatt</b> keyword
+does not have to exist, the interpolate attributes are always deleted unless
+the keyword <b>keepatt</b> is used.
+</blockquote>
+<br><br>
+
+<p><! links to other pages and demos ><! use NAME to link to these demo selections from other pages ><a NAME="DEMOS"></a>
+<table BORDER COLS=3 >
+<tr>
+<td><img SRC="image/vor_rand.gif" ALT="VORONOI from quad grid" width="200" >
+<br><a href="description_voronoi.html">Example 1: interpolate / voronoi</a>
+<br>Copy nearest source node value to sink point</td>
+
+<td><img SRC="image/map03_view.gif" ALT="MAP from element to element."  width="200">
+<br><a href="description_map.html">Example 2: interpolate / map</a>
+<br>Copy source element value to enclosed sink point</td>
+
+<td><img SRC="image/con02_sink.gif" ALT="CONTINUOUS from triangles"  width="200">
+<br><a href="description_cont.html">Example 3: interpolate / continuous</a>
+<br>Interpolate source element vertices to sink point</td>
+</tr>
+</table>
+
+<br>&nbsp;
+</body>
+</html>

@@ -1,0 +1,199 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="Microsoft Word 98">
+<TITLE>d</TITLE>
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080">
+
+<B><I><FONT FACE="Helvetica"><P>d.&#9;Mesh Object Connectivity</P><DIR>
+<DIR>
+
+</B></I></FONT><FONT FACE="Times"><P>The Mesh Object attributes, <B>itettyp</B>, <B>itetoff</B>, <B>jtetoff</B>, <B>itet</B>, and <B>jtet </B>along with the variables contained in the include file <B>local_element.h</B> completely describe the mesh connectivity.  The following discussion is based on the concept of local facets and local edges for an element.  The nodes comprising a given element are always specified in a well-defined order; hence when one references the 'second facet' of an element, one references a pre-defined set of points.  Consider a tetrahedral element, with nodes labeled as in the diagram:</P>
+</DIR>
+</DIR>
+
+<P>&#9;<IMG SRC="Image232.gif" WIDTH=196 HEIGHT=188></P>
+<DIR>
+<DIR>
+<DIR>
+
+<P>The points are oriented so that the triple product   <IMG SRC="Image233.gif" WIDTH=70 HEIGHT=15>  is positive, and the volume of the tet is one-sixth of the triple product.  The local facets are defined as follows:</P>
+</DIR>
+</DIR>
+</DIR>
+</FONT>
+<P ALIGN="CENTER"><CENTER><TABLE CELLSPACING=0 BORDER=0 CELLPADDING=4 WIDTH=400>
+<TR><TD WIDTH="7%" VALIGN="TOP">
+<FONT FACE="Times"><P>F</FONT><FONT FACE="Times" SIZE=1>1</FONT></TD>
+<TD WIDTH="5%" VALIGN="TOP">
+<FONT FACE="Times"><P>=</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>2</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>3</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>4</FONT></TD>
+<TD WIDTH="62%" VALIGN="TOP">&nbsp;</TD>
+</TR>
+<TR><TD WIDTH="7%" VALIGN="TOP">
+<FONT FACE="Times"><P>F</FONT><FONT FACE="Times" SIZE=1>2</FONT><FONT FACE="Times"> </FONT></TD>
+<TD WIDTH="5%" VALIGN="TOP">
+<FONT FACE="Times"><P>= </FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>1</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>4</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>3</FONT></TD>
+<TD WIDTH="62%" VALIGN="TOP">&nbsp;</TD>
+</TR>
+<TR><TD WIDTH="7%" VALIGN="TOP">
+<FONT FACE="Times"><P>F</FONT><FONT FACE="Times" SIZE=1>3</FONT><FONT FACE="Times"> </FONT></TD>
+<TD WIDTH="5%" VALIGN="TOP">
+<FONT FACE="Times"><P>= </FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>1</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>2</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>4</FONT></TD>
+<TD WIDTH="62%" VALIGN="TOP">&nbsp;</TD>
+</TR>
+<TR><TD WIDTH="7%" VALIGN="TOP">
+<FONT FACE="Times"><P>F</FONT><FONT FACE="Times" SIZE=1>4</FONT><FONT FACE="Times"> </FONT></TD>
+<TD WIDTH="5%" VALIGN="TOP">
+<FONT FACE="Times"><P>= </FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>1</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>3</FONT></TD>
+<TD WIDTH="9%" VALIGN="TOP">
+<FONT FACE="Times"><P>I</FONT><FONT FACE="Times" SIZE=1>2</FONT></TD>
+<TD WIDTH="62%" VALIGN="TOP">&nbsp;</TD>
+</TR>
+</TABLE>
+</CENTER></P>
+<DIR>
+<DIR>
+<DIR>
+
+<FONT FACE="Times"><P>The local edges for a tetrahedral are defined as follows:</P></DIR>
+
+<P>&#9;E</FONT><FONT FACE="Times" SIZE=2>1&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>1&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>2</P>
+<P>&#9;</FONT><FONT FACE="Times">E</FONT><FONT FACE="Times" SIZE=2>2&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>1&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>3</P>
+</FONT><FONT FACE="Times"><P>&#9;E</FONT><FONT FACE="Times" SIZE=2>3&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>1&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>4</P>
+</FONT><FONT FACE="Times"><P>&#9;E</FONT><FONT FACE="Times" SIZE=2>4&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>2&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>3</P>
+</FONT><FONT FACE="Times"><P>&#9;E</FONT><FONT FACE="Times" SIZE=2>5&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>2&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>4</P>
+</FONT><FONT FACE="Times"><P>&#9;E</FONT><FONT FACE="Times" SIZE=2>6&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>3&#9;</FONT><FONT FACE="Times">I</FONT><FONT FACE="Times" SIZE=1>4</P>
+</FONT><FONT FACE="Times"><P>Similarly, local facets and local edges are defined for all element types.</P>
+<P>&#9;<B>itettyp(it) </B>gives the element type of element <B>it.</B> </P>
+<B><P>&#9;itetoff(it) </B>gives the offset to the first node in element <B>it.</B> </P>
+<P>&#9;<B>itet(itetoff(it)+j) </B>gives the jth node of element <B>it.</P>
+</B><P>&#9;<B>nelmnen(itettyp(it)) </B>gives the number of nodes of element <B>it.</P>
+<P>&#9;</B>To loop through all the nodes of all elements in the mesh<B>:</P>
+<P>&#9;&#9;</B></FONT><FONT FACE="Courier">do it=1,ntets</P>
+<P>&#9;&#9;&#9;do j=1,nelmnen(itettyp(it))</P>
+<P>&#9;&#9;&#9;&#9;k=itet(itetoff(it)+j)</P>
+<P>&#9;&#9;&#9;enddo</P>
+<P>&#9;&#9;enddo</P>
+</FONT><FONT FACE="Times"><P>&#9;<B>nelmnef(itettyp(it)) </B>gives the number of facets of element <B>it.</P><DIR>
+<DIR>
+<DIR>
+<DIR>
+
+</B><P>&#9;<B>ielmface0(iface,itettyp(it)) </B>gives the number of nodes on facet <B>iface</B> of element <B>it.</P>
+</B><P>&#9;<B>ielmface1(local_node,iface,itettyp(it)) </B>gives the increment to the node number (<B>local_node</B>) on facet <B>iface</B> of element <B>it.</P></DIR>
+</DIR>
+</DIR>
+</DIR>
+
+<P>&#9;</B>To loop through all the nodes, <B>k,</B> of all elements in the mesh by facets<B>:</P>
+<P>&#9;&#9;</B></FONT><FONT FACE="Courier">do it=1,ntets</P>
+<P>&#9;&#9;&#9;do i=1,nelmnef(itettyp(it))</P>
+<P>&#9;&#9;&#9;&#9;do j=1,ielmface0(i,itettyp(it))</P>
+<P>&#9;&#9;&#9;&#9;&#9;k=itet(itetoff(it)+</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;ielmface1(j,i,itettyp(it)))</P>
+<P>&#9;&#9;&#9;&#9;enddo</P>
+<P>&#9;&#9;&#9;enddo</P>
+<P>&#9;&#9;enddo</P>
+</FONT><FONT FACE="Times"><P>&#9;<B>nelmnee(itettyp(it)) </B>gives the number of edges of element <B>it.</P><DIR>
+<DIR>
+<DIR>
+<DIR>
+
+</B><P>&#9;<B>ielmface2(inode,iface,itettyp(it)) </B>gives the edge number associated with inode on facet <B>iface</B> of element <B>it.</P>
+</B><P>&#9;<B>ielmedge1(1|2,iedge,itettyp(it)) </B>gives the node offset  associated with edge <B>iedge</B> of element <B>it.</P>
+</B><P>To loop through all pairs of edge nodes (<B>i1,i2</B>) of all elements in the mesh <B>:</P></DIR>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+
+</B><P>&#9;&#9;&#9;</FONT><FONT FACE="Courier">do it=1,ntets</P>
+<P>&#9;&#9;&#9;&#9; do i=1,nelmnee(itettyp(it))</P>
+<P>&#9;&#9;&#9;&#9;&#9;i1=itet(itetoff(it)+ </P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;ielmedge1(1,i,itettyp(it)))</P>
+<P>&#9;&#9;&#9;&#9;&#9;i2=itet(itetoff(it)+</P>
+<P> &#9;&#9;&#9;&#9;&#9;&#9;ielmedge1(2,i,itettyp(it))</P>
+<P>&#9;&#9;&#9;&#9;enddo</P>
+<P>&#9;&#9;&#9;enddo</P><DIR>
+<DIR>
+<DIR>
+<DIR>
+<DIR>
+<DIR>
+
+</FONT><FONT FACE="Times"><P>To loop through all pairs of edge nodes (<B>i1,i2</B>) of all elements in the mesh by facets<B>:</P></DIR>
+</DIR>
+</DIR>
+</DIR>
+
+<P>&#9;&#9;</B></FONT><FONT FACE="Courier">do it=1,ntets</P>
+<P>&#9;&#9;&#9;do i=1,nelmnef(itettyp(it))</P>
+<P>&#9;&#9;&#9;&#9;do j=1,ielmface0(i,itettyp(it))</P>
+<P>&#9;&#9;&#9;&#9;&#9;ie=ielmface2(j,i,itettype(it))</P>
+<P>&#9;&#9;&#9;&#9;&#9;i1=itet(itetoff(it)+</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;ielmedge1(1,ie,itettyp(it)))</P>
+<P>&#9;&#9;&#9;&#9;&#9;i2=itet(itetoff(it)+</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#9;ielmedge1(2,ie,itettyp(it)))</P>
+<P>&#9;&#9;&#9;&#9;enddo</P>
+<P>&#9;&#9;&#9;enddo</P>
+<P>&#9;&#9;enddo</P><DIR>
+<DIR>
+<DIR>
+<DIR>
+
+</FONT><B><FONT FACE="Times"><P>jtet(itetoff(it)+j) </B>gives the element number and local facet number of the neighbor to element <B>it</B>, facet <B>j.</P>
+</B><P>To loop to find all neighbors of elements ( <B>jt</B> is neighbor element number, <B>jf</B> is facet of neighboring element) (if <B>jt</B> is a neighbor of element <B>i</B>t and local face <B>if </B>of <B>it</B> is the same as local face <B>jf</B> of <B>jt</B> then <B>jtet</B> (<B>jtetoff</B>(<B>it</B>) + <B>if</B>) = <B>nef_cmo</B> * (<B>jt</B>-1)+<B>jf</B>, where <B>nef_cmo</B> is the number of faces per element.  Similarily, <B>jtet</B> (<B>jtetoff</B>(<B>jt</B>) + <B>jf</B>)= <B>nef_cmo</B> * (<B>it</B> -1) + <B>if</B>.) (<B>mbndry </B>is the value added to <B>jtet</B> if element <B>it </B>is on a boundary or interface; the <B>jtet</B> value of an element <B>it </B>with facet <B>j </B>on an exterior boundary will be exactly <B>mbndry</B>;<B> </B>the <B>jtet</B> value of an element <B>it </B>with facet <B>j </B>on an interior interface will be  <B>mbndry </B>+ the <B>jtet</B> value calculated from the neighboring element number and neighbor element local_facet number)<B>:</P>
+</B></FONT><FONT FACE="Courier"><P>c get number of faces per element for this mesh object</P></DIR>
+
+<P>call cmo_get_info(&#145;faces_per_element&#146;,cmo_name,</P>
+<P>&#9;nef_cmo,ilen,ity,ics)</P></DIR>
+</DIR>
+</DIR>
+</DIR>
+</DIR>
+
+</FONT><FONT FACE="Times"><P>&#9;&#9;</FONT><FONT FACE="Courier">do it=1,ntets</P>
+<P>&#9;&#9;&#9;do i=1,nelmnef(itettyp(it))</P>
+<P>&#9;&#9;c check if element face is on an external boundry</P>
+<P>&#9;&#9;&#9;&#9;if(jtet(jtetoff(it)+i).eq.mbndry) then</P>
+<P>&#9;&#9;&#9;&#9;&#9;jt=0</P>
+<P>&#9;&#9;&#9;&#9;&#9;jf=0</P>
+<P>&#9;&#9;c check if element face is on an internal boundry</P>
+<P>&#9;&#9;&#9;&#9;elseif(jtet(jtetoff(it)+i).gt.mbndry) then</P>
+<P>&#9;&#9;&#9;&#9;&#9;jt=1+(jtet(jtetoff(it)+i)-mbndry-1)/nef_cmo</P>
+<P>&#9;&#9;&#9;&#9;&#9;jf=jtet(jtetoff(it)+i)-mbndry-nef_cmo*(jt-1)</P>
+<P>C  Volume element</P>
+<P>&#9;&#9;&#9;&#9;else</P>
+<P>&#9;&#9;&#9;&#9;&#9;jt=1+(jtet(jtetoff(it)+i)-1)/nef_cmo</P>
+<P>&#9;&#9;&#9;&#9;&#9;jf=jtet(jtetoff(it)+i)-nef_cmo*(jt-1)</P>
+<P>&#9;&#9;&#9;&#9;endif</P>
+<P>&#9;&#9;&#9;enddo</P>
+<P>&#9;&#9;enddo</P>
+</FONT><B><FONT FACE="Times">
+</B><P>&nbsp;</P>
+<P>&nbsp;</P></FONT></BODY>
+</HTML>

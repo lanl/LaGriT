@@ -1,0 +1,145 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]">
+   <title>7</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<b><font face="Times New Roman,Times"><font size=+1>Miscellaneous</font></font></b>
+<blockquote><font face="Times New Roman,Times"><font size=+1>setsize</font></font>
+<blockquote><font face="Times New Roman,Times">The subroutine <b>setsize</b>
+sets the mesh object attriburtes: xmin, xmax, ymin, ymax, zmin, zmax, epsilona,
+epsilonv</font>
+<blockquote><font face="Times New Roman,Times"><b>setsize</b>( )</font>
+<br><font face="Times New Roman,Times">xmin, xmax, ymin, ymax, zmin, zmax
+are set from the minimum and maximum xic,yic,zic values of all 'real' points
+(dudded and merged points will be ignored).</font>
+<br><font face="Times New Roman,Times">epsilona is set to : ((xmax-xmin)**2+(ymax-ymin)**2+(zmax-zmin)**2)
+*epsilonr*1000.</font>
+<br><font face="Times New Roman,Times">epsilonv is set to : abs(xmax-xmin)*abs(ymax-ymin)*abs(zmax-zmin)
+*epsilonr*1000.</font></blockquote>
+</blockquote>
+<font face="Times New Roman,Times"><font size=+1>getsize</font></font>
+<blockquote><font face="Times New Roman,Times">The subroutine <b>getsize</b>
+returns the mesh object attributes:&nbsp;&nbsp; xmin, xmax, ymin, ymax,
+zmin, zmax, epsilona, epsilonv</font>
+<br><font face="Times New Roman,Times"><b>getsize</b>(xmin,xmax,ymin,ymax,zmin,zmax,epsilona,epsilonv)</font></blockquote>
+<font face="Times New Roman,Times"><font size=+1>set_user_bounds</font></font>
+<blockquote><font face="Times New Roman,Times">This routine allows the
+user to set boundary values. <a href="BOUNDAR1.html">See the boundary command.</a></font>
+<p><font face="Times New Roman,Times"><b>set_user_bounds</b>(<b>nubndpts,ubndpts,cmo,ipattr,
+idfield</b><u>)</u></font>
+<br><font face="Times New Roman,Times"><b>nubndpts</b> - number of boundary
+nodes</font>
+<br><font face="Times New Roman,Times"><b>ubndpt</b> - integer array of
+boundary node indices</font>
+<br><font face="Times New Roman,Times"><b>cmo</b> - a mesh object name</font>
+<br><font face="Times New Roman,Times"><b>ipattr</b> - pointer to mesh
+object attribute to contain boundary values</font>
+<br><font face="Times New Roman,Times"><b>idfield</b> - identifier used
+to identify the set of boundary nodes.</font></blockquote>
+</blockquote>
+
+<blockquote><font face="Times New Roman,Times"><font size=+1>inside routines</font></font>
+<blockquote><font face="Times New Roman,Times">The <b>inside</b> set of
+subroutines test whether a query point is strictly inside, strictly outside
+or on the surface of the specified element.&nbsp; The value returned in
+</font><font face="Courier New,Courier">iflag</font><font face="Times New Roman,Times">
+is </font><font face="Courier New,Courier">0</font><font face="Times New Roman,Times">
+if the query point is inside the element, -1 if outside, or is set to the
+local face number containing the query point.&nbsp; Coordinates of the
+query point are in xq, yq, zq.&nbsp; Coordinates of the vertices of the
+element are in x1, y1, z1, x2.....&nbsp; The coordinates of these vertices
+of the element must be specified in the correct order (<a href="meshobjcon.html">see
+the section on Mesh Object Connectivity)</a>.&nbsp; For triangular elements
+both <b>inside_tri</b> and<b> inside_tri2d&nbsp; </b>must be called; the
+first call will determine if the query point is in the plane of the triangle;&nbsp;
+the second, if it is in the interior of the triangle.&nbsp; Similar calls
+must be made for planar quad meshes.</font>
+<p><font face="Times New Roman,Times"><b>inside_pyr</b>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,xq,yq,zq,iflag)</font>
+<br><font face="Times New Roman,Times"><b>inside_pri</b>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6,xq,yq,zq,iflag)</font>
+<br><font face="Times New Roman,Times"><b>inside_hex</b>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6,x7,y7,z7,x8,y8,z8,</font>
+<br><font face="Times New Roman,Times">xq,yq,zq,iflag)</font>
+<br><font face="Times New Roman,Times"><b>inside_tet</b>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,xq,yq,zq,iflag)</font>
+<br><font face="Times New Roman,Times"><b>inside_quad</b>2d(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,xq,yq,zq,iflag)</font>
+<br><font face="Times New Roman,Times"><b>inside_tri2</b>d(x1,y1,z1,x2,y2,z2,x3,y3,z3,xq,yq,zq,iflag)</font>
+<p><font face="Times New Roman,Times">These routines should not be confused
+with</font>
+<br><font face="Times New Roman,Times"><b>inside_quad</b>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,xq,yq,zq,iflag)</font>
+<br><font face="Times New Roman,Times"><b>inside_tri</b>(x1,y1,z1,x2,y2,z2,x3,y3,z3,xq,yq,zq,iflag)</font>
+<br><font face="Times New Roman,Times">which return in iflag: 1 if the
+query point is on the plane of the element, 0 if below the plane and -1
+if above.</font>
+<p><font face="Times New Roman,Times">The generic subroutine <b>inside_element</b>
+(element_type, xcoords, ycoords, zcoords, xq,yq,zq,iflag) which returns
+iflag = -1 if the query point (xq,yq,zq) is outside the element, 0 if it
+is inside, 1 <u>&lt;</u> n <u>&lt;</u> 6 where n is the face of the element
+on which the query point sits.&nbsp; element_type is an integer, 1 = point,
+2 = line, 3= triangle, 4= quad, 5=tet, 6= pyramid, 7= prism, 8=hex).&nbsp;
+The x,y,z coordinates of the vertices of the element are given in xcoords,
+ycoords, zcoords.&nbsp; The order of the vertices is important.</font>
+<br>&nbsp;</blockquote>
+<font face="Times New Roman,Times"><font size=+1>volume_element</font></font>
+<blockquote><font face="Times New Roman,Times">return the volume of an
+element.</font>
+<p><b>volume_element </b>(ielmtyp,xicvol,yicvol,zicvol,volelm)
+<p><b>ilemtyp</b> is the element type (input, usually extracted from the
+ittettyp attribute)
+<br><b>xicvol, yicvol, zicvol </b>are arrays of the coordinates of the
+vertices of the element (input)
+<br><b>volelm </b>is the volume of the element (output)</blockquote>
+<font face="Times New Roman,Times"><font size=+1>user_interpolate</font></font>
+<p><font face="Times New Roman,Times"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+user_interpolate</b>(cmo_sink,cmo_src,cmolength,cname,nlist,list,ierror_return)</font>
+<blockquote><font face="Times New Roman,Times">Supplying this subroutine
+and linking it in when building the executable allows the user to supply
+the interpolation formula for an attribute whose interpolation has been
+set to <b>user</b>.&nbsp; By default several mesh object attributes have
+interpolation type <b>user, </b>for example, isn1, itetoff ( there is no
+obvious way to assign a correct value to new nodes or elements based on
+the values of old elements and other parts of the LaGriT code take care
+of assigning correct values).&nbsp; Therefore if a user attribute is created
+with interpolation type <b>user </b>and the subroutine user_interpolate
+is supplied, this routine must check the<b> cname </b>argument to make
+sure it matches the name of the user attribute. (e.g.&nbsp; if the user
+attribute is called </font><font face="Courier New,Courier">my_attribute
+</font><font face="Times New Roman,Times">then
+the routine must contain a statement such as:</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if(cname.eq.'my_attribute') then</font></blockquote>
+<font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>cmo_sink&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>is the SINK
+mesh object</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>cmo_src&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>is
+the SOURCE mesh object</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>cmolength</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; is "nnodes"
+or "nelements"</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>cname&nbsp;</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+is the name of the attribute</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>nlist&nbsp;</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+number of items to interpolate</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>list(nlist)&nbsp;</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+the list of items for which new interpolated values are to be produced</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<b>ierror_return</b>&nbsp;&nbsp;&nbsp; 0 = no error</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+>1 = error</font>
+<blockquote>&nbsp;</blockquote>
+</blockquote>
+
+</body>
+</html>

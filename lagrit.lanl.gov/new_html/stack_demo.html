@@ -1,0 +1,346 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]">
+<! This document needs to be updated with current demo formats -tcherry >
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<p><b><font face="Times New Roman,Times"><font size=+2>ROUTINE:&nbsp; stack
+/ layers</font></font></b>
+<br>
+<hr WIDTH="100%">
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+<b>stack/layers</b></h2>
+
+<p><br><img SRC="simple_stack.gif" height=300 width=400 align=LEFT>
+<br><img SRC="simple_tet.gif" height=300 width=400>
+<p><tt>*******************************************************************</tt>
+<br><tt>* Example 1</tt>
+<br><tt>* file: demo_tri_simple.in</tt>
+<br><tt>* stack/layers</tt>
+<br><tt>* no buffers, no refinement, no truncation</tt>
+<br><tt>*******************************************************************</tt>
+<br><tt>* STACK TRI LAYERS into cmo name cmo1</tt>
+<br><tt>* read 4 AVS triangulated surfaces into 3 material units</tt>
+<br><tt>* stack and pinchout if layers cross</tt>
+<br><tt>* label unit colors with 1 on bottom and 3 on top</tt>
+<br><tt>* details:</tt>
+<br><tt>* the syntax stack/layers/avs</tt>
+<br><tt>* means stack a list of AVS triangle surface files</tt>
+<br><tt>* this is followed by a list of files with integers after each
+file</tt>
+<br><tt>* the first file in the list is the bottom, the last is the top</tt>
+<br><tt>* the first integer after each file name is the material value</tt>
+<br><tt>* (a second integer would be the refinement number)</tt>
+<br><tt>* after the list of surface files, there are command options</tt>
+<br><tt>* the option "pinch" represents the thinness of a layer before</tt>
+<br><tt>* it is pinched out. If a layer crosses, the lower surface truncates.</tt>
+<br><tt>*********************************************************************</tt>
+<br><b><tt>cmo create cmo1</tt></b>
+<br><b><tt>stack/layers/avs surf-12.inp 1 surf-5.inp 2 surf5.inp 3 surf25.inp
+pinch 0.</tt></b>
+<p><i><tt>Layers to create:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4</tt></i>
+<br><i><tt>Max material number:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4</tt></i>
+<p><i><tt>Reading&nbsp;&nbsp;&nbsp;&nbsp; 4 surface files...</tt></i>
+<p><i><tt>................................................................</tt></i>
+<p><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surface name&nbsp;
+layer color type llcorner&nbsp; zic</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-12.inp&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; -1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1)&nbsp; -1.200000E+01</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surf-5.inp&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 37)&nbsp; -5.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surf5.inp&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 73)&nbsp;&nbsp; 5.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surf25.inp&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp; -2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+109)&nbsp;&nbsp; 2.500000E+01</tt></i>
+<p><i><tt>Elements per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+48 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192</tt></i>
+<br><i><tt>Nodes&nbsp;&nbsp;&nbsp; per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+36 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 144</tt></i>
+<p><i><tt>STACK DONE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4
+files read out of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4</tt></i>
+<p><i><tt>................................................................</tt></i>
+<br>&nbsp;
+<p><tt>*********************************************************************</tt>
+<br><tt>* STACK to PRISM to TET</tt>
+<br><tt>* convert stacked layers in cmo1 into a tet grid named cmotet</tt>
+<br><tt>* The stacked layers are filled to create a prism grid.</tt>
+<br><tt>* The prism grid is then converted to a tet grid.</tt>
+<br><tt>* hextotet will check cmo for mesh type then use hextotet/6</tt>
+<p><tt>*********************************************************************</tt>
+<br><b><tt>stack/fill/cmopri/cmo1/</tt></b>
+<br><b><tt>hextotet// cmotet / cmopri</tt></b>
+<br><b><tt>boundary_components</tt></b>
+<p><i><tt>&nbsp;&nbsp; 1 different boundary components identified.</tt></i>
+<br><i><tt>&nbsp;&nbsp; 2 is a representative vertex</tt></i>
+<br><i><tt>finish</tt></i>
+<br><i><tt>LaGriT successfully completed</tt></i>
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+<b>stack/layers&nbsp; with material colors reversed</b></h2>
+<img SRC="simple_tet_clr2.gif" height=300 width=400 align=LEFT>
+<br>Material 1 (green) is now the top unit. Material 2 (purple) is middle
+and 1 (red) is bottom.
+<br>The unit value was changed from above example on the command line:
+<br>&nbsp;
+<p><b><tt>cmo create cmo1</tt></b>
+<br><b><tt>stack/layers/avs surf-12.inp 3 surf-5.inp 2 surf5.inp 1 surf25.inp
+1</tt></b>
+<p><tt>................................................................</tt>
+<p><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surface name&nbsp;
+layer color type llcorner&nbsp; zic</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-12.inp&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp; -1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1)&nbsp; -1.200000E+01</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-5.inp&nbsp;&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+37)&nbsp; -5.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surf5.inp&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 73)&nbsp;&nbsp; 5.000000E+00</tt>
+<br><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf25.inp&nbsp;&nbsp;&nbsp;&nbsp;
+4&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; -2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+109)&nbsp;&nbsp; 2.500000E+01</tt>
+<p><tt>Elements per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+48 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 192</tt>
+<br><tt>Nodes&nbsp;&nbsp;&nbsp; per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+36 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 144</tt>
+<p><tt>STACK DONE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 files
+read out of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4</tt>
+<br><tt>&nbsp;................................................................</tt>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+stack/layers to hex to tet, with buffered interfaces</h2>
+<img SRC="hex_buffers.gif" height=300 width=400 align=LEFT>
+<br><img SRC="hex_tet_buffers.gif" height=300 width=400 align=LEFT>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><tt>********************************************************</tt>
+<br><tt>* file: demo_quad_buffers.in</tt>
+<br><tt>* stack/layers</tt>
+<br><tt>* buffers, truncation, no refinement</tt>
+<br><tt>********************************************************</tt>
+<br><tt>* STACK QUAD LAYERS into cmo named cmo1</tt>
+<br><tt>* Read 6 AVS quad surfaces into 5 material units</tt>
+<br><tt>* label unit colors with 1 on bottom and 5 on top</tt>
+<br><tt>* stack and pinchout if layers closer than .19 meters</tt>
+<br><tt>* add a buffer layer .2 meters above and below each interface</tt>
+<br><tt>* truncate by 5th file to read</tt>
+<p><b><tt>cmo create cmo1</tt></b>
+<br><b><tt>stack/layers/avs &amp;</tt></b>
+<br><b><tt>&nbsp; q-1.inp&nbsp;&nbsp; 1&nbsp;&nbsp; &amp;</tt></b>
+<br><b><tt>&nbsp; q0.inp&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp; &amp;</tt></b>
+<br><b><tt>&nbsp; qhole.inp 3&nbsp;&nbsp; &amp;</tt></b>
+<br><b><tt>&nbsp; q3.inp&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp; &amp;</tt></b>
+<br><b><tt>&nbsp; qtop.inp&nbsp; 5&nbsp;&nbsp; &amp;</tt></b>
+<br><b><tt>&nbsp; q5.inp&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp; &amp;</tt></b>
+<br><b><tt>&nbsp; truncate 5 / buffer .2 / pinch .19</tt></b>
+<p><i><tt>................................................................</tt></i>
+<p><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surface name&nbsp;
+layer color type llcorner&nbsp; zic</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+q-1.inp&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; -1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1)&nbsp; -1.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 34)&nbsp; -2.000000E-01</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+q0.inp&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 67)&nbsp;&nbsp; 0.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 100)&nbsp;&nbsp; 2.000000E-01</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 133)&nbsp;&nbsp; 8.000000E-01</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+qhole.inp&nbsp;&nbsp;&nbsp;&nbsp; 6&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 166)&nbsp;&nbsp; 1.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 199)&nbsp;&nbsp; 1.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp;&nbsp; 8&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 232)&nbsp;&nbsp; 1.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+q3.inp&nbsp;&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 265)&nbsp;&nbsp; 1.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp; 10&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+298)&nbsp;&nbsp; 1.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp; 11&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+331)&nbsp;&nbsp; 1.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+qtop.inp&nbsp;&nbsp;&nbsp; 12&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+364)&nbsp;&nbsp; 1.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+buffer&nbsp;&nbsp;&nbsp; 13&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+397)&nbsp;&nbsp; 1.200000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+q5.inp&nbsp;&nbsp;&nbsp; 14&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp; -2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+430)&nbsp;&nbsp; 5.000000E+00</tt></i>
+<p><i><tt>Elements per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+20 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 280</tt></i>
+<br><i><tt>Nodes&nbsp;&nbsp;&nbsp; per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+33 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 462</tt></i>
+<br><i><tt>Layers truncated by qtop.inp layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+12</tt></i>
+<p><i><tt>STACK DONE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6
+files read out of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6</tt></i>
+<br><i><tt>STACK DONE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+8 layers created for total&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 14</tt></i>
+<p><i><tt>................................................................</tt></i>
+<p><tt>* STACK to HEX to TET</tt>
+<br><tt>* convert stacked layers in cmo1 into a tet grid named cmotet</tt>
+<br><b><tt>stack/fill/cmohex/cmo1</tt></b>
+<br><b><tt>hextotet// cmotet / cmohex</tt></b>
+<p><tt>* CHECK the GRID</tt>
+<br><tt>* boundary_components should return 1 boundary</tt>
+<br><tt>* otherwise there are holes in the mesh</tt>
+<br><b><tt>quality</tt></b>
+<br><b><tt>boundary_components</tt></b>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<h2>
+<b>trilayer to tet with truncating surface and unit refinement</b></h2>
+
+<h2>
+<img SRC="tet_trunc_refine.gif" height=300 width=400 align=LEFT></h2>
+<img SRC="tet_trunc_refine_exp.gif" height=300 width=400 align=LEFT>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<p><tt>********************************************************</tt>
+<br><tt>* file: demo_tri_trunc.in</tt>
+<br><tt>* stack/layers</tt>
+<br><tt>* slope truncation, refinement, no buffers</tt>
+<br><tt>********************************************************</tt>
+<br><tt>* STACK TRI LAYERS into cmo named cmo1</tt>
+<br><tt>* Read 5 AVS triangulated surfaces into 4 material units</tt>
+<br><tt>* label unit colors with 1 on bottom and 3 on top</tt>
+<br><tt>* stack and pinchout if layers cross</tt>
+<br><tt>* Add two layers for refinement in second unit</tt>
+<br><tt>* Note layer type attribute:</tt>
+<br><tt>* -1 is bottom, -2 is top surface</tt>
+<br><tt>* 0&nbsp; is surface read from file</tt>
+<br><tt>* 1&nbsp; is layer derived between surface at constant distance</tt>
+<br><tt>* 2&nbsp; is layer derived between surface at proportional distance</tt>
+<p><b><tt>cmo create cmo1</tt></b>
+<br><b><tt>stack/layers/avs&nbsp;&nbsp;&nbsp; &amp;</tt></b>
+<br><b><tt>&nbsp; surf-12.inp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp;
+&amp;</tt></b>
+<br><b><tt>&nbsp; surf-5.inp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;
+&amp;</tt></b>
+<br><b><tt>&nbsp; surf5.inp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3
+2 &amp;</tt></b>
+<br><b><tt>&nbsp; surf2_slope.inp&nbsp; 4&nbsp;&nbsp; &amp;</tt></b>
+<br><b><tt>&nbsp; surf25.inp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;
+&amp;</tt></b>
+<br><b><tt>&nbsp; truncate 4 / pinch 0.</tt></b>
+<p><i><tt>................................................................</tt></i>
+<p><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surface name&nbsp;
+layer color type llcorner&nbsp; zic</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf-12.inp&nbsp;&nbsp;&nbsp;&nbsp;
+1&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; -1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+1)&nbsp; -1.200000E+01</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surf-5.inp&nbsp;&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 37)&nbsp; -5.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+refine&nbsp;&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 73)&nbsp; -1.666667E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+refine&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp;&nbsp;
+2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 109)&nbsp;&nbsp; 1.666667E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surf5.inp&nbsp;&nbsp;&nbsp;&nbsp; 5&nbsp;&nbsp;&nbsp; 3&nbsp;&nbsp;&nbsp;
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 145)&nbsp;&nbsp; 5.000000E+00</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; surf2_slope.inp&nbsp;&nbsp;&nbsp;&nbsp;
+6&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+181)&nbsp;&nbsp; 1.800000E+01</tt></i>
+<br><i><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+surf25.inp&nbsp;&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp; -2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+217)&nbsp;&nbsp; 2.500000E+01</tt></i>
+<p><i><tt>Elements per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+48 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 336</tt></i>
+<br><i><tt>Nodes&nbsp;&nbsp;&nbsp; per layer:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+36 total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 252</tt></i>
+<br><i><tt>Layers truncated by surf2_slope.inp layer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+6</tt></i>
+<p><i><tt>STACK DONE:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5
+files read out of&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5</tt></i>
+<p><i><tt>................................................................</tt></i>
+<br>&nbsp;
+<p><tt>* STACK to PRISM to TET</tt>
+<br><tt>* convert stacked layers in cmo1 into a tet grid named cmotet</tt>
+<p><b><tt>stack/fill/ cmopri /cmo1</tt></b>
+<p><b><tt>hextotet// cmotet / cmopri</tt></b>
+<p><tt>* CHECK the GRID</tt>
+<br><tt>* boundary_components should return 1 boundary</tt>
+<br><tt>* otherwise there are holes in the mesh</tt>
+<br><b><tt>cmo select cmotet</tt></b>
+<br><b><tt>quality</tt></b>
+<br><b><tt>boundary_components</tt></b>
+<br><b><tt>finish</tt></b>
+<br>&nbsp;
+<br>&nbsp;
+<address>
+<tt><font size=+2><a href="stack_demo2.html">More Features</a></font></tt></address>
+
+<br><tt><font size=+2><a href="STACK.html">Main</a></font></tt>
+</body>
+</html>

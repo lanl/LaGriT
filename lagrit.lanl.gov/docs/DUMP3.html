@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+            
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+            
+  <meta name="Generator" content="Microsoft Word 98">
+            
+  <meta name="GENERATOR"
+ content="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+  <title>DUMP</title>
+    
+</head>
+<body alink="#ff0000" bgcolor="#ffffff" link="#0000ee" text="#000000"
+ vlink="#551a8b">
+       
+<blockquote>         
+  <p><font face="Times"><b>dump/fehm</b>/</font><font
+ face="Courier New,Courier">file_name</font><font face="Times">/[</font><font
+ face="Courier New,Courier">cmo_name</font><font face="Times">]/ [<b>binary</b>
+ |<b>ascii</b> | <b><u>binaryc</u></b>| <b>asciic</b> ]</font>&nbsp; // [<font
+ face="Times"><b><u>scalar,vector,both,area_scalar,area_vector,area_both,alternate_scalar</u></b>] 
+ /&nbsp; [<b>delatt,keepatt</b>]</font> <br>
+   <br>
+   <br>
+    <font face="Times New Roman,Times">The <b>dump / fehm </b>command will 
+call the<b> dump/coord</b> and <b>dump/zone</b> options first. The main function
+ of the <b>dump / fehm</b> command is to form a sparse coefficient matrix
+used for solving PDE on a triangular or tetrahedral delaunay grid.</font>
+   </p>
+       
+  <p><font face="Times New Roman,Times">Options for the 5th argument are:</font> 
+      
+  <table nosave="" cols="2" width="90%">
+   <tbody>
+        <tr nosave="">
+   <td nosave="" width="10%"><font face="Times New Roman,Times"><b>binary</b>(default)</font></td>
+     <td nosave=""><font face="Times New Roman,Times">Output sparse matrix
+ in Fortran unformatted format</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><font face="Times New Roman,Times"><b>ascii</b>&nbsp;</font></td>
+     <td><font face="Times New Roman,Times">Output sparse matrix as ASCII 
+format</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><b><font face="Times New Roman,Times">binaryc&nbsp;</font></b></td>
+     <td><font face="Times New Roman,Times">Output sparse matrix as Fortran 
+ unformatted format with a compression</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><br>
+          </td>
+     <td><font face="Times New Roman,Times">algorithm applied to the area 
+coefficients.</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><b><font face="Times New Roman,Times">asciic&nbsp;</font></b></td>
+     <td><font face="Times New Roman,Times">Output sparse matrix as ASCII 
+format  with a compression</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><br>
+          </td>
+     <td><font face="Times New Roman,Times">algorithm applied to the area 
+coefficients.</font>&nbsp;</td>
+   </tr>
+             
+    </tbody>      
+  </table>
+   <font face="Times New Roman,Times">The 6th argument is empty.</font> 
+   </p>
+       
+  <p><font face="Times New Roman,Times">Options for the 7th argument are:</font> 
+      
+  <table nosave="" cols="2" width="90%">
+   <tbody>
+        <tr nosave="">
+   <td nosave="" width="10%"><font face="Times New Roman,Times"><b><u>scalar</u></b>(default)&nbsp;</font></td>
+     <td nosave=""><font face="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ coefficients are output as scalars</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><b><font face="Times New Roman,Times">vector</font></b></td>
+     <td><font face="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ coefficients are output as vectors</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><b><font face="Times New Roman,Times">both</font></b></td>
+     <td><font face="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ coefficients are output as scalars and vectors</font>&nbsp;</td>
+   </tr>
+     <tr nosave="">
+   <td><b><font face="Times New Roman,Times">area_scalar&nbsp;</font></b></td>
+     <td nosave=""><font face="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ coefficients are output as scalars</font></td>
+   </tr>
+     <tr>
+   <td><b><font face="Times New Roman,Times">area_vector</font></b></td>
+     <td><font face="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ coefficients are output as vectors</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><b><font face="Times New Roman,Times">area_both&nbsp;</font></b></td>
+     <td><font face="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ coefficients are output as scalars and vectors</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><b><font face="Times New Roman,Times">alternate_scalar</font></b></td>
+     <td><font face="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+ coefficients are output as scalars with compression of coefficients</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><br>
+          </td>
+     <td><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp; 
+ applied during calculation of coefficients.</font>&nbsp;</td>
+   </tr>
+             
+    </tbody>      
+  </table>
+   &nbsp;   </p>
+       
+  <p><font face="Times New Roman,Times">Options for the 8th aregument are:</font> 
+      
+  <table nosave="" cols="2" width="90%">
+   <tbody>
+        <tr nosave="">
+   <td nosave="" width="10%"><font face="Times New Roman,Times"><b><u>delatt</u></b>(default)</font></td>
+     <td nosave=""><font face="Times New Roman,Times">No new node attributes
+ are created.</font></td>
+   </tr>
+     <tr>
+   <td><font face="Times New Roman,Times"><b>ascii</b>&nbsp;</font></td>
+     <td><font face="Times New Roman,Times">Output sparse matrix as ASCII 
+format</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><b><font face="Times New Roman,Times">keepatt</font></b></td>
+     <td><font face="Times New Roman,Times">Six node attributes are created 
+ (top, bottom, left_w, right_e,back_n, front_s) which</font>&nbsp;</td>
+   </tr>
+     <tr>
+   <td><br>
+          </td>
+     <td><font face="Times New Roman,Times">are assigned values according 
+to  the direction of the octant of their normal vector.</font>&nbsp; <br>
+          <font face="Times New Roman,Times">&nbsp;</font>&nbsp;</td>
+   </tr>
+             
+    </tbody>      
+  </table>
+   &nbsp;</p>
+  </blockquote>
+   <font face="Times">EXAMPLE</font>   
+<blockquote>   
+  <pre><font face="Times"><br><big><font
+ face="Courier New, Courier, monospace">dump / fehm / file_name / cmo <br>dump / stor / file_name_as / cmo / asciic / / alternate_scalar <br>dump / fehm / file_name / cmo / binaryc / / alternate_scalar/ keepatt <br>dump / stor / file_name_as / cmo / ascii / vector<br>dump / stor / file_name_as / cmo / ascii / both <br>dump / stor / file_name_as / cmo / ascii / area_scalar <br></font></big></font><br></pre>
+  </blockquote>
+   
+</body>
+</html>

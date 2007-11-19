@@ -1,0 +1,149 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.51C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>DOPING</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times">DOPING</font></u></b></blockquote>
+
+<blockquote>
+<blockquote>Interpolates between mesh object attributes or assigns values
+to a mesh object attribute.
+<br>Options <b>constant </b>and <b>gaussian</b> assign values to a mesh
+object attribute.&nbsp; Options <b>table</b>, <b>integer1</b>, and <b>integer2
+</b>interpolate
+from a reference mesh object.
+<br>The <b>constant </b>option assigns a constant value to all specified
+nodes<font face="Times">.</font>
+<br><font face="Times">The <b>gaussian </b>option creates a very special
+gaussian distribution around a line or point.&nbsp; The bounding box (</font><font face="Courier">x1,y1,z1</font><font face="Times">)
+to (</font><font face="Courier">x2,y2,z2</font><font face="Times">) specifies
+where the peak concentration will be, Note: y2 is ignored; if z1=z2 then
+the distribution will be around a point.&nbsp; All coordinates are assumed
+to be given as Cartesian, <b>xyz</b> is required.&nbsp; The value assigned
+to the attribute is determined by the Gaussian distribution:</font>
+<blockquote><font face="Times">value = concentration * exp(-(L/std_dev)**2)</font></blockquote>
+<font face="Times">where L is the effective distance and can be represented
+as:</font>
+<blockquote><font face="Times">L = sqrt( dy**2 + (1/lateral_diffusion)*(dx**2
++ dz**2) )</font></blockquote>
+<font face="Times">and where</font>
+<blockquote><font face="Times">dy = y-y1 (y2 ignored)</font>
+<br><font face="Times">dx = x-x1 if x &lt; x1 &lt; x2</font>
+<br><font face="Times">= 0 if x1 &lt; x &lt; x2</font>
+<br><font face="Times">= x-x2 if x1 &lt; x2 &lt; x</font>
+<br><font face="Times">dz similar to dx.</font></blockquote>
+<font face="Times">The <b>table</b> option interpolates an attribute from
+a reference mesh object and reference attribute onto the current mesh object
+using<b> linear</b>, <b>log</b> or <b>asinh</b> interpolation (the default
+is linear).&nbsp; In the case of 2D tabular interpolation, additional arguments
+specify the planar correspondence for the interpolation: </font><font face="Courier New,Courier">geom_out</font><font face="Times New Roman,Times">
+and</font><font face="Courier New,Courier"> geom_ref</font><font face="Times New Roman,Times">
+refer to the output and reference orientation of a 2D axial distribution
+and may take the values, <b>xy, yz, xz</b>,&nbsp; </font><font face="Times">.</font>
+<p><font face="Times">In all cases, </font><font face="Courier New,Courier">field_out</font><font face="Times">
+specifies the name of the attribute, </font><font face="Courier New,Courier">ifirst,
+ilast, istride</font><font face="Times"> specify a point set restriction,
+and <b>set add or subtract</b> indicate if the calculated or input-value
+is added to, subtracted from or used to set the existing node attribute
+value.</font>
+<p><font face="Times">If the values to be doped (interpolated) are integers
+(options <b>integer1 </b>and <b>integer2</b>), doping works in two ways.&nbsp;
+For integer doping, only the <b>set</b> option is implemented.</font>
+<br><font face="Times">If the second field is <b>integer1</b>, the new
+nodal attributes are based on element material types. Set </font><font face="Courier">field_out</font><font face="Times">
+and </font><font face="Courier">attr_ref</font><font face="Times"> to <b>imt1</b>
+in this case. The <b>integer1</b> option is implemented only for setting
+node material (<b>imt1</b>). The <b>imt1</b> values of the active mesh
+object nodes will be set by determining which element in the reference
+mesh object the node falls in. This element's material (<b>itetclr</b>)
+value is then assigned to the node <b>imt1</b>.</font><font face="Times"></font>
+<p><font face="Times">The <b>integer2</b> option sets node based attributes
+in the active mesh object by determining which voronoi cell in the reference
+mesh object the node falls in. Then the value for the node corresponding
+to this voronoi cell is copied to the active node.</font>
+<br><font face="Times">If the second field is <b>integer2</b>, the new
+nodal attributes are based on the table attribute types using the Voronoi
+cells around the table nodes.</font>
+<br><font face="Times">For integer doping, function can be<b> min</b> or
+<b>max</b>
+to choose what happens if a </font><font face="Courier">cmo_out</font><font face="Times">
+node falls on a boundary between two elements or Voronoi cells. For 3d,
+Voronoi cell based doping, function can also be <b>minp</b> or <b>maxp</b>
+which makes any</font><font face="Courier"> cmo_out</font><font face="Times">
+nodes that fall outside the </font><font face="Courier">cmo_table</font><font face="Times">
+geometry set to the maximum number of materials plus one. </font><font face="Courier">Mapset</font><font face="Times">
+can be set to <b>create</b>, <b>use</b>, or left blank. If <b>create</b>
+is used then an </font><font face="Courier">idop</font><font face="Times">
+attribute is formed that maps the </font><font face="Courier">cmo_table</font><font face="Times">
+nodes to the </font><font face="Courier">cmo_out</font><font face="Times">
+nodes. If <b>use</b> is used, doping will read and use this previously
+formed and saved mapping. Note that doping of integers should be done without
+child/parent relationships. If parents exist, the doping results are unpredictable
+at interface boundaries because the value of parent nodes are unpredictable
+there.</font>
+<p><font face="Times">FORMAT:</font>
+<blockquote><font face="Times"><b>doping</b>/<b>constant</b>/</font><font face="Courier">field_out/</font><b><font face="Times">set|add|sub</font>/
+</b><font face="Courier New,Courier">ifirst,ilast,istride/value</font>
+<br><b><font face="Times">doping</font>/gaussian/</b><font face="Courier">field_out/</font><b><font face="Times">set|add|sub</font></b><font face="Times New Roman,Times">/
+</font><font face="Courier New,Courier">ifirst,ilast,istride</font><font face="Courier">/</font>
+<br><font face="Courier"><b>xyz</b>/x1,y1,z1/x2,y2,z2/lateral_diffusion</font><font face="Times New Roman,Times">/</font><font face="Courier">
+concentration/standard_deviation/</font>
+<br><b><font face="Times">doping</font>/table/</b><font face="Courier">field_out/</font><b><font face="Times">set|add|sub</font></b>/<font face="Courier">cmo_ref/attr_ref</font><font face="Times">/[</font><font face="Times New Roman,Times"><b>linear|log</b>|<b>asinh</b>]</font>
+<br><b><font face="Times">doping</font>/table/</b><font face="Courier">field_out/</font><b><font face="Times">set|add|sub</font></b>/<font face="Courier">cmo_ref/attr_ref</font><font face="Times">/[</font><font face="Times New Roman,Times"><b>linear|log</b>|<b>asinh</b>]/
+[</font><font face="Courier New,Courier">geom_out</font><font face="Times New Roman,Times">/</font><font face="Courier New,Courier">geom_ref</font><font face="Times New Roman,Times">]</font>
+<br><font face="Times"><b>doping/integer1</b>/</font><b><font face="Courier">imt1</font></b><font face="Times">/<b>set</b>/</font><font face="Courier New,Courier">ifirst,ilast,istride</font><font face="Courier">/cmo_ref
+/<b>imt1</b>/<b>min</b>|<b>max</b></font>
+<br><font face="Times"><b>doping/integer2/</b>field_out</font><font face="Courier">2</font><b><font face="Times">/set</font></b><font face="Times New Roman,Times">/</font><font face="Courier New,Courier">ifirst,ilast,istride</font><font face="Times New Roman,Times">/</font><font face="Courier">cmo_ref/attr_ref/</font>
+<br><font face="Courier"><b>min</b>|<b>max</b>|<b>minp</b>|<b>maxp</b>/[<b>create</b>|<b>use</b>]</font></blockquote>
+<font face="Times">EXAMPLE:</font>
+<blockquote><font face="Times"><b>doping</b>/<b>constant</b>/</font><font face="Courier New,Courier">density</font><font face="Times">/<b>set</b>/<b>pset,get</b>,</font><font face="Courier New,Courier">mypset/9.73</font>
+<br><font face="Times New Roman,Times">For the current mesh object, the
+value of the attribute </font><font face="Courier New,Courier">density
+</font><font face="Times New Roman,Times">will
+be set to 9.73</font>
+<br><font face="Times New Roman,Times">for all nodes in the point set</font><font face="Courier New,Courier">
+mypset.</font>
+<br><b><font face="Times">doping</font>/gaussian</b>/<font face="Courier New,Courier">density</font><font face="Times">/<b>add</b>/<b>pset</b>,</font><font face="Courier New,Courier">mypset/<b>xyz</b>/</font>
+<br><font face="Courier New,Courier">0.0,0.5,0.1/0.5,0.5,0.4/0.5/5.0e+18/0.225</font>
+<br><font face="Times New Roman,Times">For the current mesh object, for
+nodes in mypset, the value of the</font>
+<br><font face="Times New Roman,Times">attribute </font><font face="Courier New,Courier">density
+</font><font face="Times New Roman,Times">will be augmented by</font>
+<br><font face="Times New Roman,Times">the value of the distribution as
+defined above.</font>
+<br><font face="Times New Roman,Times"><b>doping</b>/<b>table</b></font><font face="Courier">/my_field/</font><font face="Times New Roman,Times"><b>set</b>/</font><font face="Courier New,Courier">1,0,0/cmo_ref/attr_ref/<b>log</b></font>
+<br><font face="Times New Roman,Times">For the current mesh object, the
+value of the attribute </font><font face="Courier">my_field </font><font face="Times New Roman,Times">will
+be set by</font>
+<br><font face="Times New Roman,Times">interpolating from the reference
+mesh object and attribute.</font>
+<br><font face="Times"><b>doping</b>/<b>table</b>/</font><font face="Courier">Saturation</font><font face="Times">
+/<b>set</b>/</font><font face="Courier">1,0,0</font><font face="Times">/</font><font face="Courier">cmo_course</font><font face="Times">/saturation_course/<b>linear</b>/<b>zx</b>/<b>yx</b>/</font>
+<br><font face="Times">In this case the yx plane from the reference cmo
+is interpolated onto the zx plane of the</font>
+<br><font face="Times">current mesh object</font>
+<br><font face="Times"><b>doping/integer1</b>/</font><font face="Courier">imt1</font><font face="Times">/<b>set</b>/</font><font face="Courier">1,0,0/cmo_old/imt1/<b>min</b></font>
+<br><font face="Times New Roman,Times">See which element of </font><font face="Courier New,Courier">cmo_old</font><font face="Times New Roman,Times">
+each node of the current mesh object falls in, and set the </font><font face="Courier New,Courier">imt1</font><font face="Times New Roman,Times">
+attribute value to the</font><font face="Courier New,Courier"> itetclr</font><font face="Times New Roman,Times">
+of the element in </font><font face="Courier New,Courier">cmo_old</font><font face="Times New Roman,Times">.&nbsp;
+If the node falls in more than one element use the smallest </font><font face="Courier New,Courier">itetclr</font><font face="Times New Roman,Times">.</font>
+<br><b><font face="Times">doping/integer2/</font></b><font face="Courier">rad2</font><b><font face="Times">/set</font></b><font face="Courier">/1,0,0/cmo_old/rad1/<b>min/create</b></font>
+<br><font face="Times New Roman,Times">Create the voronoi cells around
+the nodes in</font><font face="Courier"> cmo_old.&nbsp; </font><font face="Times New Roman,Times">See
+which voronoi cell the nodes in the current mesh object fall in and set
+the value of the attribute </font><font face="Courier New,Courier">rad2</font><font face="Times New Roman,Times">
+from the value of the attribute </font><font face="Courier New,Courier">rad</font><font face="Times New Roman,Times">1
+in the reference mesh object.&nbsp; If there is a conflict use the smallest
+value.&nbsp; Create a new attribute called </font><font face="Courier New,Courier">idop</font><font face="Times New Roman,Times">
+as explained above.</font></blockquote>
+</blockquote>
+</blockquote>
+
+</body>
+</html>

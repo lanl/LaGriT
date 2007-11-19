@@ -1,0 +1,95 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Author" CONTENT="Jan Wills">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+<! header for style of html ------------------------------------------------ >
+<! command name for window banner >
+   <title>cmo/copyatt</title>
+
+<! font and other body information should be in the style statement here.>
+<style type="text/css">
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+       }
+</style>
+</head>
+<body link="#0000FF" vlink="#800080">
+&nbsp;
+<! end header --------------------------------------------------------------- >
+
+<! command name for this page >
+<h2>cmo/copyatt</h2>
+
+<! command overview ---------- >
+<blockquote>
+The <b>cmo/copyatt</b> command is used to copy one attribute field
+to another. There is currently no provision for indexed sets. 
+</blockquote><br>
+
+<! command syntax or format ------------ >
+<br><br>
+FORMAT:
+<blockquote>
+  <b>cmo/copyatt</b>/
+  <font face="Courier"> cmo_sink / cmo_src / attnam_sink / attnam_src </font>
+</blockquote>
+
+<! parameter 1,2 ---------- >
+<br>
+<font face="Courier">
+cmo_sink / cmo_src :
+</font>
+are the mesh object names to write to(sink) and from (source).
+The two names can represent the same mesh object.
+
+<br>
+<! parameter 3,4 ---------- >
+<br>
+<font face="Courier">
+attnam_sink / attnam_src :
+</font>
+are the mesh object attributes to write to(sink) and from (source).
+If the two attributes differ in type or length, a messege will be written.
+The routine does allow the values of an element attribute to be 
+written to the nodes of that belong to each element.  
+To create a mesh object where each element has its own unique set
+of nodes, create parent-child chains for each element.
+This can be done using commands <b>cmo/set_id</b> and <b>settets</b>.
+<br>
+<br>
+
+<! command examples >
+<br><br>
+EXAMPLES:
+<blockquote>
+  <b>cmo/copyatt</b> <font face="Courier">cmo1/cmo2/ itetclr / itetclr</font> 
+  <br><b>cmo/copyatt</b> <font face="Courier">cmo1/cmo2/ itetclr</font> 
+  <dir>Both versions will copy itetclr from cmo2 to cmo1</dir>
+  <br>
+  <b>cmo/addatt</b> <font face="Courier">cmotet/elevation</font> 
+  <br><b>cmo/copyatt</b> <font face="Courier">cmotet cmotet/ elevation  zic</font>
+  <dir>In the mesh object cmotet, attribute zic is copied to attribute elevation 
+  </dir>
+  <br>
+  <b>cmo/copyatt</b> <font face="Courier">cmotri cmotri/ itetsav itetclr</font>
+  <br><b>cmo/set_id</b> <font face="Courier">cmotri/element/itetclr</font>
+  <br><b>settets</b> 
+  <br><b>cmo/copyatt</b> <font face="Courier">cmotri cmotri/ imt  itetsav</font>
+  <dir>Copy element itetclr values into attribute itetsav. 
+  Create parent-child chains
+  so each element has its own set of nodes. 
+  Copy the saved itetsav values into node attribute imt for each element. 
+  Each element will have nodes where the imt values match element itetsav values. 
+  </dir>
+  <br>
+
+
+</blockquote>
+ 
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,41 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.51C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>COORDSYS</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<br>&nbsp;
+<blockquote><b><u><font face="Times">COORDSYS</font></u></b>
+<blockquote>This routine defines a local coordinate system to be in effect
+until another coordinate system is defined or the normal coordinate system
+is reset. The new coordinate system is defined by specifying an origin,
+a point on the new x-z plane and a point on the new z-axis. These points
+are specified in the normal coordinate system. The options available in
+<font face="Courier">iopt</font><font face="Times">
+are:</font>
+<blockquote><font face="Times"><b>define</b> define a new local coordinate
+system</font>
+<br><font face="Times"><b>normal</b> return to the normal coordinate system</font>
+<br><font face="Times"><b>save</b> save the current coordinate system for
+recall</font>
+<br><font face="Times"><b>restore</b> recall the last saved coordinate
+system</font></blockquote>
+</blockquote>
+</blockquote>
+
+<blockquote><font face="Times">FORMAT:</font>
+<blockquote><font face="Times"><b>coordsys</b>/</font><font face="Courier">iopt</font><font face="Times">/</font><font face="Courier">x0,y0,z0/xx,xy,xz/zx,zy,zz</font>
+<br><font face="Times">where </font><font face="Courier">x0,y0,z0 </font><font face="Times">is
+the location of the new origin, </font><font face="Courier">xx,xy,xz</font><font face="Times">
+is a point on the new x-z plane and </font><font face="Courier">zx,zy,zz</font><font face="Times">
+is a point on the new z-axis. These points are defined with the normal
+coordinate system, and used only with the </font><b><font face="Courier">define</font></b><font face="Times">
+option.</font></blockquote>
+</blockquote>
+
+</body>
+</html>

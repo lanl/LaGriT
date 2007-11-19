@@ -1,0 +1,174 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>8</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<blockquote><b><font face="Times New Roman,Times"><font size=+1>&nbsp;Geometry
+Information</font></font></b>
+<br>&nbsp;
+<dir><font face="Times New Roman,Times">Much geometry information is maintained
+in the<b> geom </b>common block which is defined in the include file<b>
+geom_lg.h.</b></font>
+<center><table WIDTH="75%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="15%" NOSAVE><font face="Times New Roman,Times">nsurf&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">is the number of surfaces</font></td>
+</tr>
+
+<tr NOSAVE>
+<td WIDTH="19%" NOSAVE><font face="Times New Roman,Times">nregs&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">is the number of regions</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">nmregs&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">is the number of mregions</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">maxdef</font></td>
+
+<td><font face="Times New Roman,Times">is the number of tokens in the longest
+region definition</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">maxmdef&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">is the number of tokens in the longest
+mregion definition.</font></td>
+</tr>
+
+<tr>
+<td>lastregdef</td>
+
+<td>end of regdef array</td>
+</tr>
+
+<tr>
+<td>lastmregdef</td>
+
+<td>end of regmdef array</td>
+</tr>
+
+<tr>
+<td>lastsparam</td>
+
+<td>end of sparam array</td>
+</tr>
+</table></center>
+</dir>
+</blockquote>
+
+<blockquote>
+<blockquote><font face="Times New Roman,Times">Geometry information is
+contained in a set of memory managed arrays whose partition name is the
+geometry name.</font>
+<p><font face="Times New Roman,Times">Retrieve the geometry name by:</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+call cmo_get_attinfo('geom_name, cmo_name, iout, rout, <b>geom_name</b>,
+ipout, itype,ierror)</font>
+<p><font face="Times New Roman,Times">Surface information includes:</font>
+<br>&nbsp;
+<center><table WIDTH="75%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="19%" NOSAVE><font face="Times New Roman,Times">csall&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">surface name</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">istype</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">surface type (e.g. 'plane',
+cylinder, .....)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ibtype</font></td>
+
+<td><font face="Times New Roman,Times">boundary type (e.g. 'reflect;, 'interface',
+...)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">sheetnm</font></td>
+
+<td><font face="Times New Roman,Times">sheetname (for sheet surface types
+only)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">surfparam</font></td>
+
+<td><font face="Times New Roman,Times">data describing the surface, varies
+depending on surface type</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">offsparam</font></td>
+
+<td><font face="Times New Roman,Times">offset into surfparam for a given
+surface</font></td>
+</tr>
+</table></center>
+
+<p><font face="Times New Roman,Times">Region/mregion information includes:</font>
+<center><table WIDTH="75%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="19%" NOSAVE><font face="Times New Roman,Times">cregs (cmregs)</font></td>
+
+<td><font face="Times New Roman,Times">region (mregions) names</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">ndetregs(ndefmregs)</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">number of tokens in region(mregion)
+definition</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">regdef (mregdef)</font></td>
+
+<td><font face="Times New Roman,Times">region (mregion) definition</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE><font face="Times New Roman,Times">offregdef (offmregdef)</font></td>
+
+<td><font face="Times New Roman,Times">offset into regdef (mregdef) for
+a given region (mregion)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">matregs</font></td>
+
+<td><font face="Times New Roman,Times">material number fo a material region</font></td>
+</tr>
+</table></center>
+
+<p>subroutine get_material_number(mregion_name,number,ierror)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; returns the material
+number associated with the material region called mregion_name.
+<p>Any of the memory managed geometry arrays can be accessed using <a href="memmang.html">mmfindbk,</a>
+for example:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; character*32
+pointer (ipcsall, csall)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; call mmfindbk('csall',
+geom_name,ipcsall,length,ierror)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; where geom_name
+has been retrieved from the mesh object using cmo_get_attinfo.
+<br>&nbsp;</blockquote>
+</blockquote>
+
+</body>
+</html>

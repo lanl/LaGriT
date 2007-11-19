@@ -1,0 +1,4 @@
+#
+convert -crop 18% image1.rgb sort.gif
+convert -geometry 15% sort.gif sort_tn.gif
+echo 'sort.gif and sort_tn.gif done\n'

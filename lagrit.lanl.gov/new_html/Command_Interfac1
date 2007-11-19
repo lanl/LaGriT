@@ -1,0 +1,17 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="Microsoft Word 98">
+<TITLE>b</TITLE>
+</HEAD>
+<BODY>
+
+<B><I><FONT FACE="Helvetica"><P>b.&#9;Command Interface&#9;</P><DIR>
+<DIR>
+
+</B></I></FONT><FONT FACE="Times"><P>&#9;The default Mesh Object is named <I>3dmesh</I>  For simple problems the user must supply only a <B>cmo</B>/<B>create</B>/</FONT><FONT FACE="Courier">mesh_object_name</FONT><FONT FACE="Times"> command.  There is no limit on the number of Mesh Objects that can be defined, but at any time there is only one 'current' or 'active' Mesh Object.  For more advanced problems, such as those requiring more than one Mesh Object or requiring extensions to the basic Mesh Object template, the Mesh Object(s) is(are) manipulated via the <B>cmo</B> commands which are described in the next section.  For example, additional user defined attributes may be added to a Mesh Object by using the <B>cmo</B>/<B>addatt</B> command, or the 'active' Mesh Object can be changed using the <B>cmo/select</B> command.</P>
+</DIR>
+</DIR>
+
+<P>&nbsp;</P></FONT></BODY>
+</HTML>

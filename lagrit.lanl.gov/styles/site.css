@@ -1,0 +1,92 @@
+/* CSS Document */
+/* IMPORT THE LAYOUT STYLE SHEET FILE //////////////////////////////////////////////////*/
+
+@import url("http://www.lanl.gov/styles/xsimple.css");
+
+/* ! READ THE FOLLOWING INSTRUCTIONS BEFORE MODIFYING THIS STYLE SHEET ! ////////////////
+
+This site color scheme consists of the following colors:
+
+primary color: #D9541A
+primary color dark: #A3492D
+complementary color: #49407B
+complementary color dark: #594B9E
+complementary color tint: #F9F2E8
+neutral color: #C9C6C0
+
+After you have determined the colors with which you will be replacing the colors in this style sheet,
+use Dreamweaver Find and Replace tool to replace all instances to the colors above. The modification will change the color scheme of your entire site. 
+
+/* site specific general formatting //////////////////////////////////////////////////*/
+	
+p {color: #333; }
+
+h1 { color: #1657A2; } /*primary color*/ 
+h2 { color: #CC6600;} /*complementary color */
+h2 .home { color: #BB5A0C;} /*primary color */
+h3 {color: #CC6600;} /*complementary color */
+h4 {color: #CC6600; } /*complementary color */
+h5 {color: #49407B; } /*complementary color */
+h6 {color: #49407B; } /*complementary color */
+
+.menu_right a:link { color: #594B9E; }/*complementary color dark */
+.menu_right  a:visited  {  color: #49407B; text-decoration: none; }/*complementary color */
+.menu_right a:hover {color: #D9541A; text-decoration: none; }/*primary color*/ 
+
+#mid-section1 { background: #FFF url(/*place a path to your background image here*/) top right no-repeat; }
+
+/* sitebar color specifications /////////////////////////////////////////////////////*/
+
+#sitebar {
+	background: transparent;
+	border-bottom: 1px #C9C6C0 solid; }
+
+.locator { color: #666; }/*leave gray */ 
+
+.identifier { color: #1657A2; }/*primary color dark*/ 
+
+#toolbar ul {
+	background-color: #C9C6C0; }/*neutral color*/
+	
+#toolbar li a:link, #toolbar li a:visited { color: #666; text-decoration: none; }
+
+#toolbar li a:visited:hover, #toolbar li a:hover { 
+	text-decoration: none; color: #000; /*dark color*/
+	background: #fff; border-top: 1px #C9C6C0 solid; /*neutral color*/
+	border-bottom: 1px #fff solid; }
+	
+.home a#home, .org a#org, .about a#about, .jobs a#jobs {
+	 color:  #A3492D !important;/*primary color dark */
+	 border-top: 1px #C9C6C0  solid !important; /*neutral color*/
+	 text-decoration: none; }
+
+/* MENU background colors /////////////////////////////////////////////////////////*/
+
+.col1, .col2-420, .col2-620, .col3-180 { color: #333;}
+
+.col2-420 { background: transparent; } /*or complementary color tint*/
+
+.col2-620 { background: transparent;} /*or complementary color tint*/
+
+#mid-section1 .col1 { background: #FFF;}/*or neutral color tint*/
+
+#mid-section1 .col3-180 { background: #FFF; }/*or primary color tint*/ 
+	
+/* Header bars //////////////////////////////////////////////////// */ 
+
+#bar { color: #49407B; background: #FCD392; }/*complementary color tint */
+#bar3 { color: #FFF; background: #F3912B; }/*complementary color tint */
+
+#barleft { 
+	color: #49407B; background: #FCD392; }/*complementary color  */
+	*/
+	
+.noindent { margin: 0px 0px 0px -20px; background: #CED2E3;}
+
+
+#groups {margin: 0px 0px 0px -20px;  display: inline; list-style: none; white-space: nowrap; }
+
+#groups ul, #groups li {display: inline; list-style: none; white-space: nowrap;}
+
+#groups li a { padding: 0px;}
+	

@@ -1,0 +1,409 @@
+ 
+ 
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+*            *                                             *                    
+*            *     Program:  LaGriT                        *                    
+*            *     Version:  1.004                         *                    
+*            *     Compiled: 00/05/25 at 10:00:00          *                    
+*            *                                             *                    
+*            *                                             *                    
+*            *     This run was processed                  *                    
+*            *      on day:  Thu Sep  7 2000               *                    
+*            *      at time: 16:02:22                      *                    
+*            *                                             *                    
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+ 
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+cmo/create/abc/tet                                                              
+createpts/rtz/9,5,2/0.,0.,0./10.,360.,2./1,1,1/                                 
+  RZ GENERATED POINTS                    1 TO                   90              
+pset/rays/seq/1,0,0                                                             
+ 
+ THE PSET rays     HAS         90 MASS POINTS                                   
+dump/gmv/output1.gmv/abc                                                        
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+zq/xic/pset,get,rays                                                            
+ ipt         xa          ya          za          ua          va          wa     
+    1    0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    2    0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    3    0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    4    0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    5    0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    6    1.2500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    7    7.6540E-17  1.2500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    8   -1.2500E+00  1.5308E-16  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    9   -2.2962E-16 -1.2500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   10    1.2500E+00 -3.0616E-16  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   11    2.5000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   12    1.5308E-16  2.5000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   13   -2.5000E+00  3.0616E-16  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   14   -4.5924E-16 -2.5000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   15    2.5000E+00 -6.1232E-16  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   16    3.7500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   17    2.2962E-16  3.7500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   18   -3.7500E+00  4.5924E-16  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   19   -6.8886E-16 -3.7500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   20    3.7500E+00 -9.1849E-16  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   21    5.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   22    3.0616E-16  5.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   23   -5.0000E+00  6.1232E-16  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   24   -9.1849E-16 -5.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   25    5.0000E+00 -1.2246E-15  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   26    6.2500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   27    3.8270E-16  6.2500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   28   -6.2500E+00  7.6540E-16  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   29   -1.1481E-15 -6.2500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   30    6.2500E+00 -1.5308E-15  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   31    7.5000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   32    4.5924E-16  7.5000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   33   -7.5000E+00  9.1849E-16  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   34   -1.3777E-15 -7.5000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   35    7.5000E+00 -1.8370E-15  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   36    8.7500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   37    5.3578E-16  8.7500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   38   -8.7500E+00  1.0716E-15  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   39   -1.6073E-15 -8.7500E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   40    8.7500E+00 -2.1431E-15  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   41    1.0000E+01  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   42    6.1232E-16  1.0000E+01  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   43   -1.0000E+01  1.2246E-15  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   44   -1.8370E-15 -1.0000E+01  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   45    1.0000E+01 -2.4493E-15  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   46    0.0000E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   47    0.0000E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   48    0.0000E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   49    0.0000E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   50    0.0000E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   51    1.2500E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   52    7.6540E-17  1.2500E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   53   -1.2500E+00  1.5308E-16  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   54   -2.2962E-16 -1.2500E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   55    1.2500E+00 -3.0616E-16  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   56    2.5000E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   57    1.5308E-16  2.5000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   58   -2.5000E+00  3.0616E-16  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   59   -4.5924E-16 -2.5000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   60    2.5000E+00 -6.1232E-16  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   61    3.7500E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   62    2.2962E-16  3.7500E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   63   -3.7500E+00  4.5924E-16  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   64   -6.8886E-16 -3.7500E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   65    3.7500E+00 -9.1849E-16  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   66    5.0000E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   67    3.0616E-16  5.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   68   -5.0000E+00  6.1232E-16  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   69   -9.1849E-16 -5.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   70    5.0000E+00 -1.2246E-15  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   71    6.2500E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   72    3.8270E-16  6.2500E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   73   -6.2500E+00  7.6540E-16  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   74   -1.1481E-15 -6.2500E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   75    6.2500E+00 -1.5308E-15  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   76    7.5000E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   77    4.5924E-16  7.5000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   78   -7.5000E+00  9.1849E-16  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   79   -1.3777E-15 -7.5000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   80    7.5000E+00 -1.8370E-15  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   81    8.7500E+00  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   82    5.3578E-16  8.7500E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   83   -8.7500E+00  1.0716E-15  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   84   -1.6073E-15 -8.7500E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   85    8.7500E+00 -2.1431E-15  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   86    1.0000E+01  0.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   87    6.1232E-16  1.0000E+01  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   88   -1.0000E+01  1.2246E-15  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   89   -1.8370E-15 -1.0000E+01  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   90    1.0000E+01 -2.4493E-15  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+rotatept/pset,get,rays/nocopy/0.,0.,0./0./30.                                   
+dump/gmv/output2.gmv/abc                                                        
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+rotatept/pset,get,rays/nocopy/0.,0.,0./15./00.                                  
+dump/gmv/output3.gmv/abc                                                        
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+zq/xic/1,0,0                                                                    
+ ipt         xa          ya          za          ua          va          wa     
+    1    0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    2    0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    3    0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    4    0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    5    0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+    6    1.0456E+00  6.0370E-01 -3.2352E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+    7   -6.0370E-01  1.0456E+00 -3.2352E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+    8   -1.0456E+00 -6.0370E-01 -3.2352E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+    9    6.0370E-01 -1.0456E+00 -3.2352E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   10    1.0456E+00  6.0370E-01 -3.2352E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   11    2.0913E+00  1.2074E+00 -6.4705E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   12   -1.2074E+00  2.0913E+00 -6.4705E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   13   -2.0913E+00 -1.2074E+00 -6.4705E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   14    1.2074E+00 -2.0913E+00 -6.4705E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   15    2.0913E+00  1.2074E+00 -6.4705E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   16    3.1369E+00  1.8111E+00 -9.7057E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   17   -1.8111E+00  3.1369E+00 -9.7057E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   18   -3.1369E+00 -1.8111E+00 -9.7057E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   19    1.8111E+00 -3.1369E+00 -9.7057E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   20    3.1369E+00  1.8111E+00 -9.7057E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   21    4.1826E+00  2.4148E+00 -1.2941E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   22   -2.4148E+00  4.1826E+00 -1.2941E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   23   -4.1826E+00 -2.4148E+00 -1.2941E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   24    2.4148E+00 -4.1826E+00 -1.2941E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   25    4.1826E+00  2.4148E+00 -1.2941E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   26    5.2282E+00  3.0185E+00 -1.6176E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   27   -3.0185E+00  5.2282E+00 -1.6176E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   28   -5.2282E+00 -3.0185E+00 -1.6176E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   29    3.0185E+00 -5.2282E+00 -1.6176E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   30    5.2282E+00  3.0185E+00 -1.6176E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   31    6.2739E+00  3.6222E+00 -1.9411E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   32   -3.6222E+00  6.2739E+00 -1.9411E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   33   -6.2739E+00 -3.6222E+00 -1.9411E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   34    3.6222E+00 -6.2739E+00 -1.9411E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   35    6.2739E+00  3.6222E+00 -1.9411E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   36    7.3195E+00  4.2259E+00 -2.2647E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   37   -4.2259E+00  7.3195E+00 -2.2647E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   38   -7.3195E+00 -4.2259E+00 -2.2647E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   39    4.2259E+00 -7.3195E+00 -2.2647E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   40    7.3195E+00  4.2259E+00 -2.2647E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   41    8.3652E+00  4.8296E+00 -2.5882E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   42   -4.8296E+00  8.3652E+00 -2.5882E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   43   -8.3652E+00 -4.8296E+00 -2.5882E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   44    4.8296E+00 -8.3652E+00 -2.5882E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   45    8.3652E+00  4.8296E+00 -2.5882E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   46    5.1764E-01  0.0000E+00  1.9319E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   47    5.1764E-01  0.0000E+00  1.9319E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   48    5.1764E-01  0.0000E+00  1.9319E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   49    5.1764E-01  0.0000E+00  1.9319E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   50    5.1764E-01  0.0000E+00  1.9319E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   51    1.4939E+00  8.6252E-01  1.6083E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   52   -8.6252E-01  1.4939E+00  1.6083E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   53   -1.4939E+00 -8.6252E-01  1.6083E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   54    8.6252E-01 -1.4939E+00  1.6083E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   55    1.4939E+00  8.6252E-01  1.6083E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   56    2.5396E+00  1.4662E+00  1.2848E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   57   -1.4662E+00  2.5396E+00  1.2848E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   58   -2.5396E+00 -1.4662E+00  1.2848E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   59    1.4662E+00 -2.5396E+00  1.2848E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   60    2.5396E+00  1.4662E+00  1.2848E+00  0.0000E+00  0.0000E+00  0.0000E+00 
+   61    3.5852E+00  2.0699E+00  9.6128E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   62   -2.0699E+00  3.5852E+00  9.6128E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   63   -3.5852E+00 -2.0699E+00  9.6128E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   64    2.0699E+00 -3.5852E+00  9.6128E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   65    3.5852E+00  2.0699E+00  9.6128E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   66    4.6309E+00  2.6736E+00  6.3776E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   67   -2.6736E+00  4.6309E+00  6.3776E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   68   -4.6309E+00 -2.6736E+00  6.3776E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   69    2.6736E+00 -4.6309E+00  6.3776E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   70    4.6309E+00  2.6736E+00  6.3776E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   71    5.6765E+00  3.2773E+00  3.1423E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   72   -3.2773E+00  5.6765E+00  3.1423E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   73   -5.6765E+00 -3.2773E+00  3.1423E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   74    3.2773E+00 -5.6765E+00  3.1423E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   75    5.6765E+00  3.2773E+00  3.1423E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   76    6.7222E+00  3.8810E+00 -9.2912E-03  0.0000E+00  0.0000E+00  0.0000E+00 
+   77   -3.8810E+00  6.7222E+00 -9.2912E-03  0.0000E+00  0.0000E+00  0.0000E+00 
+   78   -6.7222E+00 -3.8810E+00 -9.2912E-03  0.0000E+00  0.0000E+00  0.0000E+00 
+   79    3.8810E+00 -6.7222E+00 -9.2912E-03  0.0000E+00  0.0000E+00  0.0000E+00 
+   80    6.7222E+00  3.8810E+00 -9.2912E-03  0.0000E+00  0.0000E+00  0.0000E+00 
+   81    7.7678E+00  4.4847E+00 -3.3281E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   82   -4.4847E+00  7.7678E+00 -3.3281E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   83   -7.7678E+00 -4.4847E+00 -3.3281E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   84    4.4847E+00 -7.7678E+00 -3.3281E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   85    7.7678E+00  4.4847E+00 -3.3281E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   86    8.8135E+00  5.0884E+00 -6.5634E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   87   -5.0884E+00  8.8135E+00 -6.5634E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   88   -8.8135E+00 -5.0884E+00 -6.5634E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   89    5.0884E+00 -8.8135E+00 -6.5634E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+   90    8.8135E+00  5.0884E+00 -6.5634E-01  0.0000E+00  0.0000E+00  0.0000E+00 
+cmo/status                                                                      
+ 
+ 
+The current-mesh-object(CMO) is: abc                                            
+ 
+ 
+  1   Mesh Object name: -default-                        type=type status=status
+   nnodes=        90 elements=         0 mbndry=  16000000                      
+   nsdgeom=   3 nsdtopo=   3 nen=   4 nef=   4 nee=   6                         
+ 
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  0.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  0.000E+00  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
+ 37         ipointi  INT     scalar          scalar const perma   l  0.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  0.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 
+ 
+  2   Mesh Object name: abc                              type=type status=status
+   nnodes=        90 elements=         0 mbndry=  16000000                      
+   nsdgeom=   3 nsdtopo=   3 nen=   4 nef=   4 nee=   6                         
+ 
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  9.000E+01  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  0.000E+00  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  6.296E-12  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.785E-10  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.776E-10  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  9.000E+01  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E+01  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E+01  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+01  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+01  
+ 56            zmax REAL     scalar          scalar const perma   l  2.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+cmo/printatt//-all-/minmax                                                      
+Warning: nelements = 0                                                          
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ -def-                0.00000E+00    0.00000E+00    0.00000E+00        90       
+ scalar                         1              1              0         1       
+ vector                         3              3              0         1       
+ nnodes                        90             90              0         1       
+ nedges                         0              0              0         1       
+ nfaces                         0              0              0         1       
+ nelements                      0              0              0         1       
+ mbndry                  16000000       16000000              0         1       
+ ndimensions_topo               3              3              0         1       
+ ndimensions_geom               3              3              0         1       
+ nodes_per_element              4              4              0         1       
+ edges_per_element              6              6              0         1       
+ faces_per_element              4              4              0         1       
+ isetwd               0.00000E+00    2.12200-314    0.00000E+00        90       
+ ialias                         0              0              0        90       
+ imt1                           0              0              0        90       
+ itp1                           0              0              0        90       
+ icr1                           0              0              0        90       
+ isn1                           0              0              0        90       
+ xic                 -8.81345E+00    8.81345E+00    1.76269E+01        90       
+ yic                 -8.81345E+00    8.81345E+00    1.76269E+01        90       
+ zic                 -2.58819E+00    1.93185E+00    4.52004E+00        90       
+ 0 length attribute: xtetwd                                                     
+ 0 length attribute: itetclr                                                    
+ 0 length attribute: itettyp                                                    
+ 0 length attribute: itetoff                                                    
+ 0 length attribute: jtetoff                                                    
+ 0 length attribute: itet                                                       
+ 0 length attribute: jtet                                                       
+unavailable attribute type for minmax: CHARACTER                                
+minmax failed for attribute ipolydat                                            
+ 
+quality                                                                         
+         0 total elements in mesh.                                              
+ 
+finish                                                                          
+LaGriT successfully completed                                                   

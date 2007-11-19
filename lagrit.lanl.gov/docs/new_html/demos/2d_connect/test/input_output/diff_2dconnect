@@ -1,0 +1,19 @@
+*** compare_2dconnect	Thu Sep  7 15:58:00 2000
+--- ../../reference/reference_2dconnect	Thu Sep  7 15:43:13 2000
+***************
+*** 207,213 ****
+  element volumes b/w  0.1030E+03 and  0.6808E+04:      2657                      
+  element volumes <=  epsilonvol:         2                                       
+  element volumes <   epsilonvol:         2                                       
+! min volume =   1.7340564E-06  max volume =   6.8076025E+03                      
+  -----------------------------------------------------------                     
+       14315 total elements evaluated.                                            
+   
+--- 207,213 ----
+  element volumes b/w  0.1030E+03 and  0.6808E+04:      2657                      
+  element volumes <=  epsilonvol:         2                                       
+  element volumes <   epsilonvol:         2                                       
+! min volume =   1.7340561E-06  max volume =   6.8076025E+03                      
+  -----------------------------------------------------------                     
+       14315 total elements evaluated.                                            
+   

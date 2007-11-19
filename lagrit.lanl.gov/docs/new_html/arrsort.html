@@ -1,0 +1,228 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]">
+   <title>6</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<b><font face="Times New Roman,Times"><font size=+1>&nbsp; Array sorting</font></font></b>
+<blockquote><font face="Times New Roman,Times">The following utility routines
+sort arrays.</font>
+<dir><b><font face="Times New Roman,Times">&nbsp;hpsort1(n,ra,ascend,iprm)</font></b>
+<table COLS=2 WIDTH="60%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="5%" NOSAVE><font face="Times New Roman,Times">n</font></td>
+
+<td><font face="Times New Roman,Times">number of elements to be sorted</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ra&nbsp;</font></td>
+
+<td><font face="Times New Roman,Times">a real array</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE><font face="Times New Roman,Times">ascend&nbsp;</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">real which controls direction
+of sort</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE><font face="Times New Roman,Times">iprm&nbsp;</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">integer arry to be reordered</font></td>
+</tr>
+</table>
+
+<p><b><font face="Times New Roman,Times">hpsorti(<u>n</u>,ia)</font></b>
+<table COLS=2 WIDTH="60%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="10%" NOSAVE><font face="Times New Roman,Times">n&nbsp;</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">number of elements to be
+sorted</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ia</font></td>
+
+<td><font face="Times New Roman,Times">integer array to be sorted</font></td>
+</tr>
+</table>
+
+<p><b><font face="Times New Roman,Times">hpsortim(n,m,md,itemp,ia)</font></b>
+<table COLS=2 WIDTH="60%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="5%" NOSAVE><font face="Times New Roman,Times">n</font></td>
+
+<td><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp; no. of columns
+to sort into ascending order</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">m</font></td>
+
+<td><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp; maximum number
+of keys (rows) to consult for comparisons</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">md&nbsp;</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp; column
+length of array IA (M&lt;=MD)</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE><font face="Times New Roman,Times">itemp</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp; temp array
+of length MD.</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ia</font></td>
+
+<td><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp; integer array
+of MD-tuples to be reordered</font></td>
+</tr>
+</table>
+
+<p><b><font face="Times New Roman,Times">&nbsp;hpsortimp(n,m,md,ia,ascend,iprm)</font></b>
+<table COLS=2 WIDTH="60%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="5%" NOSAVE><font face="Times New Roman,Times">n</font></td>
+
+<td><font face="Times New Roman,Times">no. of elements to be sorted</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">m</font></td>
+
+<td><font face="Times New Roman,Times">we interpret array IA as M-tuples</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">md</font></td>
+
+<td><font face="Times New Roman,Times">actual first dimension of arry IA</font></td>
+</tr>
+
+<tr NOSAVE>
+<td><font face="Times New Roman,Times">ia</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">integer array of values which
+determine how IPRM will be reordered</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ascend</font></td>
+
+<td><font face="Times New Roman,Times">real*8 which controls direction
+of sort.</font></td>
+</tr>
+
+<tr NOSAVE>
+<td NOSAVE><font face="Times New Roman,Times">iprm</font></td>
+
+<td NOSAVE><font face="Times New Roman,Times">integer array to be reordered</font></td>
+</tr>
+</table>
+(this routine available but not distributed - contact site manager)
+<br>&nbsp;
+<p><b><font face="Times New Roman,Times">hpsort(n,ra)</font></b>
+<table COLS=2 WIDTH="60%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="5%" NOSAVE><font face="Times New Roman,Times">n</font></td>
+
+<td><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+no. of elements to be sorted</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ra</font></td>
+
+<td><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+real*8 array to be sorted</font></td>
+</tr>
+</table>
+
+<p><b><font face="Times New Roman,Times">hpsortrmp(n,m,md,a,ascend,iprm)</font></b>
+<table COLS=2 WIDTH="60%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="5%" NOSAVE><font face="Times New Roman,Times">n</font></td>
+
+<td><font face="Times New Roman,Times">no. of elements to be sorted</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">m</font></td>
+
+<td><font face="Times New Roman,Times">array A is treated a M-tuples</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">md</font></td>
+
+<td><font face="Times New Roman,Times">actual first dimension of A</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">a</font></td>
+
+<td><font face="Times New Roman,Times">real*8 array to be used in ordering&nbsp;
+IPRM</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ascend</font></td>
+
+<td><font face="Times New Roman,Times">real*8 to control ascending descending
+sort order (1=ascend,0=descend)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">iprm</font></td>
+
+<td><font face="Times New Roman,Times">integer array that will be reordered</font></td>
+</tr>
+</table>
+
+<p><b><font face="Times New Roman,Times">hpsortip(n,ia,ascent,iprm)</font></b>
+<table COLS=2 WIDTH="60%" NOSAVE >
+<tr NOSAVE>
+<td WIDTH="5%" NOSAVE><font face="Times New Roman,Times">n</font></td>
+
+<td><font face="Times New Roman,Times">number to sort</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ia</font></td>
+
+<td><font face="Times New Roman,Times">integer array that determines ho
+IPRM will be sorted</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">ascend</font></td>
+
+<td><font face="Times New Roman,Times">real*8 that controls if sort order
+is ascending or descending (1=ascend)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times">iprm</font></td>
+
+<td><font face="Times New Roman,Times">sorted array of integers&nbsp;</font></td>
+</tr>
+</table>
+</dir>
+</blockquote>
+
+<br>&nbsp;
+</body>
+</html>

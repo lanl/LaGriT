@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>LaGriT Features  </title>
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+
+<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
+
+<meta name="keywords" content=" "/>
+
+<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
+<link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
+
+</head>
+<body class="home">
+
+<!-- OPEN include for banner area -->
+<!--#include virtual="/source/includes/xbanner.inc" -->
+<!-- CLOSE include for banner area -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/identifier.inc -->
+<!--#include virtual="includes/identifier.inc" -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc -->
+<!--#include virtual="includes/toolbar.inc" -->
+
+<div id="content-org">
+  <table id="mid-section1" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="236"  valign="top" class="col1">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/nav1.inc -->
+
+<!--#include virtual="includes/nav1.inc" -->
+<!--#include virtual="includes/groups.inc" -->
+<!--#include virtual="includes/contacts.inc" -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/contacts.inc -->
+        <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+     
+   <td width="924" valign="top" class="col2-420">
+ <a name="content"></a>
+<!-- OPTIONAL: OPEN include for content area -->
+
+  
+        <h1>3D Grid Generation LaGriT</h1>
+        <h1> Los Alamos Grid Toolbox
+&nbsp;</h1>
+        <p>&nbsp;</p>
+        <table width="498" border="0">
+          <tr>          </tr>
+          <tr>
+            <td width="263"><p>Geometry&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Multiple Materials&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Arbitrary Moving Interfaces/ Fronts&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Arbitrary Point Distribution&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Unstructured/tet/hex/hybrid&nbsp;</p>
+            <p>&nbsp;</p></td>
+            <td width="225"><p><a href="images/trench4-0.jpg"><img src="images/trench4-0.jpg" width="225" height="175" border="0" /></a></p>
+            <p>&nbsp;</p></td>
+          </tr>
+          <tr>
+            <td><p>Adaption&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Refinement/De-refinement&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Smoothing/geometric/ field/function&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Reconnection/Delaunay/geometric&nbsp;</p>
+            <p>&nbsp; </p></td>
+            <td><p><a href="images/trench4-4.jpg"><img src="images/trench4-4.jpg" width="225" height="175" border="0" /></a></p>
+            <p>&nbsp;</p></td>
+			
+          </tr>
+          <tr>
+            <td><p>Interface&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Toolbox Architecture&nbsp; <br />
+&nbsp;&nbsp;&nbsp; User Commands&nbsp; <br />
+&nbsp;&nbsp;&nbsp; User extensible grid Data Structures&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Dynamic or Static Application&nbsp;</p>
+            <p>&nbsp;</p></td>
+            <td><p><a href="images/trench4-8.jpg"><img src="images/trench4-8.jpg" width="225" height="175" border="0" /></a></p>
+            <p>&nbsp;</p></td>
+          </tr>
+          <tr>
+            <td><p>Applications&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Science Based Stockpile Stewardship&nbsp; <br />
+&nbsp;&nbsp;&nbsp; 3D Grain Growth&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Material Deposition/Etch&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Oxidation&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Diffusion&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Electrostatics&nbsp; <br />
+&nbsp;&nbsp;&nbsp; Geologic Flow and Transport&nbsp; </p></td>
+            <td align="center" valign="middle"><div align="center">
+              <p><strong>Material Deposition</strong></p>
+            </div></td>
+          </tr>
+        </table>        
+        <p>&nbsp;</p>
+        <table width="500" border="0">
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+          <tr>            </tr>
+        </table>
+        <table width="500" border="0" cellspacing="5">
+          <tr>
+            <td width="262"><a href="images/LaGriT_bright.jpg"><img src="images/LaGriT_bright.jpg" width="220" height="220" border="0" /></a></td>
+            <td width="228"><a href="images/boron2.jpg"><img src="images/boron2.jpg" width="220" height="220" border="0" /></a></td>
+          </tr>
+          <tr>
+            <td><div align="center">
+              <p><strong>Geologic Stratigraphy (Fluid Flow)</strong></p>
+            </div></td>
+            <td><div align="center">
+              <p><strong>Semiconductor Doping Profile</strong></p>
+            </div></td>
+          </tr>
+        </table>        <p>&nbsp;</p>
+        <p align="left"><img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/xtransparent.gif" /> </p>
+      <p align="left"><a href="index.shtml">Return to LaGriT Home Page</a></p></td>
+      <td width="161" valign="top" class="col3-180">
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/related_links.inc -->
+<!--#include virtual="includes/related_links.inc" -->
+
+      <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+    </tr>
+  </table>
+</div>
+
+<!-- OPEN include for footer area -->
+<!--#include virtual="/source/includes/xfooter.inc" -->
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc -->
+
+<!--#include virtual="../includes/email.inc" -->
+
+<!-- CLOSE include for footer area -->
+</body>
+</html>

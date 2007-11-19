@@ -1,0 +1,75 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <title>RZBRICK</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times New Roman,Times">CREATEPTS/BRICK</font></u></b></blockquote>
+
+<dir>
+<dir><font face="Times New Roman,Times">Builds a set nodes (logically rectangular) and create finite element hexahedral connectivity. This command is similar to the
+rz command format except here we have symmetry flags to input. A second
+format specifies that a mesh be created and connected.</font>
+<br>
+<font face="Times New Roman,Times"><b>xyz </b>specifies Cartesian coordinates.</font>
+<br><font face="Times New Roman,Times"><b>rtz </b>specifies cylindrical
+coordinates.</font>
+<br><font face="Times New Roman,Times"><b>rtp </b>specifies spherical coordinates.</font>
+<br><font face="Courier">ni,nj,nk</font><font face="Times New Roman,Times">
+number of points to be created in each direction.</font>
+<br><font face="Times New Roman,Times">xmin,ymin,zmin minimums for coordinates.</font>
+<br><font face="Courier">xmax,ymax,zmax </font><font face="Times">maximums
+for coordinates.</font>
+<br><font face="Courier">iiz,ijz,ikz&nbsp; </font><font face="Times">if
+=0 then mins and maxs are used as cell centers</font>
+<dir>
+<dir>
+<dir><font face="Times">if =1 then mins and maxs are used as cell vertices</font></dir></dir></dir>
+<font face="Courier">iirat,ijrat,ikrat </font><font face="Times">ratio
+zoning switches (0=off,1=on)</font>
+<br><font face="Courier">xrz,yrz,zrz </font><font face="Times">ratio zoning
+value - distance is multiplied by the value for each subsequent point.</font>
+<br><font face="Courier">name </font><font face="Times">name of pset containing
+starting point number</font>
+<br>
+<font face="Courier">isym,jsym,ksym </font><font face="Times">symmetry
+flags - not documented</font></dir>
+<font face="Times">FORMAT:</font>
+<dir><font face="Times"><b>createpts/brick</b>/<b>xyz</b>|<b>rtz</b>|<b>rtp</b>/</font><font face="Courier">ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/</font>
+<br>
+<font face="Courier">iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/isym,jsym,ksym]</font>
+<br><font face="Courier">or</font>
+<br><b><font face="Times New Roman,Times">createpts/brick/xyz|rtz|rtp</font>/</b><font face="Courier">ni,nj,nk/</font><font face="Times New Roman,Times"><b>pset,get,</b>name/<b>connect/</b></font>
+<br>
+<font face="Times New Roman,Times">Use this option (for example, with<b> quadxyz)
+</b>to
+create finite element hexahedral connectivity on a logically rectangular set of nodes created via another method..</font></dir>
+
+<p><br>EXAMPLES:
+  <br>	
+  <font face="Times New Roman,Times"><b>createpts/brick/xyz</b>/3,2,3/0.,0.,0./1.,1.,1./1,1,1</font>
+  <br>
+  <font face="Times New Roman,Times"> creates a set of hex points (3x2x3 nodes) and elements (2x1x2 cells) in the unit cube</font>. The <strong>connect</strong> option should not be used in this case because the connectivity is created.</p>
+<p><font face="Times New Roman,Times">Create a 3D set of nodes using <strong>quadxyz</strong> and then create hex connectivity with the <strong>createpts</strong> command:</font><br>
+  cmo/create/cmohex / / / hex<br>
+  <b>quadxyz</b>/5,7,5/0.,0.,0./1.,0.,0./1.5,0.5,2.0/.5,.2,2.5/</font>
+  <br>
+  <font face="Times New Roman,Times">
+  -1.,1.5,0./2.0,0.,0.0/2.1,1.9,2.4/-0.2,1.8,2.3/</font><br>
+  <font face="Times New Roman,Times"><b>
+  createpts/brick/xyz</b>/5,7,5/1,0,0/connect</font><br>
+  <font face="Times New Roman,Times"></font>&nbsp;</p>
+<p>Create a 2D set of nodes using quadxy and then create quad connectivity with the creatpts command: <br> 
+  cmo/create/cmoquad/ / / quad<br>
+  quadxy/ 11, 11 / 0. 0. 0. / 1. 0. 0. / 1. 1. 0. / 0. 1. 0. <br>
+  <strong>createpts</strong>/brick/xyz/11,11,1/1 0 0 / connect </p>
+
+
+</dir>
+
+</body>
+</html>

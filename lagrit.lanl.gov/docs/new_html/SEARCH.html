@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 98">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>SEARCH</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+ 
+<BLOCKQUOTE>
+ 
+<P><B><U><FONT FACE="Times">SEARCH</FONT></U></B></BLOCKQUOTE>
+ 
+<DIR>
+<DIR>The preferred command is search/delaunay. This option assures the
+resulting grid meets the insphere delaunay criterion. The algorithm may
+refuse to insert points if the points will result in near-zero volume elements.
+The near-zero test is based on the geometry. If you notice problems with
+search refusing to add all points, issue the setsize command before setpts.
+This will adjust the volume epsilon to the geometry. The user may also
+adjust both epsilonl and epsilonv with the assign command; this is recommended
+for expert users only.
+<BR>This other form of the command is:
+<BR><FONT FACE="Courier">isrchopt</FONT><FONT FACE="Times"> -</FONT>
+<BR><FONT FACE="Times">0 => Set up the mesh for specified points. If points
+are not specified, set up the mesh for the entire problem. Also, remove
+the enclosing tetrahedron after generating the mesh.</FONT>
+<BR><FONT FACE="Times">1 => Same as 0 except do not remove tetrahedra associated
+with the enclosing tetrahedron.</FONT>
+<BR><FONT FACE="Times">2 => Add specified points to the existing mesh and
+remove tetrahedra associated with the enclosing tetrahedron.</FONT>
+<BR><FONT FACE="Times">3 => Add specified points to the existing mesh and
+do not remove tetrahedra associated with the enclosing tetrahedron.</FONT>
+<BR><FONT FACE="Times">4 => Just remove tetrahedra associated with the
+enclosing tetrahedron.</FONT></DIR>
+ 
+ 
+<P><FONT FACE="Times">FORMAT:</FONT>
+<DIR><FONT FACE="Times"><B>search </B>/<B>delaunay</B></FONT>
+<BR><FONT FACE="Times"><B>search</B>/isrchopt/ifirst,ilast,istride/</FONT></DIR>
+</DIR>
+ 
+</BODY>
+</HTML>

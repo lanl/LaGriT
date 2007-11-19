@@ -1,0 +1,19 @@
+echo 'xlagrit_sunO<lagrit_input_createbrick>output_createbrick.log'
+/scratch/beale1/drch/lagrit/bin/xlagrit_sunO<lagrit_input_createbrick>output_createbrick.log
+echo 'xlagrit_sunO<lagrit_input_createbrick2>output_createbrick2.log'
+/scratch/beale1/drch/lagrit/bin/xlagrit_sunO<lagrit_input_createbrick2>output_createbrick2.log
+echo 'xlagrit_sunO<lagrit_input_createrandom>output_createrandom.log'
+/scratch/beale1/drch/lagrit/bin/xlagrit_sunO<lagrit_input_createrandom>output_createrandom.log
+echo 'xlagrit_sunO<lagrit_input_creatertp>output_creatertp.log'
+/scratch/beale1/drch/lagrit/bin/xlagrit_sunO<lagrit_input_creatertp>output_creatertp.log
+echo 'xlagrit_sunO<lagrit_input_creatertz>output_creatertz.log'
+/scratch/beale1/drch/lagrit/bin/xlagrit_sunO<lagrit_input_creatertz>output_creatertz.log
+echo 'xlagrit_sunO<lagrit_input_createsphere>output_createsphere.log'
+/scratch/beale1/drch/lagrit/bin/xlagrit_sunO<lagrit_input_createsphere>output_createsphere.log
+echo 'xlagrit_sunO<lagrit_input_createsphere2>output_createsphere2.log'
+/scratch/beale1/drch/lagrit/bin/xlagrit_sunO<lagrit_input_createsphere2>output_createsphere2.log
+echo 'xlagrit_sunO<lagrit_input_createsphere3>output_createsphere3.log'
+/scratch/beale1/drch/lagrit/bin/xlagrit_sunO<lagrit_input_createsphere3>output_createsphere3.log
+echo 'xlagrit_sunO<lagrit_input_createxyz>output_createxyz.log'
+/scratch/beale1/drch/lagrit/bin/xlagrit_sunO<lagrit_input_createxyz>output_createxyz.log
+echo 'test createpts finished'

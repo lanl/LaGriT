@@ -1,0 +1,43 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><font face="Times New Roman,Times">3. <u>Define interior
+interfaces</u></font></b></blockquote>
+ 
+<dir>
+<dir><font face="Times New Roman,Times">Interfaces are defined with the
+<b><a href="SURFACE.html">surface</a></b>
+command. In this case the boundary type is <b>intrface</b>. If the command
+defines a volume (e.g. box, cylinder) then the interface is the surface
+of the volume defined. If the command defines a plane or sheet then the
+interface is the plane or sheet. It is important to remember that planes
+are infinite and that the order of points specifying the plane determines
+a normal to the plane in the usual right-hand-rule sense
+ (<a href="conventions.html">see
+Section II.a.9</a>). This direction is important in determining regions.
+In order to divide the unit cube defined above in half vertically, define
+a plane by:</font>
+<p><font face="Times New Roman,Times"><b>surface</b>/cutplane/<b>intrface</b>/<b>plane</b>/0.,0.,.5/1.,0.,.5/1.,1.,.5/</font>
+<p><font face="Times New Roman,Times">The normal to this plane points in
+the positive z direction.</font>
+<p><img SRC="Image222.gif" height=249 width=326>
+<p><font face="Times New Roman,Times">Interfaces must not be coincident
+with reflective boundaries. For example to embed a rectangle inside a cube,
+it is necessary to extend the ends of the rectangle beyond the cube to
+avoid coincident reflective and interface surfaces:</font>
+<p><font face="Times New Roman,Times"><b>surface</b>/cube/<b>reflect</b>/<b>box</b>/0.0,0.0,0.0/1.0,1.0,1.0/</font>
+<p><font face="Times New Roman,Times"><b>surface</b>/rect
+<b>/intrface/box</b>/-0.1,0.5,0.2/1.1,0.6,0.5/</font>
+<p><img SRC="Image223.gif" height=272 width=273>
+<br>&nbsp;
+<br>&nbsp;</dir>
+</dir>
+ 
+</body>
+</html>

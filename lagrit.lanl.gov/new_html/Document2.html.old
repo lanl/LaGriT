@@ -1,0 +1,522 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 97">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>Document2-1</title>
+</head>
+<body text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+&nbsp;
+<div align=right><b><u><font face="Times New Roman,Times">LA-UR-95-3608</font></u></b></div>
+<b><font face="Times New Roman,Times">I.&nbsp; INTRODUCTION</font></b>
+<blockquote><font face="Times New Roman,Times">A. <a href="LaGriT.html">LaGriT</a></font>
+<br><font face="Times New Roman,Times">B.&nbsp; <a href="Tutoria1.html">Tutorial</a></font></blockquote>
+
+<h3>
+<font face="Times New Roman,Times"><font size=+0>II.&nbsp; LAGRIT COMMANDS</font></font></h3>
+
+<blockquote><font face="Times New Roman,Times">A. <a href="conventions.html">Conventions</a></font>
+<br><font face="Times New Roman,Times">B.&nbsp; Alphabetic listing of LaGriT
+commands</font></blockquote>
+
+<table BORDER COLS=3 WIDTH="100%" NOSAVE >
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="ADDMESH.html">ADDMESH</a></font>
+(join meshes)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="ASSIGN.html">ASSIGN</a></font>
+(set global variables)</font></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="BOUNDAR1.html">BOUNDARY</a></font>
+(set attributes on surfaces)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="BOUNDARY_C.html">BOUNDARY_COMPONENTS</a></font>
+(count bc's)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="bubble.html">BUBBLE</a></font>
+(extrude to 3d and extract bndry)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="calc_rdist.html">CALC_RDIST</a></font>
+(calculate radial dist.)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="CMO2.html">CMO</a></font>
+(modify mesh object)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="COLORMAP.html">COLORMAP</a></font>
+(build adjacency map)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="CONNECT1.html">CONNECT</a></font>
+(make tetrahedral mesh)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="COPYPTS.html">COPYPTS</a></font>
+(copy points)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="COORDSY.HTML">COORDSYS</a></font>
+(change coordinate system)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="createpts.html">CREATEPTS</a></font>
+(create points)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="create_graph.html">CREATE_GRAPH
+</a></font>(create adjacency graph)</font></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="DEFINE.html">DEFINE</a></font>
+(give a name to a number)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="DEREFINE.html">DEREFINE</a></font>
+(merge nodes away)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="DOPING1.html">DOPING</a></font>
+(set an attribute)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="DUMP2.html">DUMP</a></font>
+(write output files)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="DUMP_RECOLOR.html">DUMP_RECOLOR</a></font>
+(use adjacency map)</font></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="EDIT2.html">EDIT</a></font>
+(prints some mesh info)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="ELTSET2.html">ELTSET</a></font>
+(select, name a set of elements)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="EXTRACT1.html">EXTRACT</a></font>
+(extract a surface)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="extrude.html">EXTRUDE</a></font>
+(extrude a surface)</font></td>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="FIELD.html">FIELD</a></font>
+(manipulate a field attribute)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="FILTER.html">FILTER</a></font>
+(filter nodes)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="FINISH.html">FINISH</a></font>
+(end processing)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="GENIEE.html">GENIEE</a></font>
+(make element connectivity)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="geometry.html">GEOMETRY</a></font>
+(set the geometry name)</font></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="HELP.html">HELP</a></font>
+(print global variable)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="HEXTOTE.html">HEXTOTET</a></font>
+(convert element types)</font></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="INPUT.html">INFILE</a></font>
+(read input from a file)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="INPUT.html">INPUT</a></font>
+(read input from a file)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="intersectelements.html">INTERSECT_ELEMENTS</a></font>
+( ..2 meshes)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="INTERSECT.html">INTERSECT</a></font>
+(..2 2d meshes to get line)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="main_interpolate.html">INTERPOLATE</a></font>
+(.. attribute values</font></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="kdtree.html">KDTREE</a></font>
+(represent mesh as kd-tree)</font></td>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="LOG.html">LOG</a></font>
+(turn log file off and on)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="loop.html">LOOP</a></font>
+(execute command many times)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="lower_d.html">LOWER_D</a></font>
+(create lower dimen. structs.)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="MASSAGE.html">MASSAGE</a></font>
+(optimize the grid)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="MATH.html">MATH</a></font>
+(do math on attributes)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="MERGE.html">MERGE</a></font>
+(remove nodes)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="metis.html">METIS</a></font>
+(create partition)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="MODE.html">MODE</a></font>
+(set modes)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="MREGION.html">MREGION</a></font>
+(define a material region)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="NEGATIVE.html">NEGATIVE_AIJ</a></font>
+(test bndry for neg. coef.)</font></td>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="OFFSETSURF.html">OFFSETSURF</a></font>
+(..triangulated surface)</font></td>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="PSTATUS.html">PSTATUS</a></font>
+(operate on point set)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="PERTURB.html">PERTURB</a></font>
+(perturb node locations)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="PSET.html">PSET</a></font>
+(define, name sets of nodes)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="QUADXY.html">QUADXY</a></font>
+(define a logical xy node set)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="QUADXYZ1.HTML">QUADXYZ</a></font>
+(define a logical xyz node set)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="QUALITY.html">QUALITY</a></font>
+(evaluate mesh quality)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="RADAPT.html">RADAPT</a></font>
+(adaptive smoothing)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="READ.html">READ</a></font>
+(read data)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="RECON.html">RECON</a></font>
+(swap edges/faces)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="REFINE.html">REFINE</a></font>
+(refine elements, edges)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="REGION.html">REGION</a></font>
+(define a geometric region)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="REGNPTS.html">REGNPTS</a></font>
+(distributes nodes in region)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="REORDER.html">REORDER</a></font>
+(reorder nodes in a mesh)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="RESETPT.html">RESETPTS</a></font>
+(reset node values)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="RM.html">RM</a></font>
+(remove nodes in area)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="RMMAT.html">RMMAT</a></font>
+(remove a material)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="RMPOINT.html">RMPOINT</a></font>
+(remove nodes/elements)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="RMREGION.html">RMREGION</a></font>
+(remove a geometric region)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="RMSPHERE.html">RMSPHERE</a></font>
+(remove nodes in a sphere)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="RMSURF.html">RMSURF</a></font>
+(remove nodes in /on a surface</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="ROTATELN.html">ROTATELN</a></font>
+(rotate nodes about a line)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="ROTATEPT.html">ROTATEPT</a></font>&nbsp;
+(rotate nodes about a point)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="RZ.html">RZ</a></font>
+(see createpts)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="RZAMR.html">RZAMR</a></font>
+(see createpts)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="RZBRICK.html">RZBRICK</a></font>
+(see createpts)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="RZRAN.html">RZRAN</a></font>
+(see createpts)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="RZS.html">RZS</a></font>
+(see createpts)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="RZV_LG.html">RZV</a></font>
+(see createpts)</font></td>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="SCALE.html">SCALE</a></font>
+(scale node coordinates)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="SETPTS.html">SETPTS</a></font>
+(set node type and material)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="SETSIZE.html">SETSIZE</a></font>
+(calc size of space)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="SETTETS.html">SETTETS</a></font>
+(make child nodes, etc)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="SMOOTH.html">SMOOTH</a></font>
+(node smoothing)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="SORT.html">SORT</a></font>
+(sort an attribute)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="STACK.html">STACK</a></font>
+(read,merge surfaces)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="SURFACE.html">SURFACE</a></font>
+(define a geometric surface)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="SURFPTS.html">SURFPTS</a></font>
+(make nodes on a surface)</font></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="TRANS.html">TRANS</a></font>
+(translate node coordinates)</font></td>
+
+<td><font face="Times New Roman,Times"><font size=-1><a href="TRIAGN.html">TRIANGULATE</a></font>
+(make triangles)</font></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="UNG2AVS.html">UNG2AVS</a></font>
+(UNGenerate to AVS)</font></td>
+
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><font face="Times New Roman,Times"><font size=-1><a href="ZQ.html">ZQ</a></font>
+(see <a href="cmo_setatt.html">cmo/setatt</a>)</font></td>
+
+<td></td>
+
+<td></td>
+</tr>
+</table>
+
+<br>&nbsp;
+<h3>
+<font face="Times New Roman,Times"><font size=+0>III. MESH OBJECTS</font></font></h3>
+
+<blockquote><font face="Times New Roman,Times">A. <a href="meshobject.html">Mesh
+Object Definition</a></font>
+<br><font face="Times New Roman,Times">B.<a href="commandi.html"> Command
+Interface</a></font>
+<br><font face="Times New Roman,Times">C. <a href="fortran.html">Fortran
+Interface</a></font>
+<br><font face="Times New Roman,Times">D. <a href="meshobjcon.html">Mesh
+Object Connectivity</a></font>
+<br><font face="Times New Roman,Times">E. <a href="geometries.html">Geometries</a></font></blockquote>
+
+<h3>
+<font face="Times New Roman,Times"><font size=+0>IV.&nbsp; INTERFACING
+USER ROUTINES TO LAGRIT</font></font></h3>
+
+<blockquote><font face="Times New Roman,Times">&nbsp;A. <a href="build.html">Building
+an Executable and Running LaGriT</a></font>
+<br><font face="Times New Roman,Times">&nbsp;B. <a href="issuing.html">Issuing
+Commands from a User Program</a></font>
+<br><font face="Times New Roman,Times">&nbsp;C. <a href="writing.html">Writing
+User Commands</a></font>
+<br><font face="Times New Roman,Times">&nbsp;D. <a href="accessing.html">Accessing
+the Mesh Object</a></font>
+<br><font face="Times New Roman,Times">&nbsp;E.&nbsp; Utility Subroutines</font></blockquote>
+
+<dir>
+<blockquote><font face="Times New Roman,Times">1. <a href="memmang.html">Memory
+Manager </a>(mmgetblk,mmrelblk,mmrelprt,mmincblk,</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp; mmfindbk,mmgettyp,mmgetlen,mmgetnam,mmprint,mmverify,mmggetbk)</font>
+<br><font face="Times New Roman,Times">2. <a href="meshob.html">Mesh Objects</a>
+(cmo_create, cmo_get_info, cmo_set_info, cmo_get_name,</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmo_set_name,
+cmo_get_attribute_name, cmo_newlen, cmo_get_intinfo,</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmo_release,
+cmo_get_attinfo, cmo_get_length, cmo_set_attinfo,</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmo_get_attparam)</font>
+<br><font face="Times New Roman,Times">3. <a href="pointsel.html">Point
+Selection</a> (getptyp, unpackpc, unpacktp)</font>
+<br><font face="Times New Roman,Times">4. <a href="charlen.html">Character
+Length</a>&nbsp; (icharln, icharlnf, icharlnb, nulltoblank_lg)</font>
+<br><font face="Times New Roman,Times">5. <a href="retpts.html">Retrieving
+Point Sets and Element Sets&nbsp;</a> (eltlimc, pntlimc, pntlimn)</font>
+<br><font face="Times New Roman,Times">6. <a href="arrcomp.html">Array
+Compression</a> (kmprsm, kmprsn, kmprsnr, kmprsnrrr, kmprsp, kmprspr, kmprsz,
+kmprszr)</font>
+<br><font face="Times New Roman,Times"><font size=+0>7. <a href="arrsort.html">Array
+Sorting</a></font> (hpsort, hpsort1, hpsorti, hpsortim, hpsortimp, hpsortip,
+hpsortrmp)</font>
+<br><font face="Times New Roman,Times">8. <a href="miscell.html">Miscellaneous</a>
+(setsize,set_user_bounds,inside,volume_element, user_interpolate)</font>
+<br><font face="Times New Roman,Times">9.<a href="geom.html">Geometry Information
+</a>(geom_lg.h,
+get_material_number)</font></blockquote>
+</dir>
+
+<h3>
+<font face="Times New Roman,Times"><font size=+0>V.&nbsp; ERRORS</font></font></h3>
+
+<dir><font face="Times New Roman,Times">A. <a href="errors.html#parse">Errors
+in parsing or executing commands</a>.</font>
+<br><font face="Times New Roman,Times">B.&nbsp; <a href="errors.html#memory">Out
+of memory errors.</a></font>
+<br><font face="Times New Roman,Times">C.&nbsp; <a href="errors.html#panic">Fatal
+memory management errors</a> (PANIC!)</font>
+<blockquote>&nbsp;</blockquote>
+
+<dir>
+<h3>
+<font face="Times New Roman,Times"><font size=+0><a href="References.html">LAGRIT
+REFERENCES:</a></font></font></h3>
+
+<blockquote><b><font face="Times New Roman,Times">LaGriT User's Manual</font></b></blockquote>
+<form ACTION="search.cgi" METHOD="POST"></dir>
+</dir>
+
+<center><table BORDER BORDERCOLOR="#ffffff" >
+<tr>
+<td VALIGN=CENTER>
+<center><b><font face="Times New Roman,Times">Text to Search For:&nbsp;</font></b></center>
+</td>
+
+<td VALIGN=CENTER>
+<center><input TYPE="text" NAME="terms"></center>
+</td>
+</tr>
+
+<tr>
+<td VALIGN=CENTER>
+<center><font face="Times New Roman,Times"><b>Boolean:&nbsp;<select NAME="boolean"><option></b>AND<option>OR</font></select></center>
+</td>
+
+<td VALIGN=CENTER>
+<center><font face="Times New Roman,Times"><b>Case&nbsp;<select NAME="case"><option></b>Insensitive<option>Sensitive</font></select></center>
+</td>
+</tr>
+
+<tr>
+<td VALIGN=CENTER COLSPAN="2">
+<center><input TYPE="submit"  VALUE="Search!" ><input TYPE="reset"></center>
+</td>
+</tr>
+</table></center>
+
+<p>
+<hr>
+<dir>
+<blockquote>&nbsp;</blockquote>
+
+<blockquote><font face="Times New Roman,Times"><a href="http://www.t12.lanl.gov/home/lagrit/index.html">Return
+to LaGriT Home Page</a></font></blockquote>
+</dir>
+
+<hr>
+<dir>
+<blockquote><b><i><font face="Times New Roman,Times">These pages are maintained
+by Denise George at <a href="mailto:dgeorge@lanl.gov">dgeorge@lanl.gov</a></font></i></b></blockquote>
+</form></dir>
+
+</body>
+</html>

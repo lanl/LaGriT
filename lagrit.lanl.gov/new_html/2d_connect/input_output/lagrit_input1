@@ -1,0 +1,9 @@
+cmo / create / cmotri / / / tri
+read / avs / input_avs.inp / cmotri
+cmo/setatt/cmotri/ndimensions_geom/1 0 0/2
+cmo/setatt/cmotri/imt/1 0 0/1
+setsize
+dump / gmv / output_2d_conn1a.gmv / cmotri
+connect
+dump / gmv / output_2d_conn1b.gmv / cmotri
+finish

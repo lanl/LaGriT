@@ -1,0 +1,188 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="Template" content="Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>1</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" vlink="#800080" alink="#0000FF">
+&nbsp;
+<br><font face="Times New Roman,Times"><font color="#FF0000">red = </font><font color="#000000">face
+number</font><font color="#FF0000"> </font></font><font color="#000000">(<font face="Times New Roman,Times">for
+3D figures, number of front face is printed below the figure)</font></font>
+<br><font face="Times New Roman,Times"><font color="#3333FF">blue = </font><font color="#000000">node
+number</font></font>
+<br><font face="Times New Roman,Times"><font color="#009900">green = </font><font color="#000000">edge
+number</font><font color="#009900"> </font><font color="#000000">(arrow
+gives edge direction)</font></font>
+<br><font face="Times New Roman,Times"><font color="#000000">The 3D face
+ordering is such that the right-hand-normals of all facets point outward.</font></font>
+<br>&nbsp;
+<br>&nbsp;
+<br>
+<br>
+<center>
+<p><b><font face="Times New Roman,Times"><font size=+1>Supported Element
+Types</font></font></b></center>
+
+<center><table BORDER WIDTH="496" NOSAVE >
+<tr>
+<td VALIGN=TOP WIDTH="15%">&nbsp;</td>
+
+<td VALIGN=TOP WIDTH="47%">&nbsp;</td>
+
+<td VALIGN=CENTER WIDTH="19%">Nodes for faces</td>
+
+<td VALIGN=TOP WIDTH="18%">Edges for face</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="15%">1.node (point)</td>
+
+<td VALIGN=TOP WIDTH="47%"><img SRC="../images/point.jpg" height=27 width=77></td>
+
+<td VALIGN=CENTER WIDTH="19%">&nbsp;0
+<p></td>
+
+<td VALIGN=TOP WIDTH="18%">&nbsp; 0</td>
+</tr>
+
+<tr NOSAVE>
+<td VALIGN=TOP WIDTH="15%">2. line</td>
+
+<td VALIGN=TOP WIDTH="47%"><img SRC="../images/line.jpg" height=48 width=123></td>
+
+<td VALIGN=CENTER WIDTH="19%" NOSAVE>1
+<p>2
+<br>&nbsp;</td>
+
+<td VALIGN=TOP WIDTH="18%">&nbsp;0</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="15%">3. triangle</td>
+
+<td VALIGN=TOP WIDTH="47%"><img SRC="../images/triangle.jpg" height=121 width=169></td>
+
+<td VALIGN=CENTER WIDTH="19%">2,3
+<p>3,1
+<p>1,2
+<br>&nbsp;
+<p></td>
+
+<td VALIGN=TOP WIDTH="18%">&nbsp;3
+<p>&nbsp;2
+<p>&nbsp;1
+<br>&nbsp;
+<br>&nbsp;
+<p></td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="15%">4. quad</td>
+
+<td VALIGN=TOP WIDTH="47%"><img SRC="../images/square.jpg" LOWSRC="square.gif" height=154 width=174></td>
+
+<td VALIGN=CENTER WIDTH="19%">1, 2
+<p>2, 3
+<p>3, 4
+<p>4 ,1
+<br>&nbsp;
+<p></td>
+
+<td VALIGN=TOP WIDTH="18%">&nbsp;1
+<p>&nbsp;3
+<p>&nbsp;4
+<p>&nbsp;2
+<p></td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="15%">5. tetrahedron</td>
+
+<td VALIGN=TOP WIDTH="47%"><img SRC="../images/tet1.jpg" LOWSRC="tet1.gif" height=139 width=176></td>
+
+<td VALIGN=CENTER WIDTH="19%">2 ,3, 4
+<p>1, 4, 3
+<p>1, 2, 4
+<p>1, 3, 2
+<p></td>
+
+<td VALIGN=TOP WIDTH="18%">6, 5, 4&nbsp;
+<p>6, 2, 3&nbsp;
+<p>5, 3, 1
+<p>4, 1, 2</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="15%">6. pyramid</td>
+
+<td VALIGN=TOP WIDTH="47%"><img SRC="../images/pyramid.jpg" height=143 width=211></td>
+
+<td VALIGN=CENTER WIDTH="19%">1, 4, 3, 2
+<p>1, 2, 5
+<p>2, 3, 5
+<p>3, 4, 5
+<p>4, 1, 5
+<br>&nbsp;
+<br>&nbsp;
+<p></td>
+
+<td VALIGN=TOP WIDTH="18%">2, 6, 4, 1
+<p>1, 5, 3&nbsp;
+<p>4, 7, 5
+<p>6, 8, 7
+<p>2, 3, 8
+<p></td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="15%">7. prism</td>
+
+<td VALIGN=TOP WIDTH="47%"><img SRC="../images/prism.jpg" height=208 width=217></td>
+
+<td VALIGN=CENTER WIDTH="19%">1, 3, 2
+<p>&nbsp;4, 5, 6
+<p>1, 2, 5, 4&nbsp;
+<p>2, 3, 6, 5
+<p>1, 4, 6, 3
+<br>&nbsp;
+<p></td>
+
+<td VALIGN=TOP WIDTH="18%">&nbsp;2,&nbsp; 4,&nbsp; 1
+<p>7, 9, 8
+<p>1, 5, 7, 3
+<p>4, 6, 9, 5
+<p>3, 8, 6, 2</td>
+</tr>
+
+<tr>
+<td VALIGN=TOP WIDTH="15%">8. hexahedron</td>
+
+<td VALIGN=TOP WIDTH="47%"><img src="../images/hex1.jpg" height=188 width=244></td>
+
+<td VALIGN=CENTER WIDTH="19%">&nbsp;1,&nbsp; 4,&nbsp; 3 , 2
+<p>5,&nbsp; 6,&nbsp; 7,&nbsp; 8
+<br>&nbsp;
+<p>1,&nbsp; 2,&nbsp; 6,&nbsp; 5
+<p>2, 3, 7, 6
+<br>&nbsp;
+<p>3,&nbsp; 4,&nbsp; 8,&nbsp; 7&nbsp;
+<br>&nbsp;
+<p>1,&nbsp; 5,&nbsp; 8,&nbsp; 4
+<br>&nbsp;</td>
+
+<td VALIGN=TOP WIDTH="18%">&nbsp;2,&nbsp; 6,&nbsp; 4,&nbsp; 1
+<p>9,&nbsp; 11,&nbsp; 12,&nbsp; 10
+<p>1,&nbsp; 5,&nbsp; 9,&nbsp; 3
+<p>4,&nbsp; 7,&nbsp; 11,&nbsp; 5
+<p>6,&nbsp; 8,&nbsp; 12,&nbsp; 7
+<p>3,&nbsp; 10,&nbsp; 8,&nbsp; 2</td>
+</tr>
+</table>
+</center>
+
+</body>
+</html>

@@ -1,0 +1,299 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="Microsoft Word 98">
+<TITLE>e</TITLE>
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080">
+
+<B><I><FONT FACE="Helvetica"><P>e.&#9;</FONT><FONT FACE="Times">&lt;a name="utility"&gt;</FONT><FONT FACE="Helvetica">Utility subroutine</I>s</FONT><FONT FACE="Times">&lt;/a&gt;</P><DIR>
+<DIR>
+
+</B><P>&#9;</P>
+<P>&#9;The following subroutines are available to code developers who wish to add modules to LaGriT.  In the subroutine definitions that follow, input arguments are underlined.</P>
+<P>&nbsp;</P></DIR>
+</DIR>
+
+<B><P><A NAME="_Toc390573689"><A NAME="_Toc390581279">&#9;<A NAME="_Toc397507000"><A NAME="_Toc397507148"><A NAME="_Toc397507274"><A NAME="_Toc397938318"><A NAME="_Toc397939393"><A NAME="_Toc398007639"><A NAME="_Toc398019758"><A NAME="_Toc400955178"><A NAME="_Toc407510829"><A NAME="_Toc410708785"><A NAME="_Toc410718427"><A NAME="_Toc414027197"><A NAME="_Toc414033545"><A NAME="_Toc414725326"><A NAME="_Toc420983757"><A NAME="_Toc420996189"><A NAME="_Toc434740434">1. &lt;a name="memory"&gt;Memory Manager</A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A>&lt;/a&gt;</A></A></P><DIR>
+<DIR>
+
+</B><P>&#9;LaGriT uses dynamic memory allocation.  Memory is referenced by a two part name, block name and partition name.  It is allocated in integer or real blocks.  Each memory block is preceeded by a header and terminated by a trailer.  The memory manager always returns the pointer to the data section of the memory block.  Length is specified in words.  Type indicates if the words are integer or real.  Different platforms will have different values for integer and real word lengths.  These machine dependent values are collected in the include file </FONT><FONT FACE="Courier">machine.h</FONT><FONT FACE="Times">.   </P></DIR>
+</DIR>
+
+<P>&#9;Allocate a block of memory:</P>
+<P>&#9;&#9;&#9;<B>mmgetblk</B>(<U>blkin</U>,<U>prtin</U>,iadr,<U>length</U>,<U>itype</U>,icscode)</P>
+<P>&#9;blkin&#9;block name of memory block</P>
+<P>&#9;prtin&#9;partition name of memory block</P>
+<P>&#9;iadr&#9;pointer to memory block (data section)</P>
+<P>&#9;length&#9;number of words to be allocated</P>
+<P>&#9;itype&#9;1 for integer, 2 for real</P>
+<P>&#9;icscode&#9;return code, 0 for no errors</P>
+<P>&#9;Release a block of memory:</P>
+<P>&#9;&#9;&#9;<B>mmrelblk</B>(<U>blkin</U>,<U>prtin</U>,iadr,icscode)</P>
+<P>&#9;&#9;iadr &#9;is not used</P><DIR>
+<DIR>
+<DIR>
+<DIR>
+
+<P>Release a partition of memory -- all blocks belonging to this partition will be released:</P></DIR>
+</DIR>
+</DIR>
+</DIR>
+
+<B><P>&#9;&#9;&#9;mmrelprt</B>(<U>prtin</U>,cscode)</P>
+<P>&#9;Increment a block of memory:</P>
+<B><P>&#9;&#9;&#9;mmincblk</B>(<U>blkin</U>,<U>prtin</U>,iadr,<U>increment</U>,icscode)</P>
+<P>&#9;&#9;increment &#9;number of words to increment memory block</P>
+<P>&#9;Find pointer to a block of memory:</P>
+<B><P>&#9;&#9;&#9;mmfindbk</B>(<U>blkin</U>,<U>prtin</U>,iadr,length,icscode)</P>
+<P>&#9;&#9;iadr &#9;pointer to memory block (data)</P>
+<P>&#9;length&#9;number of words allocated</P>
+<P>&#9;Return type of a block of memory:</P>
+<B><P>&#9;&#9;&#9;mmgettyp</B>(<U>ipin,</U>itypout,icscode)</P>
+<P>&#9;&#9;ipin &#9;pointer to memory block (data)</P>
+<P>&#9;itypout&#9;type of data 1 for integer, 2 for real</P>
+<P>&#9;&#9;&#9;Return number of words in a block of memory:</P>
+<B><P>&#9;&#9;&#9;mmgetlen</B>(<U>ipin,</U>lenout,icscode)</P>
+<P>&#9;lenout&#9;number of words in a memory block</P>
+<P>&#9;&#9;&#9;Return name of a block of memory:</P>
+<B><P>&#9;&#9;&#9;mmgetnam</B>(<U>ipin,</U>blkout,prtout,icscode)</P>
+<P>&#9;blkout&#9;block name</P>
+<P>&#9;prtout&#9;partition name</P><DIR>
+<DIR>
+<DIR>
+<DIR>
+
+<P>Print a dump of allocated memory.  This is useful for debugging purposes; the dump is listed in two parts, by time of allocation and by increasing pointer address:</P></DIR>
+</DIR>
+</DIR>
+</DIR>
+
+<B><P>&#9;&#9;&#9;mmprint</B>()</P><DIR>
+<DIR>
+<DIR>
+<DIR>
+
+<P>Verify memory integrity.  Print debug information if the memory block headers or trailers have been overwritten.</P></DIR>
+</DIR>
+</DIR>
+</DIR>
+
+<B><P>&#9;&#9;&#9;mmverify</B>()</P>
+<B><P>&nbsp;</P>
+<P><A NAME="_Toc390573690"><A NAME="_Toc390581280">&#9;<A NAME="_Toc397507001"><A NAME="_Toc397507149"><A NAME="_Toc397507275"><A NAME="_Toc397938319"><A NAME="_Toc397939394"><A NAME="_Toc398007640"><A NAME="_Toc398019759"><A NAME="_Toc400955179"><A NAME="_Toc407510830"><A NAME="_Toc410708786"><A NAME="_Toc410718428"><A NAME="_Toc414027198"><A NAME="_Toc414033546"><A NAME="_Toc414725327"><A NAME="_Toc420983758"><A NAME="_Toc420996190"><A NAME="_Toc434740435">2. &lt;a name="mesh"&gt;Mesh Object</A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A> &lt;/a&gt;</A></A></P>
+</B><P>&#9;&#9;&#9;<B>cmo_create</B>(<U>cmo-name</U>,ierror)</P>
+<P>Create a new mesh object called </FONT><FONT FACE="Courier">cmo_name</FONT><FONT FACE="Times"> </P>
+<P>cmo-name&#9;name of new mesh object </P>
+<P>ierror&#9;&#9;error return - 0 if no errors </P>
+<P>&#9;&#9;&#9;<B>cmo_get_info</B>(<U>ioption</U>,<U>cmo-name,</U>iout,lout,itype,ierror)</P>
+<P>Get values of scalar attribute of the mesh object.  Get pointers to vector attributes </P>
+<P>&#9;ioption&#9;name of mesh object attribute whose value is to be retrieved; the information retrieved may be one of these key words or it may be the name of a user supplied attribute (generated by a <B>cmo_addatt</B> command):</P>
+<P>&#9;&#9;</FONT><FONT FACE="Courier">number_of_attributes</P>
+<P>nnodes</FONT><FONT FACE="Times"> (number of nodes in the mesh)</P>
+</FONT><FONT FACE="Courier"><P>nelements </FONT><FONT FACE="Times">(number of elements in the mesh)</P>
+</FONT><FONT FACE="Courier"><P>nfaces</FONT><FONT FACE="Times"> (number of unique topological facets) </FONT><FONT FACE="Courier">nedges</FONT><FONT FACE="Times"> (number of unique edges in mesh) -- </FONT><FONT FACE="Courier">mbndry</FONT><FONT FACE="Times"> (boundary node flag value)</P>
+</FONT><FONT FACE="Courier"><P>ndimensions_topo</FONT><FONT FACE="Times"> (topological dimensionality)</P>
+</FONT><FONT FACE="Courier"><P>ndimensions_geom</FONT><FONT FACE="Times"> </FONT><FONT FACE="Courier">nodes_per_element</P>
+<P>edges_per_element</P>
+<P>faces_per_element</FONT><FONT FACE="Times"> </P>
+</FONT><FONT FACE="Courier"><P>isetwd</FONT><FONT FACE="Times"> ( pset membership information) </FONT><FONT FACE="Courier">ialias</FONT><FONT FACE="Times"> (alternate node numbers)</P>
+</FONT><FONT FACE="Courier"><P>imt1</FONT><FONT FACE="Times"> (node material)</P>
+</FONT><FONT FACE="Courier"><P>itp1</FONT><FONT FACE="Times"> (node type)&#9;</P>
+</FONT><FONT FACE="Courier"><P>icr1</FONT><FONT FACE="Times"> (constraint numbers for nodes)</P>
+</FONT><FONT FACE="Courier"><P>isn1</FONT><FONT FACE="Times"> (child, parent node correspondence)</P>
+</FONT><FONT FACE="Courier"><P>ign1</FONT><FONT FACE="Times"> (igeneration numbers for nodes)</P>
+</FONT><FONT FACE="Courier"><P>xic, yic, zic</FONT><FONT FACE="Times"> (node coordinates)</P>
+</FONT><FONT FACE="Courier"><P>itetclr</FONT><FONT FACE="Times"> (integer array of element material)</P>
+</FONT><FONT FACE="Courier"><P>itettyp</FONT><FONT FACE="Times"> (geometry of element)</P>
+</FONT><FONT FACE="Courier"><P>xtetwd</FONT><FONT FACE="Times"> (eltset membership information)</P>
+</FONT><FONT FACE="Courier"><P>itetoff</FONT><FONT FACE="Times"> (index into itet array for an element)</P>
+</FONT><FONT FACE="Courier"><P>jtetoff</FONT><FONT FACE="Times"> (index into jtet array for an element)</P>
+</FONT><FONT FACE="Courier"><P>itet</FONT><FONT FACE="Times"> (node vertices for each element)</P>
+</FONT><FONT FACE="Courier"><P>jtet</FONT><FONT FACE="Times"> (element connectivity)</P>
+<P>&#9;cmo-name&#9;name of mesh object to be retrieved</P>
+<P>&#9;iout&#9;value of attribute if the attribute is a scalar or a pointer to the attribute if the attribute is a vector</P>
+<P>&#9;lout&#9;=2 for mesh object array , 1 for mesh object scalar</P>
+<P>&#9;itype&#9;9999 for mesh object array,1 for mesh object scalar,  -1 for error</P>
+<P>&#9;ierror&#9;return flag ( 0 if no errors)</P>
+<P>&#9;&#9;&#9;<B>cmo_set_info</B>(<U>ioption</U>,<U>cmo-name,data</U>,<U>lin</U>,<U>itype</U>,ierror)</P>
+<P>&#9;Set values of scalar attribute of the mesh object.  Vector attributes are set by filling arrays pointed to by the vector attribute pointer</P>
+<P>&#9;ioption&#9;attribute name</P>
+<P>&#9;data&#9;value of the scalar attribute to be set</P>
+<P>&#9;lin&#9;length code of attribute (1)</P>
+<P>&#9;itype&#9;type of attribute (1) </P>
+<P>&#9;&#9;&#9;<B>cmo_get_name</B>(cmo-name,ierror)</P>
+<P>&#9;Get the name of the current mesh object.</P>
+<P>&#9;cmo-name&#9;name of current mesh object</P>
+<P>&#9;&#9;&#9;<B>cmo_set_name</B>(<U>cmo-name</U>,ierror)</P>
+<P>&#9;Set the name of the current mesh object.</P>
+<P>&#9;&#9;&#9;<B>cmo_get_attribute_name</B>(<U>cmo-name</U>,<U>attribute-index</U>,attribute-name,ierror)</P>
+<P>&#9;This routine is useful when looping through all the attributes of a mesh object.  To get the number of attributes use cmo_get_info('number_of_attributes',...</P>
+<P>&#9;attribute-index&#9;number of attribute  </P>
+<P>&#9;attribute-name&#9;name of retrieved attribute </P>
+<P>&#9;&#9;&#9;<B>cmo_newlen</B>(<U>cmo-name</U>,ierror)</P>
+<P>&#9;Adjust memory associated with mesh object.  Must be called whenever the size of the mesh is adjusted in order to provide memory to the pointered attributes.</P>
+<P>&#9;&#9;&#9;<B>cmo_release</B>(<U>cmo-name</U>,ierror)</P>
+<P>Release a mesh object called cmo-name and release its memory </P>
+<P>cmo-name&#9;name of mesh object </P>
+<P>ierror&#9;&#9;error return - 0 if no errors </P>
+<P>&#9;&#9;&#9;<B>get_info_c</B>(<U>attribute or parameter-name,cmo name</U>, '<U>storage_block_name'</U>&#9;&#9;&#9;&#9;&#9;<U>,'class-name'</U>, cdata,ierror)</P>
+<P>&#9;&#9;&#9;<B>get_info_i</B>(<U>attribute or parameter-name,cmo-name</U>,' <U>storage_block_name', </U>&#9;&#9;&#9;&#9;&#9;<U>'class-</U>&#9;<U>name'</U>,idata,ierror)</P>
+<P>&#9;&#9;&#9;<B>get_info_r</B>(<U>attribute or parameter-name,cmo-name</U>, '<U>storage_block_name',</U>&#9;&#9;&#9;&#9;&#9;<U>'class-</U>&#9;<U>name'</U>,rdata,ierror)</P>
+<P>Retrieve a mesh object parameter value: 'c' retrieve character data, 'i' integer data and 'r' real data. </P>
+<P>attribute or parameter-name&#9;name of mesh object parameter &#9;&#9;&#9;&#9;&#9;&#9;or attribute</P>
+<P>cmo-name&#9;&#9;&#9;&#9;name of mesh object  or &quot;default&quot;</P>
+<P>storage-block-name&#9;&#9;&#145;sbglobal&#146; for global parameters, &#9;&#9;&#9;&#9;&#9;&#9;&#145;sbcmoprm&#146; for mesh object &#9;&#9;&#9;&#9;&#9;&#9;attributes</P>
+<P>class_name&#9;&#9;&#9;&#9;&#145;default&#146; for global and mesh &#9;&#9;&#9;&#9;&#9;&#9;object parameter values - field &#9;&#9;&#9;&#9;&#9;&#9;name such as &#145;rank&#146;, &#145;type&#146;, for &#9;&#9;&#9;&#9;&#9;&#9;mesh object attributes&#9;</P>
+<P>&#9;&#9;&#9;&#9;&#9;&#145;sbcmoatt&#146; for </P>
+<P>cdata,idata,rdata&#9;&#9;&#9;value of parameter </P>
+<P>ierror&#9;&#9;&#9;&#9;&#9;error return - 0 if no errors </P>
+<P><A NAME="_Toc390573691"><A NAME="_Toc390581281"></P>
+<P>&#9;<A NAME="_Toc397507002"><A NAME="_Toc397507150"><A NAME="_Toc397507276"><A NAME="_Toc397938320"><A NAME="_Toc397939395"><A NAME="_Toc398007641"><A NAME="_Toc398019760"><A NAME="_Toc400955180"><A NAME="_Toc407510831"><A NAME="_Toc410708787"><A NAME="_Toc410718429"><A NAME="_Toc414027199"><A NAME="_Toc414033547">Examples:</P>
+<P>&#9;call <B>get_info_i</B>(&#145;ipoint&#146;,cmo,&#146;sbglobal&#146;, &#145;default&#146;, ipoint, ierror)</P>
+<P>&#9;retrieve the value of the global parameter ipointi and store it in the variable ipointi</P>
+<P>&#9;cal l <B>get_info_i(&#145;</B>xic&#146;, cmo, 'sbcmoatt&#146;,&#146;rank&#146;,crank,ierror)</P>
+<B><P>&#9;</B>Will retrieve the rank of the mesh object attribute xic and place it in crank. The default &#9;value of the rank of xic is &#145;scalar&#146; but might have been modified.</P>
+<B><P><A NAME="_Toc414725328"><A NAME="_Toc420983759"><A NAME="_Toc420996191"><A NAME="_Toc434740436">3. &lt;a name="point"&gt;Point Selection</A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A>&lt;/a&gt;</A></A></P>
+</B><P>&#9;&#9;&#9;<B>getptyp</B>(<U>point_type_name</U>,point_type,ierror)</P>
+<P>&#9;This routine converts point type names to point types. </P>
+<P>&#9; See II.a for a list of point types, names and meanings</P>
+<P> &#9;point_type_name&#9;name of point type </P>
+<P>&#9;point_type&#9;&#9;value of point type </P>
+<P>&#9;&#9;&#9;<B>unpackpc</B>(<U>npoints</U>,<U>itp</U>,<U>isn</U>,iparents)</P>
+<P>&#9;This routine returns in the array iparents the parent point corresponding to each child point i, if point i is a child point.  Ordinary points are their own parents.</P>
+<P>&#9;npoints&#9;number of nodes</P>
+<P>&#9;itp1&#9;array of point types </P>
+<P>&#9;isn1&#9;array of parent child links </P>
+<P>&#9;iparents&#9;array of parent node number for each point </P>
+<P>&#9;&#9;&#9;<B>unpacktp</B>(<U>ioptitp</U>,<U>iopt2</U>,<U>inum</U>,<U>ipitp1</U>,ipitp2,ierror)</P>
+<P>&#9;</P>
+<P>&#9;This routine sets, or's in, or and's in (depending on iopt2)  a 1 in the array pointed to by ipit2 for each point that fits the criterion specified by ioptitp.  A zero is set, or'd or and'd otherwise. </P>
+<P>&#9;ioptitp&#9;criterion</P>
+<P>&#9;&#9;<B>allreal&#9;</B>(0¾itp1(i)¾19)</P>
+<P>&#9;&#9;<B>interior&#9;</B>(itp1(i)=0)</P>
+<P>&#9;&#9;<B>inteintf</B>&#9;(itp1(i)=2,3,4)</P>
+<P>&#9;&#9;<B>matlintr</B>&#9; (itp1(i)=2,4,8,9,12,13,15,19)</P>
+<P>&#9;&#9;<B>boundary&#9;</B>(8¾itp1(i)¾19)</P>
+<P>&#9;&#9;<B>reflect&#9;</B>(itp1(i)=9,10, 12, 14, 15,16,18,19)</P>
+<P>&#9;&#9;<B>free&#9;&#9;</B>(itp1(i)=8,9,11, 13, 14, 15,17,18)</P>
+<P>&#9;&#9;<B>intrface&#9;</B>(itp1(i)=2,3,4,8,9,12, &#9;&#9;&#9;&#9;&#9;13,15,16,17,18,19)</P>
+<P>&#9;&#9;<B>virtual</B>&#9;(itp(i)=3,4,8,9,16,17,18,19)</P>
+<P>&#9;&#9;<B>removed&#9;</B>(20¾itp1(i)¾29)</P>
+<P>&#9;&#9;<B>merged&#9;</B>(itp1(i)=20)</P>
+<P>&#9;&#9;<B>dudded&#9;</B>(itp1(i)=21)</P>
+<P>&#9;iopt2&#9;operation</P>
+<P>&#9;&#9;<B>set&#9;&#9;</B>set itp2 to 1 or 0</P>
+<P>&#9;&#9;<B>or&#9;&#9;</B>or in a 1 or 0 in itp2</P>
+<P>&#9;&#9;<B>and&#9;&#9;</B>and in a 1 or 0 in itp2</P>
+<P>&#9;inum&#9;number of nodes in itp1 array</P>
+<P>&#9;ipitp1&#9;pointer to array of point types</P>
+<P>&#9;ipitp2&#9;pointer to output array of 1's or 0's (length inum)</P>
+
+<P>&#9;&#9;<A NAME="_Toc398007642"><A NAME="_Toc398019761"><A NAME="_Toc400955181"><A NAME="_Toc407510832"><A NAME="_Toc410708788"><A NAME="_Toc410718430"><A NAME="_Toc414027200"><A NAME="_Toc414033548"><A NAME="_Toc414725329"><A NAME="_Toc420983760"><A NAME="_Toc420996192"><A NAME="_Toc434740437">4. &lt;a name="Character Length"&gt;Character Length</A></A></A></A></A></A></A></A></A></A></A></A> &lt;/a&gt;</P>
+<P>LaGriT uses a parser written in C whereas most other modules are written in FORTRAN, the user must be very careful in using character comparison.  Some character strings will be terminated with a blank (FORTRAN) and some by a null (C).  The following functions are provided to return character string length (number of characters in iword ignoring terminator character).</P>
+<P> &#9;&#9;&#9;<B>icharln</B>(<U>iword</U>) Search for terminating blank or null.</P>
+<P>&#9;&#9;&#9;<B>icharlnf</B>(<U>iword)</U> Ignore leading blanks then search for terminating blank or null.</P>
+<B><P>icharlnb</B>(<U>iword</U>) Search backwards for first blank or null - uses FORTRAN function <B>len </B> to give starting point (this is a risky assumption)</P>
+
+<P><A NAME="_Toc390573692"><A NAME="_Toc390581282">&#9;<A NAME="_Toc397507004"><A NAME="_Toc397507152"><A NAME="_Toc397507278"><A NAME="_Toc397938322"><A NAME="_Toc397939397"><A NAME="_Toc398007643"><A NAME="_Toc398019762"><A NAME="_Toc400955182"><A NAME="_Toc407510833"><A NAME="_Toc410708789"><A NAME="_Toc410718431"><A NAME="_Toc414027201"><A NAME="_Toc414033549"><A NAME="_Toc414725330"><A NAME="_Toc420983761"><A NAME="_Toc420996193"><A NAME="_Toc434740438">5. &lt;a name="pointsets"&gt;Retrieving Point Sets and Element Sets</A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A> &lt;/a&gt;</P>
+<P>&#9;&#9;<B>eltlimc</P>
+</B><P>returns an array of element numbers where the elements belong to the <B>eltset</B> given in the argument list.  Eltsets must be specified by name.  On return the array pointed to by </FONT><FONT FACE="Courier">ipmpary</FONT><FONT FACE="Times"> will contain the mpno element numbers that belong to the <B>eltset</B>.</P>
+<P> &#9;&#9;&#9;<B>eltlimc</B>(<U>ich1</U>,<U>ich2</U>,<U>ich3</U>,<U>ipmary</U>,<U>mpno</U>,<U>ntets</U>,<U>xtetwd</U>)</P>
+<P>&#9;ich1,ich2,ich3&#9;<B>eset,get,</B>eltset_name</P>
+<P>&#9;ipmpary&#9;&#9;pointer to array of elements of eltset_name</P>
+<P>&#9;mpno&#9;&#9;number of elements in eltset_name</P>
+<P>&#9;ntets&#9;&#9;numer of elements in mesh object</P>
+<P>&#9;xtetwd&#9;&#9;array of eltset membership information</P>
+
+<B><P>pntlimc,pntlimn  </B>return an array of node numbers where the nodes belong to the <B>pset</B> given in the argument list.  On return the array pointed to by </FONT><FONT FACE="Courier">ipmpary</FONT><FONT FACE="Times"> will contain mpno node numbers.  These numbers are the nodes that belong to the <B>pset</B>.</P>
+<P> &#9;&#9;&#9;<B>pntlimc</B>(<U>ich1</U>,<U>ich2</U>,<U>ich3</U>,<U>ipmary</U>,<U>mpno</U>,<U>npoints</U>,<U>isetwd</U>,<U>itp1</U>)</P>
+<P>&#9;ich1,ich2,ich3&#9;<B>pset,get,</B>pset_name</P>
+<P>&#9;ipmpary&#9;&#9;pointer to array of node number of pset_name</P>
+<P>&#9;mpno&#9;&#9;number of nodes in pset_name</P>
+<P>&#9;npoints&#9;&#9;numer of nodes in mesh object</P>
+<P>&#9;isetwd&#9;&#9;array of pset membership information</P>
+<P>&#9;itp1&#9;&#9;array of point types</P>
+<P>&#9;&#9;&#9;<B>pntlimn</B>(<U>ich1</U>,<U>ich2</U>,<U>ich3</U>,<U>ipmary</U>,<U>mpno</U>,<U>npoints</U>,<U>isetwd</U>,<U>itp1</U>)</P>
+<P>&#9;</P>
+<P>&#9;ipt1,ipt2,ipt&#9;3&#9;first node, last node, stride</P>
+
+<P><A NAME="_Toc390573693"><A NAME="_Toc390581283">&#9;<A NAME="_Toc397507005"><A NAME="_Toc397507153"><A NAME="_Toc397507279"><A NAME="_Toc397938323"><A NAME="_Toc397939398"><A NAME="_Toc398007644"><A NAME="_Toc398019763"><A NAME="_Toc400955183"><A NAME="_Toc407510834"><A NAME="_Toc410708790"><A NAME="_Toc410718432"><A NAME="_Toc414027202"><A NAME="_Toc414033550"><A NAME="_Toc414725331"><A NAME="_Toc420983762"><A NAME="_Toc420996194"><A NAME="_Toc434740439">6. &lt;a name="compression"&gt;Array Compression</A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A>&lt;/a&gt;</A></A></P>
+<P>The following utility routines compress arrays.  Note that the output array may be the same as the input array in which case the compression is done in place.  Also the mask array may be the same as the input array.  The name suffixes of the compression routine may be decoded as <B> m </B>minus (negative), <B>n</B> non-zero, <B>p</B> positive, <B>z</B> equal to zero.  If the routine name ends in <B>rrr</B>, the mask, input and output arrays are all real.  If the name ends in a singe <B>r</B> , the mask is real, the input and output arrays are integers.  Otherwise the mask, input and output arrays are all integers.  For example kmprsn(100,int,1,int,1,int,1,num) will compress all the zeros out of array int.</P>
+<P>&#9;&#9;&#9;</P>
+<P>&#9;&#9;&#9;<B>kmprsm</B>(<U>n</U>,<U>z</U>,<U>iz</U>,<U>x</U>,<U>ix</U>,,y,<U>iy</U>,count)</P>
+<P>&#9;n&#9;length of z and x</P>
+<P>&#9;z&#9;array of masks</P>
+<P>&#9;iz&#9;stride in z</P>
+<P>&#9;x&#9;array of source</P>
+<P>&#9;ix&#9;stride in x</P>
+<P>&#9;y&#9;array of output</P>
+<P>&#9;iy&#9;stride in y</P>
+<P>&#9;count&#9;length of y</P>
+<P>&#9;&#9;&#9;<B>kmprsn</B>(<U>n</U>,<U>z</U>,<U>iz</U>,<U>x</U>,<U>ix</U>,,y,<U>iy</U>,count)</P>
+<P>&#9;&#9;&#9;<B>kmprsnr</B>(<U>n</U>,<U>z</U>,<U>iz</U>,<U>x</U>,<U>ix</U>,,y,<U>iy</U>,count)</P>
+<P>&#9;&#9;&#9;<B>kmprsnrrr</B>(<U>n</U>,<U>z</U>,<U>iz</U>,<U>x</U>,<U>ix</U>,,y,<U>iy</U>,count)</P>
+<P>&#9;&#9;&#9;<B>kmprsp</B>(<U>n</U>,<U>z</U>,<U>iz</U>,<U>x</U>,<U>ix</U>,,y,<U>iy</U>,count)</P>
+<P>&#9; &#9;&#9;<B>kmprspr</B>(<U>n</U>,<U>z</U>,<U>iz</U>,<U>x</U>,<U>ix</U>,,y,<U>iy</U>,count)</P>
+<P>&#9;&#9;&#9;<B>kmprsz</B>(<U>n</U>,<U>z</U>,<U>iz</U>,<U>x</U>,<U>ix</U>,,y,<U>iy</U>,count)</P>
+<P>&#9;&#9;&#9;<B>kmprszr</B>(<U>n</U>,<U>z</U>,<U>iz</U>,<U>x</U>,<U>ix</U>,,y,<U>iy</U>,count)</P>
+
+<P>&#9;<A NAME="_Toc398007645"><A NAME="_Toc398019764"><A NAME="_Toc400955184"><A NAME="_Toc407510835"><A NAME="_Toc410708791"><A NAME="_Toc410718433"><A NAME="_Toc414027203"><A NAME="_Toc414033551"><A NAME="_Toc414725332"><A NAME="_Toc420983763"><A NAME="_Toc420996195"><A NAME="_Toc434740440">7. &lt;a name="miscellaneous"&gt;Miscellaneous</A></A></A></A></A></A></A></A></A></A></A></A>&lt;/a&gt;</P>
+<P>The subroutine <B>setsize</B> set the code variables, xmin, xmax, ymin, ymax, zmin, zmax, epsilona, epsilonv</P>
+<P>&#9;&#9;&#9;&#9;xmin, xmax, ymin, ymax, zmin, zmax are set from the minimum and maximum xic,yic,zic values of all 'real' points (dudded and merged points will be ignored).  </P>
+<P>epsilona is set to :   ((xmax-xmin)**2+(ymax-ymin)**2+(zmax-zmin)**2) *epsilonr*10.</P>
+<P>epsilonv is set to :   abs(xmax-xmin)*abs(ymax-ymin)*abs(zmax-zmin) *epsilonr*10.</P>
+
+<P>&#9;Return the values of the code variables set by the command <B>setsize</P>
+</B><P>&#9;&#9;&#9;<B>getsize</B>(xmin,xmax,ymin,ymax,zmin,zmax,epsilona,epsilonv)</P>
+
+<P>set_user_bounds(<U>nubndpts</U>,<U>ubndpts</U>,<U>cmo</U>,<U>ipattr</U>, <U>idfield</U>)</P>
+<P>This routine allows the user to set boundary values.  See the <B>boundary</B> command.</P>
+<P>nubndpts   -&#9;number of boundary nodes</P>
+<P>ubndpt       -&#9;integer array of boundary node  indices</P>
+<P>cmo            -  &#9;a mesh object name</P>
+<P>ipattr&#9;        -&#9;pointer to mesh object attribute to contain boundary values</P>
+<P>idfield&#9;        -&#9;identifier used to identify the set of boundary nodes.</P>
+
+<B><P>8.  Geometry Information</P>
+
+</B><P>Much geometry information is maintained in the <B>geom </B>common block which is defined in the include file<B> geom.h</B>.</P>
+<P>nsurf&#9;&#9;is the number of surfaces</P>
+<P>nregs&#9;&#9;is the number of regions</P>
+<P>nmregs&#9;is the number of mregions</P>
+<P>maxdef&#9;is the number of tokens in the longest region definition</P>
+<P>maxindef&#9;is the number of tokens in the longest mregion definition.</P>
+
+<B><P>get_regions</B>(ipregs, ipcregs, ipndefregs)</P>
+<P>  This routine will update nregs and maxdef in the <B>geom</B> common block.</P>
+<P>  It will return:</P>
+<P>&#9;&#9;ipregs&#9;&#9; is a pointer to the array of pointers to the region defintions.  See &#9;&#9;&#9;&#9;&#9;&#9;subroutine <B>dumpgeom</B> for an example of decoding this information.</P>
+<P>&#9;&#9;ipcregs&#9;is a pointer to an array of region names</P>
+<P>&#9;&#9;ipndefregs&#9;is a pointer to an array of lengths of region definitions (i.e. number of &#9;&#9;&#9;&#9;&#9;tokens in the definition)</P>
+<B><P>get_mregions</B>(ipregs, ipmregs, ipnmdefregs, ipmatregs)</P>
+<P>  This routine is analogous to <B>get_regions </B>but has an additional argument.</P>
+<P>&#9;&#9;ipmatregs &#9;pointer to an array of material numbers for each material region.</P>
+<B><P>get_surfaces</B> (ipisall, ipisatt, ipcsall, ipistype, ipibtype)</P>
+<P>  This routine will update nsurf.</P>
+<P>It will return:</P>
+<P>&#9;&#9;ipisall&#9;&#9;is a pointer to first part of surface data (coordinate information)</P>
+<P>&#9;&#9;ipisatt&#9;&#9;is a pointer to the second part of the surface date (type and boundary &#9;&#9;&#9;&#9;&#9;type).   See subroutine <B>dumpgeom</B> for an example of decoding this &#9;&#9;&#9;&#9;&#9;information</P>
+<P>&#9;&#9;ipcsall&#9;&#9;is a pointer to the array of surface names</P>
+<P>&#9;&#9;ipistype&#9;is a pointer to the array of surface types</P>
+<P>&#9;&#9;ipibtype&#9;is a pointer to the array of surface boundary types</P>
+
+<B><P>hgetprt</B>(<U>iopt</U>, <U>ipsb</U>, <U>cpar</U>t, ipartname, imd, ierror)</P>
+<P>  This routine will retrieve the material number that corresponds to a material region and vice versa.  Either ipartname or imd must be input; the other will be output depending on the value of iopt.&#9;</P>
+<P>&#9;&#9;iopt&#9;&#9;1 return material number</P>
+<P>&#9;&#9;&#9;&#9;2 return material region name</P>
+<P>&#9;&#9;ipsb&#9;&#9;pointer to &#145;sbcmoprm&#146; storage block</P>
+<P>&#9;&#9;cpart&#9;&#9;&#145;part&#146;</P>
+<P>&#9;&#9;ipartname&#9;material region name</P>
+<P>&#9;&#9;imd&#9;&#9;material number</P>
+<P>&#9;&#9;ierror&#9;&#9;error return flag</P>
+<P>&#9;&#9;&#9;</P>
+
+<P>&nbsp;</P>
+<B><P>&nbsp;</P>
+</B><P>&nbsp;</P>
+<P>&nbsp;</P></FONT></BODY>
+</HTML>

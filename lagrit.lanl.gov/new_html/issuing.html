@@ -1,0 +1,49 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]">
+   <title>b</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+<b><font face="Times New Roman,Times"><font size=+1>Issuing Commands from
+a user program.</font></font></b>
+<dir>
+<dir><font face="Times New Roman,Times">Any LaGriT command can be issued
+by calling the subroutine </font><font face="Courier New,Courier">dotask</font><font face="Times New Roman,Times">
+, for example:</font>
+<dir><font face="Courier">call dotask ('<b>cmo</b>/<b>select</b>/3dmesh;
+<b>finish</b>', ier1)</font></dir>
+<font face="Times New Roman,Times">will select the Mesh Object named </font><font face="Courier New,Courier">3dmesh</font><i><font face="Times New Roman,Times">.</font></i><font face="Courier New,Courier">ier1</font><font face="Times New Roman,Times">
+will be zero if the commands are executed with no error, non-zero otherwise.
+A sequence of commands can also be executed using </font><font face="Courier New,Courier">dotask,</font><font face="Times New Roman,Times">&nbsp;
+for example:</font>
+<br><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</font><font face="Courier">call dotask ('<b>cmo</b>/<b>addatt</b>//mo;
+<b>cmo</b>/<b>list</b>;<b>finish</b>',ier1)</font>
+<br><font face="Times New Roman,Times">will execute the two commands and
+then return to the next executable statement.&nbsp; A <b>finish</b> command
+must always be the last command in the command list for </font><font face="Courier New,Courier">dotask</font><font face="Times New Roman,Times">.&nbsp;
+The user should also be aware that mesh object pointers might be changed
+by the </font><font face="Courier New,Courier">dotask</font><font face="Times New Roman,Times">
+commands and should be refreshed using </font><a href="meshob.html#cmo_get_info"><font face="Courier New,Courier">cmo_get_info</font><font face="Times New Roman,Times">.</font></a><font face="Times New Roman,Times">&nbsp;
+The parser arrays
+</font><font face="Courier New,Courier">cmsgin, xmsgi</font><font face="Times New Roman,Times">n
+etc. will not be the same upon return from </font><font face="Courier New,Courier">dotask</font><i><font face="Times New Roman,Times">.</font></i>
+<br><font face="Times New Roman,Times">By using the LaGriT command <b>infile</b>,
+a series of commands may be executed, for example:</font>
+<dir><font face="Courier">call dotask ('<b>infile</b>/mydeck'; <b>finish</b>',
+ier1)</font></dir>
+<font face="Times New Roman,Times">will execute all the LaGriT commands
+that are in the user's file named </font><font face="Courier New,Courier">mydeck</font><font face="Times New Roman,Times"><i>.</i>
+The final command in the file </font><font face="Courier New,Courier">mydeck</font><font face="Times New Roman,Times">
+should be <b>finis</b></font><b><font face="Times">h.
+</font></b><font face="Courier New,Courier">mydeck
+</font><font face="Times">itself
+may contain additional <b>infile</b> commands.</font></dir>
+</dir>
+
+</body>
+</html>

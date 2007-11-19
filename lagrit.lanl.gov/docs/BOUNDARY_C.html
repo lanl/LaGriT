@@ -1,0 +1,49 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+   <title>BOUNDARY</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+&nbsp;
+<blockquote><b><u><font face="Times New Roman,Times">BOUNDARY_COMPONENTS</font></u></b>
+<blockquote>
+  <p>Calculate the number of connected components of a mesh. This is useful for looking for holes in a mesh or as a diagnostic when looking at a single material (itetclr, imt) and determining if the material is contiguous or broken into multiple pieces. </p>
+  <p><font face="Times New Roman,Times">When the <strong>node</strong> option is invoked, the boundary_components&nbsp;
+    module adds the node attribute <strong>numbnd</strong> to the current mesh object to which is written
+    the node number of a representative node of each outside boundary component. In this mode 'connected' means that a set of nodes of type 'outside' (itp = 10 or 12) can be traversed via element edges that have both vertices of type 'outside'. This method is not really fool proof in detecting holes in a mesh since one can traverse from the exterior of a mesh to an interior hole in the mesh via an edge that is not really a boundary edge. More coding could deal with this situation. In addition, the number of connected boundary components and a representative
+    node number from each boundary component is assigned to the <strong>numbnd</strong> array. The number of nodes in each boundary set is printed.&nbsp;Non-boundary nodes are assigned <strong>numbnd</strong> = 0.  If the itp array is not current, it must be
+    updated first, with the command <b>resetpts/itp.</b></font> By default resetpts/itp is called when the node option is invoked so the reset/noreset is optional. </p>
+  <p>When the <strong>node / material_id_number</strong> option is invoked, the distinction of boundary nodes as defined by itp array value is ignored. Instead, all nodes with imt = material_id_number are examined and the number of edge connected components is determined for just that material. Nodes with imt <font face="Symbol">&#185;</font> material_id_number are assigned numbnd = 0. </p>
+  <p>When the <strong>element</strong> option is invoked, the element attribute <strong>numbnd_e</strong> is added to the current mesh object. The number of connected components of the mesh is computed where 'connected' means sets of elements can be traversed via the element faces. The attribute numbnd_e is filled with the element number of a representitive element of a connected set. <font face="Times New Roman,Times">In addition, the number of connected  components and a representative
+    element number from each connected component and the number of elements in each connected component set is printed.&nbsp;</font>When the material_id_number option is invoked, only elements with itetclr = material_id_number are examined. Elements with itetclr <font face="Symbol">&#185;</font> material_id_number are assigned <strong>numbnd_e</strong> = 0.</p>
+</blockquote>
+<font face="Times New Roman,Times">FORMAT:</font>
+<blockquote><b><font face="Times New Roman,Times">boundary_components</font></b>- (this syntax is the same as boundary_components / node) </blockquote>
+<blockquote>
+  <p><b><font face="Times New Roman,Times">boundary_components</font></b> / node / [<u>reset</u>|noreset] </p>
+  <p><b><font face="Times New Roman,Times">boundary_components</font></b> / node / material_id_number / [<u>reset</u>|noreset] </p>
+</blockquote>
+<blockquote><b><font face="Times New Roman,Times">boundary_components</font></b> / element / [reset|<u>noreset</u>] </blockquote>
+<blockquote><b><font face="Times New Roman,Times">boundary_components</font></b> / element / material_id_number / [reset|<u>noreset</u>] </blockquote>
+<font face="Times New Roman,Times">EXAMPLE:</font>
+<blockquote>
+  <p><b><font face="Times New Roman,Times">boundary_components</font></b></p>
+  <p><strong>boundary_components</strong> / element / 3 </p>
+  <p>&nbsp;</p>
+</blockquote>
+</blockquote>
+<table width="600" border="1">
+  <tr>
+    <td><img src="../images/boundary_component_node.png" alt="Example: boundary_components / node" width="300" height="300"></td>
+    <td><img src="../images/boundary_component_element.png" alt="Example: boundary_components / element" width="300" height="300"></td>
+  </tr>
+  <tr>
+    <td><strong>boundary_components / node</strong> - note that the interior nodes have numbnd=0 and the nodes of the upper hole have the same value as the outside boundary since the upper hole can be reached by traversing an edge that is connected to the exterior.</td>
+    <td><strong>boundary_components / element</strong> - note that the two pieces are have different values for numbnd_e even though element 15 is touching element 6. This is because one cannot traverse from the blue mesh (numbnd_e = 15) to the red mesh (numbnd_e = 24) through faces of the mesh. </td>
+  </tr>
+</table>
+</body>
+</html>

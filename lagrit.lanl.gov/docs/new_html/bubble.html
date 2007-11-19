@@ -1,0 +1,83 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+   <title>BUBBLE</title>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" vlink="#551A8B" alink="#FF0000">
+<b><u><font face="Times New Roman,Times">BUBBLE</font></u></b>
+<blockquote><font face="Times New Roman,Times">This command takes a topologically
+2d mesh (a planar or non-planar surface), extrudes it into three dimensions
+along either the normal to the surface (default) or along a user defined
+vector, and then takes the external surface of the volume created and returns
+that to the user.</font>
+<p><font face="Times New Roman,Times">This operation will result in a closed
+surface.</font></blockquote>
+<font face="Times New Roman,Times">FORMAT:</font>
+<blockquote><b><font face="Times New Roman,Times">bubble</font></b>/<font face="Times New Roman,Times">mesh1/mesh2/<b>const|min</b>/</font><font face="Courier New,Courier">offset/</font>[<font face="Times New Roman,Times"><b>norm</b>|</font><font face="Courier New, Courier, mono">x</font><font face="Courier New,Courier">1,y1,z1]</font></blockquote>
+<font face="Courier New,Courier">mesh1</font> <font face="Times New Roman,Times">is
+the name of the resulting mesh.</font>
+<p><font face="Courier New,Courier">mesh2 </font>is the name of the initial
+mesh. This mesh must be either made up of <b>tris, quads, or hybrids</b>.
+<p><font face="Times New Roman,Times"><b>const</b> is a keyword that indicates
+that the distance from each of the points in the initial mesh along the
+extruding vector will be equal to offset.Therefore, if you wanted the closed
+surface mesh to have the same surface characteristics as the original mesh
+on both the initial and newly formed surface or edge, you would use <b>const</b>.</font>
+<p><font face="Times New Roman,Times"><b>min</b> is a keyword that indicates
+that the minimum distance along the extruding vector to a reference plane
+that is perpendicular to the extruding vector will be equal to offset.
+This means that if you want a closed surface mesh with at least one flat
+side, you would use <b>min</b>. This also means that if you use <b>min</b>,
+bubble computes the "bottom point" on the initial mesh, or the point closest
+to the reference plane, and then extrudes that point by min, all the other
+points will be extruded by a larger distance. This avoids the problem of
+having the initial surface intersect the reference plane that forms the
+other side of the closed surface mesh.</font>
+<p><font face="Courier New,Courier">offset</font><font face="Times New Roman,Times">is
+the length of extrusion. It can either be an integer or a real.</font>
+<p><font face="Times New Roman,Times">The final argument is optional. It
+must either be the keyword <b>norm</b>, or a three valued vector (in cartesian
+space) specifying a direction. The default, if no argument is provided,
+is <b>norm</b>. If <b>norm</b> is chosen, the element weighted average
+normal to the surface or curve is computed, and the initial mesh is extruded
+in that direction. Otherwise, if a vector value is specified, the vector
+is normalized, and its direction used to extrude the initial mesh.</font>
+<p><font face="Times New Roman,Times">NOTES:</font>
+<blockquote><font face="Times New Roman,Times">This code works on meshes
+containing quads, triangles, or hybrid polygons.</font>
+<p><font face="Times New Roman,Times">It is very possible to create an
+invalid mesh object with this command, especially if the initial mesh is
+a multivalued surface, or if the extruding vector is in a direction parallel
+to the plane that contains the initial surface is in. You have been warned.</font>
+<p><font face="Times New Roman,Times">There is an analog to this code that
+creates the volume enclosed by the surface as opposed to the surface itself.
+It is called <b><a href="extrude.html">extrude.</a></b></font>
+<p><font face="Times New Roman,Times">This code is a wrapper for <b>extrude</b>.
+There are plans to integrate <b>bubble</b>'s functionality with <b>extrude</b>
+and to eliminate <b>bubble</b> from the command</font>s
+<font face="Times New Roman,Times">recognized
+by LaGriT.</font></blockquote>
+<font face="Times New Roman,Times">EXAMPLES:</font>
+<blockquote><b><font face="Times New Roman,Times">bubble</font></b><font face="Courier New,Courier">/cmo_bigbox/cmo_quad/</font><b><font face="Times New Roman,Times">const</font></b><font face="Courier New,Courier">/5.0/</font>
+<p><font face="Times New Roman,Times">This would result in a surface surrounding
+an amalgamation of parallelopipeds created from the initial quad sheet.
+First, since <b>const</b> is used the quads will be extruded a constant
+amount from each point in the quad sheet. Second, since the extruding vector
+and <b>norm</b> are omitted, the extrusion will occur on the average normal
+to the plane. Therefore, this command will result in a mesh of tris that
+form the surface of a group of parallelopipeds extruded 5.0 units in an
+orthogonal direction.</font>
+<p><b><font face="Times New Roman,Times">bubble</font></b><font face="Courier New,Courier">/cmo_arbshape/cmo_tri/</font><b><font face="Times New Roman,Times">min</font></b><font face="Courier New,Courier">/7.5/3,-2.5,-6</font>
+<p><font face="Times New Roman,Times">This command would result in a mesh
+of tris that form a surface enclosing a volume of prisms being created
+out of the initial tri sheet. First, since
+<b>min</b> is used, the "bottom"
+of the surface would be a plane. Second, because the vector 3, -2.5, -6
+is specified, the extrusion will be in that direction (again the magnitude
+is not important, the vector is normalized to a unit vector), not in the
+direction of the average normal of the initial tri surface.</font></blockquote>
+
+</body>
+</html>

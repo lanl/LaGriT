@@ -1,0 +1,102 @@
+/* IMPORT THE LAYOUT STYLE SHEET FILE ///////////////////////////////////////////////////////////////////////////*/
+
+@import url("http://www.lanl.gov/styles/xsimple.css");
+
+/* 
+! READ THE FOLLOWING INSTRUCTIONS BEFORE MODIFYING THIS STYLE SHEET ! 
+
+This site color scheme consists of the following colors:
+
+primary color: #d9541a
+primary color dark: #a3492d
+complementary color: #49407b
+complementary color dark: #594B9e
+complementary color tint: #f9F2e8
+neutral color: #c9c6C0
+
+After you have determined the colors with which you will be replacing the colors in this style sheet,
+use Dreamweaver Find and Replace tool to replace all instances to the colors above. 
+The modification will change the color scheme of your entire site. 
+*/
+
+/* Site specific general formatting /////////////////////////////////////////////////////////////////////////////*/
+	
+p { color: #333; }
+
+h1 { color: #d9541a; } /* primary color */
+h2 { color: #49407b; } /* complementary color */
+h2 .home { color: #d9541a; } /* primary color */
+h3 { color: #49407b; } /* complementary color */
+h4 { color: #49407b; } /* complementary color */
+h5 { color: #49407b; } /* complementary color */
+h6 { color: #49407b; } /* complementary color */
+
+.menu_right a:link { color: #594B9e; } /* complementary color dark */
+.menu_right a:visited  { color: #49407b; text-decoration: none; } /* complementary color */
+.menu_right a:hover { color: #d9541a; text-decoration: none; } /* primary color */
+
+#mid-section1 { background: #fff; }
+/* In some layouts this id changes the background color or the background image of the upper section of the page, 
+in simpler layouts this id changes the background of the entire content area of the page.
+If you want to place a background image, you can replace the above declaration with this declaration: 
+{ background: #FFF url(place a path to your background image here) top right no-repeat; } */
+
+/* Sitebar color specifications ///////////////////////////////////////////////////////////////////////////////// */
+
+#sitebar { 
+	background: transparent; 
+	border-bottom: 1px #c9c6C0 solid;
+}
+
+.locator { color: #666; } /* leave gray */ 
+
+.identifier { color: #a3492d; } /* primary color dark */ 
+
+#toolbar ul { background-color: #c9c6C0; } /* neutral color */
+#toolbar li a:link, #toolbar li a:visited { color: #666; text-decoration: none; }
+#toolbar li a:visited:hover, #toolbar li a:hover { 
+	text-decoration: none; color: #000; /* dark color */
+	background: #fff; border-top: 1px #c9c6C0 solid; /* neutral color */
+	border-bottom: 1px #fff solid; 
+}
+
+.home a#home, .org a#org, .about a#about, .jobs a#jobs { 
+	color:  #a3492d !important; /* primary color dark */
+	border-top: 1px #c9c6C0  solid !important; /* neutral color */
+	text-decoration: none;
+}
+
+/* MENU background colors /////////////////////////////////////////////////////////////////////////////////////////*/
+
+.col1, .col2-420, .col2-620, .col3-180 { color: #333; } /* or complementary color tint */
+.col2-420 { background: transparent; } /* or complementary color tint */
+.col2-620 { background: transparent; } /* or complementary color tint */
+
+#mid-section1 .col1 { background: #fff; } /* or neutral color tint */
+#mid-section1 .col3-180 { background: #fff; } /* or primary color tint */ 
+	
+/* Header bars /////////////////////////////////////////////////////////////////////////////////////////////////// */ 
+
+#bar { color: #fff; background: #a3aac5; } /* complementary color tint */
+#barleft { color: #49407b; background: #ced2e3; } /* complementary color */
+
+
+/* Group navigation on Division index page //////////////////////////////////////////////////////////////////////// */ 
+
+#nav-groups ul { 
+	background: #CEC381; 
+	height: 195px; 
+	margin: 0px;
+}
+#nav-groups li a { 
+	border-left: 10px solid #A19450;
+	border-right: 10px solid #A0944A;
+	background: #AEA147;
+	color: #fff;
+}
+#nav-groups li a:hover { 
+	border-left: 10px solid #7F7222; 
+	border-right: 10px solid #7F7222; 
+	background-color: #A09245; 
+	color: #fff;
+}

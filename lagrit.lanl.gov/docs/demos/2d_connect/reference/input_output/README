@@ -1,0 +1,12 @@
+NOTE: When trying to do this example substituting 
+read/gmv for read/avs there is a problem in defining
+the topology of the the cmo as 2-d: using cmo/status
+the read/avs version has nsdtopo=2, whereas the read/gmv
+has nsdtopo=3.
+
+This occurs even though the gmv file was originally created
+using read/avs - dump/gmv.
+
+At first glance in read_gmv_binary... there might be a problem
+in that there is no case for 0 elements data structures (i.e.
+point sets).

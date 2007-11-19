@@ -1,0 +1,63 @@
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="Microsoft Word 98">
+<TITLE>SURFACE</TITLE>
+<META NAME="Template" CONTENT="Macintosh HD:Applications:Microsoft Office 98:Word Custom Install:Microsoft Office 98:Templates:Web Pages:Blank Web Page">
+</HEAD>
+<BODY LINK="#0000ff" VLINK="#800080">
+
+<B><U><P><A NAME="_Toc433604938"><A NAME="_Toc420996179"><A NAME="_Toc420983747"><A NAME="_Toc414725316"><A NAME="_Toc414033535"><A NAME="_Toc414027187"><A NAME="_Toc410718417"><A NAME="_Toc410708775"><A NAME="_Toc407510819"><A NAME="_Toc400955168"><A NAME="_Toc398019748"><A NAME="_Toc398007629"><A NAME="_Toc397939383"><A NAME="_Toc397938309"><A NAME="_Toc397507265"><A NAME="_Toc397507139"><A NAME="_Toc397506991"><A NAME="_Toc390581269"><A NAME="_Toc390573679"><A NAME="_Toc390570273"><A NAME="_Toc390510604"><A NAME="_Toc375390699"><A NAME="_Toc374864102"><A NAME="_Toc371820268"><A NAME="_Toc359986072"><A NAME="_Toc359984372"><A NAME="_Toc357951889"><A NAME="_Toc357949420">SURFACE</A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></A></P><DIR>
+
+</B></U><FONT FACE="Helvetica"><P>Defines a boundary surface of the type specified in </FONT><FONT FACE="Courier">ibtype</FONT><FONT FACE="Helvetica">.</P>
+</FONT><FONT FACE="Courier"><P>ibtype </FONT><FONT FACE="Helvetica">can be <B>free</B>, <B>intrface</B>, <B>reflect, intrcons </B>or<B> virtual</B>. Use <B>reflect </B>or <B>free</B> for external boundaries, <B>intrface</B> for interior interfaces, <B>intrcon</B>s for constrained interior interfaces. Use <B>virtual</B> for virtual interfaces.</P>
+<P>The surface is defined by </FONT><FONT FACE="Courier">istype</FONT><FONT FACE="Helvetica"> and </FONT><FONT FACE="Courier">X1</FONT><FONT FACE="Helvetica"> through </FONT><FONT FACE="Courier">Z4</FONT><FONT FACE="Helvetica">.</P>
+</FONT><FONT FACE="Courier"><P>istype </FONT><FONT FACE="Helvetica">can be <B>plane</B>, <B>box,</B> <B>parallel</B>(piped), <B>sphere</B>, <B>cylinder</B>, <B>cone</B>, <B>ellipse</B>(oid), <B>tabular</B> (rotated tabular profile), or <B>sheet</B>.</P>
+</FONT><FONT FACE="Courier"><P>X1</FONT><FONT FACE="Helvetica"> through </FONT><FONT FACE="Courier">Z4 </FONT><FONT FACE="Helvetica">are specified with the surface type in mind.</P>
+</FONT><FONT FACE="Courier"><P>isurname </FONT><FONT FACE="Helvetica">is the name of the surface and must be unique for each surface defined by <B>surface</B>.</P>
+<P>FORMAT: </P>
+<B><P>surface</B>/</FONT><FONT FACE="Courier">isurname</FONT><FONT FACE="Helvetica">/</FONT><FONT FACE="Courier">ibtype</FONT><FONT FACE="Helvetica">/</FONT><FONT FACE="Courier">istype/x1/y1/z1/x2/y2/z2/x3/y3/z3/x4/y4/z4/</P>
+</FONT><B><FONT FACE="Helvetica"><P>surface</B>/</FONT><FONT FACE="Courier">isurname</FONT><FONT FACE="Helvetica">/</FONT><FONT FACE="Courier">ibtype</FONT><FONT FACE="Helvetica">/<B>sheet</B>/</FONT><FONT FACE="Courier">cmo_name</FONT><FONT FACE="Helvetica">/</P>
+<P>EXAMPLES: </P>
+<B><P>surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>box</B>/</FONT><FONT FACE="Courier">xmin,ymin,zmin/xmax,ymax,zmax/ </FONT><B><FONT FACE="Helvetica">surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>cone</B>/</FONT><FONT FACE="Courier">x1,y1,z1/x2,y2,z2/radius</FONT><FONT FACE="Helvetica">/</P>
+<P>Where point 1 is the vertex and point 2 is the top center of the cone with radius from that point. A cone is finite but open. To create a closed cone cap the open end with a plane.</P>
+<B><P>surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>cylinder</B>/</FONT><FONT FACE="Courier">x1,y1,z1/x2,y2,z2/radius/ </P>
+</FONT><FONT FACE="Helvetica"><P>Where point 1 is the bottom center and point 2 is the top center of the cylinder. Cylinders are open but finite To create a closed cylinder cap both ends with planes. </P>
+<B><P>surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>ellipse</B>/</FONT><FONT FACE="Courier">x1,y1,z1/x2,y2,z2/x3,y3,z3/ar,br,cr/</P>
+</FONT><FONT FACE="Helvetica"><P>Where point 1 is the center of the ellipsoid and point 2 is on the a semi-axis (new x), point 3 is on the b semi-axis (new y), and </FONT><FONT FACE="Courier">ar, br, cr</FONT><FONT FACE="Helvetica"> are radii on their respective semi-axes. <B>surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>parallel</B>/</FONT><FONT FACE="Courier">x1,y1,z1/x2,y2,z2/x3,y3,z3/x4,y4,z4/</P>
+</FONT><FONT FACE="Helvetica"><P>Where points 1, 2, 3 are the front left, front right and back left points of the base and point 4 is the upper left point of the front face. <B>surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>plane</B>/</FONT><FONT FACE="Courier">x1,y1,z1/x2,y2,z2/x3,y3,z3</P>
+</FONT><B><FONT FACE="Helvetica"><P>surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>planexyz</B>/</FONT><FONT FACE="Courier">x1,y1,z1/x2,y2,z2/x3,y3,z3</P>
+</FONT><FONT FACE="Helvetica"><P>the direction of the normal to the plane is determined by the order of the points according to the right hand rule.</P>
+<B><P>surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>planertz</B>/</FONT><FONT FACE="Courier">radius1,theta1,z1, radius2,theta2,z2,radius3,theta3,z3,xcen,ycen</FONT><FONT FACE="Helvetica"> , </FONT><FONT FACE="Courier">zcen/</FONT><FONT FACE="Helvetica"> <B>surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>planertp</B>/</FONT><FONT FACE="Courier">radius1,theta1,phi1, radius2,theta2,phi2, radius3,theta3,phi3, xcen,ycen,zcen/</P>
+</FONT><B><FONT FACE="Helvetica"><P>surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>sheet</B></FONT><FONT FACE="Courier">/cmo_name/</P>
+</FONT><FONT FACE="Helvetica"><P>Sheet surfaces may be input by specifying a </FONT><FONT FACE="Courier">cmo_name</FONT><FONT FACE="Helvetica">. The Mesh Object must be either a 2D quad Mesh Object or a 2D triangle Mesh Object. A discussion of inside and outside with respect to sheet surfaces is presented after the EXAMPLES section.</P>
+<B><P>surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>sphere</B>/</FONT><FONT FACE="Courier">xcen,ycen,zcen/radius/</P>
+</FONT><B><FONT FACE="Helvetica"><P>surface</B>/</FONT><FONT FACE="Courier">isurname/ibtype</FONT><FONT FACE="Helvetica">/<B>tabular</B></FONT><FONT FACE="Courier">/x1,y1,z1/x2,y2,z2/geom/</P>
+<P>r1,z1</P>
+<P>r2,z2</P>
+<P>r3,z3</P>
+<P>....</P>
+<P>rn,zn</P>
+<P>end</FONT><FONT FACE="Helvetica"> </P>
+<P>or </P>
+</FONT><FONT FACE="Courier"><P>r1,theta1</P>
+<P>r2,theta2</P>
+<P>r3,theta3</P>
+<P>...</P>
+<P>rn,thetan</P>
+<P>end</P>
+</FONT><FONT FACE="Helvetica"><P>Where point 1 and point 2 define the axis of rotation for the tabular profile with point 1 as the origin. This is followed by pairs of profile descriptors depending on the value of </FONT><FONT FACE="Courier">geom.</FONT><FONT FACE="Helvetica"> If </FONT><FONT FACE="Courier">geom</FONT><FONT FACE="Helvetica"> is set to <B>rz</B>, then the r value is a radius normal to the axis of rotation and z is the distance along the new axis of rotation. If geom is set to <B>rt</B> then </FONT><FONT FACE="Courier">theta</FONT><FONT FACE="Helvetica"> is the angle from the axis of rotation at point 1 and </FONT><FONT FACE="Courier">r</FONT><FONT FACE="Helvetica"> is the distance from point 1 along </FONT><FONT FACE="Courier">theta</FONT><FONT FACE="Helvetica">. The first pair must start on a new line and all lines must contain pairs of data. The last pair of data must be followed by end. </P>
+<B><P>Inside/outside </B>with respect to<B> sheet surfaces</B> will be determined by the following algorithm:</P><DIR>
+
+</FONT><P>&#149;<FONT FACE="Helvetica"> For the point being considered, p, find the nearest sheet triangle and the closest point, q, to p that lies on that triangle.</P>
+<P>&#149; Construct the vector<IMG SRC="Image255.gif" WIDTH=10 HEIGHT=15>, from q to p.</P>
+<P>&#149; Construct the outward normal to the triangle, <IMG SRC="Image256.gif" WIDTH=9 HEIGHT=12>. The outward normal is constructed using the right hand rule and the order of the points in the sheet. Sheets may be specified as quad Mesh Object (i.e. a 2 dimensional array of points containing the coordinates of the corners of each quad). Either two triangles (divide each quad in two using point (i,j) and (i+1,j+1)) or four triangles (add a point in the center of the quad) are generated by each quad. Applying the right hand rule to the points (i,j), (i+1,j), (i+1,j+1) gives the direction of the normal for all triangles created from the quad.</P>
+<P>&#149; If <IMG SRC="Image255.gif" WIDTH=10 HEIGHT=15>&#149; <IMG SRC="Image256.gif" WIDTH=9 HEIGHT=12>&lt; 0 then the point is inside. If <IMG SRC="Image255.gif" WIDTH=10 HEIGHT=15>&#149; <IMG SRC="Image256.gif" WIDTH=9 HEIGHT=12>&gt;0 the point is outside. If <IMG SRC="Image255.gif" WIDTH=10 HEIGHT=15><IMG SRC="Image256.gif" WIDTH=9 HEIGHT=12></FONT>&#149;<FONT FACE="Helvetica"> n = 0, and if p is on the triangle then p=q and p in on the triangle.</P>
+<P>&#149; If <IMG SRC="Image255.gif" WIDTH=10 HEIGHT=15></FONT>&#149;<IMG SRC="Image256.gif" WIDTH=9 HEIGHT=12><FONT FACE="Helvetica"> = 0 and p is not on the triangle then p is outside.</P></DIR>
+
+</FONT><P>&#9;&#9;<IMG SRC="Image257.gif" WIDTH=203 HEIGHT=206></P>
+<P>&#9;</P>
+<FONT FACE="Helvetica"><P>One implication of this definition is that the concept of shadows cast by open sheets no longer is valid. Sheets may be considered to extend to the boundary of the geometry. </P></DIR>
+
+</FONT><P><IMG SRC="Image259.gif" WIDTH=341 HEIGHT=247></P></BODY>
+</HTML>

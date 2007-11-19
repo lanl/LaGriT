@@ -1,0 +1,132 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<! Template for LaGriT online manual using REFINE as example >
+<! command interpolate is written using this template >
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Generator" content="Microsoft Word 98">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]">
+   <! command name for window banner >
+   <title>REFINE</title>
+
+<! font and other body information should be in the style statement here.>
+<!    b = bold = literal parameter names >
+<!    u = underline = default parameter setting >
+<!    font face="Courier" = variable parameter names >
+
+<style type="text/css">
+
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+       }
+</style>
+
+</head>
+<body link="#0000FF" vlink="#800080">
+&nbsp;
+<! end header --------------------------------------------------------------- >
+
+
+<! command name >
+<h1>REFINE</h1>
+
+<! command description ---------- >
+<blockquote>
+The <b>refine</b> command is used to create more elements when
+a certain criterion is specified.  
+</blockquote><br>
+
+<! parameter name ---------- >
+<br>
+<font face="Courier">
+refine_criteria:
+</font>
+The choice to refine is based on one of the following.
+<! parameter description >
+<blockquote>
+<b>junction</b> 
+will refine object where field crosses <font face="Courier"> xrefine </font>
+<br>
+<b>constant</b> 
+will refine object where field > <font face="Courier"> xrefine </font>
+</blockquote>
+
+<! parameter name ---------- >
+<br>
+<font face="Courier"> parameter_name </font>
+Parameter sentence.
+<! parameter description >
+<blockquote>
+<b>literal_keyword</b> 
+Sentence about keyword.
+<br>
+<b>literal_keyword</b>
+Sentence about keyword and <font face="Courier"> variable_keyword </font>
+</blockquote>
+
+
+<! additional description ---------- >
+<br>
+Quad and hexahedral elements may be refined creating quad tree and octree meshes.  
+Three new attributes are added to the mesh object. 
+<! additional description of literal keyword with image >
+<blockquote>
+<font face="Times"><b>itetpar </b> 
+contains the number of the first child element.
+The first child will contain the first local node of the parent element, 
+the other elements are created in the order
+shown in this diagram.</font>
+<! add an image, normal page width is 750 >
+<br><img SRC="dsquare.gif" height=181 width=339>
+</blockquote>
+ 
+<! command syntax or format ------------ >
+<! the br command indicate a line break >
+<br><br>
+FORMAT:
+<blockquote>
+<b>refine</b>/
+<font face="Courier">refine_criterion</font>
+/[ <font face="Courier">field]</font>
+/[ <font face="Courier">interpolation ] /refine_type</font>
+/ifirst, ilast, istride /xrefine/yrefine/zrefine/inclusive-flag/
+<br>
+<b>refine /roughness///edge</font></b>
+<font face="Courier">/ifirst,ilast,istride/distance/surface_name/</font>
+<b> exclusive|inclusive </b>
+<br>
+<b>refine/edge_list///edge/</b>edge_list/
+<br>
+<b>refine/interface/// edge/pset,get</b>,psetname
+</blockquote>
+
+<! command examples >
+<br><br>
+EXAMPLES:
+<blockquote>
+<b>refine</b>/<b>maxsize</b>///<b>edge</b>/<b>pset,get,</b>
+<font face="Courier">something</font>/.25
+<br>
+<b>refine</b>/<b>constant</b>/
+<font face="Courier">concentration</font>/<b>log</b>/<b>edge</b>/
+1,0,0/25.0///<b>inclusive</b>
+<br>
+<b>refine/edge_list///edge/</b>1 2 23 47<b>/ </b>will
+refine the edge with endpoints 1 and 2 AND the edge with endpoints
+23 and 47.
+</blockquote>
+
+<! links to further explanation or demo pages >
+<br><br>
+LINKS:
+<blockquote>
+<a href="REFINE1.html">Grid Refinement</a> 
+<br>
+</blockquote>
+ 
+</body>
+</html>
+
+

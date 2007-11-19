@@ -1,0 +1,69 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="Generator" CONTENT="Microsoft Word 98">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+   <TITLE>4</TITLE>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+ 
+<BLOCKQUOTE>&nbsp;
+ 
+<P><B><FONT FACE="Times New Roman,Times">4. <U>Divide the enclosing volumes
+into regions</U></FONT></B></BLOCKQUOTE>
+ 
+<DIR>
+<DIR><FONT FACE="Times New Roman,Times">The<A HREF="REGION.html">
+<B>region</B></A> command is used to divide the enclosing volume into regions.
+The directional operators <B>lt</B>, <B>le</B>,<B> gt</B>,<B> </B>and <B>ge
+</B>are applied to previously defined surfaces according to the following
+rules.</FONT>
+<DIR>
+<DIR><FONT FACE="Times New Roman,Times"><B>lt -- </B>if the surface following
+is a volume then <B>lt </B>means inside not including the surface of the
+volume. If the surface is a plane or a sheet <B>lt </B>means the space
+on the side of the plane or sheet opposite to the normal not including
+the plane or sheet itself.</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>le -- </B>if the surface following
+is a volume then <B>le</B> means inside including the surface of the volume.
+If the surface is a plane or a sheet <B>le </B>means the space on the side
+of the plane or sheet opposite to the normal including the plane or sheet
+itself.</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>gt -- </B>if the surface following
+is a volume then <B>gt</B> means outside not including the surface of the
+volume. If the surface is a plane or a sheet <B>gt</B> means the space
+on the same side of the plane or sheet as the normal not including the
+plane or sheet itself.</FONT>
+ 
+<P><FONT FACE="Times New Roman,Times"><B>ge -- </B>if the surface following
+is a volume then <B>ge</B> means outside including the surface of the volume.
+If the surface is a plane or a sheet <B>ge</B> means the space on the same
+side of the plane or sheet as the normal including the plane or sheet itself.</FONT></DIR>
+</DIR>
+<FONT FACE="Times New Roman,Times">In region comands, surface names must
+be preceeded by a directional operator. The logical operators <B>or</B>,
+<B>and</B>, and <B>not</B> mean union, intersection and complement respectively.
+Parentheses are operators and are used for nesting. Spaces are required
+as delimiters to separate operators and operands. To define the two regions
+created by the plane bisecting the unit cube:</FONT>
+<DIR>
+<DIR><FONT FACE="Times New Roman,Times"><B>region</B>/top/ <B>le</B> cube
+<B>and</B> <B>gt</B> cutplane /</FONT>
+<BR><FONT FACE="Times New Roman,Times"><B>region</B>/</FONT>bottom<B> /
+le</B> cube <B>and le </B>cutplane <B>/</B></DIR>
+</DIR>
+<FONT FACE="Times New Roman,Times">The region <I>bottom </I>contains the
+interface <I>cutplane</I>; top contains none of the interface. Interior
+interfaces must be included in one and only one region.</FONT>
+<BR><FONT FACE="Times New Roman,Times">If a region touches an external
+boundary, include the surface that defines the enclosing volume in region
+and mregion commands. For example, the regions <I>top</I> and <I>bottom</I>
+are enclosed by the surface <I>cube</I></FONT></DIR>
+</DIR>
+ 
+<CENTER><IMG SRC="Image224.gif" HEIGHT=239 WIDTH=344></CENTER>
+ 
+</BODY>
+</HTML>
