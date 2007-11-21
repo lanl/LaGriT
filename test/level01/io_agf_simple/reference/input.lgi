@@ -1,0 +1,34 @@
+* TEST dump/* (lagrit_input_dump)
+* dump and read AVS and GMV files
+* dump FEHM files
+*
+
+read / avs / input_unit_tet.inp / cmo
+
+* begin compare fehm
+* dump FEHM files
+dump / fehm / outbin / cmo / binary / / scalar
+dump / fehm / outascii / cmo / ascii / / scalar
+cmo/printatt//-all-/minmax
+quality
+cmo/status/cmo
+* end compare fehm
+
+* begin compare write AVS and GMV
+* dump AVS and GMV files
+dump / gmv / output.gmv / cmo /
+dump / gmv / output_ascii.gmv / cmo / ascii
+dump / avs / output.inp / cmo /
+* end compare here
+
+* read AVS and GMV files read AVS and GMV
+read / gmv / output_ascii.gmv / cmogmva / ascii
+read / gmv / output.gmv / cmogmv /
+read / avs / output.inp / cmoavs /
+* begin compare
+cmo status cmogmv
+cmo status cmoavs
+* end compare here
+
+
+finish

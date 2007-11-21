@@ -1,0 +1,130 @@
+*--* Create a rough and fine mesh,
+*--* Insert the fine mesh inside the course mesh,
+*--* Refine the course mesh near the fine mesh,
+*--* Delete elements of the course mesh that intersect the fine mesh
+*--* Put the two MO into a single MO
+*--* Copy the point distribution into a tet MO
+*--* Connect the points to a Delaunay mesh
+*--*
+*--*----------------------------------------------------
+*--* Header End
+*--* ex_addmesh_add
+*--*
+* Simple two element version
+cmo / create / cmo_hex / / / hex
+cmo / select / cmo_hex
+*
+* Create a simple hex mesh, NX-NY-NZ
+define / NX / 10
+define / NY / 10
+define / NZ / 10
+define / NX / 2
+define / NY / 2
+define / NZ / 2
+createpts/brick/xyz/NX,NY,NZ/0. 0. 0./1. .5 .5/1,1,1
+cmo / setatt / cmo_hex / itetclr / 1 0 0 / 1
+cmo / setatt / cmo_hex / imt / 1 0 0 / 1
+resetpts / itp
+quality
+*
+* Create the smaller mesh which will have higher resolution
+cmo / create / cmo_hex2 / / / hex
+cmo / select / cmo_hex2
+define / NX / 10
+define / NY / 10
+define / NZ / 30
+define / NX / 2
+define / NY / 2
+define / NZ / 2
+createpts/brick/xyz/NX,NY,NZ/0.4, 0.4, 0.2/ 0.6 0.6 0.8 /1,1,1
+cmo / setatt / cmo_hex2 / itetclr / 1 0 0 / 2
+cmo / setatt / cmo_hex2 / imt / 1 0 0 / 2
+resetpts / itp
+quality
+*
+* merge hex meshes 
+*
+addmesh / merge / cmo_merge / cmo_hex / cmo_hex2
+dump gmv output_merge_hex2.gmv cmo_merge ascii
+dump avs2 output_merge_hex2.inp cmo_merge
+
+cmo/select/cmo_merge
+quality
+
+* finish simple version
+
+* Run full version test
+
+cmo/delete/cmo_hex
+cmo/delete/cmo_hex2
+
+* Create the larger mesh
+*
+cmo / create / cmo_hex / / / hex
+cmo / select / cmo_hex
+*
+* Create a simple hex mesh, NX-NY-NZ
+define / NX / 10
+define / NY / 10
+define / NZ / 10
+createpts/brick/xyz/NX,NY,NZ/0.,0.,0./1.,1.,1./1,1,1
+cmo / setatt / cmo_hex / itetclr / 1 0 0 / 1
+cmo / setatt / cmo_hex / imt / 1 0 0 / 1
+resetpts / itp
+quality
+*
+* Create the smaller mesh which will have higher resolution
+cmo / create / cmo_hex2 / / / hex
+cmo / select / cmo_hex2
+define / NX / 10
+define / NY / 10
+define / NZ / 30
+createpts/brick/xyz/NX,NY,NZ/0.4, 0.4, 0.1/ 0.6 0.6 0.9 /1,1,1
+cmo / setatt / cmo_hex2 / itetclr / 1 0 0 / 2
+cmo / setatt / cmo_hex2 / imt / 1 0 0 / 2
+resetpts / itp
+quality
+*
+* Merge the small mesh with the large using addmesh merge
+*
+addmesh / merge / cmo_merge / cmo_hex / cmo_hex2
+dump gmv output_merge_hex.gmv cmo_merge ascii
+cmo/select/cmo_merge
+quality
+
+*
+* Create tet versions of the meshes
+*
+hextotet / 5 / cmo_tet1 / cmo_hex
+quality
+hextotet / 5 / cmo_tet2 / cmo_hex2
+quality
+*
+* Insert and connect the small mesh into the large 
+* using  addmesh add and connect
+*
+* excavate the cmo_tet1 mesh to make room for the cmo_tet2 mesh
+* Use the refine_factor to minimize space between objects
+*
+addmesh / add / cmo_add / cmo_tet1 / cmo_tet2/ 1 edge
+cmo/setatt//ipolydat/no
+dump / gmv / output_addmesh_add.gmv / cmo_add
+*
+*  Now connect
+*
+cmo / create / cmo_tet3 / / / tet
+copypts / cmo_tet3 / cmo_add
+cmo / setatt / cmo_tet3 / imt / 1 0 0 / 1
+cmo / setatt / cmo_tet3 / itp / 1 0 0 / 0
+
+connect
+resetpts / itp
+quality
+
+cmo/setatt//ipolydat/no
+dump / gmv / output_addmesh_connect.gmv / cmo_tet3
+resetpts / itp
+quality
+
+finish
+

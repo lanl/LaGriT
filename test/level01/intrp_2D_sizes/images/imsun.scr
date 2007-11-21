@@ -1,0 +1,3 @@
+gmvbatch -a out_intrp_pts2.gmvattr -w 0 0 500 500 -i out_intrp_pts2.gmv -s  out_intrp_pts2.rgb
+convert out_intrp_pts2.rgb out_intrp_pts2.gif
+

@@ -1,0 +1,60 @@
+*TEST createpts/brick (lagrit_input_createbrick)
+*     3D and 2D
+*
+* Example to create a retangular grid that
+* captures the geometry of an interface in the
+* stair steps of a regular grid.
+*
+* Carl Gable 3/12/98
+*
+
+****************************************************
+* Create and color a 3D brick mesh
+* Create a cmo with hexahedral storage arrays
+cmo/create/cmohex/ / / hex
+
+* Define the exterior and a plane
+* Define the material regions
+surface/cube/reflect/box/0.0,0.0,0.0/1.0,1.0,1.0/
+surface/cutplane/intrface/plane/0.,0.,.1/1.,0.,.5/1.,1.,.8
+region/mattop/le cube and gt cutplane/
+region/matbot/le cube and le cutplane
+mregion/mattop/le cube and gt cutplane/
+mregion/matbot/le cube and lt cutplane
+
+* Create a rectangular grid
+creatpts/brick/xyz/21,5,41/0.,0.,0./1.,1.,1./1 1 1
+*rzbrick/xyz/21,5,41/0.,0.,0./1.,1.,1./1 1 1
+
+* Color the nodes according to the mregions
+setpts
+* Color the elements according to the mregions
+settets
+* Output the final grid
+dump/gmv/output_createbrick.gmv
+
+* begin compare brick
+cmo/status/cmohex
+cmo/printatt/cmohex/-xyz-/minmax
+cmo/printatt/cmohex/imt1/minmax
+quality
+* end compare brick
+
+****************************************************
+* Create a 2D quad mesh
+* rzbrick and createpts do not currently work in 2D
+* this is a substitute method that works
+cmo create cmoquad///quad 
+  quadxy 5 5/ 0. 0. 0. / 20. 0. 0./20. 20. 0. / 0. 20. 0. 
+  rzbrick/xyz/5,5,1/1,0,0/connect 
+  dump gmv output_quad.gmv cmoquad
+
+* begin compare quad
+cmo/status/cmoquad
+cmo/printatt/cmoquad/-xyz-/minmax
+quality
+* end compare quad
+
+
+finish
+

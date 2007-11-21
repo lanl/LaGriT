@@ -1,0 +1,464 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V2.001   SunOS          *                 
+*               *    Compiled: 2007/10/18                     *                 
+*               *    Run Time: 2007/11/21  13:10:29           *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+* test quality on refined and reconnected mesh                                  
+cmo/create/3dmesh/                                                              
+cmo/addatt/3dmesh/boron                                                         
+cmo/modatt/3dmesh/boron/ioflag/gx/                                              
+cmo/modatt/3dmesh/boron/interp/linear/                                          
+surface/cube/reflect/box/.0,.0,.0/1.,1.,1./                                     
+cmo/addatt//ncon50/INT/scalar/scalar/constant/permanent/l/0                     
+finish                                                                          
+cmo/addatt//nconbnd/INT/scalar/scalar/constant/permanent/l/0                    
+finish                                                                          
+cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0                 
+finish                                                                          
+surface/mid/intrface/plane/0,0,.5/1,0,.5/1,1,.5                                 
+  The unit vector for mid      is  0.0000000i   0.0000000j   1.0000000k         
+region/upper/le cube and ge mid/                                                
+region/lower/le cube and lt mid/                                                
+mregion/mupper/le cube and gt mid/                                              
+mregion/mlower/le cube and lt mid/                                              
+createpts/xyz/3,3,3/0.,0.,0./1.,1.,1./1,1,1/                                    
+  RZ GENERATED POINTS                    1 TO                   27              
+setpts                                                                          
+ FOR icr   1 TYPE surface    1   0   0 THERE ARE       26 POINTS                
+ FOR imt=   1 NAME= mupper   THERE ARE               9 POINTS                   
+ FOR imt=   2 NAME= mlower   THERE ARE               9 POINTS                   
+ FOR imt=   3 NAME= intrface THERE ARE               9 POINTS                   
+connect                                                                         
+ Coordinates of enclosing tetrahedron are:                                      
+          -0.20000D+01-0.75000D+00-0.75000D+00                                  
+           0.50000D+00-0.75000D+00 0.42500D+01                                  
+           0.30000D+01-0.75000D+00-0.75000D+00                                  
+           0.50000D+00 0.42500D+01 0.50000D+00                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+settets                                                                         
+ Adding        18 interface-coupled points.                                     
+* begin compare no refine                                                       
+quality/aspect                                                                  
+ 
+epsilonl, epsilonaspect:   3.8459254E-13  5.6885628E-38                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :         48                          
+min aspect ratio =  0.6230E+00  max aspect ratio =  0.7321E+00                  
+-----------------------------------------------------------                     
+        48 total elements evaluated.                                            
+ 
+quality/volume                                                                  
+ 
+epsilonvol:   2.2204460E-13                                                     
+---------------------------------------                                         
+All elements have volume  2.0833333E-02                                         
+-----------------------------------------------------------                     
+        48 total elements evaluated.                                            
+ 
+quality/angle/gt/90.                                                            
+------------------------------------------                                      
+elements with angles >  90.000:         16                                      
+tets       with angles >  90.000:         16                                    
+min angle =  35.264  max angle = 125.264                                        
+-----------------------------------------------------------                     
+        48 total elements evaluated.                                            
+ 
+* end compare no refine                                                         
+refine/maxsize///edge/1,0,0/0.01,0.0,0.0/                                       
+refine edges:                                                                   
+Refine edges:         98                                                        
+Edge_add iteration:          1        98                                        
+Edge-refined tets: old=        48 new=        92                                
+Edge_add iteration:          2        83                                        
+Edge-refined tets: old=        92 new=       176                                
+Edge_add iteration:          3        58                                        
+Edge-refined tets: old=       176 new=       320                                
+Edge_add iteration:          4        13                                        
+Edge-refined tets: old=       320 new=       384                                
+settets/newtets                                                                 
+Interface node converted to interior         52                                 
+Interface node converted to interior         55                                 
+Interface node converted to interior         71                                 
+Interface node converted to interior         73                                 
+Interface node converted to interior         94                                 
+Interface node converted to interior         95                                 
+Interface node converted to interior        114                                 
+Interface node converted to interior        139                                 
+ Adding        32 interface-coupled points.                                     
+finish                                                                          
+recon                                                                           
+RECON3D reconnection loop:     1                                                
+ RECON:ntets=      384 nface=       10 nflips=       83                         
+ niter=        4 negvol=        0 nbface=        8                              
+refine/constant/boron/linear/edge/1,0,0/1.3+20/                                 
+refine edges:                                                                   
+Refine edges:          0                                                        
+* begin compare refine 1                                                        
+quality/aspect                                                                  
+ 
+epsilonl, epsilonaspect:   3.8459254E-13  5.6885628E-38                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          3                          
+elements with aspect ratio b/w .2  and .5 :         23                          
+elements with aspect ratio b/w .5  and 1. :        358                          
+min aspect ratio =  0.1286E+00  max aspect ratio =  0.7321E+00                  
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+quality/volume                                                                  
+ 
+epsilonvol:   2.2204460E-13                                                     
+---------------------------------------                                         
+All elements have volume  2.6041667E-03                                         
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+quality/angle/gt/90.                                                            
+------------------------------------------                                      
+elements with angles >  90.000:        130                                      
+tets       with angles >  90.000:        130                                    
+min angle =  10.893  max angle = 162.285                                        
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+quality/taylor/boron/1.e-1/                                                     
+Max abs Taylor error = .0000000000000E+00                                       
+cmo/addatt//quality_taylor_len/INT/scalar/scalar/constant//x/0                  
+finish                                                                          
+------------------------------------------                                      
+Num edges with Taylor error exceeding abs(  0.1000000):              0          
+-------------------------------------------                                     
+cmo/delatt//quality_taylor_len                                                  
+finish                                                                          
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+* end compare refine 1                                                          
+recon                                                                           
+RECON3D reconnection loop:     1                                                
+ RECON:ntets=      384 nface=       10 nflips=        0                         
+ niter=        0 negvol=        0 nbface=        8                              
+* begin compare recon                                                           
+quality/aspect                                                                  
+ 
+epsilonl, epsilonaspect:   3.8459254E-13  5.6885628E-38                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          3                          
+elements with aspect ratio b/w .2  and .5 :         23                          
+elements with aspect ratio b/w .5  and 1. :        358                          
+min aspect ratio =  0.1286E+00  max aspect ratio =  0.7321E+00                  
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+quality/volume                                                                  
+ 
+epsilonvol:   2.2204460E-13                                                     
+---------------------------------------                                         
+All elements have volume  2.6041667E-03                                         
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+quality/angle/gt/90.                                                            
+------------------------------------------                                      
+elements with angles >  90.000:        130                                      
+tets       with angles >  90.000:        130                                    
+min angle =  10.893  max angle = 162.285                                        
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+quality/taylor/boron/1.e-1/                                                     
+Max abs Taylor error = .0000000000000E+00                                       
+cmo/addatt//quality_taylor_len/INT/scalar/scalar/constant//x/0                  
+finish                                                                          
+------------------------------------------                                      
+Num edges with Taylor error exceeding abs(  0.1000000):              0          
+-------------------------------------------                                     
+cmo/delatt//quality_taylor_len                                                  
+finish                                                                          
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+* end compare recon                                                             
+recon                                                                           
+RECON3D reconnection loop:     1                                                
+ RECON:ntets=      384 nface=       10 nflips=        0                         
+ niter=        0 negvol=        0 nbface=        8                              
+* begin compare recon 2                                                         
+quality/aspect/y                                                                
+cmo/addatt//aratio/VDOUBLE/scalar/nelements                                     
+finish                                                                          
+ 
+epsilonl, epsilonaspect:   3.8459254E-13  5.6885628E-38                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          3                          
+elements with aspect ratio b/w .2  and .5 :         23                          
+elements with aspect ratio b/w .5  and 1. :        358                          
+min aspect ratio =  0.1286E+00  max aspect ratio =  0.7321E+00                  
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+quality/volume                                                                  
+ 
+epsilonvol:   2.2204460E-13                                                     
+---------------------------------------                                         
+All elements have volume  2.6041667E-03                                         
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+quality/angle/gt/90.                                                            
+------------------------------------------                                      
+elements with angles >  90.000:        130                                      
+tets       with angles >  90.000:        130                                    
+min angle =  10.893  max angle = 162.285                                        
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+quality/taylor/boron/1.e-1/                                                     
+Max abs Taylor error = .0000000000000E+00                                       
+cmo/addatt//quality_taylor_len/INT/scalar/scalar/constant//x/0                  
+finish                                                                          
+------------------------------------------                                      
+Num edges with Taylor error exceeding abs(  0.1000000):              0          
+-------------------------------------------                                     
+cmo/delatt//quality_taylor_len                                                  
+finish                                                                          
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+quality/volume/material                                                         
+ 
+ 
+QUALITY TOTALS for          2 MATERIALS:                                        
+...........................................................                     
+eltset/-etmp-/itetclr/eq/1/                                                     
+ 
+ THE ELTSET -etmp-                           HAS        192 ELEMENTS            
+finish                                                                          
+ 
+epsilonvol:   2.2204460E-13                                                     
+---------------------------------------                                         
+ 
+  VOLUMES for ELEMENT COLOR          1                                          
+...........................                                                     
+All elements have volume  2.6041667E-03                                         
+eltset/-etmp-/delete/                                                           
+ 
+ ELTSET -etmp-                           DELETED                                
+ 
+finish                                                                          
+eltset/-etmp-/itetclr/eq/2/                                                     
+ 
+ THE ELTSET -etmp-                           HAS        192 ELEMENTS            
+finish                                                                          
+---------------------------------------                                         
+ 
+  VOLUMES for ELEMENT COLOR          2                                          
+...........................                                                     
+All elements have volume  2.6041667E-03                                         
+eltset/-etmp-/delete/                                                           
+ 
+ ELTSET -etmp-                           DELETED                                
+ 
+finish                                                                          
+---------------------------------------                                         
+ 
+  SUMMARY VOLUME/AREA of ELEMENT COLORS for 3dmesh         1           2        
+...........................................................                     
+Color      Num. Elements   Volume          Fractional Volume                    
+    1         192          0.5000000E+00     0.500000000                        
+    2         192          0.5000000E+00     0.500000000                        
+ Total elements:          384          Total Volume:  0.1000000E+01             
+-----------------------------------------------------------                     
+       384 total elements evaluated.                                            
+ 
+cmo/status                                                                      
+ 
+The current-mesh-object(CMO) is: 3dmesh                                         
+ 
+  1 Mesh Object name: 3dmesh                                                    
+    number of nodes =           175        number of elements =          384    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  1.750E+02  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  3.840E+02  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  3.846E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  6.661E-13  
+ 36        epsilonv REAL     scalar          scalar const perma   l  2.220E-13  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.760E+02  
+ 38         ipointj  INT     scalar          scalar const perma   l  1.750E+02  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66           boron VDOU     scalar          nnodes linea tempo  gx  0.000E+00  
+ 67          ncon50  INT     scalar          scalar const perma   l  2.500E+03  
+ 68         nconbnd  INT     scalar          scalar const perma   l  1.000E+00  
+ 69         icontab VINT     scalar          ncon50 const perma   l  0.000E+00  
+ 70          aratio VDOU     scalar       nelements linea tempo agl  0.000E+00  
+* end compare recon 2                                                           
+* check sorted array                                                            
+sort/xyz/bins                                                                   
+sort/-def-/bins/ascending/i_index/xic                                           
+cmo/addatt//i_index/vint/scalar/nnodes///gax/0                                  
+finish                                                                          
+finish                                                                          
+sort/-def-/bins/ascending/j_index/yic                                           
+cmo/addatt//j_index/vint/scalar/nnodes///gax/0                                  
+finish                                                                          
+finish                                                                          
+sort/-def-/bins/ascending/k_index/zic                                           
+cmo/addatt//k_index/vint/scalar/nnodes///gax/0                                  
+finish                                                                          
+finish                                                                          
+* begin compare sort                                                            
+cmo/printatt/3dmesh/i_index/1,20,1                                              
+Attribute: i_index                                                              
+         1          1                                                           
+         2          3                                                           
+         3          5                                                           
+         4          1                                                           
+         5          3                                                           
+         6          5                                                           
+         7          1                                                           
+         8          3                                                           
+         9          5                                                           
+        10          1                                                           
+        11          3                                                           
+        12          5                                                           
+        13          1                                                           
+        14          3                                                           
+        15          5                                                           
+        16          1                                                           
+        17          3                                                           
+        18          5                                                           
+        19          1                                                           
+        20          3                                                           
+ 
+cmo/printatt/3dmesh/j_index/1,20,1                                              
+Attribute: j_index                                                              
+         1          1                                                           
+         2          1                                                           
+         3          1                                                           
+         4          3                                                           
+         5          3                                                           
+         6          3                                                           
+         7          5                                                           
+         8          5                                                           
+         9          5                                                           
+        10          1                                                           
+        11          1                                                           
+        12          1                                                           
+        13          3                                                           
+        14          3                                                           
+        15          3                                                           
+        16          5                                                           
+        17          5                                                           
+        18          5                                                           
+        19          1                                                           
+        20          1                                                           
+ 
+* end compare sort                                                              
+*END                                                                            
+finish                                                                          
+LaGriT successfully completed                                                   

@@ -1,0 +1,271 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V2.001   SunOS          *                 
+*               *    Compiled: 2007/10/18                     *                 
+*               *    Run Time: 2007/11/21  14:03:45           *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+* this test case tests setpts and settets                                       
+* it makes a geometry with 10 regions                                           
+cmo/create/abc                                                                  
+* geometry made up of 6 bounding planes and one                                 
+* interface planes to divide into 10 regions                                    
+surface/pbot/reflect/plane/0,0,0/1,0,0/1,1,0/                                   
+  The unit vector for pbot     is  0.0000000i   0.0000000j   1.0000000k         
+cmo/addatt//ncon50/INT/scalar/scalar/constant/permanent/l/0                     
+finish                                                                          
+cmo/addatt//nconbnd/INT/scalar/scalar/constant/permanent/l/0                    
+finish                                                                          
+cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0                 
+finish                                                                          
+surface/ptop/reflect/plane/0,0,1/1,0,1/1,1,1/                                   
+  The unit vector for ptop     is  0.0000000i   0.0000000j   1.0000000k         
+surface/prgt/reflect/plane/1,0,0/1,1,0/1,1,1/                                   
+  The unit vector for prgt     is  1.0000000i   0.0000000j   0.0000000k         
+surface/plft/reflect/plane/0,0,0/0,1,0/0,1,1/                                   
+  The unit vector for plft     is  1.0000000i   0.0000000j   0.0000000k         
+surface/pfrt/reflect/plane/0,0,0/1,0,0/1,0,1/                                   
+  The unit vector for pfrt     is  0.0000000i  -1.0000000j   0.0000000k         
+surface/pbck/reflect/plane/0,1,0/1,1,0/1,1,1/                                   
+  The unit vector for pbck     is  0.0000000i  -1.0000000j   0.0000000k         
+surface/p5/intrface/plane/0,0,.5/1,0,.5/1,1,.5/                                 
+  The unit vector for p5       is  0.0000000i   0.0000000j   1.0000000k         
+surface/p1/intrface/plane/0,0,.1/1,0,.1/1,1,.1/                                 
+  The unit vector for p1       is  0.0000000i   0.0000000j   1.0000000k         
+surface/p2/intrface/plane/0,0,.2/1,0,.2/1,1,.2/                                 
+  The unit vector for p2       is  0.0000000i   0.0000000j   1.0000000k         
+surface/p3/intrface/plane/0,0,.3/1,0,.3/1,1,.3/                                 
+  The unit vector for p3       is  0.0000000i   0.0000000j   1.0000000k         
+surface/p4/intrface/plane/0,0,.4/1,0,.4/1,1,.4/                                 
+  The unit vector for p4       is  0.0000000i   0.0000000j   1.0000000k         
+surface/p6/intrface/plane/0,0,.6/1,0,.6/1,1,.6/                                 
+  The unit vector for p6       is  0.0000000i   0.0000000j   1.0000000k         
+surface/p7/intrface/plane/0,0,.7/1,0,.7/1,1,.7/                                 
+  The unit vector for p7       is  0.0000000i   0.0000000j   1.0000000k         
+surface/p8/intrface/plane/0,0,.8/1,0,.8/1,1,.8/                                 
+  The unit vector for p8       is  0.0000000i   0.0000000j   1.0000000k         
+surface/p9/intrface/plane/0,0,.9/1,0,.9/1,1,.9/                                 
+  The unit vector for p9       is  0.0000000i   0.0000000j   1.0000000k         
+*define geometric regions                                                       
+region/top/le ptop and ge plft and le prgt and ge pbck and le pfrt and ge p9/   
+region/bot/ge pbot and ge plft and le prgt and ge pbck and le pfrt and lt p1/   
+region/r2/ge p1 and ge plft and le prgt and ge pbck and le pfrt and lt p2/      
+region/r3/ge p2 and ge plft and le prgt and ge pbck and le pfrt and lt p3/      
+region/r4/ge p3 and ge plft and le prgt and ge pbck and le pfrt and lt p4/      
+region/r5/ge p4 and ge plft and le prgt and ge pbck and le pfrt and lt p5/      
+region/r6/ge p5 and ge plft and le prgt and ge pbck and le pfrt and lt p6/      
+region/r7/ge p6 and ge plft and le prgt and ge pbck and le pfrt and lt p7/      
+region/r8/ge p7 and ge plft and le prgt and ge pbck and le pfrt and lt p8/      
+region/r9/ge p8 and ge plft and le prgt and ge pbck and le pfrt and lt p9/      
+* define material regions                                                       
+mregion/mtop/le ptop and ge plft and le prgt and ge pbck and le pfrt and gt p9/ 
+mregion/mbot/ge pbot and ge plft and le prgt and ge pbck and le pfrt and lt p1/ 
+mregion/mr2/gt p1 and ge plft and le prgt and ge pbck and le pfrt and lt p2/    
+mregion/mr3/gt p2 and ge plft and le prgt and ge pbck and le pfrt and lt p3/    
+mregion/mr4/gt p3 and ge plft and le prgt and ge pbck and le pfrt and lt p4/    
+mregion/mr5/gt p4 and ge plft and le prgt and ge pbck and le pfrt and lt p5/    
+mregion/mr6/gt p5 and ge plft and le prgt and ge pbck and le pfrt and lt p6/    
+mregion/mr7/gt p6 and ge plft and le prgt and ge pbck and le pfrt and lt p7/    
+mregion/mr8/gt p7 and ge plft and le prgt and ge pbck and le pfrt and lt p8/    
+mregion/mr9/gt p8 and ge plft and le prgt and ge pbck and le pfrt and lt p9/    
+createpts/xyz/6,6,41/0,0,0/1,1,1/1,1,1                                          
+  RZ GENERATED POINTS                    1 TO                 1476              
+setpts                                                                          
+ FOR icr   1 TYPE surface    1   0   0 THERE ARE       16 POINTS                
+ FOR icr   2 TYPE surface    2   0   0 THERE ARE       16 POINTS                
+ FOR icr   3 TYPE surface    3   0   0 THERE ARE      156 POINTS                
+ FOR icr   4 TYPE surface    4   0   0 THERE ARE      156 POINTS                
+ FOR icr   5 TYPE surface    5   0   0 THERE ARE      156 POINTS                
+ FOR icr   6 TYPE surface    6   0   0 THERE ARE      156 POINTS                
+ FOR icr   7 TYPE line       1   3   0 THERE ARE        4 POINTS                
+ FOR icr   8 TYPE line       2   3   0 THERE ARE        4 POINTS                
+ FOR icr   9 TYPE line       1   4   0 THERE ARE        4 POINTS                
+ FOR icr  10 TYPE line       2   4   0 THERE ARE        4 POINTS                
+ FOR icr  11 TYPE point      1   4   5 THERE ARE        1 POINTS                
+ FOR icr  12 TYPE line       1   5   0 THERE ARE        4 POINTS                
+ FOR icr  13 TYPE point      1   3   5 THERE ARE        1 POINTS                
+ FOR icr  14 TYPE line       4   5   0 THERE ARE       39 POINTS                
+ FOR icr  15 TYPE line       3   5   0 THERE ARE       39 POINTS                
+ FOR icr  16 TYPE point      2   4   5 THERE ARE        1 POINTS                
+ FOR icr  17 TYPE line       2   5   0 THERE ARE        4 POINTS                
+ FOR icr  18 TYPE point      2   3   5 THERE ARE        1 POINTS                
+ FOR icr  19 TYPE point      1   4   6 THERE ARE        1 POINTS                
+ FOR icr  20 TYPE line       1   6   0 THERE ARE        4 POINTS                
+ FOR icr  21 TYPE point      1   3   6 THERE ARE        1 POINTS                
+ FOR icr  22 TYPE line       4   6   0 THERE ARE       39 POINTS                
+ FOR icr  23 TYPE line       3   6   0 THERE ARE       39 POINTS                
+ FOR icr  24 TYPE point      2   4   6 THERE ARE        1 POINTS                
+ FOR icr  25 TYPE line       2   6   0 THERE ARE        4 POINTS                
+ FOR icr  26 TYPE point      2   3   6 THERE ARE        1 POINTS                
+ FOR imt=   1 NAME= mtop     THERE ARE             144 POINTS                   
+ FOR imt=   2 NAME= mbot     THERE ARE             144 POINTS                   
+ FOR imt=   3 NAME= mr2      THERE ARE             108 POINTS                   
+ FOR imt=   4 NAME= mr3      THERE ARE             108 POINTS                   
+ FOR imt=   5 NAME= mr4      THERE ARE             108 POINTS                   
+ FOR imt=   6 NAME= mr5      THERE ARE             108 POINTS                   
+ FOR imt=   7 NAME= mr6      THERE ARE             108 POINTS                   
+ FOR imt=   8 NAME= mr7      THERE ARE             108 POINTS                   
+ FOR imt=   9 NAME= mr8      THERE ARE             108 POINTS                   
+ FOR imt=  10 NAME= mr9      THERE ARE             108 POINTS                   
+ FOR imt=  11 NAME= intrface THERE ARE             324 POINTS                   
+connect                                                                         
+ Coordinates of enclosing tetrahedron are:                                      
+          -0.20000D+01-0.75000D+00-0.75000D+00                                  
+           0.50000D+00-0.75000D+00 0.42500D+01                                  
+           0.30000D+01-0.75000D+00-0.75000D+00                                  
+           0.50000D+00 0.42500D+01 0.50000D+00                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+settets                                                                         
+ Adding       648 interface-coupled points.                                     
+dump/gmv/output.gmv                                                             
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+* begin compare here                                                            
+cmo/status/abc                                                                  
+ 
+The current-mesh-object(CMO) is: abc                                            
+ 
+  1 Mesh Object name: abc                                                       
+    number of nodes =          2124        number of elements =         5940    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  2.124E+03  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  5.940E+03  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  3.846E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  6.661E-13  
+ 36        epsilonv REAL     scalar          scalar const perma   l  2.220E-13  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.477E+03  
+ 38         ipointj  INT     scalar          scalar const perma   l  2.124E+03  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66          ncon50  INT     scalar          scalar const perma   l  2.500E+03  
+ 67         nconbnd  INT     scalar          scalar const perma   l  2.600E+01  
+ 68         icontab VINT     scalar          ncon50 const perma   l  0.000E+00  
+pset/p1/attribute/imt1/1,0,0/1 eq                                               
+ 
+ THE PSET  p1  HAS        194 POINTS                                            
+pset/p2/attribute/imt1/1,0,0/2 eq                                               
+ 
+ THE PSET  p2  HAS        202 POINTS                                            
+pset/p3/attribute/imt1/1,0,0/3 eq                                               
+ 
+ THE PSET  p3  HAS        217 POINTS                                            
+pset/p4/attribute/imt1/1,0,0/4 eq                                               
+ 
+ THE PSET  p4  HAS        217 POINTS                                            
+pset/p5/attribute/imt1/1,0,0/5 eq                                               
+ 
+ THE PSET  p5  HAS        216 POINTS                                            
+pset/p6/attribute/imt1/1,0,0/6 eq                                               
+ 
+ THE PSET  p6  HAS        213 POINTS                                            
+pset/p7/attribute/imt1/1,0,0/7 eq                                               
+ 
+ THE PSET  p7  HAS        213 POINTS                                            
+pset/p8/attribute/imt1/1,0,0/8 eq                                               
+ 
+ THE PSET  p8  HAS        220 POINTS                                            
+pset/p9/attribute/imt1/1,0,0/9 eq                                               
+ 
+ THE PSET  p9  HAS        214 POINTS                                            
+quality volume                                                                  
+ 
+epsilonvol:   2.2204460E-13                                                     
+---------------------------------------                                         
+element volumes b/w  0.1667E-03 and  0.1914E-03:      5880                      
+element volumes b/w  0.1914E-03 and  0.2199E-03:         0                      
+element volumes b/w  0.2199E-03 and  0.2526E-03:         0                      
+element volumes b/w  0.2526E-03 and  0.2902E-03:         0                      
+element volumes b/w  0.2902E-03 and  0.3333E-03:        60                      
+element volumes b/w  0.2902E-03 and  0.3333E-03:        60                      
+min volume =   1.6666667E-04  max volume =   3.3333333E-04                      
+-----------------------------------------------------------                     
+      5940 total elements evaluated.                                            
+ 
+* end compare                                                                   
+* END                                                                           
+finish                                                                          
+LaGriT successfully completed                                                   

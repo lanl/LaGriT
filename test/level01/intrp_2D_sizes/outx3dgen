@@ -1,0 +1,316 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V2.001   SunOS          *                 
+*               *    Compiled: 2007/10/18                     *                 
+*               *    Run Time: 2007/11/21  12:22:52           *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+*                                                                               
+define/SIZE_SRCX/21                                                             
+define/SIZE_SRCY/101                                                            
+define/SIZE_SNKX/20                                                             
+define/SIZE_SNKY/100                                                            
+* Build a simple 2d triangular mesh                                             
+*                                                                               
+cmo/create/cmosource///triplane                                                 
+createpts/xyz/SIZE_SRCX,SIZE_SRCY,1/0.,0.,0./1.,1.,0./1,1,1                     
+  RZ GENERATED POINTS                    1 TO                 2121              
+cmo/setatt/cmosource/imt/1 0 0/1                                                
+Warning: nelements = 0                                                          
+      2121 values reset for attribute imt1                                      
+ 
+cmo/setatt/cmosource/itp/1 0 0/0                                                
+Warning: nelements = 0                                                          
+      2121 values reset for attribute itp1                                      
+ 
+connect                                                                         
+ Coordinates of enclosing triangle are:                                         
+          -0.17500D+01-0.16000D+01 0.00000D+00                                  
+           0.27500D+01-0.17500D+01 0.00000D+00                                  
+           0.50500D+00 0.50000D+01 0.00000D+00                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+*                                                                               
+* Add some floating point attributes                                            
+*                                                                               
+cmo/addatt/cmosource/field3/vdouble/scalar/nnodes                               
+cmo/copyatt/cmosource cmosource/field3 xic                                      
+      2121 copied from cmosource xic to -> cmosource field3                     
+ 
+*                                                                               
+*                                                                               
+* Build a second simple 2d triangular mesh                                      
+*                                                                               
+cmo/create/cmosink///triplane                                                   
+createpts/xyz/SIZE_SNKX,SIZE_SNKY,1/0.,0.,0./1.,1.,0./1,1,1                     
+  RZ GENERATED POINTS                    1 TO                 2000              
+cmo/setatt/cmosink/imt/1 0 0/1                                                  
+Warning: nelements = 0                                                          
+      2000 values reset for attribute imt1                                      
+ 
+cmo/setatt/cmosink/itp/1 0 0/0                                                  
+Warning: nelements = 0                                                          
+      2000 values reset for attribute itp1                                      
+ 
+connect                                                                         
+ Coordinates of enclosing triangle are:                                         
+          -0.17500D+01-0.16000D+01 0.00000D+00                                  
+           0.27500D+01-0.17500D+01 0.00000D+00                                  
+           0.50500D+00 0.50000D+01 0.00000D+00                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+*                                                                               
+* Add some floating point attributes to interpolate onto.                       
+cmo/addatt/cmosink/field3/vdouble/scalar/nnodes                                 
+cmo/setatt/cmosink/idebug 0                                                     
+         1 values reset for attribute idebug                                    
+ 
+cmo/setatt/cmosource/idebug 0                                                   
+         1 values reset for attribute idebug                                    
+ 
+* end of small numbers                                                          
+cmo/select/cmosource                                                            
+scale/1 0 0/relative/xyz/1.e10 1.e10 1.0                                        
+cmo/select/cmosink                                                              
+scale/1 0 0/relative/xyz/1.e10 1.e10 1.0                                        
+*infile diagnostic.mlgi                                                         
+*interpolate/ continuous / cmosink field3 /1,0,0/ &                             
+*         cmosource field3                                                      
+cmo/select/cmosource                                                            
+scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
+cmo/select/cmosink                                                              
+scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
+*infile diagnostic.mlgi                                                         
+*interpolate/ continuous / cmosink field3 /1,0,0/ &                             
+*         cmosource field3                                                      
+*dump / gmv / out_1.ep02.gmv / cmosink  ascii                                   
+cmo/select/cmosource                                                            
+scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
+cmo/select/cmosink                                                              
+scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
+infile diagnostic.mlgi                                                          
+cmo/printatt/cmosource/-xyz-/minmax                                             
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ xic                  0.00000E+00    1.00000E+14    1.00000E+14      2121       
+ yic                  0.00000E+00    1.00000E+14    1.00000E+14      2121       
+ zic                  0.00000E+00    0.00000E+00    0.00000E+00      2121       
+ 
+cmo/printatt/cmosink/-xyz-/minmax                                               
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ xic                  0.00000E+00    1.00000E+14    1.00000E+14      2000       
+ yic                  0.00000E+00    1.00000E+14    1.00000E+14      2000       
+ zic                  0.00000E+00    0.00000E+00    0.00000E+00      2000       
+ 
+cmo/printatt/cmosink/xmin/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ xmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/xmax/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ xmax                 1.00000E+14    1.00000E+14    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/ymin/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ ymin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/ymax/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ ymax                 1.00000E+14    1.00000E+14    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/zmin/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ zmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/zmax/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ zmax                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/epsilon/minmax                                             
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ epsilon              1.00000E-15    1.00000E-15    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/epsilonl/minmax                                            
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ epsilonl             3.14018E+01    3.14018E+01    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/epsilona/minmax                                            
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ epsilona             4.44089E+15    4.44089E+15    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/epsilonv/minmax                                            
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ epsilonv             4.44089E+15    4.44089E+15    0.00000E+00         1       
+ 
+finish                                                                          
+interpolate/continuous/cmosink field3/1,0,0/cmosource field3                    
+nodes in indexed point set  =       2000                                        
+ 
+INTRP METHOD: continuous   FUNCTION:     linear                                 
+      TIEBREAKER:     maxtie   FLAG:      plus1  0.200000000000E+01             
+ 
+cmo select cmosource                                                            
+finish                                                                          
+cmo kdtree build                                                                
+cmo/addatt//v2/INT/scalar/scalar/constant/temporary//2.0                        
+finish                                                                          
+cmo/addatt//linkt/VINT/v2/nelements//temporary/x/0.0                            
+finish                                                                          
+cmo/addatt//v12/INT/scalar/scalar/constant/temporary//12.0                      
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
+finish                                                                          
+finish                                                                          
+ 
+     Sink point   Elems Searched  Elements Found  Percent Done                  
+            501              501            501       25 %                      
+           1001             1001           1001       50 %                      
+           1501             1501           1501       75 %                      
+           2000             2002           2000    Total                        
+ 
+cmo select cmosink                                                              
+finish                                                                          
+intrp/continuous done.                                                          
+ 
+cmo kdtree release                                                              
+cmo/DELATT/cmosource/sbox                                                       
+finish                                                                          
+cmo/DELATT/cmosource/v12                                                        
+finish                                                                          
+cmo/DELATT/cmosource/linkt                                                      
+finish                                                                          
+cmo/DELATT/cmosource/v2                                                         
+finish                                                                          
+finish                                                                          
+dump/gmv/out_1.ep04.gmv/cmosink ascii                                           
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/select/cmosource                                                            
+scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
+cmo/select/cmosink                                                              
+scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
+infile diagnostic.mlgi                                                          
+cmo/printatt/cmosource/-xyz-/minmax                                             
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ xic                  0.00000E+00    1.00000E+16    1.00000E+16      2121       
+ yic                  0.00000E+00    1.00000E+16    1.00000E+16      2121       
+ zic                  0.00000E+00    0.00000E+00    0.00000E+00      2121       
+ 
+cmo/printatt/cmosink/-xyz-/minmax                                               
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ xic                  0.00000E+00    1.00000E+16    1.00000E+16      2000       
+ yic                  0.00000E+00    1.00000E+16    1.00000E+16      2000       
+ zic                  0.00000E+00    0.00000E+00    0.00000E+00      2000       
+ 
+cmo/printatt/cmosink/xmin/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ xmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/xmax/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ xmax                 1.00000E+16    1.00000E+16    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/ymin/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ ymin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/ymax/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ ymax                 1.00000E+16    1.00000E+16    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/zmin/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ zmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/zmax/minmax                                                
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ zmax                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/epsilon/minmax                                             
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ epsilon              1.00000E-15    1.00000E-15    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/epsilonl/minmax                                            
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ epsilonl             3.14018E+03    3.14018E+03    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/epsilona/minmax                                            
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ epsilona             4.44089E+19    4.44089E+19    0.00000E+00         1       
+ 
+cmo/printatt/cmosink/epsilonv/minmax                                            
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ epsilonv             4.44089E+19    4.44089E+19    0.00000E+00         1       
+ 
+finish                                                                          
+interpolate/continuous/cmosink field3/1,0,0/cmosource field3                    
+nodes in indexed point set  =       2000                                        
+ 
+INTRP METHOD: continuous   FUNCTION:     linear                                 
+      TIEBREAKER:     maxtie   FLAG:      plus1  0.200000000000E+01             
+ 
+cmo select cmosource                                                            
+finish                                                                          
+cmo kdtree build                                                                
+cmo/addatt//v2/INT/scalar/scalar/constant/temporary//2.0                        
+finish                                                                          
+cmo/addatt//linkt/VINT/v2/nelements//temporary/x/0.0                            
+finish                                                                          
+cmo/addatt//v12/INT/scalar/scalar/constant/temporary//12.0                      
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
+finish                                                                          
+finish                                                                          
+ 
+     Sink point   Elems Searched  Elements Found  Percent Done                  
+            501              518            501       25 %                      
+           1001             1040           1001       50 %                      
+           1501             1586           1501       75 %                      
+           2000             2207           2000    Total                        
+ 
+cmo select cmosink                                                              
+finish                                                                          
+intrp/continuous done.                                                          
+ 
+cmo kdtree release                                                              
+cmo/DELATT/cmosource/sbox                                                       
+finish                                                                          
+cmo/DELATT/cmosource/v12                                                        
+finish                                                                          
+cmo/DELATT/cmosource/linkt                                                      
+finish                                                                          
+cmo/DELATT/cmosource/v2                                                         
+finish                                                                          
+finish                                                                          
+dump/gmv/out_1.ep06.gmv/cmosink ascii                                           
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

@@ -1,0 +1,9 @@
+cmo/create/mymesh///tet/                                                        
+createpts/brick/xyz/3,2,10/0.,0.,-100./100.,100.,50./1.,1.,1./1,1,1             
+quality                                                                         
+surface/bigbox/reflect/box/-50.0,-50.0,-100.0/50.0,50.0,0.0/                    
+quality                                                                         
+define zmx 25.                                                                  
+surface/top/reflect/plane/0.,0.,zmx/1.,0.,zmx/1.,1.,zmx/                        
+quality                                                                         
+finish                                                                          

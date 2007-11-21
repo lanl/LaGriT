@@ -1,0 +1,23 @@
+cmo/create/cmohex///hex                                                         
+surface/cube/reflect/box/0.0,0.0,0.0/1.0,1.0,1.0/                               
+surface/cutplane/intrface/plane/0.,0.,.1/1.,0.,.5/1.,1.,.8                      
+region/mattop/le cube and gt cutplane/                                          
+region/matbot/le cube and le cutplane                                           
+mregion/mattop/le cube and gt cutplane/                                         
+mregion/matbot/le cube and lt cutplane                                          
+creatpts/brick/xyz/21,5,41/0.,0.,0./1.,1.,1./1 1 1                              
+setpts                                                                          
+settets                                                                         
+dump/gmv/output_createbrick.gmv                                                 
+cmo/status/cmohex                                                               
+cmo/printatt/cmohex/-xyz-/minmax                                                
+cmo/printatt/cmohex/imt1/minmax                                                 
+quality                                                                         
+cmo create cmoquad///quad                                                       
+quadxy 5 5/0. 0. 0./20. 0. 0./20. 20. 0./0. 20. 0.                              
+rzbrick/xyz/5,5,1/1,0,0/connect                                                 
+dump gmv output_quad.gmv cmoquad                                                
+cmo/status/cmoquad                                                              
+cmo/printatt/cmoquad/-xyz-/minmax                                               
+quality                                                                         
+finish                                                                          

@@ -1,0 +1,56 @@
+cmo/create/first_cmo///hex                                                      
+cmo/select/first_cmo                                                            
+define/NX/2                                                                     
+define/NY/2                                                                     
+define/NZ/2                                                                     
+createpts/brick/xyz/NX,NY,NZ/0. 0. 0./1. .5 .5/1,1,1                            
+cmo/setatt/first_cmo/itetclr/1 0 0/1                                            
+cmo/setatt/first_cmo/imt/1 0 0/1                                                
+resetpts/itp                                                                    
+cmo/create/second_cmo///hex                                                     
+cmo/select/second_cmo                                                           
+define/NX/2                                                                     
+define/NY/2                                                                     
+define/NZ/2                                                                     
+createpts/brick/xyz/NX,NY,NZ/0.4,0.4,0.2/0.6 0.6 0.8/1,1,1                      
+cmo/setatt/second_cmo/itetclr/1 0 0/1                                           
+cmo/setatt/second_cmo/imt/1 0 0/1                                               
+resetpts/itp                                                                    
+cmo/addatt/first_cmo/zcoord/VDOUBLE/scalar/nnodes/linear/permanent/             
+cmo/copyatt/first_cmo first_cmo/zcoord zic                                      
+cmo/addatt/first_cmo/Aint/VINT/scalar/nnodes/linear/permanent/                  
+cmo/setatt/first_cmo/Aint 1                                                     
+cmo/setatt/first_cmo/Aint 2,4,1 2                                               
+cmo/addatt/first_cmo/Adoub/VDOUBLE/scalar/nnodes/linear/permanent/              
+cmo/addatt/first_cmo/newmat/VINT/scalar/nelements/linear/permanent/             
+cmo/copyatt/first_cmo first_cmo/newmat itetclr                                  
+cmo/addatt/first_cmo/Aint/VINT/scalar/nelements/linear/permanent/               
+cmo/setatt/first_cmo/Aint 1                                                     
+cmo/setatt/first_cmo/Aint 2,4,1 2                                               
+cmo/addatt/first_cmo/Adoub/VDOUBLE/scalar/nelements/linear/permanent/           
+cmo/addatt/first_cmo/Anode/VDOUBLE/scalar/nnodes/linear/permanent/              
+cmo/addatt/first_cmo/Achar/VCHAR/                                               
+cmo/addatt/first_cmo/Aextra                                                     
+cmo/addatt/first_cmo/Eextra/VDOUBLE/scalar/nelements                            
+cmo/addatt/second_cmo/zcoord/VDOUBLE/scalar/nnodes/linear/permanent/            
+cmo/copyatt/second_cmo second_cmo/zcoord zic                                    
+cmo/addatt/second_cmo/Aint/VDOUBLE/scalar/nnodes/linear/permanent/              
+cmo/setatt/second_cmo/Aint 1.0                                                  
+cmo/setatt/second_cmo/Aint 2,4,1 2.0                                            
+cmo/addatt/second_cmo/Adoub/VINT/scalar/nnodes/linear/permanent/                
+cmo/setatt/second_cmo/Adoub/5                                                   
+cmo/addatt/second_cmo/newmat/VINT/scalar/nelements/linear/permanent/            
+cmo/copyatt/second_cmo second_cmo/newmat itetclr                                
+cmo/addatt/second_cmo/Aint/VDOUBLE/scalar/nelements/linear/permanent/           
+cmo/setatt/second_cmo/Aint 1                                                    
+cmo/setatt/second_cmo/Aint 2,4,1 2                                              
+cmo/addatt/second_cmo/Adoub/VINT/scalar/nelements/linear/permanent/             
+cmo/addatt/second_cmo/Anode/VDOUBLE/scalar/nelements/linear/permanent/          
+cmo/addatt/second_cmo/Achar/VINT/                                               
+cmo/addatt/second_cmo/Askip                                                     
+cmo/status/first_cmo                                                            
+cmo/status/second_cmo                                                           
+addmesh/append/cmo_merge/first_cmo/second_cmo                                   
+dump gmv output_append_hex2.gmv cmo_merge ascii                                 
+dump avs2 output_append_hex2.inp cmo_merge                                      
+finish                                                                          

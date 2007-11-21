@@ -1,0 +1,382 @@
+
+**********************************************************
+*TEST intrp/voronoi (lagrit_input_voronoi)
+*
+* Test grid-to-grid interpolation 
+* voronoi (or nearest) interpolation method
+* copy value of nearest source point to sink point
+*
+* This input deck starts with demo problems used for manual
+* Tests include various element to element types
+* and various interpolation settings valid for voronoi method
+* Tests include the following sink <- source interpolations
+*
+* Demo 01 TRI imt <- HEX imt 
+* Demo 02  QUAD imt <- QUAD imt
+* Demo 03  TRI imt <- TET imt
+* 04  TRI imtreal <- HEX imtreal with pset selection
+* 05  TRI imt <- HEX imt with min tiebreaker 
+* 06  TRI <- TET
+* 07  TRI <- QUAD
+* 08  TRI <- TRI
+* 09  QUAD <- TRI
+* 10  HEX <- TET
+* 11  TET <- HEX
+* 12  QUAD INT <- TRI INT 
+* 13  REAL <- REAL
+* 14  INT <- REAL
+* 15  REAL <- INT
+*
+* Terry Cherry 2/01/2001
+*
+**********************************************************
+
+
+*-----------------------------------------------------
+* Demo 01 TRI imt <- HEX imt 
+* copy integer imt values from source to sink grid
+
+* HEX - read the coarse hex source grid
+read gmv input_3d_hex.gmv cmo_src
+* TRI - read the refined triangle sink grid
+read gmv input_2d_hires.gmv    cmo_sink
+* initialize sink attribute to find errors 
+  cmo setatt cmo_sink imt1 5
+
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/  
+  dump gmv output_vor01.gmv cmo_sink
+
+* merge and dump both grids for viewing and images
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor01.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imt1 minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* Demo 02  QUAD imt <- QUAD imt
+* copy nearest imt from quad grid to quad grid
+
+read gmv input_random500_quad.gmv cmo_src
+read gmv input_500_quad.gmv cmo_sink
+  cmo setatt cmo_sink imt1 5
+
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/
+  dump gmv output_vor02.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor02.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imt1 minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* Demo 03  TRI imt <- TET imt
+* Copy nearest imt from tet to tri
+read gmv input_sphere3d.gmv cmo_src
+read gmv input_sphere2d.gmv cmo_sink
+  cmo setatt cmo_sink imt1 5
+
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/
+  dump gmv output_vor03.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor03.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imt1 minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+
+*-----------------------------------------------------
+* 04  TRI imtreal <- HEX imtreal with pset selection
+* copy real attribute values from source to sink
+* use pset selection
+
+read gmv input_3d_hex.gmv cmo_src
+read gmv input_2d_hires.gmv cmo_sink
+  cmo setatt cmo_sink imtreal 5
+  pset/psmall/geom/xyz/1,0,0/3. 2. -1. / 6. 6. 6.
+
+intrp/voronoi/cmo_sink imtreal/pset,get,psmall/cmo_src imtreal
+  dump gmv output_vor04.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor04.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imtreal minmax
+  cmo printatt cmo_sink imtreal minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* 05  TRI imt <- HEX imt with min tiebreaker 
+* tiebreaker set to min, interpolate attribute set to min
+
+read gmv input_3d_hex.gmv cmo_src
+read gmv input_2d_hires.gmv cmo_sink
+  cmo setatt cmo_sink imt1 5
+
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/tiemin, min
+  dump gmv output_vor05.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor05.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imt1 minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* 06  TRI <- TET
+read gmv input_3d_tet.gmv cmo_src
+read gmv input_2d_hires.gmv    cmo_sink
+
+cmo setatt cmo_sink imt1 5
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/
+  dump gmv output_vor06.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor06.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imt1 minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+* 3 materials
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* 07  TRI <- QUAD
+read gmv input_random500_quad.gmv cmo_src
+read gmv input_500_tri.gmv cmo_sink
+  cmo setatt cmo_sink imt1 5
+  cmo setatt cmo_sink itetclr 5
+
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/
+  dump gmv output_vor07.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor07.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imt1 minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* 08  TRI <- TRI
+read gmv input_random500_tri.gmv cmo_src
+read gmv input_500_tri.gmv cmo_sink
+  cmo setatt cmo_sink imt1 5
+  cmo setatt cmo_sink itetclr 5
+
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/
+  dump gmv output_vor08.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor08.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imt1 minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* 09  QUAD <- TRI
+read gmv input_random500_tri.gmv cmo_src
+read gmv input_500_quad.gmv cmo_sink
+  cmo setatt cmo_sink imt1 5
+  cmo setatt cmo_sink itetclr 5
+
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/
+  dump gmv output_vor09.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor09.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imt1 minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* 10  HEX <- TET
+read gmv input_centered_tet.gmv cmo_src
+read gmv input_centered_hex.gmv cmo_sink
+  cmo setatt cmo_sink imt1 5
+  cmo setatt cmo_sink itetclr 5
+
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/
+  dump gmv output_vor10.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor10.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imt1 minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* 11  TET <- HEX
+read gmv input_centered_hex.gmv cmo_src
+read gmv input_centered_tet2.gmv cmo_sink
+  cmo setatt cmo_sink imt1 5
+
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/
+  dump gmv output_vor11.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor11.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imt1 minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+
+* Test attribute types
+* read the source grid for next set of tests
+read gmv input_random500_tri.gmv cmo_src
+
+* read the sink grid for the next set of tests
+read gmv input_500_quad.gmv    cmo_sink
+cmo addatt cmo_sink numreal
+
+*-----------------------------------------------------
+* 12  QUAD INT <- TRI INT 
+
+cmo setatt cmo_sink imt1 0
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src ialias
+  dump gmv output_vor12.gmv
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor12.gmv cmov
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src ialias minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+*-----------------------------------------------------
+* 13  REAL <- REAL
+
+cmo setatt cmo_sink numreal 0.0
+intrp/voronoi/cmo_sink numreal/1,0,0/cmo_src numreal
+  dump gmv output_vor13.gmv
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor13.gmv cmov
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src numreal minmax
+  cmo printatt cmo_sink numreal minmax
+* end compare here
+
+*-----------------------------------------------------
+* 14  INT <- REAL
+
+cmo setatt cmo_sink numreal 0.0
+intrp/voronoi/cmo_sink numreal/1,0,0/cmo_src ialias
+  dump gmv output_vor14.gmv
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor14.gmv cmov
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src ialias minmax
+  cmo printatt cmo_sink numreal minmax
+* end compare here
+
+*-----------------------------------------------------
+* 15  REAL <- INT
+
+cmo setatt cmo_sink imt1 0
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src numreal
+  dump gmv output_vor15.gmv
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_vor15.gmv cmov
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src numreal minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+
+* DONE with voronoi test
+finish
+

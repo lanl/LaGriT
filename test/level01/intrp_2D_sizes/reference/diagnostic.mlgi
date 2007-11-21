@@ -1,0 +1,16 @@
+cmo / printatt / cmosource / -xyz- / minmax
+cmo / printatt / cmosink   / -xyz- / minmax
+
+
+cmo / printatt / cmosink   / xmin / minmax
+cmo / printatt / cmosink   / xmax / minmax
+cmo / printatt / cmosink   / ymin / minmax
+cmo / printatt / cmosink   / ymax / minmax
+cmo / printatt / cmosink   / zmin / minmax
+cmo / printatt / cmosink   / zmax / minmax
+cmo / printatt / cmosink   / epsilon / minmax
+cmo / printatt / cmosink   / epsilonl / minmax
+cmo / printatt / cmosink   / epsilona / minmax
+cmo / printatt / cmosink   / epsilonv / minmax
+
+finish

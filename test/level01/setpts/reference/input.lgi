@@ -1,0 +1,85 @@
+* this test case tests setpts and settets 
+* it makes a geometry with 10 regions
+cmo/create/abc
+* geometry made up of 6 bounding planes and one
+* interface planes to divide into 10 regions
+surface/pbot/reflect/plane/0,0,0/1,0,0/1,1,0/
+surface/ptop/reflect/plane/0,0,1/1,0,1/1,1,1/
+surface/prgt/reflect/plane/1,0,0/1,1,0/1,1,1/
+surface/plft/reflect/plane/0,0,0/0,1,0/0,1,1/
+surface/pfrt/reflect/plane/0,0,0/1,0,0/1,0,1/
+surface/pbck/reflect/plane/0,1,0/1,1,0/1,1,1/
+surface/p5/intrface/plane/0,0,.5/1,0,.5/1,1,.5/
+surface/p1/intrface/plane/0,0,.1/1,0,.1/1,1,.1/
+surface/p2/intrface/plane/0,0,.2/1,0,.2/1,1,.2/
+surface/p3/intrface/plane/0,0,.3/1,0,.3/1,1,.3/
+surface/p4/intrface/plane/0,0,.4/1,0,.4/1,1,.4/
+surface/p6/intrface/plane/0,0,.6/1,0,.6/1,1,.6/
+surface/p7/intrface/plane/0,0,.7/1,0,.7/1,1,.7/
+surface/p8/intrface/plane/0,0,.8/1,0,.8/1,1,.8/
+surface/p9/intrface/plane/0,0,.9/1,0,.9/1,1,.9/
+
+*define geometric regions
+region/top/  le ptop and ge plft and le prgt  &
+              and ge pbck and le pfrt and ge p9  /
+region/bot/ ge pbot and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p1  /
+region/r2/ ge p1  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p2  /
+region/r3/ ge p2  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p3  /
+region/r4/ ge p3  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p4  /
+region/r5/ ge p4  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p5  /
+region/r6/ ge p5  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p6  /
+region/r7/ ge p6  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p7  /
+region/r8/ ge p7  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p8  /
+region/r9/ ge p8  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p9  /
+* define material regions
+mregion/mtop/  le ptop and ge plft and le prgt  &
+              and ge pbck and le pfrt and gt p9  /
+mregion/mbot/ ge pbot and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p1  /
+mregion/mr2/ gt p1  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p2  /
+mregion/mr3/ gt p2  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p3  /
+mregion/mr4/ gt p3  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p4  /
+mregion/mr5/ gt p4  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p5  /
+mregion/mr6/ gt p5  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p6  /
+mregion/mr7/ gt p6  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p7  /
+mregion/mr8/ gt p7  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p8  /
+mregion/mr9/ gt p8  and ge plft and le prgt  &
+              and ge pbck and le pfrt and lt p9  /
+ 
+createpts/xyz/6,6,41/0,0,0/1,1,1/1,1,1
+setpts
+connect
+settets
+dump/gmv/output.gmv
+* begin compare here
+cmo/status/abc
+pset/p1/attribute/imt1/1,0,0/ 1 eq
+pset/p2/attribute/imt1/1,0,0/ 2 eq
+pset/p3/attribute/imt1/1,0,0/ 3 eq
+pset/p4/attribute/imt1/1,0,0/ 4 eq
+pset/p5/attribute/imt1/1,0,0/ 5 eq
+pset/p6/attribute/imt1/1,0,0/ 6 eq
+pset/p7/attribute/imt1/1,0,0/ 7 eq
+pset/p8/attribute/imt1/1,0,0/ 8 eq
+pset/p9/attribute/imt1/1,0,0/ 9 eq
+quality volume
+* end compare
+
+* END
+finish

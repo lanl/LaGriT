@@ -1,0 +1,419 @@
+ 
+ 
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+*            *                                             *                    
+*            *     Program:  LaGriT                        *                    
+*            *     Version:  1.104                         *                    
+*            *     Compiled: 2006/02/07 at 10:00:          *                    
+*            *                                             *                    
+*            *                                             *                    
+*            *     This run was processed                  *                    
+*            *      on day:       06/10 2006               *                    
+*            *      at time: 13:20:56                      *                    
+*            *                                             *                    
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+ 
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+*                                                                               
+* Build a simple 2d triangular mesh                                             
+*                                                                               
+cmo/create/cmosource///triplane                                                 
+createpts/xyz/11,11,1/0.,0.,0./1.,1.,0./1,1,1                                   
+  RZ GENERATED POINTS                    1 TO                  121              
+createpts/xyz/11,11,1/0.,0.,0./0.5,0.5,0./1,1,1                                 
+  RZ GENERATED POINTS                  122 TO                  242              
+createpts/xyz/11,11,1/0.,0.,0./0.25,0.25,0./1,1,1                               
+  RZ GENERATED POINTS                  243 TO                  363              
+createpts/xyz/11,11,1/0.,0.,0./0.125,0.125,0./1,1,1                             
+  RZ GENERATED POINTS                  364 TO                  484              
+filter/1 0 0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.314018491737E-12                       
+ 
+FILTER:Dudding    108 duplicate points.                                         
+rmpoint/compress                                                                
+       108 points removed and          0 elements removed.                      
+   The new point count is       376.                                            
+   The new element count is         0.                                          
+cmo/setatt/cmosource/imt/1 0 0/1                                                
+Warning: nelements = 0                                                          
+       376 values reset for attribute imt1                                      
+ 
+cmo/setatt/cmosource/itp/1 0 0/0                                                
+Warning: nelements = 0                                                          
+       376 values reset for attribute itp1                                      
+ 
+connect                                                                         
+ Coordinates of enclosing triangle are:                                         
+          -0.17500D+01-0.16000D+01 0.00000D+00                                  
+           0.27500D+01-0.17500D+01 0.00000D+00                                  
+           0.50500D+00 0.50000D+01 0.00000D+00                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+*                                                                               
+* Add some floating point attributes                                            
+*                                                                               
+cmo/addatt/cmosource/field1/vdouble/scalar/nnodes                               
+cmo/addatt/cmosource/field2/vdouble/scalar/nnodes                               
+cmo/addatt/cmosource/field3/vdouble/scalar/nnodes                               
+*                                                                               
+* field1 = sin(x)                                                               
+math/sin/cmosource/field1/1,0,0/cmosource/xic                                   
+* field2 = cos(y)                                                               
+math/cos/cmosource/field2/1,0,0/cmosource/yic                                   
+* field3 = field1 + field2                                                      
+math/add/cmosource/field3/1,0,0/cmosource/field1/cmosource/field2               
+*                                                                               
+*                                                                               
+* Build a second simple 2d triangular mesh                                      
+*                                                                               
+cmo/create/cmosink///triplane                                                   
+createpts/xyz/11,11,1/0.,0.,0./1.,1.,0./1,1,1                                   
+  RZ GENERATED POINTS                    1 TO                  121              
+createpts/xyz/11,11,1/0.,0.,0./0.5,0.5,0./1,1,1                                 
+  RZ GENERATED POINTS                  122 TO                  242              
+createpts/xyz/11,11,1/0.,0.,0./0.25,0.25,0./1,1,1                               
+  RZ GENERATED POINTS                  243 TO                  363              
+createpts/xyz/11,11,1/0.,0.,0./0.125,0.125,0./1,1,1                             
+  RZ GENERATED POINTS                  364 TO                  484              
+filter/1 0 0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.314018491737E-12                       
+ 
+FILTER:Dudding    108 duplicate points.                                         
+rmpoint/compress                                                                
+       108 points removed and          0 elements removed.                      
+   The new point count is       376.                                            
+   The new element count is         0.                                          
+cmo/setatt/cmosink/imt/1 0 0/1                                                  
+Warning: nelements = 0                                                          
+       376 values reset for attribute imt1                                      
+ 
+cmo/setatt/cmosink/itp/1 0 0/0                                                  
+Warning: nelements = 0                                                          
+       376 values reset for attribute itp1                                      
+ 
+connect                                                                         
+ Coordinates of enclosing triangle are:                                         
+          -0.17500D+01-0.16000D+01 0.00000D+00                                  
+           0.27500D+01-0.17500D+01 0.00000D+00                                  
+           0.50500D+00 0.50000D+01 0.00000D+00                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+pset/psmooth/attribute/itp/1 0 0/0/eq                                           
+ 
+ THE PSET psmooth                          HAS        306 POINTS                
+pset/pnosmooth/attribute/itp/1 0 0/0/ne                                         
+ 
+ THE PSET pnosmooth                        HAS         70 POINTS                
+smooth/position/esug/pset get psmooth                                           
+SMOOTH: position option                                                         
+nodes in point set  =        306                                                
+SMOOTH: Smooth 2D triangular mesh using ESUG                                    
+ Min. area BEFORE smoothing= 0.7812500E-04                                      
+ Max. area BEFORE smoothing= 0.5000000E-02                                      
+Iteration=   1; root mean square error= 0.8450780E-02                           
+Iteration=   2; root mean square error= 0.6773916E-02                           
+Iteration=   3; root mean square error= 0.5859790E-02                           
+Iteration=   4; root mean square error= 0.5242096E-02                           
+Iteration=   5; root mean square error= 0.4845049E-02                           
+Iteration=   6; root mean square error= 0.4534200E-02                           
+Iteration=   7; root mean square error= 0.4275039E-02                           
+Iteration=   8; root mean square error= 0.4048120E-02                           
+Iteration=   9; root mean square error= 0.3849749E-02                           
+Iteration=  10; root mean square error= 0.3673360E-02                           
+Iteration=  11; root mean square error= 0.3513730E-02                           
+Iteration=  12; root mean square error= 0.3370593E-02                           
+Iteration=  13; root mean square error= 0.3240536E-02                           
+Iteration=  14; root mean square error= 0.3121152E-02                           
+Iteration=  15; root mean square error= 0.3009327E-02                           
+Iteration=  16; root mean square error= 0.2902943E-02                           
+Iteration=  17; root mean square error= 0.2802030E-02                           
+Iteration=  18; root mean square error= 0.2707950E-02                           
+Iteration=  19; root mean square error= 0.2616773E-02                           
+Iteration=  20; root mean square error= 0.2536403E-02                           
+Iteration=  21; root mean square error= 0.2464213E-02                           
+Iteration=  22; root mean square error= 0.2384796E-02                           
+Iteration=  23; root mean square error= 0.2308281E-02                           
+Iteration=  24; root mean square error= 0.2234120E-02                           
+Iteration=  25; root mean square error= 0.2165536E-02                           
+ Min. area AFTER smoothing= 0.7031250E-04                                       
+ Max. area AFTER smoothing= 0.5315193E-02                                       
+recon 0                                                                         
+RECON2D reconnection loop:     1                                                
+Recon2d: iteration number=          1 number of flips=        101               
+Recon2d: iteration number=          2 number of flips=          5               
+Recon2d: iteration number=          3 number of flips=          1               
+smooth/position/esug/pset get psmooth                                           
+SMOOTH: position option                                                         
+nodes in point set  =        306                                                
+SMOOTH: Smooth 2D triangular mesh using ESUG                                    
+ Min. area BEFORE smoothing= 0.6651780E-04                                      
+ Max. area BEFORE smoothing= 0.6203061E-02                                      
+Iteration=   1; root mean square error= 0.6660921E-02                           
+Iteration=   2; root mean square error= 0.3742377E-02                           
+Iteration=   3; root mean square error= 0.3072116E-02                           
+Iteration=   4; root mean square error= 0.2803023E-02                           
+Iteration=   5; root mean square error= 0.2637988E-02                           
+Iteration=   6; root mean square error= 0.2506739E-02                           
+Iteration=   7; root mean square error= 0.2393723E-02                           
+Iteration=   8; root mean square error= 0.2293331E-02                           
+Iteration=   9; root mean square error= 0.2202219E-02                           
+Iteration=  10; root mean square error= 0.2118257E-02                           
+Iteration=  11; root mean square error= 0.2040048E-02                           
+Iteration=  12; root mean square error= 0.1966621E-02                           
+Iteration=  13; root mean square error= 0.1897257E-02                           
+Iteration=  14; root mean square error= 0.1831404E-02                           
+Iteration=  15; root mean square error= 0.1768627E-02                           
+Iteration=  16; root mean square error= 0.1708579E-02                           
+Iteration=  17; root mean square error= 0.1650979E-02                           
+Iteration=  18; root mean square error= 0.1595598E-02                           
+Iteration=  19; root mean square error= 0.1542248E-02                           
+Iteration=  20; root mean square error= 0.1490773E-02                           
+Iteration=  21; root mean square error= 0.1441046E-02                           
+Iteration=  22; root mean square error= 0.1392957E-02                           
+Iteration=  23; root mean square error= 0.1346418E-02                           
+Iteration=  24; root mean square error= 0.1301348E-02                           
+Iteration=  25; root mean square error= 0.1257683E-02                           
+ Min. area AFTER smoothing= 0.7812500E-04                                       
+ Max. area AFTER smoothing= 0.5186302E-02                                       
+recon 0                                                                         
+RECON2D reconnection loop:     1                                                
+Recon2d: iteration number=          1 number of flips=         58               
+Recon2d: iteration number=          2 number of flips=          4               
+Recon2d: iteration number=          3 number of flips=          1               
+smooth/position/esug/pset get psmooth                                           
+SMOOTH: position option                                                         
+nodes in point set  =        306                                                
+SMOOTH: Smooth 2D triangular mesh using ESUG                                    
+ Min. area BEFORE smoothing= 0.7812500E-04                                      
+ Max. area BEFORE smoothing= 0.5186302E-02                                      
+Iteration=   1; root mean square error= 0.7362611E-02                           
+Iteration=   2; root mean square error= 0.3832755E-02                           
+Iteration=   3; root mean square error= 0.3030240E-02                           
+Iteration=   4; root mean square error= 0.2695469E-02                           
+Iteration=   5; root mean square error= 0.2490911E-02                           
+Iteration=   6; root mean square error= 0.2341091E-02                           
+Iteration=   7; root mean square error= 0.2218620E-02                           
+Iteration=   8; root mean square error= 0.2112440E-02                           
+Iteration=   9; root mean square error= 0.2017841E-02                           
+Iteration=  10; root mean square error= 0.1932235E-02                           
+Iteration=  11; root mean square error= 0.1853892E-02                           
+Iteration=  12; root mean square error= 0.1781550E-02                           
+Iteration=  13; root mean square error= 0.1714244E-02                           
+Iteration=  14; root mean square error= 0.1651220E-02                           
+Iteration=  15; root mean square error= 0.1591875E-02                           
+Iteration=  16; root mean square error= 0.1535724E-02                           
+Iteration=  17; root mean square error= 0.1482372E-02                           
+Iteration=  18; root mean square error= 0.1431500E-02                           
+Iteration=  19; root mean square error= 0.1382842E-02                           
+Iteration=  20; root mean square error= 0.1336182E-02                           
+Iteration=  21; root mean square error= 0.1291342E-02                           
+Iteration=  22; root mean square error= 0.1248172E-02                           
+Iteration=  23; root mean square error= 0.1206549E-02                           
+Iteration=  24; root mean square error= 0.1166368E-02                           
+Iteration=  25; root mean square error= 0.1127543E-02                           
+ Min. area AFTER smoothing= 0.7812500E-04                                       
+ Max. area AFTER smoothing= 0.4694695E-02                                       
+recon 0                                                                         
+RECON2D reconnection loop:     1                                                
+Recon2d: iteration number=          1 number of flips=         48               
+Recon2d: iteration number=          2 number of flips=          3               
+smooth/position/esug/pset get psmooth                                           
+SMOOTH: position option                                                         
+nodes in point set  =        306                                                
+SMOOTH: Smooth 2D triangular mesh using ESUG                                    
+ Min. area BEFORE smoothing= 0.7812500E-04                                      
+ Max. area BEFORE smoothing= 0.4694695E-02                                      
+Iteration=   1; root mean square error= 0.5548007E-02                           
+Iteration=   2; root mean square error= 0.2867298E-02                           
+Iteration=   3; root mean square error= 0.2105202E-02                           
+Iteration=   4; root mean square error= 0.1834219E-02                           
+Iteration=   5; root mean square error= 0.1686530E-02                           
+Iteration=   6; root mean square error= 0.1585015E-02                           
+Iteration=   7; root mean square error= 0.1505335E-02                           
+Iteration=   8; root mean square error= 0.1437869E-02                           
+Iteration=   9; root mean square error= 0.1378145E-02                           
+Iteration=  10; root mean square error= 0.1323889E-02                           
+Iteration=  11; root mean square error= 0.1273802E-02                           
+Iteration=  12; root mean square error= 0.1227056E-02                           
+Iteration=  13; root mean square error= 0.1183085E-02                           
+Iteration=  14; root mean square error= 0.1141475E-02                           
+Iteration=  15; root mean square error= 0.1101916E-02                           
+Iteration=  16; root mean square error= 0.1064164E-02                           
+Iteration=  17; root mean square error= 0.1028027E-02                           
+Iteration=  18; root mean square error= 0.9933507E-03                           
+Iteration=  19; root mean square error= 0.9600093E-03                           
+Iteration=  20; root mean square error= 0.9278991E-03                           
+Iteration=  21; root mean square error= 0.8969343E-03                           
+Iteration=  22; root mean square error= 0.8670425E-03                           
+Iteration=  23; root mean square error= 0.8381626E-03                           
+Iteration=  24; root mean square error= 0.8102420E-03                           
+Iteration=  25; root mean square error= 0.7832352E-03                           
+ Min. area AFTER smoothing= 0.7812500E-04                                       
+ Max. area AFTER smoothing= 0.4795426E-02                                       
+recon 0                                                                         
+RECON2D reconnection loop:     1                                                
+Recon2d: iteration number=          1 number of flips=         48               
+Recon2d: iteration number=          2 number of flips=          1               
+smooth/position/esug/pset get psmooth                                           
+SMOOTH: position option                                                         
+nodes in point set  =        306                                                
+SMOOTH: Smooth 2D triangular mesh using ESUG                                    
+ Min. area BEFORE smoothing= 0.7812500E-04                                      
+ Max. area BEFORE smoothing= 0.4795426E-02                                      
+Iteration=   1; root mean square error= 0.5301541E-02                           
+Iteration=   2; root mean square error= 0.2706695E-02                           
+Iteration=   3; root mean square error= 0.1971478E-02                           
+Iteration=   4; root mean square error= 0.1685167E-02                           
+Iteration=   5; root mean square error= 0.1525182E-02                           
+Iteration=   6; root mean square error= 0.1413104E-02                           
+Iteration=   7; root mean square error= 0.1325185E-02                           
+Iteration=   8; root mean square error= 0.1251903E-02                           
+Iteration=   9; root mean square error= 0.1188662E-02                           
+Iteration=  10; root mean square error= 0.1132837E-02                           
+Iteration=  11; root mean square error= 0.1082737E-02                           
+Iteration=  12; root mean square error= 0.1037191E-02                           
+Iteration=  13; root mean square error= 0.9953544E-03                           
+Iteration=  14; root mean square error= 0.9565954E-03                           
+Iteration=  15; root mean square error= 0.9204299E-03                           
+Iteration=  16; root mean square error= 0.8864798E-03                           
+Iteration=  17; root mean square error= 0.8544456E-03                           
+Iteration=  18; root mean square error= 0.8240882E-03                           
+Iteration=  19; root mean square error= 0.7952143E-03                           
+Iteration=  20; root mean square error= 0.7676673E-03                           
+Iteration=  21; root mean square error= 0.7413185E-03                           
+Iteration=  22; root mean square error= 0.7160620E-03                           
+Iteration=  23; root mean square error= 0.6918093E-03                           
+Iteration=  24; root mean square error= 0.6684862E-03                           
+Iteration=  25; root mean square error= 0.6460300E-03                           
+ Min. area AFTER smoothing= 0.7812500E-04                                       
+ Max. area AFTER smoothing= 0.4503616E-02                                       
+recon 0                                                                         
+RECON2D reconnection loop:     1                                                
+Recon2d: iteration number=          1 number of flips=         38               
+Recon2d: iteration number=          2 number of flips=          2               
+*                                                                               
+* Add some floating point attributes to interpolate onto.                       
+*                                                                               
+cmo/addatt/cmosink/field1/vdouble/scalar/nnodes                                 
+cmo/addatt/cmosink/field2/vdouble/scalar/nnodes                                 
+cmo/addatt/cmosink/field3/vdouble/scalar/nnodes                                 
+interpolate/continuous/cmosink field1/1,0,0/cmosource field1                    
+nodes in indexed point set  =        376                                        
+ 
+INTRP METHOD: continuous   FUNCTION:     linear                                 
+      TIEBREAKER:     maxtie   FLAG:      plus1  0.184147098481E+01             
+ 
+cmo select cmosource                                                            
+finish                                                                          
+cmo kdtree build                                                                
+cmo/addatt//v2/INT/scalar/scalar/constant/temporary//2.0                        
+finish                                                                          
+cmo/addatt//linkt/VINT/v2/nelements//temporary/x/0.0                            
+finish                                                                          
+cmo/addatt//v12/INT/scalar/scalar/constant/temporary//12.0                      
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
+finish                                                                          
+finish                                                                          
+ 
+     Sink point   Elems Searched  Elements Found  Percent Done                  
+             95              161             95       25 %                      
+            189              275            189       50 %                      
+            283              404            283       75 %                      
+            376              512            376    Total                        
+ 
+cmo kdtree release                                                              
+cmo/delatt//sbox                                                                
+finish                                                                          
+cmo/delatt//linkt                                                               
+finish                                                                          
+finish                                                                          
+cmo select cmosink                                                              
+finish                                                                          
+intrp/continuous done.                                                          
+ 
+interpolate/continuous/cmosink field2/1,0,0/cmosource field2                    
+nodes in indexed point set  =        376                                        
+ 
+INTRP METHOD: continuous   FUNCTION:     linear                                 
+      TIEBREAKER:     maxtie   FLAG:      plus1  0.200000000000E+01             
+ 
+cmo select cmosource                                                            
+finish                                                                          
+cmo kdtree build                                                                
+cmo/addatt//linkt/VINT/v2/nelements//temporary/x/0.0                            
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
+finish                                                                          
+finish                                                                          
+ 
+     Sink point   Elems Searched  Elements Found  Percent Done                  
+             95              161             95       25 %                      
+            189              275            189       50 %                      
+            283              404            283       75 %                      
+            376              512            376    Total                        
+ 
+cmo kdtree release                                                              
+cmo/delatt//sbox                                                                
+finish                                                                          
+cmo/delatt//linkt                                                               
+finish                                                                          
+finish                                                                          
+cmo select cmosink                                                              
+finish                                                                          
+intrp/continuous done.                                                          
+ 
+interpolate/continuous/cmosink field3/1,0,0/cmosource field3                    
+nodes in indexed point set  =        376                                        
+ 
+INTRP METHOD: continuous   FUNCTION:     linear                                 
+      TIEBREAKER:     maxtie   FLAG:      plus1  0.284147098481E+01             
+ 
+cmo select cmosource                                                            
+finish                                                                          
+cmo kdtree build                                                                
+cmo/addatt//linkt/VINT/v2/nelements//temporary/x/0.0                            
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
+finish                                                                          
+finish                                                                          
+ 
+     Sink point   Elems Searched  Elements Found  Percent Done                  
+             95              161             95       25 %                      
+            189              275            189       50 %                      
+            283              404            283       75 %                      
+            376              512            376    Total                        
+ 
+cmo kdtree release                                                              
+cmo/delatt//sbox                                                                
+finish                                                                          
+cmo/delatt//linkt                                                               
+finish                                                                          
+finish                                                                          
+cmo select cmosink                                                              
+finish                                                                          
+intrp/continuous done.                                                          
+ 
+dump/gmv/2d_triangle_source.gmv/cmosource                                       
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/gmv/2d_triangle_sink.gmv/cmosink                                           
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

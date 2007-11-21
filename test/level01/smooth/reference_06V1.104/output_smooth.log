@@ -1,0 +1,56 @@
+cmo/create/3dmesh/                                                              
+cmo/addatt/-def-/bor/                                                           
+cmo/modatt/-def-/bor/interp/asinh/                                              
+cmo/modatt/-def-/bor/ioflag/gx/                                                 
+surface/device/reflect/box/0.0,-0.5,-0.2/4.0,2.0,0.2/                           
+surface/channel/intrface/box/0.6,0.0,-0.2/3.4,0.3,0.2/                          
+surface/lvr/intrface/plane/0.5,-0.5,0.0/0.5,-0.5,-0.2/0.5,2.0 -0.2/             
+surface/rvr/intrface/plane/3.5,-0.5,0.0/3.5,-0.5,-0.2/3.5,2.0 -0.2/             
+surface/mhu/intrface/plane/0.0,0.0,0.0/4.0,0.0,0.0/4.0,0.0 -0.2/                
+surface/chu/intrface/plane/0.5,-.008,0.0/3.5,-.008,0.0/3.5,-.008 -0.2/          
+mregion/PolySil/( le device and lt chu and gt lvr and lt rvr )/                 
+mregion/Silinch/( le device and gt mhu and gt channel )/                        
+mregion/Silichn/( le device and lt channel )/                                   
+region/PolySil/( le device and lt chu and ge lvr and le rvr )/                  
+region/Silicon/( le device and ge mhu and gt channel )/                         
+region/GOxide/le device and ge lvr and le rvr and lt mhu and ge chu/            
+region/SrcOxPS/( le device and lt mhu and lt lvr )/                             
+region/DrnOxPS/( le device and lt mhu and gt rvr )/                             
+region/Channel/( le device and le channel )/                                    
+mregion/SiO2PS/le device and ( ( lt mhu and gt chu ) or ( le chu and lt lvr ) or
+ ( le chu and gt rvr ) )/                                                       
+createpts/xyz/6,1,4/0.0,2.1,-0.2/0.5,2.1,0.2/1,0,1/                             
+createpts/xyz/6,1,4/3.5,2.1,-0.2/4.0,2.1,0.2/1,0,1/                             
+createpts/xyz/16,1,4/0.5,2.1,-0.2/3.5,2.1,0.2/1,0,1/                            
+createpts/xyz/1,1,4/.6,2.1,-0.2/.6,2.1,0.2/0,0,1/                               
+createpts/xyz/1,1,4/3.4,2.1,-0.2/3.4,2.1,0.2/0,0,1/                             
+pset/rays/seq/1,0,0/                                                            
+regnpts/PolySil/4/pset,get,rays/xyz/0.0,-0.6,-0.2/4.0,-0.6,-0.2/4.0,-0.6,0.0/0,0
+/                                                                               
+regnpts/DrnOxPS/4/pset,get,rays/xyz/0.0,-0.6,-0.2/4.0,-0.6,-0.2/4.0,-0.6,0.0/0,0
+/                                                                               
+regnpts/SrcOxPS/4/pset,get,rays/xyz/0.0,-0.6,-0.2/4.0,-0.6,-0.2/4.0,-0.6,0.0/0,0
+/                                                                               
+regnpts/GOxide/2/pset,get,rays/xyz/0.0,-0.6,-0.2/4.0,-0.6,-0.2/4.0,-0.6,0.0/0,0/
+regnpts/Silicon/9/pset,get,rays/xyz/0.0,-0.5,-0.2/4.0,-0.5,-0.2/4.0,-0.5,0.0/0,0
+/                                                                               
+regnpts/Channel/5/pset,get,rays/xyz/0.0,-0.5,-0.2/4.0,-0.5,-0.2/4.0,-0.5,0.0/1,1
+.4/                                                                             
+filter/1,0,0/                                                                   
+setpts                                                                          
+cmo/setatt//itp1/pset,get,rays/21                                               
+search                                                                          
+settets                                                                         
+dump/gmv/output_smooth1.gmv                                                     
+quality                                                                         
+smooth                                                                          
+smooth                                                                          
+smooth                                                                          
+recon                                                                           
+smooth                                                                          
+recon                                                                           
+quality                                                                         
+cmo/status                                                                      
+cmo/printatt//-all-/minmax                                                      
+dump/gmv/output_smooth2.gmv                                                     
+finish                                                                          
