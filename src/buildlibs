@@ -1,0 +1,65 @@
+#!/bin/csh -f
+# run both -g and -O options of libraries 
+# set some variables and run correct makefile
+# NOTE: Local version of lagrit.h used for compile date
+
+set LAGRIT_LIBS = /home/tam/src/lagrit/src/ 
+set DATETAG = `date '+_%y%m%d'`
+set DATELGI = `date '+20%y/%m/%d'`
+set OSTYPE = `uname -a | awk '{print $1}'` 
+if ($OSTYPE == 'Linux') then
+  set OSTAG = _lin
+else if ($OSTYPE == 'Darwin') then
+  set OSTAG = _mac
+else if ($OSTYPE == 'SunOS') then
+  source /n/env/local.forte.7
+  set OSTAG = _sun
+else
+  echo 'OS $OSTYPE not recognized ' 
+  exit 1
+endif
+
+##############################
+# change compile TAGS in lagrit.h
+'rm' -f lagrit.h.save
+chmod +w lagrit.h
+cp lagrit.h lagrit.h.save
+submystring DATETAG $DATELGI lagrit.h tmp.h
+submystring OSTAG $OSTYPE tmp.h tmp2.h
+cp tmp2.h lagrit.h
+
+##############################
+# debug version 
+set COPT = _g
+set makename = makefile$OSTAG$COPT
+set libname = lagrit$OSTAG$COPT.a
+set libname_date = lagrit$OSTAG$COPT$DATETAG.a
+
+echo "Working on OS $OSTYPE $libname and  $libname_date" 
+'rm' -f *.o
+make -f $makename
+echo "Done with $makename"
+cp -p lagrit.a $LAGRIT_LIBS$libname 
+cp -p lagrit.a $LAGRIT_LIBS$libname_date 
+mv lagrit.a $libname_date
+ls -l $libname_date 
+
+##############################
+# optimize version
+set COPT = _o
+set makename = makefile$OSTAG$COPT
+set libname = lagrit$OSTAG$COPT.a
+set libname_date = lagrit$OSTAG$COPT$DATETAG.a
+
+echo "Working on OS $OSTYPE $libname and  $libname_date"
+'rm' -f *.o
+make -f $makename
+echo "Done with $makename"
+cp -p lagrit.a $LAGRIT_LIBS$libname
+cp -p lagrit.a $LAGRIT_LIBS$libname_date
+mv lagrit.a $libname_date
+ls -l $libname_date 
+
+cp lagrit.h.save lagrit.h
+ls -l $LAGRIT_LIBS/lagrit*$DATETAG.a 
+exit 

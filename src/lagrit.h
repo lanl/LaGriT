@@ -41,11 +41,11 @@ c     or if not set, OSNAME will not be used and date will
 c     be constructed from fdate()
 
       character*8    OSName
-      parameter      (OSName='OSTAG')
+      parameter      (OSName='Linux')
 c
       character*22    Compiled
 c     parameter      (Compiled='2007/00/00            ')
-      parameter      (Compiled='DATETAG               ')
+      parameter      (Compiled='2007/11/21               ')
 c
       character*8     Version
       save            Version
