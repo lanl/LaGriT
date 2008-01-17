@@ -721,7 +721,7 @@ C
  
 C     ASCII header
       write(iunit,'(a)')
-     1'fehmstor ascir8i4 X3D Sparse Matrix Voronoi Coupling Coefficents'
+     1'fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients'
       write(iunit,*)
      1     string,' 2-D Linear Diffusion Model (matbld2d_stor)'
       write(title_string,*)

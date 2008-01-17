@@ -213,7 +213,7 @@ c  scalar area. Note that a(i) = sqrt(a_x**2 +  a_y**2 + a_z**2).
 c
 c A small example .stor file is included below.
 c
-c X3D Sparse Matrix, Voronoi Coupling Coeffients
+c LaGriT Sparse Matrix, Voronoi Coefficients
 c Wed Oct 15 12:48:45 1997 3-D Linear Diffusion Model (matbld3d_.stor)
 c        44         8        53         4         7
 c  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01
@@ -2198,9 +2198,9 @@ C
  
 c
 c formatted ascii
-c fehmstor ascir8i4 X3D Sparse Matrix, Voronoi Coupling Coeffients
+c fehmstor ascir8i4 LaGriT Sparse Matrix, Voronoi Coefficients
 c 123456789012345678901234567890123456789012345678901234567890123456789012
-c fehmstor ieeer8i4 X3D Sparse Matrix, Voronoi Coupling Coeffients
+c fehmstor ieeer8i4 LaGriT Sparse Matrix, Voronoi Coefficients
 c unformatted
  
 c
@@ -2211,7 +2211,7 @@ C     BINARY header
 c
       if(io_type .eq. 3)then
          write(title_string,'(a)')
-     1'fehmstor ieeer8i4 X3D Sparse Matrix Voronoi Coupling Coefficents'
+     1'fehmstor ieeer8i4 LaGriT Sparse Matrix Voronoi Coefficients'
          write(iunit)title_string
          write(title_string,*)
      1        string,' 3-D Linear Diffusion Model (matbld3d_stor)'
@@ -2220,7 +2220,7 @@ c
 C     ASCII header
       elseif(io_type .eq. 2)then
          write(iunit,'(a)')
-     1'fehmstor ascir8i4 X3D Sparse Matrix Voronoi Coupling Coefficents'
+     1'fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients'
        write(iunit,*)string,'3-D Linear Diffusion Model (matbld3d_stor)'
       endif
  
