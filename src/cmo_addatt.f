@@ -981,7 +981,7 @@ C     Fill each triangle attribute with normal
        call cmo_get_info(att_name,cmo_name,ipvalue,ilen,ityp,ierr)
        if(ierr.ne.0) call x3d_error(isubname,'get_info new attribute')
        call cmo_get_intinfo('nelements',cmo_name,nlength,ilen,ityp,ierr)
-       if(ierr.ne.0) call x3d_error(isubname,'intinfo nnelements ')
+       if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
  
 c      Calculate the area normal for each triangle.
        do i = 1, nlength
@@ -1109,10 +1109,10 @@ C     area is done above with triangle work, do volume and length here
       elseif (fill_type(1:6).eq. 'volume') then
          call cmo_get_intinfo('nelements',cmo_name,nlength,ilen,ityp,
      *      ierr)
-         if(ierr.ne.0) call x3d_error(isubname,'intinfo nnelements ')
+         if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
          call cmo_get_intinfo('nodes_per_element',cmo_name,nen,ilen,
      *     ityp, ierr)
-         if(ierr.ne.0) call x3d_error(isubname,'intinfo nnelements ')
+         if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
          call cmo_get_info(att_name,cmo_name,ipvalue,ilen,ityp,ierr)
          if(ierr.ne.0) call x3d_error(isubname,
      *      'get_info new attribute')
@@ -1152,10 +1152,10 @@ C
       
          call cmo_get_intinfo('nelements',cmo_name,nlength,ilen,ityp,
      *      ierr)
-         if(ierr.ne.0) call x3d_error(isubname,'intinfo nnelements ')
+         if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
          call cmo_get_intinfo('nodes_per_element',cmo_name,nen,ilen,
      *     ityp, ierr)
-         if(ierr.ne.0) call x3d_error(isubname,'intinfo nnelements ')
+         if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
          call cmo_get_info(att_name,cmo_name,ipvalue,ilen,ityp,ierr)
          if(ierr.ne.0) call x3d_error(isubname,
      *      'get_info new attribute')
@@ -1301,7 +1301,7 @@ c       sink attribute must be type element
  
 c       get length and pointers of new sink element attribute
         call cmo_get_intinfo('nelements',cmo_name,nlength,i,ityp,ierr)
-        if(ierr.ne.0) call x3d_error(isubname,'intinfo nnelements ')
+        if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
         if (ierr.ne.0) goto 9999
  
  
@@ -1385,7 +1385,7 @@ C     Fill vector attribute from list of scalar attributes
         else
           call cmo_get_intinfo('nelements',
      *         cmo_name,nlength,ilen,ityp,ierr)
-          if(ierr.ne.0) call x3d_error(isubname,'intinfo nnelements ')
+          if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
         endif
         call cmo_get_info(att_list(1),cmo_name,ipxvec,ilen,ityp,ierr)
         call cmo_get_info(att_list(2),cmo_name,ipyvec,ilen,ityp,ierr)
@@ -1431,7 +1431,7 @@ c       create the remaining two attributes
         else
           call cmo_get_intinfo('nelements',
      *         cmo_name,nlength,ilen,ityp,ierr)
-          if(ierr.ne.0) call x3d_error(isubname,'intinfo nnelements ')
+          if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
         endif
         call cmo_get_info(att_list(1),cmo_name,ipxvec,ilen,ityp,ierr)
         call cmo_get_info(att_list(2),cmo_name,ipyvec,ilen,ityp,ierr)
@@ -1477,7 +1477,7 @@ c       create the remaining two attributes
         if(ierr.ne.0) call x3d_error(isubname,'get_info new attribute')
  
         call cmo_get_intinfo('nelements',cmo_name,nlength,i,ityp,ierr)
-        if(ierr.ne.0) call x3d_error(isubname,'intinfo nnelements ')
+        if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
  
         if (fill_type(1:7) .eq. 'voronoi') then
 c
