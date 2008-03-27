@@ -53,7 +53,7 @@ rmpoint compress
 cmo status cmo_hex brief                                                        
 cmo printatt cmo_hex -all- minmax                                               
 cmo delete cmo_hex                                                              
-read gmv input_hex.gmv cmo_hex                                                  
+read avs input_hex.inp cmo_hex                                                  
 eltset/elm2/itetclr/eq 2                                                        
 pset/pelm2/eltset elm2                                                          
 cmo setatt cmo_hex idebug 6                                                     
@@ -64,7 +64,7 @@ pset/pelm2/eltset elm2
 cmo setatt cmo_hex idebug 6                                                     
 refine/constant/imt1/linear/element/pset,get,pelm2/-1.,0.,0./inclusive/amr 12   
 cmo delete cmo_hex                                                              
-read gmv input_quad.gmv cmo_hex                                                 
+read avs input_quad.inp cmo_hex                                                 
 cmo setatt cmo_hex idebug 6                                                     
 cmo setatt cmo_hex imt1 1                                                       
 resetpts itp                                                                    

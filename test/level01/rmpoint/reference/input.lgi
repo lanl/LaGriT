@@ -1,14 +1,64 @@
 * TEST rmmat (lagrit_input_rmmat)
 *
-define/nx/15
-define/ny/15
-define/nz/2
+define/nx/4
+define/ny/5
+define/nz/3
  
 cmo / create / mesh_object / / / tet
 createpts / xyz / nx, ny, nz / 0. 0. 0. / 1. 1. 0.2 / 1 1 1
 cmo / setatt / mesh_object / imt / 1 0 0 / 1
 connect 
-*resetpts / itp
+cmo/printatt//-all-/minmax
+dump/ gmv /output_rmmat1.gmv/mesh_object
+
+* create and remove double defined nodes
+cmo   copy   mo2   mesh_object
+cmo select mo2
+pset/p2/attribute yic/1,0,0/ gt .60
+eltset/e2/ inclusive pset,get,p2
+cmo/setatt/mo2/itetclr eltset,get,e2 2
+cmo/setatt/mo2/imt pset,get,p2 2
+*
+* Figure out where there are duplicate points and remove duplicates
+*
+filter / 1 0 0
+rmpoint / compress
+*
+* Recompute the jtet element adjancy information.
+*
+geniee
+*
+* Recompute the itp array
+*
+resetpts / itp
+*
+* Create parent/child points at material interfaces
+*
+settets
+*
+cmo printatt mo2 imt1
+cmo/printatt/mo2/itp1
+* remove child points
+resetpts parent
+cmo/printatt/mo2/itp1
+rmpoint compress
+cmo/printatt/mo2/itp1
+resetpts cell_color 2,1,-1
+cmo/status/mo2
+cmo printatt mo2 imt1
+cmo/delete/ mo2
+cmo/delete/ mesh_object
+
+**********************************************************************
+* old test input file
+define/nx/15
+define/ny/15
+define/nz/2
+
+cmo / create / mesh_object / / / tet
+createpts / xyz / nx, ny, nz / 0. 0. 0. / 1. 1. 0.2 / 1 1 1
+cmo / setatt / mesh_object / imt / 1 0 0 / 1
+connect
 cmo/printatt//-all-/minmax
 dump/ gmv /output_rmmat1.gmv/mesh_object
 *

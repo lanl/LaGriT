@@ -15,9 +15,9 @@ cmo printatt cmo_src xval minmax
 cmo printatt cmo_sink xval minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_random500_tri.gmv cmo_src                                        
+read avs input_random500_tri.inp cmo_src                                        
 cmo copyatt cmo_src cmo_src numreal ialias                                      
-read gmv input_500_quad.gmv cmo_sink                                            
+read avs input_500_quad.inp cmo_sink                                            
 cmo addatt cmo_sink numreal                                                     
 cmo setatt cmo_sink numreal 0.                                                  
 intrp/continuous/cmo_sink numreal/1,0,0/cmo_src numreal                         
@@ -42,11 +42,11 @@ cmo printatt cmo_src xval minmax
 cmo printatt cmo_sink xval minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_3d_hex.gmv cmo_src                                               
+read avs input_3d_hex.inp cmo_src                                               
 cmo setatt cmo_src itetclr 36,36,0 4                                            
 hextotet 24 cmotet cmo_src                                                      
 cmo delete cmo_src                                                              
-read gmv input_2d_hires_trans.gmv cmo_sink                                      
+read avs input_2d_hires_trans.inp cmo_sink                                      
 cmo setatt cmo_sink imt1 5                                                      
 intrp/continuous/cmo_sink imt1/1,0,0/cmotet imt1/keepatt                        
 dump gmv output_con04.gmv                                                       
@@ -71,9 +71,9 @@ cmo printatt cmo_sink imtreal minmax
 cmo printatt cmo_sink el_gtg minmax                                             
 cmo delete cmotet                                                               
 cmo delete cmo_sink                                                             
-read gmv input_random500_tri.gmv cmo_src                                        
+read avs input_random500_tri.inp cmo_src                                        
 cmo copyatt cmo_src cmo_src numreal ialias                                      
-read gmv input_500_quad.gmv cmo_sink                                            
+read avs input_500_quad.inp cmo_sink                                            
 cmo addatt cmo_sink numreal                                                     
 cmo setatt cmo_sink numreal 0.                                                  
 pset/pbox/geom/xyz/1,0,0/150. 25. 0./170. 35. 1./                               

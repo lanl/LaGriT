@@ -1,3 +1,34 @@
+define/nx/4                                                                     
+define/ny/5                                                                     
+define/nz/3                                                                     
+cmo/create/mesh_object///tet                                                    
+createpts/xyz/nx,ny,nz/0. 0. 0./1. 1. 0.2/1 1 1                                 
+cmo/setatt/mesh_object/imt/1 0 0/1                                              
+connect                                                                         
+cmo/printatt//-all-/minmax                                                      
+dump/gmv/output_rmmat1.gmv/mesh_object                                          
+cmo copy mo2 mesh_object                                                        
+cmo select mo2                                                                  
+pset/p2/attribute yic/1,0,0/gt .60                                              
+eltset/e2/inclusive pset,get,p2                                                 
+cmo/setatt/mo2/itetclr eltset,get,e2 2                                          
+cmo/setatt/mo2/imt pset,get,p2 2                                                
+filter/1 0 0                                                                    
+rmpoint/compress                                                                
+geniee                                                                          
+resetpts/itp                                                                    
+settets                                                                         
+cmo printatt mo2 imt1                                                           
+cmo/printatt/mo2/itp1                                                           
+resetpts parent                                                                 
+cmo/printatt/mo2/itp1                                                           
+rmpoint compress                                                                
+cmo/printatt/mo2/itp1                                                           
+resetpts cell_color 2,1,-1                                                      
+cmo/status/mo2                                                                  
+cmo printatt mo2 imt1                                                           
+cmo/delete/mo2                                                                  
+cmo/delete/mesh_object                                                          
 define/nx/15                                                                    
 define/ny/15                                                                    
 define/nz/2                                                                     

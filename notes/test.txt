@@ -1,0 +1,162 @@
+
+/home/tam/src/lagrit/test/level01
+each directory contains input and output files
+each directory has reference directories for comparisons 
+the test script run_test.py runs in each directory and leaves output files 
+output files will be result of last run, outx3dgen has Program and Run Time
+
+Foreach platform:
+Step 1) run_test.py
+Step 2) check_test.py
+Step 3) Evaluate differences in diffout_*.txt
+        Screen output from runs are in stdout_*.txt
+
+=================================================================================
+
+Step  1)
+
+in run_test.py define executable
+
+  if osname.find("linux") >= 0 :
+     ostag="lin" 
+     xlagrit="/home/tam/src/lagrit/bin/lagrit_lin_o"
+  elif osname.find("sun")>=0 or osname.find("sol")>=0 :
+     ostag="sun" 
+     xlagrit="/home/tam/src/lagrit/bin/lagrit_sun_o"
+  elif osname.find("darwin")>= 0 :
+     ostag="mac" 
+     xlagrit="/home/tam/src/lagrit/bin/lagrit_mac_o"
+
+rainier command% run_test.py
+
+Testing Done. 
+Check outx3dgen  1  Test Directory ./setpts ----------------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  2  Test Directory ./addmesh_add -----------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  3  Test Directory ./createpts -------------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  4  Test Directory ./zone_outside ----------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  5  Test Directory ./interp_voronoi --------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  6  Test Directory ./io_agf_simple ---------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  7  Test Directory ./refine_octree ---------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  8  Test Directory ./addmesh_doublemesh ----------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  9  Test Directory ./rmpoint ---------------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  10  Test Directory ./refine_octree_prd ----------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  11  Test Directory ./smooth ---------------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  12  Test Directory ./connect_cube ---------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  13  Test Directory ./addmesh_append -------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  14  Test Directory ./interp_map -----------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  15  Test Directory ./interp_continuous ----------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  16  Test Directory ./zone_outside_minmax --------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  17  Test Directory ./refine_recon_quality -------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+Check outx3dgen  18  Test Directory ./intrp_2D_sizes -------------
+    Program:  LaGriT V2.001   Linux    : LaGriT successfully completed
+
+Found 19 completed outx3dgen files out of 19 test directories.
+LaGriT outx3dgen and screen output written to /home/tam/src/lagrit/test/level01/stdout_lin.txt
+
+-rw-r-----  1 tam radiusd 1223693 Mar 26 10:17 stdout_lin.txt
+
+Step 2)
+
+check_test.py
+runs comparisons against reference directories
+this should be called on same platform that run_test.py was called
+
+rainier command% check_test.py
+
+All checks complete, 4 directories failed out of 19
+--------------------------------------
+  ./zone_outside Error: 5 lines failed.
+--------------------------------------
+  ./io_agf_simple Error: 13 lines failed.
+--------------------------------------
+  ./rmpoint Error: 1 lines failed.
+--------------------------------------
+  ./zone_outside_minmax Error: 1 lines failed.
+--------------------------------------
+Check done.
+Full result written to /home/tam/src/lagrit/test/level01/diffout_lin.txt
+
+Script uses python diffs to choose only relevant differences.
+Comment lines and space differences are not considered relevant.
+
+Examples of differences unaffecting performance:
+
+9 Check Directory  ./rmpoint -----------------------
+Compare test +++ ./rmpoint/outx3dgen   Wed Mar 26 10:16:59 2008
+To reference --- ./rmpoint/reference/outx3dgen Thu Jan 17 14:57:57 2008
+lines  -1257,3 +1257,3  differ >>
+ rmpoint/pset,get,p1
+- Dudded         3 points plus parents, plus        297 elements removed.
++ Dudded         3 points plus parents, plus 1072693248 elements removed.
+
+Removed 8 comment lines.
+Removed 2 junk lines.
+1 lines failed.
+9 Done with Directory ./rmpoint -----------------------
+
+
+Examples of acceptable differences:
+
+Check Directory  ./zone_outside -----------------------
+Compare test +++ ./zone_outside/outx3dgen   Wed Mar 26 10:16:52 2008
+To reference --- ./zone_outside/reference/outx3dgen Thu Jan 17 08:02:35 2008
+
+lines  -4,5 +4,5  differ >>
+
+lines  -103,9 +103,9  differ >>
+- CONNECTED COMPONENTS:
+-   1  different exterior boundary components
+- Set#        Representitive Node #        # Nodes in Set
+-            (numbnd_e(node#) attribute)
+-      1                 181                5724
++ CONNECTED COMPONENTS:
++   1  different exterior boundary components
++ Set#        Representitive Node #        # Nodes in Set
++            (numbnd_e(node#) attribute)
++      1                 181                5724
+ cmo/DELATT/cmo1/ikey_tmp
+ 
+Removed 7 comment lines.
+Removed 7 junk lines.
+5 lines failed.
+4 Done with Directory ./zone_outside -----------------------
+
+Example of failure that needs checking:
+
+6 Check Directory  ./io_agf_simple -----------------------
+Compare test +++ ./io_agf_simple/outx3dgen   Wed Mar 26 10:16:56 2008
+To reference --- ./io_agf_simple/reference/outx3dgen Thu Jan 17 08:30:00 2008
+
+lines  -4,5 +4,5  differ >>
+
+lines  -483,7 +483,4  differ >>
+ read/gmv/output.gmv/cmogmv/
+-cmo/addatt/cmogmv/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0
+- no geometry for mesh object
+-geniee
++ GMV read error: empty file
+ read/avs/output.inp/cmoavs/
+
+Note in this case executable can not read a binary gmv file it has written.
+This will remain in the test suite in hopes that it will be fixed.
+
+
+
+

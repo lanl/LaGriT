@@ -101,13 +101,13 @@ sort/-def-/index/-def-/ikey_tmp/numbnd
 cmo/addatt//ikey_tmp/vint/scalar/nnodes///gax/0                                 
 finish                                                                          
 finish                                                                          
- 
- CONNECTED COMPONENTS:                                                          
-   1 different exterior boundary components                                     
- Set#        Representitive Node #        # Nodes in Set                        
-            (numbnd_e(node#) attribute)                                         
-      1                 181                5724                                 
- 
+
+ CONNECTED COMPONENTS:
+   1  different exterior boundary components
+ Set#        Representitive Node #        # Nodes in Set
+            (numbnd_e(node#) attribute)
+      1                 181                5724
+
 cmo/DELATT/cmo1/ikey_tmp                                                        
 finish                                                                          
 log/tty/on                                                                      
