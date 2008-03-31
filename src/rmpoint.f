@@ -367,7 +367,7 @@ C
  
          if(nelements.gt.0) then
             call mmgetblk('iremtet',isubname,
-     *                    ipiremtet,nelements,2,icscode)
+     *                    ipiremtet,nelements,1,icscode)
             nremtet=0
             do it=1,nelements
                iremtet(it)=0
@@ -477,12 +477,12 @@ C        ...............................................................
 C        Get temporary memory from the memory manager.
 C
          length=nnodes
-         call mmgetblk('mpary'   ,isubname,ipmpary ,length,2,icscode)
-         call mmgetblk('mpary1'  ,isubname,ipmpary1,length,2,icscode)
-         call mmgetblk('mpary2'  ,isubname,ipmpary2,length,2,icscode)
+         call mmgetblk('mpary'   ,isubname,ipmpary ,length,1,icscode)
+         call mmgetblk('mpary1'  ,isubname,ipmpary1,length,1,icscode)
+         call mmgetblk('mpary2'  ,isubname,ipmpary2,length,1,icscode)
          if(nelements.gt.0) then
             call mmgetblk('iremtet',isubname,
-     *                    ipiremtet,nelements,2,icscode)
+     *                    ipiremtet,nelements,1,icscode)
             nremtet=0
             do it=1,nelements
                iremtet(it)=0
@@ -861,7 +861,7 @@ C           removed.
 C
          if (nelements.gt.0)
      *      call mmgetblk('iremtet',isubname,
-     *                    ipiremtet,nelements,2,icscode)
+     *                    ipiremtet,nelements,1,icscode)
          nremtet=0
          do it=1,nelements
             iremtet(it)=0

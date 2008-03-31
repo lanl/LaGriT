@@ -1666,16 +1666,16 @@ C
 c DUMP VORONOI STOR FILE
 c fehm expects a header on the file:
 c formatted ascii
-c fehmstor ascir8i4 X3D Sparse Matrix, Voronoi Coupling Coeffients
+c fehmstor ascir8i4 LaGriT Sparse Matrix, Voronoi Coefficients
 c 123456789012345678901234567890123456789012345678901234567890123456789012
-c fehmstor ieeer8i4 X3D Sparse Matrix, Voronoi Coupling Coeffients
+c fehmstor ieeer8i4 LaGriT Sparse Matrix, Voronoi Coefficients
 c unformatted
  
 C     BINARY header not yet implemented
 c
 c      if(io_type .eq. 3)then
 c         write(title_string,'(a)')
-c     1'fehmstor ieeer8i4 X3D Sparse Matrix Voronoi Coupling Coefficents'
+c     1'fehmstor ieeer8i4 LaGriT Sparse Matrix Voronoi Coefficients'
 c         write(iunit)title_string
 c         write(title_string,*)
 c     1        string,' 3-D Linear Diffusion Model (voronoi_stor)'
@@ -1683,7 +1683,7 @@ c         write(iunit)title_string
  
 C     ASCII header
        write(iunit,'(a)')
-     1'fehmstor ascir8i4 X3D Sparse Matrix Voronoi Coupling Coefficents'
+     1'fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients'
  
 c     SECOND LINE
       write(iunit,*)string,' 3-D Linear Diffusion Model (voronoi_stor)'

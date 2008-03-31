@@ -1,30 +1,52 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="Generator" content="Microsoft Word 98">
-   <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
-   <title>DEFINE</title>
+    
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+    
+  <meta name="Generator" content="Microsoft Word 98">
+    
+  <meta name="GENERATOR"
+ content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+  <title>DEFINE</title>
 </head>
-<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
-
-<blockquote>&nbsp;
-<p><b><u><font face="Times">DEFINE</font></u></b>
-<blockquote><font face="Times">Allows a number to be associated with a
-character string, such that the character string can be used in input decks
-in place of the&nbsp; number.</font></blockquote>
-&nbsp;<font face="Times">FORMAT:</font>
-<blockquote><b><font face="Times">define</font><font face="Courier New,Courier">/</font></b><font face="Courier New,Courier">name</font><font face="Times">/value</font></blockquote>
-<font face="Times">EXAMPLE:</font>
-<blockquote><font face="Times"><b>define</b>/nx/3/</font>
-<br><font face="Times New Roman,Times"><b>define</b>/ny/4</font>
-<br><font face="Times New Roman,Times"><b>define</b>/nz/5</font>
-<br><font face="Times New Roman,Times"><b>define</b>/bottom/0.1/</font>
-<br><font face="Times New Roman,Times"><b>define</b>/top/4.6</font>
-<br><font face="Times New Roman,Times"><b>define</b>/left/9.8</font>
-<br><font face="Times New Roman,Times"><b>surface</b>/s1/reflect/box/0.0,left,bottom/1.0,right,top</font>
-<br><font face="Times New Roman,Times"><b>rz</b>/xyz/nx/nz/0.0,left,bottom/1.0,right,top/1,1,1</font></blockquote>
-</blockquote>
-
+  <body text="#000000" bgcolor="#ffffff" link="#0000ee" vlink="#551a8b"
+ alink="#ff0000">
+  
+<blockquote>&nbsp; 
+  <p><b><u><font face="Times">DEFINE</font></u></b> </p>
+  <blockquote><font face="Times">Allows a number to be associated with a character
+string, such that the character string can be used in input decks in place
+of the&nbsp; number. The keyword <i>remove </i>in the third argument will
+remove a defined variable from the stack of defined variables.</font></blockquote>
+ &nbsp;<font face="Times">FORMAT:</font> 
+  <blockquote><tt><b>define /</b> name / value_real<br>
+    </tt><tt><b>define /</b> name / value_integer</tt><br>
+    <tt><b>define /</b> name / value_character</tt><br>
+    <tt><b>define /</b> name / remove</tt><br>
+  </blockquote>
+ <font face="Times">EXAMPLE:</font> 
+  <blockquote><tt><b>define </b>/ nx / 3<br>
+    <b>define </b>/ ny / 4 <br>
+    <b>define</b> / nz / 5 <br>
+    <b>define </b>/ bottom / 0.1<br>
+    <b>define </b>/ top / 4.0 <br>
+    <b>define</b> / left / 9.8 <br>
+    <b>define</b> / type / reflect<br>
+    <br>
+    <b>surface</b>/s1/reflect/box/0.0,left,bottom/1.0,right,top <br>
+    <b>rz</b>/xyz/nx/nz/0.0,left,bottom/1.0,right,top/1,1,1<br>
+    <br>
+    </tt><tt><b>define </b>/ top / 5.0 </tt><br>
+    <tt><b>surface</b>/s1/reflect/box/0.0,left,bottom/1.0,right,top <br>
+ <b>rz</b>/xyz/nx/nz/0.0,left,bottom/1.0,right,top/1,1,1</tt><br>
+    <br>
+    <tt><b>define</b> / nx / remove<br>
+    <b>define</b> / ny / remove<br>
+    <b>define</b> / nz / remove</tt><br>
+  </blockquote>
+ </blockquote>
+  <br>
 </body>
 </html>

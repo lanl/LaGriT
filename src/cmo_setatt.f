@@ -773,8 +773,8 @@ C         PRINT ATTRIBUTE MINMAX
  
             if (itotal.eq.0) then
               write(logmess,'(a)')
-     >'ATTRIBUTE NAME            MIN           MAX          DIFFERENCE
-     > ATT LENGTH'
+     >       'ATTRIBUTE NAME              MIN                MAX    '//
+     >       '     DIFFERENCE    LENGTH'
               call writloga('default',0,logmess,0,ierrw)
             endif
  
@@ -797,16 +797,16 @@ c           check if mpary block exists
             endif
  
             if (attyp.eq.1 ) then
-              write(logmess,'(a18,3(1x,i14),i10)')
+              write(logmess,'(a12,3(1x,i18),i10)')
      >        cname(1:17),imin,imax,imax-imin,attlen
               if (irank.gt.1)
-     >          write(logmess,'(a18,3(1x,i14),i10,a,i3)')
+     >          write(logmess,'(a12,3(1x,i18),i10,a,i3)')
      >          cname(1:17),imin,imax,imax-imin,attlen,' x',irank
               call writloga('default',0,logmess,0,ierrw)
               itotal=itotal+1
  
             elseif (attyp.eq.2 ) then
-              write(logmess,'(a18,3(1x,1pe14.5),i10)')
+              write(logmess,'(a12,3(1x,1pe18.9),i10)')
      >        cname(1:17),xmin,xmax,xmax-xmin,attlen
               call writloga('default',0,logmess,0,ierrw)
               itotal=itotal+1

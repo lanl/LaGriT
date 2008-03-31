@@ -272,9 +272,9 @@ C      Write header to the file.
 c We assume header 1st line is 72 characters long:
 c
 c formatted ascii
-c fehmstor ascir8i4 X3D Sparse Matrix, Voronoi Coupling Coeffients
+c fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients
 c 123456789012345678901234567890123456789012345678901234567890123456789012
-c fehmstor ieeer8i4 X3D Sparse Matrix, Voronoi Coupling Coeffients
+c fehmstor ieeer8i4 LaGriT Sparse Matrix Voronoi Coefficients
 c unformatted
 C     Get a time stamp for the file header, placed on the second line.
       string = fdate()
@@ -282,7 +282,7 @@ C     Get a time stamp for the file header, placed on the second line.
       if(io_type .eq. 3)then
 c     BINARY header
          write(title_string,'(a)')
-     1'fehmstor ieeer8i4 X3D Sparse Matrix Voronoi Coupling Coefficents'
+     1'fehmstor ieeer8i4 LaGriT Sparse Matrix Voronoi Coefficients'
          write(iunit)title_string
          write(title_string,*)
      1        string,' 3-D Linear Diffusion Model (matbld3d_stor)'
@@ -290,7 +290,7 @@ c     BINARY header
       elseif(io_type .eq. 2)then
 C     ASCII header
          write(iunit,'(a)')
-     1'fehmstor ascir8i4 X3D Sparse Matrix Voronoi Coupling Coefficents'
+     1'fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients'
        write(iunit,*)string,'3-D Linear Diffusion Model (matbld3d_stor)'
       endif
  
