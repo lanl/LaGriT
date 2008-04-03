@@ -1,5 +1,5 @@
-read gmv input_3d_hex.gmv cmo_src                                               
-read gmv input_2d_hires.gmv cmo_sink                                            
+read avs input_3d_hex.inp cmo_src                                               
+read avs input_2d_hires.inp cmo_sink                                            
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
 dump gmv output_vor01.gmv cmo_sink                                              
@@ -12,8 +12,8 @@ cmo printatt cmo_src imt1 minmax
 cmo printatt cmo_sink imt1 minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_random500_quad.gmv cmo_src                                       
-read gmv input_500_quad.gmv cmo_sink                                            
+read avs input_random500_quad.inp cmo_src                                       
+read avs input_500_quad.inp cmo_sink                                            
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
 dump gmv output_vor02.gmv cmo_sink                                              
@@ -26,8 +26,8 @@ cmo printatt cmo_src imt1 minmax
 cmo printatt cmo_sink imt1 minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_sphere3d.gmv cmo_src                                             
-read gmv input_sphere2d.gmv cmo_sink                                            
+read avs input_sphere3d.inp cmo_src                                             
+read avs input_sphere2d.inp cmo_sink                                            
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
 dump gmv output_vor03.gmv cmo_sink                                              
@@ -40,8 +40,8 @@ cmo printatt cmo_src imt1 minmax
 cmo printatt cmo_sink imt1 minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_3d_hex.gmv cmo_src                                               
-read gmv input_2d_hires.gmv cmo_sink                                            
+read avs input_3d_hex.inp cmo_src                                               
+read avs input_2d_hires.inp cmo_sink                                            
 cmo setatt cmo_sink imtreal 5                                                   
 pset/psmall/geom/xyz/1,0,0/3. 2. -1./6. 6. 6.                                   
 intrp/voronoi/cmo_sink imtreal/pset,get,psmall/cmo_src imtreal                  
@@ -55,8 +55,8 @@ cmo printatt cmo_src imtreal minmax
 cmo printatt cmo_sink imtreal minmax                                            
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_3d_hex.gmv cmo_src                                               
-read gmv input_2d_hires.gmv cmo_sink                                            
+read avs input_3d_hex.inp cmo_src                                               
+read avs input_2d_hires.inp cmo_sink                                            
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/tiemin,min                       
 dump gmv output_vor05.gmv cmo_sink                                              
@@ -69,8 +69,8 @@ cmo printatt cmo_src imt1 minmax
 cmo printatt cmo_sink imt1 minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_3d_tet.gmv cmo_src                                               
-read gmv input_2d_hires.gmv cmo_sink                                            
+read avs input_3d_tet.inp cmo_src                                               
+read avs input_2d_hires.inp cmo_sink                                            
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
 dump gmv output_vor06.gmv cmo_sink                                              
@@ -83,8 +83,8 @@ cmo printatt cmo_src imt1 minmax
 cmo printatt cmo_sink imt1 minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_random500_quad.gmv cmo_src                                       
-read gmv input_500_tri.gmv cmo_sink                                             
+read avs input_random500_quad.inp cmo_src                                       
+read avs input_500_tri.inp cmo_sink                                             
 cmo setatt cmo_sink imt1 5                                                      
 cmo setatt cmo_sink itetclr 5                                                   
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
@@ -98,8 +98,8 @@ cmo printatt cmo_src imt1 minmax
 cmo printatt cmo_sink imt1 minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_random500_tri.gmv cmo_src                                        
-read gmv input_500_tri.gmv cmo_sink                                             
+read avs input_random500_tri.inp cmo_src                                        
+read avs input_500_tri.inp cmo_sink                                             
 cmo setatt cmo_sink imt1 5                                                      
 cmo setatt cmo_sink itetclr 5                                                   
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
@@ -113,8 +113,8 @@ cmo printatt cmo_src imt1 minmax
 cmo printatt cmo_sink imt1 minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_random500_tri.gmv cmo_src                                        
-read gmv input_500_quad.gmv cmo_sink                                            
+read avs input_random500_tri.inp cmo_src                                        
+read avs input_500_quad.inp cmo_sink                                            
 cmo setatt cmo_sink imt1 5                                                      
 cmo setatt cmo_sink itetclr 5                                                   
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
@@ -128,8 +128,8 @@ cmo printatt cmo_src imt1 minmax
 cmo printatt cmo_sink imt1 minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_centered_tet.gmv cmo_src                                         
-read gmv input_centered_hex.gmv cmo_sink                                        
+read avs input_centered_tet.inp cmo_src                                         
+read avs input_centered_hex.inp cmo_sink                                        
 cmo setatt cmo_sink imt1 5                                                      
 cmo setatt cmo_sink itetclr 5                                                   
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
@@ -143,8 +143,8 @@ cmo printatt cmo_src imt1 minmax
 cmo printatt cmo_sink imt1 minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_centered_hex.gmv cmo_src                                         
-read gmv input_centered_tet2.gmv cmo_sink                                       
+read avs input_centered_hex.inp cmo_src                                         
+read avs input_centered_tet2.inp cmo_sink                                       
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
 dump gmv output_vor11.gmv cmo_sink                                              
@@ -157,8 +157,8 @@ cmo printatt cmo_src imt1 minmax
 cmo printatt cmo_sink imt1 minmax                                               
 cmo delete cmo_src                                                              
 cmo delete cmo_sink                                                             
-read gmv input_random500_tri.gmv cmo_src                                        
-read gmv input_500_quad.gmv cmo_sink                                            
+read avs input_random500_tri.inp cmo_src                                        
+read avs input_500_quad.inp cmo_sink                                            
 cmo addatt cmo_sink numreal                                                     
 cmo setatt cmo_sink imt1 0                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src ialias                                

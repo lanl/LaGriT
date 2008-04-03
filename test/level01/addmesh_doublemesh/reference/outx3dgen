@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.001   SunOS          *                 
+*               *    Program:  LaGriT V2.001   Linux          *                 
 *               *    Compiled: 2007/10/18                     *                 
-*               *    Run Time: 2007/11/21  08:01:14           *                 
+*               *    Run Time: 2008/01/14  16:02:03           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -32,12 +32,20 @@ define/ymn/-1.
 define/ymx/1.                                                                   
 define/zmn/0./                                                                  
 define/zmx/1.                                                                   
-read lagrit input_doublemesh.lgd//binary                                        
-cmo/addatt/3dmesh/ncon50/INT/scalar/scalar/constant/temporary/l                 
+read avs input_doublemesh.inp 3dmesh                                            
+geniee                                                                          
 finish                                                                          
-cmo/addatt/3dmesh/nconbnd/INT/scalar/scalar/constant/temporary/l                
-finish                                                                          
-cmo/addatt/3dmesh/icontab/VINT/scalar/ncon50/constant/temporary/l               
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: 3dmesh                                         
+ 
+  1 Mesh Object name: 3dmesh                                                    
+    number of nodes =          8738        number of elements =        18776    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
 finish                                                                          
 cmo/copy/newmesh/3dmesh                                                         
 math/times/newmesh/yic/1,0,0/newmesh/yic/-1.0/                                  
@@ -50,10 +58,15 @@ cmo/geometry/doublemesh/biggeom
 cmo/modatt/doublemesh/geom_name/default/biggeom/                                
 finish                                                                          
 cmo/setatt//nconbnd/0                                                           
-         1 values reset for attribute nconbnd                                   
- 
+ cannot attribute nconbnd in doublemesh                                         
 surface/top/reflect/plane/0.,0.,zmx/1.,0.,zmx/1.,1.,zmx/                        
   The unit vector for top      is  0.0000000i   0.0000000j   1.0000000k         
+cmo/addatt//ncon50/INT/scalar/scalar/constant/permanent/l/0                     
+finish                                                                          
+cmo/addatt//nconbnd/INT/scalar/scalar/constant/permanent/l/0                    
+finish                                                                          
+cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0                 
+finish                                                                          
 surface/bottom/reflect/plane/0.,0.,zmn/1.,0.,zmn/1.,1.,zmn/                     
   The unit vector for bottom   is  0.0000000i   0.0000000j   1.0000000k         
 surface/left/reflect/plane/xmn,0.,0./xmn,1.,0./xmn,1.,1./                       
@@ -113,7 +126,7 @@ The current-mesh-object(CMO) is: doublemesh
  
           NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
  
-  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
   2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
   3          vector  INT     scalar          scalar const perma   l  3.000E+00  
   4          nnodes  INT     scalar          scalar const perma   l  8.738E+03  
@@ -176,9 +189,8 @@ The current-mesh-object(CMO) is: doublemesh
  61       psetnames VCHA     scalar max_number_sets const perma   l             
  62     eltsetnames VCHA     scalar max_number_sets const perma   l             
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
- 64          ncon50  INT     scalar          scalar const tempo   l  2.500E+03  
- 65         nconbnd  INT     scalar          scalar const tempo   l  2.600E+01  
- 66         icontab VINT     scalar          ncon50 const tempo   l  0.000E+00  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  
   2 Mesh Object name: newmesh                                                   
     number of nodes =          8738        number of elements =        18776    
@@ -188,7 +200,7 @@ The current-mesh-object(CMO) is: doublemesh
  
           NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
  
-  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
   2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
   3          vector  INT     scalar          scalar const perma   l  3.000E+00  
   4          nnodes  INT     scalar          scalar const perma   l  8.738E+03  
@@ -251,9 +263,8 @@ The current-mesh-object(CMO) is: doublemesh
  61       psetnames VCHA     scalar max_number_sets const perma   l             
  62     eltsetnames VCHA     scalar max_number_sets const perma   l             
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
- 64          ncon50  INT     scalar          scalar const tempo   l  2.500E+03  
- 65         nconbnd  INT     scalar          scalar const tempo   l  2.600E+01  
- 66         icontab VINT     scalar          ncon50 const tempo   l  0.000E+00  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  
   3 Mesh Object name: doublemesh                                                
     number of nodes =         17476        number of elements =        37552    
@@ -326,9 +337,11 @@ The current-mesh-object(CMO) is: doublemesh
  61       psetnames VCHA     scalar max_number_sets const perma   l             
  62     eltsetnames VCHA     scalar max_number_sets const perma   l             
  63       geom_name CHAR     scalar max_number_sets const perma   l biggeom     
- 64          ncon50  INT     scalar          scalar const tempo   l  2.500E+03  
- 65         nconbnd  INT     scalar          scalar const tempo   l  2.600E+01  
- 66         icontab VINT     scalar          ncon50 const tempo   l  0.000E+00  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66          ncon50  INT     scalar          scalar const perma   l  2.500E+03  
+ 67         nconbnd  INT     scalar          scalar const perma   l  2.600E+01  
+ 68         icontab VINT     scalar          ncon50 const perma   l  0.000E+00  
 cmo/printatt//-all-/minmax                                                      
 ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
  -def-                0.00000E+00    0.00000E+00    0.00000E+00     17476       
@@ -345,7 +358,7 @@ ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH
  edges_per_element              6              6              0         1       
  faces_per_element              4              4              0         1       
  isetwd                         0              0              0     17476       
- ialias                         0          22527          22527     17476       
+ ialias                         0           8738           8738     17476       
  imt1                           1             10              9     17476       
  itp1                           0             41             41     17476       
  icr1                           0             26             26     17476       
@@ -383,6 +396,7 @@ ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH
  max_number_sets               32             32              0         1       
  number_of_psets                0              0              0         1       
  number_of_eltsets              0              0              0         1       
+ number_of_fsets                0              0              0         1       
  ncon50                      2500           2500              0         1       
  nconbnd                       26             26              0         1       
  icontab                        0              6              6      2500       

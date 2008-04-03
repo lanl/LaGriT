@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V2.001   SunOS          *                 
 *               *    Compiled: 2007/10/18                     *                 
-*               *    Run Time: 2007/11/21  09:20:02           *                 
+*               *    Run Time: 2008/01/17  15:06:21           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -324,22 +324,50 @@ cmo delete cmo_sink
 * Case 02 QUAD numreal <- TRI numreal                                           
 * read source grid                                                              
 * assign node id to node attribute numreal                                      
-read gmv input_random500_tri.gmv cmo_src                                        
-cmo/addatt/cmo_src/iign/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0          
+read avs input_random500_tri.inp cmo_src                                        
+cmo/addatt/cmo_src/iign/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0         
 finish                                                                          
-cmo/addatt/cmo_src/numreal/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0       
+cmo/addatt/cmo_src/numreal/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0      
 finish                                                                          
- no geometry for mesh object                                                    
 geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmo_src                                        
+ 
+  1 Mesh Object name: cmo_src                                                   
+    number of nodes =            12        number of elements =           12    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
 finish                                                                          
 cmo copyatt cmo_src cmo_src numreal ialias                                      
 Warning: Attribute type VINT    written to VDOUBLE                              
         12 copied from cmo_src ialias to -> cmo_src numreal                     
  
 * read the sink grid and create attribute numreal                               
-read gmv input_500_quad.gmv cmo_sink                                            
- no geometry for mesh object                                                    
+read avs input_500_quad.inp cmo_sink                                            
 geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmo_sink                                       
+ 
+  1 Mesh Object name: cmo_src                                                   
+    number of nodes =            12        number of elements =           12    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: cmo_sink                                                  
+    number of nodes =          2500        number of elements =         2401    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
 finish                                                                          
 cmo addatt cmo_sink numreal                                                     
 cmo setatt cmo_sink numreal 0.                                                  
@@ -693,13 +721,24 @@ cmo delete cmo_sink
 * test attributes created during kdtree searches                                
 * kdtree search for source elements creates el_gtg                              
 * source grid cannot be hex, convert to tets                                    
-read gmv input_3d_hex.gmv cmo_src                                               
-cmo/addatt/cmo_src/itetreal/VDOUBLE/scalar/nelements/linear/permanent/gxa/0.0   
+read avs input_3d_hex.inp cmo_src                                               
+cmo/addatt/cmo_src/imtreal/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0      
 finish                                                                          
-cmo/addatt/cmo_src/imtreal/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0       
+cmo/addatt/cmo_src/itetreal/VDOUBLE/scalar/nelements/linear/permanent/gxaf/0.0  
 finish                                                                          
- no geometry for mesh object                                                    
 geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmo_src                                        
+ 
+  1 Mesh Object name: cmo_src                                                   
+    number of nodes =            98        number of elements =           36    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
 finish                                                                          
 cmo setatt cmo_src itetclr 36,36,0 4                                            
          1 values reset for attribute itetclr                                   
@@ -717,13 +756,30 @@ No duplicate points
   WARNING: Duplicate points not removed, nnodes =        290                    
 cmo delete cmo_src                                                              
      Released Mesh Object: cmo_src                                              
-read gmv input_2d_hires_trans.gmv cmo_sink                                      
-cmo/addatt/cmo_sink/imtreal/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0      
+read avs input_2d_hires_trans.inp cmo_sink                                      
+cmo/addatt/cmo_sink/imtreal/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0     
 finish                                                                          
-cmo/addatt/cmo_sink/itetreal/VDOUBLE/scalar/nelements/linear/permanent/gxa/0.0  
+cmo/addatt/cmo_sink/itetreal/VDOUBLE/scalar/nelements/linear/permanent/gxaf/0.0 
 finish                                                                          
- no geometry for mesh object                                                    
 geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmo_sink                                       
+ 
+  1 Mesh Object name: cmotet                                                    
+    number of nodes =           290        number of elements =          864    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: cmo_sink                                                  
+    number of nodes =           400        number of elements =          722    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
 finish                                                                          
 cmo setatt cmo_sink imt1 5                                                      
        400 values reset for attribute imt1                                      
@@ -948,8 +1004,8 @@ The current-mesh-object(CMO) is: cmotet
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
- 66        itetreal VDOU     scalar       nelements linea perma gxa  0.000E+00  
- 67         imtreal VDOU     scalar          nnodes linea perma gxa  0.000E+00  
+ 66         imtreal VDOU     scalar          nnodes linea perma gxa  0.000E+00  
+ 67        itetreal VDOU     scalar       nelements linea perma gxa  0.000E+00  
  68            iign VINT     scalar          nnodes linea tempo  gx  0.000E+00  
 cmo printatt cmotet imt1 minmax                                                 
 ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
@@ -1166,8 +1222,8 @@ The current-mesh-object(CMO) is: cmotet
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
- 66        itetreal VDOU     scalar       nelements linea perma gxa  0.000E+00  
- 67         imtreal VDOU     scalar          nnodes linea perma gxa  0.000E+00  
+ 66         imtreal VDOU     scalar          nnodes linea perma gxa  0.000E+00  
+ 67        itetreal VDOU     scalar       nelements linea perma gxa  0.000E+00  
  68            iign VINT     scalar          nnodes linea tempo  gx  0.000E+00  
 cmo printatt cmotet imtreal minmax                                              
 ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
@@ -1190,22 +1246,50 @@ cmo delete cmo_sink
 * Should have 6 nodes outside                                                   
 * read source grid                                                              
 * assign node id to node attribute numreal                                      
-read gmv input_random500_tri.gmv cmo_src                                        
-cmo/addatt/cmo_src/iign/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0          
+read avs input_random500_tri.inp cmo_src                                        
+cmo/addatt/cmo_src/iign/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0         
 finish                                                                          
-cmo/addatt/cmo_src/numreal/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0       
+cmo/addatt/cmo_src/numreal/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0      
 finish                                                                          
- no geometry for mesh object                                                    
 geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmo_src                                        
+ 
+  1 Mesh Object name: cmo_src                                                   
+    number of nodes =            12        number of elements =           12    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
 finish                                                                          
 cmo copyatt cmo_src cmo_src numreal ialias                                      
 Warning: Attribute type VINT    written to VDOUBLE                              
         12 copied from cmo_src ialias to -> cmo_src numreal                     
  
 * read the sink grid and create attribute numreal                               
-read gmv input_500_quad.gmv cmo_sink                                            
- no geometry for mesh object                                                    
+read avs input_500_quad.inp cmo_sink                                            
 geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmo_sink                                       
+ 
+  1 Mesh Object name: cmo_src                                                   
+    number of nodes =            12        number of elements =           12    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: cmo_sink                                                  
+    number of nodes =          2500        number of elements =         2401    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
 finish                                                                          
 cmo addatt cmo_sink numreal                                                     
 cmo setatt cmo_sink numreal 0.                                                  

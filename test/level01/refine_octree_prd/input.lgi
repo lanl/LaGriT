@@ -94,7 +94,7 @@ cmo delete cmo_hex
 
 * Element set 3D
 * one level xyz, second z 
-read gmv input_hex.gmv cmo_hex
+read avs input_hex.inp cmo_hex
 eltset/ elm2 /itetclr/eq 2
 pset/ pelm2 / eltset elm2
 cmo setatt cmo_hex idebug 6
@@ -113,7 +113,7 @@ cmo delete cmo_hex
 
 * Element set 2D
 * one level xy, second x 
-read gmv input_quad.gmv cmo_hex
+read avs input_quad.inp cmo_hex
 cmo setatt cmo_hex idebug 6
 cmo setatt cmo_hex imt1 1
 resetpts itp

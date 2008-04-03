@@ -5,7 +5,7 @@ define/ymn/-1.
 define/ymx/1.                                                                   
 define/zmn/0./                                                                  
 define/zmx/1.                                                                   
-read lagrit input_doublemesh.lgd//binary                                        
+read avs input_doublemesh.inp 3dmesh                                            
 cmo/copy/newmesh/3dmesh                                                         
 math/times/newmesh/yic/1,0,0/newmesh/yic/-1.0/                                  
 math/add/newmesh/imt1/1,0,0/newmesh/imt1/ngrains                                

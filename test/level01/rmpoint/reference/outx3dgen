@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V2.001   SunOS          *                 
 *               *    Compiled: 2007/10/18                     *                 
-*               *    Run Time: 2007/11/21  14:01:07           *                 
+*               *    Run Time: 2008/01/17  14:57:51           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -26,6 +26,583 @@ Command log file: logx3dgen
  
 * TEST rmmat (lagrit_input_rmmat)                                               
 *                                                                               
+define/nx/4                                                                     
+define/ny/5                                                                     
+define/nz/3                                                                     
+cmo/create/mesh_object///tet                                                    
+createpts/xyz/nx,ny,nz/0. 0. 0./1. 1. 0.2/1 1 1                                 
+  RZ GENERATED POINTS                    1 TO                   60              
+cmo/setatt/mesh_object/imt/1 0 0/1                                              
+Warning: nelements = 0                                                          
+        60 values reset for attribute imt1                                      
+ 
+connect                                                                         
+ Coordinates of enclosing tetrahedron are:                                      
+          -0.75000D+00-0.75000D+00-0.40000D+00                                  
+          -0.75000D+00 0.42500D+01 0.10000D+00                                  
+          -0.75000D+00-0.75000D+00 0.60000D+00                                  
+           0.42500D+01 0.50000D+00 0.10000D+00                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+cmo/printatt//-all-/minmax                                                      
+ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
+ -def-                0.00000E+00    0.00000E+00    0.00000E+00        60       
+ scalar                         1              1              0         1       
+ vector                         3              3              0         1       
+ nnodes                        60             60              0         1       
+ nedges                         0              0              0         1       
+ nfaces                         0              0              0         1       
+ nelements                    144            144              0         1       
+ mbndry                  16000000       16000000              0         1       
+ ndimensions_topo               3              3              0         1       
+ ndimensions_geom               3              3              0         1       
+ nodes_per_element              4              4              0         1       
+ edges_per_element              6              6              0         1       
+ faces_per_element              4              4              0         1       
+ isetwd                         0              0              0        60       
+ ialias                         0              0              0        60       
+ imt1                           1              1              0        60       
+ itp1                           0              0              0        60       
+ icr1                           0              0              0        60       
+ isn1                           0              0              0        60       
+ xic                  0.00000E+00    1.00000E+00    1.00000E+00        60       
+ yic                  0.00000E+00    1.00000E+00    1.00000E+00        60       
+ zic                  0.00000E+00    2.00000E-01    2.00000E-01        60       
+ xtetwd                         0              0              0       144       
+ itetclr                        1              1              0       144       
+ itettyp                        5              5              0       144       
+ itetoff                        0            572            572       144       
+ jtetoff                        0            572            572       144       
+ itet                           1             60             59       144 x  4  
+ jtet                           4       16000000       15999996       144 x  4  
+ epsilon              1.00000E-15    1.00000E-15    0.00000E+00         1       
+ epsilonl             3.17143E-13    3.17143E-13    0.00000E+00         1       
+ epsilona             4.52971E-13    4.52971E-13    0.00000E+00         1       
+ epsilonv             4.44089E-14    4.44089E-14    0.00000E+00         1       
+ ipointi                       60             60              0         1       
+ ipointj                       60             60              0         1       
+ idebug                         0              0              0         1       
+ itypconv_sm                    1              1              0         1       
+ maxiter_sm                    25             25              0         1       
+ tolconv_sm           1.00000E+00    1.00000E+00    0.00000E+00         1       
+ nnfreq                         1              1              0         1       
+ ivoronoi                       1              1              0         1       
+ iopt2to2                       2              2              0         1       
+ xmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ ymin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ zmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ xmax                 1.00000E+00    1.00000E+00    0.00000E+00         1       
+ ymax                 1.00000E+00    1.00000E+00    0.00000E+00         1       
+ zmax                 2.00000E-01    2.00000E-01    0.00000E+00         1       
+ kdtree_level                   0              0              0         1       
+ max_number_sets               32             32              0         1       
+ number_of_psets                0              0              0         1       
+ number_of_eltsets              0              0              0         1       
+ number_of_fsets                0              0              0         1       
+ 
+dump/gmv/output_rmmat1.gmv/mesh_object                                          
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+* create and remove double defined nodes                                        
+cmo copy mo2 mesh_object                                                        
+cmo select mo2                                                                  
+pset/p2/attribute yic/1,0,0/gt .60                                              
+ 
+ THE PSET  p2  HAS         24 POINTS                                            
+eltset/e2/inclusive pset,get,p2                                                 
+ 
+ THE ELTSET e2                               HAS         72 ELEMENTS            
+cmo/setatt/mo2/itetclr eltset,get,e2 2                                          
+        72 values reset for attribute itetclr                                   
+ 
+cmo/setatt/mo2/imt pset,get,p2 2                                                
+        24 values reset for attribute imt1                                      
+ 
+*                                                                               
+* Figure out where there are duplicate points and remove duplicates             
+*                                                                               
+filter/1 0 0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.317143130803E-12                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+rmpoint/compress                                                                
+         0 points removed and          0 elements removed.                      
+   The new point count is        60.                                            
+   The new element count is       144.                                          
+*                                                                               
+* Recompute the jtet element adjancy information.                               
+*                                                                               
+geniee                                                                          
+*                                                                               
+* Recompute the itp array                                                       
+*                                                                               
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+*                                                                               
+* Create parent/child points at material interfaces                             
+*                                                                               
+settets                                                                         
+ Adding        24 interface-coupled points.                                     
+*                                                                               
+cmo printatt mo2 imt1                                                           
+Attribute: imt1                                                                 
+         1          1                                                           
+         2          1                                                           
+         3          1                                                           
+         4          1                                                           
+         5          1                                                           
+         6          1                                                           
+         7          1                                                           
+         8          1                                                           
+         9          2                                                           
+        10          2                                                           
+        11          2                                                           
+        12          2                                                           
+        13          2                                                           
+        14          2                                                           
+        15          2                                                           
+        16          2                                                           
+        17          2                                                           
+        18          2                                                           
+        19          2                                                           
+        20          2                                                           
+        21          1                                                           
+        22          1                                                           
+        23          1                                                           
+        24          1                                                           
+        25          1                                                           
+        26          1                                                           
+        27          1                                                           
+        28          1                                                           
+        29          1                                                           
+        30          1                                                           
+        31          1                                                           
+        32          1                                                           
+        33          2                                                           
+        34          2                                                           
+        35          2                                                           
+        36          2                                                           
+        37          2                                                           
+        38          2                                                           
+        39          2                                                           
+        40          2                                                           
+        41          1                                                           
+        42          1                                                           
+        43          1                                                           
+        44          1                                                           
+        45          1                                                           
+        46          1                                                           
+        47          1                                                           
+        48          1                                                           
+        49          1                                                           
+        50          1                                                           
+        51          1                                                           
+        52          1                                                           
+        53          2                                                           
+        54          2                                                           
+        55          2                                                           
+        56          2                                                           
+        57          2                                                           
+        58          2                                                           
+        59          2                                                           
+        60          2                                                           
+        61          1                                                           
+        62          2                                                           
+        63          1                                                           
+        64          2                                                           
+        65          1                                                           
+        66          2                                                           
+        67          1                                                           
+        68          2                                                           
+        69          2                                                           
+        70          1                                                           
+        71          2                                                           
+        72          1                                                           
+        73          2                                                           
+        74          1                                                           
+        75          2                                                           
+        76          1                                                           
+        77          2                                                           
+        78          1                                                           
+        79          2                                                           
+        80          1                                                           
+        81          2                                                           
+        82          1                                                           
+        83          2                                                           
+        84          1                                                           
+ 
+cmo/printatt/mo2/itp1                                                           
+Attribute: itp1                                                                 
+         1         10                                                           
+         2         10                                                           
+         3         10                                                           
+         4         10                                                           
+         5         10                                                           
+         6         10                                                           
+         7         10                                                           
+         8         10                                                           
+         9         41                                                           
+        10         41                                                           
+        11         41                                                           
+        12         41                                                           
+        13         10                                                           
+        14         10                                                           
+        15         10                                                           
+        16         10                                                           
+        17         10                                                           
+        18         10                                                           
+        19         10                                                           
+        20         10                                                           
+        21         10                                                           
+        22         10                                                           
+        23         10                                                           
+        24         10                                                           
+        25         10                                                           
+        26          0                                                           
+        27          0                                                           
+        28         10                                                           
+        29         41                                                           
+        30         41                                                           
+        31         41                                                           
+        32         41                                                           
+        33         10                                                           
+        34          0                                                           
+        35          0                                                           
+        36         10                                                           
+        37         10                                                           
+        38         10                                                           
+        39         10                                                           
+        40         10                                                           
+        41         10                                                           
+        42         10                                                           
+        43         10                                                           
+        44         10                                                           
+        45         10                                                           
+        46         10                                                           
+        47         10                                                           
+        48         10                                                           
+        49         41                                                           
+        50         41                                                           
+        51         41                                                           
+        52         41                                                           
+        53         10                                                           
+        54         10                                                           
+        55         10                                                           
+        56         10                                                           
+        57         10                                                           
+        58         10                                                           
+        59         10                                                           
+        60         10                                                           
+        61         12                                                           
+        62         12                                                           
+        63         12                                                           
+        64         12                                                           
+        65         12                                                           
+        66         12                                                           
+        67         12                                                           
+        68         12                                                           
+        69         12                                                           
+        70         12                                                           
+        71          2                                                           
+        72          2                                                           
+        73          2                                                           
+        74          2                                                           
+        75         12                                                           
+        76         12                                                           
+        77         12                                                           
+        78         12                                                           
+        79         12                                                           
+        80         12                                                           
+        81         12                                                           
+        82         12                                                           
+        83         12                                                           
+        84         12                                                           
+ 
+* remove child points                                                           
+resetpts parent                                                                 
+cmo/printatt/mo2/itp1                                                           
+Attribute: itp1                                                                 
+         1         10                                                           
+         2         10                                                           
+         3         10                                                           
+         4         10                                                           
+         5         10                                                           
+         6         10                                                           
+         7         10                                                           
+         8         10                                                           
+         9         12                                                           
+        10         12                                                           
+        11         12                                                           
+        12         12                                                           
+        13         10                                                           
+        14         10                                                           
+        15         10                                                           
+        16         10                                                           
+        17         10                                                           
+        18         10                                                           
+        19         10                                                           
+        20         10                                                           
+        21         10                                                           
+        22         10                                                           
+        23         10                                                           
+        24         10                                                           
+        25         10                                                           
+        26          0                                                           
+        27          0                                                           
+        28         10                                                           
+        29         12                                                           
+        30          2                                                           
+        31          2                                                           
+        32         12                                                           
+        33         10                                                           
+        34          0                                                           
+        35          0                                                           
+        36         10                                                           
+        37         10                                                           
+        38         10                                                           
+        39         10                                                           
+        40         10                                                           
+        41         10                                                           
+        42         10                                                           
+        43         10                                                           
+        44         10                                                           
+        45         10                                                           
+        46         10                                                           
+        47         10                                                           
+        48         10                                                           
+        49         12                                                           
+        50         12                                                           
+        51         12                                                           
+        52         12                                                           
+        53         10                                                           
+        54         10                                                           
+        55         10                                                           
+        56         10                                                           
+        57         10                                                           
+        58         10                                                           
+        59         10                                                           
+        60         10                                                           
+ 
+rmpoint compress                                                                
+        24 points removed and          0 elements removed.                      
+   The new point count is        60.                                            
+   The new element count is       144.                                          
+cmo/printatt/mo2/itp1                                                           
+Attribute: itp1                                                                 
+         1         10                                                           
+         2         10                                                           
+         3         10                                                           
+         4         10                                                           
+         5         10                                                           
+         6         10                                                           
+         7         10                                                           
+         8         10                                                           
+         9         12                                                           
+        10         12                                                           
+        11         12                                                           
+        12         12                                                           
+        13         10                                                           
+        14         10                                                           
+        15         10                                                           
+        16         10                                                           
+        17         10                                                           
+        18         10                                                           
+        19         10                                                           
+        20         10                                                           
+        21         10                                                           
+        22         10                                                           
+        23         10                                                           
+        24         10                                                           
+        25         10                                                           
+        26          0                                                           
+        27          0                                                           
+        28         10                                                           
+        29         12                                                           
+        30          2                                                           
+        31          2                                                           
+        32         12                                                           
+        33         10                                                           
+        34          0                                                           
+        35          0                                                           
+        36         10                                                           
+        37         10                                                           
+        38         10                                                           
+        39         10                                                           
+        40         10                                                           
+        41         10                                                           
+        42         10                                                           
+        43         10                                                           
+        44         10                                                           
+        45         10                                                           
+        46         10                                                           
+        47         10                                                           
+        48         10                                                           
+        49         12                                                           
+        50         12                                                           
+        51         12                                                           
+        52         12                                                           
+        53         10                                                           
+        54         10                                                           
+        55         10                                                           
+        56         10                                                           
+        57         10                                                           
+        58         10                                                           
+        59         10                                                           
+        60         10                                                           
+ 
+resetpts cell_color 2,1,-1                                                      
+           2 materials reset for imt1 out of a total of            2            
+cmo/status/mo2                                                                  
+ 
+The current-mesh-object(CMO) is: mo2                                            
+ 
+  2 Mesh Object name: mo2                                                       
+    number of nodes =            60        number of elements =          144    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  6.000E+01  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  1.440E+02  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  3.171E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  4.530E-13  
+ 36        epsilonv REAL     scalar          scalar const perma   l  4.441E-14  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  6.000E+01  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  1.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+cmo printatt mo2 imt1                                                           
+Attribute: imt1                                                                 
+         1          1                                                           
+         2          1                                                           
+         3          1                                                           
+         4          1                                                           
+         5          1                                                           
+         6          1                                                           
+         7          1                                                           
+         8          1                                                           
+         9          1                                                           
+        10          1                                                           
+        11          1                                                           
+        12          1                                                           
+        13          2                                                           
+        14          2                                                           
+        15          2                                                           
+        16          2                                                           
+        17          2                                                           
+        18          2                                                           
+        19          2                                                           
+        20          2                                                           
+        21          1                                                           
+        22          1                                                           
+        23          1                                                           
+        24          1                                                           
+        25          1                                                           
+        26          1                                                           
+        27          1                                                           
+        28          1                                                           
+        29          1                                                           
+        30          1                                                           
+        31          1                                                           
+        32          1                                                           
+        33          2                                                           
+        34          2                                                           
+        35          2                                                           
+        36          2                                                           
+        37          2                                                           
+        38          2                                                           
+        39          2                                                           
+        40          2                                                           
+        41          1                                                           
+        42          1                                                           
+        43          1                                                           
+        44          1                                                           
+        45          1                                                           
+        46          1                                                           
+        47          1                                                           
+        48          1                                                           
+        49          1                                                           
+        50          1                                                           
+        51          1                                                           
+        52          1                                                           
+        53          2                                                           
+        54          2                                                           
+        55          2                                                           
+        56          2                                                           
+        57          2                                                           
+        58          2                                                           
+        59          2                                                           
+        60          2                                                           
+ 
+cmo/delete/mo2                                                                  
+     Released Mesh Object: mo2                                                  
+cmo/delete/mesh_object                                                          
+     Released Mesh Object: mesh_object                                          
+**********************************************************************          
+* old test input file                                                           
 define/nx/15                                                                    
 define/ny/15                                                                    
 define/nz/2                                                                     
@@ -47,7 +624,6 @@ connect
  
  The mesh is now complete!                                                      
  
-*resetpts / itp                                                                 
 cmo/printatt//-all-/minmax                                                      
 ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
  -def-                0.00000E+00    0.00000E+00    0.00000E+00       450       
