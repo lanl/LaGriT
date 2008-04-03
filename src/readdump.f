@@ -733,9 +733,20 @@ c         call readbm(ifile(1:lenfile),ierror_return)
          call readvrml(ifile(1:lenfile),ierror_return)
          call setsize()
 C
+      elseif(( ioption(1:len1) .eq. 'zone') .or. 
+     1       ( ioption(1:len1) .eq. 'zonn')) then
+C
+C     FEHM zone/zonn file format
+C
+         call read_fehm_zone(imsgin,xmsgin,cmsgin,msgtype,nwds,
+     *      ierror_return)
+C
       else
 C
-         write(logmess,'(a,a)') 'Invalid READ Option', idsb
+         write(logmess,'(a,a)') 'Invalid READ Option ', idsb(1:lenidsb)
+         call writloga('default',0,logmess,0,ierrw)
+         write(logmess,'(a,a,a)') 'Invalid READ Option ', 
+     1                           idsb(1:lenidsb),  ioption(1:len1)
          call writloga('default',0,logmess,0,ierrw)
          ierror_return=-1
          goto 9000

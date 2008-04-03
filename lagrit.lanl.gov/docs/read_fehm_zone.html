@@ -1,0 +1,104 @@
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+            
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+                      
+  <meta name="GENERATOR"
+ content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+  <title>read / zone | zonn</title>
+    
+</head>
+  <body text="#000000" bgcolor="#ffffff" link="#0000ee" vlink="#551a8b"
+ alink="#ff0000">
+      
+<blockquote><b><u><font face="Times New Roman,Times"><font size="+1">read/zone|zonn</font></font></u></b></blockquote>
+      
+<blockquote>       
+  <blockquote><font face="Times New Roman,Times"><font size="+1">Read in
+a list of node numbers in FEHM zone/zonn file format (See <a
+ href="http://FEHM.lanl.gov">http://FEHM.lanl.gov</a>). It is assumed that 
+a MO already exists and the node numbering of the MO is compatible with the 
+zone/zonn file. The only error checking is that the maximum node number in 
+the input zone/zonn file is less than or equal to the number of nodes in the
+MO.<br>
+     <br>
+ The second token zone|zonn does not have any effect other than specify that
+the input file is of the zone/zonn format. The zone/zonn option is controled
+by the value of the zone/zonn keyword that is read from inside the input
+file. If the keyword 'zone' is found in the file <font
+ face="Courier New, Courier, monospace">file_name</font>,  the attribute 
+   <font face="Courier New, Courier, monospace">att_name</font> is first initialized
+to zero. If the keyword 'zonn' is found, the attribute <font
+ face="Courier New, Courier, monospace">att_name</font> is not initialized.<br>
+     <br>
+ If <font face="Courier New, Courier, monospace">att_name</font> is given 
+as -def-, then the <font face="Courier New, Courier, monospace">imt</font>
+array is filled.<br>
+     <br>
+ If <font face="Courier New, Courier, monospace">att_name</font> exits and 
+is type VINT, it is used. If it does not exist, a VINT array is created. 
+   <br>
+    <br>
+    <font face="Courier New, Courier, monospace">file_name</font> can be
+up to 32 characters.<br>
+     </font></font></blockquote>
+          
+  <p><font face="Times New Roman,Times"><font size="+1">FORMAT:</font></font> 
+   </p>
+       
+  <blockquote><font size="+1"><font face="Times New Roman,Times"><b>read /
+zone | zonn / file_name / [mo_name | -def- ] / [att_name | -def-]</b></font></font><br>
+       </blockquote>
+   <font face="Times New Roman,Times"><font size="+1">&nbsp;EXAMPLE:</font></font> 
+      
+  <blockquote><font face="Times New Roman,Times"><font size="+1">Read in a
+mesh and a zone file that identifies a subset of the nodes in the mesh:<br>
+    <font face="Courier New, Courier, monospace"> read / gmv / mesh.gmv /
+cmo<br>
+ read / zone / node_list.zone / cmo / id_nodes<br>
+ pset / p_nodes / attribute / id_nodes / 1 0 0 / 0 / ne</font><br>
+     </font></font></blockquote>
+   <font face="Times New Roman,Times"><font size="+1">&nbsp;ZONE/ZONN FILE 
+FORMAT:</font></font><br>
+   
+  <blockquote>The format of a zone file is specified in the FEHM Users Manual 
+(<a href="http://FEHM.lanl.gov">http://FEHM.lanl.gov</a>). The general format 
+is:<br>
+     
+    <ol>
+       <li>An arbitrary number of header lines that do not contain the keywords 
+        <b>zone</b> or <b>zonn</b> as the first token on the line.</li>
+       <li>The keyword <b>zone</b> or <b>zonn</b>, lower case letters only. 
+&lt;new line&gt;</li>
+       <li>An integer zone number identifier and an optional character string 
+name &lt;new line&gt;</li>
+       <li>The keyword <b>nnum</b> &lt;new line&gt;</li>
+       <li>An integer with the <b>number_of_node_numbers</b> in the list
+to follow &lt;new line&gt;</li>
+       <li>A free format list of <b>number_of_node_numbers</b> integer node 
+identifiers.</li>
+       <li>Additional zone lists can be included by repeating again starting 
+with step 3. an integer zone number identifier</li>
+       <li>zone list reading is terminated when a blank line is reached after 
+step 6.</li>
+     
+    </ol>
+ For example:<br>
+     
+    <pre># comment line<br>another comment line as long as the first word is not zone<br># another comment line. Note that in the list below the node numbers<br># 5 and 10 appear in the first and second list. As a result, if the<br># zone file is read, the second occurence will take precedence.<br>zone<br>1 &nbsp; first_list_name<br>nnum<br>3<br>1 5 10<br>2 second_list_name<br>nnum<br>10<br>1 &nbsp;2 &nbsp;3 &nbsp;4 &nbsp;5<br>6 &nbsp;7 &nbsp;8 &nbsp;9 &nbsp;10<br>&lt;blank line&gt;</pre>
+     <br>
+ Note also that the <a href="http://lagrit.lanl.gov/docs/PSET.html">PSET</a> 
+command will output files in the FEHM zone file format.<br>
+     <br>
+   </blockquote>
+   </blockquote>
+        
+<blockquote><font face="Times New Roman,Times"><font size="+1">&nbsp;AN EXAMPLE
+USING ZONE FILES:</font></font><br>
+  <pre>*<br>* LaGriT control file to test read / zone|zonn<br>*<br>*<br>cmo / create / cmo / / / tet<br>createpts / xyz / 10 10 10 / 0. 0. 0. / 1. 1. 1. / 1 1 1<br>cmo / setatt / cmo / imt / 1 0 0 / 1<br>cmo / setatt / cmo / imt / 1 100 1 / 2<br>cmo / setatt / cmo / imt / 101 200 1 / 3<br>*<br>* Output zone file test_material.zone<br>*<br>dump / zone_imt / test / cmo<br>*<br>cmo / addatt / cmo / itmp1 / vint / scalar / nnodes<br>*<br>* Test various command line options.<br>c<br>read / zone / test_material.zone<br>read / zone / test_material.zone / cmo<br>read / zone / test_material.zone / -def- / -def-<br>read / zone / test_material.zone / cmo   / -def-<br>read / zone / test_material.zone / cmo   / imt<br>read / zone / test_material.zone / cmo   / itmp1<br>read / zone / test_material.zone / cmo   / itmp2<br>*<br>* Create some zone and zonn files to read.<br>*<br>pset / pzone1 / seq / 1 100 1<br>pset / pzone1 / zone / pset_zone1.zone / ascii<br><br>pset / pzonn1 / seq / 1 300 1<br>pset / pzonn1 / zonn / pset_zonn1.zonn / ascii<br>pset / pzonn2 / seq / 101 300 1<br>pset / pzonn2 / zonn / pset_zonn2.zonn / ascii<br>*<br>* Read zone and zonn type files.<br>*<br>read / zone / pset_zone1.zone / cmo / itmp4<br>*<br>* Since zonn files do not first initilize the array to zero<br>* one can read in multiple zonn files and only the values of<br>* the entries in the list are set.<br>*<br>read / zonn / pset_zonn1.zonn / cmo / itmp5<br>read / zonn / pset_zonn2.zonn / cmo / itmp5<br>*<br>* Output GMV file.<br>*<br>dump / gmv / test_read_zone.gmv / cmo<br>*<br>* Test some error conditions.<br>*<br>read / zone<br>read / zonn<br>read / zone / nofile<br>read / zone / test_material.zone / nocmo<br>*<br>finish<br><br><br></pre>
+</blockquote>
+   
+</body>
+</html>
