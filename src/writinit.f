@@ -250,7 +250,7 @@ C
       else 
 
       write(interfil,8389)  Version
- 8989 format('*',15x,'*    Program:  LaGriT V',a6,'                 *')
+ 8989 format('*',15x,'*    Program:  LaGriT V',a6,'  DEF            *')
       endif 
       call writloga('default',0,interfil,0,ierrdum)
 
