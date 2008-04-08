@@ -386,8 +386,8 @@ c
 c     Error, only support nnum option in zone/zonn macro
 c
            write(logmess,"(a,a)")
-     1        'ERROR: Found unsupported keyword after zone/zonn keyword:  ',
-     2         cmsg(1)(1:icharlnf(cmsg(1)))
+     1    'ERROR: Found unsupported keyword after zone/zonn keyword: ',
+     2     cmsg(1)(1:icharlnf(cmsg(1)))
            call writloga('default',1,logmess,0,ierr)
            write(logmess,"(a)")
      1     'ERROR: Continue looking for additional zone/zonn keywords'
