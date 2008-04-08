@@ -288,7 +288,8 @@ C
 C     Define the memory-management partition.
 C
       isubname='rmpoint'
- 
+      nremtet=0
+      npoints2=0 
       local_debug=0
       if (local_debug.gt.0) call mmverify()
 C
@@ -448,12 +449,19 @@ C        Points were dudded in addmesh_delete, count them for output
 C
 C        ...............................................................
 C        Write message giving element removal information.
-C
-         write(logmess,2110) npoints2,nremtet
- 2110    format(' Dudded',i10,
+
+         if(nelements.gt.0) then
+           write(logmess,2110) npoints2,nremtet
+ 2110      format(' Dudded',i10,
      $          ' points plus parents, and',i11,
      $          ' elements removed.')
-         call writloga('default',0,logmess,0,ierrw)
+           call writloga('default',0,logmess,0,ierrw)
+         else
+           write(logmess,2111) npoints2
+ 2111      format(' Dudded',i10,
+     $       ' points plus parents, there are no elements in mesh.') 
+           call writloga('default',0,logmess,0,ierrw)
+         endif 
 C
          call cmo_set_info('nelements',cmo,nelements,1,1,icscode)
          if (icscode .ne. 0) call x3d_error(isubname,'cmo_set_info')
@@ -827,11 +835,18 @@ C
 C        ...............................................................
 C        Write message giving point dudding information.
 C
-         write(logmess,2100) npoints2,nremtet
- 2100    format(' Dudded',i10,
-     $          ' points plus parents, plus',i11,
-     $          ' elements removed.')
-         call writloga('default',0,logmess,0,ierrw)
+         if (nremtet > 0) then
+           write(logmess,2100) npoints2,nremtet
+ 2100      format(' Dudded',i10,
+     $       ' points plus parents, plus',i11,
+     $       ' elements removed.')
+           call writloga('default',0,logmess,0,ierrw)
+         else
+           write(logmess,2101) npoints2
+ 2101      format(' Dudded',i10,
+     $     ' points plus parents, there are no elements in mesh.')
+           call writloga('default',0,logmess,0,ierrw)
+         endif
 C
          call cmo_set_info('nelements',cmo,nelements,1,1,icscode)
          if (icscode .ne. 0) call x3d_error(isubname,'cmo_set_info')
@@ -1100,6 +1115,7 @@ C
 C        ...............................................................
 C        Write message giving point removal information.
 C
+         print*,'final ',nremove,nremtet
          write(logmess,5800) nremove,nremtet
  5800    format(i10,' points removed and ',i10,' elements removed.')
          call writloga('default',0,logmess,0,ierrw)
