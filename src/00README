@@ -1,0 +1,28 @@
+This directory contains LaGriT source .f, .f90, and .c files
+There are include files .h, .csh, and lagrit*.h files for OS and date tags.
+
+Makefile, Makefile.depends, and buildbin are used to compile.
+The Makefile format requires GNU Make version 3.79.1 or later
+
+The compiler flags and compiler locations for SunOS, Linux, and Darwin (mac)
+are defined in these files. The make utility will maintain object files
+as defined in OBJDIR. There is a seperate directory for each set
+of optimized and debug for each OS platform. make will then check the
+object files in the appropriate directory for updates. 
+
+type 'make help' to see a listing of make options
+
+In general to update libs and executable on each platform
+    make install (update optimized lib and put into LIBDIR) 
+    make COPT=-g install (update debug lib and put into LIBDIR)
+    buildbin or buildbin opt (build executable into current dir) 
+
+Note: lagrit.h has tags that can be used to set program OS and DATE tags.
+This directory contains lagrit_lin.h, lagrit_mac.h, lagrit_sun.h 
+which are used at compile time to update these tags. The file
+lagrit.template.h preserves the template for these files. Modify
+lagrit.h to define your own tags for the LaGriT runtime banner.
+
+
+
+
