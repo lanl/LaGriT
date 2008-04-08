@@ -65,6 +65,7 @@ C
       integer nwds, imsgin(nwds), msgtype(nwds)
       REAL*8 xmsgin(nwds)
       character*32 cmsgin(nwds)
+      character*32 isubname
 C
       integer ierror_return
 C
@@ -86,6 +87,7 @@ C
 C
 C.... Mesh Object Name.
 C
+      isubname='cmo_create'
       cmo_name=cmsgin(3)
 C
       len=icharlnf(cmo_name)
@@ -101,6 +103,8 @@ C
 C
 C.... Create the Mesh Object from the Default Mesh Object.
 C
+      number_elements=0
+      number_nodes=0
       call cmo_create(cmo_name,ierror_return)
 C
       if((ierror_return.eq.0) .and. (nwds.gt.3)) then
@@ -163,10 +167,20 @@ C
 C
 C....    Set all Memory Managed array lengths.
 C
+
          call cmo_memory(cmo_name,number_nodes,number_elements,
      *                   ierror_return)
 C
       endif
+
+      if (ierror_return.eq.0) then
+      call cmo_set_info('nelements',cmo_name,number_elements,1,1,ierror)
+      if(ierror.ne.0) call x3d_error(isubname,'cmo_set_info nelements')
+
+      call cmo_set_info('nnodes',cmo_name,number_nodes,1,1,ierror)
+      if(ierror.ne.0) call x3d_error(isubname,'cmo_set_info nodes')
+
+      endif 
 C
       return
       end
