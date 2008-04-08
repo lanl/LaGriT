@@ -276,6 +276,16 @@ c     3 - get mesh object
          ierr=1
          goto 9991
       endif
+       call cmo_exist(cmo,ierr)
+       if(ierr .ne. 0)then      
+         write(logmess,'(a)')
+     *   "ERROR: MO DOES NOT EXIST: "//cmo
+         call writloga('default',0,logmess,0,ierr)
+         write(logmess,'(a)')
+         ierr=1
+         go to 9999
+       endif            
+
  
 c     set ntets and npoints
 c     check that there are points -- if none return
@@ -773,7 +783,7 @@ C         PRINT ATTRIBUTE MINMAX
  
             if (itotal.eq.0) then
               write(logmess,'(a)')
-     >       'ATTRIBUTE NAME              MIN                MAX    '//
+     >       'ATTRIBUTE NAME              MIN               MAX    '//
      >       '     DIFFERENCE    LENGTH'
               call writloga('default',0,logmess,0,ierrw)
             endif
@@ -797,16 +807,16 @@ c           check if mpary block exists
             endif
  
             if (attyp.eq.1 ) then
-              write(logmess,'(a12,3(1x,i18),i10)')
+              write(logmess,'(a18,2(1x,i16),1x,i15,i10)')
      >        cname(1:17),imin,imax,imax-imin,attlen
               if (irank.gt.1)
-     >          write(logmess,'(a12,3(1x,i18),i10,a,i3)')
-     >          cname(1:17),imin,imax,imax-imin,attlen,' x',irank
+     >          write(logmess,'(a18,2(1x,i16),1x,i15,i10,a1,i1)')
+     >          cname(1:17),imin,imax,imax-imin,attlen,'x',irank
               call writloga('default',0,logmess,0,ierrw)
               itotal=itotal+1
  
             elseif (attyp.eq.2 ) then
-              write(logmess,'(a12,3(1x,1pe18.9),i10)')
+              write(logmess,'(a18,2(1x,1pe16.9),1x,1pe15.9,i10)')
      >        cname(1:17),xmin,xmax,xmax-xmin,attlen
               call writloga('default',0,logmess,0,ierrw)
               itotal=itotal+1
