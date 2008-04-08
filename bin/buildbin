@@ -1,0 +1,136 @@
+#!/bin/csh -f
+# compile both -g and -O options of libraries 
+# binname and binname built in current directory
+# compile sun and linux static versions
+# check OS and set some variables and build bin 
+#
+# use make lib or gmake lib to build libraries
+#
+set LAGRIT_LIBS = ../lib 
+set UTIL_LIBS = ../../lg_util/lib
+
+set F77DIR = " " 
+set F90DIR = " " 
+
+set DATETAG = `date '+_%y%m%d'`
+set OSTYPE = `uname -a | awk '{print $1}'` 
+set DATELGI = `date '+20%y/%m/%d'`
+echo $OSTYPE $DATELGI 
+
+@ BUILD_DEBUG = 0  
+@ BUILD_OPT = 1  
+
+if($#argv < 1)then
+   echo '---------------------------------------------------'
+   echo 'Both debug and optimized executables will be built.'
+   echo '---------------------------------------------------'
+   @ BUILD_DEBUG = 1  
+   @ BUILD_OPT = 1  
+else 
+if ($argv[1] == debug) then
+   @ BUILD_DEBUG = 1  
+   @ BUILD_OPT = 0  
+else if ($argv[1] == opt) then
+   @ BUILD_DEBUG = 0  
+   @ BUILD_OPT = 1  
+endif
+endif
+
+if ($OSTYPE == 'Linux') then
+  set OSTAG = _lin
+  set F77FLAG = "-c -f -m32 -YEXT_NAMES=ASIS"
+  set F90FLAG = "-m32 -YEXT_NAMES=ASIS" 
+  set LINKFLAG = "-lm -lU77"
+  set F90DIR = /opt/absoft10.0/bin
+
+else if ($OSTYPE == 'Darwin') then
+  set OSTAG = _mac
+  set F77FLAG = "-c -f -N113 -N90 -B19 -q"
+  set F90FLAG = "" 
+  set LINKFLAG = " -lU77"
+  set F90DIR = /Applications/Absoft/bin
+
+else if ($OSTYPE == 'SunOS') then
+  set OSTAG = _sun
+  source /n/env/local.forte.7
+  set F77FLAG = -c
+  set F90FLAG = "-lf77compat " 
+  set LINKFLAG = " "
+  set F90DIR = /n/local_SunOS/forte7/SUNWspro/bin 
+
+else
+  echo 'OS $OSTYPE not recognized ' 
+  exit 1
+endif
+
+set FFILES = "lagrit_main.f lagrit_fdate.f" 
+set OFILES = "lagrit_main.o lagrit_fdate.o" 
+
+##############################
+if ($OSTYPE == 'Linux') then
+  set LINKFLAG = "-lm -lU77 -static "
+else if ($OSTYPE == 'Darwin') then
+  set LINKFLAG = " -lU77 -static"
+  set LINKFLAG = " -lU77 -s"
+else 
+  set LINKFLAG = "-Bstatic"
+endif
+
+
+##############################
+# debug version with static links
+if ( $BUILD_DEBUG == 1) then
+set COPT = _g
+set CFLAG = " -g"
+
+set binname = lagrit$OSTAG$COPT
+set binname_date = lagrit$OSTAG$COPT$DATETAG
+set liblagrit = lagrit$OSTAG$COPT.a
+set libutil = util$OSTAG$COPT.a
+
+echo "Working on OS $OSTYPE $binname and  $binname_date"
+echo "using $LAGRIT_LIBS/$liblagrit and $UTIL_LIBS/$libutil"
+'rm' -f *.o
+
+echo $F90DIR/f77 $CFLAG $F77FLAG $FFILES
+$F90DIR/f77 $CFLAG $F77FLAG $FFILES
+echo $F90DIR/f90 $CFLAG $F90FLAG -o $binname $OFILES $LAGRIT_LIBS/$liblagrit $UTIL_LIBS/$libutil $LINKFLAG
+$F90DIR/f90 $CFLAG $F90FLAG -o $binname $OFILES $LAGRIT_LIBS/$liblagrit $UTIL_LIBS/$libutil $LINKFLAG
+
+cp -p $binname $binname_date
+ls -l $binname $binname_date
+echo " "
+echo "Done with $binname and $binname_date "
+echo " "
+
+rm $OFILES 
+endif
+
+
+##############################
+# optimize version with static links
+if ( $BUILD_OPT == 1) then
+set COPT = _o
+set CFLAG = " -O"
+
+set binname = lagrit$OSTAG$COPT
+set binname_date = lagrit$OSTAG$COPT$DATETAG
+set liblagrit = lagrit$OSTAG$COPT.a
+set libutil = util$OSTAG$COPT.a
+
+echo "Working on OS $OSTYPE $binname and  $binname_date"
+echo "using $LAGRIT_LIBS/$liblagrit and $UTIL_LIBS/$libutil"
+'rm' -f *.o
+
+echo $F90DIR/f77 $CFLAG $F77FLAG $FFILES
+$F90DIR/f77 $CFLAG $F77FLAG $FFILES
+echo $F90DIR/f90 $CFLAG $F90FLAG -o $binname $OFILES $LAGRIT_LIBS/$liblagrit $UTIL_LIBS/$libutil $LINKFLAG
+$F90DIR/f90 $CFLAG $F90FLAG -o $binname $OFILES $LAGRIT_LIBS/$liblagrit $UTIL_LIBS/$libutil $LINKFLAG
+
+cp -p $binname $binname_date
+ls -l $binname $binname_date
+echo " "
+echo "Done with $binname and $binname_date"
+
+rm $OFILES 
+endif
