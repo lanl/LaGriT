@@ -1,9 +1,9 @@
 c
 c----------------------------------------------------------------
-c lagrit.template.h
-c This is a template for lagrit.h for the LaGriT program banner
+c lagrit.h for Linux
+c This is a template for the lagrit program banner
 c Substitute the TAG strings with Date and Linux, Darwin, SunOS, or IRIX
-c Compile library with updated lagrit.h and writinit.f 
+c Compile library with updated lagrit.h used in writinit()
 c This template is preserved in lagrit.template.h
 c
 c----------------------------------------------------------------
@@ -17,10 +17,10 @@ c
       parameter      (MyName='lagritgen')
 c
       character*8    OSName
-      parameter      (OSName='OSTAG')
+      parameter      (OSName='Linux')
 c
       character*22    Compiled
-      parameter      (Compiled='DATETAG')
+      parameter      (Compiled='2008/04/08              ')
 c
       character*8     Version
       save            Version
