@@ -742,7 +742,7 @@ C
       write(logmess,"(' Coordinates of enclosing tetrahedron are: ')")
       call writloga(cdefault,0,logmess,0,ierr)
       do j=1,4
-        write(logmess,'(10x,3(d12.5))') xbigtet(j),ybigtet(j),
+        write(logmess,'(7x,3(1x,d14.5))') xbigtet(j),ybigtet(j),
      *        zbigtet(j)
         call writloga(cdefault,0,logmess,0,ierr)
       enddo
