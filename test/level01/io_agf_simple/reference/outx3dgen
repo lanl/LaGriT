@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.001   SunOS          *                 
-*               *    Compiled: 2007/10/18                     *                 
-*               *    Run Time: 2008/03/26  14:14:31           *                 
+*               *    Program:  LaGriT V2.002   SunOS          *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  07:59:05           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -302,61 +302,61 @@ NegC: sort              edge            vor_coeff                   row_node
 Total suspect coeffs:          0                                                
  
 cmo/printatt//-all-/minmax                                                      
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- -def-                0.00000E+00    0.00000E+00    0.00000E+00         8       
- scalar                         1              1              0         1       
- vector                         3              3              0         1       
- nnodes                         8              8              0         1       
- nedges                         0              0              0         1       
- nfaces                         0              0              0         1       
- nelements                      5              5              0         1       
- mbndry                  16000000       16000000              0         1       
- ndimensions_topo               3              3              0         1       
- ndimensions_geom               3              3              0         1       
- nodes_per_element              4              4              0         1       
- edges_per_element              6              6              0         1       
- faces_per_element              4              4              0         1       
- isetwd                         0              0              0         8       
- ialias                         0              0              0         8       
- imt1                           1              1              0         8       
- itp1                          10             10              0         8       
- icr1                           0              0              0         8       
- isn1                           0              0              0         8       
- xic                  0.00000E+00    1.00000E+00    1.00000E+00         8       
- yic                  0.00000E+00    1.00000E+00    1.00000E+00         8       
- zic                  0.00000E+00    1.00000E+00    1.00000E+00         8       
- xtetwd                         0              0              0         5       
- itetclr                        1              1              0         5       
- itettyp                        5              5              0         5       
- itetoff                        0             16             16         5       
- jtetoff                        0             16             16         5       
- itet                           1              8              7         5 x  4  
- jtet                           1       16000000       15999999         5 x  4  
- epsilon              1.00000E-15    1.00000E-15    0.00000E+00         1       
- epsilonl             3.84593E-13    3.84593E-13    0.00000E+00         1       
- epsilona             6.66134E-13    6.66134E-13    0.00000E+00         1       
- epsilonv             2.22045E-13    2.22045E-13    0.00000E+00         1       
- ipointi                        1              1              0         1       
- ipointj                        8              8              0         1       
- idebug                         0              0              0         1       
- itypconv_sm                    1              1              0         1       
- maxiter_sm                    25             25              0         1       
- tolconv_sm           1.00000E+00    1.00000E+00    0.00000E+00         1       
- nnfreq                         1              1              0         1       
- ivoronoi                       1              1              0         1       
- iopt2to2                       2              2              0         1       
- xmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
- ymin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
- zmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
- xmax                 1.00000E+00    1.00000E+00    0.00000E+00         1       
- ymax                 1.00000E+00    1.00000E+00    0.00000E+00         1       
- zmax                 1.00000E+00    1.00000E+00    0.00000E+00         1       
- kdtree_level                   0              0              0         1       
- max_number_sets               32             32              0         1       
- number_of_psets                0              0              0         1       
- number_of_eltsets              0              0              0         1       
- number_of_fsets                0              0              0         1       
- ccoef               -3.43458E-17    0.00000E+00    3.43458E-17         8       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00         8  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                           8                8               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                        5                5               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                4                4               0         1  
+ edges_per_element                6                6               0         1  
+ faces_per_element                4                4               0         1  
+ isetwd                           0                0               0         8  
+ ialias                           0                0               0         8  
+ imt1                             1                1               0         8  
+ itp1                            10               10               0         8  
+ icr1                             0                0               0         8  
+ isn1                             0                0               0         8  
+ xic                0.000000000E+00  1.000000000E+00 1.000000000E+00         8  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00         8  
+ zic                0.000000000E+00  1.000000000E+00 1.000000000E+00         8  
+ xtetwd                           0                0               0         5  
+ itetclr                          1                1               0         5  
+ itettyp                          5                5               0         5  
+ itetoff                          0               16              16         5  
+ jtetoff                          0               16              16         5  
+ itet                             1                8               7         5x4
+ jtet                             1         16000000        15999999         5x4
+ epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
+ epsilonl           3.845925373E-13  3.845925373E-13 0.000000000E+00         1  
+ epsilona           6.661338148E-13  6.661338148E-13 0.000000000E+00         1  
+ epsilonv           2.220446049E-13  2.220446049E-13 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                          8                8               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ zmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 32               32               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ ccoef             -3.434577253E-17  0.000000000E+00 3.434577253E-17         8  
  
 quality                                                                         
  

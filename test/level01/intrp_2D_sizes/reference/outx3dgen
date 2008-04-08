@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.001   SunOS          *                 
-*               *    Compiled: 2007/10/18                     *                 
-*               *    Run Time: 2007/11/21  12:22:52           *                 
+*               *    Program:  LaGriT V2.002   SunOS          *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  08:00:14           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -118,56 +118,56 @@ cmo/select/cmosink
 scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
 infile diagnostic.mlgi                                                          
 cmo/printatt/cmosource/-xyz-/minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xic                  0.00000E+00    1.00000E+14    1.00000E+14      2121       
- yic                  0.00000E+00    1.00000E+14    1.00000E+14      2121       
- zic                  0.00000E+00    0.00000E+00    0.00000E+00      2121       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+14 1.000000000E+14      2121  
+ yic                0.000000000E+00  1.000000000E+14 1.000000000E+14      2121  
+ zic                0.000000000E+00  0.000000000E+00 0.000000000E+00      2121  
  
 cmo/printatt/cmosink/-xyz-/minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xic                  0.00000E+00    1.00000E+14    1.00000E+14      2000       
- yic                  0.00000E+00    1.00000E+14    1.00000E+14      2000       
- zic                  0.00000E+00    0.00000E+00    0.00000E+00      2000       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+14 1.000000000E+14      2000  
+ yic                0.000000000E+00  1.000000000E+14 1.000000000E+14      2000  
+ zic                0.000000000E+00  0.000000000E+00 0.000000000E+00      2000  
  
 cmo/printatt/cmosink/xmin/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
  
 cmo/printatt/cmosink/xmax/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xmax                 1.00000E+14    1.00000E+14    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xmax               1.000000000E+14  1.000000000E+14 0.000000000E+00         1  
  
 cmo/printatt/cmosink/ymin/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- ymin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
  
 cmo/printatt/cmosink/ymax/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- ymax                 1.00000E+14    1.00000E+14    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ ymax               1.000000000E+14  1.000000000E+14 0.000000000E+00         1  
  
 cmo/printatt/cmosink/zmin/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- zmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
  
 cmo/printatt/cmosink/zmax/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- zmax                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ zmax               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
  
 cmo/printatt/cmosink/epsilon/minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- epsilon              1.00000E-15    1.00000E-15    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
  
 cmo/printatt/cmosink/epsilonl/minmax                                            
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- epsilonl             3.14018E+01    3.14018E+01    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ epsilonl           3.140184917E+01  3.140184917E+01 0.000000000E+00         1  
  
 cmo/printatt/cmosink/epsilona/minmax                                            
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- epsilona             4.44089E+15    4.44089E+15    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ epsilona           4.440892099E+15  4.440892099E+15 0.000000000E+00         1  
  
 cmo/printatt/cmosink/epsilonv/minmax                                            
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- epsilonv             4.44089E+15    4.44089E+15    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ epsilonv           4.440892099E+15  4.440892099E+15 0.000000000E+00         1  
  
 finish                                                                          
 interpolate/continuous/cmosink field3/1,0,0/cmosource field3                    
@@ -218,56 +218,56 @@ cmo/select/cmosink
 scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
 infile diagnostic.mlgi                                                          
 cmo/printatt/cmosource/-xyz-/minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xic                  0.00000E+00    1.00000E+16    1.00000E+16      2121       
- yic                  0.00000E+00    1.00000E+16    1.00000E+16      2121       
- zic                  0.00000E+00    0.00000E+00    0.00000E+00      2121       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+16 1.000000000E+16      2121  
+ yic                0.000000000E+00  1.000000000E+16 1.000000000E+16      2121  
+ zic                0.000000000E+00  0.000000000E+00 0.000000000E+00      2121  
  
 cmo/printatt/cmosink/-xyz-/minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xic                  0.00000E+00    1.00000E+16    1.00000E+16      2000       
- yic                  0.00000E+00    1.00000E+16    1.00000E+16      2000       
- zic                  0.00000E+00    0.00000E+00    0.00000E+00      2000       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+16 1.000000000E+16      2000  
+ yic                0.000000000E+00  1.000000000E+16 1.000000000E+16      2000  
+ zic                0.000000000E+00  0.000000000E+00 0.000000000E+00      2000  
  
 cmo/printatt/cmosink/xmin/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
  
 cmo/printatt/cmosink/xmax/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xmax                 1.00000E+16    1.00000E+16    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xmax               1.000000000E+16  1.000000000E+16 0.000000000E+00         1  
  
 cmo/printatt/cmosink/ymin/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- ymin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
  
 cmo/printatt/cmosink/ymax/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- ymax                 1.00000E+16    1.00000E+16    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ ymax               1.000000000E+16  1.000000000E+16 0.000000000E+00         1  
  
 cmo/printatt/cmosink/zmin/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- zmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
  
 cmo/printatt/cmosink/zmax/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- zmax                 0.00000E+00    0.00000E+00    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ zmax               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
  
 cmo/printatt/cmosink/epsilon/minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- epsilon              1.00000E-15    1.00000E-15    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
  
 cmo/printatt/cmosink/epsilonl/minmax                                            
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- epsilonl             3.14018E+03    3.14018E+03    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ epsilonl           3.140184917E+03  3.140184917E+03 0.000000000E+00         1  
  
 cmo/printatt/cmosink/epsilona/minmax                                            
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- epsilona             4.44089E+19    4.44089E+19    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ epsilona           4.440892099E+19  4.440892099E+19 0.000000000E+00         1  
  
 cmo/printatt/cmosink/epsilonv/minmax                                            
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- epsilonv             4.44089E+19    4.44089E+19    0.00000E+00         1       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ epsilonv           4.440892099E+19  4.440892099E+19 0.000000000E+00         1  
  
 finish                                                                          
 interpolate/continuous/cmosink field3/1,0,0/cmosource field3                    

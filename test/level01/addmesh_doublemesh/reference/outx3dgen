@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.001   Linux          *                 
-*               *    Compiled: 2007/10/18                     *                 
-*               *    Run Time: 2008/01/14  16:02:03           *                 
+*               *    Program:  LaGriT V2.002   SunOS          *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  07:59:11           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -343,63 +343,63 @@ The current-mesh-object(CMO) is: doublemesh
  67         nconbnd  INT     scalar          scalar const perma   l  2.600E+01  
  68         icontab VINT     scalar          ncon50 const perma   l  0.000E+00  
 cmo/printatt//-all-/minmax                                                      
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- -def-                0.00000E+00    0.00000E+00    0.00000E+00     17476       
- scalar                         1              1              0         1       
- vector                         3              3              0         1       
- nnodes                     17476          17476              0         1       
- nedges                         0              0              0         1       
- nfaces                         0              0              0         1       
- nelements                  37552          37552              0         1       
- mbndry                  16000000       16000000              0         1       
- ndimensions_topo               3              3              0         1       
- ndimensions_geom               3              3              0         1       
- nodes_per_element              4              4              0         1       
- edges_per_element              6              6              0         1       
- faces_per_element              4              4              0         1       
- isetwd                         0              0              0     17476       
- ialias                         0           8738           8738     17476       
- imt1                           1             10              9     17476       
- itp1                           0             41             41     17476       
- icr1                           0             26             26     17476       
- isn1                           0          17476          17476     17476       
- xic                  0.00000E+00    2.60000E+00    2.60000E+00     17476       
- yic                 -1.00000E+00    1.00000E+00    2.00000E+00     17476       
- zic                  0.00000E+00    1.00000E+00    1.00000E+00     17476       
- xtetwd                         0              0              0     37552       
- itetclr                        1             10              9     37552       
- itettyp                        5              5              0     37552       
- itetoff                        0         150204         150204     37552       
- jtetoff                        0         150204         150204     37552       
- itet                           1          17476          17475     37552 x  4  
- jtet                           1       16150208       16150207     37552 x  4  
- epsilon              1.00000E-15    1.00000E-15    0.00000E+00         1       
- epsilonl             6.57192E-13    6.57192E-13    0.00000E+00         1       
- epsilona             1.94511E-12    1.94511E-12    0.00000E+00         1       
- epsilonv             5.77316E-13    5.77316E-13    0.00000E+00         1       
- ipointi                     8739           8739              0         1       
- ipointj                    17476          17476              0         1       
- idebug                         0              0              0         1       
- itypconv_sm                    1              1              0         1       
- maxiter_sm                    25             25              0         1       
- tolconv_sm           1.00000E+00    1.00000E+00    0.00000E+00         1       
- nnfreq                         1              1              0         1       
- ivoronoi                       1              1              0         1       
- iopt2to2                       2              2              0         1       
- xmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
- ymin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
- zmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
- xmax                 2.60000E+00    2.60000E+00    0.00000E+00         1       
- ymax                 1.00000E+00    1.00000E+00    0.00000E+00         1       
- zmax                 1.00000E+00    1.00000E+00    0.00000E+00         1       
- kdtree_level                   0              0              0         1       
- max_number_sets               32             32              0         1       
- number_of_psets                0              0              0         1       
- number_of_eltsets              0              0              0         1       
- number_of_fsets                0              0              0         1       
- ncon50                      2500           2500              0         1       
- nconbnd                       26             26              0         1       
- icontab                        0              6              6      2500       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00     17476  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                       17476            17476               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                    37552            37552               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                4                4               0         1  
+ edges_per_element                6                6               0         1  
+ faces_per_element                4                4               0         1  
+ isetwd                           0                0               0     17476  
+ ialias                           0             8738            8738     17476  
+ imt1                             1               10               9     17476  
+ itp1                             0               41              41     17476  
+ icr1                             0               26              26     17476  
+ isn1                             0            17476           17476     17476  
+ xic                0.000000000E+00  2.600000003E+00 2.600000003E+00     17476  
+ yic               -1.000000001E+00  1.000000001E+00 2.000000002E+00     17476  
+ zic                0.000000000E+00  1.000000000E+00 1.000000000E+00     17476  
+ xtetwd                           0                0               0     37552  
+ itetclr                          1               10               9     37552  
+ itettyp                          5                5               0     37552  
+ itetoff                          0           150204          150204     37552  
+ jtetoff                          0           150204          150204     37552  
+ itet                             1            17476           17475     37552x4
+ jtet                             1         16150208        16150207     37552x4
+ epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
+ epsilonl           6.571920164E-13  6.571920164E-13 0.000000000E+00         1  
+ epsilona           1.945110743E-12  1.945110743E-12 0.000000000E+00         1  
+ epsilonv           5.773159741E-13  5.773159741E-13 0.000000000E+00         1  
+ ipointi                       8739             8739               0         1  
+ ipointj                      17476            17476               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               2.600000003E+00  2.600000003E+00 0.000000000E+00         1  
+ ymax               1.000000001E+00  1.000000001E+00 0.000000000E+00         1  
+ zmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 32               32               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ ncon50                        2500             2500               0         1  
+ nconbnd                         26               26               0         1  
+ icontab                          0                6               6      2500  
  
 quality                                                                         
  

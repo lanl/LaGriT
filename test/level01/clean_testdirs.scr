@@ -14,6 +14,7 @@ set top_dir = ${cwd}
 set dirs = (*)
 #
 # remove previous log files 
+  'rm' -f outx3dgen logx3dgen
   'rm' -f stdout*.txt
   'rm' -f diffout*.txt
 #

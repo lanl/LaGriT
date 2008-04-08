@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.001   Linux          *                 
-*               *    Compiled: 2007/10/18                     *                 
-*               *    Run Time: 2008/01/14  16:14:06           *                 
+*               *    Program:  LaGriT V2.002   SunOS          *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  07:59:19           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -79,11 +79,11 @@ Octree(PRD) refined elems: old=         4 new=        12
 nlist =              1 sink nnodes =             37 mmgetlen =           1018   
 nlist =              6 sink nnodes =             37 mmgetlen =           1018   
 nlist =             12 sink nnodes =             37 mmgetlen =           1018   
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -92,18 +92,18 @@ FILTER:Dudding      0 duplicate points.
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              1              1        12       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                1               1        12  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0              1              1        12       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0                1               1        12  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0              5              5        12       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0                5               5        12  
  
 finish                                                                          
 cmo/DELATT/cmo_hex/xradavg                                                      
@@ -155,11 +155,11 @@ nlist =             12 sink nnodes =             75 mmgetlen =           1037
 nlist =             24 sink nnodes =             75 mmgetlen =           1037   
  
  Dudding      5 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -168,18 +168,18 @@ FILTER:Dudding      0 duplicate points.
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              2              2        28       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                2               2        28  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0              9              9        28       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0                9               9        28  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0             21             21        28       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               21              21        28  
  
 finish                                                                          
 cmo/DELATT/cmo_hex/xradavg                                                      
@@ -218,11 +218,11 @@ nlist =              8 sink nnodes =            110 mmgetlen =           1070
 nlist =             32 sink nnodes =            110 mmgetlen =           1070   
  
  Dudding     15 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -231,18 +231,18 @@ FILTER:Dudding      0 duplicate points.
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              3              3        44       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                3               3        44  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0             25             25        44       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               25              25        44  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0             41             41        44       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               41              41        44  
  
 finish                                                                          
 cmo/DELATT/cmo_hex/xradavg                                                      
@@ -281,11 +281,11 @@ nlist =              8 sink nnodes =            135 mmgetlen =           1095
 nlist =             32 sink nnodes =            135 mmgetlen =           1095   
  
  Dudding     15 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -294,18 +294,18 @@ FILTER:Dudding      0 duplicate points.
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              4              4        60       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                4               4        60  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0             41             41        60       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               41              41        60  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0             57             57        60       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               57              57        60  
  
 finish                                                                          
 cmo/DELATT/cmo_hex/xradavg                                                      
@@ -344,11 +344,11 @@ nlist =              8 sink nnodes =            160 mmgetlen =           1120
 nlist =             32 sink nnodes =            160 mmgetlen =           1120   
  
  Dudding     15 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -357,18 +357,18 @@ FILTER:Dudding      0 duplicate points.
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              5              5        76       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                5               5        76  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0             57             57        76       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               57              57        76  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0             73             73        76       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               73              73        76  
  
 finish                                                                          
 cmo/DELATT/cmo_hex/xradavg                                                      
@@ -409,11 +409,11 @@ nlist =             32 sink nnodes =            305 mmgetlen =           1145
 nlist =            128 sink nnodes =            305 mmgetlen =           1145   
  
  Dudding     80 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -427,11 +427,11 @@ nlist =             16 sink nnodes =            385 mmgetlen =           1305
 nlist =             64 sink nnodes =            385 mmgetlen =           1305   
  
  Dudding     40 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -445,11 +445,11 @@ nlist =             16 sink nnodes =            465 mmgetlen =           1385
 nlist =             64 sink nnodes =            465 mmgetlen =           1385   
  
  Dudding     40 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -463,11 +463,11 @@ nlist =             16 sink nnodes =            545 mmgetlen =           1465
 nlist =             64 sink nnodes =            545 mmgetlen =           1465   
  
  Dudding     40 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -481,11 +481,11 @@ nlist =              8 sink nnodes =            585 mmgetlen =           1545
 nlist =             32 sink nnodes =            585 mmgetlen =           1545   
  
  Dudding     16 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -499,11 +499,11 @@ nlist =              4 sink nnodes =            605 mmgetlen =           1585
 nlist =             16 sink nnodes =            605 mmgetlen =           1585   
  
  Dudding      4 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -512,18 +512,18 @@ FILTER:Dudding      0 duplicate points.
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              6              6       260       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                6               6       260  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0             76             76       260       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               76              76       260  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0            257            257       260       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0              257             257       260  
  
 finish                                                                          
 cmo/DELATT/cmo_hex/xradavg                                                      
@@ -567,11 +567,11 @@ nlist =             72 sink nnodes =            745 mmgetlen =           1385
 nlist =            288 sink nnodes =            745 mmgetlen =           1385   
  
  Dudding    195 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -580,18 +580,18 @@ FILTER:Dudding      0 duplicate points.
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              7              7       404       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                7               7       404  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0            137            137       404       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0              137             137       404  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0            401            401       404       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0              401             401       404  
  
 finish                                                                          
 cmo/DELATT/cmo_hex/xradavg                                                      
@@ -654,11 +654,11 @@ nlist =            864 sink nnodes =           3286 mmgetlen =           3526
 nlist =           1728 sink nnodes =           3286 mmgetlen =           3526   
  
  Dudding   1460 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -673,11 +673,11 @@ nlist =            144 sink nnodes =           3742 mmgetlen =           4286
 nlist =            288 sink nnodes =           3742 mmgetlen =           4286   
  
  Dudding    244 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -692,11 +692,11 @@ nlist =             96 sink nnodes =           4046 mmgetlen =           4742
 nlist =            192 sink nnodes =           4046 mmgetlen =           4742   
  
  Dudding    150 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -711,11 +711,11 @@ nlist =             24 sink nnodes =           4122 mmgetlen =           5046
 nlist =             48 sink nnodes =           4122 mmgetlen =           5046   
  
  Dudding     37 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -724,18 +724,18 @@ FILTER:Dudding      0 duplicate points.
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              8              8      1908       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                8               8      1908  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0            404            404      1908       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0              404             404      1908  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0           1901           1901      1908       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0             1901            1901      1908  
  
 finish                                                                          
 cmo/DELATT/cmo_hex/xradavg                                                      
@@ -756,63 +756,63 @@ The current-mesh-object(CMO) is: cmo_hex
  
  
 cmo printatt cmo_hex -all- minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- -def-                0.00000E+00    0.00000E+00    0.00000E+00      2231       
- scalar                         1              1              0         1       
- vector                         3              3              0         1       
- nnodes                      2231           2231              0         1       
- nedges                         0              0              0         1       
- nfaces                         0              0              0         1       
- nelements                   1908           1908              0         1       
- mbndry                  16000000       16000000              0         1       
- ndimensions_topo               3              3              0         1       
- ndimensions_geom               3              3              0         1       
- nodes_per_element              8              8              0         1       
- edges_per_element             12             12              0         1       
- faces_per_element              6              6              0         1       
- isetwd                         0              1              1      2231       
- ialias                         0           4122           4122      2231       
- imt1                           1              2              1      2231       
- itp1                           0              0              0      2231       
- icr1                           0              0              0      2231       
- isn1                           0              0              0      2231       
- xic                  0.00000E+00    5.00000E+01    5.00000E+01      2231       
- yic                  0.00000E+00    5.00000E+01    5.00000E+01      2231       
- zic                  0.00000E+00    2.00000E+01    2.00000E+01      2231       
- xtetwd                         0              0              0      1908       
- itetclr                        1              4              3      1908       
- itettyp                        8              8              0      1908       
- itetoff                        0          15256          15256      1908       
- jtetoff                        0          11442          11442      1908       
- itet                           1           2231           2230      1908 x  8  
- jtet                          26       16000024       15999998      1908 x  6  
- epsilon              1.00000E-15    1.00000E-15    0.00000E+00         1       
- epsilonl             1.63169E-11    1.63169E-11    0.00000E+00         1       
- epsilona             1.19904E-09    1.19904E-09    0.00000E+00         1       
- epsilonv             1.11022E-08    1.11022E-08    0.00000E+00         1       
- ipointi                        1              1              0         1       
- ipointj                     2231           2231              0         1       
- idebug                         3              3              0         1       
- itypconv_sm                    1              1              0         1       
- maxiter_sm                    25             25              0         1       
- tolconv_sm           1.00000E+00    1.00000E+00    0.00000E+00         1       
- nnfreq                         1              1              0         1       
- ivoronoi                       1              1              0         1       
- iopt2to2                       2              2              0         1       
- xmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
- ymin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
- zmin                 0.00000E+00    0.00000E+00    0.00000E+00         1       
- xmax                 5.00000E+01    5.00000E+01    0.00000E+00         1       
- ymax                 5.00000E+01    5.00000E+01    0.00000E+00         1       
- zmax                 2.00000E+01    2.00000E+01    0.00000E+00         1       
- kdtree_level                   0              0              0         1       
- max_number_sets               32             32              0         1       
- number_of_psets                1              1              0         1       
- number_of_eltsets              0              0              0         1       
- number_of_fsets                0              0              0         1       
- itetpar                        0            404            404      1908       
- itetkid                        0           1901           1901      1908       
- itetlev                        0              8              8      1908       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00      2231  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                        2231             2231               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                     1908             1908               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                8                8               0         1  
+ edges_per_element               12               12               0         1  
+ faces_per_element                6                6               0         1  
+ isetwd                           0                1               1      2231  
+ ialias                           0             4122            4122      2231  
+ imt1                             1                2               1      2231  
+ itp1                             0                0               0      2231  
+ icr1                             0                0               0      2231  
+ isn1                             0                0               0      2231  
+ xic                0.000000000E+00  5.000000000E+01 5.000000000E+01      2231  
+ yic                0.000000000E+00  5.000000000E+01 5.000000000E+01      2231  
+ zic                0.000000000E+00  2.000000000E+01 2.000000000E+01      2231  
+ xtetwd                           0                0               0      1908  
+ itetclr                          1                4               3      1908  
+ itettyp                          8                8               0      1908  
+ itetoff                          0            15256           15256      1908  
+ jtetoff                          0            11442           11442      1908  
+ itet                             1             2231            2230      1908x8
+ jtet                            26         16000024        15999998      1908x6
+ epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
+ epsilonl           1.631687947E-11  1.631687947E-11 0.000000000E+00         1  
+ epsilona           1.199040867E-09  1.199040867E-09 0.000000000E+00         1  
+ epsilonv           1.110223025E-08  1.110223025E-08 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                       2231             2231               0         1  
+ idebug                           3                3               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               5.000000000E+01  5.000000000E+01 0.000000000E+00         1  
+ ymax               5.000000000E+01  5.000000000E+01 0.000000000E+00         1  
+ zmax               2.000000000E+01  2.000000000E+01 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 32               32               0         1  
+ number_of_psets                  1                1               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ itetpar                          0              404             404      1908  
+ itetkid                          0             1901            1901      1908  
+ itetlev                          0                8               8      1908  
  
 * end compare here                                                              
 *dump gmv output20_prd_L8.gmv                                                   
@@ -866,11 +866,11 @@ nlist =             24 sink nnodes =             94 mmgetlen =           1018
 nlist =             48 sink nnodes =             94 mmgetlen =           1018   
  
  Dudding     19 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.104148151432E-11                       
@@ -879,18 +879,18 @@ FILTER:Dudding      0 duplicate points.
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              1              1        36       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                1               1        36  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0              4              4        36       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0                4               4        36  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0             29             29        36       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               29              29        36  
  
 finish                                                                          
 rmpoint compress                                                                
@@ -926,11 +926,11 @@ nlist =             36 sink nnodes =            255 mmgetlen =           1075
 nlist =            144 sink nnodes =            255 mmgetlen =           1075   
  
  Dudding     88 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.104148151432E-11                       
@@ -939,18 +939,18 @@ FILTER:Dudding      0 duplicate points.
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              2              2       108       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                2               2       108  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0             32             32       108       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               32              32       108  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0            105            105       108       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0              105             105       108  
  
 finish                                                                          
 *end compare here                                                               
@@ -1012,11 +1012,11 @@ nlist =              6 sink nnodes =             45 mmgetlen =           1015
 nlist =             24 sink nnodes =             45 mmgetlen =           1015   
  
  Dudding      7 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.157009245868E-11                       
@@ -1025,18 +1025,18 @@ FILTER:Dudding      0 duplicate points.
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              1              1        32       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                1               1        32  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0              8              8        32       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0                8               8        32  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0             29             29        32       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               29              29        32  
  
 finish                                                                          
 * begin compare here                                                            
@@ -1212,32 +1212,32 @@ Octree(PRD) refined elems: old=        32 new=        54
 nlist =             22 sink nnodes =             67 mmgetlen =           1045   
  
  Dudding      7 duplicate points.                                               
- ELMTESTD WARNING:   0  faces are part of jtet loops                            
- ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
+ ELMTESTD WARNING:   0 faces are part of jtet loops                             
+ ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0  degenerate elements                            
-         and   0  self-degenerate elements                                      
+ ELMTESTD WARNING: mesh has   0 degenerate elements                             
+         and   0 self-degenerate elements                                       
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.157009245868E-11                       
  
 FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
- geniee: mesh has   11  jtet loops, max cycle length=  4                        
+ geniee: mesh has   11 jtet loops, max cycle length=  4                         
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetlev                        0              2              2        54       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                2               2        54  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetpar minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetpar                        0             25             25        54       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               25              25        54  
  
 finish                                                                          
 cmo/printatt/cmo_hex/itetkid minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- itetkid                        0             53             53        54       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               53              53        54  
  
 finish                                                                          
 * end compare here                                                              

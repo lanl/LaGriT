@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.001   SunOS          *                 
-*               *    Compiled: 2007/10/18                     *                 
-*               *    Run Time: 2007/11/21  13:52:30           *                 
+*               *    Program:  LaGriT V2.002   SunOS          *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  07:59:07           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -259,10 +259,10 @@ The current-mesh-object(CMO) is: cmo_hex
  67         itetkid VINT     scalar       nelements linea perma agl  0.000E+00  
  68         itetlev VINT     scalar       nelements linea perma agl  0.000E+00  
 cmo/printatt/cmo_hex/-xyz-/minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xic                  0.00000E+00    5.00000E-01    5.00000E-01     19754       
- yic                  0.00000E+00    5.00000E-01    5.00000E-01     19754       
- zic                  0.00000E+00    2.00000E-01    2.00000E-01     19754       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  5.000000000E-01 5.000000000E-01     19754  
+ yic                0.000000000E+00  5.000000000E-01 5.000000000E-01     19754  
+ zic                0.000000000E+00  2.000000000E-01 2.000000000E-01     19754  
  
 quality                                                                         
  
@@ -385,10 +385,10 @@ The current-mesh-object(CMO) is: cmo_tet
  68         itetlev VINT     scalar       nelements linea perma agl  0.000E+00  
  69            iign VINT     scalar          nnodes linea tempo  gx  0.000E+00  
 cmo/printatt/cmo_tet/-xyz-/minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xic                  0.00000E+00    5.00000E-01    5.00000E-01     19754       
- yic                  0.00000E+00    5.00000E-01    5.00000E-01     19754       
- zic                  0.00000E+00    2.00000E-01    2.00000E-01     19754       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  5.000000000E-01 5.000000000E-01     19754  
+ yic                0.000000000E+00  5.000000000E-01 5.000000000E-01     19754  
+ zic                0.000000000E+00  2.000000000E-01 2.000000000E-01     19754  
  
 quality                                                                         
  

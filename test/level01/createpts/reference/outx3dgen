@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.001   SunOS          *                 
-*               *    Compiled: 2007/10/18                     *                 
-*               *    Run Time: 2007/11/21  08:38:45           *                 
+*               *    Program:  LaGriT V2.002   SunOS          *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  07:58:38           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -222,14 +222,14 @@ The current-mesh-object(CMO) is: cmohex
  67         nconbnd  INT     scalar          scalar const perma   l  1.000E+00  
  68         icontab VINT     scalar          ncon50 const perma   l  0.000E+00  
 cmo/printatt/cmohex/-xyz-/minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xic                  0.00000E+00    1.00000E+00    1.00000E+00      4343       
- yic                  0.00000E+00    1.00000E+00    1.00000E+00      4343       
- zic                  0.00000E+00    1.00000E+00    1.00000E+00      4343       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+00 1.000000000E+00      4343  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00      4343  
+ zic                0.000000000E+00  1.000000000E+00 1.000000000E+00      4343  
  
 cmo/printatt/cmohex/imt1/minmax                                                 
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              2              1      4343       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                2               1      4343  
  
 quality                                                                         
  
@@ -345,10 +345,10 @@ The current-mesh-object(CMO) is: cmoquad
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
 cmo/printatt/cmoquad/-xyz-/minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- xic                  0.00000E+00    2.00000E+01    2.00000E+01        25       
- yic                  0.00000E+00    2.00000E+01    2.00000E+01        25       
- zic                  0.00000E+00    0.00000E+00    0.00000E+00        25       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  2.000000000E+01 2.000000000E+01        25  
+ yic                0.000000000E+00  2.000000000E+01 2.000000000E+01        25  
+ zic                0.000000000E+00  0.000000000E+00 0.000000000E+00        25  
  
 quality                                                                         
  

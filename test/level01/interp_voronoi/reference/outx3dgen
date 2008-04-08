@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.001   Darwin         *                 
-*               *    Compiled: 2007/10/18                     *                 
-*               *    Run Time: 2008/01/14  15:37:28           *                 
+*               *    Program:  LaGriT V2.002   SunOS          *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  07:58:49           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -297,12 +297,12 @@ The current-mesh-object(CMO) is: cmo_src
  66         imtreal VDOU     scalar          nnodes linea perma gxa  0.000E+00  
  67        itetreal VDOU     scalar       nelements linea perma gxa  0.000E+00  
 cmo printatt cmo_src imt1 minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              3              2        98       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                3               2        98  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              3              2       400       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                3               2       400  
  
 * end compare here                                                              
 cmo delete cmo_src                                                              
@@ -535,12 +535,12 @@ The current-mesh-object(CMO) is: cmo_src
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
 cmo printatt cmo_src imt1 minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1             12             11        12       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1               12              11        12  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1             12             11      2500       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1               12              11      2500  
  
 * end compare here                                                              
 cmo delete cmo_src                                                              
@@ -785,12 +785,12 @@ The current-mesh-object(CMO) is: cmo_src
  68        itetclr1 VDOU     scalar       nelements linea perma gxa  0.000E+00  
  69         facecol VDOU     scalar       nelements linea perma gxa  0.000E+00  
 cmo printatt cmo_src imt1 minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              4              3       750       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                4               3       750  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              4              3       150       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                4               3       150  
  
 * end compare here                                                              
 cmo delete cmo_src                                                              
@@ -1040,12 +1040,12 @@ The current-mesh-object(CMO) is: cmo_src
  66         imtreal VDOU     scalar          nnodes linea perma gxa  0.000E+00  
  67        itetreal VDOU     scalar       nelements linea perma gxa  0.000E+00  
 cmo printatt cmo_src imtreal minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imtreal              1.00000E+00    3.00000E+00    2.00000E+00        98       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imtreal            1.000000000E+00  3.000000000E+00 2.000000000E+00        98  
  
 cmo printatt cmo_sink imtreal minmax                                            
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imtreal              1.00000E+00    5.00000E+00    4.00000E+00       400       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imtreal            1.000000000E+00  5.000000000E+00 4.000000000E+00       400  
  
 * end compare here                                                              
 cmo delete cmo_src                                                              
@@ -1290,12 +1290,12 @@ The current-mesh-object(CMO) is: cmo_src
  66         imtreal VDOU     scalar          nnodes linea perma gxa  0.000E+00  
  67        itetreal VDOU     scalar       nelements linea perma gxa  0.000E+00  
 cmo printatt cmo_src imt1 minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              3              2        98       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                3               2        98  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              3              2       400       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                3               2       400  
  
 * end compare here                                                              
 cmo delete cmo_src                                                              
@@ -1540,12 +1540,12 @@ The current-mesh-object(CMO) is: cmo_src
  66         imtreal VDOU     scalar          nnodes linea perma gxa  0.000E+00  
  67        itetreal VDOU     scalar       nelements linea perma gxa  0.000E+00  
 cmo printatt cmo_src imt1 minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              3              2        98       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                3               2        98  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              3              2       400       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                3               2       400  
  
 * end compare here                                                              
 * 3 materials                                                                   
@@ -1784,12 +1784,12 @@ The current-mesh-object(CMO) is: cmo_src
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  66            iign VDOU     scalar          nnodes linea perma gxa  0.000E+00  
 cmo printatt cmo_src imt1 minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1             12             11        12       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1               12              11        12  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1             12             11      2500       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1               12              11      2500  
  
 * end compare here                                                              
 cmo delete cmo_src                                                              
@@ -2037,12 +2037,12 @@ The current-mesh-object(CMO) is: cmo_src
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  66            iign VDOU     scalar          nnodes linea perma gxa  0.000E+00  
 cmo printatt cmo_src imt1 minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1             12             11        12       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1               12              11        12  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1             12             11      2500       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1               12              11      2500  
  
 * end compare here                                                              
 cmo delete cmo_src                                                              
@@ -2288,12 +2288,12 @@ The current-mesh-object(CMO) is: cmo_src
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
 cmo printatt cmo_src imt1 minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1             12             11        12       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1               12              11        12  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1             12             11      2500       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1               12              11      2500  
  
 * end compare here                                                              
 cmo delete cmo_src                                                              
@@ -2543,12 +2543,12 @@ The current-mesh-object(CMO) is: cmo_src
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
 cmo printatt cmo_src imt1 minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              5              4        42       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                5               4        42  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              5              4      1125       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                5               4      1125  
  
 * end compare here                                                              
 cmo delete cmo_src                                                              
@@ -2783,12 +2783,12 @@ The current-mesh-object(CMO) is: cmo_src
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  66            iign VDOU     scalar          nnodes linea perma gxa  0.000E+00  
 cmo printatt cmo_src imt1 minmax                                                
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              5              4      1125       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                5               4      1125  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1              5              4      4569       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                5               4      4569  
  
 * end compare here                                                              
 cmo delete cmo_src                                                              
@@ -3035,12 +3035,12 @@ The current-mesh-object(CMO) is: cmo_src
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  66         numreal VDOU     scalar          nnodes linea tempo agl  0.000E+00  
 cmo printatt cmo_src ialias minmax                                              
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- ialias                         1             12             11        12       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ ialias                           1               12              11        12  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                           1             12             11      2500       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1               12              11      2500  
  
 * end compare here                                                              
 *-----------------------------------------------------                          
@@ -3239,12 +3239,12 @@ The current-mesh-object(CMO) is: cmo_src
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  66         numreal VDOU     scalar          nnodes linea tempo agl  0.000E+00  
 cmo printatt cmo_src numreal minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- numreal              9.01000E+01    1.00200E+02    1.01000E+01        12       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ numreal            9.010000000E+01  1.002000000E+02 1.010000000E+01        12  
  
 cmo printatt cmo_sink numreal minmax                                            
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- numreal              9.01000E+01    1.00200E+02    1.01000E+01      2500       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ numreal            9.010000000E+01  1.002000000E+02 1.010000000E+01      2500  
  
 * end compare here                                                              
 *-----------------------------------------------------                          
@@ -3446,12 +3446,12 @@ The current-mesh-object(CMO) is: cmo_src
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  66         numreal VDOU     scalar          nnodes linea tempo agl  0.000E+00  
 cmo printatt cmo_src ialias minmax                                              
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- ialias                         1             12             11        12       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ ialias                           1               12              11        12  
  
 cmo printatt cmo_sink numreal minmax                                            
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- numreal              1.00000E+00    1.20000E+01    1.10000E+01      2500       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ numreal            1.000000000E+00  1.200000000E+01 1.100000000E+01      2500  
  
 * end compare here                                                              
 *-----------------------------------------------------                          
@@ -3653,12 +3653,12 @@ The current-mesh-object(CMO) is: cmo_src
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  66         numreal VDOU     scalar          nnodes linea tempo agl  0.000E+00  
 cmo printatt cmo_src numreal minmax                                             
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- numreal              9.01000E+01    1.00200E+02    1.01000E+01        12       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ numreal            9.010000000E+01  1.002000000E+02 1.010000000E+01        12  
  
 cmo printatt cmo_sink imt1 minmax                                               
-ATTRIBUTE NAME            MIN           MAX          DIFFERENCE   ATT LENGTH    
- imt1                          90            100             10      2500       
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                            90              100              10      2500  
  
 * end compare here                                                              
 cmo delete cmo_src                                                              

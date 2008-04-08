@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.001   SunOS          *                 
-*               *    Compiled: 2007/10/18                     *                 
-*               *    Run Time: 2007/11/21  14:03:45           *                 
+*               *    Program:  LaGriT V2.002   SunOS          *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  07:58:18           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -129,10 +129,10 @@ setpts
  FOR imt=  11 NAME= intrface THERE ARE             324 POINTS                   
 connect                                                                         
  Coordinates of enclosing tetrahedron are:                                      
-          -0.20000D+01-0.75000D+00-0.75000D+00                                  
-           0.50000D+00-0.75000D+00 0.42500D+01                                  
-           0.30000D+01-0.75000D+00-0.75000D+00                                  
-           0.50000D+00 0.42500D+01 0.50000D+00                                  
+          -0.20000D+01   -0.75000D+00   -0.75000D+00                            
+           0.50000D+00   -0.75000D+00    0.42500D+01                            
+           0.30000D+01   -0.75000D+00   -0.75000D+00                            
+           0.50000D+00    0.42500D+01    0.50000D+00                            
  
  Successfully eliminated all multimaterial connections.                         
  
