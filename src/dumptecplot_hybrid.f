@@ -182,6 +182,7 @@ C ****************************************************************
       integer yespnt,yeslin,yestri,yesqud,yestet,yespyr,yespri,yeshex
       integer mnel,mnpo,node,start,stop
       integer if_reorder_tecplot
+      integer num_node_att, num_elem_att
 C    
 C ****************************************************************
 C
@@ -311,7 +312,6 @@ c
       ioffs(1)=0
       ioffse(1)=0
 c
-      print*,'nmcmoatt=',nmcmoatt
       do i=1,nmcmoatt
 C
 C        NAME FIELD
@@ -330,7 +330,6 @@ C        NAME FIELD
                nvalues=nvalues+1
 C
                   lenchar=icharlnf(cnames(i))
-                  print*,'working on ',cnames(i)(1:lenchar)
                   do k=1,lenchar
                      vchlist(k+vchoff:k+vchoff)=cnames(i)(k:k)
                   enddo
@@ -348,8 +347,7 @@ C
 C
 C
 C ######################## HEADER #########################
-      print*,'vchoff=',vchoff
-      print*,'vchlist(1:vchoff)=',vchlist(1:vchoff)
+C
 C #################### ASCII HEADER #######################
       if(idumptype.eq.0)then
          iunit=-1
@@ -387,8 +385,15 @@ C     FROM A TEMPORARY STORAGE ARRAY FOR THE INTERESTING
 C     SUBSET OF ATTRIBUTES. STORE BY TYPE AND RANK (E.G. 
 C     REAL OR INT, SCALAR OR VECTOR).
 C
+      num_node_att = lvalues
       length=lvalues*nnodes
-      call mmgetblk('xvalues',isubname,ipxvalues,length,2,icscode)
+      if ( num_node_att .ne. 0 ) then
+         length=lvalues*nnodes
+         call mmgetblk('xvalues',isubname,ipxvalues,length,2,icscode)
+      else
+         length=nnodes
+         call mmgetblk('xvalues',isubname,ipxvalues,length,2,icscode)
+      endif
       length=nnodes
       call mmgetblk('temp',isubname,iptemp,length,2,icscode)
       nvalues1=0
@@ -1432,9 +1437,12 @@ C
       implicit none
       integer*4 TECDAT100
       real*8 a01,a02,a03
-      print *, 'TECDAT100'
-      print *, 'Binary IO not supported, see dumptecplot_hybrid.f'
-      print *, 'for instructions on how to enable binary IO.'
+      integer ierrw
+      call writloga('default',0,'TECDAT100',0,ierrw)
+      call writloga('default',0,
+     1 'Binary IO not supported, see dumptecplot_hybrid.f',0,ierrw)
+      call writloga('default',0,
+     1 'for instructions on how to enable binary IO.',0,ierrw)
       TECDAT100 = 0
       return
       end
@@ -1442,9 +1450,12 @@ C
       implicit none
       integer*4 TECNOD100
       real*8 a01,a02,a03
-      print *, 'TECNOD100'
-      print *, 'Binary IO not supported, see dumptecplot_hybrid.f'
-      print *, 'for instructions on how to enable binary IO.'
+      integer ierrw
+      call writloga('default',0,'TECNOD100',0,ierrw)
+      call writloga('default',0,
+     1 'Binary IO not supported, see dumptecplot_hybrid.f',0,ierrw)
+      call writloga('default',0,
+     1 'for instructions on how to enable binary IO.',0,ierrw)
       TECNOD100 = 0
       return
       end
@@ -1452,17 +1463,24 @@ C
       implicit none
       integer*4 TECINI100
       real*8 a01,a02,a03,a04,a05,a06
-      print *, 'TECINI100'
-      print *, 'Binary IO not supported, see dumptecplot_hybrid.f'
-      print *, 'for instructions on how to enable binary IO.'
+      integer ierrw
+      call writloga('default',0,'TECINI100',0,ierrw)
+      call writloga('default',0,
+     1 'Binary IO not supported, see dumptecplot_hybrid.f',0,ierrw)
+      call writloga('default',0,
+     1 'for instructions on how to enable binary IO.',0,ierrw)
       TECINI100 = 0
       return
       end
       function TECEND100()
       implicit none
       integer*4 TECEND100
-      print *, 'Binary IO not supported, see dumptecplot_hybrid.f'
-      print *, 'for instructions on how to enable binary IO.'
+      integer ierrw
+      call writloga('default',0,'TECEND100',0,ierrw)
+      call writloga('default',0,
+     1 'Binary IO not supported, see dumptecplot_hybrid.f',0,ierrw)
+      call writloga('default',0,
+     1 'for instructions on how to enable binary IO.',0,ierrw)
       TECEND100 = 0
       return
       end
@@ -1471,9 +1489,12 @@ C
       implicit none
       integer*4 TECZNE100
       real*8 a01,a02,a03,a04,a05,a06,a07,a08,a09,a10,a11,a12,a13,a14
-      print *, 'TECZNE100'
-      print *, 'Binary IO not supported, see dumptecplot_hybrid.f'
-      print *, 'for instructions on how to enable binary IO.'
+      integer ierrw
+      call writloga('default',0,'TECZNE100',0,ierrw)
+      call writloga('default',0,
+     1 'Binary IO not supported, see dumptecplot_hybrid.f',0,ierrw)
+      call writloga('default',0,
+     1 'for instructions on how to enable binary IO.',0,ierrw)
       TECZNE100 = 0
       return
       end
