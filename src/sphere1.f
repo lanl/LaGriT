@@ -95,13 +95,12 @@ C
 C#######################################################################
  
       isubname='shpere1'
- 
+C
+      call cmo_get_name(cmo,ierror)
+C
       call cmo_get_info('ipointj',cmo,
      *                ipointj,length,icmotype,icscode)
       if (icscode .ne. 0) call x3d_error(isubname,'ipointj')
-C
-C
-      call cmo_get_name(cmo,ierror)
 C
       call cmo_get_info('xic',cmo,ipxic,lenxic,icmotype,ierror)
       length=ipointj+nrt

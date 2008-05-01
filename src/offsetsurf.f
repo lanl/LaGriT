@@ -97,9 +97,9 @@ C
       pointer (ipy_n_norm, y_n_norm)
       pointer (ipz_n_norm, z_n_norm)
 C
-      real*8 tn(3,lenptr)
-      real*8 xnorm(lenptr),ynorm(lenptr),znorm(lenptr)
-      real*8 x_n_norm(lenptr),y_n_norm(lenptr),z_n_norm(lenptr)
+      real*8 tn(3,*)
+      real*8 xnorm(*),ynorm(*),znorm(*)
+      real*8 x_n_norm(*),y_n_norm(*),z_n_norm(*)
 C
       real*8 xmsgin(nwds)
       integer imsgin(nwds), msgtype(nwds)
@@ -122,10 +122,10 @@ C
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
 C
-      real*8 xic(lenptr),yic(lenptr),zic(lenptr)
-      integer imt1(lenptr),itp1(lenptr),itetclr(lenptr),
-     &        itettyp(lenptr),itet(3*lenptr),jtet(3*lenptr),
-     &        itetoff(lenptr),jtetoff(lenptr)
+      real*8 xic(*),yic(*),zic(*)
+      integer imt1(*),itp1(*),itetclr(*),
+     &        itettyp(*),itet(*),jtet(*),
+     &        itetoff(*),jtetoff(*)
 C
 C     SET POINTERS FOR OUTGOING cmo
 C
@@ -141,10 +141,11 @@ C
       pointer (ipitetoffo, itetoffo)
       pointer (ipjtetoffo, jtetoffo)
 C
-      real*8 xico(lenptr),yico(lenptr),zico(lenptr)
-      integer imt1o(lenptr),itp1o(lenptr),itetclro(lenptr),
-     &        itettypo(lenptr),iteto(3*lenptr),jteto(3*lenptr),
-     &        itetoffo(lenptr),jtetoffo(lenptr)
+      real*8 xico(*),yico(*),zico(*)
+      integer imt1o(*),itp1o(*),itetclro(*),
+     &        itettypo(*),iteto(*),jteto(*),
+     &        itetoffo(*),jtetoffo(*)
+C
       real*8 dbarea,u1,v1,u2,v2,u3,v3,pi,xplane,yplane,zplane,
      *  x1,y1,z1,x2,y2,z2,x3,y3,z3,dcross,vx1,vy1,vz1,vx2,vy2,
      *  vz2,top,bot,ang1,ang2,ang3,anorm,d,scale1,scale2,scale3
@@ -358,7 +359,43 @@ C     COMPUTE THE UNIT OUTWARD NORMALS FOP EACH TRIANGLE AND ASSIGN IT
 C     TO EACH OF ITS NODES. THE NORMALS OF EACH TRIANGLE NODE ARE WIEGHTED
 C     BY THE ANGLE AT THAT NODE.
 C
+C     ****************************************************************
+C
+C     Check if all elements were line or triangle.
+C
       i_count = 0
+      do itri=1,nelements
+         if((itettyp(itri) .ne. 3) .or. (itettyp(itri) .eq. 2)) then
+            i_count = i_count + 1
+         endif
+      enddo
+C
+      if(i_count .ne. 0)then
+          write(logmess,849)
+  849     format('ERROR offsetsurf:')
+          call writloga('default',0,logmess,0,ier)
+          write(logmess,850)
+  850     format('ERROR:Invalid element types')
+          call writloga('default',0,logmess,0,ier)
+          write(logmess,851)
+  851     format('ERROR:Only tri and line elements supported')
+          call writloga('default',0,logmess,0,ier)
+          write(logmess,952) nelements, i_count
+  952     format('ERROR:# elements = ',i10,' Invalid elements = ',i10)
+          call writloga('default',0,logmess,0,ier)
+          write(logmess,953)
+  953     format('ERROR:NO ACTION')
+          call writloga('default',0,logmess,0,ier)
+          write(logmess,849)
+          call writloga('default',0,logmess,0,ier)
+          logmess = 
+     1       'cmo/delete/'//cmoout(1:icharlnf(cmoout))//'; finish'     
+          call dotask(logmess,ier)
+          go to 9999
+      endif
+C
+C     ****************************************************************
+
       do itri=1,nelements
 C
 C        ----------------------------------------------------------------
@@ -492,34 +529,6 @@ C
 C
       enddo
 C     End loop over all elements.
-C     ****************************************************************
-C
-C     Check if all elements were line or triangle.
-C
-      if(i_count .ne. 0)then
-          write(logmess,849)
-  849     format('ERROR offsetsurf:')
-          call writloga('default',0,logmess,0,ier)
-          write(logmess,850)
-  850     format('ERROR:Invalid element types')
-          call writloga('default',0,logmess,0,ier)
-          write(logmess,851)
-  851     format('ERROR:Only tri and line elements supported')
-          call writloga('default',0,logmess,0,ier)
-          write(logmess,952) nelements, i_count
-  952     format('ERROR:# elements = ',i10,' Invalid elements = ',i10)
-          call writloga('default',0,logmess,0,ier)
-          write(logmess,953)
-  953     format('ERROR:NO ACTION')
-          call writloga('default',0,logmess,0,ier)
-          write(logmess,849)
-          call writloga('default',0,logmess,0,ier)
-          logmess = 
-     1       'cmo/delete/'//cmoout(1:icharlnf(cmoout))//'; finish'     
-          call dotask(logmess,ier)
-          go to 9999
-      endif
-C
 C     ****************************************************************
 C     NORMALIZE EACH NODE'S OUTWARD NORMAL.
 C
