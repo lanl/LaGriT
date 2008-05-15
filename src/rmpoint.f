@@ -835,7 +835,7 @@ C
 C        ...............................................................
 C        Write message giving point dudding information.
 C
-         if (nremtet > 0) then
+         if (nremtet .gt. 0) then
            write(logmess,2100) npoints2,nremtet
  2100      format(' Dudded',i10,
      $       ' points plus parents, plus',i11,
