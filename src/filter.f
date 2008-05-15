@@ -992,7 +992,7 @@ C#######################################################################
 C
       integer nnodes, nelements, mbndry
       integer len, itype, ierr, length, icscode, ierrw
-      integer i1, it, i, i2, icount
+      integer i1, it, i, i2, icount, ierror
 C
       character*32 isubname
 C
@@ -1000,49 +1000,103 @@ C
 C#######################################################################
 C
       isubname='filter_subset'
+      ierror = 0
 C
       call cmo_get_info('nnodes',cmo,nnodes,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0) then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
       call cmo_get_info('nelements',cmo,nelements,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
       call cmo_get_info('mbndry',cmo,mbndry,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
 C
       call cmo_get_info('isetwd',cmo,ipisetwd,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
       call cmo_get_info('itp1',cmo,ipitp1,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
       call cmo_get_info('isn1',cmo,ipisn1,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
 C
       call cmo_get_info('xic',cmo,ipxic,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
       call cmo_get_info('yic',cmo,ipyic,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
       call cmo_get_info('zic',cmo,ipzic,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
 C
       call cmo_get_info('itettyp',cmo,ipitettyp,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
       call cmo_get_info('itetoff',cmo,ipitetoff,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
       call cmo_get_info('jtetoff',cmo,ipjtetoff,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
       call cmo_get_info('itet',cmo,ipitet,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
       call cmo_get_info('jtet',cmo,ipjtet,len,itype,ierr)
-      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      if(ierr.ne.0)then 
+         call x3d_error(isubname,'cmo_get_info')
+         ierror = 1
+      endif
 C
 C     ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 C
       call mmgetblk('iparent',isubname,ipiparent,nnodes,1,icscode)
-         if(icscode.ne.0) call x3d_error(isubname, 'mmgetblk')
+         if(icscode.ne.0)then 
+           call x3d_error(isubname, 'mmgetblk')
+           ierror = 1
+          endif
       call unpackpc(nnodes,itp1,isn1,iparent)
 C
 C
 C     ******************************************************************
 C     FILTER THE SELECTED POINT SET.
 C
+      if (mpno .gt. nnodes) then
+          write(logmess,9025) mpno,nnodes
+ 9025     format('ERROR filter_subset: mpno gt nnodes: ',i14,i14)
+          call writloga('default',1,logmess,1,ierr)
+          ierror = 1
+          go to 9999
+      endif
+
       length=mpno
       call mmgetblk('xicf',isubname,ipxicf,length,2,icscode)
       call mmgetblk('yicf',isubname,ipyicf,length,2,icscode)
@@ -1095,6 +1149,12 @@ C
 C
       goto 9999
  9999 continue
+      if (ierror .gt. 0) then
+         write(logmess,'(a)') 
+     *   'ERROR filter_subset: dudded nodes not marked.'
+          call writloga('default',1,logmess,1,ierrw)
+      endif
+
 C
 C     ******************************************************************
 C     RELEASE TEMPORARY MEMORY.
