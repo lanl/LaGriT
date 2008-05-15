@@ -1,4 +1,6 @@
-#! /usr/bin/env python
+#! /usr/lanl/bin/python 
+# for lanl machines /usr/bin/env python
+# for sgi /usr/lanl/bin/python
 #------------------------------------------------------------------------------
 #  Name: check_test.py
 #  Usage: check_test.py (all dirs) or check_test.py dir1 (list dirs)
@@ -208,6 +210,8 @@ if __name__ == "__main__":
      ostag="_sun" 
   elif osname.find("darwin")>= 0 :
      ostag="_mac" 
+  elif osname.find("irix")>= 0 :
+     ostag="_sgi" 
   else :
      ostag="" 
 

@@ -1,4 +1,6 @@
-#! /usr/bin/env python
+#! /usr/lanl/bin/python
+# for lanl machines /usr/bin/env python
+# for sgi /usr/lanl/bin/python
 #------------------------------------------------------------------------------
 #  Name: check_test.py
 #  Last Modified: Jan 2008 by TAM 
@@ -57,6 +59,13 @@ if __name__ == "__main__":
   elif osname.find("darwin")>= 0 :
      ostag="mac" 
      xlagrit="/home/tam/src/lagrit/bin/lagrit_mac_o"
+  elif osname.find("IRIX")>= 0 :
+     ostag="sgi" 
+     xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi_o"
+     xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi_g"
+  elif osname.find("irix")>= 0 :
+     ostag="sgi" 
+     xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi_o"
   else :
      raise SystemExit, "Exiting Early, Unrecognized OS: "+osname
  
