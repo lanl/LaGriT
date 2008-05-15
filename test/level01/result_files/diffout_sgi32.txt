@@ -1,0 +1,903 @@
+Start in directory: /tmp_mnt/home/tam/src/lagrit/test/level01 at Thu May 15 08:53:50 2008
+
+Diff Summary ===================================================================
+
+1 Check Directory ./setpts --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+1 Done with Directory ./setpts -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./setpts/reference/outx3dgen Tue Apr  8 10:15:19 2008
++++ ./setpts/outx3dgen Thu May 15 08:42:30 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:58:18           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:48:12           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+2 Check Directory ./addmesh_add --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+
+Test has 4 diffs at line 254 >>
+Test has 4 extra lines in this chunk.
+-
++searching for cmo_merge attributes in cmo_hex2
+-
++ attribute not found:          66  jtet_cycle_max
+-
++ADDMESH:     1 attributes not copied from cmo_hex2 to cmo_merge
+-
++
+Lines Essentially the Same: 0 out of 4
+3 comment lines.
+8 lines failed.
+2 Done with Directory ./addmesh_add -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./addmesh_add/reference/outx3dgen Tue Apr  8 10:12:20 2008
++++ ./addmesh_add/outx3dgen Thu May 15 08:43:48 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:58:19           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:48:15           *                 
+@@ -254,0 +254,4 @@
++searching for cmo_merge attributes in cmo_hex2                                  
++ attribute not found:          66  jtet_cycle_max                               
++ADDMESH:     1 attributes not copied from cmo_hex2 to cmo_merge                 
++ 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+3 Check Directory ./createpts --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+3 Done with Directory ./createpts -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./createpts/reference/outx3dgen Tue Apr  8 10:13:05 2008
++++ ./createpts/outx3dgen Thu May 15 08:43:50 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:58:38           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:49:33           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+4 Check Directory ./zone_outside --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+
+Test has 4 diffs at line 105 >>
+Lines Essentially the Same: 4 out of 4
+3 comment lines.
+No lines differ.
+4 Done with Directory ./zone_outside -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./zone_outside/reference/outx3dgen Tue Apr  8 10:21:07 2008
++++ ./zone_outside/outx3dgen Thu May 15 08:44:27 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:58:39           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:49:35           *                 
+@@ -105,4 +105,4 @@
+- CONNECTED COMPONENTS:                                                          
+-   1 different exterior boundary components                                     
+- Set#        Representitive Node #        # Nodes in Set                        
+-            (numbnd_e(node#) attribute)                                         
++CONNECTED COMPONENTS:                                                           
++           1 different exterior boundary components                             
++Set#        Representitive Node #        # Nodes in Set                         
++           (numbnd_e(node#) attribute)                                          
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+5 Check Directory ./interp_voronoi --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+5 Done with Directory ./interp_voronoi -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./interp_voronoi/reference/outx3dgen Tue Apr  8 10:13:33 2008
++++ ./interp_voronoi/outx3dgen Thu May 15 08:44:59 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:58:49           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:50:12           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+6 Check Directory ./io_agf_simple --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+6 Done with Directory ./io_agf_simple -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./io_agf_simple/reference/outx3dgen Tue Apr  8 10:13:57 2008
++++ ./io_agf_simple/outx3dgen Thu May 15 08:45:02 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:05           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:50:45           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+7 Check Directory ./refine_octree --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+7 Done with Directory ./refine_octree -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./refine_octree/reference/outx3dgen Tue Apr  8 10:14:12 2008
++++ ./refine_octree/outx3dgen Thu May 15 08:45:13 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:07           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:50:47           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+8 Check Directory ./addmesh_doublemesh --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+8 Done with Directory ./addmesh_doublemesh -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./addmesh_doublemesh/reference/outx3dgen Tue Apr  8 10:12:42 2008
++++ ./addmesh_doublemesh/outx3dgen Thu May 15 08:45:23 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:11           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:51:00           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+9 Check Directory ./rmpoint --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+9 Done with Directory ./rmpoint -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./rmpoint/reference/outx3dgen Tue Apr  8 10:15:11 2008
++++ ./rmpoint/outx3dgen Thu May 15 08:45:29 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:14           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:51:09           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+10 Check Directory ./refine_octree_prd --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+
+Test has 5 diffs at line 82 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 158 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 221 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 284 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 347 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 412 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 430 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 448 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 466 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 484 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 502 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 570 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 657 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 676 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 695 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 714 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 869 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 929 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 1015 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 1215 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 1 diffs at line 1226 >>
+Lines Essentially the Same: 1 out of 1
+3 comment lines.
+No lines differ.
+10 Done with Directory ./refine_octree_prd -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./refine_octree_prd/reference/outx3dgen Tue Apr  8 10:14:47 2008
++++ ./refine_octree_prd/outx3dgen Thu May 15 08:45:41 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:19           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:51:14           *                 
+@@ -82,5 +82,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -158,5 +158,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -221,5 +221,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -284,5 +284,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -347,5 +347,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -412,5 +412,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -430,5 +430,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -448,5 +448,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -466,5 +466,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -484,5 +484,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -502,5 +502,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -570,5 +570,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -657,5 +657,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -676,5 +676,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -695,5 +695,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -714,5 +714,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -869,5 +869,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -929,5 +929,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -1015,5 +1015,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -1215,5 +1215,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ELMTESTD WARNING:            0 faces are part of jtet loops                     
++ELMTESTD WARNING:            0 jtet loops linking faces with diff no.s of nodes 
++        or diff repeated nodes, jtet_reduce_nnd=           0                    
++ELMTESTD WARNING: mesh has            0 degenerate elements                     
++        and            0 self-degenerate elements                               
+@@ -1226,1 +1226,1 @@
+- geniee: mesh has   11 jtet loops, max cycle length=  4                         
++geniee: mesh has           11 jtet loops, max cycle length=           4         
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+11 Check Directory ./smooth --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+11 Done with Directory ./smooth -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./smooth/reference/outx3dgen Tue Apr  8 10:15:28 2008
++++ ./smooth/outx3dgen Thu May 15 08:46:15 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:23           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:51:27           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+12 Check Directory ./connect_cube --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+12 Done with Directory ./connect_cube -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./connect_cube/reference/outx3dgen Tue Apr  8 10:12:55 2008
++++ ./connect_cube/outx3dgen Thu May 15 08:46:26 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:39           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:52:00           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+13 Check Directory ./addmesh_append --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+
+Test has 9 diffs at line 217 >>
+Test has 1 extra lines in this chunk.
+- 66          zcoord VDOU     scalar          nnodes linea perma agl  0.000E+00
++ 66  jtet_cycle_max  INT     scalar          scalar const tempo   x  0.000E+00
+- 67            Aint VINT     scalar          nnodes linea perma agl  0.000E+00
++ 67          zcoord VDOU     scalar          nnodes linea perma agl  0.000E+00
+- 68           Adoub VDOU     scalar          nnodes linea perma agl  0.000E+00
++ 68            Aint VINT     scalar          nnodes linea perma agl  0.000E+00
+- 69          newmat VINT     scalar       nelements linea perma agl  0.000E+00
++ 69           Adoub VDOU     scalar          nnodes linea perma agl  0.000E+00
+- 70           Anode VDOU     scalar          nnodes linea perma agl  0.000E+00
++ 70          newmat VINT     scalar       nelements linea perma agl  0.000E+00
+- 71           Achar VCHA     scalar          nnodes linea tempo agl 0.6
++ 71           Anode VDOU     scalar          nnodes linea perma agl  0.000E+00
+- 72          Aextra VDOU     scalar          nnodes linea tempo agl  0.000E+00
++ 72           Achar VCHA     scalar          nnodes linea tempo agl 0.6
+- 73          Eextra VDOU     scalar       nelements linea tempo agl  0.000E+00
++ 73          Aextra VDOU     scalar          nnodes linea tempo agl  0.000E+00
+-
++ 74          Eextra VDOU     scalar       nelements linea tempo agl  0.000E+00
+Lines Essentially the Same: 0 out of 9
+
+Test has 8 diffs at line 303 >>
+Test has 1 extra lines in this chunk.
+- 66          zcoord VDOU     scalar          nnodes linea perma agl  0.000E+00
++ 66  jtet_cycle_max  INT     scalar          scalar const tempo   x  0.000E+00
+- 67            Aint VDOU     scalar          nnodes linea perma agl  0.000E+00
++ 67          zcoord VDOU     scalar          nnodes linea perma agl  0.000E+00
+- 68           Adoub VINT     scalar          nnodes linea perma agl  0.000E+00
++ 68            Aint VDOU     scalar          nnodes linea perma agl  0.000E+00
+- 69          newmat VINT     scalar       nelements linea perma agl  0.000E+00
++ 69           Adoub VINT     scalar          nnodes linea perma agl  0.000E+00
+- 70           Anode VDOU     scalar       nelements linea perma agl  0.000E+00
++ 70          newmat VINT     scalar       nelements linea perma agl  0.000E+00
+- 71           Achar VINT     scalar          nnodes linea tempo agl  0.000E+00
++ 71           Anode VDOU     scalar       nelements linea perma agl  0.000E+00
+- 72           Askip VDOU     scalar          nnodes linea tempo agl  0.000E+00
++ 72           Achar VINT     scalar          nnodes linea tempo agl  0.000E+00
+-
++ 73           Askip VDOU     scalar          nnodes linea tempo agl  0.000E+00
+Lines Essentially the Same: 0 out of 8
+
+Test has 4 diffs at line 323 >>
+- length mismatch:      70  Anode  nnodes  nelements
++ length mismatch:      71  Anode  nnodes  nelements
+- type mismatch:      71  Achar  VCHAR  VINT
++ type mismatch:      72  Achar  VCHAR  VINT
+- attribute not found:          72  Aextra
++ attribute not found:          73  Aextra
+- attribute not found:          73  Eextra
++ attribute not found:          74  Eextra
+Lines Essentially the Same: 0 out of 4
+3 comment lines.
+23 lines failed.
+13 Done with Directory ./addmesh_append -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./addmesh_append/reference/outx3dgen Tue Apr  8 10:12:32 2008
++++ ./addmesh_append/outx3dgen Thu May 15 08:46:28 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:41           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:52:11           *                 
+@@ -217,8 +217,9 @@
+- 66          zcoord VDOU     scalar          nnodes linea perma agl  0.000E+00  
+- 67            Aint VINT     scalar          nnodes linea perma agl  0.000E+00  
+- 68           Adoub VDOU     scalar          nnodes linea perma agl  0.000E+00  
+- 69          newmat VINT     scalar       nelements linea perma agl  0.000E+00  
+- 70           Anode VDOU     scalar          nnodes linea perma agl  0.000E+00  
+- 71           Achar VCHA     scalar          nnodes linea tempo agl 0.6         
+- 72          Aextra VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+- 73          Eextra VDOU     scalar       nelements linea tempo agl  0.000E+00  
++ 66  jtet_cycle_max  INT     scalar          scalar const tempo   x  0.000E+00  
++ 67          zcoord VDOU     scalar          nnodes linea perma agl  0.000E+00  
++ 68            Aint VINT     scalar          nnodes linea perma agl  0.000E+00  
++ 69           Adoub VDOU     scalar          nnodes linea perma agl  0.000E+00  
++ 70          newmat VINT     scalar       nelements linea perma agl  0.000E+00  
++ 71           Anode VDOU     scalar          nnodes linea perma agl  0.000E+00  
++ 72           Achar VCHA     scalar          nnodes linea tempo agl 0.6         
++ 73          Aextra VDOU     scalar          nnodes linea tempo agl  0.000E+00  
++ 74          Eextra VDOU     scalar       nelements linea tempo agl  0.000E+00  
+@@ -302,7 +303,8 @@
+- 66          zcoord VDOU     scalar          nnodes linea perma agl  0.000E+00  
+- 67            Aint VDOU     scalar          nnodes linea perma agl  0.000E+00  
+- 68           Adoub VINT     scalar          nnodes linea perma agl  0.000E+00  
+- 69          newmat VINT     scalar       nelements linea perma agl  0.000E+00  
+- 70           Anode VDOU     scalar       nelements linea perma agl  0.000E+00  
+- 71           Achar VINT     scalar          nnodes linea tempo agl  0.000E+00  
+- 72           Askip VDOU     scalar          nnodes linea tempo agl  0.000E+00  
++ 66  jtet_cycle_max  INT     scalar          scalar const tempo   x  0.000E+00  
++ 67          zcoord VDOU     scalar          nnodes linea perma agl  0.000E+00  
++ 68            Aint VDOU     scalar          nnodes linea perma agl  0.000E+00  
++ 69           Adoub VINT     scalar          nnodes linea perma agl  0.000E+00  
++ 70          newmat VINT     scalar       nelements linea perma agl  0.000E+00  
++ 71           Anode VDOU     scalar       nelements linea perma agl  0.000E+00  
++ 72           Achar VINT     scalar          nnodes linea tempo agl  0.000E+00  
++ 73           Askip VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+@@ -321,4 +323,4 @@
+- length mismatch:      70  Anode  nnodes  nelements                             
+- type mismatch:      71  Achar  VCHAR  VINT                                     
+- attribute not found:          72  Aextra                                       
+- attribute not found:          73  Eextra                                       
++ length mismatch:      71  Anode  nnodes  nelements                             
++ type mismatch:      72  Achar  VCHAR  VINT                                     
++ attribute not found:          73  Aextra                                       
++ attribute not found:          74  Eextra                                       
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+14 Check Directory ./interp_map --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+14 Done with Directory ./interp_map -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./interp_map/reference/outx3dgen Tue Apr  8 10:13:22 2008
++++ ./interp_map/outx3dgen Thu May 15 08:46:50 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:43           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:52:13           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+15 Check Directory ./interp_continuous --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+15 Done with Directory ./interp_continuous -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./interp_continuous/reference/outx3dgen Tue Apr  8 10:13:14 2008
++++ ./interp_continuous/outx3dgen Thu May 15 08:47:02 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:54           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:52:35           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+16 Check Directory ./zone_outside_minmax --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+
+Test has 4 diffs at line 128 >>
+Lines Essentially the Same: 4 out of 4
+3 comment lines.
+No lines differ.
+16 Done with Directory ./zone_outside_minmax -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./zone_outside_minmax/reference/outx3dgen Tue Apr  8 10:21:20 2008
++++ ./zone_outside_minmax/outx3dgen Thu May 15 08:47:50 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  08:00:00           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:52:47           *                 
+@@ -128,4 +128,4 @@
+- CONNECTED COMPONENTS:                                                          
+-   1 different exterior boundary components                                     
+- Set#        Representitive Node #        # Nodes in Set                        
+-            (numbnd_e(node#) attribute)                                         
++CONNECTED COMPONENTS:                                                           
++           1 different exterior boundary components                             
++Set#        Representitive Node #        # Nodes in Set                         
++           (numbnd_e(node#) attribute)                                          
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+17 Check Directory ./refine_recon_quality --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+17 Done with Directory ./refine_recon_quality -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./refine_recon_quality/reference/outx3dgen Tue Apr  8 10:14:58 2008
++++ ./refine_recon_quality/outx3dgen Thu May 15 08:47:52 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  08:00:12           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:53:36           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+18 Check Directory ./intrp_2D_sizes --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+18 Done with Directory ./intrp_2D_sizes -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./intrp_2D_sizes/reference/outx3dgen Tue Apr  8 10:13:46 2008
++++ ./intrp_2D_sizes/outx3dgen Thu May 15 08:48:01 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  08:00:14           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:53:38           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+19 Check Directory ./surface --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+19 Done with Directory ./surface -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./surface/reference/outx3dgen Tue Apr  8 10:20:56 2008
++++ ./surface/outx3dgen Thu May 15 08:48:01 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  08:00:16           *                 
++*               *    Program:  LaGriT V2.003   IRIX64         *                 
++*               *    date_compile: 2008/05/12                 *                 
++*               *    Run Time: 2008/05/15  08:53:46           *                 
+
+End Report from diff =========================================================
+All checks complete, 2 directories failed out of 19
+  ./addmesh_add Error: 8 lines failed.
+  ./addmesh_append Error: 23 lines failed.
+
