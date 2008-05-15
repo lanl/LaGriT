@@ -262,8 +262,7 @@ C
       integer if_clear
       real*8 r8
 c
-      pointer (ipch_string,ch_string)
-      character*32  ch_string(*) 
+      character*2048 ch_string 
 C
       character*8  ch_elem1
       character*22 ch_elem2
@@ -346,11 +345,6 @@ c
       call mmgetblk
      1   ('n_int_i',   isubname,ipn_int_i,   nmcmoatt,1,icscode)
 C
-C     Allocate space for 32 characters per mesh object attribute
-C
-      call mmgetblk
-     1   ('ch_string', isubname,ipch_string,nmcmoatt*32,3,icscode)
-c
 c
       ioffs(1)=0
       ioffse(1)=0
@@ -393,6 +387,19 @@ C
             endif
          enddo
       enddo
+      if ((nvalues+nvaluese)*32 .gt. 2048) then
+        write(logmess,"(a)")
+     1  'ERROR dumpavs: Number of output attributes not supported '
+        call writloga('default',1,logmess,0,ierr)
+        write(logmess,"(a)")
+     1     'ERROR dumpavs: Increase size of ch_string character string '
+        call writloga('default',0,logmess,0,ierr)
+        write(logmess,"(a)")
+     1     'ERROR dumpavs: No Action '
+        call writloga('default',0,logmess,1,ierr)
+        goto 9999
+      endif
+
 C
 C     write header at top of file only if writing node coordinates
 C     num_nodes, num_elems, num_node_att, num_elem_att, num_mdata
