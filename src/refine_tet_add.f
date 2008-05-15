@@ -140,50 +140,52 @@ C ######################################################################
 C
       implicit none
 C
-      character*132 logmess
-C
       include "local_element.h"
+C
+C arguments
+      character*32 cmo_name
+      integer iprd, nadd
+      pointer (ipitadd, itadd)
+      pointer (ipiadd, iadd)
+      pointer (ipxadd, xadd)
+      pointer (ipyadd, yadd)
+      pointer (ipzadd, zadd)
+      integer itadd(nadd)
+      integer iadd(nadd)
+      real*8 xadd(nadd), yadd(nadd), zadd(nadd)
+C
+C ######################################################################
+
+C
       integer nadd3,idifflev,jf,jt,jtoff,iflag,itpar,nadd2,length,
      *  ipointj,it,i,nadd1,i1,lenout,nsd,nef,nen,mbndry,nelements,
      *  icscode,itype,ilen,nnodes,ierrwrt,icharlnf,ierror,ics,
      *  imesh_type, ifdebug
  
 C prd variables
-      integer iprd, nelements_save1, icount, dsmin
+      integer nelements_save1, icount, dsmin
       integer iout,lout
       pointer (ipout,out)
       real*8 out(*)
-C
-C ######################################################################
-C
-C
-      character*(*) cmo_name
-      integer nadd
-      pointer (ipitadd, itadd)
-      integer itadd(nadd)
-      pointer (ipiadd, iadd)
-      integer iadd(nadd)
-      pointer (ipxadd, xadd)
-      pointer (ipyadd, yadd)
-      pointer (ipzadd, zadd)
-      real*8 xadd(nadd), yadd(nadd), zadd(nadd)
-C
+
+C cmo pointers
       pointer (ipitettyp, itettyp)
       pointer (ipjtetoff, jtetoff)
       pointer (ipjtet, jtet1)
       integer itettyp(1000000), jtetoff(1000000), jtet1(1000000)
  
-C prd variables
       pointer (ipitetoff, itetoff)
       pointer (ipitet, itet1)
       integer itetoff(1000000), itet1(1000000)
+
+C prd variables
       pointer (ipiptest, iptest)
       pointer (ipittest, ittest)
       integer iptest(10000000), ittest(10000000)
       pointer (ipxradavg, xradavg)
       real*8 xradavg(1000000)
  
-c prd
+c octree
 C
       pointer (ipitetpar, itetpar)
       pointer (ipitetkid, itetkid)
@@ -203,6 +205,7 @@ C
  
 C
       character*32 isubname,cmoattnam,cglobal,cdefault,mesh_type,cout
+      character*132 logmess
       character*8192 cbuff
 C
  
@@ -387,17 +390,23 @@ C
      *                        nelements,ilen,itype,icscode)
          call cmo_get_info('mbndry',cmo_name,
      *                        mbndry,ilen,itype,icscode)
+
          if(nelements_save1.lt.nelements) then
             call cmo_get_info('itettyp',cmo_name,
      *                        ipitettyp,ilen,itype,icscode)
+
             call cmo_get_info('itetoff',cmo_name,
      *                        ipitetoff,ilen,itype,icscode)
+
             call cmo_get_info('jtetoff',cmo_name,
      *                        ipjtetoff,ilen,itype,icscode)
+
             call cmo_get_info('itet',cmo_name,
      *                        ipitet,ilen,itype,icscode)
+
             call cmo_get_info('jtet',cmo_name,
      *                        ipjtet,ilen,itype,icscode)
+
             cmoattnam='itetpar'
             call mmfindbk(cmoattnam,cmo_name,ipitetpar,lenout,icscode)
             cmoattnam='itetkid'
@@ -406,14 +415,18 @@ C
             call mmfindbk(cmoattnam,cmo_name,ipitetlev,lenout,icscode)
             length=nnodes
             call mmgetblk("ipiptest",isubname,ipiptest,length,1,icscode)
+
             do i1=1,nnodes
                iptest(i1)=0
             enddo
+
             length=nelements
             call mmgetblk("ipittest",isubname,ipittest,length,1,icscode)
+
             do it=1,nelements
                ittest(it)=0
             enddo
+
             do it=nelements_save1+1,nelements
                ittest(it)=1
                itpar=itetpar(it)
@@ -491,7 +504,14 @@ C           call get_epsilon('epsilonl', dsmin)
             call cmo_get_attinfo('epsilonl',cmo_name,iout,dsmin,cout,
      *           ipout,lout,itype,icscode)
             if(icscode.ne.0) call x3d_error(isubname,'cmo_get_attinfo')
- 
+
+            if (icount .gt. nnodes) then
+               write(logmess,9025) icount,nnodes 
+ 9025          format('ERROR refine prd: icount gt nnodes: ',i14,i14)
+               call writloga('default',1,logmess,1,ics)
+               ierror = 1
+            endif
+
             call filter_subset(cmo_name,icount,iptest,dsmin)
             icount=0
             do it=1,nelements
