@@ -109,19 +109,20 @@ C
 C
 C#######################################################################
 C
-C
       implicit none
-C
-C#######################################################################
 C
       character*(*) loglog
       character*(*) logbat
       character*(*) ixnamxxx
+      character*8    mode
+c
+      include "logcom1.h"
+      include "lagrit.h"
 C
 C#######################################################################
 C
-      include 'logcom1.h'
-      include 'lagrit.h'
+C#######################################################################
+C
 C
 C
 C
@@ -132,7 +133,7 @@ C
      *   nyr,myr
 C
       character*132 interfil
-      character*8 iunitc,mode
+      character*8 iunitc
       character*24 now
       character*22 cstring
 C
@@ -222,31 +223,31 @@ C
 
 C-----Banner Program, OS, and Version Number from lagrit.h
 C
-      if (VMajor .lt. 10) then 
+      if (v_major .lt. 10) then 
         Version = ' .     '
-        write ( Version(1:1), '(i1)' ) VMajor
-        write ( Version(3:5), '(i3.3)' ) VMinor
+        write ( Version(1:1), '(i1)' ) v_major
+        write ( Version(3:5), '(i3.3)' ) v_minor 
       else
         Version = '  .     '
-        write ( Version(1:2), '(i2)' ) VMajor
-        write ( Version(4:6), '(i3.3)' ) VMinor
+        write ( Version(1:2), '(i2)' ) v_major
+        write ( Version(4:6), '(i3.3)' ) v_minor
       endif
 
-      if (OSName(1:3) .eq. 'Lin') then
+      if (os_name(1:3) .eq. 'Lin') then
       write(interfil,8089) Version
  8089 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux          *')
 
-      else if (OSName(1:3) .eq. 'Dar') then
+      else if (os_name(1:3) .eq. 'Dar') then
       write(interfil,8189) Version
  8189 format('*',15x,'*    Program:  LaGriT V',a6,'  Darwin         *')
 
-      else if (OSName(1:3) .eq. 'Sun') then
+      else if (os_name(1:3) .eq. 'Sun') then
       write(interfil,8289) Version
  8289 format('*',15x,'*    Program:  LaGriT V',a6,'  SunOS          *')
 
-      else if (OSName(1:3) .eq. 'IRI') then
+      else if (os_name(1:3) .eq. 'IRI') then
       write(interfil,8389) Version
- 8389 format('*',15x,'*    Program:  LaGriT V',a6,'  IRIX           *')
+ 8389 format('*',15x,'*    Program:  LaGriT V',a6,'  IRIX64         *')
       else 
 
       write(interfil,8389)  Version
@@ -261,12 +262,12 @@ C     Compiled string is year 1:4 followed by month and day
 c     look for expiration 2 years greater than compile year
 
       call fdate(now)
-      cstring = Compiled
+      cstring = date_compile
       if (cstring(1:4).eq.'DATE') then
          cstring=now(21:24)//'/00/00 at 00:00:00' 
       endif
-      write(interfil,9004) cstring
- 9004 format('*',15x,'*    Compiled: ',a22,'         *')
+      write(interfil,9004) cstring,'    *'
+ 9004 format('*',15x,'*    date_compile: ',a22,a6)
       call writloga('default',0,interfil,0,ierrdum)
 
       nyr = (ichar(now(23:23))-ichar('0'))*10+
@@ -277,9 +278,11 @@ c     look for expiration 2 years greater than compile year
       if(myr.ne.nyr.and.mod(myr+1,100).ne.nyr.and.
      *   mod(myr+2,100).ne.nyr) then
           write(interfil,9020)
-          call writloga('default',0,interfil,0,ierrdum)
- 9020     format(' code expiration date passed ')
-          call termcode()
+          call writloga('default',1,interfil,0,ierrdum)
+ 9020     format('WARNING: code expiration date has passed.')
+          call writloga('default',0,interfil,2,ierrdum)
+ 9021     format('This version is no longer supported.')
+c         call termcode()
       endif
  
 C-----Banner Program run time 
