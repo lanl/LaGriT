@@ -64,7 +64,8 @@ OPSYS_FULL = $(shell uname -a )
 OPSYS = $(shell uname -s )
 DATETAG = $(shell date '+_%y%m%d')
 #
-# sgi will need some work to compile correctly
+# ADD FLAG for 64 bit SGI 
+# sgi 64 will need some work to compile correctly
 # there are some 64bit settings in some include files
 # and some character string declarations produce errors
 # in dump_avs_nosb.f and writinit.f
@@ -75,14 +76,16 @@ DATETAG = $(shell date '+_%y%m%d')
 # SGI 64 OS ------------------------------
 ifeq ($(OPSYS), IRIX64)
 OSTAG = _sgi64
-FC = f77 
-FC90 = F90
+OSTAG = _sgi
+FC = /bin/f77 
+FC90 = /bin/f90 
 CC= cc
-FFLAGS = -n32 -r10000
 FFLAGS = -c -g -64 -i8 -r10000 
+FFLAGS = -n32 -r10000
 FF90FLAGS = $(FFLAGS)
 CFLAGS = $(FFLAGS)
 OBJDIR = sgi64_objects/
+OBJDIR = sgi_objects/
 endif
 #
 # Linux OS ------------------------------
