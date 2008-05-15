@@ -2,6 +2,7 @@
 # compile both -g and -O options of libraries 
 # binname and binname built in current directory
 # compile sun and linux static versions
+# sgi and mac pc do not have static options
 # check OS and set some variables and build bin 
 #
 # use make lib or gmake lib to build libraries
@@ -41,6 +42,7 @@ if ($OSTYPE == 'Linux') then
   set F77FLAG = "-c -f -m32 -YEXT_NAMES=ASIS"
   set F90FLAG = "-m32 -YEXT_NAMES=ASIS" 
   set LINKFLAG = "-lm -lU77"
+  set LINKFLAG = "-lm -lU77 -static "
   set F90DIR = /opt/absoft10.0/bin
 
 else if ($OSTYPE == 'Darwin') then
@@ -48,6 +50,7 @@ else if ($OSTYPE == 'Darwin') then
   set F77FLAG = "-c -f -N113 -N90 -B19 -q"
   set F90FLAG = "" 
   set LINKFLAG = " -lU77"
+  set LINKFLAG = " -lU77 -s"
   set F90DIR = /Applications/Absoft/bin
 
 else if ($OSTYPE == 'SunOS') then
@@ -56,25 +59,21 @@ else if ($OSTYPE == 'SunOS') then
   set F77FLAG = -c
   set F90FLAG = "-lf77compat " 
   set LINKFLAG = " "
+  set LINKFLAG = "-Bstatic"
   set F90DIR = /n/local_SunOS/forte7/SUNWspro/bin 
+
+else if ($OSTYPE == 'IRIX64') then
+  set OSTAG = _sgi
+  set F77FLAG = "-c -n32 -r10000 -avoid_gp_overflow"
+  set F90FLAG =  "-n32 -r10000" 
+  set LINKFLAG = " "
+  set F90DIR = /bin/
 
 else
   echo 'OS $OSTYPE not recognized ' 
   exit 1
 endif
 
-set FFILES = "lagrit_main.f lagrit_fdate.f" 
-set OFILES = "lagrit_main.o lagrit_fdate.o" 
-
-##############################
-if ($OSTYPE == 'Linux') then
-  set LINKFLAG = "-lm -lU77 -static "
-else if ($OSTYPE == 'Darwin') then
-  set LINKFLAG = " -lU77 -static"
-  set LINKFLAG = " -lU77 -s"
-else 
-  set LINKFLAG = "-Bstatic"
-endif
 
 
 ##############################
@@ -92,8 +91,20 @@ echo "Working on OS $OSTYPE $binname and  $binname_date"
 echo "using $LAGRIT_LIBS/$liblagrit and $UTIL_LIBS/$libutil"
 'rm' -f *.o
 
-echo $F90DIR/f77 $CFLAG $F77FLAG $FFILES
-$F90DIR/f77 $CFLAG $F77FLAG $FFILES
+# compile object files
+# SGI f77 does not recognize f90 intrinsic DATE_AND_TIME
+if ($OSTYPE == 'IRIX64') then
+  echo $F90DIR/f90 $CFLAG $F77FLAG lagrit_fdate.f 
+  $F90DIR/f90 $CFLAG $F77FLAG lagrit_fdate.f 
+  echo $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f  
+  $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f  
+else
+  echo $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f lagrit_fdate.f 
+  $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f lagrit_fdate.f 
+endif
+set OFILES = "lagrit_main.o lagrit_fdate.o" 
+
+# link object files and libraries into executable 
 echo $F90DIR/f90 $CFLAG $F90FLAG -o $binname $OFILES $LAGRIT_LIBS/$liblagrit $UTIL_LIBS/$libutil $LINKFLAG
 $F90DIR/f90 $CFLAG $F90FLAG -o $binname $OFILES $LAGRIT_LIBS/$liblagrit $UTIL_LIBS/$libutil $LINKFLAG
 
@@ -122,8 +133,21 @@ echo "Working on OS $OSTYPE $binname and  $binname_date"
 echo "using $LAGRIT_LIBS/$liblagrit and $UTIL_LIBS/$libutil"
 'rm' -f *.o
 
-echo $F90DIR/f77 $CFLAG $F77FLAG $FFILES
-$F90DIR/f77 $CFLAG $F77FLAG $FFILES
+# compile object files
+# SGI f77 does not recognize f90 intrinsic DATE_AND_TIME
+if ($OSTYPE == 'IRIX64') then
+  echo $F90DIR/f90 $CFLAG $F77FLAG lagrit_fdate.f
+  $F90DIR/f90 $CFLAG $F77FLAG lagrit_fdate.f
+  echo $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f
+  $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f
+  set CFLAG = " -O -OPT:Olimit=0 "
+else
+  echo $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f lagrit_fdate.f
+  $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f lagrit_fdate.f
+endif
+set OFILES = "lagrit_main.o lagrit_fdate.o"
+
+# link object files and libraries into executable
 echo $F90DIR/f90 $CFLAG $F90FLAG -o $binname $OFILES $LAGRIT_LIBS/$liblagrit $UTIL_LIBS/$libutil $LINKFLAG
 $F90DIR/f90 $CFLAG $F90FLAG -o $binname $OFILES $LAGRIT_LIBS/$liblagrit $UTIL_LIBS/$libutil $LINKFLAG
 
