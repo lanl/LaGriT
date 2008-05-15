@@ -52,6 +52,7 @@
 MAKEFILE  = Makefile
 PROJ  = lagrit
 ROOTDIR= $(shell pwd)
+# assumes current directory is lagrit/src
 LIBDIR= $(subst lagrit/src,lagrit/lib, $(ROOTDIR)) 
 BINDIR= $(subst lagrit/src,lagrit/bin, $(ROOTDIR)) 
 #
@@ -81,11 +82,11 @@ FC = /bin/f77
 FC90 = /bin/f90 
 CC= cc
 FFLAGS = -c -g -64 -i8 -r10000 
-FFLAGS = -n32 -r10000
-FF90FLAGS = $(FFLAGS)
+FFLAGS = -n32 -r10000 -avoid_gp_overflow 
+FF90FLAGS = -n32 -r10000 
 CFLAGS = $(FFLAGS)
-OBJDIR = sgi64_objects/
-OBJDIR = sgi_objects/
+OBJDIR = objects_sgi64/
+OBJDIR = objects_sgi/
 endif
 #
 # Linux OS ------------------------------
@@ -97,7 +98,7 @@ CC= cc
 FFLAGS = -f -m32 -N113 -N90 -q -w 
 FF90FLAGS = -m32 -YEXT_NAMES=LCS  
 CFLAGS = -m32
-OBJDIR = lin_objects/
+OBJDIR = objects_lin/
 endif
 #
 # Mac OSX ------------------------------
@@ -109,7 +110,7 @@ CC= cc
 FFLAGS = -f -N113 -N90 -B19 -O -q -w 
 FF90FLAGS = -YEXT_NAMES=LCS  
 CFLAGS = 
-OBJDIR = mac_objects/
+OBJDIR = objects_mac/
 endif
 #
 # SUN OS ------------------------------
@@ -121,7 +122,7 @@ CC = /n/local_SunOS/forte7/SUNWspro/bin/cc
 FFLAGS =
 FF90FLAGS =   
 CFLAGS =
-OBJDIR = sun_objects/
+OBJDIR = objects_sun/
 endif
 #
 ifeq ($(COPT), -g)
@@ -131,7 +132,11 @@ SUFF = $(OSTAG)_o
 endif
 #
 ifndef COPT
+ifeq ($(OPSYS), IRIX64)
+COPT = -O1
+else
 COPT = -O
+endif
 endif
 # 
 OBJDIR = objects$(SUFF)/
