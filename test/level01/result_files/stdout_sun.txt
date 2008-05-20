@@ -1,14 +1,14 @@
 OS: sunos5
 USING: /home/tam/src/lagrit/bin/lagrit_sun_o
-Top directory: /home/tam/src/lagrit/test/mylevel01 at Tue Apr  8 10:23:01 2008
+Top directory: /home/tam/src/lagrit/test/level01 at Tue May 20 14:08:12 2008
  1  Test Directory ./setpts -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:23:01           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:08:12           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -343,9 +343,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:23:03           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:08:13           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -974,9 +974,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:23:22           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:08:33           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1402,9 +1402,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:23:23           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:08:34           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1529,9 +1529,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:23:33           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:08:44           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -5575,9 +5575,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:23:50           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:09:02           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6295,9 +6295,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:23:52           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:09:05           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6779,9 +6779,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:23:56           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:09:09           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7275,9 +7275,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:24:00           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:09:12           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -8897,9 +8897,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:24:04           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:09:17           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -10252,9 +10252,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:24:09           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:09:23           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -10675,9 +10675,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:24:25           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:09:39           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -10927,9 +10927,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:24:28           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:09:42           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -11343,9 +11343,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:24:29           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:09:43           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -15398,9 +15398,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:24:42           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:09:56           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17060,9 +17060,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:24:47           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:10:03           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17212,9 +17212,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:24:59           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:10:15           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17712,9 +17712,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:25:01           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:10:17           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18078,9 +18078,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  10:25:03           *                 
+*               *    Program:  LaGriT V2.003   SunOS          *                 
+*               *    date_compile: 2008/05/15                 *                 
+*               *    Run Time: 2008/05/20  14:10:19           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 

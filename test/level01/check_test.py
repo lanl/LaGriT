@@ -1,4 +1,4 @@
-#! /usr/lanl/bin/python 
+#! /usr/bin/env python 
 # for lanl machines /usr/bin/env python
 # for sgi /usr/lanl/bin/python
 #------------------------------------------------------------------------------

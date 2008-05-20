@@ -1,4 +1,4 @@
-#! /usr/lanl/bin/python
+#! /usr/bin/env python 
 # for lanl machines /usr/bin/env python
 # for sgi /usr/lanl/bin/python
 #------------------------------------------------------------------------------
@@ -62,10 +62,11 @@ if __name__ == "__main__":
   elif osname.find("IRIX")>= 0 :
      ostag="sgi" 
      xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi_o"
-     xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi_g"
+     xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi64_o"
   elif osname.find("irix")>= 0 :
      ostag="sgi" 
      xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi_o"
+     xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi64_o"
   else :
      raise SystemExit, "Exiting Early, Unrecognized OS: "+osname
  
