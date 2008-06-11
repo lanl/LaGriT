@@ -64,8 +64,11 @@ else if ($OSTYPE == 'SunOS') then
 
 else if ($OSTYPE == 'IRIX64') then
   set OSTAG = _sgi
+  set OSTAG = _sgi64
   set F77FLAG = "-c -n32 -r10000 -avoid_gp_overflow"
+  set F77FLAG = "-c -64 -i8 -r10000 -avoid_gp_overflow"
   set F90FLAG =  "-n32 -r10000" 
+  set F90FLAG =  "-64 -i8 -r10000" 
   set LINKFLAG = " "
   set F90DIR = /bin/
 
@@ -141,6 +144,7 @@ if ($OSTYPE == 'IRIX64') then
   echo $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f
   $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f
   set CFLAG = " -O -OPT:Olimit=0 "
+  set CFLAG = " -O1"
 else
   echo $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f lagrit_fdate.f
   $F90DIR/f77 $CFLAG $F77FLAG lagrit_main.f lagrit_fdate.f

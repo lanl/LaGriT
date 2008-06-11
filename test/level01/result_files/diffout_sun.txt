@@ -1,12 +1,12 @@
-Start in directory: /home/tam/src/lagrit/test/mylevel01 at Tue Apr  8 10:28:24 2008
+Start in directory: /home/tam/src/lagrit/test/level01 at Tue May 20 14:10:22 2008
 
 Diff Summary ===================================================================
 
 1 Check Directory ./setpts --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 1 Done with Directory ./setpts -----------------------
 Check done.
@@ -14,10 +14,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./setpts/reference/outx3dgen Tue Apr  8 10:15:19 2008
-+++ ./setpts/outx3dgen Tue Apr  8 10:23:03 2008
-@@ -7,1 +7,1 @@
++++ ./setpts/outx3dgen Tue May 20 14:08:14 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:58:18           *                 
-+*               *    Run Time: 2008/04/08  10:23:01           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:08:12           *                 
 
 End Report from diff =========================================================
 
@@ -25,9 +29,9 @@ Diff Summary ===================================================================
 
 2 Check Directory ./addmesh_add --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 2 Done with Directory ./addmesh_add -----------------------
 Check done.
@@ -35,10 +39,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./addmesh_add/reference/outx3dgen Tue Apr  8 10:12:20 2008
-+++ ./addmesh_add/outx3dgen Tue Apr  8 10:23:22 2008
-@@ -7,1 +7,1 @@
++++ ./addmesh_add/outx3dgen Tue May 20 14:08:33 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:58:19           *                 
-+*               *    Run Time: 2008/04/08  10:23:03           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:08:13           *                 
 
 End Report from diff =========================================================
 
@@ -46,9 +54,9 @@ Diff Summary ===================================================================
 
 3 Check Directory ./createpts --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 3 Done with Directory ./createpts -----------------------
 Check done.
@@ -56,10 +64,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./createpts/reference/outx3dgen Tue Apr  8 10:13:05 2008
-+++ ./createpts/outx3dgen Tue Apr  8 10:23:23 2008
-@@ -7,1 +7,1 @@
++++ ./createpts/outx3dgen Tue May 20 14:08:34 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:58:38           *                 
-+*               *    Run Time: 2008/04/08  10:23:22           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:08:33           *                 
 
 End Report from diff =========================================================
 
@@ -67,9 +79,9 @@ Diff Summary ===================================================================
 
 4 Check Directory ./zone_outside --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 4 Done with Directory ./zone_outside -----------------------
 Check done.
@@ -77,10 +89,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./zone_outside/reference/outx3dgen Tue Apr  8 10:21:07 2008
-+++ ./zone_outside/outx3dgen Tue Apr  8 10:23:33 2008
-@@ -7,1 +7,1 @@
++++ ./zone_outside/outx3dgen Tue May 20 14:08:45 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:58:39           *                 
-+*               *    Run Time: 2008/04/08  10:23:23           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:08:34           *                 
 
 End Report from diff =========================================================
 
@@ -88,9 +104,9 @@ Diff Summary ===================================================================
 
 5 Check Directory ./interp_voronoi --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 5 Done with Directory ./interp_voronoi -----------------------
 Check done.
@@ -98,10 +114,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./interp_voronoi/reference/outx3dgen Tue Apr  8 10:13:33 2008
-+++ ./interp_voronoi/outx3dgen Tue Apr  8 10:23:50 2008
-@@ -7,1 +7,1 @@
++++ ./interp_voronoi/outx3dgen Tue May 20 14:09:03 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:58:49           *                 
-+*               *    Run Time: 2008/04/08  10:23:33           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:08:44           *                 
 
 End Report from diff =========================================================
 
@@ -109,9 +129,9 @@ Diff Summary ===================================================================
 
 6 Check Directory ./io_agf_simple --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 6 Done with Directory ./io_agf_simple -----------------------
 Check done.
@@ -119,10 +139,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./io_agf_simple/reference/outx3dgen Tue Apr  8 10:13:57 2008
-+++ ./io_agf_simple/outx3dgen Tue Apr  8 10:23:53 2008
-@@ -7,1 +7,1 @@
++++ ./io_agf_simple/outx3dgen Tue May 20 14:09:05 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:59:05           *                 
-+*               *    Run Time: 2008/04/08  10:23:50           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:09:02           *                 
 
 End Report from diff =========================================================
 
@@ -130,9 +154,9 @@ Diff Summary ===================================================================
 
 7 Check Directory ./refine_octree --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 7 Done with Directory ./refine_octree -----------------------
 Check done.
@@ -140,10 +164,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./refine_octree/reference/outx3dgen Tue Apr  8 10:14:12 2008
-+++ ./refine_octree/outx3dgen Tue Apr  8 10:23:57 2008
-@@ -7,1 +7,1 @@
++++ ./refine_octree/outx3dgen Tue May 20 14:09:09 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:59:07           *                 
-+*               *    Run Time: 2008/04/08  10:23:52           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:09:05           *                 
 
 End Report from diff =========================================================
 
@@ -151,9 +179,9 @@ Diff Summary ===================================================================
 
 8 Check Directory ./addmesh_doublemesh --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 8 Done with Directory ./addmesh_doublemesh -----------------------
 Check done.
@@ -161,10 +189,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./addmesh_doublemesh/reference/outx3dgen Tue Apr  8 10:12:42 2008
-+++ ./addmesh_doublemesh/outx3dgen Tue Apr  8 10:24:00 2008
-@@ -7,1 +7,1 @@
++++ ./addmesh_doublemesh/outx3dgen Tue May 20 14:09:13 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:59:11           *                 
-+*               *    Run Time: 2008/04/08  10:23:56           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:09:09           *                 
 
 End Report from diff =========================================================
 
@@ -172,9 +204,9 @@ Diff Summary ===================================================================
 
 9 Check Directory ./rmpoint --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 9 Done with Directory ./rmpoint -----------------------
 Check done.
@@ -182,10 +214,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./rmpoint/reference/outx3dgen Tue Apr  8 10:15:11 2008
-+++ ./rmpoint/outx3dgen Tue Apr  8 10:24:05 2008
-@@ -7,1 +7,1 @@
++++ ./rmpoint/outx3dgen Tue May 20 14:09:18 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:59:14           *                 
-+*               *    Run Time: 2008/04/08  10:24:00           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:09:12           *                 
 
 End Report from diff =========================================================
 
@@ -193,9 +229,9 @@ Diff Summary ===================================================================
 
 10 Check Directory ./refine_octree_prd --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 10 Done with Directory ./refine_octree_prd -----------------------
 Check done.
@@ -203,10 +239,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./refine_octree_prd/reference/outx3dgen Tue Apr  8 10:14:47 2008
-+++ ./refine_octree_prd/outx3dgen Tue Apr  8 10:24:10 2008
-@@ -7,1 +7,1 @@
++++ ./refine_octree_prd/outx3dgen Tue May 20 14:09:23 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:59:19           *                 
-+*               *    Run Time: 2008/04/08  10:24:04           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:09:17           *                 
 
 End Report from diff =========================================================
 
@@ -214,9 +254,9 @@ Diff Summary ===================================================================
 
 11 Check Directory ./smooth --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 11 Done with Directory ./smooth -----------------------
 Check done.
@@ -224,10 +264,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./smooth/reference/outx3dgen Tue Apr  8 10:15:28 2008
-+++ ./smooth/outx3dgen Tue Apr  8 10:24:25 2008
-@@ -7,1 +7,1 @@
++++ ./smooth/outx3dgen Tue May 20 14:09:39 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:59:23           *                 
-+*               *    Run Time: 2008/04/08  10:24:09           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:09:23           *                 
 
 End Report from diff =========================================================
 
@@ -235,9 +279,9 @@ Diff Summary ===================================================================
 
 12 Check Directory ./connect_cube --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 12 Done with Directory ./connect_cube -----------------------
 Check done.
@@ -245,10 +289,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./connect_cube/reference/outx3dgen Tue Apr  8 10:12:55 2008
-+++ ./connect_cube/outx3dgen Tue Apr  8 10:24:28 2008
-@@ -7,1 +7,1 @@
++++ ./connect_cube/outx3dgen Tue May 20 14:09:42 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:59:39           *                 
-+*               *    Run Time: 2008/04/08  10:24:25           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:09:39           *                 
 
 End Report from diff =========================================================
 
@@ -256,9 +304,9 @@ Diff Summary ===================================================================
 
 13 Check Directory ./addmesh_append --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 13 Done with Directory ./addmesh_append -----------------------
 Check done.
@@ -266,10 +314,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./addmesh_append/reference/outx3dgen Tue Apr  8 10:12:32 2008
-+++ ./addmesh_append/outx3dgen Tue Apr  8 10:24:29 2008
-@@ -7,1 +7,1 @@
++++ ./addmesh_append/outx3dgen Tue May 20 14:09:43 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:59:41           *                 
-+*               *    Run Time: 2008/04/08  10:24:28           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:09:42           *                 
 
 End Report from diff =========================================================
 
@@ -277,9 +329,9 @@ Diff Summary ===================================================================
 
 14 Check Directory ./interp_map --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 14 Done with Directory ./interp_map -----------------------
 Check done.
@@ -287,10 +339,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./interp_map/reference/outx3dgen Tue Apr  8 10:13:22 2008
-+++ ./interp_map/outx3dgen Tue Apr  8 10:24:42 2008
-@@ -7,1 +7,1 @@
++++ ./interp_map/outx3dgen Tue May 20 14:09:57 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:59:43           *                 
-+*               *    Run Time: 2008/04/08  10:24:29           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:09:43           *                 
 
 End Report from diff =========================================================
 
@@ -298,9 +354,9 @@ Diff Summary ===================================================================
 
 15 Check Directory ./interp_continuous --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 15 Done with Directory ./interp_continuous -----------------------
 Check done.
@@ -308,10 +364,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./interp_continuous/reference/outx3dgen Tue Apr  8 10:13:14 2008
-+++ ./interp_continuous/outx3dgen Tue Apr  8 10:24:48 2008
-@@ -7,1 +7,1 @@
++++ ./interp_continuous/outx3dgen Tue May 20 14:10:03 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  07:59:54           *                 
-+*               *    Run Time: 2008/04/08  10:24:42           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:09:56           *                 
 
 End Report from diff =========================================================
 
@@ -319,9 +379,9 @@ Diff Summary ===================================================================
 
 16 Check Directory ./zone_outside_minmax --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 16 Done with Directory ./zone_outside_minmax -----------------------
 Check done.
@@ -329,10 +389,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./zone_outside_minmax/reference/outx3dgen Tue Apr  8 10:21:20 2008
-+++ ./zone_outside_minmax/outx3dgen Tue Apr  8 10:25:00 2008
-@@ -7,1 +7,1 @@
++++ ./zone_outside_minmax/outx3dgen Tue May 20 14:10:16 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  08:00:00           *                 
-+*               *    Run Time: 2008/04/08  10:24:47           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:10:03           *                 
 
 End Report from diff =========================================================
 
@@ -340,9 +404,9 @@ Diff Summary ===================================================================
 
 17 Check Directory ./refine_recon_quality --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 17 Done with Directory ./refine_recon_quality -----------------------
 Check done.
@@ -350,10 +414,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./refine_recon_quality/reference/outx3dgen Tue Apr  8 10:14:58 2008
-+++ ./refine_recon_quality/outx3dgen Tue Apr  8 10:25:01 2008
-@@ -7,1 +7,1 @@
++++ ./refine_recon_quality/outx3dgen Tue May 20 14:10:17 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  08:00:12           *                 
-+*               *    Run Time: 2008/04/08  10:24:59           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:10:15           *                 
 
 End Report from diff =========================================================
 
@@ -361,9 +429,9 @@ Diff Summary ===================================================================
 
 18 Check Directory ./intrp_2D_sizes --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 18 Done with Directory ./intrp_2D_sizes -----------------------
 Check done.
@@ -371,10 +439,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./intrp_2D_sizes/reference/outx3dgen Tue Apr  8 10:13:46 2008
-+++ ./intrp_2D_sizes/outx3dgen Tue Apr  8 10:25:03 2008
-@@ -7,1 +7,1 @@
++++ ./intrp_2D_sizes/outx3dgen Tue May 20 14:10:20 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  08:00:14           *                 
-+*               *    Run Time: 2008/04/08  10:25:01           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:10:17           *                 
 
 End Report from diff =========================================================
 
@@ -382,9 +454,9 @@ Diff Summary ===================================================================
 
 19 Check Directory ./surface --------------------------
 
-Test has 1 diffs at line 7 >>
-Lines Essentially the Same: 1 out of 1
-1 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 19 Done with Directory ./surface -----------------------
 Check done.
@@ -392,10 +464,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./surface/reference/outx3dgen Tue Apr  8 10:20:56 2008
-+++ ./surface/outx3dgen Tue Apr  8 10:25:03 2008
-@@ -7,1 +7,1 @@
++++ ./surface/outx3dgen Tue May 20 14:10:20 2008
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
 -*               *    Run Time: 2008/04/08  08:00:16           *                 
-+*               *    Run Time: 2008/04/08  10:25:03           *                 
++*               *    Program:  LaGriT V2.003   SunOS          *                 
++*               *    date_compile: 2008/05/15                 *                 
++*               *    Run Time: 2008/05/20  14:10:19           *                 
 
 End Report from diff =========================================================
 All 19 successful!
