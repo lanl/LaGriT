@@ -640,7 +640,7 @@ c
 c
 c  check for comment - if so print and go to next command
 c
-      if(cmd_buff(1:1).eq.'*') then
+      if((cmd_buff(1:1).eq.'*').or.(cmd_buff(1:1).eq.'#')) then
          write(error_msg,'(a)')cmd_buff(1:80)
          call writloga('default',0,error_msg,0,icscode)
          if (clevels(nlevels)(1:14).eq.'interactive_lg')
