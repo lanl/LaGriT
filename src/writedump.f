@@ -550,6 +550,8 @@ CCCCCCC
 C
       elseif(idsb(1:lenidsb ).eq.'dumpavs' .or.
      *         ioption(1:3).eq.'avs' .or. 
+     *         ioption(1:8).eq.'att_node' .or. 
+     *         ioption(1:8).eq.'att_elem' .or. 
      *         ioption(1:7).eq.'geofest') then
 C
 C
@@ -578,6 +580,18 @@ C
                iopt_elements=1
                iopt_values_node=1
                iopt_values_elem=1
+               if(ioption(1:8).eq.'att_node')then
+                  iopt_points=0
+                  iopt_elements=0
+                  iopt_values_node=2
+                  iopt_values_elem=0
+               endif
+               if(ioption(1:8).eq.'att_elem')then
+                  iopt_points=0
+                  iopt_elements=0
+                  iopt_values_node=0
+                  iopt_values_elem=2
+               endif
                if(ioption(1:7).eq.'geofest')then
                   iopt_values_node=0
                   iopt_values_elem=0
@@ -709,11 +723,33 @@ C
                   iopt_values_elem=1
                endif
             endif
+C
+C    Reset flags
+C
+               if(ioption(1:8).eq.'att_node')then
+                  iopt_points=0
+                  iopt_elements=0
+                  iopt_values_node=2
+                  iopt_values_elem=0
+               endif
+               if(ioption(1:8).eq.'att_elem')then
+                  iopt_points=0
+                  iopt_elements=0
+                  iopt_values_node=0
+                  iopt_values_elem=2
+               endif
+C
             if(idsb(1:lenidsb ).eq.'dumpavs' .or.
-     *         ioption(1:3).eq.'avs')then
+     *         ioption(1:3).eq.'avs' .or.
+     *         ioption(1:8).eq.'att_node' .or.
+     *         ioption(1:8).eq.'att_elem')then
      
             if(ioption(1:4).eq.'avs2')then
                io_format = 2
+            elseif(ioption(1:8).eq.'att_node')then
+               io_format = 3
+            elseif(ioption(1:8).eq.'att_elem')then
+               io_format = 4
             else
                io_format = 1
             endif
@@ -722,6 +758,7 @@ C
      *         (iopt_elements .eq. 2) .or.
      *         (iopt_values_node .eq. 2) .or.
      *         (iopt_values_elem .eq. 2)) then
+                if(io_format .ne. 3 .and. io_format .ne. 4)then
                write(logmess,'(a,i4)')
      *    'WARNING: dump/avs  iopt_points= ', iopt_points
                call writloga('default',0,logmess,0,ierrw)
@@ -740,6 +777,7 @@ C
                write(logmess,'(a)')
      *    'WARNING: read/avs may not be able to read.'
                call writloga('default',0,logmess,0,ierrw)
+            endif
             endif
             call dumpavs(ifile(1:lenfile),cmo,
      *                   nsdtopo,nen,nef,
