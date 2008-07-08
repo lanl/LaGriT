@@ -812,7 +812,7 @@ C
         if(idumptype.eq.0)then
           write(iunit,*)'ZONE T="QUAD Zone"'
           write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
-     *                   'FEQUADRALATERAL' 
+     *                   'FEQUADRILATERAL' 
           write(iunit,*)'DATAPACKING=', 'BLOCK'
           vchlist(1:25) ='DT=(DOUBLE DOUBLE DOUBLE '
           vchoff=26

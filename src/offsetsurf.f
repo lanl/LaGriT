@@ -146,13 +146,14 @@ C
      &        itettypo(*),iteto(*),jteto(*),
      &        itetoffo(*),jtetoffo(*)
 C
-      real*8 dbarea,u1,v1,u2,v2,u3,v3,pi,xplane,yplane,zplane,
+      real*8 pi,xplane,yplane,zplane,
      *  x1,y1,z1,x2,y2,z2,x3,y3,z3,dcross,vx1,vy1,vz1,vx2,vy2,
      *  vz2,top,bot,ang1,ang2,ang3,anorm,d,scale1,scale2,scale3
       integer nnodes,ilen,icmotype,nelements,nsdgeom,
      *  nsdtopo,nen,nef,nee,mbndry,lenmm1,lenmm2,lenmm3,lenmm4,i,
      * itri,i1,i2,i3,inode,ics,icscode,i_count,if_keepatt,
      * lencmoname
+      integer if_xzero, if_yzero, if_zzero
       integer icharlnf 
 C
 C########################################################################
@@ -164,7 +165,7 @@ C     VECTOR NORMAL TO THIS TRIANGLE WITH MAGNITUDE EQUAL TO DOUBLE THE
 C     AREA IS GIVEN BY ( dbarea(y1,z1,y2,z2,y3,z3),
 C                        dbarea(z1,x1,z2,x2,z3,x3),
 C                        dbarea(x1,y1,x2,y2,x3,y3) ).
- 
+      real*8 u1,v1,u2,v2,u3,v3, dbarea
       dbarea(u1,v1,u2,v2,u3,v3)=(u2-u1)*(v3-v1)-(v2-v1)*(u3-u1)
 C
 C########################################################################
@@ -265,9 +266,38 @@ C
       call cmo_get_info('jtet',cmoout,ipjteto,ilen,icmotype,ier)
 C
 C     *******************************************************************
+C     Parse the fourth argument
+C
+      if(msgtype(4) .eq. 1) then
+          d = float(imsgin(4))
+      elseif(msgtype(4) .eq. 2) then
+          d = xmsgin(4)
+      else
+          write(logmess,830)
+ 830      format('WARNING offsetsurf: 4th argument must be a number.')
+          call writloga('default',0,logmess,0,ier)
+          write(logmess,831)
+ 831      format('WARNING offsetsurf: No action')
+          call writloga('default',0,logmess,0,ier)
+          logmess = 
+     1       'cmo/delete/'//cmoout(1:icharlnf(cmoout))//'; finish'     
+          call dotask(logmess,ier)
+          go to 9999
+      endif
+
+C
+C     *******************************************************************
+C     Parse the 5th,6th,7th and 8th arguments for keywords
+C     xzero, yzero, zzero, keepatt, keep_angle, keep_area
+C
       if_keepatt = 0
-      if((nwds .eq. 5).and.(msgtype(5) .eq. 3))then
-      if(cmsgin(5)(1:icharlnf(cmsgin(5))) .eq. 'keepatt')then
+      if_xzero = 1
+      if_yzero = 1
+      if_zzero = 1      
+C
+      do i = 5,8
+      if((nwds .ge. i).and.(msgtype(i) .eq. 3))then
+      if(cmsgin(i)(1:icharlnf(cmsgin(i))) .eq. 'keepatt')then
 C
 C        Compute node angle weighted normals and keep the
 C        vector components in three scalar attributes,
@@ -276,7 +306,7 @@ C
 C        These will be kept in both cmoin and cmoout
 C
          if_keepatt = 1
-      elseif(cmsgin(5)(1:icharlnf(cmsgin(5))) .eq. 'keep_angle')then
+      elseif(cmsgin(i)(1:icharlnf(cmsgin(i))) .eq. 'keep_angle')then
 C
 C        Compute node angle weighted normals and keep the
 C        vector components in three scalar attributes,
@@ -285,7 +315,7 @@ C
 C        These will be kept in both cmoin and cmoout
 C
          if_keepatt = 2
-      elseif(cmsgin(5)(1:icharlnf(cmsgin(5))) .eq. 'keep_area')then
+      elseif(cmsgin(i)(1:icharlnf(cmsgin(i))) .eq. 'keep_area')then
 C
 C        Compute node area weighted normals and keep the
 C        vector components in three scalar attributes,
@@ -294,8 +324,28 @@ C
 C        These will be kept in both cmoin and cmoout
 C
          if_keepatt = 3
+C
+C     *******************************************************************
+C
+      elseif(cmsgin(i)(1:icharlnf(cmsgin(i))) .eq. 'xzero')then
+C
+C        Compute the offset direction vector but set x component to zero.
+C
+         if_xzero = 0
+      elseif(cmsgin(i)(1:icharlnf(cmsgin(i))) .eq. 'yzero')then
+C
+C        Compute the offset direction vector but set y component to zero.
+C
+         if_yzero = 0
+      elseif(cmsgin(i)(1:icharlnf(cmsgin(i))) .eq. 'zzero')then
+C
+C        Compute the offset direction vector but set z component to zero.
+C
+         if_zzero = 0
       endif
       endif
+
+      enddo
 C
 C     *******************************************************************
 C     GET MEMORY FOR LOCAL ARRAYS.
@@ -349,10 +399,20 @@ C
          yplane = 0.0
          zplane = 0.0
       endif
-      elseif(nwds .eq. 7)then
-         xplane = xmsgin(5)
-         yplane = xmsgin(6)
-         zplane = xmsgin(7)
+      endif
+C
+C     Set direction vectors if user specified
+C
+      if((nwds .eq. 7) .and. 
+     1   (msgtype(5) .ne. 3) .and. 
+     2   (msgtype(6) .ne. 3) .and. 
+     3   (msgtype(7) .ne. 3))then
+         if(msgtype(5) .eq. 1)xplane = float(imsgin(5))
+         if(msgtype(5) .eq. 2)xplane =       xmsgin(5)
+         if(msgtype(6) .eq. 1)yplane = float(imsgin(6))
+         if(msgtype(6) .eq. 2)yplane =       xmsgin(6)
+         if(msgtype(7) .eq. 1)zplane = float(imsgin(7))
+         if(msgtype(7) .eq. 2)zplane =       xmsgin(7)
       endif
 C     *******************************************************************
 C     COMPUTE THE UNIT OUTWARD NORMALS FOP EACH TRIANGLE AND ASSIGN IT
@@ -570,11 +630,10 @@ C     ****************************************************************
 C     OFFSET THE NODE COORDINATES OF THE CURRENT SURFACE BY DISTANCE d
 C     IN THE DIRECTION OF EACH NODE'S OUTWARD NORMAL.
 C
-      d=xmsgin(4)
       do i=1,nnodes
-         xico(i)=xic(i)+d*xnorm(i)
-         yico(i)=yic(i)+d*ynorm(i)
-         zico(i)=zic(i)+d*znorm(i)
+         xico(i)=xic(i)+d*xnorm(i)*if_xzero
+         yico(i)=yic(i)+d*ynorm(i)*if_yzero
+         zico(i)=zic(i)+d*znorm(i)*if_zzero
          imt1o(i)=imt1(i)
          itp1o(i)=itp1(i)
       enddo
