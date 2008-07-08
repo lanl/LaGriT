@@ -194,7 +194,6 @@ C
          endif
       else
          write(logmess,6000)
- 3000    format(' RMMAT / material_number / [ALL|node|element] ')
          call writloga('default',0,logmess,0,ics)
       endif
 C
@@ -210,6 +209,18 @@ C
       call cmo_get_info('itp1',cmo,ipitp1,ilenc,itypc,icscode)
       call cmo_get_info('isn1',cmo,ipisn1,ilenc,itypc,icscode)
       call cmo_get_info('itetclr',cmo,ipitetclr,ilenc,itypc,icscode)
+C
+C     ******************************************************************
+C
+      if(nnodes .eq. 0)then
+         write(logmess,3005)
+ 3005    format('WARNING: RMMAT Number of nodes = 0 ')
+         call writloga('default',0,logmess,0,ics)
+         write(logmess,3006)
+ 3006    format('WARNING: RMMAT RETURN no action ')
+         call writloga('default',0,logmess,0,ics)
+         go to 9998
+       endif
 C
 C     ******************************************************************
 C     SET UP AN ARRARY THAT IDENTIFIES THE ALL BOUNDARY NODES.
@@ -317,7 +328,7 @@ C     ******************************************************************
 C
 C     RELEASE MEMORY FOR LOCAL VARIABLES IN THE PARTITION
 C
-      call mmrelprt('rmmat', icscode)
+ 9998 call mmrelprt('rmmat', icscode)
       write(logmess,6000) ndel,itetmrk
  6000 format(' RMMAT DUDDED ',i10,' POINTS: FLAGGED ',i10,' ELEMENTS')
       call writloga('default',0,logmess,0,icscode)
