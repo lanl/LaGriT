@@ -513,7 +513,7 @@ c
       do ic = istart, iend, istride
       do it = 1, ntets
         if(itetclr(it) .eq. ic)then
-           do in = 1, nelmnef(itettyp(it))
+           do in = 1,  nelmnen(itettyp(it))
                   imt1(itet1(itetoff(it)+in))=itetclr(it)
                   idone(itetclr(it)) = 1
            enddo
@@ -525,8 +525,11 @@ c
       enddo
 c
       call mmrelblk('idone',isubname,ipidone,icscode)
+      write(logmess,'(a,i12,a,i12,a,i12)')
+     1 'material # start= ', istart, ' end= ', iend,' stride= ',istride
+      call writloga('default',0,logmess,0,ics)
       write(logmess,'(i12,a,i12)')
-     *icount,' materials reset for imt1 out of a total of ',maxclr
+     *icount,' material numbers reset imt1 out of a maximum of ',maxclr
       call writloga('default',0,logmess,0,ics)
  
       endif
