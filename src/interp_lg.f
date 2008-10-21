@@ -99,7 +99,7 @@ C
       else
          cmo = cmsgin(3)
       endif
-      call cmo_exist(cmo,ierr)
+      call cmo_exist(cmo,ierror)
       if(ierror.ne.0) then
          write(logmess,'(a)')
      &        'Error in subroutine extrude: input MO does not exist'

@@ -8,6 +8,10 @@ C
 C     Adds the attribute "numbnd" if node based or "numbnd_e"
 C     option to current MO to which is written a representative
 C     node or element  number of each connected components.
+C     In addition, a node attribute id_numb is assigned to the nodes
+C     associated with each boundary component set. This is an integer
+C     that starts with 1 for the first component, 2 for the second, etc.
+C
 C     In the option with no
 C     second argument or second argument 'node', the edge based
 C     connectivity graph is traversed to determine then number of
@@ -105,6 +109,8 @@ C
       integer  isn1(1000000)
       pointer (ipnumbnd, numbnd)
       integer numbnd(1000000)
+      pointer (ipid_numb, id_numb)
+      integer id_numb(1000000)
       pointer (ipikey_tmp, ikey_tmp)
       integer ikey_tmp(1000000)
 C     
@@ -281,7 +287,23 @@ C
 C     Get the pointer to the newly created array
          call cmo_get_info('numbnd',cmo,ipnumbnd,ilen,ityp,icscode)
          if (icscode .ne. 0) call x3d_error(isubname,'cmo_get_info')
+      endif
          
+      call cmo_get_info('id_numb',cmo,ipid_numb,ilen,ityp,icscode)
+      if(icscode.ne.0) then         
+         dotask_command = 'cmo/addatt/' //
+     >        cmo(1:icharlnf(cmo)) //
+     >        '/' //
+     >        'id_numb' //
+     >        '/vint/scalar/nnodes/linear/permanent/afgx/0/' //
+     >        ' ; finish '
+         call dotaskx3d(dotask_command,ierror)
+         if (ierror.ne.0)
+     >        call x3d_error(isubname,'addatt boundry_components')
+C
+C     Get the pointer to the newly created array
+         call cmo_get_info('id_numb',cmo,ipid_numb,ilen,ityp,icscode)
+         if (icscode .ne. 0) call x3d_error(isubname,'cmo_get_info')
       endif
 C     
 C     If ijob = 2, add or check for an element  attribute called numbnd_e to cmo
@@ -589,18 +611,22 @@ C
             if(icount .eq. 0)then
                itest = numbnd(ikey_tmp(in))
                icount = icount + 1
+               id_numb(ikey_tmp(in)) = icount
             endif
             if(itest .eq. numbnd(ikey_tmp(in)))then
                ic_set(icount) = ic_set(icount) + 1
+               id_numb(ikey_tmp(in)) = icount
             else
                write(logmess,210)icount, itest, ic_set(icount)
                call writloga('default',0,logmess,0,ierrw)
                icount = icount + 1
+               id_numb(ikey_tmp(in)) = icount
                ic_set(icount) = ic_set(icount) + 1
                itest = numbnd(ikey_tmp(in))
             endif
          endif
       enddo
+      
       write(logmess,210)icount, itest, ic_set(icount)
       call writloga('default',0,logmess,1,ierrw)
  210  format(i7,10x,i10,10x,i10)

@@ -1,6 +1,4 @@
- 
- 
- 
+
 C******************************************************************************
 C*
 C*  EXTRACT_SURFMESH -- Extract the boundary of a mesh (surface mesh from a
@@ -23,9 +21,11 @@ C*    JTET is not set, because it is possible, in general, for more than two
 C*    cells to share a face in a network.  The ICONTAB array is copied from the
 C*    input mesh object to the output mesh object.
 C*
-C*    Two element based attributes, "itetclr0" and "itetclr1" are added to the output
+C*    Four element based attributes, "itetclr0", "itetclr1" , "idelem0", "idelem1",
+C*    are added to the output
 C*    mesh indicating the material regions on each side of the mesh faces, i.e., the
 C*    color of elements that existed on each side of a face in the original mesh.
+C*    The attributes idelem0 and idelem1 identify the source element numbers.
 C*    The convention is that the "itetclr0" indicates the color of the
 C*     elements on the
 C*    side of the face normal (0 if the face is on an external boundary) and
@@ -39,8 +39,8 @@ C*                |                                       itetclr1 = 5
 C*               Face
 C*
 C*    The output mesh object is given an additional node-based attribute named
-C*    "map" which provides the mapping from nodes in the extracted interface
-C*    network to (parent) nodes in the input mesh object; that is, MAP(J) is
+C*    "idnode0" which provides the mapping from nodes in the extracted interface
+C*    network to (parent) nodes in the input mesh object; that is, IDNODE0(J) is
 C*    the parent node in the input mesh object that corresponds to node J in
 C*    the output mesh object.
 C*
@@ -130,11 +130,14 @@ C      ** as the face element type.  (Move into local_element.h/blockcom.f?)
  
       pointer (ipitetn,itetn), (ipitetoffn,itetoffn), (ipcpmap,cpmap),
      &        (ipitettypn,itettypn), (ipicr1n,icr1n), (ipfmap,fmap),
-     &        (ipicontabn,icontabn), (ipmap,bmap), (ipclr0,clr0),
-     &        (ipclr1,clr1), (ipfacecol,facecol)
+     &        (ipicontabn,icontabn), (ipclr0,clr0),
+     &        (ipclr1,clr1), (ipfacecol,facecol), (ipitetclrn,itetclrn),
+     &        (ipidnode0,idnode0), 
+     &        (ipidelem0,idelem0), (ipidelem1,idelem1)
       integer itetn(*), itetoffn(*), itettypn(*), icr1n(*),
-     &        icontabn(*), bmap(*), cpmap(*), fmap(*),
-     &        clr0(*), clr1(*), facecol(*), uniqcols(10000)
+     &        icontabn(*), cpmap(*), fmap(*), itetclrn(*),
+     &        clr0(*), clr1(*), facecol(*), uniqcols(10000),
+     &        idnode0(*), idelem0(*), idelem1(*)
  
       integer i, j, k, kk, m, n, ilen, ityp, nnnpe, nnfpe, nnepe, jnbr
       integer nncells, nnnodes, minft, maxft, nfpe, nconbnd, node
@@ -299,6 +302,7 @@ C     *** Create the output mesh object
  
       call cmo_newlen (cmoout, ierror)
  
+      call cmo_get_info('itetclr',cmoout,ipitetclrn,ilen,ityp,ierror)
       call cmo_get_info('itet',cmoout,ipitetn,ilen,ityp,ierror)
       call cmo_get_info('itetoff',cmoout,ipitetoffn,ilen,ityp,ierror)
       call cmo_get_info('itettyp',cmoout,ipitettypn,ilen,ityp,ierror)
@@ -307,18 +311,7 @@ C     *** Create the output mesh object
       call cmo_get_info('yic',cmoout,ipyicn,ilen,ityp,ierror)
       call cmo_get_info('zic',cmoout,ipzicn,ilen,ityp,ierror)
  
-C      ** Add the output->input node mapping as an attribute of the
-C      ** output mesh object.
-      cbuf = "cmo/addatt/" // cmoout //
-     &       "/map/vint/scalar/nnodes////0; finish"
-      call dotaskx3d (cbuf, ierror)
-      call cmo_get_info ("map", cmoout, ipmap, ilen, ityp, ierror)
-      do j = 1, nnodes
-        if (fmap(j) .gt. 0) then
-          bmap(fmap(j)) = j
-        end if
-      end do
- 
+
 C     itetclr0 is the color of the tet on the +ve side of the mesh face
 C     (i.e. on the side of the normal) and itetclr1 is the color of the
 C     tet on the -ve side of the mesh face (i.e. on the opposite side
@@ -332,12 +325,38 @@ C     of the mesh face normal)
      &       "/itetclr1/vint/scalar/nelements////0; finish"
       call dotaskx3d (cbuf, ierror)
       call cmo_get_info("itetclr1", cmoout, ipclr1, ilen, ityp, ierror)
+C
+C     Create array to hold node numbers of input mesh that generate
+C     output mesh nodes
+C
+      cbuf = "cmo/addatt/" // cmoout //
+     &       "/idnode0/vint/scalar/nnodes////0; finish"
+      call dotaskx3d (cbuf, ierror)
+      call cmo_get_info("idnode0", cmoout,ipidnode0,ilen,ityp, ierror)
+C
+C     Create array to hold element numbers of 3D input mesh that occur 
+C     on either side of output mesh face
+C
+      cbuf = "cmo/addatt/" // cmoout //
+     &       "/idelem0/vint/scalar/nelements////0; finish"
+      call dotaskx3d (cbuf, ierror)
+      call cmo_get_info("idelem0", cmoout,ipidelem0,ilen,ityp, ierror)
+      cbuf = "cmo/addatt/" // cmoout //
+     &       "/idelem1/vint/scalar/nelements////0; finish"
+      call dotaskx3d (cbuf, ierror)
+      call cmo_get_info("idelem1", cmoout,ipidelem1,ilen,ityp, ierror)
+
       cbuf = "cmo/addatt/" // cmoout //
      &       "/facecol/vint/scalar/nelements////0; finish"
       call dotaskx3d (cbuf, ierror)
       call cmo_get_info("facecol", cmoout,ipfacecol, ilen, ityp, ierror)
- 
- 
+C
+      do j = 1, nnodes
+        if (fmap(j) .gt. 0) then
+          idnode0(fmap(j)) = j
+        end if
+      end do
+  
 C     ***
 C     *** Second pass through the cells.
  
@@ -380,10 +399,13 @@ C     above, we will get a consistent direction of faces for each boundary
 C
  
               clr1(n) = itetclr(j)
+              idelem1(n) = j
               if (jnbr .eq. 0) then
                  clr0(n) = 0
+                 idelem0(n) = 0
               else
                  clr0(n) = itetclr(jnbr)
+                 idelem0(n) = jnbr
               endif
  
 C
@@ -408,10 +430,12 @@ C
  
  99           if (found .eq. 1) then
                  facecol(n) = kk
+                 itetclrn(n) = kk
               else
                  ncols = ncols + 1
                  uniqcols(ncols) = tmpcol
                  facecol(n) = ncols
+                 itetclrn(n) = ncols
               endif
             endif
           endif
@@ -424,18 +448,18 @@ C     *** Copy node-based data into new mesh object.
       if (geom_dim .eq. 2) then
  
         do j = 1, nnnodes
-          xicn(j) = xic(bmap(j))
-          yicn(j) = yic(bmap(j))
-          icr1n(j) = icr1(bmap(j))
+          xicn(j) = xic(idnode0(j))
+          yicn(j) = yic(idnode0(j))
+          icr1n(j) = icr1(idnode0(j))
         end do
  
       else if (geom_dim .eq. 3) then
  
         do j = 1, nnnodes
-          xicn(j) = xic(bmap(j))
-          yicn(j) = yic(bmap(j))
-          zicn(j) = zic(bmap(j))
-          icr1n(j) = icr1(bmap(j))
+          xicn(j) = xic(idnode0(j))
+          yicn(j) = yic(idnode0(j))
+          zicn(j) = zic(idnode0(j))
+          icr1n(j) = icr1(idnode0(j))
         end do
  
       end if

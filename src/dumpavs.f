@@ -26,6 +26,8 @@ C        iopt_values_elem = 1 Output element attribute information (DEFAULT)
 C        iopt_values_elem = 2 Output element attribute information without node number in first column
 C        io_format = 1   All attributes are written as real numbers. (dump/avs/...)
 C        io_format = 2   Attributes are written as real and integer (slower method) (dump/avs2/...).
+C        io_format = 3   Node Attributes are written as real and integer, header info lines start with #
+C        io_format = 4   Element Attributes are written as real and integer, header info lines start with #
 C
 C     OUTPUT ARGUMENTS -
 C
@@ -249,6 +251,7 @@ C
      *  i6,i5,i4,i3,i2,i1,index,it,j,iflag,len1,i,nvalues,
      *  icscode,ierror,iunit,iopt_points,iopt_elements,
      *  iopt_values_node,iopt_values_elem,io_format,
+     *  io_format_node, io_format_elem,
      *  mbndry,nelements,nnodes,ihcycle,nvaluese,lenval,lvalues,
      *  lvaluese,izero,k,irowlen,irowlene, ncolumn_max
       integer nnodes_io,nelements_io,nvalues_node,nvalues_elem
@@ -310,6 +313,20 @@ C
      *                  ipjtetoff,ilen,ityp,ierr)
       call cmo_get_info('itet',cmo,ipitet,ilen,ityp,ierr)
 C
+C     ******************************************************************
+C
+      if(io_format .eq. 3)then
+         io_format = 2
+         io_format_node = 1
+         io_format_elem = 0
+      elseif(io_format .eq. 4)then
+         io_format = 2
+         io_format_node = 0
+         io_format_elem = 1
+      else
+         io_format_node = 0
+         io_format_elem = 0
+      endif
 C
 C     ******************************************************************
 C     Count the number of AVS fields to write
@@ -429,9 +446,15 @@ C       iopt_values_elem toggle element attributes
       else
          nvalues_elem = izero
       endif
-      write(iunit,9030)nnodes_io,nelements_io,nvalues_node,nvalues_elem,
-     *     izero
-      
+      if((io_format_node .ne. 0) .or. (io_format_elem .ne. 0))then
+       write(iunit,9029)'# ',
+     *   nnodes_io,nelements_io,nvalues_node,nvalues_elem,izero
+      else
+       write(iunit,9030)
+     *   nnodes_io,nelements_io,nvalues_node,nvalues_elem,izero
+      endif
+     
+ 9029 format(a2,5(i10,1x))
  9030 format(5(i10,1x))
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
@@ -743,8 +766,13 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
       if (iopt_values_node.eq.0 .or. nvalues.eq.0) go to 9995
       if (iopt_values_node.ge.1) then
+         if(io_format_node .eq. 0)then
          write(iunit,9060) nvalues,(iranks(idx(i)),i=1,nvalues)
  9060    format(i5.5,100(1x,i2))
+         elseif(io_format_node .eq. 1)then
+         write(iunit,9061)'# ', nvalues,(iranks(idx(i)),i=1,nvalues)
+ 9061    format(a,i5.5,100(1x,i2))
+         endif
          do i=1,nmcmoatt
             len1=icharlnf(cioflags(i))
             do j=1,len1
@@ -753,14 +781,28 @@ C
                   len2=icharlnf(cnames(i))
                   call mmfindbk(cnames(i),cmo,iadr,length,icscode)
                   call mmgettyp(iadr,itypout,icscode)
+                  if(io_format_node .eq. 0)then
                   if(itypout.eq.1) then
-                        write(iunit,9070) cnames(i)(1:len2),', integer '
+                   write(iunit,9070) cnames(i)(1:len2),', integer '
                   elseif(itypout.eq.2) then
-                        write(iunit,9070) cnames(i)(1:len2),', real '
+                   write(iunit,9070) cnames(i)(1:len2),', real '
                   else
-                        write(iunit,9070) cnames(i)(1:len2),', no units'
+                   write(iunit,9070) cnames(i)(1:len2),', no units'
+                  endif
+                  elseif(io_format_node .eq. 1)then
+C
+C Prepend lines with #
+C
+                  if(itypout.eq.1) then
+                   write(iunit,9071)'# ', cnames(i)(1:len2),', integer '
+                  elseif(itypout.eq.2) then
+                   write(iunit,9071)'# ', cnames(i)(1:len2),', real '
+                  else
+                   write(iunit,9071)'# ', cnames(i)(1:len2),', no units'
+                  endif
                   endif
  9070             format(a,a)
+ 9071             format(a,a,a)
                endif
             enddo
          enddo
@@ -961,7 +1003,11 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C     If there are no elements to write, skip this part
  9995 if (iopt_values_elem.eq.0 .or. nvaluese.eq.0) go to 9999
       if(iopt_values_elem.ge.1) then
+         if(io_format_elem .eq. 0)then
          write(iunit,9060) nvaluese,(iranks(idxe(i)),i=1,nvaluese)
+         elseif(io_format_elem .eq. 1)then
+         write(iunit,9061)'# ', nvaluese,(iranks(idx(i)),i=1,nvaluese)
+         endif
          do i=1,nmcmoatt
  
             len1=icharlnf(cioflags(i))
@@ -972,12 +1018,22 @@ C     If there are no elements to write, skip this part
                   len2=icharlnf(cnames(i))
                   call mmfindbk(cnames(i),cmo,iadr,length,icscode)
                   call mmgettyp(iadr,itypout,icscode)
+                  if(io_format_elem .eq. 0)then
                   if(itypout.eq.1) then
-                        write(iunit,9070) cnames(i)(1:len2),', integer '
+                   write(iunit,9070) cnames(i)(1:len2),', integer '
                   elseif(itypout.eq.2) then
-                        write(iunit,9070) cnames(i)(1:len2),', real '
+                   write(iunit,9070) cnames(i)(1:len2),', real '
                   else
-                        write(iunit,9070) cnames(i)(1:len2),', no units'
+                   write(iunit,9070) cnames(i)(1:len2),', no units'
+                  endif
+                  elseif(io_format_elem .eq. 1)then
+                  if(itypout.eq.1) then
+                   write(iunit,9071)'# ', cnames(i)(1:len2),', integer '
+                  elseif(itypout.eq.2) then
+                   write(iunit,9071)'# ', cnames(i)(1:len2),', real '
+                  else
+                   write(iunit,9071)'# ', cnames(i)(1:len2),', no units'
+                  endif
                   endif
                endif
             enddo

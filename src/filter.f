@@ -298,7 +298,21 @@ C
       call cmo_get_info('itet',cmo,ipitet,len,itype,ierr)
       if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
 C
-C     ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+C     ******************************************************************
+C
+C     Return if you have an empty mesh object
+C
+      if(nnodes .eq. 0)then
+         write(logmess,3005)
+ 3005    format('WARNING: FILTER Number of nodes = 0 ')
+         call writloga('default',0,logmess,0,ierr)
+         write(logmess,3006)
+ 3006    format('WARNING: FILTER RETURN no action ')
+         call writloga('default',0,logmess,0,ierr)
+         go to 9999
+       endif
+C
+C     ******************************************************************
 C
 C        2) Do we have an interface.
 C             int1() =  0 ==> not an interface point.
