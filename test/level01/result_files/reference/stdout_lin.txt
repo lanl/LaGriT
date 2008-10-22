@@ -1,14 +1,14 @@
 OS: linux2
 USING: /home/tam/src/lagrit/bin/lagrit_lin_o
-Top directory: /home/tam/src/lagrit/test/mylevel01 at Tue Apr  8 12:17:43 2008
+Top directory: /home/tam/src/lagrit/test/level01 at Wed Oct 22 10:04:16 2008
  1  Test Directory ./setpts -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:17:43           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:16           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -343,9 +343,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:17:43           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:16           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -974,9 +974,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:17:47           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:20           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1402,9 +1402,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:17:48           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:21           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1506,6 +1506,8 @@ finish
 finish                                                                          
 cmo/addatt/cmo1/numbnd/vint/scalar/nnodes/linear/permanent/afgx/0/              
 finish                                                                          
+cmo/addatt/cmo1/id_numb/vint/scalar/nnodes/linear/permanent/afgx/0/             
+finish                                                                          
 sort/-def-/index/-def-/ikey_tmp/numbnd                                          
 cmo/addatt//ikey_tmp/vint/scalar/nnodes///gax/0                                 
 finish                                                                          
@@ -1529,9 +1531,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:17:50           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:23           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -5575,9 +5577,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:17:53           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:26           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6291,9 +6293,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:17:53           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:27           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6775,9 +6777,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:17:54           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:28           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7271,9 +7273,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:17:55           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:28           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7773,7 +7775,8 @@ Attribute: itp1
  
  Enter a command
 resetpts cell_color 2,1,-1                                                      
-           2 materials reset for imt1 out of a total of            2            
+material # start=            2 end=            1 stride=           -1           
+           2 material numbers reset imt1 out of a maximum of            2       
  Enter a command
 cmo/status/mo2                                                                  
  
@@ -8893,9 +8896,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:17:55           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:29           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -10248,9 +10251,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:17:56           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:30           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -10671,9 +10674,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:18:00           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:34           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -10923,9 +10926,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:18:00           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:35           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -11339,9 +11342,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:18:01           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:35           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -15394,9 +15397,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:18:02           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:36           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17056,9 +17059,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:18:03           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:37           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17185,6 +17188,8 @@ finish
 finish                                                                          
 cmo/addatt/cmo1/numbnd/vint/scalar/nnodes/linear/permanent/afgx/0/              
 finish                                                                          
+cmo/addatt/cmo1/id_numb/vint/scalar/nnodes/linear/permanent/afgx/0/             
+finish                                                                          
 sort/-def-/index/-def-/ikey_tmp/numbnd                                          
 cmo/addatt//ikey_tmp/vint/scalar/nnodes///gax/0                                 
 finish                                                                          
@@ -17208,9 +17213,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:18:06           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:40           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17708,9 +17713,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:18:06           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:41           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18074,9 +18079,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   Linux          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  12:18:07           *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  10:04:41           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 

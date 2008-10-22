@@ -1,0 +1,928 @@
+Start in directory: /private/var/automount/tam/src/lagrit/test/mylevel01 at Tue Apr  8 12:23:29 2008
+
+Diff Summary ===================================================================
+
+1 Check Directory ./setpts --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+1 Done with Directory ./setpts -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./setpts/reference/outx3dgen Tue Apr  8 10:15:19 2008
++++ ./setpts/outx3dgen Tue Apr  8 12:21:47 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:58:18           *                 
++*               *    Run Time: 2008/04/08  12:21:46           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+2 Check Directory ./addmesh_add --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+2 Done with Directory ./addmesh_add -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./addmesh_add/reference/outx3dgen Tue Apr  8 10:12:20 2008
++++ ./addmesh_add/outx3dgen Tue Apr  8 12:21:56 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:58:19           *                 
++*               *    Run Time: 2008/04/08  12:21:47           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+3 Check Directory ./createpts --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+3 Done with Directory ./createpts -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./createpts/reference/outx3dgen Tue Apr  8 10:13:05 2008
++++ ./createpts/outx3dgen Tue Apr  8 12:21:58 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:58:38           *                 
++*               *    Run Time: 2008/04/08  12:21:56           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+4 Check Directory ./zone_outside --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 106 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+4 Done with Directory ./zone_outside -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./zone_outside/reference/outx3dgen Tue Apr  8 10:21:07 2008
++++ ./zone_outside/outx3dgen Tue Apr  8 12:22:02 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:58:39           *                 
++*               *    Run Time: 2008/04/08  12:21:58           *                 
+@@ -106,1 +106,1 @@
+-   1 different exterior boundary components                                     
++   1  different exterior boundary components                                    
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+5 Check Directory ./interp_voronoi --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+5 Done with Directory ./interp_voronoi -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./interp_voronoi/reference/outx3dgen Tue Apr  8 10:13:33 2008
++++ ./interp_voronoi/outx3dgen Tue Apr  8 12:22:22 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:58:49           *                 
++*               *    Run Time: 2008/04/08  12:22:02           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+6 Check Directory ./io_agf_simple --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 2 diffs at line 484 >>
+Test has 3 missing lines in this chunk.
+-cmo/addatt/cmogmv/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0
++
+-finish
++ GMV read error: empty file
+- no geometry for mesh object
++
+-geniee
++
+-finish
++
+Lines Essentially the Same: -3 out of 2
+
+Test has 1 diffs at line 508 >>
+-    number of nodes =             8        number of elements =            5
++    number of nodes =             0        number of elements =            0
+Lines Essentially the Same: 0 out of 1
+
+Test has 1 diffs at line 527 >>
+-    number of nodes =             8        number of elements =            5
++    number of nodes =             0        number of elements =            0
+Lines Essentially the Same: 0 out of 1
+
+Test has 1 diffs at line 537 >>
+-  4          nnodes  INT     scalar          scalar const perma   l  8.000E+00
++  4          nnodes  INT     scalar          scalar const perma   l  0.000E+00
+Lines Essentially the Same: 0 out of 1
+
+Test has 1 diffs at line 540 >>
+-  7       nelements  INT     scalar          scalar const perma   l  5.000E+00
++  7       nelements  INT     scalar          scalar const perma   l  0.000E+00
+Lines Essentially the Same: 0 out of 1
+
+Test has 5 diffs at line 567 >>
+- 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00
++ 37         ipointi  INT     scalar          scalar const perma   l  0.000E+00
+- 38         ipointj  INT     scalar          scalar const perma   l  8.000E+00
++ 38         ipointj  INT     scalar          scalar const perma   l  0.000E+00
+Lines Essentially the Same: 3 out of 5
+
+Test has 3 diffs at line 584 >>
+- 51            xmin REAL     scalar          scalar const perma   l  0.000E+00
++ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00
+- 52            ymin REAL     scalar          scalar const perma   l  0.000E+00
++ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00
+- 53            zmin REAL     scalar          scalar const perma   l  0.000E+00
++ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00
+Lines Essentially the Same: 0 out of 3
+
+Test has 0 diffs at line 599 >>
+Test has 1 missing lines in this chunk.
+- 66           ccoef VDOU     scalar          nnodes linea perma gxa  0.000E+00
++
+Lines Essentially the Same: -1 out of 0
+2 comment lines.
+19 lines failed.
+6 Done with Directory ./io_agf_simple -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./io_agf_simple/reference/outx3dgen Tue Apr  8 10:13:57 2008
++++ ./io_agf_simple/outx3dgen Tue Apr  8 12:22:25 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:59:05           *                 
++*               *    Run Time: 2008/04/08  12:22:22           *                 
+@@ -484,5 +484,2 @@
+-cmo/addatt/cmogmv/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0          
+-finish                                                                          
+- no geometry for mesh object                                                    
+-geniee                                                                          
+-finish                                                                          
++ 
++ GMV read error: empty file                                                     
+@@ -511,1 +508,1 @@
+-    number of nodes =             8        number of elements =            5    
++    number of nodes =             0        number of elements =            0    
+@@ -530,1 +527,1 @@
+-    number of nodes =             8        number of elements =            5    
++    number of nodes =             0        number of elements =            0    
+@@ -540,1 +537,1 @@
+-  4          nnodes  INT     scalar          scalar const perma   l  8.000E+00  
++  4          nnodes  INT     scalar          scalar const perma   l  0.000E+00  
+@@ -543,1 +540,1 @@
+-  7       nelements  INT     scalar          scalar const perma   l  5.000E+00  
++  7       nelements  INT     scalar          scalar const perma   l  0.000E+00  
+@@ -570,5 +567,5 @@
+- 34        epsilonl REAL     scalar          scalar const perma   l  3.846E-13  
+- 35        epsilona REAL     scalar          scalar const perma   l  6.661E-13  
+- 36        epsilonv REAL     scalar          scalar const perma   l  2.220E-13  
+- 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+- 38         ipointj  INT     scalar          scalar const perma   l  8.000E+00  
++ 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
++ 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
++ 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
++ 37         ipointi  INT     scalar          scalar const perma   l  0.000E+00  
++ 38         ipointj  INT     scalar          scalar const perma   l  0.000E+00  
+@@ -587,3 +584,3 @@
+- 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+- 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+- 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
++ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
++ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
++ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
+@@ -602,1 +599,0 @@
+- 66           ccoef VDOU     scalar          nnodes linea perma gxa  0.000E+00  
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+7 Check Directory ./refine_octree --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+7 Done with Directory ./refine_octree -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./refine_octree/reference/outx3dgen Tue Apr  8 10:14:12 2008
++++ ./refine_octree/outx3dgen Tue Apr  8 12:22:28 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:59:07           *                 
++*               *    Run Time: 2008/04/08  12:22:25           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+8 Check Directory ./addmesh_doublemesh --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+8 Done with Directory ./addmesh_doublemesh -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./addmesh_doublemesh/reference/outx3dgen Tue Apr  8 10:12:42 2008
++++ ./addmesh_doublemesh/outx3dgen Tue Apr  8 12:22:31 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:59:11           *                 
++*               *    Run Time: 2008/04/08  12:22:28           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+9 Check Directory ./rmpoint --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+9 Done with Directory ./rmpoint -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./rmpoint/reference/outx3dgen Tue Apr  8 10:15:11 2008
++++ ./rmpoint/outx3dgen Tue Apr  8 12:22:38 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:59:14           *                 
++*               *    Run Time: 2008/04/08  12:22:31           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+10 Check Directory ./refine_octree_prd --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 5 diffs at line 82 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 158 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 221 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 284 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 347 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 412 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 430 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 448 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 466 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 484 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 502 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 570 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 657 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 676 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 695 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 714 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 869 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 929 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 1015 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 5 diffs at line 1215 >>
+Lines Essentially the Same: 5 out of 5
+
+Test has 1 diffs at line 1226 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+10 Done with Directory ./refine_octree_prd -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./refine_octree_prd/reference/outx3dgen Tue Apr  8 10:14:47 2008
++++ ./refine_octree_prd/outx3dgen Tue Apr  8 12:22:44 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:59:19           *                 
++*               *    Run Time: 2008/04/08  12:22:38           *                 
+@@ -82,5 +82,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -158,5 +158,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -221,5 +221,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -284,5 +284,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -347,5 +347,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -412,5 +412,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -430,5 +430,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -448,5 +448,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -466,5 +466,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -484,5 +484,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -502,5 +502,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -570,5 +570,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -657,5 +657,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -676,5 +676,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -695,5 +695,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -714,5 +714,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -869,5 +869,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -929,5 +929,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -1015,5 +1015,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -1215,5 +1215,5 @@
+- ELMTESTD WARNING:   0 faces are part of jtet loops                             
+- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+-         or diff repeated nodes, jtet_reduce_nnd=  0                            
+- ELMTESTD WARNING: mesh has   0 degenerate elements                             
+-         and   0 self-degenerate elements                                       
++ ELMTESTD WARNING:   0  faces are part of jtet loops                            
++ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
++         or diff repeated nodes, jtet_reduce_nnd=  0                            
++ ELMTESTD WARNING: mesh has   0  degenerate elements                            
++         and   0  self-degenerate elements                                      
+@@ -1226,1 +1226,1 @@
+- geniee: mesh has   11 jtet loops, max cycle length=  4                         
++ geniee: mesh has   11  jtet loops, max cycle length=  4                        
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+11 Check Directory ./smooth --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 110 >>
+-          -0.30000D+01    0.10550D+02   -0.41633D-16
++          -0.30000D+01    0.10550D+02   -0.27756D-16
+Lines Essentially the Same: 0 out of 1
+
+Test has 1 diffs at line 112 >>
+-           0.17000D+02    0.80000D+00   -0.41633D-16
++           0.17000D+02    0.80000D+00   -0.27756D-16
+Lines Essentially the Same: 0 out of 1
+2 comment lines.
+2 lines failed.
+11 Done with Directory ./smooth -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./smooth/reference/outx3dgen Tue Apr  8 10:15:28 2008
++++ ./smooth/outx3dgen Tue Apr  8 12:22:49 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:59:23           *                 
++*               *    Run Time: 2008/04/08  12:22:44           *                 
+@@ -110,1 +110,1 @@
+-          -0.30000D+01    0.10550D+02   -0.41633D-16                            
++          -0.30000D+01    0.10550D+02   -0.27756D-16                            
+@@ -112,1 +112,1 @@
+-           0.17000D+02    0.80000D+00   -0.41633D-16                            
++           0.17000D+02    0.80000D+00   -0.27756D-16                            
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+12 Check Directory ./connect_cube --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+12 Done with Directory ./connect_cube -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./connect_cube/reference/outx3dgen Tue Apr  8 10:12:55 2008
++++ ./connect_cube/outx3dgen Tue Apr  8 12:22:51 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:59:39           *                 
++*               *    Run Time: 2008/04/08  12:22:49           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+13 Check Directory ./addmesh_append --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+13 Done with Directory ./addmesh_append -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./addmesh_append/reference/outx3dgen Tue Apr  8 10:12:32 2008
++++ ./addmesh_append/outx3dgen Tue Apr  8 12:22:53 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:59:41           *                 
++*               *    Run Time: 2008/04/08  12:22:51           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+14 Check Directory ./interp_map --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+14 Done with Directory ./interp_map -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./interp_map/reference/outx3dgen Tue Apr  8 10:13:22 2008
++++ ./interp_map/outx3dgen Tue Apr  8 12:23:10 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:59:43           *                 
++*               *    Run Time: 2008/04/08  12:22:53           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+15 Check Directory ./interp_continuous --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+15 Done with Directory ./interp_continuous -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./interp_continuous/reference/outx3dgen Tue Apr  8 10:13:14 2008
++++ ./interp_continuous/outx3dgen Tue Apr  8 12:23:18 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  07:59:54           *                 
++*               *    Run Time: 2008/04/08  12:23:10           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+16 Check Directory ./zone_outside_minmax --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 129 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+16 Done with Directory ./zone_outside_minmax -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./zone_outside_minmax/reference/outx3dgen Tue Apr  8 10:21:20 2008
++++ ./zone_outside_minmax/outx3dgen Tue Apr  8 12:23:23 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  08:00:00           *                 
++*               *    Run Time: 2008/04/08  12:23:18           *                 
+@@ -129,1 +129,1 @@
+-   1 different exterior boundary components                                     
++   1  different exterior boundary components                                    
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+17 Check Directory ./refine_recon_quality --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+17 Done with Directory ./refine_recon_quality -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./refine_recon_quality/reference/outx3dgen Tue Apr  8 10:14:58 2008
++++ ./refine_recon_quality/outx3dgen Tue Apr  8 12:23:25 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  08:00:12           *                 
++*               *    Run Time: 2008/04/08  12:23:23           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+18 Check Directory ./intrp_2D_sizes --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+18 Done with Directory ./intrp_2D_sizes -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./intrp_2D_sizes/reference/outx3dgen Tue Apr  8 10:13:46 2008
++++ ./intrp_2D_sizes/outx3dgen Tue Apr  8 12:23:27 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  08:00:14           *                 
++*               *    Run Time: 2008/04/08  12:23:25           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+19 Check Directory ./surface --------------------------
+
+Test has 1 diffs at line 5 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+No lines differ.
+19 Done with Directory ./surface -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./surface/reference/outx3dgen Tue Apr  8 10:20:56 2008
++++ ./surface/outx3dgen Tue Apr  8 12:23:28 2008
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
++*               *    Program:  LaGriT V2.002   Darwin         *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2008/04/08  08:00:16           *                 
++*               *    Run Time: 2008/04/08  12:23:27           *                 
+
+End Report from diff =========================================================
+All checks complete, 2 directories failed out of 19
+  ./io_agf_simple Error: 19 lines failed.
+  ./smooth Error: 2 lines failed.
+

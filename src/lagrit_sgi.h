@@ -10,7 +10,7 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=2)
-      parameter      (v_minor=003)
+      parameter      (v_minor=004)
 c
       character*22   date_compile
       character*8    os_name
@@ -18,7 +18,7 @@ c
 c
       data my_name      /'lagritgen'/
       data os_name      /'IRIX64  '/
-      data date_compile /'2008/05/15            '/
+      data date_compile /'2008/10/21            '/
 c
       integer         NCall
       save            NCall

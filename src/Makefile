@@ -104,8 +104,8 @@ endif
 # Mac OSX ------------------------------
 ifeq ($(OPSYS), Darwin)
 OSTAG = _mac
-FC = /Applications/Absoft/bin/f77 
-FC90 = /Applications/Absoft/bin/f90 
+FC = /Applications/Absoft9.5/bin/f77 
+FC90 = /Applications/Absoft9.5/bin/f90 
 CC= cc 
 FFLAGS = -f -N113 -N90 -B19 -O -q -w 
 FF90FLAGS = -YEXT_NAMES=LCS  

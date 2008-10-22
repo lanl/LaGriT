@@ -1,4 +1,5 @@
-Directory to hold executable files.
+Directory to hold LaGriT executable files.
+Online release notes: http://lagrit.lanl.gov/release.shtml
 
 mac = MAC OSX with Absoft
 Darwin sundog.local 8.10.0 Darwin Kernel Version 8.10.0: Wed May 23 16:50:59 PDT 2007; root:xnu-792.21.3~1/RELEASE_PPC Power Macintosh powerpc
@@ -10,6 +11,28 @@ sun = SunOS
 voronoi 5.9 Generic_122300-02 sun4u sparc SUNW,Sun-Blade-1000 
 
 sgi, sgi32, and sgi64 IRIX64 are no longer supported but included
+
+VERSION 2.004
+
+-rwxr-xr-x  1 tam radiusd  6764016 Oct 22 08:12 lagrit_mac_o*
+-rwxr-xr-x  1 tam radiusd 13419232 Oct 22 08:12 lagrit_mac_g*
+-rwxr-xr-x  1 tam radiusd 11114912 Oct 21 14:50 lagrit_sun_o*
+-rwxr-xr-x  1 tam radiusd 35258368 Oct 21 14:50 lagrit_sun_g*
+-rwxr-xr-x  1 tam radiusd  9411367 Oct 21 13:50 lagrit_lin_o*
+-rwxr-xr-x  1 tam radiusd 13933505 Oct 21 13:49 lagrit_lin_g*
+-rwxr-xr-x  1 tam radiusd  7649544 Oct 21 13:17 lagrit_sgi_o*
+-rwxr-xr-x  1 tam radiusd 11586984 Oct 21 13:17 lagrit_sgi_g*
+-rwxr-xr-x  1 tam radiusd  7649544 Oct 21 12:40 lagrit_sgi32_o*
+-rwxr-xr-x  1 tam radiusd 11586984 Oct 21 12:40 lagrit_sgi32_g*
+
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V2.004   Linux          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  08:46:51           *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
 
 
 VERSION 2.003

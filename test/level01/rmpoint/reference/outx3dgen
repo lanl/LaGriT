@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  07:59:14           *                 
+*               *    Program:  LaGriT V2.004   SunOS          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  09:04:39           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -456,7 +456,8 @@ Attribute: itp1
         60         10                                                           
  
 resetpts cell_color 2,1,-1                                                      
-           2 materials reset for imt1 out of a total of            2            
+material # start=            2 end=            1 stride=           -1           
+           2 material numbers reset imt1 out of a maximum of            2       
 cmo/status/mo2                                                                  
  
 The current-mesh-object(CMO) is: mo2                                            

@@ -1,0 +1,93 @@
+define/nx/4                                                                     
+define/ny/5                                                                     
+define/nz/3                                                                     
+cmo/create/mesh_object///tet                                                    
+createpts/xyz/nx,ny,nz/0. 0. 0./1. 1. 0.2/1 1 1                                 
+cmo/setatt/mesh_object/imt/1 0 0/1                                              
+connect                                                                         
+cmo/printatt//-all-/minmax                                                      
+dump/gmv/output_rmmat1.gmv/mesh_object                                          
+cmo copy mo2 mesh_object                                                        
+cmo select mo2                                                                  
+pset/p2/attribute yic/1,0,0/gt .60                                              
+eltset/e2/inclusive pset,get,p2                                                 
+cmo/setatt/mo2/itetclr eltset,get,e2 2                                          
+cmo/setatt/mo2/imt pset,get,p2 2                                                
+filter/1 0 0                                                                    
+rmpoint/compress                                                                
+geniee                                                                          
+resetpts/itp                                                                    
+settets                                                                         
+cmo printatt mo2 imt1                                                           
+cmo/printatt/mo2/itp1                                                           
+resetpts parent                                                                 
+cmo/printatt/mo2/itp1                                                           
+rmpoint compress                                                                
+cmo/printatt/mo2/itp1                                                           
+resetpts cell_color 2,1,-1                                                      
+cmo/status/mo2                                                                  
+cmo printatt mo2 imt1                                                           
+cmo/delete/mo2                                                                  
+cmo/delete/mesh_object                                                          
+define/nx/15                                                                    
+define/ny/15                                                                    
+define/nz/2                                                                     
+cmo/create/mesh_object///tet                                                    
+createpts/xyz/nx,ny,nz/0. 0. 0./1. 1. 0.2/1 1 1                                 
+cmo/setatt/mesh_object/imt/1 0 0/1                                              
+connect                                                                         
+cmo/printatt//-all-/minmax                                                      
+dump/gmv/output_rmmat1.gmv/mesh_object                                          
+surface/cyl_surf/intrface/cylinder/0.5,0.5,-1/0.5,0.5,1.0/0.25                  
+region/mr1/gt cyl_surf                                                          
+region/mr2/le cyl_surf                                                          
+mregion/mr1/gt cyl_surf                                                         
+mregion/mr2/lt cyl_surf                                                         
+setpts                                                                          
+settets/geometry                                                                
+cmo/printatt//-all-/minmax                                                      
+dump/gmv/output_rmmat2.gmv/mesh_object                                          
+cmo copy mo3 mesh_object                                                        
+cmo copy mo4 mesh_object                                                        
+cmo copy mo5 mesh_object                                                        
+cmo select mo3                                                                  
+rmmat 2/node                                                                    
+rmpoint/compress                                                                
+dump/gmv/output_rmmat3.gmv/mo3                                                  
+cmo/printatt//-xyz-/minmax                                                      
+cmo/printatt//itetclr/minmax                                                    
+quality                                                                         
+cmo select mo4                                                                  
+rmmat 2/element                                                                 
+rmpoint/compress                                                                
+dump/gmv/output_rmmat4.gmv/mo4                                                  
+cmo/printatt//-xyz-/minmax                                                      
+cmo/printatt//itetclr/minmax                                                    
+quality                                                                         
+cmo select mo5                                                                  
+rmmat 2/all                                                                     
+rmpoint/compress                                                                
+dump/gmv/output_rmmat5.gmv/mo5                                                  
+cmo/printatt//-xyz-/minmax                                                      
+cmo/printatt//itetclr/minmax                                                    
+quality                                                                         
+cmo/status                                                                      
+cmo/release/mesh_object                                                         
+cmo/release/mo3                                                                 
+cmo/release/mo4                                                                 
+cmo/release/mo5                                                                 
+define/nx/15                                                                    
+define/ny/15                                                                    
+define/nz/2                                                                     
+cmo/create/mesh_object///tet                                                    
+createpts/xyz/nx,ny,nz/0. 0. 0./1. 1. 0.2/1 1 1                                 
+cmo/setatt/mesh_object/imt/1 0 0/1                                              
+connect                                                                         
+cmo/create/abc                                                                  
+createpts/xyz/3,3,3/0,0,0/1,1,1/1,1,1                                           
+pset/p1/seq/1,3,1/                                                              
+rmpoint/pset,get,p1                                                             
+cmo/status                                                                      
+cmo/printatt//-all-/minmax                                                      
+quality                                                                         
+finish                                                                          
