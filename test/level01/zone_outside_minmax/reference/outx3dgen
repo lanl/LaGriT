@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  08:00:00           *                 
+*               *    Program:  LaGriT V2.004   SunOS          *                 
+*               *    date_compile: 2008/10/21                 *                 
+*               *    Run Time: 2008/10/22  09:05:25           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -119,6 +119,8 @@ geniee
 finish                                                                          
 finish                                                                          
 cmo/addatt/cmo1/numbnd/vint/scalar/nnodes/linear/permanent/afgx/0/              
+finish                                                                          
+cmo/addatt/cmo1/id_numb/vint/scalar/nnodes/linear/permanent/afgx/0/             
 finish                                                                          
 sort/-def-/index/-def-/ikey_tmp/numbnd                                          
 cmo/addatt//ikey_tmp/vint/scalar/nnodes///gax/0                                 

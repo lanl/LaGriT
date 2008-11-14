@@ -1,0 +1,139 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V2.002   SunOS          *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  08:00:00           *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+* test outside zones based on normal direction                                  
+* restrict to minmax of each row/col direction                                  
+* top, bottom, front, back, left, right                                         
+read avs input_chunk.inp cmo1                                                   
+cmo/addatt/cmo1/id_node/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0         
+finish                                                                          
+cmo/addatt/cmo1/matclr/VDOUBLE/scalar/nelements/linear/permanent/gxaf/0.0       
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmo1                                           
+ 
+  1 Mesh Object name: cmo1                                                      
+    number of nodes =         19495        number of elements =        99144    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+resetpts itp                                                                    
+geniee                                                                          
+finish                                                                          
+cmo/setatt/cmo1/idebug 9                                                        
+         1 values reset for attribute idebug                                    
+ 
+dump/zone_outside_minmax/output/cmo1 keepatt                                    
+*********dump_outside_list********                                              
+ 
+assign_quadrant_id epsilon for zero:   1.0000000E-15                            
+sort/xyz/bins                                                                   
+sort/-def-/bins/ascending/i_index/xic                                           
+cmo/addatt//i_index/vint/scalar/nnodes///gax/0                                  
+finish                                                                          
+finish                                                                          
+sort/-def-/bins/ascending/j_index/yic                                           
+cmo/addatt//j_index/vint/scalar/nnodes///gax/0                                  
+finish                                                                          
+finish                                                                          
+sort/-def-/bins/ascending/k_index/zic                                           
+cmo/addatt//k_index/vint/scalar/nnodes///gax/0                                  
+finish                                                                          
+finish                                                                          
+finish                                                                          
+cmo/addatt/cmo1/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/              
+finish                                                                          
+ 
+MINMAX of outside option assumes regular rectangular grid.                      
+Total outside nodes:            926 Total minmax:            582                
+Face top           1 has       582 nodes.                                       
+top       Area            Area_x          Area_y          Area_z                
+          0.2268846E+08   0.1512500E+07   0.1052083E+07   0.2244792E+08         
+cmo/addatt/cmo1/bottom/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
+finish                                                                          
+Total outside nodes:            752 Total minmax:            582                
+Face bottom        2 has       582 nodes.                                       
+bottom    Area            Area_x          Area_y          Area_z                
+          0.2884885E+08   0.2495833E+06   0.1895833E+06   0.2883333E+08         
+cmo/addatt/cmo1/left_w/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
+finish                                                                          
+Total outside nodes:           1920 Total minmax:           1627                
+Face left_w        3 has      1627 nodes.                                       
+left_w    Area            Area_x          Area_y          Area_z                
+          0.1594159E+08   0.1095500E+08   0.5541667E+06   0.5770833E+07         
+cmo/addatt/cmo1/right_e/vint/scalar/nnodes/linear/permanent/afgx/-5.0/          
+finish                                                                          
+Total outside nodes:           1902 Total minmax:           1627                
+Face right_e       5 has      1627 nodes.                                       
+right_e   Area            Area_x          Area_y          Area_z                
+          0.1559398E+08   0.1133042E+08   0.4758333E+06   0.4760417E+07         
+cmo/addatt/cmo1/back_n/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
+finish                                                                          
+Total outside nodes:            916 Total minmax:            830                
+Face back_n        6 has       830 nodes.                                       
+back_n    Area            Area_x          Area_y          Area_z                
+          0.7644553E+07   0.3633333E+06   0.5727083E+07   0.2135417E+07         
+cmo/addatt/cmo1/front_s/vint/scalar/nnodes/linear/permanent/afgx/-5.0/          
+finish                                                                          
+Total outside nodes:           1278 Total minmax:            830                
+Face front_s       4 has       830 nodes.                                       
+front_s   Area            Area_x          Area_y          Area_z                
+          0.9458106E+07   0.6220833E+06   0.4716250E+07   0.5322917E+07         
+dump gmv output_zone_outside.gmv cmo1                                           
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+boundary_components                                                             
+log/tty/off                                                                     
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+finish                                                                          
+cmo/addatt/cmo1/numbnd/vint/scalar/nnodes/linear/permanent/afgx/0/              
+finish                                                                          
+sort/-def-/index/-def-/ikey_tmp/numbnd                                          
+cmo/addatt//ikey_tmp/vint/scalar/nnodes///gax/0                                 
+finish                                                                          
+finish                                                                          
+ 
+ CONNECTED COMPONENTS:                                                          
+   1 different exterior boundary components                                     
+ Set#        Representitive Node #        # Nodes in Set                        
+            (numbnd_e(node#) attribute)                                         
+      1                 181                5724                                 
+ 
+cmo/DELATT/cmo1/ikey_tmp                                                        
+finish                                                                          
+log/tty/on                                                                      
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   
