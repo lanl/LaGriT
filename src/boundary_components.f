@@ -111,6 +111,8 @@ C
       integer numbnd(1000000)
       pointer (ipid_numb, id_numb)
       integer id_numb(1000000)
+      pointer (ipid_numb_e, id_numb_e)
+      integer id_numb_e(1000000)
       pointer (ipikey_tmp, ikey_tmp)
       integer ikey_tmp(1000000)
 C     
@@ -323,10 +325,26 @@ C
      >        call x3d_error(isubname,'addatt boundary_components')
 C
 C     Get the pointer to the newly created array
-C     CAUTION: the MO variable numbnd_e has the pointer to numbnd
+C     CAUTION: numbnd_e has same memory pointer as numbnd
 C
          call cmo_get_info('numbnd_e',cmo,ipnumbnd,ilen,ityp,icscode)
          if (icscode .ne. 0) call x3d_error(isubname,'cmo_get_info')
+      endif
+      call cmo_get_info('id_numb_e',cmo,ipid_numb_e,ilen,ityp,icscode)
+      if(icscode.ne.0) then         
+         dotask_command = 'cmo/addatt/' //
+     >        cmo(1:icharlnf(cmo)) //
+     >        '/' //
+     >        'id_numb_e' //
+     >        '/vint/scalar/nelements/linear/permanent/afgx/0/' //
+     >        ' ; finish '
+         call dotaskx3d(dotask_command,ierror)
+         if (ierror.ne.0)
+     >        call x3d_error(isubname,'addatt boundry_components')
+C
+C     Get the pointer to the newly created array
+       call cmo_get_info('id_numb_e',cmo,ipid_numb_e,ilen,ityp,icscode)
+       if (icscode .ne. 0) call x3d_error(isubname,'cmo_get_info')
          
       endif
       endif
@@ -611,16 +629,28 @@ C
             if(icount .eq. 0)then
                itest = numbnd(ikey_tmp(in))
                icount = icount + 1
-               id_numb(ikey_tmp(in)) = icount
+               if(ijob .eq. 1)then
+                  id_numb(ikey_tmp(in)) = icount
+               elseif(ijob .eq. 2)then
+                  id_numb_e(ikey_tmp(in)) = icount
+               endif
             endif
             if(itest .eq. numbnd(ikey_tmp(in)))then
                ic_set(icount) = ic_set(icount) + 1
-               id_numb(ikey_tmp(in)) = icount
+               if(ijob .eq. 1)then
+                  id_numb(ikey_tmp(in)) = icount
+               elseif(ijob .eq. 2)then
+                  id_numb_e(ikey_tmp(in)) = icount
+               endif
             else
                write(logmess,210)icount, itest, ic_set(icount)
                call writloga('default',0,logmess,0,ierrw)
                icount = icount + 1
-               id_numb(ikey_tmp(in)) = icount
+               if(ijob .eq. 1)then
+                  id_numb(ikey_tmp(in)) = icount
+               elseif(ijob .eq. 2)then
+                  id_numb_e(ikey_tmp(in)) = icount
+               endif
                ic_set(icount) = ic_set(icount) + 1
                itest = numbnd(ikey_tmp(in))
             endif

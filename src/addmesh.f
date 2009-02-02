@@ -247,7 +247,8 @@ C
      * nsdgeom3,numtet3,npoints3,npoints_save,nmcmoatt_c,itype,
      * nef2,nen2,nsdtopo2,nsdgeom2,numtet2,npoints2,ierror,ierr,
      *  mbndry,npoints1,length,icmotp,numtet1,mbndry1,nsdtopo1,
-     *  nsdgeom1,nen1,nef1,len,ier,mbndry2,i1,i2,index,npoints
+     *  nsdgeom1,nen1,nef1,len,ier,mbndry2,i1,i2,index,npoints,
+     *  ierra, ierrb, ierrc
 C
 C ######################################################################
 C
@@ -334,6 +335,10 @@ C
       character*132 logmess
       character*8 cglobal, cdefault
 C
+      character*8192 cbuff
+C
+      integer icharlnf
+C
       integer itetface0(4), itetface1(4,4)
       integer itet_edge(2,6)
 C     top,back,left,right
@@ -378,24 +383,76 @@ C
       cmoa = cmsgin(4)
       cmob = cmsgin(5)
 C
-      call cmo_exist(cmoa,ierr)
-      if(ierr.ne.0) then
-         ierror = -1
-         write(logmess,9000) cmoa
-         call writloga('default',0,logmess,0,ierr)
-9000     format("ERROR: The master object doesn't exist: ",a)
-         goto 9999
-      endif
+C     Check if the three mesh objects exist.
 C
-      call cmo_exist(cmob,ierr)
-      if(ierr.ne.0) then
-         ierror = -2
+      call cmo_exist(cmoa,ierra)
+      call cmo_exist(cmob,ierrb)
+      call cmo_exist(cmoc,ierrc)
+C#######################################################
+C       Possible cases
+C       C A B
+C 1     0 0 0    Normal C = C + A + B
+C 2     0 - -    No change, exit
+C 3     0 0 -    Modify to C = C + A
+C 4     0 - 0    Modify to C = C + B
+C 5     - 0 0    Normal C = A + B
+C 6     - - 0    Modify C = B
+C 7     - 0 -    Modify C = A
+C 8     - - -    No action, exit
+C
+C     Case 8 - - -  Write an error message and return with no action
+      if((ierrc .ne. 0).and.(ierra .ne. 0).and.(ierrb .ne. 0))then
+         write(logmess,9000) cmoc
+         call writloga('default',0,logmess,0,ierr)
+9000     format("WARNING: The sink object doesn't exist: ",a)
+         write(logmess,9010) cmoa
+         call writloga('default',0,logmess,0,ierr)
+9010     format("WARNING: The source object doesn't exist: ",a)
          write(logmess,9010) cmob
          call writloga('default',0,logmess,0,ierr)
-9010     format("ERROR: The slave object doesn't exist: ",a)
+         write(logmess,*)'WARNING: no action'
+         call writloga('default',0,logmess,0,ierr)
          goto 9999
-      endif
-C
+C     Case 2 0 - -  Write an error message and return with no action
+      elseif((ierrc .eq. 0).and.(ierra .ne. 0).and.(ierrb .ne. 0))then
+         write(logmess,9010) cmoa
+         call writloga('default',0,logmess,0,ierr)
+         write(logmess,9010) cmob
+         call writloga('default',0,logmess,0,ierr)
+         write(logmess,*)'WARNING: no action'
+         call writloga('default',0,logmess,0,ierr)
+         goto 9999
+C     Case 6 - - 0  Just copy cmob into a new mesh object, cmoc
+      elseif((ierrc .ne. 0).and.(ierra .ne. 0).and.(ierrb .eq. 0))then
+            cbuff='cmo/copy/' //
+     *         cmoc(1:icharlnf(cmoc)) //' / '//
+     *         cmob(1:icharlnf(cmob)) //
+     *         ' ; finish '
+         call dotask (cbuff, ierror)
+         goto 9999
+C     Case 7 - 0 - Just copy cmoa into a new mesh object, cmoc
+      elseif((ierrc .ne. 0).and.(ierra .eq. 0).and.(ierrb .ne. 0))then
+            cbuff='cmo/copy/' //
+     *         cmoc(1:icharlnf(cmoc)) //' / '//
+     *         cmoa(1:icharlnf(cmoa)) //
+     *         ' ; finish '
+         call dotask (cbuff, ierror)
+         goto 9999
+C     Case 3 0 0 - Change the name of one of the sources to the existing sink and continue
+       elseif((ierrc .eq. 0).and.(ierra .eq. 0).and.(ierrb .ne. 0))then
+         write(logmess,9010) cmob
+         call writloga('default',0,logmess,0,ierr)
+         cmob = cmoc
+C     Case 4 0 0 - Change the name of one of the sources to the existing sink and continue
+       elseif((ierrc .eq. 0).and.(ierra .ne. 0).and.(ierrb .eq. 0))then
+         write(logmess,9010) cmoa
+         call writloga('default',0,logmess,0,ierr)
+         cmoa = cmoc
+C     Case 1 or 5, just continue with no changes to input syntax.
+       else
+          continue
+       endif
+C#######################################################
       call cmo_get_intinfo('nnodes',cmoa,npoints1,length,icmotp,ierr)
       call cmo_get_intinfo('nelements',cmoa,numtet1,length,icmotp,ierr)
       call cmo_get_intinfo('nnodes',cmob,npoints2,length,icmotp,ierr)

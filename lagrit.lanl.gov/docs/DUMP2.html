@@ -22,8 +22,8 @@
                                         
 <dir>                    
 <dir>This command produces an output file from a <font face="Courier">Mesh
-          Object</font><font face="Times">. Some of the standard graphics packages supported are AVS, GMV and TECPLOT. If the option is <b>LaGriT</b>,
-  a  restart      dump is made; a subsequent <b>read/LaGriT</b> command will
+          Object</font><font face="Times">. Some of the standard graphics packages supported are AVS, GMV and TECPLOT. If the option is <b>lagrit</b>,
+  a  restart      dump is made; a subsequent <b>read/lagrit</b> command will
   restart  the   code  at the state at which the dump command was issued. The default   file  type is binary. To create an ASCII formatted
 gmv   dump precede   the dump  command with this command:</font> <br>
                    <font face="Times"><b>cmo</b>/<b>setatt</b>/<b>dumptype</b>=<b>ascii</b>/
@@ -35,14 +35,14 @@ prevent  polygon    data to be written to GMV files.</dir>
 <dir><font face="Times"><b>dump</b>/file_type/file_name/[cmo_name]/</font>
                             
 <dir><font face="Times">valid file_types are: <strong>coord, zone,
-gmv,  avs, avs2, tecplot, geofest, chad, fehm, stor, datex ,stl, x3d, geom, elem_adj_node, elem_adj_elem </strong>and<strong> LaGriT</strong></font></dir>
+gmv,  avs, avs2, tecplot, geofest, chad, fehm, stor, datex ,stl, x3d, geom, elem_adj_node, elem_adj_elem </strong>and<strong> lagrit</strong></font></dir>
                     <font face="Times"><b>dump </b>/<b> coord </b>/file_name/[cmo_name]/</font>
                             
 <dir><font face="Times">Will output a file with node list x,y,z values and 
          element connectivity list in FEHM format.</font></dir>
-                    <font face="Times"><b>dump</b> / <b>zone</b> /file_name/[cmo_name]/[<b><u>delatt|</u>keepatt|keepatt_area</b>]</font>
-          <br>  
-                   <font face="Times">Output a set of 4 files (for additional output options see: <a href="#" target="./PSET.html">pset/zone</a> command).</font>
+                    <font face="Times"><b>dump</b> / <b>zone</b> /file_name/[cmo_name]/[<b><u>delatt|</u>keepatt|keepatt_area</b>] <br>
+(<a href="./PSET.html">For options to output PSET's as ZONE/ZONN files see: pset/zone</a>) <br></font>
+                   <font face="Times">Output a set of 4 files </font>
                   		          <br>
   
 <dir><font face="Times">file_name_<b>material</b>.<b>zone</b> is node list
@@ -77,7 +77,7 @@ is the node   in the other material. The lists  are sorted by the first node,
 but are not  sorted by the second. Each list  entry is on its own separate
 line, and the  nodes in each entry are separated  by a comma.</font> <br>
                    <font face="Times">file_name_<b>outside</b>.<b>area </b>is 
-a  list   of  2D  areas associated with each node.</font></dir>
+a  list   of  2D  area vectors (Ax_i,Ay_i,Az_i) associated with each node. The magnitude of the vector |A| = sqrt(Ax_i**2 + Ay_i**2 + Az_i**2) is the median area associate with each node on the exterior boundary of a 3D tet mesh.</font></dir>
                     <font face="Times"><b>dump</b> / <b>zone_imt</b> /file_name/[cmo_name]</font>
                             
 /[imt_value]<dir><font face="Times">Will output only one file:</font> <br>
@@ -106,8 +106,7 @@ direction of the regular grid.<br>
      element     connectivity (iopt_elements), node attributes (iopt_node_attributes)
      and element attributes (iopt_element_attributes). 1 (default)     is
 on, 2 is on but the first column will not include the node number or element number,    0 turns off output of that part of the file. <strong>Use the =2 option with caution</strong> since the output will really not be AVS format files. This is fine as long as you do not expect read/avs or the AVS graphics program to read the file..<br>
-           For file format specification see <a
- href="http://help.avs.com/Express/doc/help/reference/dvmac/UCD_Form.htm">http://help.avs.com/Express/doc/help/reference/dvmac/UCD_Form.htm</a></font></dir>
+           For file format specification see <a href="http://help.avs.com/Express/doc/help/reference/dvmac/UCD_Form.htm">http://help.avs.com/Express/doc/help/reference/dvmac/UCD_Form.htm</a></font></dir>
                     <font face="Times"><b>dump / avs2 / </b>file_name/[cmo_name]/[iopt_points]/iopt_elements]/[iopt_node_attributes]/[iopt_element_attributes]<b><br>
             </b></font><dir><font face="Times">This option will output integers as integers instead of floating point. The other avs option converts
   integers to reals on output. The /avs/ option above    outputs all attributes
@@ -121,7 +120,7 @@ there   are integers in the node or element attributes.</font></dir>
 <dir><font face="Times">will write an ascii file containing the geometry
 information for the current run. This information includes the region and
 mregion definitions and surface, names, types and definitions.</font></dir>
-                    <font face="Times"><b>dump/LaGriT</b>/file_name/[cmo_name]/</font>
+                    <font face="Times"><b>dump/lagrit</b>/file_name/[cmo_name]/</font>
        [<b>ascii    </b>| <b>binary</b>]                    
 <dir><font face="Times">will write an restart file that contains geometry
           and mesh object information.&nbsp; cmo_name can be '<b>-all-</b>'
@@ -195,7 +194,7 @@ Finite Element Simulation Tool</a> .&nbsp;          The output file is ascii.</f
 <dir><font face="Times"> <b>dump </b>/ gmv /</font>file_name.gmv/cmo_name/<br>
      <b>dump </b>/ gmv /file_name.gmv/cmo_name/ascii<br>
 	 <b>dump </b>/ tecplot /file_name.plt/cmo_name<br>
-     <b>dump </b>/ LaGriT /file_name.lg/-all-/binary<br>
+     <b>dump </b>/ lagrit /file_name.lg/-all-/binary<br>
      <b>dump</b> / avs /file_name.inp/cmo_name<br>
      <b>dump </b>/ avs /file_name.inp/cmo_name/1 0 0 0 (output only node coordinates)<br>
      <b>dump </b>/ avs /file_name.inp/cmo_name/1 1 0 0 (output node coordinates
