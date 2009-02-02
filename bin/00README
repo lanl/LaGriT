@@ -1,7 +1,7 @@
 Directory to hold LaGriT executable files.
 Online release notes: http://lagrit.lanl.gov/release.shtml
 
-mac = MAC OSX with Absoft
+mac = MAC OSX with Absoft 9.2
 Darwin sundog.local 8.10.0 Darwin Kernel Version 8.10.0: Wed May 23 16:50:59 PDT 2007; root:xnu-792.21.3~1/RELEASE_PPC Power Macintosh powerpc
 
 lin = Linux with Absoft
@@ -13,6 +13,18 @@ voronoi 5.9 Generic_122300-02 sun4u sparc SUNW,Sun-Blade-1000
 sgi, sgi32, and sgi64 IRIX64 are no longer supported but included
 
 VERSION 2.004
+
+New mac compile allows debug version to run on intel and powerpc
+-rwxr-xr-x  1 tam  pf     16454372 Nov 12 10:04 lagrit_mac_g
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V2.004   Darwin         *                 
+*               *    date_compile: 2008/11/05                 *                 
+*               *    Run Time: 2008/11/12  10:07:46           *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+
 
 -rwxr-xr-x  1 tam radiusd  6764016 Oct 22 08:12 lagrit_mac_o*
 -rwxr-xr-x  1 tam radiusd 13419232 Oct 22 08:12 lagrit_mac_g*
