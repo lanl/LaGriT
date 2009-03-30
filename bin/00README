@@ -1,18 +1,46 @@
 Directory to hold LaGriT executable files.
 Online release notes: http://lagrit.lanl.gov/release.shtml
 
-mac = MAC OSX with Absoft
-Darwin sundog.local 8.10.0 Darwin Kernel Version 8.10.0: Wed May 23 16:50:59 PDT 2007; root:xnu-792.21.3~1/RELEASE_PPC Power Macintosh powerpc
-
-lin = Linux with Absoft
+lin = Linux with Absoft 32bit Fortran 95 9.0
 Linux tesselate 2.6.9-42.0.8.ELsmp #1 SMP Tue Jan 23 12:49:51 EST 2007 x86_64 x86_64 x86_64 GNU/Linux
 
-sun = SunOS 
+mac = MAC OSX with Absoft 9.2
+Darwin sundog.local 8.10.0 Darwin Kernel Version 8.10.0: Wed May 23 16:50:59 PDT 2007; root:xnu-792.21.3~1/RELEASE_PPC Power Macintosh powerpc
+
+maci = MAC OSX on intel with Absoft 10.1 
+Darwin rodmac2.lanl.gov 8.11.1 Darwin Kernel Version 8.11.1: Wed Oct 10 18:23:28 PDT 2007; root:xnu-792.25.20~1/RELEASE_I386 i386 i386
+
+sun = SunOS SUNWspro
 voronoi 5.9 Generic_122300-02 sun4u sparc SUNW,Sun-Blade-1000 
 
 sgi, sgi32, and sgi64 IRIX64 are no longer supported but included
 
+===============================================================
 VERSION 2.004
+
+New mac compile on intel version of MAC OS X
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V2.004   Darwin intel   *                 
+*               *    date_compile: 2009/02/02                 *                 
+*               *    Run Time: 2009/02/04  08:42:07           *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *        
+
+
+New mac compile allows debug version to run on intel and powerpc
+Still reporting memory issues running on mac notebook 
+-rwxr-xr-x  1 tam  pf     16454372 Nov 12 10:04 lagrit_mac_g
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V2.004   Darwin         *                 
+*               *    date_compile: 2008/11/05                 *                 
+*               *    Run Time: 2008/11/12  10:07:46           *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+
 
 -rwxr-xr-x  1 tam radiusd  6764016 Oct 22 08:12 lagrit_mac_o*
 -rwxr-xr-x  1 tam radiusd 13419232 Oct 22 08:12 lagrit_mac_g*
@@ -34,7 +62,7 @@ VERSION 2.004
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 
-
+===============================================================
 VERSION 2.003
 
 -rwxr-xr-x  1 tam radiusd  9396172 Oct 21 12:39 lagrit_lin_o*
@@ -57,6 +85,7 @@ VERSION 2.003
 
 
 
+===============================================================
 VERSION 2.001
 
 Initial optimized set:

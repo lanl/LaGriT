@@ -237,9 +237,13 @@ C
       write(interfil,8089) Version
  8089 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux          *')
 
-      else if (os_name(1:3) .eq. 'Dar') then
+      else if (os_name(1:7) .eq. 'Darwini') then
+      write(interfil,8188) Version
+ 8188 format('*',15x,'*    Program:  LaGriT V',a6,'  Darwin intel   *')
+
+      else if (os_name(1:7) .eq. 'Darwin ') then
       write(interfil,8189) Version
- 8189 format('*',15x,'*    Program:  LaGriT V',a6,'  Darwin         *')
+ 8189 format('*',15x,'*    Program:  LaGriT V',a6,'  Darwin ppc     *')
 
       else if (os_name(1:3) .eq. 'Sun') then
       write(interfil,8289) Version

@@ -1,4 +1,4 @@
-##########################################################################
+#######################################################################
 # GNU Make version 3.79.1 or later
 #
 # in general to update libs and executable  
@@ -64,6 +64,7 @@ OPSYS = UNKNOWN
 OPSYS_FULL = $(shell uname -a )
 OPSYS = $(shell uname -s )
 DATETAG = $(shell date '+_%y%m%d')
+NPROC = $(shell uname -p )
 #
 # ADD FLAG for 64 bit SGI 
 # sgi 64 will need some work to compile correctly
@@ -102,15 +103,31 @@ OBJDIR = objects_lin/
 endif
 #
 # Mac OSX ------------------------------
+# -s static storage preferred, but has errors 
+# remove option flags for Absoft 10 versions
+#
 ifeq ($(OPSYS), Darwin)
 OSTAG = _mac
-FC = /Applications/Absoft9.5/bin/f77 
-FC90 = /Applications/Absoft9.5/bin/f90 
+FC = /Applications/Absoft/bin/f77 
+FC90 = /Applications/Absoft/bin/f90 
 CC= cc 
-FFLAGS = -f -N113 -N90 -B19 -O -q -w 
-FF90FLAGS = -YEXT_NAMES=LCS  
+FFLAGS = -f -N113 -N90 -B19 -q -w 
+FF90FLAGS = -YEXT_NAMES=LCS 
 CFLAGS = 
 OBJDIR = objects_mac/
+#
+# these flags work for mac on intel 
+ifeq ($(NPROC), i386)
+OSTAG = _maci
+FC = /Applications/Absoft10.1/bin/f77
+FC90 = /Applications/Absoft10.1/bin/f90
+CC= gcc
+FFLAGS = -f -m32 -q
+FF90FLAGS = -m32 
+CFLAGS = 
+OBJDIR = objects_maci/
+endif
+#
 endif
 #
 # SUN OS ------------------------------

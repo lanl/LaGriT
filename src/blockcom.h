@@ -456,7 +456,11 @@ C
 C
 C     TETRAHEDRON DATA
 C
-      data ntetmax/0/
+c     comment out initialization and let compiler take care of it
+c     this causes fits on mac os x compilers
+c     because we have 2 instances of pointer sizes
+c     see kfix and xfix in neibor.h 
+c     data ntetmax/0/
 C     ******************************************************************
 C
 C
