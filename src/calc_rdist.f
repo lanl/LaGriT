@@ -273,7 +273,7 @@ C     rdist, the radial distance from the test point
       if(ierror.ne.0) then
          write(cmdmess,10) cmoin,
      &        'VDOUBLE/scalar/nnodes/linear/permanent',
-     &        '/agx/-1.0; finish'
+     &        '/   /-1.0; finish'
  10      format('cmo/addatt/',A,'/rdist/',A,A)
          ierror = 0
          call dotaskx3d(cmdmess,ierror)
@@ -286,7 +286,7 @@ C     of this mess.
       if(ierror.ne.0) then
          write(cmdmess,20) cmoin,
      &        'VDOUBLE/scalar/nnodes/linear/temporary',
-     &        '/agx/-1.0; finish'
+     &        '/   /-1.0; finish'
  20      format('cmo/addatt/',A,'/temp/',A,A)
          ierror = 0
          call dotaskx3d(cmdmess,ierror)
@@ -297,7 +297,7 @@ C     ctrpt, the index of the center point we are referencing
       call cmo_get_info('ictrpt',cmoin,iptestptr,ilen,icmotype,ierror)
       if(ierror.ne.0) then
          write(cmdmess,15) cmoin,
-     &        'VINT/scalar/nnodes/linear/permanent/agx/0; finish'
+     &        'VINT/scalar/nnodes/linear/permanent/   /0; finish'
  15      format('cmo/addatt/',A,'/ictrpt/',A)
          ierror = 0
          call dotaskx3d(cmdmess,ierror)

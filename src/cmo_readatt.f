@@ -14,6 +14,9 @@ C         created.
 C         if 'add' is specified then new nodes are added to the cmo
 C         if a pset is given, the specified nodes are modified
 C
+C         Lines of an input file that have # in the first column or that do not
+C         have a real or integer as their first word are skipped.
+C
 C      INPUT ARGUMENTS -
 C
 C         imsgin()  - Integer array of command input tokens
@@ -65,8 +68,13 @@ C.... Mesh Object Data.
 C
       character*32 ifile
       character*32 cmo, cmoatt, cglobal, cdefault
-      character*132 cline
       character*8192 cbuff
+      character*1024 cline
+      integer lenparse
+      integer      msgt(128)
+      real*8       xmsg(128)
+      integer      imsg(128)
+      character*32 cmsg(128)
 C
 C#######################################################################
 C
@@ -128,14 +136,24 @@ C
 C
 C     temp array to hold values
 C
-      length=5000
+      length=500000
       call mmgetblk('xvalues',isubname,ipxvalues,length,2,icscode)
  100  continue
-         read(iunit,'(a132)',end=110) cline
-         if(cline(1:1).ne.'#') then
+         read(iunit,'(a)',end=110) cline
+         lenparse = len(cline)
+         call parse_string2(lenparse, cline,
+     1                       imsg, msgt, xmsg, cmsg, nwds)
+C
+C        Check for comment lines '#' or lines that do not have either an
+C        integer or real as the first word in the line. This will not get
+C        everything but at least it will read past character headers such
+C        as those found in the header of a TecPlot style file.
+C
+         if((cline(1:1).ne.'#').and. 
+     1     (msgt(1).eq.1 .or. msgt(1) .eq.2)) then
            icount=icount+1
            if(icount*nvalues.gt.length) then
-             l=5000
+             l=max(int(0.5*length), 500000)
              call mmincblk('xvalues',isubname,ipxvalues,l,icscode)
              length=length+l
            endif
@@ -236,6 +254,13 @@ C
              endif
          enddo
       enddo
+C
+C     Print status to screen
+C
+      cbuff='cmo/status/brief' //
+     *       cmo(1:icharlnf(cmo)) //
+     *       ' ; finish '
+      call dotask(cbuff,ierror)
 C
       goto 9999
  9999 continue

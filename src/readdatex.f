@@ -197,7 +197,7 @@ C
       call cmo_get_info('icn1',cmonam,ipicn1,len,itype,ierr)
       if (ierr.ne.0) then
          cbuff='cmo/addatt/-def-/icn1/VINT/scalar/nnodes' //
-     *         '/min/permanent/agx/0/ ; finish'
+     *         '/min/permanent/   /0/ ; finish'
          call dotaskx3d(cbuff,ierror)
          call cmo_get_info('icn1',cmonam,ipicn1,len,itype,ierr)
       endif
@@ -566,7 +566,7 @@ C
             call cmo_get_info(cdensnm,cmonam,ipdens,lth,itype,ier)
             if(ier.ne.0) then
                cbuff='cmo/addatt/-def-/dens/VDOUBLE/scalar/nnodes' //
-     *               '/linear/permanent/agx/0/ ; finish'
+     *               '/linear/permanent/   /0/ ; finish'
                call dotaskx3d(cbuff,ierror)
             endif
          elseif (id.eq.2) then
@@ -575,7 +575,7 @@ C
             call cmo_get_info(cpresnm,cmonam,ippres,lth,itype,ier)
             if(ier.ne.0) then
                cbuff='cmo/addatt/-def-/pres/VDOUBLE/scalar/nnodes' //
-     *               '/linear/permanent/agx/0/ ; finish'
+     *               '/linear/permanent/   /0/ ; finish'
                call dotaskx3d(cbuff,ierror)
             endif
          elseif (id.eq.3) then
@@ -584,7 +584,7 @@ C
             call cmo_get_info(cenernm,cmonam,ipener,lth,itype,ier)
             if(ier.ne.0) then
                cbuff='cmo/addatt/-def-/ener/VDOUBLE/scalar/nnodes' //
-     *               '/linear/permanent/agx/0/ ; finish'
+     *               '/linear/permanent/   /0/ ; finish'
                call dotaskx3d(cbuff,ierror)
             endif
          elseif (id.eq.4) then
@@ -593,7 +593,7 @@ C
             call cmo_get_info(cvelnm,cmonam,ipvels,lth,itype,ier)
             if(ier.ne.0) then
                cbuff='cmo/addatt/-def-/vels/VDOUBLE/vector/nnodes' //
-     *               '/linear/permanent/agx/0/ ; finish'
+     *               '/linear/permanent/   /0/ ; finish'
                call dotaskx3d(cbuff,ierror)
             endif
          endif

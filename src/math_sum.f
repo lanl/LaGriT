@@ -383,7 +383,7 @@ c       try to create the attribute, derive from source
      *      cmosnk(1:icharlnf(cmosnk)) // ' / ' //
      *      attsnk(1:icharlnf(attsnk)) // ' / ' //
      *      ctype_snk(1:icharlnf(ctype_snk)) //
-     *      '/scalar/scalar/constant/permanent/agl ; finish'
+     *      '/scalar/scalar/constant/permanent/  ; finish'
         call dotaskx3d(logmess,ierror)
         if(ierror.eq.0) then
            call cmo_verify_cmo(cmosnk,ierror)

@@ -98,15 +98,45 @@ C
 C
 C#######################################################################
 C
+c    4 - Check for optional 4th argument
+c        no_att - do not reorder attributes
+C
+      if(nwds .lt. 4)then
+C        valid, no action, reorder all attributes
+      else
+      if(cmsgin(4)(1:icharlnf(cmsgin(4))).eq.'no_att')then
+         if_reorder_node_att = 0
+         if_reorder_elem_att = 0
+      else
+         logmess = 
+     *     'REORDER: ERROR, fourth arugment must be empty or no_att'
+         call writloga('default',0,logmess,0,ierr)
+         ierr = -1
+         goto 9999
+      endif
+      endif
+C
+C#######################################################################
+C
 
       call cmo_get_info('nnodes',cmo_name,nnode,ilen,itype,ierr)
       call cmo_get_info('nelements',cmo_name,nelem,ilen,itype,ierr)
 
+      if(nnodes .eq. nelem)then
+         logmess = 
+     *     'REORDER: WARNING, nnodes=nelem , code cannot figure out if '
+         call writloga('default',0,logmess,0,ierr)
+         logmess = 
+     *     'REORDER: WARNING, the sort key is nodes or elements'
+         call writloga('default',0,logmess,0,ierr)
+         logmess = 
+     *     'REORDER: WARNING, WILL ASSUME NODE REORDER'
+         call writloga('default',0,logmess,0,ierr)
+      endif
+
       if(ilen_isort_key .eq. nnode)then
-C         print *, 'CALL REORDER_NODE'
          call reorder_node(imsgin,xmsgin,cmsgin,msgtype,nwds,ierr)
       elseif(ilen_isort_key .eq. nelem)then
-C         print *, 'CALL REORDER_ELEMENT'
          call reorder_element(imsgin,xmsgin,cmsgin,msgtype,nwds,ierr)
       else
 C
@@ -230,6 +260,7 @@ C
       integer iatt, natt, ilen, irank
       integer ikey_min, ikey_max, imin_key, imax_key
       integer itype, itout, lout, ierrw
+      integer if_reorder_elem_att
 
       integer icharlnf, icharln, iimin, iimax
       integer local_debug
@@ -290,6 +321,18 @@ c
 C
 C#######################################################################
 C
+c    4 - Check for optional 4th argument
+c        no_att - do not reorder attributes
+C
+      if(nwds .lt. 4)then
+         if_reorder_elem_att = 1
+      endif
+
+      if(cmsgin(4)(1:icharlnf(cmsgin(4))).eq.'no_att')then
+         if_reorder_elem_att = 0
+      endif
+C
+C#######################################################################
 
       call cmo_get_info('nnodes',cmo_name,nnodes1,ilen,itype,ier)
       call cmo_get_info('nelements',cmo_name,nelem1,ilen,itype,ier)
@@ -430,7 +473,9 @@ C
       itoff = 0
       jtoff = 0
       do ie = 1,nelem1
-         itetclr2(ie)=itetclr1(iechange(ie))
+         if(if_reorder_elem_att .eq. 1)then
+            itetclr2(ie)=itetclr1(iechange(ie))
+         endif
          itettyp2(ie)=itettyp1(iechange(ie))
          itetoff2(ie)=itoff
          jtetoff2(ie)=jtoff
@@ -449,7 +494,9 @@ C
 C  replace "1" info with "2" info
 C
       do ie = 1,nelem1
-         itetclr1(ie)=itetclr2(ie)
+         if(if_reorder_elem_att .eq. 1)then
+            itetclr1(ie)=itetclr2(ie)
+         endif
          itettyp1(ie)=itettyp2(ie)
          itetoff1(ie)=itetoff2(ie)
          jtetoff1(ie)=jtetoff2(ie)
@@ -470,6 +517,7 @@ C           BASED SCALAR ATTRIBUTES. Note: itetclr, itettyp, itetoff,
 C           and jtetoff are special and taken care of in the loops
 C           above.
 C
+         if(if_reorder_elem_att .eq. 1)then
   105    call cmo_get_info('number_of_attributes',cmo_name,natt,
      *                   ilen,itout,ier)
          do iatt=1,natt
@@ -531,6 +579,7 @@ C
                endif
             endif
          enddo
+         endif
 C
 C#######################################################################
 C       Reset the jtet array values
@@ -644,6 +693,7 @@ C
      3        local_debug, icharln, icharlnf, index, mpnt, iseqno
       integer nnodes, nsave, natt, irank, ii, l, it, nlen
       integer iimax, iimin
+      integer if_reorder_node_att
 C
 C     ******************************************************************
 C
@@ -704,6 +754,19 @@ c
      6   cpers,
      7   cio,
      8   ier)
+C
+C#######################################################################
+C
+c    4 - Check for optional 4th argument
+c        no_att - do not reorder attributes
+C
+      if(nwds .lt. 4)then
+         if_reorder_node_att = 1
+      endif
+
+      if(cmsgin(4)(1:icharlnf(cmsgin(4))).eq.'no_att')then
+         if_reorder_node_att = 0
+      endif
 C
 C#######################################################################
 C
@@ -850,9 +913,6 @@ C
 C     The isave array, which is the sort key, can be created using
 C     the sort/cmoname/index... command
 C
-C
-C
-C
 C     ******************************************************************
 C        Correct isn pointers to correspond to new values.
 C
@@ -881,6 +941,9 @@ C
 C
          call cmo_get_info('number_of_attributes',cmo,natt,
      *                   lout,itout,ier)
+C
+C        Reorder attributes based on flag value.
+         if(if_reorder_node_att .eq. 1)then
 C
          do iatt=1,natt
             call cmo_get_attribute_name(cmo,iatt,cattr_name,ier)
@@ -960,14 +1023,13 @@ C
                enddo
             endif
       enddo
+      endif
 C
 C     ******************************************************************
 C
 C     Update the connectivity of all the elements, if elements exist.
 C
 C        Change ITET values of elements
-C
-C      print *, 'reorder_node: update connectivity'
 C
          if(nelements .gt. 0)then
          do it=1,nelements

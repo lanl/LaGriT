@@ -221,7 +221,7 @@ c  for default attribute
       cmo_attlist(4)='nnodes'
       cmo_attlist(5)='linear'
       cmo_attlist(6)='temporary'
-      cmo_attlist(7)='agl'
+      cmo_attlist(7)='agltn'
       cmo_attparam_cdefault(1)=' '
       cmo_attparam_rdefault(1)=0.
       cmo_attparam_idefault(1)=0
