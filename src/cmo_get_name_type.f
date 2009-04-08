@@ -113,7 +113,7 @@ C
      *            (nvalues_node .eq. index_out))then
                    cname_out = cnames(i)
                    ctype_out = ctype
-                   print *, 'node ', index_out, cname_out, ctype_out
+c                   print *, 'node ', index_out, cname_out, ctype_out
                endif
             endif
          enddo
@@ -130,7 +130,7 @@ C
      *            (nvalues_elem .eq. index_out))then
                    cname_out = cnames(i)
                    ctype_out = ctype
-                   print *, 'elem ', index_out, cname_out, ctype_out
+c                   print *, 'elem ', index_out, cname_out, ctype_out
                endif
             endif
          enddo

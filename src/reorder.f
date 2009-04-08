@@ -105,8 +105,7 @@ C
 C        valid, no action, reorder all attributes
       else
       if(cmsgin(4)(1:icharlnf(cmsgin(4))).eq.'no_att')then
-         if_reorder_node_att = 0
-         if_reorder_elem_att = 0
+C        valid, no action, do not reorder attributes
       else
          logmess = 
      *     'REORDER: ERROR, fourth arugment must be empty or no_att'
@@ -122,7 +121,7 @@ C
       call cmo_get_info('nnodes',cmo_name,nnode,ilen,itype,ierr)
       call cmo_get_info('nelements',cmo_name,nelem,ilen,itype,ierr)
 
-      if(nnodes .eq. nelem)then
+      if(nnode .eq. nelem)then
          logmess = 
      *     'REORDER: WARNING, nnodes=nelem , code cannot figure out if '
          call writloga('default',0,logmess,0,ierr)
@@ -473,9 +472,7 @@ C
       itoff = 0
       jtoff = 0
       do ie = 1,nelem1
-         if(if_reorder_elem_att .eq. 1)then
-            itetclr2(ie)=itetclr1(iechange(ie))
-         endif
+         itetclr2(ie)=itetclr1(iechange(ie))
          itettyp2(ie)=itettyp1(iechange(ie))
          itetoff2(ie)=itoff
          jtetoff2(ie)=jtoff
@@ -494,9 +491,7 @@ C
 C  replace "1" info with "2" info
 C
       do ie = 1,nelem1
-         if(if_reorder_elem_att .eq. 1)then
-            itetclr1(ie)=itetclr2(ie)
-         endif
+         itetclr1(ie)=itetclr2(ie)
          itettyp1(ie)=itettyp2(ie)
          itetoff1(ie)=itetoff2(ie)
          jtetoff1(ie)=jtetoff2(ie)

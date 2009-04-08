@@ -80,7 +80,7 @@ C
 c     Hardwire turning off output of -def- field.
 c
       call dotaskx3d
-     1 ('cmo/modatt/-def-/-def-/ioflag/l;finish',ierr)
+     1 ('cmo/modatt/-def-/-def-/ioflag/x;finish',ierr)
       call mmgetblk('cnames',  isubname,ipcnames,nmcmoatt*8,1,ierr)
       call mmgetblk('clengths',isubname,iplengths,nmcmoatt*8,1,ierr)
       call mmgetblk('iranks',  isubname,ipranks,nmcmoatt,1,ierr)
@@ -117,9 +117,9 @@ C
                lvalues=lvalues+iranks(i)
                ioffs(i)=irowlen
                irowlen=irowlen+iranks(i)
-               print *, 'node attribute ', 
-     *         i, cnames(i)(1:icharlnf(cnames(i))),' ',
-     *         cioflags(i)(1:len1), ityp, ilen
+c               print *, 'node attribute ', 
+c     *         i, cnames(i)(1:icharlnf(cnames(i))),' ',
+c     *         cioflags(i)(1:len1), ityp, ilen
             endif
          enddo
          do j=1,len1
@@ -131,17 +131,14 @@ C
                lvaluese=lvaluese+iranks(i)
                ioffse(i)=irowlene
                irowlene=irowlene+iranks(i)
-               print *, 'elem attribute ', 
-     *         i, cnames(i)(1:icharlnf(cnames(i))),' ',
-     *         cioflags(i)(1:len1), ityp, ilen
+c               print *, 'elem attribute ', 
+c     *         i, cnames(i)(1:icharlnf(cnames(i))),' ',
+c     *         cioflags(i)(1:len1), ityp, ilen
             endif
          enddo
       enddo
       call mmrelprt(isubname, ierr)
 C
-      print *, nvalues_node, lvalues, irowlen
-      print *, nvalues_elem, lvaluese, irowlene
-
       return
       end
       
