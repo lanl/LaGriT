@@ -1418,7 +1418,7 @@ c
                ! warning: if jtet_reduce_nnd=1 or jtet_cycle_max>0,
                ! get_materials_around_node may not be correct (not tested)
                call get_materials_around_node
-     *          (itin,n,nmtrls,ipmtrls,lenm,ipstack,lens,
+     *          (itin,nn,nmtrls,ipmtrls,lenm,ipstack,lens,
      *          itetoff,jtetoff,itet1,jtet1,itettyp,
      *          itmat,iparent, nefcmo,mbndry)
                go to 9145
