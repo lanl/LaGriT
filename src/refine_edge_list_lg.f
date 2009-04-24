@@ -151,8 +151,8 @@ c  get parents
 c  fill iseedtet
       do i=1,ntets
          ityp = itettyp(i)
-         do nf = 1, nelmnef(ityp)
-            k=itet1(itetoff(i)+nf)
+         do nn = 1, nelmnen(ityp)
+            k=itet1(itetoff(i)+nn)
             iseedtet(k)=i
             iseedtet(iparent(k))=i
          enddo
