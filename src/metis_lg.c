@@ -83,7 +83,10 @@ All metis routines are concatenated below.
 
 **************************************************************************/
 
+/*
 #include <metis.h>
+*/
+#include "metis.h"
 
 /*************************************************************************
 * This function is my wrapper around free, allows multiple pointers    

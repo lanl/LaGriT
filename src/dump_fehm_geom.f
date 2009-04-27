@@ -795,10 +795,10 @@ c ipielts is the pointer (integer address) pointing to the arrays of elements
       if(if_keepatt .ne. 2) close(lu_number)
 
         write(logmess,'(a,i10)')
-     1      'Maximum number of elements around a node =', num_max
+     1   'Maximum number of elements around a node num_max =', num_max
         call writloga('default',0,logmess,0,ierror)
         write(logmess,'(a,i10)') 
-     1      'Node number  =', node_max
+     1   'Node number                             node_max =', node_max
         call writloga('default',0,logmess,0,ierror)
  
       call mmrelprt(isubname,icscode)
