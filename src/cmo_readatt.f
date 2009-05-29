@@ -75,6 +75,14 @@ C
       real*8       xmsg(128)
       integer      imsg(128)
       character*32 cmsg(128)
+=======
+      character*1024 cline
+      integer lenparse
+      integer      msgt(128)
+      real*8       xmsg(128)
+      integer      imsg(128)
+      character*32 cmsg(128)
+>>>>>>> /tmp/cmo_readatt.f~other.8edbCN
 C
 C#######################################################################
 C
@@ -151,6 +159,20 @@ C        as those found in the header of a TecPlot style file.
 C
          if((cline(1:1).ne.'#').and. 
      1     (msgt(1).eq.1 .or. msgt(1) .eq.2)) then
+=======
+         read(iunit,'(a)',end=110) cline
+         lenparse = len(cline)
+         call parse_string2(lenparse, cline,
+     1                       imsg, msgt, xmsg, cmsg, nwds)
+C
+C        Check for comment lines '#' or lines that do not have either an
+C        integer or real as the first word in the line. This will not get
+C        everything but at least it will read past character headers such
+C        as those found in the header of a TecPlot style file.
+C
+         if((cline(1:1).ne.'#').and. 
+     1     (msgt(1).eq.1 .or. msgt(1) .eq.2)) then
+>>>>>>> /tmp/cmo_readatt.f~other.8edbCN
            icount=icount+1
            if(icount*nvalues.gt.length) then
              l=max(int(0.5*length), 500000)
