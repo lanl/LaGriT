@@ -82,7 +82,6 @@ C
       real*8       xmsg(128)
       integer      imsg(128)
       character*32 cmsg(128)
->>>>>>> /tmp/cmo_readatt.f~other.8edbCN
 C
 C#######################################################################
 C
@@ -172,7 +171,6 @@ C        as those found in the header of a TecPlot style file.
 C
          if((cline(1:1).ne.'#').and. 
      1     (msgt(1).eq.1 .or. msgt(1) .eq.2)) then
->>>>>>> /tmp/cmo_readatt.f~other.8edbCN
            icount=icount+1
            if(icount*nvalues.gt.length) then
              l=max(int(0.5*length), 500000)
