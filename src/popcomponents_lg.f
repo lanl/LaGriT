@@ -3972,7 +3972,7 @@ c.... return I3 as the successor.
          write(cbuf,*) 'cmo/create/',cmoline,'/// line ; finish'
          call dotaskx3d (cbuf,ierror)
          write(cbuf,*)
-     &      'cmo/addatt//imap/VINT/scalar/nnodes//temporary/agx/0'//
+     &      'cmo/addatt//imap/VINT/scalar/nnodes//temporary/   /0'//
      &      ' ; finish'
          call dotaskx3d (cbuf,ierror)
       else

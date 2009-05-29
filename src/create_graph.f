@@ -77,7 +77,7 @@ C
       character*132 logmess
       character*256 cmdmess
       character*12   char_number, char_number2
-      integer i, ii, ierr, ifound, len, itype, iflag, indx
+      integer ierr, len, itype, iflag, indx
       integer ifactor
       integer if_node_1_dual_2, n_vertices_graph,numflag
       integer if_create_1_delete_2
@@ -339,41 +339,45 @@ C
       ifactor = 2
 C
       if    (itettyp(1) .eq. 3 .and. if_node_1_dual_2 .eq. 1)then
-         isize_nadjncy_set = 6*nnode  ! triangles, node mesh
-	 irank_nadjncy_set = 6
+         isize_nadjncy_set = ifactor*6*nnode  ! triangles, node mesh
+	 irank_nadjncy_set = ifactor*6
 	 write(char_number,'(f6.2)')6.0
       elseif(itettyp(1) .eq. 3 .and. if_node_1_dual_2 .eq. 2)then
          isize_nadjncy_set = 3*nelem  ! triangles, dual mesh
 	 irank_nadjncy_set = 3
 	 write(char_number,'(f6.2)')3.0
+
       elseif(itettyp(1) .eq. 4 .and. if_node_1_dual_2 .eq. 1)then
-         isize_nadjncy_set = 4*nnode  ! quads, node mesh
-	 irank_nadjncy_set = 4
+         isize_nadjncy_set = ifactor*4*nnode  ! quads, node mesh
+	 irank_nadjncy_set = ifactor*4
 	 write(char_number,'(f6.2)')4.0
       elseif(itettyp(1) .eq. 4 .and. if_node_1_dual_2 .eq. 2)then
          isize_nadjncy_set = 4*nelem  ! quads, dual mesh
 	 irank_nadjncy_set = 4
 	 write(char_number,'(f6.2)')4.0
+
       elseif(itettyp(1) .eq. 5 .and. if_node_1_dual_2 .eq. 1)then
-         isize_nadjncy_set = 15*nnode  ! tets, node mesh
-	 irank_nadjncy_set = 15
+         isize_nadjncy_set = ifactor*15*nnode  ! tets, node mesh
+	 irank_nadjncy_set = ifactor*15
 	 write(char_number,'(f6.2)')15.0
       elseif(itettyp(1) .eq. 5 .and. if_node_1_dual_2 .eq. 2)then
          isize_nadjncy_set = 4*nelem  ! tets, dual mesh
 	 irank_nadjncy_set = 4
 	 write(char_number,'(f6.2)')4.0
+
       elseif(itettyp(1) .eq. 8 .and. if_node_1_dual_2 .eq. 1)then
          isize_nadjncy_set = ifactor*6*nnode  ! hex, node mesh
 	 irank_nadjncy_set = ifactor*6
 	 write(char_number,'(f6.2)')12.0
       elseif(itettyp(1) .eq. 8 .and. if_node_1_dual_2 .eq. 2)then
-         isize_nadjncy_set = ifactor*6*nelem  ! hex, dual mesh
-	 irank_nadjncy_set = ifactor*6
+         isize_nadjncy_set = 6*nelem  ! hex, dual mesh
+	 irank_nadjncy_set = 6
 	 write(char_number,'(f6.2)')12.0
       endif
-C     NOTE: Right now the rank of hex case is set to twice what
-C     it should be, but I get a mm error with rank set to 6
 C
+C     Right now the 'node mesh' case is just a guess. There are clearly
+C     cases where the sizes set above are too small, such as a case where
+C     you have N triangles incident on a single point and N is a large number.
 C
 C     Check to see if the adjacency array exists,
 C     if it doesn't, create it.

@@ -430,7 +430,7 @@ C
      *   icount_matp_save,icount_matp,n1,it1,n,
      *   jtoff,ierrdum,ityp,nefcmo,i1add,iter_matp,nnmtst,node1,
      *   node2,imt0,ier,jf,imttet,isnsave,npointsave,ninc,nmtrls,
-     *   itin,naddmax,nf,maxmat,icycle
+     *   itin,naddmax,nf,nn,maxmat,icycle
       logical ibadface,itsttp,ibadtet
       real*8 crosx1, crosy1, crosz1,volume,srchval,xcntr,
      *   ycntr,zcntr,xfac,x0,y0,z0,
@@ -1367,8 +1367,8 @@ C
       call mmgetblk('iseedtet',isubname,ipiseedtet,npoints,1,icscode)
       maxmat=0
       do i =1,ntets
-        do nf=1,nelmnen(itettyp(i))
-           k=itet1(itetoff(i)+nf)
+        do nn=1,nelmnen(itettyp(i))
+           k=itet1(itetoff(i)+nn)
            iseedtet(k)=i
            iseedtet(iparent(k))=i
            if(imt1(k).gt.maxmat) maxmat=imt1(k)
@@ -1413,12 +1413,12 @@ c
       do i=1,nintpts
          i1=intpts(i)
          itin=iseedtet(i1)
-         do nf=1,nelmnen(itettyp(itin))
-            if (i1.eq.itet1(itetoff(itin)+nf))  then
+         do nn=1,nelmnen(itettyp(itin))
+            if (i1.eq.itet1(itetoff(itin)+nn))  then
                ! warning: if jtet_reduce_nnd=1 or jtet_cycle_max>0,
                ! get_materials_around_node may not be correct (not tested)
                call get_materials_around_node
-     *          (itin,nf,nmtrls,ipmtrls,lenm,ipstack,lens,
+     *          (itin,nn,nmtrls,ipmtrls,lenm,ipstack,lens,
      *          itetoff,jtetoff,itet1,jtet1,itettyp,
      *          itmat,iparent, nefcmo,mbndry)
                go to 9145

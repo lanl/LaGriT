@@ -911,6 +911,8 @@ C
       do i=1,nnodes
          if(ireal1(i).eq.0) then
             itemp(i)=maxclrpoint+1
+         elseif(imt_exist .eq. 0) then
+            itemp(i)=maxclrpoint+1
          elseif(imt1(i).le.0) then
             itemp(i)=maxclrpoint+1
          elseif(imt1(i).gt.maxclrpoint) then

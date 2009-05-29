@@ -635,7 +635,7 @@ C
       integer length,icscode,itype,npoints,ntets,ilen,mbndry,
      *   nef,i,nf,it,k,kk,
      *   ityp,nn,nelts,itest,if_keepatt, num_max, node_max
-      integer lu_number, ibuffer, strlen
+      integer lu_number, ibuffer, strlen, local_debug
       integer icharlnf
 C
       include "local_element.h"
@@ -643,6 +643,8 @@ C
       character*32 cmo,isubname
       character*32 file_name
  
+      local_debug = 0
+
       isubname='write_element_node_neigh'
 C
 C     *****************************************************************
@@ -703,7 +705,8 @@ C
  
 C     *****************************************************************
 c
- 
+      if(local_debug .ne. 0) print *, 'get mesh object information'
+C
 c  get mesh object information
 c  Scalar Info (assigned to integers)
       call cmo_get_info('nnodes',cmo,npoints,ilen,itype,icscode)
@@ -727,11 +730,10 @@ c  Vector Info (address of Vector[1] is assigened to pointers)
       call cmo_get_info('jtet',cmo,ipjtet,ilen,ityp,icscode)
 c
 c  get memory for seed array and parent array and tets surrounding node
+      if(local_debug .ne. 0) print *, 'allocate mem, iseedtet, iparent'
  
       length = npoints
       call mmgetblk('iseedtet',isubname,ipiseedtet,length,1,icscode)
- 
-      length=npoints
       call mmgetblk('iparent',isubname,ipiparent,length,1,icscode)
 C 
 C here, the maxiumum number of element neighbors are set to be 100 in
@@ -739,22 +741,26 @@ C in the temporary work array ielts. However, inside get_elements_around_node
 C the array size may be increased and the new point value is returned. The
 C algorithms will handle an arbitrary number of elements around a node.
 C
+      if(local_debug .ne. 0) print *, 'allocate mem, ielts'
       length=100
       call mmgetblk('ielts',isubname,ipielts,length,1,icscode)
  
 c  get parents
       call unpackpc(npoints,itp1,isn1,iparent)
- 
+      if (local_debug.gt.0) call mmverify()
+
 c  fill iseedtet
       do i=1,ntets
          ityp = itettyp(i)
-         do nf = 1, nelmnef(ityp)
-            k=itet1(itetoff(i)+nf)
+         do nn = 1, nelmnen(ityp)
+            k=itet1(itetoff(i)+nn)
             iseedtet(k)=i
             iseedtet(iparent(k))=i
          enddo
       enddo
  
+      if (local_debug.gt.0) call mmverify()
+c
 c  find the element neighbors for each nodes
       num_max = 0
       node_max = 0
@@ -783,14 +789,16 @@ c ipielts is the pointer (integer address) pointing to the arrays of elements
             ean_num(i) = nelts
          endif
       enddo
+
+      if (local_debug.gt.0) call mmverify()
  
       if(if_keepatt .ne. 2) close(lu_number)
 
         write(logmess,'(a,i10)')
-     1      'Maximum number of elements around a node =', num_max
+     1   'Maximum number of elements around a node num_max =', num_max
         call writloga('default',0,logmess,0,ierror)
         write(logmess,'(a,i10)') 
-     1      'Node number  =', node_max
+     1   'Node number                             node_max =', node_max
         call writloga('default',0,logmess,0,ierror)
  
       call mmrelprt(isubname,icscode)

@@ -1589,19 +1589,19 @@ C     Set the new stacked cmo attributes
                if (ierr.ne.0) call x3d_error(isubname,'set_ipointj')
 
       cbuf='cmo/addatt/' // cmo(1:icharlnf(cmo)) //
-     > '/nlayers/INT/scalar/scalar/constant//agx'
+     > '/nlayers/INT/scalar/scalar/constant//   '
      > // ' ; finish'
       call dotaskx3d(cbuf,ierr)
       if(ierr.ne.0) write(errmsg,'(a)') 'addatt nlayers'
 
       cbuf='cmo/addatt/' // cmo(1:icharlnf(cmo)) //
-     > '/nnperlayer/INT/scalar/scalar/constant//agx'
+     > '/nnperlayer/INT/scalar/scalar/constant//   '
      > // ' ; finish'
       call dotaskx3d(cbuf,ierr)
       if(ierr.ne.0) write(errmsg,'(a)') 'addatt nnperlayer'
 
       cbuf='cmo/addatt/' // cmo(1:icharlnf(cmo)) //
-     > '/neperlayer/INT/scalar/scalar/constant//agx'
+     > '/neperlayer/INT/scalar/scalar/constant//   '
      > // ' ; finish'
       call dotaskx3d(cbuf,ierr)
       if(ierr.ne.0) write(errmsg,'(a)') 'addatt neperlayer'

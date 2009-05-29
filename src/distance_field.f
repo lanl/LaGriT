@@ -117,19 +117,19 @@ C    Create temporary work arrays.
 C
       cmdmess = 'cmo/addatt/'// mo_sink(1:icharlnf(mo_sink))
      &  // '/temp_tmp_var/VDOUBLE/scalar/nnodes/linear/' //
-     &     'temporary/agx/-1.0;finish'
+     &     'temporary/   /-1.0;finish'
       call dotask(cmdmess,ierror)
       cmdmess = 'cmo/addatt/'// mo_sink(1:icharlnf(mo_sink))
      &  // '/xobj_tmp_var/VDOUBLE/scalar/nnodes/linear/' //
-     &     'temporary/agx/-1.0;finish'
+     &     'temporary/   /-1.0;finish'
       call dotask(cmdmess,ierror)
       cmdmess = 'cmo/addatt/'// mo_sink(1:icharlnf(mo_sink))
      & // '/yobj_tmp_var/VDOUBLE/scalar/nnodes/linear/' //
-     &    'temporary/agx/-1.0;finish'
+     &    'temporary/   /-1.0;finish'
       call dotask(cmdmess,ierror)
       cmdmess = 'cmo/addatt/'// mo_sink(1:icharlnf(mo_sink))
      & // '/zobj_tmp_var/VDOUBLE/scalar/nnodes/linear/' //
-     &    'temporary/agx/-1.0;finish'
+     &    'temporary/   /-1.0;finish'
       call dotask(cmdmess,ierror)
 C
 C     Create permanent array to hold the distance field.
@@ -137,7 +137,7 @@ C
       cmdmess = 'cmo/addatt/'// mo_sink(1:icharlnf(mo_sink)) // '/'
      &     // cattribute(1:icharlnf(cattribute)) // 
      &    '/VDOUBLE/scalar/nnodes/linear/' //
-     &    'permanent/agx/-1.0;finish'
+     &    'permanent/   /-1.0;finish'
       call dotask(cmdmess,ierror)
 C
 C     Use voronoi interpolation to find the x,y,z coordinate of the

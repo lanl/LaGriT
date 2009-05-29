@@ -73,10 +73,11 @@ C
       pointer (ipjtet,jtet)
       integer jtet(*)
  
-      integer ierr,ierr2,leni,icmotype
+      integer ierr,ierr2,leni,icmotype,if_local_debug
+      character*132 logmess
 
+      if_local_debug = 0
       ierror = 0
-
 
 C     flag error for attributes that may not be present
       call cmo_get_info('itp1',cmo,ipitp1,leni,icmotype,ierr2)
@@ -109,5 +110,49 @@ C     preserve error and leni for primary attributes
       call cmo_get_info('zic',cmo,ipzic,leni,icmotype,ierr)
       if (ierr.ne.0) ierror = ierr
 
+      if(if_local_debug .ne. 0)then
+      write(logmess,"(a)")
+     *    "cmo_get_stdptrs "
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer itp     = ", ipitp1
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer icr     = ", ipicr1
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer isn     = ", ipisn1
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer itetclr = ", ipitetclr
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer itettyp = ", ipitettyp
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer itetoff = ", ipitetoff
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer jtetoff = ", ipjtetoff
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer itet    = ", ipitet
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer jtet    = ", ipjtet
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer imt     = ", ipimt1
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer xic     = ", ipxic
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer yic     = ", ipyic
+          call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,i12)")
+     *    "Pointer zic     = ", ipzic
+          call writloga('default',0,logmess,0,ierr)
+      endif
       return
       end

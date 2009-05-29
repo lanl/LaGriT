@@ -265,7 +265,7 @@ C
       integer if_clear
       real*8 r8
 c
-      character*2048 ch_string 
+      character*4096 ch_string 
 C
       character*8  ch_elem1
       character*22 ch_elem2
@@ -404,7 +404,7 @@ C
             endif
          enddo
       enddo
-      if ((nvalues+nvaluese)*32 .gt. 2048) then
+      if ((nvalues+nvaluese)*32 .gt. 4096) then
         write(logmess,"(a)")
      1  'ERROR dumpavs: Number of output attributes not supported '
         call writloga('default',1,logmess,0,ierr)

@@ -256,7 +256,7 @@ c     which defaults to just l
      &        'cmo/modatt/',
      &         cmo,
      &         attnam_node,
-     &        '/ioflag/agl; finish'
+     &        '/ioflag/agltn; finish'
   8      format(A,A,A,A)
          call dotaskx3d(cmdmess,ierror)
       else
@@ -264,7 +264,7 @@ c     which defaults to just l
      &        'cmo/addatt/',
      &         cmo,
      &         attnam_node,
-     &        '/VINT/scalar/nnodes/linear/permanent/agx/0; finish'
+     &        '/VINT/scalar/nnodes/linear/permanent/   /0; finish'
  10      format(A,A,A,A)
          ierror = 0
          call dotaskx3d(cmdmess,ierror)
@@ -280,7 +280,7 @@ c     which defaults to just l
      &        'cmo/addatt/',
      &         cmo,
      &         attnam_elem,
-     &        '/VINT/scalar/nelements/linear/permanent/agx/0; finish'
+     &        '/VINT/scalar/nelements/linear/permanent/   /0; finish'
  20      format(A,A,A,A)
          ierror = 0
          call dotaskx3d(cmdmess,ierror)

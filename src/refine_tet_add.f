@@ -277,7 +277,7 @@ C        CREATE AMR ATTRIBUTES
      *            '/' //
      *            cmoattnam(1:icharlnf(cmoattnam)) //
      *            '/VINT' //
-     *            '/scalar/nelements/linear/permanent/agl/0.0' //
+     *            '/scalar/nelements/linear/permanent/  /0.0' //
      *            ' ; finish '
             call dotaskx3d(cbuff,ierror)
             call mmfindbk(cmoattnam,cmo_name,
@@ -294,7 +294,7 @@ C        CREATE AMR ATTRIBUTES
      *            '/' //
      *            cmoattnam(1:icharlnf(cmoattnam)) //
      *            '/VINT' //
-     *            '/scalar/nelements/linear/permanent/agl/0.0' //
+     *            '/scalar/nelements/linear/permanent/   /0.0' //
      *            ' ; finish '
             call dotaskx3d(cbuff,ierror)
             call mmfindbk(cmoattnam,cmo_name,ipitetkid,lenout,icscode)
@@ -310,7 +310,7 @@ C        CREATE AMR ATTRIBUTES
      *            '/' //
      *            cmoattnam(1:icharlnf(cmoattnam)) //
      *            '/VINT' //
-     *            '/scalar/nelements/linear/permanent/agl/0.0' //
+     *            '/scalar/nelements/linear/permanent/   /0.0' //
      *            ' ; finish '
             call dotaskx3d(cbuff,ierror)
             call mmfindbk(cmoattnam,cmo_name,ipitetlev,lenout,icscode)
@@ -329,7 +329,7 @@ C        Add work attribute for refine_hex_prd()
      *            '/' //
      *            cmoattnam(1:icharlnf(cmoattnam)) //
      *            '/VDOUBLE' //
-     *            '/scalar/nnodes/linear/temporary/agl/0.0' //
+     *            '/scalar/nnodes/linear/temporary/  /0.0' //
      *            ' ; finish '
               call dotaskx3d(cbuff,ierror)
               call mmfindbk(cmoattnam,cmo_name,ipxradavg,lenout,icscode)

@@ -477,3 +477,5 @@ $(OBJDIR)colormap.o: coloredgraphmodule.f90
 $(OBJDIR)lpfilter.o: lowpassfiltermodule.f90
 # Source .c files 
 $(OBJDIR)sparseMatrix.o: skiplist.ch
+$(OBJDIR)metis_lg.o: metis.h metis_defs.h metis_macros.h metis_proto.h metis_rename.h metis_struct.h
+

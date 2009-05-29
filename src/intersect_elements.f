@@ -409,7 +409,7 @@ C     create it.
       if (ierror.ne.0) then
          cmdmess = 'cmo/addatt/' // cmoout(1:icharlnf(cmoout))
      &             // '/' // attribname(1:icharlnf(attribname))
-     &             // '/VINT/scalar/nelements/linear/permanent/agx/0/'
+     &             // '/VINT/scalar/nelements/linear/permanent/   /0/'
      &             // '; finish'
          ierror = 0
          call dotaskx3d(cmdmess,ierror)

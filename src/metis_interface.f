@@ -561,7 +561,7 @@ C
       if (ierr.ne.0) then
          cmdmess = 'cmo/addatt/-def-/'
      &             // ch_inodeprt(1:icharlnf(ch_inodeprt))
-     &             // '/VINT/scalar/nnodes/linear/temporary/agx/0/'
+     &             // '/VINT/scalar/nnodes/linear/temporary/   /0/'
      &             // '; finish'
          ierr = 0
          call dotaskx3d(cmdmess,ierr)
@@ -586,7 +586,7 @@ C     if it doesn't, create it.
       if (ierr.ne.0) then
          cmdmess = 'cmo/addatt/-def-/'
      &             // ch_ielemprt(1:icharlnf(ch_ielemprt))
-     &             // '/VINT/scalar/nelements/linear/temporary/agx/0/'
+     &             // '/VINT/scalar/nelements/linear/temporary/   /0/'
      &             // '; finish'
          ierr = 0
          call dotaskx3d(cmdmess,ierr)
