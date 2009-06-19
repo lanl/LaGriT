@@ -3,7 +3,7 @@
 #
 # in general to update libs and executable  
 # on each platform
-#    make install
+#    gnumake install or make install
 #    make COPT=-g install
 #
 #    buildbin
@@ -105,22 +105,24 @@ endif
 # Mac OSX ------------------------------
 # -s static storage preferred, but has errors 
 # remove option flags for Absoft 10 versions
+# -N11 needed for assembler (large code)
 #
 ifeq ($(OPSYS), Darwin)
 OSTAG = _mac
-FC = /Applications/Absoft/bin/f77 
-FC90 = /Applications/Absoft/bin/f90 
-CC= cc 
+FC = /Applications/Absoft9.5/bin/f77 
+FC90 = /Applications/Absoft9.5/bin/f90 
+CC= gcc 
 FFLAGS = -f -N113 -N90 -B19 -q -w 
-FF90FLAGS = -YEXT_NAMES=LCS 
-CFLAGS = 
+FFLAGS = -f -m32 -N11 -q -w 
+FF90FLAGS = -m32 -YEXT_NAMES=LCS 
+CFLAGS = -m32 
 OBJDIR = objects_mac/
 #
 # these flags work for mac on intel 
 ifeq ($(NPROC), i386)
 OSTAG = _maci
-FC = /Applications/Absoft10.1/bin/f77
-FC90 = /Applications/Absoft10.1/bin/f90
+FC = /Applications/Absoft10.2/bin/f77
+FC90 = /Applications/Absoft10.2/bin/f90
 CC= gcc
 FFLAGS = -f -m32 -q
 FF90FLAGS = -m32 
