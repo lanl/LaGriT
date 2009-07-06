@@ -243,8 +243,9 @@ CPVCS    original version
 C
 C#######################################################################
 C
-C     implicit none
-      implicit real*8 (a-h, o-z)
+      implicit none
+C     implicit real*8 (a-h, o-z)
+
       include 'chydro.h'
       include 'consts.h'
 C
@@ -264,11 +265,20 @@ C
 C
 C#######################################################################
 C
-      character*32 idsb
-      character*32 ioption, ioption2, ioption3, ifile, iomode, imt_select
-      character*32 ioption4
-      integer lenidsb
+
+      integer ierrw, ierror,icscode, if_cmo_exist, if_def_cmo
+      integer ii,len,leno,lenfile,length,lenidsb
+      integer imt_select,npoints,ntets,mbndry,nsdtopo,nsdgeom,
+     *  nen,nef,iopt_elements,iopt_values_node,iopt_values_elem,
+     *  ist1,io_format,ihcycle,time,dthydro,icmotype,iopt_points             
+     
+      integer icharlnf 
+
       logical lopt1, lopt2
+
+      character*32 idsb
+      character*32 ioption, ioption2, ioption3, ifile, iomode
+      character*32 ioption4, ioption5
       character*132 logmess
 C
 C#######################################################################
@@ -278,15 +288,42 @@ C
 C#######################################################################
 C
 C
+C     In General the DUMP command has syntax
+C     dump_type / dump_command / filename_out / cmo_in / [OPTIONS]
+C
+C     parse and fill values for ifile, cmo 
+C     iomode, ioption, ioption2, ioption3, ioption4 imt_select
+C     Note parsing can happen before case for dump_command
+C
+C
 C
       cdefault='default'
       idsb = cmsgin(1)
       ioption=' '
       leno=1
       imt_select=0
+      ierror_return = 0
+      ierror = 0
+      if_cmo_exist = 0
+      if_def_cmo = 0
 C
       lenidsb = icharln(idsb)
 C
+c DUMP_RECOLOR
+c CALL dump_recolor_lg (type, file, cmo, restore, create, iomode, ierror)
+c    type    -- Type of dump: "gmv", "x3d", or "avs".
+c    file    -- Dumpfile name.
+c    cmo     -- Mesh object name.
+c    restore -- Logical flag.  If true, then the original ITETCLR and IMT1
+c               values are restored before exiting.  If false, the mesh is
+c               left recolored.
+c    create  -- Logical flag.  If true, a new colormap is created and used.
+c               If false, the existing colormap is used.
+c    iomode  -- Dump format; e.g. "ascii" or "binary".  Which values are
+c               valid will depend on the type of dump being done.
+
+C     case idsb - first token 
+C     DUMP_RECOLOR 
       if(idsb(1:lenidsb).eq.'dump_recolor') then
  
          ioption='gmv'
@@ -301,7 +338,7 @@ C
             if(msgtype(3).eq.3) ifile=cmsgin(3)
          endif
  
-         call cmo_get_name(cmo,ierror)
+         call cmo_get_name(cmo,if_def_cmo)
          if(nwds.ge.4) then
             if(msgtype(4).eq.3 .and. cmsgin(4).ne.'-def-') then
                cmo=cmsgin(4)
@@ -332,11 +369,14 @@ C
  
          go to 9999
 C
+C     case idsb - first token
+C     DUMP 
       elseif(idsb(1:lenidsb).eq.'dump') then
 C
          ioption=cmsgin(2)
          leno=icharlnf(ioption)
  
+C     DUMP / colormap
          if (ioption .eq. 'colormap') then
  
            ifile = 'colormap'
@@ -349,6 +389,12 @@ C
            call dump_colormap_lg (ifile, ierror_return)
  
            go to 9999
+
+C     DUMP / lagrit
+C     DUMP / lgt
+C     DUMP / LAGRIT
+C     DUMP / LaGriT
+C     DUMP / x3d
         elseif ( ioption(1:leno).eq.'lagrit'.or.
      *           ioption(1:leno).eq.'lgt'.or.
      *           ioption(1:leno).eq.'LAGRIT'.or.
@@ -393,7 +439,14 @@ C
            go to 9999
          endif
 c
-         call cmo_get_name (cmo, ierror)
+C        pre-process some common arguments and options 
+C        before continuing on to the specific dump commands
+C
+C        FILL cmo, ifile, iomode, ioption2, ioption3, ioption4
+C        check cmo but do not return, not needed for all situations?
+C        instead set the error flag which is used later 
+C
+         call cmo_get_name (cmo, if_def_cmo)
          if (nwds .ge. 4) then
            if (msgtype(4).eq.3 .and. cmsgin(4).ne.'-def-') then
              cmo = cmsgin(4)
@@ -407,7 +460,7 @@ c
          endif
          lenfile=icharlnf(ifile)
  
-         if(cmo(1:5).ne.'-all-') call cmo_select(cmo,ierror)
+         if(cmo(1:5).ne.'-all-') call cmo_select(cmo,if_def_cmo)
          if (nwds.le.4) then
             iomode='binary'
          else
@@ -427,9 +480,8 @@ c
             elseif(cmsgin(5)(1:7).eq.'binaryc') then
                iomode='binaryc'
             endif
- 
- 
          endif
+
          if (nwds.le.5) then
             ioption2=' '
          else
@@ -444,21 +496,24 @@ c
          else
             ioption3=cmsgin(7)
          endif
+
+C        check special options for dump/fehm and dump/stor
+C        only check for integer setting, all other
+C        keywords are checked just before call to dumpfehm
+
          if((ioption(1:leno).eq.'fehm') .or. 
      1      (ioption(1:leno).eq.'stor')) then
 
-C           check for selected imt1 value for material list
+C           check for integer imt1 value for material list
             if (msgtype(nwds).eq.1) then
                imt_select = imsgin(nwds)
                nwds=nwds-1
             endif
 
-            if (nwds .le. 7) then
-               ioption4='delatt'
-            else
-               ioption4=cmsgin(8)
-            endif
          endif
+
+C        check special options for dump/zone 
+
          if((ioption(1:leno).eq.'zone') .or. 
      1      (ioption(1:leno).eq.'zone_outside') .or.
      2      (ioption(1:leno).eq.'zone_imt')) then
@@ -480,18 +535,20 @@ c        pass outside minmax option keepatt through string argument
          endif
 
  
+C     case idsb - first token
+C     NOT DUMP_RECOLOR OR DUMP
       else
          ifile=cmsgin(2)
          lenfile=icharlnf(ifile)
  
-         call cmo_get_name (cmo, ierror)
+         call cmo_get_name (cmo, if_def_cmo)
          if (nwds .ge. 3) then
            if (msgtype(3).eq.3 .and. cmsgin(3).ne.'-def-') then
              cmo = cmsgin(3)
            endif
          endif
  
-         call cmo_select(cmo,ierror)
+         call cmo_select(cmo,if_def_cmo)
          if (nwds.le.3) then
             iomode='binary'
          else
@@ -519,35 +576,71 @@ c        pass outside minmax option keepatt through string argument
             ioption2=cmsgin(5)
          endif
       endif
-C
- 
+C     DONE with 
+C     case DUMP_RECOLOR
+C     case DUMP pre-process of some commands   
+
+C     set cmo and ierror_return in case things blow up
+      call cmo_exist(cmo,if_cmo_exist)
+      if(if_def_cmo.ne.0) then
+        write(logmess,*) 
+     *  'WRITEDUMP Warning: cannot find default mesh object.'
+        call writloga('default',0,logmess,0,ierrw)
+        ierror_return = -3
+      endif
+
+      call cmo_exist(cmo,if_cmo_exist)
+      if(if_cmo_exist.ne.0) then
+        write(logmess,*) 
+     *  'WRITEDUMP Warning: cannot find selected mesh object '
+     *   //cmo(1:icharlnf(cmo))
+        call writloga('default',0,logmess,0,ierrw)
+        ierror_return = -2
+      endif
+
+C     swith on case idsb again and call appropriate routines 
+C     assume cmo is set, if_cmo_exist holds result from cmo check
+
+C     DUMPGMV 
+C     DUMP / gmv 
       if(idsb(1:lenidsb ).eq.'dumpgmv' .or.
      *         ioption(1:leno).eq.'gmv') then
 C
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
             call dumpgmv_hybrid(ifile(1:lenfile),cmo,iomode)
+            ierror_return = 0
          endif
 C
+C     DUMPINV  
+C     DUMP / inv
       elseif(idsb(1:lenidsb ).eq.'dumpinv' .or.
      *         ioption(1:leno).eq.'inv') then
 C
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
             call dumpinventor(ifile(1:lenfile),cmo)
+            ierror_return = 0
          endif
-CCCCCCC
+
+C     DUMPSTL
+C     DUMP / stl
 CCCCCCC  ADDED BY LORAINE
 CCCCCCC  stl output
 CCCCCCC  Don't forget that you commented out the 'rtt' option!!!CCC
-CCCCCCC
       elseif(idsb(1:lenidsb ).eq.'dumpstl' .or.
      *         ioption(1:3).eq.'stl') then
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
             call dumpstl(ifile(1:lenfile),cmo)
+            ierror_return = 0
          else
             write(logmess,'(a)') 'DUMPSTL cannot find mesh object'
             call writloga('default',0,logmess,0,ierrw)
          endif
 C
+C     DUMPAVS 
+C     DUMP / avs
+C     DUMP / att_node
+C     DUMP / att_elem
+C     DUMP / geofest
       elseif(idsb(1:lenidsb ).eq.'dumpavs' .or.
      *         ioption(1:3).eq.'avs' .or. 
      *         ioption(1:8).eq.'att_node' .or. 
@@ -555,7 +648,7 @@ C
      *         ioption(1:7).eq.'geofest') then
 C
 C
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
             len=icharlnf(cmo)
             call cmo_get_info('nnodes',cmo,
      *                        npoints,length,icmotype,ierror)
@@ -785,6 +878,7 @@ C
      *                   ihcycle,time,dthydro,
      *                   iopt_points,iopt_elements,
      *                   iopt_values_node,iopt_values_elem,io_format)
+            ierror_return = 0
             endif
             if(ioption(1:7).eq.'geofest')then
             iopt_values_elem=0
@@ -794,16 +888,19 @@ C
      *                   ihcycle,time,dthydro,
      *                   iopt_points,iopt_elements,
      *                   iopt_values_node,iopt_values_elem)
+            ierror_return = 0
             endif
          else
             write(logmess,'(a)') 'DUMPAVS cannot find mesh object'
             call writloga('default',0,logmess,0,ierrw)
          endif
 C
+C     DUMPCHAD
+C     DUMP / chad 
       elseif(idsb(1:lenidsb ).eq.'dumpchad' .or.
      *         ioption(1:leno).eq.'chad') then
 C
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
             len=icharlnf(cmo)
             call cmo_get_info('nnodes',cmo,
      *                        npoints,length,icmotype,ierror)
@@ -826,67 +923,142 @@ C
 c      elseif(ioption(1:leno).eq.'tecplot_ascii') then
 c
 c     Output ascii mesh for TECPLOT
-c         if(ierror.eq.0) then
+c         if(if_cmo_exist.eq.0) then
 c            len=icharlnf(cmo)
 c            call dumptecplot_ascii(ifile(1:lenfile),
 c     *          ioption2(1:icharlnf(ioption2)),iomode,ioption3)
+             ierror_return = 0
 c         endif
+
+C     DUMP / tecplot
       elseif(ioption(1:leno).eq.'tecplot') then
 c
 c     Output hybrid  mesh for TECPLOT
            if(msgtype(5).eq.3 .and. cmsgin(5).eq.'fsets') then
                ioption=cmsgin(5)
             endif
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
             len=icharlnf(cmo)
             call dumptecplot_hybrid(ifile(1:lenfile),
      *          ioption2(1:icharlnf(ioption2)),iomode)
+            ierror_return = 0
          endif
+
+C     DUMPFEHM
+C     DUMP / fehm
+C     DUMP / stor
 C
       elseif((idsb(1:lenidsb ).eq.'dumpfehm') .or.
      *         (ioption(1:leno).eq.'stor') .or.
      *         (ioption(1:leno).eq.'fehm')) then
-C
-         if(ierror.eq.0) then
-            len=icharlnf(cmo)
-c           make sure default ioption is set 
-            if (ioption(1:leno).ne.'stor') ioption='fehm'
-            call dumpfehm(ifile(1:lenfile),
-     *          ioption2(1:icharlnf(ioption2)),ioption, iomode,
-     *          ioption3, ioption4)
+
+C       Allow keywords any place after the file_name and cmo
+C       Set defaults, find and send option settings 
+C       dumpfehm will check allowable combinations
+C       ifile, 
+C         ioption2 is ifileini name for dump_fehm_geom
+C         ioption is fehm or stor
+C         iomode is writing mode (default ascii) 
+C         ioption3 is coef_option (default scalar)
+C         ioption4 is compress option (default all)
+C         ioption5 is attribute option (default delatt)
+C       
+
+        if(if_cmo_exist.eq.0) then
+           len=icharlnf(cmo)
+c          make sure default ioptions are set 
+           if (ioption(1:leno).ne.'stor') ioption='fehm'
+           iomode = 'ascii'
+           ioption3 = 'scalar'
+           ioption4 = 'all'
+           ioption5 = 'delatt'
+
+
+           do ii = 1,nwds
+            if (idebug .ne. 0) then
+              if (msgtype(ii) .eq. 3) print*, ii, cmsgin(ii)
+              if (msgtype(ii) .eq. 2) print*, ii, imsgin(ii)
+              if (msgtype(ii) .eq. 1) print*, ii, xmsgin(ii)
+            endif
+
+c           Find keywords and set options for dumpfehm routine
+ 
+            if (msgtype(ii) .eq. 3) then
+              if (cmsgin(ii)(1:5).eq.'ascii') iomode='ascii'
+              if (cmsgin(ii)(1:6).eq.'binary') iomode='binary'
+              if (cmsgin(ii).eq.'unformatted') iomode='binary'
+              if (cmsgin(ii).eq.'scalar') ioption3='scalar'
+              if (cmsgin(ii).eq.'vector') ioption3='vector'
+              if (cmsgin(ii).eq.'both') ioption3='both'
+              if (cmsgin(ii).eq.'area_scalar') ioption3='area_scalar'
+              if (cmsgin(ii).eq.'area_vector') ioption3='area_vector'
+              if (cmsgin(ii).eq.'area_both') ioption3='area_both'
+              if (cmsgin(ii).eq.'all') ioption4='all'
+              if (cmsgin(ii).eq.'graph') ioption4='graph'
+              if (cmsgin(ii)(1:4).eq.'coef') ioption4='coefs'
+              if (cmsgin(ii).eq.'none') ioption4='none'
+              if (cmsgin(ii).eq.'keepatt') ioption5='keepatt'
+              if (cmsgin(ii).eq.'delatt') ioption5='delatt'
+
+C          check for old syntax with alternate_scalar
+C          dump / stor / file_name_as / cmo / asciic / / alternate_scalar
+              if (cmsgin(ii).eq.'alternate_scalar') then
+                 ioption3='scalar'
+                 ioption4='graph'
+                 if (cmsgin(5).eq.'asciic') ioption4='all'
+                 if (cmsgin(5).eq.'binaryc') ioption4='all'
+              endif 
+            endif
+           enddo
+
+           call dumpfehm(ifile(1:icharlnf(ifile)),
+     *          ioption2(1:icharlnf(ioption2)),
+     *          ioption, iomode,
+     *          ioption3, ioption4, ioption5)
+           ierror_return = 0
+            
          endif
+
+C     DUMP / coord (for fehm)
       elseif(ioption(1:leno).eq.'coord') then
 c
 c     Output only the FEHM COORD and ELEM macro information
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
             len=icharlnf(cmo)
             call dump_fehm_geom(ifile(1:lenfile),
      *          ioption2(1:icharlnf(ioption2)),iomode,ioption3)
+            ierror_return = 0
          endif
+
+C     DUMP / zone_imt (for fehm)
       elseif(ioption(1:leno).eq.'zone_imt') then
 c
 c     Output only the FEHM imt zone macro information
 C
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
           len=icharlnf(cmo)
           call dump_material_list (ifile(1:lenfile),imt_select)
+          ierror_return = 0
          endif
 
+C     DUMP / zone_outside (for fehm)
       elseif(ioption(1:leno).eq.'zone_outside') then
 c
 c     Output only the FEHM outside (normal) zone information
 C
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
           len=icharlnf(cmo)
           call dump_outside_list  (ifile(1:lenfile), ioption4)
+          ierror_return = 0
          endif
 
+C     DUMP / zone_outside_minmax (for fehm)
       elseif(ioption(1:leno).eq.'zone_outside_minmax') then
 c
 c     Output only the minmax ijk of outside (normal) nodes
 C     pass double argument through string argument
 C
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
 
           if (ioption4(1:12).eq.'keepatt_area' ) then
              ioption4='minmax_keepatt_area'
@@ -896,33 +1068,37 @@ C
              ioption4='minmax_keepatt'
           endif
           
-          print*,'OPTIONS: ',ioption,ioption4
-
           len=icharlnf(cmo)
           call dump_outside_list  (ifile(1:lenfile), ioption4)
+          ierror_return = 0
          endif
 
+C     DUMP / zone (for fehm)
       elseif(ioption(1:leno).eq.'zone') then
 c
 c     Output only the FEHM COORD and ELEM macro information
 C
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
           len=icharlnf(cmo)
           call dump_material_list (ifile(1:lenfile),imt_select)
           call dump_outside_list  (ifile(1:lenfile), ioption4)
           call dump_interface_list(ifile(1:lenfile))
           call dump_multi_mat_con (ifile(1:lenfile))
+          ierror_return = 0
          endif
 c
+C     DUMP / voronoi_stor
 c     Output stor file using voronoi search algorithm
+c     writes stor file and gmv file
 C
       elseif(ioption(1:leno).eq.'voronoi_stor') then
             len = icharlnf(ifile)
             if (ifile(1:len) .eq. '-def-') then
               ifile ='voronoi'
             endif
-            if(ierror.eq.0) then
+            if(if_cmo_exist.eq.0) then
                call voronoi_stor(cmo,'all',ifile)
+               ierror_return = 0
             endif
  
 C
@@ -935,10 +1111,14 @@ Cdcg           call sgidump(ifile(1:lenfile))
 Cdcg        endif
 C
 C
+C     DUMPDATEX
+C     DUMPSIMUL
+C     DUMP / datex
+C     DUMP / imul
       elseif(idsb(1:lenidsb ).eq.'dumpdatex' .or.
      *    idsb(1:lenidsb ).eq.'dumpsimul' .or.
      *    ioption(1:leno).eq.'datex'.or.ioption(1:leno).eq.'simul') then
-         if(ierror.eq.0) then
+         if(if_cmo_exist.eq.0) then
             call cmo_get_info('nnodes',cmo,
      *                        npoints,length,icmotype,ierror)
             call cmo_get_info('nelements',cmo,
@@ -958,8 +1138,11 @@ C
      *                     nsdgeom,nen,nef,
      *                     npoints,ntets,
      *                     ihcycle,time,dthydro)
+            ierror_return = 0
          endif
 C
+C      DUMPSPH
+C      DUMP / sph
 c      elseif(idsb(1:lenidsb ).eq.'dumpsph' .or.
 c     *         ioption(1:leno).eq.'sph') then
 C
@@ -971,15 +1154,19 @@ c      elseif(ioption(1:leno).eq.'rage') then
 C
 c         call dumprage(ifile(1:lenfile),cmo)
  
+C     DUMPFLOTRAN
+C     DUMP / flotran
       elseif(idsb(1:lenidsb ).eq.'dumpflotran' .or.
      *         ioption(1:leno).eq.'flotran') then
  
          call dumpflotran(ifile(1:lenfile))
+         ierror_return = 0
  
       elseif(ioption(1:leno).eq.'elem_adj_elem') then
  
          call write_element_element
      *    (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror_return)
+         
  
       elseif(ioption(1:leno).eq.'elem_adj_node') then
  
@@ -999,5 +1186,16 @@ C
       endif
 C
  9999 continue
+
+C     catch any errors might that have passed through
+
+      if (ierror_return .ne. 0 ) then
+         write(logmess,'(a6,a,2x,a,a,i5)') 
+     *   'Write ', idsb(1:icharlnf(idsb)),
+     *    ioption(1:icharlnf(ioption)),
+     *   ' returned with error: ', ierror_return 
+         call writloga('default',1,logmess,1,ierrw)
+      endif
+
       return
       end

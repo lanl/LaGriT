@@ -46,7 +46,8 @@ c          ifcompress   = 0 If no compression of the .stor file is desired.
 C                       = 1 If compression is desired.
 C      OUTPUT ARGUMENTS -
 C
-C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
+C         istatus - Error Return Code (==0 ==> OK, <>0 ==> Error)
+C         There is no returned error, checking is confined to this routine
 C
 c         The output file is in the FEHM .stor format
 c
@@ -453,7 +454,7 @@ C
 c local ----------------------------------------------------------------
 C
       integer nconn
-      integer ierror,ierr1,ics
+      integer istatus, ierror, ierr, ierr1,ics,ierrw
       integer isort, icolmat, irowmat, isendnn,
      *        irowcnt, irowoff, irowdag, iamat, itet_vor,
      *        isign_dot, imedian, isolve
@@ -634,6 +635,7 @@ C
       dimension isign_dot(24)
 C
       character*32 isubname
+      character*32 io_string, coef_string, comp_string
 C
       parameter (nconn=12)
       integer lconn(2,nconn)
@@ -664,6 +666,7 @@ C
       data itmax / 10 /
       data isolve / 0 /
       data if_vor_io / 0 /
+c     data if_vor_io / 2 /
       data scale_factor / 1.e-10 /
 C
       crosx(a,b,c,d,e,f)=b*f-c*e
@@ -674,11 +677,18 @@ C
 C#######################################################################
 C
       isubname='matbld3d'
+      istatus=0
  
 C
       call mmrelprt(isubname,icscode)
 C
       call cmo_get_name(cmo,ierror)
+      if (ierror .ne. 0) then
+        write(logmess,'(a,a15)')"matbld3d: error from get cmo: ",cmo
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = -1
+        goto 9999
+      endif
  
 C
 C     Set up binning of edges data structure
@@ -689,8 +699,26 @@ C      call cwg_voronoi_stor(cmo,'all',ifile)
 C
       call cmo_get_info('nnodes',cmo,npoints,length,icmotype,ierror)
       call cmo_get_info('nelements',cmo,ntets,length,icmotype,ier)
+
+      if (npoints.le.0) then
+        write(logmess,'(a,a)')
+     *  "matbld3d: cmo has no points: ",cmo(1:icharlnf(cmo))
+        call writloga('default',1,logmess,1,ierrw)
+        istatus = -1
+        goto 9999
+      endif
+      if (ntets.le.0) then
+        write(logmess,'(a,a)')
+     *  "matbld3d: cmo has no elements: ",cmo(1:icharlnf(cmo))
+        call writloga('default',1,logmess,1,ierrw)
+        istatus = -1
+        goto 9999
+      endif
+
+
       call cmo_get_info('mbndry',cmo,mbndry,length,icmotype,ierror)
       call cmo_get_intinfo('idebug',cmo,idebug,length,icmotype,ierror)
+
       call cmo_get_info('ndimensions_topo',cmo,
      *                  nsdtopo,length,icmotype,ierror)
       call cmo_get_info('ndimensions_geom',cmo,
@@ -713,7 +741,7 @@ C
  
       if(idebug.ne.0) then
         write(logmess,'(a,i5)')"debug option set to: ",idebug
-        call writloga('default',0,logmess,0,icscode)
+        call writloga('default',0,logmess,0,ierrw)
       endif
 C
 C
@@ -745,65 +773,167 @@ C
 C
 C#######################################################################
 C
+
+C     add information so user knows which routine is being used.
+      if (idebug.ne.0) then 
+      write(logmess,'(a)') "Matbld3d_stor "
+      call writloga('default',1,logmess,0,ierrw)
+      write(logmess,'(a,a)') "  cmo name         : ",cmo
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a,a)') "  file name        : ",ifile
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a,i5)') "  file type option: ",io_type
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a,i5)') "  compress option : ",ifcompress
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a,i5)') "  coef option     : ",num_area_coef
+      call writloga('default',0,logmess,1,ierrw)
+      endif
+
       length=n12
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk   isort: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("isort",isubname,ipisort,length,1,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed:  isort ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
  
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk icolmat: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("icolmat",isubname,ipicolmat,length,1,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: icolmat ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk irowmat: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif 
  
       call mmgetblk("irowmat",isubname,ipirowmat,length,1,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: irowmat ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk isendnn: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("isendnn",isubname,ipisendnn,length,1,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: isendnn ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
  
       length=npoints
- 
+      
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk irowcnt: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("irowcnt",isubname,ipirowcnt,length,1,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: irowcnt ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk irowoff: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("irowoff",isubname,ipirowoff,length,1,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: irowoff ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk irowdag: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("irowdag",isubname,ipirowdag,length,1,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: irowdag ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk iparent: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("iparent",isubname,ipiparent,length,1,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: iparent ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+
       length=nen*ntets
 
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk   itetp: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("itetp",isubname,ipitetp,length,1,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed:  itetp ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
       
-      if(idebug .gt. 0)call mmprint( )
+      if(idebug .gt. 0)call mmverify( )
 C
 C
 C     ..................................................................
@@ -867,66 +997,149 @@ C
 C
       ncoefs=length
 
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmnewlen icolmat: ",length
       call writloga('default',0,logmess,0,icscode)
+      endif
  
       call mmnewlen("icolmat",isubname,ipicolmat,length,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmnewlen failed: icolmat ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+      endif
 
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmnewlen irowmat: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmnewlen("irowmat",isubname,ipirowmat,length,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmnewlen failed: irowmat ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+      endif
+
 C
       ncoefs=length
  
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk    amat: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("amat",isubname,ipamat,length,2,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: amat ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk   xamat: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("xamat",isubname,ipxamat,length,2,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: xamat ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk   yamat: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif 
  
       call mmgetblk("yamat",isubname,ipyamat,length,2,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: yamat ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk   zamat: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("zamat",isubname,ipzamat,length,2,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: zamat ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk   iamat: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("iamat",isubname,ipiamat,length,1,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: iamat ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
  
       if(if_vor_io .ne. 0)then
       len15 = 3*15*ntets
- 
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk vor_pts: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("vor_pts",isubname,ipvor_pts,len15,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: vor_pts ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
       len24 = 24*ntets
- 
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk isign_face: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk
      1  ("isign_face",isubname,ipisign_face,len24,1,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: isign_face ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
 
       if(if_vor_io .eq. 2)then
 C
@@ -934,12 +1147,22 @@ C    Allocate array for storing bounding box of each voronoi polygon.
 C
       len3_2_nn = 3*2*npoints
  
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk vor_xyz_min_max: ",len3_2_nn
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk
      *("vor_xyz_min_max",isubname,ipvor_xyz_min_max,len3_2_nn,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: vor_xyz_min_max ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
       endif
 C
 C     
@@ -953,7 +1176,7 @@ C
       
       endif
       
-      if(idebug .gt. 0)call mmprint( )
+      if(idebug .gt. 0)call mmverify( )
 C
 C     ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 C     BUILD THE SPARSE MATRIX AND SPARSE MATRIX PATTERN.
@@ -990,7 +1213,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C***           print *, 'Negative Volume ', i1,i2,i3,i4,voltet
            write(logmess,'(a,4i10,1pe15.7)')
      *           "Negative Volume ",i1,i2,i3,i4,voltet
-           call writloga('default',0,logmess,0,icscode)
+           call writloga('default',0,logmess,0,ierrw)
          endif
       enddo
       endif
@@ -1001,31 +1224,69 @@ C
 C
       length=n12
  
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk  xconst: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("xconst",isubname,ipxconst,length,2,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: xconst ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk  yconst: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("yconst",isubname,ipyconst,length,2,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: yconst ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk  zconst: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("zconst",isubname,ipzconst,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: zconst ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
  
       length=npoints
- 
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk   volic: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("volic",isubname,ipvolic,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: volic ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
  
       do i=1,npoints
          volic(i)=0.0
@@ -1923,58 +2184,122 @@ C   Reorder the const values into the sendnn arrays
 C
       length=n12
  
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk xsendnn: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("xsendnn",isubname,ipxsendnn,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: xsendnn ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
       do i=1,n12
          xsendnn(i) = xconst(isort(i))
       enddo
 
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmrelblk  xconst: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmrelblk("xconst",isubname,ipxconst,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmrelblk failed: xconst ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk ysendnn: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("ysendnn",isubname,ipysendnn,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: ysendnn ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
       do i=1,n12
          ysendnn(i) = yconst(isort(i))
       enddo
 
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmrelblk  yconst: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmrelblk("yconst",isubname,ipyconst,icscode)
- 
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmrelblk failed: yconst ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+      endif
+
+      if (idebug.gt.1) then 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk zsendnn: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmgetblk("zsendnn",isubname,ipzsendnn,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: zsendnn ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
       do i=1,n12
          zsendnn(i) = zconst(isort(i))
       enddo
 
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmrelblk  zconst: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmrelblk("zconst",isubname,ipzconst,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmrelblk failed: zconst ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+      endif
 
+
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmrelblk   isort: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmrelblk("isort",isubname,ipisort,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmrelblk failed: isort ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+      endif
+
 C
-      if(idebug .gt. 0)call mmprint( )
+      if(idebug .gt. 0)call mmverify( )
 C
 C    Above is the last time xconst, yconst, zconst, isort are used.
 C
@@ -2005,11 +2330,20 @@ C
 C    This is the last time isendnn is used.
 C
 
+      if (idebug.gt.1) then
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmrelblk isendnn: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
+      endif
  
       call mmrelblk("isendnn",isubname,ipisendnn,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmrelblk failed: isendnn ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+      endif
+
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
@@ -2059,48 +2393,48 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       write(logmess,'(a,i8,a,i10)')
      *   "Matbld3d_stor: npoints = ",npoints,
      *   "  n connections = ",ncoefs
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
       write(logmess,'(a,f15.7)')
      *"Matbld3d_stor: Ave. num connections (ncoefs/npoints) = ",
      * ave_con_node
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
       write(logmess,'(a,i10)')
      *"Matbld3d_stor: Maximum num. connections to a node = ",
      * num_conn_max
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
       write(logmess,'(a,1pe15.7)')
      *   "Matbld3d_stor: Volume min = ",volmin
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
       write(logmess,'(a,1pe15.7)')
      *   "Matbld3d_stor: Volume max = ",volmax
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
       if(num_area_coef .gt. 0)then
       write(logmess,'(a,1pe15.7)')
      *   "Matbld3d_stor: abs(Aij/xij) min = ",amatmin
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
       write(logmess,'(a,1pe15.7)')
      *   "Matbld3d_stor: abs(Aij/xij) max = ",amatmax
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
       elseif(num_area_coef .lt. 0)then
       write(logmess,'(a,1pe15.7)')
      *   "Matbld3d_stor: abs(Aij) min = ",amatmin
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
       write(logmess,'(a,1pe15.7)')
      *   "Matbld3d_stor: abs(Aij) max = ",amatmax
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
       endif
       write(logmess,'(a,3(1pe15.7))')
      *   "Matbld3d_stor: Total Volume: ",voltot/6.0d+00,
      *                    voltot_vor1/6.0d+00,
      *                    voltot_vor2/6.0d+00
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
@@ -2135,15 +2469,30 @@ c
 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor: mmgetblk   itemp: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
       call mmgetblk('itemp',isubname,ipitemp,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed:  itemp ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
 
       write(logmess,'(a,i14)')
      *   "Matbld3d_stor:mmgetblk imatptrs: ",length
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
       call mmgetblk('imatptrs',isubname,ipimatptrs,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: imatptrs ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
  
       do i=1,ncoefs
          imatptrs(i)=i
@@ -2202,6 +2551,15 @@ c fehmstor ascir8i4 LaGriT Sparse Matrix, Voronoi Coefficients
 c 123456789012345678901234567890123456789012345678901234567890123456789012
 c fehmstor ieeer8i4 LaGriT Sparse Matrix, Voronoi Coefficients
 c unformatted
+
+c 123456789012345678901234567890123456789012345678901234567890123456789012
+c       06/03 09:57:46 20093-D 3-D Linear Diffusion Model (Matbld3d_stor)
+c      possible compression types are none, coefs, graph, all
+c      this version matbld3d only does none or coefs 
+c       matbld3d_stor with no compression
+c       06/03 09:57:46 20093-D 3-D Linear Diffusion Model (matbld3d_nstor)
+c       matbld3d_stor with area coefficient compression
+c       06/03 09:57:46 20093-D 3-D Linear Diffusion Model (matbld3d_cstor)
  
 c
 c      The possible values for characters 14-17 are:
@@ -2213,15 +2571,29 @@ c
          write(title_string,'(a)')
      1'fehmstor ieeer8i4 LaGriT Sparse Matrix Voronoi Coefficients'
          write(iunit)title_string
+
+         if (ifcompress .ne. 0) then
          write(title_string,*)
-     1        string,' 3-D Linear Diffusion Model (matbld3d_stor)'
+     1   string,' 3-D Linear Diffusion Model (matbld3d_cstor)'
+         else
+         write(title_string,*)
+     1   string,' 3-D Linear Diffusion Model (matbld3d_nstor)'
+         endif
          write(iunit)title_string
  
 C     ASCII header
       elseif(io_type .eq. 2)then
+
+         if (ifcompress .ne. 0) then
          write(iunit,'(a)')
      1'fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients'
-       write(iunit,*)string,'3-D Linear Diffusion Model (matbld3d_stor)'
+      write(iunit,*)string,'3-D Linear Diffusion Model (matbld3d_cstor)'
+         else
+         write(iunit,'(a)')
+     1'fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients'
+      write(iunit,*)string,'3-D Linear Diffusion Model (matbld3d_nstor)'
+         endif
+
       endif
  
 C
@@ -2438,16 +2810,31 @@ c     Allocate memory to store value and index of negative edge coefs.
 c
       call mmgetblk
      1    ("coef_neg",isubname,ipcoef_neg,icount_neg,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: coef_neg ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
+
       call mmgetblk
      1    ("index_neg",isubname,ipindex_neg,2*icount_neg,1,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "Matbld3d_stor: mmgetblk failed: index_neg ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        istatus = icscode
+        goto 9999
+      endif
  
       write(logmess,'(a,1pe15.7)')
      *   "Matbld3d_stor:     Aij/xij min = ",amatmin
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
       write(logmess,'(a,1pe15.7)')
      *   "Matbld3d_stor:     Aij/xij max = ",amatmax
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ierrw)
  
 c I uncommented this section and dump never finished.
 c under opt version - tam 5/99
@@ -2468,13 +2855,13 @@ c         endif
         write(logmess,'(a,i9,a,1pe15.7,a,1pe15.7))')
      *    "Matbld3d_stor: total neg",icount_neg,
      *    " mincoef= ",amatmin," maxcoef= ",amatmax
-        call writloga('default',0,logmess,0,icscode)
+        call writloga('default',0,logmess,0,ierrw)
  
         write(logmess,'(a)')
      *   'NegC: sort              edge            vor_coeff
      *      row_node     col_node'
  
-        call writloga('default',0,logmess,0,icscode)
+        call writloga('default',0,logmess,0,ierrw)
 C
 c since ssort does not currently work under opt version, and we want
 c avoid printing all neg coeffs, only print those that are valid neg coef
@@ -2495,12 +2882,12 @@ C            do i=1,min(icount_neg,30)
                write(logmess,'(a,4i10,1pe15.7,2i10)')
      *            "NegC:",ii,jj,kk,ll,value,
      *               irowmat(j),icolmat(j)
-               call writloga('default',0,logmess,0,icscode)
+               call writloga('default',0,logmess,0,ierrw)
                jcount = jcount + 1
              endif
             enddo
             write(logmess,'(a,i10)') "Total suspect coeffs: ",jcount
-            call writloga('default',1,logmess,1,icscode)
+            call writloga('default',1,logmess,1,ierrw)
  
  
          else
@@ -2518,7 +2905,7 @@ C            do i=1,min(icount_neg,30)
                    write(logmess,'(a,4i10,1pe15.7,2i10)')
      *                "NegC:",ii,jj,kk,ll,value,
      *                   irowmat(j),icolmat(j)
-                   call writloga('default',0,logmess,0,icscode)
+                   call writloga('default',0,logmess,0,ierrw)
                endif
             enddo
          endif
@@ -2526,8 +2913,8 @@ C            do i=1,min(icount_neg,30)
  
          ierr1=0
          write(logmess,'(a,i10)')
-     *   "Matbld3d_stor: *****Zero Negative Coefficients ******"
-         call writloga('default',0,logmess,0,icscode)
+     *   "Matbld3d_stor: **** Zero Negative Coefficients *****"
+         call writloga('default',0,logmess,0,ierrw)
       endif
 c
       if(if_vor_io .ne. 0)then
@@ -2639,11 +3026,121 @@ c     1                     isign_face(i+15*(it-1)), '  tri ',
       endif
  
       goto 9999
+
  9999 continue
+
+C convert options to readable strings and report
+C
+C io_type = 2 Output ascii coefficient (stor) file.
+C         = 1 = 3 Output unformatted coefficient (stor) file.
+C
+C num_area_coef = 1 Output single component scalar area/distance coefficients.
+C         = 3 Output x,y,z  vector area/distance coefficients.
+C         = 4 Output scalar and vector area/distance coefficients.
+C         =-1 Output single component scalar area coefficients.
+C         =-3 Output x,y,z  vector area coefficients.
+C         =-4 Output scalar and vector area coefficients.
+c
+c  ifcompress   = 0 If no compression of the .stor file is desired. (none = nstor)
+C               = 1 If coef compression is desired. (coefs = _cstor)
+C     (note anothermatbld3d_stor writes _astor and _gstor (all and graph))
+
+      io_string = 'not set                        '
+      coef_string = 'not set                        '
+      comp_string = 'not set                        '
+
+      if (io_type.eq.1) io_string='unformatted'
+      if (io_type.eq.2) io_string='ascii'
+      if (io_type.eq.3) io_string='unformatted'
+      if (io_type.eq.5) io_string='attribute'
+      if (num_area_coef.eq.1) coef_string = 'scalar area/distance'
+      if (num_area_coef.eq.3) coef_string = 'vector area/distance'
+      if (num_area_coef.eq.4)
+     *    coef_string = 'scalar and vector area/distance'
+      if (num_area_coef.eq. -1) coef_string = 'scalar area'
+      if (num_area_coef.eq. -3) coef_string = 'vector area'
+      if (num_area_coef.eq. -4) coef_string = 'scalar and vector area'
+      if (ifcompress.eq. 1) comp_string='for coefficient values'
+      if (ifcompress.eq. 0) comp_string='for none'
+
+C Report any errors or success
+C todo - figure out and add ijob option to report 
+C
+      if (istatus .ne. 0) then
+        call mmprint()
+        write(logmess,'(a,i5)')
+     *  "Matbld3d_stor: ERROR could not finish: ",istatus
+        call writloga('default',1,logmess,0,ierrw)
+
+        write(logmess,'(a,a32)')
+     *  "Attempted sparse matrix with ",
+     *  comp_string
+        call writloga('default',0,logmess,0,ierrw)
+        write(logmess,'(a,a32)')
+     *  "with coefficients written as ",
+     *  coef_string
+        call writloga('default',0,logmess,0,ierrw)
+
+        if (ifcompress.eq.0) then
+        write(logmess,'(a)')
+     *  "  *** _nstor SPARSE COEFFICIENT MATRIX ERROR ***"
+        call writloga('default',1,logmess,0,ierrw)
+        else
+        write(logmess,'(a)')
+     *  "  *** _cstor SPARSE COEFFICIENT MATRIX ERROR ***"
+        call writloga('default',1,logmess,0,ierrw)
+        endif
+        write(logmess,'(a)')
+     *  "*** INCOMPLETE or NO STOR FILE WRITTEN!! ***"
+        call writloga('default',0,logmess,1,ierrw)
+
+       else
+
+
+        write(logmess,'(a,a32)')
+     *  "Compression used for ",
+     *  comp_string
+        call writloga('default',0,logmess,0,ierrw)
+
+        write(logmess,'(a,a32)')
+     *  "The area coefficient values were written as ",
+     *  coef_string
+        call writloga('default',0,logmess,0,ierrw)
+
+        if (io_type .eq. 5) then
+        write(logmess,'(a,a,a)')
+     *  cmo(1:icharlnf(cmo)),
+     *  " attribute with voronoi volumes created with name ",
+     *  ifile(1:icharlnf(ifile))
+        call writloga('default',0,logmess,0,ierrw)
+        else
+        write(logmess,'(a,a,a)')
+     *  io_string(1:icharlnf(io_string)),
+     *  " STOR file written with name ",
+     *  ifilename(1:icharlnf(ifilename))
+        call writloga('default',0,logmess,0,ierrw)
+        endif
+
+        if (ifcompress .eq. 0) then
+        write(logmess,'(a)')
+     *  "*** SPARSE COEFFICIENT MATRIX _nstor SUCCESSFUL ***"
+        call writloga('default',1,logmess,1,ierrw)
+        else
+        write(logmess,'(a)')
+     *  "*** SPARSE COEFFICIENT MATRIX _cstor SUCCESSFUL ***"
+        call writloga('default',1,logmess,1,ierrw)
+        endif
+
+      endif
+C     end report
+
+
       if(ijob .eq. 1)call mmrelprt(isubname,icscode)
+
       return
       end
  
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       subroutine vor_pts_minmax(vor_pts,i1,i2,i3,i4, xyz_min_max, nnode)
       real*8 vor_pts(3,15,1)
       real*8 xyz_min_max(3,2,nnode)
