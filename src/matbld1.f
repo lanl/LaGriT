@@ -150,7 +150,7 @@ c
       integer itmp4(npoints-1)
       logical mask(nconn*ntets+idiag*npoints)
       integer length,icscode,i,ii,iset,istart,istop,jj,itetmax,
-     *  n12,iimax,nnmax
+     *  n12,iimax,nnmax,ierrw
       real*8 ascend
       integer isort_max, isortr_max, isortc_max
 c
@@ -162,33 +162,64 @@ c
  
       length=2*n12
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmgetblk   xtemp: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmgetblk   xtemp: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('xtemp',isubname,ipxtemp,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  xtemp ",ierrw
+        call writloga('default',0,logmess,1,icscode)
+        call mmprint()
+        goto 9999
+      endif
  
       length=n12
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmgetblk  isortr: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmgetblk  isortr: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('isortr',isubname,ipisortr,length,1,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  isortr ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+        call mmprint()
+        goto 9999
+      endif
+
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmgetblk  isortc: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmgetblk  isortc: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('isortc',isubname,ipisortc,length,1,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  isortc ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+        call mmprint()
+        goto 9999
+      endif
+
  
       length=max(npoints,n12)
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmgetblk  xcount: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmgetblk  xcount: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('xcount',isubname,ipxcount,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  xcount ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+        call mmprint()
+        goto 9999
+      endif
+
 c
 c     ..................................................................
 c     construct the nconn possible pairs of points for each tetrahedron. ea
@@ -258,11 +289,20 @@ c
 c     since xtemp is used later with lenght n12, release this
 c     memory of length 2*n12 and allocate xtemp again later.
 c
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmrelblk   xtemp: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmrelblk   xtemp: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmrelblk('xtemp',isubname,ipxtemp,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmrelblk failed:  xtemp ",icscode
+        call writloga('default',0,logmess,0,ierrw)
+        write(logmess,'(a)')
+     *   "matbld1 continues... "
+        call writloga('default',0,logmess,1,ierrw)
+      endif
+
 c
 c     ..................................................................
 c     (re)arrange the rows and column arrays according to the sort key
@@ -270,11 +310,19 @@ c        order.
 c
       length=n12
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmgetblk   itemp: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmgetblk   itemp: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('itemp',isubname,ipitemp,length,1,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  itemp ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+        call mmprint()
+        goto 9999
+      endif
+
 c
       do i=1,n12
          itemp(i) = isortr(isort(i))
@@ -294,23 +342,47 @@ c     create the sparse coefficient matrix and the sparse matrix pattern
 c
       length=n12
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmgetblk   itmp1: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmgetblk   itmp1: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('itmp1',isubname,ipitmp1,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  xtmp1 ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+        call mmprint()
+        goto 9999
+      endif
+
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmgetblk   itmp2: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmgetblk   itmp2: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('itmp2',isubname,ipitmp2,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  itmp2 ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+        call mmprint()
+        goto 9999
+      endif
+
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmgetblk   itmp3: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmgetblk   itmp3: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('itmp3',isubname,ipitmp3,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  itmp3 ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+        call mmprint()
+        goto 9999
+      endif
+
 c     ..................................................................
 c     identify the edges of the sorted column index.
 c
@@ -351,17 +423,28 @@ c
        endif
       enddo
 c
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmrelblk   itmp2: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmrelblk   itmp2: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmrelblk('itmp2',isubname,ipitmp2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmrelblk failed:  itmp2 ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+      endif
+
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmrelblk   itmp3: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmrelblk   itmp3: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmrelblk('itmp3',isubname,ipitmp3,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmrelblk failed:  itmp3 ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+      endif
 c
 c     ..................................................................
 c     create an array that gives the array offset to the start of the
@@ -383,11 +466,19 @@ c
  
       length=n12
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmgetblk    mask: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmgetblk    mask: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('mask',isubname,ipmask,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  mask ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+        call mmprint()
+        goto 9999
+      endif
+
  
       do i=1,n12
          mask(i)=.false.
@@ -396,11 +487,19 @@ c
  
       length=n12
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmgetblk   itmp4: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmgetblk   itmp4: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('itmp4',isubname,ipitmp4,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  itmp4 ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+        call mmprint()
+        goto 9999
+      endif
+
  
       call packsi(n12,npoints-1,itmp4,itemp,mask)
       do i=2,npoints
@@ -409,11 +508,19 @@ c
  
       length=n12
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      :mmgetblk ilogical: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      :mmgetblk ilogical: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('ilogical',isubname,ipilogical,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  ilogical ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+        call mmprint()
+        goto 9999
+      endif
+
  
       do i=1,n12
         isendnn(i)=0
@@ -463,22 +570,36 @@ c
       enddo
  
 c
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmrelblk  isortc: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmrelblk  isortc: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmrelblk('isortc',isubname,ipisortc,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmrelblk failed: isortc ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+      endif
+
 c     ..................................................................
 c     create an array that counts the number of column entries in each
 c        row.
 c
       length=n12
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmgetblk   xtemp: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmgetblk   xtemp: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmgetblk('xtemp',isubname,ipxtemp,length,2,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmgetblk failed:  xtemp ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+        call mmprint()
+        goto 9999
+      endif
+
  
       do ii=1,n12
          xtemp(ii)=1.0
@@ -494,21 +615,34 @@ c
  
       call xsumsp2r(npoints,n12,xcount,irowmat,xtemp)
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmrelblk   xtemp: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmrelblk   xtemp: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmrelblk('xtemp',isubname,ipxtemp,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmrelblk failed:  xtemp ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+      endif
+
+
  
       do i=1,npoints
          irowcnt(i)=xcount(i)
       enddo
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmrelblk  xcount: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmrelblk  xcount: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmrelblk('xcount',isubname,ipxcount,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmrelblk failed:  xcount ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+      endif
+
 c
 c     ..................................................................
 c     create an array that gives the array offset to the start of the
@@ -528,11 +662,17 @@ c
        if (irowmat(ii).eq.itmp1(ii)) itemp(ii) = 0
       enddo
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmrelblk   itmp1: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmrelblk   itmp1: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmrelblk('itmp1',isubname,ipitmp1,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmrelblk failed: itmp1 ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+      endif
+
  
       do ii=1,n12
          mask(ii)=.false.
@@ -541,21 +681,33 @@ c
  
       call packsi(n12,npoints-1,itmp4,itemp,mask)
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmrelblk   itemp: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmrelblk   itemp: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmrelblk('itemp',isubname,ipitemp,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmrelblk failed: itemp ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+      endif
+
  
       do i=2,npoints
          irowoff(i)=itmp4(i-1)
       enddo
  
-      write(logmess,'(a,i14)')
-     *   "matbld1      : mmrelblk   itmp4: ",length
-      call writloga('default',0,logmess,0,icscode)
+c     write(logmess,'(a,i14)')
+c    *   "matbld1      : mmrelblk   itmp4: ",length
+c     call writloga('default',0,logmess,0,icscode)
  
       call mmrelblk('itmp4',isubname,ipitmp4,icscode)
+      if (icscode .ne. 0) then
+        write(logmess,'(a,i5)')
+     *   "matbld1      : mmrelblk failed: itmp4 ",icscode
+        call writloga('default',0,logmess,1,ierrw)
+      endif
+
 c
 c     ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 c     construct a list of send addresses to send all the coupling
