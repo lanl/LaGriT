@@ -1,47 +1,119 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
-   <title>COMPUTE</title>
+        
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+        
+  <meta name="GENERATOR"
+ content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+  <title>COMPUTE</title>
+   
 </head>
-<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" vlink="#551A8B" alink="#FF0000">
-
-<blockquote>
-<p><b><u><font face="Times New Roman,Times">COMPUTE</font></u></b>
-<blockquote>
-  <p><font face="Times New Roman,Times">This command contains modules that compute various
-    attributes and functions based on one or more mesh objects.</font>
-    This operation will (often) result
-    in new attributes being added to the mesh objects. The action of the command will be controled by the
-    keyword in the second argument position. </p>
-  <p><font face="Courier New, Courier, monospace">distance_field</font> - keyword for distance field calculation. Determine the minimum distance from any node in <font face="Courier New, Courier, monospace">mo_source</font> to every node in <font face="Courier New, Courier, monospace">mo_sink</font> and place the result in the node based floating point attribute, <font face="Courier New, Courier, monospace">distance_field_attribute</font> in mo_sink. The computation is accelerated by using the <a href="./kdtree.html" title="KDTREE search algorighm">kdtree</a> search algorithm. </p>
-  <p>Other places to look for modules that compute some standard mesh attributes include, <a href="./QUALITY.html" title="Mesh Quality">quality</a>, which will compute aspect ratio and volume, <a href="./cmo_addatt.html" title="Add Attribute">cmo/addatt</a>, which will compute normal vectors, dihedral angles, solid angles, meadian points, Voronoi points and more. User functions can be computed with the <a href="./MATH.html" title="Math Functions">math</a> module. </p>
-</blockquote>
-<strong>FORMAT</strong>:
-<blockquote>
-<font face="Courier New, Courier, monospace">compute/distance_field/mo_sink/mo_source/distance_field_attribute</font></blockquote>
-<font face="Times New Roman,Times"><strong>EXAMPLES</strong>:</font>
-<blockquote>
-  <p><font face="Courier New, Courier, monospace">compute / distance_field / mo_sink / mo_src / dfield </font></p>
-  <p>&nbsp;  </p>
-</blockquote>
-<table width="687" border="1">
-  <caption>
-  <strong>    Example: distance_field  </strong>
-  </caption>
-  <tr>
-    <td width="677"><div align="left"><img src="../images/distance_field_01.png" alt="Example: distance_field" width="300" height="300"></div></td>
-  </tr>
-  <tr>
-    <td><font face="Courier New, Courier, monospace">cmo / create / cmo_src<br>
-      createpts/rtz/1,91,1/3.,0.,0./3.,270.,0./1,1,1/ <br>
-      cmo / create / cmo_snk<br>
-      createpts / xyz / 30 30 1 / -5. -5. -5. / 5. 5. 5. / 1 1 1<br>
-      compute / distance_field / cmo_snk / cmo_src / dfield<br>
-    finish</font><br></td>
-  </tr>
-</table>
-<p>&nbsp;</p>
+  <body text="#000000" bgcolor="#ffffff" link="#0000ff" vlink="#551a8b"
+ alink="#ff0000">
+ <br>
+    
+<blockquote>    
+  <p><b><u><font face="Times New Roman,Times">COMPUTE</font></u></b> </p>
+   
+  <blockquote>        
+    <p><font face="Times New Roman,Times">This command contains modules that 
+compute various     attributes and functions based on one or more mesh objects.</font>
+     This operation will (often) result     in new attributes being added 
+to the mesh objects. The action of the command will be controled by the  
+  keyword in the second argument position. </p>
+            
+    <p><font face="Courier New, Courier, monospace">distance_field</font> 
+- keyword for distance field calculation. Determine the minimum distance from
+any node in <font face="Courier New, Courier, monospace">mo_source</font> 
+to every node in <font face="Courier New, Courier, monospace">mo_sink</font> 
+and place the result in the node based floating point attribute, <font
+ face="Courier New, Courier, monospace">distance_field_attribute</font> in 
+mo_sink. The computation is accelerated by using the <a
+ href="./kdtree.html" title="KDTREE search algorighm">kdtree</a> search algorithm.<br>
+     <br>
+     <font face="Courier New, Courier, monospace">signed_distance_field</font> 
+- keyword for signed distance field calculation. Determine the minimum distance 
+from any node in <font face="Courier New, Courier, monospace">mo_source</font> 
+to every node in <font face="Courier New, Courier, monospace">mo_sink</font> 
+and place the result in the node based floating point attribute, <font
+ face="Courier New, Courier, monospace">distance_field_attribute</font> in 
+mo_sink. The computation is accelerated by using the <a
+ href="file:///home/cwg/src/lagrit/lagrit.lanl.gov/docs/kdtree.html"
+ title="KDTREE search algorighm">kdtree</a> search algorithm. Using this option
+the mo_source MUST be either a triangle or quad surface mesh object. If the
+surfaces form a topologically closed volume then positive, 'above' distance
+is in the direction of the surface normal vector. Negative is 'below' the
+surface. If the surface is not a closed volume, then the assumptions described
+in the <a href="./SURFACE.html">surface</a> command are used to determine
+what is above and what is below the surface.</p>
+     
+    <p>Other places to look for modules that compute some standard mesh attributes 
+include, <a href="./QUALITY.html" title="Mesh Quality">quality</a>, which 
+will compute aspect ratio and volume, <a href="./cmo_addatt.html"
+ title="Add Attribute">cmo/addatt</a>, which will compute normal vectors, 
+dihedral angles, solid angles, meadian points, Voronoi points and more. User 
+functions can be computed with the <a href="./MATH.html"
+ title="Math Functions">math</a> module. </p>
+  </blockquote>
+  <strong>FORMAT</strong>: <font face="Courier New, Courier, monospace"><br>
+ &nbsp;&nbsp;&nbsp; compute/distance_field/mo_sink/mo_source/distance_field_attribute</font> 
+  
+  <blockquote><font face="Courier New, Courier, monospace">compute/signed_distance_field/mo_sink/mo_source/distance_field_attribute</font></blockquote>
+  <font face="Times New Roman,Times"><strong>EXAMPLES</strong>:</font>  
+ 
+  <blockquote>        
+    <p><font face="Courier New, Courier, monospace">compute / distance_field 
+/ mo_sink / mo_src / dfield<br>
+ compute / signed_distance_field / mo_sink / mo_src / dfield </font></p>
+         
+    <p>&nbsp;  </p>
+  </blockquote>
+     
+  <table width="687" border="1">
+    <caption>   <strong>    Example: distance_field  </strong>   </caption>
+   <tbody>
+       <tr>
+      <td width="677">         
+        <div align="left"><img src="../images/distance_field_01.png"
+ alt="Example: distance_field" width="300" height="300">
+         </div>
+         </td>
+    </tr>
+    <tr>
+      <td>         
+        <pre><font face="Courier New, Courier, monospace">cmo / create / cmo_src<br>createpts/rtz/1,91,1/3.,0.,0./3.,270.,0./1,1,1/ <br>cmo / create / cmo_snk<br>createpts / xyz / 30 30 1 / -5. -5. -5. / 5. 5. 5. / 1 1 1<br>compute / distance_field / cmo_snk / cmo_src / dfield<br>finish</font></pre>
+         </td>
+    </tr>
+       
+    </tbody>   
+  </table>
+   <br>
+          
+  <div align="left"><strong></strong><br>
+   </div>
+     
+  <table width="687" border="1">
+    <caption>   <strong>    Example: signed_distance_field  </strong>   </caption>
+    <tbody>
+       <tr>
+         <td width="677"><img src="../images/distance_field_02.png"
+ alt="signed distance field" width="300" height="300">
+         <br>
+         </td>
+         <td>         
+        <pre>*<br>* Create some of the necessary parts<br>*<br>cmo / create / mo_tet<br>createpts/random/rtp/.1/1,0,0/1,180,360////.02<br>connect<br>resetpts / itp<br>*<br>* Extract the external surface<br>*<br>extract / surfmesh / 1 0 0 / mo_tri / mo_tet / external<br>dump / gmv / tri_surf.gmv / mo_tri<br>cmo / delete / mo_tet<br>cmo / printatt / mo_tri / -xyz- / minmax<br>cmo / create / mo_pts<br>*<br>* Create an xyz node distribution and connect the nodes.<br>*<br>createpts / xyz / 31 31 31 / -1 -1 -1 / 1 1 1 / 1 1 1<br>connect<br>resetpts / itp<br>*<br>* Compute the signed distance field<br>*<br>compute / signed_distance_field / mo_pts / mo_tri / dfield1<br>addmesh / append / mo_all / mo_pts / mo_tri<br>dump / gmv / signed_dfield1.gmv / mo_all<br>*<br>* Do the same thing but use a surface of quads that make<br>* two nested spheres.<br>*<br>cmo / create / mo_hex / / / hex<br>createpts/sphere/8/5/5000/1.0,0.5/0.,0.,0./1,0,0.0/ <br>filter / 1 0 0<br>resetpts / itp<br>extract / surfmesh / 1 0 0 / mo_quad / mo_hex / external<br>dump / gmv / quad_surf.gmv / mo_quad<br>*<br>* Compute the signed distance field<br>*<br>compute / signed_distance_field / mo_pts / mo_quad / dfield2<br>addmesh / append / mo_all2 / mo_pts / mo_quad<br>dump / gmv / signed_dfield2.gmv / mo_all2<br>cmo / status<br>quality<br>cmo / printatt / mo_pts / -all- / minmax<br>finish</pre>
+         <br>
+         </td>
+       </tr>
+     
+    </tbody>   
+  </table>
+   
+  <p>&nbsp;</p>
+  </blockquote>
+ <br>
+ 
 </body>
 </html>
