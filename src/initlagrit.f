@@ -118,11 +118,15 @@ C
 C
       character*32 logtty,isubname
 C
-      integer iprecision,i,ierrw,ipointi,ipointj,ipointf,ipoints
+      integer iprecision,i,ierrw,ipointi,ipointj,ipointf,ipoints,ierr1
       real*8 x1,x2
 C
 C ######################################################################
 C
+
+c     the new version of util library checks for correct pointer sizes 
+c     add check here before program proceeds
+      call mmverify()
 c
       isubname='initlagrit'
 c  make sure pie has a value
