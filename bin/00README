@@ -1,6 +1,15 @@
 Directory to hold LaGriT executable files.
 Online release notes: http://lagrit.lanl.gov/release.shtml
 
+new executable under development
+lagrit library includes metis codes
+lagrit_lin32_g new util library written to allow 64 bit compile
+and captures memory errors before segmentation fault 
+this version is compiled with -m32 -Dlin preprocessor flags 
+*               *    Program:  LaGriT V2.100   Linux m32      *                 
+*               *    date_compile: 2009/04/30                 *   
+
+
 lin = Linux with Absoft 32bit Fortran 95 9.0
 Linux tesselate 2.6.9-42.0.8.ELsmp #1 SMP Tue Jan 23 12:49:51 EST 2007 x86_64 x86_64 x86_64 GNU/Linux
 

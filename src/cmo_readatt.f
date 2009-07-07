@@ -70,7 +70,7 @@ C
       character*32 cmo, cmoatt, cglobal, cdefault
       character*8192 cbuff
       character*1024 cline
-      integer lenparse
+      integer lenparse, nwds2
       integer      msgt(128)
       real*8       xmsg(128)
       integer      imsg(128)
@@ -142,7 +142,7 @@ C
          read(iunit,'(a)',end=110) cline
          lenparse = len(cline)
          call parse_string2(lenparse, cline,
-     1                       imsg, msgt, xmsg, cmsg, nwds)
+     1                       imsg, msgt, xmsg, cmsg, nwds2)
 C
 C        Check for comment lines '#' or lines that do not have either an
 C        integer or real as the first word in the line. This will not get

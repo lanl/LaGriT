@@ -47,6 +47,8 @@ C                     same as synth_normal
 C  volume           - creates element attribute
 C                     fills with volume(3D), area(2D) or length(lines)
 C                     implemented only for triangle areas
+C  vor_volume       - creates node attribute
+C                     fills with voronoi volume from getvoronoivolumes()
 C  vector           - creates one vector attribute
 C                     fills with values from 3 scalar attributes
 C  scalar           - creates three scalar attributes
@@ -106,6 +108,7 @@ C   / unit_area_normal  / xyz | rtz | rtp / v_attname
 C   / node_normal      / v_attname
 C   / synth_normal     / v_attname
 C   / volume       / attname /
+C   / vor_volume   / attname /
 C   / ang_mind   / elem_attname /
 C   / ang_minr   / elem_attname /
 C   / ang_maxd   / elem_attname /
@@ -278,6 +281,7 @@ C
       integer i1,i2,i3,i,j,k,jn,ipt,idx, ij_max
       integer index,irank,ilen,ityp,nen,nlength
       integer itype_angle, if_valid_element, inclusive
+      integer io_type, ncoef, ifcompress
       integer nnode, nelem
 c
       pointer (ipitettyp, itettyp)
@@ -314,6 +318,12 @@ C
       pointer (ipyvec, yvec)
       pointer (ipzvec, zvec)
       real*8  xvec(nplen), yvec(nplen), zvec(nplen)
+
+c     pointer (ipvolic,volic)
+c     real*8  volic
+c     dimension volic(1000000)
+c     real*8  volmin,volmax,voltot
+
  
       real*8 xnorm,ynorm,znorm,xsum,ysum,zsum,rvalue,
      *       xmin,ymin,zmin,xmax,ymax,zmax,epsarea,epsvol,
@@ -322,6 +332,7 @@ C
  
       real*8 anglemin,anglemax,conversion_factor
       character*32 cmo_name,cmo_type,fill_type,norm_type
+      character*32 aname
       character*32 att_list(3), att_name, vec_name, job_type
       character*32 ctype,
      *             crank,
@@ -476,6 +487,20 @@ C
          cmsgin(9) = cpersistence
          cmsgin(10)= cioflag
          xmsgin(11)= zero
+
+C.... keyword vor_volume 
+      elseif (att_name(1:icharlnf(att_name)).eq.'vor_volume') then 
+
+       fill_type = 'vor_volume'
+       att_name  = cmsgin(5)
+       cmsgin(5) = 'VDOUBLE'
+       cmsgin(6) = 'scalar'
+       cmsgin(7) = 'nnodes'
+       cmsgin(8) = cinterp
+       cmsgin(9) = cpersistence
+       cmsgin(10)= cioflag
+       xmsgin(11)= zero
+
  
 C.... keyword volume or area or length
       elseif (att_name(1:icharlnf(att_name)).eq.'volume' .or.
@@ -1100,6 +1125,29 @@ C
         logmess = 'cmo/select/'//cmo_name//';finish'
         call dotask(logmess, ierr)
         ierror_return = 0
+
+C.... keyword vor_volume
+C     Fill element attribute with voronoi volumes 
+C     let anothermatbld3d_wrapper do the work
+C     flag io to write to attribute instead of file
+ 
+      elseif (fill_type(1:10).eq. 'vor_volume') then
+
+       call cmo_get_intinfo('nnodes',cmo_name,nlength,ilen,ityp,ierr)
+       if(ierr.ne.0) call x3d_error(isubname,'intinfo nnodes ')
+
+       if (nlength > 0) then
+         io_type = 5
+         ncoef = 1
+         ifcompress = 0
+         aname = att_name
+
+         call anothermatbld3d_wrapper(aname,io_type,ncoef,ifcompress)
+         goto 9998
+
+       else
+         call x3d_error(isubname,'zero length attribute '//att_name)
+       endif
  
  
 C.... keyword volume
@@ -1679,5 +1727,7 @@ C
         call writloga('default',1,logmess,1,ierr)
       endif
       call mmrelprt(isubname,ierr)
+
+9998  ierror_return = 0
       return
       end

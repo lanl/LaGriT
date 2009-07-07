@@ -1,12 +1,23 @@
 *DK dumpfehm
       subroutine dumpfehm(ifile,ifileini,ioption,iomode,
-     *                    area_coef_option,attrib_option)
+     *              area_coef_option,compress_opt,attrib_option)
 C
 C #####################################################################
 C
 C     PURPOSE -
 C
 C        THIS ROUTINE WRITES A DUMP FILE FOR FEHMN.
+C
+C        Arguments are processed and passed in from writedump() 
+C         ifile is the file or attribute name
+C         ifileini is used by dump_fehm_geom 
+C         ioption is fehm or stor, where fehm will write all fehm files
+C         iomode is writing mode such as ascii
+C         area_coef_option is coef_option such as scalar
+C         compress_opt to compress coef values and indices
+C         attrib_option is attribute option such as keepatt
+C
+C
 C     INPUT ARGUMENTS -
 C
 C        None
@@ -159,60 +170,138 @@ C
 c
       character ifile*(*), ifileini*(*)
       character ioption*(*)
-      character iomode*(*), area_coef_option*(*), attrib_option*(*)
-      integer nen, nsdtopo, nef, ijob
+      character iomode*(*), area_coef_option*(*)
+      character compress_opt*(*), attrib_option*(*)
+
+      integer ntets, nen, nsdtopo, nef, ijob
       integer length, icmotype, io, num_area_coef, ierror
       integer ifcompress, imat_select
-      character*132 log_io
-C
+      integer idebug, ilen,ityp,ierr
+
+      integer icharlnf 
+
+      character*132 logmess
       character*32 isubname, cmo
 C
+C     Begin
       isubname = 'dumpfehm'
-      imat_select = 0
+      ierror = 0
+c
+c     check cmo and setup
 c
       call cmo_get_name(cmo,ierror)
+      call cmo_get_info('nelements',cmo,
+     *                  ntets,length,icmotype,ierror)
       call cmo_get_info('nodes_per_element',cmo,
      *                  nen,length,icmotype,ierror)
       call cmo_get_info('ndimensions_topo',cmo,
      *                  nsdtopo,length,icmotype,ierror)
       call cmo_get_info('faces_per_element',cmo,
      *                  nef,length,icmotype,ierror)
+
+      call cmo_get_info('idebug',cmo,idebug,ilen,ityp,ierr)
+
+      if(idebug.ne.0) then
+        write(logmess,'(a5,a6,a,a)')"dump/",ioption,
+     *   ifile(1:icharlnf(ifile)),
+     *  " options set to: "
+        call writloga('default',0,logmess,0,ierr)
+        write(logmess,'(6x,a,2x,a,2x,a,2x,a)')
+     *   iomode(1:icharlnf(iomode)),
+     *   area_coef_option(1:icharlnf(area_coef_option)),
+     *   compress_opt(1:icharlnf(compress_opt)),
+     *   attrib_option(1:icharlnf(attrib_option))
+        call writloga('default',0,logmess,0,ierr)
+        call mmverify()
+      endif
+
+
+C     Check and set options
+C     any combination of options are allowed to pass into this routine
+C     check here and warn for those that do not apply, set to defaults
+C         dump/fehm option ifileini is used by dump_fehm_geom
+C         dump/fehm option attrib_option default is delatt 
+C         ifile is the file or attribute name
+C         ioption is fehm or stor, where fehm will write all fehm files
+C         iomode default is ascii
+C         area_coef_option default is scalar
+C         compress_opt default is all 
 c
-c     if ioption is stor, only write the stor file
+c     FEHM - Write all fehm files in addition to the stor file 
+c     OPTIONS for default fehm files 
+c       imat_select - dump_material_list of single value (set to zero here)
+c                     since there is no way to get the value in here.
+c       attrib_option - delatt|keepatt|keepatt_area for dump_outside_list
+
+      imat_select = 0
+ 
       if (ioption(1:4) .ne. 'stor') then
+         write(logmess,101)
+  101    format('*** Write FEHMN GEOM AND ZONE FILES ***')
+        call writloga('default',0,logmess,0,ierror)
         call dump_fehm_geom(ifile, ifileini)
         call dump_material_list(ifile,imat_select)
         call dump_interface_list(ifile)
         call dump_multi_mat_con(ifile)
+
         call dotaskx3d('log/tty/off; finish',ierror)
         call dump_outside_list(ifile, attrib_option)
         call dotaskx3d('log/tty/on; finish',ierror)
         call dump_parent_list(ifile)
       endif
 C
-      
+c     STOR - write the stor file 
+c     As of June 3 2009
+c     OPTIONS differ between the 3 routines that write stor files
+c     matbld2d_stor, matbld3d_stor, anothermatbld3d_wrapper
+c     the FEHM header has been modified to indicate the routine
+c     and the type of compression being used.
+c     matbld3d_nstor - original version, no compression (none)
+c     matbld3d_cstor - original version, compress coef values (coefs)
+c     matbld3d_gstor - new version, compress graph edges (graph)
+c     matbld3d_astor - new version, compress indices and coef values (all)
+c
+c     matbld2d_stor 
+c     (2D only) 
+c        ifile : file name
+c
+c     matbld3d_stor - original sparse matrix 
+c        ifile : file name
+c        ijob  : 1=write coef to file and attribute  2= write attribute only  
+c        io    : 1=3=unformatted 2=ascii
+c        num_area_coef : 1=scalar 2=vector 3=both 4=area_scalar 
+c                       -1=area_scalar -3=area_vector -4=area_both 
+c        ifcompress : 0= none - no ccoef compression 
+c                        1= coefs -  compression of area coef values 
+c
+c     anothermatbld3d_wrapper - update by Mike Murphy using linked lists 
+c        ifile : file or attribute name
+c        io : 1=3=unformatted 2=ascii 5=attribute only
+c        num_area_coef : only scalar available, set to 1 
+c        ifcompress: 0= graph - compress coef indices (edge compression)
+c                       1= all - area coef and indices compression 
+c
+
+c---- 2D STOR  -----------------------------------------------c
       if(nsdtopo.eq.2.and.nen.eq.3.and.nef.eq.3) then
 
-         write(log_io,100)
-  100    format('*********Construct Sparse Matrix:2D********')
-         call writloga('default',0,log_io,0,ierror)
+         write(logmess,100)
+  100    format('***Construct Regular Sparse Matrix:2D***')
+         call writloga('default',0,logmess,0,ierror)
 
          call matbld2d_stor(ifile)
          
+c---- 3D STOR  -----------------------------------------------c
       elseif(nsdtopo.eq.3.and.nen.eq.4.and.nef.eq.4) then
          ijob = 1
          ifcompress = 0
-         if(iomode .eq. 'binary')io = 1
-         if(iomode .eq. 'ascii')io = 2
-         if(iomode .eq. 'unformatted')io = 3
-         if(iomode .eq. 'binaryc') then
-            io = 1
-            ifcompress=1
-         endif
-         if(iomode .eq. 'asciic') then
-            io = 2
-            ifcompress = 1
-         endif
+         if(iomode(1:3) .eq. 'bin')io = 1
+         if(iomode(1:3) .eq. 'asc')io = 2
+         if(iomode(1:3) .eq. 'unf')io = 3
+         if(compress_opt(1:3) .eq. 'all') ifcompress=1
+         if(compress_opt(1:4) .eq. 'coef') ifcompress=1
+         if(compress_opt(1:4) .eq. 'none') ifcompress=0
+         if(compress_opt(1:5) .eq. 'graph') ifcompress=0
 
          if(area_coef_option(1:6)     .eq.'scalar')then
             num_area_coef = 1
@@ -228,24 +317,96 @@ C
             num_area_coef = -4
          endif
 
+C        check for old syntax
          if(area_coef_option(1:16) .eq.'alternate_scalar') then
-
-         write(log_io,110)
-  110    format('***Construct and Compress Sparse Matrix:3D***')
-         call writloga('default',0,log_io,0,ierror)
-
-         
             num_area_coef = 1
-            call anothermatbld3d_wrapper(ifile,io,num_area_coef,
+         endif
+
+C        vector and area options not available in anothermatbld3d
+C        so default to none and use matbld3d (no compression)
+C        we default to none because compression may not work for these
+         if (num_area_coef .ne. 1) then
+            if (compress_opt(1:4).ne."coef") then
+               compress_opt="none" 
+               ifcompress = 0
+            endif 
+         endif 
+
+
+c        3D Alternate STOR ----------------------------------------c
+         if(compress_opt(1:5) .eq.'graph' .or. 
+     *      compress_opt(1:3) .eq.'all') then
+
+           write(logmess,110)
+  110      format('*** Construct and Compress Sparse Matrix:3D ***')
+           call writloga('default',1,logmess,0,ierror)
+           if (ifcompress .gt. 0) then
+             write(logmess,111)
+             call writloga('default',0,logmess,0,ierror)
+           endif 
+
+c          check arguments
+           if (num_area_coef .ne. 1) then
+             write(logmess,'(a,a12)')
+     *    "Alternate Matbld3d option not available: ",area_coef_option
+             call writloga('default',0,logmess,0,ierror)
+             write(logmess,'(a)')
+     *     "Using scalar - single component area/distance coefficients"
+             call writloga('default',0,logmess,0,ierror)
+             num_area_coef = 1
+           endif
+
+           call anothermatbld3d_wrapper(ifile,io,num_area_coef,
      *                ifcompress)
+
+
+c        3D Regular STOR  -------------------------------------------c
          else 
          
-         write(log_io,130)
-  130    format('*********Construct Sparse Matrix:3D********')
-         call writloga('default',0,log_io,0,ierror)
-         
-            call matbld3d_stor(ifile,ijob,io,num_area_coef,ifcompress)
+           write(logmess,130)
+  130      format('*** Construct Sparse Matrix:3D ***')
+           call writloga('default',1,logmess,0,ierror)
+           if (ifcompress .gt. 0) then
+             write(logmess,111)
+             call writloga('default',0,logmess,0,ierror)
+           endif
+
+c          check arguments
+           call matbld3d_stor(ifile,ijob,io,num_area_coef,ifcompress)
+
          endif
+  111        format('   *** Compress Area Coefficient Values ***')
+
+
+c---- topo or element not usable ---------------------------------------c
+      else
+
+        write(logmess,'(a,a)') "*** DUMP/STOR ",
+     *  " Mesh object does not qualify for sparse matrix. ***"
+        call writloga('default',1,logmess,1,ierr)
+
+        if (ntets .le.0) then
+          write(logmess,'(a)')
+     *    "Mesh object has 0 elements.  "
+          call writloga('default',0,logmess,0,ierr)
+        endif
+        if (nef .le.0) then
+          write(logmess,'(a)')
+     *    "Mesh object has 0 faces.  "
+          call writloga('default',0,logmess,0,ierr)
+        endif
+        if (nsdtopo.ne.2 .or. nsdtopo.ne.3) then
+          write(logmess,'(a,i5)')
+     *    "Mesh object has unsupported dimension:  ",nsdtopo
+          call writloga('default',0,logmess,0,ierr)
+        endif
+       logmess='cmo/status/'//cmo(1:icharlnf(cmo))//' brief ; finish'
+        call dotaskx3d(logmess,ierr)
+
+        write(logmess,'(a)')
+     *  "*** DUMP/STOR Finished early, no stor file written! ***"
+        call writloga('default',1,logmess,1,ierr)
+
       endif
 C
       return

@@ -233,28 +233,61 @@ C
         write ( Version(4:6), '(i3.3)' ) v_minor
       endif
 
-      if (os_name(1:3) .eq. 'Lin') then
-      write(interfil,8089) Version
- 8089 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux          *')
+C     m32 and m64 are util libs under development
+c     otherwise, old util lib is used
+
+      if (os_name(1:7) .eq. 'Linux32') then
+      write(interfil,8065) Version
+ 8065 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux m32      *')
+
+      else if (os_name(1:7) .eq. 'Linux64') then
+      write(interfil,8066) Version
+ 8066 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux m64      *')
+
+      else if (os_name(1:5) .eq. 'Linux') then
+      write(interfil,8067) Version
+ 8067 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux          *')
+
+c     change Darwin to Mac to stay under 8 characters 
+      else if (os_name(1:6) .eq. 'Maci32') then
+      write(interfil,8165) Version
+ 8165 format('*',15x,'*    Program:  LaGriT V',a6,' Mac intel m32   *')
+
+      else if (os_name(1:6) .eq. 'Maci64') then
+      write(interfil,8166) Version
+ 8166 format('*',15x,'*    Program:  LaGriT V',a6,' Mac intel m64   *')
+
+      else if (os_name(1:5) .eq. 'Mac32') then
+      write(interfil,8175) Version
+ 8175 format('*',15x,'*    Program:  LaGriT V',a6,' Mac ppc m32     *')
+
+      else if (os_name(1:5) .eq. 'Mac64') then
+      write(interfil,8176) Version
+ 8176 format('*',15x,'*    Program:  LaGriT V',a6,' Mac ppc m64     *')
 
       else if (os_name(1:7) .eq. 'Darwini') then
-      write(interfil,8188) Version
- 8188 format('*',15x,'*    Program:  LaGriT V',a6,'  Darwin intel   *')
+      write(interfil,8177) Version 
+ 8177 format('*',15x,'*    Program:  LaGriT V',a6,' Mac intel       *')
 
       else if (os_name(1:7) .eq. 'Darwin ') then
-      write(interfil,8189) Version
- 8189 format('*',15x,'*    Program:  LaGriT V',a6,'  Darwin ppc     *')
+      write(interfil,8178) Version
+ 8178 format('*',15x,'*    Program:  LaGriT V',a6,' Mac ppc         *')
+
+
+      else if (os_name(1:5) .eq. 'Sun32') then
+      write(interfil,8288) Version
+ 8288 format('*',15x,'*    Program:  LaGriT V',a6,'  SunOS m32      *')
 
       else if (os_name(1:3) .eq. 'Sun') then
       write(interfil,8289) Version
  8289 format('*',15x,'*    Program:  LaGriT V',a6,'  SunOS          *')
 
       else if (os_name(1:3) .eq. 'IRI') then
-      write(interfil,8389) Version
- 8389 format('*',15x,'*    Program:  LaGriT V',a6,'  IRIX64         *')
+      write(interfil,8388) Version
+ 8388 format('*',15x,'*    Program:  LaGriT V',a6,'  IRIX64         *')
       else 
 
-      write(interfil,8389)  Version
+      write(interfil,8989)  Version
  8989 format('*',15x,'*    Program:  LaGriT V',a6,'  DEF            *')
       endif 
       call writloga('default',0,interfil,0,ierrdum)

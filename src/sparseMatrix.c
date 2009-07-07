@@ -66,7 +66,7 @@ Import to CVS
  
 /* Variables for internal representation. */
  
-static SkipList  *sparseMatrix;
+static SkipList *sparseMatrix;
  
 /* Anything (function, variable, etc.) involving "entry" (in
    lowercase) is internal to this module.*/
@@ -332,7 +332,7 @@ entryComponent *entryKeyCreateInfo(double *value)
  
   entryComponent* ec;
   entryComponent temp;
- 
+
   if (compressionEnabled) {
     temp.value = value;
     ec = SearchSL(compressList,&temp);
@@ -577,8 +577,12 @@ void createSparseMatrix(int numberOfEquations, int sparseMatrixEntrySize,
   /* this routine is ok */
   int i,j;
  
+  compressionEnabled = 0;
+  compressList = NULL;
+  voronoiVolume = NULL;
+
   if (sparseMatrixEntrySize < 1) {
-    printf("Error:  Matrix Entry Data Size must be >= 1\n");
+    printf("createSparseMatrix Error: Matrix Entry Data Size must be >= 1\n");
   } else {
     matrixEntrySize = sparseMatrixEntrySize;
   }
@@ -769,7 +773,7 @@ void getmatrixsizes_(int *Pnum_written_coefs, int *ncoefs, int *ncon_max)
  
 {
    int i, accumulatedDegree;
- 
+
    /* compute ncon and ncon_max */
    ncon=0;
    *ncon_max = 0;
@@ -782,14 +786,15 @@ void getmatrixsizes_(int *Pnum_written_coefs, int *ncoefs, int *ncon_max)
  
    *ncoefs = ncon;
  
- 
    /* Assign the entry numbers. */
    /* In this way, we compute num_written_coefs */
- 
+
    entryNumber=1;
    if (compressionEnabled) {
+
      DoForSL(compressList,assignEntryNumCompression,NULL);
    } else {
+
      for (i=1; i<=neq; i++) {
        DoForSL(sparseMatrix[i],assignEntryNumNoCompression,(char *)i);
      }
@@ -846,6 +851,7 @@ void freevoronoivolumes_()
  
 {
   free(voronoiVolume);
+  voronoiVolume = NULL;
 }
  
 /************************************************************************/
@@ -856,6 +862,7 @@ void freevoronoivolumes()
  
 {
   free(voronoiVolume);
+  voronoiVolume = NULL;
 }
  
  
@@ -904,6 +911,7 @@ void freeentriesperrow_()
  
 {
   free (ncon_row);
+  ncon_row = NULL;
 }
  
 /************************************************************************/
@@ -914,6 +922,7 @@ void freeentriesperrow()
  
 {
   free (ncon_row);
+  ncon_row = NULL;
 }
  
  
@@ -957,6 +966,7 @@ void freeoccupiedcolumns_()
  
 {
   free(occupiedColumns);
+  occupiedColumns = NULL;
 }
  
 /************************************************************************/
@@ -967,6 +977,7 @@ void freeoccupiedcolumns()
  
 {
   free(occupiedColumns);
+  occupiedColumns = NULL;
 }
  
  
@@ -1011,6 +1022,8 @@ void freematrixpointers_()
 {
   free (entryNumbers);
   free (diagonalIndices);
+  entryNumbers = NULL;
+  diagonalIndices = NULL;
 }
  
 /************************************************************************/
@@ -1022,6 +1035,8 @@ void freematrixpointers()
 {
   free (entryNumbers);
   free (diagonalIndices);
+  entryNumbers = NULL;
+  diagonalIndices = NULL;
 }
  
  
@@ -1040,7 +1055,7 @@ void getcomponentmatrixvalues_(int *component, double **values)
   /* Get the entry numbers into MatrixValues */
   MatrixValues = (double*) malloc(num_written_coefs*sizeof(double));
   component_of_interest = *component;
- 
+
   if(compressionEnabled) {
     entryCounter = 0;
     DoForSL(compressList,populateCompressedValuesArray,NULL);
@@ -1137,6 +1152,9 @@ void freenegcoefs_()
   free(row_neg_coefs);
   free(col_neg_coefs);
   free(neg_coefs);
+  row_neg_coefs = NULL;
+  col_neg_coefs = NULL;
+  neg_coefs = NULL;
 }
  
 /***************************************************************************/
@@ -1149,6 +1167,9 @@ void freenegcoefs()
   free(row_neg_coefs);
   free(col_neg_coefs);
   free(neg_coefs);
+  row_neg_coefs = NULL;
+  col_neg_coefs = NULL;
+  neg_coefs = NULL;
 }
  
  
@@ -1160,6 +1181,7 @@ void freematrixvalues_()
  
 {
   free(MatrixValues);
+  MatrixValues = NULL;
 }
  
 /************************************************************************/
@@ -1170,6 +1192,7 @@ void freematrixvalues()
  
 {
   free(MatrixValues);
+  MatrixValues = NULL;
 }
  
 /************************************************************************/
@@ -1186,11 +1209,21 @@ void killsparsematrix_()
   for (i=1; i<=neq; i++) {
     FreeSL(sparseMatrix[i]);
   }
- 
+
   if (compressionEnabled) {
-    FreeSL(compressList);
+    if (compressList){
+      FreeSL(compressList);
+    } else {
+      printf("killsparsematrix: compressList expected but does not exist. No action taken.\n"); }
   }
   free(sparseMatrix);
+  sparseMatrix = NULL;
+  compressList = NULL;
+
+  if(compressList){
+    printf("Warning: killsparsematrix: compressList not free: %d\n",compressList); }
+  if (sparseMatrix){
+    printf("Warning: killsparsematrix: sparseMatrix not free: %d\n",sparseMatrix[1]); }
 }
  
 /************************************************************************/
