@@ -833,13 +833,37 @@ C
      *                      ierr2)
             endif
 C
+
          elseif(idsb(1:lenidsb) .eq. 'memory') then
-C
 C           ************************************************************
-C           MEMORY: Adjust length of Mesh Object Arrays.
+C           MEMORY: user access to memory routines 
 C
-            call memory(imsgout,xmsgout,cmsgout,msgtype,nwds,
+C             MEMORY: Adjust length of Mesh Object Arrays.
+            if (nwds.lt.2) then 
+              call memory(imsgout,xmsgout,cmsgout,msgtype,nwds,
      *                  ierr2)
+C
+            elseif (cmsgout(2)(1:5) .eq. 'print') then
+              call mmprint()
+
+            elseif (cmsgout(2)(1:6) .eq. 'verify') then
+              call mmverify()
+
+            elseif (cmsgout(2)(1:9) .eq. 'maxmalloc') then
+              
+c             use default isize and n_blk parameters 
+
+              call max_mmgetblk(0,0,ierr2)
+
+              write(logmess,'(a,i5)')'MEMORY/ maxmalloc: '//
+     *       "maxmalloc returned error: ",ierr2
+
+            else
+              write(logmess,'(a,a)')'MEMORY: ' //
+     *        'unrecognized command option: ',cmsgout(2) 
+
+            endif
+
 C
          elseif(idsb(1:4) .eq. 'dump') then
 C

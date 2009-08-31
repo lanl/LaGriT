@@ -1,14 +1,7 @@
 #######################################################################
 # GNU Make version 3.79.1 or later
-#
-# in general to update libs and executable  
-# on each platform
-#    gnumake install or make install
-#    make COPT=-g install
-#
-#    buildbin
-#    or buildbin opt or buildbin debug
-#    will build executable using libs in LIBDIR
+# uname -s and uname -p are used to detect machine
+# use buildbin opt or buildbin debug to build executable using libs
 # 
 # USAGE: 
 # make OR make lib 
@@ -34,7 +27,9 @@
 # make options include:
 #    -d (debug) -p (print rules and variables) -v (version)
 #
-# platform is detected by uname -s
+# for SUNOS 8 or newer use % source /n/env/local.sunwspro.11
+# for SUNOS earlier than 8 use % source /n/env/local.forte.7
+#
 # platform and compile mode are used to form lib name and object directories
 # if LIBDIR or OBJDIR do not exist, they are created
 #
@@ -44,6 +39,7 @@
 # shell = /bin/sh
 #
 # Created Jan 7 2008 by tamiller@lanl.gov
+# Modified July 7 2009 to update compiler flags for V2.100 release 
 #
 ##########################################################################
 # user defined variables
@@ -66,45 +62,24 @@ OPSYS = $(shell uname -s )
 DATETAG = $(shell date '+_%y%m%d')
 NPROC = $(shell uname -p )
 #
-# ADD FLAG for 64 bit SGI 
-# sgi 64 will need some work to compile correctly
-# there are some 64bit settings in some include files
-# and some character string declarations produce errors
-# in dump_avs_nosb.f and writinit.f
-# work dir is in
-# /home/cwg/src/lagrit_v1.0/work/build_sgi/build_64bit/liblagrit
-# and the directory above
-#
-# SGI 64 OS ------------------------------
-ifeq ($(OPSYS), IRIX64)
-OSTAG = _sgi64
-OSTAG = _sgi
-FC = /bin/f77 
-FC90 = /bin/f90 
-CC= cc
-FFLAGS = -c -g -64 -i8 -r10000 
-FFLAGS = -n32 -r10000 -avoid_gp_overflow 
-FF90FLAGS = -n32 -r10000 
-CFLAGS = $(FFLAGS)
-OBJDIR = objects_sgi64/
-OBJDIR = objects_sgi/
-endif
-#
 # Linux OS ------------------------------
+# Linux rainier 2.6.9-55.0.2.ELlargesmp #1 SMP 2007
+# x86_64
+#
 ifeq ($(OPSYS), Linux)
 OSTAG = _lin
 FC = /opt/absoft10.0/bin/f77 
 FC90 = /opt/absoft10.0/bin/f90 
-CC= cc 
-FFLAGS = -f -m32 -N113 -N90 -q -w 
+CC= gcc 
+FFLAGS = -c -f -m32 -q -w 
 FF90FLAGS = -m32 -YEXT_NAMES=LCS  
 CFLAGS = -m32
 OBJDIR = objects_lin/
 endif
 #
 # Mac OSX ------------------------------
-# -s static storage preferred, but has errors 
-# remove option flags for Absoft 10 versions
+# Darwin darmok.lanl.gov 9.7.0 Darwin Kernel Version 9.7.0
+# powerpc
 # -N11 needed for assembler (large code)
 #
 ifeq ($(OPSYS), Darwin)
@@ -112,13 +87,14 @@ OSTAG = _mac
 FC = /Applications/Absoft9.5/bin/f77 
 FC90 = /Applications/Absoft9.5/bin/f90 
 CC= gcc 
-FFLAGS = -f -N113 -N90 -B19 -q -w 
-FFLAGS = -f -m32 -N11 -q -w 
+FFLAGS = -c -f -m32 -N11 -q -w 
 FF90FLAGS = -m32 -YEXT_NAMES=LCS 
 CFLAGS = -m32 
 OBJDIR = objects_mac/
 #
-# these flags work for mac on intel 
+# Darwin sundog.lanl.gov 9.7.0 Darwin Kernel Version 9.7.0
+# i386
+#
 ifeq ($(NPROC), i386)
 OSTAG = _maci
 FC = /Applications/Absoft10.2/bin/f77
@@ -126,22 +102,45 @@ FC90 = /Applications/Absoft10.2/bin/f90
 CC= gcc
 FFLAGS = -f -m32 -q
 FF90FLAGS = -m32 
-CFLAGS = 
+CFLAGS =  -m32
 OBJDIR = objects_maci/
 endif
 #
 endif
 #
 # SUN OS ------------------------------
+# SunOS flow 5.10 Generic_137137-09 sun4u sparc SUNW,Sun-Fire-880
+# sparc
+#
 ifeq ($(OPSYS), SunOS)
 OSTAG = _sun
-FC = /n/local_SunOS/forte7/SUNWspro/bin/f77
-FC90 = /n/local_SunOS/forte7/SUNWspro/bin/f90
-CC = /n/local_SunOS/forte7/SUNWspro/bin/cc
+FC = f77
+FC90 = f90
+CC = gcc
 FFLAGS =
-FF90FLAGS =   
-CFLAGS =
+FF90FLAGS = -f77
+FF90FLAGS =
+CFLAGS = 
 OBJDIR = objects_sun/
+endif
+#
+# SGI 64 OS ------------------------------
+# IRIX64 combust 6.5 10151453 IP27
+#  mips 
+# ADD FLAG for 64 bit SGI 
+# needs work and testing
+ifeq ($(OPSYS), IRIX64)
+OSTAG = _sgi64
+OSTAG = _sgi
+FC = /bin/f77
+FC90 = /bin/f90
+CC= cc
+FFLAGS = -c -g -64 -i8 -r10000
+FFLAGS = -n32 -r10000 -avoid_gp_overflow
+FF90FLAGS = -n32 -r10000
+CFLAGS = $(FFLAGS)
+OBJDIR = objects_sgi64/
+OBJDIR = objects_sgi/
 endif
 #
 ifeq ($(COPT), -g)
