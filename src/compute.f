@@ -9,6 +9,7 @@ C       argument and call various compute type modules.
 C
 C       Valid strings for the second argument are:
 C       / distance_field /
+C       / signed_distance_field /
 C
 C
 C######################################################################
@@ -18,7 +19,7 @@ C        $Log: compute.f,v $
 C        Revision 2.00  2007/11/05 19:45:50  spchu
 C        Import to CVS
 C
-CPVCS    
+CPVCS
 CPVCS       Rev 1.0   05 Jun 2007 15:33:08   gable
 CPVCS    Initial revision.
 C
@@ -48,7 +49,12 @@ C
       endif
 
       if(cmsgin(2) .eq. 'distance_field')then
-      call distance_field(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
+      call distance_field
+     &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
+      return
+      elseif(cmsgin(2) .eq. 'signed_distance_field')then
+      call distance_field_signed
+     &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
       return
       else
          write(logmess,'(a)')
