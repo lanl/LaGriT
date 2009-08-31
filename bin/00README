@@ -1,27 +1,44 @@
 Directory to hold LaGriT executable files.
 Online release notes: http://lagrit.lanl.gov/release.shtml
 
-new executable under development
-lagrit library includes metis codes
-lagrit_lin32_g new util library written to allow 64 bit compile
-and captures memory errors before segmentation fault 
-this version is compiled with -m32 -Dlin preprocessor flags 
+Version 2.100 Release
+This is a major update to LaGriT and the lg_util library. 
+Major changes have been made in the core memory management routines to allow 
+development for a 64 bit release.  These changes will be invisible to most users 
+but allows better reporting of errors and memory usage for useful diagnostic information.
+
+NOTE: SUNOS has been updated to Studio 11 
+      you must use libs for Studio 10 or higher running on OS 8 or higher
+      use % source /n/env/local.sunwspro.11
+
+============================================================
+
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
 *               *    Program:  LaGriT V2.100   Linux m32      *                 
-*               *    date_compile: 2009/04/30                 *   
+*               *    date_compile: 2009/08/03                 *                 
+*               *    Run Time: 2009/08/14  10:31:26           *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                
 
 
-lin = Linux with Absoft 32bit Fortran 95 9.0
-Linux tesselate 2.6.9-42.0.8.ELsmp #1 SMP Tue Jan 23 12:49:51 EST 2007 x86_64 x86_64 x86_64 GNU/Linux
+lin = Linux with Absoft 10.0 32bit Fortran 95 9.0
+Linux rainier 2.6.9-55.0.2.ELlargesmp #1 SMP Tue Jun 12 18:09:16 EDT 2007 x86_64 x86_64 x86_64 GNU/Linux
 
-mac = MAC OSX with Absoft 9.2
-Darwin sundog.local 8.10.0 Darwin Kernel Version 8.10.0: Wed May 23 16:50:59 PDT 2007; root:xnu-792.21.3~1/RELEASE_PPC Power Macintosh powerpc
+maci = MAC OSX on intel with Absoft 10.2 
+Darwin sundog.lanl.gov 9.7.0 Darwin Kernel Version 9.7.0: Tue Mar 31 22:52:17 PDT 2009; root:xnu-1228.12.14~1/RELEASE_I386 i386
 
-maci = MAC OSX on intel with Absoft 10.1 
-Darwin rodmac2.lanl.gov 8.11.1 Darwin Kernel Version 8.11.1: Wed Oct 10 18:23:28 PDT 2007; root:xnu-792.25.20~1/RELEASE_I386 i386 i386
+mac = MAC OSX with Absoft 9.5
+Darwin darmok.lanl.gov 9.7.0 Darwin Kernel Version 9.7.0: Tue Mar 31 22:54:29 PDT 2009; root:xnu-1228.12.14~1/RELEASE_PPC Power Macintosh
 
-sun = SunOS SUNWspro
+sun = Solaris 10 with Studio 11 
+SunOS flow 5.10 Generic_137137-09 sun4u sparc SUNW,Sun-Fire-880
+
+--
+
+SunOS SUNWspro forte 7 no longer supported
 voronoi 5.9 Generic_122300-02 sun4u sparc SUNW,Sun-Blade-1000 
-
 sgi, sgi32, and sgi64 IRIX64 are no longer supported but included
 
 ===============================================================

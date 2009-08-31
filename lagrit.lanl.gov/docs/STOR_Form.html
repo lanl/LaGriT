@@ -1,0 +1,465 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>FEHM STOR File Format</title>
+  <meta name="GENERATOR" content="ForeHTML Pro 2.0">
+ 
+  <style type="text/css">
+    .ADDRESS { font-size: 8pt ; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Courier New,monospace;  }
+     .BannerBase { font-size: 18pt ; margin: 0pt  1px  0pt  0pt ; font-family: Arial Narrow,sans-serif;  }
+     .Base { font-size: 12pt ; margin: 0pt  1px  0pt  0pt ; font-family: Arial Narrow,sans-serif;  }
+     .Base1 { font-size: 12pt ; margin: 0pt  1px  0pt  0pt ; font-family: Arial Narrow,sans-serif;  }
+     .Base11 { font-size: 12pt ; margin: 0pt  1px  0pt  0pt ; font-family: Arial Narrow,sans-serif;  }
+     .Blockquote { font-size: 12pt ; margin: 5pt  18pt  5pt  18pt ; font-family: Times New Roman,serif;  }
+     .Blockquote1 { font-size: 12pt ; margin: 5pt  18pt  5pt  18pt ; font-family: Times New Roman,serif;  }
+     .BodyText2 { font-size: 10pt ; margin: 0pt  72pt  0pt  72pt ; font-family: Times New Roman,serif;  }
+     .BodyText21 { font-size: 10pt ; margin: 0pt  36pt  0pt  36pt ; font-family: Times New Roman,serif;  }
+     .BodyTextIndent2 { font-size: 10pt ; margin: 0pt  36pt  0pt  36pt ; font-family: Times New Roman,serif;  }
+     .BodyTextIndent21 { font-size: 10pt ; margin: 0pt  54pt  0pt  54pt ; text-indent: 36pt ; font-family: Times New Roman,serif;  }
+     .BodyTextIndent3 { font-size: 10pt ; margin: 0pt  1px  0pt  0pt ; text-indent: 36pt ; font-family: Times New Roman,serif;  }
+     .BodyTextIndent31 { font-size: 10pt ; margin: 0pt  54pt  0pt  54pt ; font-family: Times New Roman,serif;  }
+     .BQ { font-size: 12pt ; margin: 0.006in  18pt  0.006in  18pt ; font-family: Times New Roman,serif;  }
+     .Bullet1 { font-size: 12pt ; font-family: Arial Narrow,sans-serif;  }
+     .Bullet2 { font-size: 12pt ; margin: 0pt  18pt  0pt  18pt ; text-indent: -18pt ; font-family: Arial Narrow,sans-serif;  }
+     .Bullet3 { font-size: 12pt ; margin: 0pt  18pt  0pt  18pt ; text-indent: -18pt ; font-family: Arial Narrow,sans-serif;  }
+     .Bullet4 { font-size: 12pt ; font-family: Arial Narrow,sans-serif;  }
+     .Bullet5 { font-size: 12pt ; font-family: Arial Narrow,sans-serif;  }
+     .ButtonBar { font-size: 6pt ; margin: 0pt  -0.1in  0pt  -0.1in ; font-family: Arial Narrow,sans-serif;  }
+     .CITE { font-style: italic; font-family: Arial Narrow,sans-serif;  }
+     .CODE { font-family: Courier New,monospace;  }
+     .DD { font-size: 12pt ; font-weight: bold; margin: 0.006in  18pt  0.006in  18pt ; font-family: Arial Narrow,sans-serif;  }
+     .DD1 { font-size: 12pt ; font-weight: bold; margin: 0.006in  18pt  0.006in  18pt ; font-family: Arial Narrow,sans-serif;  }
+     .DD1 { font-size: 12pt ; font-weight: bold; margin: 0.006in  18pt  0.006in  18pt ; font-family: Arial Narrow,sans-serif;  }
+     .DD11 { font-size: 12pt ; font-weight: bold; margin: 0.006in  18pt  0.006in  18pt ; font-family: Arial Narrow,sans-serif;  }
+     .DFN { font-style: italic; font-family: Arial Narrow,sans-serif;  }
+     .DIR { font-size: 12pt ; margin: 0.006in  18pt  0.006in  18pt ; font-family: Times New Roman,serif;  }
+     .DIRLI { font-size: 12pt ; margin: 0pt  36pt  0.006in  36pt ; font-family: Times New Roman,serif;  }
+     .DL { font-size: 12pt ; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Times New Roman,serif;  }
+     .DT { font-size: 12pt ; font-weight: bold; font-style: italic; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Arial Narrow,sans-serif;  }
+     .DT1 { font-size: 12pt ; font-weight: bold; font-style: italic; margin: 0.006in  18pt  6pt  18pt ; font-family: Arial Narrow,sans-serif;  }
+     .DT1 { font-size: 12pt ; font-weight: bold; font-style: italic; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Arial Narrow,sans-serif;  }
+     .EM { font-style: italic; font-family: Arial Narrow,sans-serif;  }
+     .H1 { font-size: 24pt ; font-weight: bold; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Arial,sans-serif;  }
+     .H11 { font-size: 24pt ; font-weight: bold; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Arial,sans-serif;  }
+     .H2 { font-size: 18pt ; font-weight: bold; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Arial,sans-serif;  }
+     .H21 { font-size: 18pt ; font-weight: bold; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Arial,sans-serif;  }
+     .H211 { font-size: 18pt ; font-weight: bold; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Arial,sans-serif;  }
+     .H3 { font-size: 14pt ; font-weight: bold; margin: 12pt  0.006in  0.006in  0.006in ; font-family: Arial,sans-serif;  }
+     .H31 { font-size: 14pt ; font-weight: bold; margin: 5pt  0pt  5pt  0pt ; font-family: Times New Roman,serif;  }
+     .H31 { font-size: 14pt ; font-weight: bold; margin: 12pt  0.006in  0.006in  0.006in ; font-family: Arial,sans-serif;  }
+     .H4 { font-size: 12pt ; font-weight: bold; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Arial,sans-serif;  }
+     .H41 { font-size: 12pt ; font-weight: bold; margin: 5pt  0pt  5pt  0pt ; font-family: Times New Roman,serif;  }
+     .H41 { font-size: 12pt ; font-weight: bold; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Arial,sans-serif;  }
+     .H5 { font-size: 10pt ; font-weight: bold; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Times New Roman,serif;  }
+     .heading1 { font-size: 10pt ; font-weight: bold; margin: 0pt  1px  0pt  0pt ; font-family: Times New Roman,serif;  }
+     .heading2 { font-size: 12pt ; font-weight: bold; margin: 0pt  1px  0pt  0pt ; font-family: Times New Roman,serif;  }
+     .HR { font-size: 12pt ; margin: 0pt  0.006in  0.006in  0.006in ; border: thin solid ; border-left-width: 0; border-right-width: 0; border-top-width: 0; font-family: Times New Roman,serif;  }
+     .HTMLBASE { font-size: 12pt ; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Times New Roman,serif;  }
+     BODY { margin: 0.08in  0.08in  0.08in  0.08in ;  }
+     .HTMLBASE1 { font-size: 12pt ; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Times New Roman,serif;  }
+     .HTMLBASE11 { font-size: 12pt ; font-weight: bold; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Arial Narrow,sans-serif;  }
+     .KBD { font-weight: bold; font-family: Courier New,monospace;  }
+     .List1 { font-size: 12pt ; font-weight: bold; margin: 0pt  36pt  6pt  36pt ; text-indent: -18pt ; font-family: Arial Narrow,sans-serif;  }
+     .List11 { font-size: 12pt ; font-weight: bold; margin: 0pt  36pt  6pt  36pt ; text-indent: -18pt ; font-family: Arial Narrow,sans-serif;  }
+     .List2 { font-size: 12pt ; font-weight: bold; margin: 0pt  36pt  3pt  36pt ; text-indent: -18pt ; font-family: Arial Narrow,sans-serif;  }
+     .List21 { font-size: 12pt ; font-weight: bold; margin: 0pt  54pt  3pt  54pt ; text-indent: -18pt ; font-family: Arial Narrow,sans-serif;  }
+     .List3 { font-size: 12pt ; margin: 0pt  54pt  0pt  54pt ; text-indent: -18pt ; font-family: Arial Narrow,sans-serif;  }
+     .LISTING { font-size: 8pt ; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Courier New,monospace;  }
+     .MENU { font-size: 12pt ; margin: 0.006in  18pt  0.006in  18pt ; font-family: Times New Roman,serif;  }
+     .MENULI { font-size: 12pt ; margin: 0pt  36pt  0.006in  36pt ; font-family: Times New Roman,serif;  }
+     .Normal { font-size: 12pt ; margin: 5pt  0pt  5pt  0pt ; font-family: Times New Roman,serif;  }
+     .Normal1 { font-size: 12pt ; margin: 5pt  0pt  5pt  0pt ; font-family: Times New Roman,serif;  }
+     .Number1 { font-size: 12pt ; font-family: Arial Narrow,sans-serif;  }
+     .Number2 { font-size: 12pt ; font-family: Arial Narrow,sans-serif;  }
+     .Number3 { font-size: 12pt ; font-family: Arial Narrow,sans-serif;  }
+     .Number4 { font-size: 12pt ; font-family: Arial Narrow,sans-serif;  }
+     .Number5 { font-size: 12pt ; font-family: Arial Narrow,sans-serif;  }
+     .OL { font-size: 12pt ; font-family: Times New Roman,serif;  }
+     .OLLI { font-size: 12pt ; font-family: Times New Roman,serif;  }
+     .OLLI1 { font-size: 12pt ; margin: 0pt  36pt  0pt  36pt ; text-indent: -18pt ; font-family: Times New Roman,serif;  }
+     .P { font-size: 12pt ; font-weight: bold; margin: 0pt  18pt  6pt  18pt ; font-family: Arial Narrow,sans-serif;  }
+     .P1 { font-size: 12pt ; font-weight: bold; margin: 0.006in  18pt  6pt  18pt ; font-family: Arial Narrow,sans-serif;  }
+     .P1 { font-size: 12pt ; font-weight: bold; margin: 0pt  18pt  6pt  18pt ; font-family: Arial Narrow,sans-serif;  }
+     .P11 { font-size: 12pt ; font-weight: bold; margin: 0.006in  18pt  6pt  18pt ; font-family: Arial Narrow,sans-serif;  }
+     .PRE { font-size: 10pt ; font-weight: bold; margin: 0.006in  18pt  6pt  18pt ; font-family: Courier New,monospace;  }
+     .PRE1 { font-size: 10pt ; margin: 0.006in  18pt  6pt  18pt ; font-family: Courier New,monospace;  }
+     .Preformatted { font-size: 10pt ; margin: 0pt  1px  0pt  0pt ; font-family: Courier New,monospace;  }
+     .Preformatted1 { font-size: 10pt ; margin: 0pt  1px  0pt  0pt ; font-family: Courier New,monospace;  }
+     .SAMP { font-weight: bold; font-family: Arial Narrow,sans-serif;  }
+     .STRONG { font-weight: bold; font-family: Arial Narrow,sans-serif;  }
+     .TT { font-family: Courier New,monospace;  }
+     .UL { font-size: 12pt ; font-family: Times New Roman,serif;  }
+     .ULLI { font-size: 12pt ; font-weight: bold; font-family: Arial Narrow,sans-serif;  }
+     .ULLI1 { font-size: 12pt ; font-weight: bold; margin: 0pt  36pt  0pt  36pt ; text-indent: -18pt ; font-family: Arial Narrow,sans-serif;  }
+     .VAR { font-style: italic; font-family: Arial Narrow,sans-serif;  }
+     .XMP { font-size: 10pt ; margin: 0.006in  0.006in  0.006in  0.006in ; font-family: Courier New,monospace;  }
+
+  </style>
+</head>
+<body bgproperties="FIXED">
+ <!--ForeHelp.Banner--> <!--ForeHelp.Ignore--> 
+<table width="100%">
+  <tbody>
+    <tr>
+ <td align="left">   
+      <p class="BannerBase"> <b><span style="font-size: 22pt;">FEHMN Stor
+File Format</span></b></p>
+<!--ForeHelp.Ignore-->
+      <hr><!--ForeHelp.EndIgnore--><!--ForeHelp.EndBanner-->  
+      <p class="heading2"> <span style="font-size: 12pt;"></span></p>
+  
+      <p class="Normal"><span style="font-size: 12pt;">  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      <font color="#000000">The </font><font color="#000000">sparse matrix
+data file is both an input and an output file the FEHM application uses for
+storing or reading </font><font color="#000000">geometric coefficients associated
+with a finite element mesh. The sparse matrix data file is read during FEHM
+initialization if being used for input. The generated name is of the form
+filename.stor and can be written in ascii or binary (unformatted) mode.</font> 
+      <br>
+      <br>
+ The stor file is written with "blocks" of information data in the following
+format.   </span></p>
+ <br>
+ 
+      <p style="margin: 0pt 36pt; font-size: 12pt; font-family: Times New Roman,serif;"> 
+1. ASCII Header consisting of 2 lines giving code version information, date,
+and time. </p>
+ <br>
+  
+      <p style="margin: 0pt 36pt; font-size: 12pt; font-family: Times New Roman,serif;"> 
+2. One line of integer numbers defining sparse matrix parameters, including
+the number of written coeficients and the number of nodes.</p>
+ <br>
+  
+      <p style="margin: 0pt 36pt; font-size: 12pt; font-family: Times New Roman,serif;"> 
+3. The volume associated with each node. In general this is the volume of
+the Voronoi polygon associated with the node.</p>
+ <br>
+  
+      <p style="margin: 0pt 36pt; font-size: 12pt; font-family: Times New Roman,serif;"> 
+4. List indicating the number of entries for each row of the matrix. If a
+node in a mesh has N edge connections, this number is N+1.</p>
+ <br>
+  
+      <p style="margin: 0pt 36pt; font-size: 12pt; font-family: Times New Roman,serif;"> 
+5. The connectivity list. Row i is a list of all nodes j1, j2, j3... connected
+to node i. The list contains the matrix diagonal entry, i.</p>
+ <br>
+  
+      <p style="margin: 0pt 36pt; font-size: 12pt; font-family: Times New Roman,serif;"> 
+6. Pointers or index numbers into the last block containing coefficient values.</p>
+ <br>
+  
+      <p style="margin: 0pt 36pt; font-size: 12pt; font-family: Times New Roman,serif;"> 
+7. Geometric area coefficients. In general this is the area of each face
+of the Voronoi polygon associate with node i, face j.</p>
+ <br>
+      <br>
+  
+      <hr> 
+      <p class="heading2">1. ASCII Header</p>
+ 
+      <p class="Blockquote"> <b>Title Line: </b>   The first line consists
+of a character string of 72 or less characters. <br>
+      <br>
+  <b>Date Line: </b>   The second line contains a character string of 72
+or less   characters. This line contains a time stamp of when the file was 
+  written.  It also contains information stating whether   the file is binary
+or ASCII (text).  If it is ASCII, then   characters 10-16 should be 'asci.'
+ If it is binary, then   characters 10-16 should be 'ieee'. <br>
+      <br>
+    Characters 14-17 should be labled as one of: <span class="CODE">r4i4
+ r4i8  r8i4  r8i8 </span> <br>
+      <br>
+    This signifies the number of bytes used for reals 'r' and   integers
+'i'.   E.g., r8i4 means 8 byte reals, 4 byte integers.  </p>
+  
+      <hr> 
+      <p class="heading2"> 2. Matrix Parameters</p>
+ 
+      <p class="Blockquote">  The Parameter line contains 4 or 5 integer
+values: NUM_WRITTEN_COEFS, NEQ, NCOEF+NEQ+1,   NUM_AREA_COEF, and [NCON_MAX}.
+ [] denotes the optional parameter: <br>
+      <br>
+  <b>    NUM_WRITTEN_COEFS: </b> is the number of  floating point       
+       entries written in the .stor file.  If compression is not used,  
+            then this is equal to the number of connections in the grid. 
+             This value is contained in the variable NCOEF, which is    
+          used to allocate integer pointers.  <br>
+      <br>
+   <b>  NEQ: </b> signifies the number of equations. This is equivalent to 
+              the number of nodes in a triangular or tetrahedral grid.  <br>
+      <br>
+ <b>    NCOEF+NEQ+1: </b> is a value used to allocate memory in FEHM for
+the integer                pointers.  <br>
+      <br>
+ <b>    NUM_AREA_COEF: </b> Can be (1,3, or 4) number of area coefficients.
+The               area/distance coefficients are the area of a Voronoi  
+            face divided by the Delaunay edge length. This              
+coefficient is either written as a scalar (1), a vector               area
+(3), or both vector and scalar areas are written               (4).  <br>
+      <br>
+  <b>   NCON_MAX: </b>  is an optional parameter indicating the maximum 
+             number of connections to a single node in the entire       
+       mesh. This is used for memory allocation.  If omitted,           
+   FEHM will default to a value that might cause problems in            
+  highly unstructured meshes.  <br>
+      <br>
+ <i> [A note on delimiters: In the ASCII version of the .stor format, the 
+ first three lines are parsed for end of line characters.  That is, the 
+Title Line, Date Line, and Matrix Parameters Line must occur in the  first
+three lines.  Afterwards, data is delimited by whitespace and  an occur in
+free form.  Further, no attempt to find or report errors  in .stor files
+is made in FEHM.] </i>   <br>
+      <br>
+ </p>
+  
+      <hr> 
+      <p class="heading2"> 3. Voronoi Volumes</p>
+ 
+      <p class="Blockquote">   This block has NEQ floating point values which
+are the Voronoi   Volumes associated with each node 1 through NEQ. <br>
+      <br>
+ </p>
+  
+      <hr> 
+      <p class="heading2"> 4. Count for Each Row</p>
+ 
+      <p class="Blockquote">  The purpose of this block is to indicate the
+number of specified   entries each row of the matrix contains.  (All unspecified
+entries   are assumed to be 0).  <br>
+      <br>
+   The representation is circuitous.  There are a total of NEQ+1   entries.
+ The first entry is the value NEQ+1.  The second entry is   the value NEQ+1+the
+number of connections the in the first row.  The   third entry is value of
+the second entry + the number of connections   in the second row.  In general,
+the ith entry (for i&gt;1) is the i-1th   entry + the number of specified
+entries in the row i-1.  In this   way, the difference between the i+1st
+and the ith value indicates   how many entries row i has in the matrix.  <br>
+      <br>
+   For example, suppose we had a 3x3 matrix with 5 entries we wished to 
+ explicitly represent.  The .stor file at representing the matrix   would
+contain 4 entries in this block (i.e., NEQ+1=4).  Suppose the   first row
+of this matrix has 3 entries, the second row contains 1   entry, and the
+third row contains one entry.  There would   be 4 integer values given to
+represent this information:   </p>
+  
+      <hr> 
+      <p class="heading2"> 5. Row Entries</p>
+ 
+      <p class="Blockquote"> The purpose of the next block is to state which
+entries of the   matrix are explicitly represented.  Since we know the number
+of   entries per row, (given above), we can do this by stating which   columns
+of each row are represented.  For example, suppose in our   3x3 matrix example,
+we saw the following entries in this block: <br>
+      <br>
+ <span class="CODE">      1 2 3 <br>
+      2 3 <br>
+ </span> <br>
+    This would indicate: The first row has specified entries in    the first,
+second, and third columns (i.e, entries (1,1), (1,2) and (1,3)    are specified
+; the second row has an entry specified in the second    column entry (i.e.,
+(2,2)); the third row has an entry specified    in  the third column (i.e.
+(3,3)). <br>
+      <br>
+     There are a total of NCOEF such values.  <br>
+      <br>
+ </p>
+  
+      <hr> 
+      <p class="heading2"> 6. Indices into Coefficient List</p>
+ 
+      <p class="Blockquote">  This block contains NCOEF integer pointers
+to entries to the   Floating Point Values Block (described below.)  The actual
+values of a   matrix entry can be repeated many times, particularly in a
+matrix   arising from the discretization of a structured mesh.  Because 
+ floating point values require more storage than integers, we have   set
+up the following data structure to allow compression: <br>
+      <br>
+      View the floating point values as two dimensional array of     dimensions
+NUM_WRITTEN_COEFS by NUM_AREA_COEF.  <br>
+      <br>
+   To represent a matrix entry, give the index of value contained in   the
+floating point values block here.  If a 0 is given, then   the writer of
+the .stor file has explicitly stated he wants the   value to be 0.0.    <br>
+      <br>
+   Following the NCOEF integer pointers are: 1) NEQ+1 0's for padding   and
+2) a set of NEQ+1 integer pointers stating which pointers   correspond to
+diagonal elements.  <br>
+      <br>
+ </p>
+  
+      <hr> 
+      <p class="heading2"> 7. Geometric Area Coefficient Values</p>
+ 
+      <p class="Blockquote"> This block contains NUM_WRITTEN_COEFS*NUM_AREA_COEF
+floating point values. <br>
+      <br>
+   NUM_AREA_COEF = 1 The scalar area for each connection                
+    a(i=1,k).  <br>
+      <br>
+   NUM_AREA_COEF = 3 The vector area for each connection in the order   
+                  a_x(i=1,k), a_y(i=1,k), a_z(i=1,k). <br>
+      <br>
+   NUM_AREA_COEF = 4 The vector areas first followed by the scalar area.
+                     Note that a(i) = sqrt(a_x**2 +  a_y**2 + a_z**2)  <br>
+      <br>
+ </p>
+  
+      <hr> 
+      <p class="heading2">ASCII Stor file examples for 2x2x2 tetrahedral
+mesh.</p>
+<hr>
+      <p class="Blockquote">STOR File example nstor:  No compression. </p>
+<span class="CODE"><pre>
+fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients
+      08/14 10:23:54 20093-D Linear Diffusion Model (matbld3d_nstor)<br>
+        46         8        55         1         8
+  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01
+  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01
+         9        14        22        27        32
+        37        42        50        55         1
+         2         3         5         7         1
+         2         3         4         5         6
+         7         8         1         2         3
+         4         7         2         3         4
+         7         8         1         2         5
+         6         7         2         5         6
+         7         8         1         2         3
+         4         5         6         7         8
+         2         4         6         7         8
+         1         2         3         4         5
+         6         7         8         9        10
+        11        12        13        14        15
+        16        17        18        19        20
+        21        22        23        24        25
+        26        27        28        29        30
+        31        32        33        34        35
+        36        37        38        39        40
+        41        42        43        44        45
+        46         0         0         0         0
+         0         0         0         0         0
+        10        16        25        30        35
+        40        49        55
+  0.000000000000E+00 -2.500000000000E-01 -2.500000000000E-01 -2.500000000000E-01  0.000000000000E+00
+ -2.500000000000E-01  0.000000000000E+00  0.000000000000E+00 -2.500000000000E-01  0.000000000000E+00
+ -2.500000000000E-01  0.000000000000E+00  0.000000000000E+00 -2.500000000000E-01  0.000000000000E+00
+  0.000000000000E+00 -2.500000000000E-01 -2.500000000000E-01 -2.500000000000E-01 -2.500000000000E-01
+  0.000000000000E+00  0.000000000000E+00 -2.500000000000E-01 -2.500000000000E-01  0.000000000000E+00
+  0.000000000000E+00 -2.500000000000E-01 -2.500000000000E-01 -2.500000000000E-01 -2.500000000000E-01
+  0.000000000000E+00  0.000000000000E+00 -2.500000000000E-01  0.000000000000E+00  0.000000000000E+00
+ -2.500000000000E-01  0.000000000000E+00 -2.500000000000E-01  0.000000000000E+00  0.000000000000E+00
+ -2.500000000000E-01  0.000000000000E+00 -2.500000000000E-01 -2.500000000000E-01 -2.500000000000E-01
+  0.000000000000E+00
+<br></pre>
+ </span> <br>
+
+<hr>
+      <p class="Blockquote">STOR File example cstor:  coef compression on, graph compression off. </p>
+ <span class="CODE"><pre>
+fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients
+      08/13 15:40:06 20093-D Linear Diffusion Model (matbld3d_cstor)
+         2         8        55         1         8
+  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01
+  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01
+         9        14        22        27        32
+        37        42        50        55         1
+         2         3         5         7         1
+         2         3         4         5         6
+         7         8         1         2         3
+         4         7         2         3         4
+         7         8         1         2         5
+         6         7         2         5         6
+         7         8         1         2         3
+         4         5         6         7         8
+         2         4         6         7         8
+         1         2         2         2         1
+         2         1         1         2         1
+         2         1         1         2         1
+         1         2         2         2         2
+         1         1         2         2         1
+         1         2         2         2         2
+         1         1         2         1         1
+         2         1         2         1         1
+         2         1         2         2         2
+         1         0         0         0         0
+         0         0         0         0         0
+        10        16        25        30        35
+        40        49        55
+  0.000000000000E+00 -2.500000000000E-01
+
+<br></pre> </span> <br>
+<hr>      
+<p class="Blockquote">STOR File example gstor:  coef compression off, graph compression on. </p> 
+<span class="CODE"> <pre>
+fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients
+      08/13 15:40:06 20093-D Linear Diffusion Model (matbld3d_gstor)
+        20         8        41         1         4
+  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01
+  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01
+         9        13        17        21        25
+        29        33        37        41
+         1         2         3         5         1
+         2         4         6         1         3
+         4         7         2         3         4
+         8         1         5         6         7
+         2         5         6         8         3
+         5         7         8         4         6
+         7         8
+         1         2         3         4         2
+         5         6         7         3         8
+         9        10         6         9        11
+        12         4        13        14        15
+         7        14        16        17        10
+        15        18        19        12        17
+        19        20         0         0         0
+         0         0         0         0         0
+         0
+        10        15        19        24        27
+        32        36        41
+  0.000000000000E+00 -2.500000000000E-01 -2.500000000000E-01 -2.500000000000E-01  0.000000000000E+00
+ -2.500000000000E-01 -2.500000000000E-01  0.000000000000E+00 -2.500000000000E-01 -2.500000000000E-01
+  0.000000000000E+00 -2.500000000000E-01  0.000000000000E+00 -2.500000000000E-01 -2.500000000000E-01
+  0.000000000000E+00 -2.500000000000E-01  0.000000000000E+00 -2.500000000000E-01  0.000000000000E+00
+<br></pre> </span> <br>
+
+<hr>
+      <p class="Blockquote">STOR File example astor:  Compress all, graph compression on and coef compression on. </p>
+ 
+ <span class="CODE">
+      <pre>
+fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients
+      08/13 15:40:06 20093-D Linear Diffusion Model (matbld3d_astor)
+         2         8        41         1         4
+  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01
+  1.250000000000E-01  1.250000000000E-01  1.250000000000E-01
+         9        13        17        21        25
+        29        33        37        41
+         1         2         3         5         1
+         2         4         6         1         3
+         4         7         2         3         4
+         8         1         5         6         7
+         2         5         6         8         3
+         5         7         8         4         6
+         7         8
+         2         1         1         1         1
+         2         1         1         1         2
+         1         1         1         1         2
+         1         1         2         1         1
+         1         1         2         1         1
+         1         2         1         1         1
+         1         2         0         0         0
+         0         0         0         0         0
+         0
+        10        15        19        24        27
+        32        36        41
+ -2.500000000000E-01  0.000000000000E+00
+</pre>
+ </span> <br>
+          </td>
+ </tr>
+  </tbody>
+</table>
+<hr> <br>
+</body>
+</html>
