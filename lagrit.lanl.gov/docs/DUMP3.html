@@ -1,163 +1,262 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-            
+                
   <meta http-equiv="Content-Type"
  content="text/html; charset=iso-8859-1">
-            
+                
   <meta name="Generator" content="Microsoft Word 98">
-            
+                
   <meta name="GENERATOR"
  content="Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
-  <title>DUMP</title>
-    
+  <title>DUMP/FEHM and DUMP/STOR</title>
 </head>
-<body alink="#ff0000" bgcolor="#ffffff" link="#0000ee" text="#000000"
+  <body alink="#ff0000" bgcolor="#ffffff" link="#0000ee" text="#000000"
  vlink="#551a8b">
-       
-<blockquote>         
-  <p><font face="Times"><b>dump/fehm</b>/</font><font
- face="Courier New,Courier">file_name</font><font face="Times">/[</font><font
- face="Courier New,Courier">cmo_name</font><font face="Times">]/ [<b>binary</b>
- |<b>ascii</b> | <b><u>binaryc</u></b>| <b>asciic</b> ]</font>&nbsp; // [<font
- face="Times"><b><u>scalar,vector,both,area_scalar,area_vector,area_both,alternate_scalar</u></b>] 
- /&nbsp; [<b>delatt,keepatt</b>]</font> <br>
-   <br>
-   <br>
-    <font face="Times New Roman,Times">The <b>dump / fehm </b>command will 
-call the<b> dump/coord</b> and <b>dump/zone</b> options first. The main function
- of the <b>dump / fehm</b> command is to form a sparse coefficient matrix
-used for solving PDE on a triangular or tetrahedral delaunay grid.</font>
-   </p>
-       
-  <p><font face="Times New Roman,Times">Options for the 5th argument are:</font> 
-      
+  <br>
+ <font face="Times"><b><u>DUMP/ fehm </u></b> and <b><u>DUMP/ stor </u></b></font> 
+<br>
+<br>
+ <!-- Describe commands and options -------------------------> 
+<p>    <font face="Times New Roman,Times"> The simplest command line with
+root file_name and cmo_name will assume the most common options and will
+write an ASCII compressed stor file with scalar area coefficients. If an
+option is not valid, the program will continue but use a valid default setting. 
+Both <b>dump/fehm </b> and <b>dump/stor</b> use the same set of optional
+settings after the required file_name.  The <b>dump/fehm </b>command will
+write all FEHM input files starting with commands <b> dump/coord</b> for
+the FEHM geometry file,  <b>dump/zone</b> for FEHM zone files, and then <b>dump/stor</b>. 
+<br>
+ <br>
+ The stor file represents a sparse coefficient matrix and is used for solving
+PDE on a triangular or tetrahedral Delaunay mesh. The stor format is written
+for FEHM input and is described at this page. <br>
+<a href="./STOR_Form.html" target="_blank">FEHM STOR File Format</a> <br>
+ <br>
+ If all FEHM files are written, the result will be the following files where
+"file_name" is the root of each name:  </font>  </p>
+<pre> <font face="Courier New, Courier, monospace">
+     file_name.fehmn
+     file_name_interface.zone
+     file_name_material.zone
+     file_name_multi_mat.zone
+     file_name_outside.area
+     file_name_outside.zone
+     file_name.stor
+</font>
+</pre>
+ 
+<p></p>
+  <!-- syntax for commands and options -------------------------> <br>
+ <font face="Times">FORMAT:</font>   
+<blockquote> 
   <table nosave="" cols="2" width="90%">
-   <tbody>
-        <tr nosave="">
-   <td nosave="" width="10%"><font face="Times New Roman,Times"><b>binary</b>(default)</font></td>
-     <td nosave=""><font face="Times New Roman,Times">Output sparse matrix
- in Fortran unformatted format</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><font face="Times New Roman,Times"><b>ascii</b>&nbsp;</font></td>
-     <td><font face="Times New Roman,Times">Output sparse matrix as ASCII 
-format</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><b><font face="Times New Roman,Times">binaryc&nbsp;</font></b></td>
-     <td><font face="Times New Roman,Times">Output sparse matrix as Fortran 
- unformatted format with a compression</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><br>
-          </td>
-     <td><font face="Times New Roman,Times">algorithm applied to the area 
-coefficients.</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><b><font face="Times New Roman,Times">asciic&nbsp;</font></b></td>
-     <td><font face="Times New Roman,Times">Output sparse matrix as ASCII 
-format  with a compression</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><br>
-          </td>
-     <td><font face="Times New Roman,Times">algorithm applied to the area 
-coefficients.</font>&nbsp;</td>
-   </tr>
-             
-    </tbody>      
+  <tbody>
+  <tr nosave="">
+ <td nosave="" width="50%"> <b>dump /&nbsp;fehm&nbsp;|&nbsp;stor / </b><font
+ face="Courier New,Courier"> file_name </font> <font face="Times">/ [</font><font
+ face="Courier New,Courier">cmo_name</font><font face="Times">] <br>
+ <br>
+ <br>
+ <br>
+ </font></td>
+ <td nosave=""><font face="Times New Roman,Times"> The file_name will be
+used as a root name for all files written.<br>
+  <b>dump/fehm</b> will write full set of FEHM input files and stor file<br>
+ <b>dump/stor</b> will write a sparse matrix stor file only<br>
+  Default options applied are: ascii, scalar, all compressed  </font></td>
+      </tr>
+ <tr nosave="">
+ <td nosave="" colspan="2"> <font face="Times">  <br>
+ The following command settings are optional and can occur in any order after
+the <font face="Courier New,Courier">cmo_name. </font><br>
+        <br>
+ </font> </td>
+      </tr>
+  <tr nosave="">
+ <td nosave="" width="50%"> <font face="Times"> &nbsp;/ [ <b><u>ascii</u>
+| binary </b>] </font>&nbsp;  <br>
+ &nbsp;/ [ <font face="Times"><b><u>scalar</u> | vector | both | area_scalar
+| area_vector | area_both</b>]  <br>
+ &nbsp;/ [ <font face="Times"><b><u>all</u> | graph | coefs | none</b> ]
+ <br>
+ &nbsp;/ [ <b><u>delatt,</u> | keepatt</b> ]</font>  <br>
+ </font></td>
+  <td nosave=""><font face="Times"> IO Mode Options for stor file <br>
+ Area Coefficient Options for writing stor file coefficient values <br>
+ Compression Options for the stor file  <br>
+ CMO Attribute Options during creation of zone files <br>
+ </font></td>
+      </tr>
+ 
+    </tbody> 
   </table>
-   <font face="Times New Roman,Times">The 6th argument is empty.</font> 
-   </p>
-       
-  <p><font face="Times New Roman,Times">Options for the 7th argument are:</font> 
-      
-  <table nosave="" cols="2" width="90%">
-   <tbody>
-        <tr nosave="">
-   <td nosave="" width="10%"><font face="Times New Roman,Times"><b><u>scalar</u></b>(default)&nbsp;</font></td>
-     <td nosave=""><font face="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
- coefficients are output as scalars</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><b><font face="Times New Roman,Times">vector</font></b></td>
-     <td><font face="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
- coefficients are output as vectors</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><b><font face="Times New Roman,Times">both</font></b></td>
-     <td><font face="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
- coefficients are output as scalars and vectors</font>&nbsp;</td>
-   </tr>
-     <tr nosave="">
-   <td><b><font face="Times New Roman,Times">area_scalar&nbsp;</font></b></td>
-     <td nosave=""><font face="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
- coefficients are output as scalars</font></td>
-   </tr>
-     <tr>
-   <td><b><font face="Times New Roman,Times">area_vector</font></b></td>
-     <td><font face="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
- coefficients are output as vectors</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><b><font face="Times New Roman,Times">area_both&nbsp;</font></b></td>
-     <td><font face="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
- coefficients are output as scalars and vectors</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><b><font face="Times New Roman,Times">alternate_scalar</font></b></td>
-     <td><font face="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
- coefficients are output as scalars with compression of coefficients</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><br>
-          </td>
-     <td><font face="Times New Roman,Times">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp; 
- applied during calculation of coefficients.</font>&nbsp;</td>
-   </tr>
-             
-    </tbody>      
-  </table>
-   &nbsp;   </p>
-       
-  <p><font face="Times New Roman,Times">Options for the 8th aregument are:</font> 
-      
-  <table nosave="" cols="2" width="90%">
-   <tbody>
-        <tr nosave="">
-   <td nosave="" width="10%"><font face="Times New Roman,Times"><b><u>delatt</u></b>(default)</font></td>
-     <td nosave=""><font face="Times New Roman,Times">No new node attributes
- are created.</font></td>
-   </tr>
-     <tr>
-   <td><font face="Times New Roman,Times"><b>ascii</b>&nbsp;</font></td>
-     <td><font face="Times New Roman,Times">Output sparse matrix as ASCII 
-format</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><b><font face="Times New Roman,Times">keepatt</font></b></td>
-     <td><font face="Times New Roman,Times">Six node attributes are created 
- (top, bottom, left_w, right_e,back_n, front_s) which</font>&nbsp;</td>
-   </tr>
-     <tr>
-   <td><br>
-          </td>
-     <td><font face="Times New Roman,Times">are assigned values according 
-to  the direction of the octant of their normal vector.</font>&nbsp; <br>
-          <font face="Times New Roman,Times">&nbsp;</font>&nbsp;</td>
-   </tr>
-             
-    </tbody>      
-  </table>
-   &nbsp;</p>
-  </blockquote>
-   <font face="Times">EXAMPLE</font>   
+ </blockquote>
+  <!-- Describe options -------------------------> <br>
+ <font face="Times">IO MODE OPTIONS for STOR File:</font>  
 <blockquote>   
-  <pre><font face="Times"><br><big><font
- face="Courier New, Courier, monospace">dump / fehm / file_name / cmo <br>dump / stor / file_name_as / cmo / asciic / / alternate_scalar <br>dump / fehm / file_name / cmo / binaryc / / alternate_scalar/ keepatt <br>dump / stor / file_name_as / cmo / ascii / vector<br>dump / stor / file_name_as / cmo / ascii / both <br>dump / stor / file_name_as / cmo / ascii / area_scalar <br></font></big></font><br></pre>
-  </blockquote>
-   
+  <table nosave="" cols="2" width="90%">
+    <tbody>
+         <tr nosave="">
+    <td nosave="" width="20%"><font face="Times New Roman,Times"><b>binary</b></font></td>
+      <td nosave=""><font face="Times New Roman,Times">Output sparse matrix
+stor file  in Fortran unformatted format <br>Note: These files are platform dependent.</font>&nbsp;</td>
+    </tr>
+      <tr>
+    <td><font face="Times New Roman,Times"><b><u>ascii</u></b> (default)&nbsp;</font></td>
+      <td><font face="Times New Roman,Times">Output sparse matrix stor file
+as ASCII  format</font>&nbsp;</td>
+    </tr>
+     
+    </tbody>         
+  </table>
+ <br>
+  <font face="Times New Roman,Times"><i>Note: The old syntax using asciic
+and binaryc keywords  are no longer needed to toggle the compression settings.</i><font> 
+  <br>
+  </font></font></blockquote>
+  <!-- Describe options -------------------------> <font
+ face="Times New Roman,Times"><font><br>
+ <font face="Times">Area Coefficient OPTIONS for STOR File:</font>  </font></font>
+<blockquote>  <font face="Times New Roman,Times"><font>  
+  <table nosave="" cols="2" width="90%">
+    <tbody>
+         <tr nosave="">
+    <td nosave="" width="20%"><font face="Times New Roman,Times"><b><u>scalar</u></b>
+(default)&nbsp;</font></td>
+      <td nosave=""><font face="Times New Roman,Times"> Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+coefficients are output as scalars</font>&nbsp;</td>
+    </tr>
+      <tr>
+    <td><b><font face="Times New Roman,Times">vector</font></b></td>
+      <td><font face="Times New Roman,Times"> Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+coefficients are output as vectors</font>&nbsp;</td>
+    </tr>
+      <tr>
+    <td><b><font face="Times New Roman,Times">both</font></b></td>
+      <td><font face="Times New Roman,Times"> Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+coefficients are output as scalars and vectors</font>&nbsp;</td>
+    </tr>
+      <tr nosave="">
+    <td><b><font face="Times New Roman,Times">area_scalar&nbsp;</font></b></td>
+      <td nosave=""><font face="Times New Roman,Times"> Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+coefficients are output as scalars</font></td>
+    </tr>
+      <tr>
+    <td><b><font face="Times New Roman,Times">area_vector</font></b></td>
+      <td><font face="Times New Roman,Times"> Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+coefficients are output as vectors</font>&nbsp;</td>
+    </tr>
+      <tr>
+    <td><b><font face="Times New Roman,Times">area_both&nbsp;</font></b></td>
+      <td><font face="Times New Roman,Times"> Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+coefficients are output as scalars and vectors</font>&nbsp;</td>
+    </tr>
+     
+    </tbody>         
+  </table>
+ <br>
+ </font></font></blockquote>
+  <!-- Describe options -------------------------> <font
+ face="Times New Roman,Times"><font><br>
+ <font face="Times">Compression OPTIONS for STOR File:</font> </font></font>
+<blockquote>  <font face="Times New Roman,Times"><font>  
+  <table nosave="" cols="2" width="90%">
+    <tbody>
+         <tr nosave="">
+ <td nosave="" width="20%"><b><font face="Times New Roman,Times"><u>all</u></font></b><font
+ face="Times New Roman,Times"> (default)</font> </td>
+      <td><font face="Times New Roman,Times"> (_astor) compression of area coefficients
+and compression of coefficient indices  </font>&nbsp;</td>
+    </tr>
+   <tr nosave="">
+ <td nosave=""><b><font face="Times New Roman,Times">graph</font></b><font
+ face="Times New Roman,Times"> </font> </td>
+      <td><font face="Times New Roman,Times"> (_gstor) compression of area coefficient
+indices (edge compression) </font>&nbsp;</td>
+    </tr>
+  <tr nosave="">
+ <td nosave=""><b><font face="Times New Roman,Times">coefs</font></b><font
+ face="Times New Roman,Times"> </font> </td>
+      <td><font face="Times New Roman,Times"> (_cstor) compression of area coefficient
+to a list of unique values<br>Note: This older algorithm uses more space and time. </font>&nbsp;</td>
+    </tr>
+   <tr nosave="">
+ <td nosave=""><b><font face="Times New Roman,Times">none</font></b><font
+ face="Times New Roman,Times"> </font> </td>
+      <td><font face="Times New Roman,Times"> (_nstor) full indices and area coefficient
+list<br>Note: This older algorithm uses more space and time. </font>&nbsp;</td>
+    </tr>
+      
+    </tbody>   
+  </table>
+  <br>
+ <font face="Times New Roman,Times"><i>Note: The old syntax using the alternate_scalar
+keyword is now the default option of scalar compressed. It is the same as
+using keywords all or graph and if  used will be recognized.</i><font> <br>
+  </font></font></font></font></blockquote>
+    <!-- Describe options -------------------------> <font
+ face="Times New Roman,Times"><font><font face="Times New Roman,Times"><font><br>
+ <font face="Times">CMO Attribute OPTIONS:</font>  </font></font></font></font>
+<blockquote> <font face="Times New Roman,Times"><font><font
+ face="Times New Roman,Times"><font>         
+  <table nosave="" cols="2" width="90%">
+    <tbody>
+         <tr nosave="">
+    <td nosave="" width="20%"><font face="Times New Roman,Times"><b><u>delatt</u></b>
+(default)<br>
+        <br>
+        </font></td>
+      <td nosave=""><font face="Times New Roman,Times">No new cmo attributes 
+ are created.<br>
+        </font></td>
+    </tr>
+      <tr>
+    <td><b><font face="Times New Roman,Times">keepatt</font></b><br>
+        <br>
+        </td>
+      <td><font face="Times New Roman,Times">Used for the outside zone file,
+six node attributes are created   (top, bottom, left_w, right_e,back_n, front_s)
+which      are assigned values according to  the direction of the octant
+of their normal vector.</font>&nbsp; <br>
+           <font face="Times New Roman,Times">&nbsp;</font>&nbsp;</td>
+    </tr>
+     
+    </tbody>         
+  </table>
+   </font></font></font></font></blockquote>
+  <font face="Times New Roman,Times"><font><font
+ face="Times New Roman,Times"><font><br>
+ <font face="Times">EXAMPLES</font>     </font></font></font></font>
+<blockquote><font face="Times New Roman,Times"><font><font
+ face="Times New Roman,Times"><font>      </font></font></font></font>
+  <pre><font face="Times New Roman,Times"><font><font
+ face="Times New Roman,Times"><font><font face="Times"><br><big><font
+ face="Courier New, Courier, monospace">
+dump / fehm / file_name / cmo   <i>(write all FEHM files, STOR file will be ascii compressed)</i> 
+dump / stor / file_name / cmo   <i>(write the FEHM STOR file in ascii compressed format)</i> 
+dump / fehm / file_name / cmo / binary / none <i>(write all FEHM files, STOR file will be unformatted compressed)</i> 
+dump / stor / file_name_as / cmo / ascii / none / vector <i>(write ascii STOR file with vector coefficients)</i> 
+dump / stor / file_name_as / cmo / ascii / none / area_scalar <i>(ascii STOR file with area coefficients without distance)</i> 
+</font></big></font>
+</font></font></font></font></pre>
+ <font face="Times New Roman,Times"><font><font
+ face="Times New Roman,Times"><font>  </font></font></font></font></blockquote>
+  <font face="Times New Roman,Times"><font><font
+ face="Times New Roman,Times"><font><br>
+ <font face="Times">OLD EXAMPLES (recognized but no longer used)</font> </font></font></font></font>
+<blockquote> <font face="Times New Roman,Times"><font><font
+ face="Times New Roman,Times"><font> </font></font></font></font>
+  <pre><font face="Times New Roman,Times"><font><font
+ face="Times New Roman,Times"><font><font
+ face="Courier New, Courier, monospace">
+dump / stor / file_name_as / cmo / ascii  / / alternate_scalar 
+dump / stor / file_name_as / cmo / asciic / / alternate_scalar 
+dump / fehm / file_name / cmo / binaryc / / alternate_scalar/ keepatt 
+</font></font></font></font></font></pre>
+ <font face="Times New Roman,Times"><font><font
+ face="Times New Roman,Times"><font>  </font></font></font></font></blockquote>
+  <font face="Times New Roman,Times"><font><font
+ face="Times New Roman,Times"><font>    </font></font></font></font><br>
 </body>
 </html>
