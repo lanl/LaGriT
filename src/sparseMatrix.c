@@ -82,6 +82,9 @@ static int ncon;  /* Number of connections in the grid.  (Number of
 static int *ncon_row;  /* An array of size neq containing the total
 			  number of connections in a given row of a
 			  matrix.  */
+  /* tam - indices are 1 to neq until sent back to fortran */
+  /*  MM note - put it in Funky-George Format where ncon_row[0] = neq+1; */
+
  
 static int ncon_max = 0;  /* Maximum number of connections to a single
 			     node.  I.e., the maximum degree of a
@@ -90,6 +93,7 @@ static int ncon_max = 0;  /* Maximum number of connections to a single
 static double *voronoiVolume;  /* an array of 1..eq containing the
 				  volume of the Voronoi volume of each
 				  node. */
+  /* tam note - routines seem to use index 0 to neq */
  
 static int matrixEntrySize;   /* num_area_coeff */
  
@@ -590,9 +594,16 @@ void createSparseMatrix(int numberOfEquations, int sparseMatrixEntrySize,
   neq=numberOfEquations;
   ncon_row =  (int *)malloc((1+neq)*sizeof(int));
   voronoiVolume = (double *)malloc((1+neq)*sizeof(double));
- 
   sparseMatrix = (SkipList *) malloc((neq+1)*sizeof(SkipList));
- 
+
+  /* tam - initialize full allocated arrays starting at 0 
+  voronoiVolume[0] and ncon_row[0] are used later  
+  sparseMatrix indices are 1 to neq and depend on non-null pointers 
+  so it may be a mistake to create a pointer at sparseMatrix[0] */
+
+  ncon_row[0]=0;
+  voronoiVolume[0] = 0.0;
+
   for (i=1; i<=neq; i++) {
     sparseMatrix[i] = (SkipList) NewSL(entryKeyCompare,
 				       entryKeyFree,NO_DUPLICATES);
@@ -669,7 +680,7 @@ void setEntry(int index_i, int index_j,  double volContrib, double *value)
                  *newec;
  
  
-  /* Update the Voronoi volumes. */
+  /* Update the Voronoi volumes, note indices start at 0 instead of 1 */
   voronoiVolume[index_i-1] += volContrib;
   voronoiVolume[index_j-1] += volContrib;
  
@@ -823,8 +834,6 @@ void getvoronoivolumes_(double **volic)
 /************************************************************************/
  
 {
-  int i;
- 
   *volic = voronoiVolume;
 }
  
@@ -836,8 +845,6 @@ void getvoronoivolumes(double **volic)
 /************************************************************************/
  
 {
-  int i;
- 
   *volic = voronoiVolume;
 }
  
@@ -1221,9 +1228,9 @@ void killsparsematrix_()
   compressList = NULL;
 
   if(compressList){
-    printf("Warning: killsparsematrix: compressList not free: %d\n",compressList); }
+    printf("Warning: killsparsematrix: compressList not free.\n"); }
   if (sparseMatrix){
-    printf("Warning: killsparsematrix: sparseMatrix not free: %d\n",sparseMatrix[1]); }
+    printf("Warning: killsparsematrix: sparseMatrix not free.\n"); }
 }
  
 /************************************************************************/

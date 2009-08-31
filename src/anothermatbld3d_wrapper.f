@@ -175,7 +175,7 @@ c
 c Variables used in matrix computation and stats
 c
  
-      integer i,j,ii
+      integer i,j
       integer iunit, nextlun
       integer lenitp1, lenisn1 
       integer iip1, iip2, ip1, ip2
@@ -339,7 +339,7 @@ C---------------------------------------------------------------------------
 cccccccccccccccc
 c     open file or prepare cmo attribute 
       iunit=0
-      if (io_type == 5) then
+      if (io_type .eq. 5) then
       
         att_name = ifile
         call cmo_get_info(att_name,cmo,ipvalue,ilen,ityp,ierr)
