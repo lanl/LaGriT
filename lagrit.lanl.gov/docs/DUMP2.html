@@ -154,19 +154,24 @@ to the specified file.&nbsp; (See <b><a
 <dir><font face="Times">Write a file to be read by the graphics program <a
  href="http://laws.lanl.gov/XCM/gmv/GMVHome.html">GMV</a>.&nbsp;        
  The defaults are binary and current mesh object.</font></dir>
-  <font face="Times"><b>dump/stor</b>/file-name/[mesh-object]/[<b><u>scalar|vector|both|area_scalar|area_vector|area_both</u></b>]/[<b>delatt,keepatt|keepatt_area</b>]</font></font><dir><font face="Times">Same syntax as dump/fehm except the only output is the FEHM sparse matrix coefficient file (file-name.stor). </font></dir>
-                    <a href="DUMP3.html">
-					<font
- face="Times"><b>dump/fehm</b>/</font><font face="Courier New,Courier">file_name</font><font
- face="Times">/[</font><font face="Courier New,Courier">cmo_name</font><font
- face="T
-[&lt;B&gt;binary&lt;/B&gt; |&lt;B&gt;ascii&lt;/B&gt; | &lt;B&gt;&lt;U&gt;binaryc&lt;/U&gt;&lt;/B&gt;| &lt;B&gt;asciic&lt;/B&gt; ]&lt;/FONT&gt;&nbsp;
-//&lt;/A&gt;
-&lt;BR&gt;&lt;FONT FACE=">[<b><u>scalar|vector|both|area_scalar|area_vector|area_both</u></b>]/[<b>delatt,keepatt|keepatt_area</b>]</font></a> 
+  <font face="Times"><b>dump/stor</b>/file-name-root / cmo_name /  [<b> [<u>ascii</u>|binary]  [<u>scalar</u>|vector|both|area_scalar|area_vector|area_both</b>]/[<b>delatt,keepatt|keepatt_area</b>]</font></font>
+<dir><font face="Times">Same syntax as <b>dump/fehm</b> except the only output is the FEHM sparse matrix coefficient STOR file (file-name.stor).<br>
+<a href="DUMP3.html">Click here for dump/stor and dump/fehm details.</a> 
+<br>
+<br>
+<a href="./STOR_Form.html">Click here for the STOR file format.</a> 
+<br>
+</font></dir>
+                   
+
+ 
+<font face="Times"><b>dump/fehm</b>/</font><font face="Courier New,Courier">file_name_root</font><font face="Times">
+/</font><font face="Courier New,Courier">cmo_name / </font>
+<b> [<u>ascii</u>|binary]  [<u>scalar</u>|vector|both|area_scalar|area_vector|area_both</b>]/[<b>delatt,keepatt|keepatt_area</b>]</font></font>
   <br>
              
 <dir> Write out a series of files for the FEHM flow and transport code. The 
-  file_name is the file root name for:<br>
+  file_name_root is the file root name for:<br>
      file_name.fehm ( see dump/cord/... command)<br>
      file_name_material.zone ( see dump/zone_imt/... command)<br>
      file_name_outside.zone (see dump/zone_outside/... command)<br>
@@ -177,7 +182,11 @@ along   an interface )<br>
   connections )<br>
      file_name.stor ( output of FEHM format file with geometric coefficient 
  matrix,  these are the Voronoi (control volume) area and volume associated 
- with each  node and the sparce matrix structure.</dir></dir>
+ with each  node and the sparce matrix structure Default format is ascii compressed.
+<br>
+<br>
+<a href="DUMP3.html">Click here for dump/stor and dump/fehm details.</a> 
+</dir></dir>
  
 <dir><font face="Times"><b>dump/geofest</b>/file-name/[mesh-object]</font> 
                    <font face="Times">Write a file to be read by the <a
@@ -203,7 +212,8 @@ Finite Element Simulation Tool</a> .&nbsp;          The output file is ascii.</f
   element connectivity and node attributes)<br>
      <b>dump </b>/ avs /file_name.inp/cmo_name/0 0 0 1 (output element attributes)<br>
      <b>dump</b> / avs /file_name.inp/cmo_name/0 0 2 2 (output node and element attributes without node numbers as first column of output) <br>
-	  <b>dump</b> / stor /file_name/cmo_name/asciic / / alternate_scalar <br>
+	  <b>dump</b> / stor /file_name/cmo_name/  (write ascii compressed STOR file)<br>
+	  <b>dump</b> / stor /file_name/cmo_name/ binary (write unformatted compressed STOR file - platform dependent) <br>
 	  <b>dump</b> / zone_outside /file_name/cmo_name/keepatt_area<br>
 	  <b>dump </b>/ stor /file_name/cmo_name/ascii/area_scalar<br>
 	  <b>dump</b> / zone_outside_minmax /file_name/cmo_name<br>

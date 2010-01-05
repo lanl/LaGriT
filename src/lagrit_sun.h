@@ -18,7 +18,7 @@ c
 c
       data my_name      /'lagritgen'/
       data os_name      /'SunOS   '/
-      data date_compile /'2009/06/15            '/
+      data date_compile /'2009/08/03            '/
 c
       integer         NCall
       save            NCall

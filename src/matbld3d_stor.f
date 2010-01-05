@@ -678,7 +678,7 @@ C#######################################################################
 C
       isubname='matbld3d'
       istatus=0
- 
+      icscode = 0 
 C
       call mmrelprt(isubname,icscode)
 C
@@ -3126,16 +3126,38 @@ C
      *  "*** SPARSE COEFFICIENT MATRIX _nstor SUCCESSFUL ***"
         call writloga('default',1,logmess,1,ierrw)
         else
+
         write(logmess,'(a)')
      *  "*** SPARSE COEFFICIENT MATRIX _cstor SUCCESSFUL ***"
         call writloga('default',1,logmess,1,ierrw)
+
+c       warning re old code no longer supported
+c       compress option of this code may produce errors if called twice
+        write(logmess,'(a)')
+     *  "          ** MATBLD3D WARNING: ** "
+        call writloga('default',1,logmess,0,ierrw)
+        write(logmess,'(a)')
+     *  "  Repeated calls with compressed coefs (_cstor) " 
+        call writloga('default',0,logmess,0,ierrw)
+        write(logmess,'(a)')
+     *  "  may lead to errors in subsequent stor files."
+        call writloga('default',0,logmess,1,ierrw)
+
         endif
+
 
       endif
 C     end report
 
 
-      if(ijob .eq. 1)call mmrelprt(isubname,icscode)
+      if(ijob .eq. 1) then
+        call mmrelprt(isubname,icscode)
+      else
+        write(logmess,'(a,a)')
+     *  "MATBLD3D WARNING: Partition memory not released: ",isubname
+        call writloga('default',1,logmess,1,ierrw)
+      endif
+c   
 
       return
       end

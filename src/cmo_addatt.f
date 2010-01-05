@@ -1136,7 +1136,7 @@ C     flag io to write to attribute instead of file
        call cmo_get_intinfo('nnodes',cmo_name,nlength,ilen,ityp,ierr)
        if(ierr.ne.0) call x3d_error(isubname,'intinfo nnodes ')
 
-       if (nlength > 0) then
+       if (nlength .gt. 0) then
          io_type = 5
          ncoef = 1
          ifcompress = 0
