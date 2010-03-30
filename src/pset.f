@@ -391,7 +391,8 @@ C
      *   mpno,ii,nsets,ict,ipos1,ipos2,nwd1,nwd2,iintrfce,index,
      *   iunion,ipsetck,ibin,ivalue,ivaltyp,iprtindx,icount,
      *   ier,irank,l,iregck,ir,lenmm4,ics,npts,ibitpos,is,isurfck,
-     *   icrtst,numconstraints,nconbnd,next,nmats,nummaterials
+     *   icrtst,numconstraints,nconbnd,next,nmats,nummaterials,
+     *   id_zone_number
       real*8 xl,yl,zl,xu,yu,zu,xcen,ycen,zcen,a,b,c,zero,phi,
      *   thi,ratx,raty,ratz,srchval,alargenumber,asmallnumber
       real*8 xmin_pset, xmax_pset,
@@ -2104,6 +2105,15 @@ C
      *     (psetnames(j)(1:5) .ne. '-def-'))icnt = icnt + 1
       enddo
       endif
+C
+C     Use user supplied number for zone id number in output file
+C
+      if_id_zone_number = 0
+      if(nwds .ge.6 .and. msgtype(6)) then
+         id_zone_number = imsgin(6)
+         if_id_zone_number = 1
+      endif
+C
       if(iotype .eq. 1)then
       if(ioformat .eq. 1)then
       write(iunit,7005) 'pset ascii',icnt
@@ -2151,8 +2161,13 @@ C
      2         index,mpno
  7010       format(a,i5,1x,i10)
          elseif((ioformat .eq. 2).or.(ioformat .eq. 3))then
+           if(if_id_zone_number .eq. 0)then
             write(iunit,7012)index,
      1         psetnames(index)(1:icharlnf(psetnames(index)))
+           elseif(if_id_zone_number .eq. 1)then
+            write(iunit,7012)id_zone_number,
+     1         psetnames(index)(1:icharlnf(psetnames(index)))
+           endif
  7012       format(i6.6,5x,a)
             write(iunit,7013)'nnum'
  7013       format(a)
