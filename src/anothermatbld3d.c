@@ -205,85 +205,138 @@ void getCircumcenterOfTetrahedron(double a0, double a1, double a2,
 	       A[1][0],A[1][1],B[1],
 	       A[2][0],A[2][1],B[2])/deta;
 }
- 
- 
+
 /**************************************************************************/
  
-void getCircumcenterOfTriangle(double a0, double a1, double a2,
-			       double b0, double b1, double b2,
-			       double c0, double c1, double c2,
-			       double *cenx, double *ceny, double *cenz)
+void TranslateTetToZero (double a0, double a1, double a2,
+			 double b0, double b1, double b2,
+			 double c0, double c1, double c2,
+      	    	         double d0, double d1, double d2,
+                         double *xv1_save, double *yv1_save, double *zv1_save,
+                         double *xv2_save, double *yv2_save, double *zv2_save,
+                         double *xk1_save, double *yk1_save, double *zk1_save,
+                         double *xk2_save, double *yk2_save, double *zk2_save)
  
 /**************************************************************************/
  
 /*
- 
+ Translate a tet so that the local node 0 is at coordinate (0,0,0)
+ Return the original coordinates as arguments.
+ */
+{
+  *xv1_save = a0;
+  *yv1_save = a1;
+  *zv1_save = a2;
+
+  *xv2_save = b0;
+  *yv2_save = b1;
+  *zv2_save = b2;
+
+  *xk1_save = c0;
+  *yk1_save = c1;
+  *zk1_save = c2;
+
+  *xk2_save = d0;
+  *yk2_save = d1;
+  *zk2_save = d2;
+
+  b0 = b0 - a0;
+  b1 = b1 - a1;
+  b2 = b2 - a2;
+
+  c0 = c0 - a0;
+  c1 = c1 - a1;
+  c2 = c2 - a2;
+
+  d0 = d0 - a0;
+  d1 = d1 - a1;
+  d2 = d2 - a2;
+
+  a0 = a0 - a0;
+  a1 = a1 - a1;
+  a2 = a2 - a2;
+}
+/* end TranslateTetToZero() */
+
+/**************************************************************************/
+
+void getCircumcenterOfTriangle(double a0, double a1, double a2,
+                               double b0, double b1, double b2,
+                               double c0, double c1, double c2,
+                               double *cenx, double *ceny, double *cenz)
+
+/**************************************************************************/
+
+/*
+
   Computes the circumcenter of the (three dimensional triangle)
   formed by a, b, and c.  It returns the center in the variables and
   cx, cy, cz.
- 
+
   Used to construct the Voronoi point associated with a Delaunay Triangle.  */
- 
+
 {
   double A[3][3],B[3];
   double deta;
- 
- 
+
+
   A[0][0] =  c0 - a0;
   A[0][1] =  c1 - a1;
   A[0][2] =  c2 - a2;
- 
+
   A[1][0] =  b0 - a0;
   A[1][1] =  b1 - a1;
   A[1][2] =  b2 - a2;
- 
+
   A[2][0] =  det2(A[0][1],A[0][2],A[1][1],A[1][2]);
   A[2][1] = -det2(A[0][0],A[0][2],A[1][0],A[1][2]);
   A[2][2] =  det2(A[0][0],A[0][1],A[1][0],A[1][1]);
- 
- 
+
+
   B[0] = 0.5*(A[0][0]*(a0+c0)+
-	      A[0][1]*(a1+c1)+
-	      A[0][2]*(a2+c2));
- 
- 
+              A[0][1]*(a1+c1)+
+              A[0][2]*(a2+c2));
+
+
   B[1] = 0.5*(A[1][0]*(a0+b0)+
-	      A[1][1]*(a1+b1)+
-	      A[1][2]*(a2+b2));
- 
- 
+              A[1][1]*(a1+b1)+
+              A[1][2]*(a2+b2));
+
+
   B[2] = (A[2][0]*(a0) +
-	  A[2][1]*(a1) +
-	  A[2][2]*(a2));
- 
- 
+          A[2][1]*(a1) +
+          A[2][2]*(a2));
+
+
   /* Now solve the system */
   deta = det3(A[0][0],A[0][1],A[0][2],
-	      A[1][0],A[1][1],A[1][2],
-	      A[2][0],A[2][1],A[2][2])+1e-30;
- 
+              A[1][0],A[1][1],A[1][2],
+              A[2][0],A[2][1],A[2][2])+1e-30;
+
   if (fabs(deta) ==0.0) {
     /* Are we ever setting ourselves up for epsilon problems
        with this test, baby! */
     printf("ERROR: Singular matrix--Compute Triangle center--%lf.\n",deta);
   }
- 
- 
+
+
   *cenx = det3(B[0],A[0][1],A[0][2],
-	       B[1],A[1][1],A[1][2],
-	       B[2],A[2][1],A[2][2])/deta;
- 
- 
+               B[1],A[1][1],A[1][2],
+               B[2],A[2][1],A[2][2])/deta;
+
+
   *ceny = det3(A[0][0],B[0],A[0][2],
-	       A[1][0],B[1],A[1][2],
-	       A[2][0],B[2],A[2][2])/deta;
- 
+               A[1][0],B[1],A[1][2],
+               A[2][0],B[2],A[2][2])/deta;
+
   *cenz = det3(A[0][0],A[0][1],B[0],
-	       A[1][0],A[1][1],B[1],
-	       A[2][0],A[2][1],B[2])/deta;
- 
+               A[1][0],A[1][1],B[1],
+               A[2][0],A[2][1],B[2])/deta;
+
 }
+/* end getCircumcenterOfTriangle() */
  
+
  
 /**************************************************************************/
  
@@ -349,7 +402,7 @@ void getTetVertices(int tet, int localEdgeNum,
       printf("That's not supposed to happen.\n");
     }
 }
- 
+/* end getTetVertices() */ 
  
 /**************************************************************************/
  
@@ -382,7 +435,7 @@ int entryprocessed(int *i, int *j)
  
   return(entryExists(*i,*j));
 }
- 
+/* end entryprocessed_() and  entryprocessed() */ 
  
 /**************************************************************************/
  
@@ -411,18 +464,33 @@ void computescalarVoronoientry(int index_i, int index_j,
          triCenter1x, triCenter1y, triCenter1z,
          triCenter2x, triCenter2y, triCenter2z,
          tetCenterx,  tetCentery,  tetCenterz;
- 
- 
+  double xv1_save, yv1_save, zv1_save,
+         xv2_save, yv2_save, zv2_save,
+         xk1_save, yk1_save, zk1_save,
+         xk2_save, yk2_save, zk2_save;
  
   area=0.0; volume = 0.0;
  
   /* for every incidentTet.*/
   for (tetIndex=0; tetIndex < numIncidentTets; tetIndex++) {
+
     /* get indices of vertices of edge. */
     getTetVertices(incidentTets[tetIndex],localEdges[tetIndex],
 		   &v1,&v2,&k1,&k2);
- 
- 
+
+    /* Translate each tet to the origin (0,0,0) before
+       all the geometric calculations.
+       The function below translates so that node v1 has coordinates (0,0,0) 
+    */
+    TranslateTetToZero(   Mesh->xic[v1],Mesh->yic[v1],Mesh->zic[v1],
+        	       	  Mesh->xic[v2],Mesh->yic[v2],Mesh->zic[v2],
+			  Mesh->xic[k1],Mesh->yic[k1],Mesh->zic[k1],
+			  Mesh->xic[k2],Mesh->yic[k2],Mesh->zic[k2],
+                          &xv1_save, &yv1_save, &zv1_save,
+                          &xv2_save, &yv2_save, &zv2_save,
+                          &xk1_save, &yk1_save, &zk1_save,
+                          &xk2_save, &yk2_save, &zk2_save);
+
     if ((MIN((v1+1),(v2+1)) != MIN(index_i,index_j)) ||
 	(MAX((v1+1),(v2+1)) != MAX(index_i,index_j))) {
       printf("Error:  There are parential issues involved!!!!!!!\n");
@@ -493,7 +561,22 @@ void computescalarVoronoientry(int index_i, int index_j,
   value = -area/edgelength;
  
   setEntry(index_i,index_j,volume,&value);
- 
+ /* Undo the translation of node v1 to (0,0,0)  */
+       Mesh->xic[v1] = xv1_save;
+       Mesh->yic[v1] = yv1_save;
+       Mesh->zic[v1] = zv1_save;
+
+       Mesh->xic[v2] = xv2_save;
+       Mesh->yic[v2] = yv2_save;
+       Mesh->zic[v2] = zv2_save;
+
+       Mesh->xic[k1] = xk1_save;
+       Mesh->yic[k1] = yk1_save;
+       Mesh->zic[k1] = zk1_save;
+
+       Mesh->xic[k2] = xk2_save;
+       Mesh->yic[k2] = yk2_save;
+       Mesh->zic[k2] = zk2_save;
 }
  
  
