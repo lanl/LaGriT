@@ -139,6 +139,7 @@ c
       character*32 isubname
 C    
       character*32 io_string, coef_string, comp_string
+      character*132 dotask_command
 C
       pointer (ipxic, xic)
       pointer (ipyic, yic)
@@ -198,6 +199,11 @@ c
  
       real*8 ave_con_node, volmin,volmax,voltot
       real*8 amatmin,amatmax,absamatmin,absamatmax
+
+      pointer (ipccoef, ccoef)
+      real*8 ccoef(*)
+      pointer (ipij_ccoef, ij_ccoef)
+      integer ij_ccoef(*)
 
 c     real*8  volic
 c     pointer (ipvolic,volic)
@@ -494,8 +500,81 @@ cccccccccccccccccccccccccccccc
      *      "  Column ",negcols(i)," with value ",fnegs(i)
             call writloga('default',0,logmess,0,ierrw)
          enddo
-      endif
+cccccccccccccccccccccccccccccc
+c Create two new node vectors, ccoef, ij_ccoef
+c Put the negative ij coefficient value into the two
+c nodes connected to the ij edge.
+c
+c The vector ij_coef will assign the j index value to node i so that
+c one can determine which edge is associated with the neative coefficient
+c that is assigned to nodes.
+cccccccccccccccccccccccccccccc
+C
+C    Locate or allocate ccoef vector
+C
+      call mmfindbk('ccoef',cmo,ipccoef,ilen,ierror)
+      if(ierror.ne.0) then
+         dotask_command = 'cmo/addatt/' //
+     >                     cmo(1:icharlnf(cmo)) //
+     >                     '/' //
+     >     'ccoef/VDOUBLE/scalar/nnodes/linear/permanent/afgx/0.0/' //
+     >        ' ; finish '
+         call dotaskx3d(dotask_command,ierror)
+         if (ierror.ne.0)
+     >      call x3d_error(isubname,'ccoef')
+         call mmfindbk('ccoef',cmo,ipccoef,ilen,ierror)
  
+      else
+        if (ilen.lt.nnodes) then
+           write(logmess,'(a,2i10)')
+     *         "AMatbld3d_stor: Odd condition (ilen.lt.nnodes)",
+     *          ilen, nnodes
+           call writloga('default',0,logmess,0,ierror)
+           call cmo_newlen(cmo,ierror)
+        endif
+       endif
+C
+C     Locate or allocate ij_coef array
+C
+      call mmfindbk('ij_ccoef',cmo,ipij_ccoef,ilen,ierror)
+      if(ierror.ne.0) then
+         dotask_command = 'cmo/addatt/' //
+     >                     cmo(1:icharlnf(cmo)) //
+     >                     '/' //
+     >     'ij_ccoef/VINT/scalar/nnodes/linear/permanent/afgx/0.0/' //
+     >        ' ; finish '
+         call dotaskx3d(dotask_command,ierror)
+         if (ierror.ne.0)
+     >      call x3d_error(isubname,'ij_ccoef')
+         call mmfindbk('ij_ccoef',cmo,ipij_ccoef,ilen,ierror)
+      endif
+c
+c     Now fill the vectors
+c
+      do i = 1,nnodes
+        ccoef(i) = 0.0
+        ij_ccoef(i) = 0
+      enddo
+c
+c     Only set values if the coef is more negative than the presently
+c     assigned value.
+c
+      do i=1,numsuspectnegs
+        if(fnegs(i) .lt. ccoef(negrows(i)))then
+           ccoef(negrows(i)) = fnegs(i)
+           ij_ccoef(negrows(i)) = negcols(i)
+        endif
+        
+        if(fnegs(i) .lt. ccoef(negcols(i)))then
+           ccoef(negcols(i)) = fnegs(i)
+           ij_ccoef(negcols(i)) = negrows(i)
+        endif
+
+      enddo
+      endif
+c
+c     Finished reporting negative coefficients
+c
       call freenegcoefs()
  
 cccccccccccccccccccccccccccc
