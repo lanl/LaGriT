@@ -2730,9 +2730,19 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
          call mmfindbk(icr_ccoef,cmo,ipccoef,ilenout,ics)
  
       else
-         if (ilenout.lt.npoints) call cmo_newlen(cmo,ics)
+c        CWG
+c        The newlen call seems odd but I'll leave it in and add a warning
+c
+c        if (ilenout.lt.npoints) call cmo_newlen(cmo,ics)
+        if (ilenout.lt.npoints) then
+           write(logmess,'(a,2i10)')
+     *         "Matbld3d_stor: Odd condition (ilenout.lt.npoints)",
+     *          ilenout, npoints
+           call writloga('default',0,logmess,0,ics)
+           call cmo_newlen(cmo,ierror)
+        endif
       endif
-      iatt_type=2
+ 2    iatt_type=2
  
       do i = 1,npoints
         ccoef(i) = 0.0
