@@ -1,6 +1,24 @@
 Directory to hold LaGriT executable files.
 Online release notes: http://lagrit.lanl.gov/release.shtml
 
+============================================================
+Version 2.105 Release
+Minor update to LaGriT library with enhancements to the pset routine
+and adding ccoef attributes when writing stor files.
+
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V2.105   Linux m32      *                 
+*               *    date_compile: 2010/05/25                 *                 
+*               *    Run Time: 2010/05/26  08:24:46           *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *             
+
+includes linux, maci, and sun
+ 
+
+============================================================
 Version 2.100 Release
 This is a major update to LaGriT and the lg_util library. 
 Major changes have been made in the core memory management routines to allow 
@@ -11,7 +29,6 @@ NOTE: SUNOS has been updated to Studio 11
       you must use libs for Studio 10 or higher running on OS 8 or higher
       use % source /n/env/local.sunwspro.11
 
-============================================================
 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 

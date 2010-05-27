@@ -392,7 +392,7 @@ C
      *   iunion,ipsetck,ibin,ivalue,ivaltyp,iprtindx,icount,
      *   ier,irank,l,iregck,ir,lenmm4,ics,npts,ibitpos,is,isurfck,
      *   icrtst,numconstraints,nconbnd,next,nmats,nummaterials,
-     *   id_zone_number
+     *   id_zone_number, if_id_zone_number
       real*8 xl,yl,zl,xu,yu,zu,xcen,ycen,zcen,a,b,c,zero,phi,
      *   thi,ratx,raty,ratz,srchval,alargenumber,asmallnumber
       real*8 xmin_pset, xmax_pset,
