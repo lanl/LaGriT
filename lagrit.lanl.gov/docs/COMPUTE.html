@@ -1,119 +1,215 @@
 <!DOCTYPE doctype PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-        
   <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
-        
+ content="text/html; charset=ISO-8859-1">
   <meta name="GENERATOR"
  content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
   <title>COMPUTE</title>
-   
 </head>
-  <body text="#000000" bgcolor="#ffffff" link="#0000ff" vlink="#551a8b"
- alink="#ff0000">
- <br>
-    
-<blockquote>    
+<body link="#0000ff" text="#000000" vlink="#551a8b" alink="#ff0000"
+ bgcolor="#ffffff">
+<br>
+<blockquote>
   <p><b><u><font face="Times New Roman,Times">COMPUTE</font></u></b> </p>
-   
-  <blockquote>        
-    <p><font face="Times New Roman,Times">This command contains modules that 
-compute various     attributes and functions based on one or more mesh objects.</font>
-     This operation will (often) result     in new attributes being added 
-to the mesh objects. The action of the command will be controled by the  
-  keyword in the second argument position. </p>
-            
-    <p><font face="Courier New, Courier, monospace">distance_field</font> 
-- keyword for distance field calculation. Determine the minimum distance from
-any node in <font face="Courier New, Courier, monospace">mo_source</font> 
-to every node in <font face="Courier New, Courier, monospace">mo_sink</font> 
-and place the result in the node based floating point attribute, <font
- face="Courier New, Courier, monospace">distance_field_attribute</font> in 
-mo_sink. The computation is accelerated by using the <a
- href="./kdtree.html" title="KDTREE search algorighm">kdtree</a> search algorithm.<br>
-     <br>
-     <font face="Courier New, Courier, monospace">signed_distance_field</font> 
-- keyword for signed distance field calculation. Determine the minimum distance 
-from any node in <font face="Courier New, Courier, monospace">mo_source</font> 
-to every node in <font face="Courier New, Courier, monospace">mo_sink</font> 
-and place the result in the node based floating point attribute, <font
- face="Courier New, Courier, monospace">distance_field_attribute</font> in 
-mo_sink. The computation is accelerated by using the <a
+  <blockquote>
+    <p style="font-family: serif;">This command contains modules
+that compute various attributes and functions based on one or more <br>
+mesh
+objects. This operation will (often) result in new attributes
+being added to the mesh objects. The <br>
+action of the command will be
+controled by the keyword in the second argument position. </p>
+    <p><font face="Courier New, Courier, monospace">distance_field</font>
+- keyword for distance field calculation. Determine the minimum
+distance from
+any node in<br>
+    <font face="Courier New, Courier, monospace">&nbsp;&nbsp;&nbsp;
+mo_source</font> to every node in <font
+ face="Courier New, Courier, monospace">mo_sink</font> and place the
+result in the node based floating point attribute,<br>
+    <font face="Courier New, Courier, monospace">&nbsp;&nbsp;&nbsp;
+distance_field_attribute</font> in mo_sink. The
+computation is accelerated by using the <a href="./kdtree.html"
+ title="KDTREE search algorighm">kdtree</a> search<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; algorithm.<br>
+    <br>
+    <font face="Courier New, Courier, monospace">signed_distance_field</font>
+- keyword for signed distance field calculation. Determine the minimum
+distance &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; from
+any node in <font face="Courier New, Courier, monospace">mo_source</font>
+to every node in <font face="Courier New, Courier, monospace">mo_sink</font>
+and place the result in the node based floating &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; point
+attribute, <font face="Courier New, Courier, monospace">distance_field_attribute</font>
+in mo_sink. The computation is accelerated by using the&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a
  href="file:///home/cwg/src/lagrit/lagrit.lanl.gov/docs/kdtree.html"
- title="KDTREE search algorighm">kdtree</a> search algorithm. Using this option
-the mo_source MUST be either a triangle or quad surface mesh object. If the
-surfaces form a topologically closed volume then positive, 'above' distance
-is in the direction of the surface normal vector. Negative is 'below' the
-surface. If the surface is not a closed volume, then the assumptions described
-in the <a href="./SURFACE.html">surface</a> command are used to determine
-what is above and what is below the surface.</p>
-     
-    <p>Other places to look for modules that compute some standard mesh attributes 
-include, <a href="./QUALITY.html" title="Mesh Quality">quality</a>, which 
-will compute aspect ratio and volume, <a href="./cmo_addatt.html"
- title="Add Attribute">cmo/addatt</a>, which will compute normal vectors, 
-dihedral angles, solid angles, meadian points, Voronoi points and more. User 
-functions can be computed with the <a href="./MATH.html"
+ title="KDTREE search algorighm">kdtree</a> search algorithm. Using
+this option
+the mo_source MUST be either a triangle or quad surface
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; mesh object. If the
+surfaces form a topologically closed volume then positive, 'above'
+distance
+is in the &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+direction of the surface normal vector. Negative is 'below' the
+surface. If the surface is not a closed &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; volume, then
+the assumptions described
+in the <a href="./SURFACE.html">surface</a> command are used to
+determine
+what is above &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+and what is below the surface.<br>
+    </p>
+    <p><font face="Courier New, Courier, monospace">linear_extrapolate</font>
+- keyword for an extrapolation from an attribute value in a surface
+onto every node <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; of a 3D mesh. <span
+ style="font-family: Courier New,Courier,monospace;"></span><span
+ style="font-family: serif;">Given a 3D mesh and a (geometrically) 2D
+surface, will</span> <span style="font-family: serif;">extrapolate
+some value from that &nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; surface onto every point</span><span
+ style="font-family: serif;"> of the mesh. This can be used to (for
+example):</span><span style="font-family: serif;"><br>
+&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; * Propogate head values down into a mesh.</span><span
+ style="font-family: serif;"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+* Expand a mesh to fit a surface, by propogating the appropriate</span><span
+ style="font-family: serif;"> spatial coordinate.</span><br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This is highly dependant on the
+spatial relation between the mesh and the surface - values from the<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; surface are extrapolated
+"downward" into the mesh in straight columns in the direction specified
+in<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; the command. The direction
+specified in the command must be one of <span
+ style="font-family: Courier New,Courier,monospace;"><br>
+&nbsp;&nbsp;&nbsp; [zpos|zneg|ypos|yneg|xpos|xneg]</span>. For example,
+specifing <span style="font-family: Courier New,Courier,monospace;">zpos</span>
+will result in the upper (positive <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; z-axis) side of the mesh having
+attribute values conforming exactly to those on the surface, while the<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; lower side of the mesh will have
+whatever attribute values it had previous, with all nodes in between<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; having attribute values
+distributed linearly between the two extremes. If a direction is not
+specified,<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; it will default to <span
+ style="font-family: Courier New,Courier,monospace;">zpos</span>. If an
+attribute is not specified, it will default to the spatial attribute
+appropriate<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; to the chosen direction (i.e. if
+the direction is <span
+ style="font-family: Courier New,Courier,monospace;">yneg</span>, the
+attribute will default to <span
+ style="font-family: Courier New,Courier,monospace;">yic</span>, the
+y-coordinate of <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; each node.) The attribute chosen
+must already exist in both the surface and main meshes.<br>
+    </p>
+    <p>Other places to look for modules that compute some standard mesh
+attributes include, <a href="./QUALITY.html" title="Mesh Quality">quality</a>,
+which
+will <br>
+compute aspect ratio and volume, <a href="./cmo_addatt.html"
+ title="Add Attribute">cmo/addatt</a>, which will compute normal
+vectors, dihedral angles, solid <br>
+angles, meadian points, Voronoi points
+and more. User functions can be computed with the <a href="./MATH.html"
  title="Math Functions">math</a> module. </p>
   </blockquote>
   <strong>FORMAT</strong>: <font face="Courier New, Courier, monospace"><br>
- &nbsp;&nbsp;&nbsp; compute/distance_field/mo_sink/mo_source/distance_field_attribute</font> 
-  
-  <blockquote><font face="Courier New, Courier, monospace">compute/signed_distance_field/mo_sink/mo_source/distance_field_attribute</font></blockquote>
-  <font face="Times New Roman,Times"><strong>EXAMPLES</strong>:</font>  
- 
-  <blockquote>        
-    <p><font face="Courier New, Courier, monospace">compute / distance_field 
-/ mo_sink / mo_src / dfield<br>
- compute / signed_distance_field / mo_sink / mo_src / dfield </font></p>
-         
-    <p>&nbsp;  </p>
+&nbsp;&nbsp;&nbsp;
+compute/distance_field/mo_sink/mo_source/distance_field_attribute</font>
+  <blockquote><font face="Courier New, Courier, monospace">compute/signed_distance_field/mo_sink/mo_source/distance_field_attribute<br>
+    <br>
+compute/linear_extrapolate/mo_main/mo_surface/[direction/att_name]<br>
+    </font></blockquote>
+  <font face="Times New Roman,Times"><strong>EXAMPLES</strong>:</font>
+  <blockquote>
+    <p><font face="Courier New, Courier, monospace">compute /
+distance_field / mo_sink / mo_src / dfield<br>
+    <br>
+compute / signed_distance_field / mo_sink / mo_src / dfield<br>
+    </font></p>
+    <p><font face="Courier New, Courier, monospace">compute /
+linear_extrapolate / mo_sink / mo_surf &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; (will expand top of mesh to look
+like the surface)<br>
+    </font></p>
+    <p><font face="Courier New, Courier, monospace">compute /
+linear_extrapolate / mo_sink / mo_surf / zpos / water_head_value<br>
+    </font></p>
+    <p>&nbsp; </p>
   </blockquote>
-     
   <table width="687" border="1">
-    <caption>   <strong>    Example: distance_field  </strong>   </caption>
-   <tbody>
-       <tr>
-      <td width="677">         
-        <div align="left"><img src="../images/distance_field_01.png"
- alt="Example: distance_field" width="300" height="300">
-         </div>
-         </td>
-    </tr>
-    <tr>
-      <td>         
+    <caption> <strong> Example: distance_field </strong> </caption> <tbody>
+      <tr>
+        <td width="677">
+        <div align="left"><img src="distance_field_01.png"
+ alt="Example: distance_field" height="300" width="300"> </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
         <pre><font face="Courier New, Courier, monospace">cmo / create / cmo_src<br>createpts/rtz/1,91,1/3.,0.,0./3.,270.,0./1,1,1/ <br>cmo / create / cmo_snk<br>createpts / xyz / 30 30 1 / -5. -5. -5. / 5. 5. 5. / 1 1 1<br>compute / distance_field / cmo_snk / cmo_src / dfield<br>finish</font></pre>
-         </td>
-    </tr>
-       
-    </tbody>   
+        </td>
+      </tr>
+    </tbody>
   </table>
-   <br>
-          
+  <br>
   <div align="left"><strong></strong><br>
-   </div>
-     
+  </div>
   <table width="687" border="1">
-    <caption>   <strong>    Example: signed_distance_field  </strong>   </caption>
+    <caption> <strong> Example: signed_distance_field </strong> </caption>
     <tbody>
-       <tr>
-         <td width="677"><img src="../images/distance_field_02.png"
- alt="signed distance field" width="300" height="300">
-         <br>
-         </td>
-         <td>         
+      <tr>
+        <td width="677"><img src="../images/distance_field_02.png"
+ alt="signed distance field" height="300" width="300"> <br>
+        </td>
+        <td>
         <pre>*<br>* Create some of the necessary parts<br>*<br>cmo / create / mo_tet<br>createpts/random/rtp/.1/1,0,0/1,180,360////.02<br>connect<br>resetpts / itp<br>*<br>* Extract the external surface<br>*<br>extract / surfmesh / 1 0 0 / mo_tri / mo_tet / external<br>dump / gmv / tri_surf.gmv / mo_tri<br>cmo / delete / mo_tet<br>cmo / printatt / mo_tri / -xyz- / minmax<br>cmo / create / mo_pts<br>*<br>* Create an xyz node distribution and connect the nodes.<br>*<br>createpts / xyz / 31 31 31 / -1 -1 -1 / 1 1 1 / 1 1 1<br>connect<br>resetpts / itp<br>*<br>* Compute the signed distance field<br>*<br>compute / signed_distance_field / mo_pts / mo_tri / dfield1<br>addmesh / append / mo_all / mo_pts / mo_tri<br>dump / gmv / signed_dfield1.gmv / mo_all<br>*<br>* Do the same thing but use a surface of quads that make<br>* two nested spheres.<br>*<br>cmo / create / mo_hex / / / hex<br>createpts/sphere/8/5/5000/1.0,0.5/0.,0.,0./1,0,0.0/ <br>filter / 1 0 0<br>resetpts / itp<br>extract / surfmesh / 1 0 0 / mo_quad / mo_hex / external<br>dump / gmv / quad_surf.gmv / mo_quad<br>*<br>* Compute the signed distance field<br>*<br>compute / signed_distance_field / mo_pts / mo_quad / dfield2<br>addmesh / append / mo_all2 / mo_pts / mo_quad<br>dump / gmv / signed_dfield2.gmv / mo_all2<br>cmo / status<br>quality<br>cmo / printatt / mo_pts / -all- / minmax<br>finish</pre>
-         <br>
-         </td>
-       </tr>
-     
-    </tbody>   
+        <br>
+        </td>
+      </tr>
+    </tbody>
   </table>
-   
+  <table style="width: 687px;" border="1">
+    <caption><strong><br>
+Example: linear_extrapolate </strong> </caption> <tbody>
+      <tr>
+        <td style="width: 677px;"><img
+ style="width: 500px; height: 389px;" alt="Example: lin_extp_before"
+ src="../images/lin_extp_before.jpg"><br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+        <pre><font face="Courier New, Courier, monospace">infile <a
+ href="buildsurf.lgi">buildsurf.lgi</a><br><br>* Expand the cubical mesh such that its top (positive z-axis) looks like the sinusoidal<br>* surface denoted by zhigh<br>compute / linear_extrapolate / cube / zhigh<br><br>finish<br><br></font></pre>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top;"><img
+ style="width: 500px; height: 389px;" alt="Example: lin_extp_after"
+ src="../images/lin_extp_after.jpg"></td>
+      </tr>
+    </tbody>
+  </table>
   <p>&nbsp;</p>
-  </blockquote>
- <br>
- 
+</blockquote>
+<br>
 </body>
 </html>

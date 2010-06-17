@@ -1,0 +1,129 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V2.105   Linux m32      *                 
+*               *    date_compile: 2010/05/25                 *                 
+*               *    Run Time: 2010/06/16  11:31:34           *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+infile input.lgi                                                                
+read/avs/test.inp/a/ascii                                                       
+cmo/addatt/a/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: a                                              
+ 
+  1 Mesh Object name: a                                                         
+    number of nodes =             8        number of elements =            5    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+dump/avs/test.InP/a/binary                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/avs/test.avs/a/binary                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/gmv/test.gmv/a/ascii                                                       
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/lagrit/test.lg/a/binary                                                    
+dump/lagrit/test.LaGriT/a/binary                                                
+read/test.lg/a                                                                  
+read/lagrit/test.lg/a                                                           
+ascii read failed - will try binary                                             
+finish                                                                          
+read/test.LaGriT/a                                                              
+read/lagrit/test.LaGriT/a                                                       
+ascii read failed - will try binary                                             
+finish                                                                          
+read/test.InP/b                                                                 
+read/avs/test.InP/b                                                             
+cmo/addatt/b/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: b                                              
+ 
+  1 Mesh Object name: a                                                         
+    number of nodes =             8        number of elements =            5    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: b                                                         
+    number of nodes =             8        number of elements =            5    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+read/test.avs/c                                                                 
+read/avs/test.avs/c                                                             
+cmo/addatt/c/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: c                                              
+ 
+  1 Mesh Object name: a                                                         
+    number of nodes =             8        number of elements =            5    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: b                                                         
+    number of nodes =             8        number of elements =            5    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: c                                                         
+    number of nodes =             8        number of elements =            5    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+read/test.gmv/d                                                                 
+read/gmv/test.gmv/d                                                             
+cmo/addatt/d/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+finish                                                                          
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

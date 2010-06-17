@@ -1,30 +1,56 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE HTML PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="Author" content="Jan Wills">
-   <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=ISO-8859-1">
+  <meta name="Author" content="Jan Wills">
+  <meta name="GENERATOR"
+ content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
 </head>
-<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
-
-<blockquote><b><font face="Times New Roman,Times"><font size=+1>read/LaGriT</font></font></b>
-<blockquote><font face="Times New Roman,Times"><font size=+1>read in a
+<body link="#0000ee" text="#000000" vlink="#551a8b" alink="#ff0000"
+ bgcolor="#ffffff">
+<blockquote><b><font face="Times New Roman,Times"><font size="+1">read/LaGriT</font></font></b>
+  <blockquote><font face="Times New Roman,Times"><font size="+1">read
+in a
 LaGriT restart file</font></font></blockquote>
-<font face="Times New Roman,Times"><font size=+1></font></font><font face="Times New Roman,Times"><font size=+1></font></font>
-<p><font face="Times New Roman,Times"><font size=+1>FORMAT:</font></font>
-<blockquote><font face="Times New Roman,Times"><font size=+1><b>read</b>/<b>LaGriT</b>/file_name/[cmo-name]/[<b>ascii</b>|
-<b>binary</b>]</font></font>
-<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;
-cmo_name&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp; ignored all mesh objects
+  <p><font face="Times New Roman,Times"><font size="+1">SHORT FORMAT</font></font><font
+ face="Times New Roman,Times"><font size="+1">:</font></font>
+  </p>
+  <blockquote><font style="font-family: monospace;" size="+1"><b>read</b>/filena</font><font
+ style="font-family: monospace;" size="+1">me.[</font><font size="+1"><font
+ style="font-family: monospace;">lg|lagrit|LaGriT]/cmo_name<br>
+    <br>
+    </font></font><span style="font-family: Times New Roman,Times;">Note
+that the filename is case-sensitive, though the extension itself is
+not. When using the short format, the file will be read in ascii mode.</span><br>
+  </blockquote>
+  <p><font face="Times New Roman,Times"><font size="+1">LONG FORMAT:</font></font>
+  </p>
+  <p>
+  </p>
+  <blockquote><font style="font-family: monospace;"><font size="+1"><b>read</b>/<b>LaGriT</b>/file_name/[cmo-name]/[<b>ascii</b>|
+    <b>binary</b>]</font></font>
+    <br>
+    <font face="Times New Roman,Times"><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;
+cmo_name&nbsp;&nbsp;&nbsp;
+-&nbsp;&nbsp;&nbsp; ignored all mesh objects
 are read from the file</font></font>
-<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;
-The default is <b>ascii</b>, but the code will determine file type if nessary.</font></font></blockquote>
-<font face="Times New Roman,Times"><font size=+1>EXAMPLES:</font></font>
-<blockquote><font face="Times New Roman,Times"><font size=+1><b>read</b>/<b>LaGriT</b>/file1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-file1 will be read as ascii.&nbsp; If the read fails to find the ascii
-check string, the file will be closed and reopened for a binary read.</font></font><font face="Times New Roman,Times"><font size=+1></font></font>
-<p><font face="Times New Roman,Times"><font size=+1><b>read</b>/<b>LaGriT</b>/file2//<b>binary</b></font></font></blockquote>
+    <br>
+    <font face="Times New Roman,Times"><font size="+1">&nbsp;&nbsp;&nbsp;
+The
+default is <b>ascii</b>, but the code will determine file type if
+nessary.</font></font></blockquote>
+  <font face="Times New Roman,Times"><font size="+1">EXAMPLES:</font></font>
+  <blockquote><font size="+1"><b style="font-family: monospace;">read</b><span
+ style="font-family: monospace;">/</span><b
+ style="font-family: monospace;">LaGriT</b><span
+ style="font-family: monospace;">/file1</span></font><font
+ face="Times New Roman,Times"><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+file1
+will be read as ascii.&nbsp; If the read fails to find the ascii
+check string, the file will be closed and reopened for a binary read.</font></font>
+    <p style="font-family: monospace;"><font size="+1"><b>read</b>/<b>LaGriT</b>/file2//<b>binary</b></font></p>
+  </blockquote>
 </blockquote>
-
 </body>
 </html>

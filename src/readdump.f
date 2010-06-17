@@ -198,6 +198,37 @@ C
 C
 C#######################################################################
 C
+C     Variables for allowing the 3-token form of read
+C     To add more filetypes for the short-form 3-token read,
+C     follow these easy steps: Update filetypes and fileoptions
+C     to arrays of the new larger size, and update numtypes 
+C     similarly. Then, add the new file extensions and read options
+C     that you want to support into the arrays.
+      integer numtypes
+      character*8 filetypes(6)
+      character*32 fileoptions(6)
+      integer typeindex
+      character*132 filename
+      character*8 fileext
+      integer namelen
+      integer extlen
+      integer extindex
+      character*128 newcommand
+C
+      filetypes(1) = 'inp'
+      fileoptions(1) = 'avs'
+      filetypes(2) = 'avs'
+      fileoptions(2) = 'avs'
+      filetypes(3) = 'lg'
+      fileoptions(3) = 'lagrit'
+      filetypes(4) = 'lagrit'
+      fileoptions(4) = 'lagrit'
+      filetypes(5) = 'gmv'
+      fileoptions(5) = 'gmv'
+      filetypes(6) = 'ts'
+      fileoptions(6) = 'gocad'
+      numtypes = 6
+C#######################################################################
 C
 C     Define the subroutine name for memory management and errors.
 C
@@ -214,8 +245,64 @@ C
       icmsg=3
       ierror_return=0
 C
-      if(idsb(1:lenidsb).eq.'read') then
 C
+      if (nwds .eq. 3) then
+C***Find the index of the '.' in the file name         
+         extindex = index(cmsgin(2), '.', .TRUE.)
+C***If there is no '.', it is not valid, so try other syntax         
+         if (extindex .eq. 0) then
+             write(logmess,'(a)') 'Second argument is not a filename. '
+     *                        // 'Try again.'
+             call writloga('default',1,logmess,0,ierr)
+         else 
+             filename = cmsgin(2)
+             namelen = icharln(filename)
+             fileext = filename(extindex+1:namelen)
+             extlen = icharln(fileext)
+C***Convert file extension to lowercase
+             extindex = 1
+             do while (extindex .le. icharln(fileext))
+                 if (fileext(extindex:extindex).ge."A" 
+     *                  .and. fileext(extindex:extindex).le."Z") then
+                     fileext(extindex:extindex) = 
+     *                   achar(iachar(fileext(extindex:extindex))+32)
+                 endif
+                 extindex = extindex + 1
+             enddo
+             typeindex = 1
+C***Check lowercase extension against list of extensions
+             do
+                 if(fileext.eq.filetypes(typeindex))then
+                     ioption = fileoptions(typeindex)
+                     exit
+                 endif
+                 typeindex = typeindex + 1
+                 if (typeindex > numtypes) then
+                     write(logmess,'(a)') 'Unrecognized filetype for '
+     *                                // '3-token read.'  
+                     call writloga('default',1,logmess,0,ierr)
+                     exit
+                 endif
+             enddo
+C***Construct 4-token command and call it instead, if we
+C***found a well-formed 3-token call.
+             if (.not.ioption.eq.' ') then
+                 newcommand = "read / " 
+     *                      // ioption(1:icharln(ioption)) // " / " 
+     *                      // filename(1:icharln(filename)) // " / " 
+     *                      // cmsgin(3)(1:icharln(cmsgin(3)))
+     *                      // "; finish"
+                 call dotask(newcommand, ierror)
+                 if (ierror .ne. 0) then
+                     write(logmess, '(a)') 'ERROR! See above.'
+                 endif
+                 goto 9000
+             endif
+          endif
+      endif
+
+C***The rest of the code is for handling all other cases
+      if(idsb(1:lenidsb).eq.'read') then
          ioption=cmsgin(2)
          len1=icharlnf(ioption)
          nnwds=nwds-1

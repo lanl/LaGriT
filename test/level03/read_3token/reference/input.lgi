@@ -1,0 +1,16 @@
+read/avs/test.inp/a/ascii
+
+dump/avs/test.InP/a/binary
+dump/avs/test.avs/a/binary
+dump/gmv/test.gmv/a/ascii
+dump/lagrit/test.lg/a/binary
+dump/lagrit/test.LaGriT/a/binary
+    
+read/test.lg/a     
+read/test.LaGriT/a 
+read/test.InP/b
+read/test.avs/c    
+read/test.gmv/d    
+
+finish 
+            

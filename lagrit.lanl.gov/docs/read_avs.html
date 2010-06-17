@@ -1,83 +1,102 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE HTML PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="Author" content="Jan Wills">
-   <meta name="GENERATOR" content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=ISO-8859-1">
+  <meta name="Author" content="Jan Wills">
+  <meta name="GENERATOR"
+ content="Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]">
 </head>
-<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
-
-<blockquote><b><u><font face="Times New Roman,Times"><font size=+1>read/avs</font></font></u></b></blockquote>
-
+<body link="#0000ee" text="#000000" vlink="#551a8b" alink="#ff0000"
+ bgcolor="#ffffff">
+<blockquote><b><u><font face="Times New Roman,Times"><font size="+1">read/avs</font></font></u></b></blockquote>
 <blockquote>
-<blockquote><font face="Times New Roman,Times"><font size=+1>read in an
-AVS file.&nbsp; This file format contains no geometry information.&nbsp;
+  <blockquote><font face="Times New Roman,Times"><font size="+1">read
+in an
+AVS file.&nbsp; This file format contains no geometry
+information.&nbsp;
 This command requires either cmo-name to be given in the command or for
 a mesh object to have been created previously.</font></font></blockquote>
-<font face="Times New Roman,Times"><font size=+1></font></font><font face="Times New Roman,Times"><font size=+1></font></font>
-<p><font face="Times New Roman,Times"><font size=+1>FORMAT:</font></font>
-<blockquote><font size=+1><font face="Times New Roman,Times"><b>read</b>/<b>avs</b>/filename/[</font><font face="Courier New,Courier">cmo-name</font><font face="Times New Roman,Times">]/[</font><font face="Courier New,Courier">node_flags</font><font face="Times New Roman,Times">/element_flag/attribute_flag]</font></font>
-<br><font face="Times New Roman,Times"><font size=+1></font></font>&nbsp;
-<table COLS=3 WIDTH="50%" NOSAVE >
-<tr NOSAVE>
-<td WIDTH="10%" NOSAVE><font face="Times New Roman,Times"><font size=+1>node_flag</font></font></td>
-
-<td WIDTH="10%" NOSAVE><font face="Times New Roman,Times"><font size=+1>(default=1)</font></font></td>
-
-<td><font face="Times New Roman,Times"><font size=+1>0 skip node data</font></font></td>
-</tr>
-
-<tr>
-<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
-
-<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
-
-<td><font face="Times New Roman,Times"><font size=+1>1 read node data</font></font></td>
-</tr>
-
-<tr>
-<td><font face="Times New Roman,Times"><font size=+1>element_flag</font></font></td>
-
-<td><font face="Times New Roman,Times"><font size=+1>(default=1)</font></font></td>
-
-<td><font face="Times New Roman,Times"><font size=+1>0 skip element data</font></font></td>
-</tr>
-
-<tr>
-<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
-
-<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
-
-<td><font face="Times New Roman,Times"><font size=+1>1 read element data</font></font></td>
-</tr>
-
-<tr>
-<td><font face="Times New Roman,Times"><font size=+1>attribute_flag</font></font></td>
-
-<td><font face="Times New Roman,Times"><font size=+1>(default=1)</font></font></td>
-
-<td><font face="Times New Roman,Times"><font size=+1>0 skip attribute data</font></font></td>
-</tr>
-
-<tr NOSAVE>
-<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
-
-<td><font face="Times New Roman,Times"><font size=+1></font></font></td>
-
-<td NOSAVE><font face="Times New Roman,Times"><font size=+1>1 read attribute
+  <font face="Times New Roman,Times"><font size="+1"></font></font><font
+ face="Times New Roman,Times"><font size="+1"></font></font>
+  <p><font face="Times New Roman,Times"><font size="+1">SHORT FORMAT</font></font><font
+ face="Times New Roman,Times"><font size="+1">:</font></font>
+  </p>
+  <blockquote><font style="font-family: monospace;" size="+1"><b>read</b>/filena</font><font
+ style="font-family: monospace;" size="+1">me.[</font><font size="+1"><font
+ style="font-family: monospace;">inp|avs]/cmo_name<br>
+    <br>
+    </font></font><span style="font-family: Times New Roman,Times;">Note
+that the filename is case-sensitive, though the extension itself is not.</span><br>
+    <font size="+1"><font face="Times New Roman,Times"></font></font></blockquote>
+  <p><font face="Times New Roman,Times"><font size="+1">LONG FORMAT:</font></font>
+  </p>
+  <blockquote><font style="font-family: monospace;" size="+1"><b>read</b>/<b>avs</b>/filename/[cmo-name]/[node_flags/element_flag/attribute_flag]</font>
+    <br>
+    <font face="Times New Roman,Times"><font size="+1"></font></font>&nbsp;
+    <table nosave="" width="50%" cols="3">
+      <tbody>
+        <tr nosave="">
+          <td nosave="" width="10%"><font face="Times New Roman,Times"><font
+ size="+1">node_flag</font></font></td>
+          <td nosave="" width="10%"><font face="Times New Roman,Times"><font
+ size="+1">(default=1)</font></font></td>
+          <td><font face="Times New Roman,Times"><font size="+1">0 skip
+node data</font></font></td>
+        </tr>
+        <tr>
+          <td><font face="Times New Roman,Times"><font size="+1"></font></font><br>
+          </td>
+          <td><font face="Times New Roman,Times"><font size="+1"></font></font><br>
+          </td>
+          <td><font face="Times New Roman,Times"><font size="+1">1 read
+node data</font></font></td>
+        </tr>
+        <tr>
+          <td><font face="Times New Roman,Times"><font size="+1">element_flag</font></font></td>
+          <td><font face="Times New Roman,Times"><font size="+1">(default=1)</font></font></td>
+          <td><font face="Times New Roman,Times"><font size="+1">0 skip
+element data</font></font></td>
+        </tr>
+        <tr>
+          <td><font face="Times New Roman,Times"><font size="+1"></font></font><br>
+          </td>
+          <td><font face="Times New Roman,Times"><font size="+1"></font></font><br>
+          </td>
+          <td><font face="Times New Roman,Times"><font size="+1">1 read
+element data</font></font></td>
+        </tr>
+        <tr>
+          <td><font face="Times New Roman,Times"><font size="+1">attribute_flag</font></font></td>
+          <td><font face="Times New Roman,Times"><font size="+1">(default=1)</font></font></td>
+          <td><font face="Times New Roman,Times"><font size="+1">0 skip
+attribute data</font></font></td>
+        </tr>
+        <tr nosave="">
+          <td><font face="Times New Roman,Times"><font size="+1"></font></font><br>
+          </td>
+          <td><font face="Times New Roman,Times"><font size="+1"></font></font><br>
+          </td>
+          <td nosave=""><font face="Times New Roman,Times"><font
+ size="+1">1 read attribute
 data</font></font></td>
-</tr>
-</table>
-<font face="Times New Roman,Times"><font size=+1></font></font></blockquote>
-<font face="Times New Roman,Times"><font size=+1>&nbsp;EXAMPLES:</font></font>
-<blockquote><font face="Times New Roman,Times"><font size=+1><b>read</b>/<b>avs</b>/file1/cmo1</font></font>
-<br><font face="Times New Roman,Times"><font size=+1><b>read/avs</b>/file2//1/1/0&nbsp;&nbsp;&nbsp;
+        </tr>
+      </tbody>
+    </table>
+    <font face="Times New Roman,Times"><font size="+1"></font></font></blockquote>
+  <font face="Times New Roman,Times"><font size="+1">&nbsp;EXAMPLES:</font></font>
+  <blockquote><font style="font-family: monospace;"><font size="+1"><b>read</b>/<b>avs</b>/file1/cmo1</font></font>
+    <br>
+    <font size="+1"><b style="font-family: monospace;">read/avs</b><span
+ style="font-family: monospace;">/file2//1/1/0</span></font><font
+ face="Times New Roman,Times"><font size="+1">&nbsp;&nbsp;&nbsp;
 (skip attribute data)</font></font>
-<br><font face="Times New Roman,Times"><font size=+1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-(mesh object must already exist)</font></font></blockquote>
+    <br>
+    <font face="Times New Roman,Times"><font size="+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(mesh
+object must already exist)</font></font></blockquote>
 </blockquote>
-<font face="Times New Roman,Times"><font size=+1></font></font>
-<blockquote><font face="Times New Roman,Times"><font size=+1></font></font>&nbsp;</blockquote>
-
+<font face="Times New Roman,Times"><font size="+1"></font></font>
+<blockquote><font face="Times New Roman,Times"><font size="+1"></font></font>&nbsp;</blockquote>
 </body>
 </html>

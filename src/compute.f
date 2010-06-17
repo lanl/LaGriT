@@ -56,6 +56,10 @@ C
       call distance_field_signed
      &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
       return
+      elseif(cmsgin(2) .eq. 'linear_extrapolate')then
+      call linear_extrapolate 
+     &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
+      return
       else
          write(logmess,'(a)')
      &    'ERROR compute: No valid second argument found.'

@@ -35,7 +35,6 @@
 <td><p><a href="docs/ASSIGN.html">ASSIGN</a></font>
   (set global variables)</font></p></td>
 
-<td></td>
 </tr>
 
 <tr>
@@ -86,13 +85,6 @@
 </tr>
 
 <tr>
-
-<td></td>
-
-<td></td>
-</tr>
-
-<tr>
 <td><p><a href="docs/DEFINE.html">DEFINE</a></font>
   (give a name to a number)</font></p></td>
 
@@ -110,7 +102,6 @@
 <td><p><a href="docs/DUMP_RECOLOR.html">DUMP_RECOLOR</a></font>
   (use adjacency map)</font></p></td>
 
-<td></td>
 </tr>
 
 <tr>
@@ -128,9 +119,6 @@
 <td><p><a href="docs/extrude.html">EXTRUDE</a></font>
   (extrude a surface)</font></p></td>
 
-<td></td>
-
-<td></td>
 </tr>
 
 <tr>
@@ -147,7 +135,7 @@
 <tr>
   <td><p><a href="docs/FSET.html">FSET</a> (define a face set) </p></td>
   <td>&nbsp;</td>
-  <td></td>
+  
 </tr>
 <tr>
 <td><p><a href="docs/GENIEE.html">GENIEE</a></font>
@@ -156,7 +144,7 @@
 <td><p><a href="docs/geometry.html">GEOMETRY</a></font>
   (set the geometry name)</font></p></td>
 
-<td></td>
+
 </tr>
 
 <tr>
@@ -166,7 +154,7 @@
 <td><p><a href="docs/HEXTOTE.html">HEXTOTET</a></font>
   (convert element types)</font></p></td>
 
-<td></td>
+
 </tr>
 
 <tr>
@@ -187,16 +175,16 @@
 <td><p><a href="docs/main_interpolate.html">INTERPOLATE</a></font>
   (.. attribute values</font>)</p></td>
 
-<td></td>
+
 </tr>
 
 <tr>
 <td><p><a href="docs/kdtree.html">KDTREE</a></font>
   (represent mesh as kd-tree)</font></p></td>
 
-<td></td>
 
-<td></td>
+
+
 </tr>
 
 <tr>
@@ -236,18 +224,18 @@
 <td><p><a href="docs/NEGATIVE.html">NEGATIVE_AIJ</a></font>
   (test bndry for neg. coef.)</font></p></td>
 
-<td></td>
 
-<td></td>
+
+
 </tr>
 
 <tr>
 <td><p><a href="docs/OFFSETSURF.html">OFFSETSURF</a></font>
   (..triangulated surface)</font></p></td>
 
-<td></td>
 
-<td></td>
+
+
 </tr>
 
 <tr>
@@ -276,8 +264,8 @@
 <td><p><a href="docs/RADAPT.html">RADAPT</a></font>
   (adaptive smoothing)</font></p></td>
 
-<td><p><font face="Times New Roman,Times"><u><font size=-1><a href="docs/rankvolume.html">RANKVOLUME</a></font></u>(list
-  small volume elements)</font></p></td>
+<td><p><a href="docs/rankvolume.html">RANKVOLUME</a></font>
+    (list small volume elements)</font></p></td>
 
 <td><p><a href="docs/READ.html">READ</a></font>
   (read data)</font></p></td>
@@ -355,7 +343,7 @@
 <td><p><a href="docs/RZV_LG.html">RZV</a></font>
   (see createpts)</font></p></td>
 
-<td></td>
+
 </tr>
 
 <tr>
@@ -398,7 +386,7 @@
 <td><p><a href="docs/TRIAGN.html">TRIANGULATE</a></font>
   ( ..a polygon)</font></p></td>
 
-<td></td>
+
 </tr>
 
 <tr>
@@ -407,16 +395,16 @@
 
 <td><p><a href="docs/UPSCALE.html">UPSCALE</a> (attribute from fine to coarse grid) </p></td>
 
-<td></td>
+
 </tr>
 
 <tr>
 <td><p><a href="docs/ZQ.html">ZQ</a></font>
   (see <a href="docs/cmo_setatt.html">cmo/setatt</a>)</font></p></td>
 
-<td></td>
 
-<td></td>
+
+
 </tr>
 </table>
 

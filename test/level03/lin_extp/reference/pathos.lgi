@@ -1,0 +1,20 @@
+compute / linear_extrapolate / cube / zhigh / zpos / zic
+dump / gmv / cube1.gmv / cube
+
+compute / linear_extrapolate / cube / zlow / zneg / zic
+dump / gmv / cube2.gmv / cube
+
+compute / linear_extrapolate / cube / yhigh / ypos / yic
+dump / gmv / cube3.gmv / cube
+
+compute / linear_extrapolate / cube / ylow / yneg / yic
+dump / gmv / cube4.gmv / cube
+
+* compute / linear_extrapolate / cube / xhigh / xpos / xic
+* dump / gmv / cube5.gmv / cube
+
+* compute / linear_extrapolate / cube / xlow / xneg / xic
+* dump / gmv / cube6.gmv / cube
+
+finish
+

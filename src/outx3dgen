@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.001   Linux          *                 
-*               *    Compiled: 2007/11/21                     *                 
-*               *    Run Time: 2008/01/10  11:00:23           *                 
+*               *    Program:  LaGriT V2.105   Linux m32      *                 
+*               *    date_compile: 2010/05/25                 *                 
+*               *    Run Time: 2010/06/07  11:51:43           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24,5 +24,9 @@ any liability or responsibility for the use of this software.
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
+cmo/create/cmo_sink                                                             
+cmo/readatt/cmo_sink/xic,yic,zic/1 0 0/input_points.table                       
+ 
+The  file, input_points.table, does not exist.                                  
 finish                                                                          
 LaGriT successfully completed                                                   

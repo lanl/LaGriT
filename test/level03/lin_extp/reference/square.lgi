@@ -1,0 +1,33 @@
+define/NX/100
+define/NY/100
+define/NZ/50
+define/MIN/-1.0
+define/MAX/301.0
+
+define/NX/30
+define/NY/30
+define/NZ/20
+
+cmo/create/zsurf_quad///quad
+quadxy NX NY/MIN MIN MIN/MAX MIN MIN/MAX MAX MIN/MIN MAX MIN
+rzbrick/xyz/NX,NY,1/1,0,0/connect
+math/sin/zsurf_quad/zic/1,0,0/zsurf_quad/xic
+math/multiply/zsurf_quad/zic/1,0,0/zsurf_quad/zic/5.0
+perturb / 1 0 0 / 0. 0. 1.0
+math/add/zsurf_quad/zic/1 0 0 / zsurf_quad / zic / 60.
+
+dump / gmv / tmp_surface.gmv / zsurf_quad
+
+cmo / create / mo_hex / / / hex
+createpts / brick / xyz / NX NY NZ / 0. 0. 0. / 300. 300. 50. / 1  1  1
+cmo / select / mo_hex
+resetpts / itp
+
+compute / linear_extrapolate / mo_hex / zsurf_quad / zpos / zic
+
+
+dump / gmv / cube_w_topo.gmv / mo_hex
+
+
+finish
+

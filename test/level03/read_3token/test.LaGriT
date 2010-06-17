@@ -1,0 +1,405 @@
+         7
+ihcycle                         time                            monitor                         hextotet_remove_volume          
+hextotet_check_imt              hextotet_radavg                 hextotet_remove_duplicates      
+         1         2         1         3         3         3         3
+         1         1         2         1         2         3         4
+         2         1         4
+         0         0         0         0
+      0.00000000000000      0.00000000000000
+no                              no                              yes                             yes                             
+no                              no                              no                              no                              
+         1         0         0         0         0         0         0         0         0
+-defaultgeom-                   
+         0         0         0         0         0         0         0         0
+         1         7         1        65         8
+a                               
+   66
+-def-                           
+VDOUBLE                         scalar                          nnodes                          
+linear                          temporary                       x                               
+         8         1
+ 0.0000000000000E+00 0.0000000000000E+00 0.0000000000000E+00 0.0000000000000E+00 0.0000000000000E+00
+ 0.0000000000000E+00 0.0000000000000E+00 0.0000000000000E+00
+         0 0.0000000000000E+00                                         8         4
+scalar                          
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         1 0.0000000000000E+00                                         1         1
+vector                          
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         3 0.0000000000000E+00                                         1         1
+nnodes                          
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         8 0.0000000000000E+00                                         1         1
+nedges                          
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00                                         1         1
+nfaces                          
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00                                         1         1
+nelements                       
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         5 0.0000000000000E+00                                         1         1
+mbndry                          
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+  16000000 0.0000000000000E+00                                         1         1
+ndimensions_topo                
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         3 0.0000000000000E+00                                         1         1
+ndimensions_geom                
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         3 0.0000000000000E+00                                         1         1
+nodes_per_element               
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         4 0.0000000000000E+00                                         1         1
+edges_per_element               
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         6 0.0000000000000E+00                                         1         1
+faces_per_element               
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         4 0.0000000000000E+00                                         1         1
+isetwd                          
+VDOUBLE                         scalar                          nnodes                          
+or                              permanent                       l                               
+         8         1
+              0              0              0              0              0
+              0              0              0
+         0 0.0000000000000E+00                                         8         4
+ialias                          
+VINT                            scalar                          nnodes                          
+sequence                        permanent                       l                               
+         8         1
+              0              0              0              0              0
+              0              0              0
+         0 0.0000000000000E+00                                         8         4
+imt1                            
+VINT                            scalar                          nnodes                          
+max                             permanent                       gal                             
+         8         1
+              1              1              1              1              1
+              1              1              1
+         0 0.0000000000000E+00                                         8         4
+itp1                            
+VINT                            scalar                          nnodes                          
+min                             permanent                       gal                             
+         8         1
+             10             10             10             10             10
+             10             10             10
+         0 0.0000000000000E+00                                         8         4
+icr1                            
+VINT                            scalar                          nnodes                          
+min                             permanent                       gal                             
+         8         1
+              0              0              0              0              0
+              0              0              0
+         0 0.0000000000000E+00                                         8         4
+isn1                            
+VINT                            scalar                          nnodes                          
+user                            permanent                       gal                             
+         8         1
+              0              0              0              0              0
+              0              0              0
+         0 0.0000000000000E+00                                         8         4
+xic                             
+VDOUBLE                         scalar                          nnodes                          
+linear                          permanent                       l                               
+         8         1
+ 0.0000000000000E+00 0.1000000000000E+01 0.0000000000000E+00 0.1000000000000E+01 0.0000000000000E+00
+ 0.1000000000000E+01 0.0000000000000E+00 0.1000000000000E+01
+         0 0.0000000000000E+00                                         8         4
+yic                             
+VDOUBLE                         scalar                          nnodes                          
+linear                          permanent                       l                               
+         8         1
+ 0.0000000000000E+00 0.0000000000000E+00 0.1000000000000E+01 0.1000000000000E+01 0.0000000000000E+00
+ 0.0000000000000E+00 0.1000000000000E+01 0.1000000000000E+01
+         0 0.0000000000000E+00                                         8         4
+zic                             
+VDOUBLE                         scalar                          nnodes                          
+linear                          permanent                       l                               
+         8         1
+ 0.0000000000000E+00 0.0000000000000E+00 0.0000000000000E+00 0.0000000000000E+00 0.1000000000000E+01
+ 0.1000000000000E+01 0.1000000000000E+01 0.1000000000000E+01
+         0 0.0000000000000E+00                                         8         4
+xtetwd                          
+VDOUBLE                         scalar                          nelements                       
+or                              permanent                       l                               
+         5         1
+              0              0              0              0              0
+         0 0.0000000000000E+00                                         5         4
+itetclr                         
+VINT                            scalar                          nelements                       
+user                            permanent                       l                               
+         5         1
+              1              1              1              1              1
+         0 0.0000000000000E+00                                         5         4
+itettyp                         
+VINT                            scalar                          nelements                       
+user                            permanent                       l                               
+         5         1
+              5              5              5              5              5
+         0 0.0000000000000E+00                                         5         4
+itetoff                         
+VINT                            scalar                          nelements                       
+user                            permanent                       l                               
+         5         1
+              0              4              8             12             16
+         0 0.0000000000000E+00                                         5         4
+jtetoff                         
+VINT                            scalar                          nelements                       
+user                            permanent                       l                               
+         5         1
+              0              4              8             12             16
+         0 0.0000000000000E+00                                         5         4
+itet                            
+VINT                            nodes_per_element               nelements                       
+user                            permanent                       l                               
+         5         4
+              3              4              7              1              8
+              4              6              7              2              4
+              1              6              5              7              6
+              1              4              7              1              6
+         0 0.0000000000000E+00                                        20         4
+jtet                            
+VINT                            faces_per_element               nelements                       
+user                            permanent                       l                               
+         5         4
+             20       16000000       16000000       16000000             19
+       16000000       16000000       16000000             18       16000000
+       16000000       16000000             17       16000000       16000000
+       16000000             13              9              5              1
+         0 0.0000000000000E+00                                        20         4
+ipolydat                        
+CHARACTER                       scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00yes                                      1         3
+vor2d                           
+CHARACTER                       scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00yes                                      1         3
+vor3d                           
+CHARACTER                       scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00no                                       1         3
+epsilon                         
+REAL                            scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.1000000003627E-14                                         1         2
+epsilonl                        
+REAL                            scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.3845925372767E-12                                         1         2
+epsilona                        
+REAL                            scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.6661338147751E-12                                         1         2
+epsilonv                        
+REAL                            scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.2220446049250E-12                                         1         2
+ipointi                         
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         1 0.0000000000000E+00                                         1         1
+ipointj                         
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         8 0.0000000000000E+00                                         1         1
+idebug                          
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00                                         1         1
+itypconv_sm                     
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         1 0.0000000000000E+00                                         1         1
+maxiter_sm                      
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+        25 0.0000000000000E+00                                         1         1
+tolconv_sm                      
+REAL                            scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.1000000000000E+01                                         1         2
+nnfreq                          
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         1 0.0000000000000E+00                                         1         1
+ivoronoi                        
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         1 0.0000000000000E+00                                         1         1
+iopt2to2                        
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         2 0.0000000000000E+00                                         1         1
+dumptype                        
+CHARACTER                       scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00binary                                   1         3
+velname                         
+CHARACTER                       scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00vels                                     1         3
+densname                        
+CHARACTER                       scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00ric                                      1         3
+presname                        
+CHARACTER                       scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00pic                                      1         3
+enername                        
+CHARACTER                       scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00eic                                      1         3
+xmin                            
+REAL                            scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00                                         1         2
+ymin                            
+REAL                            scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00                                         1         2
+zmin                            
+REAL                            scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00                                         1         2
+xmax                            
+REAL                            scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.1000000000000E+01                                         1         2
+ymax                            
+REAL                            scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.1000000000000E+01                                         1         2
+zmax                            
+REAL                            scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.1000000000000E+01                                         1         2
+kdtree_level                    
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00                                         1         1
+max_number_sets                 
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+        32 0.0000000000000E+00                                         1         1
+number_of_psets                 
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00                                         1         1
+number_of_eltsets               
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00                                         1         1
+psetnames                       
+VCHAR                           scalar                          max_number_sets                 
+constant                        permanent                       l                               
+        32         1
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+         0 0.0000000000000E+00                                        32         4
+eltsetnames                     
+VCHAR                           scalar                          max_number_sets                 
+constant                        permanent                       l                               
+        32         1
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+         0 0.0000000000000E+00                                        32         4
+geom_name                       
+CHARACTER                       scalar                          max_number_sets                 
+constant                        permanent                       l                               
+        32         1
+         0 0.0000000000000E+00-defaultgeom-                            1         3
+fsetnames                       
+VCHAR                           scalar                          max_number_sets                 
+constant                        permanent                       l                               
+        32         1
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+         0 0.0000000000000E+00                                        32         4
+number_of_fsets                 
+INT                             scalar                          scalar                          
+constant                        permanent                       l                               
+         1         1
+         0 0.0000000000000E+00                                         1         1
+ccoef                           
+VDOUBLE                         scalar                          nnodes                          
+linear                          permanent                       gxaf                            
+         8         1
+-0.3434577253371E-16 0.0000000000000E+00 0.0000000000000E+00-0.4906538933387E-17 0.0000000000000E+00
+ 0.0000000000000E+00-0.3434577253371E-16 0.0000000000000E+00
+         0 0.0000000000000E+00                                         8         4

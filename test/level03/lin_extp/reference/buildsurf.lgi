@@ -1,0 +1,98 @@
+define/NX/25
+define/NY/25
+define/NZ/25
+define/MIN/0.0                                                                  
+define/MAX/10.0
+
+cmo/create/ztemp///quad
+quadxy NX NY/MIN MIN MIN/MAX MIN MIN/MAX MAX MIN/MIN MAX MIN
+rzbrick/xyz/NX,NY,1/1,0,0/connect
+hextotet / 2 / zlow / ztemp
+* cmo / setatt / zlow / idebug / / 10
+
+cmo/create/ytemp///quad
+quadxy NX NZ/MIN MIN MIN/MAX MIN MIN/MAX MIN MAX/MIN MIN MAX
+rzbrick/xyz/NX,1,NZ/1,0,0/connect
+hextotet / 2 / ylow / ytemp
+* cmo / setatt / ylow / idebug / / 10
+
+cmo/create/xtemp///quad
+quadxy NY NZ/MIN MIN MIN/MIN MIN MAX/MIN MAX MAX/MIN MAX MIN
+rzbrick/xyz/1,NY,NZ/1,0,0/connect
+hextotet / 2 / xlow / xtemp
+* cmo / setatt / xlow / idebug / / 10
+
+math/sin/zlow/zic/1,0,0/zlow/xic
+math/sin/ylow/yic/1,0,0/ylow/zic
+math/sin/xlow/xic/1,0,0/xlow/yic
+
+cmo / copy / zhigh / zlow
+cmo / copy / yhigh / ylow
+cmo / copy / xhigh / xlow
+cmo / setatt / zhigh / idebug / / 10
+cmo / setatt / yhigh / idebug / / 10
+cmo / setatt / xhigh / idebug / / 10
+
+math/add/zlow/zic/1,0,0/zlow/zic/2
+math/add/ylow/yic/1,0,0/ylow/yic/2
+math/add/xlow/xic/1,0,0/xlow/xic/2
+math/add/zhigh/zic/1,0,0/zhigh/zic/8
+math/add/yhigh/yic/1,0,0/yhigh/yic/8
+math/add/xhigh/xic/1,0,0/xhigh/xic/8
+
+math/multiply/zlow/zic/1,0,0/zlow/zic/10000
+math/multiply/zlow/yic/1,0,0/zlow/yic/10000
+math/multiply/zlow/xic/1,0,0/zlow/xic/10000
+math/multiply/ylow/zic/1,0,0/ylow/zic/10000
+math/multiply/ylow/yic/1,0,0/ylow/yic/10000
+math/multiply/ylow/xic/1,0,0/ylow/xic/10000
+math/multiply/xlow/zic/1,0,0/xlow/zic/10000
+math/multiply/xlow/yic/1,0,0/xlow/yic/10000
+math/multiply/xlow/xic/1,0,0/xlow/xic/10000
+math/multiply/zhigh/zic/1,0,0/zhigh/zic/10000
+math/multiply/zhigh/yic/1,0,0/zhigh/yic/10000
+math/multiply/zhigh/xic/1,0,0/zhigh/xic/10000
+math/multiply/yhigh/zic/1,0,0/yhigh/zic/10000
+math/multiply/yhigh/yic/1,0,0/yhigh/yic/10000
+math/multiply/yhigh/xic/1,0,0/yhigh/xic/10000
+math/multiply/xhigh/zic/1,0,0/xhigh/zic/10000
+math/multiply/xhigh/yic/1,0,0/xhigh/yic/10000
+math/multiply/xhigh/xic/1,0,0/xhigh/xic/10000
+                                      
+cmo / setatt / zhigh / itetclr / 1 0 0 / 1
+cmo / setatt / zlow / itetclr / 1 0 0 / 2
+cmo / setatt / yhigh / itetclr / 1 0 0 / 3
+cmo / setatt / ylow / itetclr / 1 0 0 / 4
+cmo / setatt / xhigh / itetclr / 1 0 0 / 5
+cmo / setatt / xlow / itetclr / 1 0 0 / 6
+
+dump / gmv / xhigh.gmv / xhigh
+dump / gmv / yhigh.gmv / yhigh
+dump / gmv / zhigh.gmv / zhigh
+dump / gmv / xlow.gmv / xlow
+dump / gmv / ylow.gmv / ylow
+dump / gmv / zlow.gmv / zlow
+
+cmo / create / cube /// tet
+createpts / xyz / 15.0 15.0 15.0 / 3.0 3.0 3.0 / 7.0 7.0 7.0 / 1 1 1
+connect
+
+math/multiply/cube/zic/1,0,0/cube/zic/10000
+math/multiply/cube/yic/1,0,0/cube/yic/10000
+math/multiply/cube/xic/1,0,0/cube/xic/10000
+
+cmo / setatt / cube / itetclr / 1 0 0 / 7
+dump / gmv / tetmesh.gmv / cube
+* cmo / setatt / cube / idebug / 3247,3247,1 / 1
+
+addmesh / merge / z_all / zhigh / zlow
+addmesh / merge / y_all / yhigh / ylow
+addmesh / merge / x_all / xhigh / xlow
+addmesh / merge / xy_all / y_all / x_all
+addmesh / merge / zc_all / z_all / cube
+addmesh / merge / mo_all / zc_all / xy_all
+
+dump / gmv / allmesh.gmv / mo_all
+
+finish
+
