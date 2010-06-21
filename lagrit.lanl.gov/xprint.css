@@ -1,0 +1,38 @@
+/* Modified 19 July 05
+- fixed a few open and closing brakets
+- reformatted for ease of use 
+*/ 
+
+/* Print CSS for all browsers except IE */
+body, td, th, p, ul, li, .ratext, .mousetext { font: 11pt normal Times New Roman, Times, serif; }
+html { background: #FFF; }
+h1 { font-size: 14pt; }
+h2 { font-size: 12pt; }
+h3 { font-size: 11pt; }
+h4 { font-size: 10pt; }
+h5, h6 { font-size: 10pt; }
+h1, h2, h3, h4, h5, h6 { color: black; }
+th { text-align:left; font-weight: bold; }
+a:link, a:visited { color: #000099; }
+#lanlbanner a img { visibility: visible; border: 0; }
+#lanlbanner a { background: #FFF; }
+#mid-section1 .col2-620 p,  #mid-section2 .col2-620 p { font-size:12px; }
+#lanlbar, #menucont, #menublocksearch, .col1,
+#backband, #backband2, #toolbar, #tagline, .byline, #nav, #nav1, #barleft, #barleft1  { display: none; }
+img .strut { display:none; }
+#content-org, #content-subject, #content-audience { margin-top: 26px; margin-bottom: 50px; width:auto !important;}
+#mid-section1 .col2,  #mid-section2 .col2, #mid-section1 .col2-420,  #mid-section2 .col2-420,
+#mid-section1 .col2-620,  #mid-section2 .col2-620 { width:620px !important;}
+#mid-section1 .col3,  #mid-section2 .col3, #mid-section1 .col3-180,  #mid-section2 .col3-180 { width: 420px !important; }
+#mid-section1 .col2-420 a:link:after, #mid-section1 .col2-420 a:visited:after { content: " (" attr(href) ") "; font-size: 90%; }
+
+
+/* homepage print styles */
+.homepage #lanlbanner {visibility:hidden;}
+.homepage #lanlbanner a img{visibility: visible;}
+.homepage #nav, .homepage #nav1 {visibility: visible; display: block; }
+.homepage #flashcontent #GoalsMovie{visibility: hidden; }
+.homepage #placeholder {visibility: visible;}
+.homepage#body img{ visibility:visible;}
+
+#bottom-section {position: absolute; bottom: 0; margin-bottom: 20px;}

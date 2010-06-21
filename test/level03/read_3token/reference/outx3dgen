@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V2.105   Linux m32      *                 
 *               *    date_compile: 2010/05/25                 *                 
-*               *    Run Time: 2010/06/16  11:31:34           *                 
+*               *    Run Time: 2010/06/17  14:58:26           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24,7 +24,6 @@ any liability or responsibility for the use of this software.
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
-infile input.lgi                                                                
 read/avs/test.inp/a/ascii                                                       
 cmo/addatt/a/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
 finish                                                                          
@@ -122,7 +121,6 @@ read/gmv/test.gmv/d
 cmo/addatt/d/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
 finish                                                                          
 geniee                                                                          
-finish                                                                          
 finish                                                                          
 finish                                                                          
 finish                                                                          

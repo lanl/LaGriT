@@ -1,0 +1,21 @@
+cmo / create / mesh1
+createpts/brick/xyz/3,2,3/0.,0.,0./1.,1.,1./1,1,1
+cmo / addatt / mesh1 / testatt1
+cmo / addatt / mesh1 / csnlp / CHARACTER / scalar / nnodes / linear / permanent  / agfl
+cmo / addatt / mesh1 / cvnap / VCHAR / vector / scalar / asinh / temporary  / agfl
+cmo / addatt / mesh1 / ivnlp / VINT / vector / nelements / linear / permanent  / agfl
+
+cmo / create / mesh2
+createpts/xyz/5,3,10/0.,2.,0./5.,6.,2./1,1,1/
+connect
+cmo / addatt / mesh2 / testatt2
+cmo / addatt / mesh2 / rsecp / REAL / scalar / nelements / constant / permanent  / agfl
+cmo / addatt / mesh2 / rvnsp / VDOUBLE / vector / nnodes / sequence / permanent  / agfl
+cmo / addatt / mesh2 / isnmp / INT / scalar / max_number_sets / min / temporary  / agfl
+
+cmo / attribute_union / mesh1 / mesh2
+
+cmo / status
+
+finish
+

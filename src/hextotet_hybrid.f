@@ -4328,7 +4328,10 @@ C
 C
 C#######################################################################
 C
-      data nattstrt /64/
+C     WARNING! MAGIC NUMBER ALERT! See comment below for why this is set
+C     here. There are 65 default attributes, so to get the user-added
+C     attributes, we start looking at index 66.
+      data nattstrt /66/
 C
 C
  
@@ -4356,8 +4359,8 @@ c
       if(icscode.ne.0)
      *   call x3d_error('hextotet_hybrid ','get number_of_attributes')
 C
-C  there are 63 basic attributes - user added attributes will have numbers
-C  greater than 63
+C  there are 65 basic attributes - user added attributes will have numbers
+C  greater than 65
  
 C
       natt=0

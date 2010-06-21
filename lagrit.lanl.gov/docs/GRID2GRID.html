@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=ISO-8859-1">
+  <meta name="Generator" content="Microsoft Word 98">
+  <meta name="GENERATOR"
+ content="Mozilla/4.51C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+<!-- command name for window banner -->
+  <title>HEXTOTET</title>
+<!-- font and other body information should be in the style statement here.-->
+  <style type="text/css">
+   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
+   body { font-family:Times; 
+          width:100%; 
+          background:white; 
+       }
+  </style>
+</head>
+<body link="#0000ff" vlink="#800080">
+&nbsp;
+<!-- end header --------------------------------------------------------------- --><!-- command name for this page -->
+<h2>GRID2GRID</h2>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; The <b>grid2grid</b>
+command converts a mesh with one element type to a mesh with another.
+The conversion type is determined by the second argument. <br>
+<!-- command syntax or format ------------ -->
+<br>
+<br>
+FORMAT:
+<blockquote style="font-family: monospace;"> <b>hextotet</b>/ ioption
+/ [cmo_sink] / [cmo_source]</blockquote>
+<!-- parameter 1 ---------- -->
+<br>
+<font face="Courier">
+ioption: </font>is a character string that determines the element type
+of the source and sink meshes. There is no 'default' option - this
+argument must be specified.<!-- parameter description -->
+<blockquote> <b>quadtotri2</b>&nbsp;&nbsp; quad to 2 triangles, no new
+points. <br>
+  <b>prismtotet3</b>&nbsp;&nbsp; prism to 3 tets, no new points. <br>
+  <b>quattotri4</b>&nbsp;&nbsp; quad to 4 triangles, with one new
+point. <br>
+  <b>pyrtotet4</b>&nbsp;&nbsp; pyramid to 4 tets, with one new point. <br>
+  <b>hextotet5</b>&nbsp;&nbsp; hex to 5 tets, no new points. <br>
+  <b>hextotet6</b>&nbsp;&nbsp; hex to 6 tets, no new points. <br>
+  <b>prismtotet14</b>&nbsp;&nbsp; prism to 14 tets, four new points (1
++ 3
+faces). <br>
+  <b>prismtotet18</b>&nbsp;&nbsp; prism to 18 tets, six new points (1 +
+5 faces). <br>
+  <b>hextotet24</b>&nbsp;&nbsp; hex to 24 tets, seven new points (1 + 6
+faces). <br>
+  <span style="font-weight: bold;">tree_to_fe</span> &nbsp; quadtree or
+octree grid to grid with no parent-type elements. <br>
+</blockquote>
+<br>
+<font face="Courier">
+[ cmo_snk / cmo_src ] :
+</font>are the mesh_object names. <font face="Courier">cmo_src</font>
+is the
+original grid. <font face="Courier">cmo_snk</font> <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; is the name
+for the
+new tet or triangle grid.
+These may be the same grid, if so desired. If both are left blank, <br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; the current
+mesh object will be used. If only one mesh name is given, it will be
+used at the sink mesh, and the<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; current mesh
+object will be used as the source.<br>
+<br>
+<b></b>EXAMPLES:
+<blockquote> <font size="-1"><b style="font-family: serif;">grid2grid
+/ hextotet</b><b style="font-family: serif;">24&nbsp; </b><span
+ style="font-family: serif;">/&nbsp; </span></font><font
+ style="font-family: serif;" size="-1">cmo_tet
+/ cmo_hex</font>
+  <dir>Convert each hex element in cmo_hex to 24 tets and name the new
+grid cmo_tet.</dir>
+  <br>
+  <font size="-1"><b style="font-family: serif;">grid2grid / quadtotri4
+  </b><span style="font-family: serif;">/&nbsp; new_mesh</span></font>
+  <dir>No source mesh is given, so the current mesh object (which is a
+quad mesh) will have every quad converted into 4 triangles, and saved
+as new_mesh. </dir>
+  <br>
+  <font style="font-family: serif;" size="-1"><b>grid2grid / tree_to_fe</b><b>
+  </b>/ </font><font style="font-family: serif;" size="-1">new_mesh
+/&nbsp; octree_mesh</font><b></b>
+  <dir> Every element in octree_mesh will be scanned to see if it is a
+parent element. If it is, it will be removed, so only the leaf elements
+remain. The result will be stored in new_mesh.<br>
+  </dir>
+</blockquote>
+<br>
+<br>
+<br>
+</body>
+</html>

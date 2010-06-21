@@ -1,4 +1,3 @@
-infile input.lgi                                                                
 infile buildsurf.lgi                                                            
 define/NX/25                                                                    
 define/NY/25                                                                    
@@ -111,6 +110,5 @@ cmo/select/mo_hex
 resetpts/itp                                                                    
 compute/linear_extrapolate/mo_hex/zsurf_quad/zpos/zic                           
 dump/gmv/cube_w_topo.gmv/mo_hex                                                 
-finish                                                                          
 finish                                                                          
 finish                                                                          

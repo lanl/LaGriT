@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V2.105   Linux m32      *                 
 *               *    date_compile: 2010/05/25                 *                 
-*               *    Run Time: 2010/06/15  07:45:44           *                 
+*               *    Run Time: 2010/06/17  14:56:49           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24,7 +24,6 @@ any liability or responsibility for the use of this software.
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
-infile input.lgi                                                                
 infile buildsurf.lgi                                                            
 define/NX/25                                                                    
 define/NY/25                                                                    
@@ -1828,7 +1827,6 @@ cmo/release/bot_mo_lin_ext_tmp
 finish                                                                          
 dump/gmv/cube_w_topo.gmv/mo_hex                                                 
 cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 finish                                                                          
 finish                                                                          
 finish                                                                          

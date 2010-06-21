@@ -1,4 +1,3 @@
-infile input.lgi                                                                
 read/avs/test.inp/a/ascii                                                       
 dump/avs/test.InP/a/binary                                                      
 dump/avs/test.avs/a/binary                                                      
@@ -10,5 +9,4 @@ read/test.LaGriT/a
 read/test.InP/b                                                                 
 read/test.avs/c                                                                 
 read/test.gmv/d                                                                 
-finish                                                                          
 finish                                                                          

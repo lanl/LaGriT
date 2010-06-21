@@ -1,0 +1,59 @@
+* This file tests the grid2grid/tree_to_fe method on both an octree
+* (a simple cube) and a quadtree (a simple plane). It tests all forms
+* of well-formatted input (2, 3 and 4 arguments) as well as writing 
+* the new mesh object over the parent mesh object (source and sink
+* have same name). Finally, it has some test cases meant to fail - one
+* from poorly formatted input, and one from a non-tree mesh.
+
+* Test the octree
+infile octcube.lgi
+
+cmo / copy / octcube2 / octcube
+
+* Mesh onto itself, with both arguments
+cmo / select / octcube
+cmo / status / octcube
+grid2grid / tree_to_fe / octcube / octcube
+cmo / status / octcube
+dump / gmv / octcube.gmv / octcube
+
+* Mesh onto a new mesh, with both arguments
+cmo / select / octcube2
+cmo / status / octcube2
+grid2grid / tree_to_fe / octcube3 / octcube2
+cmo / status / octcube3
+dump / gmv / octcube3.gmv / octcube
+
+* Test the quadtree
+infile quadplane.lgi
+
+cmo / copy / quadplane2 / quadplane
+
+* Mesh onto itself, with no arguments
+cmo / select / quadplane
+cmo / status / quadplane
+grid2grid / tree_to_fe
+cmo / status / quadplane
+dump / gmv / quadplane.gmv / quadplane
+
+* Mesh onto itself, with one argument
+cmo / select / quadplane2
+cmo / status / quadplane2
+grid2grid / tree_to_fe / quadplane2
+cmo / status / quadplane2
+dump / gmv / quadplane2.gmv / quadplane2
+
+* Test a larger, more complicated case
+infile octree.lgi
+grid2grid / tree_to_fe / cmo_hex_flat / cmo_hex
+
+* Test the error cases
+grid2grid / tree_to_fe / a / b / c
+grid2grid / tree_to_fe / 1
+grid2grid / quadtotri4 / tetplane / quadplane
+cmo / DELATT / tetplane / itetkid
+cmo / DELATT / tetplane / itetlev
+grid2grid / tree_to_fe / tetplane2 / tetplane
+
+finish
+

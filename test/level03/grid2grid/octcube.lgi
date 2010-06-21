@@ -1,0 +1,73 @@
+* Create a unit cube centered at the origin
+cmo/create/octcube///hex
+createpts/brick/xyz/3,3,3/-1.0 -1.0 -1.0/1.0 1.0 1.0/1 1 1
+*dump/gmv/cube0.gmv/octcube
+
+cmo/addatt/octcube/median/xcen ycen zcen
+eltset/xpos1/xcen/gt/0.0
+eltset/ypos1/ycen/gt/0.0
+eltset/zpos1/zcen/gt/0.0
+eltset/temp1/inter/xpos1/ypos1
+eltset/corner1/inter/temp1/zpos1
+*dump/gmv/cube1.gmv/octcube
+
+refine/eltset/eltset,get,corner1
+*dump/gmv/cube1.gmv/octcube
+
+cmo/addatt/octcube/median/xcen ycen zcen
+eltset/xpos2/xcen/gt/0.5
+eltset/ypos2/ycen/gt/0.5
+eltset/zpos2/zcen/gt/0.5
+eltset/temp2/inter/xpos2/ypos2
+eltset/corner2/inter/temp2/zpos2
+*dump/gmv/cube2.gmv/octcube
+
+refine/eltset/eltset,get,corner2
+*dump/gmv/cube2.gmv/octcube
+
+cmo/addatt/octcube/median/xcen ycen zcen
+eltset/xpos3/xcen/gt/0.75
+eltset/ypos3/ycen/gt/0.75
+eltset/zpos3/zcen/gt/0.75
+eltset/temp3/inter/xpos3/ypos3
+eltset/corner3/inter/temp3/zpos3
+*dump/gmv/cube3.gmv/octcube
+
+refine/eltset/eltset,get,corner3
+*dump/gmv/cube3.gmv/octcube
+
+cmo/addatt/octcube/median/xcen ycen zcen
+eltset/xpos4/xcen/gt/0.875
+eltset/ypos4/ycen/gt/0.875
+eltset/zpos4/zcen/gt/0.875
+eltset/temp4/inter/xpos4/ypos4
+eltset/corner4/inter/temp4/zpos4
+*dump/gmv/cube4.gmv/octcube
+
+refine/eltset/eltset,get,corner4
+*dump/gmv/cube4.gmv/octcube
+
+cmo/addatt/octcube/median/xcen ycen zcen
+eltset/xpos5/xcen/gt/0.9375
+eltset/ypos5/ycen/gt/0.9375
+eltset/zpos5/zcen/gt/0.9375
+eltset/temp5/inter/xpos5/ypos5
+eltset/corner5/inter/temp5/zpos5
+*dump/gmv/cube5.gmv/octcube
+
+refine/eltset/eltset,get,corner5
+*dump/gmv/cube5.gmv/octcube
+
+cmo/addatt/octcube/median/xcen ycen zcen
+eltset/xpos6/xcen/gt/0.96875
+eltset/ypos6/ycen/gt/0.96875
+eltset/zpos6/zcen/gt/0.96875
+eltset/temp6/inter/xpos6/ypos6
+eltset/corner6/inter/temp6/zpos6
+*dump/gmv/cube6.gmv/octcube
+
+refine/eltset/eltset,get,corner6
+*dump/gmv/cube6.gmv/octcube
+
+finish
+

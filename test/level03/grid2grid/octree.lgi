@@ -1,0 +1,61 @@
+**************************************************
+* Test refine octree 
+* use amr to create an octree refined hex mesh
+* put a coarse hex grid over the space
+**************************************************
+
+* create a brick shape with hex elements 5 wide and 2 high
+cmo/create/cmo_hex///hex
+createpts/brick/xyz/6,6,3/0.,0.,0./.5,.5,.2/1,1,1
+
+* identify nodes inside a spherical shell and refine those elements
+cmo/setatt/cmo_hex/imt/1,0,0/1
+pset/psphere/geom/rtp/1,0,0/.45,0,0/.5,360.,360./.5,.5,0.
+cmo/setatt/cmo_hex/imt/pset,get,psphere/2
+refine/constant/imt1/linear/element/pset,get,psphere/-1.,0.,0./inclusive/
+
+* do it again
+pset/psphere/release
+pset/psphere/geom/rtp/1,0,0/.45,0,0/.5,360.,360./.5,.5,0.
+cmo/setatt/cmo_hex/imt/pset,get,psphere/2
+refine/constant/imt1/linear/element/pset,get,psphere/-1.,0.,0./inclusive/
+
+* do it again
+pset/psphere/release
+pset/psphere/geom/rtp/1,0,0/.45,0,0/.5,360.,360./.5,.5,0.
+cmo/setatt/cmo_hex/imt/pset,get,psphere/2
+refine/constant/imt1/linear/element/pset,get,psphere/-1.,0.,0./inclusive/
+
+* set colors
+cmo/setatt/cmo_hex/imt/1,0,0/1
+pset/psphere/release
+pset/psphere/geom/rtp/1,0,0/.45,0,0/.5,360.,360./.5,.5,0.
+pset/psphere1/geom/rtp/1,0,0/0,0,0/.45,360.,360./.5,.5,0.
+cmo/setatt/cmo_hex/imt/pset,get,psphere1/2
+cmo/setatt/cmo_hex/imt/pset,get,psphere/3
+
+* set element colors
+cmo/setatt/cmo_hex/itetclr/1,0,0/1
+eltset/esphere1/inclusive/pset,get,psphere1
+cmo/setatt/cmo_hex/itetclr/eltset,get,esphere1/2
+eltset/esphere/inclusive/pset,get,psphere
+cmo/setatt/cmo_hex/itetclr/eltset,get,esphere/3
+dump/gmv/output_refine_amr.gmv
+
+* begin compare hex octree
+cmo/status/cmo_hex
+cmo/printatt/cmo_hex/-xyz-/minmax
+quality
+* end compare hex octree
+
+* create tet version of hex grid
+hextotet / 6 / cmo_tet / cmo_hex
+
+* begin compare tet octree
+cmo/status/cmo_tet
+cmo/printatt/cmo_tet/-xyz-/minmax
+quality
+* end compare tet octree
+
+finish
+

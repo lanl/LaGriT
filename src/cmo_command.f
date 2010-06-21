@@ -370,7 +370,7 @@ C
 C
          call cmo_compress(cmolist,ierror_return)
 C
-      elseif(coption(1:4).eq.'copy') then
+      elseif(coption(1:lenopt).eq.'copy') then
 C
 C....    COPY Option.
 C
@@ -391,7 +391,7 @@ C
 C
          endif
 C
-      elseif(coption(1:6).eq.'create') then
+      elseif(coption(1:lenopt).eq.'create') then
 C
 C....    CREATE Option.
 C
@@ -460,6 +460,36 @@ C
      *            '    ERROR: No Destination Mesh Object defined. '
             call writloga('default',0,logmess,0,ierr)
 C
+         endif
+
+c
+      elseif(coption(1:lenopt).eq.'attribute_derive') then
+C
+C....    ATT_DERIVE Option.
+C
+         if(nwds .ge. 3) then
+            if(nwds.lt.4) then
+               cmsgin(4)='-cmo-'
+            endif
+            call cmo_att_derive(cmsgin(3),cmsgin(4),ierror_return)
+         else
+            ierror_return=-1
+            write(logmess,'(a)')
+     *            '    ERROR: No Destination Mesh Object defined. '
+            call writloga('default',0,logmess,0,ierr)
+         endif
+c
+      elseif(coption(1:lenopt).eq.'attribute_union') then
+C
+C....    ATT_UNION Option.
+C
+         if(nwds .eq. 4) then
+            call cmo_att_union(cmsgin(3),cmsgin(4),ierror_return)
+         else
+            ierror_return=-1
+            write(logmess,'(a)')
+     *            '    ERROR: Need two mesh objects for att_union. '
+            call writloga('default',0,logmess,0,ierr)
          endif
 C
       elseif(coption(1:lenopt).eq.'length') then
@@ -745,7 +775,8 @@ C
 C....    Illegal Option.
 C
          ierror_return=-1
-         write(logmess,'(a,a)') 'Illegal CMO_COMMAND option ',coption
+         write(logmess,'(a,a,a)') 'Illegal CMO_COMMAND option'
+     *           ,coption(1:lenopt), '.'
          call writloga('default',0,logmess,0,ierr)
 C
       endif
