@@ -1727,6 +1727,14 @@ C          **********************************************************
 C         resetpts:
 C
             call resetpts(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+
+         elseif(idsb(1:lenidsb).eq.'grid2grid') then
+C
+C           ************************************************************
+C           grid2grid: Convert a grid of one type to another.
+C
+            call grid2grid(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+C
 C
          elseif(idsb(1:lenidsb).eq.'hextotet' .or.
      *          idsb(1:lenidsb).eq.'hextotet_hybrid') then
