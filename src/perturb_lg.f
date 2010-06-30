@@ -33,34 +33,55 @@ c
 c #####################################################################
  
       implicit none
+C
+      integer nplen
+      parameter (nplen=1000000)
+
+C     arguments
       integer ierror,nwds
-      character*32 cmsgin(nwds)
       integer imsgin(nwds),msgtype(nwds)
       real*8 xmsgin(nwds)
+      character*32 cmsgin(nwds)
+
+C     variables
+      integer istart,iend,istride,mpno,length,icmotype,
+     *   nnodes,i,j,icount,ierr,ierrw
+      real*8 factor1,factor2,factor3
+
+C     cmo pointers
+      pointer (ipitp1, itp1)
+      pointer (ipisn1, isn1)
+      pointer (ipisetwd, isetwd)
+      pointer (ipmpary, mpary)
+      pointer (ipiparent, iparent)
+      integer itp1(nplen), isn1(nplen)
+      integer isetwd(nplen)
+      integer mpary(nplen), iparent(nplen)
+
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
-      pointer (ipitp1, itp1),(ipisn1,isn1)
-      pointer (ipisetwd, isetwd)
-      real*8 xic(*)
-      real*8 yic(*)
-      real*8 zic(*)
-      integer itp1(*),isetwd(*),isn1(*)
+      real*8 xic(nplen), yic(nplen), zic(nplen)
+
+C     local strings
       character*32 ich1,ich2,ich3,psetname,cmo,isubname
-      integer istart,iend,istride,mpno,length,icmotype,
-     *   nnodes,i,j,icount
-      pointer(ipmpary,mpary),(ipiparent,iparent)
-      integer mpary(*),iparent(*)
-      real*8 factor1,factor2,factor3
+      character*132 logmess
 c
 c     isubname='perturb'
+c     set ierror to error in case we leave early 
+      ierror = -1
+
       factor1=.01
       factor2=.01
       factor3=.01
       istart=1
       iend=0
       istride=0
-      psetname='nonexxxx'
+      ich1=' '
+      ich2=' '
+      ich3=' '
+      psetname='-notset-'
+
       if(nwds.ge.7.and.msgtype(7).eq.2) factor3=xmsgin(7)
       if(nwds.ge.6.and.msgtype(6).eq.2) factor2=xmsgin(6)
       if(nwds.ge.5.and.msgtype(5).eq.2) factor1=xmsgin(5)
@@ -73,24 +94,46 @@ c     isubname='perturb'
           istride=imsgin(4)
       endif
 c....
-      call cmo_get_name(cmo,ierror)
+      call cmo_get_name(cmo,ierr)
+      write(logmess,'(a,a)') 'perturb ',cmo
+      call writloga('default',0,logmess,0,ierrw)
 c
 c.... Get info from mesh object.
-      call cmo_get_intinfo('nnodes',cmo,
-     *   nnodes,length,icmotype,ierror)
-      call cmo_get_info('itp1',cmo,ipitp1,length,icmotype,ierror)
-      call cmo_get_info('isn1',cmo,ipisn1,length,icmotype,ierror)
-      call cmo_get_info('isetwd',cmo,ipisetwd,length,icmotype,ierror)
-      call cmo_get_info('xic',cmo,ipxic,length,icmotype,ierror)
-      call cmo_get_info('yic',cmo,ipyic,length,icmotype,ierror)
-      call cmo_get_info('zic',cmo,ipzic,length,icmotype,ierror)
-      call mmgetblk('mpary',isubname,ipmpary,
-     &      nnodes,1,ierror)
-      call mmgetblk('iparent',isubname,ipiparent,
-     &      nnodes,1,ierror)
+      call cmo_get_intinfo('nnodes',cmo,nnodes,length,icmotype,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'intinfo nnodes cmo')
+      if(nnodes .le. 0)then
+        write(logmess,'(a)') 'WARNING: No nodes in mesh object!'
+        call writloga('default',1,logmess,0,ierrw)
+        write(logmess,'(a)') 'RETURN NO ACTION'
+        call writloga('default',0,logmess,1,ierrw)
+        ierror = 1
+        goto 9000
+      endif
+
+      call cmo_get_info('itp1',cmo,ipitp1,length,icmotype,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'get_info itp1 cmo')
+      call cmo_get_info('isn1',cmo,ipisn1,length,icmotype,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'get_info isn1 cmo')
+      call cmo_get_info('isetwd',cmo,ipisetwd,length,icmotype,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'get_info isetwd cmo')
+      call cmo_get_info('xic',cmo,ipxic,length,icmotype,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'get_info xic cmo')
+      call cmo_get_info('yic',cmo,ipyic,length,icmotype,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'get_info yic cmo')
+      call cmo_get_info('zic',cmo,ipzic,length,icmotype,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'get_info zic cmo')
+      if (ierr.ne.0) goto 9000
+
+      call mmgetblk('mpary',isubname,ipmpary,nnodes,1,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'mmgetblk mpary')
+      if(ierr.ne.0) goto 9000
+
+      call mmgetblk('iparent',isubname,ipiparent,nnodes,1,ierr)
       call unpackpc(nnodes,itp1,isn1,iparent)
  
-      if (psetname.eq.'nonexxxx') then
+C     set the point index boundaries
+      mpno=0
+      if (psetname.eq.'-notset-') then
           call pntlimn(istart,iend,istride,ipmpary,mpno,
      *        nnodes,isetwd,itp1)
       else
@@ -100,8 +143,21 @@ c.... Get info from mesh object.
          call pntlimc(ich1,ich2,ich3,ipmpary,mpno,
      *                                nnodes,isetwd,itp1)
       endif
+
+c     mpno should be correctly set at this point
+      if (mpno.gt.0) then
+           write(logmess,'(a,i10)')
+     *      'nodes in indexed point set  = ',mpno
+           call writloga('default',0,logmess,1,ierrw)
+      else
+           write(logmess,'(a)') 'No points in indexed point set!'
+           call writloga('default',1,logmess,1,ierrw)
+           goto 9000
+      endif
+
       call perturb_nodes_lg(mpno,mpary,xic,yic,zic,factor1,
      *  factor2,factor3)
+
 c
 c  set all children to same value
 c
@@ -118,32 +174,48 @@ c
             enddo
          endif
       enddo
-      call mmrelprt(isubname,ierror)
+
+      ierror = 0
+      goto 9000
+ 9000 continue
+
+      if (ierror .ne. 0) call x3d_error(isubname,'Errors.')
+      call mmrelprt(isubname,ierr)
       return
       end
  
+C     ###################################################################
+
       subroutine perturb_nodes_lg(n,mpary,x,y,z,factor1,
      *  factor2,factor3)
+
       implicit none
+
       integer n,mpary(*)
       real*8 x(*),y(*),z(*),factor1,factor2,factor3
       real*8 ran2_lg,r1,r2,r3,r4
-      integer i, ipt,myint
+
+      integer i, ipt,myint, iseed
       myint=-137
+      iseed=-myint
+
       do i=1,n
          ipt=mpary(i)
-         r1=factor1*ran2_lg(-myint)
-         r2=factor2*ran2_lg(-myint)
-         r3=factor3*ran2_lg(-myint)
-         r4=ran2_lg(-myint)
+
+         r1=factor1*ran2_lg(iseed)
+         r2=factor2*ran2_lg(iseed)
+         r3=factor3*ran2_lg(iseed)
+         r4=ran2_lg(iseed)
          if(r4.lt.0.5) r1=-r1
-         r4=ran2_lg(-myint)
+         r4=ran2_lg(iseed)
          if(r4.lt.0.5) r2=-r2
-         r4=ran2_lg(-myint)
+         r4=ran2_lg(iseed)
          if(r4.lt.0.5) r3=-r3
+
          x(ipt)=x(ipt)+r1
          y(ipt)=y(ipt)+r2
          z(ipt)=z(ipt)+r3
       enddo
+
       return
       end
