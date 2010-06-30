@@ -149,6 +149,7 @@ C
       partname='define_cmo_lg'
       cmo_name = cmsgin(3)
       att_name = cmsgin(4)
+
 C
 C.... Check if this a new Attribute.
 C

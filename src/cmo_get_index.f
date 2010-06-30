@@ -14,6 +14,7 @@ C
 C     OUTPUT ARGUMENTS -
 C
 C        icmo_index    - (integer) Index of the Mesh Object.
+C                        Note that index will return with -1 if not found
 C        ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error).
 C
 C     CHANGE HISTORY -
@@ -59,9 +60,9 @@ C
 C#######################################################################
 C
       character*(*) cmo_name
+      integer icmo_index, ierror_return
 C
-      integer icmo_index
-      integer ierror_return,i,len,icscode
+      integer i,len,icscode
       character*32 partname
 C
 C

@@ -394,9 +394,13 @@ C
 C#######################################################################
 C
 C
+      print*,'set idebug'
+      idebug = 5
+
       isubname='hextotet_hybrid'
       cuser='nnodes'
       icskid=1
+
  
 C
 C     *****************************************************************
@@ -518,9 +522,11 @@ C
      *                  nefhex,length,icmotype,ierror)
       call cmo_get_info('edges_per_element',cmohex,
      *                  neehex,length,icmotype,ierror)
+      if(ierror.ne.0) call x3d_error(isubname,'get_info')
+      if(ierror.ne.0) call x3d_error(isubname,'get_info first cmo')
  
       call cmo_get_info('imt1',cmohex,ipimt1hex,lenimt1hex,icmotype,ier)
-      if(ierror.ne.0) call x3d_error(isubname,'get_info')
+      if(ier.ne.0) call x3d_error(isubname,'get_info imt1 first cmo')
       call cmo_get_info('itp1',cmohex,ipitp1hex,lenitp1hex,icmotype,ier)
       call cmo_get_info('icr1',cmohex,ipicr1hex,lenicr1hex,icmotype,ier)
       call cmo_get_info('xic',cmohex,ipxhex,lenxhex,icmotype,ierror)
@@ -1018,13 +1024,16 @@ c
 c
       call cmo_get_info('isetwd',cmotet,ipisetwd,lenisetwd,icmotype,ier)
       if(ier.ne.0) call x3d_error(isubname,'get_info tet cmo')
-      call cmo_get_info('imt1',cmotet,ipimt1,lenimt1,icmotype,ierror)
+      call cmo_get_info('imt1',cmotet,ipimt1,lenimt1,icmotype,ier)
+      if(ier.ne.0) call x3d_error(isubname,'get_info second cmo')
+
       call cmo_get_info('itp1',cmotet,ipitp1,lenitp1,icmotype,ierror)
       call cmo_get_info('icr1',cmotet,ipicr1,lenicr1,icmotype,ierror)
       call cmo_get_info('isn1',cmotet,ipisn1,lenisn1,icmotype,ierror)
       call cmo_get_info('xic',cmotet,ipxic,lenxic,icmotype,ierror)
       call cmo_get_info('yic',cmotet,ipyic,lenyic,icmotype,ierror)
       call cmo_get_info('zic',cmotet,ipzic,lenzic,icmotype,ierror)
+      if(ierror.ne.0) call x3d_error(isubname,'get_info second cmo')
  
       call cmo_get_attinfo('velname',cmotet,iout,rout,cvelnm,
      *                        iout,lout,ityp,ier)
