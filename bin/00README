@@ -2,6 +2,18 @@ Directory to hold LaGriT executable files.
 Online release notes: http://lagrit.lanl.gov/release.shtml
 
 ============================================================
+Version 2.106 Release
+
+New code wrappers include  
+cmo/attribute_union
+read for 3 tokens 
+compute / linear_extrapolate
+grid2grid/ tree_to_fe 
+grid2grid/ quadtotri4 
+
+Added error checking to associated routines 
+
+============================================================
 Version 2.105 Release
 Minor update to LaGriT library with enhancements to the pset routine
 and adding ccoef attributes when writing stor files.
