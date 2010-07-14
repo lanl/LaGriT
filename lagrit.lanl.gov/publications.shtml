@@ -1,280 +1,292 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <title>LaGriT Publications</title>
-                              
-  <meta content="text/html; charset=iso-8859-1"
+  <meta content="text/html; charset=ISO-8859-1"
  http-equiv="Content-Type">
-                  
   <meta name="description"
  content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information.">
-                  
   <meta name="keywords" content=" ">
-                  
   <link media="all" title="LANLScreenStyle" href="../styles/site.css"
  type="text/css" rel="stylesheet">
-                 
   <link media="print" href="http://www.lanl.gov/styles/xprint.css"
  type="text/css" rel="stylesheet">
 </head>
-  <body class="home">
-<!-- OPEN include for banner area --><!--#include virtual="/source/includes/xbanner.inc" --><!-- CLOSE include for banner area --><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/identifier.inc --><!--#include virtual="includes/identifier.inc" --><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc --><!--#include virtual="includes/toolbar.inc" --> 
-                        
-<div id="content-org">       
-<table id="mid-section1" cellspacing="0" cellpadding="0">
-         <tbody>
-        <tr>
-           <td width="236" valign="top" class="col1"> <!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/nav1.inc --> 
-   <!--#include virtual="includes/nav1.inc" --> <!--#include virtual="includes/groups.inc" --> 
-  <!--#include virtual="includes/contacts.inc" --> <!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/contacts.inc --> 
-          <img alt="" class="strut" height="1" width="160"
- src="http://www.lanl.gov/images/xtransparent.gif">
-     </td>
-              <td width="924" valign="top" class="col2-420">  <a
- name="content"></a> <!-- OPTIONAL: OPEN include for content area -->   
-                                     
+<body class="home">
+<!-- OPEN include for banner area --><!--#include virtual="/source/includes/xbanner.inc" --><!-- CLOSE include for banner area --><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/identifier.inc --><!--#include virtual="includes/identifier.inc" --><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc --><!--#include virtual="includes/toolbar.inc" -->
+<div id="content-org">
+<table id="mid-section1" cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr>
+      <td class="col1" valign="top" width="236"><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/nav1.inc --><!--#include virtual="includes/nav1.inc" --><!--#include virtual="includes/groups.inc" --><!--#include virtual="includes/contacts.inc" --><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/contacts.inc -->
+      <img alt="" class="strut"
+ src="http://www.lanl.gov/images/xtransparent.gif" height="1"
+ width="160"> </td>
+      <td class="col2-420" valign="top" width="924"> <a name="content"></a><!-- OPTIONAL: OPEN include for content area -->
       <h1>LaGriT Reference </h1>
-     		                            
-      <p>Los Alamos Grid Toolbox, LaGriT, Los Alamos National Laboratory,
-  &lt;<a href="http://lagrit.lanl.gov">http://lagrit.lanl.gov</a>&gt;, 2003. 
-  		</p>
-                               
+      <p>Los Alamos Grid Toolbox, LaGriT, Los Alamos National
+Laboratory, &lt;<a href="http://lagrit.lanl.gov">http://lagrit.lanl.gov</a>&gt;,
+2003.
+
+      </p>
       <h1>LaGriT Related Publications</h1>
-                                         
+      <p>
+Blessent, D; Therrien, R; MacQuarrie, K, <a
+ href="pdfs/2009_computers_and_geosciences_v35_iss9_blessent.pdf">Coupling
+geological and numerical models to simulate groundwater flow and
+contaminant transport in fractured media</a>, COMPUTERS &amp;
+GEOSCIENCES 35:9, 1897-1906, 2009 <br>
+      </p>
       <p>Stauffer, PH ; Vrugt, JA ; Turin, HJ ; Gable, CW ; Soll, WE, <a
  class="strong"
  href="./pdfs/2009_VZJ_stauffer_vrugt_turin_gable_soll.pdf"
- title="View abstract and other details">Untangling Diffusion from Advection 
-in Unsaturated Porous Media: Experimental Data, Modeling, and Parameter Uncertainty</a>, 
-VADOSE ZONE JOURNAL (MAY 2009) Vol.8, iss.2, p.510-522<br>
-        </p>
-               
+ title="View abstract and other details">Untangling Diffusion from
+Advection in Unsaturated Porous Media: Experimental Data, Modeling, and
+Parameter Uncertainty</a>, VADOSE ZONE JOURNAL (MAY 2009) Vol.8, iss.2,
+p.510-522<br>
+      </p>
       <p>Kuprat, AP ; Einstein, DR <a class="strong"
  href="./pdfs/09060114541116977--journals--00219991--v228i0003--619_aasumgsfvid.pdf"
- title="View abstract and other details">An anisotropic scale-invariant unstructured
-  mesh generator suitable for volumetric imaging data</a>, JOURNAL OF COMPUTATIONAL 
- PHYSICS (FEB 20 2009) Vol.228, iss.3, p.619-640<br>
-          </p>
-                                      
+ title="View abstract and other details">An anisotropic scale-invariant
+unstructured mesh generator suitable for volumetric imaging data</a>,
+JOURNAL OF COMPUTATIONAL PHYSICS (FEB 20 2009) Vol.228, iss.3, p.619-640<br>
+      </p>
       <p>Zhang, Y ; Gable, CW <a class="strong"
  href="./pdfs/2008_j_hydrology_zhang_gable.pdf"
- title="View abstract and other details">Two-scale modeling of solute transport 
-in an experimental stratigraphy</a> , JOURNAL OF HYDROLOGY (JAN 15 2008)
+ title="View abstract and other details">Two-scale modeling of solute
+transport in an experimental stratigraphy</a> , JOURNAL OF HYDROLOGY
+(JAN 15 2008)
 Vol.348, iss.3-4, p.395-411<br>
       </p>
-      <p>Zhang, Y  ; Person, M  ; Gable, CW, <a class="strong"
+      <p>Zhang, Y ; Person, M ; Gable, CW, <a class="strong"
  href="https://oppie.lanl.gov/oppie/service?url_ver=Z39.88-2004&amp;rft_id=info:lanl-repo/oppie&amp;svc_val_fmt=http://oppie.lanl.gov/openurl/oppie.html&amp;svc_id=info:lanl-repo/svc/oppie/full-rec&amp;svc.oparam1=info:lanl-repo/isi/000247151900006&amp;svc.oparam2=info:lanl-repo/svc/getDIDL&amp;svc.oparam3=%28%22gable%20cw%22%29%20AND%20pubDate:2007&amp;svc.oparam4=0&amp;svc.oparam5=1&amp;svc.oparam6=score%20desc&amp;svc.oparam7=LANL&amp;svc.oparam8=&amp;svc.oparam9="
- title="View abstract and other details">Representative hydraulic conductivity
-of hydrogeologic units: Insights from an experimental stratigraphy</a> ,
+ title="View abstract and other details">Representative hydraulic
+conductivity
+of hydrogeologic units: Insights from an experimental stratigraphy</a>
+,
 JOURNAL OF HYDROLOGY (JUN 10 2007) Vol.339, iss.1-2, p.65-78</p>
       <p>Bower, KM; Gable, CW; Zyvoloski, GA "<a
- href="pdfs/2005_groundwater_bower_gable_zyvoloski.pdf">Grid resolution study
-  of ground water flow and transport</a>" Ground Water; 2005; v.43, no.1,
-p.122-132                   </p>
-                               
-      <p>Demirel, Melik; Kuprat, Andrew; George, Denise; Rollett, Anthony,
-  "<a href="pdfs/PRL.pdf">Bridging Simulations and Experiments in Microstructure
-  Evolution</a>", PRL, vol90, 016106. </p>
-                                         
+ href="pdfs/2005_groundwater_bower_gable_zyvoloski.pdf">Grid resolution
+study of ground water flow and transport</a>" Ground Water; 2005; v.43,
+no.1,
+p.122-132 </p>
+      <p>Demirel, Melik; Kuprat, Andrew; George, Denise; Rollett,
+Anthony, "<a href="pdfs/PRL.pdf">Bridging Simulations and Experiments
+in Microstructure Evolution</a>", PRL, vol90, 016106. </p>
       <p>Tseng, PH; Soll, WE; Gable, CW; Turin, HJ; Bussod, GY "<a
  href="file:///home/cwg/src/lagrit/lagrit.lanl.gov/pdfs/2003_jch_tseng_soll_gable_turin_bussod.pdf">Modeling
-unsaturated   flow and transport processes at the Busted Butte Field Test
-           Site,              Nevada</a>"                     Journal of
-Contaminant Hydrology;   April/May 2003; v.62-63, p.303-318</p>
-      <p>Demirel, Melik; Kuprat, Andrew; George, Denise; Straub, Galen; Rollett,
-  Anthony, "<a href="pdfs/463433.pdf">Linking Experimental Characteriztion
- and Computational Modeling of Grain Growh in Al-Foil</a>", Interface Science,
-  Vol10, No2-3, pp 137-142, July 2002. </p>
-                                         
+unsaturated
+flow
+and
+transport processes at the Busted Butte Field Test Site, Nevada</a>"
+Journal
+of
+Contaminant Hydrology; April/May 2003; v.62-63, p.303-318</p>
+      <p>Demirel, Melik; Kuprat, Andrew; George, Denise; Straub, Galen;
+Rollett, Anthony, "<a href="pdfs/463433.pdf">Linking Experimental
+Characteriztion and Computational Modeling of Grain Growh in Al-Foil</a>",
+Interface
+Science,
+Vol10, No2-3, pp 137-142, July 2002. </p>
       <p>Galen K. Straub, Denise C. George, Andrew P. Kuprat "<a
- href="pdfs/strgeorkup.pdf">Materials Microstructural Evolution in 2D Surface
-  Front-Tracking Computer Simulations</a>"LA-UR-00-1.&nbsp;&nbsp;&nbsp; Theoretical
-  Division&nbsp; Self Assesment Special Feature, April 2000. </p>
-                                         
-      <p>Denise George, Neil Carlson, J. Tinka Gammel, Andrew Kuprat&nbsp;&nbsp;
-  "<a href="pdfs/puertorico99.pdf">3D Modelling of Metallic Grain Growth</a>
-  "&nbsp; Conference on Modeling and Simulation of Microsystems, San Juan,
- Puerto Rico, April 1999.</p>
-                                         
+ href="pdfs/strgeorkup.pdf">Materials Microstructural Evolution in 2D
+Surface Front-Tracking Computer Simulations</a>"LA-UR-00-1.&nbsp;&nbsp;&nbsp;
+Theoretical
+Division&nbsp;
+Self Assesment Special Feature, April 2000. </p>
+      <p>Denise George, Neil Carlson, J. Tinka Gammel, Andrew
+Kuprat&nbsp;&nbsp; "<a href="pdfs/puertorico99.pdf">3D Modelling of
+Metallic Grain Growth</a> "&nbsp; Conference on Modeling and Simulation
+of Microsystems, San Juan, Puerto Rico, April 1999.</p>
       <p>Denise C. George, Andrew P. Kuprat "<a
  href="pdfs/2pager-massage-20000.pdf">Optimizing 3D Tetrahedral Grids</a>"&nbsp;
-  LA-UR-00-1.&nbsp; Theoretical Division&nbsp; Self Assesment Special Feature,
-  April 2000. </p>
-                                         
-      <p>Fisher, AT; Giambalvo, E; Sclater, J; Kastner, M; Ransom, B; Weinstein,
-  Y; Lonsdale, P "<a
+
+LA-UR-00-1.&nbsp;
+Theoretical
+Division&nbsp; Self Assesment Special
+Feature, April 2000. </p>
+      <p>Fisher, AT; Giambalvo, E; Sclater, J; Kastner, M; Ransom, B;
+Weinstein, Y; Lonsdale, P "<a
  href="pdfs/2001_epsl_fisher_giambalvo_sclater_kastner_ransom_weinstein_lonsdale.pdf">Heat
-  flow, sediment and pore fluid chemistry, and hydrothermal circulation on
-            the east flank            of Alarcon Ridge, Gulf of California</a>"
-  EARTH AND PLANETARY SCIENCE LETTERS; JUN 15 2001; v.188, no.3-4,      
-   p.521-534</p>
-                                         
+
+flow,
+sediment
+and pore fluid chemistry, and hydrothermal circulation
+on the east flank of Alarcon Ridge, Gulf of California</a>" EARTH AND
+PLANETARY SCIENCE LETTERS; JUN 15 2001; v.188, no.3-4, p.521-534</p>
       <p> Carl W. Gable, Harold Trease and Terry Cherry, "<a
  href="http://ees5-www.lanl.gov/EES5/Publications/GridGeneration.html">Automated
-  Grid Generation From            Models of Complex Geologic Structure and
- Stratigraphy</a>," Santa Barbara: National            Center for Geographic
- Information and Analysis, proceedings paper LA-UR-96-1083,          1996.</p>
-                                         
+
+Grid
+Generation
+From Models of Complex Geologic Structure and
+Stratigraphy</a>," Santa Barbara: National Center for Geographic
+Information and Analysis, proceedings paper LA-UR-96-1083, 1996.</p>
       <p> Carl W. Gable, Harold Trease and Terry Cherry, "<a
- href="pdfs/num_grid.pdf">Geological Applications of            Automatic
-  Grid Generation Tools for Finite Elements Applied to Porous Flow      
-     Modeling</a>," in Numerical Grid Generation in Computational Fluid Dynamics
-  and            Related Fields, edited by B. K. Soni, J. F. Thompson, H.
-Hausser  and P. R.          Eiseman, Engineering Research Center, Mississippi
-State  Univ. Press, 1996.</p>
-                                         
-      <p>Gable, C.W., "Integrated Geological Interpretation for Computational
-  Modeling,            Vadose Zone Science and Technology Solutions", Brian
-  B. Looney, Ronald W. Falta,          Battelle Press, 2000. (PDF not available)</p>
-                                         
+ href="pdfs/num_grid.pdf">Geological Applications of Automatic Grid
+Generation Tools for Finite Elements Applied to Porous Flow Modeling</a>,"
+in
+Numerical
+Grid Generation in Computational Fluid Dynamics and
+Related Fields, edited by B. K. Soni, J. F. Thompson, H.
+Hausser and P. R. Eiseman, Engineering Research Center, Mississippi
+State Univ. Press, 1996.</p>
+      <p>Gable, C.W., "Integrated Geological Interpretation for
+Computational Modeling, Vadose Zone Science and Technology Solutions",
+Brian B. Looney, Ronald W. Falta, Battelle Press, 2000. (PDF not
+available)</p>
       <p>Garimella, R.V, C.W. Gable, "<a
- href="pdfs/2000_er_cad_gid_mode#4FE92C.pdf">Interfacing Mesh Generators
-and Geometric Modelers          in Geological Modeling</a>" - Progress Report
-  for LANL/ER Program, LA-UR-00-2956. </p>
-                                         
-      <p>George, Denise "<a href="pdfs/nasa.pdf">Unstructured 3D Grid Toolbox
-  for Modeling and Simulation</a>" , LA-UR-97-3052, presented at the 1997&nbsp;
-  Workshop on Computational Electronics and Nanoelectronics, Urbana, Illinois,
-  October 20-22, 1997 </p>
-                                         
+ href="pdfs/2000_er_cad_gid_mode#4FE92C.pdf">Interfacing Mesh
+Generators
+and Geometric Modelers in Geological Modeling</a>" - Progress Report
+for LANL/ER Program, LA-UR-00-2956. </p>
+      <p>George, Denise "<a href="pdfs/nasa.pdf">Unstructured 3D Grid
+Toolbox for Modeling and Simulation</a>" , LA-UR-97-3052, presented at
+the 1997&nbsp; Workshop on Computational Electronics and
+Nanoelectronics, Urbana, Illinois, October 20-22, 1997 </p>
       <p>Gruber, J; George, DC; Kuprat, AP; Rohrer, GS; Rollett, AD "<a
  href="pdfs/2005_scripta_materialia_gruber_george_kuprat_rohrer_rollett.pdf">Effect
-  of anisotropic grain boundary properties on grain boundary plane distributions
-  during grain growth</a>" Scripta Materialia; Aug. 2005; vol.53, no.3, p.351-5</p>
-                                         
+
+of
+anisotropic
+grain boundary properties on grain boundary plane
+distributions during grain growth</a>" Scripta Materialia; Aug. 2005;
+vol.53, no.3, p.351-5</p>
       <p>Khamayseh, Ahmed and Kuprat, A, "<a href="pdfs/ahmandrew1.pdf">Anisotropic
-  Smoothing and Solution Adaption for Unstructured Grids</a> " LA-UR-95-2205,
-  International Journal for Numerical Methods in Engineering, Vol. 39, pp.
- 3163-3174 (1996). </p>
-                                         
+
+Smoothing
+and
+Solution Adaption for Unstructured Grids</a> "
+LA-UR-95-2205, International Journal for Numerical Methods in
+Engineering, Vol. 39, pp. 3163-3174 (1996). </p>
       <p>Kuprat, Andrew, "<a href="pdfs/correctedlaur2000.pdf">Inspecting
-  and Repairing Physical Topology in a Moving Grid Grain Growth Simulation</a>,"
-  LA-UR-00-3475, July 2000. </p>
-                                         
-      <p>Kuprat, Andrew; Khamayseh, Ahmed; George, Denise; Larkey, Levi,
-"<a href="pdfs/volume_conserving_smoothing.pdf">Volume Conserving Smoothing
-for Piecewise Linear Curves, Surfaces, and Triple Lines</a>", Journal of
+
+and
+Repairing
+Physical Topology in a Moving Grid Grain Growth Simulation</a>,"
+LA-UR-00-3475,
+July 2000. </p>
+      <p>Kuprat, Andrew; Khamayseh, Ahmed; George, Denise; Larkey,
+Levi,
+"<a href="pdfs/volume_conserving_smoothing.pdf">Volume Conserving
+Smoothing
+for Piecewise Linear Curves, Surfaces, and Triple Lines</a>", Journal
+of
 comptational Physics, Vol 172, pp99-118 (2001). </p>
-                                         
-      <p>Kuprat, Andrew, "<a href="pdfs/siam222.pdf">Modeling Microstructure
-  Evolution using Gradient-Weighted Moving Finite Elements</a>", SIAM J.
-Sci.   Comput., Vol22, No. 2,pp. 535-560, July 2000. </p>
-                                         
+      <p>Kuprat, Andrew, "<a href="pdfs/siam222.pdf">Modeling
+Microstructure Evolution using Gradient-Weighted Moving Finite Elements</a>",
+SIAM
+J.
+Sci.
+Comput., Vol22, No. 2,pp. 535-560, July 2000. </p>
       <p>Kuprat, Andrew and George, Denise, "<a
- href="pdfs/london98_pn.pdf">Maintaining Tetrahedral Mesh Quality in Response
-  to Time-dependent Topological and Geometrical Deformation</a> " LA-UR-97-5187,
-  Proceedings of the 6th International Conference on&nbsp; Numerical Grid
-Generation  in Computational Field Simulations, M. Cross&nbsp; (ed.), International
-Society  of Grid Generation&nbsp; (ISBN 0-9651627), pp. 589-598, May 1998.
-            </p>
-                                         
-      <p>Kuprat, Andrew; Cartwright David; Gammel J. Tinka; George Denise;
-  Kendrick Brian; Kilcrease David; Trease Harold; Walker, Robert, "<a
- href="pdfs/notred.pdf">X3D Moving Grid Methods for Semiconductor Applications</a>
-  ", LA-UR-97-2891. </p>
-                                         
-      <p>Kuprat, Andrew,&nbsp; "<a href="pdfs/MSU96.pdf">Adaptive Smoothing
-  Techniques for 3D Unstructured Meshes</a> ",&nbsp; LA-UR-96-1116 (1996).
-       </p>
-                                         
-      <p>Kuprat, Andrew, Denise George, Eldon Linnebur, Harold Trease , R.
-  Kent Smith,&nbsp; "<a href="pdfs/BORON.pdf">Moving Adaptive Unstructured
- 3-D Meshes in Semiconductor Process Modelling Applications</a> " LA-UR-95-4128,
-  VLSI Design, Vol. 6(1-4),&nbsp; (1998),&nbsp;&nbsp; pp373-378. </p>
-                                         
+ href="pdfs/london98_pn.pdf">Maintaining Tetrahedral Mesh Quality in
+Response to Time-dependent Topological and Geometrical Deformation</a>
+" LA-UR-97-5187, Proceedings of the 6th International Conference
+on&nbsp; Numerical Grid
+Generation in Computational Field Simulations, M. Cross&nbsp; (ed.),
+International
+Society of Grid Generation&nbsp; (ISBN 0-9651627), pp. 589-598, May
+1998. </p>
+      <p>Kuprat, Andrew; Cartwright David; Gammel J. Tinka; George
+Denise; Kendrick Brian; Kilcrease David; Trease Harold; Walker, Robert,
+"<a href="pdfs/notred.pdf">X3D Moving Grid Methods for Semiconductor
+Applications</a> ", LA-UR-97-2891. </p>
+      <p>Kuprat, Andrew,&nbsp; "<a href="pdfs/MSU96.pdf">Adaptive
+Smoothing Techniques for 3D Unstructured Meshes</a> ",&nbsp;
+LA-UR-96-1116 (1996). </p>
+      <p>Kuprat, Andrew, Denise George, Eldon Linnebur, Harold Trease ,
+R. Kent Smith,&nbsp; "<a href="pdfs/BORON.pdf">Moving Adaptive
+Unstructured 3-D Meshes in Semiconductor Process Modelling Applications</a>
+" LA-UR-95-4128, VLSI Design, Vol. 6(1-4),&nbsp; (1998),&nbsp;&nbsp;
+pp373-378. </p>
       <p>Kuprat, Andrew; Khamayseh, Ahmed, George Denise; Larkey, Levi "<a
- href="pdfs/volume_kuprat.pdf">Volume Conserving Smoothing for Piecewise
-Linear Curves, Surfaces and Triple Lines</a>", LA-UR-00-5004, October 2000.
-      </p>
-                                         
+ href="pdfs/volume_kuprat.pdf">Volume Conserving Smoothing for
+Piecewise
+Linear Curves, Surfaces and Triple Lines</a>", LA-UR-00-5004, October
+2000. </p>
       <p>Kuprat, George, Straub, Demirel,"<a
  href="pdfs/2003_computational_materials_sci_kuprat_george_straub_demirel.pdf">Modeling
-  Microstructure Evolution in Three Dimensions with Grain3D and LaGriT</a>"
-  Computational Materials Science, 28 (2003) 199-208.</p>
-                                         
+
+Microstructure
+Evolution
+in Three Dimensions with Grain3D and LaGriT</a>"
+Computational Materials Science, 28 (2003) 199-208.</p>
       <p>Michael Murphy, David M. Mount, <a
  href="http://ees-www.lanl.gov/EES5/bio_ees5/Gable.html">Carl Gable</a>&nbsp;
-  "<a href="pdfs/conformingDT.pdf">A Point-Placement Strategy for Conforming
-  Delaunay Tetahedralization</a>" LA-UR 99-3868. 11th Annual SIAM-ACM Symposium
-  on Discrete Algorithms (SODA 2000) January, 2000 San Francisco. </p>
-                                         
+"<a href="pdfs/conformingDT.pdf">A Point-Placement Strategy for
+Conforming Delaunay Tetahedralization</a>" LA-UR 99-3868. 11th Annual
+SIAM-ACM Symposium on Discrete Algorithms (SODA 2000) January, 2000 San
+Francisco. </p>
       <p>Michael Murphy, Carl W. Gable, "<a
- href="http://citeseer.ist.psu.edu/321240.html">Strategies for Nonobtuse
-Boundary Delaunay  Triangulations</a>", Transactions, 7th International Meshing
-Roundtable '98,  Dearborn Michigan, 309-320, 1998, LAUR-98-3949.</p>
-                                         
+ href="http://citeseer.ist.psu.edu/321240.html">Strategies for
+Nonobtuse
+Boundary Delaunay Triangulations</a>", Transactions, 7th International
+Meshing
+Roundtable '98, Dearborn Michigan, 309-320, 1998, LAUR-98-3949.</p>
       <p>Murphy, M; Mount, DM; Gable, CW "<a
- href="pdfs/2000_ijcga_murphy_mount_gable.pdf">A point-placement strategy
-  for conforming Delaunay tetrahedralization</a>" International Journal of
- Computational Geometry &amp; Applications; Dec.            2001; vol.11,
-         no.6, p.669-82         </p>
-                               
-      <p>Robinson, BA; Cole, G; Carey, JW; Witkowski, M; Gable, CW; Lu, ZM;
-  Gray, R "<a
+ href="pdfs/2000_ijcga_murphy_mount_gable.pdf">A point-placement
+strategy for conforming Delaunay tetrahedralization</a>" International
+Journal of Computational Geometry &amp; Applications; Dec. 2001;
+vol.11, no.6, p.669-82 </p>
+      <p>Robinson, BA; Cole, G; Carey, JW; Witkowski, M; Gable, CW; Lu,
+ZM; Gray, R "<a
  href="pdfs/2005_vadose_zone_j_robinson_cole_carey_witkowski_gable_lu_gray.pdf">A
-  vadose zone flow and transport model for Los Alamos Canyon, Los Alamos,
-New           Mexico</a>" VADOSE ZONE JOURNAL; AUG 2005; v.4, no.3, p.729-743
-                  </p>
-                               
+
+vadose
+zone
+flow and transport model for Los Alamos Canyon, Los Alamos,
+New Mexico</a>" VADOSE ZONE JOURNAL; AUG 2005; v.4, no.3, p.729-743 </p>
       <p>Terry Cherry, C. W. Gable and Harold Trease , "<a
- href="pdfs/NGG96.pdf">3-Dimensional Wells and Tunnels            for Finite
-  Element Grids</a>," in Numerical Grid Generation in Computational Fluid
-           Dynamics and Related Fields, edited by B. K. Soni, J. F. Thompson,
-  H. Hausser            and P. R. Eiseman, Engineering Research Center, Mississippi
-  State Univ. Press,          1996.                   </p>
-                                                                        
-    
+ href="pdfs/NGG96.pdf">3-Dimensional Wells and Tunnels for Finite
+Element Grids</a>," in Numerical Grid Generation in Computational Fluid
+Dynamics and Related Fields, edited by B. K. Soni, J. F. Thompson, H.
+Hausser and P. R. Eiseman, Engineering Research Center, Mississippi
+State Univ. Press, 1996. </p>
       <p>Viswanathan, HS; Robinson, BA; Gable, CW; Carey, JW "<a
- href="pdfs/2003_jch_viswanathan_robinson_gable_carey.pdf">A geostatistical
-  modeling study of the effect of heterogeneity on radionuclide         
-  transport in            the unsaturated zone, Yucca Mountain </a>" Journal
- of Contaminant Hydrology; April/May 2003; v.62-63, p.319-336           
-                                        
+ href="pdfs/2003_jch_viswanathan_robinson_gable_carey.pdf">A
+geostatistical modeling study of the effect of heterogeneity on
+radionuclide transport in the unsaturated zone, Yucca Mountain </a>"
+Journal of Contaminant Hydrology; April/May 2003; v.62-63, p.319-336 </p>
       <table width="500" border="0">
-               <tbody>
-              <tr>
-                </tr>
-               <tr>
-                </tr>
-               <tr>
-                </tr>
-               <tr>
-                </tr>
-                                                 
-        </tbody>                            
+        <tbody>
+          <tr>
+          </tr>
+          <tr>
+          </tr>
+          <tr>
+          </tr>
+          <tr>
+          </tr>
+        </tbody>
       </table>
-             </p>
-                               
-      <p> Zhang, Ye; Person, Mark; Paola, Chris; Gable, Carl W.; Wen, Xian-Huan;
-  Davis, J. Matthew "<a
+      <p> Zhang, Ye; Person, Mark; Paola, Chris; Gable, Carl W.; Wen,
+Xian-Huan; Davis, J. Matthew "<a
  href="pdfs/2005_wrr_zhang_person_paola_gable_wen_davis.pdf">Geostatistical
-  analysis of an experimental stratigraphy</a>" Water Resources Research;
-November  2005; v.41, no.11, p.1-20</p>
-                                         
-      <p>Zyvoloski, G. and C. W. Gable, "Site Scale Modeling of Radionuclide
-  Transport At            Yucca Mountain, NV: Grid Generation and Reactive
- Tracers," Los Alamos National          Laboratory, LA-UR-94-1041, 1994.
-(PDF  not available)</p>
-                                         
-      <p align="left"><img alt="" class="strut" height="1" width="420"
- src="http://www.lanl.gov/images/xtransparent.gif">
-     </p>
-                                       
+
+analysis
+of
+an experimental stratigraphy</a>" Water Resources Research;
+November 2005; v.41, no.11, p.1-20</p>
+      <p>Zyvoloski, G. and C. W. Gable, "Site Scale Modeling of
+Radionuclide Transport At Yucca Mountain, NV: Grid Generation and
+Reactive Tracers," Los Alamos National Laboratory, LA-UR-94-1041, 1994.
+(PDF not available)</p>
+      <p align="left"><img alt="" class="strut"
+ src="http://www.lanl.gov/images/xtransparent.gif" height="1"
+ width="420"> </p>
       <p align="left"><a href="index.shtml">Return to LaGriT Home Page</a></p>
-          </td>
-           <td width="161" valign="top" class="col3-180"> <!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/related_links.inc --> 
-  <!--#include virtual="includes/related_links.inc" -->        <img
- alt="" class="strut" height="1" width="160"
- src="http://www.lanl.gov/images/xtransparent.gif">
-     </td>
-         </tr>
-                   
-  </tbody>    
+      </td>
+      <td class="col3-180" valign="top" width="161"><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/related_links.inc --><!--#include virtual="includes/related_links.inc" -->
+      <img alt="" class="strut"
+ src="http://www.lanl.gov/images/xtransparent.gif" height="1"
+ width="160"> </td>
+    </tr>
+  </tbody>
 </table>
-     </div>
-<!-- OPEN include for footer area --><!--#include virtual="/source/includes/xfooter.inc" --><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc --><!--#include virtual="../includes/email.inc" --><!-- CLOSE include for footer area --> 
-                  <br>
-     <br>
-   
+</div>
+<!-- OPEN include for footer area --><!--#include virtual="/source/includes/xfooter.inc" --><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc --><!--#include virtual="../includes/email.inc" --><!-- CLOSE include for footer area -->
+<br>
+<br>
 </body>
 </html>
