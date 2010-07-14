@@ -338,8 +338,10 @@ C
       nvaluese=0
       lvalues=0
       lvaluese=0
+      lenval=0
       irowlen=0
       irowlene=0
+ 
 c     Hardwire turning off output of -def- field.
 c
       call dotaskx3d
