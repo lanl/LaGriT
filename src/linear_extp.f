@@ -284,6 +284,7 @@ C
       call cmo_get_mesh_type('hull_mo_lin_ext_tmp',mtype,imtype,ierror)
 
       if (mtype(1:4) .eq. 'quad' .or. mtype(1:3) .eq. 'hex') then
+         
           cmd = 'hextotet/4/hull_mo_lin_ext_tmp_tri/'
      &        // 'hull_mo_lin_ext_tmp; finish'
           call dotask(cmd, ierror)

@@ -50,6 +50,7 @@ $(OBJDIR)closed_surfaces.o: chydro.h geom_lg.h consts.h chydro.h geom_lg.h
 $(OBJDIR)cmo_addatt.o: consts.h local_element.h
 $(OBJDIR)cmo_addatt_cmo.o: cmo_lg.h
 $(OBJDIR)cmo_addatt_def.o: cmo_lg.h
+$(OBJDIR)cmo_att_derive.o: cmo_lg.h
 $(OBJDIR)cmo_allocate.o: cmo_lg.h
 $(OBJDIR)cmo_command.o: cmo_lg.h
 $(OBJDIR)cmo_compress.o: cmo_lg.h

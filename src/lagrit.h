@@ -10,7 +10,7 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=2)
-      parameter      (v_minor=105)
+      parameter      (v_minor=106)
 c
       character*22   date_compile
       character*8    os_name

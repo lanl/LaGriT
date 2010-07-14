@@ -114,10 +114,10 @@ endif
 #
 ifeq ($(OPSYS), SunOS)
 OSTAG = _sun
-FC = f77
-FC90 = f90
+FC = f77 -Bstatic
+FC90 = f90 -Bstatic
 CC = gcc
-FFLAGS =
+FFLAGS = 
 FF90FLAGS = -f77
 FF90FLAGS =
 CFLAGS = 
@@ -298,3 +298,4 @@ $(OBJDIR) :; mkdir $(OBJDIR)
 
 include Makefile.depends
 
+# DO NOT DELETE
