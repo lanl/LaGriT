@@ -693,6 +693,13 @@ C ######################################################################
 C Begin inside_tri
 C
       idebug=iflag
+
+      if(idebug .gt. 0)then
+        write(logmess,'(a)')
+     *  "********   inside_tri     **************** "
+        call writloga('default',0,logmess,0,ierr)
+      endif
+
       iflag=0
       eps_adjust=0
       xminbox=min(xl1,xl2,xl3)
@@ -1063,10 +1070,11 @@ C
       real*8 xdot1, xdot2, xdot3, xarea, voltet
       real*8 ax1,ay1,az1,ax2,ay2,az2,ax3,ay3,az3,ax4,ay4,az4
       real*8 xfac, area1, area2, area3, ds23, ds2a, ds3a, ds13,
-     *       ds1a, ds12
+     *       ds1a, ds12, dtest
 
       real*8 xminbox, yminbox, zminbox
       real*8 xmaxbox, ymaxbox, zmaxbox
+      real*8 xmedbox, ymedbox, zmedbox
       real*8 maxboxlen, maxboxarea, maxboxvol
       real*8 xfacbox, epsilonv, epsilona, epsfac
       real*8 eps_len,eps_size,eps_pos,epstest,xdist
@@ -1077,13 +1085,19 @@ C
       character*132 logmess
 C
       real*8 xepsilon
-C     data xepsilon / 1.0d-08 /
       data xepsilon / 1.0d-10 /
 C
 C ######################################################################
 C Begin inside_tri2d
 C
       idebug=iflag
+
+      if (idebug .gt. 0) then
+         write(logmess,'(a)')
+     *   "********   inside_tri2d   *****************"
+         call writloga('default',0,logmess,0,ierr)
+      endif
+
       iflag=0
       eps_adjust=0
       xminbox=min(xl1,xl2,xl3)
@@ -1092,6 +1106,9 @@ C
       xmaxbox=max(xl1,xl2,xl3)
       ymaxbox=max(yl1,yl2,yl3)
       zmaxbox=max(zl1,zl2,zl3)
+      xmedbox=(xl1+xl2+xl3)/3.0d0
+      ymedbox=(yl1+yl2+yl3)/3.0d0
+      zmedbox=(zl1+zl2+zl3)/3.0d0
 
 C     old xfacbox,eps_len was diagonal mult by xepsilon
 C     maxboxlen is the diagonal of bounding box 
@@ -1100,7 +1117,12 @@ C     maxboxlen is the diagonal of bounding box
      *                  (zmaxbox-zminbox)**2 )
       maxboxarea=abs(maxboxlen*maxboxlen)*.5d0
       maxboxvol=(maxboxlen*maxboxlen*maxboxlen)/3.0d0
-
+C
+C     Compute the volume of a tet formed by the three points
+C     of the triangle and the query point. A small volume implies
+C     the query point is in the plane of the triangle but says nothing
+C     about if the point is inside or outside the triangle.
+C
       ax4=  (yl3-yl1)*(zl2-zl1)-(zl3-zl1)*(yl2-yl1)
       ay4=-((xl3-xl1)*(zl2-zl1)-(zl3-zl1)*(xl2-xl1))
       az4=  (xl3-xl1)*(yl2-yl1)-(yl3-yl1)*(xl2-xl1)
@@ -1115,8 +1137,16 @@ C     epsilon relative to the distance away from origin
 C     We know that vol test 1e-11 works for coordinates near origin
 C     For 32bit machine epsilonr will be near 1e-16
 C     
+C     maxboxvol = 10,   eps_pos = 1
+C                 100             10
+C                 1000            100
+C
+C     Use the median point instead of the minbox. This will only effect
+C     problems where the bounding box covers multiple orders of magnitude.
+C
       eps_size = maxboxvol
-      xdist=sqrt(xminbox**2+yminbox**2+zminbox**2)
+c cwg      xdist=sqrt(xminbox**2+yminbox**2+zminbox**2)
+      xdist=sqrt(xmedbox**2+ymedbox**2+zmedbox**2)
       eps_pos=1.0d0
       if (xdist.gt.eps_pos) then
         do while (eps_pos.lt.xdist*1.0d-2)
@@ -1147,10 +1177,9 @@ C     This test is also used in inside_tri to detirmine if point on plane
 C        compute mag of a4
          xarea=sqrt(ax4**2+ay4**2+az4**2)
 
-C        OUTSIDE
+C        OUTSIDE TEST
          if(xarea.le.epstest) then
             iflag=-7
-
          else
             ax3=  (yl2-yl1)*(za-zl1)-(zl2-zl1)*(ya-yl1)
             ay3=-((xl2-xl1)*(za-zl1)-(zl2-zl1)*(xa-xl1))
@@ -1164,30 +1193,58 @@ C        OUTSIDE
             xdot1=ax4*ax1+ay4*ay1+az4*az1
             xdot2=ax4*ax2+ay4*ay2+az4*az2
             xdot3=ax4*ax3+ay4*ay3+az4*az3
-            xfac=epsfac*abs(xarea)
-
-C           INSIDE
+c cwg           xfac=epsfac*abs(xarea)
+            xfac=epsfac*abs(xarea)*1000.0
+C           INSIDE TESTS
+C           Test if fully inside
             if(xdot1.lt.-xfac .and.
      *         xdot2.lt.-xfac .and.
      *         xdot3.lt.-xfac) then
                iflag=0
-
             else
+C           Check for being on one of three edges or one of three vertices
+C
 C              check tri areas formed from edge points 1-2-3
 C              and query point a 
+C
+C              A small area implies the query point is on that edge
+C              or is on the end point of that edge.
+C
                area1=sqrt(ax1**2+ay1**2+az1**2)
                area2=sqrt(ax2**2+ay2**2+az2**2)
                area3=sqrt(ax3**2+ay3**2+az3**2)
-
+C
 C              easy checks for query point on triangle vertice 
-               if ((abs(area1).lt.xfac).and.
-     *             (abs(area2).lt.xfac)) then
+C              If two areas are small, that implies the query point
+C              is on their common end point.
+C
+C CWG          The tests below do not seem valid to me. If the query point
+C              is colinear then the area of the two triangles can be zero
+C              but the query point may not be coincident with one of the 
+C              end points. Maybe previous tests have already determined that
+C              the point is not clearly outside, so the fact that it gets
+C              here implies other tests have been passed.
+C
+               if     ((abs(xa-xl1).lt. epsfac)
+     *            .and.(abs(ya-yl1).lt. epsfac)
+     *            .and.(abs(za-zl1).lt. epsfac)) then
+                    iflag=11
+               elseif ((abs(xa-xl2).lt. epsfac)
+     *            .and.(abs(ya-yl2).lt. epsfac)
+     *            .and.(abs(za-zl2).lt. epsfac)) then
+                    iflag=12
+               elseif ((abs(xa-xl3).lt. epsfac)
+     *            .and.(abs(ya-yl3).lt. epsfac)
+     *            .and.(abs(za-zl3).lt. epsfac)) then
+                    iflag=13
+               elseif ((abs(area1).lt.xfac).and.
+     *                 (abs(area2).lt.xfac)) then
                   iflag=13
-               else if ((abs(area1).lt.xfac).and.
-     *                  (abs(area3).lt.xfac)) then
+               elseif ((abs(area1).lt.xfac).and.
+     *                 (abs(area3).lt.xfac)) then
                   iflag=12
-               else if ((abs(area3).lt.xfac).and.
-     *                  (abs(area2).lt.xfac)) then
+               elseif ((abs(area3).lt.xfac).and.
+     *                 (abs(area2).lt.xfac)) then
                   iflag=11
 
 C              Check for zero area formed between each of the
@@ -1201,11 +1258,12 @@ C              causing the first length check to fail the epsilon test
 C
 C              ON EDGE 1 or ON pnt 2 or 3
 C              area formed from edge 23 to query point 
-               else if(abs(area1).lt.xfac) then
+               elseif(abs(area1).lt.xfac) then
                   ds23=sqrt((xl3-xl2)**2+(yl3-yl2)**2+(zl3-zl2)**2)
                   ds2a=sqrt((xl2-xa)**2+(yl2-ya)**2+(zl2-za)**2)
                   ds3a=sqrt((xl3-xa)**2+(yl3-ya)**2+(zl3-za)**2)
-                  if(abs(ds23-ds2a-ds3a).lt.xfac) then
+                  dtest = abs(ds23-ds2a-ds3a)
+                  if(dtest .lt. xepsilon*eps_pos*ds23) then
                      iflag=1
                   else
                     if (ds2a.lt.xfac) then
@@ -1223,7 +1281,8 @@ C              area formed from edge 13 to query point
                   ds13=sqrt((xl3-xl1)**2+(yl3-yl1)**2+(zl3-zl1)**2)
                   ds1a=sqrt((xl1-xa)**2+(yl1-ya)**2+(zl1-za)**2)
                   ds3a=sqrt((xl3-xa)**2+(yl3-ya)**2+(zl3-za)**2)
-                  if(abs(ds13-ds1a-ds3a).lt.xfac) then
+                  dtest=abs(ds13-ds1a-ds3a)
+                  if(dtest .lt. xepsilon*eps_pos*ds13) then
                      iflag=2
                   else
                     if (ds1a.lt.xfac) then
@@ -1241,7 +1300,8 @@ C              area formed from edge 12 to query point
                   ds12=sqrt((xl2-xl1)**2+(yl2-yl1)**2+(zl2-zl1)**2)
                   ds1a=sqrt((xl1-xa)**2+(yl1-ya)**2+(zl1-za)**2)
                   ds2a=sqrt((xl2-xa)**2+(yl2-ya)**2+(zl2-za)**2)
-                  if(abs(ds12-ds1a-ds2a).lt.xfac) then
+                  dtest=abs(ds12-ds1a-ds2a)
+                  if(dtest .lt. xepsilon*eps_pos*ds12) then
                      iflag=3
                   else
                     if (ds1a.lt.xfac) then
@@ -1254,6 +1314,14 @@ C              area formed from edge 12 to query point
                   endif
 
 C              NOT FOUND on edge or vertice
+C
+C              Arriving here means the outside test failed and inside tests
+C              failed. The result will be the point will be reported to be
+C              outside, but not due to a any positive result from a test. One
+C              just arrives here because no tests worked.
+C
+C              Before exit, all negative values for iflag are reset to -1
+C
                else
                   iflag=-5
 
@@ -1270,7 +1338,6 @@ C     if inside_tri routine finds not on plane,  should not get here
       goto 9999
  9999 continue
       if (idebug .gt. 0) then
-
         if (eps_adjust .gt. 0) then
          write(logmess,'(a)')
      *   " Warning: volume epsilon adjusted down to one."
@@ -1288,8 +1355,8 @@ C     if inside_tri routine finds not on plane,  should not get here
          call writloga('default',0,logmess,0,ierr)
 
         else if (iflag.eq.-7) then
-         write(logmess,'(a,1pe20.12e2)')
-     *   "Exit inside_tri2d iflag -7, area epslen: ",xfac
+         write(logmess,'(a,2pe20.12e2)')
+     *   "Exit inside_tri2d iflag -7, area epslen: ",epstest,xarea
          call writloga('default',0,logmess,0,ierr)
 
         else if (iflag.eq.0) then
@@ -1310,8 +1377,9 @@ C     if inside_tri routine finds not on plane,  should not get here
 
         else 
          write(logmess,'(a,i5,1pe20.12e2)')
-     *   "Exit inside_tri2d iflag, len eps: ",iflag,xfac
-         call writloga('default',0,logmess,0,ierr)
+     *   "FOUND INSIDE: Exit inside_tri2d iflag, len eps: ",
+     *    iflag,xfac
+         call writloga('default',0,logmess,1,ierr)
         endif
       endif 
 

@@ -28,12 +28,46 @@
 Laboratory, &lt;<a href="http://lagrit.lanl.gov">http://lagrit.lanl.gov</a>&gt;,
 2003.
 
+
+
+
       </p>
       <h1>LaGriT Related Publications</h1>
-      <p>
-Blessent, D; Therrien, R; MacQuarrie, K, <a
+      <p> Stepwise inversion of a groundwater flow model with
+multi-scale observation data Dai, ZX; Keating, E; Gable, C, Levitt, D,
+Heikoop, J, Simmons, A, HYDROGEOLOGY JOURNAL Volume: 18 Issue: 3 Pages:
+607-624 Published: 2010(<a
+ href="http://www.ees.lanl.gov/staff/gable/pdf_files/2010_HJ_Dai_Keating_Gable_Levitt_Heikoop_Simmons.pdf">PDF</a>)
+
+      <br>
+      </p>
+      <p> Origin and Extent of Fresh Paleowaters on the Atlantic
+Continental Shelf, USA Cohen, D; Person, M; Wang, P, et al. GROUND
+WATER Volume: 48 Issue: 1 Pages: 143-158 Published: 2010(<a
+ href="http://www.ees.lanl.gov/staff/gable/pdf_files/2010_groundwater_cohen_reprint.pdf">PDF</a>)
+
+      <br>
+      </p>
+      <p> Numerical Simulation of CO2 Leakage through Abandoned Wells:
+Model for an Abandoned Site with Observed Gas Migration in Alberta,
+Canada Pawar, RJ; Watson, TL; Gable, CW Conference Information: 9th
+International Conference on Greenhouse Gas Control Technologies, NOV
+16-20, 2008 Washington DC GREENHOUSE GAS CONTROL TECHNOLOGIES 9 Volume:
+1 Issue: 1 Pages: 3625-3632 Published: 2009 (<a
+ href="http://www.ees.lanl.gov/staff/gable/pdf_files/2009_GGCT_CO2_jun26b.pdf">PDF</a>)
+
+      <br>
+      </p>
+      <p> Hydrogeochemistry and gas compositions of the Uinta Basin: A
+regional-scale overview Zhang, Y; Gable, CW; Zyvoloski, GA, et al. AAPG
+BULLETIN Volume: 93 Issue: 8 Pages: 1087-1118 Published: 2009 <br>
+      </p>
+      <p>Blessent, D; Therrien, R; MacQuarrie, K, <a
  href="pdfs/2009_computers_and_geosciences_v35_iss9_blessent.pdf">Coupling
-geological and numerical models to simulate groundwater flow and
+geological
+and
+numerical
+models to simulate groundwater flow and
 contaminant transport in fractured media</a>, COMPUTERS &amp;
 GEOSCIENCES 35:9, 1897-1906, 2009 <br>
       </p>
@@ -50,6 +84,22 @@ p.510-522<br>
  title="View abstract and other details">An anisotropic scale-invariant
 unstructured mesh generator suitable for volumetric imaging data</a>,
 JOURNAL OF COMPUTATIONAL PHYSICS (FEB 20 2009) Vol.228, iss.3, p.619-640<br>
+      </p>
+      <p> Plumes anchored by a high viscosity lower mantle in a 3D
+mantle convection model featuring dynamically evolving plates
+Lowman, J.P.; Gait, A.D.; Gable, C.W., Kukreja, H,
+Geophysical Research Letters Pages: L19309 (5 pp.) Published: 10 2008 9
+Oct. 2008 (<a
+ href="http://www.ees.lanl.gov/staff/gable/pdf_files/2008_grl_lowman_gait_gable_kukreja.pdf">PDF</a>)
+      <br>
+      </p>
+      <p> Time dependence in 3-D mantle convection models featuring
+evolving plates: effect of lower mantle viscosity
+Gait, A.D.; Lowman, J.P.; Gable, C.W.
+Journal of Geophysical Research - Part B - Solid Earth Pages: B08409
+(16 pp.) Published: 08 2008 Aug. 2008 (<a
+ href="http://www.ees.lanl.gov/staff/gable/pdf_files/2008_jgr_gait_lowman_gable_2007JB005538.pdf">PDF</a>)
+      <br>
       </p>
       <p>Zhang, Y ; Gable, CW <a class="strong"
  href="./pdfs/2008_j_hydrology_zhang_gable.pdf"
@@ -78,7 +128,10 @@ in Microstructure Evolution</a>", PRL, vol90, 016106. </p>
 unsaturated
 flow
 and
-transport processes at the Busted Butte Field Test Site, Nevada</a>"
+transport
+processes
+at
+the Busted Butte Field Test Site, Nevada</a>"
 Journal
 of
 Contaminant Hydrology; April/May 2003; v.62-63, p.303-318</p>
@@ -87,13 +140,19 @@ Rollett, Anthony, "<a href="pdfs/463433.pdf">Linking Experimental
 Characteriztion and Computational Modeling of Grain Growh in Al-Foil</a>",
 Interface
 Science,
-Vol10, No2-3, pp 137-142, July 2002. </p>
+Vol10,
+No2-3,
+pp
+137-142, July 2002. </p>
       <p>Galen K. Straub, Denise C. George, Andrew P. Kuprat "<a
  href="pdfs/strgeorkup.pdf">Materials Microstructural Evolution in 2D
 Surface Front-Tracking Computer Simulations</a>"LA-UR-00-1.&nbsp;&nbsp;&nbsp;
 Theoretical
 Division&nbsp;
-Self Assesment Special Feature, April 2000. </p>
+Self
+Assesment
+Special
+Feature, April 2000. </p>
       <p>Denise George, Neil Carlson, J. Tinka Gammel, Andrew
 Kuprat&nbsp;&nbsp; "<a href="pdfs/puertorico99.pdf">3D Modelling of
 Metallic Grain Growth</a> "&nbsp; Conference on Modeling and Simulation
@@ -103,7 +162,10 @@ of Microsystems, San Juan, Puerto Rico, April 1999.</p>
 
 LA-UR-00-1.&nbsp;
 Theoretical
-Division&nbsp; Self Assesment Special
+Division&nbsp;
+Self
+Assesment
+Special
 Feature, April 2000. </p>
       <p>Fisher, AT; Giambalvo, E; Sclater, J; Kastner, M; Ransom, B;
 Weinstein, Y; Lonsdale, P "<a
@@ -111,7 +173,10 @@ Weinstein, Y; Lonsdale, P "<a
 
 flow,
 sediment
-and pore fluid chemistry, and hydrothermal circulation
+and
+pore
+fluid
+chemistry, and hydrothermal circulation
 on the east flank of Alarcon Ridge, Gulf of California</a>" EARTH AND
 PLANETARY SCIENCE LETTERS; JUN 15 2001; v.188, no.3-4, p.521-534</p>
       <p> Carl W. Gable, Harold Trease and Terry Cherry, "<a
@@ -119,7 +184,10 @@ PLANETARY SCIENCE LETTERS; JUN 15 2001; v.188, no.3-4, p.521-534</p>
 
 Grid
 Generation
-From Models of Complex Geologic Structure and
+From
+Models
+of
+Complex Geologic Structure and
 Stratigraphy</a>," Santa Barbara: National Center for Geographic
 Information and Analysis, proceedings paper LA-UR-96-1083, 1996.</p>
       <p> Carl W. Gable, Harold Trease and Terry Cherry, "<a
@@ -127,7 +195,10 @@ Information and Analysis, proceedings paper LA-UR-96-1083, 1996.</p>
 Generation Tools for Finite Elements Applied to Porous Flow Modeling</a>,"
 in
 Numerical
-Grid Generation in Computational Fluid Dynamics and
+Grid
+Generation
+in
+Computational Fluid Dynamics and
 Related Fields, edited by B. K. Soni, J. F. Thompson, H.
 Hausser and P. R. Eiseman, Engineering Research Center, Mississippi
 State Univ. Press, 1996.</p>
@@ -149,21 +220,30 @@ Nanoelectronics, Urbana, Illinois, October 20-22, 1997 </p>
 
 of
 anisotropic
-grain boundary properties on grain boundary plane
+grain
+boundary
+properties
+on grain boundary plane
 distributions during grain growth</a>" Scripta Materialia; Aug. 2005;
 vol.53, no.3, p.351-5</p>
       <p>Khamayseh, Ahmed and Kuprat, A, "<a href="pdfs/ahmandrew1.pdf">Anisotropic
 
 Smoothing
 and
-Solution Adaption for Unstructured Grids</a> "
+Solution
+Adaption
+for
+Unstructured Grids</a> "
 LA-UR-95-2205, International Journal for Numerical Methods in
 Engineering, Vol. 39, pp. 3163-3174 (1996). </p>
       <p>Kuprat, Andrew, "<a href="pdfs/correctedlaur2000.pdf">Inspecting
 
 and
 Repairing
-Physical Topology in a Moving Grid Grain Growth Simulation</a>,"
+Physical
+Topology
+in
+a Moving Grid Grain Growth Simulation</a>,"
 LA-UR-00-3475,
 July 2000. </p>
       <p>Kuprat, Andrew; Khamayseh, Ahmed; George, Denise; Larkey,
@@ -178,7 +258,10 @@ Microstructure Evolution using Gradient-Weighted Moving Finite Elements</a>",
 SIAM
 J.
 Sci.
-Comput., Vol22, No. 2,pp. 535-560, July 2000. </p>
+Comput.,
+Vol22,
+No.
+2,pp. 535-560, July 2000. </p>
       <p>Kuprat, Andrew and George, Denise, "<a
  href="pdfs/london98_pn.pdf">Maintaining Tetrahedral Mesh Quality in
 Response to Time-dependent Topological and Geometrical Deformation</a>
@@ -210,7 +293,10 @@ Linear Curves, Surfaces and Triple Lines</a>", LA-UR-00-5004, October
 
 Microstructure
 Evolution
-in Three Dimensions with Grain3D and LaGriT</a>"
+in
+Three
+Dimensions
+with Grain3D and LaGriT</a>"
 Computational Materials Science, 28 (2003) 199-208.</p>
       <p>Michael Murphy, David M. Mount, <a
  href="http://ees-www.lanl.gov/EES5/bio_ees5/Gable.html">Carl Gable</a>&nbsp;
@@ -235,7 +321,10 @@ ZM; Gray, R "<a
 
 vadose
 zone
-flow and transport model for Los Alamos Canyon, Los Alamos,
+flow
+and
+transport
+model for Los Alamos Canyon, Los Alamos,
 New Mexico</a>" VADOSE ZONE JOURNAL; AUG 2005; v.4, no.3, p.729-743 </p>
       <p>Terry Cherry, C. W. Gable and Harold Trease , "<a
  href="pdfs/NGG96.pdf">3-Dimensional Wells and Tunnels for Finite
@@ -263,10 +352,11 @@ Journal of Contaminant Hydrology; April/May 2003; v.62-63, p.319-336 </p>
       <p> Zhang, Ye; Person, Mark; Paola, Chris; Gable, Carl W.; Wen,
 Xian-Huan; Davis, J. Matthew "<a
  href="pdfs/2005_wrr_zhang_person_paola_gable_wen_davis.pdf">Geostatistical
-
 analysis
 of
-an experimental stratigraphy</a>" Water Resources Research;
+an
+experimental
+stratigraphy</a>" Water Resources Research;
 November 2005; v.41, no.11, p.1-20</p>
       <p>Zyvoloski, G. and C. W. Gable, "Site Scale Modeling of
 Radionuclide Transport At Yucca Mountain, NV: Grid Generation and

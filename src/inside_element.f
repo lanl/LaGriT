@@ -19,15 +19,15 @@ C
 C      INPUT ARGUMENTS -
 C
 C        ielmtyp                     - THE ELEMENT TYPE.
-C        xicelm(),yicelm(),zicelm()  - THE COORDINATES OF THE TET.
+C        xicelm(),yicelm(),zicelm()  - THE COORDINATES OF THE ELEMENT.
 C        xtestpt,ytestpt,ztestpt     - THE COORDINATES OF THE POINT
 C                                      IN QUESTION.
 C
 C     OUTPUT ARGUMENTS -
 C
-C        iflag  - RETURNS -1 IF THE TEST POINT IS OUTSIDE THE TET,
-C                 0 IF IT IS INSIDE THE TET, OR A POSITIVE NUMBER
-C                 CORRESPONDING TO THE FACE OF THE TET IT IS ON.
+C        iflag  - RETURNS -1 IF THE TEST POINT IS OUTSIDE THE ELEMENT,
+C                 0 IF IT IS INSIDE THE ELEMENT, OR A POSITIVE NUMBER
+C                 CORRESPONDING TO THE FACE OF THE ELEMENT IT IS ON.
 C
 C
 C     $Log: inside_element.f,v $

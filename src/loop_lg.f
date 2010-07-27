@@ -257,7 +257,7 @@ C
 C
 C     Character list variable
 C
-      if (msgtype(i) .eq. 3) then
+      if (msgtype(i+list_start) .eq. 3) then
        if(icharlnf(cmsgin(i+list_start)) .gt. 72)then
 C
 C        Error check: list tokens limited to 72 characters
@@ -272,18 +272,18 @@ C
 C
 C     Real list variable
 C
-      elseif (msgtype(i) .eq. 2) then
-         write(ch_work,100) cmsgin(i+list_start)
+      elseif (msgtype(i+list_start) .eq. 2) then
+         write(ch_work,80) xmsgin(i+list_start)
    80    format(e20.12)
          ch_argument_list(lp_lev,i) = ch_work(1:icharlnf(ch_work))
 C
 C     Integer list variable
 C
-      elseif (msgtype(i) .eq. 1) then
-         write(ch_work,100) cmsgin(i+list_start)
+      elseif (msgtype(i+list_start) .eq. 1) then
+         write(ch_work,90) imsgin(i+list_start)
    90    format(i25)
          ch_argument_list(lp_lev,i) = ch_work(1:icharlnf(ch_work))
-      endif      
+      endif   
       enddo
       endif      
 C
