@@ -24,104 +24,103 @@ controled by the keyword in the second argument position. </p>
 - keyword for distance field calculation. Determine the minimum
 distance from
 any node in<br>
-    <font face="Courier New, Courier, monospace">&nbsp;&nbsp;&nbsp;
-mo_source</font> to every node in <font
- face="Courier New, Courier, monospace">mo_sink</font> and place the
+    <font face="Courier New, Courier, monospace">mo_source</font> to
+every node in <font face="Courier New, Courier, monospace">mo_sink</font>
+and place the
 result in the node based floating point attribute,<br>
-    <font face="Courier New, Courier, monospace">&nbsp;&nbsp;&nbsp;
-distance_field_attribute</font> in mo_sink. The
+    <font face="Courier New, Courier, monospace">distance_field_attribute</font>
+in mo_sink. The
 computation is accelerated by using the <a href="./kdtree.html"
  title="KDTREE search algorighm">kdtree</a> search<br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; algorithm.<br>
+algorithm.<br>
     <br>
     <font face="Courier New, Courier, monospace">signed_distance_field</font>
 - keyword for signed distance field calculation. Determine the minimum
 distance &nbsp;&nbsp;&nbsp; <br>
-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; from
+from
 any node in <font face="Courier New, Courier, monospace">mo_source</font>
 to every node in <font face="Courier New, Courier, monospace">mo_sink</font>
 and place the result in the node based floating &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; <br>
-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; point
+point
 attribute, <font face="Courier New, Courier, monospace">distance_field_attribute</font>
 in mo_sink. The computation is accelerated by using the&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; <br>
-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a
- href="./kdtree.html"
- title="KDTREE search algorighm">kdtree</a> search algorithm. Using
+    <a href="./kdtree.html" title="KDTREE search algorighm">kdtree</a>
+search algorithm. Using
 this option
 the mo_source MUST be either a triangle or quad surface
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
-&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; mesh object. If the
+mesh object. If the
 surfaces form a topologically closed volume then positive, 'above'
 distance
 is in the &nbsp;&nbsp;&nbsp; <br>
-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 direction of the surface normal vector. Negative is 'below' the
 surface. If the surface is not a closed &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; <br>
-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; volume, then
+volume, then
 the assumptions described
 in the <a href="./SURFACE.html">surface</a> command are used to
 determine
 what is above &nbsp;&nbsp;&nbsp; <br>
-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 and what is below the surface.<br>
     </p>
     <p><font face="Courier New, Courier, monospace">linear_extrapolate</font>
 - keyword for an extrapolation from an attribute value in a surface
-onto every node <br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; of a 3D mesh. <span
- style="font-family: Courier New,Courier,monospace;"></span><span
- style="font-family: serif;">Given a 3D mesh and a (geometrically) 2D
-surface, will</span> <span style="font-family: serif;">extrapolate
-some value from that &nbsp;&nbsp;&nbsp; <br>
-&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; surface onto every point</span><span
- style="font-family: serif;"> of the mesh. This can be used to (for
+onto every node of<br>
+a 3D mesh. <span style="font-family: Courier New,Courier,monospace;"></span><span
+ style="font-family: serif;">Given a 3D mesh and a 2D
+surface, this command will extrapolate
+a scalar value from that surface<br>
+onto every point of the mesh. This can be used to (for
 example):</span><span style="font-family: serif;"><br>
-&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; * Propogate head values down into a mesh.</span><span
- style="font-family: serif;"><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-* Expand a mesh to fit a surface, by propogating the appropriate</span><span
- style="font-family: serif;"> spatial coordinate.</span><br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This is highly dependant on the
+    </span></p>
+    <ul>
+      <li><span style="font-family: serif;">Propogate head values from
+a surface onto all nodes of a mesh.</span></li>
+      <li><span style="font-family: serif;">Expand a mesh to fit a
+surface, by propogating the appropriate</span><span
+ style="font-family: serif;"> spatial coordinate.</span></li>
+      <li><span style="font-family: serif;">Compute the depth relative
+to a topographic surface to each node of a mesh.<br>
+        </span></li>
+    </ul>
+    <p>This is highly dependant on the
 spatial relation between the mesh and the surface - values from the<br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; surface are extrapolated
-"downward" into the mesh in straight columns in the direction specified
-in<br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; the command. The direction
+surface are extrapolated
+"downward" into the mesh in the direction specified
+in the command. The<br>
+direction
 specified in the command must be one of <span
- style="font-family: Courier New,Courier,monospace;"><br>
-&nbsp;&nbsp;&nbsp; [zpos|zneg|ypos|yneg|xpos|xneg]</span>. For example,
+ style="font-family: Courier New,Courier,monospace;">[zpos|zneg|ypos|yneg|xpos|xneg]</span>.
+For example,<br>
 specifing <span style="font-family: Courier New,Courier,monospace;">zpos</span>
 will result in the upper (positive <br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; z-axis) side of the mesh having
+z-axis) side of the mesh having
 attribute values conforming exactly to those on the surface, while the<br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; lower side of the mesh will have
+lower side of the mesh will have
 whatever attribute values it had previous, with all nodes in between<br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; having attribute values
+having attribute values
 distributed linearly between the two extremes. If a direction is not
 specified,<br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; it will default to <span
+it will default to <span
  style="font-family: Courier New,Courier,monospace;">zpos</span>. If an
 attribute is not specified, it will default to the spatial attribute
 appropriate<br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; to the chosen direction (i.e. if
+to the chosen direction (i.e. if
 the direction is <span
  style="font-family: Courier New,Courier,monospace;">yneg</span>, the
 attribute will default to <span
  style="font-family: Courier New,Courier,monospace;">yic</span>, the
 y-coordinate of <br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; each node.) The attribute chosen
+each node.) The attribute chosen
 must already exist in both the surface and main meshes.<br>
     </p>
     <p>Other places to look for modules that compute some standard mesh
 attributes include, <a href="./QUALITY.html" title="Mesh Quality">quality</a>,
 which
-will <br>
+will
+    <br>
 compute aspect ratio and volume, <a href="./cmo_addatt.html"
  title="Add Attribute">cmo/addatt</a>, which will compute normal
 vectors, dihedral angles, solid <br>
@@ -150,7 +149,7 @@ linear_extrapolate / mo_sink / mo_surf &nbsp;&nbsp;&nbsp;
 like the surface)<br>
     </font></p>
     <p><font face="Courier New, Courier, monospace">compute /
-linear_extrapolate / mo_sink / mo_surf / zpos / water_head_value<br>
+linear_extrapolate / mo_sink / mo_surf / zpos / hydraulic_head<br>
     </font></p>
     <p>&nbsp; </p>
   </blockquote>
