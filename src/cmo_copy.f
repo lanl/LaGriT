@@ -244,9 +244,12 @@ C....             Get the length of the actual data.
 C
             call mmfindbk(cname,cmo_name2,ipcmo_pointer2,mmlength,ier)
 C
-            if(ier.ne.0) call cmo_mm_error('cmo_copy')
+            if(ier.ne.0) then
+                call cmo_mm_error('cmo_copy')
+                call dotask('cmo status; mmprint; finish',ier)
+            else
 C
-C                    Set length and get the pointer to the Derived Mesh Object.
+C           Set length and get the pointer to the Derived Mesh Object.
 C
             call mmnewlen(cname, cmo_name1,ipcmo_pointer1,mmlength,ier)
             if(ier.ne.0) then
@@ -256,6 +259,7 @@ C
                            icmo_pointer1(j)=icmo_pointer2(j)
                   enddo
             endif
+            endif
 C
          elseif(ctype.eq.'VCHAR') then
 C
@@ -263,9 +267,12 @@ C....             Get the length of the actual data.
 C
             call mmfindbk(cname,cmo_name2,ipcmo_pointer2,mmlength,ier)
 C
-            if(ier.ne.0) call cmo_mm_error('cmo_copy')
+            if(ier.ne.0) then
+                call cmo_mm_error('cmo_copy')
+                call dotask('cmo status; mmprint; finish',ier)
+            else
 C
-C                    Set length and get the pointer to the Derived Mesh Object.
+C           Set length and get the pointer to the Derived Mesh Object.
 C
             call mmnewlen(cname, cmo_name1,ipcmo_pointer1,mmlength,ier)
             if(ier.ne.0) then
@@ -274,6 +281,7 @@ C
                   do j=1,mmlength
                            ccmo_pointer1(j)=ccmo_pointer2(j)
                   enddo
+            endif
             endif
 C
 C
@@ -292,24 +300,22 @@ C
      *                          ipcmo_pointer2,mmlength,ier)
 C
              if(ier.ne.0) then
-C
-                     call cmo_mm_error('cmo_copy')
-C
-             else
+                call cmo_mm_error('cmo_copy')
+                call dotask('cmo status; mmprint; finish',ier)
+            else
 C
 C                    Set length and get the pointer to the Derived Mesh Object.
 C
                 call mmnewlen(cname, cmo_name1,
      *                             ipcmo_pointer1,mmlength,ier)
 C
-                if(ier.ne.0) then
-                        call cmo_mm_error('cmo_copy')
-                else
-                        do j=1,mmlength
-                           xcmo_pointer1(j)=xcmo_pointer2(j)
-                        enddo
-                endif
-C
+            if(ier.ne.0) then
+                    call cmo_mm_error('cmo_copy')
+            else
+                    do j=1,mmlength
+                       xcmo_pointer1(j)=xcmo_pointer2(j)
+                    enddo
+            endif
             endif
 C
          elseif(ctype(1:1).eq.'V') then
