@@ -1,4 +1,4 @@
-      subroutine linear_extrapolate
+      subroutine linear_transform
      &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
 C
 C######################################################################
@@ -16,7 +16,7 @@ C
 C     NOTES -
 C
 C      Syntax for this command:
-C      compute / linear_extrapolate / main_mesh / surface_mesh / [ direction / node attribute ]
+C      compute / linear_transform / main_mesh / surface_mesh / [ direction / node attribute ]
 C      
 C      "node attribute" must exist in both the surface and the main
 C      meshes before beginning. If a node attribute is not
@@ -65,9 +65,14 @@ C
       character*4   direction
       character*132 logmess
       character*256 cmd
+      pointer       (ipout, pout)
+      integer       iout, pout, ilen, itype
+      character*32  cout
+      real*8        rout
       integer mlen ! length of name of mesh
       integer slen ! length of name of surface
       integer alen ! length of name of attribute
+      integer       derive_flag
 C
 C     Variables for subroutine calls
 C
@@ -80,7 +85,7 @@ C
 C
 C######################################################################
 C
-      isubname = 'linear_extrapolate'
+      isubname = 'linear_transform'
 C
 C
 C     Check input mesh objects
@@ -90,21 +95,21 @@ C     arguments 3, 4, 5, 6
 C
       if(nwds < 4 .or. nwds > 6) then
          write(logmess,'(a)')
-     &    'ERROR lin_extp: Wrong number of arguments.'
+     &    'ERROR lin_trans: Wrong number of arguments.'
          call writloga('default',0,logmess,0,ierror)
          ierror = -2
          goto 9999
       endif
       if(msgtype(3) .ne. 3) then
          write(logmess,'(a)')
-     &    'ERROR lin_extp: Argument 3 must be of type character.'
+     &    'ERROR lin_trans: Argument 3 must be of type character.'
          call writloga('default',0,logmess,0,ierror)
          ierror = -2
          goto 9999
       endif
       if(msgtype(4) .ne. 3) then
          write(logmess,'(a)')
-     &    'ERROR lin_extp: Argument 4 must be of type character.'
+     &    'ERROR lin_trans: Argument 4 must be of type character.'
          call writloga('default',0,logmess,0,ierror)
          ierror = -2
          goto 9999
@@ -112,7 +117,7 @@ C
       if (nwds .ge. 5) then
           if(msgtype(5) .ne. 3) then
              write(logmess,'(a)')
-     &     'ERROR lin_extp: Argument 5 must be of type character.'
+     &     'ERROR lin_trans: Argument 5 must be of type character.'
              call writloga('default',0,logmess,0,ierror)
              ierror = -2
              goto 9999
@@ -121,7 +126,7 @@ C
       if (nwds .eq. 6) then
           if(msgtype(6) .ne. 3) then
              write(logmess,'(a)')
-     &     'ERROR lin_extp: Argument 6 must be of type character.'
+     &     'ERROR lin_trans: Argument 6 must be of type character.'
              call writloga('default',0,logmess,0,ierror)
              ierror = -2
              goto 9999
@@ -277,14 +282,153 @@ C
      &  // att(1:alen) // '_S; finish'
       call dotask(cmd,ierror)
 
-      cmd = 'extract/surfmesh/1,0,0/hull_mo_lin_ext_tmp/'
-     &  // 'main_mo_lin_ext_tmp/external; finish'
+      cmd = 'cmo/addatt/main_mo_lin_ext_tmp/' 
+     &    // direction(1:1) // '_save; finish'
+      call dotask(cmd,ierror)
+
+      cmd = 'cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/'
+     &    // direction(1:1) // '_save/' // direction(1:1) //'ic; finish'
+      call dotask(cmd,ierror)
+
+      call cmo_get_mesh_type('main_mo_lin_ext_tmp',mtype,imtype,ierror)
+
+      if (mtype(1:4) .eq. 'quad' .or. mtype(1:3) .eq. 'tri') then 
+          cmd = 'cmo/copy/hull_mo_lin_ext_tmp/main_mo_lin_ext_tmp;'
+     &        // 'finish;'
+          call dotask(cmd, ierror)
+      else
+          cmd = 'extract/surfmesh/1,0,0/hull_mo_lin_ext_tmp/'
+     &      // 'main_mo_lin_ext_tmp/external; finish'
+          call dotask(cmd, ierror)
+      endif
+
+C   Check for node attributes with the same names as those created by
+C   dump / zone / outside (i.e. top, bottom, left_w, back_n, etc.)
+      derive_flag = 0
+      if (direction(1:1) .eq. 'z') then
+          call cmo_get_attinfo('top','hull_mo_lin_ext_tmp',iout,rout,
+     &                         cout,ipout,ilen,itype,ierror)
+          if (ierror .ne. 0) then
+              print *,"No user defined top found. Attempting to derive
+     &                  top of mesh."
+              derive_flag = 1
+          endif
+          call cmo_get_attinfo('bottom','hull_mo_lin_ext_tmp',iout,rout,
+     &                         cout,ipout,ilen,itype,ierror)
+          if (ierror .ne. 0) then
+              print *,"No user defined base found. Attempting to derive
+     &                  bottom of mesh."
+              derive_flag = 1
+          endif
+      elseif (direction(1:1) .eq. 'y') then
+          call cmo_get_attinfo('back_n','hull_mo_lin_ext_tmp',iout,rout,
+     &                         cout,ipout,ilen,itype,ierror)
+          if (ierror .ne. 0) then
+              print *,"No user defined top found. Attempting to derive
+     &                  top of mesh."
+              derive_flag = 1
+          endif
+          call cmo_get_attinfo('front_s','hull_mo_lin_ext_tmp',iout,
+     &                         rout,cout,ipout,ilen,itype,ierror)
+          if (ierror .ne. 0) then
+              print *,"No user defined base found. Attempting to derive
+     &                  bottom of mesh."
+              derive_flag = 1
+          endif
+      elseif (direction(1:1) .eq. 'x') then
+          call cmo_get_attinfo('right_e','hull_mo_lin_ext_tmp',iout,
+     &                         rout,cout,ipout,ilen,itype,ierror)
+          if (ierror .ne. 0) then
+              print *,"No user defined top found. Attempting to derive
+     &                  top of mesh."
+              derive_flag = 1
+          endif
+          call cmo_get_attinfo('left_w','hull_mo_lin_ext_tmp',iout,rout,
+     &                         cout,ipout,ilen,itype,ierror)
+          if (ierror .ne. 0) then
+              print *,"No user defined base found. Attempting to derive
+     &                  bottom of mesh."
+              derive_flag = 1
+          endif
+      endif
+
+      if (derive_flag .eq. 0) then
+      
+      if (direction(1:1) .eq. 'z') then
+          if (direction(2:4) .eq. 'pos') then
+              cmd = 'pset/top_pts/attribute/top/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+
+              cmd = 'pset/bot_pts/attribute/bottom/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+          elseif (direction(2:4) .eq. 'neg') then
+              cmd = 'pset/top_pts/attribute/bottom/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+
+              cmd = 'pset/bot_pts/attribute/top/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+          endif
+      elseif (direction(1:1) .eq. 'y') then
+          if (direction(2:4) .eq. 'pos') then
+              cmd = 'pset/top_pts/attribute/back_n/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+
+              cmd = 'pset/bot_pts/attribute/front_s/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+          elseif (direction(2:4) .eq. 'neg') then
+              cmd = 'pset/top_pts/attribute/front_s/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+
+              cmd = 'pset/bot_pts/attribute/back_n/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+          endif
+      elseif (direction(1:1) .eq. 'x') then
+          if (direction(2:4) .eq. 'pos') then
+              cmd = 'pset/top_pts/attribute/left_w/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+
+              cmd = 'pset/bot_pts/attribute/right_e/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+          elseif (direction(2:4) .eq. 'neg') then
+              cmd = 'pset/top_pts/attribute/right_e/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+
+              cmd = 'pset/bot_pts/attribute/left_w/1,0,0/0.0/gt;finish'
+              call dotask(cmd, ierror)
+          endif
+      endif
+
+      cmd = 'cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp;finish'
       call dotask(cmd, ierror)
 
+      cmd = 'pset/not_top/not/top_pts; finish'
+      call dotask(cmd, ierror)
+
+      cmd = 'cmo/setatt/top_mo_lin_ext_tmp/itp1/pset,get,not_top/21;'
+     &        // 'finish'
+      call dotask(cmd, ierror)
+
+      cmd = 'rmpoint/compress; finish'
+      call dotask(cmd, ierror)
+
+      cmd = 'cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp;finish'
+      call dotask(cmd, ierror)
+
+      cmd = 'pset/not_bot/not/bot_pts; finish'
+      call dotask(cmd, ierror)
+
+      cmd = 'cmo/setatt/bot_mo_lin_ext_tmp/itp1/pset,get,not_bot/21;'
+     &        // 'finish'
+      call dotask(cmd, ierror)
+
+      cmd = 'rmpoint/compress; finish'
+      call dotask(cmd, ierror)
+
+      elseif (derive_flag .eq. 1) then
+      
       call cmo_get_mesh_type('hull_mo_lin_ext_tmp',mtype,imtype,ierror)
 
       if (mtype(1:4) .eq. 'quad' .or. mtype(1:3) .eq. 'hex') then
-         
           cmd = 'hextotet/4/hull_mo_lin_ext_tmp_tri/'
      &        // 'hull_mo_lin_ext_tmp; finish'
           call dotask(cmd, ierror)
@@ -292,6 +436,15 @@ C
           cmd = 'cmo/move/hull_mo_lin_ext_tmp/hull_mo_lin_ext_tmp_tri;'
      &        // ' finish'
           call dotask(cmd, ierror)
+      elseif (mtype(1:4) .eq. 'line') then
+          print *,"That mesh type (line) can't be used in this routine "
+     &          //"without the user pre-defining a top and a bottom. "
+     &          //"Please use dump/zone_outside or manually specify a "
+     &          //"top and bottom using the same attribute names, so "
+     &          //"this routine may function properly. See the online "
+     &          //"documentation at lagrit.lanl.gov/docs/COMPUTE.html"
+     &          //" for more details." 
+          goto 9990
       endif
 
       cmd = 'cmo/addatt/hull_mo_lin_ext_tmp/area_normal/xyz/norm;'
@@ -322,14 +475,22 @@ C
       cmd = 'pset/top_pts/eltset/top_els; finish'
       call dotask(cmd, ierror)
 
-      cmd = 'dump/gmv/hull.gmv/hull_mo_lin_ext_tmp; finish'
-      call dotask(cmd, ierror)
+C     cmd = 'dump/gmv/hull.gmv/hull_mo_lin_ext_tmp; finish'
+C     call dotask(cmd, ierror)
       
       cmd = 'cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp; finish'
       call dotask(cmd, ierror)
 
       cmd = 'rmpoint/element/eltset,get,bot_els; finish'
       call dotask(cmd, ierror)
+
+      cmd = 'cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp; finish'
+      call dotask(cmd, ierror)
+
+      cmd = 'rmpoint/element/eltset,get,top_els; finish'
+      call dotask(cmd, ierror)
+
+      endif
 
       cmd = 'cmo/addatt/top_mo_lin_ext_tmp/'
      &  // att(1:alen) // '_L1; finish'
@@ -340,20 +501,14 @@ C
       call dotask(cmd, ierror)
 
       cmd = 'cmo/setatt/top_mo_lin_ext_tmp/'
-     &  // att(1:alen) // '/1,0,0/0.0; finish'
+     &  // direction(1:1) // 'ic/1,0,0/0.0; finish'
       call dotask(cmd, ierror)
 
       cmd = 'geniee; finish'
       call dotask(cmd, ierror)
 
-      cmd = 'dump/gmv/top.gmv/top_mo_lin_ext_tmp; finish'
-      call dotask(cmd, ierror)
-
-      cmd = 'cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp; finish'
-      call dotask(cmd, ierror)
-
-      cmd = 'rmpoint/element/eltset,get,top_els; finish'
-      call dotask(cmd, ierror)
+C     cmd = 'dump/gmv/top.gmv/top_mo_lin_ext_tmp; finish'
+C     call dotask(cmd, ierror)
 
       cmd = 'cmo/addatt/bot_mo_lin_ext_tmp/'
      &  // att(1:alen) // '_L0; finish'
@@ -364,14 +519,17 @@ C
       call dotask(cmd, ierror)
 
       cmd = 'cmo/setatt/bot_mo_lin_ext_tmp/'
-     &  // att(1:alen) // '/1,0,0/0.0; finish'
+     &  // direction(1:1) // 'ic/1,0,0/0.0; finish'
       call dotask(cmd, ierror)
 
       cmd = 'geniee; finish'
       call dotask(cmd, ierror)
 
-      cmd = 'dump/gmv/bot.gmv/bot_mo_lin_ext_tmp; finish'
-      call dotask(cmd, ierror)
+C     cmd = 'dump/gmv/bot.gmv/bot_mo_lin_ext_tmp; finish'
+C     call dotask(cmd, ierror)
+
+
+
 
       cmd = 'cmo/copyatt/surf_mo_lin_ext_tmp/surf_mo_lin_ext_tmp/'
      &  // att(1:alen) // '_S/' // att(1:alen) // '; finish'
@@ -390,28 +548,28 @@ C
       endif
 
       cmd = 'cmo/setatt/surf_mo_lin_ext_tmp/'
-     &  // att(1:alen) // '/1,0,0/0.0; finish'
+     &  // direction(1:1) // 'ic/1,0,0/0.0; finish'
       call dotask(cmd, ierror)
 
       cmd = 'geniee; finish'
       call dotask(cmd, ierror)
 
-      cmd = 'dump/gmv/surf.gmv/surf_mo_lin_ext_tmp; finish'
-      call dotask(cmd, ierror)
+C     cmd = 'dump/gmv/surf.gmv/surf_mo_lin_ext_tmp; finish'
+C     call dotask(cmd, ierror)
 
       cmd = 'cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/'
      &  // att(1:alen) // '_old/' // att(1:alen) // '; finish'
       call dotask(cmd, ierror)
 
       cmd = 'cmo/setatt/main_mo_lin_ext_tmp/'
-     &  // att(1:alen) // '/1,0,0/0.0; finish'
+     &  // direction(1:1) // 'ic/1,0,0/0.0; finish'
       call dotask(cmd, ierror)
 
       cmd = 'geniee; finish'
       call dotask(cmd, ierror)
 
-      cmd = 'dump/gmv/main.gmv/main_mo_lin_ext_tmp; finish'
-      call dotask(cmd, ierror)
+C     cmd = 'dump/gmv/main.gmv/main_mo_lin_ext_tmp; finish'
+C     call dotask(cmd, ierror)
 
       cmd = 'interpolate/continuous/main_mo_lin_ext_tmp,'
      &  // att(1:alen) // '_S/1,0,0/surf_mo_lin_ext_tmp,'
@@ -428,8 +586,8 @@ C
      &  // att(1:alen) // '_L0; finish'
       call dotask(cmd, ierror)
 
-      cmd = 'dump/gmv/check.gmv/main_mo_lin_ext_tmp; finish'
-      call dotask(cmd, ierror)
+C     cmd = 'dump/gmv/check.gmv/main_mo_lin_ext_tmp; finish'
+C     call dotask(cmd, ierror)
 
       cmd = 'math/subtract/main_mo_lin_ext_tmp/'
      &  // att(1:alen) // '_old/1,0,0/main_mo_lin_ext_tmp/'
@@ -470,27 +628,41 @@ C
       cmd = 'cmo/copyatt/' // main_mo(1:mlen) // '/main_mo_lin_ext_tmp/'
      &  // att(1:alen) // '/' // att(1:alen) // '_new; finish'
       call dotask(cmd, ierror)
+
+      if (att(1:alen) .ne. 'zic' .and.
+     &    att(1:alen) .ne. 'yic' .and.
+     &    att(1:alen) .ne. 'xic') then
+          cmd = 'cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/'
+     &        // direction(1:1) // 'ic/' // direction(1:1) // '_save;'
+     &        // 'finish'
+          call dotask(cmd,ierror)
+      endif
+
+      cmd = 'cmo/release/main_mo_lin_ext_tmp; finish'
+      call dotask(cmd, ierror)
  
-       cmd = 'cmo/release/main_mo_lin_ext_tmp; finish'
-       call dotask(cmd, ierror)
+      cmd = 'cmo/release/surf_mo_lin_ext_tmp; finish'
+      call dotask(cmd, ierror)
  
-       cmd = 'cmo/release/surf_mo_lin_ext_tmp; finish'
-       call dotask(cmd, ierror)
+      cmd = 'cmo/release/hull_mo_lin_ext_tmp; finish'
+      call dotask(cmd, ierror)
  
-       cmd = 'cmo/release/hull_mo_lin_ext_tmp; finish'
-       call dotask(cmd, ierror)
+      cmd = 'cmo/release/top_mo_lin_ext_tmp; finish'
+      call dotask(cmd, ierror)
  
-       cmd = 'cmo/release/top_mo_lin_ext_tmp; finish'
-       call dotask(cmd, ierror)
- 
-       cmd = 'cmo/release/bot_mo_lin_ext_tmp; finish'
-       call dotask(cmd, ierror)
+      cmd = 'cmo/release/bot_mo_lin_ext_tmp; finish'
+      call dotask(cmd, ierror)
  
 C
-C     All done
+C    All done
 C
-      ierror = 0
+
+ 9990 continue
+      ierror = 1
+      return
+
  9999 continue
+      ierror = 0
       return
       end
 C     

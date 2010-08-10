@@ -133,19 +133,27 @@ C      ** as the face element type.  (Move into local_element.h/blockcom.f?)
      &        (ipicontabn,icontabn), (ipclr0,clr0),
      &        (ipclr1,clr1), (ipfacecol,facecol), (ipitetclrn,itetclrn),
      &        (ipidnode0,idnode0), 
-     &        (ipidelem0,idelem0), (ipidelem1,idelem1)
+     &        (ipidelem0,idelem0), (ipidelem1,idelem1),
+     &        (ipuatt, iatt), (ipuatt, ratt), (ipuatt, catt),
+     &        (ipuatt2, iatt2), (ipuatt2, ratt2), (ipuatt2, catt2)
       integer itetn(*), itetoffn(*), itettypn(*), icr1n(*),
      &        icontabn(*), cpmap(*), fmap(*), itetclrn(*),
      &        clr0(*), clr1(*), facecol(*), uniqcols(10000),
-     &        idnode0(*), idelem0(*), idelem1(*)
+     &        idnode0(*), idelem0(*), idelem1(*),
+     &        iatt(*), iatt2(*)
+      real*8  ratt(*), ratt2(*)
+      character*32  catt(*), catt2(*)
  
-      integer i, j, k, kk, m, n, ilen, ityp, nnnpe, nnfpe, nnepe, jnbr
+      integer i,j,k,kk,m,n,idx, ilen, ityp, nnnpe, nnfpe, nnepe, jnbr
       integer nncells, nnnodes, minft, maxft, nfpe, nconbnd, node
       integer nnodes, ncells, topo_dim, geom_dim, mbndry, ncon50
       integer tmpcol, ncols, found, imode
- 
+      integer natts
+
       character*132 cbuf, logmess
-      character*32 isubname
+      character*32 isubname, attnam
+      character*32 ctype,crank,clen,cinter,cper,cio
+      integer   icharlnf
  
       isubname = 'extract_surfmesh'
       ierror = 0
@@ -411,7 +419,7 @@ C
 C
 C     Derive a face color based on clr0 and clr1. Assumes that clr0 & clr1 are
 C     at the most 15 bit integers (then if we LEFT SHIFT clr1 by 15 bits and
-C     OR it with clr0 we will get a 30 bit integer). This will still not ensure
+C     OR it with clr0 we will get a 30 bit integer). This williu still not ensure
 C     uniqueness of all model face numbers - one can have 2 disconnected patches
 C     of faces pointing to the same two regions in the same order.
 C
@@ -463,6 +471,39 @@ C     *** Copy node-based data into new mesh object.
         end do
  
       end if
+
+C     ***
+C     *** Copy user-created node-based attributes
+      call cmo_get_info('number_of_attributes',cmoin,natts,ilen,
+     &                  ityp,ierror)
+      print *,natts
+      do j=66, natts
+          call cmo_get_attribute_name(cmoin,j,attnam,ierror)
+          print *,attnam
+          call cmo_get_info(attnam,cmoin,ipuatt,ilen,ityp,ierror)
+          call cmo_get_attparam(attnam(1:icharlnf(attnam)),cmoin,idx,
+     &                          ctype,crank,clen,cinter,cper,cio,
+     &                          ierror)
+          if (clen(1:icharlnf(clen)).eq.'nnodes') then
+              cbuf = 'cmo/addatt/'
+     &              //cmoout(1:icharlnf(cmoout))//'/'
+     &              //attnam(1:icharlnf(attnam))//'/'
+     &              //ctype(1:icharlnf(ctype))//'/'
+     &              //crank(1:icharlnf(crank))//'/'
+     &              //clen(1:icharlnf(clen))//'/'
+     &              //cinter(1:icharlnf(cinter))//'/'
+     &              //cper(1:icharlnf(cper))//'/'
+     &              //cio(1:icharlnf(cio))//'; finish'
+              call dotaskx3d(cbuf, ierror)
+              call cmo_get_info(attnam,cmoout,ipuatt2,ilen,ityp,ierror)
+              do k=1, nnnodes
+                  if (ctype.eq.'VINT') iatt2(k) = iatt(idnode0(k))
+                  if (ctype.eq.'VDOUBLE') ratt2(k) = ratt(idnode0(k))
+                  if (ctype.eq.'VCHAR') catt2(k) = catt(idnode0(k))
+              end do
+          endif
+      end do
+
  
 C      ** NOTE.  The following node-based attributes are left uninitialized:
 C      ** ialias, imt1, itp1, isn1, ign1.  The following cell-based attributes

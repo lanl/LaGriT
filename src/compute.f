@@ -56,8 +56,8 @@ C
       call distance_field_signed
      &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
       return
-      elseif(cmsgin(2) .eq. 'linear_extrapolate')then
-      call linear_extrapolate 
+      elseif(cmsgin(2) .eq. 'linear_transform')then
+      call linear_transform 
      &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
       return
       else

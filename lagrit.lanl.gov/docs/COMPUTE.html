@@ -46,8 +46,7 @@ and place the result in the node based floating &nbsp;&nbsp;&nbsp;
 attribute, <font face="Courier New, Courier, monospace">distance_field_attribute</font>
 in mo_sink. The computation is accelerated by using the&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; <br>
-&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a
- href="./kdtree.html"
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="./kdtree.html"
  title="KDTREE search algorighm">kdtree</a> search algorithm. Using
 this option
 the mo_source MUST be either a triangle or quad surface
@@ -69,7 +68,7 @@ what is above &nbsp;&nbsp;&nbsp; <br>
 &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
 and what is below the surface.<br>
     </p>
-    <p><font face="Courier New, Courier, monospace">linear_extrapolate</font>
+    <p><font face="Courier New, Courier, monospace">linear_transform</font>
 - keyword for an extrapolation from an attribute value in a surface
 onto every node <br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; of a 3D mesh. <span
@@ -121,7 +120,8 @@ must already exist in both the surface and main meshes.<br>
     <p>Other places to look for modules that compute some standard mesh
 attributes include, <a href="./QUALITY.html" title="Mesh Quality">quality</a>,
 which
-will <br>
+will
+    <br>
 compute aspect ratio and volume, <a href="./cmo_addatt.html"
  title="Add Attribute">cmo/addatt</a>, which will compute normal
 vectors, dihedral angles, solid <br>
@@ -134,7 +134,7 @@ and more. User functions can be computed with the <a href="./MATH.html"
 compute/distance_field/mo_sink/mo_source/distance_field_attribute</font>
   <blockquote><font face="Courier New, Courier, monospace">compute/signed_distance_field/mo_sink/mo_source/distance_field_attribute<br>
     <br>
-compute/linear_extrapolate/mo_main/mo_surface/[direction/att_name]<br>
+compute/linear_transform/mo_main/mo_surface/[direction/att_name]<br>
     </font></blockquote>
   <font face="Times New Roman,Times"><strong>EXAMPLES</strong>:</font>
   <blockquote>
@@ -144,13 +144,13 @@ distance_field / mo_sink / mo_src / dfield<br>
 compute / signed_distance_field / mo_sink / mo_src / dfield<br>
     </font></p>
     <p><font face="Courier New, Courier, monospace">compute /
-linear_extrapolate / mo_sink / mo_surf &nbsp;&nbsp;&nbsp;
+linear_transform / mo_sink / mo_surf &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; <br>
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; (will expand top of mesh to look
 like the surface)<br>
     </font></p>
     <p><font face="Courier New, Courier, monospace">compute /
-linear_extrapolate / mo_sink / mo_surf / zpos / water_head_value<br>
+linear_transform / mo_sink / mo_surf / zpos / water_head_value<br>
     </font></p>
     <p>&nbsp; </p>
   </blockquote>
@@ -188,7 +188,7 @@ linear_extrapolate / mo_sink / mo_surf / zpos / water_head_value<br>
   </table>
   <table style="width: 687px;" border="1">
     <caption><strong><br>
-Example: linear_extrapolate </strong> </caption> <tbody>
+Example: linear_transform </strong> </caption> <tbody>
       <tr>
         <td style="width: 677px;"><img
  style="width: 500px; height: 389px;" alt="Example: lin_extp_before"
@@ -198,7 +198,7 @@ Example: linear_extrapolate </strong> </caption> <tbody>
       <tr>
         <td>
         <pre><font face="Courier New, Courier, monospace">infile <a
- href="buildsurf.lgi">buildsurf.lgi</a><br><br>* Expand the cubical mesh such that its top (positive z-axis) looks like the sinusoidal<br>* surface denoted by zhigh<br>compute / linear_extrapolate / cube / zhigh<br><br>finish<br><br></font></pre>
+ href="buildsurf.lgi">buildsurf.lgi</a><br><br>* Expand the cubical mesh such that its top (positive z-axis) looks like the sinusoidal<br>* surface denoted by zhigh<br>compute / linear_transform / cube / zhigh<br><br>finish<br><br></font></pre>
         </td>
       </tr>
       <tr>

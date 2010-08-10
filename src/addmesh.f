@@ -25,6 +25,7 @@ C                                                           rx5 ry5 rz5 &
 C                                                           rx6 ry6 rz6
 C                 addmesh / pyramid / mesh3 / mesh1 / mesh1 /
 c                 addmesh /reflect/mesh3/mesh1/direction/origin/bleed
+C                 addmesh / excavate / mesh3 / mesh1 / mesh2
 C
 C        add    - Find the intersection of mesh1 and mesh2. Refine mesh1
 C                 where it overlaps mesh2 using the following criteria.
@@ -84,6 +85,11 @@ C                  must have matching nodes. There must be exactly two
 C                  triangle faces on the tet grid that fit onto the quad
 C                  face of the hex grid. The region where the two meshes
 C                  join will have pyramid elements.
+C
+C        excavate - excavates out the main mesh around the surface,
+C                      inserts the surface, and reconnects the two.
+C                      Ensures an unbroken surface, and good quality
+C                      tets around the the interface.
 C
 C        NOTE: Care must be taken when using these commands because nothing
 C              is done to clean up the point type (ITP) array after the
@@ -465,7 +471,8 @@ C        the Slave  object has nodes and elements,
 C        switch Master and Slave.
 C
       if(((npoints1 .eq. 0).and.(numtet1 .eq. 0)) .or.
-     1   ((numtet1  .eq. 0).and.(numtet2 .ne. 0)))then
+     *   ((numtet1  .eq. 0).and.(numtet2 .ne. 0)) .and.
+     *   (coperator(1:11) .ne. 'excavate') )then
          cmoa = cmsgin(5)
          cmob = cmsgin(4)
          write(logmess,9012) cmoa
@@ -737,6 +744,26 @@ CCCC
 C
          call addmesh_add(cmoc,cmob,nuser_refine,refine_type,ierror)
 C
+      elseif(coperator(1:11).eq.'excavate') then
+
+          call cmo_set_info('nodes_per_element',cmoc,nen1,1,1,ierr)
+          call cmo_set_info('faces_per_element',cmoc,nef1,1,1,ierr)
+          if (nwds .ge. 6 .and. cmsgin(6)(1:3) .eq. 'bfs') ierror = 1
+          call excavate(cmoc, cmob, ierror)
+          if (nwds .ge. 7 .and. cmsgin(7)(1:7) .eq. 'connect') then
+              cbuff='addmesh/append/-temp-/'//cmoc//'/'//cmob
+     &             //';finish'
+              call dotask(cbuff, ierror)
+              cbuff='cmo/release/'//cmoc//';finish'
+              call dotask(cbuff, ierror)
+              cbuff='copypts/'//cmoc//'/-temp-;finish'
+              call dotask(cbuff, ierror)
+              cbuff='connect; finish'
+              call dotask(cbuff, ierror)
+              cbuff='cmo/release/-temp-; finish'
+              call dotask(cbuff, ierror)
+          endif
+
       elseif(coperator(1:3).eq.'amr') then
 C
          call addmesh_amr(cmoc,cmob,ierror)
