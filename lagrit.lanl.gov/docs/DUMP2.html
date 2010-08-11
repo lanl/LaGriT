@@ -12,32 +12,69 @@
  link="#0000ee" vlink="#551a8b" alink="#ff0000">
 <blockquote><b><u><font face="Times">DUMP</font></u></b></blockquote>
 <dir>
-<dir>This command produces an output file from a <font face="Courier">Mesh
-Object</font><font face="Times">. Some of the standard graphics
-packages supported are AVS, GMV and TECPLOT. If the option is <b>lagrit</b>,
-
+<dir><span style="font-family: serif;">This command produces an output
+file from a Mesh
+Object. Some of the standard graphics
+packages supported are AVS, GMV and TECPLOT. If the option is </span><b
+ style="font-family: serif;">lagrit</b><span style="font-family: serif;">,
 a
-restart dump is made; a subsequent <b>read/lagrit</b> command will
+restart
+dump
+is
+made;
+a
+subsequent
+</span><b style="font-family: serif;">read/lagrit</b><span
+ style="font-family: serif;"> command will
 restart the code at the state at which the dump command was issued. The
 default file type is binary. To create an ASCII formatted
-gmv dump precede the dump command with this command:</font> <br>
-<font face="Times"><b>cmo</b>/<b>setatt</b>/<b>dumptype</b>=<b>ascii</b>/
-
+gmv dump precede the dump command with this command:</span> <br
+ style="font-family: serif;">
+<b style="font-family: serif;">cmo</b><span style="font-family: serif;">/</span><b
+ style="font-family: serif;">setatt</b><span style="font-family: serif;">/</span><b
+ style="font-family: serif;">dumptype</b><span
+ style="font-family: serif;">=</span><b style="font-family: serif;">ascii</b><span
+ style="font-family: serif;">/
 or
-include '<b>ascii'</b> in the command.</font> <br>
-&nbsp;NOTE:&nbsp; For LaGriT versions dated after October 1999, use <b>cmo</b>/<b>setatt</b>//<b>ipolydat</b>/<b>no</b>
+include '</span><b style="font-family: serif;">ascii'</b><span
+ style="font-family: serif;"> in the command.</span> <br
+ style="font-family: serif;">
+<span style="font-family: serif;">&nbsp;NOTE:&nbsp; For LaGriT versions
+dated after October 1999, use </span><b>cmo</b>/<b>setatt</b>//<b>ipolydat</b>/<b>no</b>
 to
 prevent polygon data to be written to GMV files.</dir>
-<font face="Times">FORMAT:</font>
-<dir><font face="Times"><b>dump</b>/file_type/file_name/[cmo_name]/</font>
+<font face="Times">FORMAT:<br>
+Short form syntax:<br>
+</font>
+<dir><font style="font-family: monospace;" size="+1"><b>dump</b>/file_name/[cmo_name]/</font>
+<dir><font face="Times">file type is determined by the file extension
+in the file name. Supported file extensions are <span
+ style="font-weight: bold;">.inp</span>, <span
+ style="font-weight: bold;">.avs</span>, <span
+ style="font-weight: bold;">.lg</span>, <span
+ style="font-weight: bold;">.lagrit</span>, <span
+ style="font-weight: bold;">.gmv</span>, and <span
+ style="font-weight: bold;">.ts</span>.<br>
+<strong></strong></font></dir>
+</dir>
+<font face="Times">Regular syntax:<br>
+</font>
+<dir><font style="font-family: monospace;" size="+1"><b>dump</b>/file_type/file_name/[cmo_name]/</font>
 <dir><font face="Times">valid file_types are: <strong>coord, zone,
 gmv, avs, avs2, tecplot, geofest, chad, fehm, stor, datex ,stl, x3d,
 geom, elem_adj_node, elem_adj_elem </strong>and<strong> lagrit</strong></font></dir>
-<font face="Times"><b>dump </b>/<b> coord </b>/file_name/[cmo_name]/</font>
+<font style="font-family: monospace;" size="+1"><b>dump</b></font><font
+ style="font-family: monospace;" size="+1"><b> </b>/<b> coord</b></font><font
+ style="font-family: monospace;" size="+1"><b> </b>/file_name/[cmo_name]/</font>
 <dir><font face="Times">Will output a file with node list x,y,z values
 and element connectivity list in FEHM format.</font></dir>
-<font face="Times"><b>dump</b> / <b>zone</b> /file_name/[cmo_name]/[<b><u>delatt|</u>keepatt|keepatt_area</b>]
-<br>
+<font face="Times"><font style="font-family: monospace;" size="+1"><b
+ style="font-family: monospace;">dump</b><span
+ style="font-family: monospace;"> / </span><b>zone</b><span
+ style="font-family: monospace;"> /file_name/[cmo_name]/[</span><b
+ style="font-family: monospace;"><u>delatt|</u>keepatt|keepatt_area</b><span
+ style="font-family: monospace;">]
+</span></font><br>
 (<a href="./PSET.html">For options to output PSET's as ZONE/ZONN files
 see: pset/zone</a>) <br>
 </font> <font face="Times">Output a set of 4 files </font> <br>
@@ -47,7 +84,14 @@ list for each material (imt) value.</font> <br>
 for each of 6 (top , bottom, left, right, front, back) possible
 external boundaries for rectangular geometries.&nbsp; If <b>keepatt </b>is
 specified,
-then 6 node based attributes are added to the mesh
+then
+6
+node
+based
+attributes
+are
+added
+to the mesh
 object.&nbsp; If <b>delatt</b> is specified mesh object is not
 modified.&nbsp; The attribute names are <b>top</b>, <b>bottom</b>,<b>
 left_w</b>, <b>right_e</b>, <b>back_n</b>, <b>front_s</b>.</font> <br>
@@ -86,14 +130,20 @@ line, and the nodes in each entry are separated by a comma.</font> <br>
 magnitude of the vector |A| = sqrt(Ax_i**2 + Ay_i**2 + Az_i**2) is the
 median area associate with each node on the exterior boundary of a 3D
 tet mesh.</font></dir>
-<font face="Times"><b>dump</b> / <b>zone_imt</b> /file_name/[cmo_name]</font>
+<font style="font-family: monospace;" face="Times" size="+1"><b
+ style="font-family: monospace;">dump</b> / <b>zone_imt</b>
+/file_name/[cmo_name]</font><font style="font-family: monospace;"
+ size="+1">
 /[imt_value]
+</font>
 <dir><font face="Times">Will output only one file:</font> <br>
 <font face="Times">file_name_<b>material</b>.<b>zone</b> is node list
 for each integer material (imt) value.</font> If the optional fifth
 argument is specified as an integer, then a node list file is written
 only listing the nodes with the value specified by imt_value. </dir>
-<font face="Times"><b>dump</b> / <b>zone_outside | zone_outside_minmax
+<font style="font-family: monospace;" face="Times" size="+1"><b
+ style="font-family: monospace;">dump</b> / <b>zone_outside |
+zone_outside_minmax
 </b>/ file_name/[cmo_name] / [<b>delatt</b>|keepatt|keepatt_area]</font>
 <dir><font face="Times">Will output only two files:</font> <br>
 <font face="Times">file_name_<b>outside</b>.<b>zone</b> is a node list
@@ -107,7 +157,8 @@ min and max outside node along each
 direction of the regular grid.<br>
 <a href="../images/zone_outside.png" target="_blank">Click for image
 showing outside nodes.</a></font></dir>
-<font face="Times"><b>dump</b> /<b> avs</b> /file_name/[cmo_name] /
+<font style="font-family: monospace;" face="Times" size="+1"><b>dump</b>
+/<b> avs</b> /file_name/[cmo_name] /
 iopt_points / iopt_elements /
 iopt_node_attributes/iopt_element_attributes</font>
 <dir><font face="Times">Output in AVS UCD (Unstructured Cell Data)
@@ -118,46 +169,68 @@ format. One can turn on or off the output of node coordinates
 on, 2 is on but the first column will not include the node number or
 element number, 0 turns off output of that part of the file. <strong>Use
 the
-=2 option with caution</strong> since the output will really not be
+=2
+option
+with
+caution</strong> since the output will really not be
 AVS format files. This is fine as long as you do not expect read/avs or
 the AVS graphics program to read the file..<br>
 For file format specification see <a
  href="http://help.avs.com/Express/doc/help/reference/dvmac/UCD_Form.htm">http://help.avs.com/Express/doc/help/reference/dvmac/UCD_Form.htm</a></font></dir>
-<font face="Times"><b>dump / avs2 / </b>file_name/[cmo_name]/[iopt_points]/iopt_elements]/[iopt_node_attributes]/[iopt_element_attributes]<b><br>
+<font face="Times"><font style="font-family: monospace;" size="+1"><b>dump
+/
+avs2
+/
+</b><span style="font-family: monospace;">file_name/[cmo_name]/[iopt_points]/iopt_elements]/[iopt_node_attributes]/[iopt_element_attributes]</span></font><b><br>
 </b></font>
 <dir><font face="Times">This option will output integers as integers
 instead of floating point. The other avs option converts integers to
 reals on output. The /avs/ option above outputs all attributes as real
 numbers. This option is slower but the files are smaller if
 there are integers in the node or element attributes.</font></dir>
-<font face="Times"> <b>dump</b> / <b>stl</b> /file_name/[cmo_name]/</font>
+<font style="font-family: monospace;" face="Times" size="+1"> <b>dump</b>
+/ <b>stl</b><span style="font-family: monospace;">
+/file_name/[cmo_name]/</span></font>
 <dir><font face="Times">Output in STL, stereo lithography format. This
 is only supported for triangle mesh objects.</font></dir>
-<b><font face="Times">dump/geom/</font></b><font face="Courier">file</font>
+<font style="font-family: monospace;" size="+1"><b>dump/geom/</b></font><font
+ style="font-family: monospace;" size="+1">file</font>
 <dir><font face="Times">will write an ascii file containing the
 geometry
 information for the current run. This information includes the region
 and
 mregion definitions and surface, names, types and definitions.</font></dir>
-<font face="Times"><b>dump/lagrit</b>/file_name/[cmo_name]/</font> [<b>ascii
-</b>| <b>binary</b>]
+<font style="font-family: monospace;" face="Times" size="+1"><b>dump/lagrit</b>/file_name/[cmo_name]/</font><font
+ style="font-family: monospace;" size="+1"> [<b>ascii
+</b>| <b style="font-family: monospace;">binary</b><span
+ style="font-family: monospace;">]
+</span></font>
 <dir><font face="Times">will write an restart file that contains
 geometry and mesh object information.&nbsp; cmo_name can be '<b>-all-</b>'
 
 in
-which case all mesh objects are written to the file or it can
+which
+case
+all
+mesh
+objects
+are
+written
+to the file or it can
 specify a list of mesh objects to be written.</font>&nbsp; The default
 is <b>ascii</b>.</dir>
-<font face="Times"><b>dump/recolor</b>/file_name</font>
+<font style="font-family: monospace;" face="Times" size="+1"><b>dump/recolor</b>/file_name</font>
 <dir><font face="Times">This command writes the existing <b>colormap</b>
 to the specified file.&nbsp; (See <b><a href="COLORMAP.html">colormap</a></b>
 command)</font></dir>
-<font face="Times"><b>dump/elem_adj_node</b>/file_name/mo_name</font>
+<font style="font-family: monospace;" face="Times" size="+1"><b>dump/elem_adj_node</b>/file_name/mo_name</font>
 <dir><font face="Times">Write adjacency information to an ascii file.
 Write list of all elements adjacent to each node. <br>
 File format: <br>
 node_number number_of_adjacent_elem e1 e2 ... en &nbsp;</font></dir>
-<font face="Times"><b>dump/elem_adj_elem</b>/ file_name/mo_name [<u>delatt</u>
+<font style="font-family: monospace;" face="Times" size="+1"><b>dump/elem_adj_elem</b>/
+file_name/mo_name
+[<u>delatt</u>
 | keepatt | attonly] </font>
 <dir><font face="Times">Option: <strong>delatt</strong> - Write
 adjacency information to an ascii file. Write list of all elements
@@ -169,13 +242,22 @@ Option: <strong>attonly</strong> - do not write file, add node
 attribute ean_num, a dummy argument is still required in the file_name
 field <br>
 </font></dir>
-<font face="Times"><b>dump/gmv</b>/file-name/[mesh-object]/[<b><u>ascii
-</u></b>| <b>binary</b>]</font>
+<font style="font-family: monospace;" face="Times" size="+1"><b>dump/gmv</b>/file-name/[mesh-object]/[<b><u>ascii
+</u></b>| <b style="font-family: monospace;">binary</b><span
+ style="font-family: monospace;">]</span></font>
 <dir><font face="Times">Write a file to be read by the graphics program
 <a href="http://laws.lanl.gov/XCM/gmv/GMVHome.html">GMV</a>.&nbsp; The
 defaults are binary and current mesh object.</font></dir>
-<font face="Times"><b>dump/stor</b>/file-name-root / cmo_name / [<b> [<u>ascii</u>|binary]
-[<u>scalar</u>|vector|both|area_scalar|area_vector|area_both</b>]/[<b>delatt,keepatt|keepatt_area</b>]</font>
+<font style="font-family: monospace;" face="Times" size="+1"><b>dump/stor</b>/file-name-root
+/
+cmo_name
+/
+[<b> [<u>ascii</u>|binary]
+[<u style="font-family: monospace;">scalar</u><span
+ style="font-family: monospace;">|vector|both|area_scalar|area_vector|area_both</span></b><span
+ style="font-family: monospace;">]/[</span><b
+ style="font-family: monospace;">delatt,keepatt|keepatt_area</b><span
+ style="font-family: monospace;">]</span></font>
 <dir><font face="Times">Same syntax as <b>dump/fehm</b> except the
 only output is the FEHM sparse matrix coefficient STOR file
 (file-name.stor).<br>
@@ -184,11 +266,18 @@ only output is the FEHM sparse matrix coefficient STOR file
 <br>
 <a href="./STOR_Form.html">Click here for the STOR file format.</a> <br>
 </font></dir>
-<font face="Times"><b>dump/fehm</b>/</font><font
- face="Courier New,Courier">file_name_root</font><font face="Times">
-/</font><font face="Courier New,Courier">cmo_name / </font>
-<b> [<u>ascii</u>|binary] [<u>scalar</u>|vector|both|area_scalar|area_vector|area_both</b>]/[<b>delatt,keepatt|keepatt_area</b>]
-<br>
+<font style="font-family: monospace;" face="Times" size="+1"><b>dump/fehm</b>/</font><font
+ style="font-family: monospace;" face="Courier New,Courier" size="+1">file_name_root</font><font
+ style="font-family: monospace;" face="Times" size="+1">
+/</font><font style="font-family: monospace;" face="Courier New,Courier"
+ size="+1">cmo_name / </font>
+<font style="font-family: monospace;" size="+1"><b> [<u>ascii</u>|binary]
+[<u style="font-family: monospace;">scalar</u><span
+ style="font-family: monospace;">|vector|both|area_scalar|area_vector|area_both</span></b><span
+ style="font-family: monospace;">]/[</span><b
+ style="font-family: monospace;">delatt,keepatt|keepatt_area</b><span
+ style="font-family: monospace;">]
+</span></font><br>
 <dir> Write out a series of files for the FEHM flow and transport code.
 The file_name_root is the file root name for:<br>
 file_name.fehm ( see dump/cord/... command)<br>
@@ -210,12 +299,12 @@ format is ascii compressed.
 <a href="DUMP3.html">Click here for dump/stor and dump/fehm details.</a>
 </dir>
 </dir>
-<dir><font face="Times"><b>dump/geofest</b>/file-name/[mesh-object]</font>
+<dir><font style="font-family: monospace;" face="Times" size="+1"><b>dump/geofest</b>/file-name/[mesh-object]</font>
 <font face="Times">Write a file to be read by the <a
  href="http://www.openchannelfoundation.org/projects/GeoFEST/">GeoFEST,
 Geophysical Finite Element Simulation Tool</a> .&nbsp; The output file
 is ascii.</font></dir>
-<dir><font face="Times"><b>dump/tecplot</b>/file-name/[mesh-object]</font>
+<dir><font style="font-family: monospace;" face="Times" size="+1"><b>dump/tecplot</b>/file-name/[mesh-object]</font>
 <font face="Times">Write a file to be read by the Tecplot graphics
 package.&nbsp; The output file is ascii. Only node attributes are
 output, element attributes are ignored and not output. Tecplot does not
@@ -230,7 +319,8 @@ coordinate information is not output. </font></dir>
 </dir>
 <dir><br>
 <p><font face="Times">EXAMPLE:</font> </p>
-<dir><font face="Times"> <b>dump </b>/ gmv /</font>file_name.gmv/cmo_name/<br>
+<dir><font style="font-family: monospace;" face="Times" size="+1"> <b>dump
+</b>/ gmv /</font><font style="font-family: monospace;" size="+1">file_name.gmv/cmo_name/<br>
 <b>dump </b>/ gmv /file_name.gmv/cmo_name/ascii<br>
 <b>dump </b>/ tecplot /file_name.plt/cmo_name<br>
 <b>dump </b>/ lagrit /file_name.lg/-all-/binary<br>
@@ -251,7 +341,8 @@ file)<br>
 compressed STOR file - platform dependent) <br>
 <b>dump</b> / zone_outside /file_name/cmo_name/keepatt_area<br>
 <b>dump </b>/ stor /file_name/cmo_name/ascii/area_scalar<br>
-<b>dump</b> / zone_outside_minmax /file_name/cmo_name<br>
+<b>dump</b> / zone_outside_minmax /file_name/cmo_name</font>
+<br>
 </dir>
 <p><br>
 <font face="Times New Roman,Times"><a href="main_dump.html">Click here
