@@ -47,8 +47,11 @@ C                     same as synth_normal
 C  volume           - creates element attribute
 C                     fills with volume(3D), area(2D) or length(lines)
 C                     implemented only for triangle areas
-C  vor_volume       - creates node attribute
-C                     fills with voronoi volume from getvoronoivolumes()
+C  voronoi_varea     - creates node attributes xn_varea, yn_varea, zn_varea
+C                     same as computed for outside area
+C  voronoi_volume   - creates node attribute xvor,yvor,zvor 
+C  old was vor_volume  fills with voronoi volume from getvoronoivolumes()
+C                  
 C  vector           - creates one vector attribute
 C                     fills with values from 3 scalar attributes
 C  scalar           - creates three scalar attributes
@@ -108,7 +111,6 @@ C   / unit_area_normal  / xyz | rtz | rtp / v_attname
 C   / node_normal      / v_attname
 C   / synth_normal     / v_attname
 C   / volume       / attname /
-C   / vor_volume   / attname /
 C   / ang_mind   / elem_attname /
 C   / ang_minr   / elem_attname /
 C   / ang_maxd   / elem_attname /
@@ -121,7 +123,11 @@ C   / xyz_rtp          / node_attname_r node_attname_theta node_attname_phi | de
 C   / xyz_rtz          / node_attname_r node_attname_theta node_attname_z   | default c_r c_theta c_z
 C   / vector       / V_attname   / x_attname, y_attname, z_attname
 C   / scalar       / x_attname, y_attname, z_attname / V_attname
+C   / vor_vector   / x_attname, y_attname, z_attname | default xvor,yvor,zvor 
 C   / voronoi      / x_attname, y_attname, z_attname | default xvor,yvor,zvor
+C   / voronoi_varea / x_attname, y_attname, z_attname | default xn_varea,yn_varea,zn_varea
+C   / vor_volume   / attname / (old keyword)
+C   / vorornoi_volume   / attname /
 C   / median       / x_attname, y_attname, z_attname | default xmed,ymed,zmed
 C   / sumnode      / elem_attname / node_attname
 C   / avgnode      / elem_attname / node_attname
@@ -187,7 +193,7 @@ CPVCS       Rev 1.11   23 Mar 2005 09:48:12   dcg
 CPVCS    fix declarations for linux
 CPVCS
 CPVCS       Rev 1.10   26 Jan 2005 13:00:04   dcg
-CPVCS    acompute volumes for all types of elements
+CPVCS    compute volumes for all types of elements
 CPVCS
 CPVCS       Rev 1.9   18 Jan 2005 07:47:54   tam
 CPVCS    added new keyword to assign elem node values to element
@@ -279,7 +285,7 @@ C     LOCAL VARIABLE DEFINITION
 C
       integer ierr, len, iexist, ioff, idebug, idone, imin, imax
       integer i1,i2,i3,i,j,k,jn,ipt,idx, ij_max
-      integer index,irank,ilen,ityp,nen,nlength
+      integer index,irank,ilen,ityp,nen,nlength,flen
       integer itype_angle, if_valid_element, inclusive
       integer io_type, ncoef, ifcompress
       integer nnode, nelem
@@ -327,7 +333,9 @@ c     real*8  volmin,volmax,voltot
  
       real*8 xnorm,ynorm,znorm,xsum,ysum,zsum,rvalue,
      *       xmin,ymin,zmin,xmax,ymax,zmax,epsarea,epsvol,
-     *       mag,darea,a1x,a1z,a1y,xicvol(8),yicvol(8),zicvol(8)
+     *       mag,darea, xarea,yarea,zarea,
+     *       x1,y1,z1,x2,y2,z2,x3,y3,z3,
+     *       a1x,a1z,a1y,xicvol(8),yicvol(8),zicvol(8)
       real*8 solid_angle(4)
  
       real*8 anglemin,anglemax,conversion_factor
@@ -418,6 +426,8 @@ C.... keyword area_normal or unit_area_normal
      *    att_name(1:icharlnf(att_name)).eq.'unit_area_normal' ) then
  
          fill_type = att_name
+         flen = icharlnf(fill_type)
+
          if (cmo_type(1:3).ne.'tri') then
            write(logmess,'(a,a,a,a)')
      *     'ADDATT error: ',
@@ -462,7 +472,7 @@ C.... keyword area_normal or unit_area_normal
          cmsgin(9) = cpersistence
          cmsgin(10)= cioflag
          xmsgin(11)= zero
- 
+
 C.... keyword synth_normal or node_normal
       elseif(
      1  (att_name(1:icharlnf(att_name)).eq.'synth_normal').or.
@@ -474,11 +484,13 @@ C      For backwards compatibility, the default is synth_normal
 C      will result in angle weighted normal.
 C 
        fill_type = 'synth_normal' 
+
        if(att_name(1:icharlnf(att_name)).eq.'synth_normal_angle')
      1   fill_type = 'synth_normal_angle' 
        if(att_name(1:icharlnf(att_name)).eq.'synth_normal_area')
      1   fill_type = 'synth_normal_area' 
 
+         flen = icharlnf(fill_type)
          att_name  = '-dummy_var-'
          cmsgin(5) = 'VDOUBLE'
          cmsgin(6) = 'scalar'
@@ -488,18 +500,78 @@ C
          cmsgin(10)= cioflag
          xmsgin(11)= zero
 
-C.... keyword vor_volume 
-      elseif (att_name(1:icharlnf(att_name)).eq.'vor_volume') then 
+C.... keyword voronoi_volume formerly vor_volume 
+C.... keyword voronoi_varea  
+      elseif( att_name(1:icharlnf(att_name)).eq.'vor_volume' .or.
+     *   att_name(1:icharlnf(att_name)).eq.'voronoi_volume'  .or. 
+     *   att_name(1:icharlnf(att_name)).eq.'voronoi_varea' ) then
 
-       fill_type = 'vor_volume'
        att_name  = cmsgin(5)
-       cmsgin(5) = 'VDOUBLE'
-       cmsgin(6) = 'scalar'
-       cmsgin(7) = 'nnodes'
-       cmsgin(8) = cinterp
-       cmsgin(9) = cpersistence
-       cmsgin(10)= cioflag
-       xmsgin(11)= zero
+
+       if (cmo_type(1:3).eq.'tet') then
+           fill_type = 'voronoi_volume'
+       else if (cmo_type(1:3).eq.'tri') then
+           fill_type = 'voronoi_varea'
+       else
+           write(logmess,'(a,a,a,a)')
+     *     'ADDATT error: ',
+     *     fill_type(1:icharlnf(fill_type)),
+     *     ' not implemented for mesh elements: ',cmo_type(1:3)
+           call writloga('default',1,logmess,0,ierr)
+           goto 9999
+       endif
+       flen = icharlnf(fill_type)
+
+       if(nwds.lt.5) then
+            write(logmess,'(a,a)') 'ADDATT error: ',
+     *      ' attribute name required: '
+            call writloga('default',1,logmess,0,ierr)
+            goto 9999
+       endif
+
+C      for tet 
+C      create single attribute with voronoi volume
+       if (fill_type(1:flen) .eq. 'voronoi_volume')  then
+           cmsgin(5) = 'VDOUBLE'
+           cmsgin(6) = 'scalar'
+           cmsgin(7) = 'nnodes'
+           cmsgin(8) = cinterp
+           cmsgin(9) = cpersistence
+           cmsgin(10)= cioflag
+           xmsgin(11)= zero
+       endif
+
+C     for tri 
+C     create x,y,z area attributes for triangles
+C     this is the same computation used for outside tet nodes
+      if (fill_type(1:flen) .eq. 'voronoi_varea' ) then
+
+         irank = nwds - 4
+         if (irank.eq.0) then
+             att_list(1) = "xn_varea"
+             att_list(2) = "yn_varea"
+             att_list(3) = "zn_varea"
+         else if (irank.eq.3) then
+             att_list(1) = cmsgin(5) 
+             att_list(2) = cmsgin(6) 
+             att_list(3) = cmsgin(7) 
+         else
+            write(logmess,'(a,a)') 'ADDATT error: ',
+     *      '3 x,y,z attribute names required: '
+            call writloga('default',1,logmess,0,ierr)
+            goto 9999
+         endif
+
+         irank = 1
+         att_name = att_list(1)
+         cmsgin(5) ='VDOUBLE'
+         cmsgin(6) = 'scalar'
+         cmsgin(7) = 'nnodes'
+         cmsgin(8) = cinterp
+         cmsgin(9) = cpersistence
+         cmsgin(10)= cioflag
+         xmsgin(11)= zero
+      endif
 
  
 C.... keyword volume or area or length
@@ -516,6 +588,8 @@ C.... keyword volume or area or length
      *        att_name(1:icharlnf(att_name)).eq.'length'  ) then
  
          fill_type = att_name
+         flen = icharlnf(fill_type)
+
          if (fill_type(1:4) .ne. 'ang_') then
          if (cmo_type(1:3).eq.'tri') then
            fill_type = 'area'
@@ -523,6 +597,8 @@ C.... keyword volume or area or length
            fill_type = 'volume'
          endif
          endif
+         flen = icharlnf(fill_type)
+
          if(nwds.lt.5) then
             write(logmess,'(a,a)') 'ADDATT error: ',
      *        ' attribute name required: '
@@ -555,6 +631,7 @@ C.... keyword sumnode or avgnode or minnode or maxnode
             goto 9999
          endif
          fill_type = att_name
+         flen = icharlnf(fill_type)
          att_name  = cmsgin(5)
  
 C        Check and use type of src node based attribute
@@ -597,6 +674,7 @@ C        Check and use type of src node based attribute
 C.... keyword scalar
       elseif (att_name(1:icharlnf(att_name)).eq.'scalar') then
          fill_type = 'scalar'
+         flen = icharlnf(fill_type)
          vec_name=cmsgin(8)
          irank = 0
          do i = 5, nwds-1
@@ -630,6 +708,7 @@ c        let rest of routine add first of 3 attributes att_name
 C.... keyword vector
       elseif (att_name(1:icharlnf(att_name)).eq.'vector') then
          fill_type = 'vector'
+         flen = icharlnf(fill_type)
          if(nwds.lt.5) then
             write(logmess,'(a,a)') 'ADDATT error: ',
      *     ' mesh object name and attribute name required: '
@@ -664,11 +743,12 @@ C.... keyword vector
          xmsgin(11)= zero
  
  
-C.... keyword voronoi or median
+C.... keyword voronoi or median (coordinates of)
       elseif (att_name(1:icharlnf(att_name)).eq.'voronoi' .or.
      *        att_name(1:icharlnf(att_name)).eq.'median' ) then
  
          fill_type = att_name(1:icharlnf(att_name))
+         flen = icharlnf(fill_type)
          irank = 0
          do i = 5, nwds
            irank = irank+1
@@ -712,6 +792,7 @@ C.... keyword xyz_rtp or xyz_rtz
      *        att_name(1:icharlnf(att_name)).eq.'xyz_rtz' ) then
  
          fill_type = att_name(1:icharlnf(att_name))
+         flen = icharlnf(fill_type)
          irank = 0
          do i = 5, nwds
            irank = irank+1
@@ -755,6 +836,7 @@ C
       elseif((att_name(1:icharlnf(att_name)).eq.'edge_connections') .or.
      1       (att_name(1:icharlnf(att_name)).eq.'node_num_diff'))then 
          fill_type = att_name
+         flen = icharlnf(fill_type)
          if(nwds.lt.5) then
             write(logmess,'(a,a)') 'ADDATT error: ',
      *        ' attribute name required: '
@@ -998,10 +1080,11 @@ c     end setup for fill_type with keyword options
 C     SWITCH on the keyword types to fill sink attribute
  
 C.... keyword area_normal or unit_area or area
+      flen = icharlnf(fill_type)
 C     Fill each triangle attribute with normal
-      if (fill_type(1:11).eq. 'area_normal'  .or.
-     *    fill_type(1:9).eq.  'unit_area'     .or.
-     *    fill_type(1:4).eq.  'area'          ) then
+      if (fill_type(1:flen).eq. 'area_normal'  .or.
+     *    fill_type(1:flen).eq.  'unit_area'     .or.
+     *    fill_type(1:flen).eq.  'area'          ) then
  
        call cmo_get_info(att_name,cmo_name,ipvalue,ilen,ityp,ierr)
        if(ierr.ne.0) call x3d_error(isubname,'get_info new attribute')
@@ -1045,7 +1128,8 @@ c
          mag = sqrt( (xnorm*xnorm)+(ynorm*ynorm)+(znorm*znorm) )
  
 c        Fill vector attribute with face normals
-         if (fill_type(1:11).eq. 'area_normal') then
+         flen = icharlnf(fill_type)
+         if (fill_type(1:flen).eq. 'area_normal') then
            idx = (i-1)*3 + 1
            value(idx) = xnorm
            idx = (i-1)*3 + 2
@@ -1083,7 +1167,7 @@ c      end loop through all triangles
  
 C.... keyword synth_normal
 C     Fill node attribute with average or synthetic normal
-      elseif (fill_type(1:12).eq. 'synth_normal') then
+      elseif (fill_type(1:flen).eq. 'synth_normal') then
  
 C This needs to be written
 C       NODE -- central node.
@@ -1108,6 +1192,7 @@ C
         logmess = 
      1   'offsetsurf/-tmp_wrk_mo-/'//cmo_name//'/0.0/keepatt;finish'
 C
+        flen = icharlnf(fill_type)
         if (fill_type(1:icharlnf(fill_type)).eq.
      1            'synth_normal_angle') then
         logmess = 
@@ -1126,12 +1211,114 @@ C
         call dotask(logmess, ierr)
         ierror_return = 0
 
-C.... keyword vor_volume
-C     Fill element attribute with voronoi volumes 
+ 
+C.... keyword voronoi_varea (vector area)
+C     Fill node attribute with voronoi area vector 
+      elseif (fill_type(1:flen).eq. 'voronoi_varea' ) then
+
+c       add the remaining 2 attributes
+        do i = 2,3
+         cmsgin(4)= att_list(i)
+         att_name= att_list(i)
+
+         call cmo_addatt_cmo(imsgin,xmsgin,cmsgin,msgtype,
+     *             nwdsout,ierror_return)
+         if(ierror_return.eq.0) then
+           call cmo_verify_cmo(cmo_name,ierror_return)
+           if(ierror_return.ne.0) then
+              write(logmess,'(a,a,a)')'ADDATT error: ',
+     *       'Mesh Object is not consistent: ', cmo_name
+              call writloga('default',0,logmess,0,ierr)
+           else
+            write(logmess,'(a,a,a,a)')
+     *      'ADDATT/',fill_type(1:icharlnf(fill_type)),
+     *      ': filling new attribute: ',
+     *      att_name(1:icharlnf(att_name))
+            call writloga('default',0,logmess,0,ierr)
+           endif
+          endif
+        enddo
+
+        call cmo_get_info(att_list(1),cmo_name,ipxvec,ilen,ityp,ierr)
+        call cmo_get_info(att_list(2),cmo_name,ipyvec,ilen,ityp,ierr)
+        call cmo_get_info(att_list(3),cmo_name,ipzvec,ilen,ityp,ierr)
+        if(ierr.ne.0) call x3d_error(isubname,'get_info new attribute')
+
+       
+        call cmo_get_intinfo('nnodes',cmo_name,nnode,ilen,ityp,ierr)
+        if(ierr.ne.0) call x3d_error(isubname,'intinfo nnodes ')
+
+        call cmo_get_intinfo('nelements',
+     *                        cmo_name,nlength,ilen,ityp,ierr)
+        if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements')
+
+        if (nnode .gt. 0) then
+
+C          loop through elements and add areas to respective nodes
+C          reverse sign, triangles are inward facing by x3d convention
+           do i=1, nlength
+
+             i1=itet(itetoff(i)+1)
+             i2=itet(itetoff(i)+2)
+             i3=itet(itetoff(i)+3)
+             x1=xic(i1)
+             y1=yic(i1)
+             z1=zic(i1)
+             x2=xic(i2)
+             y2=yic(i2)
+             z2=zic(i2)
+             x3=xic(i3)
+             y3=yic(i3)
+             z3=zic(i3)
+
+C            point 1
+             call voronoi_vector_area(x1,y1,z1,x2,y2,z2,x3,y3,z3,
+     *          xarea,yarea,zarea)
+               xvec(i1) = xvec(i1) + (-xarea)
+               yvec(i1) = yvec(i1) + (-yarea)
+               zvec(i1) = zvec(i1) + (-zarea)
+
+             if (idebug.ge.5) then
+               write(logmess,'(a,i15,a,e14.6,e14.6,e14.6)')
+     *         'node voronoi_varea ',i1,': ',xarea,yarea,zarea
+               call writloga('default',0,logmess,0,ierr)
+             endif
+
+C            point 2
+             call voronoi_vector_area(x2,y2,z2,x3,y3,z3,x1,y1,z1,
+     *          xarea,yarea,zarea)
+               xvec(i2) = xvec(i2) + (-xarea)
+               yvec(i2) = yvec(i2) + (-yarea)
+               zvec(i2) = zvec(i2) + (-zarea)
+             if (idebug.ge.5) then
+               write(logmess,'(a,i15,a,e14.6,e14.6,e14.6)')
+     *         'node voronoi_varea ',i2,': ',xarea,yarea,zarea
+               call writloga('default',0,logmess,0,ierr)
+             endif
+
+C            point 3
+             call voronoi_vector_area(x3,y3,z3,x1,y1,z1,x2,y2,z2,
+     *          xarea,yarea,zarea)
+               xvec(i3) = xvec(i3) + (-xarea)
+               yvec(i3) = yvec(i3) + (-yarea)
+               zvec(i3) = zvec(i3) + (-zarea)
+             if (idebug.ge.5) then
+               write(logmess,'(a,i15,a,e14.6,e14.6,e14.6)')
+     *         'node voronoi_varea ',i3,': ',xarea,yarea,zarea
+               call writloga('default',0,logmess,0,ierr)
+             endif
+
+            enddo
+C           end loop through nelement triangles
+
+       endif
+
+C.... keyword vor_volume (also voronoi_volume)
+C     Fill node attribute with voronoi volumes
 C     let anothermatbld3d_wrapper do the work
 C     flag io to write to attribute instead of file
- 
-      elseif (fill_type(1:10).eq. 'vor_volume') then
+
+      elseif (fill_type(1:flen).eq. 'voronoi_volume') then
 
        call cmo_get_intinfo('nnodes',cmo_name,nlength,ilen,ityp,ierr)
        if(ierr.ne.0) call x3d_error(isubname,'intinfo nnodes ')
@@ -1149,12 +1336,12 @@ C     flag io to write to attribute instead of file
          call x3d_error(isubname,'zero length attribute '//att_name)
        endif
  
- 
 C.... keyword volume
 C     Fill element attribute with volume or length
 C     This needs to be finished
 C     area is done above with triangle work, do volume and length here
-      elseif (fill_type(1:6).eq. 'volume') then
+     
+      elseif (fill_type(1:icharlnf(fill_type)).eq. 'volume') then
          call cmo_get_intinfo('nelements',cmo_name,nlength,ilen,ityp,
      *      ierr)
          if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
@@ -1164,6 +1351,7 @@ C     area is done above with triangle work, do volume and length here
          call cmo_get_info(att_name,cmo_name,ipvalue,ilen,ityp,ierr)
          if(ierr.ne.0) call x3d_error(isubname,
      *      'get_info new attribute')
+
          do i=1,nlength
             do j=1,nelmnen(itettyp(i))
                nodeidx(j)=itet(itetoff(i)+j)
@@ -1178,14 +1366,14 @@ C     area is done above with triangle work, do volume and length here
 C.... keyword ang_mind, ang_minr, ang_maxd, ang_maxr
 C.... keyword ang_mind_solid, ang_minr_solid, ang_maxd_solid, ang_maxr_solid
 C     Fill element attribute with min or max dihedral angle in degrees or radians
-      elseif ((fill_type(1:8).eq. 'ang_mind') .or. 
-     *        (fill_type(1:8).eq. 'ang_minr') .or. 
-     *        (fill_type(1:8).eq. 'ang_maxd') .or. 
-     *        (fill_type(1:8).eq. 'ang_maxr') .or.
-     *        (fill_type(1:14).eq. 'ang_mind_solid') .or. 
-     *        (fill_type(1:14).eq. 'ang_minr_solid') .or. 
-     *        (fill_type(1:14).eq. 'ang_maxd_solid') .or. 
-     *        (fill_type(1:14).eq. 'ang_maxr_solid') )then
+      elseif ((fill_type(1:flen).eq. 'ang_mind') .or. 
+     *        (fill_type(1:flen).eq. 'ang_minr') .or. 
+     *        (fill_type(1:flen).eq. 'ang_maxd') .or. 
+     *        (fill_type(1:flen).eq. 'ang_maxr') .or.
+     *        (fill_type(1:flen).eq. 'ang_mind_solid') .or. 
+     *        (fill_type(1:flen).eq. 'ang_minr_solid') .or. 
+     *        (fill_type(1:flen).eq. 'ang_maxd_solid') .or. 
+     *        (fill_type(1:flen).eq. 'ang_maxr_solid') )then
 
          if(fill_type(10:14).eq. 'solid')then
             itype_angle = 2
@@ -1300,10 +1488,10 @@ C
          
 C.... keyword sumnode or avgnode or minnode or maxnode
 C     Fill element attribute with values using node attribute
-      elseif (fill_type(1:7).eq. 'sumnode'  .or.
-     *        fill_type(1:7).eq. 'avgnode'  .or.
-     *        fill_type(1:7).eq. 'minnode'  .or.
-     *        fill_type(1:7).eq. 'maxnode'       ) then
+      elseif (fill_type(1:flen).eq. 'sumnode'  .or.
+     *        fill_type(1:flen).eq. 'avgnode'  .or.
+     *        fill_type(1:flen).eq. 'minnode'  .or.
+     *        fill_type(1:flen).eq. 'maxnode'       ) then
  
 c       get definitions of source node attribute and assign pointers
         call cmo_get_attparam(att_list(1),cmo_name,index,ctyp2,
@@ -1323,9 +1511,9 @@ C       new attribute is VDOUBLE when using avg or sum of nodes
         call cmo_get_attparam(att_name,cmo_name,index,ctype,
      *          crank,clength,cinterp,cpersistence,cioflag,ierr)
         if(ierr.ne.0) call x3d_error(isubname,'intinfo new attribute ')
-        if (fill_type(1:7).eq. 'sumnode' .or.
-     *      fill_type(1:7).eq. 'avgnode') then
-            if (ctype(1:7).ne.'VDOUBLE') then
+        if (fill_type(1:flen).eq. 'sumnode' .or.
+     *      fill_type(1:flen).eq. 'avgnode') then
+            if (ctype(1:flen).ne.'VDOUBLE') then
               call x3d_error(isubname,'New attribute not VDOUBLE.')
               goto 9999
             endif
@@ -1359,8 +1547,8 @@ C       loop through elements using node values from src attribute
            nen = nelmnen(itettyp(idx))
  
 c      ....sum or average value of nodes assumes sink attribute is vdouble
-           if (fill_type(1:7).eq. 'sumnode' .or.
-     *       fill_type(1:7).eq. 'avgnode') then
+           if (fill_type(1:flen).eq. 'sumnode' .or.
+     *       fill_type(1:flen).eq. 'avgnode') then
  
              do i = 1,nen
                  ipt = itet(itetoff(idx)+i)
@@ -1370,15 +1558,15 @@ c      ....sum or average value of nodes assumes sink attribute is vdouble
                    xsum = xsum + valsrc(ipt)
                  endif
              enddo
-             if (fill_type(1:7).eq. 'avgnode') then
+             if (fill_type(1:flen).eq. 'avgnode') then
                  value(idx) = xsum / real(nen)
-             elseif (fill_type(1:7).eq. 'sumnode') then
+             elseif (fill_type(1:flen).eq. 'sumnode') then
                  value(idx) = xsum
              endif
  
 c      ....min or max value of nodes, att_name inherits type from src
-           elseif (fill_type(1:7).eq. 'minnode' .or.
-     *         fill_type(1:7).eq. 'maxnode') then
+           elseif (fill_type(1:flen).eq. 'minnode' .or.
+     *         fill_type(1:flen).eq. 'maxnode') then
  
 C             integer attributes for min max
               if (ctype(1:4).eq.'VINT') then
@@ -1392,9 +1580,9 @@ C             integer attributes for min max
                     if (ivalsrc(ipt).lt.imin) imin = ivalsrc(ipt)
                     if (ivalsrc(ipt).gt.imax) imax = ivalsrc(ipt)
                 enddo
-                if (fill_type(1:7).eq. 'minnode') then
+                if (fill_type(1:flen).eq. 'minnode') then
                    ivalue(idx) = imin
-                elseif (fill_type(1:7).eq. 'maxnode') then
+                elseif (fill_type(1:flen).eq. 'maxnode') then
                    ivalue(idx) = imax
                 endif
  
@@ -1410,9 +1598,9 @@ C             real attributes for min max
                     if (valsrc(ipt).lt.imin) xmin = valsrc(ipt)
                     if (valsrc(ipt).gt.imax) xmax = valsrc(ipt)
                 enddo
-                if (fill_type(1:7).eq. 'minnode') then
+                if (fill_type(1:flen).eq. 'minnode') then
                    value(idx) = xmin
-                elseif (fill_type(1:7).eq. 'maxnode') then
+                elseif (fill_type(1:flen).eq. 'maxnode') then
                    value(idx) = xmax
                 endif
               endif
@@ -1424,7 +1612,7 @@ c       end loop through elements in new attribute
 c
 C.... keyword vector
 C     Fill vector attribute from list of scalar attributes
-      elseif (fill_type(1:6).eq. 'vector') then
+      elseif (fill_type(1:flen).eq. 'vector') then
  
         if (clen2(1:5).eq.'nnode') then
           call cmo_get_intinfo('nnodes',
@@ -1455,7 +1643,7 @@ c       assumes vector of rank 3
  
 C.... keyword scalar
 C     Fill list of scalar attributes from vector attribute
-      elseif (fill_type(1:6).eq. 'scalar') then
+      elseif (fill_type(1:flen).eq. 'scalar') then
  
 c       create the remaining two attributes
         do i = 2,3
@@ -1501,8 +1689,8 @@ c       assumes vector of rank 3
  
 C.... keyword voronoi
 C     Fill x,y,z element attributes with voronoi points
-      elseif (fill_type(1:7) .eq. 'voronoi' .or.
-     *        fill_type(1:6) .eq. 'median' ) then
+      elseif (fill_type(1:flen) .eq. 'voronoi' .or.
+     *        fill_type(1:flen) .eq. 'median' ) then
  
 c       create the remaining two attributes
         do i = 2,3
@@ -1527,7 +1715,7 @@ c       create the remaining two attributes
         call cmo_get_intinfo('nelements',cmo_name,nlength,i,ityp,ierr)
         if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
  
-        if (fill_type(1:7) .eq. 'voronoi') then
+        if (fill_type(1:flen) .eq. 'voronoi') then
 c
 c         calculate voronoi points and fill the element attributes
 c
@@ -1554,7 +1742,7 @@ c
              endif
           enddo
  
-c       fill_type(1:6) .eq. 'median'
+c       fill_type(1:flen) .eq. 'median'
         else
 c
 c         calculate median points
@@ -1584,8 +1772,8 @@ C.... keyword xyz_rtz or xyz_rtp
 C
 C     Fill node attribues with spherical (r,theta,phi) or cylindrical (r,theta,z)
 C
-      elseif (fill_type(1:7) .eq. 'xyz_rtp' .or.
-     *        fill_type(1:7) .eq. 'xyz_rtz' ) then
+      elseif (fill_type(1:flen) .eq. 'xyz_rtp' .or.
+     *        fill_type(1:flen) .eq. 'xyz_rtz' ) then
  
 c       create the remaining two attributes
         do i = 2,3
@@ -1612,7 +1800,7 @@ c       create the remaining two attributes
          if(ierr.ne.0) call x3d_error(isubname,'intinfo nnodes ')
  
  
-        if (fill_type(1:7) .eq. 'xyz_rtp') then
+        if (fill_type(1:flen) .eq. 'xyz_rtp') then
 c
 c         calculate voronoi points and fill the element attributes
 c
@@ -1623,7 +1811,7 @@ c
      2                yvec(idx),zvec(idx))
          enddo
  
-c       fill_type(1:7) .eq. 'xyz_rtz'
+c       fill_type(1:flen) .eq. 'xyz_rtz'
         else
 c
 c         calculate rtz coordinates
@@ -1639,8 +1827,8 @@ c
 C
 C     Fill node attribtue with number of edge connections to each node.
 C
-      elseif((fill_type(1:16) .eq. 'edge_connections') .or.
-     1       (fill_type(1:13) .eq. 'node_num_diff'))then
+      elseif((fill_type(1:flen) .eq. 'edge_connections') .or.
+     1       (fill_type(1:flen) .eq. 'node_num_diff'))then
 C     PURPOSE -
 C
 C        Get the parent mass point - parent mass point relation.
@@ -1688,11 +1876,11 @@ C                    if both nodes are in pset
         call getedges_d(mpary,nnode,nnode,nelem,itet,itetoff,
      &   itettyp,iparent,isubname,inclusive,ipiedges,iedges_first)
 
-        if(fill_type(1:16) .eq. 'edge_connections')then
+        if(fill_type(1:flen) .eq. 'edge_connections')then
         do i = 1, nnode
            ivalue(i) = iedges_first(i+1) - iedges_first(i)
         enddo
-        elseif(fill_type(1:13) .eq. 'node_num_diff')then
+        elseif(fill_type(1:flen) .eq. 'node_num_diff')then
 C
 C       Compute the max difference in node numbers between
 C       node i and all nodes connected to i. 
