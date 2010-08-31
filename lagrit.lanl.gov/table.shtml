@@ -205,17 +205,24 @@
 <td><p><a href="docs/MATH.html">MATH</a></font>
   (do math on attributes)</font></p></td>
 
-<td><p><a href="docs/MERGE.html">MERGE</a></font>
-  (remove nodes)</font></p></td>
+<td><p><a href="docs/memory.html">MEMORY</a></font>
+  (query state of memory )</font></p></td>
+
 </tr>
 
 <tr>
+<td><p><a href="docs/MERGE.html">MERGE</a></font>
+  (remove nodes)</font></p></td>
+
 <td><p><a href="docs/metis.html">METIS</a></font>
   (graph partition algorithms)</font></p></td>
 
 <td><p><a href="docs/MODE.html">MODE</a></font>
   (set modes)</font></p></td>
 
+</tr>
+
+<tr>
 <td><p><a href="docs/MREGION.html">MREGION</a></font>
   (define a material region)</font></p></td>
 </tr>
