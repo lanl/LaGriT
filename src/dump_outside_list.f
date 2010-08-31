@@ -1,4 +1,4 @@
-      subroutine dump_outside_list(ifile, attrib_option)
+      subroutine dump_outside_list(ifile,attrib_option,area_option)
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C                         Copyright, 1996                              C
 C This program was prepared by the Regents of the University of        C
@@ -20,7 +20,13 @@ C         Output lists of nodes for top, bottom, left, right, front, back
 C
 C     INPUT ARGUMENTS -
 C
-C        Character string for naming output file
+C        ifile - Character string for naming output file
+C        attrib_option - for finding and saving outside boundary nodes
+C           keepatt - keeps and keeps top,bottom,left_w,right_e,back_n,front_s
+C           delatt  - removes these attributes 
+C        area_option - for computing voronoi or median face areas 
+C           keepatt_voronoi creates and keeps xn_varea, yn_varea, zn_varea
+C           keepatt_median creates and keeps xn_marea, yn_marea, zn_marea
 C
 C     OUTPUT ARGUMENTS -
 C
@@ -97,33 +103,26 @@ C
       include "chydro.h"
 c
       character*(*) ifile
-      character*132 log_io, dotask_command
-      character*32 cmo_name, isubname
-      character*128 ifilename, logmess
       character attrib_option*(*)
+      character area_option*(*)
+
+c     variables
+      character*132 log_io, dotask_command
+      character*32 cmo_name, isubname, tstring
+      character*128 ifilename, logmess
 c
       integer
-     >   ierror
-     > , n
-     > , i
-     > , icount
-     > , itotal
-     > , mtests
-     > , ntests
-     > , iunit
-     > , iunit2
-      integer
-     >   ilenout
-     >  , iatt_type
-     >  , itest
-     >  , length
-     >  , icscode
-     >  , icharlnf
-     >  , len, ilen, itype
+     >   ierror, ierr, ics, ierrw, 
+     >   n, i, icount, itotal, 
+     >   mtests, ntests, iunit, iunit2,
+     >   ilenout, iatt_type, itest, length, icscode, 
+     >   icharlnf, len, ilen, itype 
 
       integer ipat(64)
       pointer (ipout,outs)
       real*8 outs(*)
+      pointer (ipxatt,xatt)
+      real*8 xatt(*)
 c
 c     cmo variables
 c
@@ -147,10 +146,11 @@ c
       real*8 xcontab_node(3,1000000)
 C
 C     for finding minmax of outside normal zones
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
-      real*8  xic(10000000), yic(10000000), zic(10000000)
+C     commented out as they are no longer used
+c     pointer (ipxic, xic)
+c     pointer (ipyic, yic)
+c     pointer (ipzic, zic)
+c     real*8  xic(10000000), yic(10000000), zic(10000000)
 
       pointer (ipi_index, i_index)
       pointer (ipj_index, j_index)
@@ -161,9 +161,10 @@ C     for finding minmax of outside normal zones
       pointer (ipifound, ifound)
       integer itry(10000000), ifound(10000000)   
 
-      integer ier,inum,icnt,istop,jcnt,kcnt,j,k,nx,ny,nz,iinc
-      integer iout_minmax, nbin,ibin,lowbin,endbin,
-     >        ivalid,ileft,idone,ii,jj,kk,icol1,icol2
+      integer ier,inum,nx,ny,nz,iinc, ierr_att
+      integer iout_minmax,iout_voronoi,iattrib_area, 
+     >        nbin,ibin,lowbin,endbin,
+     >        ivalid,ileft,idone,ii,jj,icol1,icol2
 
 c
 C     MO variable arrays
@@ -175,7 +176,7 @@ C
       pointer (ipzn_area, zn_area)
       real*8 zn_area(1000000)
 
-      real*8 xareat, area_x, area_y, area_z
+      real*8 xsum,ysum,zsum, xareat, area_x, area_y, area_z
 c
       integer io_order(6)
       data io_order / 1, 2, 3, 5, 6, 4 /
@@ -260,13 +261,21 @@ c     are initialized and filled to designate
 c     top, bot, left, right, front, back
 c
 *--------------------------------------------------------
-c
       isubname='dump_outside_list'
-      iout_minmax = 0
 
-C     note that this routine can only take one option
-C     so pass keepatt through the string along with minmax 
-C     and set attrib option to intended option
+c     set default options
+c     all nodes on outside boundary written
+c     area computed for outside triangles will be voronoi
+      iout_minmax = 0
+      iout_voronoi = 1
+      iattrib_area = 0
+      ierr_att = -1
+
+C     Set atributes for boundary attributes
+C     note that this routine now takes 2 option strings
+C     keepatt_area now assumes voronoi attributes 
+
+C     Set options for outside attributes
       if((icharlnf(attrib_option) .eq. 14) .and.
      *   (attrib_option(1:14) .eq. 'minmax_keepatt'))then
          iout_minmax=1
@@ -274,16 +283,52 @@ C     and set attrib option to intended option
       else if((icharlnf(attrib_option) .eq. 19) .and.
      *   (attrib_option(1:19) .eq. 'minmax_keepatt_area'))then
          iout_minmax=1
-         attrib_option='keepatt_area'
+         attrib_option='keepatt'
+         area_option='keepatt_area'
       else if((icharlnf(attrib_option) .eq. 13) .and.
      *   (attrib_option(1:13) .eq. 'minmax_delatt'))then
          iout_minmax=1
          attrib_option='delatt'
+      else if (attrib_option(1:8).eq.'-notset-') then
+         attrib_option='delatt'
       endif
+
+C     Set options for boundary area attributes
+      if((icharlnf(area_option) .eq. 15) .and.
+     *   (area_option(1:15) .eq. 'keepatt_voronoi'))then
+         iout_voronoi=1
+         iattrib_area=1
+
+      elseif((icharlnf(area_option) .eq. 15) .and.
+     *   (area_option(1:15) .eq. 'voronoi_keepatt'))then
+         iout_voronoi=1
+         iattrib_area=1
+
+      elseif((icharlnf(area_option) .eq. 14) .and.
+     *   (area_option(1:15) .eq. 'median_keepatt'))then
+         iout_voronoi=0
+         iattrib_area=1
+
+      elseif((icharlnf(area_option) .eq. 14) .and.
+     *   (area_option(1:15) .eq. 'keepatt_median'))then
+         iout_voronoi=0
+         iattrib_area=1
+
+      elseif((icharlnf(area_option) .eq. 12) .and.
+     *   (area_option(1:15) .eq. 'keepatt_area'))then
+         iout_voronoi=1
+         iattrib_area=1
+      endif
+
 c
 c
       write(log_io,100)
   100 format('*********dump_outside_list********')
+      call writloga('default',0,log_io,0,ierror)
+      if (iout_voronoi.ne.0) write(log_io,'(a)')
+     *    "Voronoi Areas used for outside faces."
+      if (iout_voronoi.eq.0) write(log_io,'(a)')
+     *    "Median  Area used for outside faces."
       call writloga('default',0,log_io,0,ierror)
 c
       call cmo_get_name
@@ -346,7 +391,11 @@ c
       call hassign(iunit,ifilename,ierror)
 c     open file to output-area zone lists
 c
-      ifilename=ifile(1:icharlnf(ifile)) // '_outside.area'
+      if (iout_voronoi.gt.0) then
+        ifilename=ifile(1:icharlnf(ifile)) // '_outside_vor.area'
+      else
+        ifilename=ifile(1:icharlnf(ifile)) // '_outside_med.area'
+      endif
       iunit2=-1
       call hassign(iunit2,ifilename,ierror)
 C
@@ -362,26 +411,108 @@ c
      *              ipxcontab_node,length,itest,icscode)
 C
 C     Allocate MO arrays to hold x,y,z components of node area vector
+C     check for existance of old attributes, then add if not exist
 C
-      if((icharlnf(attrib_option) .eq. 12) .and.
-     1   (attrib_option(1:12) .eq. 'keepatt_area'))then
-       call dotask
-     *  ('cmo/addatt/-def-/xn_area/vdouble/scalar/nnodes;finish',ierror)
-       call dotask
-     *  ('cmo/addatt/-def-/yn_area/vdouble/scalar/nnodes;finish',ierror)
-       call dotask
-     *  ('cmo/addatt/-def-/zn_area/vdouble/scalar/nnodes;finish',ierror)
-         call cmo_get_info
-     *  ('xn_area',cmo_name,ipxn_area,ilenimt1,itypimt1,ierror)
-         call cmo_get_info
-     *  ('yn_area',cmo_name,ipyn_area,ilenimt1,itypimt1,ierror)
-         call cmo_get_info
-     *  ('zn_area',cmo_name,ipzn_area,ilenimt1,itypimt1,ierror)
+       if (iattrib_area.ne.0) then
+       if (iout_voronoi.ne.0) then
+         ierr_att = 0
+
+         call mmfindbk('xn_varea',cmo_name,ipxn_area,ilenout,ierr)
+         if(ierr.ne.0) then
+           call dotask
+     *    ('cmo/addatt/-def-/xn_varea/vdouble/scalar/nnodes;finish',ics)
+            call cmo_get_info
+     *     ('xn_varea',cmo_name,ipxn_area,ilenimt1,itypimt1,ierror)
+            if (ierror.ne.0) ierr_att = 1
+         else
+           write(logmess,'(a)') 
+     *     'attribute already exists, will overwrite: xn_varea'
+           call writloga('default',0,logmess,0,ierrw)
+         endif
+
+         call mmfindbk('yn_varea',cmo_name,ipyn_area,ilenout,ierr)
+         if(ierr.ne.0) then
+           call dotask
+     *    ('cmo/addatt/-def-/yn_varea/vdouble/scalar/nnodes;finish',ics)
+            call cmo_get_info
+     *     ('yn_varea',cmo_name,ipyn_area,ilenimt1,itypimt1,ierror)
+            if (ierror.ne.0) ierr_att = 1
+         else
+           write(logmess,'(a)')
+     *     'attribute already exists, will overwrite: yn_varea'
+           call writloga('default',0,logmess,0,ierrw)
+         endif
+
+         call mmfindbk('zn_varea',cmo_name,ipzn_area,ilenout,ierr)
+         if(ierr.ne.0) then
+           call dotask
+     *    ('cmo/addatt/-def-/zn_varea/vdouble/scalar/nnodes;finish',ics)
+            call cmo_get_info
+     *     ('zn_varea',cmo_name,ipzn_area,ilenimt1,itypimt1,ierror)
+            if (ierror.ne.0) ierr_att = 1
+         else
+           write(logmess,'(a)')
+     *     'attribute already exists, will overwrite: zn_varea'
+           call writloga('default',0,logmess,0,ierrw)
+         endif
+
+C      median areas must be chosen explicitly through keepatt_median
+       else
+         ierr_att = 0
+
+         call mmfindbk('xn_marea',cmo_name,ipxn_area,ilenout,ierr)
+         if(ierr.ne.0) then
+           call dotask
+     *    ('cmo/addatt/-def-/xn_marea/vdouble/scalar/nnodes;finish',ics)
+            call cmo_get_info
+     *     ('xn_marea',cmo_name,ipxn_area,ilenimt1,itypimt1,ierror)
+            if (ierror.ne.0) ierr_att = 1
+         else
+           write(logmess,'(a)') 
+     *     'attribute already exists, will overwrite: xn_marea'
+           call writloga('default',0,logmess,0,ierrw)
+         endif
+
+         call mmfindbk('yn_marea',cmo_name,ipyn_area,ilenout,ierr)
+         if(ierr.ne.0) then
+           call dotask
+     *    ('cmo/addatt/-def-/yn_marea/vdouble/scalar/nnodes;finish',ics)
+            call cmo_get_info
+     *     ('yn_marea',cmo_name,ipyn_area,ilenimt1,itypimt1,ierror)
+            if (ierror.ne.0) ierr_att = 1
+         else
+           write(logmess,'(a)')
+     *     'attribute already exists, will overwrite: yn_marea'
+           call writloga('default',0,logmess,0,ierrw)
+         endif
+
+         call mmfindbk('zn_marea',cmo_name,ipzn_area,ilenout,ierr)
+         if(ierr.ne.0) then
+           call dotask
+     *    ('cmo/addatt/-def-/zn_marea/vdouble/scalar/nnodes;finish',ics)
+            call cmo_get_info
+     *     ('zn_marea',cmo_name,ipzn_area,ilenimt1,itypimt1,ierror)
+            if (ierror.ne.0) ierr_att = 1
+         else
+           write(logmess,'(a)')
+     *     'attribute already exists, will overwrite: zn_marea'
+           call writloga('default',0,logmess,0,ierrw)
+         endif
+
+      endif
       endif
 
-      call get_xcontab('area_vector',cmo_name,ipxcontab_node)
+C     default uses voronoi version of outside faces
+C     only use median if keepatt_median is used
+
+      if (iout_voronoi.gt.0) then
+        call get_xcontab('area_voronoi',cmo_name,ipxcontab_node)
+      else
+        call get_xcontab('area_vector',cmo_name,ipxcontab_node)
+      endif
 
       if (iout_minmax.eq.1) then
+
 C  Method for minmax outside nodes -----------------------------------
 C       Use ijk to find the min max ijk for each direction
 C       Overwrite the iwork array to small subset which
@@ -418,6 +549,7 @@ c       Find nx,ny,nz for each of the outside directions
 c       end setup for indexing minmax outside nodes
       endif
 
+
 C MAIN LOOP
 C Loop through the six directions,
 C     top(zone 1), bottom(zone 2), left(zone 3),
@@ -426,6 +558,9 @@ C     For each outside direction
 C       add an integer attribute array for each face
 C       check that it exists, and is proper length
 
+      xsum=0.0
+      ysum=0.0
+      zsum=0.0
       do mtests = 1, 6
  
         ntests = io_order(mtests)
@@ -623,20 +758,10 @@ c
  940        format(10(i10,1x))
 
 c
-c         OUTPUT AREAS
+c         OUTPUT AREAS - write to file and write sums to screen
 c
-            write(iunit2,175)
-     >        ntests,
-     >        ibndflag_name(ntests)(1:icharlnf(ibndflag_name(ntests)))
- 175        format(i5.5,2x,a)
-            write(iunit2,180)'nnum'
- 180        format(a4)
-            write(iunit2,*)icount
-            write(iunit2,'(6(1x,1pe20.12))')
-     *                     (xcontab_node(1,iwork(n)),
-     *                      xcontab_node(2,iwork(n)),
-     *                      xcontab_node(3,iwork(n)),
-     *                                   n=1,icount)
+c           Get information to write to output
+c           sum of areas written to file after zone name
             xareat=0.0
             area_x = 0.0
             area_y = 0.0
@@ -650,22 +775,68 @@ c
                area_z=area_z+sqrt(xcontab_node(3,iwork(i))**2)
             enddo
 
-C            write(log_io,920)ibndflag_name(ntests),xareat
-C  920       format('Area:  ',a10,e14.7)
-C            call writloga('default',0,log_io,0,ierror)
-            write(log_io,920)ibndflag_name(ntests)
+C           no longer write xareat, magnitude does not equal sum of areas
+C           the sum area is already written in vector form
+C           ie, the sum of top areas is equal to the z component sum
+C           sum all faces of each direction
+            if (mtests.eq.1 .or. mtests.eq.2) then
+              xsum=xsum+area_z
+            elseif (mtests.eq.3 .or. mtests.eq.5) then
+              xsum=xsum+area_x
+            else
+              xsum=xsum+area_y
+            endif
+
+c           zone name and sum of area components
+c           write(iunit2,175)
+c    >        ntests,
+c    >        ibndflag_name(ntests)(1:icharlnf(ibndflag_name(ntests)))
+c175        format(i5.5,2x,a)
+
+            tstring = "   Sum MEDIAN vectors:  "
+            if(iout_voronoi .ne. 0) tstring = "   Sum VORONOI vectors: "
+            write(iunit2,175)
+     >       ntests,
+     >       ibndflag_name(ntests)(1:icharlnf(ibndflag_name(ntests)))
+     >       // tstring(1:24) ,area_x,area_y,area_z
+ 175        format(i5.5,2x,a,3e14.7)
+
+
+c           vector areas for each node in current zone
+            write(iunit2,180)'nnum'
+ 180        format(a4)
+
+C DEBUG
+c           write(*,'(6(1x,1pe20.12))')
+c    *                     (xcontab_node(1,iwork(n)),
+c    *                      xcontab_node(2,iwork(n)),
+c    *                      xcontab_node(3,iwork(n)),
+c    *                                   n=1,icount)
+
+
+            write(iunit2,*)icount
+            write(iunit2,'(6(1x,1pe20.12))')
+     *                     (xcontab_node(1,iwork(n)),
+     *                      xcontab_node(2,iwork(n)),
+     *                      xcontab_node(3,iwork(n)),
+     *                                   n=1,icount)
+
+             tstring = " Sum Median   "
+             if(iout_voronoi .ne. 0) tstring = " Sum Voronoi "
+
+C           WRITE zone information to screen output
+            write(log_io,920)ibndflag_name(ntests),tstring
   920       format
-     *     (a10,
-     *      'Area            Area_x          Area_y          Area_z')
+     *     (a10,a12,
+     *      '      Area_x          Area_y          Area_z')
             call writloga('default',0,log_io,0,ierror)
-            write(log_io,925)xareat,area_x,area_y,area_z
-  925       format(7x,4e16.7)
+            write(log_io,925)area_x,area_y,area_z
+  925       format(20x,3e16.7)
             call writloga('default',0,log_io,0,ierror)
 C
 C           Fill arrays with x,y,z components of outside area vectors.
 C
-            if((icharlnf(attrib_option) .eq. 12) .and.
-     1         (attrib_option(1:12) .eq. 'keepatt_area'))then
+            if (iattrib_area.ne.0 .and. ierr_att.eq.0) then
                do n = 1, icount
                    xn_area(iwork(n)) = xcontab_node(1,iwork(n))
                    yn_area(iwork(n)) = xcontab_node(2,iwork(n))
@@ -673,10 +844,9 @@ C
                enddo
             endif
 
+c         assign values to the array added above
+
           if(if_debug .ne. 0)then
-c
-c      assign values to the array added above
-c
             do n = 1, icount
                ipiarray = ipout
                iarray(iwork(n)) = ntests
@@ -686,6 +856,10 @@ c
 
 C     END MAIN LOOP through six directions of mtests
       enddo
+
+      write(log_io,'(a)')" "
+      write(log_io,'(a,1pe20.12)')"Sum of outside areas: ",xsum
+      write(log_io,'(a)')" "
 
       write(iunit,9074)
       write(iunit2,9074)
@@ -731,6 +905,8 @@ c delete front_s
      .       call x3d_error(isubname,'Could not delete front_s')
 
       endif
+
+
  
 c     release memory of work array
 c

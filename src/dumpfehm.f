@@ -1,6 +1,6 @@
 *DK dumpfehm
       subroutine dumpfehm(ifile,ifileini,ioption,iomode,
-     *              area_coef_option,compress_opt,attrib_option)
+     *       area_coef_option,compress_opt,attrib_option,area_option)
 C
 C #####################################################################
 C
@@ -15,7 +15,8 @@ C         ioption is fehm or stor, where fehm will write all fehm files
 C         iomode is writing mode such as ascii
 C         area_coef_option is coef_option such as scalar
 C         compress_opt to compress coef values and indices
-C         attrib_option is attribute option such as keepatt
+C         attrib_option is outside node option such as keepatt
+C         area_option is attribute option such as keepatt_voronoi
 C
 C
 C     INPUT ARGUMENTS -
@@ -171,7 +172,7 @@ c
       character ifile*(*), ifileini*(*)
       character ioption*(*)
       character iomode*(*), area_coef_option*(*)
-      character compress_opt*(*), attrib_option*(*)
+      character compress_opt*(*),attrib_option*(*),area_option*(*)
 
       integer ntets, nen, nsdtopo, nef, ijob
       integer length, icmotype, io, num_area_coef, ierror
@@ -210,7 +211,8 @@ c
      *   iomode(1:icharlnf(iomode)),
      *   area_coef_option(1:icharlnf(area_coef_option)),
      *   compress_opt(1:icharlnf(compress_opt)),
-     *   attrib_option(1:icharlnf(attrib_option))
+     *   attrib_option(1:icharlnf(attrib_option)),
+     *   area_option(1:icharlnf(area_option))
         call writloga('default',0,logmess,0,ierr)
         call mmverify()
       endif
@@ -221,6 +223,7 @@ C     any combination of options are allowed to pass into this routine
 C     check here and warn for those that do not apply, set to defaults
 C         dump/fehm option ifileini is used by dump_fehm_geom
 C         dump/fehm option attrib_option default is delatt 
+C         dump/fehm option area_option default is -notset- 
 C         ifile is the file or attribute name
 C         ioption is fehm or stor, where fehm will write all fehm files
 C         iomode default is ascii
@@ -232,6 +235,7 @@ c     OPTIONS for default fehm files
 c       imat_select - dump_material_list of single value (set to zero here)
 c                     since there is no way to get the value in here.
 c       attrib_option - delatt|keepatt|keepatt_area for dump_outside_list
+c       area_option - keepatt_voronoi | keepatt_median for dump_outside_list
 
       imat_select = 0
  
@@ -245,7 +249,7 @@ c       attrib_option - delatt|keepatt|keepatt_area for dump_outside_list
         call dump_multi_mat_con(ifile)
 
         call dotaskx3d('log/tty/off; finish',ierror)
-        call dump_outside_list(ifile, attrib_option)
+        call dump_outside_list(ifile, attrib_option, area_option)
         call dotaskx3d('log/tty/on; finish',ierror)
         call dump_parent_list(ifile)
       endif

@@ -1,6 +1,6 @@
 *dk,get_xcontab
       subroutine get_xcontab(coption,cmo,ipxcontab_node)
-C
+
 C
 C#######################################################################
 C
@@ -8,6 +8,18 @@ C      PURPOSE -
 C
 C         THIS ROUTINE DETERMINES THE LOCAL CONSTRAINT TABLE FOR EACH
 C            NODE IN A CMO USING THE DEGREE-OF-FREEDOM INFO IN ICONTAB
+C
+C         coption = 'default" CREATE THE 3 BY 3 MATRIX3
+C           DEFINED AT EACH NODE THAT WHEN MULTIPLIED BY THE VELOCITY
+C           VECTOR WILL CONSTRAIN MOTION TO REMAIN ON A SURFACE OR
+C           ON A LINE OR AT A POINT
+C
+C         coption = 'area_vector', 'area_normal' (triangles and lines)
+C           calculates and writes outside area into xcontab_node
+C           each node is assigned a fraction of the area
+C
+C         coption = 'area_voronoi' (triangles only)
+C           calculates and writes outside voronoi area into xcontab_node
 C
 C      INPUT ARGUMENTS -
 C
@@ -109,15 +121,17 @@ C
       pointer (ipzarea, zarea )
       real*8 zarea(1000000)
 C
-      real*8 x2,y2,z2, x3,y3,z3, x4,y4,z4
+      real*8 x0,y0,z0,x1,y1,z1,x2,y2,z2, x3,y3,z3
       real*8 xarea_tri, yarea_tri, zarea_tri,
      8       xareamag, xareamax
-      real*8 x1,y1,z1,dx,dy,dz,dxtri,dytri,dztri,xdir,ydir,zdir,
+      real*8 dx,dy,dz,dxtri,dytri,dztri,xdir,ydir,zdir,
      * xn,yn,zn,ds,xavg,yavg,zavg,xfac,xmag,xmag_dir
+
+      real*8 xareav,yareav,zareav
 C
       integer i,j,i1,it,i2,i3,i4,ioff,joff,loption, j1
       integer nnodes, nelements, mbndry, idofi1, idofj1, icount
-      integer ilen, itype, length
+      integer ilen,itype,length,icnt_vor,icnt_med,icnt_dofi1,icnt_dofi2
 C
 C#######################################################################
 C
@@ -178,7 +192,15 @@ C
          yarea(i1)=0.0d+00
          zarea(i1)=0.0d+00
       enddo
+
+c     count the types of areas computed
+      icnt_vor = 0
+      icnt_med = 0
+      icnt_dofi1 = 0
+      icnt_dofi2 = 0
+
       do it=1,nelements
+
          ioff=itetoff(it)
          joff=jtetoff(it)
          do i=1,nelmnef(itettyp(it))
@@ -188,113 +210,218 @@ C
             else
                idofi1=icontab(2,icr1(i1))
             endif
-            x1=xic(i1)
-            y1=yic(i1)
-            z1=zic(i1)
+
+c           first point of element 
+            x0=xic(i1)
+            y0=yic(i1)
+            z0=zic(i1)
+
+c           Calculate area of the outside face
+c           outside area of tet is triangle, of triangle is a line
+c           calculate area of face opposite point
+
             if(jtet1(joff+i).ge.mbndry) then
-               if(itettyp(it).eq.ifelmtet) then
-                  i2=itet1(ioff+ielmface1(1,i,itettyp(it)))
-                  i3=itet1(ioff+ielmface1(2,i,itettyp(it)))
-                  i4=itet1(ioff+ielmface1(3,i,itettyp(it)))
-                  x2=xic(i2)
-                  y2=yic(i2)
-                  z2=zic(i2)
-                  x3=xic(i3)
-                  y3=yic(i3)
-                  z3=zic(i3)
-                  x4=xic(i4)
-                  y4=yic(i4)
-                  z4=zic(i4)
-                  xarea_tri= 0.5d+00*((y2-y3)*(z4-z3)-(y4-y3)*(z2-z3))
-                  yarea_tri=-0.5d+00*((x2-x3)*(z4-z3)-(x4-x3)*(z2-z3))
-                  zarea_tri= 0.5d+00*((x2-x3)*(y4-y3)-(x4-x3)*(y2-y3))
-               elseif(itettyp(it).eq.ifelmtri) then
-                  i2=itet1(ioff+ielmface1(1,i,itettyp(it)))
-                  i3=itet1(ioff+ielmface1(2,i,itettyp(it)))
-                  x2=xic(i2)
-                  y2=yic(i2)
-                  z2=zic(i2)
-                  x3=xic(i3)
-                  y3=yic(i3)
-                  z3=zic(i3)
-                  dx=x3-x2
-                  dy=y3-y2
-                  dz=z3-z2
-                  dxtri= ((y2-y1)*(z3-z1)-(y3-y1)*(z2-z1))
-                  dytri=-((x2-x1)*(z3-z1)-(x3-x1)*(z2-z1))
-                  dztri= ((x2-x1)*(y3-y1)-(x3-x1)*(y2-y1))
-                  xdir=-(dy*dztri-dytri*dz)
-                  ydir= (dx*dztri-dxtri*dz)
-                  zdir=-(dx*dytri-dxtri*dy)
-                  xmag_dir=sqrt(xdir**2+ydir**2+zdir**2)
-                  xmag=sqrt(dx**2+dy**2+dz**2)
-                  if(xmag_dir.gt.0.0) then
-                     xarea_tri=xmag*xdir/xmag_dir
-                     yarea_tri=xmag*ydir/xmag_dir
-                     zarea_tri=xmag*zdir/xmag_dir
-                  else
-                     xarea_tri=0.0
-                     yarea_tri=0.0
-                     zarea_tri=0.0
-                  endif
-               endif
-               if(coption(1:loption).eq.'area_vector'.or.
-     *            coption(1:loption).eq.'area_normal') then
-                  xfac=1.0d+00/ielmface0(i,itettyp(it))
-                  do j=1,ielmface0(i,itettyp(it))
-                     j1=itet1(ioff+ielmface1(j,i,itettyp(it)))
-                     xarea(j1)=xarea(j1)+xfac*xarea_tri
-                     yarea(j1)=yarea(j1)+xfac*yarea_tri
-                     zarea(j1)=zarea(j1)+xfac*zarea_tri
-                  enddo
-               elseif(coption(1:loption).eq.'default') then
-                  do j=1,ielmface0(i,itettyp(it))
-                     j1=itet1(ioff+ielmface1(j,i,itettyp(it)))
-                     if (icr1(j1).eq.0.or..not.isicontab) then
-                        idofj1=3
-                     else
-                        idofj1=icontab(2,icr1(j1))
-                     endif
-                     if(idofi1.eq.1) then
-                        if(( idofj1.lt.idofi1 .and.
-     *                       itp1(j1).eq.itp1(i1)
-     *                     )
-     *                    .or.
-     *                     ( idofj1.eq.idofi1 .and.
-     *                       icr1(j1).eq.icr1(i1)   .and.
-     *                       itp1(j1).eq.itp1(i1)
-     *                     )
-     *                    ) then
-                           xavg=0.5d+00*(xic(j1)+x1)
-                           yavg=0.5d+00*(yic(j1)+y1)
-                           zavg=0.5d+00*(zic(j1)+z1)
-                           ds=sqrt((xic(j1)-x1)**2+
-     *                             (yic(j1)-y1)**2+
-     *                             (zic(j1)-z1)**2)
-                           xn=(xic(j1)-x1)/ds
-                           yn=(yic(j1)-y1)/ds
-                           zn=(zic(j1)-z1)/ds
-                           xarea(i1)=xarea(i1)+xavg*xn
-                           yarea(i1)=yarea(i1)+yavg*yn
-                           zarea(i1)=zarea(i1)+zavg*zn
-                        endif
-                     endif
-                     if(idofj1.eq.2) then
-                        xarea(j1)=xarea(j1)+xarea_tri/2.0d+00
-                        yarea(j1)=yarea(j1)+yarea_tri/2.0d+00
-                        zarea(j1)=zarea(j1)+zarea_tri/2.0d+00
-                     endif
-                  enddo
+
+            if(itettyp(it).eq.ifelmtet) then
+              i2=itet1(ioff+ielmface1(1,i,itettyp(it)))
+              i3=itet1(ioff+ielmface1(2,i,itettyp(it)))
+              i4=itet1(ioff+ielmface1(3,i,itettyp(it)))
+              x1=xic(i2)
+              y1=yic(i2)
+              z1=zic(i2)
+              x2=xic(i3)
+              y2=yic(i3)
+              z2=zic(i3)
+              x3=xic(i4)
+              y3=yic(i4)
+              z3=zic(i4)
+
+              xarea_tri= 0.5d+00*((y1-y2)*(z3-z2)-(y3-y2)*(z1-z2))
+              yarea_tri=-0.5d+00*((x1-x2)*(z3-z2)-(x3-x2)*(z1-z2))
+              zarea_tri= 0.5d+00*((x1-x2)*(y3-y2)-(x3-x2)*(y1-y2))
+
+
+c           outside area of triangle is a line
+            elseif(itettyp(it).eq.ifelmtri) then
+              i2=itet1(ioff+ielmface1(1,i,itettyp(it)))
+              i3=itet1(ioff+ielmface1(2,i,itettyp(it)))
+              x1=x0
+              y1=y0
+              z1=z0
+              x2=xic(i2)
+              y2=yic(i2)
+              z2=zic(i2)
+              x3=xic(i3)
+              y3=yic(i3)
+              z3=zic(i3)
+              dx=x3-x2
+              dy=y3-y2
+              dz=z3-z2
+              dxtri= ((y2-y1)*(z3-z1)-(y3-y1)*(z2-z1))
+              dytri=-((x2-x1)*(z3-z1)-(x3-x1)*(z2-z1))
+              dztri= ((x2-x1)*(y3-y1)-(x3-x1)*(y2-y1))
+              xdir=-(dy*dztri-dytri*dz)
+              ydir= (dx*dztri-dxtri*dz)
+              zdir=-(dx*dytri-dxtri*dy)
+              xmag_dir=sqrt(xdir**2+ydir**2+zdir**2)
+              xmag=sqrt(dx**2+dy**2+dz**2)
+
+              if(xmag_dir.gt.0.0) then
+                  xarea_tri=xmag*xdir/xmag_dir
+                  yarea_tri=xmag*ydir/xmag_dir
+                  zarea_tri=xmag*zdir/xmag_dir
+              else
+                  xarea_tri=0.0
+                  yarea_tri=0.0
+                  zarea_tri=0.0
+              endif
+
+            endif
+c           end setting of xarea_tri,yarea_tri,zarea_tri
+c           for triangles or lines
+
+
+C           LOOP through each node on face and assign associated areas
+            if(coption(1:loption).eq.'area_vector'.or.
+     *         coption(1:loption).eq.'area_normal'  .or.
+     *         coption(1:loption).eq.'area_voronoi') then
+
+C-------      VORONOI AREAS 
+C             *** for outside areas that are triangles only ***
+c             area_voronoi assumes tet outside area is triangle
+
+              if(coption(1:loption).eq.'area_voronoi' .and.
+     *           itettyp(it).eq.ifelmtet) then
+
+                icnt_vor = icnt_vor + 1
+
+C               assign areas to the current face nodes
+C               by calculating their voronoi areas 
+C               for each node
+C               calculate area for both triangles formed
+C               by node, edge midpoint, vor center
+C               preserve face direction so area can go negative
+C               for situations where the voronoi center fall outside
+
+C               xyz values for pts 1,2,3 already assigned for tri face
+C               i is current face, j1 is current node on face
+
+                j1=itet1(ioff+ielmface1(1,i,itettyp(it)))
+                call voronoi_vector_area(x1,y1,z1,x2,y2,z2,x3,y3,z3,
+     *          xareav,yareav,zareav)
+                xarea(j1) = xarea(j1) + xareav
+                yarea(j1) = yarea(j1) + yareav
+                zarea(j1) = zarea(j1) + zareav
+
+                j1=itet1(ioff+ielmface1(2,i,itettyp(it)))
+                call voronoi_vector_area(x2,y2,z2,x3,y3,z3,x1,y1,z1,
+     *          xareav,yareav,zareav)
+                xarea(j1) = xarea(j1) + xareav
+                yarea(j1) = yarea(j1) + yareav
+                zarea(j1) = zarea(j1) + zareav
+
+                j1=itet1(ioff+ielmface1(3,i,itettyp(it)))
+                call voronoi_vector_area(x3,y3,z3,x1,y1,z1,x2,y2,z2,
+     *          xareav,yareav,zareav)
+                xarea(j1) = xarea(j1) + xareav
+                yarea(j1) = yarea(j1) + yareav
+                zarea(j1) = zarea(j1) + zareav
+
+C DEBUG        loop for debug output
+c                 print*,' '
+c                 do j=1,ielmface0(i,itettyp(it))
+c                   j1=itet1(ioff+ielmface1(j,i,itettyp(it)))
+c                   print*,'node: ',j1,xarea(j1),yarea(j1),zarea(j1)
+c                 enddo
+c                 print*,"********"
+
+
+              else
+C -----         MEDIAN AREAS for triangles and midpoint for line
+c               number to compute fractional area
+C               by dividing equally between each node
+                xfac=1.0d+00/ielmface0(i,itettyp(it))
+
+                icnt_med = icnt_med + 1
+
+                do j=1,ielmface0(i,itettyp(it))
+                 j1=itet1(ioff+ielmface1(j,i,itettyp(it)))
+                 xarea(j1)=xarea(j1)+xfac*xarea_tri
+                 yarea(j1)=yarea(j1)+xfac*yarea_tri
+                 zarea(j1)=zarea(j1)+xfac*zarea_tri
+                enddo
+              endif 
+
+C -----       default using velocity vectors 
+              elseif(coption(1:loption).eq.'default') then
+                do j=1,ielmface0(i,itettyp(it))
+                   j1=itet1(ioff+ielmface1(j,i,itettyp(it)))
+                   if (icr1(j1).eq.0.or..not.isicontab) then
+                      idofj1=3
+                   else
+                      idofj1=icontab(2,icr1(j1))
+                   endif
+                   if(idofi1.eq.1) then
+
+                      icnt_dofi1 = icnt_dofi1 + 1
+
+                      if(( idofj1.lt.idofi1 .and.
+     *                     itp1(j1).eq.itp1(i1)
+     *                   )
+     *                  .or.
+     *                   ( idofj1.eq.idofi1 .and.
+     *                     icr1(j1).eq.icr1(i1)   .and.
+     *                     itp1(j1).eq.itp1(i1)
+     *                   )
+     *                  ) then
+                         xavg=0.5d+00*(xic(j1)+x1)
+                         yavg=0.5d+00*(yic(j1)+y1)
+                         zavg=0.5d+00*(zic(j1)+z1)
+                         ds=sqrt((xic(j1)-x1)**2+
+     *                           (yic(j1)-y1)**2+
+     *                           (zic(j1)-z1)**2)
+                         xn=(xic(j1)-x1)/ds
+                         yn=(yic(j1)-y1)/ds
+                         zn=(zic(j1)-z1)/ds
+                         xarea(i1)=xarea(i1)+xavg*xn
+                         yarea(i1)=yarea(i1)+yavg*yn
+                         zarea(i1)=zarea(i1)+zavg*zn
+                      endif
+                   endif
+                   if(idofj1.eq.2) then
+                      icnt_dofi2 = icnt_dofi2 + 1
+                      xarea(j1)=xarea(j1)+xarea_tri/2.0d+00
+                      yarea(j1)=yarea(j1)+yarea_tri/2.0d+00
+                      zarea(j1)=zarea(j1)+zarea_tri/2.0d+00
+                   endif
+                enddo
                endif
             endif
+
          enddo
+
       enddo
-      if(coption(1:loption).eq.'area_vector') then
+C     end loop through all elements
+
+C     Copy area values into xcontab_node
+C     Do any final processing of values here.
+
+      if(coption(1:loption).eq.'area_voronoi') then
+
          do i1=1,nnodes
             xcontab_node(1+3*(i1-1))=-xarea(i1)
             xcontab_node(2+3*(i1-1))=-yarea(i1)
             xcontab_node(3+3*(i1-1))=-zarea(i1)
          enddo
+
+      elseif(coption(1:loption).eq.'area_vector') then 
+
+         do i1=1,nnodes
+            xcontab_node(1+3*(i1-1))=-xarea(i1)
+            xcontab_node(2+3*(i1-1))=-yarea(i1)
+            xcontab_node(3+3*(i1-1))=-zarea(i1)
+         enddo
+
       elseif(coption(1:loption).eq.'area_normal') then
          xareamax=0.0d+00
          do i1=1,nnodes
@@ -394,7 +521,17 @@ C
       goto 9999
  9999 continue
 C
+      if (icnt_dofi1.gt.0) write(*,'(i14,a)')
+     *    icnt_dofi1," type 1 Velocity vectors computed."
+      if (icnt_dofi2.gt.0) write(*,'(i14,a)')
+     *    icnt_dofi2," type 2 Velocity vectors computed."
+      if (icnt_vor.gt.0) write(*,'(i14,a)')
+     *    icnt_vor," Voronoi vectors computed."
+      if (icnt_med.gt.0) write(*,'(i14,a)')
+     *    icnt_med," Median  vectors computed."
+
       call mmrelprt(isubname,icscode)
 C
+
       return
       end

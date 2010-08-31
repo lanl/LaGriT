@@ -278,7 +278,7 @@ C
 
       character*32 idsb
       character*32 ioption, ioption2, ioption3, ifile, iomode
-      character*32 ioption4, ioption5
+      character*32 ioption4, ioption5, ioption6
       character*132 logmess
 C
 C#######################################################################
@@ -287,52 +287,25 @@ C
 C
 C#######################################################################
 C
-C     Variables for allowing the 2/3-token form of read
-C     To add more filetypes for the short-form 2/3-token read,
-C     follow these easy steps: Update filetypes and fileoptions
-C     to arrays of the new larger size, and update numtypes 
-C     similarly. Then, add the new file extensions and read options
-C     that you want to support into the arrays.
-      integer numtypes
-      character*8 filetypes(6)
-      character*32 fileoptions(6)
-      integer typeindex
-      character*132 filename
-      character*64 cmoname
-      character*8 fileext
-      integer namelen
-      integer extlen
-      integer extindex
-      character*128 newcommand
-C
-      filetypes(1) = 'inp'
-      fileoptions(1) = 'avs'
-      filetypes(2) = 'avs'
-      fileoptions(2) = 'avs'
-      filetypes(3) = 'lg'
-      fileoptions(3) = 'lagrit'
-      filetypes(4) = 'lagrit'
-      fileoptions(4) = 'lagrit'
-      filetypes(5) = 'gmv'
-      fileoptions(5) = 'gmv'
-      filetypes(6) = 'ts'
-      fileoptions(6) = 'gocad'
-      numtypes = 6
-C#######################################################################
-C
 C
 C     In General the DUMP command has syntax
 C     dump_type / dump_command / filename_out / cmo_in / [OPTIONS]
 C
 C     parse and fill values for ifile, cmo 
 C     iomode, ioption, ioption2, ioption3, ioption4 imt_select
+C     ioption5 and ioption6 are attribute options
 C     Note parsing can happen before case for dump_command
 C
 C
 C
       cdefault='default'
       idsb = cmsgin(1)
-      ioption=' '
+      ioption='-notset-'
+      ioption2='-notset-'
+      ioption3='-notset-'
+      ioption4='-notset-'
+      ioption5='-notset-'
+      ioption6='-notset-'
       leno=1
       imt_select=0
       ierror_return = 0
@@ -342,71 +315,6 @@ C
 C
       lenidsb = icharln(idsb)
 C
-C##################################################################
-C   Code for parsing 3-token dump
-C
-      if (nwds .eq. 2 .or. nwds .eq. 3) then
-          if (nwds .eq. 2) then
-              cmoname = '-def-'
-          else
-              cmoname = cmsgin(3)(1:icharln(cmsgin(3)))
-          endif
-C***Find the index of the '.' in the file name         
-         extindex = index(cmsgin(2), '.', .TRUE.)
-C***If there is no '.', it is not valid, so try other syntax         
-         if (extindex .eq. 0) then
-             write(logmess,'(a)') 'Second argument is not a filename. '
-     *                        // 'Trying to use default mesh object.'
-             call writloga('default',1,logmess,0,ierror)
-         else 
-             filename = cmsgin(2)
-             namelen = icharln(filename)
-             fileext = filename(extindex+1:namelen)
-             extlen = icharln(fileext)
-C***Convert file extension to lowercase
-             extindex = 1
-             do while (extindex .le. icharln(fileext))
-                 if (fileext(extindex:extindex).ge."A" 
-     *                  .and. fileext(extindex:extindex).le."Z") then
-                     fileext(extindex:extindex) = 
-     *                   achar(iachar(fileext(extindex:extindex))+32)
-                 endif
-                 extindex = extindex + 1
-             enddo
-             typeindex = 1
-C***Check lowercase extension against list of extensions
-             do
-                 if(fileext.eq.filetypes(typeindex))then
-                     ioption = fileoptions(typeindex)
-                     exit
-                 endif
-                 typeindex = typeindex + 1
-                 if (typeindex > numtypes) then
-                     write(logmess,'(a)') 'Unrecognized filetype for '
-     *                                // '3-token dump.'  
-                     call writloga('default',1,logmess,0,ierror)
-                     exit
-                 endif
-             enddo
-C***Construct 4-token command and call it instead, if we
-C***found a well-formed 3-token call.
-             if (.not.ioption.eq.' ') then
-                 newcommand = "dump/" 
-     *                      // ioption(1:icharln(ioption)) // "/" 
-     *                      // filename(1:icharln(filename)) // "/" 
-     *                      // cmoname(1:icharln(cmoname))
-     *                      // "; finish"
-                 call dotask(newcommand, ierror)
-                 if (ierror .ne. 0) then
-                     write(logmess, '(a)') 'ERROR! See above.'
-                 endif
-                 goto 9999
-             endif
-          endif
-      endif
-
-C***The rest of the code is for handling all other cases
-
 c DUMP_RECOLOR
 c CALL dump_recolor_lg (type, file, cmo, restore, create, iomode, ierror)
 c    type    -- Type of dump: "gmv", "x3d", or "avs".
@@ -611,6 +519,8 @@ C           check for integer imt1 value for material list
          endif
 
 C        check special options for dump/zone 
+C        ioption5 used for outside attributes
+C        ioption6 used for area type and attributes
 
          if((ioption(1:leno).eq.'zone') .or. 
      1      (ioption(1:leno).eq.'zone_outside') .or.
@@ -621,15 +531,45 @@ C           check for selected imt1 value for material list
                imt_select = imsgin(nwds)
                nwds=nwds-1
             endif
+
             if (nwds .le. 4) then
-               ioption4='delatt'
+               ioption5='delatt'
+               ioption6='-notset-'
+            
             else
-               ioption4=cmsgin(5)
+c           look for attribute and area options in 5 and 6
+c           option 5 is for outside attributes
+c           option 6 is for area type and attributes
+
+            do ii = 5, nwds
+               if (cmsgin(ii).eq.'keepatt') ioption5='keepatt'
+               if (cmsgin(ii).eq.'delatt') ioption5='delatt'
+               if (cmsgin(ii).eq.'keepatt_area') 
+     *                     ioption6='keepatt_voronoi'
+               if (cmsgin(ii).eq.'keepatt_voronoi') 
+     *                     ioption6='keepatt_voronoi'
+               if (cmsgin(ii).eq.'keepatt_median') 
+     *                     ioption6='keepatt_median'
+            enddo
             endif
 
 c        pass outside minmax option keepatt through string argument
+C        ioption4 used for outside attributes
+C        ioption5 used for area type and attributes
+
          else if (ioption(1:leno).eq.'zone_outside_minmax')then
-               ioption4=cmsgin(5)
+
+           do ii = 5, nwds
+               if (cmsgin(ii).eq.'keepatt') ioption5='keepatt'
+               if (cmsgin(ii).eq.'delatt') ioption5='delatt'
+               if (cmsgin(ii).eq.'keepatt_area') 
+     *                     ioption6='keepatt_voronoi'
+               if (cmsgin(ii).eq.'keepatt_voronoi') 
+     *                     ioption6='keepatt_voronoi'
+               if (cmsgin(ii).eq.'keepatt_median') 
+     *                     ioption6='keepatt_median'
+            enddo
+
          endif
 
  
@@ -1059,7 +999,8 @@ C         ioption is fehm or stor
 C         iomode is writing mode (default ascii) 
 C         ioption3 is coef_option (default scalar)
 C         ioption4 is compress option (default all)
-C         ioption5 is attribute option (default delatt)
+C         ioption5 is outside attribute option (default delatt)
+C         ioption6 is outside area option (default -notset-)
 C       
 
         if(if_cmo_exist.eq.0) then
@@ -1070,9 +1011,16 @@ c          make sure default ioptions are set
            ioption3 = 'scalar'
            ioption4 = 'all'
            ioption5 = 'delatt'
+           ioption6 = '-notset-'
 
+
+C          loop through msgtype to find options
+           if (idebug .ne. 0) then
+           print*,'writedump msgtype for stor and fehm: '
+           endif
 
            do ii = 1,nwds
+
             if (idebug .ne. 0) then
               if (msgtype(ii) .eq. 3) print*, ii, cmsgin(ii)
               if (msgtype(ii) .eq. 2) print*, ii, imsgin(ii)
@@ -1097,6 +1045,10 @@ c           Find keywords and set options for dumpfehm routine
               if (cmsgin(ii).eq.'none') ioption4='none'
               if (cmsgin(ii).eq.'keepatt') ioption5='keepatt'
               if (cmsgin(ii).eq.'delatt') ioption5='delatt'
+              if (cmsgin(ii).eq.'keepatt_voronoi') 
+     *                      ioption6='keepatt_voronoi'
+              if (cmsgin(ii).eq.'keepatt_median') 
+     *                      ioption6='keepatt_median'
 
 C          check for old syntax with alternate_scalar
 C          dump / stor / file_name_as / cmo / asciic / / alternate_scalar
@@ -1112,7 +1064,7 @@ C          dump / stor / file_name_as / cmo / asciic / / alternate_scalar
            call dumpfehm(ifile(1:icharlnf(ifile)),
      *          ioption2(1:icharlnf(ioption2)),
      *          ioption, iomode,
-     *          ioption3, ioption4, ioption5)
+     *          ioption3, ioption4, ioption5, ioption6)
            ierror_return = 0
             
          endif
@@ -1142,11 +1094,18 @@ C
 C     DUMP / zone_outside (for fehm)
       elseif(ioption(1:leno).eq.'zone_outside') then
 c
-c     Output only the FEHM outside (normal) zone information
+c     Output only the FEHM outside (normal) zone and areas
+C         ioption5 is outside attribute option (default delatt)
+C         ioption6 is outside area option (default -notset-)
 C
+         if (idebug .gt. 0) then
+           print*,'call dump zone_outside with ',ioption5,ioption6
+         endif
+
          if(if_cmo_exist.eq.0) then
           len=icharlnf(cmo)
-          call dump_outside_list  (ifile(1:lenfile), ioption4)
+          call dump_outside_list(ifile(1:lenfile),
+     *                      ioption5,ioption6)
           ierror_return = 0
          endif
 
@@ -1155,19 +1114,22 @@ C     DUMP / zone_outside_minmax (for fehm)
 c
 c     Output only the minmax ijk of outside (normal) nodes
 C     pass double argument through string argument
+C       ioption5 is outside attribute option (default delatt)
+C       ioption6 is outside area option (default -notset-)
 C
          if(if_cmo_exist.eq.0) then
 
-          if (ioption4(1:12).eq.'keepatt_area' ) then
-             ioption4='minmax_keepatt_area'
-          else if (ioption4(1:6).eq.'delatt' ) then
-             ioption4='minmax_delatt'
-          else if (ioption4(1:7).eq.'keepatt' ) then
-             ioption4='minmax_keepatt'
+          if (ioption5(1:12).eq.'keepatt_area' ) then
+             ioption5='minmax_keepatt_area'
+          else if (ioption5(1:6).eq.'delatt' ) then
+             ioption5='minmax_delatt'
+          else if (ioption5(1:7).eq.'keepatt' ) then
+             ioption5='minmax_keepatt'
           endif
           
           len=icharlnf(cmo)
-          call dump_outside_list  (ifile(1:lenfile), ioption4)
+          call dump_outside_list(ifile(1:lenfile),
+     *             ioption5, ioption6)
           ierror_return = 0
          endif
 
@@ -1178,8 +1140,8 @@ c     Output only the FEHM COORD and ELEM macro information
 C
          if(if_cmo_exist.eq.0) then
           len=icharlnf(cmo)
-          call dump_material_list (ifile(1:lenfile),imt_select)
-          call dump_outside_list  (ifile(1:lenfile), ioption4)
+          call dump_material_list(ifile(1:lenfile),imt_select)
+          call dump_outside_list(ifile(1:lenfile),ioption5,ioption6)
           call dump_interface_list(ifile(1:lenfile))
           call dump_multi_mat_con (ifile(1:lenfile))
           ierror_return = 0
