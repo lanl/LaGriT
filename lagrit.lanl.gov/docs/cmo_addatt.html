@@ -1,30 +1,25 @@
 <!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-            
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="Content-Type">
+  <meta name="LaGriT command cmo/addatt"
+ content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information.">
+  <meta name="Keywords" content=" ">
+  <link media="all" title="LANLScreenStyle" href="styles/site.css"
+ type="text/css" rel="stylesheet">
+  <link media="print" href="http://www.lanl.gov/styles/xprint.css"
+ type="text/css" rel="stylesheet">
   <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
-            
-  <meta name="" content="Microsoft Word 98">
-            
+ content="text/html; charset=ISO-8859-1">
+  <meta name="Generator" content="Microsoft Word 97">
   <meta name="GENERATOR"
  content="Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]">
-  <title>cmo/addatt - add an attribute to a mesh object</title>
-                <!-- header for style of html ------------------------------------------------ --><!-- command name for window banner --><!-- font and other body information should be in the style statement here.-->
-      
-  <style type="text/css">
-   h1 { font-family:Times; font-weight:bold; text-decoration:underline; }
-   h2 { font-family:Times; font-weight:bold; text-decoration:underline; }
-   body { font-family:Times; 
-          width:100%; 
-          background:white; 
-       }
-  .style1 {font-family: "Courier New", Courier, monospace}
-  .style2 {font-family: "Times New Roman", Times, serif}
-  </style>
+  <title>cmo/addatt</title>
 </head>
- <body link="#0000ff" vlink="#800080">
-      
+<body style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"
+ alink="#ff0000" link="#0000ee" vlink="#551a8b">
+<br>
 <h2> cmo/addatt</h2>
       
 <blockquote>The <b>cmo/addatt</b> command is used to add and initialize a
@@ -36,7 +31,7 @@
   <p>For the general form, the first two parameters, <font
  face="Courier">mo_name/att_name </font>are required. All other parameters
  will resort to default settings if not included on the command line. See
-the   <b><a href="http://lagrit.lanl.gov/docs/cmo_modatt.html">modatt</a></b>command 
+the   <b><a href="http://lagrit.lanl.gov/docs/cmo_modatt.html"> modatt </a></b> command 
  for details on these parameters. </p>
        
   <p>The keyword syntax uses the fourth token on the command line to define 
@@ -46,11 +41,11 @@ the named attribute already exists, values will be overwritten with values
        
   <p>GENERAL FORMAT: </p>
        
-  <blockquote><b>cmo/addatt</b> / <font face="Courier">mo_name </font>/ <font
+  <dir><b>cmo/addatt</b> / <font face="Courier">mo_name </font>/ <font
  face="Courier">att_name </font>/ [ <font face="Courier">type</font> / <font
  face="Courier">rank</font> / <font face="Courier">length</font> / <font
  face="Courier">interpolate</font> / <font face="Courier">persistence</font>
- / <font face="Courier">ioflag</font> / <font face="Courier">value ]</font></blockquote>
+ / <font face="Courier">ioflag</font> / <font face="Courier"> [value]</font></dir>
           
   <p><br>
   KEYWORD FORMAT: </p>
@@ -63,6 +58,8 @@ the named attribute already exists, values will be overwritten with values
       / normal_type / att_v_name 
       <br>
       cmo/addatt/mo_name/<b>volume</b> / att_name <br>
+      cmo/addatt/mo_name/<b>voronoi_volume</b> / att_name <br>
+      cmo/addatt/mo_name/<b>voronoi_varea</b> / att_name_xn att_name_yn att_name_zn <br>
       cmo/addatt/mo_name/<b>vector</b> / att_v_snk / att_xsrc att_ysrc
         att_zsrc <br>
     cmo/addatt/mo_name/<b>scalar </b>/ att_xsnk att_ysnk att_zsnk / att_v_src<br>
@@ -115,11 +112,25 @@ and rank is <font face="Courier New,Courier">vector</font>. <font
 length equal to one. Currently implemented for <b>xyz</b> on triangles only.
     </p>
            
-    <p><b>volume</b> or <b>area</b>: creates an attribute <font
+    <p><b>volume</b> or <b>area</b>: creates an element attribute <font
  face="Courier New,Courier">nelements</font> in length and type VDOUBLE.
 For     <b>volume</b> keyword the <font face="Courier">att_name</font> attribute
  is filled with <b>volume</b>(if 3D), <b>area</b>(if 2D) or <b>length</b>(if 
  lines). Currently implemented for triangle areas. </p>
+
+   <p><b>voronoi_volume</b> : creates a node attribute <font
+ face="Courier New,Courier">nnodes</font> in length and type VDOUBLE.
+ Currently implemented for a tetrahedral mesh by calling the build stor function to form the Voronoi bounding area for each node. (See more in dump/stor) </p>
+
+
+   <p><b>voronoi_varea</b> : creates three node attributes <font
+ face="Courier New,Courier">nnodes</font> in length and type VDOUBLE. The attributes represent
+each of the x,y,z components for the Voronoi areas formed by surrounding nodes. 
+ Currently implemented for a triangle mesh by calling the same routine that is used to compute
+the Voronoi areas for the external faces of a tetrahedral mesh. Works only on a triangle mesh.
+(See more in dump/zone_outside) </p>
+
+
            
     <p class="style2"><b>vector</b>: creates attribute of rank 
      vector from three existing scalar attributes.</p>
@@ -197,9 +208,20 @@ them with  the angle weighted normal of each node. <br>
 of the vector attribute anorm.</dir>
    <span class="style1"><b>cmo/addatt</b>/cmo1/ <b>vector </b>/ vnorm /xnorm, ynorm, znorm    </span><dir>Create vector attribute vnorm from the three attributes xnorm, ynorm, 
  znorm.</dir>
+
    <span class="style1"><b>cmo/addatt</b>/ cmotri / <b>area </b>/
     darea    </span><dir>Create and fill attribute named darea with area of each triangle.<br>
     </dir>
+
+   <span class="style1"><b>cmo/addatt</b>/ cmotet / <b>voronoi_volume </b>/ vor_vol </span>
+   <dir>Create and fill attribute named vor_vol with Voronoi volume of each node in tetrahedral mesh.<br>
+    </dir>
+
+   <span class="style1"><b>cmo/addatt</b>/ cmotri / <b>voronoi_varea </b>/ xvarea  yvarea  zvarea </span>
+   <dir>Create and fill attributes xvarea, yvarea, and zvarea with xyz components of the Voronoi areas for each node in triangle mesh.<br>
+    </dir>
+
+
     <span class="style1">cmo / <b>addatt</b> / cmo / <b>ang_mind</b> / ang_mind<br>
  cmo / <b>addatt</b> / cmo / <b>ang_minr</b> / ang_minr<br>
  cmo /<b> addatt</b> / cmo / <b>ang_maxd</b> / ang_maxd<br>
