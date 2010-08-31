@@ -9,16 +9,17 @@
   <title>DUMP/FEHM and DUMP/STOR</title>
 </head>
 <body style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"
- link="#0000ee" vlink="#551a8b" alink="#ff0000">
+ alink="#ff0000" link="#0000ee" vlink="#551a8b">
 <br>
 <font face="Times New Roman,Times"><b><u>DUMP/ fehm </u></b> and <b><u>DUMP/
-stor </u></b></font>
-<br>
-<p>Output a set of files that are of general use but are specificly
+stor
+</u></b></font><br>
+<dir>
+<p>Output a set of files that are of general use but are specifically
 designed for the <a href="http://fehm.lanl.gov">FEHM </a>porous flow
 and transport code.</p>
 <!-- Describe commands and options ------------------------->
-<p> <font face="Times New Roman,Times"> The simplest command line with
+<p> <font face="Times"> The simplest command line with
 root file_name and cmo_name will assume the most common options and
 will
 write an ASCII compressed stor file with scalar area coefficients. If
@@ -29,33 +30,126 @@ setting. Both <b><span
 and <b style="font-family: Courier New,Courier,monospace;">dump/stor</b>
 use the same set of optional
 settings after the required <span
- style="font-family: Courier New,Courier,monospace;">file_name</span>.
-The <b><span style="font-family: Courier New,Courier,monospace;">dump/fehm</span>
-</b>command will
-write all FEHM input files starting with commands<span
- style="font-family: Courier New,Courier,monospace;"> </span><b
- style="font-family: Courier New,Courier,monospace;"> dump/coord</b>
-for
-the FEHM geometry file, <span
- style="font-family: Courier New,Courier,monospace;"> </span><b
- style="font-family: Courier New,Courier,monospace;">dump/zone</b> for
-FEHM zone files, and then <b
- style="font-family: Courier New,Courier,monospace;">dump/stor</b>. <br>
+ style="font-family: Courier New,Courier,monospace;">file_name</span>.&nbsp;
 <br>
+<br>
+Though the syntax for both are the same, with command <span
+ style="font-weight: bold;">stor</span>, only the stor file is written.
+With command <span style="font-weight: bold;">fehm</span>, the full
+set of 7 FEHM files are
+written. The full set of fehm files will look like the following, where
+"<span style="font-style: italic;">file_name</span>" is the root of
+each name: </font> </p>
+<pre>      <br><span style="font-style: italic;">file_name</span>.fehmn              <span
+ style="font-style: italic;">file_name</span>_interface.zone      <span
+ style="font-style: italic;">file_name</span>_outside_vor.area     <br><span
+ style="font-style: italic;">file_name</span>_material.zone      <span
+ style="font-style: italic;">file_name</span>_multi_mat.zone      <span
+ style="font-style: italic;">file_name</span>_outside.zone       <span
+ style="font-style: italic;">file_name</span>.stor<br></pre>
+</dir>
+<font face="Times New Roman,Times">
+<ul>
+  <ol>
+    <li><b><span style="font-style: italic;">file_name</span>.fehmn</b>
+is a list of mesh object node x,y,z values and element connectivity
+list in ASCII FEHM format (also dump/coord/... command).</li>
+    <li><span style="font-style: italic; font-weight: bold;">file_name</span><span
+ style="font-weight: bold;">_material.zone</span> is node list for each
+integer material (imt) value (also dump/zone_imt/... command).</li>
+    <li><span style="font-style: italic; font-weight: bold;">file_name</span><span
+ style="font-weight: bold;">_interface.zone</span> is output of FEHM
+zone format files of nodes along an interface where interface is
+defined as a node to node
+connection where the integer attribute imt changes. Note this file will
+have 0 length if there is only one material.</li>
+    <li><span style="font-style: italic; font-weight: bold;">file_name</span><span
+ style="font-weight: bold;">_multi_mat.zone</span> is output of FEHM
+zone format files of
+multi-material connections, where multi-material is defined as a node
+to node connection where the integer attribute imt changes. Each list
+consists of a header followed by the list of node pairs. The header
+consists of the material number followed by "multi-material
+connections" on the same line, followed by "nnum" (nedges) on the next
+line, followed by the number of entries in the list. The list of node
+pairs are written where first node is inside the current material and
+the second is the connected node on other side of material interface.
+The lists are sorted by the first node. Note this file will have 0
+length if there is only one material. </li>
+    <li><span style="font-style: italic; font-weight: bold;">file_name</span><span
+ style="font-weight: bold;">_outside.zone</span> is a list of
+each node associated with each of six possible outside areas. <br>
+The outside zones are defined as 6 possible external
+boundaries for rectangular geometries and are defined as: <br>
+      <div style="margin-left: 40px;">
+1 = top     = top = positive z direction (0,0,1) <br>
+2 = bottom  = bottom = negative z direction (0,0,-1) <br>
+3 = left_w  = left or west = negative x direction (-1,0,0) <br>
+4 = front_s = front or south = negative y direction (0,-1,0) <br>
+5 = right_e = right or east = positive x direction (1,0,0) <br>
+6 = back_n  = back or north = positive y direction (0,1,0) <br>
+      </div>
+If keepatt is specified, then 6 node based attributes are added to the
+mesh object
+with the names top, bottom, left_w, right_e, back_n, and front_s.
+Note that a node can belong to more than 1 zone list. For example, in
+an
+orthogonal cube aligned with the coordinate axes, a corner node can
+belong to 3 zone lists (e.g. front_s, top and left_w lists). If <span
+ style="font-weight: bold;">delatt</span>
+(default) is specified, these attributes are deleted after the zone
+file is written and the mesh object remains unchanged. (also
+dump/zone_outside/... command). </li>
+    <li><span style="font-style: italic; font-weight: bold;">file_name</span><span
+ style="font-weight: bold;">_outside_vor.area</span> (default)
+or <span style="font-style: italic; font-weight: bold;">file_name</span><span
+ style="font-weight: bold;">_outside_med.area</span>
+is written after the outside zone nodes are identified and a list of 2D
+area or 1D length
+vectors (Ax_i,Ay_i,Az_i) associated with each and listed the same order
+as zones
+and nodes in the file <span style="font-style: italic;">file_name</span>_outside.zone.<br>
+If the keyword
+      <span style="font-weight: bold;">keepatt_voronoi</span> is
+specified, three node attributes (xn_varea,
+yn_varea,
+zn_varea) are added and they contain the vector area associated with
+the
+voronoi areas for each of the nodes located on their external
+triangles. <br>
+If the keyword
+      <span style="font-weight: bold;">keepatt_median</span> is
+specified, three node attributes (xn_marea, yn_marea,
+zn_marea) are added and they contain the vector area associated with the
+median area for each of the nodes located on their external triangles.
+These area vectors are
+computed by computing the median mesh (triangle centroids connected to
+triangle edge centers)&nbsp; If the input
+mesh are 2D triangles,
+the median length of external edges incident upon a node are written.
+(also dump/zone_outside/... command)</li>
+    <li><span style="font-style: italic; font-weight: bold;">file_name</span><span
+ style="font-weight: bold;">.stor</span> is output of FEHM format file
+with geometric coefficient
+matrix, these are the Voronoi (control volume) area and volume
+associated with each node and the sparce matrix structure Default
+format is ASCII compressed. <br>
 The stor file represents a sparse coefficient matrix and is used for
 solving
 PDE on a triangular or tetrahedral Delaunay mesh. The stor format is
 written
-for FEHM input and is described at this page. <br>
-<a href="./STOR_Form.html" target="_blank">FEHM STOR File Format</a> <br>
+for FEHM input and is described at this page: &nbsp;&nbsp; <a
+ href="./STOR_Form.html" target="_blank">FEHM STOR File Format</a> <br>
+    </li>
+  </ol>
+  <dir> </dir>
+</ul>
+</font>
 <br>
-If all FEHM files are written, the result will be the following files
-where
-"file_name" is the root of each name: </font> </p>
-<pre> <big><font face="Courier New, Courier, monospace"><br>     file_name.fehmn<br>     file_name_interface.zone<br>     file_name_material.zone<br>     file_name_multi_mat.zone<br>     file_name_outside.area<br>     file_name_outside.zone<br>     file_name.stor<br></font></big><br></pre>
+<br>
 <font face="Times">FORMAT:</font>
 <blockquote>
-  <table nosave="" width="90%" cols="2">
+  <table nosave="" cols="2" width="90%">
     <tbody>
       <tr nosave="">
         <td nosave="" width="50%"> <b>dump
@@ -72,7 +166,7 @@ used as a root name for all files written.<br>
         <b>dump/fehm</b> will write full set of FEHM input files and
 stor file<br>
         <b>dump/stor</b> will write a sparse matrix stor file only<br>
-Default options applied are: ascii, scalar, all compressed </font></td>
+Default options applied are: ASCII, scalar, all compressed </font></td>
       </tr>
       <tr nosave="">
         <td nosave="" colspan="2"> <font face="Times"> <br>
@@ -87,16 +181,15 @@ the <font face="Courier New,Courier">cmo_name. </font><br>
 | binary </b>] </font>&nbsp; <br>
 &nbsp;/ [ <font face="Times"><b><u>scalar</u> | vector | both |
 area_scalar
-| area_vector | area_both</b>] <br>
-&nbsp;/ [ <font face="Times"><b><u>all</u> | graph | coefs | none</b>
-] <br>
+| area_vector | area_both</b>] <br> &nbsp;
+/ [ <font face="Times"><b><u>all</u> | graph | coefs | none</b> ] <br>
 &nbsp;/ [ <b><u>delatt,</u> | keepatt</b> ]</font> <br>
         </font></td>
         <td nosave=""><font face="Times"> IO Mode Options for stor file
         <br>
 Area Coefficient Options for writing stor file coefficient values <br>
 Compression Options for the stor file <br>
-CMO Attribute Options during creation of zone files <br>
+CMO Attribute created during creation of outside zone files <br>
         </font></td>
       </tr>
     </tbody>
@@ -105,7 +198,7 @@ CMO Attribute Options during creation of zone files <br>
 <!-- Describe options -------------------------> <br>
 <font face="Times">IO MODE OPTIONS for STOR File:</font>
 <blockquote>
-  <table nosave="" width="90%" cols="2">
+  <table nosave="" cols="2" width="90%">
     <tbody>
       <tr nosave="">
         <td nosave="" width="20%"><font face="Times New Roman,Times"><b>binary</b></font></td>
@@ -133,7 +226,7 @@ settings.</i><font> <br>
  face="Times New Roman,Times"><font><br>
 <font face="Times">Area Coefficient OPTIONS for STOR File:</font> </font></font>
 <blockquote> <font face="Times New Roman,Times"><font>
-  <table nosave="" width="90%" cols="2">
+  <table nosave="" cols="2" width="90%">
     <tbody>
       <tr nosave="">
         <td nosave="" width="20%"><font face="Times New Roman,Times"><b><u>scalar</u></b>
@@ -141,42 +234,58 @@ settings.</i><font> <br>
         <td nosave=""><font face="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 coefficients
 are
-output as scalars</font>&nbsp;</td>
+output
+as
+scalars</font>&nbsp;</td>
       </tr>
       <tr>
         <td><b><font face="Times New Roman,Times">vector</font></b></td>
         <td><font face="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 coefficients
 are
-output as vectors</font>&nbsp;</td>
+output
+as
+vectors</font>&nbsp;</td>
       </tr>
       <tr>
         <td><b><font face="Times New Roman,Times">both</font></b></td>
         <td><font face="Times New Roman,Times">Area/distance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 coefficients
 are
-output as scalars and vectors</font>&nbsp;</td>
+output
+as
+scalars
+and
+vectors</font>&nbsp;</td>
       </tr>
       <tr nosave="">
         <td><b><font face="Times New Roman,Times">area_scalar&nbsp;</font></b></td>
         <td nosave=""><font face="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 coefficients
 are
-output as scalars</font></td>
+output
+as
+scalars</font></td>
       </tr>
       <tr>
         <td><b><font face="Times New Roman,Times">area_vector</font></b></td>
         <td><font face="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 coefficients
 are
-output as vectors</font>&nbsp;</td>
+output
+as
+vectors</font>&nbsp;</td>
       </tr>
       <tr>
         <td><b><font face="Times New Roman,Times">area_both&nbsp;</font></b></td>
         <td><font face="Times New Roman,Times">Area&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 coefficients
 are
-output as scalars and vectors</font>&nbsp;</td>
+output
+as
+scalars
+and
+vectors</font>&nbsp;</td>
       </tr>
     </tbody>
   </table>
@@ -186,7 +295,7 @@ output as scalars and vectors</font>&nbsp;</td>
  face="Times New Roman,Times"><font><br>
 <font face="Times">Compression OPTIONS for STOR File:</font> </font></font>
 <blockquote> <font face="Times New Roman,Times"><font>
-  <table nosave="" width="90%" cols="2">
+  <table nosave="" cols="2" width="90%">
     <tbody>
       <tr nosave="">
         <td nosave="" width="20%"><b><font face="Times New Roman,Times"><u>all</u></font></b><font
@@ -232,7 +341,7 @@ using keywords all or graph and if used will be recognized.</i><font> <br>
 <font face="Times">CMO Attribute OPTIONS:</font> </font></font></font></font>
 <blockquote> <font face="Times New Roman,Times"><font><font
  face="Times New Roman,Times"><font>
-  <table nosave="" width="90%" cols="2">
+  <table nosave="" cols="2" width="90%">
     <tbody>
       <tr nosave="">
         <td nosave="" width="20%"><font face="Times New Roman,Times"><b><u>delatt</u></b>
@@ -268,14 +377,15 @@ area coefficients. Since the area coefficients are really edge based
 quantities but we only have access to node and element quantities, the
 following convention is used.<br>
         <br>
-If any area coefficient is negative the iteger node array ij_ccoef and
+If any area coefficient is negative the integer node array ij_ccoef and
 real node array ccoef are created.<br>
 If no area coefficients are negative the arrays are not created.<br>
 If the area coefficient A_ij, between nodes i and j is negative then <br>
         <span style="font-family: Courier New,Courier,monospace;">ccoef(i)&nbsp;&nbsp;&nbsp;
 =
-ccoef(j) = A_ij</span><br
- style="font-family: Courier New,Courier,monospace;">
+ccoef(j)
+=
+A_ij</span><br style="font-family: Courier New,Courier,monospace;">
         <span style="font-family: Courier New,Courier,monospace;">ij_ccoef(i)
 =
 j</span><br style="font-family: Courier New,Courier,monospace;">
