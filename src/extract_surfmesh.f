@@ -1,4 +1,3 @@
-
 C******************************************************************************
 C*
 C*  EXTRACT_SURFMESH -- Extract the boundary of a mesh (surface mesh from a
@@ -10,27 +9,33 @@ C*
 C*    This routine extracts the boundary of a mesh. If the original mesh is a solid
 C*    mesh, it extracts the surface mesh. If it is a surface mesh, it extracts the
 C*    edge mesh. If the interface elements have "uses" i.e. "parent-child" nodes,
-C* then
-C*    only the parent nodes and elements are extracted.
-C*
+C*    then only the parent nodes and elements are extracted.
 C*
 C*    Because of the nature of this extraction, not all attributes in the output
 C*    mesh object are given values.  Among the array-valued attributes, only
 C*    XIC, YIC, ZIC, ITET, ITETOFF, ITETTYP, and ICR1 are set.  In particular
-C*    JTET is not set, because it is possible, in general, for more than two
-C*    cells to share a face in a network.  The ICONTAB array is copied from the
+C*    JTET is set by a call to resetpts/itp which calls geniee.
+C*    The ICONTAB array is copied from the
 C*    input mesh object to the output mesh object.
 C*
-C*    Four element based attributes, "itetclr0", "itetclr1" , "idelem0", "idelem1",
-C*    are added to the output
-C*    mesh indicating the material regions on each side of the mesh faces, i.e., the
+C*    Six element based attributes are created in the output MO:
+C*            "itetclr0" "itetclr1"
+C*             "idelem0" "idelem1"
+C*             "idface0" "idface1"
+C*    These indicate the material regions on each side of the mesh faces, i.e., the
 C*    color of elements that existed on each side of a face in the original mesh.
-C*    The attributes idelem0 and idelem1 identify the source element numbers.
+C*    The attributes idelem0 and idelem1 identify the source element numbers on
+C*    either side of the face.
+C*    The attributes idface0 and idface1 identify the source element local face number on
+C     either side of the face.
 C*    The convention is that the "itetclr0" indicates the color of the
 C*     elements on the
 C*    side of the face normal (0 if the face is on an external boundary) and
 C*    "itetclr1"
 C*    indicates the color of the elements on the opposite side of the normal.
+C*
+C*    The normal points into the larger itetclr value from the input MO.
+C*
 C*                |
 C*                |------> normal
 C*                |
@@ -38,6 +43,7 @@ C*      mregion5  |  mregion1               For this face itetclr0 = 1
 C*                |                                       itetclr1 = 5
 C*               Face
 C*
+C*    The convention is that 
 C*    The output mesh object is given an additional node-based attribute named
 C*    "idnode0" which provides the mapping from nodes in the extracted interface
 C*    network to (parent) nodes in the input mesh object; that is, IDNODE0(J) is
@@ -130,28 +136,26 @@ C      ** as the face element type.  (Move into local_element.h/blockcom.f?)
  
       pointer (ipitetn,itetn), (ipitetoffn,itetoffn), (ipcpmap,cpmap),
      &        (ipitettypn,itettypn), (ipicr1n,icr1n), (ipfmap,fmap),
-     &        (ipicontabn,icontabn), (ipclr0,clr0),
+     &        (ipicontabn,icontabn), (ipimtn,imtn), (ipclr0,clr0),
      &        (ipclr1,clr1), (ipfacecol,facecol), (ipitetclrn,itetclrn),
      &        (ipidnode0,idnode0), 
      &        (ipidelem0,idelem0), (ipidelem1,idelem1),
-     &        (ipuatt, iatt), (ipuatt, ratt), (ipuatt, catt),
-     &        (ipuatt2, iatt2), (ipuatt2, ratt2), (ipuatt2, catt2)
+     &        (ipidface0,idface0), (ipidface1,idface1)
       integer itetn(*), itetoffn(*), itettypn(*), icr1n(*),
-     &        icontabn(*), cpmap(*), fmap(*), itetclrn(*),
+     &        icontabn(*), cpmap(*), fmap(*), itetclrn(*), imtn(*),
      &        clr0(*), clr1(*), facecol(*), uniqcols(10000),
      &        idnode0(*), idelem0(*), idelem1(*),
-     &        iatt(*), iatt2(*)
-      real*8  ratt(*), ratt2(*)
-      character*32  catt(*), catt2(*)
+     &        idface0(*), idface1(*)
  
-      integer i,j,k,kk,m,n,idx, ilen, ityp, nnnpe, nnfpe, nnepe, jnbr
+      integer i, j, k, kk, m, n, ilen, ityp, nnnpe, nnfpe, nnepe, jnbr
+      integer jfnbr
       integer nncells, nnnodes, minft, maxft, nfpe, nconbnd, node
       integer nnodes, ncells, topo_dim, geom_dim, mbndry, ncon50
       integer tmpcol, ncols, found, imode
       integer natts
-
+ 
       character*132 cbuf, logmess
-      character*32 isubname, attnam
+      character*32 isubname, attname
       character*32 ctype,crank,clen,cinter,cper,cio
       integer   icharlnf
  
@@ -297,7 +301,14 @@ C     ***
 C     *** Create the output mesh object
  
       call cmo_exist (cmoout, ierror)
-      if (ierror .eq. 0) call cmo_release (cmoout, ierror)
+      if (ierror .eq. 0) then
+        logmess = 'WARNING: Sink mesh object exists.'
+        call writloga ('default', 0, logmess, 0, ierror)
+        logmess = 'WARNING: Existing MO released and new MO created'
+        call writloga ('default', 0, logmess, 0, ierror)
+        call cmo_release (cmoout, ierror)
+      endif
+
       call cmo_create (cmoout, ierror)
  
       call cmo_set_info('nnodes',cmoout,nnnodes,1,1,ierror)
@@ -318,67 +329,104 @@ C     *** Create the output mesh object
       call cmo_get_info('xic',cmoout,ipxicn,ilen,ityp,ierror)
       call cmo_get_info('yic',cmoout,ipyicn,ilen,ityp,ierror)
       call cmo_get_info('zic',cmoout,ipzicn,ilen,ityp,ierror)
+      call cmo_get_info('imt',cmoout,ipimtn,ilen,ityp,ierror)
  
 
+Cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 C     itetclr0 is the color of the tet on the +ve side of the mesh face
 C     (i.e. on the side of the normal) and itetclr1 is the color of the
 C     tet on the -ve side of the mesh face (i.e. on the opposite side
 C     of the mesh face normal)
  
+C     Add: itetclr0
       cbuf = "cmo/addatt/" // cmoout //
      &       "/itetclr0/vint/scalar/nelements////0; finish"
       call dotaskx3d (cbuf, ierror)
       call cmo_get_info("itetclr0", cmoout, ipclr0, ilen, ityp, ierror)
+ 
+C     Add: itetclr1
       cbuf = "cmo/addatt/" // cmoout //
      &       "/itetclr1/vint/scalar/nelements////0; finish"
       call dotaskx3d (cbuf, ierror)
       call cmo_get_info("itetclr1", cmoout, ipclr1, ilen, ityp, ierror)
 C
+Cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 C     Create array to hold node numbers of input mesh that generate
 C     output mesh nodes
 C
+C     Add: idnode0
       cbuf = "cmo/addatt/" // cmoout //
      &       "/idnode0/vint/scalar/nnodes////0; finish"
       call dotaskx3d (cbuf, ierror)
       call cmo_get_info("idnode0", cmoout,ipidnode0,ilen,ityp, ierror)
-C
+Cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 C     Create array to hold element numbers of 3D input mesh that occur 
 C     on either side of output mesh face
 C
+C     Add: idelem0
       cbuf = "cmo/addatt/" // cmoout //
      &       "/idelem0/vint/scalar/nelements////0; finish"
       call dotaskx3d (cbuf, ierror)
       call cmo_get_info("idelem0", cmoout,ipidelem0,ilen,ityp, ierror)
+
+C     Add: idelem1
       cbuf = "cmo/addatt/" // cmoout //
      &       "/idelem1/vint/scalar/nelements////0; finish"
       call dotaskx3d (cbuf, ierror)
       call cmo_get_info("idelem1", cmoout,ipidelem1,ilen,ityp, ierror)
 
+C     Add: facecol
       cbuf = "cmo/addatt/" // cmoout //
      &       "/facecol/vint/scalar/nelements////0; finish"
       call dotaskx3d (cbuf, ierror)
       call cmo_get_info("facecol", cmoout,ipfacecol, ilen, ityp, ierror)
 C
+Cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+C     Create array to hold element local face numbers of 3D input mesh that occur 
+C     on either side of output mesh face
+C
+C     Add: idface1
+      cbuf = "cmo/addatt/" // cmoout //
+     &       "/idface0/vint/scalar/nelements////0; finish"
+      call dotaskx3d (cbuf, ierror)
+      call cmo_get_info("idface0", cmoout,ipidface0,ilen,ityp, ierror)
+
+C     Add: idface1
+      cbuf = "cmo/addatt/" // cmoout //
+     &       "/idface1/vint/scalar/nelements////0; finish"
+      call dotaskx3d (cbuf, ierror)
+      call cmo_get_info("idface1", cmoout,ipidface1,ilen,ityp, ierror)
+
+Cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+c
       do j = 1, nnodes
         if (fmap(j) .gt. 0) then
           idnode0(fmap(j)) = j
         end if
       end do
-  
 C     ***
 C     *** Second pass through the cells.
- 
       n = 0
       m = 0
+c
+c     jnbr  = element number of neighbor to element j, face k
+c     jfnbr = local face number of neighbor element across face k
  
       do j = 1, ncells
         do k = 1, nelmnef(itettyp(j))
           if (jtet(k+jtetoff(j)) .gt. mbndry) then
+c           element face is on an INTERNAL boundry
             jnbr = 1 + (jtet(k+jtetoff(j)) - mbndry - 1) / nfpe
+            jfnbr=jtet(jtetoff(j)+k)-mbndry-nfpe*(jnbr-1) 
           else if (jtet(k+jtetoff(j)) .eq. mbndry) then
-            jnbr = 0
+c           element face is on an EXTERIOR boundry
+            jnbr  = 0
+            jfnbr = 0
           else
+c           element face is an interior volume face, not a material interface
+c           and not exterior
             jnbr = -1
+            jfnbr=jtet(jtetoff(j)+k)-nfpe*(jnbr-1)
           endif
  
 c...This long 'if' test checks if the current face is at an internal or external
@@ -403,23 +451,26 @@ C     to indicate which model region was on which side of each face
 C     Since the face is being constructed from element j, it will always
 C     point out of the element and into the neighboring element. Also
 C     since the lower color elements are processed first (see 'if' condition
-C     above, we will get a consistent direction of faces for each boundary
+C     above), we will get a consistent direction of faces for each boundary
 C
  
               clr1(n) = itetclr(j)
               idelem1(n) = j
+              idface1(n) = k
               if (jnbr .eq. 0) then
                  clr0(n) = 0
                  idelem0(n) = 0
+                 idface0(n) = 0
               else
                  clr0(n) = itetclr(jnbr)
                  idelem0(n) = jnbr
+                 idface0(n) = jfnbr
               endif
  
 C
 C     Derive a face color based on clr0 and clr1. Assumes that clr0 & clr1 are
 C     at the most 15 bit integers (then if we LEFT SHIFT clr1 by 15 bits and
-C     OR it with clr0 we will get a 30 bit integer). This williu still not ensure
+C     OR it with clr0 we will get a 30 bit integer). This will still not ensure
 C     uniqueness of all model face numbers - one can have 2 disconnected patches
 C     of faces pointing to the same two regions in the same order.
 C
@@ -472,14 +523,21 @@ C     *** Copy node-based data into new mesh object.
  
       end if
 
+C     Set imt and itetclr of new MO to 1
+      do j = 1, nnnodes
+         imtn(j) = 1
+      enddo
+      do j = 1, nncells
+         itetclrn(j) = 1
+      enddo
+
+ 
 C     ***
 C     *** Copy user-created node-based attributes
       call cmo_get_info('number_of_attributes',cmoin,natts,ilen,
      &                  ityp,ierror)
-      print *,natts
       do j=66, natts
           call cmo_get_attribute_name(cmoin,j,attnam,ierror)
-          print *,attnam
           call cmo_get_info(attnam,cmoin,ipuatt,ilen,ityp,ierror)
           call cmo_get_attparam(attnam(1:icharlnf(attnam)),cmoin,idx,
      &                          ctype,crank,clen,cinter,cper,cio,
@@ -504,11 +562,11 @@ C     *** Copy user-created node-based attributes
           endif
       end do
 
- 
 C      ** NOTE.  The following node-based attributes are left uninitialized:
-C      ** ialias, imt1, itp1, isn1, ign1.  The following cell-based attributes
-C      ** are left uninitialized: itetclr, jtet, jtetoff.
- 
+C      ** ialias, itp1, isn1, ign1.  The following cell-based attributes
+C      ** are left uninitialized:  jtet, jtetoff.
+
+
 C     ***
 C     *** Copy the constraint table into the new mesh object.
  
@@ -532,9 +590,17 @@ C     *** Copy the constraint table into the new mesh object.
       do j = 1, ncon50
        icontabn(j) = icontab(j)
       end do
- 
+C
+C     Set jtet_off
+C 
       call set_jtetoff()
-      cbuf = 'geniee; finish'
+C
+C     Set itp
+C
+C     Since this also call geniee internally, do not call
+C     geniee directly.
+C
+      cbuf = 'resetpts/itp; finish'
       call dotaskx3d(cbuf, ierror)
  
       call mmrelprt(isubname,ierror)
