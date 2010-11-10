@@ -675,12 +675,12 @@ C
      *       xl3,yl3,zl3
       real*8 xa,ya,za
       real*8 ax4,ay4,az4
-      real*8 eps_pos,eps_size, epstest,epsfac
+      real*8 eps_pos,eps_size, epstest
       real*8 xminbox, yminbox, zminbox
       real*8 xmaxbox, ymaxbox, zmaxbox
-      real*8 maxlen,maxdist,maxboxarea,maxboxvol,maxboxlen,
-     *       xfac,xdiag,xdist
-      integer iflag,idebug,ierr,itmp,eps_adjust 
+      real*8 maxdist,maxboxarea,maxboxvol,maxboxlen,
+     *       xfac,xdist
+      integer iflag,idebug,ierr,eps_adjust 
 C
       real*8 voltet
       real*8 xepsilon, epsilonl, epsilonv, epsilona
@@ -696,7 +696,7 @@ C
 
       if(idebug .gt. 0)then
         write(logmess,'(a)')
-     *  "********   inside_tri     **************** "
+     *  "--------   inside_tri "
         call writloga('default',0,logmess,0,ierr)
       endif
 
@@ -814,12 +814,12 @@ C       get epsilon settings for current cmo object
 
         if (eps_adjust .gt. 0) then
          write(logmess,'(a)')
-     *   " Warning: volume epsilon adjusted down to one."
+     *   " Warning upper bound: volume epsilon adjusted to one."
          call writloga('default',0,logmess,0,ierr)
         endif
         if (eps_adjust .lt. 0) then
          write(logmess,'(a)')
-     *   " Warning: volume epsilon adjusted up to epsilonr."
+     *   " Warning lower bound: volume epsilon adjusted to epsilonr."
          call writloga('default',0,logmess,0,ierr)
         endif
 
@@ -1038,17 +1038,54 @@ C              =  3  TEST IS ON EDGE 3 (quad edge and points)
 C
 C        The iflag definitions have been expanded to include
 C        additional negative and positive values for better evaluations
+C        In general, the larger the positive number
+C        The more lenient the test that was satisifed
+C        So that numbers closest to 0 have highest confidence
+C
 C        iflag < -1  TEST POINT IS OUTSIDE (iflag indicates failed edge test)
 C              =  -6 Fails planar test with epsilon volume
 C              =  -7 Fails planar test with epsilon area
 C
-C        To be done:
-C              =  11 TEST IS WITHIN EPSILON OF NODE 1
-C              =  12 TEST IS WITHIN EPSILON OF NODE 2
-C              =  13 TEST IS WITHIN EPSILON OF NODE 3 
+C        test area formed from edge to query point
+C              =  11 TEST IS EDGE or WITHIN EPSILON OF NODE 1
+C              =  12 TEST IS EDGE or WITHIN EPSILON OF NODE 2
+C              =  13 TEST IS EDGE or WITHIN EPSILON OF NODE 3 
+C
+C        test for vertice points, strict test does not often succeed 
+C              =  21 TEST IS WITHIN EPSILON OF NODE 1
+C              =  22 TEST IS WITHIN EPSILON OF NODE 2
+C              =  23 TEST IS WITHIN EPSILON OF NODE 3 
+C
+C        test for vertice points, may find success where 
+C        it is not intended (very large or small numbers) 
+C        very often succeeds
+C              =  31 TEST IS WITHIN EPSILON OF NODE 1
+C              =  32 TEST IS WITHIN EPSILON OF NODE 2
+C              =  33 TEST IS WITHIN EPSILON OF NODE 3 
+C              >  33 TEST SUCCEEDS MULTIPLE POINTS
+C
+C     NOTE: Flags changed for better condition reporting
+C     iflag < 0 flags remain the same, point is outside
+C     iflag = 0 the point is inside, fist test succeeded
+C     iflag > 0 indicate which of the tests succeeded
+C               results closest to 0 have highest confidence
+C
+C     the elseif conditions after 0 flag
+C     have been removed so all tests
+C     are made instead of returning with first success 
 C
 C     CHANGES:
-C     epsilon changes July 2006
+C
+C     September 2010 tam
+C     Extensive changes to allow flags to be used
+C     for evaluation of confidence in result
+C     when numbers are very small or large within
+C     the tolerances of epsilon tests
+C
+C     August 2010 cwg
+C     Add tests and relax possibility of success
+C
+C     July 2006 tam epsilon changes 
 C     replace xepsilon using epsfac and esptest  
 C     which are adjusted for distance from origin
 C
@@ -1066,6 +1103,7 @@ C
      *       xl3,yl3,zl3
       real*8 xa,ya,za
       integer iflag,idebug,eps_adjust,ierr,itmp
+      integer iflag_area, iflag_set, iflag_save
 C
       real*8 xdot1, xdot2, xdot3, xarea, voltet
       real*8 ax1,ay1,az1,ax2,ay2,az2,ax3,ay3,az3,ax4,ay4,az4
@@ -1094,11 +1132,13 @@ C
 
       if (idebug .gt. 0) then
          write(logmess,'(a)')
-     *   "********   inside_tri2d   *****************"
+     *   "--------   inside_tri2d "
          call writloga('default',0,logmess,0,ierr)
       endif
 
       iflag=0
+      iflag_set=0
+      iflag_save=0
       eps_adjust=0
       xminbox=min(xl1,xl2,xl3)
       yminbox=min(yl1,yl2,yl3)
@@ -1144,6 +1184,8 @@ C
 C     Use the median point instead of the minbox. This will only effect
 C     problems where the bounding box covers multiple orders of magnitude.
 C
+
+C     EPSILON COMPUTATON and ADJUSTMENTS
       eps_size = maxboxvol
 c cwg      xdist=sqrt(xminbox**2+yminbox**2+zminbox**2)
       xdist=sqrt(xmedbox**2+ymedbox**2+zmedbox**2)
@@ -1171,184 +1213,305 @@ C     epsfac = max(epsilonr*eps_pos,epsilonr*1000.0d0)
       epsfac = max(epsilonr*eps_pos,epsilonr)
 
 
-C     This test is also used in inside_tri to detirmine if point on plane
+CEPS  This test is also used in inside_tri to detirmine if point on plane
+C     and would normally be checked before this routine
+C     Do this check here just in case it has not been done
       if(abs(voltet).le.epstest) then
 
 C        compute mag of a4
          xarea=sqrt(ax4**2+ay4**2+az4**2)
 
-C        OUTSIDE TEST
+C        FAIL -7 :  OUTSIDE TEST
          if(xarea.le.epstest) then
             iflag=-7
-         else
-            ax3=  (yl2-yl1)*(za-zl1)-(zl2-zl1)*(ya-yl1)
-            ay3=-((xl2-xl1)*(za-zl1)-(zl2-zl1)*(xa-xl1))
-            az3=  (xl2-xl1)*(ya-yl1)-(yl2-yl1)*(xa-xl1)
-            ax2=  (yl1-yl3)*(za-zl3)-(zl1-zl3)*(ya-yl3)
-            ay2=-((xl1-xl3)*(za-zl3)-(zl1-zl3)*(xa-xl3))
-            az2=  (xl1-xl3)*(ya-yl3)-(yl1-yl3)*(xa-xl3)
-            ax1=  (yl3-yl2)*(za-zl2)-(zl3-zl2)*(ya-yl2)
-            ay1=-((xl3-xl2)*(za-zl2)-(zl3-zl2)*(xa-xl2))
-            az1=  (xl3-xl2)*(ya-yl2)-(yl3-yl2)*(xa-xl2)
-            xdot1=ax4*ax1+ay4*ay1+az4*az1
-            xdot2=ax4*ax2+ay4*ay2+az4*az2
-            xdot3=ax4*ax3+ay4*ay3+az4*az3
-c cwg           xfac=epsfac*abs(xarea)
-            xfac=epsfac*abs(xarea)*1000.0
-C           INSIDE TESTS
-C           Test if fully inside
-            if(xdot1.lt.-xfac .and.
+            goto 9999
+         endif
+
+C        INSIDE TEST
+         ax3=  (yl2-yl1)*(za-zl1)-(zl2-zl1)*(ya-yl1)
+         ay3=-((xl2-xl1)*(za-zl1)-(zl2-zl1)*(xa-xl1))
+         az3=  (xl2-xl1)*(ya-yl1)-(yl2-yl1)*(xa-xl1)
+         ax2=  (yl1-yl3)*(za-zl3)-(zl1-zl3)*(ya-yl3)
+         ay2=-((xl1-xl3)*(za-zl3)-(zl1-zl3)*(xa-xl3))
+         az2=  (xl1-xl3)*(ya-yl3)-(yl1-yl3)*(xa-xl3)
+         ax1=  (yl3-yl2)*(za-zl2)-(zl3-zl2)*(ya-yl2)
+         ay1=-((xl3-xl2)*(za-zl2)-(zl3-zl2)*(xa-xl2))
+         az1=  (xl3-xl2)*(ya-yl2)-(yl3-yl2)*(xa-xl2)
+         xdot1=ax4*ax1+ay4*ay1+az4*az1
+         xdot2=ax4*ax2+ay4*ay2+az4*az2
+         xdot3=ax4*ax3+ay4*ay3+az4*az3
+
+c cwg       xfac=epsfac*abs(xarea)
+c tam       xfac=epsfac*abs(xarea)*1000.0
+c commented out cwg change as it was inconsistent 
+c with test in inside_tri and caused some failure
+c where there was not a failure previously
+
+         xfac=epsfac*abs(xarea)
+
+C        FLAG 0 : FULLY INSIDE
+         if(xdot1.lt.-xfac .and.
      *         xdot2.lt.-xfac .and.
      *         xdot3.lt.-xfac) then
                iflag=0
-            else
-C           Check for being on one of three edges or one of three vertices
+               goto 9999
+         endif
+
+C        INSIDE ON EDGE OR POINT
+C        The following 2 tests are accurate for numbers within epsilon values
+C        Multiple tests are evaluated in attempt to find success
+C        when numbers get too large or small for epsilon to resolve
+
+C        Check for being on one of three edges or one of three vertices
+C        check tri areas formed from edge points 1-2-3 and query point a 
 C
-C              check tri areas formed from edge points 1-2-3
-C              and query point a 
+C        A small area implies the query point is on that edge
+C        or is on the end point of that edge.
 C
-C              A small area implies the query point is on that edge
-C              or is on the end point of that edge.
+         area1=sqrt(ax1**2+ay1**2+az1**2)
+         area2=sqrt(ax2**2+ay2**2+az2**2)
+         area3=sqrt(ax3**2+ay3**2+az3**2)
 C
-               area1=sqrt(ax1**2+ay1**2+az1**2)
-               area2=sqrt(ax2**2+ay2**2+az2**2)
-               area3=sqrt(ax3**2+ay3**2+az3**2)
+C        easy checks for query point on triangle vertice 
+C        If two areas are small, that implies the query point
+C        is on their common end point.
 C
-C              easy checks for query point on triangle vertice 
-C              If two areas are small, that implies the query point
-C              is on their common end point.
+C CWG    The tests below do not seem valid to me. If the query point
+C        is colinear then the area of the two triangles can be zero
+C        but the query point may not be coincident with one of the 
+C        end points. Maybe previous tests have already determined that
+C        the point is not clearly outside, so the fact that it gets
+C        here implies other tests have been passed.
 C
-C CWG          The tests below do not seem valid to me. If the query point
-C              is colinear then the area of the two triangles can be zero
-C              but the query point may not be coincident with one of the 
-C              end points. Maybe previous tests have already determined that
-C              the point is not clearly outside, so the fact that it gets
-C              here implies other tests have been passed.
-C
-               if     ((abs(xa-xl1).lt. epsfac)
+
+C        FLAG 21,22,23 : END POINT through zero distance
+C        has shown infrequent success
+C        Can be used to confirm vertice point success
+         iflag_set = 0
+         if     ((abs(xa-xl1).lt. epsfac)
      *            .and.(abs(ya-yl1).lt. epsfac)
      *            .and.(abs(za-zl1).lt. epsfac)) then
-                    iflag=11
-               elseif ((abs(xa-xl2).lt. epsfac)
+                    iflag_set = iflag_set+1
+                    iflag=21
+         endif
+         if ((abs(xa-xl2).lt. epsfac)
      *            .and.(abs(ya-yl2).lt. epsfac)
      *            .and.(abs(za-zl2).lt. epsfac)) then
-                    iflag=12
-               elseif ((abs(xa-xl3).lt. epsfac)
+                    iflag_set = iflag_set+1
+                    iflag=22
+         endif
+         if ((abs(xa-xl3).lt. epsfac)
      *            .and.(abs(ya-yl3).lt. epsfac)
      *            .and.(abs(za-zl3).lt. epsfac)) then
-                    iflag=13
-               elseif ((abs(area1).lt.xfac).and.
-     *                 (abs(area2).lt.xfac)) then
-                  iflag=13
-               elseif ((abs(area1).lt.xfac).and.
-     *                 (abs(area3).lt.xfac)) then
-                  iflag=12
-               elseif ((abs(area3).lt.xfac).and.
-     *                 (abs(area2).lt.xfac)) then
-                  iflag=11
+                    iflag_set = iflag_set+1
+                    iflag=23
+         endif
+         if (iflag_set.gt.1) then
+            itmp= iflag_set
+            iflag_save = iflag + itmp 
+            if (idebug.gt.0 ) then
+              write(logmess,'(a,i5,1pe20.12e2)')
+     *     "Multiple points using distance test 20 within epsfac: ",
+     *        iflag_save,epsfac
+              call writloga('default',0,logmess,0,ierr)
+            endif
+         else if (iflag_set.eq.1) then
+            iflag_save = iflag 
+         endif
 
-C              Check for zero area formed between each of the
-C              two vertices and the query point
-C              if edgelen1-edgelen2-edgelen3 is zero, then on edge 
+
+C        FLAG 31,32,33 : END POINT through shared zero area
+C        these tests often succeed at very small numbers
+C        because all points are within the epsilon used
+         itmp = iflag_set
+         iflag_set = 0
+         if ((abs(area3).lt.xfac).and.
+     *                 (abs(area2).lt.xfac)) then
+
+               iflag=31
+               iflag_set = iflag_set+1
+         endif
+         if ((abs(area1).lt.xfac).and.
+     *                 (abs(area3).lt.xfac)) then
+               iflag_set = iflag_set+1
+               iflag=32
+         endif
+         if ((abs(area1).lt.xfac).and.
+     *                 (abs(area2).lt.xfac)) then
+               iflag_set = iflag_set+1
+               iflag=33
+          endif
+          if (iflag_set.gt.1) then
+            if (idebug.gt.0 ) then
+               iflag = iflag + iflag_set
+               write(logmess,'(a,i5,1pe20.12e2)')
+     *     "Multiple points using area test 30 within epsfac: ",
+     *         iflag,epsfac
+               call writloga('default',0,logmess,0,ierr)
+            endif
+          endif
+
+C         set flags so far
+C         let flags in 20's win over 30's
+C         add number of success to success in 30's
+          iflag_set = itmp + iflag_set 
+          if (iflag_save.gt.20 .and. iflag_save.lt.30) then
+             iflag = 0
+          else 
+             iflag_save = iflag_save + iflag
+             if (iflag_set.gt.1) iflag_save = iflag_save+iflag_set
+             iflag = 0
+          endif
+          itmp = 0
+
+
+C         CONTINUE tests with point and edge evaluations
+
+C         Check for zero area formed between each of the
+C         two vertices and the query point
+C         if edgelen1-edgelen2-edgelen3 is zero, then on edge 
+C         Note these tag are in teens and high confidence
 C
-C              Added additional check to see if an edge length is zero
-C              and therefore on the vertice point
-C              This is needed when signifigant digits are lost 
-C              causing the first length check to fail the epsilon test
+C  cwg    Added additional check to see if an edge length is zero
+C         and therefore on the vertice point
+C         This is needed when signifigant digits are lost 
+C         causing the first length check to fail the epsilon test
+C         Note this tag is set to 70's and has least confidence
 C
-C              ON EDGE 1 or ON pnt 2 or 3
-C              area formed from edge 23 to query point 
-               elseif(abs(area1).lt.xfac) then
+C         ON EDGE 1 or ON pnt 2 or 3
+C         area formed from edge 23 to query point 
+          if(abs(area1).lt.xfac) then
+
+C                 FLAG 1 : ON EDGE 2 to 3
+C                 FLAG 12 : ON POINT 2 
+C                 FLAG 13 : ON POINT 3 
+C                 FAIL -1 : NOT ON EDGE 2 to 3 
                   ds23=sqrt((xl3-xl2)**2+(yl3-yl2)**2+(zl3-zl2)**2)
                   ds2a=sqrt((xl2-xa)**2+(yl2-ya)**2+(zl2-za)**2)
                   ds3a=sqrt((xl3-xa)**2+(yl3-ya)**2+(zl3-za)**2)
                   dtest = abs(ds23-ds2a-ds3a)
                   if(dtest .lt. xepsilon*eps_pos*ds23) then
-                     iflag=1
-                  else
-                    if (ds2a.lt.xfac) then
+                    iflag=1
+                    itmp = itmp+1
+                  else 
+                     if (ds2a.lt.xfac) then
                        iflag=12
-                    else if (ds3a.lt.xfac) then
+                       itmp = itmp+1
+                     else if (ds3a.lt.xfac) then
                        iflag=13
-                    else
+                       itmp = itmp+1
+                     else
                        iflag=-1
-                    endif
+                     endif
                   endif
+          endif
 
-C              ON EDGE 2 or ON pnt 1 or 3
-C              area formed from edge 13 to query point 
-               elseif(abs(area2).lt.xfac) then
+C         ON EDGE 2 or ON pnt 1 or 3
+C                 FLAG 2 : ON EDGE 1 to 3
+C                 FLAG 11 : ON POINT 1 
+C                 FLAG 13 : ON POINT 3 
+C                 FAIL -2 : NOT ON EDGE 1 to 3 
+C         area formed from edge 13 to query point 
+          if(abs(area2).lt.xfac) then
                   ds13=sqrt((xl3-xl1)**2+(yl3-yl1)**2+(zl3-zl1)**2)
                   ds1a=sqrt((xl1-xa)**2+(yl1-ya)**2+(zl1-za)**2)
                   ds3a=sqrt((xl3-xa)**2+(yl3-ya)**2+(zl3-za)**2)
                   dtest=abs(ds13-ds1a-ds3a)
                   if(dtest .lt. xepsilon*eps_pos*ds13) then
                      iflag=2
-                  else
-                    if (ds1a.lt.xfac) then
-                       iflag=11
-                    elseif (ds3a.lt.xfac) then
-                       iflag=13
-                    else
-                       iflag=-2
-                    endif
+                     itmp = itmp+1
+                  else 
+                     if (ds1a.lt.xfac) then
+                        iflag=11
+                        itmp = itmp+1
+                     elseif (ds3a.lt.xfac) then
+                        iflag=13
+                        itmp = itmp+1
+                     else
+                        iflag=-2
+                     endif
                   endif
+          endif
 
-C              ON EDGE 3 or ON pnt 1 or 2
-C              area formed from edge 12 to query point 
-               elseif(abs(area3).lt.xfac) then
+C         ON EDGE 3 or ON pnt 1 or 2
+C                 FLAG 3 : ON EDGE 1 to 2
+C                 FLAG 11 : ON POINT 1 
+C                 FLAG 12 : ON POINT 2 
+C                 FAIL -3 : NOT ON EDGE 1 to 3 
+C         area formed from edge 12 to query point 
+          if(abs(area3).lt.xfac) then
                   ds12=sqrt((xl2-xl1)**2+(yl2-yl1)**2+(zl2-zl1)**2)
                   ds1a=sqrt((xl1-xa)**2+(yl1-ya)**2+(zl1-za)**2)
                   ds2a=sqrt((xl2-xa)**2+(yl2-ya)**2+(zl2-za)**2)
                   dtest=abs(ds12-ds1a-ds2a)
                   if(dtest .lt. xepsilon*eps_pos*ds12) then
                      iflag=3
-                  else
-                    if (ds1a.lt.xfac) then
-                       iflag=11
-                    elseif (ds2a.lt.xfac) then
-                       iflag=12
-                    else
-                       iflag=-3
-                    endif
+                     itmp = itmp+1
+                  else 
+                     if (ds1a.lt.xfac) then
+                        iflag=11
+                        itmp = itmp+1
+                     elseif (ds2a.lt.xfac) then
+                        iflag=12
+                        itmp = itmp+1
+                     else
+                        iflag=-3
+                     endif
                   endif
+          endif
 
-C              NOT FOUND on edge or vertice
-C
-C              Arriving here means the outside test failed and inside tests
-C              failed. The result will be the point will be reported to be
-C              outside, but not due to a any positive result from a test. One
-C              just arrives here because no tests worked.
-C
-C              Before exit, all negative values for iflag are reset to -1
-C
-               else
-                  iflag=-5
+          if (idebug.gt.0 .and. itmp.gt.1) then
+             write(logmess,'(i5,a,i5,1pe20.12e2)')
+     *       itmp, " Multiple edge tests: last flag and epsilon: ",
+     *       iflag,xfac
+             call writloga('default',0,logmess,0,ierr)
+          endif
+          iflag_set = iflag_set + itmp
 
-               endif
-            endif
-         endif
 
-C     OUTSIDE - not on same plane
-C     if inside_tri routine finds not on plane,  should not get here
+C         NOT FOUND on edge or vertice
+C
+C         Arriving here means the outside test failed and inside tests
+C         failed. The result will be the point will be reported to be
+C         outside, but not due to a any positive result from a test. One
+C         just arrives here because no tests worked.
+C
+C         check for failure - make sure iflag is to something other than 0 
+C         FAIL -5 : fell through all EDGE cases
+          if (iflag.eq.0) then
+C            should not get here
+             iflag=-5
+          endif
+
+C     epstest inside_tri routine finds not on plane
+C     should not get here if planar test used before this routine
+C     FAIL -6 : NOT ON PLANE 
       else
-         iflag=-6
+
+           iflag=-6
+
       endif
+CEPS  outer if-then case for point on plane
 
       goto 9999
  9999 continue
+
+
       if (idebug .gt. 0) then
+
+C       epsilon adjustments
         if (eps_adjust .gt. 0) then
          write(logmess,'(a)')
-     *   " Warning: volume epsilon adjusted down to one."
+     *   " Warning upper bound: volume epsilon adjusted to one."
          call writloga('default',0,logmess,0,ierr)
         endif
         if (eps_adjust .lt. 0) then
          write(logmess,'(a)')
-     *   " Warning: volume epsilon adjusted up to epsilonr."
+     *   " Warning lower bound: volume epsilon adjusted to epsilonr."
          call writloga('default',0,logmess,0,ierr)
         endif
 
+C       Failures finding test success
         if (iflag.eq.-6) then
          write(logmess,'(a,1pe20.12e2)')
      *   "Exit inside_tri2d iflag -6, vol eps: ",epsilonv
@@ -1357,6 +1520,11 @@ C     if inside_tri routine finds not on plane,  should not get here
         else if (iflag.eq.-7) then
          write(logmess,'(a,2pe20.12e2)')
      *   "Exit inside_tri2d iflag -7, area epslen: ",epstest,xarea
+         call writloga('default',0,logmess,0,ierr)
+
+        else if (iflag.eq.-8) then
+         write(logmess,'(a,1pe20.12e2)')
+     *   "Exit inside_tri2d iflag -8, point or edge xfac: ",xfac
          call writloga('default',0,logmess,0,ierr)
 
         else if (iflag.eq.0) then
@@ -1375,17 +1543,26 @@ C     if inside_tri routine finds not on plane,  should not get here
      *   "Exit inside_tri2d iflag -5, edge not found within ",xfac
          call writloga('default',0,logmess,0,ierr)
 
-        else 
+        endif 
+
+
+C       Report successful multiple tests
+C       that may indicate tests can not resolve within epsilon
+        if (iflag_set.gt.1 ) then
+         write(logmess,'(a,i5)')
+     *   "Multiple point and edge tests succeeded: ",iflag_set
+         call writloga('default',0,logmess,0,ierr)
+        endif
+
+C     Assign higher return value for test 30 success plus other success
+      if (iflag_save.gt.33 .and. iflag.gt.0) iflag = iflag_save
+
          write(logmess,'(a,i5,1pe20.12e2)')
      *   "FOUND INSIDE: Exit inside_tri2d iflag, len eps: ",
      *    iflag,xfac
          call writloga('default',0,logmess,1,ierr)
         endif
-      endif 
 
-C     check to see if values less than -1 can be passed
-C     if so, allow them to pass on to calling routine 
-C     if (iflag .lt. 0) iflag= -1
 
       return
       end

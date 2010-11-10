@@ -98,6 +98,12 @@ C                  Source attribute itetclr must match sink point imt.
 C                  If multiple candidates pass this test, then TIEMIN or
 C                  TIEMAX will be used to find a single solution.
 C
+C    Default     - For some cases finding inside element can result
+C                  in multiple reasonable answers. In this case the
+C                  return flag from inside element is used to pick
+C                  the element with best confidence.
+C                  
+C
 C /flag_option     Errors flag sink attribute with a special value.
 C    value       - integer or real value to assign as flag value
 C    PLUS1       - will find the max value of source attribute and add 1
@@ -276,18 +282,20 @@ C
       integer ierr,ierrw,ics,ics2,idx,inxt,i,ii,j,jj,ipt,idone,idebug
       integer mtfound,nefound,inelement,ipt_exist,iel_exist,iisrc,iisnk
       integer lenout,len,ilen,ityp,ipt1,ipt2,ipt3,mpno,mbndry,nen
-      integer iout
+      integer iout,inflag,inflag_prev,index_save,index_prev,index_end
+      integer inflag_save, intie
+
       integer npoints,nelements,length,ipointi,ipointj,
      * attsrc_len,attsnk_len,npts_src,npts_snk,nelm_src,nelm_snk,
      * nsdgeom_snk,num_src,num_snk,num_snk_all,nwrite,istep,iwrite,
      * nsdgeom_src,nen_snk,nen_src,nef_snk,nef_src,iperc,totfind,
      * totsrchd,nsdtopo_snk,nsdtopo_src,ielmtyp,ielmtyp2,
-     * ifirst,ifound,totflag,just_pt_gtg,if_centroid,volzero, elem_end, 
-     * ierr_eps, iflag
+     * ifirst,ifound,totflag,just_pt_gtg,if_centroid,volzero, 
+     * ierr_eps
  
       real*8 eps,epsilonm,epsilonvol,epsilonlen,xs,ys,zs,xp,yp,zp,xperc
-      real*8 xmi,xma,ymi,yma,zmi,zma,epsarea,epsvol
-      real*8 xflag,maxval,minval,val_end,val_try,volelm
+      real*8 xmi,xma,ymi,yma,zmi,zma,epsarea,epsvol,volelm
+      real*8 xflag, maxval,minval,val_end,val_try,val_save,val_prev
 
 C     local arrays for search objects
       real*8 xnew1(maxnen),ynew1(maxnen),znew1(maxnen),xfield(maxnen)
@@ -909,6 +917,7 @@ C     ******************************************************************
 c     look for gtg attributes for sink-point and sink-element pairs
 c     if lookup attributes exist, use them instead of using search
 c     mmgetpr returns 0 if attribute exists
+c
  
       call mmgetpr('pt_gtg',cmosnk,ippt_gtg,ipt_exist)
       if (ipt_exist.eq.0) then
@@ -958,7 +967,7 @@ c     Set and check valid options for interpolation methods
         if(if_elsearch.eq.1) mk_elatt = 1
       endif
       if(flag_opt(1:7).eq.'nearest') mk_ptatt = 1
- 
+
       len=icharlnf(tie_opt)
       if( (tie_opt(1:3).ne.'min') .and.
      *  (tie_opt(1:3).ne.'max') ) then
@@ -1289,43 +1298,82 @@ c          iisrc is in the source att, iisnk is the sink attribute
          ifirst=1
          do idx=1,mtfound
            iisrc=itfound(idx)
+           if (iisrc.le.0) then
+              write(logmess,"(a,i)")
+     *        "Using kdtree - invalid source node: ",iisrc
+              call writloga('default',0,logmess,0,ierrw)
+           endif
  
-c          set next value val_try, first val is equal to val_end
+c          set next value val_try with current iisrc index
 c          check to see if we are using requested attribute
 c          or just filling pt_gtg for nearest point flag
+c
            if(just_pt_gtg.eq.1) then
              if(ctype_pts(1:4).eq.'VINT') then
-               if(ifirst.eq.1) val_end = dble(iattsrc_near(iisrc))
                val_try = dble(iattsrc_near(iisrc))
              else
-               if(ifirst.eq.1) val_end = xattsrc_near(iisrc)
                val_try = xattsrc_near(iisrc)
              endif
- 
            else
-             if(ifirst.eq.1) val_end = xattsrc(iisrc)
              val_try = xattsrc(iisrc)
+           endif
+
+           if(ifirst.eq.1) then 
+              index_prev = iisrc
+              val_prev = val_try
+              index_end = iisrc
+              val_end = val_try
            endif
  
 c          use tiebreaker for multiple candidate values
-           if(tie_opt(1:3).eq.'min') then
-              val_end = min(val_try,val_end)
-           else
-              val_end = max(val_try,val_end)
+c          save source number and value of chosen candidate 
+           if(tie_opt(1:3).eq.'min' .and. ifirst.eq.0) then
+               if (val_try.le.val_prev) then
+                  index_end = iisrc
+                  val_end = val_try
+               else
+                  index_end = index_prev
+                  val_end = val_prev
+               endif
+               if(idebug.gt.3) then
+                write(logmess,'(a,i,a,1pe14.5e3)')
+     *          ' min TIE ASSIGN INDEX: ',index_end,
+     *          ' associated value: ',val_end
+                call writloga('default',0,logmess,0,ierrw)
+               endif
            endif
- 
-c          Fill pt_gtg attribute with found point candidates
-           if(mk_ptatt.eq.1) then
-             if(val_end.eq.val_try) then
-               pt_gtg(iisnk)=iisrc
-             endif
+           if(tie_opt(1:3).eq.'max' .and. ifirst.eq.0) then
+               if (val_try.ge.val_prev) then
+                  index_end = iisrc
+                  val_end = val_try
+               else
+                  index_end = index_prev
+                  val_end = val_prev
+               endif
+               if(idebug.gt.3) then
+                write(logmess,'(a,i,a,1pe14.5e3)')
+     *          ' max TIE ASSIGN INDEX: ',index_end,
+     *          ' associated value: ',val_end
+                call writloga('default',0,logmess,0,ierrw)
+               endif
            endif
- 
+
            ifirst=0
+           index_prev = index_end
+           val_prev = val_end
            totsrchd = totsrchd+1
+
+c        assign index of last found element
+c        we will assume best is last
+c        Fill pt_gtg attribute with found point index
+         if(mk_ptatt.eq.1) then
+             pt_gtg(iisnk)=index_end
+         endif
+
          enddo
 c        End idx Loop through candidates
- 
+
+
 c        Assign value from final candidate element
 c        or flag with special value or nearest point value
 c        Unless filling pt_gtg attribute for nearest point flag
@@ -1360,13 +1408,17 @@ c        Unless filling pt_gtg attribute for nearest point flag
          write(logmess,"(i17,a,1pe14.5e3,1pe14.5e3,1pe14.5e3,a)")
      *     iisnk,' sink point at ( ',xp,yp,zp,' )'
            call writloga('default',0,logmess,0,ierrw)
-           if (mtfound.lt.1) then
+           if (mtfound.lt.1 .and. just_pt_gtg.ne.1) then
              write(logmess,"(f17.5,a,i17)")
-     *       work(iisnk),'  error FLAG assigned:      ',iisrc
+     *       work(iisnk),'  error FLAG assigned to:  ',iisnk
+             call writloga('default',0,logmess,0,ierrw)
+           elseif (just_pt_gtg.ne.1) then
+             write(logmess,"(f17.5,a,i17)")
+     *       work(iisnk),' value assigned from point: ',index_end
              call writloga('default',0,logmess,0,ierrw)
            else
-             write(logmess,"(f17.5,a,i17)")
-     *       work(iisnk),' value assigned from point: ',iisrc
+             write(logmess,"(i,a,i17)")
+     *       iisnk,' pt_gtg assigned source point: ',index_end
              call writloga('default',0,logmess,0,ierrw)
            endif
          endif
@@ -1448,6 +1500,7 @@ c         preset work array in case of errors
           work(iisnk) = xflag
  
 c         Get enclosing element number iisrc from attribute
+          iisrc = 0
           if(if_elsearch.eq.0) then
             iisrc=el_gtg(iisnk)
             if(iisrc.gt.0) then
@@ -1496,8 +1549,18 @@ c         iisrc is in the source att, iisnk is the sink attribute
           call cmo_select(cmosnk,ierr)
           ifirst=1
           ifound=0
+          val_save=0.0
+          index_save = 0
+          index_end = 0
           do idx=1,nefound
+            inflag = 0
             iisrc=iefound(idx)
+            index_end = iisrc
+            if (iisrc.le.0) then
+              write(logmess,"(a,i)")
+     *        "Using kdtree - invalid source element: ",iisrc
+              call writloga('default',0,logmess,0,ierrw)
+            endif
 
 C           copy into local element arrays
             ielmtyp = itettyp_src(iisrc)
@@ -1516,12 +1579,14 @@ C           copy into local element arrays
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 c           check that src point is inside or on element candidate
 c           check for point inside the element 
-c           iflag < 0 are points found outside the object 
+c           inelement < 0 are points found outside the object 
 c           the second object is always the query point
             if(if_elsearch.ne.0) then
+
                if (idebug.gt.0) then
-                 write(logmess,"(a,i10,a,i10)")
-     &           "SEARCH SINK Pnt: ",ipt," SOURCE Elem: ",idx
+                 write(logmess,"(a,i10,a,i3,a,i10)")
+     &           "*** SEARCH SINK Pnt: ",ipt," Candidate: ",idx
+     &           ,"   SOURCE Elem: ",iisrc
                  call writloga('default',1,logmess,0,ierror)
                endif
 
@@ -1529,17 +1594,39 @@ c           the second object is always the query point
                inelement=idebug
                call inside_element(ielmtyp,xnew1,ynew1,znew1,
      *                        xnew2(1),ynew2(1),znew2(1),inelement)
+               inflag = inelement
             endif
 
-            iflag=inelement
-            if (idebug.gt.1) then
+c           flag indicates point or edge that succeeded for inside
+            if (idebug.ge.5 .and. inelement.ge.0) then
+              if (inelement.lt.20) then
+                write(logmess,"(a,i14,a,i5)")
+     *          'FOUND in element: ',iisrc,
+     *          ' flag: ',inflag
+              else
+                write(logmess,"(a,i14,a,i5)")
+     *          'FOUND in element near point: ',iisrc,
+     *          ' flag: ',inflag
+              endif
+              call writloga('default',0,logmess,0,ierrw)
+            endif
+
+            if (idebug.ge.5) then
+
               write(logmess,"(a,1pe20.12e2,1pe20.12e2,1pe20.12e2)")
      &        "Element xyz(1):  ", xnew1(1),ynew1(1),znew1(1)
               call writloga('default',0,logmess,0,ierror)
               write(logmess,"(a,1pe20.12e2,1pe20.12e2,1pe20.12e2)")
-     &        "Query Pnt  xyz:  ", xnew2(1),ynew2(1),znew2(1)
+     &        "Element xyz(2):  ", xnew1(2),ynew1(2),znew1(2)
               call writloga('default',0,logmess,0,ierror)
-              iflag = 0
+              write(logmess,"(a,1pe20.12e2,1pe20.12e2,1pe20.12e2)")
+     &        "Element xyz(3):  ", xnew1(3),ynew1(3),znew1(3)
+              call writloga('default',0,logmess,0,ierror)
+
+              write(logmess,"(a,1pe20.12e2,1pe20.12e2,1pe20.12e2)")
+     &        "Query Pnt:   ", xnew2(1),ynew2(1),znew2(1)
+              call writloga('default',0,logmess,0,ierror)
+
              endif
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -1552,6 +1639,7 @@ c           check that this element has volume, skip if continuous intrp
               if (intrp_opt(1:10).eq.'continuous') inelement = -2
               volzero = volzero+1
             endif
+
  
             if (tie_opt2(1:3).eq.'mat' ) then
             if (idebug.ge.9 .and. inelement.lt.0) then
@@ -1575,12 +1663,15 @@ c           choose candidate elements with material equal to imt
                 endif
               endif
             endif
+
  
 c           candidate element confirmed
 c           interpolate values, apply tie-breaker
+
             if (inelement.ge.0) then
               ifound = 1
-              if (idebug.ge.9) then
+
+              if (idebug.ge.3) then
                 if (tie_opt2(1:3).eq.'mat' ) then
                 write(logmess,"(a,i14,a,i14,a,i14)")
      *          'GOOD  element: ',iisrc,' mat: ',imat_src(iisrc),
@@ -1596,7 +1687,6 @@ C             attribute is type element
               if(intrp_opt(1:3).eq.'map') then
                 val_try = xattsrc(iisrc)
                 val_try = cinterpolate('function',intrp_func,val_try)
-                if(ifirst.eq.1) val_end = val_try
  
 C             ***************************************************
 C             CONTINUOUS METHOD FROM ELEMENT POINT FIELD
@@ -1606,36 +1696,118 @@ C             interpolation function is applied inside function
  
                 val_try=cinterpolate_elem('continuous',intrp_func,
      *            xp,yp,zp,xnew1,ynew1,znew1,xfield,ielmtyp)
-                if(ifirst.eq.1) val_end = val_try
  
               endif
+
 C             ***************************************************
 C             END INTERPOLATION METHODS
  
 c             Use tie min or max to choose a value from candidates
-              if(tie_opt(1:3).eq.'min') then
-                 val_end = min(val_try,val_end)
-              elseif(tie_opt(1:3).eq.'max') then
-                 val_end = max(val_try,val_end)
-              endif
- 
-c             fill el_gtg attribute with found element candidates
-              if(val_end.eq.val_try) then
-                if(mk_elatt .eq. 1) then
-                  el_gtg(iisnk)=iisrc
+c             These are usually on edge so either elem is valid
+c             pick best of those found inside
+c             val_try is current
+c             val_end is best so far
+
+c TAM
+c             check flag from inside element to select
+c             result with best confidence
+c             inflag as 0 is best
+c             if inflag > 30  possible but least confidence
+c             if inflag 21,22,23 - more possible than 30's
+c             In general, the closer to 0, the higher the confidence
+
+c             save first value as previous
+              if(ifirst.eq.1) then
+                index_prev = iisrc
+                val_prev = val_try 
+                inflag_prev = inflag
+                index_save = iisrc
+                val_save = val_try 
+                inflag_save = inflag
+
+c             compare any new candidates against previous 
+              else 
+
+                intie = 0
+
+                if (inflag_prev.ne.0 .and. inflag.eq.0) then
+                  index_save = iisrc
+                  val_save = val_try
+                  inflag_save = inflag
+                elseif (inflag_prev.gt.20 .and. inflag.lt.20) then
+                  index_save = iisrc
+                  val_save = val_try
+                  inflag_save = inflag
+                elseif (inflag_prev.gt.30 .and. inflag.lt.30) then
+                  index_save = iisrc
+                  val_save = val_try
+                  inflag_save = inflag
                 endif
-                elem_end = iisrc
+
+                if (inflag_prev.eq.0 .and. inflag.eq.0) then
+                   intie = 1
+                endif
+                if (inflag_prev.gt.0 .and. inflag.gt.0 .and.
+     *              inflag_prev.lt.20 .and. inflag.lt.20 ) then
+                   intie = 1
+                endif
+                if (inflag_prev.ge.20 .and. inflag.ge.20 .and.
+     *              inflag_prev.lt.30 .and. inflag.lt.30 ) then
+                   intie = 1
+                endif
+                if (inflag_prev.ge.30 .and. inflag.ge.30 ) then 
+                   intie = 1
+                endif
+
+c               break tie with min or max value of associated element
+                if (intie.gt.0) then
+                  if(tie_opt(1:3).eq.'min') then
+                     if (val_try.lt.val_prev) then
+                         index_save = iisrc
+                         val_save = val_try
+                         inflag_save = inflag
+                      else
+                         index_save = index_prev
+                         val_save = val_prev
+                         inflag_save = inflag_prev
+                      endif
+                   endif
+                   if(tie_opt(1:3).eq.'max') then
+                     if (val_try.gt.val_prev) then
+                         index_save = iisrc
+                         val_save = val_try
+                         inflag_save = inflag
+                      else
+                         index_save = index_prev
+                         val_save = val_prev
+                         inflag_save = inflag_prev
+                      endif
+                   endif
+                   if(idebug.gt.0) then
+                   write(logmess,'(a3,a,i,a,i5,1pe14.5e3)')
+     *             tie_opt(1:3),' TIE ASSIGN INDEX: ',index_save,
+     *             ' with flag and value: ',inflag_save,val_save
+                   call writloga('default',0,logmess,0,ierrw)
+                   endif
+                 endif
+
               endif
- 
+
+c             overwrite previous with winning index and value
               ifirst=0
+              index_prev = index_save
+              val_prev = val_save
+              inflag_prev = inflag_save
               totsrchd=totsrchd+1
+
             endif
 c           End found element
- 
+
           enddo
 c         End idx Loop through candidate elements
- 
- 
+          index_end = index_save
+          val_end = val_save
+
 c         Assign value from final candidate element
 c         or flag with special value or nearest point value
           if(ifound.lt.1) then
@@ -1644,6 +1816,9 @@ c         or flag with special value or nearest point value
           else
             work(iisnk) = val_end
             totfind = totfind+1
+            if(mk_elatt .eq. 1) then
+               el_gtg(iisnk) = index_end
+            endif
           endif
  
           if(ipt.eq.1) then
@@ -1669,17 +1844,28 @@ c         or flag with special value or nearest point value
             endif
           endif
 
+c         use end source elem number which is 0 if no candidates
+c         old code would wrongly write elem number of last found
           if(idebug.gt.0 ) then
             write(logmess,"(i17,a,1pe14.5e3,1pe14.5e3,1pe14.5e3,a)")
      *      iisnk,' sink point at ( ',xp,yp,zp,' )'
             call writloga('default',0,logmess,0,ierrw)
+
             if (ifound.lt.1) then
-              write(logmess,"(f17.5,a,i17)")
+
+              if (iisrc.le.0) then
+              write(logmess,"(f17.5,a)")
+     *      work(iisnk),'  FLAG assigned, element NOT found. '
+              call writloga('default',0,logmess,0,ierrw)
+              else
+              write(logmess,"(f17.5,a,i5)")
      *      work(iisnk),'  FLAG assigned, NOT in elem: ',iisrc
               call writloga('default',0,logmess,0,ierrw)
+              endif
+
             else
               write(logmess,"(f17.5,a,i17)")
-     *      work(iisnk),' value assigned from element: ',elem_end
+     *      work(iisnk),' value assigned from element: ',index_end
               call writloga('default',0,logmess,0,ierrw)
             endif
 

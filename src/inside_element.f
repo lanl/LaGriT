@@ -200,8 +200,9 @@ C
 C
  9999 continue
       if (idebug.gt.0) then
-         write(logmess,'(a,i5)')
-     *   "Exit inside_element iflag: ",iflag
+         write(logmess,'(a,i5,a,i5)')
+     *   "Exit inside_element type ",ielmtyp,
+     *   "  with iflag: ",iflag
          call writloga('default',0,logmess,0,ierror)
       endif
       return
