@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  07:58:38           *                 
+*               *    Program:  LaGriT V2.200   Linux m32      *                 
+*               *    date_compile: 2010/06/29                 *                 
+*               *    Run Time: 2010/11/12  13:02:40           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -352,7 +352,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  
 quality                                                                         
  
-epsilonl, epsilonaspect:   1.0000000E-08  1.0000000E-24                         
+epsilonl, epsilonaspect:   9.9999999E-09  9.9999998E-25                         
 --------------------------------------------                                    
 elements with aspect ratio < .01:                    0                          
 elements with aspect ratio b/w .01 and .02:          0                          

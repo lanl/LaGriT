@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  07:59:39           *                 
+*               *    Program:  LaGriT V2.200   Linux m32      *                 
+*               *    date_compile: 2010/06/29                 *                 
+*               *    Run Time: 2010/11/12  13:02:39           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -169,10 +169,10 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  jtetoff                          0           163000          163000     40751  
  itet                             1             8000            7999     40751x4
  jtet                             1         16000000        15999999     40751x4
- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
- epsilonl           1.000000000E-08  1.000000000E-08 0.000000000E+00         1  
- epsilona           1.000000000E-08  1.000000000E-08 0.000000000E+00         1  
- epsilonv           1.000000000E-08  1.000000000E-08 0.000000000E+00         1  
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilona           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilonv           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
  ipointi                       8000             8000               0         1  
  ipointj                       8000             8000               0         1  
  idebug                           0                0               0         1  
@@ -196,7 +196,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  
 quality                                                                         
  
-epsilonl, epsilonaspect:   1.0000000E-08  1.0000000E-24                         
+epsilonl, epsilonaspect:   9.9999999E-09  9.9999998E-25                         
 --------------------------------------------                                    
 elements with aspect ratio < .01:                    0                          
 elements with aspect ratio b/w .01 and .02:          0                          

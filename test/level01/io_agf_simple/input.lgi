@@ -23,7 +23,10 @@ dump / avs / output.inp / cmo /
 
 * read AVS and GMV files read AVS and GMV
 read / gmv / output_ascii.gmv / cmogmva / ascii
+
+* linux can not always read this file
 read / gmv / output.gmv / cmogmv /
+
 read / avs / output.inp / cmoavs /
 * begin compare
 cmo status cmogmv

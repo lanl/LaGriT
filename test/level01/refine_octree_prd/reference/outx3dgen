@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  07:59:19           *                 
+*               *    Program:  LaGriT V2.200   Linux m32      *                 
+*               *    date_compile: 2010/06/29                 *                 
+*               *    Run Time: 2010/11/12  13:02:50           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -66,24 +66,24 @@ refine hex     :          1
 REFINE Running in debug mode:     3                                             
  
 Refine PRD:     4                                                               
-cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
-cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
-cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
-cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary/agl/0.0       
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
 finish                                                                          
 Element iteration:          1         1                                         
 Octree(PRD) refined elems: old=         4 new=        12                        
 nlist =              1 sink nnodes =             37 mmgetlen =           1018   
 nlist =              6 sink nnodes =             37 mmgetlen =           1018   
 nlist =             12 sink nnodes =             37 mmgetlen =           1018   
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -146,7 +146,7 @@ refine hex     :          3
 REFINE Running in debug mode:     3                                             
  
 Refine PRD:     4                                                               
-cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary/agl/0.0       
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
 finish                                                                          
 Element iteration:          1         2                                         
 Octree(PRD) refined elems: old=        12 new=        28                        
@@ -155,11 +155,11 @@ nlist =             12 sink nnodes =             75 mmgetlen =           1037
 nlist =             24 sink nnodes =             75 mmgetlen =           1037   
  
  Dudding      5 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -210,7 +210,7 @@ refine hex     :          7
 REFINE Running in debug mode:     3                                             
  
 Refine PRD:    12                                                               
-cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary/agl/0.0       
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
 finish                                                                          
 Element iteration:          1         4                                         
 Octree(PRD) refined elems: old=        28 new=        44                        
@@ -218,11 +218,11 @@ nlist =              8 sink nnodes =            110 mmgetlen =           1070
 nlist =             32 sink nnodes =            110 mmgetlen =           1070   
  
  Dudding     15 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -273,7 +273,7 @@ refine hex     :         11
 REFINE Running in debug mode:     3                                             
  
 Refine PRD:    12                                                               
-cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary/agl/0.0       
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
 finish                                                                          
 Element iteration:          1         4                                         
 Octree(PRD) refined elems: old=        44 new=        60                        
@@ -281,11 +281,11 @@ nlist =              8 sink nnodes =            135 mmgetlen =           1095
 nlist =             32 sink nnodes =            135 mmgetlen =           1095   
  
  Dudding     15 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -336,7 +336,7 @@ refine hex     :         15
 REFINE Running in debug mode:     3                                             
  
 Refine PRD:    12                                                               
-cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary/agl/0.0       
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
 finish                                                                          
 Element iteration:          1         4                                         
 Octree(PRD) refined elems: old=        60 new=        76                        
@@ -344,11 +344,11 @@ nlist =              8 sink nnodes =            160 mmgetlen =           1120
 nlist =             32 sink nnodes =            160 mmgetlen =           1120   
  
  Dudding     15 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -401,7 +401,7 @@ refine hex     :         31
 REFINE Running in debug mode:     3                                             
  
 Refine PRD:    12                                                               
-cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary/agl/0.0       
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
 finish                                                                          
 Element iteration:          1        16                                         
 Octree(PRD) refined elems: old=        76 new=       140                        
@@ -409,11 +409,11 @@ nlist =             32 sink nnodes =            305 mmgetlen =           1145
 nlist =            128 sink nnodes =            305 mmgetlen =           1145   
  
  Dudding     80 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -427,11 +427,11 @@ nlist =             16 sink nnodes =            385 mmgetlen =           1305
 nlist =             64 sink nnodes =            385 mmgetlen =           1305   
  
  Dudding     40 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -445,11 +445,11 @@ nlist =             16 sink nnodes =            465 mmgetlen =           1385
 nlist =             64 sink nnodes =            465 mmgetlen =           1385   
  
  Dudding     40 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -463,11 +463,11 @@ nlist =             16 sink nnodes =            545 mmgetlen =           1465
 nlist =             64 sink nnodes =            545 mmgetlen =           1465   
  
  Dudding     40 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -481,11 +481,11 @@ nlist =              8 sink nnodes =            585 mmgetlen =           1545
 nlist =             32 sink nnodes =            585 mmgetlen =           1545   
  
  Dudding     16 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -499,11 +499,11 @@ nlist =              4 sink nnodes =            605 mmgetlen =           1585
 nlist =             16 sink nnodes =            605 mmgetlen =           1585   
  
  Dudding      4 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -559,7 +559,7 @@ refine hex     :         67
 REFINE Running in debug mode:     3                                             
  
 Refine PRD:    12                                                               
-cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary/agl/0.0       
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
 finish                                                                          
 Element iteration:          1        36                                         
 Octree(PRD) refined elems: old=       260 new=       404                        
@@ -567,11 +567,11 @@ nlist =             72 sink nnodes =            745 mmgetlen =           1385
 nlist =            288 sink nnodes =            745 mmgetlen =           1385   
  
  Dudding    195 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -645,7 +645,7 @@ refine hex     :        211
 REFINE Running in debug mode:     3                                             
  
 Refine PRD:     4                                                               
-cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary/agl/0.0       
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
 finish                                                                          
 Element iteration:          1       144                                         
 Octree(PRD) refined elems: old=       404 new=      1556                        
@@ -654,11 +654,11 @@ nlist =            864 sink nnodes =           3286 mmgetlen =           3526
 nlist =           1728 sink nnodes =           3286 mmgetlen =           3526   
  
  Dudding   1460 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -673,11 +673,11 @@ nlist =            144 sink nnodes =           3742 mmgetlen =           4286
 nlist =            288 sink nnodes =           3742 mmgetlen =           4286   
  
  Dudding    244 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -692,11 +692,11 @@ nlist =             96 sink nnodes =           4046 mmgetlen =           4742
 nlist =            192 sink nnodes =           4046 mmgetlen =           4742   
  
  Dudding    150 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -711,11 +711,11 @@ nlist =             24 sink nnodes =           4122 mmgetlen =           5046
 nlist =             48 sink nnodes =           4122 mmgetlen =           5046   
  
  Dudding     37 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
@@ -786,7 +786,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  jtetoff                          0            11442           11442      1908  
  itet                             1             2231            2230      1908x8
  jtet                            26         16000024        15999998      1908x6
- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
  epsilonl           1.631687947E-11  1.631687947E-11 0.000000000E+00         1  
  epsilona           1.199040867E-09  1.199040867E-09 0.000000000E+00         1  
  epsilonv           1.110223025E-08  1.110223025E-08 0.000000000E+00         1  
@@ -851,13 +851,13 @@ refine hex     :          4
 REFINE Running in debug mode:     6                                             
  
 Refine PRD:     4                                                               
-cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
-cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
-cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
-cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary/agl/0.0       
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
 finish                                                                          
 Element iteration:          1         4                                         
 Octree(PRD) refined elems: old=         4 new=        36                        
@@ -866,11 +866,11 @@ nlist =             24 sink nnodes =             94 mmgetlen =           1018
 nlist =             48 sink nnodes =             94 mmgetlen =           1018   
  
  Dudding     19 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.104148151432E-11                       
@@ -926,11 +926,11 @@ nlist =             36 sink nnodes =            255 mmgetlen =           1075
 nlist =            144 sink nnodes =            255 mmgetlen =           1075   
  
  Dudding     88 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.104148151432E-11                       
@@ -998,13 +998,13 @@ refine quad    :          6
 REFINE Running in debug mode:     6                                             
  
 Refine PRD:    12                                                               
-cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
-cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
-cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
-cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary/agl/0.0       
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
 finish                                                                          
 Element iteration:          1         6                                         
 Octree(PRD) refined elems: old=         8 new=        32                        
@@ -1012,11 +1012,11 @@ nlist =              6 sink nnodes =             45 mmgetlen =           1015
 nlist =             24 sink nnodes =             45 mmgetlen =           1015   
  
  Dudding      7 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.157009245868E-11                       
@@ -1212,18 +1212,18 @@ Octree(PRD) refined elems: old=        32 new=        54
 nlist =             22 sink nnodes =             67 mmgetlen =           1045   
  
  Dudding      7 duplicate points.                                               
- ELMTESTD WARNING:   0 faces are part of jtet loops                             
- ELMTESTD WARNING:   0 jtet loops linking faces with diff no.s of nodes         
+ ELMTESTD WARNING:   0  faces are part of jtet loops                            
+ ELMTESTD WARNING:   0  jtet loops linking faces with diff no.s of nodes        
          or diff repeated nodes, jtet_reduce_nnd=  0                            
- ELMTESTD WARNING: mesh has   0 degenerate elements                             
-         and   0 self-degenerate elements                                       
+ ELMTESTD WARNING: mesh has   0  degenerate elements                            
+         and   0  self-degenerate elements                                      
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.157009245868E-11                       
  
 FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
- geniee: mesh has   11 jtet loops, max cycle length=  4                         
+ geniee: mesh has   11  jtet loops, max cycle length=  4                        
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  

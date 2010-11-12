@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   SunOS          *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  09:04:39           *                 
+*               *    Program:  LaGriT V2.200   Linux m32      *                 
+*               *    date_compile: 2010/06/29                 *                 
+*               *    Run Time: 2010/11/12  13:02:52           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -78,7 +78,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  jtetoff                          0              572             572       144  
  itet                             1               60              59       144x4
  jtet                             4         16000000        15999996       144x4
- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
  epsilonl           3.171431308E-13  3.171431308E-13 0.000000000E+00         1  
  epsilona           4.529709940E-13  4.529709940E-13 0.000000000E+00         1  
  epsilonv           4.440892099E-14  4.440892099E-14 0.000000000E+00         1  
@@ -656,7 +656,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  jtetoff                          0             4700            4700      1176  
  itet                             1              450             449      1176x4
  jtet                             1         16000000        15999999      1176x4
- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
  epsilonl           3.171431308E-13  3.171431308E-13 0.000000000E+00         1  
  epsilona           4.529709940E-13  4.529709940E-13 0.000000000E+00         1  
  epsilonv           4.440892099E-14  4.440892099E-14 0.000000000E+00         1  
@@ -758,7 +758,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  jtetoff                          0             4700            4700      1176  
  itet                             1              450             449      1176x4
  jtet                             1         16004686        16004685      1176x4
- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
  epsilonl           3.171431308E-13  3.171431308E-13 0.000000000E+00         1  
  epsilona           4.529709940E-13  4.529709940E-13 0.000000000E+00         1  
  epsilonv           4.440892099E-14  4.440892099E-14 0.000000000E+00         1  
@@ -1441,7 +1441,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  0 length attribute: jtetoff                                                    
  0 length attribute: itet                                                       
  0 length attribute: jtet                                                       
- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
  epsilonl           3.845925373E-13  3.845925373E-13 0.000000000E+00         1  
  epsilona           6.661338148E-13  6.661338148E-13 0.000000000E+00         1  
  epsilonv           2.220446049E-13  2.220446049E-13 0.000000000E+00         1  

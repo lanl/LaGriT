@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  07:59:05           *                 
+*               *    Program:  LaGriT V2.200   Linux m32      *                 
+*               *    date_compile: 2010/06/29                 *                 
+*               *    Run Time: 2010/11/12  12:44:34           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -46,6 +46,7 @@ finish
 * begin compare fehm                                                            
 * dump FEHM files                                                               
 dump/fehm/outbin/cmo/binary//scalar                                             
+*** Write FEHMN GEOM AND ZONE FILES ***                                         
 *********dump_material_lists********                                            
 Minimum material ID value =      1                                              
 Maximum material ID value =      1                                              
@@ -56,38 +57,39 @@ Material           1 has         8 nodes. #nodes/nnodes is    1.00000000000
 log/tty/off                                                                     
 finish                                                                          
 *********dump_outside_list********                                              
+Voronoi Areas used for outside faces.                                           
  
 assign_quadrant_id epsilon for zero:   1.0000000E-15                            
 cmo/addatt/cmo/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/               
 finish                                                                          
 Face top           1 has         4 nodes.                                       
-top       Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+top        Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/addatt/cmo/bottom/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
 finish                                                                          
 Face bottom        2 has         4 nodes.                                       
-bottom    Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+bottom     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/addatt/cmo/left_w/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
 finish                                                                          
 Face left_w        3 has         4 nodes.                                       
-left_w    Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+left_w     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/addatt/cmo/right_e/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
 finish                                                                          
 Face right_e       5 has         4 nodes.                                       
-right_e   Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+right_e    Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/addatt/cmo/back_n/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
 finish                                                                          
 Face back_n        6 has         4 nodes.                                       
-back_n    Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+back_n     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/addatt/cmo/front_s/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
 finish                                                                          
 Face front_s       4 has         4 nodes.                                       
-front_s   Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+front_s    Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/DELATT//top                                                                 
 finish                                                                          
 cmo/DELATT//bottom                                                              
@@ -103,78 +105,29 @@ finish
 log/tty/on                                                                      
 finish                                                                          
 *********dump_parent_list********                                               
-*********Construct Sparse Matrix:3D********                                     
-Matbld3d_stor: mmgetblk   isort:             68                                 
-Matbld3d_stor: mmgetblk icolmat:             68                                 
-Matbld3d_stor: mmgetblk irowmat:             68                                 
-Matbld3d_stor: mmgetblk isendnn:             68                                 
-Matbld3d_stor: mmgetblk irowcnt:              8                                 
-Matbld3d_stor: mmgetblk irowoff:              8                                 
-Matbld3d_stor: mmgetblk irowdag:              8                                 
-Matbld3d_stor: mmgetblk iparent:              8                                 
-Matbld3d_stor: mmgetblk   itetp:             20                                 
-matbld1      : mmgetblk   xtemp:            136                                 
-matbld1      : mmgetblk  isortr:             68                                 
-matbld1      : mmgetblk  isortc:             68                                 
-matbld1      : mmgetblk  xcount:             68                                 
-matbld1      : mmrelblk   xtemp:             68                                 
-matbld1      : mmgetblk   itemp:             68                                 
-matbld1      : mmgetblk   itmp1:             68                                 
-matbld1      : mmgetblk   itmp2:             68                                 
-matbld1      : mmgetblk   itmp3:             68                                 
-matbld1      : mmrelblk   itmp2:             68                                 
-matbld1      : mmrelblk   itmp3:             68                                 
-matbld1      : mmgetblk    mask:             68                                 
-matbld1      : mmgetblk   itmp4:             68                                 
-matbld1      :mmgetblk ilogical:             68                                 
-matbld1      : mmrelblk  isortc:             68                                 
-matbld1      : mmgetblk   xtemp:             68                                 
-matbld1      : mmrelblk   xtemp:             68                                 
-matbld1      : mmrelblk  xcount:             68                                 
-matbld1      : mmrelblk   itmp1:             68                                 
-matbld1      : mmrelblk   itemp:             68                                 
-matbld1      : mmrelblk   itmp4:             68                                 
-Matbld3d_stor: mmnewlen icolmat:             44                                 
-Matbld3d_stor: mmnewlen irowmat:             44                                 
-Matbld3d_stor: mmgetblk    amat:             44                                 
-Matbld3d_stor: mmgetblk   xamat:             44                                 
-Matbld3d_stor: mmgetblk   yamat:             44                                 
-Matbld3d_stor: mmgetblk   zamat:             44                                 
-Matbld3d_stor: mmgetblk   iamat:             44                                 
-Matbld3d_stor: mmgetblk  xconst:             68                                 
-Matbld3d_stor: mmgetblk  yconst:             68                                 
-Matbld3d_stor: mmgetblk  zconst:             68                                 
-Matbld3d_stor: mmgetblk   volic:              8                                 
-Matbld3d_stor: mmgetblk xsendnn:             68                                 
-Matbld3d_stor: mmrelblk  xconst:             68                                 
-Matbld3d_stor: mmgetblk ysendnn:             68                                 
-Matbld3d_stor: mmrelblk  yconst:             68                                 
-Matbld3d_stor: mmgetblk zsendnn:             68                                 
-Matbld3d_stor: mmrelblk  zconst:             68                                 
-Matbld3d_stor: mmrelblk   isort:             68                                 
-Matbld3d_stor: mmrelblk isendnn:             68                                 
-Matbld3d_stor: npoints =        8  n connections =         44                   
-Matbld3d_stor: Ave. num connections (ncoefs/npoints) =       5.5000000          
-Matbld3d_stor: Maximum num. connections to a node =          7                  
-Matbld3d_stor: Volume min =   1.2500000E-01                                     
-Matbld3d_stor: Volume max =   1.2500000E-01                                     
-Matbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                               
-Matbld3d_stor: abs(Aij/xij) max =   2.5000000E-01                               
-Matbld3d_stor: Total Volume:   1.0000000E+00  1.0000000E+00  1.0000000E+00      
-Matbld3d_stor: mmgetblk   itemp:             53                                 
-Matbld3d_stor:mmgetblk imatptrs:             53                                 
-cmo/addatt/cmo/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/afgx/0.0/           
-finish                                                                          
-Matbld3d_stor:     Aij/xij min =  -3.4345773E-17                                
-Matbld3d_stor:     Aij/xij max =   2.5000000E-01                                
-Matbld3d_stor: total neg        4 mincoef=  -3.4345773E-17 maxcoef=   2.5000000E
-                                                                             -01
-NegC: sort              edge            vor_coeff                   row_node    
-                                                                        col_node
  
-Total suspect coeffs:          0                                                
+*** Construct and Compress Sparse Matrix:3D ***                                 
+   *** Compress Area Coefficient Values ***                                     
+AMatbld3d_stor: *****Zero Negative Coefficients ******                          
+AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs       0                    
+AMatbld3d_stor: npoints =        8  n connections =         32                  
+AMatbld3d_stor: Number of written coefs =         2                             
+AMatbld3d_stor: Maximum num. connections to a node =          4                 
+AMatbld3d_stor: Volume min =   1.2500000E-01                                    
+AMatbld3d_stor: Volume max =   1.2500000E-01                                    
+AMatbld3d_stor: Total Volume:   1.0000000E+00                                   
+AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
+AMatbld3d_stor: abs(Aij/xij) max =   2.5000000E-01                              
+AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
+AMatbld3d_stor: (Aij/xij) min =  -2.5000000E-01                                 
+Compression used for graph and coefficient values                               
+The area coefficient values were written as scalar area/distance                
+unformatted STOR file written with name outbin.stor                             
+ 
+*** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
  
 dump/fehm/outascii/cmo/ascii//scalar                                            
+*** Write FEHMN GEOM AND ZONE FILES ***                                         
 *********dump_material_lists********                                            
 Minimum material ID value =      1                                              
 Maximum material ID value =      1                                              
@@ -185,38 +138,39 @@ Material           1 has         8 nodes. #nodes/nnodes is    1.00000000000
 log/tty/off                                                                     
 finish                                                                          
 *********dump_outside_list********                                              
+Voronoi Areas used for outside faces.                                           
  
 assign_quadrant_id epsilon for zero:   1.0000000E-15                            
 cmo/addatt/cmo/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/               
 finish                                                                          
 Face top           1 has         4 nodes.                                       
-top       Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+top        Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/addatt/cmo/bottom/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
 finish                                                                          
 Face bottom        2 has         4 nodes.                                       
-bottom    Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+bottom     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/addatt/cmo/left_w/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
 finish                                                                          
 Face left_w        3 has         4 nodes.                                       
-left_w    Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+left_w     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/addatt/cmo/right_e/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
 finish                                                                          
 Face right_e       5 has         4 nodes.                                       
-right_e   Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+right_e    Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/addatt/cmo/back_n/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
 finish                                                                          
 Face back_n        6 has         4 nodes.                                       
-back_n    Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+back_n     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/addatt/cmo/front_s/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
 finish                                                                          
 Face front_s       4 has         4 nodes.                                       
-front_s   Area            Area_x          Area_y          Area_z                
-          0.1732051E+01   0.1000000E+01   0.1000000E+01   0.1000000E+01         
+front_s    Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
 cmo/DELATT//top                                                                 
 finish                                                                          
 cmo/DELATT//bottom                                                              
@@ -232,74 +186,26 @@ finish
 log/tty/on                                                                      
 finish                                                                          
 *********dump_parent_list********                                               
-*********Construct Sparse Matrix:3D********                                     
-Matbld3d_stor: mmgetblk   isort:             68                                 
-Matbld3d_stor: mmgetblk icolmat:             68                                 
-Matbld3d_stor: mmgetblk irowmat:             68                                 
-Matbld3d_stor: mmgetblk isendnn:             68                                 
-Matbld3d_stor: mmgetblk irowcnt:              8                                 
-Matbld3d_stor: mmgetblk irowoff:              8                                 
-Matbld3d_stor: mmgetblk irowdag:              8                                 
-Matbld3d_stor: mmgetblk iparent:              8                                 
-Matbld3d_stor: mmgetblk   itetp:             20                                 
-matbld1      : mmgetblk   xtemp:            136                                 
-matbld1      : mmgetblk  isortr:             68                                 
-matbld1      : mmgetblk  isortc:             68                                 
-matbld1      : mmgetblk  xcount:             68                                 
-matbld1      : mmrelblk   xtemp:             68                                 
-matbld1      : mmgetblk   itemp:             68                                 
-matbld1      : mmgetblk   itmp1:             68                                 
-matbld1      : mmgetblk   itmp2:             68                                 
-matbld1      : mmgetblk   itmp3:             68                                 
-matbld1      : mmrelblk   itmp2:             68                                 
-matbld1      : mmrelblk   itmp3:             68                                 
-matbld1      : mmgetblk    mask:             68                                 
-matbld1      : mmgetblk   itmp4:             68                                 
-matbld1      :mmgetblk ilogical:             68                                 
-matbld1      : mmrelblk  isortc:             68                                 
-matbld1      : mmgetblk   xtemp:             68                                 
-matbld1      : mmrelblk   xtemp:             68                                 
-matbld1      : mmrelblk  xcount:             68                                 
-matbld1      : mmrelblk   itmp1:             68                                 
-matbld1      : mmrelblk   itemp:             68                                 
-matbld1      : mmrelblk   itmp4:             68                                 
-Matbld3d_stor: mmnewlen icolmat:             44                                 
-Matbld3d_stor: mmnewlen irowmat:             44                                 
-Matbld3d_stor: mmgetblk    amat:             44                                 
-Matbld3d_stor: mmgetblk   xamat:             44                                 
-Matbld3d_stor: mmgetblk   yamat:             44                                 
-Matbld3d_stor: mmgetblk   zamat:             44                                 
-Matbld3d_stor: mmgetblk   iamat:             44                                 
-Matbld3d_stor: mmgetblk  xconst:             68                                 
-Matbld3d_stor: mmgetblk  yconst:             68                                 
-Matbld3d_stor: mmgetblk  zconst:             68                                 
-Matbld3d_stor: mmgetblk   volic:              8                                 
-Matbld3d_stor: mmgetblk xsendnn:             68                                 
-Matbld3d_stor: mmrelblk  xconst:             68                                 
-Matbld3d_stor: mmgetblk ysendnn:             68                                 
-Matbld3d_stor: mmrelblk  yconst:             68                                 
-Matbld3d_stor: mmgetblk zsendnn:             68                                 
-Matbld3d_stor: mmrelblk  zconst:             68                                 
-Matbld3d_stor: mmrelblk   isort:             68                                 
-Matbld3d_stor: mmrelblk isendnn:             68                                 
-Matbld3d_stor: npoints =        8  n connections =         44                   
-Matbld3d_stor: Ave. num connections (ncoefs/npoints) =       5.5000000          
-Matbld3d_stor: Maximum num. connections to a node =          7                  
-Matbld3d_stor: Volume min =   1.2500000E-01                                     
-Matbld3d_stor: Volume max =   1.2500000E-01                                     
-Matbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                               
-Matbld3d_stor: abs(Aij/xij) max =   2.5000000E-01                               
-Matbld3d_stor: Total Volume:   1.0000000E+00  1.0000000E+00  1.0000000E+00      
-Matbld3d_stor: mmgetblk   itemp:             53                                 
-Matbld3d_stor:mmgetblk imatptrs:             53                                 
-Matbld3d_stor:     Aij/xij min =  -3.4345773E-17                                
-Matbld3d_stor:     Aij/xij max =   2.5000000E-01                                
-Matbld3d_stor: total neg        4 mincoef=  -3.4345773E-17 maxcoef=   2.5000000E
-                                                                             -01
-NegC: sort              edge            vor_coeff                   row_node    
-                                                                        col_node
  
-Total suspect coeffs:          0                                                
+*** Construct and Compress Sparse Matrix:3D ***                                 
+   *** Compress Area Coefficient Values ***                                     
+AMatbld3d_stor: *****Zero Negative Coefficients ******                          
+AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs       0                    
+AMatbld3d_stor: npoints =        8  n connections =         32                  
+AMatbld3d_stor: Number of written coefs =         2                             
+AMatbld3d_stor: Maximum num. connections to a node =          4                 
+AMatbld3d_stor: Volume min =   1.2500000E-01                                    
+AMatbld3d_stor: Volume max =   1.2500000E-01                                    
+AMatbld3d_stor: Total Volume:   1.0000000E+00                                   
+AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
+AMatbld3d_stor: abs(Aij/xij) max =   2.5000000E-01                              
+AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
+AMatbld3d_stor: (Aij/xij) min =  -2.5000000E-01                                 
+Compression used for graph and coefficient values                               
+The area coefficient values were written as scalar area/distance                
+ascii STOR file written with name outascii.stor                                 
+ 
+*** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
  
 cmo/printatt//-all-/minmax                                                      
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
@@ -332,7 +238,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  jtetoff                          0               16              16         5  
  itet                             1                8               7         5x4
  jtet                             1         16000000        15999999         5x4
- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
  epsilonl           3.845925373E-13  3.845925373E-13 0.000000000E+00         1  
  epsilona           6.661338148E-13  6.661338148E-13 0.000000000E+00         1  
  epsilonv           2.220446049E-13  2.220446049E-13 0.000000000E+00         1  
@@ -356,7 +262,6 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  number_of_psets                  0                0               0         1  
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
- ccoef             -3.434577253E-17  0.000000000E+00 3.434577253E-17         8  
  
 quality                                                                         
  
@@ -460,7 +365,6 @@ The current-mesh-object(CMO) is: cmo
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
- 66           ccoef VDOU     scalar          nnodes linea perma afg  0.000E+00  
 * end compare fehm                                                              
 * begin compare write AVS and GMV                                               
 * dump AVS and GMV files                                                        
@@ -476,19 +380,13 @@ finish
 * end compare here                                                              
 * read AVS and GMV files read AVS and GMV                                       
 read/gmv/output_ascii.gmv/cmogmva/ascii                                         
-cmo/addatt/cmogmva/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0        
-finish                                                                          
 geniee                                                                          
 finish                                                                          
+* linux can not always read this file                                           
 read/gmv/output.gmv/cmogmv/                                                     
-cmo/addatt/cmogmv/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0          
-finish                                                                          
- no geometry for mesh object                                                    
-geniee                                                                          
-finish                                                                          
+ 
+ GMV read error: empty file                                                     
 read/avs/output.inp/cmoavs/                                                     
-cmo/addatt/cmoavs/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0         
-finish                                                                          
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -508,7 +406,7 @@ The current-mesh-object(CMO) is: cmoavs
     boundary flag =        16000000        status =                 inactive    
  
   3 Mesh Object name: cmogmv                                                    
-    number of nodes =             8        number of elements =            5    
+    number of nodes =             0        number of elements =            0    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
     boundary flag =        16000000        status =                 inactive    
@@ -527,7 +425,7 @@ cmo status cmogmv
 The current-mesh-object(CMO) is: cmoavs                                         
  
   3 Mesh Object name: cmogmv                                                    
-    number of nodes =             8        number of elements =            5    
+    number of nodes =             0        number of elements =            0    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
     boundary flag =        16000000        status =                 inactive    
@@ -537,10 +435,10 @@ The current-mesh-object(CMO) is: cmoavs
   1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
   2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
   3          vector  INT     scalar          scalar const perma   l  3.000E+00  
-  4          nnodes  INT     scalar          scalar const perma   l  8.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  0.000E+00  
   5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
   6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
-  7       nelements  INT     scalar          scalar const perma   l  5.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  0.000E+00  
   8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
   9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
  10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
@@ -567,11 +465,11 @@ The current-mesh-object(CMO) is: cmoavs
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
- 34        epsilonl REAL     scalar          scalar const perma   l  3.846E-13  
- 35        epsilona REAL     scalar          scalar const perma   l  6.661E-13  
- 36        epsilonv REAL     scalar          scalar const perma   l  2.220E-13  
- 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
- 38         ipointj  INT     scalar          scalar const perma   l  8.000E+00  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
+ 37         ipointi  INT     scalar          scalar const perma   l  0.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  0.000E+00  
  39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
  40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
  41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
@@ -584,9 +482,9 @@ The current-mesh-object(CMO) is: cmoavs
  48        densname CHAR     scalar          scalar const perma   l ric         
  49        presname CHAR     scalar          scalar const perma   l pic         
  50        enername CHAR     scalar          scalar const perma   l eic         
- 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
- 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
- 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
  54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
@@ -599,7 +497,6 @@ The current-mesh-object(CMO) is: cmoavs
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
- 66           ccoef VDOU     scalar          nnodes linea perma gxa  0.000E+00  
 cmo status cmoavs                                                               
  
 The current-mesh-object(CMO) is: cmoavs                                         
@@ -677,7 +574,6 @@ The current-mesh-object(CMO) is: cmoavs
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
- 66           ccoef VDOU     scalar          nnodes linea perma gxa  0.000E+00  
 * end compare here                                                              
 finish                                                                          
 LaGriT successfully completed                                                   

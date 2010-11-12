@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  07:59:07           *                 
+*               *    Program:  LaGriT V2.200   Linux m32      *                 
+*               *    date_compile: 2010/06/29                 *                 
+*               *    Run Time: 2010/11/12  13:02:49           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -49,11 +49,11 @@ cmo/setatt/cmo_hex/imt/pset,get,psphere/2
 refine/constant/imt1/linear/element/pset,get,psphere/-1.,0.,0./inclusive/       
 refine elements:                                                                
 refine hex     :         27                                                     
-cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
-cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
-cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent/agl/0.0       
+cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent//0.0          
 finish                                                                          
 Element iteration:          1        27                                         
 Octree refined elems: old=        50 new=       266                             

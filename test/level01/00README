@@ -1,15 +1,14 @@
 level01 test directory
-USAGE: clean_testdirs.scr ; run_test.py ; check_test.py
-
 These directories represent a mininum set of tests for LaGriT
+Scripts and tests are first version 2008
 Contact: Terry Miller LANL EES tamiller@lanl.gov
+
+each directory contains input and output files
+each directory has reference directories for comparisons 
 scripts are in top directory of level01
   run_test.py -> edit to define path and LaGriT executable   
   check_test.py
   clean_testdirs.scr
-
-each directory contains input and output files
-each directory has reference directories for comparisons 
 
 Foreach platform OS(mac,sun,lin):
 Step 1) 
@@ -28,6 +27,11 @@ Final Step)
 clean_testdirs.scr
         removes all output files in each dir
         removes stdout*txt and diffout*txt
+
+=================================================================================
+Reference directories updated to V2.200 Release November 2010
+intrp_2D_sizes - improved results for finding correct candidate
+io_agf_simple  - changed outside areas to voronoi instead of median
 
 =================================================================================
 Expected results as of March 26 2008 

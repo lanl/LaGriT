@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  07:59:23           *                 
+*               *    Program:  LaGriT V2.200   Linux m32      *                 
+*               *    date_compile: 2010/06/29                 *                 
+*               *    Run Time: 2010/11/12  13:02:52           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -512,7 +512,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  jtetoff                          0            44872           44872     11219  
  itet                           166             3328            3162     11219x4
  jtet                             1         16044857        16044856     11219x4
- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
  epsilonl           1.051141430E-12  1.051141430E-12 0.000000000E+00         1  
  epsilona           4.976019596E-12  4.976019596E-12 0.000000000E+00         1  
  epsilonv           8.881784197E-13  8.881784197E-13 0.000000000E+00         1  

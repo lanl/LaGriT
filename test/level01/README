@@ -29,6 +29,11 @@ clean_testdirs.scr
         removes stdout*txt and diffout*txt
 
 =================================================================================
+Reference directories updated to V2.200 Release November 2010
+intrp_2D_sizes - improved results for finding correct candidate
+io_agf_simple  - changed outside areas to voronoi instead of median
+
+=================================================================================
 Expected results as of March 26 2008 
 Program:  LaGriT V2.001 
 Compiled: 2007/10/18

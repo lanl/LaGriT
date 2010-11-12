@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.002   SunOS          *                 
-*               *    Compiled: 2008/04/08                     *                 
-*               *    Run Time: 2008/04/08  07:59:43           *                 
+*               *    Program:  LaGriT V2.200   Linux m32      *                 
+*               *    date_compile: 2010/06/29                 *                 
+*               *    Run Time: 2010/11/12  13:02:42           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1489,7 +1489,7 @@ The current-mesh-object(CMO) is: cmo_src
  
 finish                                                                          
 cmo set_id cmo_src element tet_id                                               
-cmo/addatt/cmo_src tet_id/VINT/scalar/nelements/linear/permanent/agx/0          
+cmo/addatt/cmo_src tet_id/VINT/scalar/nelements/linear/permanent//0             
 finish                                                                          
 read avs input_tet24.inp cmo_sink                                               
 cmo/addatt/cmo_sink/imtreal/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0     
@@ -1657,7 +1657,7 @@ The current-mesh-object(CMO) is: cmo_src
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  66         imtreal VDOU     scalar          nnodes linea perma gxa  0.000E+00  
  67        itetreal VDOU     scalar       nelements linea perma gxa  0.000E+00  
- 68          tet_id VINT     scalar       nelements linea perma agx  0.000E+00  
+ 68          tet_id VINT     scalar       nelements linea perma agl  0.000E+00  
 cmo status cmo_sink                                                             
  
 The current-mesh-object(CMO) is: cmo_src                                        
@@ -2049,7 +2049,7 @@ The current-mesh-object(CMO) is: cmo_src
  
 finish                                                                          
 cmo set_id cmo_src element tet_id                                               
-cmo/addatt/cmo_src tet_id/VINT/scalar/nelements/linear/permanent/agx/0          
+cmo/addatt/cmo_src tet_id/VINT/scalar/nelements/linear/permanent//0             
 finish                                                                          
 cmo copyatt cmo_src cmo_src itetclr tet_id                                      
          9 copied from cmo_src tet_id to -> cmo_src itetclr                     
