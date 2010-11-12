@@ -123,6 +123,19 @@ C      ** as the face element type.  (Move into local_element.h/blockcom.f?)
  
       pointer (ipxic,xic), (ipyic,yic), (ipzic,zic)
       real*8 xic(*), yic(*), zic(*)
+
+      pointer (ipxicn,xicn), (ipyicn,yicn), (ipzicn,zicn)
+      real*8 xicn(*), yicn(*), zicn(*)
+
+      pointer (ipuatt, catt), (ipuatt2, catt2) 
+      character*32  catt(*), catt2(*)
+
+      pointer (ipuatt, ratt), (ipuatt2, ratt2)
+      real*8  ratt(*), ratt2(*) 
+
+      pointer (ipuatt, iatt), (ipuatt2, iatt2)
+      integer iatt(*), iatt2(*)
+
  
       pointer (ipitet,itet), (ipitetoff,itetoff), (ipitettyp,itettyp),
      &        (ipjtet,jtet), (ipjtetoff,jtetoff), (ipitetclr,itetclr),
@@ -130,9 +143,6 @@ C      ** as the face element type.  (Move into local_element.h/blockcom.f?)
      &        (ipicontab,icontab)
       integer itet(*), jtet(*), itetoff(*), jtetoff(*), itettyp(*),
      &        itetclr(*), itp1(*), isn1(*), icr1(*), icontab(*)
- 
-      pointer (ipxicn,xicn), (ipyicn,yicn), (ipzicn,zicn)
-      real*8 xicn(*), yicn(*), zicn(*)
  
       pointer (ipitetn,itetn), (ipitetoffn,itetoffn), (ipcpmap,cpmap),
      &        (ipitettypn,itettypn), (ipicr1n,icr1n), (ipfmap,fmap),
@@ -147,15 +157,16 @@ C      ** as the face element type.  (Move into local_element.h/blockcom.f?)
      &        idnode0(*), idelem0(*), idelem1(*),
      &        idface0(*), idface1(*)
  
-      integer i, j, k, kk, m, n, ilen, ityp, nnnpe, nnfpe, nnepe, jnbr
-      integer jfnbr
+      integer i, j, k, kk, m, n, idx, ilen, ityp, nnnpe, nnfpe, nnepe
+      integer jnbr, jfnbr
       integer nncells, nnnodes, minft, maxft, nfpe, nconbnd, node
       integer nnodes, ncells, topo_dim, geom_dim, mbndry, ncon50
       integer tmpcol, ncols, found, imode
       integer natts
- 
+      
+
       character*132 cbuf, logmess
-      character*32 isubname, attname
+      character*32 isubname, attnam
       character*32 ctype,crank,clen,cinter,cper,cio
       integer   icharlnf
  
