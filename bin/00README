@@ -2,7 +2,44 @@ Directory to hold LaGriT executable files.
 Online release notes: http://lagrit.lanl.gov/release.shtml
 
 ============================================================
+Version 2.200 Release
+
+*               *                                             *                 
+*               *    Program:  LaGriT V2.200   Linux m32      *                 
+*               *    date_compile: 2010/11/22                 *     
+
+This is the last major release before code is changed for 64 bit work.
+
+dump/fehm, dump/zone_outside
+Write outside area vectors based on voronoi instead of median connections.
+
+cmo/addatt/voronoi_varea
+create node attributes xn_varea, yn_varea, zn_varea indicating triangle face directions.
+
+interpolate/
+Changed interpolate to "find" more points on edges
+this will permit nodes to find a nearest edge or point and be
+"inside" the triangle for extreme small or large numbers where
+epsilon values are difficult to evaluate correctly.
+Fixed bug that sometimes saved wrong candidate number not associated
+with the value that was used. Can happen where multiple candidates
+are found for the sink node, and where the first is not used. 
+
+extract/surfmesh
+Now creates attributes to hold element local face numbers of 3D input
+mesh that occur on either side of output mesh face, idface0 and idface1.
+Now copies user-created node-based attributes from source.
+
+dump 2 and 3 token for avs, lagrit, gmv
+
+
+============================================================
 Version 2.106 Release
+
+
+*               *    Program:  LaGriT V2.106   Linux m32      *
+*               *    date_compile: 2010/06/29                 *
+
 
 New code wrappers include  
 cmo/attribute_union
