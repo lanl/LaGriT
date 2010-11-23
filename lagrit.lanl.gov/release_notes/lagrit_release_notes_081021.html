@@ -1,0 +1,980 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>LaGriT V2.004 Release Notes, 10/21/2008</title>
+    
+</head>
+ <body>
+         
+<div id="banner">     
+<div id="header"><a id="logo" href="https://ancho.lanl.gov/lagrit/"><img
+ src="lagrit_release_notes_081021_files/lagrit-logo.jpg" alt="">
+   </a>   
+<hr></div>
+                
+<div id="metanav" class="nav">   
+<ul>
+      
+</ul>
+ </div>
+ </div>
+ 
+<div id="main"> 
+<div id="content" class="timeline">        
+<h2>10/21/08:</h2>
+      
+<h3><b><a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/77%3Aa230c6aa1ef4"><span
+ class="time"></span></a>Version 2.004 Release</b></h3>
+          
+<h2>09/12/08:</h2>
+            
+<dl id="overview">
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">09/12/08 15:42:08    (1 month ago)</dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> resetpts bug fix, boundary_components and extract_surfmesh added features
+    <br>
+  </p>
+       
+    <p> resetpts had a bug for some element types <br>
+  boundary_components: added id_numb boundary index number <br>
+  extract_surfmesh: added attributes idelem0, idelem1, idnode0 and removed 
+attribute map <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lagrit.lanl.gov/docs/BOUNDARY_C.html?rev=72%3A427e4b85dbdb">lagrit.lanl.gov/docs/BOUNDARY_C.html</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/72%3A427e4b85dbdb#file0"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lagrit.lanl.gov/docs/EXTRACT_SURFMESH.html?rev=72%3A427e4b85dbdb">lagrit.lanl.gov/docs/EXTRACT_SURFMESH.html</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/72%3A427e4b85dbdb#file1"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/boundary_components.f?rev=72%3A427e4b85dbdb">src/boundary_components.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/72%3A427e4b85dbdb#file2"
+ title="Show differences">5&nbsp;diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/extract_surfmesh.f?rev=72%3A427e4b85dbdb">src/extract_surfmesh.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/72%3A427e4b85dbdb#file3"
+ title="Show differences">11&nbsp;diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/resetpts.f?rev=72%3A427e4b85dbdb">src/resetpts.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/72%3A427e4b85dbdb#file4"
+ title="Show differences">2&nbsp;diffs</a>)     </li>
+     
+    </ul>
+   </dd>
+</dl>
+      
+<div id="legend">     </div>
+ 
+<dl>
+  <dt class="changeset"><br>
+   </dt>
+</dl>
+         
+<h2>07/08/08:</h2>
+     
+<dl>
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">07/08/08 07:34:40    (4 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Made changes so that filter and rmmat return with no action rather 
+than crash when passed an empty mesh object. <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/filter.f?rev=71%3A5c8406e8de14">src/filter.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/71%3A5c8406e8de14#file0"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/rmmat.f?rev=71%3A5c8406e8de14">src/rmmat.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/71%3A5c8406e8de14#file1"
+ title="Show differences">3&nbsp;diffs</a>)     </li>
+       <li><br>
+       </li>
+     
+    </ul>
+   </dd>
+  <dt class="changeset"><br>
+  </dt>
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">07/08/08 07:32:28    (4 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Minor changes to documentation pages. <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lagrit.lanl.gov/docs/CONNECT1.html?rev=70%3Acc165a78f4ee">lagrit.lanl.gov/docs/CONNECT1.html</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/70%3Acc165a78f4ee#file0"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lagrit.lanl.gov/docs/OFFSETSURF.html?rev=70%3Acc165a78f4ee">lagrit.lanl.gov/docs/OFFSETSURF.html</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/70%3Acc165a78f4ee#file1"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lagrit.lanl.gov/docs/QUALITY_sliver_cap_needle_wedge.html?rev=70%3Acc165a78f4ee">lagrit.lanl.gov/docs/QUALITY_sliver_cap_needle_wedge.html</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/70%3Acc165a78f4ee#file2"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lagrit.lanl.gov/docs/REFINE.html?rev=70%3Acc165a78f4ee">lagrit.lanl.gov/docs/REFINE.html</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/70%3Acc165a78f4ee#file3"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/dumptecplot_hybrid.f?rev=70%3Acc165a78f4ee">src/dumptecplot_hybrid.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/70%3Acc165a78f4ee#file4"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/offsetsurf.f?rev=70%3Acc165a78f4ee">src/offsetsurf.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/70%3Acc165a78f4ee#file5"
+ title="Show differences">9&nbsp;diffs</a>)     </li>
+     
+    </ul>
+   </dd>
+  <dt class="changeset"><br>
+   </dt>
+</dl>
+         
+<h2>06/12/08:</h2>
+     
+<dl>
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">06/12/08 13:35:01    (4 months ago)</dd>
+  <dd class="author"></dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Add options dump/att_node and dump/att_elem <br>
+  </p>
+       
+    <p> Add options dump/att_node and dump/att_elem to output tables of either 
+node <br>
+  attributes or element attributes to ascii files with header lines beginning 
+    <br>
+  with #. These are similar to dump/avs/file/mo/0 0 2 0 or dump/avs/file/mo/0 
+0 0 2 <br>
+  except the addition of # signs to start lines. Now these files can be read 
+in <br>
+  without editing using: <br>
+  cmo / readatt / mo_name / etc... <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/dumpavs.f?rev=69%3A9cd5c898d5e4">src/dumpavs.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/69%3A9cd5c898d5e4#file0"
+ title="Show differences">8&nbsp;diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/writedump.f?rev=69%3A9cd5c898d5e4">src/writedump.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/69%3A9cd5c898d5e4#file1"
+ title="Show differences">5&nbsp;diffs</a>)     </li>
+     
+    </ul>
+   </dd>
+  <dt class="changeset"><br>
+   </dt>
+</dl>
+ 
+<h2>06/11/08:</h2>
+     
+<dl>
+  <dt class="changeset"><a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/68%3Afb1f221839b1"><span
+ class="time"></span></a><br>
+  </dt>
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">06/11/08 16:08:01    (4 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Corrected bug: cmo_exist returned error flag but check of error flag 
+was to wrong error flag variable. <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/interp_lg.f?rev=68%3Afb1f221839b1">src/interp_lg.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/68%3Afb1f221839b1#file0"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+     
+    </ul>
+   </dd>
+  <dt class="changeset"><br>
+   </dt>
+</dl>
+         
+<dl id="overview">
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">06/11/08 16:00:12    (4 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Added option of using # in addition to * for comment lines. <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/control_command_lg.f?rev=66%3A479e73cf7d3e">src/control_command_lg.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/66%3A479e73cf7d3e#file0"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+     
+    </ul>
+   </dd>
+</dl>
+ 
+<h2><br>
+ </h2>
+ 
+<h2>05/20/08:</h2>
+     
+<dl>
+  <dt class="property time">LaGriT V2.003 Release</dt>
+  <dt class="property time"><br>
+   </dt>
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">05/20/08 14:42:40    (5 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Compile and test V2.003 for platforms SGI-32, SUN, MAC, LINUX <br>
+  These include fixes to SGI compile errors in dumpavs.f filter.f <br>
+  refine_tet_add.f lagrit*.h writinit.f and the Makefile in src <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/bin/buildbin?rev=65%3A684a123422c7">bin/buildbin</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/bin/buildbin"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/bin/lagrit_lin_g?rev=65%3A684a123422c7">bin/lagrit_lin_g</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/bin/lagrit_lin_g"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/bin/lagrit_lin_o?rev=65%3A684a123422c7">bin/lagrit_lin_o</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/bin/lagrit_lin_o"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/bin/lagrit_mac_g?rev=65%3A684a123422c7">bin/lagrit_mac_g</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/bin/lagrit_mac_g"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/bin/lagrit_mac_o?rev=65%3A684a123422c7">bin/lagrit_mac_o</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/bin/lagrit_mac_o"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/bin/lagrit_sun_g?rev=65%3A684a123422c7">bin/lagrit_sun_g</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/bin/lagrit_sun_g"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/bin/lagrit_sun_o?rev=65%3A684a123422c7">bin/lagrit_sun_o</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/bin/lagrit_sun_o"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_lin_g.a?rev=65%3A684a123422c7">lib/lagrit_lin_g.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/lib/lagrit_lin_g.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_lin_o.a?rev=65%3A684a123422c7">lib/lagrit_lin_o.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/lib/lagrit_lin_o.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_mac_g.a?rev=65%3A684a123422c7">lib/lagrit_mac_g.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/lib/lagrit_mac_g.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_mac_o.a?rev=65%3A684a123422c7">lib/lagrit_mac_o.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/lib/lagrit_mac_o.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_sun_g.a?rev=65%3A684a123422c7">lib/lagrit_sun_g.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/lib/lagrit_sun_g.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_sun_o.a?rev=65%3A684a123422c7">lib/lagrit_sun_o.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/lib/lagrit_sun_o.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/test/level01/check_test.py?rev=65%3A684a123422c7">test/level01/check_test.py</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/65%3A684a123422c7/test/level01/check_test.py"
+ title="Show differences">view diffs</a>)     </li>
+     
+    </ul>
+   </dd>
+  <dd class="changeset"><br>
+   </dd>
+</dl>
+         
+<h2>05/01/08:</h2>
+     
+<dl>
+  <dt class="changeset">Timestamp:</dt>
+</dl>
+ 
+<dl id="overview">
+  <dd class="time">05/01/08 12:57:58    (6 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Correct minor bugs. Test case now works. <br>
+  </p>
+       
+    <p> sphere1.f had an incorrect attempt to use MO name before the name 
+    <br>
+  had been obtained. Code would crash. <br>
+  </p>
+       
+    <p> offsetsurf.f did not handle problems with non-triangle or line type 
+MO. <br>
+  Instead of kicking out, an attempt was made to compute sythetic normal
+    <br>
+  for a mesh object (such as quad) and this caused code to crash. <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/offsetsurf.f?rev=48%3A1a8051c0661a">src/offsetsurf.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/48%3A1a8051c0661a#file0"
+ title="Show differences">5&nbsp;diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/sphere1.f?rev=48%3A1a8051c0661a">src/sphere1.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/48%3A1a8051c0661a#file1"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+     
+    </ul>
+   </dd>
+</dl>
+ 
+<h2>04/30/08:</h2>
+     
+<dl>
+  <dt class="changeset"><a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/47%3Aded381465e6b"><span
+ class="time"></span></a><br>
+  </dt>
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">04/30/08 12:33:36    (6 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Fixed error that occured when all output attributes were turned off. 
+    <br>
+  </p>
+       
+    <p> Fixed error that occured when all output attributes were turned off. 
+    <br>
+  Code tried to allocate a zero length array for xvalues( ). <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/dumptecplot_hybrid.f?rev=47%3Aded381465e6b">src/dumptecplot_hybrid.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/47%3Aded381465e6b#file0"
+ title="Show differences">10&nbsp;diffs</a>     </li>
+     
+    </ul>
+   </dd>
+</dl>
+ 
+<div id="legend">    
+<h3><br>
+ </h3>
+ </div>
+ 
+<h2>04/08/08:</h2>
+     
+<dl>
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">04/08/08 12:50:28    (7 months ago)</dd>
+  <dt class="property author"><br>
+  </dt>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Updated and tested V2.002 apr 2008 <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_lin_g.a?rev=31%3A04bcb5deb3ea">lib/lagrit_lin_g.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_lin_g.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_lin_o.a?rev=31%3A04bcb5deb3ea">lib/lagrit_lin_o.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_lin_o.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_mac_g.a?rev=31%3A04bcb5deb3ea">lib/lagrit_mac_g.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_mac_g.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_mac_o.a?rev=31%3A04bcb5deb3ea">lib/lagrit_mac_o.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_mac_o.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_sun_g.a?rev=31%3A04bcb5deb3ea">lib/lagrit_sun_g.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_sun_g.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_sun_o.a?rev=31%3A04bcb5deb3ea">lib/lagrit_sun_o.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_sun_o.a"
+ title="Show differences">view diffs</a>)     </li>
+     
+    </ul>
+   </dd>
+  <dt class="changeset"><br>
+  </dt>
+  <dt class="property time"><br>
+     </dt>
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">04/08/08 12:50:28    (7 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Updated and tested V2.002 apr 2008 <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_lin_g.a?rev=31%3A04bcb5deb3ea">lib/lagrit_lin_g.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_lin_g.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_lin_o.a?rev=31%3A04bcb5deb3ea">lib/lagrit_lin_o.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_lin_o.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_mac_g.a?rev=31%3A04bcb5deb3ea">lib/lagrit_mac_g.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_mac_g.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_mac_o.a?rev=31%3A04bcb5deb3ea">lib/lagrit_mac_o.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_mac_o.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_sun_g.a?rev=31%3A04bcb5deb3ea">lib/lagrit_sun_g.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_sun_g.a"
+ title="Show differences">view diffs</a>)     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lib/lagrit_sun_o.a?rev=31%3A04bcb5deb3ea">lib/lagrit_sun_o.a</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/31%3A04bcb5deb3ea/lib/lagrit_sun_o.a"
+ title="Show differences">view diffs</a>)     </li>
+     
+    </ul>
+   </dd>
+  <dt class="changeset">Added 00README with instructions to run tests Saved 
+old version V2.001</dt>
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">04/08/08 14:28:45    (7 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Updated all reference/outx3dgen to new printatt output <br>
+  improved check_test.py to compare numbers as numerical <br>
+  values instead of text string <br>
+  The new results are saved in result_files/*.txt </p>
+        </dd>
+</dl>
+ 
+<dl id="overview">
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">04/08/08 14:11:43    (7 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> Generalized version Makefile and dependencies <br>
+  Uses wildcards for .f .f90 and .c <br>
+  maintains object files in seperate directories <br>
+  for each platform and for debug and optimized <br>
+  use make help for list of options <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/Makefile?rev=40%3A27593993b117">src/Makefile</a>
+   <span class="comment">(added)</span>     </li>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/Makefile.depends?rev=40%3A27593993b117">src/Makefile.depends</a></li>
+     
+    </ul>
+   </dd>
+</dl>
+ 
+<dl id="overview">
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">04/08/08 14:08:58    (7 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> added options opt and debug as build choices <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/buildbin?rev=39%3A0c7fe06075d0">src/buildbin</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/39%3A0c7fe06075d0#file0"
+ title="Show differences">6&nbsp;diffs</a>)     </li>
+     
+    </ul>
+   </dd>
+</dl>
+ 
+<dl id="overview">
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">04/08/08 13:57:28    (7 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> initialize nremtet and npoints2 to 0 <br>
+  modify output for Dudded points to indicate <br>
+  when there are no elements (for removal) <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/rmpoint.f?rev=37%3Ae47bed56f475">src/rmpoint.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/37%3Ae47bed56f475#file0"
+ title="Show differences">4&nbsp;diffs</a>)     </li>
+     
+    </ul>
+   </dd>
+</dl>
+ 
+<dl id="overview">
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">04/08/08 13:54:21    (7 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> initialize number_elements and number_nodes to zero <br>
+  to avoid junk values occuring when number should be 0 <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/cmo_create_cmo.f?rev=36%3A9367c60e5cb4">src/cmo_create_cmo.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/36%3A9367c60e5cb4#file0"
+ title="Show differences">4&nbsp;diffs</a>)     </li>
+     
+    </ul>
+   </dd>
+</dl>
+ 
+<dl id="overview">
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">04/08/08 13:38:16    (7 months ago)</dd>
+  <dt class="property author"><br>
+  </dt>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> corrected line 390 which was too long <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/read_fehm_zone.f?rev=33%3Ac5c23d52f93c">src/read_fehm_zone.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/33%3Ac5c23d52f93c#file0"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+     
+    </ul>
+   </dd>
+</dl>
+ 
+<dl id="overview">
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">04/08/08 13:36:37    (7 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">     
+    <p> corrected change to printatt minmax output <br>
+  so that name has 18 characters, with total line of 80 chars <br>
+  </p>
+  </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">        
+    <ul>
+       <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/cmo_setatt.f?rev=29%3A16b0a7f6385a">src/cmo_setatt.f</a>
+   <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/32%3Ad3b90dceed42#file0"
+ title="Show differences">3&nbsp;diffs</a>)     </li>
+     
+    </ul>
+   </dd>
+</dl>
+ 
+<h2><br>
+ </h2>
+ 
+<h2>04/03/08:</h2>
+     
+<dl>
+  <dt class="changeset"><a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/29%3A16b0a7f6385a"><span
+ class="time"></span></a><dt class="property time">Timestamp:</dt>
+  </dt>
+  <dd class="time">04/03/08 12:09:14    (7 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">
+    <p> for cmo_setatt.f added error check for existing cmo <br>
+ for cmo/printatt/ minmax limited format to 80 characters <br>
+ and expanded name string size for 17 character names <br>
+ </p>
+ </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">   
+    <ul>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/cmo_setatt.f?rev=29%3A16b0a7f6385a">src/cmo_setatt.f</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/29%3A16b0a7f6385a#file0"
+ title="Show differences">3&nbsp;diffs</a>)     </li>
+    </ul>
+  </dd>
+  <dt class="changeset"><br>
+  </dt>
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">04/03/08 09:49:17    (7 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">
+    <p> Add capability to read FEHM zone/zonn files. <br>
+ </p>
+ </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">   
+    <ul>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lagrit.lanl.gov/docs/READ.html?rev=25%3A143a9305285d">lagrit.lanl.gov/docs/READ.html</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/25%3A143a9305285d#file0"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lagrit.lanl.gov/docs/read_fehm_zone.html?rev=25%3A143a9305285d">lagrit.lanl.gov/docs/read_fehm_zone.html</a> 
+  <span class="comment">(added)</span>     </li>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/read_fehm_zone.f?rev=25%3A143a9305285d">src/read_fehm_zone.f</a> 
+  <span class="comment">(added)</span>     </li>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/readdump.f?rev=25%3A143a9305285d">src/readdump.f</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/25%3A143a9305285d#file3"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+    </ul>
+  </dd>
+  <dd class="changeset"><br>
+  </dd>
+</dl>
+         
+<h2></h2>
+         
+<h2>01/30/08:</h2>
+     
+<dl>
+  <dt class="changeset"><a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/24%3A7ea4eb8824e0"><span
+ class="time"></span></a><dt class="property time">Timestamp:</dt>
+  </dt>
+  <dd class="time">01/30/08 10:25:28    (9 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">
+    <p> Corrected typo in screen output. Changed 'nnelements' to 'nelements'
+    <br>
+ </p>
+ 
+    <blockquote> 
+      <p> Corrected typo in screen output. Changed 'nnelements' to 'nelements'
+      <br>
+ </p>
+ </blockquote>
+ </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">   
+    <ul>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/cmo_addatt.f?rev=24%3A7ea4eb8824e0">src/cmo_addatt.f</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/24%3A7ea4eb8824e0#file0"
+ title="Show differences">7&nbsp;diffs</a>)     </li>
+    </ul>
+  </dd>
+    
+</dl>
+<div id="legend">   
+<h3></h3>
+</div>
+<dl>
+  <dt class="changeset"><br>
+  </dt>
+  <dd class="changeset"></dd>
+</dl>
+         
+<h2>01/25/08:</h2>
+     
+<dl>
+  <dt class="changeset"><a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/21%3A0acfc0ed75df"><span
+ class="time"></span></a><dt class="property time">Timestamp:</dt>
+  </dt>
+  <dd class="time">01/25/08 14:42:43    (9 months ago)</dd>
+  <dt class="property author"><br>
+  </dt>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">
+    <p> Changed some memory allocation from real(2) to int(1) for integer
+work arrays. <br>
+ </p>
+ 
+    <p> Changed some memory allocation from real(2) to int(1) for integer
+work arrays. Running a large problem (&gt;10,000,000 nodes) was crashing
+at rmpoint / pset get pset_name ) due to MALLOC failure. <br>
+ </p>
+ </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">   
+    <ul>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/rmpoint.f?rev=21%3A0acfc0ed75df">src/rmpoint.f</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/21%3A0acfc0ed75df#file0"
+ title="Show differences">3&nbsp;diffs</a>)     </li>
+    </ul>
+  </dd>
+  <dt class="changeset"><br>
+  </dt>
+  <dd class="changeset"><br>
+  </dd>
+</dl>
+         
+<h2>01/22/08:</h2>
+     
+<dl>
+  <dt class="changeset"><a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/20%3A1d3957a02d1f"><span
+ class="time"></span></a><dt class="property time">Timestamp:</dt>
+  </dt>
+  <dd class="time">01/22/08 14:45:22    (9 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">
+    <p> Changed name from 'program adrivgen' to 'program lagrit_main' <br>
+ </p>
+ 
+    <p> Changed name from 'program adrivgen' to 'program lagrit_main' <br>
+ </p>
+ </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">   
+    <ul>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/lagrit.lanl.gov/docs/DEFINE.html?rev=20%3A1d3957a02d1f">lagrit.lanl.gov/docs/DEFINE.html</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/20%3A1d3957a02d1f#file0"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/lagrit_main.f?rev=20%3A1d3957a02d1f">src/lagrit_main.f</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/20%3A1d3957a02d1f#file1"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+    </ul>
+  </dd>
+  <dt class="changeset"><br>
+  </dt>
+</dl>
+<dl id="overview">
+  <dt class="property time">Timestamp:</dt>
+  <dd class="time">01/22/08 14:37:43    (9 months ago)</dd>
+  <dd class="message"></dd>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">
+    <p> Modified format of cmo/printatt/.../minmax to i18 and e18.9 instead
+of old 6 sig. figs. <br>
+ </p>
+ 
+    <p> Modified format of cmo/printatt/.../minmax to i18 and e18.9 instead
+of old 6 significant figures. <br>
+ </p>
+ </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">   
+    <ul>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/cmo_setatt.f?rev=19%3A0b384968dbf6">src/cmo_setatt.f</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/19%3A0b384968dbf6#file0"
+ title="Show differences">3&nbsp;diffs</a>)     </li>
+    </ul>
+  </dd>
+</dl>
+<h2><br>
+</h2>
+<h2>01/17/08:</h2>
+     
+<dl>
+  <dt class="changeset"><a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/18%3Aaed1a435b630"><span
+ class="time"></span></a><dt class="property time">Timestamp:</dt>
+  </dt>
+  <dd class="time">01/17/08 08:03:46    (9 months ago)</dd>
+  <dt class="property author"><br>
+  </dt>
+  <dt class="property message">Message:</dt>
+  <dd class="message" id="searchable">
+    <p> Modified header to FEHM STOR file output files. <br>
+ </p>
+ 
+    <p> Modified header correcting spelling, changed X3D to LaGriT. No functional
+changes. <br>
+ Only test in lines one and two of STOR files has been changed. <br>
+ </p>
+ </dd>
+  <dt class="property files">    Files:  </dt>
+  <dd class="files">   
+    <ul>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/anothermatbld3d_wrapper.f?rev=18%3Aaed1a435b630">src/anothermatbld3d_wrapper.f</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/18%3Aaed1a435b630#file0"
+ title="Show differences">3&nbsp;diffs</a>)     </li>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/matbld2d_stor.f?rev=18%3Aaed1a435b630">src/matbld2d_stor.f</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/18%3Aaed1a435b630#file1"
+ title="Show differences">1&nbsp;diff</a>)     </li>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/matbld3d_stor.f?rev=18%3Aaed1a435b630">src/matbld3d_stor.f</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/18%3Aaed1a435b630#file2"
+ title="Show differences">4&nbsp;diffs</a>)     </li>
+      <li>       <a title="Show entry in browser"
+ href="https://ancho.lanl.gov/lagrit/trac/browser/src/voronoi_stor.f?rev=18%3Aaed1a435b630">src/voronoi_stor.f</a> 
+  <span class="comment">(modified)</span>     (<a
+ href="https://ancho.lanl.gov/lagrit/trac/changeset/18%3Aaed1a435b630#file3"
+ title="Show differences">3&nbsp;diffs</a>)     </li>
+    </ul>
+  </dd>
+  <dt class="changeset"><br>
+  </dt>
+  <dd class="changeset"><br>
+  </dd>
+</dl>
+</div>
+<div id="altlinks">
+<ul>
+     
+</ul>
+   </div>
+     </div>
+        
+<div id="footer">     
+<hr>  <a id="tracpowered" href="http://trac.edgewall.org/"><img
+ src="lagrit_release_notes_081021_files/trac_logo_mini.png" alt="Trac Powered" height="30"
+ width="107">
+   </a>     
+<p class="left">   Powered by <a
+ href="https://ancho.lanl.gov/lagrit/trac/about"><strong>Trac 0.10.4</strong></a><br>
+      By <a href="http://www.edgewall.org/">Edgewall Software</a>.  </p>
+        
+<p class="right">   Visit the Trac open source project at<br>
+   <a href="http://trac.edgewall.org/">http://trac.edgewall.org/</a>  </p>
+    </div>
+        <br>
+     
+</body>
+</html>

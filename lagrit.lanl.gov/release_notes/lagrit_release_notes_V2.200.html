@@ -1,0 +1,345 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>LaGriT V2.004 Release Notes, 10/21/2008</title>
+</head>
+<body>
+<div id="banner">
+<div id="header"><a id="logo" href="https://ancho.lanl.gov/lagrit/"><img
+ src="https://lagrit.lanl.gov/images/lagrit1.jpg" alt="LaGriT Banner"
+ style="border: 0px solid ; width: 420px; height: 120px;"> </a>
+<hr></div>
+<div id="metanav" class="nav">
+<ul>
+</ul>
+</div>
+</div>
+<h3>LaGriT V2.200 Release Notes</h3>
+Banner when LaGriT is started (eg Linux):<br>
+<pre wrap="">*               *    Program:  LaGriT V2.200   Linux m32      *                 <br>*               *    date_compile: 2010/11/22                 *     </pre>
+<br>
+<h3>November 22 2010</h3>
+<table style="text-align: left; width: 650px;" border="0"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">The next release, expected in
+early 2011, will have 64 bit memory pointers. This will allow access to
+much more real and virtual memory so that the present limitations on
+memory and mesh size that can be built and manipulated will be greatly
+expanded.<br>
+      <h3>Modifications and New Capabilities:<br>
+      </h3>
+      <ul>
+        <li><a href="#dump__zone_outside__..."><big>dump / zone_outside
+/ ...</big></a></li>
+        <li><a href="#cmo__addatt__voronoi_varea__..."><big>cmo /
+addatt / voronoi_varea / ...</big></a></li>
+        <li><a href="#extract__surfmesh__..."><big>extract / surfmesh /
+...</big></a></li>
+        <li><big><a href="#addmesh__excavate__...">addmesh / excavate /
+...</a><br>
+          </big></li>
+        <li><a href="#interpolate__..."><big>interpolate / ...</big></a></li>
+        <li><a href="#read_..."><big>read /...</big></a></li>
+        <li><big><a href="#dump_...">dump / ...</a><br>
+          </big></li>
+        <li><a href="#cmo__attribute_union__..."><big>cmo /
+attribute_union / ...</big></a></li>
+        <li><a href="#compute__linear_extrapolate__..."><big>compute /
+linear_extrapolate / ...</big></a></li>
+        <li><a href="#grid2grid_..."><big>grid2grid /...</big></a></li>
+        <li><a href="#dump__stor__..."><big>dump / stor / ...</big></a></li>
+        <li><a href="#pset_..."><big>pset /...</big></a></li>
+        <li><big><a href="#memory__...">memory / ...</a></big><span
+ style="font-weight: bold;"></span></li>
+      </ul>
+      <hr style="width: 100%; height: 2px;">
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="dump__zone_outside__..."></a><big><big>dump / zone_outside / ...<br>
+      </big></big></h4>
+Changed FEHM outside area calculation to default to Voronoi area
+associated with nodes of a 3D tetrahedral mesh instead of computing
+Median area. FEHM file file_root_outside.area changed to
+file_root_outside_vor.area For dump/zone, added keywords keepatt_area
+or keepatt_voronoi which will compute and keep voronoi vector areas
+xn_varea, yn_varea, zn_varea and keepatt_median will compute area/num
+nodes on face and keep attributes xn_area, yn_area, zn_area The written
+file file_root_outside_vor.area or file_name_outside_med.area is a list
+of 2D area vectors (Ax_i,Ay_i,Az_i) associated with each node. <a
+ href="https://lagrit.lanl.gov/docs/DUMP3.html%20dump/zone_outside">https://lagrit.lanl.gov/docs/DUMP3.html
+dump/zone_outside</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="cmo__addatt__voronoi_varea__..."></a><big><big>cmo / addatt /
+voronoi_varea / ...<br>
+      </big></big></h4>
+This module will do the same voronoi calculation on triangles as is
+done with the outside area for a 3D tetrahderal mesh. The call will
+create vector components for each node and fill the node attributes
+xn_varea, yn_varea, zn_varea. <a
+ href="https://lagrit.lanl.gov/docs/cmo_addatt.html">https://lagrit.lanl.gov/docs/cmo_addatt.html
+
+      </a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="extract__surfmesh__..."></a><big><big>extract / surfmesh / ...<br>
+      </big></big></h4>
+Now creates attributes to hold element local face numbers of 3D input
+mesh that occur on either side of output mesh face, idface0 and
+idface1. Now copies user-created node-based attributes from source mesh
+into extracted sink mesh. <a
+ href="https://lagrit.lanl.gov/docs/EXTRACT1.html">https://lagrit.lanl.gov/docs/EXTRACT1.html</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="addmesh__excavate__..."></a><big><big>addmesh / excavate / ...</big></big></h4>
+excavate - remove nodes and elements if they fall with the circumsphere
+of triangles on the input mesh.<br>
+      <br>
+mesh1 must be a 3D mesh (of any geometry) and mesh2 must be a 2D
+triangular mesh. This command then excavates a volume in mesh1 around
+mesh2, such that the surface could then be inserted into the 3D mesh
+(such as to insert a fault into a background terrain mesh). The
+background mesh, minus the excavated/removed nodes, is put into mesh3.
+If the optional [bfs] argument is given, the routine will use a
+breadth-first search algorithm to find nodes to remove, as opposed to
+the default KD-tree algorithm. If the optional [connect] argument is
+given, the program will, after excavation, execute an addmesh/append,
+and then a connect, to produce a fully connected mesh with the surface
+(mesh2) inserted into the background (mesh1). <a
+ href="https://lagrit.lanl.gov/docs/ADDMESH.html">https://lagrit.lanl.gov/docs/ADDMESH.html<br>
+      </a>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="interpolate__..."></a><big><big>interpolate / ...<br>
+      </big></big></h4>
+Changed interpolate to "find" more points on edges this will permit
+nodes to find a nearest edge or point and be "inside" the triangle for
+extreme small or large numbers where epsilon values are difficult to
+evaluate correctly. Note, this changed test results for interpolate,
+test/level01 results were updated for these improvements. <a
+ href="https://lagrit.lanl.gov/docs/main_interpolate.html">https://lagrit.lanl.gov/docs/main_interpolate.html</a><br>
+      <br>
+intrp_gtg.f<br>
+A bug was fixed in interpolation that would sometimes save
+a node id in pt_gtg or el_gtg attributes that was not related
+to the found candidate and value. This could occur where there are
+multiple candidates for the source and if epsilon values are near
+machine limits. The test in level01/intrp_2D_sizes
+was changed to capture and evaluate these issues.<br>
+      <br>
+intrp_gtg.f, inside_lg.f<br>
+There are changes to interpolate using tests for finding points
+that are inside or on edges or vertices of an element. The epsilon
+tests have been relaxed to allow points that are "near" to be
+found on edge - if within the chosen epsilon. The interpolation
+has been changed to evaluate candidate points based on the
+confidence of being inside the associated triangle. A result
+indicating the point is inside will "win" over a candidate result
+that is on edge or vertice. If idebug attribute is set to a
+number of 5 or greater, there will be many more statements
+written that are related to the inside triangle and epsilon
+tests.<br>
+      <br>
+Substantial changes and additions to DUMP2.html which describes
+all the dump file_types and include more descriptions of FEHM files.
+DUMP3.html for dump/fehm now includes descriptions of FEHM files.
+https://lagrit.lanl.gov/docs/DUMP2.html
+https://lagrit.lanl.gov/docs/DUMP3.html<br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="read_..."></a><big><big>read /...</big></big></h4>
+Three token read implemented. Files are recognized based on their
+suffix (AVS, GMV, ...) rather than requiring that the second token
+specify the file type.<br>
+      <a href="https://lagrit.lanl.gov/docs/READ.html">https://lagrit.lanl.gov/docs/READ.html</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="dump_..."></a><big><big>dump</big></big><big><big> /...</big></big></h4>
+Two and three token dump implemented. Files types (AVS, GMV, ...) are
+recognized based on their
+suffix rather than requiring that the second token specify the file
+type. Two token write does not require a MO name. The default MO is
+used.<br>
+      <a href="https://lagrit.lanl.gov/docs/DUMP2.html">https://lagrit.lanl.gov/docs/DUMP2.html</a>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="cmo__attribute_union__..."></a><big><big>cmo / attribute_union /
+...<br>
+      </big></big></h4>
+Change two meshes so they both share the same set of attributes (taking
+the union of their sets of attributes) <br>
+      <a href="https://lagrit.lanl.gov/docs/cmo_att_derive.html">https://lagrit.lanl.gov/docs/cmo_att_derive.html
+
+      </a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="compute__linear_extrapolate__..."></a><big><big>compute /
+linear_extrapolate / ...<br>
+      </big></big></h4>
+linear_extrapolate - keyword for an extrapolation from an attribute
+value in a surface onto every node of a 3D mesh. Given a 3D mesh and a
+2D surface, this command will extrapolate a scalar value from that
+surface onto every point of the mesh. This can be used to (for example):<br>
+&nbsp;&nbsp;&nbsp; * Propogate head values from a surface onto all
+nodes of a mesh.<br>
+&nbsp;&nbsp;&nbsp; * Expand a mesh to fit a surface, by propogating the
+appropriate spatial coordinate.<br>
+&nbsp;&nbsp;&nbsp; * Compute the depth relative to a topographic
+surface to each node of a mesh. <a
+ href="https://lagrit.lanl.gov/docs/COMPUTE.html">https://lagrit.lanl.gov/docs/COMPUTE.html</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="grid2grid_..."></a><big><big>grid2grid /...</big></big></h4>
+grid2grid wrapper for hextotet. Use to convert:<br>
+      <ul style="font-family: monospace;">
+        <li>quadtotri2&nbsp;&nbsp;&nbsp; quad to 2 triangles, no new
+points.</li>
+        <li>prismtotet3&nbsp;&nbsp; prism to 3 tets, no new points.</li>
+        <li>quattotri4&nbsp;&nbsp;&nbsp; quad to 4 triangles, with one
+new point.</li>
+        <li>pyrtotet4&nbsp;&nbsp;&nbsp;&nbsp; pyramid to 4 tets, with
+one new point.</li>
+        <li>hextotet5&nbsp;&nbsp;&nbsp;&nbsp; hex to 5 tets, no new
+points.</li>
+        <li>hextotet6&nbsp;&nbsp;&nbsp;&nbsp; hex to 6 tets, no new
+points.</li>
+        <li>prismtotet14&nbsp; prism to 14 tets, four new points (1 + 3
+faces).</li>
+        <li>prismtotet18&nbsp; prism to 18 tets, six new points (1 + 5
+faces).</li>
+        <li>hextotet24&nbsp;&nbsp;&nbsp; hex to 24 tets, seven new
+points (1 + 6 faces).</li>
+        <li>tree_to_fe&nbsp;&nbsp;&nbsp; quadtree or octree grid to
+grid with no parent-type elements. </li>
+      </ul>
+      <a href="https://lagrit.lanl.gov/docs/GRID2GRID.html">https://lagrit.lanl.gov/docs/GRID2GRID.html</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="dump__stor__..."></a><big><big>dump / stor / ...<br>
+      </big></big></h4>
+anothermatbld3d_wrapper.f<br>
+Create two new node vectors, ccoef, ij_ccoef
+Put the negative ij coefficient value into the two nodes connected to
+the ij edge.
+The vector ij_coef will assign the j index value to node i so that one
+can determine which edge is associated with the neative coefficient
+that is assigned to nodes. <a
+ href="https://lagrit.lanl.gov/docs/DUMP2.html">https://lagrit.lanl.gov/docs/DUMP2.html</a><br>
+      <br>
+      <a href="https://lagrit.lanl.gov/docs/DUMP3.html">https://lagrit.lanl.gov/docs/DUMP3.html</a><br>
+      <br>
+Changes to include TranslateTetToZero for geometric calculations
+(not sure it is really helping with some of our neg ccoef issues)<br>
+      <br>
+anothermatbld3d_wrapper.f<br>
+Extensive chages to error handling and messages, but not to the logic
+of program
+This code has same logic as matbld3d - but uses linked lists instead of
+mmgetblk calls
+Use io_type to toggle creation of attribute for voronoi volumes or to
+write to stor file
+added extensive error checking to eliminate segmentation faults
+added error check and message for every mmgetblk and mmrelblk
+added calls to mmprint when mm calls fail
+cleaned up variable declarations and added comments
+added istatus to check for errors and completion of matrix
+changed all routine messages to start with AMatbld3d_stor to
+distinguish from matrix built with Matbld3d_stor
+added idebug options
+added status report at end of routine<br>
+      <br>
+matbld3d_stor.f<br>
+Extensive chages to error handling and messages, but not to the logic
+of program
+This code uses many mmgetblk calls and about 40 percent more memory
+than linked list version
+added extensive error checking to eliminate segmentation faults
+added error check and message for every mmgetblk and mmrelblk
+added calls to mmprint when mm calls fail
+cleaned up variable declarations and added comments
+added istatus to check for errors and completion of matrix
+added idebug options
+added status report at end of routine<br>
+matbld3d_stor.f<br>
+add warning for newlen call with uncertain effect <br>
+      <br>
+sparseMatrix.c <br>
+initialize list pointers to null
+assign null to pointers after free
+add warning messages for failure to free <br>
+      <br>
+dumpfehm.f<br>
+Add compress_opt to dumpfehm arguments
+add comments and error checking to clarify code logic
+check options and set for 2D or 3D calls to matbld
+use matbld3d_stor for compress options none and coefs
+use anothermatbld3d_wrapper for compress options all and graph
+Note anothermatbld3d_wrapper can write only scalar coef values<br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="pset_..."></a><big><big>pset /...</big></big></h4>
+Add option to pset/ / zone for user specified zone id number.<br>
+      <a href="https://lagrit.lanl.gov/docs/PSET.html">https://lagrit.lanl.gov/docs/PSET.html</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><big><big>dump
+/
+      </big></big></h4>
+writedump.f<br>
+declare implicit none and initialize variables
+add comments to clarify the case switches
+add more error checking and messages
+change syntax for dump/ fehm and dump/ stor
+old keywords not needed include alternate_scalar, binaryc, asciic
+compression keywords are now none, coefs, graph, or all old syntax
+still works, but now code checks
+for keywords after filename and cmo and sets
+options for the fehm and stor routine calls The man pages are updated
+and corrected. <a href="https://lagrit.lanl.gov/docs/DUMP2.html">https://lagrit.lanl.gov/docs/DUMP2.html</a><br>
+      <h4 style="font-family: monospace;"><big><big
+ style="font-family: Courier New,Courier,monospace;"><a
+ style="font-family: Courier New,Courier,monospace;" name="memory__..."></a><big>memory
+/
+...</big></big></big><br>
+      </h4>
+New options to print and check memory manager and report memory usage.
+This superseeds old utilities mmprint, mmcheck, etc. <a
+ href="https://lagrit.lanl.gov/docs/memory.html">https://lagrit.lanl.gov/docs/memory.html<br>
+      </a>
+      <h4>Manual Pages Modified:</h4>
+      <h5>Manual Updates for Version 2.200</h5>
+lagrit.lanl.gov/docs/EXTRACT_SURFMESH.html<br>
+lagrit.lanl.gov/docs/cmo_addatt.html<br>
+lagrit.lanl.gov/docs/DUMP2.html<br>
+lagrit.lanl.gov/docs/DUMP3.html<br>
+lagrit.lanl.gov/docs/memory.html<br>
+lagrit.lanl.gov/table.shtml<br>
+lagrit.lanl.gov/docs/READ.html <br>
+lagrit.lanl.gov/docs/CMO2.html <br>
+lagrit.lanl.gov/docs/COMPUTE.html <br>
+lagrit.lanl.gov/docs/FSET.html <br>
+lagrit.lanl.gov/docs/GRID2GRID.html <br>
+lagrit.lanl.gov/docs/READ.html <br>
+lagrit.lanl.gov/docs/COMPUTE.html <br>
+lagrit.lanl.gov/docs/FSET.html <br>
+lagrit.lanl.gov/docs/GRID2GRID.html <br>
+lagrit.lanl.gov/docs/ADDMESH.html<br>
+lagrit.lanl.gov/docs/HEXTOTE.html <br>
+      <br>
+      <h5>Manual Updates for Version 2.106</h5>
+lagrit.lanl.gov/docs/cmo_att_derive.html <br>
+lagrit.lanl.gov/site.css <br>
+lagrit.lanl.gov/xprint.css <br>
+lagrit.lanl.gov/docs/COMPUTE.html <br>
+lagrit.lanl.gov/docs/READ.html <br>
+lagrit.lanl.gov/docs/buildsurf.lgi <br>
+lagrit.lanl.gov/docs/read_avs.html <br>
+lagrit.lanl.gov/docs/read_gmv.html<br>
+lagrit.lanl.gov/docs/read_gocad.html <br>
+lagrit.lanl.gov/docs/read_lagrit.html<br>
+lagrit.lanl.gov/table.shtml <br>
+lagrit.lanl.gov/publications.shtml<br>
+http://lagrit.lanl.gov/release.shtml<br>
+      <h3>Test Cases Modified:</h3>
+test/level01<br>
+Change reference files to results from Linux
+Updated zone_outside and zone_outside_minmax to current voronoi version<br>
+      <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+</body>
+</html>
