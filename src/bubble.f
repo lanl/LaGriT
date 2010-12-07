@@ -1,4 +1,4 @@
-*DK bubble
+
       subroutine bubble(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
 C
 C########################################################################
@@ -60,9 +60,11 @@ C
 C
 C########################################################################
 C
-      implicit real*8 (a-h,o-z)
-C
-      include "machine.h"
+      implicit none
+
+C tam commented unused machine.h which now needs preprocessor
+C     include "machine.h"
+
       include "chydro.h"
       include "local_element.h"
 C
@@ -75,15 +77,12 @@ C
 C     Subroutine Input Variables
 C
       character*(*) cmsgin(nwds)
-      integer       imsgin(nwds), msgtype(nwds)
       real*8        xmsgin(nwds)
+      integer       imsgin(nwds), msgtype(nwds)
+      integer nwds, ierror
 C
-C     Name Variables and Message Variables
-C
-      character*32  cmoin, cmoout
-      character*16  cmotmp1, cmotmp2
-      character*132 logmess
-      character*256 cmdmess
+      integer httopt
+      integer i,j,nen,ilen,icmotype,idelete
 C
 C     Subroutine Input Variables save pts.
 C
@@ -91,13 +90,18 @@ C
       real*8 yvect
       real*8 zvect
       real*8 offset
+
+C     Name Variables and Message Variables
+
+      character*32  cmoin, cmoout
+      character*16  cmotmp1, cmotmp2
+      character*132 logmess
+      character*256 cmdmess
 C
       character*6 type
       character*5  vtype
 C
-C     Other useful stuff
 C
-      integer httopt
 C
 C########################################################################
 C

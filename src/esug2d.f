@@ -86,28 +86,48 @@ CPVCS    Initial revision.
 C
       implicit none
  
+C args for esug2d(cmo,mpary,mpno,ctrl,
+C        action,cfield,climit1,climit2,climit3,ierror)
+
+      character*32 cmo,action,cfield,climit1,climit2,climit3
+      integer mpary(*),mpno,ierror
+      real*8 ctrl
+
+C
+      integer nnodes,nelements,length,
+     &   icmotype,mbndry,ilen,ityp,icscode,i,ierrw,maxiter_sm,
+     &   itypconv_sm,maxdeg,k,icharlnf,iseed,iter,node,ndeg,iout
+
       integer lenptr
       parameter (lenptr=1000000)
  
-      character*132 logmess
       pointer (ipimt1, imt1)
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
-      pointer (ipitetclr, itetclr)
-      pointer (ipitet, itet)
-      pointer (ipjtet, jtet)
       integer imt1(lenptr)
       integer itp1(lenptr)
       integer isn1(lenptr)
-      real*8 xic(lenptr)
-      real*8 yic(lenptr)
-      real*8 zic(lenptr)
+
+      pointer (ipitetclr, itetclr)
+      pointer (ipitet, itet)
+      pointer (ipjtet, jtet)
       integer itetclr(lenptr)
       integer itet(3,lenptr)
       integer jtet(3,lenptr)
+
+      pointer (ipnodnod,nodnod)
+      pointer (ipnnfirst,nnfirst)
+      integer nodnod(lenptr),nnfirst(lenptr)
+
+      pointer (ipmat,mat) 
+      integer mat(0:lenptr)
+
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(lenptr)
+      real*8 yic(lenptr)
+      real*8 zic(lenptr)
  
       pointer (ipf, f)
       pointer (ipx, x)
@@ -117,38 +137,51 @@ C
       real*8 x(0:lenptr)
       real*8 y(0:lenptr)
       real*8 z(0:lenptr)
-      integer mat(0:lenptr)
- 
-      pointer (ipnodnod,nodnod), (ipnnfirst,nnfirst),
-     &   (ipu,u), (ipv,v), (ipxsave,xsave), (ipysave,ysave),
-     &   (ipzsave,zsave), (ipmat,mat), (ipreffield,reffield)
-      real*8 tn1(3),u(0:lenptr), v(0:lenptr),eu1(3), ev1(3), tni(3),
-     &   xsave(lenptr),ysave(lenptr),zsave(lenptr),reffield(lenptr),
-     &   ctrl,time,x1,y1,z1,x2,y2,z2,x3,y3,z3,dcross,d,areamin,
+
+      pointer (ipu,u) 
+      pointer (ipv,v) 
+      real*8 u(0:lenptr), v(0:lenptr)
+
+      pointer (ipxsave,xsave)
+      pointer (ipysave,ysave)
+      pointer (ipzsave,zsave)
+      real*8 xsave(lenptr),ysave(lenptr),zsave(lenptr)
+
+      pointer (ipreffield,reffield)
+      real*8 reffield(lenptr)
+
+      pointer(ipout,out)
+      real*8 out(*)
+
+      real*8 tn1(3)
+      real*8 eu1(3), ev1(3), tni(3),
+     &   time,x1,y1,z1,x2,y2,z2,x3,y3,z3,dcross,d,areamin,
      &   areamax,dotcross,areaminallow,tolconv_sm,rdum,err,
      &   unew,vnew,wsum,distsq,usave,vsave,xold,yold,zold,du,dv,
      &   ran2_lg,err1,areaminafter,areamaxafter
+
       logical planar,usef,lrandom
-      integer nodnod(lenptr),nnfirst(lenptr)
-      integer mpary(lenptr),mpno,ierror,nnodes,nelements,length,
-     &   icmotype,mbndry,ilen,ityp,icscode,i,ierrw,maxiter_sm,
-     &   itypconv_sm,maxdeg,k,icharlnf,iseed,iter,node,ndeg,iout
- 
-      character*32 cmo,action,cfield,climit1,climit2,climit3,cmo1
+
+
+      character*32 cmo1
       character*32 isubname,blkname,cout
-      pointer(ipout,out)
-      real*8 out(*)
       character*132 com
-      real*8 dbarea,u1,v1,u2,v2,u3,v3
+      character*132 logmess
  
+C#########################
 c     Statement function DBAREA gives double the area of a triangle
-c ordered
+c     ordered
 c     (counterclockwise) 1,2,3 in the u-v plane.  This means that for a
 c     triangle ordered 1,2,3 in x-y-z space, the (r.h. rule) vector
-c normal to
+c     normal to
 c     this triangle with magnitude equal to double the area is given by
 c     ( dbarea(y1,z1,y2,z2,y3,z3), dbarea(z1,x1,z2,x2,z3,x3),
 c       dbarea(x1,y1,x2,y2,x3,y3) ).
+C#########################
+C begin
+C
+
+      real*8 dbarea,u1,v1,u2,v2,u3,v3
  
       dbarea(u1,v1,u2,v2,u3,v3)=(u2-u1)*(v3-v1)-(v2-v1)*(u3-u1)
  

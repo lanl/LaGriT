@@ -479,9 +479,9 @@ void InitRandom(int seed)
 }
 
 /*************************************************************************
-* This function returns the log2(x)
+* This function returns the log2_function(x)
 **************************************************************************/
-int log2(int a)
+int log2_function(int a)
 {
   int i;
 
@@ -3898,7 +3898,7 @@ void METIS_WPartGraphKway(int *nvtxs, idxtype *xadj, idxtype *adjncy, idxtype *v
     ctrl.dbglvl = options[OPTION_DBGLVL];
   }
   ctrl.optype = OP_KMETIS;
-  ctrl.CoarsenTo = amax((*nvtxs)/(40*log2(*nparts)), 20*(*nparts));
+  ctrl.CoarsenTo = amax((*nvtxs)/(40*log2_function(*nparts)), 20*(*nparts));
   ctrl.maxvwgt = 1.5*((graph.vwgt ? idxsum(*nvtxs, graph.vwgt) : (*nvtxs))/ctrl.CoarsenTo);
 
   InitRandom(-1);
@@ -4027,7 +4027,7 @@ void METIS_WPartGraphVKway(int *nvtxs, idxtype *xadj, idxtype *adjncy, idxtype *
     ctrl.dbglvl = options[OPTION_DBGLVL];
   }
   ctrl.optype = OP_KVMETIS;
-  ctrl.CoarsenTo = amax((*nvtxs)/(40*log2(*nparts)), 20*(*nparts));
+  ctrl.CoarsenTo = amax((*nvtxs)/(40*log2_function(*nparts)), 20*(*nparts));
   ctrl.maxvwgt = 1.5*((graph.vwgt ? idxsum(*nvtxs, graph.vwgt) : (*nvtxs))/ctrl.CoarsenTo);
 
   InitRandom(-1);
@@ -10871,7 +10871,7 @@ void METIS_mCPartGraphKway(int *nvtxs, int *ncon, idxtype *xadj, idxtype *adjncy
     ctrl.dbglvl = options[OPTION_DBGLVL];
   }
   ctrl.optype = OP_KMETIS;
-  ctrl.CoarsenTo = amax((*nvtxs)/(20*log2(*nparts)), 30*(*nparts));
+  ctrl.CoarsenTo = amax((*nvtxs)/(20*log2_function(*nparts)), 30*(*nparts));
 
   ctrl.nmaxvwgt = 1.5/(1.0*ctrl.CoarsenTo);
 
@@ -19809,7 +19809,7 @@ void errexit(char *f_str,...)
 
   sprintf(out2, "Error! %s", out1);
 
-  fprintf(stdout, out2);
+  fprintf(stdout, "%s", out2);
   fflush(stdout);
 
   abort();

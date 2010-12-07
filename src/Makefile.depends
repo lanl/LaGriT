@@ -7,6 +7,8 @@
 #   clean up and append to Makefile.depends
 #   sed 's/"//g' make.tmp | awk '{if(NF> 0) print "$(OBJDIR)"$0 }'
 # DO NOT DELETE THIS LINE - makedepend depends upon it.
+# Preprocess include files
+$(OBJDIR)machine.h: machine_header.h 
 # Source .f files 
 $(OBJDIR)addmesh.o: local_element.h chydro.h
 $(OBJDIR)addmesh_add.o: chydro.h local_element.h local_element.h
@@ -34,8 +36,8 @@ $(OBJDIR)bingrid.o: local_element.h
 $(OBJDIR)bndpts.o: geom_lg.h
 $(OBJDIR)boundary.o: consts.h geom_lg.h
 $(OBJDIR)boundary_components.o: local_element.h chydro.h consts.h
-$(OBJDIR)bubble.o: machine.h chydro.h local_element.h
-$(OBJDIR)calc_rdist.o: machine.h local_element.h
+$(OBJDIR)bubble.o: chydro.h local_element.h
+$(OBJDIR)calc_rdist.o: local_element.h
 $(OBJDIR)cee_chain.o: consts.h local_element.h chydro.h massage.h
 $(OBJDIR)cel.o: consts.h local_element.h chydro.h
 $(OBJDIR)cel_chain.o: consts.h local_element.h chydro.h
@@ -157,7 +159,7 @@ $(OBJDIR)elliptic2d.o: local_element.h consts.h
 $(OBJDIR)eset.o: local_element.h geom_lg.h cmo_lg.h
 $(OBJDIR)evaluate_sobolevnorm.o: consts.h
 $(OBJDIR)extract_interface.o: local_element.h chydro.h
-$(OBJDIR)extract_line.o: machine.h chydro.h local_element.h
+$(OBJDIR)extract_line.o: chydro.h local_element.h
 $(OBJDIR)extract_network.o: local_element.h
 $(OBJDIR)extract_surfmesh.o: local_element.h
 $(OBJDIR)extrude.o: local_element.h
@@ -251,7 +253,7 @@ $(OBJDIR)interp_lg.o: local_element.h
 $(OBJDIR)interpolate_hessian.o: consts.h local_element.h smooth.h
 $(OBJDIR)interpolate_hessian.o: statementfunctions.h
 $(OBJDIR)intersect_cmo.o: local_element.h chydro.h
-$(OBJDIR)intersect_elements.o: machine.h local_element.h
+$(OBJDIR)intersect_elements.o: local_element.h
 $(OBJDIR)intradd.o: local_element.h chydro.h geom_lg.h consts.h
 $(OBJDIR)intrp_element.o: local_element.h
 $(OBJDIR)intrp_element_mat.o: local_element.h
@@ -284,7 +286,7 @@ $(OBJDIR)math.o: consts.h consts.h
 $(OBJDIR)math_integrate.o: local_element.h consts.h
 $(OBJDIR)medianpts_lg.o: local_element.h
 $(OBJDIR)mega2d.o: local_element.h consts.h
-$(OBJDIR)mega3d.o: consts.h local_element.h chydro.h smooth.h machine.h
+$(OBJDIR)mega3d.o: consts.h local_element.h chydro.h smooth.h
 $(OBJDIR)mega3d.o: geom_lg.h
 $(OBJDIR)mega3d_inner_loop.o: consts.h local_element.h chydro.h geom_lg.h
 $(OBJDIR)mega3d_inner_loop.o: smooth.h
@@ -294,19 +296,19 @@ $(OBJDIR)mergepts_simplex.o: local_element.h chydro.h cmerge.h consts.h
 $(OBJDIR)mflip.o: neibor.h
 $(OBJDIR)mode_lg.o: consts.h massage.h
 $(OBJDIR)mregion.o: geom_lg.h
-$(OBJDIR)msgtty.o: machine.h copyrite.h chydro.h neibor.h consts.h
+$(OBJDIR)msgtty.o: copyrite.h chydro.h neibor.h consts.h
 $(OBJDIR)msgtty.o: cmerge.h local_element.h copyrite.h commands_lg.h cmo.h
 $(OBJDIR)msgtty.o: chydro.h consts.h
-$(OBJDIR)multi_material.o: search.h cmo.h chydro.h consts.h machine.h
+$(OBJDIR)multi_material.o: search.h cmo.h chydro.h consts.h
 $(OBJDIR)multi_material.o: geom_lg.h
-$(OBJDIR)multi_material2d_lg.o: search.h chydro.h consts.h machine.h
+$(OBJDIR)multi_material2d_lg.o: search.h chydro.h consts.h
 $(OBJDIR)multi_material2d_lg.o: geom_lg.h
 $(OBJDIR)nbrsmooth.o: local_element.h chydro.h
 $(OBJDIR)nearestpoint.o: consts.h
 $(OBJDIR)nearestpoint0.o: consts.h
 $(OBJDIR)neighbor_recolor_lg.o: local_element.h chydro.h local_element.h
 $(OBJDIR)neighbor_recolor_lg.o: chydro.h
-$(OBJDIR)offsetpara.o: machine.h chydro.h local_element.h consts.h
+$(OBJDIR)offsetpara.o: chydro.h local_element.h consts.h
 $(OBJDIR)offsetsurf.o: local_element.h
 $(OBJDIR)partition.o: local_element.h
 $(OBJDIR)pcc_test.o: local_element.h
@@ -331,7 +333,7 @@ $(OBJDIR)ranpts_lg.o: chydro.h consts.h
 $(OBJDIR)read_geometries_lg.o: geom_lg.h
 $(OBJDIR)read_globals_lg.o: global_lg.h
 $(OBJDIR)read_lagrit.o: cmo_lg.h
-$(OBJDIR)read_lagrit_geom_old.o: machine.h geom_lg.h
+$(OBJDIR)read_lagrit_geom_old.o: geom_lg.h
 $(OBJDIR)readavs.o: chydro.h local_element.h
 $(OBJDIR)readdatex.o: cmo.h chydro.h local_element.h
 $(OBJDIR)readdcm.o: local_element.h
@@ -381,7 +383,7 @@ $(OBJDIR)retrieve_within_eps.o: consts.h
 $(OBJDIR)rm.o: chydro.h
 $(OBJDIR)rmmat.o: chydro.h
 $(OBJDIR)rmpoint.o: local_element.h chydro.h consts.h neibor.h
-$(OBJDIR)rmregion.o: machine.h chydro.h consts.h geom_lg.h
+$(OBJDIR)rmregion.o: chydro.h consts.h geom_lg.h
 $(OBJDIR)rmsphere.o: chydro.h
 $(OBJDIR)rmsurf.o: geom_lg.h chydro.h
 $(OBJDIR)rmtetless.o: local_element.h
@@ -407,7 +409,7 @@ $(OBJDIR)sgd.o: consts.h local_element.h chydro.h geom_lg.h smooth.h
 $(OBJDIR)sgd.o: massage.h statementfunctions.h consts.h statementfunctions.h
 $(OBJDIR)sgd.o: local_element.h consts.h statementfunctions.h
 $(OBJDIR)sheet.o: chydro.h local_element.h
-$(OBJDIR)shttst.o: machine.h chydro.h local_element.h
+$(OBJDIR)shttst.o: chydro.h local_element.h
 $(OBJDIR)shttstv.o: chydro.h local_element.h
 $(OBJDIR)sparse_lg.o: chydro.h local_element.h chydro.h
 $(OBJDIR)sphere1.o: cmo.h chydro.h
@@ -465,7 +467,7 @@ $(OBJDIR)writfls.o: logcom1.h
 $(OBJDIR)writinit.o: logcom1.h lagrit.h
 $(OBJDIR)writloga.o: logcom1.h
 $(OBJDIR)writset.o: logcom1.h
-$(OBJDIR)xsectelm.o: local_element.h machine.h chydro.h local_element.h
+$(OBJDIR)xsectelm.o: local_element.h chydro.h local_element.h
 $(OBJDIR)xsectelm.o: local_element.h local_element.h local_element.h
 $(OBJDIR)xsectelm.o: local_element.h local_element.h consts.h
 $(OBJDIR)xsectelm.o: local_element.h

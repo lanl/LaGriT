@@ -387,7 +387,7 @@ C ######################################################################
       integer nnodes ,nelements ,faces_per_element ,mbndry
  
       integer i, local_debug ,ilen ,ityp ,ierr ,is_old
-     &         ,jtet_cycle_max ,jtet_reduce_nnd
+     &         ,jtet_cycle_max, jtet_reduce_nnd
  
       character*32 isubname
       character*132 cbuf
@@ -401,6 +401,8 @@ c23456789012345678901234567890123456789012345678901234567890123456789012
 c ........................................................................
  
       local_debug=0
+      jtet_cycle_max=0
+      jtet_reduce_nnd=0
       isubname='geniee_cmo'
  
       if (local_debug.gt.0) call mmverify()
@@ -452,8 +454,10 @@ c........ (do the actual work) ..................
          if(ierr.ne.0) goto 9999
  
 c........ (set jtet_cycle_max flag) ..................
+
  
       call cmo_get_info('jtet_cycle_max',cmo,is_old,ilen,ityp,ierr)
+
       if (ierr.ne.0 .and. jtet_cycle_max.gt.2) then
  
          nwds=11
@@ -748,6 +752,7 @@ c ........................................................................
  
       local_debug=0
       ierror=0
+      jtet_cycle_max=0
  
       if (local_debug.gt.0) call mmverify()
  

@@ -122,7 +122,9 @@ C
 C     Variable declarations
 C
       implicit none
-      include "machine.h"
+
+C     preprocess include file not used so commented out
+C     include "machine.h"
       include "chydro.h"
       include "local_element.h"
 
@@ -132,11 +134,16 @@ C     arguments
       real*8 xic2(*), yic2(*), zic2(*)
     
       integer i,ierror
+
       real*8 xicelm1(8), yicelm1(8), zicelm1(8)
       real*8 xicelm2(8), yicelm2(8), zicelm2(8)
       real*8 xtrans,ytrans,ztrans,
      *       xmin,ymin,zmin,xmax,ymax,zmax
+
       character*132 logmess
+
+C######################################################################
+C begin
 
 C     Get idebug set from iflag then intialize to zero
 C     Restrict to idebug greater than 1 so a setting of 1

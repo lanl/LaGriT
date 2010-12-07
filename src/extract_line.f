@@ -1,4 +1,4 @@
-*DK extract_line
+
       subroutine extract_line(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
 C
 C########################################################################
@@ -49,13 +49,16 @@ C
 C
 C########################################################################
 C
-      implicit real*8 (a-h,o-z)
-C
-      include "machine.h"
+      implicit none
+
+C     commented out because it does not get used
+C     include "machine.h"
+
       include "chydro.h"
       include "local_element.h"
 C
-      parameter (lenptr=1000000)
+      integer nplen
+      parameter (nplen=1000000)
 C
 C########################################################################
 C
@@ -66,50 +69,58 @@ C
 C     Subroutine Input Variables
 C
       character*(*) cmsgin(nwds)
-      integer       imsgin(nwds), msgtype(nwds)
       real*8        xmsgin(nwds)
+      integer       imsgin(nwds), msgtype(nwds)
+      integer nwds
+      integer ierror
 C
-C     Name Variables and Message Variables
-C
-      character*32  cmoin, cmoout
-      character*16  cmotmp1, cmotmp2
-      character*132 logmess
-      character*256 cmdmess
-C
+C     Variables used to store temporary data for distance calculations
+
+      integer nen, ilen, icmotype,i,j,l,nnodes,nelements,idelete
+      integer lenitp1o, lenxico, lenyico,lenzico
+      integer lenitettypo, lenitto, lenitetoffo, leniteto
+      integer p1close, p2close, itptmp
+
+      real*8  deltax, deltay, deltaz, anorm
+      real*8  dist2p1_ref, dist2p1_curr
+      real*8  dist2p2_ref, dist2p2_curr
+
 C     Subroutine Input Variables save pts.
 C
       real*8 x_pt(4)
       real*8 y_pt(4)
       real*8 z_pt(4)
 C
-      character*32  type
-C
-C     Variables used to store temporary data for distance calculations
-C
-      integer p1close, p2close, itptmp
-      real*8  dist2p1_ref, dist2p1_curr
-      real*8  dist2p2_ref, dist2p2_curr
-C
 C     Pointers for outgoing CMO
 C
 C     Node Based Attributes
       pointer (ipitp1o, itp1o)
       pointer (ipisn1o, isn1o)
+      integer itp1o(nplen), isn1o(nplen)
+
       pointer (ipxico, xico)
       pointer (ipyico, yico)
       pointer (ipzico, zico)
+      real*8 xico(nplen),yico(nplen),zico(nplen)
+
 C
 C     Element Based Attributes
       pointer (ipitettypo, itettypo)
       pointer (ipitetoffo, itetoffo)
+      integer itettypo(nplen), itetoffo(nplen)
 C
 C     Array of No. of Elements*No. of Nodes per Element
       pointer (ipiteto, iteto)
+      integer   iteto(2*nplen)
+
+C     Name Variables and Message Variables
 C
-      dimension xico(lenptr), yico(lenptr), zico(lenptr)
-      integer   itp1o(lenptr), isn1o(lenptr)
-      integer   itettypo(lenptr), itetoffo(lenptr)
-      integer   iteto(2*lenptr)
+      character*32  cmoin, cmoout
+      character*16  cmotmp1, cmotmp2
+      character*132 logmess
+      character*256 cmdmess
+
+      character*32  type
 C
 C########################################################################
 C
@@ -124,7 +135,10 @@ C                      dbarea(z1,x1,z2,x2,z3,x3),
 C                      dbarea(x1,y1,x2,y2,x3,y3) >.
 C
 C########################################################################
+C begin
 C
+      real*8 u1,v1,u2,v2,u3,v3,dbarea
+
       dbarea(u1,v1,u2,v2,u3,v3)=(u2-u1)*(v3-v1)-(v2-v1)*(u3-u1)
 C
 C########################################################################

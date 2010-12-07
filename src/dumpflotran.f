@@ -53,35 +53,35 @@ c Peter Lichtner gives an example of how the actual input file looks
 c (which differs from our first approximation because he wants information
 c  not available from an avs file.)
 c
-c:      geometry  nx  ny  nz ivplwr ipvcal iout gravity pref tref  href
-cGrid   XYZ        1   1 121    1      0      3    0      0    0    0
-c:
-cPhiK
-c: i1 i2  j1  j2  k1  k2  iist ithrm  vb porm  permx   permy    permz
-c   1  1  1   1   1  121   1     1    0.
-c/
-c:     igrid   rw      re
-cDXYZ   0      0.      1.
-c: (dx(i),i=1,nx)
-c   1.
-c:
-c: (dy(j),j=1,ny)
+c :      geometry  nx  ny  nz ivplwr ipvcal iout gravity pref tref  href
+c Grid   XYZ        1   1 121    1      0      3    0      0    0    0
+c :
+c PhiK
+c : i1 i2  j1  j2  k1  k2  iist ithrm  vb porm  permx   permy    permz
+c    1  1  1   1   1  121   1     1    0.
+c /
+c :     igrid   rw      re
+c DXYZ   0      0.      1.
+c : (dx(i),i=1,nx)
 c    1.
-c:
-c: (dz(k),k=1,nz)
-c10.  10.  10.  10.  10.  10.  10.  10.  10.  10.
-c10.  10.  10.  10.  10.  10.  10.  10.  10.  10.
-c10.  10.  10.  10.   5.   5.   5.   5.   5.   5.
-c 5.   5.   5.   5.   5.   5.   5.   5.   5.   5.
-c 2.   2.   2.   2.   2.   2.   2.   2.   2.   2.
-c 2.   2.   2.   2.   2.   2.   2.   2.   2.   2.
-c 2.   2.   2.   1.5  1.   1.   1.   1.   1.   1.
-c 1.   1.   1.   1.   1.   1.   1.   1.   1.   1.5
-c 2.   2.   2.   2.   2.   2.   2.   2.   2.   2.
-c 2.   2.   2.   2.   2.   2.   2.   2.   5.   5.
-c 5.   5.   5.   5.   5.   5.   5.   5.  10.  10.
-c10.  10.  10.  10.  10.  10.  10.  10.  10.  10.
-c10.
+c :
+c : (dy(j),j=1,ny)
+c     1.
+c :
+c : (dz(k),k=1,nz)
+c 10.  10.  10.  10.  10.  10.  10.  10.  10.  10.
+c 10.  10.  10.  10.  10.  10.  10.  10.  10.  10.
+c 10.  10.  10.  10.   5.   5.   5.   5.   5.   5.
+c  5.   5.   5.   5.   5.   5.   5.   5.   5.   5.
+c  2.   2.   2.   2.   2.   2.   2.   2.   2.   2.
+c  2.   2.   2.   2.   2.   2.   2.   2.   2.   2.
+c  2.   2.   2.   1.5  1.   1.   1.   1.   1.   1.
+c  1.   1.   1.   1.   1.   1.   1.   1.   1.   1.5
+c  2.   2.   2.   2.   2.   2.   2.   2.   2.   2.
+c  2.   2.   2.   2.   2.   2.   2.   2.   5.   5.
+c  5.   5.   5.   5.   5.   5.   5.   5.  10.  10.
+c 10.  10.  10.  10.  10.  10.  10.  10.  10.  10.
+c 10.
 
       implicit none
       include "local_element.h"
@@ -140,8 +140,11 @@ C
 
       character*24 string, fdate 
       character*32 isubname, cmonam, cmonam2, ifilename 
-      character*80 logmess 
+      character*132 logmess 
       character*132 extrudestring
+
+C
+C begin
 
       isubname='dumpflotran'
 c

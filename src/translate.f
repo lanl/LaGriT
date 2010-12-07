@@ -1,4 +1,4 @@
-*dk,translate
+
       subroutine translate(imsgin,xmsgin,cmsgin,msgtype,nwds,ierr)
 C
 C
@@ -87,43 +87,55 @@ CPVCS    Original version.
 C
 C ######################################################################
 C
-      implicit real*8 (a-h, o-z)
-      parameter (nplen=1000000)
-C
-      integer nwds, imsgin(nwds), msgtype(nwds)
+      implicit none
+
+C args translate(imsgin,xmsgin,cmsgin,msgtype,nwds,ierr)
+
+      integer nwds,ierr
+      integer  imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
+
+C#######################################################################
 C
+      integer nplen
+      parameter (nplen=1000000)
+
+      integer ix,iy,iz,npoints,length,icmotype,ilen,ityp,ipointi,
+     * ipointj,ipt1,ipt2,ipt3,ii,i1
       integer iopt_auto, iopt_zero, iopt_center, iopt_original
       integer ierrw, icscode, i, inxt
       integer icharlnf
-C
-C#######################################################################
 C
       pointer (ipisetwd, isetwd)
       pointer (ipitp1, itp1)
       integer isetwd(nplen), itp1(nplen)
 C
+      integer mpno
+      pointer(ipmpary, mpary)
+      integer mpary(1000000)
+
+C
+      real*8 xold,yold,zold,xnew,ynew,znew,xmin,ymin,zmin,
+     * xmax,ymax,zmax,xdist,ydist,zdist,xtrans,ytrans,ztrans 
+
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
       real*8 xic(nplen), yic(nplen), zic(nplen)
 C
-      character*32 ich1,ich2,ich3
-      character*3  ctype
-      character*32 isubname, cmo
-      character*80 logmess
-      character*132 cbuff
-C
-      pointer(ipmpary, mpary)
-      integer mpary(1000000)
-C
       pointer(iptrans, trans)
       real*8 trans(1000000)
 C
+      character*3  ctype
+      character*32 ich1,ich2,ich3
+      character*32 isubname, cmo
+      character*132 logmess
+      character*132 cbuff
+C
 C
 C#######################################################################
-C
+C begin
 C
 C
       isubname='translat'

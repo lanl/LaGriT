@@ -463,30 +463,62 @@ c
       return
       end
 c
+C     ******************************************************************
       subroutine set_attr(ipxfield,ctype,irank,
      *                    node,value,nvalue,error)
  
       pointer(ipxfield,xfield)
       real*8 xfield(1000000)
-      pointer(ipxfield,ifield)
-      integer ifield(1000000)
       integer irank, node, nvalue, error
+
+      integer k
       character*32 ctype
       real*8 value
- 
-      integer k
- 
+
       error = 0
       if (ctype.eq.'VINT') then
 c         operate on ifield
-          do k = 1, irank
-	      ifield(k+irank*(node-1)) = nvalue
-	  enddo
+         call set_attr_int(ipxfield, irank, node, nvalue, error)
       else
 c         operate on xfield
-          do k = 1, irank
-	      xfield(k+irank*(node-1)) = value
-	  enddo
+         call set_attr_real(ipxfield, irank, node, value, error)
       endif
+ 
       return
       end
+
+C     ******************************************************************
+C     routines to copy real or integer data to existing work array
+C     needed for compilers that do not like the re assignment ipxfield
+C     Error: Cannot change attributes of symbol at (1) after it has been used
+C
+      subroutine set_attr_int(ipxfield, irank, node, nvalue, error)
+      pointer(ipxfield,ifield)
+      integer ifield(1000000)
+      integer irank, node, nvalue, error
+
+      integer k
+
+      error = 0
+      do k = 1, irank
+         ifield(k+irank*(node-1)) = nvalue
+      enddo
+      return
+      end
+
+      subroutine set_attr_real(ipxfield, irank, node, value, error)
+      pointer(ipxfield,xfield)
+      real*8 xfield(1000000)
+      integer irank, node, error
+      real*8 value
+
+      integer k
+
+      error = 0
+      do k = 1, irank
+         xfield(k+irank*(node-1)) = value
+      enddo
+      return
+      end
+
+

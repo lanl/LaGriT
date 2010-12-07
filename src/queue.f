@@ -63,11 +63,11 @@ C###### Variables for input and output
         integer             ierror
 
 C###### Variables for memory access
-        pointer             (ipqueue,   queue1)
+        pointer             (ipqueue1,   queue1)
         integer             queue1(ilen)
-        pointer             (ipqueue,   queue2)
+        pointer             (ipqueue2,   queue2)
         real*8              queue2(ilen)
-        pointer             (ipqueue,   queue3)
+        pointer             (ipqueue3,   queue3)
         character*32        queue3(ilen)
         pointer             (ipfront,   front)
         pointer             (ipback,    back)
@@ -119,15 +119,13 @@ C       Allocate memory for queue data object
         !print *,iptype,ierror
         call mmgetblk('emptyflag',partname,ipflag,1,1,ierror)
         !print *,ipflag,ierror
-        call mmgetblk('queue',partname,ipqueue,ilen,ivaltype,ierror)
-        !print *,ipqueue,ierror
-C       if (ivaltype .eq. INTEG) then
-C           call mmgetblk('queue',partname,ipqueue1,ilen,INTEG,ierror)
-C       elseif (ivaltype .eq. REAL) then
-C           call mmgetblk('queue',partname,ipqueue2,ilen,REAL,ierror)
-C       elseif (ivaltype .eq. STRING) then
-C           call mmgetblk('queue',partname,ipqueue3,ilen,STRING,ierror)
-C       endif
+        if (ivaltype .eq. INTEG) then
+            call mmgetblk('queue',partname,ipqueue1,ilen,INTEG,ierror)
+        elseif (ivaltype .eq. REAL) then
+            call mmgetblk('queue',partname,ipqueue2,ilen,REAL,ierror)
+        elseif (ivaltype .eq. STRING) then
+            call mmgetblk('queue',partname,ipqueue3,ilen,STRING,ierror)
+        endif
 
 C       Initialize memory for the queue data object
         qsize = ilen
@@ -145,25 +143,25 @@ C       Initialize memory for the queue data object
 C##############################################################################
 
         subroutine queue_push
-     &      (qname, ipvalue, ivaltype, ierror)
+     &      (qname, ipvalue1, ipvalue2, ipvalue3, ivaltype, ierror)
 
         implicit none
 
 C###### Variables for input and output
         character*32        qname
-        pointer             (ipvalue,   value1)
-        pointer             (ipvalue,   value2)
-        pointer             (ipvalue,   value3)
+        pointer             (ipvalue1,   value1)
+        pointer             (ipvalue2,   value2)
+        pointer             (ipvalue3,   value3)
         integer             ivaltype
         integer             ierror
 
 C###### Variables for memory access
         integer             ilen
-        pointer             (ipqueue,   queue1)
+        pointer             (ipqueue1,   queue1)
         integer             queue1(*)
-        pointer             (ipqueue,   queue2)
+        pointer             (ipqueue2,   queue2)
         real*8              queue2(*)
-        pointer             (ipqueue,   queue3)
+        pointer             (ipqueue3,   queue3)
         character*32        queue3(*)
         pointer             (ipfront,   front)
         pointer             (ipback,    back)
@@ -203,12 +201,12 @@ C       Find values of queue object parameters
         call mmfindbk('emptyflag',partname,ipflag,ilen,ierror)
         !print *,ierror,ilen,ipflag
         if (ivaltype .eq. INTEG) then
-            call mmfindbk('queue',partname,ipqueue,ilen,ierror)
+            call mmfindbk('queue',partname,ipqueue1,ilen,ierror)
             !print *,ierror,ilen,ipqueue
         elseif (ivaltype .eq. REAL) then
-            call mmfindbk('queue',partname,ipqueue,ilen,ierror)
+            call mmfindbk('queue',partname,ipqueue2,ilen,ierror)
         elseif (ivaltype .eq. STRING) then
-            call mmfindbk('queue',partname,ipqueue,ilen,ierror)
+            call mmfindbk('queue',partname,ipqueue3,ilen,ierror)
         endif
         
         if (ierror .ne. 0) then
@@ -252,25 +250,25 @@ C       Push the new value onto the tail of the queue
 C##############################################################################
 
         subroutine queue_pop
-     &      (qname, ipvalue, ivaltype, ierror)
+     &      (qname, ipvalue1, ipvalue2, ipvalue3, ivaltype, ierror)
 
         implicit none
 
 C###### Variables for input and output
         character*32        qname
-        pointer             (ipvalue,   value1)
-        pointer             (ipvalue,   value2)
-        pointer             (ipvalue,   value3)
+        pointer             (ipvalue1,   value1)
+        pointer             (ipvalue2,   value2)
+        pointer             (ipvalue3,   value3)
         integer             ivaltype
         integer             ierror
 
 C###### Variables for memory access
         integer             ilen
-        pointer             (ipqueue,   queue1)
+        pointer             (ipqueue1,   queue1)
         integer             queue1(*)
-        pointer             (ipqueue,   queue2)
+        pointer             (ipqueue2,   queue2)
         real*8              queue2(*)
-        pointer             (ipqueue,   queue3)
+        pointer             (ipqueue3,   queue3)
         character*32        queue3(*)
         pointer             (ipfront,   front)
         pointer             (ipback,    back)
@@ -304,11 +302,11 @@ C       Find values of queue object parameters
         call mmfindbk('qtype',partname,iptype,ilen,ierror)
         call mmfindbk('emptyflag',partname,ipflag,ilen,ierror)
         if (ivaltype .eq. INTEG) then
-            call mmfindbk('queue',partname,ipqueue,ilen,ierror)
+            call mmfindbk('queue',partname,ipqueue1,ilen,ierror)
         elseif (ivaltype .eq. REAL) then
-            call mmfindbk('queue',partname,ipqueue,ilen,ierror)
+            call mmfindbk('queue',partname,ipqueue2,ilen,ierror)
         elseif (ivaltype .eq. STRING) then
-            call mmfindbk('queue',partname,ipqueue,ilen,ierror)
+            call mmfindbk('queue',partname,ipqueue3,ilen,ierror)
         endif
         if (ierror .ne. 0) then
             write(logmess, '(a)') 

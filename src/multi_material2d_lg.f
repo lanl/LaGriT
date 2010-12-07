@@ -50,14 +50,11 @@ C
       include 'search.h'
       include 'chydro.h'
       include 'consts.h'
-      include 'machine.h'
+C     preprocess include file not used so commented out
+C     include 'machine.h'
       include 'geom_lg.h'
-      character*32 isubname,geom_name
-      integer shiftl,popcnt
-      external shiftl
-      logical itsttp,icrmatch
-      real*8 cvmgt,cvmgz
-      character*132 logmess
+
+
       pointer (ipitet,itet), (ipjtet,jtet)
       pointer (ipitet,itet1), (ipjtet,jtet1)
       integer itet(3,*),itet1(*),jtet(3,*),jtet1(*)
@@ -65,10 +62,7 @@ C
       integer itp1(*), icr1(*)
       pointer (ipimt1,imt1)
       integer imt1(*)
-      pointer (ipxic,xic),(ipyic,yic),(ipzic,zic)
-      real*8 xic(*),yic(*),zic(*)
-      character*32 cmo
-C
+
       integer icscode,iout,lout,itype, nnodes,
      *  leni,icmotype,ierr,ip1,ip2,nn,imtval,
      *  i,iimt,i1,length,nmatfal1,nmatfal2,matindex,
@@ -78,11 +72,8 @@ C
      *  itestmax,itestmin,lng,len1,iic,iic1,iic2,iface,j,k,
      *  npoints,nmatmax,ntets,nlsttts,iit,n,
      *  intconn,nlstptls,ii,lenmatn,iaddint,ntetmax
+      integer incpts,ns
  
-      real*8 d1,d2,rout
-      pointer(ipout,out)
-      real*8 out(*)
-      logical ifp1,ifp2,ifp3,fail
 C
       pointer (ipisurftst,isurftst)
       integer isurftst(*)
@@ -91,17 +82,28 @@ C
       pointer (iplstptl,lstptl(1000000)    )
       integer lstptl
  
-      character*8 cnnodes,ickin
+      pointer (iplist,list(1000000))
+      pointer (ipilist,ilist(2,1000000))
+      pointer (ipnconew,nconew(1000000))
+      integer list,ilist,nconew
  
       pointer (ipnimts ,nimts(1000000)      )
       pointer (ipimts1 ,imts1(1000000)      )
       integer nimts,imts1
       pointer (ipicontab, icontab)
       integer icontab(50,1000000)
-C
+ 
       pointer (ipmatlst,matlst(1000000)    )
       integer matlst
+      pointer (ipint1,int1    )
+      integer int1(1000000)
 C
+      real*8 cvmgt,cvmgz, d1,d2,rout
+      pointer (ipxic,xic),(ipyic,yic),(ipzic,zic)
+      real*8 xic(*),yic(*),zic(*)
+      pointer(ipout,out)
+      real*8 out(*)
+
       pointer (ipx1, x1(1000000))
       pointer (ipy1, y1(1000000))
       pointer (ipz1, z1(1000000))
@@ -111,14 +113,20 @@ C
       pointer (ipxi, xi(1000000))
       pointer (ipyi, yi(1000000))
       pointer (ipzi, zi(1000000))
-      pointer (iplist,list(1000000))
-      pointer (ipnconew,nconew(1000000))
-      pointer (ipilist,ilist(2,1000000))
       pointer (ipweight,weight(2,1000000))
-      integer list,ilist,nconew,incpts,ns
       real*8 x1,y1,z1,x2,y2,z2,xi,yi,zi,weight
-      pointer (ipint1,int1    )
-      integer int1(1000000)
+
+C
+      integer shiftl,popcnt
+      external shiftl
+
+      logical itsttp,icrmatch
+      logical ifp1,ifp2,ifp3,fail
+C
+      character*32 cmo
+      character*8 cnnodes,ickin
+      character*32 isubname,geom_name
+      character*132 logmess
 C
       data isubname/'multimat'/
       data intpasmx/20/

@@ -64,49 +64,75 @@ C
 C
 C########################################################################
 C
-      implicit real*8 (a-h,o-z)
-C
-      include "machine.h"
+C     implicit real*8 (a-h,o-z)
+      implicit none
+
+C     preprocess include file not used so commented out
+C     include "machine.h"
       include "chydro.h"
       include "local_element.h"
 C
-      parameter (lenptr=1000000)
-C
 C########################################################################
 C
+C     args for shttst(qx,qy,qz,epsln,cmoin,ickout)
+      character*8 ickout
+      character*32 cmoin
+      real*8 epsln,qx,qy,qz
+C
+      integer lenptr
+      parameter (lenptr=1000000)
+C
+      integer node1, ierror, ics
+      integer nnodes, ilen,icmotype,nelements,lenmm1,lenmm2,
+     *        lenmm3, icscode,nfound,it,itri,i,ii,nedges,
+     *        i1,i2,i3,iface,icnt,ncp,itri1,ind
+      pointer (ipitfound, itfound)
+      pointer (ipinfound, infound)
+      integer itfound(lenptr),infound(lenptr)
+
+      integer next3,iprev3
+
       pointer (ipdist, dist)
       pointer (ipcpx, cpx)
       pointer (ipcpy, cpy)
       pointer (ipcpz, cpz)
       pointer (ipcptype, cptype)
       pointer (ipdmin, dmin)
-      pointer (ipitfound, itfound)
-      pointer (ipinfound, infound)
       pointer (ipwork, work)
       pointer (iptn, tn)
-C
-      dimension dist(lenptr),cpx(lenptr),cpy(lenptr),cpz(lenptr),
+      real*8 dist(lenptr),cpx(lenptr),cpy(lenptr),cpz(lenptr),
      &          dmin(lenptr),work(lenptr),tn(3,lenptr)
-      integer itfound(lenptr),infound(lenptr),node1
-      character*8 cptype(lenptr)
+
+      real*8 pi
+      real*8 u1,v1,u2,v2,u3,v3  
+      real*8 cpx1,cpy1,cpz1,ax,ay,az,bx,by,bz,denom,t,eps,
+     *       xs,ys,zs,dedge,x1,y1,z1,x2,y2,z2,x3,y3,z3,
+     *       dcross,dface,el,area,dmintri,dp1pi,vx,vy,vz,
+     *       top,bot,ang,anorm,a,b,c,test
+      real*8 dbarea
+
 C
 C     SET POINTERS FOR THE SHEET cmo
-C
+
+      pointer (iplinkt, linkt)
+      pointer (ipitet, itet)
+      integer   linkt(lenptr),itet(3,lenptr)
+ 
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
-      pointer (iplinkt, linkt)
       pointer (ipsbox, sbox)
-      pointer (ipitet, itet)
+      real*8 xic(lenptr),yic(lenptr),zic(lenptr),sbox(lenptr)
+
 C
-      dimension xic(lenptr),yic(lenptr),zic(lenptr),sbox(lenptr)
-      integer   linkt(lenptr),itet(3,lenptr)
+
 C
-      character*8 ickout
-      character*32 cmoin
+      character*8 cptype(lenptr)
       character*32 isubname
       character*132 logmess
-C
+C########################################################################
+C begin
+
 C########################################################################
 C
 C     STATEMENT FUNCTION DBAREA GIVES DOUBLE THE AREA OF A TRIANGLE

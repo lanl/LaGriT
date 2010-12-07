@@ -1,12 +1,13 @@
 #######################################################################
 # GNU Make version 3.79.1 or later
-# uname -s and uname -p are used to detect machine
-# use buildbin opt or buildbin debug to build executable using libs
+# USAGE (make, gmake, or gnumake depending on system setup): 
+#
+# make list (no action, write to screen only)
+#    list of object files and variables 
 # 
-# USAGE: 
 # make OR make lib 
-#    creates or updates optimized *.o in OBJDIR_o 
-#    creates LIB_o.a in current directory 
+#    default creates or updates optimized *.o in OBJDIR_o 
+#    default creates LIB_o.a in current directory 
 # make COPT=-g lib 
 #    creates or updates debug *.o in OBJDIR_g 
 #    creates debug LIB_g.a in current directory
@@ -22,15 +23,15 @@
 #    removes all OBJDIRs and .a files 
 # make help
 #    list of targets and defined variables 
-# make list
-#    list of object files and variables 
 # make options include:
 #    -d (debug) -p (print rules and variables) -v (version)
 #
-# for SUNOS 8 or newer use % source /n/env/local.sunwspro.11
-# for SUNOS earlier than 8 use % source /n/env/local.forte.7
+# for SUNOS 8 or newer use % source /n/env/local.sunwspro.12
+# older versions no longer supported
 #
 # platform and compile mode are used to form lib name and object directories
+# uname -s and uname -p are used to detect machine
+# use buildbin opt or buildbin debug to build executable using libs
 # if LIBDIR or OBJDIR do not exist, they are created
 #
 # Note: assumes Makefile and Makefile.depends
@@ -61,6 +62,8 @@ OPSYS_FULL = $(shell uname -a )
 OPSYS = $(shell uname -s )
 DATETAG = $(shell date '+_%y%m%d')
 NPROC = $(shell uname -p )
+COMPILER = GFORTRAN
+COMPILER = ABSOFT
 #
 # Linux OS ------------------------------
 # Linux rainier 2.6.9-55.0.2.ELlargesmp #1 SMP 2007
@@ -75,6 +78,21 @@ FFLAGS = -c -f -m32 -q -w
 FF90FLAGS = -m32 -YEXT_NAMES=LCS  
 CFLAGS = -m32
 OBJDIR = objects_lin/
+
+ifeq ($(COMPILER),GFORTRAN)
+FC = gfortran
+FC90 = gfortran 
+CC= gcc 
+FC = gfortran
+FC90 = gfortran 
+CC= gcc 
+
+FFLAGS = -fcray-pointer -fno-align-commons -m32 
+FFLAGS = -fcray-pointer -m32 
+CFLAGS = -m32 -Dlin
+FF90FLAGS = -fcray-pointer -m32 
+endif
+
 endif
 #
 # Mac OSX ------------------------------
@@ -156,13 +174,21 @@ else
 COPT = -O
 endif
 endif
+#
+SUFF2 =""
+ifeq ($(COMPILER),GFORTRAN)
+SUFF2 = _gfort4.1
+endif
+ifeq ($(COMPILER),ABSOFT)
+SUFF2 = _absoft
+endif
 # 
-OBJDIR = objects$(SUFF)/
-LIB   = $(PROJ)$(SUFF).a
-PROG  = $(PROJ)$(SUFF)
-LIBDATE   = $(PROJ)$(SUFF)$(DATETAG).a
-PROGDATE  = $(PROJ)$(SUFF)$(DATETAG)
-MODDIR = $(OBJDIR)
+OBJDIR = objects$(SUFF)$(SUFF2)/
+LIB   = $(PROJ)$(SUFF)$(SUFF2).a
+PROG  = $(PROJ)$(SUFF)$(SUFF2)
+LIBDATE   = $(PROJ)$(SUFF)$(DATETAG)$(SUFF2).a
+PROGDATE  = $(PROJ)$(SUFF)$(DATETAG)$(SUFF2)
+MODDIR = $(OBJDIR)$(SUFF2)
 # 
 ##########################################################################
 # Source  
@@ -171,6 +197,8 @@ MODDIR = $(OBJDIR)
 F77_OBJS := $(patsubst %.f,$(OBJDIR)%.o,$(wildcard *.f))
 #
 C_OBJS := $(patsubst %.c,$(OBJDIR)%.o,$(wildcard *.c))
+#
+F77C_OBJS := $(patsubst %.F,$(OBJDIR)%.o,$(wildcard *.F))
 #
 #F90_OBJS := $(patsubst %.f90,$(OBJDIR)%.o,$(wildcard *.f90))
 #
@@ -184,8 +212,9 @@ F90_OBJS := $(patsubst %.f90,%.o,$(wildcard *.f90))
 # Improve make by having it recognize a MODDIR instead of current dir
 # ------------------------------------------------------------------
 #
-lib : lagrit.h $(OBJDIR) $(F90_OBJS)  $(F77_OBJS) $(C_OBJS) 
+lib : lagrit.h $(OBJDIR) $(F90_OBJS)  $(F77_OBJS) $(F77C_OBJS) $(C_OBJS) 
 	ar rcu $(LIB) $(F77_OBJS)
+	ar rcu $(LIB) $(F77C_OBJS)
 	ar rcu $(LIB) $(C_OBJS)
 	ar rcu $(LIB) $(F90_OBJS)
 	mv $(F90_OBJS) $(OBJDIR)
@@ -194,8 +223,9 @@ lib : lagrit.h $(OBJDIR) $(F90_OBJS)  $(F77_OBJS) $(C_OBJS)
 	cp lagrit.template.h lagrit.h
 	@echo "Done $@ $(LIB)"
 #
-install: lagrit.h $(OBJDIR) $(F90_OBJS)  $(F77_OBJS) $(C_OBJS) $(LIBDIR) 
+install: lagrit.h $(OBJDIR) $(F90_OBJS)  $(F77_OBJS) $(F77C_OBJS) $(C_OBJS) $(LIBDIR) 
 	ar rcu $(LIB) $(F77_OBJS)
+	ar rcu $(LIB) $(F77C_OBJS)
 	ar rcu $(LIB) $(C_OBJS)
 	ar rcu $(LIB) $(F90_OBJS)
 	mv $(F90_OBJS) $(OBJDIR)
@@ -244,6 +274,8 @@ list:;
 	@echo $(ROOTDIR)
 	@echo "F77 SOURCE FILES (F77_OBJS):"
 	@echo $(F77_OBJS)
+	@echo "F77 C SOURCE FILES (F77C_OBJS):"
+	@echo $(F77C_OBJS)
 	@echo "C SOURCE FILES (C_OBJS):"
 	@echo $(C_OBJS)
 	@echo "F90 SOURCE FILES (F90_OBJS):"
@@ -291,6 +323,18 @@ $(OBJDIR)%.o : %.f
 $(OBJDIR)%.o : %.c
 	$(CC) $(COPT) $(CFLAGS)  -c -o $@ $<
 
+machine.h : machine_header.h
+	@echo "--------------------------------------------------"
+	@echo "Remove and re-make machine.h from machine_header.F"
+	cp -p machine_header.h machine_header.F
+	$(CC) -E $(CFLAGS) machine_header.F -o machine.h
+	cp -p machine.h $(OBJDIR)
+	-rm -f machine_header.F
+	@echo "--------------------------------------------------"
+
+$(OBJDIR)%.o : %.F 
+	cp lagrit$(OSTAG).h lagrit.h
+	$(FC) $(COPT) $(FFLAGS)  -c -o $@ $<
 
 $(LIBDIR) :; mkdir $(LIBDIR)
 

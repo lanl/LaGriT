@@ -82,7 +82,7 @@ C
       pointer( ipifittet , ifittet(1)  )
       integer kfix,kfix1,ifittet
       real *8 xfix,xfix1
-      common /tetmem/ ipkfix,ipxfix,ntetmax,itetcnt,nfixmax,ipifittet
+      common /tetmem/ ipkfix,ipxfix,ipifittet,ntetmax,itetcnt,nfixmax
       save   /tetmem/
 C
 C
@@ -107,9 +107,9 @@ C
 
       common /flipmem/ ipiremov,ipiopen,
      *                 ipivacnt,ipitmp2,ipirclst,ipxrclst,
+     *                 ipmatrecon,nmats,
      *                 lenremov,leniopen,lenvacnt,nvacnt,lentmp2,
-     *                 lenrclst,nrecon,
-     *                 ipmatrecon,nmats
+     *                 lenrclst,nrecon
       save /flipmem/
 C
 C     ******************************************************************

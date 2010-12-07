@@ -167,13 +167,15 @@ C
       character*32 isort_type
       character*32 sort_order
       character*32 catt_name
-      character*80 logmess
-      character*90 cmdmessage
       character*32 ctype,crank,clen,cinter,cpers,cio
+      character*132 cmdmessage
+      character*132 logmess
 C
 C#######################################################################
-C
+C begin
+
       isubname='sortbins'
+      ier = 0
 c
 c    Decide what to do based on command line strings
 c
@@ -454,6 +456,7 @@ C
       return
       end
 C
+C######################################################################
       subroutine sort_old
      1     (imsgin,xmsgin,cmsgin,msgtyp,nwds,ier)
 C
@@ -466,16 +469,21 @@ C    USAGE - sort/xyz/[INDEX|bins|rank]
 C
 C
       implicit none
-      character*90 cbuff
+
       integer ier, nwds
       character*32 cmsgin(nwds)
       integer imsgin(nwds)
-      real*8  xmsgin(nwds)
       integer msgtyp(nwds)
-      character*32 isort_type
-      character*80 logmess
+      real*8  xmsgin(nwds)
+
       integer icharlnf
-C
+
+      character*32 isort_type
+      character*132 logmess
+      character*132 cbuff
+
+C######################################################################
+C begin
 C    1 - Get the sort method to be used (bins,index, or rank)
 C
       if((cmsgin(3)(1:icharlnf(cmsgin(3))) .eq. 'index') .or.

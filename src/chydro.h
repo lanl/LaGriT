@@ -265,7 +265,7 @@ C
       integer inodphy
 C
       pointer (ipinter ,iinter )
-      common /phytmp/ inodphy, ipinter
+      common /phytmp/ ipinter, inodphy
       save /phytmp/
       integer iinter(6,1)
 C

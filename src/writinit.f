@@ -1,4 +1,4 @@
-dk,writinit
+
       subroutine writinit(logbat,loglog,ixnamxxx,mode)
 C
 C
@@ -303,6 +303,8 @@ c     look for expiration 2 years greater than compile year
       if (cstring(1:4).eq.'DATE') then
          cstring=now(21:24)//'/00/00 at 00:00:00' 
       endif
+
+
       write(interfil,9004) cstring,'    *'
  9004 format('*',15x,'*    date_compile: ',a22,a6)
       call writloga('default',0,interfil,0,ierrdum)
@@ -319,13 +321,15 @@ c     look for expiration 2 years greater than compile year
  9020     format('WARNING: code expiration date has passed.')
           call writloga('default',0,interfil,2,ierrdum)
  9021     format('This version is no longer supported.')
+
+c         no longer end here, just give warning
 c         call termcode()
       endif
  
 C-----Banner Program run time 
 C
-      write(interfil,9009) now(21:24),now(6:10),now(12:20)
- 9009 format('*',15x,'*    Run Time: ',a4,'/',a5,'  ',a9,'          *')
+      write(interfil,9009) now(21:24),now(5:10),now(12:20)
+ 9009 format('*',15x,'*    Run Time: ',a4,'/',a6,'  ',a9,'         *')
       call writloga('default',0,interfil,0,ierrdum)
 
 C-----Banner Man pages 

@@ -67,22 +67,11 @@ C########################################################################
 C
       implicit none
 C
-      include "machine.h"
+C     preprocess include file not used so commented out
+C     include "machine.h"
       include "chydro.h"
       include "local_element.h"
       include "consts.h"
-C
-      integer lenptr
-      real*8 epsln,pi
-      parameter (lenptr=1000000)
-      parameter (epsln=1.0e-10)
- 
-C
-C########################################################################
-C
-C Variable Declarations
-C
-C########################################################################
 C
 C     Subroutine Input Variables
 C
@@ -91,7 +80,18 @@ C
       integer       imsgin(nwds), msgtype(nwds)
       real*8        xmsgin(nwds)
 C
+C########################################################################
+C
+C Variable Declarations
+C
+C########################################################################
+C
 C     Name Variables and Message Variables
+
+      integer lenptr
+      parameter (lenptr=1000000)
+      real*8 epsln,pi
+      parameter (epsln=1.0e-10)
 C
       character*32  isubname, cmoin, cmoout, cmotmp
       character*132 logmess, cmdmess
@@ -191,6 +191,8 @@ c
      *  xbisect,ybisect,zbisect,xrefvect,yrefvect,zrefvect,
      *  A,B,C,anorm,trueendidx,trueendnode,true2ndnode,
      *  xcheck,ycheck,zcheck,dfact
+
+
 C     The 4 is used to ensure that the pointer is large enough to handle
 C     any surface.
 C

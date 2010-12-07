@@ -1,4 +1,4 @@
-*dk,elmtestd
+
       subroutine elmtestd(cmo,nwrite,ierror)
 C
 C #####################################################################
@@ -103,8 +103,7 @@ C ######################################################################
 C
       implicit none
 C
-C$$   character*132 logdan
-C
+C args
       character*(*) cmo
       integer nwrite, ierror
 C
@@ -200,6 +199,7 @@ c$$$         call writloga('default',2,logdan,2,ier)
 C #####################################################################
 C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C
 C #####################################################################
+
       subroutine sub_elmtestd_lg(mbndry,itetcnt,nefcmo
      &      ,ipitettyp,ipjtetoff,ipjtet
      &      ,ipitetoff,ipitet,ipiparent
@@ -236,26 +236,37 @@ C ######################################################################
 C
       implicit none
 C
-      character*132 logdan
 C
 C ######################################################################
 C
       include "local_element.h"
-C
-C ######################################################################
-C
-      pointer (ipitettyp, itettyp),(ipjtetoff, jtetoff),(ipjtet, jtet1)
-     &       ,(ipitetoff, itetoff),(ipitet, itet),(ipiparent, iparent)
+
+C args for sub_elmtestd_lg(mbndry,itetcnt,nefcmo
+C           ,ipitettyp,ipjtetoff,ipjtet
+C           ,ipitetoff,ipitet,ipiparent
+C           ,jtet_cycle_max,jtet_reduce_nnd
+C           ,idebug_in,nwrite_in,ierror)
+
+      integer mbndry, itetcnt, nefcmo, 
+     &        jtet_cycle_max, jtet_reduce_nnd, 
+     &        idebug_in,nwrite_in,ierror
+      pointer (ipitettyp, itettyp)
+      pointer (ipjtetoff, jtetoff)
+      pointer (ipjtet, jtet1)
+      pointer (ipitetoff, itetoff)
+      pointer (ipitet, itet)
+      pointer (ipiparent, iparent)
       integer itettyp(*) ,jtetoff(*) ,jtet1(*)
      &       ,itetoff(*) ,itet(*) ,iparent(*)
+
 C
-      integer jtet_cycle_max, jtet_reduce_nnd, idebug
-     &      , idebug_in, nwrite_in, ierror
-      integer mbndry, itetcnt, nefcmo, nincons, n_diff_nnd
+      integer nincons, n_diff_nnd, idebug
      &      , nwrite, iwrite, it, nef, iface, j0, j1, jt
      &      , jface, ierrwrt, icycle, ncycles, ierr, loc_node(2*maxnen)
      &      , n_self_degen, n_degen, ityp, ioff, joff, j2, jf, nnd
      &      , ifsum, j, i, isort, kf, isum, jtyp, nnd2
+
+      character*132 logdan
 C
 C ######################################################################
 C
@@ -471,8 +482,8 @@ c (only need parent for checking set of nodes same)
          call writloga('default',0,logdan,0,ierr)
       endif
       if (n_diff_nnd.gt.0 .or. idebug.ne.0) then
-         write(logdan,*) 'ELMTESTD WARNING: ',n_diff_nnd
-     &             ,' jtet loops linking faces with diff no.s of nodes'
+         write(logdan,*) 'ELMTESTD WARNING: ',n_diff_nnd,
+     &   ' jtet loops linking faces with unequal of nodes'
          call writloga('default',0,logdan,0,ierr)
          write(logdan,*)
      &        '        or diff repeated nodes, jtet_reduce_nnd='

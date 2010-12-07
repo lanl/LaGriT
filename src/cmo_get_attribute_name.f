@@ -70,7 +70,7 @@ C     index returns as -1 if not found
 C        this should fail silently
 C        and just return that index was not found
          if(icscode.ne.0) then
-         write(logmess,'(a,i)')
+         write(logmess,'(a,i3)')
      *   'CMO_GET_ATTRIBUTE: Index not found ',att_index
          call writloga('default',0,logmess,0,ierr)
          icscode = index

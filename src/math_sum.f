@@ -1,4 +1,4 @@
-dk,math_sum
+
       subroutine math_sum(imsgin,xmsgin,cmsgin,msgtype,nwds,
      &   ierror)
 C

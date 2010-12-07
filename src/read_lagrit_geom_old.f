@@ -7,6 +7,10 @@ C     PURPOSE -
 C
 C    This routine reads the geometry information, surfaces,
 C    regions and mregions from a file
+C    Note: This file has been modified to avoid compiler errors
+C    with gfortran that does not allow multiple instances of a pointer name
+C    this uses new routines sbnread_xval sbnread_cval sbnread_catt sbnread_xatt
+C    instead of read loops using pointers idx and catt
 C
 C
 C     INPUT ARGUMENTS -
@@ -52,16 +56,25 @@ CC
 C#######################################################################
 C
       implicit none
-      include 'machine.h'
+
+C     preprocess include file not used so commented out
+C     include 'machine.h'
       include 'geom_lg.h'
-      integer iunit,ns,icscode,ierror,
-     *    nodnx,k,lidx,lenid,lengthsb
-      character*32 isubname, cname, geom_nm,idsb(2)
+
+C     args
+C     read_lagrit_geom_old(iunit,cmo,iomode,ierror)
       character*(*) cmo
       character *(*) iomode
+      integer iunit,ierror
+
+C
+      integer nwval,nwatt,j,i,incr,length,lengthsparam,ierr,
+     *  maxlen,rdeflen
+      integer ns,icscode,nodnx,k,lidx,lenid,lengthsb
  
       pointer (ipidx,idx)
       integer idx(*)
+
       pointer (ipval,xval)
       pointer (ipatt,xatt)
       pointer (ipval,cval)
@@ -71,10 +84,12 @@ C
       character*8 cval(2,*)
       character*8 catt(2,*)
  
+      character*32 isubname, cname, geom_nm,idsb(2)
       character*132 logmess
-      integer nwval,nwatt,j,i,incr,length,lengthsparam,ierr,
-     *  maxlen,rdeflen
 C
+C#######################################################################
+C begin
+
       ierror=0
       isubname='readlggm'
       geom_nm='-defaultgeom-'
@@ -438,64 +453,27 @@ c#######################################################################
 c
       integer iunit,ierror,ncount,i,j
       character *(*) iomode
-      pointer(ipval,cval)
       pointer(ipval,xval)
-      pointer(ipatt,catt)
       pointer(ipatt,xatt)
       real*8 xval(2,*),xatt(2,*)
-      character*8 cval(2,*),catt(2,*)
       pointer (ipidx,idx)
       integer idx(*)
 c#######################################################################
 c
- 5    format (i10)
- 10   format (10i10)
- 20   format (6e18.11)
- 30   format (12a8)
-      if(iomode(1:5).eq.'ascii') then
-         read(iunit,5) ncount
-         read(iunit,10) (idx(i),i=1,ncount)
-         read(iunit,20) (xval(2,abs(idx(i))),i=1,ncount)
-      else
-         read(iunit) ncount,(idx(i),i=1,ncount),
-     *                (xval(2,abs(idx(i))),i=1,ncount)
-      endif
-      do j=1,ncount
-         if(idx(j).ne.0) xval(1,abs(idx(j)))=float(2)
-      enddo
+      call sbnread_xval(iunit,ipval,nwval,ipatt,nwatt,ipidx,iomode,
+     *   ierror)
       nwval=ncount
-      if(iomode(1:5).eq.'ascii') then
-         read(iunit,5) ncount
-         read(iunit,10) (idx(i),i=1,ncount)
-         read(iunit,30) (cval(2,abs(idx(i))),i=1,ncount)
-      else
-         read(iunit) ncount,(idx(i),i=1,ncount),
-     *                (cval(2,abs(idx(i))),i=1,ncount)
-      endif
+      call sbnread_cval(iunit,ipval,nwval,ipatt,nwatt,ipidx,iomode,
+     *   ierror)
       do j=1,ncount
          if(idx(j).ne.0) xval(1,abs(idx(j)))=float(sign(3,idx(j)))
       enddo
       nwval=ncount+nwval
-      if(iomode(1:5).eq.'ascii') then
-          read(iunit,5) ncount
-          read(iunit,10) (idx(i),i=1,ncount)
-          read(iunit,20) (xatt(2,abs(idx(i))),i=1,ncount)
-      else
-          read(iunit) ncount,(idx(i),i=1,ncount),
-     *                (xatt(2,abs(idx(i))),i=1,ncount)
-      endif
-      do j=1,ncount
-         if(idx(j).ne.0) xatt(1,abs(idx(j)))=float(2)
-      enddo
+      call sbnread_xatt(iunit,ipval,nwval,ipatt,nwatt,ipidx,iomode,
+     *   ierror)
       nwatt=ncount
-      if(iomode(1:5).eq.'ascii') then
-          read(iunit,5) ncount
-          read(iunit,10) (idx(i),i=1,ncount)
-          read(iunit,30) (catt(2,abs(idx(i))),i=1,ncount)
-      else
-          read(iunit) ncount,(idx(i),i=1,ncount),
-     *                (catt(2,abs(idx(i))),i=1,ncount)
-      endif
+      call sbnread_catt(iunit,ipval,nwval,ipatt,nwatt,ipidx,iomode,
+     *   ierror)
       do j=1,ncount
          if(idx(j).ne.0) xatt(1,abs(idx(j)))=float(sign(3,idx(j)))
       enddo
@@ -503,3 +481,112 @@ c
       return
       end
  
+      subroutine sbnread_xval(iunit,ipval,nwval,ipatt,nwatt,ipidx,
+     *     iomode, ierror)
+
+      integer iunit,ierror,ncount,i,j
+      character *(*) iomode
+      pointer(ipval,xval)
+      real*8 xval(2,*)
+      pointer (ipidx,idx)
+      integer idx(*)
+
+ 1005 format (i10)
+ 1010 format (10i10)
+ 1020 format (6e18.11)
+ 1030 format (12a8)
+
+      if(iomode(1:5).eq.'ascii') then
+         read(iunit,1005) ncount
+         read(iunit,1010) (idx(i),i=1,ncount)
+         read(iunit,1020) (xval(2,abs(idx(i))),i=1,ncount)
+      else
+         read(iunit) ncount,(idx(i),i=1,ncount),
+     *                (xval(2,abs(idx(i))),i=1,ncount)
+      endif
+      do j=1,ncount
+         if(idx(j).ne.0) xval(1,abs(idx(j)))=float(2)
+      enddo
+      return
+      end
+      
+      subroutine sbnread_cval(iunit,ipval,nwval,ipatt,nwatt,ipidx,
+     *     iomode, ierror)
+      integer iunit,ierror,ncount,i,j
+      character *(*) iomode
+      pointer(ipval,cval)
+      character*8 cval(2,*)
+      pointer (ipidx,idx)
+      integer idx(*)
+
+ 1105 format (i10)
+ 1110 format (10i10)
+ 1120 format (6e18.11)
+ 1130 format (12a8)
+
+      if(iomode(1:5).eq.'ascii') then
+         read(iunit,1105) ncount
+         read(iunit,1110) (idx(i),i=1,ncount)
+         read(iunit,1130) (cval(2,abs(idx(i))),i=1,ncount)
+      else
+         read(iunit) ncount,(idx(i),i=1,ncount),
+     *                (cval(2,abs(idx(i))),i=1,ncount)
+      endif
+      return
+      end
+
+      subroutine sbnread_xatt(iunit,ipval,nwval,ipatt,nwatt,ipidx,
+     *     iomode, ierror)
+
+      integer iunit,ierror,ncount,i,j
+      character *(*) iomode
+      pointer(ipatt,xatt)
+      real*8 xatt(2,*)
+      pointer (ipidx,idx)
+      integer idx(*)
+      
+ 1205 format (i10)
+ 1210 format (10i10)
+ 1220 format (6e18.11)
+ 1230 format (12a8)
+
+      if(iomode(1:5).eq.'ascii') then
+          read(iunit,1205) ncount
+          read(iunit,1210) (idx(i),i=1,ncount)
+          read(iunit,1220) (xatt(2,abs(idx(i))),i=1,ncount)
+      else
+          read(iunit) ncount,(idx(i),i=1,ncount),
+     *                (xatt(2,abs(idx(i))),i=1,ncount)
+      endif
+      do j=1,ncount
+         if(idx(j).ne.0) xatt(1,abs(idx(j)))=float(2)
+      enddo
+      return
+      end
+
+      subroutine sbnread_catt(iunit,ipval,nwval,ipatt,nwatt,ipidx,
+     *     iomode, ierror)
+
+ 1305 format (i10)
+ 1310 format (10i10)
+ 1320 format (6e18.11)
+ 1330 format (12a8)
+
+      integer iunit,ierror,ncount,i,j
+      character *(*) iomode
+      pointer(ipatt,catt)
+      character*8 catt(2,*)
+      pointer (ipidx,idx)
+      integer idx(*)
+      
+      if(iomode(1:5).eq.'ascii') then
+          read(iunit,1305) ncount
+          read(iunit,1310) (idx(i),i=1,ncount)
+          read(iunit,1330) (catt(2,abs(idx(i))),i=1,ncount)
+      else
+          read(iunit) ncount,(idx(i),i=1,ncount),
+     *                (catt(2,abs(idx(i))),i=1,ncount)
+      endif
+      return
+      end
+

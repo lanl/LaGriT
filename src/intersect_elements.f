@@ -80,10 +80,10 @@ C
 C######################################################################
 C
 C
-C     implicit real*8 (a-h, o-z)
       implicit none
 C
-      include "machine.h"
+C     preprocess machine.h does not appear to be used, commented out
+C     include "machine.h"
       include "local_element.h"
 C
       integer lenptr

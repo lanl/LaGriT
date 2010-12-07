@@ -103,16 +103,17 @@ C
       include 'cmo.h'
       include 'chydro.h'
       include 'consts.h'
-      include 'machine.h'
+C     preprocess include file commented out because not used
+C     include 'machine.h'
       include 'geom_lg.h'
-      character*32 geom_name
-      character*32 isubname
+
+C     arguments
+      integer intrface_search
+
+C
       integer shiftl,popcnt
       external shiftl
-      logical itsttp,icrmatch
-      real*8 cvmgt,cvmgz
-      character*132 logmess
-C
+
       integer icscode,iout,lout,itype,idum1,
      *  leni,icmotype,ierr,ip1,ip2,nn,imtval,
      *  i,iimt,i1,length,nmatfal1,nmatfal2,matindex,
@@ -122,13 +123,8 @@ C
      *  itestmax,itestmin,lng,len1,iic,iic1,iic2,iface,j,k,
      *  npoints,nmatmax,ntets,nlsttts,iit,n,
      *  intconn,nlstptls,ii,lenmatn,iaddint,ntetmax, nmatmax_m1
-      integer intrface_search
       integer ifdebug
  
-      real*8 d1,d2,rout
-      pointer(ipout,out)
-      real*8 out(*)
-      logical ifp1,ifp2,ifp3,ifp4,fail
 C
       pointer (ipisurftst,isurftst)
       integer isurftst(*)
@@ -137,16 +133,21 @@ C
       pointer (iplstptl,lstptl(1000000)    )
       integer lstptl
  
-      character*8 cnnodes,ickin
- 
       pointer (ipnimts ,nimts(1000000)      )
       pointer (ipimts1 ,imts1(1000000)      )
       integer nimts,imts1
       pointer (ipicontab, icontab)
       integer icontab(50,1000000)
-C
+      pointer (ipint1,int1    )
+      integer int1(1000000)
+ 
       pointer (ipmatlst,matlst(1000000)    )
       integer matlst
+
+      pointer (iplist,list(1000000))
+      pointer (ipnconew,nconew(1000000))
+      pointer (ipilist,ilist(2,1000000))
+      integer list,ilist,nconew,incpts,ns
 C
       pointer (ipx1, x1(1000000))
       pointer (ipy1, y1(1000000))
@@ -157,14 +158,22 @@ C
       pointer (ipxi, xi(1000000))
       pointer (ipyi, yi(1000000))
       pointer (ipzi, zi(1000000))
-      pointer (iplist,list(1000000))
-      pointer (ipnconew,nconew(1000000))
-      pointer (ipilist,ilist(2,1000000))
       pointer (ipweight,weight(2,1000000))
-      integer list,ilist,nconew,incpts,ns
       real*8 x1,y1,z1,x2,y2,z2,xi,yi,zi,weight
-      pointer (ipint1,int1    )
-      integer int1(1000000)
+
+
+      real*8 cvmgt,cvmgz
+      real*8 d1,d2,rout
+      pointer(ipout,out)
+      real*8 out(*)
+
+      logical ifp1,ifp2,ifp3,ifp4,fail
+      logical itsttp,icrmatch
+
+      character*8 cnnodes,ickin
+      character*32 geom_name
+      character*32 isubname
+      character*132 logmess
 C
       data isubname/'multimat'/
       data intpasmx/20/

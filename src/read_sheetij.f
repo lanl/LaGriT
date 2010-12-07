@@ -560,8 +560,8 @@ C BEGIN
          read(iunit,3002,err=999) cmarker, dy
          icount = icount + 1
 ccg 3001    format(a1, i8)
- 3001    format(a1, i)
- 3002    format(a1, f)
+ 3001    format(a1, i5)
+ 3002    format(a1, f15.5)
        endif
 
        idone = 1

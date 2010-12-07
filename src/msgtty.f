@@ -769,7 +769,8 @@ C
 C
 C ######################################################################
 C
-      include "machine.h"
+C     preprocess include file not used so commented out
+C     include "machine.h"
       include "copyrite.h"
       include "chydro.h"
       include "neibor.h"

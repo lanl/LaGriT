@@ -72,6 +72,6 @@ void	   FreeSL(SkipList l);
 int	   InsertSL(SkipList l, void *key);
 int	   DeleteSL(SkipList l, void *key);
 void	  *SearchSL(SkipList l, void *key);
-void	   DoForSL(SkipList  l, int (*function)(), void *arg);
+void	   DoForSL(SkipList  l, int (*function)(), int arg);
 
 #endif	/* SKIPLIST_H */

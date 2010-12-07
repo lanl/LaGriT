@@ -769,22 +769,22 @@ c     the mesh object
 c     ******************************************************************
       subroutine get_mo_attr(ipxfield,mo,attr_name,ilen,ityp,
      *                 irank,error)
+
       implicit none
+
+c arguments
       pointer(ipxfield,xfield)
       real*8 xfield(1000000)
-      pointer(ipxfield,ifield)
-      integer ifield(1000000)
-      character*32 mo,attr_name,cinter,cpers,cio
-      integer ilen, ityp, irank, index
-      integer error, ierrw, len
+      character*32 mo,attr_name
+      integer ilen, ityp, irank, error
+
+c variables
+      integer index, ierrw, len, ierror, icscode
+      integer lin,itin
 c
       integer icharlnf
 c
-      integer ierror
-      integer icscode
-      integer lin,itin
-c
- 
+      character*32 cinter,cpers,cio
       character*32 crank, ctype,clen
       character*132 logmess
 c

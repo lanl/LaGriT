@@ -74,8 +74,9 @@ C
 C#######################################################################
 C
       implicit none
-C
-      include "machine.h"
+
+C     preprocess include file not used so commented out
+C     include "machine.h"
       include "chydro.h"
       include "consts.h"
       include 'geom_lg.h'
@@ -91,46 +92,36 @@ C
      *  i,lenmm4,npts,nrm,ip,isq,itp,ics,ierrw,mbndry,
      *  nelements,ierr2,iout
       integer ismin,ismax,icharlnf
-      real*8 xmin1,xmax1,ymin1,ymax1,zmin1,zmax1,rout,
-     *   xdiff,ydiff,zdiff,srchval,epsmin
-      character*32 geom_name
-      pointer (ipout,out)
-      real*8 out(*)
- 
-C
-C#######################################################################
-C
-      character*132 logmess
-C
-C     *****************************************************************
-C
+
       pointer (ipimt1, imt1)
       pointer (ipitp1, itp1)
       integer imt1(10000000), itp1(10000000)
+
+      pointer(ipregno, iregno(1000000))
+      pointer(ipsurfno, isurfno(1000000))
+      integer iregno,isurfno
+
 C
+      real*8 xmin1,xmax1,ymin1,ymax1,zmin1,zmax1,rout,
+     *   xdiff,ydiff,zdiff,srchval,epsmin
+
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
       REAL*8 xic(1000000), yic(1000000), zic(1000000)
-C
-C     *****************************************************************
-C
+
+      pointer (ipout,out)
+      real*8 out(*)
 C
       character*32  iregnam
-C
-      pointer(ipregno, iregno(1000000))
-      pointer(ipsurfno, isurfno(1000000))
-      integer iregno,isurfno
- 
- 
-C
-C#######################################################################
       character*32 cmo
-C
       character*32 isubname
+      character*32 geom_name
+      character*132 logmess
 C
 C#######################################################################
-C
+C begin
+
       isubname='rmregion'
 C
 C     ******************************************************************

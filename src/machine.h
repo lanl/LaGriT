@@ -1,39 +1,77 @@
- 
+# 1 "machine_header.F"
+# 1 "<built-in>"
+# 1 "<command line>"
+# 1 "machine_header.F"
+C This file uses compiler preprocess options to set default
+C and machine dependent sizes. This include file sets the
+C SIZEOF for integer, long, and void
+C May need updates to obsolete systems and use of 64 bit sizes
+C this replaces "opsys.h" as used in the lg_util library
+
 C$Log: machine.h,v $
 CRevision 2.00  2007/11/05 19:46:00  spchu
 CImport to CVS
-C
-CPVCS    
-CPVCS       Rev 1.9   Tue Oct 26 14:08:04 1999   dcg
-CPVCS    No change.
-CPVCS    
-CPVCS       Rev 1.8   Thu Dec 18 10:44:40 1997   dcg
-CPVCS    restore value of kveclen
-CPVCS
-CPVCS       Rev 1.7   Wed Dec 17 15:06:22 1997   dcg
-CPVCS    add nwadr for number of machine words in an address
-CPVCS
-CPVCS       Rev 1.6   Mon Apr 14 16:37:28 1997   pvcs
-CPVCS    No change.
-CPVCS
-CPVCS       Rev 1.5   Mon Jul 08 15:04:02 1996   kuprat
-CPVCS    Added KVECLEN parameter.  This parameter specifies optimal
-CPVCS    vector length for vectorized computation of quantities.
-CPVCS
-CPVCS       Rev 1.4   11/28/95 11:26:14   dcg
-CPVCS    add nbytes_real and nbytes_int for workstation/cray
-CPVCS    implementations
-CPVCS
-CPVCS       Rev 1.3   11/27/95 11:36:38   het
-CPVCS    Add the NPTRFAC_INT parameter to indicate the length of integers.
-CPVCS
-CPVCS       Rev 1.4   11/27/95 11:32:56   het
-CPVCS    Add the NPTRFAC_INT parameter to indicate the length of integers
-CPVCS
-CPVCS       Rev 1.3   06/06/95 16:08:32   dcg
 CPVCS
 CPVCS       Rev 1.2   06/06/95 16:01:54   dcg
 CPVCS    add type statments
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 73 "machine_header.F"
+
+
+      integer NBYTES_REAL, NBYTES_INT
+      parameter (NBYTES_REAL = 8, NBYTES_INT = 4)
+
+
 C                           comdeck machine
  
  
@@ -77,9 +115,7 @@ C     NBYTES_REAL number of bytes in a real variable
 C     NBYTES_INT number of bytes in a integer variable
 C             WORKSTATION set NBYTES_REAL = 8, NBYTES_INT = 4
 C             CRAY set NBYTES_REAL = 8, NBYTES_INT = 8
-      integer NBYTES_REAL, NBYTES_INT
-              parameter (NBYTES_REAL = 8, NBYTES_INT=4)
- 
+
  
 C                     Optimal Machine Quantities
  

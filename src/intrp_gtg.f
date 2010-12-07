@@ -1299,7 +1299,7 @@ c          iisrc is in the source att, iisnk is the sink attribute
          do idx=1,mtfound
            iisrc=itfound(idx)
            if (iisrc.le.0) then
-              write(logmess,"(a,i)")
+              write(logmess,"(a,i15)")
      *        "Using kdtree - invalid source node: ",iisrc
               call writloga('default',0,logmess,0,ierrw)
            endif
@@ -1336,7 +1336,7 @@ c          save source number and value of chosen candidate
                   val_end = val_prev
                endif
                if(idebug.gt.3) then
-                write(logmess,'(a,i,a,1pe14.5e3)')
+                write(logmess,'(a,i15,a,1pe14.5e3)')
      *          ' min TIE ASSIGN INDEX: ',index_end,
      *          ' associated value: ',val_end
                 call writloga('default',0,logmess,0,ierrw)
@@ -1351,7 +1351,7 @@ c          save source number and value of chosen candidate
                   val_end = val_prev
                endif
                if(idebug.gt.3) then
-                write(logmess,'(a,i,a,1pe14.5e3)')
+                write(logmess,'(a,i15,a,1pe14.5e3)')
      *          ' max TIE ASSIGN INDEX: ',index_end,
      *          ' associated value: ',val_end
                 call writloga('default',0,logmess,0,ierrw)
@@ -1417,7 +1417,7 @@ c        Unless filling pt_gtg attribute for nearest point flag
      *       work(iisnk),' value assigned from point: ',index_end
              call writloga('default',0,logmess,0,ierrw)
            else
-             write(logmess,"(i,a,i17)")
+             write(logmess,"(i15,a,i17)")
      *       iisnk,' pt_gtg assigned source point: ',index_end
              call writloga('default',0,logmess,0,ierrw)
            endif
@@ -1557,7 +1557,7 @@ c         iisrc is in the source att, iisnk is the sink attribute
             iisrc=iefound(idx)
             index_end = iisrc
             if (iisrc.le.0) then
-              write(logmess,"(a,i)")
+              write(logmess,"(a,i15)")
      *        "Using kdtree - invalid source element: ",iisrc
               call writloga('default',0,logmess,0,ierrw)
             endif
@@ -1784,7 +1784,7 @@ c               break tie with min or max value of associated element
                       endif
                    endif
                    if(idebug.gt.0) then
-                   write(logmess,'(a3,a,i,a,i5,1pe14.5e3)')
+                   write(logmess,'(a3,a,i15,a,i5,1pe14.5e3)')
      *             tie_opt(1:3),' TIE ASSIGN INDEX: ',index_save,
      *             ' with flag and value: ',inflag_save,val_save
                    call writloga('default',0,logmess,0,ierrw)

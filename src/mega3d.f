@@ -129,7 +129,8 @@ C
       include 'local_element.h'
       include 'chydro.h'
       include 'smooth.h'
-      include 'machine.h'
+C     this preprocess file does not appear to be used, commented out
+C     include 'machine.h'
       include 'geom_lg.h'
  
       character*132 logmess

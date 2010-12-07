@@ -71,7 +71,7 @@ C######################################################################
 C
       implicit none
 C
-      include "machine.h"
+C     include "machine.h"
       include "local_element.h"
 C
       integer lenptr
