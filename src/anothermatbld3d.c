@@ -1,3 +1,32 @@
+/*  LaGriT assumes that the size of an integer is the same size as a
+ *  pointer.  Use the preprocessor and configure settings to select
+ *  the integer type so that it matches the size of a pointer.
+ */
+
+/**** linux 32 ****/
+#ifdef lin
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 4
+#define SIZEOF_VOIDP 4
+#endif
+
+/**** linux x64 ****/
+#ifdef linx64
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 8
+#define SIZEOF_VOIDP 8
+#endif
+
+#if SIZEOF_INT == SIZEOF_VOIDP
+#define int_ptrsize int
+#elif SIZEOF_LONG == SIZEOF_VOIDP
+#define int_ptrsize long
+#else
+#error "Unknown case for size of pointer."
+#endif
+
 /*
  
 Purpose:  To give a better, stronger, faster, and more memory efficient
@@ -45,7 +74,8 @@ Import to CVS
 *PVCS       Rev 1.0   Tue May 18 14:46:44 1999   murphy
 *PVCS    Initial revision.
 */
- 
+
+#include <stdlib.h> 
 #include <stdio.h>
 #include <math.h>
  
@@ -61,17 +91,17 @@ Import to CVS
 extern double sqrt();
  
 typedef struct x3dMeshStructure {
-  int nnodes;
+  int_ptrsize nnodes;
   double *xic;
   double *yic;
   double *zic;
-  int ntets;
-  int *itet;
+  int_ptrsize ntets;
+  int_ptrsize *itet;
 } x3dMesh;   /* a bunch of values... */
  
 x3dMesh *Mesh;
  
-static int num_area_coefs;
+static int_ptrsize num_area_coefs;
  
 /**************************************************************************/
  
@@ -340,8 +370,8 @@ void getCircumcenterOfTriangle(double a0, double a1, double a2,
  
 /**************************************************************************/
  
-void getTetVertices(int tet, int localEdgeNum,
-		    int *v1, int *v2, int *k1, int *k2)
+void getTetVertices(int_ptrsize tet, int localEdgeNum,
+		    int_ptrsize *v1, int_ptrsize *v2, int_ptrsize *k1, int_ptrsize *k2)
  
 /**************************************************************************/
  
@@ -353,7 +383,7 @@ void getTetVertices(int tet, int localEdgeNum,
 	should be OK! */
  
 {
-  int a,b,c,d;
+  int_ptrsize a,b,c,d;
  
   a = Mesh->itet[(4*(tet-1))]   - 1 ;
   b = Mesh->itet[(4*(tet-1))+1] - 1 ;
@@ -399,14 +429,15 @@ void getTetVertices(int tet, int localEdgeNum,
       *k2 = a;
       break;
     default:
-      printf("That's not supposed to happen.\n");
+      printf("Error: getTetVertices has unexpected set of vertices.\n");
+      printf("tet: %d with a b c d: %d %d %d %d\n",tet,a,b,c,d);
     }
 }
 /* end getTetVertices() */ 
  
 /**************************************************************************/
  
-int entryprocessed_(int *i, int *j)
+int entryprocessed_(int_ptrsize *i, int_ptrsize *j)
  
 /**************************************************************************/
  
@@ -415,14 +446,14 @@ int entryprocessed_(int *i, int *j)
  
  
 {
-  int v1,v2,k1,k2;
+  int_ptrsize v1,v2,k1,k2;
  
   return(entryExists(*i,*j));
 }
  
 /**************************************************************************/
  
-int entryprocessed(int *i, int *j)
+int_ptrsize entryprocessed(int_ptrsize *i, int_ptrsize *j)
  
 /**************************************************************************/
  
@@ -431,7 +462,7 @@ int entryprocessed(int *i, int *j)
  
  
 {
-  int v1,v2,k1,k2;
+  int_ptrsize v1,v2,k1,k2;
  
   return(entryExists(*i,*j));
 }
@@ -439,9 +470,9 @@ int entryprocessed(int *i, int *j)
  
 /**************************************************************************/
  
-void computescalarVoronoientry(int index_i, int index_j,
-				  int numIncidentTets, int *incidentTets,
-				  int *localEdges)
+void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
+				  int_ptrsize numIncidentTets, int_ptrsize *incidentTets,
+				  int_ptrsize *localEdges)
  
 /**************************************************************************/
  
@@ -456,8 +487,8 @@ void computescalarVoronoientry(int index_i, int index_j,
                          each tet in incident tets*/
  
 {
-  int tetIndex;
-  int v1,v2,k1,k2;
+  int_ptrsize tetIndex;
+  int_ptrsize v1,v2,k1,k2;
  
   double area, edgelength, value, volume, area1, area2, vol1,vol2;
   double bisectorx,   bisectory,   bisectorz,
@@ -582,8 +613,8 @@ void computescalarVoronoientry(int index_i, int index_j,
  
 /**************************************************************************/
  
-void computeentry_(int *Pindex_i, int *Pindex_j, int *PnumIncidentTets,
-		    int *incidentTets, int *localEdges)
+void computeentry_(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j, int_ptrsize *PnumIncidentTets,
+		    int_ptrsize *incidentTets, int_ptrsize *localEdges)
  
 /**************************************************************************/
  
@@ -597,8 +628,8 @@ void computeentry_(int *Pindex_i, int *Pindex_j, int *PnumIncidentTets,
  
 /**************************************************************************/
  
-void computeentry(int *Pindex_i, int *Pindex_j, int *PnumIncidentTets,
-		    int *incidentTets, int *localEdges)
+void computeentry(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j, int_ptrsize *PnumIncidentTets,
+		    int_ptrsize *incidentTets, int_ptrsize *localEdges)
  
 /**************************************************************************/
  
@@ -613,9 +644,9 @@ void computeentry(int *Pindex_i, int *Pindex_j, int *PnumIncidentTets,
  
 /**************************************************************************/
  
-void initialize3ddiffusionmat_(int *pentrysize, int
-*pcompress, int *pnnodes, double *xic, double *yic, double *zic,
-int *pntets, int *itet)
+void initialize3ddiffusionmat_(int_ptrsize *pentrysize, int_ptrsize
+*pcompress, int_ptrsize *pnnodes, double *xic, double *yic, double *zic,
+int_ptrsize *pntets, int_ptrsize *itet)
  
 /**************************************************************************/
  
@@ -624,26 +655,29 @@ int *pntets, int *itet)
 	x3dMesh structure.  */
  
 {
-  int i,j;  /* loop indices. */
+  int_ptrsize i,j;  /* loop indices. */
  
-  int v1,v2,k1,k2;  /* Refer to tet indices.  Used to index xic,yic,
+  int_ptrsize v1,v2,k1,k2;  /* Refer to tet indices.  Used to index xic,yic,
 		       and zic arrays.  (v1,v2) is the edge currently
 		       under consideration.  k1 and k2 are the two
 		       other vertices on the tet.  Respecting
 		       orientation is the KEY! */
  
   double eps = 1e-8;
+  if (sizeof(i) != SIZEOF_VOIDP) {
+  printf("WARNING initialize3ddiffusionmat\n incompatible integer and pointer sizes:  %d  %d\n",sizeof(i),SIZEOF_VOIDP);
+  }
  
   /* populate mesh structure. */
   Mesh=(x3dMesh*)  malloc(sizeof(x3dMesh));
- 
+
   Mesh->xic     = xic;
   Mesh->yic     = yic;
   Mesh->zic     = zic;
   Mesh->nnodes  = *pnnodes;
   Mesh->ntets   = *pntets;
   Mesh->itet    = itet;
- 
+
   num_area_coefs = *pentrysize;
   createSparseMatrix(Mesh->nnodes,num_area_coefs,*pcompress,eps);
  
@@ -652,9 +686,9 @@ int *pntets, int *itet)
  
 /**************************************************************************/
  
-void initialize3ddiffusionmat(int *pentrysize, int
-*pcompress, int *pnnodes, double *xic, double *yic, double *zic,
-int *pntets, int *itet)
+void initialize3ddiffusionmat(int_ptrsize *pentrysize, int_ptrsize
+*pcompress, int_ptrsize *pnnodes, double *xic, double *yic, double *zic,
+int_ptrsize *pntets, int_ptrsize *itet)
  
 /**************************************************************************/
  

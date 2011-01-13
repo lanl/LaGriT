@@ -1,3 +1,33 @@
+/*  LaGriT assumes that the size of an integer is the same size as a
+ *  pointer.  Use the preprocessor and configure settings to select
+ *  the integer type so that it matches the size of a pointer.
+ */
+
+/**** linux 32 ****/
+#ifdef lin
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 4
+#define SIZEOF_VOIDP 4
+#endif
+
+/**** linux x64 ****/
+#ifdef linx64
+#define FCV_UNDERSCORE  
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 8
+#define SIZEOF_VOIDP 8
+#endif
+
+#if SIZEOF_INT == SIZEOF_VOIDP
+#define int_ptrsize int
+#elif SIZEOF_LONG == SIZEOF_VOIDP
+#define int_ptrsize long
+#else
+#error "Unknown case for size of pointer."
+#endif
+
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "skiplist.ch"
@@ -72,21 +102,21 @@ static SkipList *sparseMatrix;
    lowercase) is internal to this module.*/
  
 /* Variables for the .stor format. */
-static int neq;  /* Dimension of the sparse matrix.  Also known as
+static int_ptrsize neq;  /* Dimension of the sparse matrix.  Also known as
 		    number of equations, number of rows, number of
 		    columns, number of points, or simply n. */
  
-static int ncon;  /* Number of connections in the grid.  (Number of
+static int_ptrsize ncon;  /* Number of connections in the grid.  (Number of
 		     non-zero entries in the matrix.)  */
  
-static int *ncon_row;  /* An array of size neq containing the total
+static int_ptrsize *ncon_row;  /* An array of size neq containing the total
 			  number of connections in a given row of a
 			  matrix.  */
   /* tam - indices are 1 to neq until sent back to fortran */
   /*  MM note - put it in Funky-George Format where ncon_row[0] = neq+1; */
 
  
-static int ncon_max = 0;  /* Maximum number of connections to a single
+static int_ptrsize ncon_max = 0;  /* Maximum number of connections to a single
 			     node.  I.e., the maximum degree of a
 			     vertex. */
  
@@ -95,16 +125,16 @@ static double *voronoiVolume;  /* an array of 1..eq containing the
 				  node. */
   /* tam note - routines seem to use index 0 to neq */
  
-static int matrixEntrySize;   /* num_area_coeff */
+static int_ptrsize matrixEntrySize;   /* num_area_coeff */
  
-static int *occupiedColumns;  /* an array containing the numbers of
+static int_ptrsize *occupiedColumns;  /* an array containing the numbers of
 				 the occupied columns.  Used to
 				 interface with the FEHM .stor
 				 format. */
  
 /* Compression option variables. */
  
-static int compressionEnabled;   /* a boolean flag indicating the selection
+static int_ptrsize compressionEnabled;   /* a boolean flag indicating the selection
 				    of the compression option. */
  
 static double epsilon;   /* User supplied value for defining the
@@ -133,13 +163,13 @@ static SkipList compressList;  /* If the compression option is chosen,
 typedef struct entryComponentStruct {
   double *value;  /* The value of a component of an entry. */
  
-  int entryNum;  /* Suppose that all of the double values in the
+  int_ptrsize entryNum;  /* Suppose that all of the double values in the
 		    matrix are represented in a sequential array (as
 		    occurs in the .stor format).  entryNum contains
 		    the index of this value in that array.  This gets
 		    assigned when the .stor file is dumped. */
  
-  int refCount;  /* Counts the number of entries with references to
+  int_ptrsize refCount;  /* Counts the number of entries with references to
 		    this structure (i.e., the number of matrix entries
 		    with this value.)  This quantity is only used when
 		    the compression option is selected.  The idea is
@@ -155,27 +185,27 @@ typedef struct entryComponentStruct {
  
  
 typedef struct entryKeyStruct {
-  int column;        /* column number.  The row number is assumed known. */
+  int_ptrsize column;    /* column number.  The row number is assumed known. */
  
   entryComponent *info;  /* A pointer to the info record. */
  
 } entryKey;
  
  
-static int entryNumber;  /* global variable used to assign entry
+static int_ptrsize entryNumber;  /* global variable used to assign entry
 			    numbers to component entries.  Needed
 			    because of the DoForSL() callback. */
  
-static int *entryNumbers;      /* array for FEHM output. */
-static int *diagonalIndices;   /* array for FEHM output. */
+static int_ptrsize *entryNumbers;      /* array for FEHM output. */
+static int_ptrsize *diagonalIndices;   /* array for FEHM output. */
 static double *MatrixValues;  /* an array for interfacing with FORTRAN */
  
  
-static int columnCounter;     /* global variable used to populate an
+static int_ptrsize columnCounter;     /* global variable used to populate an
 				 array for FEHM output.  Global because
 				 I use callbacks.  */
  
-static int entryCounter;  /* global variable used to populate an array
+static int_ptrsize entryCounter;  /* global variable used to populate an array
 			     for FEHM output.  Global because I use
 			     callbacks.  */
  
@@ -185,33 +215,33 @@ static double maximum[4];     /* an array containing the maximum of
 static double rowsum[4];      /* an array containing the component sum
 				  of each row.*/
  
-static int num_written_coefs; /* number of unique matrix values in the
+static int_ptrsize num_written_coefs; /* number of unique matrix values in the
 				  matrix */
  
-static int component_of_interest;  /* another bloody global variable
+static int_ptrsize component_of_interest;  /* another bloody global variable
 				      needed because I use a main-memory
 				      efficient algorithm. */
  
 /* variables used in reporting the of 'negative' coeffs
    (i.e., positive off-diagonal coeffs).*/
-static int num_neg_coefs;
-static int num_suspect_coefs;
-static int num_zero_coefs;
-static int *row_neg_coefs;
-static int *col_neg_coefs;
+static int_ptrsize num_neg_coefs;
+static int_ptrsize num_suspect_coefs;
+static int_ptrsize num_zero_coefs;
+static int_ptrsize *row_neg_coefs;
+static int_ptrsize *col_neg_coefs;
 static double *neg_coefs;
  
  
 /************************************************************************/
  
-int zeroVector(double *value)
+int_ptrsize zeroVector(double *value)
  
 /************************************************************************/
      /* Compares the key (column number) on two entries. */
      /* Used for skiplist implementation. */
  
 {
-  int k;
+  int_ptrsize k;
  
   for (k=0; k<matrixEntrySize; k++) {
     if (fabs((value[k])) > (maximum[k]*epsilon)) {
@@ -225,7 +255,7 @@ int zeroVector(double *value)
  
 /************************************************************************/
  
-int entryKeyCompare(entryKey *i, entryKey *j)
+int_ptrsize entryKeyCompare(entryKey *i, entryKey *j)
  
 /************************************************************************/
      /* Compares the key (column number) on two entries. */
@@ -246,12 +276,12 @@ int entryKeyCompare(entryKey *i, entryKey *j)
  
 /************************************************************************/
  
-entryComponent *entryComponentCreate (double *v, int count)
+entryComponent *entryComponentCreate (double *v, int_ptrsize count)
 				
 /************************************************************************/
  
 {
-  int i;
+  int_ptrsize i;
  
   entryComponent *ec = (entryComponent *)(malloc(sizeof(entryComponent)));
   ec->value = (double *)malloc(matrixEntrySize*sizeof(double));
@@ -303,14 +333,14 @@ void entryKeyFree(entryKey *ek)
  
 /************************************************************************/
  
-int entryComponentCompare (entryComponent *i, entryComponent *j)
+int_ptrsize entryComponentCompare (entryComponent *i, entryComponent *j)
  
 /************************************************************************/
  
      /* used in the skiplist of compressed values */
  
 {
-  int k;
+  int_ptrsize k;
  
   for (k=0; k<matrixEntrySize; k++) {
     if (fabs((i->value[k] - j->value[k])) > (maximum[k]*epsilon)) {
@@ -332,7 +362,7 @@ entryComponent *entryKeyCreateInfo(double *value)
 /************************************************************************/
  
 {
-  int i;
+  int_ptrsize i;
  
   entryComponent* ec;
   entryComponent temp;
@@ -357,14 +387,14 @@ entryComponent *entryKeyCreateInfo(double *value)
  
 /************************************************************************/
  
-int sumRow(entryKey *ek)
+int_ptrsize sumRow(entryKey *ek)
  
 /************************************************************************/
  
      /* used to set diagonal elements. */
  
 {
-  int j;
+  int_ptrsize j;
  
   for (j=0; j<matrixEntrySize; j++) {
     rowsum[j] += ek->info->value[j];
@@ -375,13 +405,13 @@ int sumRow(entryKey *ek)
  
 /************************************************************************/
  
-int printRow(entryKey *ek, char *rowc)
+int_ptrsize printRow(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
 {
-  int j;
-  printf("\t Row=%d, Column=%d, Value = %e\n", (int)rowc,
+  int_ptrsize j;
+  printf("\t Row=%d, Column=%d, Value = %e\n", (int_ptrsize)rowc,
 	 ek->column,ek->info->value[0]);
   return 1;
 }
@@ -390,16 +420,16 @@ int printRow(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
-int getColumnNumber(entryKey *ek, char *rowc)
+int_ptrsize getColumnNumber(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
 {
-  int j;
+  int_ptrsize j;
  
   occupiedColumns[columnCounter] =  ek->column;
-  if ((int)rowc == ek->column) {
-    diagonalIndices[((int)rowc)-1] = columnCounter;
+  if ((int_ptrsize)rowc == ek->column) {
+    diagonalIndices[((int_ptrsize)rowc)-1] = columnCounter;
   }
  
   columnCounter++;
@@ -410,13 +440,13 @@ int getColumnNumber(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
-int getEntryNumbers(entryKey *ek, char *rowc)
+int_ptrsize getEntryNumbers(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
  
 {
-  int j;
+  int_ptrsize j;
  
   entryNumbers[entryCounter] =  ek->info->entryNum;
   entryCounter++;
@@ -426,7 +456,7 @@ int getEntryNumbers(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
-int assignEntryNumCompression(entryComponent *ec)
+int_ptrsize assignEntryNumCompression(entryComponent *ec)
  
 /************************************************************************/
  
@@ -440,15 +470,15 @@ int assignEntryNumCompression(entryComponent *ec)
  
 /************************************************************************/
  
-int assignEntryNumNoCompression(entryKey *ek, char *rowc)
+int_ptrsize assignEntryNumNoCompression(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
 {
-  int i;
-  int row;
+  int_ptrsize i;
+  int_ptrsize row;
  
-  row = (int) rowc;
+  row = (int_ptrsize) rowc;
   if (ek->column >= row) {
     ek->info->entryNum = entryNumber;
     entryNumber++;
@@ -459,7 +489,7 @@ int assignEntryNumNoCompression(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
-int populateCompressedValuesArray(entryComponent *ec)
+int_ptrsize populateCompressedValuesArray(entryComponent *ec)
  
 /************************************************************************/
  
@@ -473,14 +503,14 @@ int populateCompressedValuesArray(entryComponent *ec)
  
 /************************************************************************/
  
-int populateUncompressedValuesArray(entryKey *ek, char *rowc)
+int_ptrsize populateUncompressedValuesArray(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
 {
   /*  printf("Value is %e\n",ek->info->value[component_of_interest]); */
  
-  if (ek->column >= (int) rowc) {
+  if (ek->column >= (int_ptrsize) rowc) {
     MatrixValues[entryCounter] = ek->info->value[component_of_interest];
     entryCounter++;
   }
@@ -490,7 +520,7 @@ int populateUncompressedValuesArray(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
-int countNegCoeffs(entryKey *ek, char *rowc)
+int_ptrsize countNegCoeffs(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
@@ -503,13 +533,13 @@ int countNegCoeffs(entryKey *ek, char *rowc)
                (negative or not) num_zero_coefs
  
          Global variables involved:
-	       static int num_neg_coefs;
-	       static int num_suspect_coefs;
-	       static int num_zero_coefs;
+	       static int_ptrsize num_neg_coefs;
+	       static int_ptrsize num_suspect_coefs;
+	       static int_ptrsize num_zero_coefs;
       */
  
 {
-  if ((int)rowc < ek->column) {
+  if ((int_ptrsize)rowc < ek->column) {
     /* Test the value to see if it is "positive."  (positive is negative
        in this crazy world of geoanalysis).  */
  
@@ -518,7 +548,7 @@ int countNegCoeffs(entryKey *ek, char *rowc)
  
       if ((ek->info->value[component_of_interest]) > 0.0) {
 	/*
-          printf("Row %d Column %d Value %lf\n",(int)rowc,ek->column,
+          printf("Row %d Column %d Value %lf\n",(int_ptrsize)rowc,ek->column,
 		 ek->info->value[component_of_interest]);
 		 */
 	  num_suspect_coefs++;
@@ -538,13 +568,13 @@ int countNegCoeffs(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
-int retrieveNegCoeffs(entryKey *ek, char *rowc)
+int_ptrsize retrieveNegCoeffs(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
 {
  
-  if ((int)rowc < ek->column) {
+  if ((int_ptrsize)rowc < ek->column) {
     /* Test the value to see if it is "positive" and "significantly
        positive" (positive is negative in this crazy world of
        geoanalysis).  */
@@ -554,7 +584,7 @@ int retrieveNegCoeffs(entryKey *ek, char *rowc)
  
  
       if ((ek->info->value[component_of_interest]) > 0.0) {
-	row_neg_coefs[num_suspect_coefs] = (int)rowc;
+	row_neg_coefs[num_suspect_coefs] = (int_ptrsize)rowc;
 	col_neg_coefs[num_suspect_coefs] = ek->column;
 	neg_coefs[num_suspect_coefs]  =
 	  -ek->info->value[component_of_interest];
@@ -571,15 +601,15 @@ int retrieveNegCoeffs(entryKey *ek, char *rowc)
  
 /************************************************************************/
  
-void createSparseMatrix(int numberOfEquations, int sparseMatrixEntrySize,
-			int Compression, double Epsilon)
+void createSparseMatrix(int_ptrsize numberOfEquations, int_ptrsize sparseMatrixEntrySize,
+			int_ptrsize Compression, double Epsilon)
  
 /************************************************************************/
  
  
 {
   /* this routine is ok */
-  int i,j;
+  int_ptrsize i,j;
  
   compressionEnabled = 0;
   compressList = NULL;
@@ -592,7 +622,7 @@ void createSparseMatrix(int numberOfEquations, int sparseMatrixEntrySize,
   }
  
   neq=numberOfEquations;
-  ncon_row =  (int *)malloc((1+neq)*sizeof(int));
+  ncon_row =  (int_ptrsize *)malloc((1+neq)*sizeof(int_ptrsize));
   voronoiVolume = (double *)malloc((1+neq)*sizeof(double));
   sparseMatrix = (SkipList *) malloc((neq+1)*sizeof(SkipList));
 
@@ -629,7 +659,7 @@ void createSparseMatrix(int numberOfEquations, int sparseMatrixEntrySize,
  
 /************************************************************************/
  
-int entryExists(int index_i, int index_j)
+int_ptrsize entryExists(int_ptrsize index_i, int_ptrsize index_j)
  
 /************************************************************************/
  
@@ -658,7 +688,7 @@ int entryExists(int index_i, int index_j)
  
 /************************************************************************/
  
-void setEntry(int index_i, int index_j,  double volContrib, double *value)
+void setEntry(int_ptrsize index_i, int_ptrsize index_j,  double volContrib, double *value)
  
 /************************************************************************/
  
@@ -668,7 +698,7 @@ void setEntry(int index_i, int index_j,  double volContrib, double *value)
   /* Search for the entry first.  If it is there, update it.
      Otherwise, create a new entry.  */
  
-  int i;
+  int_ptrsize i;
  
   entryKey  searchEntry;  /* used for searching Skiplist */
   entryKey *entryMat;     /* pointer to entry in the skiplist.
@@ -751,7 +781,7 @@ void setDiagonalEntries()
 /************************************************************************/
  
 {
-  int i,j;
+  int_ptrsize i,j;
  
   for (i=1; i<=neq; i++) {
     for (j=0; j<matrixEntrySize; j++) {
@@ -778,12 +808,12 @@ void setDiagonalEntries()
  
 /************************************************************************/
  
-void getmatrixsizes_(int *Pnum_written_coefs, int *ncoefs, int *ncon_max)
+void getmatrixsizes_(int_ptrsize *Pnum_written_coefs, int_ptrsize *ncoefs, int_ptrsize *ncon_max)
  
 /************************************************************************/
  
 {
-   int i, accumulatedDegree;
+   int_ptrsize i, accumulatedDegree;
 
    /* compute ncon and ncon_max */
    ncon=0;
@@ -818,7 +848,7 @@ void getmatrixsizes_(int *Pnum_written_coefs, int *ncoefs, int *ncon_max)
  
 /************************************************************************/
  
-void getmatrixsizes(int *Pnum_written_coefs, int *ncoefs, int *ncon_max)
+void getmatrixsizes(int_ptrsize *Pnum_written_coefs, int_ptrsize *ncoefs, int_ptrsize *ncon_max)
  
 /************************************************************************/
  
@@ -875,12 +905,12 @@ void freevoronoivolumes()
  
 /************************************************************************/
  
-void getentriesperrow_(int **epr)
+void getentriesperrow_(int_ptrsize **epr)
  
 /************************************************************************/
  
 {
-  int i;
+  int_ptrsize i;
   /* put it in Funky-George Format */
   ncon_row[0] = neq+1;
   for (i=1; i<=neq; i++) {
@@ -893,12 +923,12 @@ void getentriesperrow_(int **epr)
  
 /************************************************************************/
  
-void getentriesperrow(int **epr)
+void getentriesperrow(int_ptrsize **epr)
  
 /************************************************************************/
  
 {
-  int i;
+  int_ptrsize i;
   /* put it in Funky-George Format */
   ncon_row[0] = neq+1;
   for (i=1; i<=neq; i++) {
@@ -935,16 +965,16 @@ void freeentriesperrow()
  
 /************************************************************************/
  
-void getoccupiedcolumns_(int **columns)
+void getoccupiedcolumns_(int_ptrsize **columns)
  
 /************************************************************************/
  
 {
-  int i;
+  int_ptrsize i;
  
   columnCounter = 0;
-  occupiedColumns = (int*)malloc(ncon*sizeof(int));
-  diagonalIndices = (int*)malloc(neq*sizeof(int));
+  occupiedColumns = (int_ptrsize*)malloc(ncon*sizeof(int_ptrsize));
+  diagonalIndices = (int_ptrsize*)malloc(neq*sizeof(int_ptrsize));
  
   for (i=1; i<=neq; i++) {
     DoForSL(sparseMatrix[i], getColumnNumber ,(char *)i);
@@ -956,7 +986,7 @@ void getoccupiedcolumns_(int **columns)
  
 /************************************************************************/
  
-void getoccupiedcolumns(int **columns)
+void getoccupiedcolumns(int_ptrsize **columns)
  
 /************************************************************************/
  
@@ -990,14 +1020,14 @@ void freeoccupiedcolumns()
  
 /************************************************************************/
  
-void getmatrixpointers_(int **MatPointers, int **diagonals)
+void getmatrixpointers_(int_ptrsize **MatPointers, int_ptrsize **diagonals)
  
 /************************************************************************/
  
 {
-  int i;
+  int_ptrsize i;
   /* Get the entry numbers into matPointers */
-  entryNumbers = (int *)malloc(ncon*sizeof(int));
+  entryNumbers = (int_ptrsize *)malloc(ncon*sizeof(int_ptrsize));
   entryCounter = 0;
   for (i=1; i<=neq; i++) {
     DoForSL(sparseMatrix[i],getEntryNumbers,(char *)i);
@@ -1011,7 +1041,7 @@ void getmatrixpointers_(int **MatPointers, int **diagonals)
  
 /************************************************************************/
  
-void getmatrixpointers(int **MatPointers, int **diagonals)
+void getmatrixpointers(int_ptrsize **MatPointers, int_ptrsize **diagonals)
  
 /************************************************************************/
  
@@ -1049,7 +1079,7 @@ void freematrixpointers()
  
 /************************************************************************/
  
-void getcomponentmatrixvalues_(int *component, double **values)
+void getcomponentmatrixvalues_(int_ptrsize *component, double **values)
  
 /************************************************************************/
  
@@ -1057,7 +1087,7 @@ void getcomponentmatrixvalues_(int *component, double **values)
 	row-major. */
  
 {
-  int i;
+  int_ptrsize i;
  
   /* Get the entry numbers into MatrixValues */
   MatrixValues = (double*) malloc(num_written_coefs*sizeof(double));
@@ -1081,7 +1111,7 @@ void getcomponentmatrixvalues_(int *component, double **values)
  
 /************************************************************************/
  
-void getcomponentmatrixvalues(int *component, double **values)
+void getcomponentmatrixvalues(int_ptrsize *component, double **values)
  
 /************************************************************************/
  
@@ -1092,8 +1122,8 @@ void getcomponentmatrixvalues(int *component, double **values)
  
 /***************************************************************************/
  
-void extractnegativecoefs(int *component, int *numnegs, int *numsuspectnegs,
- 			    int *numzeronegs, int **negrows, int **negcols,
+void extractnegativecoefs(int_ptrsize *component, int_ptrsize *numnegs, int_ptrsize *numsuspectnegs,
+ 			    int_ptrsize *numzeronegs, int_ptrsize **negrows, int_ptrsize **negcols,
 			    double **negs)
  
 /***************************************************************************/
@@ -1101,7 +1131,7 @@ void extractnegativecoefs(int *component, int *numnegs, int *numsuspectnegs,
      /* Helpful in identifying the bane of Carl's existence. */
  
 {
-  int i;
+  int_ptrsize i;
   component_of_interest = *component;
  
   num_neg_coefs = 0;
@@ -1114,8 +1144,8 @@ void extractnegativecoefs(int *component, int *numnegs, int *numsuspectnegs,
   }
  
    /* allocate space. */
-  row_neg_coefs = (int *)malloc(num_suspect_coefs*sizeof(int));
-  col_neg_coefs = (int *)malloc(num_suspect_coefs*sizeof(int));
+  row_neg_coefs = (int_ptrsize *)malloc(num_suspect_coefs*sizeof(int_ptrsize));
+  col_neg_coefs = (int_ptrsize *)malloc(num_suspect_coefs*sizeof(int_ptrsize));
   neg_coefs     = (double *)malloc(num_suspect_coefs*sizeof(double));
  
   /* assign fortran pointers */
@@ -1137,8 +1167,8 @@ void extractnegativecoefs(int *component, int *numnegs, int *numsuspectnegs,
  
 /***************************************************************************/
  
-void extractnegativecoefs_(int *component, int *numnegs, int *numsuspectnegs,
- 			    int *numzeronegs, int **negrows, int **negcols,
+void extractnegativecoefs_(int_ptrsize *component, int_ptrsize *numnegs, int_ptrsize *numsuspectnegs,
+ 			    int_ptrsize *numzeronegs, int_ptrsize **negrows, int_ptrsize **negcols,
 			    double **negs)
  
 /***************************************************************************/
@@ -1211,7 +1241,7 @@ void killsparsematrix_()
 {
   /* deallocate the entire matrix! */
  
-  int i;
+  int_ptrsize i;
  
   for (i=1; i<=neq; i++) {
     FreeSL(sparseMatrix[i]);

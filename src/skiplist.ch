@@ -20,6 +20,31 @@
  *    Dominic Giampaolo (nick@maxine.wpi.edu) 
  */
 
+/**** linux 32 ****/
+#ifdef lin
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 4
+#define SIZEOF_VOIDP 4
+#endif
+
+/**** linux x64 ****/
+#ifdef linx64
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 8
+#define SIZEOF_VOIDP 8
+#endif
+
+#if SIZEOF_INT == SIZEOF_VOIDP
+#define int_ptrsize int
+#elif SIZEOF_LONG == SIZEOF_VOIDP
+#define int_ptrsize long
+#else
+#error "Unknown case for size of pointer."
+#endif
+
+
 #ifndef SKIPLIST_H
 #define SKIPLIST_H
 
@@ -56,22 +81,22 @@ typedef struct _SkipList
 {
   struct SLNodeStruct *header;	   /* pointer to header */
 
-  int  (*compare)();
+  int_ptrsize  (*compare)();
   void (*freeitem)();
 
-  int flags;
-  int level;			   /* max index+1 of the forward array */
+  int_ptrsize flags;
+  int_ptrsize level;			   /* max index+1 of the forward array */
 
 } *SkipList;
 
 
 
 /* protos */
-SkipList   NewSL(int (*compare)(), void (*freeitem)(), int flags);
+SkipList   NewSL(int_ptrsize (*compare)(), void (*freeitem)(), int_ptrsize flags);
 void	   FreeSL(SkipList l);
-int	   InsertSL(SkipList l, void *key);
-int	   DeleteSL(SkipList l, void *key);
+int_ptrsize	   InsertSL(SkipList l, void *key);
+int_ptrsize	   DeleteSL(SkipList l, void *key);
 void	  *SearchSL(SkipList l, void *key);
-void	   DoForSL(SkipList  l, int (*function)(), int arg);
+void	   DoForSL(SkipList  l, int_ptrsize (*function)(), void *arg);
 
 #endif	/* SKIPLIST_H */

@@ -30,7 +30,7 @@
  it's free, USE IT!)  The university cannot copywrite that code.
 ***********************************************************************/
 
-
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 
@@ -70,6 +70,36 @@
 #define NO_DUPLICATES	  0
 #define DUPLICATE_ITEM	 -1   /* ret val from InsertSL if dups not allowed */
 
+/*  LaGriT assumes that the size of an integer is the same size as a
+ *  pointer.  Use the preprocessor and configure settings to select
+ *  the integer type so that it matches the size of a pointer.
+ */
+
+/**** linux 32 ****/
+#ifdef lin
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 4
+#define SIZEOF_VOIDP 4
+#endif
+
+/**** linux x64 ****/
+#ifdef linx64
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 8
+#define SIZEOF_VOIDP 8
+#endif
+
+#if SIZEOF_INT == SIZEOF_VOIDP
+#define int_ptrsize int
+#elif SIZEOF_LONG == SIZEOF_VOIDP
+#define int_ptrsize long
+#else
+#error "Unknown case for size of pointer."
+#endif
+
+
 
 /* typedef's */
 typedef struct SLNodeStruct *SLNode;
@@ -84,23 +114,23 @@ typedef struct _SkipList
 {
   struct SLNodeStruct *header;	   /* pointer to header */
 
-  int  (*compare)();
+  int_ptrsize  (*compare)();
   void (*freeitem)();
 
-  int flags;
-  int level;			   /* max index+1 of the forward array */
+  int_ptrsize flags;
+  int_ptrsize level;			   /* max index+1 of the forward array */
 
 } *SkipList;
 
 
 
 /* protos */
-SkipList   NewSL(int (*compare)(), void (*freeitem)(), int flags);
+SkipList   NewSL(int_ptrsize (*compare)(), void (*freeitem)(), int_ptrsize flags);
 void	   FreeSL(SkipList l);
-int	   InsertSL(SkipList l, void *key);
-int	   DeleteSL(SkipList l, void *key);
+int_ptrsize	   InsertSL(SkipList l, void *key);
+int_ptrsize	   DeleteSL(SkipList l, void *key);
 void	  *SearchSL(SkipList l, void *key);
-void	   DoForSL(SkipList  l, int (*function)(), void *arg);
+void	   DoForSL(SkipList  l, int_ptrsize (*function)(), void *arg);
 
 #endif	/* SKIPLIST_H */
 
@@ -160,14 +190,14 @@ void	   DoForSL(SkipList  l, int (*function)(), void *arg);
 
 
 /* private proto */
-static int RandomLevelSL(SkipList l);
+static int_ptrsize RandomLevelSL(SkipList l);
 
 
 /* functions */
-SkipList  NewSL(int (*compare)(), void (*freeitem)(), int flags)
+SkipList  NewSL(int_ptrsize (*compare)(), void (*freeitem)(), int_ptrsize flags)
 {
   SkipList l;
-  int i;
+  int_ptrsize i;
 
   if (compare == NULL)    /* need at least a compare function... */
     return NULL;
@@ -237,9 +267,9 @@ void FreeSL(SkipList l)
 #define P_25   (RAND_MAX / 4)     /* p value of .25   */
 #define P_125  (RAND_MAX / 8)     /* p value of .125  */
 
-static int RandomLevelSL(SkipList l)
+static int_ptrsize RandomLevelSL(SkipList l)
 {
-  register int level = 0;
+  register int_ptrsize level = 0;
 
   while(rand() < P_25)
     {
@@ -250,12 +280,12 @@ static int RandomLevelSL(SkipList l)
 }
 
 
-int InsertSL(SkipList l, void *key)
+int_ptrsize InsertSL(SkipList l, void *key)
 {
-  register int i,k;
+  register int_ptrsize i,k;
   SLNode update[MaxNumberOfLevels];
   register SLNode p,q;
-  int (*compare)() = l->compare;
+  int_ptrsize (*compare)() = l->compare;
 
   p = l->header;
   for(k = l->level-1; k >= 0; k--)
@@ -302,12 +332,12 @@ int InsertSL(SkipList l, void *key)
 
 
 
-int DeleteSL(SkipList l, void *key)
+int_ptrsize DeleteSL(SkipList l, void *key)
 {
-  register int k,m;
+  register int_ptrsize k,m;
   SLNode update[MaxNumberOfLevels];
   register SLNode p,q;
-  int  (*compare)()  = l->compare;
+  int_ptrsize  (*compare)()  = l->compare;
   void (*freeitem)() = l->freeitem;
 
   p = l->header;
@@ -352,9 +382,9 @@ int DeleteSL(SkipList l, void *key)
 
 void *SearchSL(SkipList l, void *key)
 {
-  register int k;
+  register int_ptrsize k;
   register SLNode p,q;
-  int (*compare)() = l->compare;
+  int_ptrsize (*compare)() = l->compare;
 
   p = l->header;
   for(k=l->level-1; k >= 0; k--)
@@ -370,7 +400,7 @@ void *SearchSL(SkipList l, void *key)
 }
 
 
-void DoForSL(SkipList l, int (*function)(), void *arg)
+void DoForSL(SkipList l, int_ptrsize (*function)(), void *arg)
 {
   register SLNode p,q;
 
@@ -408,13 +438,13 @@ extern double sqrt(double x);
 
 
 double epsilon;
-int matrixEntrySize;
-int entryNumber = 0; 
+int_ptrsize matrixEntrySize;
+int_ptrsize entryNumber = 0; 
 
 typedef struct entryStruct {
   double *value;  /* The value of an entry. */
 
-  int entryNum;  /* Suppose that all of the double values in the
+  int_ptrsize entryNum;  /* Suppose that all of the double values in the
 		    matrix are represented in a sequential array (as
 		    occurs in the .STOR format).  entryNum contains
 		    the index of this value in that array.  This gets
@@ -438,14 +468,14 @@ double maximum[4];
 /*------------------------------------------------------------------------*/
 
 void computeMaximums(double *xic, double *yic, double* zic, 
-		     double *mat, int n)
+		     double *mat, int_ptrsize n)
 
 /*------------------------------------------------------------------------*/
 
 
 {
-  int i,j;
-  int  nexp[4];
+  int_ptrsize i,j;
+  int_ptrsize  nexp[4];
 
   for (j=0; j<4; j++) {
     maximum[j] = -1;
@@ -473,15 +503,15 @@ void computeMaximums(double *xic, double *yic, double* zic,
 
 /************************************************************************/ 
 
-int entryCompare(entry *i, entry *j) 
+int_ptrsize entryCompare(entry *i, entry *j) 
 
 /************************************************************************/ 
 
      /* used in the skiplist of compressed values  */
 
  { 
-   int i1,i2;
-   int k;
+   int_ptrsize i1,i2;
+   int_ptrsize k;
 
   switch(matrixEntrySize)
     {
@@ -531,7 +561,7 @@ entry *entryCreate(double *v)
 
 
 {
-  int i;
+  int_ptrsize i;
   entry *ec =  (entry*)malloc(sizeof(entry));
   ec->value = (double *)malloc(4*sizeof(double));
 
@@ -545,7 +575,7 @@ entry *entryCreate(double *v)
 
 /************************************************************************/
 
-int assignEntryNum(entry *ec)
+int_ptrsize assignEntryNum(entry *ec)
 
 /************************************************************************/
 
@@ -557,12 +587,12 @@ int assignEntryNum(entry *ec)
 
 /************************************************************************/
 
-int populateX3dMatrixInfo(entry *ec)
+int_ptrsize populateX3dMatrixInfo(entry *ec)
 
 /************************************************************************/
 
 {
-  int k;
+  int_ptrsize k;
   x3dMatrixInfo *mi = MatrixInfo;
 
   mi->xmat[(ec->entryNum)-1]=ec->value[0];
@@ -576,11 +606,11 @@ int populateX3dMatrixInfo(entry *ec)
 
 /************************************************************************/
 
-void compressmatrixvalues_(int *Ncon, int *Neq, int *MEntrySize,
-			   int **MatPointers, double **Xmat, 
+void compressmatrixvalues_(int_ptrsize *Ncon, int_ptrsize *Neq, int_ptrsize *MEntrySize,
+			   int_ptrsize **MatPointers, double **Xmat, 
 			   double  **Ymat, double  **Zmat, double  **Mat,
 			   double **CXmat, double **CYmat, double **CZmat, 
-			   double **CMat, int *numwrittenentries,
+			   double **CMat, int_ptrsize *numwrittenentries,
 			   double *Epsilon)
 
 /************************************************************************/
@@ -590,10 +620,10 @@ void compressmatrixvalues_(int *Ncon, int *Neq, int *MEntrySize,
 
 
 {
-  int i,j,k, dummyInt1, dummyInt2, deg1, deg2, numvalues;
-  int ncon         = (int)(*Ncon);
-  int neq          = (int)(*Neq);
-  int *matPointers = (int*)(*MatPointers);
+  int_ptrsize i,j,k, dummyInt1, dummyInt2, deg1, deg2, numvalues;
+  int_ptrsize ncon         = (int_ptrsize)(*Ncon);
+  int_ptrsize neq          = (int_ptrsize)(*Neq);
+  int_ptrsize *matPointers = (int_ptrsize*)(*MatPointers);
 
   double *xmat = (double*)(*Xmat);
   double *ymat = (double*)(*Ymat);
@@ -603,7 +633,7 @@ void compressmatrixvalues_(int *Ncon, int *Neq, int *MEntrySize,
   double *doubleEntry;
   entry **compressMat, *ec, temp;
   epsilon = *Epsilon;
-  matrixEntrySize  = (int)(*MEntrySize);
+  matrixEntrySize  = (int_ptrsize)(*MEntrySize);
   
 
 
@@ -700,11 +730,11 @@ void compressmatrixvalues_(int *Ncon, int *Neq, int *MEntrySize,
 
 /************************************************************************/
 
-void compressmatrixvalues(int *Ncon, int *Neq, int *MEntrySize,
-			   int **MatPointers, double **Xmat, 
+void compressmatrixvalues(int_ptrsize *Ncon, int_ptrsize *Neq, int_ptrsize *MEntrySize,
+			   int_ptrsize **MatPointers, double **Xmat, 
 			   double  **Ymat, double  **Zmat, double  **Mat,
 			   double **CXmat, double **CYmat, double **CZmat, 
-			   double **CMat, int *numwrittenentries,
+			   double **CMat, int_ptrsize *numwrittenentries,
 			   double *Epsilon)
 
 /************************************************************************/
