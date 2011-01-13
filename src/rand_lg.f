@@ -176,8 +176,8 @@ c ........................................................................
       common /com_rand_lg/ rnfb,rnfs,rngb,rngs,rijk,ranj,rani,rans,ranb
       real*8 p,q
       parameter (p=2d0**24,q=2d0**(-24))
-      real*8 a,b,rnmult,nstrid
-      integer istrid,iadv
+      real*8 a,b,rnmult
+      integer istrid,iadv,nstrid
 c     --------------------------------------------------------------
 
       if ( (nstridin.gt.0) .or. (rnmultin.gt.0) ) then
