@@ -1,6 +1,6 @@
 c
 c----------------------------------------------------------------
-c lagrit.h for Linux 32 bit
+c lagrit.h for Linux 64 bit
 C
 C New util for 32 and 64 lib indicated by 32 or 64 at name end
 C Otherwise the old util library is used
@@ -14,7 +14,7 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=2)
-      parameter      (v_minor=201)
+      parameter      (v_minor=202)
 c
       character*22   date_compile
       character*8    os_name
@@ -23,10 +23,10 @@ c
       data my_name      /'lagritgen'/
 
 c     data os_name      /'Linux   '/
-c     data os_name      /'Linux64 '/
-      data os_name      /'Linux32 '/
+      data os_name      /'Linux64 '/
+c     data os_name      /'Linux32 '/
 
-      data date_compile /'2010/12/03            '/
+      data date_compile /'2011/01/05  gfort 4.5 '/
 c
       integer         NCall
       save            NCall

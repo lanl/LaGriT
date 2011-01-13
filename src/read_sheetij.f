@@ -512,18 +512,21 @@ c ARGS
        integer       ierr, ierrw
 C LOCAL
        character*1   cmarker
-       character*32  cdummy
+       character*32  cdummy,isubname
        character*132 logmess
        integer       lenfile
        integer       icharlnf
        integer       idone
        integer       icount
        integer       iunit
+    
+       integer*4 iunit4
 
 C BEGIN
        idone = 0
        hdrlen = 0
        icount = 1
+       isubname = "sheetij_hdr" 
 
        lenfile=icharlnf(ifile)
        call fexist(ifile(1:lenfile),ierr)
@@ -536,6 +539,11 @@ C BEGIN
 
        iunit=-1
        call hassign(iunit,ifile,ierr)
+       if (iunit.lt.0 .or. ierr.lt.0) then
+         call x3d_error(isubname,'hassign bad file unit')
+         goto 999
+       endif
+       iunit4 = iunit
 
 100    continue
        read (iunit,'(a1)',err=999) cmarker
@@ -688,6 +696,10 @@ C READ ASCII file-------------------------------------------------------
       elseif (ftype .eq. 1) then
         iunit=-1
         call hassign(iunit,ifile,ierr)
+        if (iunit.lt.0 .or. ierr.lt.0) then
+          call x3d_error(isubname,'hassign bad file unit')
+          goto 999
+        endif
 
 c       ALLOCATE array
         call mmgetblk("work2d",isubname,ipwork2d,zlen,2,ierr)
@@ -941,6 +953,8 @@ c local
       integer iunit, len1, iadr, ibytes
       integer i, ii, icount, itotal
 
+      integer*4 iunit4
+
       real*8 fdata8
       real*4 fdata4
 
@@ -953,8 +967,13 @@ C
       Fifile=ifile(1:len1) // 'F'
       file=ifile(1:len1) // char(0)
       iunit=-1
+
       call hassign(iunit,Fifile,ics)
-      call cassignr(iunit,file,ics)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+      endif
+      iunit4 = iunit
+      call cassignr(iunit4,file,ics)
       if (ics.ne.0) then
          write(logmess,'(a,a132)') ' error opening file ',file
          call writloga('default',0,logmess,0,ierrw)
@@ -970,9 +989,9 @@ C     loop through file values
       do i = 1,flen
 
          if (ibytes .eq. 4) then
-            call cread(iunit,fdata4,ibytes,ierror)
+            call cread(iunit4,fdata4,ibytes,ierror)
          else
-            call cread(iunit,fdata8,ibytes,ierror)
+            call cread(iunit4,fdata8,ibytes,ierror)
          endif
          if(ierror.ne.0) then
            write(logmess,'(a,a132)') ' error reading file ',file
@@ -1000,7 +1019,8 @@ c        figure out subset, assign values to xval
       enddo
 
       ierr_return = itotal * ibytes
- 9999 call cclose(iunit)
+ 9999 continue
+      if (iunit4.gt.0) call cclose(iunit4)
       return
       end
 C     END read_binaryij

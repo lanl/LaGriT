@@ -70,6 +70,11 @@ c  assign a unit number to the ruby file
 c
       iunit=-1
       call hassign(iunit,ifile,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+         call x3d_error(isubname,'hassign bad file unit')
+         goto 9999
+      endif
+
 c
 c     get temporary storage
 c

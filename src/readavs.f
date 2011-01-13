@@ -226,12 +226,16 @@ C$$     * ,volface(6)
      * nvalues1,length,i1,i2,i3, i4,i5,i6,i7,i8,ifelmnew,
      * istart,ifound,imat,it,nen,nef,nee,nsdgeom,nsdtopo,
      * nsd,nelements,iline,i1max,i1min,nvalues,npoints,
-     * nelemavs,iunit,ierr1,ierr,iopt_values,iopt_elements,
+     * nelemavs,ierr1,ierr,iopt_values,iopt_elements,
      * iopt_nodes,ierrdum,itetshift,icscode,lenout,
      * ierror,itp,itypeout
       integer nelements_start, icount_e, nvalues_e, nvalues1_e
 C$$     * ,if2,if3,if4,j1,jndex,index
       integer if_zero_based, i_offset
+    
+      integer iunit
+      integer*4 iunit4
+
       real*8 x1,y1,z1
 C$$     * ,ymin1,ymax1,xmax1,xmin1,zmax1,zmin1,xdiff,xavg
 C$$     * ,dx,x2,y2,z2,x3,y3,z3,x4,y4,z4,dy,dz,zavg,zdiff,yavg,ydiff
@@ -297,6 +301,13 @@ C     ASSIGN THE FILE TO THE NEXT AVAILABLE LOGICAL UNIT NUMBER.
 C
       iunit=-1
       call hassign(iunit,ifile,ierror)
+      if (ierror.ne.0 .or. iunit.lt.0) then
+         write(logmess,*) 'hassign bad file no for '
+     &         //ifile(1:lenfile)
+         call writloga('default',1,logmess,0,ierr)
+         goto 9999
+      endif
+
 C
 C
 C     ******************************************************************
@@ -304,7 +315,8 @@ C
 C
  100  continue
       icount=icount+1
-      read(iunit,'(a132)') cline
+      iunit4 = iunit
+      read(iunit4,'(a132)') cline
       if(cline(1:3).eq.'run') goto 9998
       if(cline(1:6).eq.'finish') goto 9998
       if(cline(1:1).eq.'#') goto 100

@@ -65,20 +65,33 @@ C
       integer i,iunit,ierror,icscode,len
       character*(*) iomode
       character*32 partname
+      character*32 isubname
  
  
 C
 C#######################################################################
 C
- 
       ierror=0
+      isubname="dump_lagrit"
+
       call fexist(ifile,i)
       if(i.eq.1) call close_lg(ifile)
       iunit=-1
       if (iomode(1:5).eq.'ascii') then
          call hassign(iunit,ifile,ierror)
+         if (iunit.lt.0 .or. ierror.lt.0) then
+           call x3d_error(isubname,'hassign bad file unit')
+           ierror = -1
+           goto 9999
+         endif
+
       else
          call hassign(iunit,ifile,ierror)
+         if (iunit.lt.0 .or. ierror.lt.0) then
+           call x3d_error(isubname,'hassign bad file unit')
+           ierror = -1
+           goto 9999
+         endif
          close (iunit)
          open (iunit,file=ifile,form='unformatted')
       endif
@@ -146,6 +159,7 @@ C
       endif
 c
  9999 continue
-      close(iunit)
+      if (iunit.gt.0) close(iunit)
+
       return
       end

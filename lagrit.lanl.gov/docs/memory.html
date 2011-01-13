@@ -65,10 +65,35 @@ Total BYTES =    2.400E+09   Total MEGABYTES =    2.400E+03
 <br>Report estimate of possible amount of memory available for allocation by LaGriT. This test will make incremental calls to internal LaGriT memory allocation (mmgetblk) until failure. The report will include the total Megabytes where allocation succeeded, and amount at which allocation failed. This command will also print a map of the memory manager storage.</FONT>
 <pre>
  .... 
+
+ MMGETBLK ERROR: value exceeds sizeof:            4
+ MAX ALLOC SIZE:    4294967296.0000000     
+ ATTEMPTED SIZE:    6553600048.0000000     
+ MMGETBLK: return early with error flag:          -21
+  
+ Succeeded at     819.20000000000005       MEGABYTES
+ Failed at        1638.4000000000001       MEGABYTES
+
  
- Malloc by increasing block sizes of   200000
- Succeeded at    1638.40000000000  MEGABYTES
- Failed before   4915.20000000000  MEGABYTES
+</pre>
+<br>The 64 bit version for memory routines will look slightly different:
+<br>
+<pre>
+MEMORY SIZES : 
+ Sizeof char    (type 3) =  1 bytes      Sizeof long        =   8 bytes
+ Sizeof real*8  (type 2) =  8 bytes      Sizeof pointer     =   8 bytes
+ Sizeof integer (type 1) =  4 bytes      Sizeof INT_PTRSIZE =   8 bytes
+
+....
+
+util_malloc_: Out of memory, malloc return: (nil) 
+   Requested value: 104857600000.000000 =    8 bit unsigned int 
+ MMGETBLK FAILED: Array array_01 with bytes:          104857600096
+ MMGETBLK: return ending with error flag:                    -1
+  
+ Succeeded at     52428.800000000003       MEGABYTES
+ Failed at        104857.60000000001       MEGABYTES
+
 
 </pre>
 

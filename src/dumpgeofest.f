@@ -118,6 +118,11 @@ C
 C
       iunit=-1
       call hassign(iunit,ifile,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        goto 9999
+      endif
+
 C
 C  get information from  mesh object
       call cmo_get_info('isetwd',cmo,
@@ -664,6 +669,8 @@ C
 C
       return
       end
+
+
       subroutine geofest_element_type_test(nelements,itettyp,
      1   ifelmpnt,ifelmlin,ifelmtri,ifelmqud,ifelmtet,ifelmpyr,
      2   ifelmpri,ifelmhex)

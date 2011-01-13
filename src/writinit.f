@@ -130,12 +130,13 @@ C#######################################################################
 C
       integer icharlnf
       integer jlogbat, jloglog, ierr1, ierrass, ierrdum,
-     *   nyr,myr
+     *   nyr,myr, ishow_warn
 C
       character*132 interfil
       character*8 iunitc
       character*24 now
       character*22 cstring
+      character*32 isubname
 C
 C#######################################################################
 C
@@ -143,8 +144,11 @@ C
 C     *****************************************************************
 C
 C     INITIALIZE NUMBER OF LOG FILES.
-C
+C begin
+
       numlogs=0
+      ishow_warn=0
+      isubname="writinit"
 C
 C     *****************************************************************
 C
@@ -154,13 +158,23 @@ C
 C*****         call destroy(0,logbat,0,ierr)
          jlogbat=-1
          call hassign(jlogbat,logbat,ierrass)
+         if (jlogbat.lt.0 .or. ierrass.lt.0) then
+           call x3d_error(isubname,'hassign bad jlogbat unit')
+           print*,"jlogbat: ",logbat,jlogbat
+         endif
+
       endif
 C
       if(loglog.ne.' ') then
 C*****         call destroy(0,loglog,0,ierr)
          jloglog=-1
          call hassign(jloglog,loglog,ierrass)
+         if (jloglog.lt.0 .or. ierrass.lt.0) then
+           call x3d_error(isubname,'hassign bad jloglog unit')
+           print*,"jloglog: ",loglog,jloglog
+         endif
       endif
+
 C
 C     *****************************************************************
 C
@@ -314,17 +328,9 @@ c     look for expiration 2 years greater than compile year
       myr = (ichar(cstring(3:3))-ichar('0'))*10+
      *     (ichar(cstring(4:4))-ichar('0'))
 
+c     show warning if code is older than 2 years
       if(myr.ne.nyr.and.mod(myr+1,100).ne.nyr.and.
-     *   mod(myr+2,100).ne.nyr) then
-          write(interfil,9020)
-          call writloga('default',1,interfil,0,ierrdum)
- 9020     format('WARNING: code expiration date has passed.')
-          call writloga('default',0,interfil,2,ierrdum)
- 9021     format('This version is no longer supported.')
-
-c         no longer end here, just give warning
-c         call termcode()
-      endif
+     *   mod(myr+2,100).ne.nyr) ishow_warn = 1
  
 C-----Banner Program run time 
 C
@@ -398,6 +404,40 @@ C
      * '                               -----oOo-----    '
       call writloga('default',0,interfil,1,ierrdum)
  
+C     *****************************************************************
+c for debugging set ishow_warn to 1
+c     ishow_warn = 1
+
+      if (ishow_warn .eq. 1) then
+
+          write(interfil,9001)
+          call writloga('default',1,interfil,0,ierrdum)
+          write(interfil,9020)
+          call writloga('default',0,interfil,1,ierrdum)
+
+          write(interfil,9021)
+          call writloga('default',0,interfil,0,ierrdum)
+
+          write(interfil,9022)
+          call writloga('default',0,interfil,0,ierrdum)
+
+          write(interfil,9023)
+          call writloga('default',0,interfil,0,ierrdum)
+
+          write(interfil,9020)
+          call writloga('default',1,interfil,0,ierrdum)
+          write(interfil,9001)
+          call writloga('default',0,interfil,1,ierrdum)
+
+ 9020   format(20x,'WARNING WARNING WARNING WARNING WARNING')
+ 9021   format(20x,'LaGriT code expiration date has passed.')
+ 9022   format(20x,'  This version is no longer supported.')
+ 9023   format(20x,'    Visit:  http://lagrit.lanl.gov')
+
+c         no longer end here, just give warning
+c         call termcode()
+      endif
+
 C
 C     *****************************************************************
 C

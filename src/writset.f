@@ -85,6 +85,7 @@ C
 C
          do i=1,numlogs
             if(logtype(i).eq.iopt) then
+
                if(itype(1:4).eq.'name') then
                   logname(i)=ivalue
                   ierr=0

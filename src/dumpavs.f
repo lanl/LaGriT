@@ -1,9 +1,9 @@
       subroutine dumpavs(ifile,cmo,
-     *                   nsd,nen,nef,
-     *                   nnodes,nelements,mbndry,
-     *                   ihcycle,time,dthydro,
-     *                   iopt_points,iopt_elements,
-     *                   iopt_values_node,iopt_values_elem,io_format)
+     *               nsd,nen,nef,
+     *               nnodes,nelements,mbndry,
+     *               ihcycle,time,dthydro,
+     *               iopt_points,iopt_elements,
+     *               iopt_values_node,iopt_values_elem,io_format)
 C
 C #####################################################################
 C
@@ -277,7 +277,10 @@ C
       data izero/0/
 C
 C ######################################################################
-C
+C begin
+
+      lenval = 0
+
       if((nnodes .eq. 0) .and. (nelements .eq. 0))then
           write(logmess,'(a)')'WARNING: dumpavs'
           call writloga('default',0,logmess,0,icscode)
@@ -291,6 +294,13 @@ C
 C
       iunit=-1
       call hassign(iunit,ifile,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        write(logmess,'(a)')'WARNING: No output'
+        call writloga('default',0,logmess,0,icscode)
+        return
+      endif
+
 C
 C  get information from  mesh object
 C
@@ -1375,6 +1385,8 @@ c
       n_char_string = istop
       return
       end
+
+
       subroutine string_write(ch_string, n_char_string, lu, if_clear)
 C
 C#######################################################################

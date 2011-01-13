@@ -55,7 +55,7 @@ C
       implicit none
       character ifile*(*)
       character*(*) cmoread
-      character*32 cmotemp,cout
+      character*32 cmotemp,cout,isubname
       character*(*) iomode
       integer i,iunit,ierror,ierror_return,icscode,ihcycle,monitor,
      *  iout
@@ -64,7 +64,8 @@ C
       character*8 chkstrg
       logical isglobal
 C#######################################################################
-C
+C begin
+      isubname = "read_lagrit_old"
       rout=0.0
       cout=' '
       iout=0
@@ -72,8 +73,20 @@ C
       iunit=-1
       if(iomode(1:5).eq.'ascii') then
          call hassign(iunit,ifile,ierror)
+         if (iunit.lt.0 .or. ierror.lt.0) then
+         call x3d_error(isubname,'hassign bad file unit')
+         ierror_return = -1
+         goto 9999
+         endif
+
       else
          call hassign(iunit,ifile,ierror)
+         if (iunit.lt.0 .or. ierror.lt.0) then
+         call x3d_error(isubname,'hassign bad file unit')
+         ierror_return = -1
+         goto 9999
+         endif
+
          close (iunit)
          open (iunit,file=ifile,form='unformatted')
       endif
@@ -147,6 +160,6 @@ c
 c
 c
  9999 continue
-      close(iunit)
+      if (iunit.gt.0) close(iunit)
       return
       end

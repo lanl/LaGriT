@@ -125,6 +125,11 @@ C
       jfile=ifile(1:lenfile) // '.geo'
       iunit=-1
       call hassign(iunit,jfile,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        goto 9999
+      endif
+
 C
 C get current mesh info
 C
@@ -267,7 +272,13 @@ C
       iunit=-1
       lenfile=icharlnf(ifile)
       jfile=ifile(1:lenfile) // '.dat'
+
       call hassign(iunit,jfile,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        goto 9999
+      endif
+
       write(iunit,"('DATEX2.1')")
       write(iunit,"('Simulation')")
       write(iunit,"(a8)") '"X3D1.0"'

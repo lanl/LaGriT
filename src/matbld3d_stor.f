@@ -2450,6 +2450,9 @@ c     get next available unit number
 c     use nextlun(), as nextlun1() can return a negative integer
  
       iunit = nextlun()
+      if (iunit.lt.0) then
+        call x3d_error("Matbld3d_stor ",'hassign bad file unit')
+      endif
  
       if (io_type.eq.1) io_type=3
       if(io_type.eq.3)then
@@ -2936,13 +2939,25 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       ifilename=ifile(1:icharlnf(ifile)) // 'vor_tet.inp'
       iunit1=-1
       call hassign(iunit1,ifilename,ierror)
+      if (iunit1.lt.0 .or. ierror.lt.0) then
+       call x3d_error("Matbld3d_stor",'1 hassign bad file unit')
+      endif
+
       ifilename=ifile(1:icharlnf(ifile)) // 'vor_tri.inp'
       iunit2=-1
       call hassign(iunit2,ifilename,ierror)
+      if (iunit2.lt.0 .or. ierror.lt.0) then
+       call x3d_error("Matbld3d_stor",'2 hassign bad file unit')
+      endif
+
       if(if_vor_io .eq. 2)then
         ifilename=ifile(1:icharlnf(ifile)) // 'vor_minmax.inp'
         iunit3=-1
         call hassign(iunit3,ifilename,ierror)
+        if (iunit3.lt.0 .or. ierror.lt.0) then
+       call x3d_error("Matbld3d_stor",'3 hassign bad file unit')
+        endif
+
         write(iunit3,326)
   326   format('       node   ',
      1         'x_vor_min           x_vor_max           ',

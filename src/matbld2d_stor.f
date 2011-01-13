@@ -713,6 +713,14 @@ C
       ifilename=ifile(1:icharlnf(ifile)) // '.stor'
       iunit=-1
       call hassign(iunit,ifilename,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+         write(logmess,*)
+     1   "Could not open file for writing: ",ifilename
+         call writloga('default',0,logmess,0,ierrw)
+        goto 9999
+      endif
+
 C
 C
 C     Get a time stamp for the file header (second line).
@@ -776,6 +784,7 @@ C
       call mmrelprt(isubname,icscode)
       return
       end
+
       subroutine volume_tri_voronoi(
      1                      x1,y1,z1,
      2                      x2,y2,z2,
@@ -950,5 +959,6 @@ c
       area1 = sign(area1,a1_sign)
       area2 = sign(area2,a2_sign)
       area3 = sign(area3,a3_sign)
+C  
       return
       end

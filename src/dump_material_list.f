@@ -171,6 +171,11 @@ c
       ifilename=ifile(1:icharlnf(ifile)) // '_material.zone'
       iunit=-1
       call hassign(iunit,ifilename,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        goto 9999
+      endif
+
 c
 C
 c    write the 'zone' header at the top of the file
@@ -273,6 +278,8 @@ c
  9075 format(a4)
  
       close(iunit)
+
+ 9999 continue
 c
 c     release memory of work array
 c

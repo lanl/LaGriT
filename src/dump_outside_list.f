@@ -389,6 +389,10 @@ c
       ifilename=ifile(1:icharlnf(ifile)) // '_outside.zone'
       iunit=-1
       call hassign(iunit,ifilename,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'1 hassign bad file unit')
+      endif
+
 c     open file to output-area zone lists
 c
       if (iout_voronoi.gt.0) then
@@ -398,6 +402,9 @@ c
       endif
       iunit2=-1
       call hassign(iunit2,ifilename,ierror)
+      if (iunit2.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'2 hassign bad file unit')
+      endif
 C
 c    write the 'zone' header at the top of the file
 c

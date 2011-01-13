@@ -150,6 +150,14 @@ c     Open the file and assign unit number, iunit
 c
       iunit = -1
       call hassign(iunit,fname,ierr)
+      if (iunit.lt.0 .or. ierr.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        write(logmess,*) 'WARNING: file not written: '
+     1     // fname(1:icharlnf(fname)) 
+        call writloga('default',0,logmess,1,ierr)
+        ierr = -1
+        return
+      endif
 C
 C     ******************************************************************
 C

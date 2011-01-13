@@ -265,6 +265,11 @@ C
 C
       iunit=-1
       call hassign(iunit,ifile,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        goto 9999
+      endif
+
 C
       write(iunit,9030) nelements, nelements, nnodes, nnodes, 0, 0, 0
  9030 format(7(i10,1x))
@@ -620,6 +625,7 @@ C
       call mmrelprt(isubname,icscode)
       return
       end
+
 *dk,seticr
       subroutine seticr(cmo,cmohex,cmotet5)
 C

@@ -221,7 +221,17 @@ C
 C
       if(nwds .eq. 3 .or. nwds .eq. 4 .or. nwds .eq. 5) then
         call hassign (iunit_out, cmsgin(2), ierror)
+        if (iunit_out.lt.0 .or. ierror.lt.0) then
+          call x3d_error(isubname,'out hassign bad file unit')
+          goto 9999
+        endif
+
         call hassign (iunit_in, cmsgin(3), ierror)
+        if (iunit_in.lt.0 .or. ierror.lt.0) then
+          call x3d_error(isubname,'in  hassign bad file unit')
+          goto 9999
+        endif
+
         if (nwds .eq. 4 .or. nwds .eq. 5) then
           z_value = xmsgin(4)
         else
@@ -385,13 +395,16 @@ c   write connectivity
       end do
  
 c deallocate memory
+
+ 9999 continue
+
       call mmrelblk ('mat_nums',isubname,ipmat_nums,icscode)
       call mmrelblk ('x_value',isubname,ipx_value,icscode)
       call mmrelblk ('y_value',isubname,ipy_value,icscode)
       call mmrelblk ('line_end',isubname,ipline_end, icscode)
  
-      close (iunit_out)
-      close (iunit_in)
+      if (iunit_out.gt.0) close (iunit_out)
+      if (iunit_in.gt.0) close (iunit_in)
  
       return
       end

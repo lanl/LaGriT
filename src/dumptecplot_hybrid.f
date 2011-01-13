@@ -61,11 +61,20 @@ CPVCS       Rev 1.0   28 Nov 2006 09:57:40   gable
 CPVCS    Initial revision.
 C
 C ######################################################################
+C
       implicit none
       include "local_element.h"
+
+C args
+      character*132 logmess
+      character ifile*(*), ifileini*(*)
+      character iotype*(*)
 C
+C     include "tecio.inc"
 C     The following are dummy functions since the tecio.a library
 C     is not incorporated into LaGriT.
+C     Take out the five function definitions below and uncomment
+C     include for tecio.inc library
 C
       integer*4 function TECDAT100
       integer*4 function TECNOD100
@@ -73,16 +82,6 @@ C
       integer*4 function TECEND100
       integer*4 function TECZNE100
 C
-C     Take out the five function definitions above and uncomment
-C     the line below to use the tecio.a library.
-C
-c      include "tecio.inc"
-C
-      character*132 logmess
-      character ifile*(*), ifileini*(*)
-C
-      character*32 cmo
-      character iotype*(*)
       pointer (ipimt1, imt1)
       pointer (ipitp1, itp1)
       pointer (ipicr1, icr1)
@@ -113,23 +112,20 @@ C
       REAL*8 xcmo_pointer(*)
       pointer (iadr,dat)
       real*8 dat(*)
-C
-      integer  nmcmoatt
-      pointer (ipcnames,cnames)
-      pointer (ipranks,iranks)
-      pointer (ipidx,idx)
-      pointer (ipidxe,idxe)
-      pointer (ipoffs,ioffs)
-      pointer (ipoffse,ioffse)
-      pointer (iplengths,clengths)
-      pointer (ipioflags,cioflags)
-      character*32 cnames(*),clengths(*),cioflags(*),filename
-      integer iranks(*),ioffs(*),ioffse(*),idx(*),idxe(*)
-C
-      character*32 isubname
-      character*32  ctype , cinterp, crank,cpers
+      pointer (iptemp,temp)
+      real*8 temp(*)
+
       real*8 a,b,c,time,dthydro,cutoff,maxval
       real*8 cinterpolate
+C
+      integer  nmcmoatt
+      pointer (ipranks,iranks)
+      pointer (ipoffs,ioffs)
+      pointer (ipoffse,ioffse)
+      pointer (ipidx,idx)
+      pointer (ipidxe,idxe)
+      integer iranks(*),ioffs(*),ioffse(*),idx(*),idxe(*)
+C
       integer icharlnf
       integer ilen,ityp,ierr,ivoronoi2d,ivoronoi3d,mmlength,
      *  ierror_return,irank,lent,nvalues1,length,len2,i8,i7,
@@ -140,13 +136,20 @@ C
      *  lvaluese,izero,k,irowlen,irowlene, ncolumn_max
       integer nnodes_io,nelements_io,nvalues_node,nvalues_elem
 C
-      character*132 vchlist
-      character*132 var
-      real*8 temp(*)
-      pointer (iptemp,temp)
-
       integer*4 TECINI100, TECZNE100, TECDAT100, TECNOD100, TECEND100
       integer vchoff,lenchar,chstop,q,len
+C
+      pointer (iplengths,clengths)
+      pointer (ipioflags,cioflags)
+      pointer (ipcnames,cnames)
+      character*32 cnames(*),clengths(*),cioflags(*)
+
+      character*32 cmo
+      character*32 isubname, filename
+      character*32  ctype, cinterp, crank,cpers
+      character*132 vchlist
+      character*132 var
+
 C
 C ****************************************************************
 C     TECPLOT RELATED DECLARATIONS
@@ -165,13 +168,13 @@ C ****************************************************************
       pointer(ipNM,NMpyr)
       pointer(ipNM,NMpri)
       pointer(ipNM,NMhex)
-      integer NMlin(2,*)
-      integer NMtri(3,*)
-      integer NMqud(4,*)
-      integer NMtet(4,*)
-      integer NMpyr(8,*)
-      integer NMpri(8,*)
-      integer NMhex(8,*)
+      integer*4 NMlin(2,*)
+      integer*4 NMtri(3,*)
+      integer*4 NMqud(4,*)
+      integer*4 NMtet(4,*)
+      integer*4 NMpyr(8,*)
+      integer*4 NMpri(8,*)
+      integer*4 NMhex(8,*)
       pointer(iptempxic,tempxic)
       pointer(iptempyic,tempyic)
       pointer(iptempzic,tempzic)
@@ -201,7 +204,8 @@ C
       data maxval/1.e+30/
       data izero/0/
 C ######################################################################
-C
+C begin
+
       isubname='dumptecplot_hybrid'
 C     SYNTAX: dump/tecplot/filename/cmoname/binary|ascii
 C
@@ -352,6 +356,11 @@ C #################### ASCII HEADER #######################
       if(idumptype.eq.0)then
          iunit=-1
          call hassign(iunit,filename(1:len),ierror)
+         if (iunit.lt.0 .or. ierror.lt.0) then
+          call x3d_error(isubname,'hassign bad file unit')
+          goto 9999
+         endif
+
          write(iunit,*) 'TITLE = "LaGriT GENERATED GRID"'
          var(1:1)='"'
          write(iunit,*)'VARIABLES = '
@@ -1433,6 +1442,7 @@ C
 C
       return
       end
+
       function TECDAT100(a01,a02,a03)
       implicit none
       integer*4 TECDAT100
@@ -1446,6 +1456,7 @@ C
       TECDAT100 = 0
       return
       end
+
       function TECNOD100(a01)
       implicit none
       integer*4 TECNOD100
@@ -1459,6 +1470,7 @@ C
       TECNOD100 = 0
       return
       end
+
       function TECINI100(a01,a02,a03,a04,a05,a06)
       implicit none
       integer*4 TECINI100
@@ -1472,6 +1484,7 @@ C
       TECINI100 = 0
       return
       end
+
       function TECEND100()
       implicit none
       integer*4 TECEND100
@@ -1484,6 +1497,7 @@ C
       TECEND100 = 0
       return
       end
+
       function TECZNE100(a01,a02,a03,a04,a05,a06,a07,
      1                   a08,a09,a10,a11,a12,a13,a14)
       implicit none
@@ -1496,6 +1510,7 @@ C
       call writloga('default',0,
      1 'for instructions on how to enable binary IO.',0,ierrw)
       TECZNE100 = 0
+
       return
       end
       

@@ -161,7 +161,15 @@ C
       if_invert_hit = 0 
 C
       iunit=-1
-      call hassign(iunit,ifile,ierror)
+      call hassign(iunit,ifile,ierror) 
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        write(logmess,*) 'WARNING: file not written: '
+     1     // ifile(1:icharlnf(ifile))
+        call writloga('default',0,logmess,1,ierr)
+        ierror = -1
+        goto 9999
+      endif
 C
       read(iunit,'(a80)') iline
       if(iline(1:14).ne.'gmvinput ascii') then
@@ -1108,6 +1116,14 @@ c
 C
       iunit=-1
       call hassign(iunit,ifile,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        write(logmess,*) 'WARNING: file not written: '
+     1     // ifile(1:icharlnf(ifile))
+        call writloga('default',0,logmess,1,ierr)
+        ierror = -1
+        goto 9999
+      endif
 C
       read(iunit,'(a80)') iline
       if(iline(1:14).ne.'gmvinput ascii') then

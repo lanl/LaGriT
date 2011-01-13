@@ -82,12 +82,15 @@ C
       integer nwds, imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*32 cmsgin(nwds)
+      character*132 logmess
 C
       integer ireorder
       data ireorder / 1 /
       integer icolortet
       data icolortet / 0 /
-C
+
+CCCCCCCCCCCC
+C begin
       isubname='partition'
 C
       if(nwds.le.2) then
@@ -347,6 +350,13 @@ C    *               perm,invperm)
          call mmgetblk('zface',isubname,ipzface,length,2,icscode)
          iunit=-1
          call hassign(iunit,'gmvmatrix_before',icscode)
+         if (iunit.lt.0 .or. icscode.lt.0) then
+           call x3d_error(isubname,'hassign bad file unit')
+           write(logmess,*)
+     1     'WARNING: file gmvmatrix_before not written' 
+           call writloga('default',0,logmess,0,icscode)
+         else
+
          write(iunit,"('gmvinput ascii')")
          write(iunit,"('nodes   ',i10)") 2*nface
          do i=1,nface
@@ -369,6 +379,8 @@ C    *               perm,invperm)
          call mmrelblk('yface',isubname,ipyface,icscode)
          call mmrelblk('zface',isubname,ipzface,icscode)
          call mmrelblk('iface',isubname,ipiface,icscode)
+
+         endif
       else
          icount=0
          xadj(1)=1
@@ -586,8 +598,17 @@ C
             call mmgetblk('xface',isubname,ipxface,length,2,icscode)
             call mmgetblk('yface',isubname,ipyface,length,2,icscode)
             call mmgetblk('zface',isubname,ipzface,length,2,icscode)
+
             iunit=-1
             call hassign(iunit,'gmvmatrix_after',icscode)
+            if (iunit.lt.0 .or. icscode.lt.0) then
+             call x3d_error(isubname,'hassign bad file unit')
+             write(logmess,*)
+     1       'WARNING: file gmvmatrix_before not written'
+             call writloga('default',0,logmess,0,icscode)
+
+           else
+
             write(iunit,"('gmvinput ascii')")
             write(iunit,"('nodes   ',i10)") 2*nface
             do i=1,nface
@@ -610,6 +631,7 @@ C
             call mmrelblk('yface',isubname,ipyface,icscode)
             call mmrelblk('zface',isubname,ipzface,icscode)
             call mmrelblk('iface',isubname,ipiface,icscode)
+           endif
          endif
 C
       else

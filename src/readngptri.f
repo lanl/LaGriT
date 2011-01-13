@@ -109,6 +109,11 @@ C
 C
       iunit=-1
       call hassign(iunit,ifile,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+         call x3d_error(isubname,'hassign bad file unit')
+         goto 9999
+      endif
+
 C
       read(iunit,*) ntets, npoints
       nsd=2

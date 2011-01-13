@@ -60,20 +60,33 @@ C
       character ifile*(*)
       character*(*) cmoread
       character*32 partname,cmoin,cmo_name_sb
+      character*32 isubname
       character*(*) iomode
       integer i,iunit,ierror,ierror_return,icscode,len,nmo
 c
 C#######################################################################
-C
+C begin
+
       ierror_return=0
+      isubname = "read_lagrit"
       iunit=-1
       cmoin=cmoread
       if(iomode(1:5).eq.'ascii') then
          call hassign(iunit,ifile,ierror)
+         if (iunit.lt.0 .or. ierror.lt.0) then
+          call x3d_error(isubname,'hassign bad file unit')
+          ierror_return = -1
+          goto 9999
+         endif
       else
          call hassign(iunit,ifile,ierror)
-         close (iunit)
-         open (iunit,file=ifile,form='unformatted')
+         if (iunit.lt.0 .or. ierror.lt.0) then
+          call x3d_error(isubname,'hassign bad file unit')
+          goto 9999
+         else
+          close (iunit)
+          open (iunit,file=ifile,form='unformatted')
+         endif
       endif
 c
 c read and store global variables
@@ -145,6 +158,6 @@ C
  
 c
  9999 continue
-      close(iunit)
+      if (iunit.gt.0) close(iunit)
       return
       end

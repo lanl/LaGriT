@@ -73,11 +73,17 @@ C
       include 'commands_lg.h'
       integer ierror,icscode,nwds,jname,istrt,iend,i,nloop
       integer imsgout(maxcmd_args),msgtype(maxcmd_args),icharlnf,
-     *  len1,len2,j,k,imatch,nremove,ioff
+     *  len1,len2,j,k,imatch,nremove,ioff,iunit
       real*8 xmsgout(maxcmd_args)
       character*32 cmsgout(maxcmd_args)
+      character*32 isubname
 c
+CCCCCCCCCCCCCC
+C begin
+
       ierror=0
+      isubname="control_command_lg"
+
 c  access definitions list
       call mmfindbk('definition',initname,ipdefinition,i,icscode)
 c
@@ -155,9 +161,13 @@ c  expand definitions if found
 c
          nlevels=nlevels+1
          clevels(nlevels)=cmsgout(2)
-         jname=-1
-         call hassign(jname,clevels(nlevels),icscode)
-         jlevels(nlevels)=jname
+         iunit=-1
+         call hassign(iunit,clevels(nlevels),icscode)
+         if (iunit.lt.0 .or. icscode.lt.0) then
+         call x3d_error(isubname,'hassign bad file unit')
+         endif
+
+         jlevels(nlevels)=iunit
          go to 100
 c  handle define commands
       elseif(cmsgout(1)(1:6).eq.'define') then

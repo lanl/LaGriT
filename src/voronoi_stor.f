@@ -1658,6 +1658,11 @@ C
       ifilename=ifile(1:icharlnf(ifile)) // '_vor.stor'
       iunit=-1
       call hassign(iunit,ifilename,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+         call x3d_error(isubname,'hassign bad file unit')
+         goto 9999
+      endif
+
 C
 C     Get a time stamp for the file header
 C
@@ -1809,7 +1814,7 @@ c
       write(iunit,9000) (-zamat(i),i=1,ncoefs)
       write(iunit,9000) (- amat(i),i=1,ncoefs)
  
-      close(iunit)
+      if (iunit.gt.0) close(iunit)
 C
       call mmrelblk('itemp',isubname,ipitemp,icscode)
 C
@@ -1920,6 +1925,11 @@ C
       ifilename=ifile(1:icharlnf(ifile)) // '_vor.gmv'
       iunit=-1
       call hassign(iunit,ifilename,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+         call x3d_error(isubname,'hassign bad file unit')
+         goto 9999
+      endif
+
       write(iunit,"('gmvinput ascii')")
       write(iunit,"('nodes   ',i10)") ivorcoord
       write(iunit,"(10(1pe14.5e3))") (xvorg(i),i=1,ivorcoord)
@@ -3355,6 +3365,7 @@ ccht
  9999 continue
       return
       end
+
       subroutine hgather(n,a,ia,b,ib,index,iindex)
 C
 C#######################################################################

@@ -228,6 +228,11 @@ C
          ifilename=ifileini(1:icharlnf(ifileini))
          iread=-1
          call hassign(iread,ifilename,ierror)
+         if (iread.lt.0 .or. ierror.lt.0) then
+           call x3d_error(isubname,'hassign bad file unit')
+           goto 9999
+         endif
+
          read(iread,*)
          read(iread,*)
          read(iread,*) days
@@ -251,6 +256,10 @@ C
             ifilename=ifile(1:icharlnf(ifile)) // '.ini'
             iunit=-1
             call hassign(iunit,ifilename,ierror)
+            if (iunit.lt.0 .or. ierror.lt.0) then
+              call x3d_error(isubname,'hassign bad file unit')
+              goto 9999
+            endif
 C
             write(logmess,'(a,a,a,a)') 'Write FEHMN.ini file: ',
      *                                 ifilename(1:icharlnf(ifilename)),
@@ -261,6 +270,11 @@ C
             ifilename=ifileini(1:icharlnf(ifileini))
             iread=-1
             call hassign(iread,ifilename,ierror)
+            if (iread.lt.0 .or. ierror.lt.0) then
+              call x3d_error(isubname,'hassign bad file unit')
+              goto 9999
+            endif
+
 C
             read(iread,'(a132)') iline
                write(iunit,'(a)') iline(1:icharlnb(iline))
@@ -328,6 +342,11 @@ C
       ifilename=ifile(1:icharlnf(ifile)) // '.fehmn'
       iunit=-1
       call hassign(iunit,ifilename,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        goto 9999
+      endif
+
 C
       write(iunit,'(a4)') 'coor'
       write(iunit,'(i8)') nnodes
@@ -382,8 +401,11 @@ C
  9075 format(a4)
       close(iunit)
 C
+ 9999 continue
+
       return
       end
+
       subroutine write_element_element
      1          (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
 C
@@ -469,6 +491,11 @@ C
       file_name = cmsgin(3)
       lu_number = -1
       call hassign(lu_number, file_name, ibuffer)
+      if (lu_number.lt.0 .or. ibuffer.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        goto 9999
+      endif
+
  
 C     *****************************************************************
 C     Ensure that the incoming MO name is a valid one, and if it is
@@ -549,9 +576,14 @@ c              jf=jtet1(jtetoff(it)+i)-nef*(jt-1)
       enddo
  
       close(lu_number)
+
+ 9999 continue
+
       call mmrelprt(isubname,icscode)
       return
       end
+
+
       subroutine write_element_node_neigh
      1          (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
 C
@@ -701,6 +733,10 @@ C
       file_name = cmsgin(3)
       lu_number = -1
       call hassign(lu_number, file_name, ibuffer)
+      if (lu_number.lt.0 .or. ibuffer.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        goto 9999
+      endif
       endif
  
 C     *****************************************************************
@@ -800,7 +836,9 @@ c ipielts is the pointer (integer address) pointing to the arrays of elements
         write(logmess,'(a,i10)') 
      1   'Node number                             node_max =', node_max
         call writloga('default',0,logmess,0,ierror)
- 
+
+ 9999 continue 
       call mmrelprt(isubname,icscode)
       return
       end
+C end file dump_fehm_geom.f

@@ -192,50 +192,59 @@ c     top,bottom,right,back,left
 c
       integer intpairhex(2,12),jpt(10)
  
-      integer itetface0(nfacetet), itetface1(4,nfacetet)
-c     top,back,left,right
-      integer itriface0(nfacetri), itriface1(3,nfacetri)
-C
-c     top,back,left,right
-C
-      integer ilinface0(nfacelin), ilinface1(4,nfacelin)
 C     top,back,left,right
+      integer itetface0(nfacetet), itetface1(4,nfacetet)
+      integer itriface0(nfacetri), itriface1(3,nfacetri)
+      integer ilinface0(nfacelin), ilinface1(4,nfacelin)
       integer intpairtet(2,6)
 c
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
+      pointer (ipvels,vels)
+      real*8 vels(3,*)
+
       pointer (ipimt1, imt1)
       pointer (ipitp1, itp1)
       pointer (ipicr1, icr1)
       pointer (ipisn1, isn1)
       pointer (ipisetwd, isetwd)
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
+      integer imt1(*), itp1(*),isetwd(*),
+     *        icr1(*), isn1(*)
+
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
-      pointer (ipvels,vels)
-      real*8 vels(3,*)
-      integer jt,jf,j1,j2,j3,iclr,i2,jtoff,ie,nmats,nmatcolor,imatcolor,
-     *  lenout,maxclrelement,maxicr1,maxitp1,jgmvtype,maxclrpoint,
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*), itet1(*), jtet1(*)
+
+      integer*4 imatcolor,nmats,iclr,iclrv,iclrm,ihcycle
+      integer*4 igmvtype,jgmvtype,nverts4,legalnelm4
+
+      integer jt,jf,j1,j2,j3,i2,jtoff,ie
+     *  lenout,maxclrelement,maxicr1,maxitp1,maxclrpoint,
      *  ics,mmlength,ierror_return,irank,lent,j,iflag,len1,itoff,
      *  i1,it,i,ierr
       integer imt_exist, itp_exist, icr_exist, isn_exist
-      character*132 logmess
       integer icharlnf
-      integer j4,ity,n,k,ihcycle,iclrv,iclrm,iflagkid,i4,ivoronoi2d,
-     *  index,icmotype,itype,lout
+      integer j4,ity,n,k,iflagkid,i4,ivoronoi2d,
+     *  index,icmotype,itype,lout,ftype
+
       real*8 xa,ya,za,xb,yb,zb,xd,yd,zd,xn1,yn1,zn1,
      *  xn,yn,zn,rn,dotb3,dot3,rb3,ql,xl,yl,zl,ds1,ds2,ds3,x12,y12,z12,
      *  x13,y13,z13,x23,y23,z23,x1,y1,z1,x2,y2,z2,x3,y3,z3,
      *  xm,ym,zm,xv,yv,zv,xfac,a,b,c,d,e,f,epsilonl,
      * distmax,dist,disttest
-      integer i3,igmvtype,ier,nverts,iunit,ityp,ilen,nef_cmo,nsdgeom,
+
+      integer i3,ie,ier,nverts,iunit,ityp,ilen,nef_cmo,nsdgeom,
      *  mbndry,nelements,ierror,length,nnodes,icscode,
      *  icskid,idumptype,iflag_all,ipolydata,ivoronoi3d,legalnelm,
-     *  iout,nmcmoatt
+     *  iout,nmcmoatt,lenout,nmatcolor
+
       real*8 time,crosx,crosz,crosy,distsqd,distsqc,distsqb,distsqa,
      *  xcen,ycen,zcen,x4,y4,z4,x34,y34,z34,x41,y41,z41,x14,y14,z14,
      *  x24,y24,z24,ds11,ds21,ds31,xv1,yv1,zv1,ds12,ds22,ds32,xv2,
@@ -245,12 +254,6 @@ c
      *  x234,y234,z234,x143,y143,z143,voltot,voltet,
      *  ds14,ds24,ds34,xv4,yv4,zv4,xl1,yl1,zl1,xl2,yl2,zl2,xl3,yl3,zl3,
      *  xl4,yl4,zl4,ax1,ay1,az1,ax2,ay2,az2,ax3,ay3,az3,ax4,ay4,az4
-      real*8 xic(*), yic(*), zic(*)
-      integer imt1(*), itp1(*),isetwd(*),
-     *        icr1(*), isn1(*)
-      integer itetclr(*), itettyp(*),
-     *        itetoff(*), jtetoff(*)
-      integer itet1(*), jtet1(*)
 C
       pointer (ipitetkid, itetkid)
       integer itetkid(*)
@@ -259,8 +262,9 @@ C
       real*8 xptemp
       pointer (ipxtemp, xtemp(*))
       real*8 xtemp
+
       pointer (ipitemp, itemp(*))
-      integer itemp
+      integer*4 itemp
       pointer (ipireal1, ireal1(*))
       integer ireal1
 C
@@ -283,6 +287,7 @@ C
 C
       character*80 cgmvfile
       character*9 cgmvtype
+      character*132 logmess
       integer nodeids(100)
       real*4 xicpoly(100), yicpoly(100), zicpoly(100)
 C
@@ -296,16 +301,20 @@ C
       real*4 u(*), v(*), w(*)
       real*4 probtime
 C
+      integer i_invert1, i_invert2, i_invert3, i_invert4,
+     1        if_invert_ele,if_lagrit
+
       character*8 string8
       character*24 string, fdate
       character*32 string32
-      integer i_invert1, i_invert2, i_invert3, i_invert4,
-     1        if_invert_ele,if_lagrit
 C 
       real*8 huge4, value, safe8to4
+      integer ihuge4, ivalue, isafe4
       parameter(huge4=1.d20)
+      parameter(ihuge4=2000000000)
  
       safe8to4(value) = sign(min(huge4,abs(value)),value)
+      isafe4(ivalue) = sign(min(ihuge4,abs(ivalue)),ivalue)
 C
       data iprismface0 / 3, 3, 4, 4, 4 /
       data iprismface1 / 1, 2, 3, 0,
@@ -347,11 +356,11 @@ c
       crosx(a,b,c,d,e,f)=b*f-c*e
       crosy(a,b,c,d,e,f)=c*d-a*f
       crosz(a,b,c,d,e,f)=a*e-b*d
+C     ******************************************************************
+C begin
 c
       isubname="gmvdmp"
- 
       icskid=1
-C
 C
  
 C     ******************************************************************
@@ -465,6 +474,11 @@ c     Hardwire turning off output of -def- field.
       call mmgetblk("itemp",isubname,ipitemp,length,2,icscode)
       length=nnodes
       call mmgetblk("ireal1",isubname,ipireal1,length,2,icscode)
+      if (icscode .ne. 0) then
+        call x3d_error(isubname,'can not mmgetblk temp arrays')
+        goto 9999
+      endif
+
 C
 c     check that itp1 exists, else may get segmentation fault 
       if (itp_exist.gt.0) then 
@@ -474,6 +488,10 @@ c     check that itp1 exists, else may get segmentation fault
       if(idumptype.eq.0) then
          iunit=-1
          call hassign(iunit,ifile,ierror)
+         if (iunit.lt.0 .or. ierror.lt.0) then
+           call x3d_error(isubname,'hassign bad file unit')
+           goto 9999
+         endif
          write(iunit,"('gmvinput ascii')")
          write(iunit,"('codename LaGriT')")
 C
@@ -497,12 +515,21 @@ C
          call mmgetblk('xgmv',isubname,ipxgmv,length,1,icscode)
          call mmgetblk('ygmv',isubname,ipygmv,length,1,icscode)
          call mmgetblk('zgmv',isubname,ipzgmv,length,1,icscode)
+         if (icscode .ne. 0) then
+           call x3d_error(isubname,'can not mmgetblk xyz arrays')
+           goto 9999
+         endif
+
          do i1=1,nnodes
             xgmv(i1)=safe8to4(xic(i1))
             ygmv(i1)=safe8to4(yic(i1))
             zgmv(i1)=safe8to4(zic(i1))
          enddo
-         call fgmvwritenodedata(nnodes, xgmv, ygmv, zgmv)
+         nverts4=isafe4(nnodes)
+         call fgmvwritenodedata(nverts4, xgmv, ygmv, zgmv)
+         if (nverts4 .eq. 0) then
+           call x3d_error(isubname,'can not write node data')
+         endif
          call mmrelblk('xgmv',isubname,ipxgmv,icscode)
          call mmrelblk('ygmv',isubname,ipygmv,icscode)
          call mmrelblk('zgmv',isubname,ipzgmv,icscode)
@@ -519,7 +546,8 @@ C
       if(idumptype.eq.0) then
          write(iunit,"('cells   ',i10)") legalnelm
       else
-	call fgmvwritecellheader(legalnelm)
+        legalnelm4=isafe4(legalnelm)
+	call fgmvwritecellheader(legalnelm4)
       endif
       if(legalnelm.gt.0) then
          do it=1,nelements
@@ -651,15 +679,22 @@ C
                     write(iunit,"(a8,' ',i4,10i10)")
      *                cgmvtype,nverts,(nodeids(i),i=1,nverts)
                   else
-                      write(logmess,'(a)')'ERROR: dumpgmv_hybrid '
-                      call writloga('default',0,logmess,0,ics)
-                      write(logmess,'(a)')'ERROR: ascii format i10'
-                      write(logmess,'(a)')' nnodes gt 9999999999'
-                      call writloga('default',0,logmess,0,ics)
-                      return
+                    write(logmess,'(a)')'ERROR: dumpgmv_hybrid '
+                    call writloga('default',0,logmess,0,ics)
+                    write(logmess,'(a)')'ERROR: ascii format i10'
+               write(logmess,'(a)')' nnodes gt 2147483647 max value'
+                    call writloga('default',0,logmess,0,ics)
+                    return
                   endif
                else
-                  call fgmvwritecelldata(cgmvtype,nverts,nodeids)
+                  do i=1,nverts
+                     itemp(i)=isafe4(nodeids(i))
+                  enddo
+                  nverts4=isafe4(nverts)
+                  call fgmvwritecelldata(cgmvtype,nverts4,itemp)
+                  if (nverts4.eq.0) then
+               call x3d_error(isubname,'can not write cell data.')
+                  endif
                endif
             endif
          enddo
@@ -754,7 +789,7 @@ C
      *                       ierror_return)
 C
                if(ierror_return.ne.0) then
-                  call x3d_error(isubname,'mmfindbk')
+               call x3d_error(isubname,'mmfindbk attribute')
                else
                   call mmgetblk('xvar',isubname,
      *                          ipxvar,mmlength,2,ics)
@@ -1187,7 +1222,8 @@ C
                xicpoly(nverts)=safe8to4(xic(i2))
                yicpoly(nverts)=safe8to4(yic(i2))
                zicpoly(nverts)=safe8to4(zic(i2))
-               call fgmvwritepolygonsdata(nverts,
+               nverts4=isafe4(nverts)
+               call fgmvwritepolygonsdata(nverts4,
      *                                     iclr,
      *                                     xicpoly,
      *                                     yicpoly,
@@ -1299,7 +1335,8 @@ C
                      xicpoly(nverts)=safe8to4(xic(j2))
                      yicpoly(nverts)=safe8to4(yic(j2))
                      zicpoly(nverts)=safe8to4(zic(j2))
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -1336,7 +1373,8 @@ C
                xicpoly(nverts)=safe8to4(xic(i3))
                yicpoly(nverts)=safe8to4(yic(i3))
                zicpoly(nverts)=safe8to4(zic(i3))
-               call fgmvwritepolygonsdata(nverts,
+               nverts4=isafe4(nverts)
+               call fgmvwritepolygonsdata(nverts4,
      *                                     iclr,
      *                                     xicpoly,
      *                                     yicpoly,
@@ -1433,7 +1471,8 @@ C
                      xicpoly(nverts)=safe8to4(x12)
                      yicpoly(nverts)=safe8to4(y12)
                      zicpoly(nverts)=safe8to4(z12)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclrv,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -1456,7 +1495,8 @@ C
                      xicpoly(nverts)=safe8to4(x13)
                      yicpoly(nverts)=safe8to4(y13)
                      zicpoly(nverts)=safe8to4(z13)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclrv,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -1479,7 +1519,8 @@ C
                      xicpoly(nverts)=safe8to4(x23)
                      yicpoly(nverts)=safe8to4(y23)
                      zicpoly(nverts)=safe8to4(z23)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclrv,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -1505,7 +1546,8 @@ C
                      xicpoly(nverts)=safe8to4(x12)
                      yicpoly(nverts)=safe8to4(y12)
                      zicpoly(nverts)=safe8to4(z12)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclrm,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -1528,7 +1570,8 @@ C
                      xicpoly(nverts)=safe8to4(x13)
                      yicpoly(nverts)=safe8to4(y13)
                      zicpoly(nverts)=safe8to4(z13)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclrm,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -1551,7 +1594,8 @@ C
                      xicpoly(nverts)=safe8to4(x23)
                      yicpoly(nverts)=safe8to4(y23)
                      zicpoly(nverts)=safe8to4(z23)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclrm,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -1663,7 +1707,8 @@ C
                   xicpoly(nverts)=safe8to4(xic(i4))
                   yicpoly(nverts)=safe8to4(yic(i4))
                   zicpoly(nverts)=safe8to4(zic(i4))
-                  call fgmvwritepolygonsdata(nverts,
+                  nverts4=isafe4(nverts)
+                  call fgmvwritepolygonsdata(nverts4,
      *                                        iclr,
      *                                        xicpoly,
      *                                        yicpoly,
@@ -1709,7 +1754,8 @@ C
                         xicpoly(nverts)=safe8to4(xic(j2))
                         yicpoly(nverts)=safe8to4(yic(j2))
                         zicpoly(nverts)=safe8to4(zic(j2))
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclr,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -1777,7 +1823,8 @@ C
                         xicpoly(nverts)=safe8to4(x12)
                         yicpoly(nverts)=safe8to4(y12)
                         zicpoly(nverts)=safe8to4(z12)
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclrm,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -1800,7 +1847,8 @@ C
                         xicpoly(nverts)=safe8to4(x23)
                         yicpoly(nverts)=safe8to4(y23)
                         zicpoly(nverts)=safe8to4(z23)
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclrm,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -1823,7 +1871,8 @@ C
                         xicpoly(nverts)=safe8to4(x34)
                         yicpoly(nverts)=safe8to4(y34)
                         zicpoly(nverts)=safe8to4(z34)
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclrm,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -1846,7 +1895,8 @@ C
                         xicpoly(nverts)=safe8to4(x41)
                         yicpoly(nverts)=safe8to4(y41)
                         zicpoly(nverts)=safe8to4(z41)
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclrm,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -1985,7 +2035,8 @@ C
                      xicpoly(nverts)=safe8to4(xic(j3))
                      yicpoly(nverts)=safe8to4(yic(j3))
                      zicpoly(nverts)=safe8to4(zic(j3))
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2280,7 +2331,8 @@ C
                      xicpoly(nverts)=safe8to4(xv4)
                      yicpoly(nverts)=safe8to4(yv4)
                      zicpoly(nverts)=safe8to4(zv4)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2301,7 +2353,8 @@ C
                      xicpoly(nverts)=safe8to4(xv2)
                      yicpoly(nverts)=safe8to4(yv2)
                      zicpoly(nverts)=safe8to4(zv2)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2322,7 +2375,8 @@ C
                      xicpoly(nverts)=safe8to4(xv3)
                      yicpoly(nverts)=safe8to4(yv3)
                      zicpoly(nverts)=safe8to4(zv3)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2343,7 +2397,8 @@ C
                      xicpoly(nverts)=safe8to4(xv4)
                      yicpoly(nverts)=safe8to4(yv4)
                      zicpoly(nverts)=safe8to4(zv4)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2364,7 +2419,8 @@ C
                      xicpoly(nverts)=safe8to4(xv1)
                      yicpoly(nverts)=safe8to4(yv1)
                      zicpoly(nverts)=safe8to4(zv1)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2385,7 +2441,8 @@ C
                      xicpoly(nverts)=safe8to4(xv2)
                      yicpoly(nverts)=safe8to4(yv2)
                      zicpoly(nverts)=safe8to4(zv2)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2452,7 +2509,8 @@ C
                      xicpoly(nverts)=safe8to4(xv4)
                      yicpoly(nverts)=safe8to4(yv4)
                      zicpoly(nverts)=safe8to4(zv4)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2473,7 +2531,8 @@ C
                      xicpoly(nverts)=safe8to4(xv2)
                      yicpoly(nverts)=safe8to4(yv2)
                      zicpoly(nverts)=safe8to4(zv2)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2494,7 +2553,8 @@ C
                      xicpoly(nverts)=safe8to4(xv3)
                      yicpoly(nverts)=safe8to4(yv3)
                      zicpoly(nverts)=safe8to4(zv3)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2515,7 +2575,8 @@ C
                      xicpoly(nverts)=safe8to4(xv4)
                      yicpoly(nverts)=safe8to4(yv4)
                      zicpoly(nverts)=safe8to4(zv4)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2536,7 +2597,8 @@ C
                      xicpoly(nverts)=safe8to4(xv1)
                      yicpoly(nverts)=safe8to4(yv1)
                      zicpoly(nverts)=safe8to4(zv1)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2557,7 +2619,8 @@ C
                      xicpoly(nverts)=safe8to4(xv2)
                      yicpoly(nverts)=safe8to4(yv2)
                      zicpoly(nverts)=safe8to4(zv2)
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -2650,7 +2713,8 @@ C
                         xicpoly(nverts)=safe8to4(x12)
                         yicpoly(nverts)=safe8to4(y12)
                         zicpoly(nverts)=safe8to4(z12)
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclrm,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -2674,7 +2738,8 @@ C
                         xicpoly(nverts)=safe8to4(x13)
                         yicpoly(nverts)=safe8to4(y13)
                         zicpoly(nverts)=safe8to4(z13)
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclrm,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -2698,7 +2763,8 @@ C
                         xicpoly(nverts)=safe8to4(x23)
                         yicpoly(nverts)=safe8to4(y23)
                         zicpoly(nverts)=safe8to4(z23)
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclrm,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -2725,7 +2791,8 @@ C
                         xicpoly(nverts)=safe8to4(x12)
                         yicpoly(nverts)=safe8to4(y12)
                         zicpoly(nverts)=safe8to4(z12)
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclrm,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -2749,7 +2816,8 @@ C
                         xicpoly(nverts)=safe8to4(x13)
                         yicpoly(nverts)=safe8to4(y13)
                         zicpoly(nverts)=safe8to4(z13)
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclrm,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -2773,7 +2841,8 @@ C
                         xicpoly(nverts)=safe8to4(x23)
                         yicpoly(nverts)=safe8to4(y23)
                         zicpoly(nverts)=safe8to4(z23)
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclrm,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -2896,7 +2965,8 @@ C
                         xicpoly(nverts)=safe8to4(xic(j4))
                         yicpoly(nverts)=safe8to4(yic(j4))
                         zicpoly(nverts)=safe8to4(zic(j4))
-                        call fgmvwritepolygonsdata(nverts,
+                        nverts4=isafe4(nverts)
+                        call fgmvwritepolygonsdata(nverts4,
      *                                              iclr,
      *                                              xicpoly,
      *                                              yicpoly,
@@ -3002,7 +3072,8 @@ C
                         yicpoly(k)=safe8to4(yic(jpt(k)))
                         zicpoly(k)=safe8to4(zic(jpt(k)))
                      enddo
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -3108,7 +3179,8 @@ C
                         yicpoly(k)=safe8to4(yic(jpt(k)))
                         zicpoly(k)=safe8to4(zic(jpt(k)))
                      enddo
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -3219,7 +3291,8 @@ c hope same as pyr,pri works for hybrid: need re "polygons" being written
                         yicpoly(k)=safe8to4(yic(jpt(k)))
                         zicpoly(k)=safe8to4(zic(jpt(k)))
                      enddo
-                     call fgmvwritepolygonsdata(nverts,
+                     nverts4=isafe4(nverts)
+                     call fgmvwritepolygonsdata(nverts4,
      *                                           iclr,
      *                                           xicpoly,
      *                                           yicpoly,
@@ -3256,23 +3329,40 @@ c hope same as pyr,pri works for hybrid: need re "polygons" being written
             call fgmvwriteprobtime(probtime)
          endif
       endif
+
       if(idumptype.eq.0) then
          write(iunit,"('endgmv')")
+      endif
+
+      goto 9999
+ 9999 continue
+
+C     try to close file even if errors
+      if(idumptype.eq.0) then
          close(iunit)
       else
          call fgmvwriteclosefile()
       endif
-      goto 9999
- 9999 continue
+
       call mmrelprt(isubname,icscode)
       return
       end
+
+C##################################################
       subroutine fdate_2_mmddyy(string8,string)
       character*24 string
       character*8 string8
       character*2 mm, dd, yy
       integer int_string
-      
+
+C     remove stop command
+C     write 00 where date does not function properly
+
+
+C     linux with gfortran 4.5 string appears as
+C      123456789012345678901234
+C      Wed Dec 22 12:38:47 2010
+
 C
 C     Convert month name to month number
 C      
@@ -3300,6 +3390,11 @@ C
          mm = '11'
       elseif(string(5:7) .eq. 'Dec')then
          mm = '12'
+      else
+         print *, 'ERROR: fdate_2_mmddyy'
+         print *, 'Invalid month: ',string(5:7)
+         mm = '00'
+        print *, 'ERROR: Using 00'
       endif
 C
 C     Convert day of the month to dd
@@ -3321,9 +3416,9 @@ C       ERROR
 C
         print *, 'ERROR: fdate_2_mmddyy'
         print *, 'Invalid day, dd'
-        print *, string
-        print *, 'ERROR: fdate_2_mmddyy'
-        stop
+        print *, string(9:10)
+        print *, 'ERROR: Using 00'
+        write(dd(1:2),100)"00"
       endif
 C
 C     Convert year (char 21,22,23,24) to yy
@@ -3343,5 +3438,9 @@ C     Put mm/dd/yy together
 C
       write(string8,200)mm,dd,yy
   200 format(a2,'/',a2,'/',a2)
+
+C      print*,"mm,dd,yy = ",mm,dd,yy
+C      print*,"string8  = ",string8
+
       return
       end

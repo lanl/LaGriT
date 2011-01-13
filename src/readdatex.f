@@ -176,6 +176,15 @@ C
       lenfile=icharlnf(ifile)
       jfile=ifile(1:lenfile) // '.geo'
       call hassign(iunit,jfile,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+         write(logmess,*)
+     1   'WARNING: file not written ' // jfile
+         call writloga('default',0,logmess,0,ierror)
+         ierror = -1
+         goto 9999
+      endif
+
       read(iunit,"(a80)") iword
       read(iunit,"(a80)") iword
       read(iunit,"(a80)") iword
@@ -621,10 +630,18 @@ C******            endif
  9998 close(iunit)
       goto 9999
  9999 continue
-      call cmo_get_name(cmonam,ierror)
-      call cmo_set_info('nnodes',cmonam,npoints,1,1,ier)
-      call cmo_set_info('nelements',cmonam,ntets,1,1,ier)
-      call cmo_set_info('mbndry',cmonam,mbndry,1,1,ier)
+   
+      if (npoints.gt.0) then
+        call cmo_get_name(cmonam,ierror)
+        call cmo_set_info('nnodes',cmonam,npoints,1,1,ier)
+        call cmo_set_info('nelements',cmonam,ntets,1,1,ier)
+        call cmo_set_info('mbndry',cmonam,mbndry,1,1,ier)
+      else
+        write(logmess,*)
+     *  "readdatex error: early exit writing for " // cmonam 
+        call writloga('default',0,logmess,0,ierrw)
+      endif
+
       call mmrelprt(isubname,icscode)
       return
       end

@@ -79,7 +79,7 @@ C
       crosz(a,b,c,d,e,f)=a*e-b*d
 C
 C ######################################################################
-C
+C begin
 C
       isubname="dumpstl"
 C
@@ -130,6 +130,11 @@ C
       title = cmonam(1:icharlnf(cmonam))
       iunit = -1
       call hassign(iunit,ifile,ier)
+      if (iunit.lt.0 .or. ier.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        goto 9999
+      endif
+
       write(iunit,*) "solid ", title
 C
 C    Get node information for each element
@@ -181,8 +186,8 @@ C
       write(iunit,*) "endsolid ", title
 c
       close(iunit)
-C      goto 9999
-C 9999 continue
+
+ 9999 continue
 C
 C      call mmrelprt(isubname,icscode)
 C

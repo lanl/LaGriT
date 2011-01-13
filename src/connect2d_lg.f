@@ -713,7 +713,11 @@ C
          if(idebug.ge.6) then
             iunit=-1
             call hassign(iunit,'nn3dn_dud.inp',ierr)
+            if (iunit.lt.0 .or. ierr.lt.0) then
+            call x3d_error(isubname,'hassign bad file unit')
+            else
             write(iunit,*) nlstptl,0,0,0,0
+            endif
          endif
          do  i=1,nlstptl
             k=lstptl(i)
@@ -728,7 +732,7 @@ C
                call writloga('bat',0,logmess,0,ierr)
             endif
          enddo
-         if(idebug.ge.6) close(iunit)
+         if(idebug.ge.6 .and. iunit.gt.0) close(iunit)
          do  ii=1,nlstptl
             itp1(lstptl(ii))=ifitpdud
          enddo

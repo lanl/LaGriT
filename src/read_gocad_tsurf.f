@@ -158,6 +158,10 @@ C
       iunit=-1
       ifile = ifile(1:icharlnf(ifile))
       call hassign(iunit,ifile,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        goto 9999
+      endif
 C
 c      call dotask('cmo/status; finish',ierror)
       do i=1, 100000000
@@ -341,7 +345,8 @@ c
       call cmo_set_info('nelements',cmoname,n_trgl,1,1,ierror)
       call cmo_newlen(cmoname,ierror)
       call dotask('geniee; finish',ierror)
-      call mmrelprt(isubname,ierror)      
+
+ 9999 call mmrelprt(isubname,ierror)      
       return
       end
       

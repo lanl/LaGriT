@@ -155,8 +155,8 @@ CPVCS    original version
 C
 C#######################################################################
 C
-C     implicit none
-      implicit real*8 (a-h, o-z)
+      implicit none
+C     implicit real*8 (a-h, o-z)
       include 'local_element.h'
 C
 C#######################################################################
@@ -165,10 +165,24 @@ C
 C#######################################################################
 C
       integer nwds, imsgin(nwds), msgtype(nwds), nnwds, icmsg
+     
       REAL*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
 C
+     
+      integer iunit, lunget
+      integer*4 iunit4
+
       integer ierror_return
+
+       integer icscode,ier,ierr,ierror,ierrw,ilen,iopt_elements,
+     * iopt_nurbl, iopt_nurbp, iopt_nurbs, iopt_points, iopt_values,
+     * ipointi,ipointj, ist1,itype,kli,ksi,ksj,len1,lenfile,
+     * nbinx,nbiny,nbinz,ierr1,nen,nef,npoints,nsdgeom,nsdtopo
+
+      real*8 one,two,zero
+
+      integer icharlnf
 C
 C#######################################################################
 C
@@ -215,6 +229,9 @@ C     that you want to support into the arrays.
       integer extindex
       character*128 newcommand
 C
+C#######################################################################
+C begin
+
       filetypes(1) = 'inp'
       fileoptions(1) = 'avs'
       filetypes(2) = 'avs'
@@ -228,7 +245,6 @@ C
       filetypes(6) = 'ts'
       fileoptions(6) = 'gocad'
       numtypes = 6
-C#######################################################################
 C
 C     Define the subroutine name for memory management and errors.
 C
@@ -440,15 +456,26 @@ C
             call writloga('default',1,logmess,0,ierr)
             return
          endif
+
          iunit=-1
          call hassign(iunit,ifile,ierror)
-         read(iunit,'(a32)',err=900) iword
+         if (ierror.lt.0 .or. iunit.lt.0) then
+            call x3d_error(isubname,'hassign bad file unit')
+            write(logmess,*) 'WARNING: file not opened: '
+     &         //ifile(1:lenfile)
+            call writloga('default',1,logmess,0,ierr)
+            return
+         else
+            iunit4 = iunit
+         endif
+
+         read(iunit4,'(a32)',err=900) iword
          goto 901
 900      write(logmess,*) 'GMV read error: empty file'
          call writloga('default',1,logmess,0,ierr)
          return
 901      continue
-         close(iunit)
+         close(iunit4)
          if(iword(1:8).eq.'gmvinput'.and.iword(9:12).eq.'ieee') then
             call readgmv_binary(ifile(1:lenfile),ierror_return)
          else
@@ -494,13 +521,23 @@ C
          endif
          iunit=-1
          call hassign(iunit,ifile,ierror)
-         read(iunit,'(a32)',err=910) iword
+         if (ierror.lt.0 .or. iunit.lt.0) then
+            call x3d_error(isubname,'hassign bad file unit')
+            write(logmess,*) 'WARNING: file not opened: '
+     &         //ifile(1:lenfile)
+            call writloga('default',1,logmess,0,ierr)
+            return
+         else
+           iunit4 = iunit
+         endif
+
+         read(iunit4,'(a32)',err=910) iword
          goto 911
 910      write(logmess,*) 'GMV read error: empty file'
          call writloga('default',1,logmess,0,ierr)
          return
 911      continue
-         close(iunit)
+         close(iunit4)
          if(iword(1:8).eq.'gmvinput'.and.iword(9:12).eq.'ieee') then
             call readgmv_binary(ifile(1:lenfile),ierror_return)
          else
@@ -513,8 +550,8 @@ C     See: http://gocad.ensg.inpl-nancy.fr/IMG/papers/Fileform.fm.html
 C
       elseif(ioption(1:len1).eq.'gocad') then
 C
-         call read_gocad_tsurf(imsgin,xmsgin,cmsgin,msgtyp,nwds,ier)
-         call setsize()
+        call read_gocad_tsurf(imsgin,xmsgin,cmsgin,msgtype,nwds,ier)
+        call setsize()
 C
       elseif(idsb(1:lenidsb).eq.'readavs' .or.
      *       ioption(1:len1).eq.'avs') then
@@ -862,14 +899,16 @@ C     try to get file unit with normal file name (this means it was a
 C     fortran file open)
       iunit=lunget(ifile(1:lenfile))
       if (iunit.ne.-1) then
-         close(iunit)
+         iunit4= iunit
+         close(iunit4)
       else
 C     try to get file unit with filename + F (this means it was a C file
 C     open)
          iunit=lunget(ifile(1:lenfile) // 'F')
-         if (iunit.ne.-1) then
-            close(iunit)
-            call cclose(iunit)
+         iunit4= iunit
+         if (iunit4.ne.-1) then
+            close(iunit4)
+            call cclose(iunit4)
          else
 C
 C           Do Nothing: The file's already closed.

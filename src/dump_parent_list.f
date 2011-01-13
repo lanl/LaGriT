@@ -229,6 +229,11 @@ c
         ifilename=ifile(1:icharlnf(ifile))//'_parent_child.list'
         iunit=-1
         call hassign(iunit,ifilename,ierror)
+        if (iunit.lt.0 .or. ierror.lt.0) then
+          call x3d_error(isubname,'hassign bad file unit')
+          goto 9999
+        endif
+
         write(iunit,310)'mdnode'
 c	Don't invoke elimination of parents
         i_elim = 0
@@ -247,6 +252,8 @@ c       Make the new split control volumes method the default
  
       endif
 c
+
+ 9999 continue
       call mmrelprt(isubname,icscode)
 C     ..................................................................
       return

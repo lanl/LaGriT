@@ -170,6 +170,11 @@ c
       ifilename=ifile(1:icharlnf(ifile)) // '_multi_mat.zone'
       iunit=-1
       call hassign(iunit,ifilename,ierror)
+      if (iunit.lt.0 .or. ierror.lt.0) then
+        call x3d_error(isubname,'hassign bad file unit')
+        goto 9999
+      endif
+
 c
       min_material =  1e9
       max_material = -1e9
@@ -329,6 +334,8 @@ C            itotal = itotal + icount
       enddo
 c
       close(iunit)
+
+ 9999 continue
 c
 c     release memory of work array
 c

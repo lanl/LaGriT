@@ -1,4 +1,5 @@
 *dk,mikematmatbld3d_wrapper
+
       subroutine anothermatbld3d_wrapper
      x           (ifile,io_type,num_area_coef,ifcompress)
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -431,8 +432,20 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 C     Call C functions to do the real work of building the matrix.
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
+      if (idebug.ne.0) then
+      write(logmess,'(a)') "AMatbld3d_stor: initialize3ddiffusionmat"
+      call writloga('default',1,logmess,0,icscode)
+      write(logmess,*) "  neq and ntets: ",neq,ntets
+      call writloga('default',0,logmess,0,icscode)
+      endif
+
       call initialize3ddiffusionmat(num_area_coef,
      x     ifcompress, neq, xic(1), yic(1), zic(1),  ntets, itet(1))
+
+      if (idebug.ne.0) then
+      write(logmess,'(a)') "AMatbld3d_stor: check incident tets"
+      call writloga('default',1,logmess,0,icscode)
+      endif
 
 C     For each each edge of every tet, decide if it has been processed.
 C     If not, get all incident tets and compute the entry.
@@ -454,7 +467,14 @@ C     If not, get all incident tets and compute the entry.
          enddo
       enddo
       call finalscalar3ddiffusionmat()
- 
+
+      if (idebug.ne.0) then
+      write(logmess,'(a)') "AMatbld3d_stor: print coeff information"
+      call writloga('default',1,logmess,0,icscode)
+      write(logmess,*)"mbndry and num_area_coef ",mbndry,num_area_coef
+      call writloga('default',0,logmess,0,icscode)
+      endif
+
  
 cccccccccccccccccccccccccccccc
 c print negative coefficients.

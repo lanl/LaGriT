@@ -148,6 +148,10 @@ C     gmv has header = gmvinput ascii
 
       iunit=-1
       call hassign(iunit,fname,ics)
+      if (iunit.lt.0 .or. ics.lt.0) then
+       call x3d_error("readfile",'hassign bad file unit')
+      endif
+
       read(iunit,'(a132)') cline
       print*,'cline: ',cline(1:8)
       if (cline(1:8).eq.'gmvinput') then

@@ -465,6 +465,11 @@ C
 C
             iunit=-1
             call hassign(iunit,cmsgin(5),ierror)
+            if (iunit.lt.0 .or. ierror.lt.0) then
+              call x3d_error(isubname,'hassign bad file unit')
+              goto 9999
+            endif
+
             read(iunit,*) nx,ny
 C
 C           *************************************************************
