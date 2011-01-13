@@ -338,7 +338,7 @@ module ColoredGraphModule
     
     subroutine print_node (node)
     
-      type(CGNode), intent(in) :: node
+      type(CGNode), intent(inout) :: node
       
       type(CGNodePointerList) :: nbrs
       
@@ -505,7 +505,7 @@ module ColoredGraphModule
       interface
         subroutine proc (node)
           use CGNodeType
-          type(CGNode) :: node
+          type(CGNode), intent(inout) :: node
         end subroutine proc
       end interface
       
