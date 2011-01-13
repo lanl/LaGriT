@@ -2,6 +2,11 @@
 # GNU Make version 3.79.1 or later
 # USAGE (make, gmake, or gnumake depending on system setup): 
 #
+# make MOPT=64 COPT=-g lib
+# NOTE: make sure machine.h has compiled from machine_header.F
+#       correctly so that NBYTES_INT = 8
+#       remove machine_header.F so it is not picked up in wildcards
+#
 # make list (no action, write to screen only)
 #    list of object files and variables 
 # 
@@ -62,8 +67,8 @@ OPSYS_FULL = $(shell uname -a )
 OPSYS = $(shell uname -s )
 DATETAG = $(shell date '+_%y%m%d')
 NPROC = $(shell uname -p )
-COMPILER = GFORTRAN
 COMPILER = ABSOFT
+COMPILER = GFORTRAN
 #
 # Linux OS ------------------------------
 # Linux rainier 2.6.9-55.0.2.ELlargesmp #1 SMP 2007
@@ -88,9 +93,17 @@ FC90 = gfortran
 CC= gcc 
 
 FFLAGS = -fcray-pointer -fno-align-commons -m32 
-FFLAGS = -fcray-pointer -m32 
-CFLAGS = -m32 -Dlin
-FF90FLAGS = -fcray-pointer -m32 
+FFLAGS = -fcray-pointer -fno-sign-zero -m32 
+CFLAGS = -m32 -fno-sign-zero -Dlin
+FF90FLAGS = -fcray-pointer -fno-sign-zero -m32 
+
+ifeq ($(MOPT), 64)
+OBJDIR = lin_objects_m64/
+FFLAGS = -fcray-pointer -fdefault-integer-8  -fno-sign-zero -Dlinx64 
+FF90FLAGS = -fcray-pointer -fdefault-integer-8  -fno-sign-zero -m64 -Dlinx64 
+CFLAGS = -m64 -Dlinx64
+endif
+
 endif
 
 endif
@@ -161,23 +174,27 @@ OBJDIR = objects_sgi64/
 OBJDIR = objects_sgi/
 endif
 #
-ifeq ($(COPT), -g)
-SUFF = $(OSTAG)_g
-else
-SUFF = $(OSTAG)_o
+ifndef COPT
+COPT = -O
 endif
 #
-ifndef COPT
-ifeq ($(OPSYS), IRIX64)
-COPT = -O1
-else
-COPT = -O
+# form the name suffix based on platform and flags
+# default optimized 32 bit
+SUFF = $(OSTAG)_o
+ifeq ($(MOPT), 64)
+SUFF = $(OSTAG)64_o
+endif
+ifeq ($(COPT), -g)
+SUFF = $(OSTAG)_g
+ifeq ($(MOPT), 64)
+SUFF = $(OSTAG)64_g
 endif
 endif
 #
 SUFF2 =""
 ifeq ($(COMPILER),GFORTRAN)
 SUFF2 = _gfort4.1
+SUFF2 = _gfort4.5
 endif
 ifeq ($(COMPILER),ABSOFT)
 SUFF2 = _absoft
@@ -189,6 +206,7 @@ PROG  = $(PROJ)$(SUFF)$(SUFF2)
 LIBDATE   = $(PROJ)$(SUFF)$(DATETAG)$(SUFF2).a
 PROGDATE  = $(PROJ)$(SUFF)$(DATETAG)$(SUFF2)
 MODDIR = $(OBJDIR)$(SUFF2)
+MODDIR = $(OBJDIR)
 # 
 ##########################################################################
 # Source  

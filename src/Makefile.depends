@@ -292,6 +292,7 @@ $(OBJDIR)mega3d_inner_loop.o: consts.h local_element.h chydro.h geom_lg.h
 $(OBJDIR)mega3d_inner_loop.o: smooth.h
 $(OBJDIR)mega_error.o: local_element.h
 $(OBJDIR)mega_hessian.o: local_element.h
+$(OBJDIR)memory.o: machine.h
 $(OBJDIR)mergepts_simplex.o: local_element.h chydro.h cmerge.h consts.h
 $(OBJDIR)mflip.o: neibor.h
 $(OBJDIR)mode_lg.o: consts.h massage.h
