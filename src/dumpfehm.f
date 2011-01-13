@@ -207,14 +207,17 @@ c
      *   ifile(1:icharlnf(ifile)),
      *  " options set to: "
         call writloga('default',0,logmess,0,ierr)
-        write(logmess,'(6x,a,2x,a,2x,a,2x,a)')
+
+        write(logmess,'(6x,a,2x,a,2x,a,2x,a,2x,a)')
      *   iomode(1:icharlnf(iomode)),
      *   area_coef_option(1:icharlnf(area_coef_option)),
      *   compress_opt(1:icharlnf(compress_opt)),
      *   attrib_option(1:icharlnf(attrib_option)),
      *   area_option(1:icharlnf(area_option))
         call writloga('default',0,logmess,0,ierr)
+
         call mmverify()
+
       endif
 
 
