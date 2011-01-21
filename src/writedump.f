@@ -339,6 +339,7 @@ C
       ioption4='-notset-'
       ioption5='-notset-'
       ioption6='-notset-'
+      iomode='ascii'
       leno=1
       imt_select=0
       ierror_return = 0
@@ -1057,7 +1058,9 @@ C
      *                        nef,length,icmotype,ierror)
             call dumpchad(ifile(1:lenfile),ierror)
          endif
-C
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C option no longer used - found commented out
 c      elseif(ioption(1:leno).eq.'tecplot_ascii') then
 c
 c     Output ascii mesh for TECPLOT
@@ -1065,16 +1068,52 @@ c         if(if_cmo_exist.eq.0) then
 c            len=icharlnf(cmo)
 c            call dumptecplot_ascii(ifile(1:lenfile),
 c     *          ioption2(1:icharlnf(ioption2)),iomode,ioption3)
-             ierror_return = 0
+c            ierror_return = 0
 c         endif
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
 C     DUMP / tecplot
+C     SYNTAX: dump/tecplot/filename/cmoname/binary|ascii/ block|grid|fsets
+C       block is default
+C       grid assigns FILETYPE=Grid and uses point datapacking
+C            allows file to be used with FEHM "solution" output files
+C       fsets can be passed but does not seem to be defined in routine 
+
       elseif(ioption(1:leno).eq.'tecplot') then
 c
 c     Output hybrid  mesh for TECPLOT
-           if(msgtype(5).eq.3 .and. cmsgin(5).eq.'fsets') then
-               ioption=cmsgin(5)
-            endif
+c     tam - changed assignment from ioption to ioption2
+c           iomode is passed but not assigned???
+c           set default to ascii
+
+         iomode='ascii'
+         ioption2='block'
+         
+         if (nwds.ge.5) then
+         if(msgtype(5).eq.3 .and. cmsgin(5).eq.'fsets') then
+            ioption2=cmsgin(5)
+         else if(msgtype(5).eq.3 .and. cmsgin(5).eq.'grid') then
+            ioption2=cmsgin(5)
+         else if(msgtype(5).eq.3 .and. cmsgin(5).eq.'binary') then
+            iomode=cmsgin(5)
+         endif
+         endif
+         if (nwds.ge.6) then
+         if(msgtype(6).eq.3 .and. cmsgin(6).eq.'fsets') then
+            ioption2=cmsgin(6)
+         else if(msgtype(6).eq.3 .and. cmsgin(6).eq.'grid') then
+            ioption2=cmsgin(6)
+         else if(msgtype(6).eq.3 .and. cmsgin(6).eq.'binary') then
+            iomode=cmsgin(6)
+         endif
+         endif
+         
+         if (idebug .ne. 0) then
+            print*,"Call dumptecplot_hybrid with:"
+            print*,ifile(1:lenfile), 
+     *          ioption2(1:icharlnf(ioption2)),iomode
+         endif
+
          if(if_cmo_exist.eq.0) then
             len=icharlnf(cmo)
             call dumptecplot_hybrid(ifile(1:lenfile),

@@ -1,6 +1,5 @@
-C ######################################################################
-*dk,dumptecplot_hybrid
-       subroutine dumptecplot_hybrid(ifile,ifileini,iotype)
+
+       subroutine dumptecplot_hybrid(ifile,ifiletyp,iotype)
 C
 C ######################################################################
 C 
@@ -67,7 +66,7 @@ C
 
 C args
       character*132 logmess
-      character ifile*(*), ifileini*(*)
+      character ifile*(*), ifiletyp*(*)
       character iotype*(*)
 C
 C     include "tecio.inc"
@@ -94,7 +93,7 @@ C
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
       pointer (ipitet, itet)
-      integer nsd, nen, idumptype
+      integer nsd, nen, idumptype,iformat
       integer imt1(*), itp1(*), icr1(*), isn1(*)
       real*8 xic(*), yic(*), zic(*)
       integer itetclr(*), itettyp(*),
@@ -102,7 +101,6 @@ C
       pointer (ipisetwd, isetwd)
       integer isetwd(*)
       integer itet(*)
-      integer  itypout
 C
       pointer (ipxvalues, xvalues)
       real*8 xvalues(*)
@@ -130,7 +128,7 @@ C
       integer ilen,ityp,ierr,ivoronoi2d,ivoronoi3d,mmlength,
      *  ierror_return,irank,lent,nvalues1,length,len2,i8,i7,
      *  i6,i5,i4,i3,i2,i1,index,it,j,iflag,len1,i,nvalues,
-     *  icscode,ierror,iunit,iopt_points,iopt_elements,
+     *  ics,ierror,iunit,iopt_points,iopt_elements,
      *  iopt_values_node,iopt_values_elem,
      *  mbndry,nelements,nnodes,ihcycle,nvaluese,lvalues,
      *  lvaluese,izero,k,irowlen,irowlene, ncolumn_max
@@ -206,8 +204,20 @@ C
 C ######################################################################
 C begin
 
+C     initialize defaults
+C     idumptype 0=ascii 1=binary
+C     iformat   0=block 1=grid 2=fsets (undefined)
+
       isubname='dumptecplot_hybrid'
-C     SYNTAX: dump/tecplot/filename/cmoname/binary|ascii
+      idumptype=0
+      iformat=0
+
+C     SYNTAX: dump/tecplot/filename/cmoname/binary|ascii/ block|grid|fsets
+C       block is default
+C       grid assigns FILETYPE=Grid and uses point datapacking
+C            allows file to be used with FEHM "solution" output files
+C            no attributes are written to the grid filetype
+C       fsets can be passed in but does not seem to be defined here
 C
       if(iotype(1:5).eq.'ascii')then
         idumptype=0
@@ -217,6 +227,7 @@ C
         else
            filename=ifile(1:icharlnf(ifile)) // '.plt'
         endif
+
       else
         idumptype=1
         len=icharlnf(ifile(1:icharlnf(ifile)))
@@ -227,22 +238,24 @@ C
         endif
       endif
       len=icharlnf(filename(1:icharlnf(filename)))
+
+      if(ifiletyp(1:4).eq.'grid')then
+        iformat=1
+      endif
       
-      if (idumptype .eq. 1)then
-C
 C     Turn off binary Tecplot output option
-C
+      if (idumptype .eq. 1)then
       idumptype=0
       write(logmess,'(a)')'WARNING: binary output not supported.'
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ics)
       write(logmess,'(a)')'WARNING: Converting to ascii output.'
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ics)
       write(logmess,'(a)')'WARNING: See dumptecplot_hybrid.f source for'
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ics)
       write(logmess,'(a)')'WARNING: instruction on compiling in tecio.a'
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ics)
       write(logmess,'(a)')'WARNING: library for binary TECPLOT output.'
-      call writloga('default',0,logmess,0,icscode)
+      call writloga('default',0,logmess,0,ics)
       endif
 C
 C ****************** GET INFORMATION FROM MESH OBJECT ******************
@@ -275,11 +288,11 @@ C ****************************************************************
 C
       if((nnodes .eq. 0) .and. (nelements .eq. 0))then
           write(logmess,'(a)')'WARNING: dumptecplot'
-          call writloga('default',0,logmess,0,icscode)
+          call writloga('default',0,logmess,0,ics)
           write(logmess,'(a)')'WARNING: nnodes=0 nelements = 0'
-          call writloga('default',0,logmess,0,icscode)
+          call writloga('default',0,logmess,0,ics)
           write(logmess,'(a)')'WARNING: No output'
-          call writloga('default',0,logmess,0,icscode)
+          call writloga('default',0,logmess,0,ics)
           return
       endif
 C
@@ -287,73 +300,78 @@ C
 C *********************************************************************
 C     Count the number of tecplot fields to write
 C
-      call cmo_get_info('number_of_attributes',cmo,nmcmoatt,ilen,ityp,
-     *   icscode)
-C
+C     ALWAYS INCLUDE COORDINATE DATA
+      vchlist = 'X Y Z '
+      vchoff = 6
+      nmcmoatt = 0
       nvalues=0
       nvaluese=0
       lvalues=0
       lvaluese=0
       irowlen=0
       irowlene=0
-C
-C     ALWAYS INCLUDE COORDINATE DATA
-      vchlist = 'X Y Z '
-      vchoff = 6
+
+C     grid file format does not have attributes
+      if (iformat.ne.1) then
+
+        call cmo_get_info('number_of_attributes',cmo,nmcmoatt,ilen,
+     *   ityp,ics)
 C
 C     Hardwire turning off output of -def- field.
-      call dotaskx3d
-     1 ('cmo/modatt/-def-/-def-/ioflag/x;finish',icscode)
-      call mmgetblk('cnames',isubname,ipcnames,nmcmoatt*8,1,icscode)
-      call mmgetblk('clengths',isubname,iplengths,nmcmoatt*8,1,icscode)
-      call mmgetblk('iranks',isubname,ipranks,nmcmoatt,1,icscode)
-      call mmgetblk('idx',isubname,ipidx,nmcmoatt,1,icscode)
-      call mmgetblk('idxe',isubname,ipidxe,nmcmoatt,1,icscode)
-      call mmgetblk('ioffs',isubname,ipoffs,nmcmoatt,1,icscode)
-      call mmgetblk('ioffse',isubname,ipoffse,nmcmoatt,1,icscode)
-      call mmgetblk('cioflags',isubname,ipioflags,nmcmoatt*8,1,icscode)
+        call dotaskx3d
+     1 ('cmo/modatt/-def-/-def-/ioflag/x;finish',ics)
+        call mmgetblk('cnames',isubname,ipcnames,nmcmoatt*8,1,ics)
+        call mmgetblk('clengths',isubname,iplengths,nmcmoatt*8,1,ics)
+        call mmgetblk('iranks',isubname,ipranks,nmcmoatt,1,ics)
+        call mmgetblk('idx',isubname,ipidx,nmcmoatt,1,ics)
+        call mmgetblk('idxe',isubname,ipidxe,nmcmoatt,1,ics)
+        call mmgetblk('ioffs',isubname,ipoffs,nmcmoatt,1,ics)
+        call mmgetblk('ioffse',isubname,ipoffse,nmcmoatt,1,ics)
+        call mmgetblk('cioflags',isubname,ipioflags,nmcmoatt*8,1,ics)
 c
-      ioffs(1)=0
-      ioffse(1)=0
+        ioffs(1)=0
+        ioffse(1)=0
 c
-      do i=1,nmcmoatt
+        do i=1,nmcmoatt
 C
-C        NAME FIELD
-         call cmo_get_attribute_name(cmo,i,
-     *                     cnames(i),icscode)
-         call cmo_get_attparam(cnames(i),cmo,index,ctype,crank,
+C          NAME FIELD
+           call cmo_get_attribute_name(cmo,i,
+     *                     cnames(i),ics)
+           call cmo_get_attparam(cnames(i),cmo,index,ctype,crank,
      *    clengths(i),cinterp,cpers,cioflags(i),ierror_return)
-         call cmo_get_info(crank,cmo,iranks(i),ilen,ityp,icscode)
-         len1=icharlnf(cioflags(i))
-         iflag=0
-         ioffs(1)=0
-         do j=1,len1
-            if(cioflags(i)(j:j).eq.'a'.and.
+           call cmo_get_info(crank,cmo,iranks(i),ilen,ityp,ics)
+           len1=icharlnf(cioflags(i))
+           iflag=0
+           ioffs(1)=0
+           do j=1,len1
+              if(cioflags(i)(j:j).eq.'a'.and.
      *         clengths(i)(1:icharlnf(clengths(i))).eq.'nnodes') then
-               iflag=1
-               nvalues=nvalues+1
+                 iflag=1
+                 nvalues=nvalues+1
 C
-                  lenchar=icharlnf(cnames(i))
-                  do k=1,lenchar
-                     vchlist(k+vchoff:k+vchoff)=cnames(i)(k:k)
-                  enddo
-                  vchlist(lenchar+1+vchoff:lenchar+1+vchoff) = ' '
-                  vchoff=vchoff+lenchar+1
+                 lenchar=icharlnf(cnames(i))
+                 do k=1,lenchar
+                    vchlist(k+vchoff:k+vchoff)=cnames(i)(k:k)
+                 enddo
+                 vchlist(lenchar+1+vchoff:lenchar+1+vchoff) = ' '
+                 vchoff=vchoff+lenchar+1
 C
-               idx(nvalues)=i
-               lvalues=lvalues+iranks(i)
-               ioffs(i)=irowlen
-               irowlen=irowlen+iranks(i)
-            endif
-         enddo
-      enddo
+                 idx(nvalues)=i
+                 lvalues=lvalues+iranks(i)
+                 ioffs(i)=irowlen
+                 irowlen=irowlen+iranks(i)
+              endif
+           enddo
+        enddo
 C
+      endif
 C
 C
 C ######################## HEADER #########################
 C
 C #################### ASCII HEADER #######################
       if(idumptype.eq.0)then
+
          iunit=-1
          call hassign(iunit,filename(1:len),ierror)
          if (iunit.lt.0 .or. ierror.lt.0) then
@@ -362,22 +380,34 @@ C #################### ASCII HEADER #######################
          endif
 
          write(iunit,*) 'TITLE = "LaGriT GENERATED GRID"'
-         var(1:1)='"'
-         write(iunit,*)'VARIABLES = '
-         start=2
-         stop=2
-         do i=1,vchoff
-           if(vchlist(i:i).eq.' ')then
-             var(stop:stop)='"'
-             write(iunit,*)var(1:stop)
-             var(1:1)='"'
-             start=2
-             stop=2
-           else
-             var(stop:stop)=vchlist(i:i)
-             stop=stop+1
-           endif
-         enddo
+
+C        grid header
+         if (iformat.eq.1) then
+           write(iunit,*)'VARIABLES = '
+           var(1:11)='"X" "Y" "Z"'
+           write(iunit,*)var(1:11)
+           write(iunit,*)'FILETYPE="GRID"'
+
+C        block header
+         else 
+           var(1:1)='"'
+           write(iunit,*)'VARIABLES = '
+           start=2
+           stop=2
+           do i=1,vchoff
+             if(vchlist(i:i).eq.' ')then
+               var(stop:stop)='"'
+               write(iunit,*)var(1:stop)
+               var(1:1)='"'
+               start=2
+               stop=2
+             else
+               var(stop:stop)=vchlist(i:i)
+               stop=stop+1
+             endif
+           enddo
+         endif 
+
       else
 C #################### BINARY HEADER #######################
         I = TECINI100('LaGriT GENERATED GRID'//NULCHAR,
@@ -398,13 +428,13 @@ C
       length=lvalues*nnodes
       if ( num_node_att .ne. 0 ) then
          length=lvalues*nnodes
-         call mmgetblk('xvalues',isubname,ipxvalues,length,2,icscode)
+         call mmgetblk('xvalues',isubname,ipxvalues,length,2,ics)
       else
          length=nnodes
-         call mmgetblk('xvalues',isubname,ipxvalues,length,2,icscode)
+         call mmgetblk('xvalues',isubname,ipxvalues,length,2,ics)
       endif
       length=nnodes
-      call mmgetblk('temp',isubname,iptemp,length,2,icscode)
+      call mmgetblk('temp',isubname,iptemp,length,2,ics)
       nvalues1=0
       do i=1,nmcmoatt
          len1=icharlnf(cioflags(i))
@@ -523,11 +553,11 @@ C
 C
 C ########################## ALLOCATE #########################
         length=nnodes
-        call mmgetblk('tempxic',isubname,iptempxic,length,2,icscode)
-        call mmgetblk('tempyic',isubname,iptempyic,length,2,icscode)
-        call mmgetblk('tempzic',isubname,iptempzic,length,2,icscode)
-        call mmgetblk('mpary',isubname,ipmpary,length,1,icscode)
-        call mmgetblk('invmpary',isubname,ipinvmpary,length,1,icscode)
+        call mmgetblk('tempxic',isubname,iptempxic,length,2,ics)
+        call mmgetblk('tempyic',isubname,iptempyic,length,2,ics)
+        call mmgetblk('tempzic',isubname,iptempzic,length,2,ics)
+        call mmgetblk('mpary',isubname,ipmpary,length,1,ics)
+        call mmgetblk('invmpary',isubname,ipinvmpary,length,1,ics)
 C ######################## POINT TYPE #########################
         if(yespnt.eq.1)then
            write(logmess,'(a)')
@@ -568,7 +598,11 @@ C
         NPts = mnpo 
         NElm = mnel 
         KMax = 1  
-        if(idumptype.eq.0)then
+
+C   ASCII   MESH INFO
+
+C       ascii block format type
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,*)'ZONE T="LINE Zone"'
           write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
      *                   'FELINESEG' 
@@ -581,7 +615,16 @@ C
           enddo
           vchlist(vchoff-1:vchoff)=')'
           write(iunit,*)vchlist(1:vchoff)  
-        else
+
+c      ascii grid format type
+       else if(idumptype.eq.0 .and. iformat.eq.1)then
+          write(iunit,*)'ZONE T="Grid"'
+          write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
+     *                   'FELINESEG'
+          write(iunit,*)'DATAPACKING=', 'POINT'
+
+c      binary block format
+       else 
         I = TECZNE100('LINE Zone'//NULCHAR,
      &              zonetype,
      &              NPts,
@@ -598,17 +641,26 @@ C
      &              0)
         endif
 C
-C       WRITE OUT COORDINATE DATA
+C  COORDINATE DATA
+
         do j=1,mnpo
            tempxic(j)=xic(mpary(j))
            tempyic(j)=yic(mpary(j))
            tempzic(j)=zic(mpary(j))
         enddo
-        if(idumptype.eq.0)then
+
+        if(idumptype.eq.0 .and.iformat.eq.0)then
           write(iunit,9040)(tempxic(i),i=1,mnpo)
           write(iunit,9040)(tempyic(i),i=1,mnpo)
           write(iunit,9040)(tempzic(i),i=1,mnpo)
  9040     format(5(1pe16.8))
+
+        else if(idumptype.eq.0 .and.iformat.eq.1)then
+          do i=1,mnpo
+          write(iunit,9041)tempxic(i),tempyic(i),tempzic(i)
+          enddo
+ 9041     format(3(1pe16.8))
+
         else
            III       = mnpo
            DIsDouble = 1
@@ -618,6 +670,7 @@ C       WRITE OUT COORDINATE DATA
         endif 
 C
 C       WRITE OUT ATTRIBUTE DATA
+        if (iformat.ne.1) then
         do q=1,nvalues
           do j=1,mnpo
             temp(j)=xvalues(q+nvalues1*(mpary(j)-1))
@@ -628,10 +681,11 @@ C       WRITE OUT ATTRIBUTE DATA
             I = TECDAT100(III,temp,DIsDouble)
           endif
         enddo
-C
+        endif
+ 
 C       WRITE OUT NODAL CONNECTIVITY LIST
         length=2*mnel
-        call mmgetblk('NMlin',isubname,ipNM,length,1,icscode)
+        call mmgetblk('NMlin',isubname,ipNM,length,1,ics)
         j=0
         do k=1,nelements
           if(itettyp(k).eq.ifelmlin)then
@@ -642,13 +696,13 @@ C       WRITE OUT NODAL CONNECTIVITY LIST
         enddo
         if(idumptype.eq.0)then
           do i=1,mnel
-            write(iunit,9041) NMlin(1,i),NMlin(2,i)
- 9041       format(2(i10,' '))
+            write(iunit,9051) NMlin(1,i),NMlin(2,i)
+ 9051       format(2(i10,' '))
           enddo
         else
           I = TECNOD100(NMlin)
         endif
-        call mmrelblk('NMlin',isubname,ipNM,icscode)
+        call mmrelblk('NMlin',isubname,ipNM,ics)
         do j=1,nnodes
            tempxic(j)=0.0
            tempyic(j)=0.0
@@ -693,7 +747,9 @@ C
         NPts = mnpo 
         NElm = mnel 
         KMax = 1  
-        if(idumptype.eq.0)then
+
+C       ascii block format
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,*)'ZONE T="TRAINGLE Zone"'
           write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
      *                   'FETRIANGLE' 
@@ -706,6 +762,15 @@ C
           enddo
           vchlist(vchoff-1:vchoff)=')'
           write(iunit,*)vchlist(1:vchoff)  
+
+c      grid format type
+       else if(idumptype.eq.0 .and. iformat.eq.1)then
+          write(iunit,*)'ZONE T="Grid"'
+          write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
+     *                   'FETRIANGLE'
+          write(iunit,*)'DATAPACKING=', 'POINT'
+
+C       binary block
         else
           I = TECZNE100('TRAINGLE Zone'//NULCHAR,
      &              zonetype,
@@ -729,10 +794,17 @@ C       WRITE OUT COORDINATE DATA
            tempyic(j)=yic(mpary(j))
            tempzic(j)=zic(mpary(j))
         enddo
-        if(idumptype.eq.0)then
+
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,9040)(tempxic(i),i=1,mnpo)
           write(iunit,9040)(tempyic(i),i=1,mnpo)
           write(iunit,9040)(tempzic(i),i=1,mnpo)
+
+        else if(idumptype.eq.0 .and.iformat.eq.1)then
+          do i=1,mnpo
+          write(iunit,9041)tempxic(i),tempyic(i),tempzic(i)
+          enddo
+
         else 
           III       = mnpo
           DIsDouble = 1
@@ -742,6 +814,7 @@ C       WRITE OUT COORDINATE DATA
         endif
 C
 C       WRITE OUT ATTRIBUTE DATA
+        if (iformat.ne.1) then
         do q=1,nvalues
           do j=1,mnpo
             temp(j)=xvalues(q+nvalues1*(mpary(j)-1))
@@ -752,10 +825,11 @@ C       WRITE OUT ATTRIBUTE DATA
             I = TECDAT100(III,temp,DIsDouble)
           endif
         enddo
+        endif
 C
 C       WRITE OUT NODAL CONNECTIVITY LIST
         length=3*mnel
-        call mmgetblk('NMtri',isubname,ipNM,length,1,icscode)
+        call mmgetblk('NMtri',isubname,ipNM,length,1,ics)
         j=0
         do k=1,nelements
           if(itettyp(k).eq.ifelmtri)then
@@ -773,7 +847,7 @@ C       WRITE OUT NODAL CONNECTIVITY LIST
         else
           I = TECNOD100(NMtri)
         endif
-        call mmrelblk('NMtri',isubname,ipNM,icscode)
+        call mmrelblk('NMtri',isubname,ipNM,ics)
         do j=1,nnodes
            tempxic(j)=0.0
            tempyic(j)=0.0
@@ -818,7 +892,9 @@ C
         NPts = mnpo 
         NElm = mnel 
         KMax = 1  
-        if(idumptype.eq.0)then
+
+C       ascii block format
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,*)'ZONE T="QUAD Zone"'
           write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
      *                   'FEQUADRILATERAL' 
@@ -831,6 +907,16 @@ C
           enddo
           vchlist(vchoff-1:vchoff)=')'
           write(iunit,*)vchlist(1:vchoff)  
+
+C       ascii grid format
+        else if(idumptype.eq.0 .and. iformat.eq.1)then
+          write(iunit,*)'ZONE T="Grid"'
+          write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
+     *                   'FEQUADRILATERAL'
+          write(iunit,*)'DATAPACKING=', 'POINT'
+
+
+C       binary block format
         else
         I = TECZNE100('QUAD Zone'//NULCHAR,
      &              zonetype,
@@ -854,10 +940,16 @@ C       WRITE OUT COORDINATE DATA
            tempyic(j)=yic(mpary(j))
            tempzic(j)=zic(mpary(j))
         enddo
-        if(idumptype.eq.0)then
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,9040)(tempxic(i),i=1,mnpo)
           write(iunit,9040)(tempyic(i),i=1,mnpo)
           write(iunit,9040)(tempzic(i),i=1,mnpo)
+
+        else if(idumptype.eq.0 .and.iformat.eq.1)then
+          do i=1,mnpo
+          write(iunit,9041)tempxic(i),tempyic(i),tempzic(i)
+          enddo
+
         else
           III       = mnpo
           DIsDouble = 1
@@ -867,6 +959,7 @@ C       WRITE OUT COORDINATE DATA
         endif
 C
 C       WRITE OUT ATTRIBUTE DATA
+        if (iformat.ne.1) then
         do q=1,nvalues
           do j=1,mnpo
             temp(j)=xvalues(q+nvalues1*(mpary(j)-1))
@@ -877,10 +970,11 @@ C       WRITE OUT ATTRIBUTE DATA
             I = TECDAT100(III,temp,DIsDouble)
           endif
         enddo
+        endif
 C
 C       WRITE OUT NODAL CONNECTIVITY LIST
         length=4*mnel
-        call mmgetblk('NMqud',isubname,ipNM,length,1,icscode)
+        call mmgetblk('NMqud',isubname,ipNM,length,1,ics)
         j=0
         do k=1,nelements
           if(itettyp(k).eq.ifelmqud)then
@@ -900,7 +994,7 @@ C       WRITE OUT NODAL CONNECTIVITY LIST
         else
           I = TECNOD100(NMqud)
         endif
-        call mmrelblk('NMqud',isubname,ipNM,icscode)
+        call mmrelblk('NMqud',isubname,ipNM,ics)
         do j=1,nnodes
            tempxic(j)=0.0
            tempyic(j)=0.0
@@ -945,7 +1039,9 @@ C
         NPts = mnpo 
         NElm = mnel 
         KMax = 1  
-        if(idumptype.eq.0)then
+
+C       ascii block format
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,*)'ZONE T="TETRAHEDRON Zone"'
           write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
      *                   'FETETRAHEDRON' 
@@ -959,6 +1055,15 @@ C
           vchlist(vchoff-1:vchoff)=')'
           write(iunit,*)vchlist(1:vchoff)  
           vchoff=0
+
+c      grid format type
+       else if(idumptype.eq.0 .and. iformat.eq.1)then
+          write(iunit,*)'ZONE T="Grid"'
+          write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
+     *                   'FETETRAHEDRON' 
+          write(iunit,*)'DATAPACKING=', 'POINT'
+
+c       binary format type
         else
         I = TECZNE100('TETRA Zone'//NULCHAR,
      &              zonetype,
@@ -982,10 +1087,16 @@ C       WRITE OUT COORDINATE DATA
            tempyic(j)=yic(mpary(j))
            tempzic(j)=zic(mpary(j))
         enddo
-        if(idumptype.eq.0)then
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,9040)(tempxic(i),i=1,mnpo)
           write(iunit,9040)(tempyic(i),i=1,mnpo)
           write(iunit,9040)(tempzic(i),i=1,mnpo)
+
+        else if(idumptype.eq.0 .and.iformat.eq.1)then
+          do i=1,mnpo
+          write(iunit,9041)tempxic(i),tempyic(i),tempzic(i)
+          enddo
+
         else
           III       = mnpo
           DIsDouble = 1
@@ -995,6 +1106,7 @@ C       WRITE OUT COORDINATE DATA
         endif
 C
 C       WRITE OUT ATTRIBUTE DATA
+        if (iformat.ne.1) then
         do q=1,nvalues
           do j=1,mnpo
             temp(j)=xvalues(q+nvalues1*(mpary(j)-1))
@@ -1005,10 +1117,11 @@ C       WRITE OUT ATTRIBUTE DATA
             I = TECDAT100(III,temp,DIsDouble)
           endif
         enddo
+        endif
 C
 C       WRITE OUT NODAL CONNECTIVITY LIST
         length=4*mnel
-        call mmgetblk('NMtet',isubname,ipNM,length,1,icscode)
+        call mmgetblk('NMtet',isubname,ipNM,length,1,ics)
         j=0
         do k=1,nelements
           if(itettyp(k).eq.ifelmtet)then
@@ -1028,7 +1141,7 @@ C       WRITE OUT NODAL CONNECTIVITY LIST
         else
           I = TECNOD100(NMtet)
         endif
-        call mmrelblk('NMtet',isubname,ipNM,icscode)
+        call mmrelblk('NMtet',isubname,ipNM,ics)
         do j=1,nnodes
            tempxic(j)=0.0
            tempyic(j)=0.0
@@ -1073,7 +1186,9 @@ C
         NPts = mnpo 
         NElm = mnel 
         KMax = 1  
-        if(idumptype.eq.0)then
+
+c       ascii block format
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,*)'ZONE T="PYRAMID (Degenerate HEX) Zone"'
           write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
      *                   'FEBRICK' 
@@ -1086,6 +1201,15 @@ C
           enddo
           vchlist(vchoff-1:vchoff)=')'
           write(iunit,*)vchlist(1:vchoff)  
+
+c      ascii grid format type
+       else if(idumptype.eq.0 .and. iformat.eq.1)then
+          write(iunit,*)'ZONE T="Grid"'
+          write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
+     *                   'FEBRICK' 
+          write(iunit,*)'DATAPACKING=', 'POINT'
+
+c       binary block format
         else
           I = TECZNE100('PYRAMID Zone'//NULCHAR,
      &              zonetype,
@@ -1109,10 +1233,16 @@ C       WRITE OUT COORDINATE DATA
            tempyic(j)=yic(mpary(j))
            tempzic(j)=zic(mpary(j))
         enddo
-        if(idumptype.eq.0)then
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,9040)(tempxic(i),i=1,mnpo)
           write(iunit,9040)(tempyic(i),i=1,mnpo)
           write(iunit,9040)(tempzic(i),i=1,mnpo)
+
+        else if(idumptype.eq.0 .and.iformat.eq.1)then
+          do i=1,mnpo
+          write(iunit,9041)tempxic(i),tempyic(i),tempzic(i)
+          enddo
+
         else
           III       = mnpo
           DIsDouble = 1
@@ -1122,6 +1252,7 @@ C       WRITE OUT COORDINATE DATA
         endif
 C
 C       WRITE OUT ATTRIBUTE DATA
+        if (iformat.ne.1) then
         do q=1,nvalues
           do j=1,mnpo
             temp(j)=xvalues(q+nvalues1*(mpary(j)-1))
@@ -1132,10 +1263,11 @@ C       WRITE OUT ATTRIBUTE DATA
             I = TECDAT100(III,temp,DIsDouble)
           endif
         enddo
+        endif
 C
 C       WRITE OUT NODAL CONNECTIVITY LIST
         length=8*mnel
-        call mmgetblk('NMpyr',isubname,ipNM,length,1,icscode)
+        call mmgetblk('NMpyr',isubname,ipNM,length,1,ics)
         j=0
         do k=1,nelements
           if(itettyp(k).eq.ifelmpyr)then
@@ -1159,7 +1291,7 @@ C       WRITE OUT NODAL CONNECTIVITY LIST
         else
           I = TECNOD100(NMpyr)
         endif
-        call mmrelblk('NMpyr',isubname,ipNM,icscode)
+        call mmrelblk('NMpyr',isubname,ipNM,ics)
         do j=1,nnodes
            tempxic(j)=0.0
            tempyic(j)=0.0
@@ -1204,7 +1336,9 @@ C
         NPts = mnpo 
         NElm = mnel 
         KMax = 1  
-        if(idumptype.eq.0)then
+
+c       ascii block format
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,*)'ZONE T="PRISM (Degenerate HEX) Zone"'
           write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
      *                   'FEBRICK' 
@@ -1217,6 +1351,15 @@ C
           enddo
           vchlist(vchoff-1:vchoff)=')'
           write(iunit,*)vchlist(1:vchoff)  
+
+c      ascii grid format type
+       else if(idumptype.eq.0 .and. iformat.eq.1)then
+          write(iunit,*)'ZONE T="Grid"'
+          write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
+     *                   'FEBRICK' 
+          write(iunit,*)'DATAPACKING=', 'POINT'
+
+c       binary block format
         else
           I = TECZNE100('PRISM Zone'//NULCHAR,
      &              zonetype,
@@ -1240,10 +1383,16 @@ C       WRITE OUT COORDINATE DATA
            tempyic(j)=yic(mpary(j))
            tempzic(j)=zic(mpary(j))
         enddo
-        if(idumptype.eq.0)then
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,9040)(tempxic(i),i=1,mnpo)
           write(iunit,9040)(tempyic(i),i=1,mnpo)
           write(iunit,9040)(tempzic(i),i=1,mnpo)
+
+        else if(idumptype.eq.0 .and.iformat.eq.1)then
+          do i=1,mnpo
+          write(iunit,9041)tempxic(i),tempyic(i),tempzic(i)
+          enddo
+
         else
           III       = mnpo
           DIsDouble = 1
@@ -1253,6 +1402,7 @@ C       WRITE OUT COORDINATE DATA
         endif
 C
 C       WRITE OUT ATTRIBUTE DATA
+        if (iformat .ne. 1) then
         do q=1,nvalues
           do j=1,mnpo
             temp(j)=xvalues(q+nvalues1*(mpary(j)-1))
@@ -1263,10 +1413,11 @@ C       WRITE OUT ATTRIBUTE DATA
             I = TECDAT100(III,temp,DIsDouble)
           endif
         enddo
+        endif
 C
 C       WRITE OUT NODAL CONNECTIVITY LIST
         length=8*mnel
-        call mmgetblk('NMpri',isubname,ipNM,length,1,icscode)
+        call mmgetblk('NMpri',isubname,ipNM,length,1,ics)
         j=0
         do k=1,nelements
           if(itettyp(k).eq.ifelmpri)then
@@ -1290,7 +1441,7 @@ C       WRITE OUT NODAL CONNECTIVITY LIST
         else
           I = TECNOD100(NMpri)
         endif
-        call mmrelblk('NMpri',isubname,ipNM,icscode)
+        call mmrelblk('NMpri',isubname,ipNM,ics)
         do j=1,nnodes
            tempxic(j)=0.0
            tempyic(j)=0.0
@@ -1335,7 +1486,9 @@ C
         NPts = mnpo 
         NElm = mnel 
         KMax = 1  
-        if(idumptype.eq.0)then
+
+c       ascii block format
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,*)'ZONE T="HEX Zone"'
           write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
      *                   'FEBRICK' 
@@ -1348,6 +1501,15 @@ C
           enddo
           vchlist(vchoff-1:vchoff)=')'
           write(iunit,*)vchlist(1:vchoff)  
+
+c      ascii grid format type
+       else if(idumptype.eq.0 .and. iformat.eq.1)then
+          write(iunit,*)'ZONE T="Grid"'
+          write(iunit,*)'N=',mnpo,',',' E=',mnel,',',' ZONETYPE=',
+     *                   'FEBRICK' 
+          write(iunit,*)'DATAPACKING=', 'POINT'
+
+c       binary block format
         else
         I = TECZNE100('HEX Zone'//NULCHAR,
      &              zonetype,
@@ -1371,10 +1533,16 @@ C       WRITE OUT COORDINATE DATA
            tempyic(j)=yic(mpary(j))
            tempzic(j)=zic(mpary(j))
         enddo
-        if(idumptype.eq.0)then
+        if(idumptype.eq.0 .and. iformat.eq.0)then
           write(iunit,9040)(tempxic(i),i=1,mnpo)
           write(iunit,9040)(tempyic(i),i=1,mnpo)
           write(iunit,9040)(tempzic(i),i=1,mnpo)
+
+        else if(idumptype.eq.0 .and.iformat.eq.1)then
+          do i=1,mnpo
+          write(iunit,9041)tempxic(i),tempyic(i),tempzic(i)
+          enddo
+
         else
           III       = mnpo
           DIsDouble = 1
@@ -1384,6 +1552,7 @@ C       WRITE OUT COORDINATE DATA
         endif
 C
 C       WRITE OUT ATTRIBUTE DATA
+        if (iformat .ne. 1) then
         do q=1,nvalues
           do j=1,mnpo
             temp(j)=xvalues(q+nvalues1*(mpary(j)-1))
@@ -1394,10 +1563,11 @@ C       WRITE OUT ATTRIBUTE DATA
             I = TECDAT100(III,temp,DIsDouble)
           endif
         enddo
+        endif
 C
 C       WRITE OUT NODAL CONNECTIVITY LIST
         length=8*mnel
-        call mmgetblk('NMhex',isubname,ipNM,length,1,icscode)
+        call mmgetblk('NMhex',isubname,ipNM,length,1,ics)
         j=0
         do k=1,nelements
           if(itettyp(k).eq.ifelmhex)then
@@ -1421,7 +1591,7 @@ C       WRITE OUT NODAL CONNECTIVITY LIST
         else
           I = TECNOD100(NMhex)
         endif
-        call mmrelblk('NMhex',isubname,ipNM,icscode)
+        call mmrelblk('NMhex',isubname,ipNM,ics)
         do j=1,nnodes
            tempxic(j)=0.0
            tempyic(j)=0.0
@@ -1438,13 +1608,17 @@ C
         I = TECEND100() 
       endif
 C
- 9999 call mmrelprt(isubname,icscode)
+ 9999 call mmrelprt(isubname,ics)
 C
       return
       end
 
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
       function TECDAT100(a01,a02,a03)
+
       implicit none
+
       integer*4 TECDAT100
       real*8 a01,a02,a03
       integer ierrw
@@ -1457,6 +1631,7 @@ C
       return
       end
 
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       function TECNOD100(a01)
       implicit none
       integer*4 TECNOD100
@@ -1471,6 +1646,7 @@ C
       return
       end
 
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       function TECINI100(a01,a02,a03,a04,a05,a06)
       implicit none
       integer*4 TECINI100
@@ -1485,6 +1661,7 @@ C
       return
       end
 
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       function TECEND100()
       implicit none
       integer*4 TECEND100
@@ -1498,6 +1675,7 @@ C
       return
       end
 
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       function TECZNE100(a01,a02,a03,a04,a05,a06,a07,
      1                   a08,a09,a10,a11,a12,a13,a14)
       implicit none
@@ -1510,7 +1688,6 @@ C
       call writloga('default',0,
      1 'for instructions on how to enable binary IO.',0,ierrw)
       TECZNE100 = 0
-
       return
       end
       
