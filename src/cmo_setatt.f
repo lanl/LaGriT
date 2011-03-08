@@ -12,6 +12,10 @@ c     syntax -
 c
 c  cmo/setatt  / cmoname /attribute_name/ value
 c  cmo/setatt  / cmoname /attribute_name/ index_set / value
+c
+c  cmo/set_var  / cmoname /attribute_name/ cmo_var
+c  cmo/set_var  / cmoname /attribute_name/ index_set / cmo_var
+c
 c  cmo/printatt/ cmoname /attribute_name
 c  cmo/printatt/ cmoname /attribute_name /index_set
 c  cmo/printatt/ cmoname /attribute_name /print_opt / index_set
@@ -201,7 +205,7 @@ C
      * len,ier,ilength,ilen,itin,attlen,index,nmcmoat,
      * ipointi,ipointj,npoints,itype,j,ierror_return,
      * ipt1,ipt2,ipt3, ipt1_sav,ipt2_sav,ipt3_sav,
-     * it,mpno,j1,i1,irank,l,iout,lout,
+     * it,mpno,j1,i1,irank,l,iout,lout,isetvar,
      * attyp,ityp,itotal,nset,ifound
       pointer (ipout,out)
       real*8 out(*)
@@ -228,6 +232,7 @@ c
 c
 c     ******************************************************************
 c
+      isetvar   = 0
       iset      = .false.
       mmset     = .false.
       printopt  =  NOWRITE
@@ -249,6 +254,10 @@ C  Parse the required commands
  
 C     2 - see if setting or printing
       if(cmsgin(2)(1:6).eq.'setatt') then
+         iset=.true.
+         printopt=NOWRITE
+      elseif(cmsgin(2)(1:7).eq.'set_var') then
+         isetvar=1 
          iset=.true.
          printopt=NOWRITE
       elseif(cmsgin(2)(1:8).eq.'printatt') then
@@ -312,9 +321,9 @@ c     4 - get attribute name or set of attributes
  
       inxt=5
  
-c     if setatt - this will be last value
-c        this is value to assign to attribute field
-      if (iset) then
+c     if setatt or if set_var - this will be last value
+c     this is value to assign to attribute field
+      if (iset .and. isetvar.eq.0) then
         if (msgtype(nwds).eq.1) then
           ivalue=imsgin(nwds)
           xvalue=dble(ivalue)
@@ -335,6 +344,13 @@ c        this is value to assign to attribute field
               endif
            endif
         endif
+
+c     if set_var option is used, get the value from
+c     the cmo variable name given at this position
+c     cmo variable has length=rank=1 INT,REAL, or CHARACTER
+c     assign ivalue, xvalue, or cvalue that will be assigned
+      else
+
       endif
  
 C     define print options if different from default VALUES

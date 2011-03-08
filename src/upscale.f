@@ -27,10 +27,24 @@ C      upscale /
 C      scale_method/cmosink,attsink/1,0,0/cmosrc,attsrc/ [keepatt][set_id][method_options]
 C
 C      scale_method     
-C                avetype = harave  - harmonic average
 C                ariave  - arithmatic average
+C                      sink_val = (x(1) + x(i)... + x(n)) / n
+C                      for 4 values; 1,2,3,4 ariave = 2.5
 C                geoave  - geometric average
+C                      sink_val = ( x(1) * x(i)... * x(n) )**(1/n)
+C                      for 4 values; 1,2,3,4 geoave = 2.21336 
+C                harave  - harmonic average
+C                      sink_val = n / ( 1/x(1) + 1/x(i)... + 1/x(n) )
+C                      for 4 values; 1,2,3,4 harave = 1.92 
 C                sum - sum of source node attributes
+C                      sink_val = x(1) + x(i)... + x(n)
+C                      for 4 values; 1,2,3,4 sum = 10 
+C                min - choice of singl node attribute value
+C                      sink_val = min(x(1),x(i),x(n))
+C                      for 4 values; 1,2,3,4 min = 1
+C                max - choice of singl node attribute value
+C                      sink_val = max(x(1),x(i),x(n))
+C                      for 4 values; 1,2,3,4 max = 4 
 C
 C      KEEPATT   will keep added attributes and pt_gtg
 C      set_id    will create source attribute pt_gtg and force a redo if exists 
@@ -1048,8 +1062,8 @@ C        END LOOP through all source points
 C       NOW ASSIGN FINAL VALUES based on nnum, dups_gtg, and value
 C       avoid divide by zero where 0 nodes found for sink
 C       do nothing if no source points were found for the sink node
-C       ..... iout and xout(iisrc) is the sink attribute 
-C       ..... value() is accumulated during the voronoi volume search
+C       ..... iout and xout(iisrc) are the sink attributes 
+C       ..... value() was accumulated during the voronoi volume search
 C       ..... nnum() are the number of src nodes for this sink node
 C             if 0, then use initialized value()
         icntsink = 0
@@ -1086,7 +1100,7 @@ c           ariave
 c           geoave
             elseif(ntype.eq.3) then
                if(ctype_snk.eq.'VINT')then
-                  iout(ii)= nint( value(ii)/nnum(ii) )
+                  iout(ii)= nint(exp(dble(value(ii)/nnum(ii))))
                else
                   xout(ii)=exp(dble(value(ii)/nnum(ii)))
                endif

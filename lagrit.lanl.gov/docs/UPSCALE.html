@@ -62,8 +62,9 @@ volume boundaries will be lost if the pt_gtg is used instead of the default sear
 calculation of the associated set of source nodes on to the
 single sink node. 
 The <font face="Courier">scale_method</font> parameter includes
-<b>sum</b>, <b>ariave</b>, <b>harave</b>, <b>geoave</b>, <b>min</b>,
-and <b>max</b>. 
+<b>sum</b>, <b>min</b>, <b>max</b>, and averages <b>ariave</b>, <b>harave</b>, <b>geoave</b>.
+For all positive data sets containing at least one pair of nonequal values, the harmonic mean is always the least of the three means, while the arithmetic mean is always the greatest of the three and the geometric mean is always in between.
+
 <br>
 <br>
 <blockquote>
@@ -79,36 +80,46 @@ Keywords appearing after the source cmo attribute name are optional and may appe
 <br><! parameter scale_method ---------- >
 <br><font face="Courier">scale_method
 </font>is the choice of upscale calculation applied to each set of source nodes
-within each sink Voronoi cell. The choices are as follows:
+within each sink Voronoi cell where x(1) to x(n) are the values of source nodes 1 to n found for the sink point. 
+ The choices are as follows:
 <blockquote>
-<b>sum</b> - For each sink point, 
-sum the values in source attribute <font face="Courier"> attsink </font> of each
-set of source nodes found in the Voronoi volume of the associated sink node.
-<br><font face="Courier">sink_val = src_val(i) + src_val(n) </font> where src_val(i to n) are all source nodes found within the Voronoi cell of the sink node.
-<br>
 <br>
 <b>ariave</b> - For each sink point, 
-calculate the arithmatic average of source attribute values in <font face="Courier"> attsink </font> 
-for source nodes found in the Voronoi volume of the associated sink node.
-<br><font face="Courier">sink_val = (src_val(tot) + src_val(i)) / num_nodes </font> where src_val(i) is a source node found within the Voronoi cell of the sink node and src_val(tot) is accumulated for each node found. num_nodes are the total number of nodes found within the Voronoi cell.
+calculate the arithmetic mean of n values from source attribute <font face="Courier"> attsrc </font>
+<br><font face="Courier">sink_val = (x(1) + x(i)... + x(n)) / n </font>  
+<br><font face="Courier">for 4 values; 1,2,3,4 ariave = 2.5 </font>  
 <br>
 <br>
-<b>harave</b> - For each sink point, 
-calculate the harmonic average of source attribute values in <font face="Courier"> attsink </font> 
-for source nodes found in the Voronoi volume of the associated sink node.
-<br><font face="Courier">sink_val = num_nodes/(src_val(tot) + log(src_val(i))) </font> where src_val(i) is a source node found within the Voronoi cell of the sink node and src_val(tot) is accumulated for each node found. num_nodes are the total number of nodes found within the Voronoi cell.
-<br>
-<br>
+
 <b>geoave</b> - For each sink point, 
-calculate the geometric average of source attribute values in <font face="Courier"> attsink </font> 
-for source nodes found in the Voronoi volume of the associated sink node.
-<br><font face="Courier">sink_val = exp((src_val(tot) + src_val(i)) / num_nodes) </font> where src_val(i to n) are all source nodes found within the Voronoi cell of the sink node. num_nodes are the total number of nodes found within the Voronoi cell.
+calculate the geometric average of n values found in <font face="Courier"> attsrc </font>
+<br><font face="Courier">sink_val = ( x(1) * x(i)... * x(n) )**(1/n)  </font> 
+<br><font face="Courier">for 4 values; 1,2,3,4 geoave = 2.21336 </font>  
 <br>
 <br>
+
+<b>harave</b> - For each sink point, 
+calculate the harmonic mean of n values from source attribute <font face="Courier"> attsrc </font> 
+<br><font face="Courier">sink_val = n / ( 1/x(1) + 1/x(i)... + 1/x(n) ) </font> 
+<br><font face="Courier">for 4 values; 1,2,3,4 harave = 1.92 </font>  
+<br>
+<br>
+
+
 <b>min</b> or <b>max</b> - For each sink point, 
-assign the min or max source attribute in <font face="Courier"> attsink </font> of each
-set of source nodes found in the Voronoi volume of the associated sink node.
-<br><font face="Courier">sink_val = min(src_val(i),src_val(n)) or max(src_val(i),src_val(n)) </font> where src_val(i to n) are all source nodes found within the Voronoi cell of the sink node.
+assign the min or max source attribute from n values found in <font face="Courier"> attsrc </font>
+<br><font face="Courier">sink_val = min(x(1),x(i),x(n))
+<br><font face="Courier">for 4 values; 1,2,3,4 min = 1 </font>  
+<br>
+<br>sink_val = max(x(1),x(i),x(n)) </font> 
+<br><font face="Courier">for 4 values; 1,2,3,4 max = 4 </font>  
+<br>
+<br>
+<b>sum</b> - For each sink point,
+calculate the sum of n values from source attribute <font face="Courier"> attsrc </font>
+<br><font face="Courier">sink_val = x(1) + x(i)... + x(n) </font> 
+<br><font face="Courier">for 4 values; 1,2,3,4 sum = 10 </font>  
+<br>
 <br>
 </blockquote>
 
@@ -399,6 +410,161 @@ Source points colored by number of duplicate<br> cell boundaries, attribute dups
 </td></tr>
 </table>
 
+<br>
+<br>
+<p>Example 3:
+<br>
+<br>Show results for the 3 versions of mean calcuations.
+</p>
+<table BORDER="1" COLS=1 >
+<tr><td>
+<pre>
+
+* use single quad element with two nodes located
+* so they will capture 4 nodes each from source 
+
+* for source mesh FINE_MO with two quad elements
+* assign bottom nodes to 2 and top nodes to 8
+
+cmo setatt FINE_MO xmean 2.0
+cmo setatt FINE_MO xmean 4,6,1 8.0
+
+* Upscale using averages
+* and write to attributes for nodes 1 and 2 only
+
+***** Arithmetic mean *****
+upscale/ariave/COARSE_MO amean/1,2,0/ FINE_MO/xmean/
+
+***** Geometric mean *****
+upscale/geoave/COARSE_MO gmean/1,2,0/ FINE_MO/xmean/
+
+***** Harmonic mean *****
+upscale/harave/COARSE_MO hmean/1,2,0/ FINE_MO/xmean/
+
+
+***** SOURCE VALUES from FINE_MO ********                                                    
+cmo printatt FINE_MO xmean                                                      
+Attribute: xmean                                                                
+         1  2.00000E+00                                                         
+         2  2.00000E+00                                                         
+         3  2.00000E+00                                                         
+         4  8.00000E+00                                                         
+         5  8.00000E+00                                                         
+         6  8.00000E+00                                                         
+ 
+***** RESULT VALUES ********                                                    
+
+cmo printatt COARSE_MO amean                                                    
+Attribute: amean                                                                
+         1  5.00000E+00                                                         
+         2  5.00000E+00                                                         
+         3  0.00000E+00                                                         
+         4  0.00000E+00                                                         
+ 
+cmo printatt COARSE_MO gmean                                                    
+Attribute: gmean                                                                
+         1  4.00000E+00                                                         
+         2  4.00000E+00                                                         
+         3  0.00000E+00                                                         
+         4  0.00000E+00                                                         
+ 
+cmo printatt COARSE_MO hmean                                                    
+Attribute: hmean                                                                
+         1  3.20000E+00                                                         
+         2  3.20000E+00                                                         
+         3  0.00000E+00                                                         
+         4  0.00000E+00                                                         
+ 
+</pre>
+
+</td>
+</tr>
+<tr>
+<td width="100%">
+
+<p><b>Image 1 shows Arithmetic mean result of 5.0</b> 
+<br>
+Result Sink nodes 1 and 2 are the two lower nodes of the single quad element in image. 
+<br>
+Source nodes are on the two adjacent quad elements.
+</p>
+<pre>
+UPSCALE METHOD:     ariave                                                      
+           4  Sink Nodes of amean in course mesh: cmoc                          
+           2  Selected Set of Nodes will be written                              
+           6  Source Nodes of xmean in fine mesh: cmof                          
+ 
+  Source Nodes    Percent Done                                                  
+              3       25 %                                                      
+              5       50 %                                                      
+              6 Total source nodes searched.                                    
+---     Sink id   # of nodes used   calculated value ---                        
+              1                4    0.5000000E+01                               
+              2                4    0.5000000E+01                               
+              2 sink nodes out of                 4 assigned values.            
+              2 duplicate nodes on Voronoi boundaries used multiple times.      
+UPSCALE/ariave/ from xmean to amean Done.                                
+</pre>
+<img src="../images/upscale_arithmetic.jpg"  border="1"></a>
+
+</td></tr><tr><td>
+<p><b>Image 2 shows Geometric mean result of 4.0 </b>
+<br>
+Result Sink nodes 1 and 2 are the two lower nodes of the single quad element in image.
+<br>
+Source nodes are on the two adjacent quad elements.
+</p>
+<pre>
+UPSCALE METHOD:     geoave                                                      
+           4  Sink Nodes of gmean in course mesh: cmoc                          
+           2  Selected Set of Nodes will be written                              
+           6  Source Nodes of xmean in fine mesh: cmof                          
+ 
+  Source Nodes    Percent Done                                                  
+              3       25 %                                                      
+              5       50 %                                                      
+              6 Total source nodes searched.                                    
+---     Sink id   # of nodes used   calculated value ---                        
+              1                4    0.4000000E+01                               
+              2                4    0.4000000E+01                               
+              2 sink nodes out of                 4 assigned values.            
+              2 duplicate nodes on Voronoi boundaries used multiple times.      
+UPSCALE/geoave/ from xmean to gmean Done.                 
+</pre>
+<img src="../images/upscale_geometric.jpg"  border="1" ALT="Image 1" ></a>
+
+</td></tr><tr><td>
+
+<p><b>Image 3 shows Harmonic mean result of 3.2</b>
+<br>
+Result Sink nodes 1 and 2 are the two lower nodes of the single quad element in image.
+<br>
+Source nodes are on the two adjacent quad elements.
+</p>
+
+<pre>
+UPSCALE METHOD:     harave                                                      
+           4  Sink Nodes of hmean in course mesh: cmoc                          
+           2  Selected Set of Nodes will be written                              
+           6  Source Nodes of xmean in fine mesh: cmof                          
+ 
+  Source Nodes    Percent Done                                                  
+              3       25 %                                                      
+              5       50 %                                                      
+              6 Total source nodes searched.                                    
+---     Sink id   # of nodes used   calculated value ---                        
+              1                4    0.3200000E+01                               
+              2                4    0.3200000E+01                               
+              2 sink nodes out of                 4 assigned values.            
+              2 duplicate nodes on Voronoi boundaries used multiple times.      
+UPSCALE/harave/ from xmean to hmean Done.           
+</pre>
+<img src="../images/upscale_harmonic.jpg"  border="1" ></a>
+
+
+</td></tr>
+
+</table>
 
 
 

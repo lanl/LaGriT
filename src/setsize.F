@@ -452,6 +452,10 @@ C     2**31 = 2,147,483,647      0.5*(2**31) = 1,073,741,823
          icompare=int_big/8
       endif
  
+C     machine.h defines the value of NBYTES_INT as SIZEOF_LONG
+C     which is 4 for 32 bit and 8 for 64 bit compile which
+C     is equal to pointer size SIZEOF_VOIDP because
+C     lagrit must have integer size pointers 
       if((isize_test .gt. icompare) .and. (NBYTES_INT .eq. 4))then
          write(logmess,100)
   100    format('ERROR: Subroutine set_mbndry')
