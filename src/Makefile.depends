@@ -170,6 +170,7 @@ $(OBJDIR)filholes.o: cmo.h chydro.h neibor.h
 $(OBJDIR)filter.o: local_element.h chydro.h neibor.h local_element.h
 $(OBJDIR)filter.o: chydro.h
 $(OBJDIR)filter_elem_graph.o: local_element.h
+$(OBJDIR)filterkd.o: local_element.h chydro.h neibor.h
 $(OBJDIR)find2to2.o: cmo.h chydro.h neibor.h
 $(OBJDIR)find2to3.o: cmo.h chydro.h neibor.h
 $(OBJDIR)find3to2.o: cmo.h chydro.h neibor.h
@@ -264,6 +265,7 @@ $(OBJDIR)kdtree0.o: consts.h
 $(OBJDIR)kdtree_cmo.o: consts.h local_element.h
 $(OBJDIR)kdtreeselect.o: local_element.h
 $(OBJDIR)laplace2d.o: local_element.h consts.h
+$(OBJDIR)line_graph_sort.o: line_graph_sort.cpp
 $(OBJDIR)lineseg_inter.o: consts.h
 $(OBJDIR)lineseglineseg.o: local_element.h local_element.h
 $(OBJDIR)linesegtri.o: local_element.h
@@ -339,8 +341,7 @@ $(OBJDIR)readavs.o: chydro.h local_element.h
 $(OBJDIR)readdatex.o: cmo.h chydro.h local_element.h
 $(OBJDIR)readdcm.o: local_element.h
 $(OBJDIR)readdump.o: local_element.h
-$(OBJDIR)readgmv_ascii.o: geom_lg.h local_element.h geom_lg.h
-$(OBJDIR)readgmv_ascii.o: local_element.h
+$(OBJDIR)readgmv_ascii.o: local_element.h geom_lg.h
 $(OBJDIR)readgmv_binary.o: local_element.h geom_lg.h
 $(OBJDIR)readngphex.o: chydro.h local_element.h
 $(OBJDIR)readngptet.o: chydro.h local_element.h
@@ -475,10 +476,10 @@ $(OBJDIR)xsectelm.o: local_element.h
 $(OBJDIR)xyznorm.o: chydro.h
 # Source f90 files 
 # change .mod to .f9
-$(OBJDIR)ColoredGraphModule.o: cgnodetype.f90 coloredgraphmodule.f90
-$(OBJDIR)LowPassFilterModule.o: graphmodule.f90
-$(OBJDIR)colormap.o: coloredgraphmodule.f90
-$(OBJDIR)lpfilter.o: lowpassfiltermodule.f90
+$(OBJDIR)ColoredGraphModule.o: ColoredGraphModule.f90
+$(OBJDIR)LowPassFilterModule.o: GraphModule.f90
+$(OBJDIR)colormap.o: ColoredGraphModule.f90
+$(OBJDIR)lpfilter.o: LowPassFilterModule.f90
 # Source .c files 
 $(OBJDIR)sparseMatrix.o: skiplist.ch
 $(OBJDIR)metis_lg.o: metis.h metis_defs.h metis_macros.h metis_proto.h metis_rename.h metis_struct.h

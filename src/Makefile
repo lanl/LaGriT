@@ -1,14 +1,17 @@
 #######################################################################
 # GNU Make version 3.79.1 or later
 # USAGE (make, gmake, or gnumake depending on system setup): 
+# COMPILERS: gfortran 4.4 or higher and Absoft 10.1 or higher
 #
+# make [help or list] will print information without calling compiler
+#
+# for 64 bit compiles add MOPT=64 to make command
+# the following will compile library with debug and 64 bit options
 # make MOPT=64 COPT=-g lib
+#
 # NOTE: make sure machine.h has compiled from machine_header.F
 #       correctly so that NBYTES_INT = 8
 #       remove machine_header.F so it is not picked up in wildcards
-#
-# make list (no action, write to screen only)
-#    list of object files and variables 
 # 
 # make OR make lib 
 #    default creates or updates optimized *.o in OBJDIR_o 
@@ -26,29 +29,23 @@
 #    removes *.o in OBJDIR (recommended before install)
 # make clobber
 #    removes all OBJDIRs and .a files 
-# make help
-#    list of targets and defined variables 
-# make options include:
+# command line make options include:
 #    -d (debug) -p (print rules and variables) -v (version)
 #
-# for SUNOS 8 or newer use % source /n/env/local.sunwspro.12
-# older versions no longer supported
-#
-# platform and compile mode are used to form lib name and object directories
-# uname -s and uname -p are used to detect machine
-# use buildbin opt or buildbin debug to build executable using libs
-# if LIBDIR or OBJDIR do not exist, they are created
-#
-# Note: assumes Makefile and Makefile.depends
-# Note: compatible with gmake which is suggested for Solaris
-# Note: assumes path to sh is defined on system, otherwise define here
-# shell = /bin/sh
+# SGI and SUN OS is included here, but no longer supported
 #
 # Created Jan 7 2008 by tamiller@lanl.gov
 # Modified July 7 2009 to update compiler flags for V2.100 release 
+# Modified Jan 1 2011 to include gfortran flags and .cpp files
+# Modified Aug 8 2011 to include work from Adam Cozzette and .cpp files 
 #
 ##########################################################################
-# user defined variables
+# user defined variables 
+# if LIBDIR or OBJDIR do not exist, they are created
+# platform and compile mode are used to form lib name and object directories
+# uname -s and uname -p are used to detect machine
+# Note: assumes path to sh is defined on system, otherwise define here
+# shell = /bin/sh
 # ------------------------------------------------------------------
 #
 MAKEFILE  = Makefile
@@ -62,13 +59,14 @@ BINDIR= $(subst lagrit/src,lagrit/bin, $(ROOTDIR))
 #  auto variables (May also be set at command line, environment, or script) 
 # ------------------------------------------------------------------
 #
+COMPILER = ABSOFT
+COMPILER = GFORTRAN
 OPSYS = UNKNOWN 
 OPSYS_FULL = $(shell uname -a )
 OPSYS = $(shell uname -s )
 DATETAG = $(shell date '+_%y%m%d')
 NPROC = $(shell uname -p )
-COMPILER = ABSOFT
-COMPILER = GFORTRAN
+CXX = g++
 #
 # Linux OS ------------------------------
 # Linux rainier 2.6.9-55.0.2.ELlargesmp #1 SMP 2007
@@ -76,7 +74,7 @@ COMPILER = GFORTRAN
 #
 ifeq ($(OPSYS), Linux)
 OSTAG = _lin
-FC = /opt/absoft10.0/bin/f77 
+FC = /opt/absoft11.1/bin/f77 
 FC90 = /opt/absoft10.0/bin/f90 
 CC= gcc 
 FFLAGS = -c -f -m32 -q -w 
@@ -88,19 +86,16 @@ ifeq ($(COMPILER),GFORTRAN)
 FC = gfortran
 FC90 = gfortran 
 CC= gcc 
-FC = gfortran
-FC90 = gfortran 
-CC= gcc 
 
-FFLAGS = -fcray-pointer -fno-align-commons -m32 
-FFLAGS = -fcray-pointer -fno-sign-zero -m32 
-CFLAGS = -m32 -fno-sign-zero -Dlin
-FF90FLAGS = -fcray-pointer -fno-sign-zero -m32 
+FFLAGS = -fcray-pointer -m32 
+FF90FLAGS = -fcray-pointer -m32 
+CFLAGS = -m32 -Dlin
 
 ifeq ($(MOPT), 64)
+OSTAG = _lin64
 OBJDIR = lin_objects_m64/
-FFLAGS = -fcray-pointer -fdefault-integer-8  -fno-sign-zero -Dlinx64 
-FF90FLAGS = -fcray-pointer -fdefault-integer-8  -fno-sign-zero -m64 -Dlinx64 
+FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 
+FF90FLAGS = -fcray-pointer -fdefault-integer-8  -m64 -Dlinx64 
 CFLAGS = -m64 -Dlinx64
 endif
 
@@ -110,7 +105,7 @@ endif
 #
 # Mac OSX ------------------------------
 # Darwin darmok.lanl.gov 9.7.0 Darwin Kernel Version 9.7.0
-# powerpc
+# powerpc mac
 # -N11 needed for assembler (large code)
 #
 ifeq ($(OPSYS), Darwin)
@@ -122,9 +117,9 @@ FFLAGS = -c -f -m32 -N11 -q -w
 FF90FLAGS = -m32 -YEXT_NAMES=LCS 
 CFLAGS = -m32 
 OBJDIR = objects_mac/
-#
-# Darwin sundog.lanl.gov 9.7.0 Darwin Kernel Version 9.7.0
-# i386
+
+# intel mac
+# Darwin i386 Kernel Version 10.7.0 RELEASE_X86_64 x86_64
 #
 ifeq ($(NPROC), i386)
 OSTAG = _maci
@@ -138,6 +133,10 @@ OBJDIR = objects_maci/
 endif
 #
 endif
+#######################################################
+# The following OS have not been supported since 2010
+# Use with caution as flags may be out of date
+#
 #
 # SUN OS ------------------------------
 # SunOS flow 5.10 Generic_137137-09 sun4u sparc SUNW,Sun-Fire-880
@@ -173,6 +172,7 @@ CFLAGS = $(FFLAGS)
 OBJDIR = objects_sgi64/
 OBJDIR = objects_sgi/
 endif
+#######################################################
 #
 ifndef COPT
 COPT = -O
@@ -181,19 +181,12 @@ endif
 # form the name suffix based on platform and flags
 # default optimized 32 bit
 SUFF = $(OSTAG)_o
-ifeq ($(MOPT), 64)
-SUFF = $(OSTAG)64_o
-endif
 ifeq ($(COPT), -g)
 SUFF = $(OSTAG)_g
-ifeq ($(MOPT), 64)
-SUFF = $(OSTAG)64_g
-endif
 endif
 #
 SUFF2 =""
 ifeq ($(COMPILER),GFORTRAN)
-SUFF2 = _gfort4.1
 SUFF2 = _gfort4.5
 endif
 ifeq ($(COMPILER),ABSOFT)
@@ -209,19 +202,18 @@ MODDIR = $(OBJDIR)$(SUFF2)
 MODDIR = $(OBJDIR)
 # 
 ##########################################################################
-# Source  
+# All Source files in directory are processed based on extension name. 
 # ------------------------------------------------------------------
 #
 F77_OBJS := $(patsubst %.f,$(OBJDIR)%.o,$(wildcard *.f))
 #
 C_OBJS := $(patsubst %.c,$(OBJDIR)%.o,$(wildcard *.c))
 #
+CXX_OBJS := $(patsubst %.cpp,$(OBJDIR)%.o,$(wildcard *.cpp))
+#
 F77C_OBJS := $(patsubst %.F,$(OBJDIR)%.o,$(wildcard *.F))
 #
-#F90_OBJS := $(patsubst %.f90,$(OBJDIR)%.o,$(wildcard *.f90))
-#
-# works for mod in current directory
-F90_OBJS := $(patsubst %.f90,%.o,$(wildcard *.f90))
+F90_OBJS := $(patsubst %.f90,$(OBJDIR)%.o,$(wildcard *.f90))
 #
 ##########################################################################
 # action targets
@@ -230,30 +222,27 @@ F90_OBJS := $(patsubst %.f90,%.o,$(wildcard *.f90))
 # Improve make by having it recognize a MODDIR instead of current dir
 # ------------------------------------------------------------------
 #
-lib : lagrit.h $(OBJDIR) $(F90_OBJS)  $(F77_OBJS) $(F77C_OBJS) $(C_OBJS) 
+.PHONY: lib install clean clobber help list
+lib : lagrit.h $(OBJDIR) $(F90_OBJS) $(F77_OBJS) $(F77C_OBJS) $(C_OBJS) $(CXX_OBJS) 
 	ar rcu $(LIB) $(F77_OBJS)
 	ar rcu $(LIB) $(F77C_OBJS)
 	ar rcu $(LIB) $(C_OBJS)
+	ar rcu $(LIB) $(CXX_OBJS)
 	ar rcu $(LIB) $(F90_OBJS)
-	mv $(F90_OBJS) $(OBJDIR)
-	mv *.mod $(OBJDIR)
-	cat lagrit.h
-	cp lagrit.template.h lagrit.h
+	head -3 lagrit.h
 	@echo "Done $@ $(LIB)"
 #
-install: lagrit.h $(OBJDIR) $(F90_OBJS)  $(F77_OBJS) $(F77C_OBJS) $(C_OBJS) $(LIBDIR) 
+install: lagrit.h $(OBJDIR) $(F90_OBJS) $(F77_OBJS) $(F77C_OBJS) $(C_OBJS) $(CXX_OBJS) $(LIBDIR) 
 	ar rcu $(LIB) $(F77_OBJS)
 	ar rcu $(LIB) $(F77C_OBJS)
 	ar rcu $(LIB) $(C_OBJS)
+	ar rcu $(LIB) $(CXX_OBJS)
 	ar rcu $(LIB) $(F90_OBJS)
-	mv $(F90_OBJS) $(OBJDIR)
-	mv *.mod $(OBJDIR)
 	cp -p $(LIB) $(LIBDIR)
 	cp -p $(LIB) $(LIBDATE)
 	cp -p $(LIBDATE) $(LIBDIR)
 	mv $(LIBDATE) $(OBJDIR)
-	cat lagrit.h
-	cp lagrit.template.h lagrit.h
+	head -3 lagrit.h
 	@echo "Done $@ $(LIB) $(LIBDIR)"
 #
 clean:;   @rm -f $(OBJDIR)*.o  $(OBJDIR)*.mod
@@ -274,6 +263,8 @@ help:;  @echo " "
 	@echo "   Creates or Updates LIB and .o in OBJDIR" 
 	@echo "make COPT=-g lib" 
 	@echo "   Creates or Updates LIB and .o in OBJDIR" 
+	@echo "make COPT=-g MOPT=64 lib" 
+	@echo "   Creates 64bit vers LIB and .o in OBJDIR" 
 	@echo "make clean"
 	@echo "   Remove .o files from OBJDIR"
 	@echo "make clobber"
@@ -296,6 +287,8 @@ list:;
 	@echo $(F77C_OBJS)
 	@echo "C SOURCE FILES (C_OBJS):"
 	@echo $(C_OBJS)
+	@echo "C++ SOURCE FILES (CXX_OBJS):"
+	@echo $(CXX_OBJS)
 	@echo "F90 SOURCE FILES (F90_OBJS):"
 	@echo $(F90_OBJS)
 	@echo "LIB: $(LIB) " 
@@ -308,6 +301,7 @@ list:;
 	@echo "FC90 Compilers: $(FC90)"
 	@echo "C  Compilers: $(CC)"
 	@echo "CFlags: $(FFLAGS) $(COPT),  $(FF90FLAGS) $(COPT), $(CFLAGS) $(COPT)"
+	@echo "OS: $(OPSYS) OS TAG: $(OSTAG) NAME SUFFIX $(SUFF)$(SUFF2)"
 	@echo " "
 #
 ##########################################################################
@@ -331,15 +325,14 @@ $(OBJDIR)%.o : %.f
 #	cat lagrit.h
 
 .SUFFIXES: .f90
-#$(OBJDIR).f90.o:
-#	$(FC90) $(FF90FLAGS)  -c $@ $<
-
-# works for .mod in current dir
-%.o %.mod: %.f90
-	$(FC90) $(FF90FLAGS) -c $<
+$(F90_OBJS): $(OBJDIR)%.o: %.f90
+	$(FC90) $(COPT) $(FF90FLAGS) -c $< -o $@
 
 $(OBJDIR)%.o : %.c
 	$(CC) $(COPT) $(CFLAGS)  -c -o $@ $<
+
+$(OBJDIR)%.o : %.cpp
+	$(CXX) $(COPT) $(CFLAGS) -c -o $@ $<
 
 machine.h : machine_header.h
 	@echo "--------------------------------------------------"
