@@ -105,6 +105,12 @@ C
       character*32 cmsgin(nwds),cmoain,cmobin,cmoout,isubname,
      *  cglobal,cdefault
 C
+C     Arguments for calling sortbins
+C
+      integer cmd_imsgin(5), cmd_msgtyp(5)
+      real *8 cmd_xmsgin(5)
+      character*32 cmd_cmsgin(5)
+C
 C   Definitions for incoming (existing) cmoain
 C
       pointer (ipimt1a, imt1a)
@@ -1247,7 +1253,7 @@ C
          enddo
       enddo
 C
-      do i=1,npointsc
+      do i=1,npointsa
          if(itp1c(i).eq.ifitpint.or.itp1c(i).eq.ifitpini) icr1a(i)=0
       enddo
 C
@@ -1281,6 +1287,39 @@ C
             call dotaskx3d(dotask_command,ierror)
          endif
 C
+C     Sort the edges in itet. Hopefully no one is using line_sort_key
+C     for anything.
+C
+      do i = 1, 5
+        cmd_imsgin(i) = 0
+        cmd_xmsgin(i) = 0.0
+        cmd_msgtyp(i) = 3
+      enddo
+      cmd_cmsgin(1) = 'sort'
+      cmd_cmsgin(2) = cmoout
+      cmd_cmsgin(3) = 'line_graph'
+      cmd_cmsgin(4) = 'ascending'
+      cmd_cmsgin(5) = 'line_sort_key'
+
+      call sortbins(cmd_imsgin, cmd_xmsgin, cmd_cmsgin, cmd_msgtyp, 5,
+     *  ierror)
+C     dotask_command = 'sort/' // cmoout //
+C    *      '/line_graph/ascending/line_sort_key; finish'
+C     call dotaskx3d(dotask_command, ierror)
+      if (ierror .ne. 0) then
+          write(logmess, '(a)')
+     *    ' INTERSECT: ERROR - something went wrong sorting the output.'
+          call writloga('default',0,logmess,0,ierr1)
+          ierr1 = 1 
+      else
+         dotask_command = 'reorder/' // cmoout //
+     *      '/line_sort_key; finish'
+         call dotaskx3d(dotask_command, ierror)
+         dotask_command = 'cmo/delatt/' // cmoout //
+     *      '/line_sort_key; finish'
+         call dotaskx3d(dotask_command, ierror)
+      endif
+
       call mmrelprt(isubname,icscode)
       return
       end

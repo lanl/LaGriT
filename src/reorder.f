@@ -55,7 +55,8 @@ C
 C ######################################################################
 C
 C    Local variables
-      integer ilen, itype, nnode, nelem
+      integer ilen, itype, nnode, nelem, index
+      character*32 ctype,crank,cattr_name,clength,cio,cpers,cinter
 C
       integer icharlnf
 C
@@ -121,21 +122,12 @@ C
       call cmo_get_info('nnodes',cmo_name,nnode,ilen,itype,ierr)
       call cmo_get_info('nelements',cmo_name,nelem,ilen,itype,ierr)
 
-      if(nnode .eq. nelem)then
-         logmess = 
-     *     'REORDER: WARNING, nnodes=nelem , code cannot figure out if '
-         call writloga('default',0,logmess,0,ierr)
-         logmess = 
-     *     'REORDER: WARNING, the sort key is nodes or elements'
-         call writloga('default',0,logmess,0,ierr)
-         logmess = 
-     *     'REORDER: WARNING, WILL ASSUME NODE REORDER'
-         call writloga('default',0,logmess,0,ierr)
-      endif
+      call cmo_get_attparam(cname_isort_key,cmo_name,index,ctype,
+     *  crank,clength,cinter,cpers,cio,ierr)
 
-      if(ilen_isort_key .eq. nnode)then
+      if (clength(1:6) .eq. 'nnodes') then
          call reorder_node(imsgin,xmsgin,cmsgin,msgtype,nwds,ierr)
-      elseif(ilen_isort_key .eq. nelem)then
+      elseif(clength(1:9) .eq. 'nelements')then
          call reorder_element(imsgin,xmsgin,cmsgin,msgtype,nwds,ierr)
       else
 C

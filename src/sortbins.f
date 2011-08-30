@@ -4,6 +4,7 @@ C
 C#######################################################################
 C    FORMAT - sort/cmoname/bins      /[ASCENDING|descending]/[ikey]/in_att/[epsilon_user]
 C    FORMAT - sort/cmoname/index|rank/[ASCENDING|descending]/[ikey]/in_att1 in_att2 in_att3 ...
+C    FORMAT - sort/cmoname/line_graph/[ASCENDING|descending]/[ikey]
 C
 C    INPUT ARGUMENTS - imsgin,xmsgin,cmsgin,msgtyp,nwds
 C    INPUTS
@@ -129,6 +130,8 @@ C
 C#######################################################################
 C
       implicit none
+
+      include 'local_element.h'
 C
 C     Variable/Data Dictionary
 C
@@ -145,13 +148,30 @@ C
       pointer (ipikey, ikey)
       pointer (ipiwork,iwork)
       pointer (iprwork,rwork)
+      pointer (ipitet, itet)
+      pointer (ipitettyp, itettyp)
+C
+C     Component id, component type, and loop id attributes, to be
+C     created if the line_graph option is used.
+C
+      pointer (ipcid, cid)
+C     Ordinarily we would call this attribute ctype. But let's call it
+C     comptype because the variable ctype is already in use in this
+C     source file.
+      pointer (ipcomptype, comptype)
+      pointer (iploopid, loopid)
+
       real*8 rwork(10000000)
       real*8 att_r(10000000)
       integer att_i(10000000)
       integer ikey(10000000)
       integer iwork(10000000)
+      integer itet(10000000)
+      integer itettyp(10000000)
       integer itype, ilen, ier, itype_att, irank
+      integer ierror
       integer nwds, nnodes, nkey, mkey, nsize, ioff_set, narg_input
+      integer cid, comptype, loopid
       integer nelem, nsort
       integer isort_order
       integer i, index, nend
@@ -164,6 +184,8 @@ C
       character*32 cmsgin(nwds)
       character*32 isubname, cmonam
       character*32 sort_key
+C     nsort_name will either be 'nnodes' or 'nelements'.
+      character*32 nsort_name
       character*32 isort_type
       character*32 sort_order
       character*32 catt_name
@@ -238,6 +260,20 @@ C
          endif
       elseif(cmsgin(3)(1:icharlnf(cmsgin(3))) .eq. 'rank') then
             isort_type = 'rank'
+      elseif(cmsgin(3)(1:icharlnf(cmsgin(3))) .eq. 'line_graph') then
+            isort_type = 'line_graph'
+            if (nwds .gt. 5) then
+              write(logmess,'(a)')
+     *         ' SORT: Error - Too many arguments for line_graph option'
+              call writloga('default',0,logmess,0,ier)
+              goto 9999
+            endif
+            if (nelem .eq. 0) then
+              write(logmess, '(a)')
+     *           ' SORT: Quitting early because there are 0 elements.'
+              call writloga('default',0,logmess,0,ier)
+              goto 9999
+            endif
       else
         write(logmess,9010) cmsgin(3)(1:icharlnf(cmsgin(3)))
  9010   format(" SORT: Invalid option: ",a)
@@ -282,94 +318,107 @@ C######################################################################
 C
 C
 C    6 - Get arrays that control the multi-key sort and put them
-C        into a real*8 work array.
+C        into a real*8 work array. This does not apply to the line_graph
+C        sort.
 C
+      if (isort_type .ne. 'line_graph') then
+         narg_input = 6
 C
-      narg_input = 6
+C        Tokens narg_input through nwds will be the arrays that control
+C        the sort.
 C
-C    Tokens narg_input through nwds will be the arrays that control the sort.
-C
-      if(isort_type .ne. 'bins')then
-         nkey = nwds - narg_input + 1
-         nend = nwds
-      else
-         nkey = 1
-         nend = narg_input
-      endif
-C
-C    Use the first sort array to decide on the lenght of the sort vector.
-C    All other sort vectors must be the same length.
-C
-      catt_name = cmsgin(narg_input)(1:icharlnf(cmsgin(narg_input)))
-      call cmo_get_info(catt_name,cmonam,ipatt,ilen,itype_att,ier)
-      call cmo_get_length(catt_name,cmonam,ilen,irank,ier)
- 
-      nsize = ilen * nkey
-      nsort = ilen
- 
-C
-C    Allocate a 1D array that is nsort*nkey long. This
-C    will be passed into the heap sort routine and treated
-C    as a 2D array rwork(nkey,nsort)
-C
-      call mmgetblk('rwork',isubname,iprwork,nsize,2,ier)
-C
-C    Fill the real*8 work array that will be passed to the sort routine
-C
-      do mkey = narg_input, nend
- 
-      catt_name = cmsgin(mkey)(1:icharlnf(cmsgin(mkey)))
- 
-      call cmo_get_info(catt_name,cmonam,ipatt,ilen,itype_att,ier)
-C
-C   Check that attribute is nsort long
-C
-      call cmo_get_length(catt_name,cmonam,ilen,irank,ier)
- 
-      if(ilen .ne. nsort)then
-        write(logmess,9026) ilen
- 9026   format(" SORT:ERROR att_in lenght = ",i11)
-        call writloga('default',0,logmess,0,ier)
-        write(logmess,9027) nsort
- 9027   format(" SORT:ERROR nsort = ",i11)
-        call writloga('default',0,logmess,0,ier)
-        goto 9999
-      endif
-C
-      call cmo_get_attparam(
-     1   catt_name,cmonam,index,
-     2   ctype,
-     3   crank,
-     4   clen,
-     5   cinter,
-     6   cpers,
-     7   cio,
-     8   ier)
- 
-         ioff_set = (mkey - narg_input)*nnodes
-C
-C   Kind of a funky counter system to get index value
-C   but that's the way it is....
-C
-         if(ctype(1:4) .eq. 'VINT')then
-            itype_att = 1
-            do i = 1, nsort
-               index = (i-1)*nkey + (mkey - narg_input + 1)
-               rwork(index) = att_i(i)
-            enddo
-         elseif(ctype(1:7) .eq. 'VDOUBLE')then
-            itype_att = 2
-            do i = 1, nsort
-               index = (i-1)*nkey + (mkey - narg_input + 1)
-               rwork(index) = att_r(i)
-            enddo
+         if(isort_type .ne. 'bins')then
+            nkey = nwds - narg_input + 1
+            nend = nwds
          else
-        write(logmess,9028) ctype(1:icharlnf(ctype))
- 9028   format(" SORT:ERROR att_in type=",a, " Must be VINT or VDOUBLE")
-        call writloga('default',0,logmess,0,ier)
-        goto 9999
+            nkey = 1
+            nend = narg_input
          endif
-      enddo
+C
+C        Use the first sort array to decide on the length of the sort
+C        vector. All other sort vectors must be the same length.
+C
+         catt_name = cmsgin(narg_input)(1:icharlnf(cmsgin(narg_input)))
+         call cmo_get_attparam(
+     1      catt_name,cmonam,index,
+     2      ctype,
+     3      crank,
+     4      clen,
+     5      cinter,
+     6      cpers,
+     7      cio,
+     8      ier)
+         call cmo_get_length(catt_name,cmonam,ilen,irank,ier)
+         nsize = ilen * nkey
+         nsort = ilen
+         nsort_name = clen
+ 
+C
+C        Allocate a 1D array that is nsort*nkey long. This
+C        will be passed into the heap sort routine and treated
+C        as a 2D array rwork(nkey,nsort)
+C
+         call mmgetblk('rwork',isubname,iprwork,nsize,2,ier)
+C
+C        Fill the real*8 work array that will be passed to the sort
+C        routine
+C
+         do mkey = narg_input, nend
+ 
+         catt_name = cmsgin(mkey)(1:icharlnf(cmsgin(mkey)))
+ 
+         call cmo_get_info(catt_name,cmonam,ipatt,ilen,itype_att,ier)
+C
+C        Check that attribute is nsort long
+C
+         call cmo_get_length(catt_name,cmonam,ilen,irank,ier)
+ 
+         if(ilen .ne. nsort)then
+           write(logmess,9026) ilen
+ 9026      format(" SORT:ERROR att_in length = ",i11)
+           call writloga('default',0,logmess,0,ier)
+           write(logmess,9027) nsort
+ 9027      format(" SORT:ERROR nsort = ",i11)
+           call writloga('default',0,logmess,0,ier)
+           goto 9999
+         endif
+C
+         call cmo_get_attparam(
+     1      catt_name,cmonam,index,
+     2      ctype,
+     3      crank,
+     4      clen,
+     5      cinter,
+     6      cpers,
+     7      cio,
+     8      ier)
+ 
+            ioff_set = (mkey - narg_input)*nnodes
+C
+C           Kind of a funky counter system to get index value
+C           but that's the way it is....
+C
+            if(ctype(1:4) .eq. 'VINT')then
+               itype_att = 1
+               do i = 1, nsort
+                  index = (i-1)*nkey + (mkey - narg_input + 1)
+                  rwork(index) = att_i(i)
+               enddo
+            elseif(ctype(1:7) .eq. 'VDOUBLE')then
+               itype_att = 2
+               do i = 1, nsort
+                  index = (i-1)*nkey + (mkey - narg_input + 1)
+                  rwork(index) = att_r(i)
+               enddo
+            else
+               write(logmess,9028) ctype(1:icharlnf(ctype))
+ 9028          format(" SORT:ERROR att_in type=",a,
+     *            " Must be VINT or VDOUBLE")
+               call writloga('default',0,logmess,0,ier)
+               goto 9999
+            endif
+         enddo
+      endif
 c
 C######################################################################
 C    5 - Get or create the sort key array
@@ -379,16 +428,27 @@ C        does not interfer with the parsing of the sort key array names.
 C
 C
       sort_key = cmsgin(5)
+
+      if (isort_type .eq. 'line_graph') then
+         nsort = nelem
+         nsort_name = "nelements"
+      endif
 c
 c   What if sort_key exists and is named??? Make sure
 c   it is integer, and we will overwrite it.
 c
 C   If blank or default then use the name of the first
-C   attribute (command line argument 6) to name the sort key.
+C   attribute (command line argument 6) to name the sort key. For the
+C   line graph option we just call it ikey_line_graph.
 C
-      if((cmsgin(5)(1:icharlnf(cmsgin(5))) .eq. '-def-')) then
-        sort_key = 'ikey'//'_'//(cmsgin(6)
-     1  (1:icharlnf(cmsgin(6))))
+      if((cmsgin(5)(1:icharlnf(cmsgin(5))) .eq. '-def-') .or.
+     *      nwds .lt. 5) then
+        if (isort_type .eq. 'line_graph') then
+           sort_key = 'ikey_line_graph'
+        else
+           sort_key = 'ikey'//'_'//(cmsgin(6)
+     1       (1:icharlnf(cmsgin(6))))
+        endif
       endif
 C
 C      Check to see if 'sort_key' exists as a variable, if not
@@ -398,20 +458,10 @@ C
       call mmfindbk(sort_key,cmonam,ipikey,ilen,ier)
       if(ier .ne. 0)then
          ier = 0
-         if(nsort .eq. nnodes)then
-            cmdmessage = 'cmo/addatt/ /'//
+         cmdmessage = 'cmo/addatt/ /'//
      1                 sort_key(1:icharlnf(sort_key))//
-     2                 '/vint/scalar/nnodes/ / /gax/0;finish'
-         elseif(nsort .eq. nelem)then
-            cmdmessage = 'cmo/addatt/ /'//
-     1                 sort_key(1:icharlnf(sort_key))//
-     2                 '/vint/scalar/nelements/ / /gax/0;finish'
-         else
-            cmdmessage = 'cmo/addatt/ /'//
-     1                 sort_key(1:icharlnf(sort_key))//
-     2                 '/vint/scalar/'//clen//'/ / /gax/0;finish'
+     2                 '/vint/scalar/'//nsort_name//'/ / /gax/0;finish'
  
-         endif
          call dotaskx3d(cmdmessage, ier)
        endif
  
@@ -446,12 +496,67 @@ C
       elseif(isort_type(1:4) .eq. 'rank')then
          call hpsortrmp(nsort, nkey, nkey, rwork, rsort_order, iwork)
          call index_rank(nsort,iwork,ikey)
+      elseif(isort_type(1:10) .eq. 'line_graph') then
+         call cmo_get_info('itet', cmonam, ipitet, ilen, itype, ier)
+         call cmo_get_info('itettyp', cmonam, ipitettyp, ilen, itype,
+     *      ier)
+C
+C        Loop through and make sure that itet consists solely of line
+C        segments.
+C
+         do i = 1, ilen
+            if (itettyp(i) .ne. ifelmlin) then
+               write(logmess, *)
+     *         'SORT: ERROR - itet must consist only of line segments.'
+               call writloga('default',0,logmess,0,ier)
+               ier = 1
+               goto 9999
+            endif
+         enddo
+C
+C        Create new attributes. We run a delete on the attribute names
+C        just to zero them out in case they already exist.
+C
+         ier = 0
+         cmdmessage = 'cmo/DELATT/' // cmonam(1:icharlnf(cmonam)) //
+     *      '/cid; finish'
+         call dotaskx3d(cmdmessage, ier)
+         cmdmessage = 'cmo/addatt/' // cmonam(1:icharlnf(cmonam)) //
+     *      '/cid/vint/scalar/nelements; finish'
+         call dotaskx3d(cmdmessage, ier)
+
+         cmdmessage = 'cmo/DELATT/' // cmonam(1:icharlnf(cmonam)) //
+     *      '/ctype; finish'
+         call dotaskx3d(cmdmessage, ier)
+         cmdmessage = 'cmo/addatt/' // cmonam(1:icharlnf(cmonam)) //
+     *      '/ctype/vint/scalar/nelements; finish'
+         call dotaskx3d(cmdmessage, ier)
+
+         cmdmessage = 'cmo/DELATT/' // cmonam(1:icharlnf(cmonam)) //
+     *      '/loopid; finish'
+         call dotaskx3d(cmdmessage, ier)
+         cmdmessage = 'cmo/addatt/' // cmonam(1:icharlnf(cmonam)) //
+     *      '/loopid/vint/scalar/nelements; finish'
+         call dotaskx3d(cmdmessage, ier)
+C
+C        Get ahold of the attributes we just created.
+C
+         call cmo_get_info('cid', cmonam(1:icharlnf(cmonam)), ipcid,
+     *      ilen, itype, ier)
+         call cmo_get_info('ctype', cmonam(1:icharlnf(cmonam)),
+     *      ipcomptype, ilen, itype, ier)
+         call cmo_get_info('loopid', cmonam(1:icharlnf(cmonam)),
+     *      iploopid, ilen, itype, ier)
+C
+C        Now let the C++ code take care of the rest!
+C
+         call line_graph_sort(itet, cid, comptype, loopid, ikey, ilen)
       endif
 C
 C
 C######################################################################
 C
- 9999 call mmrelprt(isubname,ier)
+ 9999 call mmrelprt(isubname,ierror)
  
       return
       end
