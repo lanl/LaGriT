@@ -987,16 +987,49 @@ C
      *                           nsdtopo,length,icmotype,ierror)
            call cmo_get_info('ndimensions_geom',cmo,
      *                           nsdgeom,length,icmotype,ierror)
+
            if(nsdtopo.eq.2.and.nsdgeom.eq.2) then
              call connect2d_lg(imsgout,xmsgout,cmsgout,msgtype,nwds,
      *                              ierr2)
+             if (ierr2 .ne.0) then
+               write(logmess,'(a,i5)')
+     *         'LaGriT WARNING: connect (2d) returned error: ',ierr2
+               call writloga('default',0,logmess,1,ierrw)
+               ierr2 = 0
+             else
+               write(logmess,'(a)')
+     *         'LaGriT FINISH: connect '
+               call writloga('default',0,logmess,1,ierrw)
+             endif
+
            elseif(nsdtopo.eq.3.and.nsdgeom.eq.3) then
              call connect(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+
+             if (ierr2 .ne.0) then
+               write(logmess,'(a,i5)')
+     *         'LaGriT WARNING: connect returned error: ',ierr2
+               call writloga('default',0,logmess,1,ierrw)
+               ierr2 = 0
+             else
+               write(logmess,'(a)')
+     *         'LaGriT FINISH: connect '
+               call writloga('default',0,logmess,1,ierrw)
+             endif
+
            else
+
+               write(logmess,'(a)')
+     *         'LaGriT ABORT: connect '
+               call writloga('default',0,logmess,1,ierrw)
+
                write(logmess,'(a,i3,a,i3,a)')
      *       'ndimensions_topo=',nsdtopo,' ndimensions_geom=',
      *        nsdgeom,' not consistent - connect will not work'
                call writloga('default',0,logmess,0,ierrw)
+
+               write(logmess,'(a)')
+     *         'LaGriT ABORT: connect '
+               call writloga('default',0,logmess,1,ierrw)
            endif
 C
 C
@@ -1539,6 +1572,14 @@ C
                call filter_elem_graph
      1                (imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
             endif
+C
+         elseif(idsb(1:lenidsb) .eq. 'filterkd') then
+C
+C           ************************************************************
+C           popcomponents: REMOVE SMALL TOPOLOGICAL COMPONENTS.
+C
+            call filterkd(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+C
 C
          elseif(idsb(1:lenidsb).eq.'pset') then
 C
@@ -2374,10 +2415,10 @@ C           usersub : EXECUTE USERSUB.
 C
             call user_sub(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
             if(ierr2.ne.0) then
-               ierror=-1
-               write(logmess,9000) idsb(1:lenidsb)
-               call writloga('default',1,logmess,1,ierrw)
- 9000          format("Invalid LaGriT generator command: ",a)
+              ierror=-1
+              write(logmess,9000) idsb(1:lenidsb)
+              call writloga('default',1,logmess,1,ierrw)
+ 9000         format("WARNING: Invalid LaGriT generator command: ",a)
             endif
 C
          endif
