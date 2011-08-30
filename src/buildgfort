@@ -1,0 +1,66 @@
+# for linux version only
+# create library and build executable in this directory
+#
+# Target: x86_64-unknown-linux-gnu
+# Configured with: ../gcc-4.5.1/configure --prefix=/scratch/ymp/packages/gcc/gcc-4.5.1 
+# Thread model: posix gcc version 4.5.1 (GCC) 
+# this adds the libraries needed for exodus read/write commands.
+#
+# Call buildgfort for all versions
+# or copy and past sections for single version compile and build
+
+
+# OSTYPE = Linux gfortran 64 bit ------------------------------------------------
+
+# build -g version #######################
+rm machine.h
+cp lagrit_lin64.h lagrit.h
+
+make MOPT=64 COPT=-g lib
+
+gfortran  -g -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o lagrit_main.o lagrit_main.f
+gfortran  -g -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
+
+gfortran -g -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o xlagrit_lin64_g lagrit_main.o lagrit_fdate.o lagrit_lin64_g_gfort4.5.a /home/tam/src/lg_util/lib/util_lin64_g_gfort4.5.a -lm -L/home/tam/local/lib -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
+
+# build -O version #######################
+rm machine.h
+cp lagrit_lin64.h lagrit.h
+
+make MOPT=64 lib
+
+gfortran -O -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o lagrit_main.o lagrit_main.f
+gfortran -O -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
+
+gfortran -O -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o xlagrit_lin64_o lagrit_main.o lagrit_fdate.o lagrit_lin64_o_gfort4.5.a /home/tam/src/lg_util/lib/util_lin64_o_gfort4.5.a -lm -L/home/tam/local/lib -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
+
+##########################################################################
+exit
+##########################################################################
+
+##### 32 bit linux not working with exodus and netcdf libraries yet
+# OSTYPE = Linux gfortran 32 bit ------------------------------------------------
+
+# build -g version #######################
+rm machine.h
+cp lagrit_lin.h lagrit.h
+
+make COPT=-g lib
+
+gfortran  -g -fcray-pointer -m32  -c -o lagrit_main.o lagrit_main.f
+gfortran  -g -fcray-pointer -m32  -c -o lagrit_fdate.o lagrit_fdate.f
+gfortran -g -static-libgfortran -fcray-pointer -m32  -o xlagrit_lin32_g lagrit_main.o lagrit_fdate.o lagrit_lin_g_gfort4.5.a /home/tam/src/lg_util/lib/util_lin_g_gfort4.5.a -lm -L/home/tam/local/lib -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
+
+# build -O version #######################
+rm machine.h
+cp lagrit_lin.h lagrit.h
+
+make lib
+
+gfortran  -O -fcray-pointer -m32  -c -o lagrit_main.o lagrit_main.f
+gfortran  -O -fcray-pointer -m32  -c -o lagrit_fdate.o lagrit_fdate.f
+gfortran -O -static-libgfortran -fcray-pointer -m32  -o xlagrit_lin32_o lagrit_main.o lagrit_fdate.o lagrit_lin_o_gfort4.5.a /home/tam/src/lg_util/lib/util_lin_o_gfort4.5.a -lm -L/home/tam/local/lib -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
+
+
+
+exit

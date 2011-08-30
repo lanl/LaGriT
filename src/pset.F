@@ -596,46 +596,6 @@ C
      $    (mode(1:lenmode) .eq. 'write')) then
 
       if(mode(1:lenmode) .eq. 'write') then
-      file_name = cmsgin(4)
-      lenname = icharlnf(file_name)
-      if(ioformat .eq. 1)then
-      if(file_name(lenname-4:lenname) .ne. '.pset') then
-         file_name = file_name(1:lenname) // '.pset'
-         lenname = lenname + 5
-         write(logmess,5000)'PSET: Appended .pset to the file name'
- 5000    format(a)
-         call writloga('default',0,logmess,0,ierr)
-      endif
-      elseif(ioformat .eq. 2)then
-      if(file_name(lenname-4:lenname) .ne. '.zone') then
-         file_name = file_name(1:lenname) // '.zone'
-         lenname = lenname + 5
-         write(logmess,5000)'PSET: Appended .zone to the file name'
-         call writloga('default',0,logmess,0,ierr)
-      endif
-      elseif(ioformat .eq. 3)then
-      if(file_name(lenname-4:lenname) .ne. '.zonn') then
-         file_name = file_name(1:lenname) // '.zonn'
-         lenname = lenname + 5
-         write(logmess,5000)'PSET: Appended .zonn to the file name'
-         call writloga('default',0,logmess,0,ierr)
-      endif
-      endif
-C
-C     Open file for pset output.
-C
-      iunit = nextlun()
-      print *, 5, msgtype(5), cmsgin(5)
-      if ((msgtype(5).eq.3.and.cmsgin(5)(1:5).eq.'ascii') .or.
-     *    (msgtype(5).eq.3.and.cmsgin(5)(1:5).eq.'-def-') .or.
-     *    (nwds .eq. 4)                                   .or.
-     *    (msgtype(5).eq.3.and.cmsgin(5).eq.' ')) then
-         open(unit=iunit, file = file_name, form = 'formatted')
-         iotype = 1
-      elseif(msgtype(5).eq.3.and.cmsgin(5)(1:6).eq.'binary') then
-         open(unit=iunit, file = file_name, form = 'unformatted')
-         iotype = 0
-      endif
       if ((msgtype(2).eq.3.and.cmsgin(2)(1:5).eq.'-def-') .or.
      *    (msgtype(2).eq.3.and.cmsgin(2)(1:5).eq.'-all-') .or.
      *    (msgtype(2).eq.3.and.cmsgin(2).eq.' ')) then
@@ -667,7 +627,22 @@ C
             if(mode(1:lenmode) .eq. 'list') then
                go to 9998
             elseif(mode(1:lenmode) .eq. 'write') then
-               go to 9997
+C              Make sure that the pset actually exists
+               icnt=0
+               do 3 i=1,nbitsmax
+                  len2=icharlnf(psetnames(i))
+                  len1=max(lenname,len2)
+                  if (name(1:len1) .eq. psetnames(i)(1:len1)) icnt=i
+    3          continue
+               if (name(1:5) .eq. '-all-') then
+                   go to 9997
+               elseif (icnt .eq. 0) then
+                   write(logmess, 1005) name
+                   call writloga('default',1,logmess,1,ierr)
+                   go to 9998
+               else
+                   go to 9997
+               endif
             endif
 C
 C        ---------------------------------------------------------------
@@ -2119,15 +2094,7 @@ C
 C
 C     Count up the number of psets for output.
 C
-      icnt = 0
-      if(name(1:5) .ne. '-all-')then
-         icnt = 1
-      else
-      do j=1,nbitsmax
-        if((psetnames(j)(1:1) .ne.' ') .and. 
-     *     (psetnames(j)(1:5) .ne. '-def-'))icnt = icnt + 1
-      enddo
-      endif
+      icnt = 1
 C
 C     Use user supplied number for zone id number in output file
 C
@@ -2137,22 +2104,6 @@ C
          if_id_zone_number = 1
       endif
 C
-      if(iotype .eq. 1)then
-      if(ioformat .eq. 1)then
-      write(iunit,7005) 'pset ascii',icnt
- 7005 format(a,i10)
-      elseif(ioformat .eq. 2)then
-      write(iunit,7013)'zone'
-      elseif(ioformat .eq. 3)then
-      write(iunit,7013)'zonn'
-      endif
-      elseif(iotype .eq. 0)then
-      write(iunit) 'pset unformatted',icnt
-      endif
-      
-      write(logmess,7007)name(1:icharlnf(name)),icnt
- 7007 format('PSET: OUTPUT ',a,'  ',i3,' PSETS TO FILE ')
-      call writloga('default',0,logmess,0,ierr)
 C
 C     Output pset lists
 C
@@ -2170,6 +2121,70 @@ C
        endif
 
       if(iprint .eq. 1)then
+
+      file_name = cmsgin(4)
+      if (name(1:5) .eq. '-all-') then
+          file_name = file_name(1:icharlnf(file_name)) // '_' //
+     *      psetnames(j)(1:icharlnf(psetnames(j)))
+      endif
+      lenname = icharlnf(file_name)
+
+      if(ioformat .eq. 1)then
+      if(file_name(lenname-9:lenname) .ne. '.vertexset') then
+         file_name = file_name(1:lenname) // '.vertexset'
+         lenname = lenname + 10
+         write(logmess,5000)'PSET: Appended .vertexset to the file name'
+ 5000    format(a)
+         call writloga('default',0,logmess,0,ierr)
+      endif
+      elseif(ioformat .eq. 2)then
+      if(file_name(lenname-4:lenname) .ne. '.zone') then
+         file_name = file_name(1:lenname) // '.zone'
+         lenname = lenname + 5
+         write(logmess,5000)'PSET: Appended .zone to the file name'
+         call writloga('default',0,logmess,0,ierr)
+      endif
+      elseif(ioformat .eq. 3)then
+      if(file_name(lenname-4:lenname) .ne. '.zonn') then
+         file_name = file_name(1:lenname) // '.zonn'
+         lenname = lenname + 5
+         write(logmess,5000)'PSET: Appended .zonn to the file name'
+         call writloga('default',0,logmess,0,ierr)
+      endif
+      endif
+C
+C     Open file for pset output.
+C
+      iunit = nextlun()
+
+      write(logmess,7007)name(1:icharlnf(name)),icnt
+ 7007 format('PSET: OUTPUT ',a,'  ',i3,' PSETS TO FILE ')
+      call writloga('default',0,logmess,0,ierr)
+      print *, 5, msgtype(5), cmsgin(5)
+      if ((msgtype(5).eq.3.and.cmsgin(5)(1:5).eq.'ascii') .or.
+     *    (msgtype(5).eq.3.and.cmsgin(5)(1:5).eq.'-def-') .or.
+     *    (nwds .eq. 4)                                   .or.
+     *    (msgtype(5).eq.3.and.cmsgin(5).eq.' ')) then
+         open(unit=iunit, file = file_name, form = 'formatted')
+         iotype = 1
+      elseif(msgtype(5).eq.3.and.cmsgin(5)(1:6).eq.'binary') then
+         open(unit=iunit, file = file_name, form = 'unformatted')
+         iotype = 0
+      endif
+      
+      if(iotype .eq. 1)then
+      if(ioformat .eq. 1)then
+      write(iunit,7005) 'pset ascii',icnt
+ 7005 format(a,i10)
+      elseif(ioformat .eq. 2)then
+      write(iunit,7013)'zone'
+      elseif(ioformat .eq. 3)then
+      write(iunit,7013)'zonn'
+      endif
+      elseif(iotype .eq. 0)then
+      write(iunit) 'pset unformatted',icnt
+      endif
+
       cpt1='psetnames'
       cpt2='get'
       cpt3=psetnames(index)
@@ -2208,13 +2223,14 @@ C
          write(iunit) ( mpary1(k),k=1,mpno )
       endif
  
-      endif
-      enddo
       if((ioformat .eq. 2).or.(ioformat .eq. 3))then
          write(iunit,*)' '
          write(iunit,7013)'stop'
       endif
       close(iunit)
+
+      endif
+      enddo
       endif
 
 c
