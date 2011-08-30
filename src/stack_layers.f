@@ -19,6 +19,12 @@ C         nnperlayer
 C         neperlayer
 C         layertyp
 C
+C     NOTE: Original code and options was developed with stack_trilayers()
+C     which assumed triangle surface files. This is a more general version
+C     and problems with options may be due to generalization in this routine.
+C
+C     Error processing and reporting is old style and should be updated.
+C
 C     FORMAT:
 C
 C     STACK/LAYERS/
@@ -34,8 +40,11 @@ C                      [ REFINE [xrefine or irefine]]  &
 C                      [ NOINTERFACE ]
 C    NEW OPTIONS->     [ d_pinch r d_min r id_move i ] &
 C
-C    old version: mread/trilayers
+C    old old version: mread/trilayers
+C    old version: stack/trilayers or stack/quadlayers
+C
 C    stack/layers/
+C
 C     filetype       - optional avs | gmv filetypes, default avs
 C     minx, miny,
 C     maxx, maxy     - optional to subset each layer
@@ -57,9 +66,13 @@ C                      xvalue forms layers above and below
 C                      each layer except top and bottom.
 C    refine          - irefine will proportionally divide thickness
 C                      xrefine will divide into given thickness
+C                      (Note this is not recognized in syntax)
 C    nointerface     - does not add the interface to final cmo
 C                      use with buffer option
 C                      extremly experimental
+C    d_pinch d_min id_move - uses beads_ona_ring, see below 
+C                     - does not work if pinch is defined
+C                     - works best with buffers, id_move is 3 by default    
 C
 C    New node attribute added to the stack cmo is VINT layertyp
 C    -1   bottom surface
@@ -95,7 +108,7 @@ C Layers truncated by surf2_slope.inp layer        10
 C ................................................................                
 C  
 C
-C    NEW options for bead_ona_ring algorithm
+C    options for beads_ona_ring algorithm
 C    These options are used along with buffers to help
 C    elements to follow the boundary layer interfaces
 C
@@ -104,7 +117,7 @@ C                 (pinch uses layer truncation to cause pinchouts)
 c     dmin        If interval length is d_pinch < d < d_min set to d_min
 c     move      = 1  Get or put values equally up and down
 c                 2  Get or put values up only
-c                 3  Get or put values down only
+c                 3  Get or put values down only (default)
 c
 c     bead algorithm returns the following status variable
 c     id_status =  0  Interval has been set to zero or d_min, don't change.
@@ -205,7 +218,7 @@ C
 c LOCAL VARS
       character*8092 cbuf
       character*132 logmess
-      character*72  errmsg
+      character*82  errmsg
       character*32  cmostak
       character*32  cmo, cmo_type
       character*32  isubname
@@ -288,7 +301,7 @@ c BEGIN
  
 C-----INIT LOCAL VARS
       isubname='stack_layers'
-      errmsg= '-undefined error-'
+      errmsg= 'Error_buffer: -undefined error-'
       idone = 0
       usrclr = .false.
       svd = .false.
@@ -324,7 +337,7 @@ C     get mesh object name
       endif
  
  
-       write(errmsg,'(a)') 'command or syntax error'
+       write(errmsg,'(a)') 'Error_buffer: command or syntax error'
 C------READ PARSER VALUES, i is next value, nwds is last
        i = 3
        if (cmsgin(1)(1:icharlnf(cmsgin(1))).eq.'stack_layers') i=2
@@ -502,7 +515,7 @@ C      Do some error checking on the command syntax
           goto 999
        endif
  
-       write(errmsg,'(a)') 'cmo error'
+       write(errmsg,'(a)') 'Error_buffer: cmo error'
 C      Create the temporary cmos
 C      ierr.eq.0 means that the cmo already exists.
        call cmo_exist('def1',ierr)
@@ -517,7 +530,7 @@ C      ierr.eq.0 means that the cmo already exists.
           goto 999
        endif
  
-       write(errmsg,'(a)') 'mmgetblk memory error'
+       write(errmsg,'(a)') 'Error_buffer: mmgetblk memory error'
 C------ALLOCATE memory
        call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
        if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk flist')
@@ -530,7 +543,7 @@ C------Finish command line processing of file names and their options
 C      READ file names and options before read is called with parser
 C todo syntax should allow refine numbers to start at first file
 C      as well as current starting at second file
-       write(errmsg,'(a)') 'syntax error in file list'
+       write(errmsg,'(a)') 'Error_buffer: syntax error in file list'
        nfile = 0
        do ii = i, nwds
          if (msgtype(ii).eq.2) then
@@ -564,7 +577,7 @@ C      as well as current starting at second file
        enddo
        maxclr = iclr(nfile)
  
-       write(errmsg,'(a)') 'error during setup'
+       write(errmsg,'(a)') 'Error_buffer: error during setup'
 
        if (nfile .lt. 2 ) call x3d_error(isubname, '1 File, no merge')
        if (nfile .eq. 1 ) ifile_single = 1
@@ -630,7 +643,8 @@ c     bottom, top, interface, buffer or refinement
      >       '/layertyp/' //
      >       'VINT/scalar/nnodes//permanent/agfx ; finish'
         call dotaskx3d(cbuf,ierr)
-        if(ierr.ne.0) write(errmsg,'(a)') 'make att layertyp'
+        if(ierr.ne.0) write(errmsg,'(a)') 
+     >               'Error_buffer: make att layertyp'
         if(ierr.ne.0)  goto 999
       endif
 
@@ -639,7 +653,7 @@ c      Save unaltered z values of the truncating surface
        if (iopt_trunc .ne. 0 ) then
          call file_exist(ifile_trunc(1:icharlnf(ifile_trunc)),ierr)
          if(ierr.ne.0) then 
-           errmsg = 'Missing surface file.'
+           errmsg = 'Error_buffer: Missing surface file.'
            goto 999
          endif
 
@@ -662,16 +676,16 @@ c      Save unaltered z values of the truncating surface
 
 c        subset the truncating surface, set pointers
          if (isubset .ne. 0) then
-           write(errmsg,'(a)') 'error during subset'
+           write(errmsg,'(a)')'Error_buffer: error during subset'
            call trilayer_subset(cmo,xmin,ymin,xmax,ymax,ierr)
            if(ierr .ne. 0)call x3d_error(isubname, ifile_trunc)
            if(ierr.ne.0)  goto 999
-           write(errmsg,'(a)') 'error during setup'
+           write(errmsg,'(a)') 'Error_buffer: error during setup'
          endif
 
          call cmo_get_info('nnodes',cmo,nnode,ilen,ityp,ierr)
          call cmo_get_info('zic',cmo,ipzic2,ilen,ityp,ierr)
-         write(errmsg,'("get_info saving zic for truncating layer")')
+         write(errmsg,'("Error_buffer: get_info for trunc layer")')
          if(ierr.ne.0) goto 999
 
 c        check if z_trunc block exists
@@ -698,7 +712,7 @@ c        check if z_trunc block exists
 c      end collection of truncating elevations
 
 c      ALLOCATE MEMORY for local arrays
-       write(errmsg,'(a)') 'mmgetblk memory error'
+       write(errmsg,'(a)') 'Error_buffer: mmgetblk memory error'
        call mmgetblk("layerlist",isubname,
      *               iplayerlist,72*nlayer_tot,1,ierr)
        if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk layerlist')
@@ -716,7 +730,7 @@ C...................................................................
 C      FILL FIRST cmo def1
  
 c      read the first file into temp cmo def1
-       write(errmsg,'(a)') 'error setting up first surface'
+       write(errmsg,'(a)') 'Error_buffer: error from first surface'
        nread = 0
        nlayer = 0
        ifile = flist(1)
@@ -859,7 +873,8 @@ C------MAIN LOOP for read, merge files------------------------------
  
        do ii = 2, nfile
  
-       write(errmsg,'(a,i10)') 'error while at surface ',ii
+       write(errmsg,'(a,i10)') 
+     >      'Error_buffer: error while at surface ',ii
        if(idebug.gt.0) then
          write(logmess,'(a,i5,a)')
      >   '--- surface cmo ',ii,'-----------------------------'
@@ -916,7 +931,8 @@ c      subset the next surface layer, set pointers
 
        call cmo_get_info('zic',cmo,ipzic2,ilen,ityp,ierr)
        if( ierr.ne.0 ) then
-         if (ierr.ne.0) write(errmsg,'(a)') 'get_info zic2 '
+         if (ierr.ne.0) write(errmsg,'(a)') 
+     >      'Error_buffer: get_info zic2 '
          goto 999
        endif
 
@@ -1080,7 +1096,7 @@ c       tetclr gt 2 to remain gt 2 as these are tipping elements
          ltype_sav(j+i) = ltyplist(nlayer) 
       enddo
       call cmo_get_info('itetclr',cmo,ipitetclr,ilen,ityp,ierr)
-      if (ierr.ne.0) write(errmsg,'(a)') 'get itetclr '
+      if (ierr.ne.0) write(errmsg,'(a)') 'Error_buffer: get itetclr'
       if (ierr.ne.0) goto 999
       if (layerclr .ne. 0) then
         do i = 1, ntri
@@ -1111,7 +1127,8 @@ C     Do some error checks and reporting
  
       call cktrilayer_norm('cmonxt',0, flip, ierr)
       if(ierr .ne. 0) then
-        write(errmsg,'(a)') 'Normals in '//ifile2(1:icharlnf(ifile2))
+        write(errmsg,'(a)') 
+     >  'Error_buffer: Normals in '//ifile2(1:icharlnf(ifile2))
         goto 999
       endif
  
@@ -1175,7 +1192,8 @@ c     these are derived buffer and refine layers between interfaces
  
 c     TURN ON OUTPUT
       call writset('stat','tty','on',ierrw)
-      if(ierr .ne. 0) write(errmsg,'(a)') 'addmesh merge'
+      if(ierr .ne. 0) write(errmsg,'(a)') 
+     >  'Error_buffer: addmesh merge'
       if(ierr.ne.0)  goto 999
       call cmo_newlen(cmostak,ierr)
       call cmo_get_info('nelements',cmostak,nelm,ilen,ityp,ierr)
@@ -1192,20 +1210,28 @@ C     Done building trilayer cmo, now do some post-processing
 C     Make the stack cmo current
 
       cmo = cmostak
-      write(errmsg,'(a)') 'error during update of new stack cmo'
+      write(errmsg,'(a)') 
+     >  'Error_buffer: error during update of new stack cmo'
  
 c COPY SAVED VALUES
       if(idebug.le.3) call writset('stat','tty','off',ierrw)
       call cmo_get_info('nelements',cmo,nelm,ilen,ityp,ierr1)
+
       call cmo_get_info('itetclr',cmo,ipitetclr,ilen,ityp,ierr)
+      if (ierr.ne.0 )
+     * write(errmsg,'("Error_buffer: cannot get itetclr")')
+
       call cmo_get_info('layertyp',cmo,iplayertyp,ilen,ityp,ics)
-      if (ierr.ne.0 .or. ierr1.ne.0 .or. ics.ne.0)
-     *     write(errmsg,'("get_info copy itetclr and layertyp")')
-      if (ierr.ne.0 .or. ierr1.ne.0) goto 999
-      if (iopt_buff.gt.0)
-     >    call cmo_get_info('layertyp',cmo,iplayertyp,ilen,ityp,ierr1)
-      if (ierr1.ne.0) write(errmsg,'("get_info copy layertyp ")')
-      if (ierr1.ne.0) goto 999
+      if (ics.ne.0)
+     * write(errmsg,'("Error_buffer: cannot get layertyp")')
+
+      if (ierr.ne.0 .or. ierr1.ne.0 .or. ics.ne.0) goto 999
+
+C      tam - commented out, this is already done above
+C      if (iopt_buff.gt.0)
+C     >    call cmo_get_info('layertyp',cmo,iplayertyp,ilen,ityp,ierr1)
+C      if (ierr1.ne.0) write(errmsg,'("get_info copy layertyp ")')
+C      if (ierr1.ne.0) goto 999
  
       if (nelm.ne. nlayer*ntri) then
          write(logmess,'(a,i10,a,i10)')
@@ -1227,7 +1253,8 @@ c COPY SAVED VALUES
      >   '/ ; finish',ierr)
       endif
 
-      write(errmsg,'(a)') 'error during post-process setup'
+      write(errmsg,'(a)') 
+     >  'Error_buffer: error during post-process setup'
 
 C POST PROCESS - BUFFER and BEAD ALGORITHM
 C This needs some clean up
@@ -1252,34 +1279,49 @@ c     nbeads = number of points in columns = nlayer_tot = nlayer final
       nbeads = nlayer
 c     allocate bead arrays and error check arrays
       call mmgetblk("zin", isubname, ipzin, nbeads, 2, ierr)
-      if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk zin')
+      if(ierr.ne.0)call x3d_error(isubname, 'beads: mmgetblk zin')
       call mmgetblk("zout", isubname, ipzout, nbeads, 2, ierr)
-      if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk zout')
+      if(ierr.ne.0)call x3d_error(isubname, 'beads: mmgetblk zout')
       call mmgetblk("ibuff", isubname, ipibuff, nbeads, 1, ierr)
-      if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk ibuff')
+      if(ierr.ne.0)call x3d_error(isubname, 'beads: mmgetblk ibuff')
  
       if (gobeads .gt. 0) then
         write(errmsg,'(a)') 'memory error for beads setup'
-        call mmgetblk("d_pinch", isubname, ipd_pinch, nbeads, 2, ierr)
-        if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk d_pinch')
-        call mmgetblk("d_min", isubname, ipd_min, nbeads, 2, ierr)
-        if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk d_min')
-        call mmgetblk("id_move", isubname, ipid_move, nbeads, 1, ierr)
-        if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk id_move')
+
+C       beads_ona_ring() expects array lengths of nbeads-1 for 
+C       d_pinch, d_min, id_move
+
+        ilen = nbeads-1
+        call mmgetblk("d_pinch", isubname, ipd_pinch, ilen, 2, ierr)
+        if(ierr.ne.0)call x3d_error(isubname, 'beads: mmgetblk d_pinch')
+        call mmgetblk("d_min", isubname, ipd_min, ilen, 2, ierr)
+        if(ierr.ne.0)call x3d_error(isubname, 'beads: mmgetblk d_min')
+        call mmgetblk("id_move", isubname, ipid_move, ilen, 1, ierr)
+        if(ierr.ne.0)call x3d_error(isubname, 'beads: mmgetblk id_move')
  
 C       fill control arrays for beads_ona_ring() and error checking
-        do i = 1, nbeads
-           d_pinch(i) = dpinch
-           d_min(i) =   dmin
-           id_move(i) = iopt_move
-        enddo
+        if (nbeads .gt. 0) then
+          do i = 1, ilen
+             d_pinch(i) = dpinch
+             d_min(i) =   dmin
+             id_move(i) = iopt_move
+          enddo
+        else
+         write(logmess,'(a,i10)')
+     >   'Error: unexpected number of beads ',nbeads
+         call writloga('default',0,logmess,0,ierrw)
+         goto 999
+        endif
+
       endif
  
 C   ..............................................................
 C   LOOP through each of the bead columns
 C   jcol is each bead column, i is the row of beads
  
-      write(errmsg,'(a)') 'error during post-process of node columns'
+      write(errmsg,'(a)') 
+     >  'Error_buffer: error during post-process of node columns'
+
       ichg=0
       ichange = 0
       do jcol = 1, npoints
@@ -1343,10 +1385,13 @@ c         d_min   If interval length is d_pinch < d < d_min set to d_min
 c         id_move = 1  Get or put values equally up and down
 c                 2  Get or put values up only
 c                 3  Get or put values down only
+
         if (gobeads .gt. 0) then
           write(errmsg,'(a)') 'error during beads_ona_ring post-process'
+
           call beads_ona_ring(errmsg,
      >       zout,zin,d_pinch,d_min,id_move,nbeads,ierr)
+
           if (ierr.ne.0) then
             call writloga('default',1,errmsg,0,ierrw)
 cdebug      print*,'ZIN: ',(zin(i),i=1,nbeads)
@@ -1453,7 +1498,8 @@ c       end adjustments of buffers
           call writloga('default',0,logmess,0,ierr)
         endif
 
-        write(errmsg,'(a)') 'error during post-process cleanup'
+        write(errmsg,'(a)') 
+     >  'Error_buffer: error during post-process cleanup'
  
 c       COPY NEW Z VALUES over old cmo zic
 c       CHECK ELEVATIONS - should be monotonic for each column
@@ -1503,10 +1549,11 @@ C     ..........................................................
 c     END BUFFER and BEAD ALGORITHM
 C,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-      write(errmsg,'(a)') 'error during stack cleanup ' 
+      write(errmsg,'(a)') 
+     >  'Error_buffer: error during stack cleanup ' 
  
 c     if idone = 1 then layers were successfully merged to cmo
- 500  if(ierr.ne.0) write(errmsg,'(a)') 'addmesh merge'
+ 500  if(ierr.ne.0) write(errmsg,'(a)') 'Error_buffer: addmesh merge'
       if(ierr.ne.0) goto 999
       idone = 1
  
@@ -1526,7 +1573,8 @@ C     Done creating cmo, now do screen summary
       call cmo_get_info('nelements',cmo,nelm,ilen,ityp,ierr)
       call cmo_get_info('zic',cmo,ipzic,ilen,ityp,ierr1)
       if (ierr.ne.0 .or. ierr1.ne.0)
-     *    write(errmsg,'(a)')'get_info for summary list'
+     *    write(errmsg,'(a)')
+     *    'Error_buffer: get_info for summary list'
  
       write(logmess,"(a)")
      >'................................................................'
@@ -1592,19 +1640,22 @@ C     Set the new stacked cmo attributes
      > '/nlayers/INT/scalar/scalar/constant//   '
      > // ' ; finish'
       call dotaskx3d(cbuf,ierr)
-      if(ierr.ne.0) write(errmsg,'(a)') 'addatt nlayers'
+      if(ierr.ne.0) write(errmsg,'(a)') 
+     >   'Error_buffer: addatt nlayers'
 
       cbuf='cmo/addatt/' // cmo(1:icharlnf(cmo)) //
      > '/nnperlayer/INT/scalar/scalar/constant//   '
      > // ' ; finish'
       call dotaskx3d(cbuf,ierr)
-      if(ierr.ne.0) write(errmsg,'(a)') 'addatt nnperlayer'
+      if(ierr.ne.0) write(errmsg,'(a)') 
+     >  'Error_buffer: addatt nnperlayer'
 
       cbuf='cmo/addatt/' // cmo(1:icharlnf(cmo)) //
      > '/neperlayer/INT/scalar/scalar/constant//   '
      > // ' ; finish'
       call dotaskx3d(cbuf,ierr)
-      if(ierr.ne.0) write(errmsg,'(a)') 'addatt neperlayer'
+      if(ierr.ne.0) write(errmsg,'(a)') 
+     >   'Error_buffer: addatt neperlayer'
 
 
       write(cbuf,4010)  cmo, nlayer
