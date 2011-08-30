@@ -988,8 +988,12 @@ c     otherwise, code will have to check that attributes exist
          if(idumptype.eq.0) then
             write(iunit,"(20i5)") (itp1(i),i=1,nnodes)
          else
-            call fgmvwriteflagdata(igmvtype, itp1)
+            do i=1,nnodes
+               itemp(i)=itp1(i)
+            enddo
+            call fgmvwriteflagdata(igmvtype, itemp)
          endif
+
          maxicr1=0
          do i=1,nnodes
             maxicr1=max(maxicr1,icr1(i))
@@ -1013,7 +1017,10 @@ c     otherwise, code will have to check that attributes exist
          if(idumptype.eq.0) then
             write(iunit,"(20i5)") (icr1(i),i=1,nnodes)
          else
-            call fgmvwriteflagdata(igmvtype, icr1)
+            do i=1,nnodes
+               itemp(i)=icr1(i)
+            enddo
+            call fgmvwriteflagdata(igmvtype, itemp)
          endif
       endif
       if(idumptype.eq.0) then
@@ -1123,14 +1130,22 @@ C
 C
             distmax=epsilonl
             do i=1,nelmnee(itettyp(ie))
-               i1=ielmedge1(1,i,itettyp(ie))
-               i2=ielmedge1(2,i,itettyp(ie))
+               i1=itet1(itoff+ielmedge1(1,i,itettyp(ie)))
+               i2=itet1(itoff+ielmedge1(2,i,itettyp(ie)))
                dist=(xic(i2)-xic(i1))**2+
      *              (yic(i2)-yic(i1))**2+
      *              (zic(i2)-zic(i1))**2
                distmax=max(distmax,dist)
             enddo
-            disttest=epsilonl*distmax
+
+c Old test was:
+c            disttest=epsilonl*distmax
+c Although this was approximately right, this was an accident.
+c In fact tolerance for square of length should be square of
+c cell diameter multiplied by square of dimensionless unit roundoff
+c Since we are outputting in single precision, square of unit
+c roundoff is (1e-8)^2=1e-16.
+            disttest=1.e-16*distmax
 C
          if(itettyp(ie).eq.ifelmlin) then
             if(nelements.gt.0.and.ie.eq.1) then
@@ -1380,6 +1395,8 @@ C
      *                                     yicpoly,
      *                                     zicpoly)
             endif
+
+C           ivoronoi2d for tri 
             if(ivoronoi2d.gt.0) then
                i1=itet1(itoff+1)
                i2=itet1(itoff+2)
@@ -1527,6 +1544,8 @@ C
      *                                           zicpoly)
                   endif
                endif
+
+C
                xcen=xm
                ycen=ym
                zcen=zm
@@ -1603,6 +1622,8 @@ C
                   endif
                endif
             endif
+C           end ivoronoi2d for tri
+
          elseif(itettyp(ie).eq.ifelmqud) then
             if(nelements.gt.0.and.ie.eq.1) then
                if(idumptype.eq.0) then
@@ -1763,6 +1784,8 @@ C
                      endif
                   endif
                enddo
+
+C              ivoronoi2d for quad
                if(ivoronoi2d.gt.0) then
                   i1=itet1(itoff+1)
                   i2=itet1(itoff+2)
@@ -1905,6 +1928,8 @@ C
                   endif
                endif
             endif
+C           end ivoronoi2d for quad
+
          elseif(itettyp(ie).eq.ifelmtet) then
             if(nelements.gt.0.and.ie.eq.1) then
                iclr=maxclrelement+1
