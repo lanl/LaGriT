@@ -150,10 +150,10 @@ C
       integer nwds,ierr1,ier,ics,ilen,ityp
       integer imsgin(nwds),msgtyp(nwds)
       integer ntets,nfind,npoints,nerr,nneg,ierror
-      integer i,ii, mbndry
+      integer i,j,ii, mbndry
       integer iprev
       character*32 cmsgin(nwds)
-      character*64 cbuff
+      character*256 cbuff
       real*8 xmsgin(nwds)
       real*8 xmin,xmax,ymin,ymax,zmin,zmax,epsilonarea
       real*8 xica(8),yica(8),zica(8)
@@ -239,9 +239,9 @@ c      pointer (ipbadedges,badedges)
 C  End of Taylor vars
       real*8 epsilonvol,epsilonaspect
       logical ifaspect,ifedge_ratio,ifedge_min,ifedge_max
-      logical ifvolume,ifattrib,ifangle,iftaylor
+      logical ifvolume,ifattrib,ifangle,iftaylor, ifquad
       real*8 epsilon,volumelt
-      logical ifdebug, iferrors, iflogs, iftrace
+      logical ifdebug, iflogs, iftrace
 C  Element sets
       logical ifbyclr,ifeltset,ifcompare
       integer ipt1,ipt2,ipt3
@@ -255,6 +255,23 @@ C  Parameter reading vars
       logical ifaspseen, ifvolseen, ifangseen,iftaylorseen
       integer parcount
       integer ierrw, icscode
+
+C     Quad quality measures: quality, regularity, and flag. See
+C     quad_quality.c for details.
+      pointer (ipqquality, qquality)
+      pointer (ipqregularity, qregularity)
+      pointer (ipqflag, qflag)
+
+      real*8 qquality(1000000)
+      real*8 qregularity(1000000)
+      integer qflag(1000000)
+
+      integer quad_bins(7)
+      real*8 quad_bin_ends(8)
+
+      integer nnormal_quads
+      integer ndegenerate_quads
+      integer nwarped_quads
 C Macros
       real*8 a11,a12,a13,a21,a22,a23
       dist2(a11,a12,a13,a21,a22,a23)  =
@@ -265,7 +282,6 @@ C BEGIN
 c
       pi=pie
       isubname='quality'
-      iferrors = .true.
       idone = .false.
       iflogs = .true.
       ifeltset = .false.
@@ -305,6 +321,7 @@ C  Determine calling parameters
       ifpcc = .false.
       ifangle = .false.
       iftaylor = .false.
+      ifquad = .false.
       nbins = 5
  
 c parse command string
@@ -315,17 +332,9 @@ c inext)  eltset,get,ename
 c inext)  eltset,make,ename and/or attribute,make,aname
 c
 C     Set defaults
-      ifaspect = .false.
-      ifedge_ratio = .false.
       ifedge_min = .false.
       ifedge_max = .false.
-      ifvolume = .false.
-      ifpcc = .false.
       ifbyclr = .false.
-      iftaylor = .false.
-      ifangle = .false.
-      ifattrib = .false.
-      ifangle = .false.
       ifbins = .true.
       nbins = 5
  
@@ -410,6 +419,11 @@ c........positive coeff command
             call pcc_test(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierr1)
             i = i + 1
             goto 9999
+
+c........Quad quality command
+         elseif (cmsgin(i)(1:4) .eq. 'quad') then
+            ifquad = .true.
+            i = i + 1
  
 c........volume command
 c        volume [nbins] [material|itetclr] [lt|gt|eq|ne xvalue]
@@ -1144,8 +1158,6 @@ C  Write totals for element volumes
      *                endinters(i),endinters(i+1),neleints(i)
                call writloga('default',0,lgms ,0,ierrw)
             enddo
- 
-            call writloga('default',0,lgms ,0,ierrw)
          endif
  
          if (nonposvol.gt.0 ) then
@@ -1336,10 +1348,129 @@ C  Write total number of edges with bad errors
             call writloga('default',0,lgms ,0,ierrw)
          endif
       endif
- 
- 
-      endif
+
 c     END taylor
+
+      elseif (ifquad) then
+C
+C        First, verify that we are working with a quad mesh.
+C
+         do i = 1, nelements
+            if (itettyp(i) .ne. ifelmqud) then
+                write (lgms, '(a,a)')'quality: Error - the quad mesh ',
+     *              'must consist solely of quads.'
+                call writloga('default',0,lgms,0,ierrw)
+                goto 9998
+            endif
+         enddo
+
+C
+C        Generate the attributes we will display.
+C
+         write(cbuff, '(a,a,a)') 'cmo/addatt/', cmo,
+     *      '/quad_quality/_quality _regularity _qflag; finish'
+         call dotask(cbuff, ier)
+
+         call cmo_get_info('_quality', cmo, ipqquality, ilen, ityp, ier)
+         call cmo_get_info('_regularity', cmo, ipqregularity, ilen,
+     *      ityp, ier)
+         call cmo_get_info('_qflag', cmo, ipqflag, ilen, ityp, ier)
+
+         nbins = 7
+         quad_bin_ends(1) = 0.0
+         quad_bin_ends(2) = 0.01
+         quad_bin_ends(3) = 0.02
+         quad_bin_ends(4) = 0.05
+         quad_bin_ends(5) = 0.1
+         quad_bin_ends(6) = 0.2
+         quad_bin_ends(7) = 0.5
+         quad_bin_ends(8) = 1.000001
+C        We make the last end point slightly greater than one so that we
+C        don't exclude any quads because of numerical inaccuracies.
+
+C        Zero out the bins just to be safe.
+         do i = 1, 7
+            quad_bins(i) = 0
+         enddo
+
+C        Fill the bins
+         do i = 1, nelements
+C           Linear search. In the future this could be improved by
+C           switching to binary search.
+            do j = 1, 7
+                if (qquality(i) .le. quad_bin_ends(j + 1)) then
+                    goto 1000
+                endif
+            enddo
+ 1000       quad_bins(j) = quad_bins(j) + 1
+         enddo
+
+         write(lgms, '(a)')'              Quad Quality'
+         call writloga('default',0,lgms,0,ierrw)
+         write(lgms, '(a)')'------------------------------------------'
+         call writloga('default',0,lgms,0,ierrw)
+
+         do i = 1, 7
+            write(lgms, '(f4.2,a,f4.2,a,i5)') quad_bin_ends(i), ' to ',
+     *          quad_bin_ends(i+1), ': ', quad_bins(i)
+            call writloga('default',0,lgms,0,ierrw)
+         enddo
+ 
+         write(lgms, '(a)')'------------------------------------------'
+         call writloga('default',0,lgms,0,ierrw)
+         write(lgms, '(a)')'              Quad Regularity'
+         call writloga('default',0,lgms,0,ierrw)
+         write(lgms, '(a)')'------------------------------------------'
+         call writloga('default',0,lgms,0,ierrw)
+
+C        Zero out the bins just to be safe.
+         do i = 1, 7
+            quad_bins(i) = 0
+         enddo
+
+C        Fill the bins
+         do i = 1, nelements
+C           Linear search. In the future this could be improved by
+C           switching to binary search.
+            do j = 1, 7
+                if (qregularity(i) .le. quad_bin_ends(j + 1)) then
+                    goto 1010
+                endif
+            enddo
+ 1010       quad_bins(j) = quad_bins(j) + 1
+         enddo
+
+         do i = 1, 7
+            write(lgms, '(f4.2,a,f4.2,a,i5)') quad_bin_ends(i), ' to ',
+     *          quad_bin_ends(i+1), ': ', quad_bins(i)
+            call writloga('default',0,lgms,0,ierrw)
+         enddo
+
+         nnormal_quads = 0
+         ndegenerate_quads = 0
+         nwarped_quads = 0
+
+         write(lgms, '(a)')'------------------------------------------'
+         call writloga('default',0,lgms,0,ierrw)
+
+         do i = 1, nelements
+            if (qflag(i) .eq. 0) then
+               nnormal_quads = nnormal_quads + 1
+            elseif (qflag(i) .eq. 1) then
+               ndegenerate_quads = ndegenerate_quads + 1
+            elseif (qflag(i) .eq. 2) then
+               nwarped_quads = nwarped_quads + 1
+            endif
+         enddo
+
+         write(lgms, '(a20,i5)')'Normal quads:', nnormal_quads
+         call writloga('default',0,lgms,0,ierrw)
+         write(lgms, '(a20,i5)')'Degenerate quads:', ndegenerate_quads
+         call writloga('default',0,lgms,0,ierrw)
+         write(lgms, '(a20,i5)')'Warped quads:', nwarped_quads
+         call writloga('default',0,lgms,0,ierrw)
+
+      endif
 C     END switch for option types
 C***********************************************************************
       if (ifbyclr) then
@@ -1435,4 +1566,3 @@ c     report on total elements
  
  9999 return
       end
- 
