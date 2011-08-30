@@ -1,36 +1,8 @@
-/*  LaGriT assumes that the size of an integer is the same size as a
- *  pointer.  Use the preprocessor and configure settings to select
- *  the integer type so that it matches the size of a pointer.
- */
-
-/**** linux 32 ****/
-#ifdef lin
-#define FCV_UNDERSCORE
-#define SIZEOF_INT 4
-#define SIZEOF_LONG 4
-#define SIZEOF_VOIDP 4
-#endif
-
-/**** linux x64 ****/
-#ifdef linx64
-#define FCV_UNDERSCORE  
-#define SIZEOF_INT 4
-#define SIZEOF_LONG 8
-#define SIZEOF_VOIDP 8
-#endif
-
-#if SIZEOF_INT == SIZEOF_VOIDP
-#define int_ptrsize int
-#elif SIZEOF_LONG == SIZEOF_VOIDP
-#define int_ptrsize long
-#else
-#error "Unknown case for size of pointer."
-#endif
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include "skiplist.ch"
+#include "type_sizes.h"
  
 extern double fabs();
  
@@ -115,10 +87,6 @@ static int_ptrsize *ncon_row;  /* An array of size neq containing the total
   /* tam - indices are 1 to neq until sent back to fortran */
   /*  MM note - put it in Funky-George Format where ncon_row[0] = neq+1; */
 
- 
-static int_ptrsize ncon_max = 0;  /* Maximum number of connections to a single
-			     node.  I.e., the maximum degree of a
-			     vertex. */
  
 static double *voronoiVolume;  /* an array of 1..eq containing the
 				  volume of the Voronoi volume of each
@@ -362,8 +330,6 @@ entryComponent *entryKeyCreateInfo(double *value)
 /************************************************************************/
  
 {
-  int_ptrsize i;
- 
   entryComponent* ec;
   entryComponent temp;
 
@@ -410,9 +376,13 @@ int_ptrsize printRow(entryKey *ek, char *rowc)
 /************************************************************************/
  
 {
-  int_ptrsize j;
+#if SIZEOF_INT == SIZEOF_VOIDP
   printf("\t Row=%d, Column=%d, Value = %e\n", (int_ptrsize)rowc,
-	 ek->column,ek->info->value[0]);
+          ek->column,ek->info->value[0]);
+#else
+  printf("\t Row=%ld, Column=%ld, Value = %e\n", (int_ptrsize)rowc,
+          ek->column,ek->info->value[0]);
+#endif
   return 1;
 }
  
@@ -425,8 +395,6 @@ int_ptrsize getColumnNumber(entryKey *ek, char *rowc)
 /************************************************************************/
  
 {
-  int_ptrsize j;
- 
   occupiedColumns[columnCounter] =  ek->column;
   if ((int_ptrsize)rowc == ek->column) {
     diagonalIndices[((int_ptrsize)rowc)-1] = columnCounter;
@@ -446,8 +414,7 @@ int_ptrsize getEntryNumbers(entryKey *ek, char *rowc)
  
  
 {
-  int_ptrsize j;
- 
+  (void) rowc;
   entryNumbers[entryCounter] =  ek->info->entryNum;
   entryCounter++;
   return 1;
@@ -475,7 +442,6 @@ int_ptrsize assignEntryNumNoCompression(entryKey *ek, char *rowc)
 /************************************************************************/
  
 {
-  int_ptrsize i;
   int_ptrsize row;
  
   row = (int_ptrsize) rowc;
@@ -609,7 +575,7 @@ void createSparseMatrix(int_ptrsize numberOfEquations, int_ptrsize sparseMatrixE
  
 {
   /* this routine is ok */
-  int_ptrsize i,j;
+  int_ptrsize i;
  
   compressionEnabled = 0;
   compressList = NULL;
@@ -688,7 +654,8 @@ int_ptrsize entryExists(int_ptrsize index_i, int_ptrsize index_j)
  
 /************************************************************************/
  
-void setEntry(int_ptrsize index_i, int_ptrsize index_j,  double volContrib, double *value)
+void setEntry(int_ptrsize index_i, int_ptrsize index_j, double volContrib,
+        double *value)
  
 /************************************************************************/
  
@@ -706,7 +673,7 @@ void setEntry(int_ptrsize index_i, int_ptrsize index_j,  double volContrib, doub
  
   entryKey *entryMat2;    /* pointer to other entry (j,i) in matrix */
  
-  entryComponent *ec,       /* makes dereferincing easier. */
+  entryComponent *ec,       /* makes dereferencing easier. */
                  *newec;
  
  
@@ -813,7 +780,7 @@ void getmatrixsizes_(int_ptrsize *Pnum_written_coefs, int_ptrsize *ncoefs, int_p
 /************************************************************************/
  
 {
-   int_ptrsize i, accumulatedDegree;
+   int_ptrsize i;
 
    /* compute ncon and ncon_max */
    ncon=0;

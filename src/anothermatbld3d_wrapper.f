@@ -1,7 +1,7 @@
 *dk,mikematmatbld3d_wrapper
 
       subroutine anothermatbld3d_wrapper
-     x           (ifile,io_type,num_area_coef,ifcompress)
+     x           (ifile,io_type,num_area_coef,ifcompress, ifhybrid)
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C                         Copyright, 1999                              C
 C This program was prepared by the Regents of the University of        C
@@ -120,7 +120,7 @@ c     Args
 cccccccccc
       character*(*) ifile
       character*72  title_string
-      integer io_type, num_area_coef, ifcompress
+      integer io_type, num_area_coef, ifcompress, ifhybrid
  
 ccccccccccc
 c     Local
@@ -225,7 +225,13 @@ c     dimension volic(1000000)
 c Variables for attribute in cmo
 
       character*32 att_name
+      pointer (iphybrid_factor, hybrid_factor)
+      real*8 hybrid_factor(1000000)
+
       character*132 logmess
+
+C     Text buffer for dotask
+      character*256 cbuff
  
 CCCCCCCCCCCCCCCCCCCCCCCCCCC
 c     Get mesh information.
@@ -432,6 +438,27 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 C     Call C functions to do the real work of building the matrix.
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
+      if (ifhybrid .eq. 1) then
+        write(logmess,'(a)')
+     *    'AMatbld3d_stor: Using hybrid median-Voronoi volumes'
+        call writloga('default',1,logmess,0,icscode)
+
+C       Create an attribute for storing the hybrid factor.
+        write(cbuff, '(a,a,a)') 'cmo/addatt/', cmo,
+     *      '/hybrid_factor/vdouble/scalar/nelements; finish'
+        call dotask(cbuff, icscode)
+
+        call cmo_get_info("hybrid_factor", cmo, iphybrid_factor, ilen,
+     *      ityp, ierr)
+
+C
+C       Zero out the new attribute
+C
+        do i = 1, ntets
+            hybrid_factor(i) = 0.0
+        enddo
+      endif
+
       if (idebug.ne.0) then
       write(logmess,'(a)') "AMatbld3d_stor: initialize3ddiffusionmat"
       call writloga('default',1,logmess,0,icscode)
@@ -440,7 +467,8 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       endif
 
       call initialize3ddiffusionmat(num_area_coef,
-     x     ifcompress, neq, xic(1), yic(1), zic(1),  ntets, itet(1))
+     *     ifcompress, neq, xic(1), yic(1), zic(1),  ntets, itet(1),
+     *     jtet(1), mbndry, ifhybrid, hybrid_factor(1))
 
       if (idebug.ne.0) then
       write(logmess,'(a)') "AMatbld3d_stor: check incident tets"
@@ -520,6 +548,14 @@ cccccccccccccccccccccccccccccc
      *      "  Column ",negcols(i)," with value ",fnegs(i)
             call writloga('default',0,logmess,0,ierrw)
          enddo
+
+         if (ifhybrid .eq. 1 .and. numsuspectnegs .gt. 0) then
+             write(logmess, '(a,a,a)')
+     *       'AMatbld3d_stor: Warning: Hybridization was unable to ',
+     *       'fix all negative coefficients. This mesh is probably ',
+     *       'non-Delaunay.'
+            call writloga('default',0,logmess,0,ierrw)
+         endif
 cccccccccccccccccccccccccccccc
 c Create two new node vectors, ccoef, ij_ccoef
 c Put the negative ij coefficient value into the two

@@ -1,34 +1,4 @@
-/*  LaGriT assumes that the size of an integer is the same size as a
- *  pointer.  Use the preprocessor and configure settings to select
- *  the integer type so that it matches the size of a pointer.
- */
-
-/**** linux 32 ****/
-#ifdef lin
-#define FCV_UNDERSCORE
-#define SIZEOF_INT 4
-#define SIZEOF_LONG 4
-#define SIZEOF_VOIDP 4
-#endif
-
-/**** linux x64 ****/
-#ifdef linx64
-#define FCV_UNDERSCORE
-#define SIZEOF_INT 4
-#define SIZEOF_LONG 8
-#define SIZEOF_VOIDP 8
-#endif
-
-#if SIZEOF_INT == SIZEOF_VOIDP
-#define int_ptrsize int
-#elif SIZEOF_LONG == SIZEOF_VOIDP
-#define int_ptrsize long
-#else
-#error "Unknown case for size of pointer."
-#endif
-
 /*
- 
 Purpose:  To give a better, stronger, faster, and more memory efficient
 implementation of matbld3d_stor.f.
  
@@ -75,9 +45,13 @@ Import to CVS
 *PVCS    Initial revision.
 */
 
+#include <assert.h>
 #include <stdlib.h> 
 #include <stdio.h>
 #include <math.h>
+
+#include "type_sizes.h"
+#include "sparseMatrix.h"
  
 #define MAX(a,b) (a > b ? a : b)
 #define MIN(a,b) (a < b ? a : b)
@@ -87,8 +61,25 @@ Import to CVS
  (a21*a12))))
  
 #define det2(a11,a12,a21,a22) (a11*a22 - a21*a12)
- 
-extern double sqrt();
+
+/* Declare some Fortran functions we're going to use so that the compiler can do
+ * type checking. */
+void inside_tet_(
+        double *x1, double *y1, double *z1,
+        double *x2, double *y2, double *z2,
+        double *x3, double *y3, double *z3,
+        double *x4, double *y4, double *z4,
+        double *xa, double *ya, double *za,
+        int_ptrsize *flag);
+
+void lineseg_tri_(
+        double *x1, double *y1, double *z1,
+        double *x2, double *y2, double *z2,
+        double *x3, double *y3, double *z3,
+        double *xa, double *ya, double *za,
+        double *xb, double *yb, double *zb,
+        double *x, double *y, double *z,
+        int_ptrsize *flag);
  
 typedef struct x3dMeshStructure {
   int_ptrsize nnodes;
@@ -97,24 +88,55 @@ typedef struct x3dMeshStructure {
   double *zic;
   int_ptrsize ntets;
   int_ptrsize *itet;
+  int_ptrsize *jtet;
+  int_ptrsize mbndry;
+  int_ptrsize ifhybrid;     /* flag indicating whether we will use hybrid
+                               median-Voronoi control volumes */
+  double *hybrid_factor;    /* a value from 0 to 1 indicating the relative
+                               position of the hybrid point between the Voronoi
+                               point and the median point */
 } x3dMesh;   /* a bunch of values... */
  
-x3dMesh *Mesh;
+static x3dMesh *Mesh;
  
 static int_ptrsize num_area_coefs;
+
+/**************************************************************************/
+
+static double dot(double x1, double y1, double z1,
+    double x2, double y2, double z2)
+
+/**************************************************************************/
+
+/* Compute the dot product of two vectors. */
+
+{
+  return x1 * x2 + y1 * y2 + z1 * z2;
+}
+
+static double distance(double x1, double y1, double z1,
+        double x2, double y2, double z2)
+{
+    return sqrt((x2 - x1)*(x2 - x1) + (y2 - y1)*(y2 - y1) +
+            (z2 - z1)*(z2 - z1));
+}
  
 /**************************************************************************/
  
-double areaOf3dTriangle(double a0, double a1, double a2,
+static void areaOf3dTriangle(double a0, double a1, double a2,
 			double b0, double b1, double b2,
-			double c0, double c1, double c2)
+			double c0, double c1, double c2,
+            double *xa, double *ya, double *za)
  
 /**************************************************************************/
+
+/*
+ * Compute the vector area of a triangle. The result is stored in (xa, ya, za).
+ */
  
 {
-     /* area (a,b,c) = length of AxB, A= b-a, B = c-a */
-  double A0, A1, A2, B0,B1,B2;
-  double D1,D2,D3;
+  /* area (a,b,c) = 0.5 * length of AxB, A = b-a, B = c-a */
+  double A0, A1, A2, B0, B1, B2;
  
   A0 = b0 - a0;
   A1 = b1 - a1;
@@ -123,24 +145,16 @@ double areaOf3dTriangle(double a0, double a1, double a2,
   B0 = c0 - a0;
   B1 = c1 - a1;
   B2 = c2 - a2;
- 
-  D1 = A1*B2-A2*B1;
-  D1 = D1*D1;
- 
-  D2 = A2*B0 - A0*B2;
-  D2 = D2*D2;
- 
-  D3 = A0*B1 - A1*B0;
-  D3 = D3*D3;
- 
-  return (sqrt(D1+D2+D3)/2.0);
- 
+
+  *xa = (A1*B2 - A2*B1)/2.0;
+  *ya = (A2*B0 - A0*B2)/2.0;
+  *za = (A0*B1 - A1*B0)/2.0;
 }
  
  
 /**************************************************************************/
  
-double volumeOfTet(double a0, double a1, double a2,
+static double volumeOfTet(double a0, double a1, double a2,
 		   double b0, double b1, double b2,
 		   double c0, double c1, double c2,
 		   double d0, double d1, double d2)
@@ -163,7 +177,7 @@ double volumeOfTet(double a0, double a1, double a2,
  
 /*************************************************************************/
  
-void getCircumcenterOfTetrahedron(double a0, double a1, double a2,
+static void getCircumcenterOfTetrahedron(double a0, double a1, double a2,
 				  double b0, double b1, double b2,
 				  double c0, double c1, double c2,
 				  double d0, double d1, double d2,
@@ -238,7 +252,7 @@ void getCircumcenterOfTetrahedron(double a0, double a1, double a2,
 
 /**************************************************************************/
  
-void TranslateTetToZero (double a0, double a1, double a2,
+static void TranslateTetToZero (double a0, double a1, double a2,
 			 double b0, double b1, double b2,
 			 double c0, double c1, double c2,
       	    	         double d0, double d1, double d2,
@@ -290,7 +304,7 @@ void TranslateTetToZero (double a0, double a1, double a2,
 
 /**************************************************************************/
 
-void getCircumcenterOfTriangle(double a0, double a1, double a2,
+static void getCircumcenterOfTriangle(double a0, double a1, double a2,
                                double b0, double b1, double b2,
                                double c0, double c1, double c2,
                                double *cenx, double *ceny, double *cenz)
@@ -370,14 +384,14 @@ void getCircumcenterOfTriangle(double a0, double a1, double a2,
  
 /**************************************************************************/
  
-void getTetVertices(int_ptrsize tet, int localEdgeNum,
+static void getTetVertices(int_ptrsize tet, int localEdgeNum,
 		    int_ptrsize *v1, int_ptrsize *v2, int_ptrsize *k1, int_ptrsize *k2)
  
 /**************************************************************************/
  
      /* Uses intimate knowledge of x3d data structure (See section on
 	Mesh Object Connectivity in the x3d user manual for more
-	details to assign vertices of tetrahedron in a well-defined
+	details) to assign vertices of tetrahedron in a well-defined
 	order with respect to which of the 6 edges of the tet we are
 	visiting.  As long as we are consistent about it, I think we
 	should be OK! */
@@ -430,7 +444,14 @@ void getTetVertices(int_ptrsize tet, int localEdgeNum,
       break;
     default:
       printf("Error: getTetVertices has unexpected set of vertices.\n");
+
+      /* Ugly C preprocessor junk to make sure we use the right format string
+       * depending on the size of int_ptrsize. */
+#if SIZEOF_INT == SIZEOF_VOIDP
       printf("tet: %d with a b c d: %d %d %d %d\n",tet,a,b,c,d);
+#else
+      printf("tet: %ld with a b c d: %ld %ld %ld %ld\n",tet,a,b,c,d);
+#endif
     }
 }
 /* end getTetVertices() */ 
@@ -446,8 +467,6 @@ int entryprocessed_(int_ptrsize *i, int_ptrsize *j)
  
  
 {
-  int_ptrsize v1,v2,k1,k2;
- 
   return(entryExists(*i,*j));
 }
  
@@ -462,15 +481,162 @@ int_ptrsize entryprocessed(int_ptrsize *i, int_ptrsize *j)
  
  
 {
-  int_ptrsize v1,v2,k1,k2;
- 
   return(entryExists(*i,*j));
 }
 /* end entryprocessed_() and  entryprocessed() */ 
+
+/**************************************************************************/
+
+static int_ptrsize tetIsOnBoundary(int_ptrsize tet)
+
+/**************************************************************************/
+
+/*
+ * Return 1 or 0 to indicate whether the tetrahedron indexed by tet is on a
+ * boundary. Note that we assume that all elements in itet are tetrahedra; if
+ * not then the results are undefined. We also assume that the tet index uses
+ * the C convention of starting from 0. The Mesh structure declared at the top
+ * of this file must be initialized.
+ */
+ 
+{
+    size_t i;
+    int_ptrsize *jtet;
+
+    /* Adjust jtet so that it points to the tet we're interested in. */
+    jtet = Mesh->jtet + 4 * tet;
+
+    for (i = 0; i < 4; i++) {
+        if (jtet[i] >= Mesh->mbndry) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+/**************************************************************************/
+
+static int_ptrsize intersectSegmentWithFace(int_ptrsize *itet,
+        double xm, double ym, double zm,
+        double xv, double yv, double zv,
+        int_ptrsize p1, int_ptrsize p2, int_ptrsize p3,
+        double *x, double *y, double *z)
+
+/**************************************************************************/
+
+/*
+ * Test for intersection between the line segment ((xm, ym, zm), (xv, yv, zv))
+ * and the triangle defined by points p1, p2, and p3, which are indices into the
+ * itet argument. Return 1 if an intersection exists and 0 otherwise. If there
+ * is an intersection, the function will return it by placing it in the
+ * arguments x, y, and z.
+ */
+
+{
+    int_ptrsize flag;
+
+    lineseg_tri_(
+            &Mesh->xic[itet[p1] - 1], &Mesh->yic[itet[p1] - 1],
+            &Mesh->zic[itet[p1] - 1], &Mesh->xic[itet[p2] - 1],
+            &Mesh->yic[itet[p2] - 1], &Mesh->zic[itet[p2] - 1],
+            &Mesh->xic[itet[p3] - 1], &Mesh->yic[itet[p3] - 1],
+            &Mesh->zic[itet[p3] - 1],
+            &xm, &ym, &zm, &xv, &yv, &zv, x, y, z, &flag);
+
+    if (flag != -1)
+        return 1;
+    else
+        return 0;
+}
+
+/**************************************************************************/
+
+static int_ptrsize getHybridPoint(int_ptrsize tet,
+        double xv, double yv, double zv,
+        double *x, double *y, double *z,
+        double *hybrid_factor)
+
+/**************************************************************************/
+
+/*
+ * Given the index of a tet which does not contain its Voronoi center, compute
+ * the point that represents the "hybrid median-Voronoi" center. We define this
+ * to be the point where the line segment connecting the median point and
+ * Voronoi point intersects a face of the tet. The triple (xv, yv, zv) should be
+ * the coordinates of the Voronoi center. The function returns the result by
+ * storing it in the arguments x, y, and z. It also computes the hybrid_factor
+ * which is a measure of how far the hybrid point is relative to the Voronoi and
+ * median points. A 0 indicates that the hybrid point is on the Voronoi point
+ * whereas a 1 indicates that it is on the hybrid point.
+ *
+ * NOTE: This function will only compute the hybrid point if the Voronoi center
+ * lies outside the boundary of the mesh. If the Voronoi center is outside the
+ * tet but still within the mesh, we don't need to do anything. The function
+ * will return 1 if it finds an intersection and 0 otherwise. If it returns 0
+ * then (assuming nothing went wrong) we don't need to use a hybrid point
+ * because the Voronoi center is still within the boundaries of the mesh.
+ */
+
+{
+    size_t i;
+    int_ptrsize *itet;
+    int_ptrsize *jtet;
+    double xm = 0, ym = 0, zm = 0;
+    double dist_v_to_h;     /* distance from Voronoi to hybrid */
+    double dist_v_to_m;     /* distance from Voronoi to median */
+
+    /* Set itet and jtet to point to the tet we're interested in. */
+    itet = Mesh->itet + 4 * tet;
+    jtet = Mesh->jtet + 4 * tet;
+
+    /* Compute the median point of the tetrahedron by taking the arithmetic mean
+     * of each coordinate across the four vertices of the tet. */
+    for (i = 0; i < 4; i++) {
+        xm += Mesh->xic[itet[i] - 1];
+    }
+    xm /= 4.0;
+
+    for (i = 0; i < 4; i++) {
+        ym += Mesh->yic[itet[i] - 1];
+    }
+    ym /= 4.0;
+
+    for (i = 0; i < 4; i++) {
+        zm += Mesh->zic[itet[i] - 1];
+    }
+    zm /= 4.0;
+
+    /* It's not obvious which face the median-Voronoi segment will intersect, so
+     * we just try all boundary faces of this tet. */
+    if (jtet[0] >= Mesh->mbndry && intersectSegmentWithFace(itet,
+                xm, ym, zm, xv, yv, zv, 1, 2, 3, x, y, z))
+        ;
+    else if (jtet[1] >= Mesh->mbndry && intersectSegmentWithFace(itet,
+                xm, ym, zm, xv, yv, zv, 0, 2, 3, x, y, z))
+        ;
+    else if (jtet[2] >= Mesh->mbndry && intersectSegmentWithFace(itet,
+                xm, ym, zm, xv, yv, zv, 0, 1, 3, x, y, z))
+        ;
+    else if (jtet[3] >= Mesh->mbndry && intersectSegmentWithFace(itet,
+                xm, ym, zm, xv, yv, zv, 0, 1, 2, x, y, z))
+        ;
+    else
+        return 0;
+
+    dist_v_to_h = distance(xv, yv, zv, *x, *y, *z);
+    dist_v_to_m = distance(xv, yv, zv, xm, ym, zm);
+    if (dist_v_to_m != 0.0) /* make sure we don't divide by zero */
+        *hybrid_factor = dist_v_to_h / dist_v_to_m;
+    else
+        *hybrid_factor = 0;
+
+    return 1;
+}
  
 /**************************************************************************/
  
-void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
+static void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
 				  int_ptrsize numIncidentTets, int_ptrsize *incidentTets,
 				  int_ptrsize *localEdges)
  
@@ -489,8 +655,13 @@ void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
 {
   int_ptrsize tetIndex;
   int_ptrsize v1,v2,k1,k2;
+  int_ptrsize flag = 0;
  
-  double area, edgelength, value, volume, area1, area2, vol1,vol2;
+  double area, edgelength, value, volume, vol1, vol2;
+  double edge_unit_x, edge_unit_y, edge_unit_z; /* Unit edge vector */
+  double area1, area2;
+  double xa, ya, za;                            /* Triangle area vector */
+
   double bisectorx,   bisectory,   bisectorz,
          triCenter1x, triCenter1y, triCenter1z,
          triCenter2x, triCenter2y, triCenter2z,
@@ -499,8 +670,22 @@ void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
          xv2_save, yv2_save, zv2_save,
          xk1_save, yk1_save, zk1_save,
          xk2_save, yk2_save, zk2_save;
+  double xhybrid, yhybrid, zhybrid;
  
-  area=0.0; volume = 0.0;
+  area=0.0;
+  volume = 0.0;
+
+  /* Compute unit vector in the direction of the edge from index_i to index_j.
+   */
+  edge_unit_x = Mesh->xic[index_j - 1] - Mesh->xic[index_i - 1];
+  edge_unit_y = Mesh->yic[index_j - 1] - Mesh->yic[index_i - 1];
+  edge_unit_z = Mesh->zic[index_j - 1] - Mesh->zic[index_i - 1];
+  edgelength = sqrt(edge_unit_x*edge_unit_x +
+      edge_unit_y*edge_unit_y +
+      edge_unit_z*edge_unit_z);
+  edge_unit_x /= edgelength;
+  edge_unit_y /= edgelength;
+  edge_unit_z /= edgelength;
  
   /* for every incidentTet.*/
   for (tetIndex=0; tetIndex < numIncidentTets; tetIndex++) {
@@ -538,6 +723,29 @@ void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
 				 Mesh->xic[k2],Mesh->yic[k2],Mesh->zic[k2],
 				 &tetCenterx, &tetCentery, &tetCenterz);
  
+    /* If the tet is on the boundary and it does not contain its circumcenter,
+     * then we might need to move the center back inside the tet. I say "might
+     * need to" because it's possible that the Voronoi center is outside the tet
+     * but still within the mesh, in which case we're ok already. We only
+     * attempt to do this stuff if we're using the "hybrid" mode. */
+    if (Mesh->ifhybrid && tetIsOnBoundary(incidentTets[tetIndex] - 1)) {
+        /* This call might not be necessary. getHybridPoint will find out later
+         * whether or not the circumcenter is inside the tet. */
+        inside_tet_(&Mesh->xic[v1],&Mesh->yic[v1],&Mesh->zic[v1],
+                     &Mesh->xic[v2],&Mesh->yic[v2],&Mesh->zic[v2],
+                     &Mesh->xic[k1],&Mesh->yic[k1],&Mesh->zic[k1],
+                     &Mesh->xic[k2],&Mesh->yic[k2],&Mesh->zic[k2],
+                     &tetCenterx, &tetCentery, &tetCenterz, &flag);
+        if (flag == -1 && getHybridPoint(incidentTets[tetIndex] - 1,
+                    tetCenterx, tetCentery, tetCenterz,
+                    &xhybrid, &yhybrid, &zhybrid,
+                    &Mesh->hybrid_factor[incidentTets[tetIndex] - 1])) {
+            tetCenterx = xhybrid;
+            tetCentery = yhybrid;
+            tetCenterz = zhybrid;
+        }
+    }
+ 
     getCircumcenterOfTriangle(Mesh->xic[v1], Mesh->yic[v1],Mesh->zic[v1],
 			      Mesh->xic[v2], Mesh->yic[v2],Mesh->zic[v2],
 			      Mesh->xic[k1], Mesh->yic[k1],Mesh->zic[k1],
@@ -550,10 +758,15 @@ void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
  
  
     /* Compute the signed contribution of area and volume. */
-    area1 = areaOf3dTriangle(bisectorx,bisectory,bisectorz,
+    areaOf3dTriangle(bisectorx,bisectory,bisectorz,
 		       triCenter1x,triCenter1y,triCenter1z,
-		       tetCenterx, tetCentery,tetCenterz) ;
- 
+		       tetCenterx, tetCentery, tetCenterz,
+               &xa, &ya, &za);
+    /* Dot the area with the unit edge vector so that we count only the
+     * component of the area vector that is in line with the edge. We take the
+     * absolute value in case the area vector and edge vector are pointing in
+     * opposite directions. */
+    area1 = fabs(dot(xa, ya, za, edge_unit_x, edge_unit_y, edge_unit_z));
  
     vol1 =  volumeOfTet(Mesh->xic[v1],Mesh->yic[v1],Mesh->zic[v1],
 			   bisectorx,bisectory,bisectorz,
@@ -564,10 +777,11 @@ void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
       area1 = -area1;
     }
  
- 
-    area2 = areaOf3dTriangle(bisectorx,bisectory,bisectorz,
+    areaOf3dTriangle(bisectorx,bisectory,bisectorz,
 		     tetCenterx, tetCentery,tetCenterz,
-		     triCenter2x,triCenter2y,triCenter2z);
+		     triCenter2x,triCenter2y,triCenter2z,
+             &xa, &ya, &za);
+    area2 = fabs(dot(xa, ya, za, edge_unit_x, edge_unit_y, edge_unit_z));
 	
     vol2 = volumeOfTet(Mesh->xic[v1],Mesh->yic[v1],Mesh->zic[v1],
 			    triCenter2x,triCenter2y,triCenter2z,
@@ -581,13 +795,6 @@ void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
     area += area1+area2;
     volume += vol1 + vol2;
   }
- 
-  edgelength = sqrt((Mesh->xic[v1]-Mesh->xic[v2])*
-		    (Mesh->xic[v1]-Mesh->xic[v2])+
-		    (Mesh->yic[v1]-Mesh->yic[v2])*
-		    (Mesh->yic[v1]-Mesh->yic[v2])+
-		    (Mesh->zic[v1]-Mesh->zic[v2])*
-		    (Mesh->zic[v1]-Mesh->zic[v2]));
  
   value = -area/edgelength;
  
@@ -613,8 +820,8 @@ void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
  
 /**************************************************************************/
  
-void computeentry_(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j, int_ptrsize *PnumIncidentTets,
-		    int_ptrsize *incidentTets, int_ptrsize *localEdges)
+void computeentry_(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j, int_ptrsize
+        *PnumIncidentTets, int_ptrsize *incidentTets, int_ptrsize *localEdges)
  
 /**************************************************************************/
  
@@ -628,8 +835,8 @@ void computeentry_(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j, int_ptrsize *Pn
  
 /**************************************************************************/
  
-void computeentry(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j, int_ptrsize *PnumIncidentTets,
-		    int_ptrsize *incidentTets, int_ptrsize *localEdges)
+void computeentry(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j, int_ptrsize
+        *PnumIncidentTets, int_ptrsize *incidentTets, int_ptrsize *localEdges)
  
 /**************************************************************************/
  
@@ -644,9 +851,10 @@ void computeentry(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j, int_ptrsize *Pnu
  
 /**************************************************************************/
  
-void initialize3ddiffusionmat_(int_ptrsize *pentrysize, int_ptrsize
-*pcompress, int_ptrsize *pnnodes, double *xic, double *yic, double *zic,
-int_ptrsize *pntets, int_ptrsize *itet)
+void initialize3ddiffusionmat_(int_ptrsize *pentrysize, int_ptrsize *pcompress,
+        int_ptrsize *pnnodes, double *xic, double *yic, double *zic, int_ptrsize
+        *pntets, int_ptrsize *itet, int_ptrsize *jtet, int_ptrsize *pmbndry,
+        int_ptrsize *ifhybrid, double *hybrid_factor)
  
 /**************************************************************************/
  
@@ -655,18 +863,7 @@ int_ptrsize *pntets, int_ptrsize *itet)
 	x3dMesh structure.  */
  
 {
-  int_ptrsize i,j;  /* loop indices. */
- 
-  int_ptrsize v1,v2,k1,k2;  /* Refer to tet indices.  Used to index xic,yic,
-		       and zic arrays.  (v1,v2) is the edge currently
-		       under consideration.  k1 and k2 are the two
-		       other vertices on the tet.  Respecting
-		       orientation is the KEY! */
- 
   double eps = 1e-8;
-  if (sizeof(i) != SIZEOF_VOIDP) {
-  printf("WARNING initialize3ddiffusionmat\n incompatible integer and pointer sizes:  %d  %d\n",sizeof(i),SIZEOF_VOIDP);
-  }
  
   /* populate mesh structure. */
   Mesh=(x3dMesh*)  malloc(sizeof(x3dMesh));
@@ -677,6 +874,10 @@ int_ptrsize *pntets, int_ptrsize *itet)
   Mesh->nnodes  = *pnnodes;
   Mesh->ntets   = *pntets;
   Mesh->itet    = itet;
+  Mesh->jtet    = jtet;
+  Mesh->mbndry  = *pmbndry;
+  Mesh->ifhybrid= *ifhybrid;
+  Mesh->hybrid_factor = hybrid_factor;
 
   num_area_coefs = *pentrysize;
   createSparseMatrix(Mesh->nnodes,num_area_coefs,*pcompress,eps);
@@ -686,16 +887,17 @@ int_ptrsize *pntets, int_ptrsize *itet)
  
 /**************************************************************************/
  
-void initialize3ddiffusionmat(int_ptrsize *pentrysize, int_ptrsize
-*pcompress, int_ptrsize *pnnodes, double *xic, double *yic, double *zic,
-int_ptrsize *pntets, int_ptrsize *itet)
+void initialize3ddiffusionmat(int_ptrsize *pentrysize, int_ptrsize *pcompress,
+        int_ptrsize *pnnodes, double *xic, double *yic, double *zic, int_ptrsize
+        *pntets, int_ptrsize *itet, int_ptrsize *jtet, int_ptrsize *pmbndry,
+        int_ptrsize *ifhybrid, double *hybrid_factor)
  
 /**************************************************************************/
  
  
 {
-  initialize3ddiffusionmat_(pentrysize, pcompress, pnnodes,
-				       xic, yic, zic, pntets, itet);
+  initialize3ddiffusionmat_(pentrysize, pcompress, pnnodes, xic, yic, zic,
+          pntets, itet, jtet, pmbndry, ifhybrid, hybrid_factor);
  
 }
  
