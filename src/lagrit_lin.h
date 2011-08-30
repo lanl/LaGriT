@@ -1,10 +1,7 @@
 c
 c----------------------------------------------------------------
-c lagrit.h for Linux 64 bit
+c lagrit.h for Linux 32 bit
 C
-C New util for 32 and 64 lib indicated by 32 or 64 at name end
-C Otherwise the old util library is used
-C 
 c This is a template for the lagrit program banner
 c Substitute the TAG strings with Date and Linux, Darwin, SunOS, or IRIX
 c Compile library with updated lagrit.h used in writinit()
@@ -13,8 +10,8 @@ c
 c----------------------------------------------------------------
 c
       integer        v_major, v_minor
-      parameter      (v_major=2)
-      parameter      (v_minor=202)
+      parameter      (v_major=3)
+      parameter      (v_minor=001)
 c
       character*22   date_compile
       character*8    os_name
@@ -23,10 +20,11 @@ c
       data my_name      /'lagritgen'/
 
 c     data os_name      /'Linux   '/
-      data os_name      /'Linux64 '/
-c     data os_name      /'Linux32 '/
+c     data os_name      /'Linux64 '/
+      data os_name      /'Linux32 '/
 
-      data date_compile /'2011/01/05  gfort 4.5 '/
+c     data date_compile /'2011/08/01  Absoft 11 '/
+      data date_compile /'2011/08/01  gfort 4.5 '/
 c
       integer         NCall
       save            NCall

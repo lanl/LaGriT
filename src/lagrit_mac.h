@@ -1,6 +1,7 @@
 c
 c----------------------------------------------------------------
-c lagrit.h for mac OSX powerpc 
+c lagrit.h for mac OSX powerpc 32 bit 
+c
 c This is a template for the lagrit program banner
 c Substitute the TAG strings with Date and Linux, Darwin, SunOS, or IRIX
 c Compile library with updated lagrit.h used in writinit()
@@ -20,7 +21,7 @@ c
 c     data os_name      /'Darwin  '/
 c     data os_name      /'Mac64   '/
       data os_name      /'Mac32   '/
-      data date_compile /'2010/12/03            '/
+      data date_compile /'2011/08/01            '/
 c
       integer         NCall
       save            NCall
