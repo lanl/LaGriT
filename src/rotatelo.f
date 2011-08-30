@@ -75,10 +75,13 @@ c
 c first rotate the coordinate system by using a transformation
 c matrix subroutine
 c
-      bx1=xb-x1
-      by1=yb-y1
-      bz1=zb-z1
-      distbx=bx1**2+by1**2+bz1**2
+C     We need to to make sure that (x1, y1, z1) => (xb, yb, zb) points
+C     in the same direction as a => b. So we take the unit vector in the
+C     direction of a => b and scale it accordingly.
+      distbx = (xb - x1)**2 + (yb - y1)**2 + (zb - z1)**2
+      bx1 = (xb - xa) * distbx / distab
+      by1 = (yb - ya) * distbx / distab
+      bz1 = (zb - za) * distbx / distab
       if(distbx.eq.zero) then
          bx1=xa-x1
          by1=ya-y1

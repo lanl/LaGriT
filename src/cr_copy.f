@@ -52,12 +52,12 @@ C$$$
        logical mask(n), mask2(n)
  
        pointer (ipitemp, itemp)
-       integer itemp(n)
+       integer itemp(n + 1)
       character*8 icrname
  
       icrname='cr_sum'
        length=n
-       call mmgetblk('itemp',icrname,ipitemp,length,2,icscode)
+       call mmgetblk('itemp',icrname,ipitemp,length + 1,2,icscode)
        indx = 1
        do i=1,n
           if (mask(i)) then

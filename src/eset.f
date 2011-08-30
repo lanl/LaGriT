@@ -4,6 +4,7 @@ C
       integer nplen,ntlen
       parameter (nplen=1000000,ntlen=1000000)
 C
+      character*128 file_name
       character*132 logmess
 C
       pointer (ipisetwd, isetwd)
@@ -214,6 +215,8 @@ C
       integer itest(nbitsmax),ibpos(nbitsmax)
  
       integer emask
+
+      integer nextlun, iunit
 C
       external shiftr,shiftl,compl
       integer shiftr,shiftl,compl
@@ -237,9 +240,9 @@ C
       integer ityp,ierror,npoints,length,icmotype,ipointi,ipointj,
      * icscode,i,j,it,ie,icnt,isetchg,len1,len2,ibitpos,ir,len3,
      * iprint,lenname,index,
-     * ierr,ndup,nsetcnt,mask,imask,nmask,ict,
+     * ierr,ndup,nsetcnt,mask,imask,nmask,ict,k,
      * iunion,ipt1,iregck,npts,mask2,nmask2,
-     * ilen,ivalue,lenop,number_of_eltsets
+     * ilen,ivalue,lenop,number_of_eltsets,iotype
       integer nwd1,nwd2,ipos1,ipos2,iintrfce,nsets,iout,lout,itype,
      * lenmode,mpno,ierrw,nen,nef,nnf,inode,i1,
      * idebug, n_entry_per_line,
@@ -353,16 +356,25 @@ C
  
 C     ******************************************************************
 C
-C     PROCESS THE 'LIST' MODE
+C     PROCESS THE 'LIST' and 'WRITE' MODE
 C
- 12   if (mode(1:lenmode) .eq. 'list') then
+  12  if ((mode(1:lenmode) .eq. 'list') .or.
+     $    (mode(1:lenmode) .eq. 'write')) then
+          if (mode(1:lenmode) .eq. 'write') then
+             if ((msgtype(2).eq.3.and.cmsgin(2)(1:5).eq.'-def-') .or.
+     *           (msgtype(2).eq.3.and.cmsgin(2)(1:5).eq.'-all-') .or.
+     *           (msgtype(2).eq.3.and.cmsgin(2).eq.' ')) then
+                  name = '-all-'
+             endif
+          endif
 C
 C        ---------------------------------------------------------------
-C        IF NO NAME ENTERED, DISPLAY LIST OF PSET NAMES
+C        IF NO NAME ENTERED, DISPLAY LIST OF ELTSET NAMES
 C
          if ((msgtype(2).eq.1.and.imsgin(2).eq.0) .or.
-     *       (msgtype(2).eq.3.and.cmsgin(2).eq.' ').or.
-     *       (msgtype(2).eq.3.and.cmsgin(2)(1:5).eq.'-def-')) then
+     *       (msgtype(2).eq.3.and.cmsgin(2)(1:5).eq.'-def-') .or.
+     *       (msgtype(2).eq.3.and.cmsgin(2).eq.' ') .or.
+     *       (mode(1:lenmode) .eq. 'write')) then
             ierror=0
             icnt=0
             do 1 i=1,nbitsmax
@@ -379,7 +391,26 @@ C
  6001          format(2(2x,a32))
                call writloga('default',0,logmess,0,ierr)
     2       continue
-            go to 9998
+            if(mode(1:lenmode) .eq. 'list') then
+               go to 9998
+            elseif(mode(1:lenmode) .eq. 'write') then
+C              Make sure that the element set actually exists
+               icnt=0
+               do 3 i=1,nbitsmax
+                  len2=icharlnf(eltsetnames(i))
+                  len1=max(lenname,len2)
+                  if (name(1:len1) .eq. eltsetnames(i)(1:len1)) icnt=i
+    3          continue
+               if (name(1:5) .eq. '-all-') then
+                   go to 9997
+               elseif (icnt .eq. 0) then
+                   write(logmess, 1005) name
+                   call writloga('default',1,logmess,1,ierr)
+                   go to 9998
+               else
+                   go to 9997
+               endif
+            endif
 C
 C        ---------------------------------------------------------------
 C        IF NAME ENTERED, CHECK THAT IT EXISTS
@@ -608,12 +639,12 @@ C loop through tets looking for nodes that belong to pset
                inode=itet(itetoff(i)+j)
                if(mpary1(inode).eq.1) then
                   if(mode(1:lenmode).eq.'inclusive')
-     *                xtetwd(i)=ior(xtetwd(i),mask)
+     *                itmpwd(i)=ior(itmpwd(i),mask)
                   if(mode(1:lenmode).eq.'exclusive') then
                      if(j.eq.1) emask=1
                      if(j.gt.1.and.j.lt.nen) emask=emask+1
                      if(j.eq.nen.and.emask.eq.nen-1)
-     *                     xtetwd(i)=ior(xtetwd(i),mask)
+     *                     itmpwd(i)=ior(itmpwd(i),mask)
                   endif
                endif
             enddo
@@ -634,13 +665,13 @@ C
                 if(j.eq.1) emask=1
                 if(j.gt.1.and.j.lt.nnf) emask=emask+1
                 if(j.eq.nnf.and.emask.eq.nnf-1)
-     *                     xtetwd(ie)=ior(xtetwd(ie),mask)
+     *                     itmpwd(ie)=ior(itmpwd(ie),mask)
             endif
           enddo
         enddo
       enddo
       endif
-      go to 9997
+      go to 9996
       endif
 C     __________________________________________________________________
 C
@@ -1016,6 +1047,8 @@ C
 C     PRINT OUT ELTSET INFO.
 C
  9997 continue
+
+      if(mode(1:lenmode) .ne. 'write') then
       cpt1='esetnames'
       cpt2='get'
       cpt3=name
@@ -1038,7 +1071,99 @@ C
      *       call writloga('default',0,logmess,0,ierr)
   500   continue
       endif
+C     ******************************************************************
+C     Write eltset info to a file.
 C
+      elseif(mode(1:lenmode) .eq. 'write') then
+      icnt = 1
+ 
+C
+C     Output eltset lists
+C
+      do j=1,nbitsmax
+        if((name(1:5) .eq. '-all-') .and.
+     *     (eltsetnames(j) .ne.' ')   .and.
+     *     (eltsetnames(j)(1:5) .ne. '-def-'))then
+           index = j
+           iprint = 1
+        elseif(eltsetnames(j).eq.name) then
+          index=j
+          iprint = 1
+        else
+          iprint = 0
+       endif
+
+      if(iprint .eq. 1)then
+         file_name = cmsgin(4)
+         if (name(1:5) .eq. '-all-') then
+             file_name = file_name(1:icharlnf(file_name)) // '_' //
+     *          eltsetnames(j)(1:icharlnf(eltsetnames(j)))
+         endif
+         lenname = icharlnf(file_name)
+
+         lenname = icharlnf(file_name)
+         if(file_name(lenname-7:lenname) .ne. '.cellset') then
+             file_name = file_name(1:lenname) // '.cellset'
+             lenname = lenname + 8
+             write(logmess,'(a)')
+     *           'ELTSET: Appended .cellset to the file name'
+             call writloga('default',0,logmess,0,ierr)
+         endif
+C    
+C        Open file for eltset output.
+C    
+         iunit = nextlun()
+
+         write(logmess,7007)name(1:icharlnf(name)),icnt
+ 7007    format('ELTSET: OUTPUT ',a,'  ',i3,' ELTSETS TO FILE ')
+         call writloga('default',0,logmess,0,ierr)
+         print *, 5, msgtype(5), cmsgin(5)
+         if ((msgtype(5).eq.3.and.cmsgin(5)(1:5).eq.'ascii') .or.
+     *        (msgtype(5).eq.3.and.cmsgin(5)(1:5).eq.'-def-') .or.
+     *        (nwds .eq. 4)                                   .or.
+     *        (msgtype(5).eq.3.and.cmsgin(5).eq.' ')) then
+            open(unit=iunit, file = file_name, form = 'formatted')
+            iotype = 1
+         elseif(msgtype(5).eq.3.and.cmsgin(5)(1:6).eq.'binary') then
+            open(unit=iunit, file = file_name, form = 'unformatted')
+            iotype = 0
+         endif
+
+      if(iotype .eq. 1)then
+      write(iunit,7005) 'eltset ascii',icnt
+ 7005 format(a,i10)
+      elseif(iotype .eq. 0)then
+      write(iunit) 'eltset unformatted',icnt
+      endif
+      
+      cpt1='esetnames'
+      cpt2='get'
+      cpt3=eltsetnames(index)
+      mpno=ntets
+      call eltlimc(cpt1,cpt2,cpt3,ipmpary1,mpno,
+     *             ntets,xtetwd)
+ 
+      if(iotype .eq. 1)then
+         write(iunit,7010) 
+     1      eltsetnames(index)(1:icharlnf(eltsetnames(index))),
+     2      index,mpno
+ 7010    format(a,i5,1x,i10)
+         n_entry_per_line = 10
+         do  i=1,mpno,n_entry_per_line
+          write(iunit,7011)
+     *     (mpary1(k),k=i,min0(i-1+n_entry_per_line,mpno))
+ 7011      format(10(i10,1x))
+        enddo
+      elseif(iotype .eq. 0)then
+         write(iunit) eltsetnames(index)(1:32),index,mpno
+         write(iunit) ( mpary1(k),k=1,mpno )
+      endif
+ 
+      close(iunit)
+      endif
+      enddo
+      endif
+
 C
 C     ******************************************************************
 C

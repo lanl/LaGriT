@@ -73,6 +73,9 @@ C
       integer itet(10000000),  jtet(10000000)
       real*8 xic(1000000), yic(1000000), zic(1000000)
       character*8 cglobal,cdefault
+
+C     Count the number of non-tets so that we can give a useful warning.
+      integer nnontets
 C
       dist2(a11,a12,a13,a21,a22,a23)  =
      *  (a11-a21)**2 + (a12-a22)**2 + (a13-a23)**2
@@ -80,6 +83,7 @@ C
       isubname='pcc_test'
       cglobal='global'
       cdefault='default'
+      nnontets = 0
 C
 C
 C     ******************************************************************
@@ -146,7 +150,7 @@ c        ielmface0=node numbers on face
       do it=1,ntets
 c        check to see that we are dealing with tets!
          if (nelmnef(itettyp(it)).ne.4) then
-            call x3d_error(isubname,'assumes a tetrahedral mesh!')
+            nnontets = nnontets + 1
          endif
  
          ncc(it) = 1.0
@@ -183,6 +187,12 @@ c
             call writloga('default',1,logmess,0,ierror)
          endif
       enddo
+
+      if (nnontets .gt. 0) then
+          write(logmess, '(a,i10,a)') 'pcc_test warning: found ',
+     *       nnontets, ' non-tetrahedral elements'
+          call writloga('default',1,logmess,0,ierror)
+      endif
  
       call cmo_set_info('neg_coup_coeff',  cmo,ipncc,ilen,itype,ierror)
  

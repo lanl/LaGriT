@@ -932,20 +932,28 @@ c (final coding similar to icontab checks)
                irepeat(j)=1
             enddo
             isdegen=0
+
+C           Begin loop (I wish Fortran had while loops...)
             j=1
-302         if (loc_nodes(j+1).eq.loc_nodes(j)) then
-               isdegen=isdegen+1
-               if (jtet_reduce_nnd.eq.1) then
-                  nnd=nnd-1
-                  irepeat(j)=irepeat(j)+1
-                  do isort=j+1,nnd
-                     loc_nodes(isort)=loc_nodes(isort+1)
-                  enddo
-                  if (j.lt.nnd) goto 302
+302         if (j .lt. nnd) then
+               if (loc_nodes(j+1).eq.loc_nodes(j)) then
+                  isdegen=isdegen+1
+                  if (jtet_reduce_nnd.eq.1) then
+                     nnd=nnd-1
+                     irepeat(j)=irepeat(j)+1
+                     do isort=j+1,nnd
+                        loc_nodes(isort)=loc_nodes(isort+1)
+                     enddo
+                  else
+                      j = j + 1
+                  endif
+               else
+                   j = j + 1
                endif
+               goto 302
             endif
-            j=j+1
-            if (j.lt.nnd) goto 302
+C           End loop
+
             if (isdegen.gt.0) n_self_degen=n_self_degen+1
             icycle=1
             ksdegen=0

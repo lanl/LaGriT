@@ -144,7 +144,7 @@ c
       crosy(a,b,c,d,e,f)=c*d-a*f
       crosz(a,b,c,d,e,f)=a*e-b*d
 c
-      isubname="readgmv"
+      isubname="readgmv_ascii"
  
 C
 C     Due to a past bug in IO of tets, both write and read
@@ -164,7 +164,7 @@ C
       call hassign(iunit,ifile,ierror) 
       if (iunit.lt.0 .or. ierror.lt.0) then
         call x3d_error(isubname,'hassign bad file unit')
-        write(logmess,*) 'WARNING: file not written: '
+        write(logmess,*) 'WARNING: file not read: '
      1     // ifile(1:icharlnf(ifile))
         call writloga('default',0,logmess,1,ierr)
         ierror = -1
@@ -961,7 +961,7 @@ C
       else
          write(logmess,9000) iline(1:icharlnf(iline))
          call writloga('default',1,logmess,0,ierr)
- 9000    format('GMV input not recognized:  ',a)
+ 9000    format('ASCII GMV input not recognized:  ',a)
          goto 100
       endif
 C
@@ -992,11 +992,28 @@ c       call writloga('default',0,logmess,0,ierrwrt)
       endif
       
       call mmrelprt(isubname,icscode)
+
+      call cmo_get_info('nnodes',cmo,
+     *                   nnodes,ilen,itype,ierror)
       call cmo_get_info('nelements',cmo,
      *                   nelements,ilen,itype,icscode)
-      if (nelements.gt.0) then
+
+      if (ierror.ne. 0) then
+         write(logmess,'(a,a)')
+     *   "Error: Problem setting up cmo ",cmo
+         call writloga('default',1,logmess,0,ierr)
+      else if (nelements.gt.0) then
           call dotask('geniee; finish',ierror)
       endif
+
+      write(logmess,90) nnodes,nelements
+   90 format('Nodes: ',i10 ' Elements: ',i10)
+      call writloga('default',0,logmess,0,ierror)
+
+      write(logmess,91) ifile(1:icharlnf(ifile))
+   91 format('Done reading GMV ascii file: ',a)
+      call writloga('default',0,logmess,1,ierror)
+
       return
       end
 c
@@ -1110,7 +1127,7 @@ c
       crosy(a,b,c,d,e,f)=c*d-a*f
       crosz(a,b,c,d,e,f)=a*e-b*d
 c
-      isubname="readgmv"
+      isubname="readgmv_asciistar"
  
  
 C
@@ -1118,7 +1135,7 @@ C
       call hassign(iunit,ifile,ierror)
       if (iunit.lt.0 .or. ierror.lt.0) then
         call x3d_error(isubname,'hassign bad file unit')
-        write(logmess,*) 'WARNING: file not written: '
+        write(logmess,*) 'WARNING: file not read: '
      1     // ifile(1:icharlnf(ifile))
         call writloga('default',0,logmess,1,ierr)
         ierror = -1
@@ -1903,10 +1920,27 @@ C
  9998 continue
       goto 9999
  9999 continue
+
+      call cmo_get_info('nnodes',cmo,
+     *                   nnodes,ilen,itype,ierror)
       call cmo_get_info('nelements',cmo,
      *                   nelements,ilen,itype,icscode)
-      if (nelements.gt.0) then
+
+      if (ierror.ne. 0) then
+         write(logmess,'(a,a)')
+     *   "Error: Problem setting up cmo ",cmo
+         call writloga('default',1,logmess,0,ierr)
+      else if (nelements.gt.0) then
           call dotask('geniee; finish',ierror)
       endif
+
+      write(logmess,90) nnodes,nelements
+   90 format('Nodes: ',i10 ' Elements: ',i10)
+      call writloga('default',0,logmess,0,ierror)
+
+      write(logmess,91) ifile(1:icharlnf(ifile))
+   91 format('Done reading GMV asciistar file: ',a)
+      call writloga('default',0,logmess,1,ierror)
+
       return
       end
