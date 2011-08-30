@@ -101,7 +101,6 @@ CPVCS       Rev 1.1   Mon Aug 18 14:56:08 1997   dcg
 CPVCS    Version to use with search_new command
       implicit none
  
-      character*132 logmess
 C
  
       real*8 alargenumber,asmallnumber,atolerance
@@ -117,14 +116,17 @@ C#######################################################################
 C
  
       integer  shiftr, ismaxi, ismin
-      real*8 cvmgm, cvmgt, cvmgz
+      integer icharlnf
       integer lpath,itetuse,idx,ivertex,mpnt,markmin,
      *  nit,itetest,itetmin,npath,nstack,ntemp,lentemp,itemp11,
      *  icscode,itetnoo,nblocks,itethih,itetlow,jj,jk,iposo,ii,
      *  it,nlstmov,iinterior,ip1,ip2,ip3,iface,imove,
      *  minp,maxp,midp,next,last,nfailc,
-     *  iboundary,leni,icmotype,ierror,ilstpt,i1,jtetlcl,n,ierr,
-     *  itetdata(3,4)
+     *  iboundary,leni,icmotype,ierror,ilstpt,i1,jtetlcl,n,ierr
+
+      integer itetdata(3,4)
+
+      real*8 cvmgm, cvmgt, cvmgz
       real*8 rtestmin,vololdt,d,ssum,volnewt,xdone,epsilonv,epsilona,
      * xn,xx,yn,yx,zn,zx
 C
@@ -168,6 +170,8 @@ C        *** POINTERS RELATED TO NEW TETRAHEDRA IN INSERTION POLYHEDRON.
 C        *** POINTERS RELATED TO WALKING ALGORITHM
 C
       character*32 isubname
+      character*132 logmess
+
       data itetdata/2,3,4, 1,3,4, 1,2,4, 1,2,3/
 C
 C#######################################################################
@@ -186,10 +190,83 @@ C#######################################################################
 C     Access the mesh object.
 C
       isubname='delaunay'
+      ierror = 0
 C
-      call cmo_get_name(cmo,ierror)
+      call cmo_get_name(cmo,ierr)
+      if (ierr.ne.0) then
+         write(logmess,'(a,a,a)')'Error: ',
+     *   isubname(1:icharlnf(isubname)),
+     *   '     > can not get cmo name.'
+         call writloga('default',0,logmess,1,icscode)
+         ierror = 1
+         goto 9999
+      endif
+
+C     Do some error checking
+C     exit here instead of seg fault during remainder of code
+
+      if (ntetmx.le.0) then
+         write(logmess,'(a,a)')'ERROR: ',
+     *   isubname(1:icharlnf(isubname))
+         call writloga('default',0,logmess,0,icscode)
+
+        write(logmess,'(a,i10)') 
+     *  '     > invalid number for element estimate: ',ntetmx
+        call writloga('default',0,logmess,0,icscode)
+        ierror = 1
+        go to 9999
+      endif
+
+      if (ntets.le.0) then
+        write(logmess,'(a,a)')'ERROR: ',
+     *  isubname(1:icharlnf(isubname))
+        call writloga('default',0,logmess,0,icscode)
+
+        write(logmess,'(a,i10)')
+     *  '     > invalid number of elements for insertion: ',ntets
+        call writloga('default',0,logmess,0,icscode)
+        ierror = 1
+        go to 9999
+      endif
 C
       call cmo_get_intinfo('nnodes',cmo,npoints,leni,icmotype,ierror)
+
+      if (ierror.ne.0) then
+        write(logmess,'(a,a)')'ERROR: ',
+     *  isubname(1:icharlnf(isubname))
+        call writloga('default',0,logmess,0,icscode)
+
+        write(logmess,'(a,a)') 
+     * '     > can not get node info from cmo: ',
+     *  cmo(1:icharlnf(cmo))
+        call writloga('default',0,logmess,0,icscode)
+        go to 9999
+      endif
+
+      if (npoints.le.0) then
+        write(logmess,'(a,a)')'ERROR: ',
+     *  isubname(1:icharlnf(isubname))
+        call writloga('default',0,logmess,0,icscode)
+
+        write(logmess,'(a,i10)')
+     *  '     > invalid number of nodes for mesh: ',npoints
+        call writloga('default',0,logmess,0,icscode)
+        ierror = 1
+        go to 9999
+      endif
+
+      if (npoints.eq.1) then
+        write(logmess,'(a,a)')'WARNING: ',
+     *  isubname(1:icharlnf(isubname))
+        call writloga('default',0,logmess,0,icscode)
+
+        write(logmess,'(a)')
+     *  '     > only 1 node in mesh'
+        call writloga('default',0,logmess,0,icscode)
+        ierror = 1
+        go to 9999
+      endif
+
       call cmo_get_intinfo('nelements',cmo,ntetsm,leni,icmotype,ierror)
       call cmo_get_intinfo('mbndry',cmo,mbndry,leni,icmotype,ierror)
       call cmo_get_info('itp1',cmo,ipitp1,leni,icmotype,ierror)
@@ -204,31 +281,49 @@ C
 C    Some temporary memory for walking algorithm
 C    ******************************************************************
       call mmgetblk('rtest',isubname,iprtest,ntetmx,2,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk rtest')
       call mmgetblk('ipath',isubname,ipipath,ntetmx,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk ipath')
       call mmgetblk('mark_path',isubname,ipmark_path,ntetmx,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk mark_path')
 C
 C     GET MEMORY RELATED TO OLD TETRAHEDRA IN A POLYHEDRON.
 C
       lenold=lenblk
       call mmgetblk('lstold',isubname,iplstold,lenold,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk lstold')
       call mmgetblk('itetold',isubname,ipitetol,4*lenold,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk itetold')
       call mmgetblk('jtetold',isubname,ipjtetol,4*lenold,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk jtetold')
       call mmgetblk('ifacold',isubname,ipifacol,4*lenold,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk ifacold')
       call mmgetblk('ifacnew',isubname,ipifacne,4*lenold,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk ifacnew')
       call mmgetblk('ifacout',isubname,ipifacou,4*lenold,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk ifacout')
       call mmgetblk('volold',isubname,ipvolold,lenold,2,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk volold')
       call mmgetblk('lstmov',isubname,iplstmov,lenold,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk lstmov')
 C
 C     GET MEMORY RELATED TO NEW TETRAHEDRA IN A POLYHEDRON.
 C
       lennew=4*lenold
       call mmgetblk('itetnew',isubname,ipitetne,4*lennew,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk lstmov')
       call mmgetblk('jtetnew',isubname,ipjtetne,4*lennew,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk jtetnew')
       call mmgetblk('volnew',isubname,ipvolnew,lennew,2,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk volnew')
       call mmgetblk('xvornew',isubname,ipxvorne,lennew,2,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk xvornew')
       call mmgetblk('yvornew',isubname,ipyvorne,lennew,2,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk yvornew')
       call mmgetblk('zvornew',isubname,ipzvorne,lennew,2,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk zvornew')
       call mmgetblk('temp',isubname,iptemp,6*lennew,1,icscode)
+      if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk temp')
       leni = npoints
       call mmgetblk('ioff',isubname,ipioff,leni,1,icscode)
       leni = 6000
@@ -856,6 +951,7 @@ C        TETRAHEDRA, AND SET THE REMAINING jtet VALUES TO AN UNREALISTIC
 C        VALUE FOR THE TIME BEING.  ALSO, CORRECT THE jtet VALUES OF THE
 C        TETRAHEDRA SURROUNDING THE INSERTION POLYHEDRON.
 C
+         if (nlstnew.le.0) call x3d_warn(isubname,'nlstnew is 0')
          do ii=1,nlstnew
             itetnoo=shiftr(ifacnew(ii)+3,2)
             iposo=iand((ifacnew(ii)+3),3)+1
@@ -1142,9 +1238,31 @@ C
  	 write(logmess,104) ifailc,istep
          call writloga ('default',0,logmess,0,icscode)
       endif
-      call mmrelprt(isubname,icscode)
+
+ 9998 call mmrelprt(isubname,icscode)
+
+ 9999 continue
+
+      if (icscode.ne.0) then
+        write(logmess,'(a,a)') 'WARNING: ',
+     *   isubname(1:icharlnf(isubname))
+        call writloga('default',0,logmess,0,icscode)
+
+        write(logmess,'(a,i5)') 
+     *  '     > non-terminating error with icscode: ',icscode
+        call writloga('default',0,logmess,1,icscode)
+      endif
+
+      if (ierror.ne.0) then
+        write(logmess,'(a,i5)') 
+     *  '     > exiting with error num: ',ierror
+        call writloga('default',0,logmess,1,icscode)
+
+        write(logmess,'(a,a)') 
+     *  'ERROR END: ',isubname(1:icharlnf(isubname)) 
+        call writloga('default',0,logmess,1,icscode)
+      endif
+
       return
       end
- 
- 
  

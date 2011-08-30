@@ -67,13 +67,17 @@ C
       implicit none
       include 'search.h'
       include 'chydro.h'
-      integer limithih,limitlow,it,i,j,ierr,k,leni,icmotype,
-     *  npoints,ntets,ntetmax,nlsttts
+
+C  arguments
+      integer npoints,ntets,ntetmax,nlsttts
+      real*8 epsilon
+
+C  variables
+      integer limithih,limitlow,it,i,j,ierr,k,leni,icmotype
       pointer (ipitp1,itp1)
       integer itp1(*)
       pointer (ipxic,xic),(ipyic,yic),(ipzic,zic)
       real*8 xic(*),yic(*),zic(*)
-      real*8 epsilon
       pointer (iplstptl,lstptl)
       integer lstptl(*)
       character*32 cmo
@@ -118,6 +122,9 @@ C
 C     CONSTRUCT THE DELAUNAY TETRAHEDRALIZATION BY INSERTING THE MASS
 C     POINTS INTO THE EXISTING TETRAHEDRAL STRUCTURE, ONE AT A TIME.
 C
+
+C     passed in as arguments npoints,ntets,epsilon,ntetmax
+C     nlsttts is not set when it comes in
  
       nlstfail=0
       limitlow=1
@@ -241,6 +248,8 @@ C
             go to 90
          endif
       endif
+
+
       return
       end
 C

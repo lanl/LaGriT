@@ -34,65 +34,35 @@ CPVCS       Rev 1.12   08 Feb 2006 14:38:14   dcg
 CPVCS     "enforce lower case - add external statements for shift routines
 CPVCS    these changes needed to compile with absoft pro fortran"
 CPVCS    
-
 CPVCS       Rev 1.11   02 Aug 2005 08:09:58   gable
-
 CPVCS    Changed ifadd to lifadd.
-
 CPVCS    
-
 CPVCS       Rev 1.10   15 Nov 2004 10:35:20   dcg
-
 CPVCS    replace .or. with function ior
-
 CPVCS    
-
 CPVCS       Rev 1.9   30 Jan 2001 11:27:12   dcg
-
 CPVCS    allow connecting a subset of nodes
-
 CPVCS    
-
 CPVCS       Rev 1.8   30 Jan 2001 08:24:40   dcg
-
 CPVCS    pass input big triangle coordinates to the make_bigtri routine
-
 CPVCS    
-
 CPVCS       Rev 1.7   21 Apr 2000 07:04:24   gable
-
 CPVCS    Made setting and getting of mbndry value dynamic and problem size dependent.
-
 CPVCS    
-
 CPVCS       Rev 1.6   28 Mar 2000 14:09:08   dcg
-
 CPVCS    remove include 'machine.h'
-
 CPVCS    
-
 CPVCS       Rev 1.5   Thu Feb 17 08:37:42 2000   dcg
-
 CPVCS    check for virtual nodes and set matlst correctly
-
 CPVCS    
-
 CPVCS       Rev 1.4   Tue Feb 08 13:52:26 2000   dcg
-
 CPVCS    
-
 CPVCS       Rev 1.3   Wed Feb 02 13:35:06 2000   dcg
-
 CPVCS    
-
 CPVCS       Rev 1.2   13 Jan 2000 14:47:40   dcg
-
 CPVCS    
-
 CPVCS       Rev 1.1   05 Jan 2000 17:32:14   dcg
-
 CPVCS     
-
 CPVCS
 CPVCS       Rev 1.3   Tue Nov 30 13:14:52 1999   dcg
 CPVCS    set nen to 3 for triangle meshes
@@ -109,19 +79,25 @@ C
 C#######################################################################
 C
       implicit none
-      character*132 logmess
 C
-      integer ier,leni,icmotype,npoints,ntets,icscode,
-     * ipt1,ipt2,ipt3,iout,lout,itype,
-     * nwds,ifield,ipttyp,mpno,length,incpts,
-     * lencns,ics,nmatfal1,nmatfal2,
-     * it,i,j,nmatmax,ii,ierr,k,
-     * iunit,nen,nef,nnodes,mbndry,
-     * nlsttts,n,imtval,
-     * matindex,iimt,i1,nlstptls,nlstptln
+      integer nwds
       integer imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*32 cmsgin(nwds),cmo
+C
+      integer ier,leni,icmotype,npoints,ntets,
+     * ipt1,ipt2,ipt3,iout,lout,itype,
+     * ifield,ipttyp,mpno,length,incpts,
+     * lencns,ics,nmatfal1,nmatfal2,
+     * it,i,j,nmatmax,ii,ierr,nerr,k,
+     * iunit,nen,nef,nnodes,mbndry,
+     * nlsttts,n,imtval,
+     * matindex,iimt,i1,nlstptls,nlstptln
+
+      integer intconn, intpass,intpasmx,npoints_save,
+     * ierr1,ntetmax,ierror,icscode
+      integer ismax, icharlnf
+
       pointer (ipitet,itet)
       pointer (ipitet,itet1)
       integer itet(3,*),itet1(*)
@@ -150,11 +126,7 @@ C
       integer shiftl, ior
       external shiftl
 C
-C#######################################################################
-C
-      integer intconn, intpass,intpasmx,npoints_save,
-     * ierr1,ntetmax,ierror
-      integer ismax, icharlnf
+
       real*8 delx,dely,delz,crossx,crossy,crossz,sumsq,
      * cvmgt
       pointer (iprimat  ,rimat(*)     )
@@ -164,20 +136,24 @@ C
       pointer(ipout,out)
       real*8 out(*)
       integer mpary,lstptl
+
 C        *** POINTERS RELATED TO MASS POINTS.
-      character*8 cpart,cnnodes
       real*8 r
 c
       pointer (ipnimts ,nimts(*)      )
       pointer (ipimts1 ,imts1(*)      )
       pointer (ipmatlst,matlst(*)    )
       integer  nimts,imts1,matlst
-      character*32 isubname
-      character*32 cpt1,cpt2,cpt3,geom_name
-      character*8 cglobal,cdefault
       logical itsttp, ifp1,ifp2,ifp3
       real*8 xcoords(12),vvbarmin
       data cglobal,cdefault/'global','default'/
+
+      character*8 cpart,cnnodes
+
+      character*8 cglobal,cdefault
+      character*32 isubname,blkname
+      character*32 cpt1,cpt2,cpt3,geom_name
+      character*132 logmess
 C
 C#######################################################################
 C     MACROS.
@@ -194,15 +170,49 @@ C
 C#######################################################################
 C
       ntetmax=0
-      isubname='nn3dn'
+
+C TAM isubname changed to reflect actual subroutine name
+C     mm routines changed to use blkname instead of isubname
+C     nn3dn name is in search.h
+
+      isubname='connect2d'
+      blkname='nn3dn'
       cpart='part'
       cnnodes='nnodes'
+      ierr1 = 0
+      nerr = 0
 C
       call cmo_get_name(cmo,ier)
+      if (ier.ne.0) then
+         write(logmess,'(a,a,a)')'Error: ',
+     *   isubname(1:icharlnf(isubname)),
+     *   '     > can not get cmo name.'
+         call writloga('default',0,logmess,1,icscode)
+         ierr1 = 1
+         goto 9999
+      endif
 C
       call cmo_get_attinfo('geom_name',cmo,iout,rout,geom_name,
-     *                        ipout,lout,itype,ierror)
+     *                        ipout,lout,itype,ier)
+
       call cmo_get_info('nnodes',cmo,npoints,leni,icmotype,ier)
+
+      if (ier.ne.0) then
+         nerr = nerr+1
+         call list_errc(nerr,isubname,
+     *       'can not get node info from cmo: ',cmo)
+         ierr1 = ier
+         goto 9999
+       endif
+
+       if (npoints.le.1) then
+          nerr = nerr+1
+          call list_erri(nerr,isubname,
+     *        'invalid number of nodes: ',npoints)
+          ierr1 = 1
+          goto 9999
+       endif
+
       call cmo_get_info('nelements',cmo,ntets,leni,icmotype,ier)
       call set_mbndry()
       call cmo_get_info('mbndry',cmo,mbndry,leni,icmotype,ier)
@@ -278,11 +288,11 @@ C
       call cmo_set_info('nelements',cmo,ntetmax,1,1,ierr)
       call cmo_newlen(cmo,ierr)
       ntetmaxl=ntetmax-ntetexcl
-      call mmgetblk('vol',isubname,ipvol,ntetmax,2,icscode)
-      call mmgetblk('xvor',isubname,ipxvor,ntetmax,2,icscode)
-      call mmgetblk('yvor',isubname,ipyvor,ntetmax,2,icscode)
-      call mmgetblk('zvor',isubname,ipzvor,ntetmax,2,icscode)
-      call mmgetblk('lsttts',isubname,iplsttts,ntetmax,1,icscode)
+      call mmgetblk('vol',blkname,ipvol,ntetmax,2,icscode)
+      call mmgetblk('xvor',blkname,ipxvor,ntetmax,2,icscode)
+      call mmgetblk('yvor',blkname,ipyvor,ntetmax,2,icscode)
+      call mmgetblk('zvor',blkname,ipzvor,ntetmax,2,icscode)
+      call mmgetblk('lsttts',blkname,iplsttts,ntetmax,1,icscode)
 C
 C  access mesh object
 C
@@ -298,8 +308,8 @@ C
       call cmo_get_info('itet',cmo,ipitet,leni,icmotype,ierr)
       call cmo_get_info('jtet',cmo,ipjtet,leni,icmotype,ierr)
       lstptlen=npoints+4
-      call mmgetblk('mpary',isubname,ipmpary,npoints,1,icscode)
-      call mmgetblk('lstptl',isubname,iplstptl,lstptlen,1,icscode)
+      call mmgetblk('mpary',blkname,ipmpary,npoints,1,icscode)
+      call mmgetblk('lstptl',blkname,iplstptl,lstptlen,1,icscode)
       mpno=npoints
       if(ipttyp.eq.0)then
          call pntlimn(ipt1,ipt2,ipt3,ipmpary,mpno,npoints,isetwd,itp1)
@@ -310,7 +320,7 @@ C
       do 10 ii=1,mpno
          lstptl(ii)=mpary(ii)
    10 continue
-      call mmgetblk('lstfail',isubname,iplstfal,lstptlen,1,icscode)
+      call mmgetblk('lstfail',blkname,iplstfal,lstptlen,1,icscode)
 C
 C     SET THE REGION NAMES, OFFSETS, AND NUMBER OF ELEMENTS FOR ALL
 C     REGIONS.
@@ -343,7 +353,7 @@ C
          nmatmax=nmregs
       else
          length=npoints
-         call mmgetblk('rimat',isubname,iprimat,length,2,icscode)
+         call mmgetblk('rimat',blkname,iprimat,length,2,icscode)
          do 15 i=1,npoints
             rimat(i)=float(imt1(i))
    15    continue
@@ -351,14 +361,14 @@ C
          do 16 i=1,npoints
             imt1(i)=int(rimat(i)+0.1)
    16    continue
-         call mmrelblk('rimat',isubname,iprimat,icscode)
+         call mmrelblk('rimat',blkname,iprimat,icscode)
       endif
       matblks=max((nmatmax+31)/32,1)
 C        *** NUMBER OF BLOCKS OF THE MATERIAL ARRAY.  EACH BLOCK WILL
 C        *** HANDLE UP TO 32 MATERIALS.
       lenmatmx=(6*(npoints+4))/5
 C        *** LENGTH OF EACH MATERIAL-LIST-ARRAY BLOCK.
-      call mmgetblk('matlst',isubname,ipmatlst,matblks*lenmatmx,1,ics)
+      call mmgetblk('matlst',blkname,ipmatlst,matblks*lenmatmx,1,ics)
 C
 C     ******************************************************************
 C     INITIALIZE SOME MORE VARIABLES.
@@ -447,9 +457,9 @@ C
          imtmax=max(imtmax,imt1(i1))
       enddo
       length=npoints
-      call mmgetblk('nimts',isubname,ipnimts,npoints,1,ics)
+      call mmgetblk('nimts',blkname,ipnimts,npoints,1,ics)
       length=npoints*max(imtmax,nmregs)
-      call mmgetblk('imts1',isubname,ipimts1,length,1,ics)
+      call mmgetblk('imts1',blkname,ipimts1,length,1,ics)
       nmatfal1=0
       nmatfal2=0
       if(nmregs.gt.0) then
@@ -569,10 +579,10 @@ C        *** THE SECOND INTERFACE PASS, AND ALL SUBSEQUENT PASSES.
 C
 C     ******************************************************************
 C
-C     CALCULATE VOLUMES, VORONOI POINTS
-C              *** SIX TIMES THE TRUE TETRAHEDRON VOLUME.
-C              *** TWICE THE COORDINATES OF THE VORONOI POINT.
-C
+C     NOTE: The following if statement formerly contained code that
+C     doubled the coordinates of the first Voronoi point. I removed it
+C     because it was causing problems but I do not know the original
+C     reason it was there. -- Adam Cozzette, July 2011
       if(ibigtet.gt.0) then
          call volume_tri(xic(ibigtet),yic(ibigtet),zic(ibigtet),
      *   xic(ibigtet+1),yic(ibigtet+1),zic(ibigtet+1),
@@ -581,30 +591,70 @@ C
          call voronoi_center_2d(xic(ibigtet),yic(ibigtet),zic(ibigtet),
      *   xic(ibigtet+1),yic(ibigtet+1),zic(ibigtet+1),
      *   xic(ibigtet+2),yic(ibigtet+2),zic(ibigtet+2),
-     *  xvor(1),yvor(1),zvor(1),r)
-         xvor(1)=2.*xvor(1)
-         yvor(1)=2.*yvor(1)
-         zvor(1)=2.*zvor(1)
+     *   xvor(1),yvor(1),zvor(1),r)
+
+C ADAMC - Removed as this was causing seg faults in some cases 
+C        xvor(1)=2.*xvor(1)
+C        yvor(1)=2.*yvor(1)
+C        zvor(1)=2.*zvor(1)
+
       endif
 C
 C     ******************************************************************
 C
 C     Do initial grid generation step
 C
+C     nlsttts is not used until after initial step 
+      nlsttts=0
       istep=1
+
+C     Add some non-terminating error checking
+      if (npoints.le.0) then
+       nerr=nerr+1
+       call list_err(nerr,isubname,'initial step npoints 0')
+      endif
+      if (ntets.le.0) then
+       nerr=nerr+1
+       call list_err(nerr,isubname,'initial step ntets 0')
+      endif
+      if (ntetmax.le.0) then
+       nerr=nerr+1
+       call list_err(nerr,isubname,'initial step ntetmax 0')
+      endif
+
       call delaunay_connect2d_lg(npoints,ntets,epsilon,
      *  ntetmax,nlsttts)
- 
+
+      if (npoints.le.0) then
+        write(logmess,'(a,i5)')
+     *  'WARNING: connect2d has 0 nodes for initial work. ',npoints
+        call writloga('default',0,logmess,0,icscode)
+      endif
+
+      if (ntets.le.0) then
+        write(logmess,'(a,i5)')
+     *  'WARNING: connect2d has 0 elements for initial work. ',ntets
+        call writloga('default',0,logmess,0,icscode)
+      endif
+
 C
 C  refresh pointers
 C
-      call mmfindbk('lstptl',isubname,iplstptl,lennew,icscode)
-      call mmfindbk('xvor',isubname,ipxvor,lennew,icscode)
-      call mmfindbk('yvor',isubname,ipyvor,lennew,icscode)
-      call mmfindbk('zvor',isubname,ipzvor,lennew,icscode)
-      call mmfindbk('lsttts',isubname,iplsttts,lennew,icscode)
-      call mmfindbk('vol',isubname,ipvol,lennew,icscode)
-      call mmfindbk('lstfail',isubname,iplstfal,lennew,icscode)
+      call mmfindbk('lstptl',blkname,iplstptl,lennew,icscode)
+      if (icscode.ne.0)call x3d_warn(isubname,'mmfindblk lstptl')
+      call mmfindbk('xvor',blkname,ipxvor,lennew,icscode)
+      if (icscode.ne.0)call x3d_warn(isubname,'mmfindblk xvor')
+      call mmfindbk('yvor',blkname,ipyvor,lennew,icscode)
+      if (icscode.ne.0)call x3d_warn(isubname,'mmfindblk yvor')
+      call mmfindbk('zvor',blkname,ipzvor,lennew,icscode)
+      if (icscode.ne.0)call x3d_warn(isubname,'mmfindblk zvor')
+      call mmfindbk('lsttts',blkname,iplsttts,lennew,icscode)
+      if (icscode.ne.0)call x3d_warn(isubname,'mmfindblk lsttts')
+      call mmfindbk('vol',blkname,ipvol,lennew,icscode)
+      if (icscode.ne.0)call x3d_warn(isubname,'mmfindblk vol')
+      call mmfindbk('lstfail',blkname,iplstfal,lennew,icscode)
+      if (icscode.ne.0)call x3d_warn(isubname,'mmfindblk lstfail')
+
       call cmo_set_info('nelements',cmo,ntets,1,1,icscode)
       call cmo_set_info('nnodes',cmo,npoints,1,1,icscode)
 C
@@ -674,6 +724,8 @@ C
          ntetmax=ntets
          call delaunay_connect2d_lg (npoints,ntets,
      *      epsilon,ntetmax,nlsttts)
+         if (ntets.le.0) call x3d_warn(isubname,'set info 0 elements')
+         if (npoints.le.0) call x3d_warn(isubname,'set info 0 points')
          call cmo_set_info('nelements',cmo,ntets,1,1,icscode)
          call cmo_set_info('nnodes',cmo,npoints,1,1,icscode)
       endif
@@ -684,7 +736,7 @@ C
       call cmo_get_info('nnodes',cmo,npoints,icmotype,leni,icscode)
       if(npoints+incpts.gt.lstptlen) then
          lstptlen=npoints+incpts
-         call mmnewlen('lstptl',isubname,iplstptl,lstptlen,icscode)
+         call mmnewlen('lstptl',blkname,iplstptl,lstptlen,icscode)
       endif
 C
 C     Look for points flagged earlier as unconnected--reset type
@@ -714,7 +766,7 @@ C
             iunit=-1
             call hassign(iunit,'nn3dn_dud.inp',ierr)
             if (iunit.lt.0 .or. ierr.lt.0) then
-            call x3d_error(isubname,'hassign bad file unit')
+            call x3d_warn(isubname,'hassign bad file unit')
             else
             write(iunit,*) nlstptl,0,0,0,0
             endif
@@ -744,16 +796,25 @@ C     ******************************************************************
 C
 C     WRITE THE MESH-COMPLETION MESSAGE.
 C
-      write(logmess,9980)
- 9980 format(' The mesh is now complete!')
-      call writloga(cdefault,1,logmess,1,ierr)
+      if (nlstptl.ne.0) then
+        write(logmess,'(a)')
+     *  ' The mesh is complete but could not include all points.'
+        call writloga(cdefault,1,logmess,0,ierr)
+        write(logmess,'(a,i10)')
+     *  ' Number of points that could not be connected: ',nlstptl
+        call writloga(cdefault,0,logmess,1,ierr)
+      else
+        write(logmess,9980)
+ 9980   format(' The mesh is now complete!')
+        call writloga(cdefault,1,logmess,1,ierr)
+      endif
 C
 C
 C     ******************************************************************
 C
 C     RELEASE THE TEMPORARY MEMORY BACK TO THE MEMORY MANAGER.
 C
-      call mmrelprt(isubname,icscode)
+      call mmrelprt(blkname,icscode)
 C
 C
 C     ******************************************************************
@@ -837,5 +898,17 @@ C
       enddo
 C
  9999 continue
+
+      if (ierr1.ne.0 .or. nerr.gt.0) then
+
+        if (ierr1.ne.0) then
+          call list_erri(nerr+1,isubname,
+     *       'ending with ierr1 flag:',ierr1)
+        endif
+
+        call list_err_end(nerr,isubname)
+
+      endif
+
       return
       end
