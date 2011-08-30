@@ -49,8 +49,12 @@ C                     fills with volume(3D), area(2D) or length(lines)
 C                     implemented only for triangle areas
 C  voronoi_varea     - creates node attributes xn_varea, yn_varea, zn_varea
 C                     same as computed for outside area
-C  voronoi_volume   - creates node attribute xvor,yvor,zvor 
+C  voronoi_volume   - creates node attribute storing volumes of Voronoi
+C                     cells
 C  old was vor_volume  fills with voronoi volume from getvoronoivolumes()
+C
+C  hybrid_volume    - creates node attribute storing volumes of hybrid
+C                     median-Voronoi control volumes
 C                  
 C  vector           - creates one vector attribute
 C                     fills with values from 3 scalar attributes
@@ -287,7 +291,7 @@ C
       integer i1,i2,i3,i,j,k,jn,ipt,idx, ij_max
       integer index,irank,ilen,ityp,nen,nlength,flen
       integer itype_angle, if_valid_element, inclusive
-      integer io_type, ncoef, ifcompress
+      integer io_type, ncoef, ifcompress, ifhybrid
       integer nnode, nelem
 c
       pointer (ipitettyp, itettyp)
@@ -319,6 +323,12 @@ C
       integer  mpary(nplen)
       pointer (ipiparent, iparent)
       integer  iparent(nplen)
+
+C     Attributes which will be used with the quad_quality option.
+      pointer (ipregularity, regularity)
+      real*8  regularity(nplen)
+      pointer (ipquadflag, quadflag)
+      integer quadflag(nplen)
  
       pointer (ipxvec, xvec)
       pointer (ipyvec, yvec)
@@ -504,12 +514,15 @@ C.... keyword voronoi_volume formerly vor_volume
 C.... keyword voronoi_varea  
       elseif( att_name(1:icharlnf(att_name)).eq.'vor_volume' .or.
      *   att_name(1:icharlnf(att_name)).eq.'voronoi_volume'  .or. 
-     *   att_name(1:icharlnf(att_name)).eq.'voronoi_varea' ) then
-
-       att_name  = cmsgin(5)
+     *   att_name(1:icharlnf(att_name)).eq.'voronoi_varea'   .or.
+     *   att_name(1:icharlnf(att_name)).eq.'hybrid_volume') then
 
        if (cmo_type(1:3).eq.'tet') then
-           fill_type = 'voronoi_volume'
+           if (att_name(1:icharlnf(att_name)).eq.'hybrid_volume') then
+               fill_type = 'hybrid_volume'
+           else
+               fill_type = 'voronoi_volume'
+           endif
        else if (cmo_type(1:3).eq.'tri') then
            fill_type = 'voronoi_varea'
        else
@@ -520,6 +533,7 @@ C.... keyword voronoi_varea
            call writloga('default',1,logmess,0,ierr)
            goto 9999
        endif
+       att_name  = cmsgin(5)
        flen = icharlnf(fill_type)
 
        if(nwds.lt.5) then
@@ -530,8 +544,9 @@ C.... keyword voronoi_varea
        endif
 
 C      for tet 
-C      create single attribute with voronoi volume
-       if (fill_type(1:flen) .eq. 'voronoi_volume')  then
+C      create single attribute with voronoi or hybrid volumes
+       if (fill_type(1:flen) .eq. 'voronoi_volume' .or.
+     *          fill_type(1:flen) .eq. 'hybrid_volume')  then
            cmsgin(5) = 'VDOUBLE'
            cmsgin(6) = 'scalar'
            cmsgin(7) = 'nnodes'
@@ -573,8 +588,30 @@ C     this is the same computation used for outside tet nodes
          xmsgin(11)= zero
       endif
 
+      elseif (att_name(1:icharlnf(att_name)).eq.'quad_quality') then
+        fill_type = att_name
+        flen = icharlnf(fill_type)
+
+         if(nwds.lt.7) then
+            write(logmess,'(a,a)') 'ADDATT error: ',
+     *        'three attribute names required'
+            call writloga('default',1,logmess,0,ierr)
+            goto 9999
+         endif
+         att_list(1) = cmsgin(5)
+         att_list(2) = cmsgin(6)
+         att_list(3) = cmsgin(7)
+
+         irank = 1
+         att_name = att_list(1)
+         cmsgin(5) = 'VDOUBLE'
+         cmsgin(6) = 'scalar'
+         cmsgin(7) = 'nelements'
+         cmsgin(8) = cinterp
+         cmsgin(9) = cpersistence
+         cmsgin(10)= cioflag
+         xmsgin(11)= zero
  
-C.... keyword volume or area or length
       elseif (att_name(1:icharlnf(att_name)).eq.'volume' .or.
      *        att_name(1:icharlnf(att_name)).eq.'area'   .or.
      *        att_name(1:icharlnf(att_name)).eq.'ang_mind'   .or.
@@ -585,17 +622,17 @@ C.... keyword volume or area or length
      *        att_name(1:icharlnf(att_name)).eq.'ang_minr_solid'.or.
      *        att_name(1:icharlnf(att_name)).eq.'ang_maxd_solid'.or.
      *        att_name(1:icharlnf(att_name)).eq.'ang_maxr_solid'.or.
-     *        att_name(1:icharlnf(att_name)).eq.'length'  ) then
+     *        att_name(1:icharlnf(att_name)).eq.'length') then
  
          fill_type = att_name
          flen = icharlnf(fill_type)
 
          if (fill_type(1:4) .ne. 'ang_') then
-         if (cmo_type(1:3).eq.'tri') then
-           fill_type = 'area'
-         else
-           fill_type = 'volume'
-         endif
+           if (cmo_type(1:3).eq.'tri') then
+             fill_type = 'area'
+           else
+             fill_type = 'volume'
+           endif
          endif
          flen = icharlnf(fill_type)
 
@@ -1318,7 +1355,8 @@ C     Fill node attribute with voronoi volumes
 C     let anothermatbld3d_wrapper do the work
 C     flag io to write to attribute instead of file
 
-      elseif (fill_type(1:flen).eq. 'voronoi_volume') then
+      elseif (fill_type(1:flen) .eq. 'voronoi_volume' .or.
+     *        fill_type(1:flen) .eq. 'hybrid_volume') then
 
        call cmo_get_intinfo('nnodes',cmo_name,nlength,ilen,ityp,ierr)
        if(ierr.ne.0) call x3d_error(isubname,'intinfo nnodes ')
@@ -1327,15 +1365,21 @@ C     flag io to write to attribute instead of file
          io_type = 5
          ncoef = 1
          ifcompress = 0
+         if (fill_type(1:flen) .eq. 'hybrid_volume') then
+             ifhybrid = 1
+         else
+             ifhybrid = 0
+         endif
          aname = att_name
 
-         call anothermatbld3d_wrapper(aname,io_type,ncoef,ifcompress)
+         call anothermatbld3d_wrapper(aname,io_type,ncoef,ifcompress,
+     *      ifhybrid)
          goto 9998
 
        else
          call x3d_error(isubname,'zero length attribute '//att_name)
        endif
- 
+
 C.... keyword volume
 C     Fill element attribute with volume or length
 C     This needs to be finished
@@ -1897,6 +1941,74 @@ C       node i and all nodes connected to i.
 
         logmess = 'cmo/printatt/'//cmo_name//att_name//'/minmax ;finish'
         call dotask(logmess, ierr)
+
+      elseif(fill_type(1:flen) .eq. 'quad_quality') then
+         call cmo_get_intinfo('nelements',cmo_name,nlength,ilen,ityp,
+     *      ierr)
+         if(ierr.ne.0) call x3d_error(isubname,'intinfo nelements ')
+
+C
+C        Create the remaining two attributes
+C
+         cmsgin(4) = att_list(2)
+         call cmo_addatt_cmo(imsgin, xmsgin, cmsgin, msgtype, nwdsout,
+     *     ierror_return)
+         if(ierror_return.eq.0) then
+           call cmo_verify_cmo(cmo_name,ierror_return)
+           if(ierror_return.ne.0) then
+              write(logmess,'(a,a,a)')'ADDATT error: ',
+     *        'Mesh Object is not consistent: ', cmo_name
+              call writloga('default',0,logmess,0,ierr)
+           endif
+         endif
+
+         cmsgin(4) = att_list(3)
+         cmsgin(5) = 'VINT'
+         call cmo_addatt_cmo(imsgin, xmsgin, cmsgin, msgtype, nwdsout,
+     *     ierror_return)
+         if(ierror_return.eq.0) then
+           call cmo_verify_cmo(cmo_name,ierror_return)
+           if(ierror_return.ne.0) then
+              write(logmess,'(a,a,a)')'ADDATT error: ',
+     *        'Mesh Object is not consistent: ', cmo_name
+              call writloga('default',0,logmess,0,ierr)
+           endif
+         endif
+
+C
+C        Access the three new attributes
+C
+         call cmo_get_info(att_list(1),cmo_name,ipvalue,ilen,ityp,ierr)
+         if(ierr.ne.0) call x3d_error(isubname,
+     *      'get_info new attribute')
+
+         call cmo_get_info(att_list(2),cmo_name,ipregularity,ilen,ityp,
+     *      ierr)
+         if(ierr.ne.0) call x3d_error(isubname,
+     *      'get_info new attribute')
+
+         call cmo_get_info(att_list(3),cmo_name,ipquadflag,ilen,ityp,
+     *      ierr)
+         if(ierr.ne.0) call x3d_error(isubname,
+     *      'get_info new attribute')
+
+C
+C        Verify that the mesh consists solely of quads.
+C
+         do i = 1, nlength
+             if (itettyp(i) .ne. ifelmqud) then
+                 write(logmess,'(a, a)')
+     *           'ADDATT error: quad_quality requires the mesh to ',
+     *           'consist solely of quads.'
+                 call writloga('default',0,logmess,0,ierr)
+                 goto 9999
+             endif
+         enddo
+
+         if (nlength .ne. 0) then
+            call quad_quality(itet(1), nlength, xic(1), yic(1), zic(1),
+     *              value(1), regularity(1), quadflag(1))
+         endif
       endif
  
         ierror_return = 0

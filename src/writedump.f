@@ -278,7 +278,7 @@ C
 
       character*32 idsb
       character*32 ioption, ioption2, ioption3, ifile, iomode
-      character*32 ioption4, ioption5, ioption6
+      character*32 ioption4, ioption5, ioption6, ioption7
       character*132 logmess
 C
 C#######################################################################
@@ -294,8 +294,8 @@ C     to arrays of the new larger size, and update numtypes
 C     similarly. Then, add the new file extensions and read options
 C     that you want to support into the arrays.
       integer numtypes
-      character*8 filetypes(6)
-      character*32 fileoptions(6)
+      character*8 filetypes(7)
+      character*32 fileoptions(7)
       integer typeindex
       character*132 filename
       character*64 cmoname
@@ -317,7 +317,9 @@ C
       fileoptions(5) = 'gmv' 
       filetypes(6) = 'ts'
       fileoptions(6) = 'gocad'
-      numtypes = 6
+      filetypes(7) = 'exo'
+      fileoptions(7) = 'exo'
+      numtypes = 7
 
 C
 C
@@ -1151,6 +1153,7 @@ c          make sure default ioptions are set
            ioption4 = 'all'
            ioption5 = 'delatt'
            ioption6 = '-notset-'
+           ioption7 = 'nohybrid'
 
 
 C          loop through msgtype to find options
@@ -1188,6 +1191,8 @@ c           Find keywords and set options for dumpfehm routine
      *                      ioption6='keepatt_voronoi'
               if (cmsgin(ii).eq.'keepatt_median') 
      *                      ioption6='keepatt_median'
+              if (cmsgin(ii).eq.'hybrid') ioption7='hybrid'
+              if (cmsgin(ii).eq.'nohybrid') ioption7='nohybrid'
 
 C          check for old syntax with alternate_scalar
 C          dump / stor / file_name_as / cmo / asciic / / alternate_scalar
@@ -1203,7 +1208,7 @@ C          dump / stor / file_name_as / cmo / asciic / / alternate_scalar
            call dumpfehm(ifile(1:icharlnf(ifile)),
      *          ioption2(1:icharlnf(ioption2)),
      *          ioption, iomode,
-     *          ioption3, ioption4, ioption5, ioption6)
+     *          ioption3, ioption4, ioption5, ioption6, ioption7)
            ierror_return = 0
             
          endif
@@ -1376,6 +1381,14 @@ C      elseif(ioption(1:leno).eq.'rtt') then
 C
 C         call dumprtt(ifile(1:lenfile),cmo)
 C
+C     DUMP / exo
+      elseif((ioption(1:leno).eq.'exodusii') .or.
+     1       (ioption(1:leno).eq.'exo'     ) .or.
+     1       (ioption(1:leno).eq.'exodusII')) then
+         
+         call dumpexodusII(ifile(1:lenfile))
+         ierror_return = 0
+
       else
 C
          write(logmess,'(a,a)') 'Invalid DUMP Option', idsb

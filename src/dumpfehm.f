@@ -1,6 +1,7 @@
 *DK dumpfehm
       subroutine dumpfehm(ifile,ifileini,ioption,iomode,
-     *       area_coef_option,compress_opt,attrib_option,area_option)
+     *       area_coef_option,compress_opt,attrib_option,area_option,
+     *       hybrid_option)
 C
 C #####################################################################
 C
@@ -173,10 +174,11 @@ c
       character ioption*(*)
       character iomode*(*), area_coef_option*(*)
       character compress_opt*(*),attrib_option*(*),area_option*(*)
+      character hybrid_option*(*)
 
       integer ntets, nen, nsdtopo, nef, ijob
       integer length, icmotype, io, num_area_coef, ierror
-      integer ifcompress, imat_select
+      integer ifcompress, ifhybrid, imat_select
       integer idebug, ilen,ityp,ierr
 
       integer icharlnf 
@@ -208,12 +210,13 @@ c
      *  " options set to: "
         call writloga('default',0,logmess,0,ierr)
 
-        write(logmess,'(6x,a,2x,a,2x,a,2x,a,2x,a)')
+        write(logmess,'(6x,a,2x,a,2x,a,2x,a,2x,a,2x,a)')
      *   iomode(1:icharlnf(iomode)),
      *   area_coef_option(1:icharlnf(area_coef_option)),
      *   compress_opt(1:icharlnf(compress_opt)),
      *   attrib_option(1:icharlnf(attrib_option)),
-     *   area_option(1:icharlnf(area_option))
+     *   area_option(1:icharlnf(area_option)),
+     *   hybrid_option(1:icharlnf(hybrid_option))
         call writloga('default',0,logmess,0,ierr)
 
         call mmverify()
@@ -302,6 +305,7 @@ c---- 3D STOR  -----------------------------------------------c
       elseif(nsdtopo.eq.3.and.nen.eq.4.and.nef.eq.4) then
          ijob = 1
          ifcompress = 0
+         ifhybrid = 0
          if(iomode(1:3) .eq. 'bin')io = 1
          if(iomode(1:3) .eq. 'asc')io = 2
          if(iomode(1:3) .eq. 'unf')io = 3
@@ -309,6 +313,7 @@ c---- 3D STOR  -----------------------------------------------c
          if(compress_opt(1:4) .eq. 'coef') ifcompress=1
          if(compress_opt(1:4) .eq. 'none') ifcompress=0
          if(compress_opt(1:5) .eq. 'graph') ifcompress=0
+         if(hybrid_option(1:6) .eq. 'hybrid') ifhybrid=1
 
          if(area_coef_option(1:6)     .eq.'scalar')then
             num_area_coef = 1
@@ -364,12 +369,18 @@ c          check arguments
            endif
 
            call anothermatbld3d_wrapper(ifile,io,num_area_coef,
-     *                ifcompress)
+     *                ifcompress, ifhybrid)
 
 
 c        3D Regular STOR  -------------------------------------------c
          else 
          
+           if (ifhybrid .eq. 1) then
+               write(logmess,'(a,a,a)')'Warning: ignoring hybrid ',
+     *         'option because it is not supported in combination ',
+     *         'with the other chosen options.'
+               call writloga('default',1,logmess,0,ierror)
+           endif
            write(logmess,130)
   130      format('*** Construct Sparse Matrix:3D ***')
            call writloga('default',1,logmess,0,ierror)
