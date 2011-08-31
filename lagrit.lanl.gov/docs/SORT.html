@@ -27,22 +27,34 @@
 <h2>
 sort</h2>
 <! command overview ---------- >
-<blockquote>The <b>sort</b> command creates a sort key for choosen node
-or element attributes. Sort can be in ascending or decending order and
-will not alter current mesh object values. One can perform a sort on a
+<blockquote>The <b>sort</b> command creates a sort key for chosen node
+or element attributes. Sort can be in ascending or descending order and
+will not alter current mesh object values (though the <font
+    face="Times"><b>line_graph</b></font> option will create three new
+attributes; see below). One can perform a sort on a
 single attribute or in the case of <b>index</b> or <b>rank</b> sorting,
-one can perform a multi-key sort. The sort key that is created can be used
+one can perform a multi-key sort. The <font
+    face="Times"><b>line_graph</b></font> sort does not sort on an attribute but
+instead sorts line segment elements into a reasonable order based on
+connectivity. In each case the sort key that is created can be used
 in the <b>reorder</b> command to change the node or element ordering of
-a mesh object.</blockquote>
+the mesh object.</blockquote>
 
 <p><! Short paragraph listing all parameters >
 <blockquote>The command parameters include the <font face="Courier">cmo_name</font>,
 followed by the <font face="Courier">sort_type</font>. The ordering is
-indicated by <b>ascending</b> or <b>decending</b>. A new attribute is created
-with the <font face="Courier">sort_key_name</font>. Sorting is performed
+indicated by <b>ascending</b> or <b>descending</b>. A new attribute is created
+with the <font face="Courier">sort_key_name</font>. For the <font
+    face="Times"><b>bins</b></font>, <font face="Times"><b>index</b></font>, and
+<font face="Times"><b>rank</b></font> options, sorting is performed
 on the <font face="Courier">sort_attributes</font> which can be a single
 attribute name or a list of attribute names. This list is formed with attribute
-names <font face="Courier">in_att1, in_att2,</font> through <font face="Courier">in_attn</font>.</blockquote>
+names <font face="Courier">in_att1, in_att2,</font> through <font
+    face="Courier">in_attn</font>. The <font
+    face="Times"><b>line_graph</b></font> option does not take any attributes as
+arguments because it sorts based on the connectivity of the elements, which must
+be line segments.
+</blockquote>
 
 <p><! parameter 1 ---------- >
 <font face="Courier">cmo_name:
@@ -51,7 +63,7 @@ are the name of a valid mesh object or <b>-def-</b> which select the currently
 active mesh object.
 <br><! parameter description ><! parameter 2 ---------- >
 <br><font face="Courier">sort_type: </font>The sorting methods include
-<b>bins</b>, <b>index</b> or <b>rank</b>.<! parameter description >
+<b>bins</b>, <b>index</b>, <b>rank</b> and <b>line_graph</b>.<! parameter description >
 <blockquote>
   <p><b>bins</b> A single-key sort which assigns each <font face="Courier">in_att1</font>
     value a bin number. If <font face="Courier">in_att1</font> is an integer
@@ -64,29 +76,85 @@ active mesh object.
     sorted list but will equal the number of unique entries in the list.</p>
   <p>With the <strong>bins</strong> method, an optional user specified epsilon multiplier, <strong>epsilon_user</strong>, will override the default value of 1.e-10.</p>
   <p> <br>
-    <b>index</b> Constructs a single or multi-key index table such that <font face="Courier">in_att1(ikey(1))</font> is the first entry in the sorted array, <font face="Courier">in_att1(ikey(2))</font> is the second, etc. <br>
-    <b>rank</b> Constructs a single or multi-key rank table such that the
+    <b>index</b> Constructs a single or multi-key index table such that <font
+      face="Courier">in_att1(ikey(1))</font> is the first entry in the sorted
+    array, <font face="Courier">in_att1(ikey(2))</font> is the second, etc.
+    <br></p>
+    <p><b>rank</b> Constructs a single or multi-key rank table such that the
     tables ith entry give the rank of the ith entry of the sorted arrays. The
     rank table is derived from the index table by: <br>
     foreach j = 1,N <br>
     rank(index(j)) = j <br>
     end</p>
+    <p><b>line_graph</b> This option requires all elements to be line segments,
+    and it arranges them in a reasonable order. In particular, it makes the
+    following guarantees:
+    <ul>
+      <li>Each connected component will be arranged together.</li>
+      <li>Polylines (chains of line segments with no branching or loops) will be
+      in order from one end to the other.</li>
+      <li>Polygons will be in order starting from one segment and looping back
+      around to the same place.</li>
+    </ul>
+    The sorted order for components which are not polylines or polygons is
+    unspecified, but it will usually be reasonable because the underlying
+    algorithm visits the edges via depth first search.
+    </p>
+    <p>
+    The <font face="Times"><b>line_graph</b></font> option also generates the
+    following three integer element attributes:
+    <ul>
+      <li> <font face="Courier">cid</font>: A component id for distinguishing
+      separate connected components. Each connected component receives a unique
+      positive integer starting from one. This allows you to identify all the
+      edges in a particular component by selecting all elements with a
+      particular component id.</li>
+      <li> <font face="Courier">ctype</font>: The component type, represented as
+      an integer from 1 to 5.
+      <dl>
+          <dt>1 (Polyline)</dt>
+          <dd> A connected chain of segments with no branches or loops. </dd>
+
+          <dt>2 (Tree)</dt>
+          <dd> A connected acyclic component. </dd>
+
+          <dt>3 (Polygon)</dt>
+          <dd> A component consisting solely of a single loop. </dd>
+
+          <dt>4 (Shared Edges)</dt>
+          <dd> A component which has a pair of cycles with a shared edge. </dd>
+
+          <dt>5 (Other)</dt>
+          <dd> Anything which does not fit into the above categories. </dd>
+      </dl>
+      <li> <font face="Courier">loop_id</font>: This is a unique positive
+      integer assigned to each simple cycle. Edges that are not part of a cycle
+      receive a default value of zero. If an edge is shared (i.e. part of more
+      than one cycle) then it will be labeled with only one of its cycles. In
+      this case, the cycle corresponding to the label is not fully specified
+      because there is more than one right answer. </li>
+    </ul>
+    </p>
 </blockquote>
 <! parameter 3 ---------- >
 <br><font face="Courier">sort_order: </font>Choose between <b><u>ascending</u></b>
-or <b>decending</b><! parameter description >
+or <b>descending</b><! parameter description >
 <blockquote><b><u>ascending</u></b> Sort <font face="Courier">sort_attributes</font>
 in <b><u>ascending</u></b> order
-<br><b>decending</b> Sort <font face="Courier">sort_attributes</font> in
-<b>decending</b> order</blockquote>
+<br><b>descending</b> Sort <font face="Courier">sort_attributes</font> in
+<b>descending</b> order</blockquote>
+<p>The <font face="Times"><b>line_graph</b></font> sort will ignore this option,
+but it still expects the field to be present for consistency with the other sort
+variations.</p>
 <! parameter 4 ---------- >
 <br><font face="Courier">sort_key_name: </font>The name for an integer
 vector (VINT) which will hold the output sort key values. If the name exists
 it will be used, if it does not exist it will be created. If no name is
 given for <font face="Courier">sort_key_name</font> A name will be created
 which will be the concatination of <b>'ikey_</b>' and the first attribute
-name in <font face="Courier">sort_attributes</font>. (i.e. /-def-/imt will
-produce a sort key named ikey_imt)
+name in <font face="Courier">sort_attributes</font> (i.e. /-def-/imt will
+produce a sort key named ikey_imt). For the <b>line_graph</b> option, the
+default key will be called <b>ikey_line_graph</b>.
 <br><! parameter 5,6,7... ---------- >
 <br><font face="Courier">sort_attributes: </font>The name of one or more
 existing attribute names. Each attribute will be used as a node of element
@@ -98,12 +166,17 @@ to the sort routine.
 <p><! Done with parameter explanations ><! command syntax or format ------------ >
 <p>SINGLE KEY bins FORMAT:
 <blockquote><b>sort</b> / <font face="Courier">cmo_name</font> / <b>bins</b>
-/ [ <b><u>ascending</u> | decending</b> ] / <font face="Courier">sort_key_name
+/ [ <b><u>ascending</u> | descending</b> ] / <font face="Courier">sort_key_name
 </font>/ <font face="Courier">sort_attribute</font> / [epsilon_user] </blockquote>
 MULTI-KEY FORMAT:
 <blockquote><b>sort</b>/ <font face="Courier">cmo_name</font> / <b>index
-| rank</b> / [ <b><u>ascending</u> | decending</b> ] / <font face="Courier">sort_key_name
+| rank</b> / [ <b><u>ascending</u> | descending</b> ] / <font face="Courier">sort_key_name
 </font>/ <font face="Courier">in_att1, in_att2, in_att3 ...</font></blockquote>
+LINE GRAPH FORMAT:
+<blockquote><b>sort</b> /  <font face="Courier">cmo_name</font> /
+  <b>line_graph</b> / [ <b><u>ascending</u> | descending</b> ] /  <font
+    face="Courier">sort_key_name</font>
+</blockquote>
 <! command examples >
 <p>EXAMPLES:
 <blockquote><b>sort</b> / cmo / <b>index / ascending</b> / ikey / imt zic
@@ -111,8 +184,8 @@ yic xic
 <br>Multi-key sort first by imt then to break ties consider z coordinate,
 then if there are further ties, use y coordinate. Use x coordinate as final
 tie breaker.
-<p><b>sort</b> / cmo <b>/ rank / decending</b> / ikey / yic
-<br>Produce ranking of nodes based on y coordinate in decending order.
+<p><b>sort</b> / cmo <b>/ rank / descending</b> / ikey / yic
+<br>Produce ranking of nodes based on y coordinate in descending order.
 <p><b>sort</b> / cmo / <b>index /-def-/-def-</b>/ xic yic zic
 <br>Produce index of noded coordinates. This would be like a line sweep
 sort where the sweep is first along x coordinate then y then z.
@@ -123,6 +196,12 @@ sort where the sweep is first along x coordinate then y then z.
 commands would produce the finite difference indexing. All points with
 the same x value would be in the same i_index bin, all points with the
 same y value would be in the same j_index bin, etc.
+<p><b>sort</b> / cmo / <b>line_graph</b> / <b>ascending</b> / ikey <br>
+Sort the line segment elements into a reasonable order based on connectivity.
+This also creates attributes <font face="Courier">cid</font>, <font
+  face="Courier">ctype</font>, and <font face="Courier">loop_id</font> (see
+above).
+</p>
 <p><b>sort / xyz / bins</b>
 <br>Old version no longer supported but syntax will work. Result is the
 same as previous three commands.</blockquote>

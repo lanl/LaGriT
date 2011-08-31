@@ -13,9 +13,23 @@
 <blockquote>Creates a new Mesh Object from the intersection of two existing
 Mesh Objects. The existing Mesh Objects have to be topologically 2D and
 geometrically 3D. The created Mesh Object will be topologically 1D and
-geometrically 3D. Node quantities for the new Mesh Object will be create
+geometrically 3D. Node quantities for the new Mesh Object will be created
 by interpolation on the corresponding node quantities of the first input
 Mesh Object, <font face="Courier">cmo_1_in</font><font face="Times">.</font></blockquote>
+
+<blockquote>
+This command will also apply the <font face="Times"><b>line_graph</b></font>
+option of the <font face="Times"><b>sort</b></font> command on the new Mesh
+Object. This will sort the elements (which will be line segments) into a
+reasonable order based on their connectivity, and will also create element
+attributes <font face="Courier">ctype</font>, <font face="Courier">cid</font>,
+and <font face="Courier">loop_id</font>. <font
+    face="Times"><b>intersect</b></font> will create a temporary sort key and
+use that to reorder the elements, so there is no need to use your own sort key.
+For more details on the sorting and on the created element attributes, please
+see <a href="SORT.html">sort</a>.
+</blockquote>
+
 </blockquote>
 
 <blockquote><font face="Times"><b>FORMAT</b>:</font>

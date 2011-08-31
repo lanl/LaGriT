@@ -22,12 +22,12 @@
       extended such that <b>not</b>/p1/p2 means p1 and (not(p2)). <br>
       <b>list </b>lists nodes in a pset or names of all psets <br>
       <b>write </b>write pset node list to a file <br>
-      pset / [name|<u>-all-</u>] / write/ file_name[.pset] / [<u>ascii</u>|binary] <br>
+      pset / [name|<u>-all-</u>] / write/ file_name[.vertexset] / [<u>ascii</u>|binary] <br>
       <b>zone </b>write pset node list to a file (FEHM Flow and Transport code zone file format) <br>
       pset / [name|<u>-all-</u>] / zone / file_name[.zone] / [ascii] <br>
       <b>zonn </b>write pset node list to a file (FEHM Flow and Transport code zonn file format) <br>
       pset / [name|<u>-all-</u>] / zonn / file_name[.zonn] / [ascii] <br>
-      In write|zone|zonn mode the file name suffix .pset|.zone|.zonn is added if the string provided does not have the file name suffix. The -all- argument specifies that all psets are output. The name argument is the name of a single pset. <br>
+      In write|zone|zonn mode the file name suffix .vertexset|.zone|.zonn is added if the string provided does not have the file name suffix. The -all- argument specifies that all psets are output. The name argument is the name of a single pset. <br>
       <b>delete </b>deletes a previously defined pset <br>
       <b>attribute&nbsp; </b>forms a pset from all points in<b> </b><font face="Courier">ifirst,ilast,istride
       </font><font face="Times">which
@@ -91,7 +91,7 @@ III, A</a> for an explanation of the <b>icontab</b> entries.</dir>
 <br><b><font face="Times">union</font>|inter|not|delete/</b><font face="Courier">pset1[</font><font face="Times">/</font><font face="Courier">pset2/.../psetn]</font>
 <br><b><font face="Times">list </font></b>
 <br>
-<b><font face="Times">write </font></b>/ file_name[.pset] / [<u>ascii</u>|binary] 
+<b><font face="Times">write </font></b>/ file_name[.vertexset] / [<u>ascii</u>|binary] 
 <br>
 <b><font face="Times">zone </font></b>/ file_name[.zone] / [ascii]
 <br>
@@ -160,19 +160,18 @@ with the set of nodes which do not belong to pset1</font>
 <br><font face="Times New Roman,Times">&nbsp;&nbsp; output the list the node numbers of the members of
 </font><font face="Courier"> mypset</font> to the screen and the log file outx3dgen 
 
-<br><b><font face="Times">pset</font></b><font face="Courier">/mypset/</font><b><font face="Times New Roman,Times">write/file_name.pset/ascii</font></b>
+<br><b><font face="Times">pset</font></b><font face="Courier">/mypset/</font><b><font face="Times New Roman,Times">write/file_name.vertexset/ascii</font></b>
 <br>
-<font face="Times New Roman,Times">&nbsp;&nbsp; Write list of nodes in pset </font><font face="Courier"> mypset </font>to an ascii file named <font face="Courier">file_name.pset</font>
+<font face="Times New Roman,Times">&nbsp;&nbsp; Write list of nodes in pset </font><font face="Courier"> mypset </font>to an ascii file named <font face="Courier">file_name.vertexset</font>
 
 <br>
-<b><font face="Times">pset</font></b><font face="Courier">/-all-/</font><b><font face="Times New Roman,Times">write/file_name/ascii</font></b>
+<b><font face="Times">pset</font></b><font face="Courier">/-all-/</font><b><font face="Times New Roman,Times">write/root_name/ascii</font></b>
 <br>
-<font face="Times New Roman,Times">&nbsp;&nbsp; Write list of nodes in all psets </font>to an ascii file named <font face="Courier">file_name.pset</font>
-
-. Note that if the file name does not end with .pset then it is appended to the file name. <br>
-<b><font face="Times">pset</font></b><font face="Courier">/-all-/</font><b><font face="Times New Roman,Times">write/file_name.pset</font></b><br>
-<font face="Times New Roman,Times">&nbsp;&nbsp; Write list of nodes in all psets </font>to an ascii file named <font face="Courier">file_name.pset</font>
-
+<font face="Times New Roman,Times"> Write list of nodes in all psets. <font face="Courier">root_name</font> is
+treated as a root name and each pset is written to a separate file beginning
+with that root. For example, if you have psets named  <font
+    face="Courier">pset1</font> and  <font face="Courier">pset2</font>, they
+will be written to files called  <font face="Courier">root_name_pset1.vertexset</font> and  <font face="Courier">root_name_pset2.vertexset</font></font>.
 
 <br>
 <b><font face="Times">pset</font></b><font face="Courier">/mypset/</font><b><font face="Times New Roman,Times">zone/file_name.zone/ascii</font></b>

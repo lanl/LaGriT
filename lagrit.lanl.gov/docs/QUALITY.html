@@ -18,8 +18,9 @@ a collection of mesh quality measures</blockquote>
 <dir>&nbsp; <br>
 &nbsp;FORMAT:
 <dir><b>quality /</b>[quality_type] / [quality_type options] <br>
-Where quality-type can be <b>aspect</b>, <b>pcc</b>,<b> volume</b>, <b>angle</b>
-or<b> taylor </b>Quality-type options depends on quality-type. <br>
+Where quality-type can be <b>aspect</b>, <b>pcc</b>,<b> volume</b>,
+<b>angle</b>, <b>quad</b>, or<b> taylor. </b>Quality-type options depend on
+the quality-type. <br>
 <b>quality </b>(no arguments) <br>
 writes to screen and outx3dgen logfile giving volume and aspect ratio
 distribution information. Aspect ratios and element volumes are binned
@@ -30,17 +31,17 @@ each of 7 bins .&nbsp; If <b>y </b>is specified create an attribute
 named <b>aratio</b> that will contain the value of the aspect ratio of
 each element. <br>
 <b>quality/edge_ratio/[y]</b><br>
-displays a count of the edge lenght minimum/edge length maximum in each
+displays a count of the edge length minimum/edge length maximum in each
 of 7 bins. If y is specified create an attribute named <b>eratio</b>
 that will contain the value of the min/max edge ratio of each element.<br>
 <b>quality/edge_min/[y]</b><br>
-displays a count of the minimum edge lenght in each of 7 bins. If y is
+displays a count of the minimum edge length in each of 7 bins. If y is
 specified create an attribute named <b>edgemin</b> that will contain
 the value of the min edge length of each element.<br>
 <b>quality/edge_max/[y]</b><br>
 displays a count of the maximum edge length in each of 7 bins. If y is
 specified create an attribute named <b>edgemax</b> that will contain
-the value of the max edge lenght of each element.<br>
+the value of the max edge length of each element.<br>
 <b>quality</b>/<b>angle</b>/<b>gt</b>|<b>lt</b>/value]/ <br>
 displays a count of the number of elements with a dihedral angle that
 is greater than or less than the supplied value. See also <a
@@ -53,6 +54,10 @@ coupling coefficient is OK.&nbsp; Anything less than 1 means it is
 negative.&nbsp; This is&nbsp; <b>element</b> attribute and is useful
 when viewing a mesh with GMV to find the negative coupling coefficients.
 <br>
+<b>quality</b>/<b>quad</b>
+generates some quality measures for quads and displays them after binning them
+into seven bins. Please see <a href="cmo_addatt.html#quad"><tt>cmo /
+addatt // quad_quality</tt></a> for details on the quality measures used.<br>
 <b>quality</b>/<b>taylor</b>/fieldname/value/ <br>
 displays a count of the number of element-edge pairs with a taylor
 error estimate value whose absolute value is greater than the supplied

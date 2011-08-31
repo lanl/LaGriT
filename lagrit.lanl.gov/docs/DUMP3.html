@@ -184,12 +184,14 @@ area_scalar
 | area_vector | area_both</b>] <br> &nbsp;
 / [ <font face="Times"><b><u>all</u> | graph | coefs | none</b> ] <br>
 &nbsp;/ [ <b><u>delatt,</u> | keepatt</b> ]</font> <br>
+/ [ <b>hybrid, <u>nohybrid</u> </b> ]
         </font></td>
         <td nosave=""><font face="Times"> IO Mode Options for stor file
         <br>
 Area Coefficient Options for writing stor file coefficient values <br>
 Compression Options for the stor file <br>
 CMO Attribute created during creation of outside zone files <br>
+Specify whether hybrid median-Voronoi control volumes should be used <br>
         </font></td>
       </tr>
     </tbody>
@@ -403,6 +405,68 @@ There is no option to turn this feature on or off.<br>
   </font></font></font></font></blockquote>
 <font face="Times New Roman,Times"><font><font
  face="Times New Roman,Times"><font><br>
+
+<font face="Times">Hybrid OPTIONS:</font>
+<blockquote>
+<table cols="2" width="90%">
+    <tbody>
+    <tr>
+        <td><b><u>nohybrid</u></b> (default) </td>
+        <td>Do not use hybrid median-Voronoi control volumes</td>
+    </tr>
+    <tr>
+        <td width="20%"> <b>hybrid</b> </td>
+        <td>Use hybrid median-Voronoi control volumes. </td>
+    </tr>
+    </tbody>
+</table>
+
+<p>
+These hybrid volumes represent a means for addressing poorly shaped tetrahedra
+on a boundary of the mesh. Boundary tetrahedra whose Voronoi centers are outside
+the mesh lead to incorrect modeling results. Alternatively, if we construct
+control volumes using medians (centroids), the center point for each element
+always lies within that element, but median meshes lack other nice properties of
+Voronoi meshes.
+</p>
+
+<p>
+As a compromise between the median and Voronoi approaches, we start with a
+Voronoi mesh and fix boundary tetrahedra whose circumcenters are not contained
+within the boundary of the mesh. To fix such an element, we draw a line segment
+from the median center to the Voronoi center and find the point at which this
+segment intersects the surface of the element. This intersection then becomes
+the center point for the purposes of determining control volumes. Essentially we
+move the Voronoi center toward the median point until it just reaches the
+element.
+</p>
+
+<p>
+When we use the hybrid approach, we also make a slight change to the way we
+calculate the area coefficients. Voronoi control volumes have the property that
+their faces are always perpendicular to the mesh edges that intersect them. With
+hybrid control volumes (as well as median control volumes), this is not the
+case. To compensate for this, when we compute the area coefficient we only
+consider the component of the face area vector which is in the same direction as
+the edge. We accomplish this by taking the area vector and dotting it with a
+unit vector in the direction of the edge.
+</p>
+
+<p>
+The <b>hybrid</b> option may lead to poor results if it is applied to a mesh
+that is non-Delaunay, because there may be elements which it cannot fix, such as
+interior elements whose circumcenters are outside the mesh. A warning will be
+printed if the code detects that the mesh appears to be non-Delaunay.
+</p>
+
+<p>
+NOTE: The hybrid option is only available with the <b>all</b> (default) and
+<b>graph</b> compression options. It also requires the <b>scalar</b> (default)
+area coefficient option.
+</p>
+
+</blockquote>
+
 <font face="Times">EXAMPLES</font></font></font></font></font><font
  face="Times New Roman,Times"><font><font face="Times New Roman,Times"><font>
 </font></font></font></font> <br>

@@ -72,7 +72,8 @@ file_name.[<b>inp | avs | gmv | lg | lagrit | ts</b> ]
 <br>
 For common file types, a short form syntax can be used which skips the file type designation. The file_type
 is asssumed from the file_name suffix. The following are recognized;
- AVS (.inp or .avs), GMV (.gmv), LaGriT (.lagrit or .lg), and .ts (gocad). <br>
+ AVS (.inp or .avs), Exodus (.exo), GMV (.gmv), LaGriT (.lagrit or .lg), and .ts
+ (gocad). <br>
     <br>
 </font></dir>
 <br>
@@ -195,6 +196,20 @@ node_number number_of_adjacent_elem e1 e2 ... en &nbsp;
 </font></font></dir>
 <br>
 
+<!--- exodusII --->
+<font style="font-family: monospace;" face="Times" size="+1">
+<b> dump / exo</b> / file_name/ mo_name <br>
+<b> dump / exodusii </b> / file_name/ mo_name <br>
+<b> dump / exodusII </b> / file_name/ mo_name</font>
+<br>
+<br>
+<dir><font face="Times">
+Write a mesh object to a file in the Exodus II format.
+<br>
+</font></dir>
+<br>
+
+
 <!----->
 <!--fehm --->
 <font style="font-family: monospace;" face="Times" size="+1">
@@ -210,7 +225,8 @@ cmo_name
 [ <b><u>ascii</u> | binary</b> ] / 
 [<b><u>scalar</u> | vector | both | area_scalar | area_vector | area_both</b>]
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;/ 
-[<b><u>all</u> | graph | coefs | none</b>]
+[<b><u>all</u> | graph | coefs | none</b>] /
+[<b>hybrid | <u>nohybrid</u> </b>]
 </span></font>
 
 <br>
@@ -365,7 +381,8 @@ cmo_name
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;/ 
 [<b><u>scalar</u> | vector | both | area_scalar | area_vector | area_both</b>] 
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;/ 
-[<b><u>all</u> | graph | coefs | none</b>]
+[<b><u>all</u> | graph | coefs | none</b>] /
+[<b>hybrid | <u>nohybrid</u> </b>]
 </span></font>
 
 <br>

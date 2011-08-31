@@ -24,6 +24,7 @@
     <li><font face="Times New Roman,Times"><strong>region</strong> or <strong>mregion</strong> membership</font></li>
     <li><font face="Times New Roman,Times">quality criteria (<strong>volume</strong> or <strong>aspect</strong>      ratio)</font>    </li>
     <li><strong>list</strong> - list element set members to screen </li>
+    <li><strong>write</strong> - write element set members to a file </li>
     <li><strong>delete</strong> - remove element set from mesh object </li>
   </ol>
   <font face="Times New Roman,Times">The <b>mregion </b>and <b>region</b>
@@ -42,11 +43,19 @@ region as the vertices. Using itetclr will give the better result.</font></block
 /<b>volume/ eq|ne|lt|gt|le|ge</b> /value</font>
 <br>
 <font face="Times New Roman,Times"><b>eltset</b>/</font><font face="Courier New,Courier">eset_name</font><font face="Times New Roman,Times">
-/<b>aspect/ eq|ne|lt|gt|le|ge</b> /value</font>
-<br><font face="Times New Roman,Times"><b>eltset</b>/e</font><font face="Courier New,Courier">set_name</font><font face="Times New Roman,Times">
-/</font>
-<br><font face="Times New Roman,Times"><b>aspect</b>/<b> eq|ne|lt|gt|le|ge</b>
-/value</font></blockquote>
+/<b>aspect/ eq|ne|lt|gt|le|ge</b> /value</font><br>
+<font face="Times"><b>eltset</b></font>/<font face="Courier">eset_name</font>
+/<font face="Times"><b>list</b></font> <br>
+<font face="Times"><b>eltset</b></font>/<font face="Courier">eset_name</font>
+/<font face="Times"><b>write</b></font>/<font
+    face="Courier">file_name[.cellset]</font>/[<font
+    face="Times"><b>ascii</b></font>|<font face="Times"><b>binary</b></font>]
+<br>
+<font face="Times"><b>eltset</b></font>/<font face="Courier">-all-</font>
+/<font face="Times"><b>write</b></font>/<font
+    face="Courier">file_name[.cellset]</font>/[<font
+    face="Times"><b>ascii</b></font>|<font face="Times"><b>binary</b></font>]
+</blockquote>
 EXAMPLES:
 <blockquote>
   <p><b>eltset/</b><font face="Courier">element_set1</font><font face="Times">/<b>itetclr</b>/<b>eq</b>/</font><font face="Courier">4</font>
