@@ -3,7 +3,7 @@
 # for sgi /usr/lanl/bin/python
 #------------------------------------------------------------------------------
 #  Name: check_test.py
-#  Last Modified: Jan 2008 by TAM 
+#  Last Modified: Jan 2008 by TAM tamiller@lanl.gov 
 #
 #  Need to:
 #  add debug runs
@@ -48,28 +48,31 @@ if __name__ == "__main__":
   ostag=""
   result_dir = 0
 
+# define executable
+  xlagrit="lagrit"
+  xlagrit="lagrit64"
+
 # get platform
+  print "======="
   osname= string.lower(sys.platform)
+  print osname
+  print "======="
   if osname.find("linux") >= 0 :
-     ostag="lin" 
-     xlagrit="/home/tam/src/lagrit/bin/lagrit_lin_o"
+     ostag="lin"
+     ostag="lin64"
   elif osname.find("sun")>=0 or osname.find("sol")>=0 :
-     ostag="sun" 
-     xlagrit="/home/tam/src/lagrit/bin/lagrit_sun_o"
+     ostag="sun"
   elif osname.find("darwin")>= 0 :
-     ostag="mac" 
-     xlagrit="/home/tam/src/lagrit/bin/lagrit_mac_o"
+#    for intel compile
+     ostag="mac"
+     ostag="maci"
   elif osname.find("IRIX")>= 0 :
-     ostag="sgi" 
-     xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi_o"
-     xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi64_o"
+     ostag="sgi"
   elif osname.find("irix")>= 0 :
-     ostag="sgi" 
-     xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi_o"
-     xlagrit="/home/tam/src/lagrit/bin/lagrit_sgi64_o"
+     ostag="sgi"
   else :
-     raise SystemExit, "Exiting Early, Unrecognized OS: "+osname
- 
+     ostag="def" 
+
 # for each test directory
 # main loop
   dtop = os.curdir
@@ -160,18 +163,16 @@ if __name__ == "__main__":
       dirno = line.find("Test Directory")
       progno=line.find("Program")
       suno=line.find("successfully")
-   
+
+      if dirno >= 0:
+          dirstr="Check outx3dgen "+line[:50]
       if progno >= 0 :
           progstr="   "+line[20:55] 
       if suno >= 0 :
           sustr=line[:29] 
-      if dirno >= 0  :
-          dirstr="Check outx3dgen "+line[:50]
-          if nfind > 0 : 
-             print dirprev
-             print progstr+" : "+sustr
+          print dirstr
+          print progstr + " : " + sustr
           nfind=nfind+1
-          dirprev=dirstr
   rfile.close()
 
 # attempt to pass error conditions if found

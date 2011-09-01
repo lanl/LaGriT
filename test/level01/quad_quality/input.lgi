@@ -1,0 +1,44 @@
+# Test cmo / addatt / / quad_quality and the associated quality / quad command.
+
+# Input files:
+#   test03.inp
+#   test04.inp
+#   test05.inp
+#
+# Output files:
+#   output_test03.gmv
+#   output_test04.gmv
+#   output_test05.gmv
+
+# Make sure we can handle an empty mesh.
+cmo / create / mo01 / / / quad
+cmo / addatt / mo01 / quad_quality / quality regularity qflag
+quality / quad
+
+# We should be able to handle a non-quad mesh, too.
+cmo / create / mo02 / / / hex
+createpts / brick / xyz / 11, 11, 11 / 0. 0. 0. / 10. 10. 10. / 1 1 1
+cmo / addatt / mo02 / quad_quality / quality regularity qflag
+quality / quad
+
+# Make sure we assign the correct quality metrics to a perfect quad mesh.
+read / test03.inp / mo03
+cmo / addatt / mo03 / quad_quality / quality regularity qflag
+quality / quad
+dump / output_test03.gmv / mo03
+
+# Analyze a quad mesh that has been perturbed in the x and y directions. This
+# should have some pretty bad quads but it should still be perfectly planar.
+read / test04.inp / mo04
+cmo / addatt / mo04 / quad_quality / quality regularity qflag
+quality / quad
+dump / output_test04.gmv / mo04
+
+# Analyze a quad mesh that has been perturbed in the x, y, and z directions.
+# This should have a lot of really bad quads.
+read / test05.inp / mo05
+cmo / addatt / mo05 / quad_quality / quality regularity qflag
+quality / quad
+dump / output_test05.gmv / mo05
+
+finish

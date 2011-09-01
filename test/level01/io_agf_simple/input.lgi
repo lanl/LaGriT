@@ -24,14 +24,23 @@ dump / avs / output.inp / cmo /
 * read AVS and GMV files read AVS and GMV
 read / gmv / output_ascii.gmv / cmogmva / ascii
 
-* linux can not always read this file
-read / gmv / output.gmv / cmogmv /
-
 read / avs / output.inp / cmoavs /
 * begin compare
 cmo status cmogmv
 cmo status cmoavs
 * end compare here
+
+* linux can not always read this file
+* start acceptable difference (linux)
+read / gmv / output.gmv / cmogmv /
+* end acceptable difference (linux)
+
+finish
+
+* This file has NaN that some compilers allow
+* begin acceptable failure for NaN
+read avs input_tet24.inp cmonan
+* end acceptable failure for NaN
 
 
 finish

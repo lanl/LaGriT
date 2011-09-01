@@ -1,0 +1,46 @@
+cmo/create/mo///triplane                                                        
+createpts/xyz/2 2 1/0. 0. 0./1. 1. 0./1 1 1                                     
+cmo/setatt/mo/imt/1 0 0/1                                                       
+cmo/setatt/mo/itp/1 0 0/0                                                       
+connect                                                                         
+quality                                                                         
+cmo delete mo                                                                   
+cmo/create/mo///triplane                                                        
+createpts/xyz/1 1 1/0. 0. 0./0. 0. 0./1 1 1                                     
+cmo/setatt/mo/imt/1 0 0/1                                                       
+cmo/setatt/mo/itp/1 0 0/0                                                       
+connect                                                                         
+quality                                                                         
+cmo delete mo                                                                   
+cmo/create/mo///triplane                                                        
+createpts/xyz/2 2 1/1000. 0. 0./1001. 1. 0./1 1 1                               
+cmo/setatt/mo/imt/1 0 0/1                                                       
+cmo/setatt/mo/itp/1 0 0/0                                                       
+connect                                                                         
+quality                                                                         
+cmo delete mo                                                                   
+cmo create mo///tet                                                             
+createpts/xyz/2 2 2/0. 0. 0./1. 1. 1./1 1 1                                     
+cmo/setatt/mo/imt/1 0 0/1                                                       
+cmo/setatt/mo/itp/1 0 0/0                                                       
+connect                                                                         
+quality                                                                         
+cmo delete mo                                                                   
+cmo create mo///tet                                                             
+createpts/xyz/1 1 1/0. 0. 0./0. 0. 0./1 1 1                                     
+cmo/setatt/mo/imt/1 0 0/1                                                       
+cmo/setatt/mo/itp/1 0 0/0                                                       
+connect                                                                         
+quality                                                                         
+cmo delete mo                                                                   
+cmo create mo///tet                                                             
+createpts/xyz/2 2 2/0. 0. 0./0. 0. 0./1 1 1                                     
+cmo/setatt/mo/imt/1 0 0/1                                                       
+cmo/setatt/mo/itp/1 0 0/0                                                       
+connect                                                                         
+quality                                                                         
+cmo delete mo                                                                   
+connect                                                                         
+cmo create mo                                                                   
+connect                                                                         
+finish                                                                          

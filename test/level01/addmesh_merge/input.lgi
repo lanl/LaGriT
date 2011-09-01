@@ -1,0 +1,44 @@
+* test capabilities of addmesh merge
+
+cmo / create / cmoa 
+createpts / xyz / 3 3 3 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+connect
+
+cmo / create / cmob 
+createpts / xyz / 3 3 3 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+connect
+
+cmo / create / cmoc
+createpts / xyz / 3 3 3 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+connect
+
+* Case 1
+addmesh / merge / cmo1 / cmoa / cmob
+* Case 2
+addmesh / merge / cmoc / dum1 / dum2
+* Case 3
+cmo / copy / cmo2 / cmoc
+addmesh / merge / cmo2 / cmoa / dum2
+* Case 4
+cmo / copy / cmo3 / cmoc
+addmesh / merge / cmo3 / dum1 / cmob
+* Case 5
+addmesh / merge / cmo4 / cmoa / cmob
+* Case 6
+addmesh / merge / cmo5 / dum1 / cmob
+* Case 7
+addmesh / merge / cmo6 / cmoa / dum2
+* Case 8
+addmesh / merge / dum3 / dum1 / dum2
+*
+* Use the syntax
+*
+addmesh / merge / cmo7 / cmo7 / cmoa
+addmesh / merge / cmo7 / cmo7 / cmob
+addmesh / merge / cmo7 / cmo7 / cmoc
+cmo / status / brief
+cmo / select / cmo7
+quality
+
+finish
+

@@ -1,0 +1,78 @@
+# Test the connect command in two dimensions. Currently this test fails when the
+# unit square is positioned at this location (1000, 0, 0) and also at various
+# other locations. 
+# For full test Run ./test_delaunay_2d -s to see where else the test fails.
+#
+# 2D that works -----------------------------
+cmo / create / mo / / / triplane
+createpts / xyz / 2 2 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / itp / 1 0 0 / 0
+connect
+quality
+# END 2D that works -----------------------------
+
+# 2D single point ------------------------------
+cmo delete mo
+cmo / create / mo / / / triplane
+createpts / xyz / 1 1 1 / 0. 0. 0. / 0. 0. 0. / 1 1 1
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / itp / 1 0 0 / 0
+connect
+quality
+# END 2D single point ------------------------------
+
+# 2D 4 points not found  -----------------------------
+# trying to connect 0 points 
+# 4 points are being marked because they could not be connected.
+cmo delete mo
+cmo / create / mo / / / triplane
+createpts / xyz / 2 2 1 / 1000. 0. 0. / 1001. 1. 0. / 1 1 1
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / itp / 1 0 0 / 0
+connect
+quality
+# END 2D 4 points not found  -----------------------------
+
+
+## 3D that works --------------------------------
+cmo delete mo
+cmo create mo / / / tet
+createpts / xyz / 2 2 2 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / itp / 1 0 0 / 0
+connect
+quality
+## END 3D that works ----------------------------
+
+## 3D 1 point --------------------------------
+cmo delete mo
+cmo create mo / / / tet
+createpts / xyz / 1 1 1 / 0. 0. 0. / 0. 0. 0. / 1 1 1
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / itp / 1 0 0 / 0
+connect
+quality
+## END 3D 1 point --------------------------------
+
+## 3D 8 points duplicate --------------------------------
+cmo delete mo
+cmo create mo / / / tet
+createpts / xyz / 2 2 2 / 0. 0. 0. / 0. 0. 0. / 1 1 1
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / itp / 1 0 0 / 0
+connect
+quality
+## END 3D 8 points duplicate --------------------------------
+
+# CHECK bad cmo
+cmo delete mo
+connect
+
+# CHECK empty cmo
+cmo create mo
+connect
+
+
+# END ALL TESTS
+finish

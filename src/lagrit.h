@@ -1,6 +1,6 @@
 c
 c----------------------------------------------------------------
-c lagrit.h for Linux 32 bit
+c lagrit.h for Linux 64 bit
 C
 c This is a template for the lagrit program banner
 c Substitute the TAG strings with Date and Linux, Darwin, SunOS, or IRIX
@@ -20,8 +20,8 @@ c
       data my_name      /'lagritgen'/
 
 c     data os_name      /'Linux   '/
-c     data os_name      /'Linux64 '/
-      data os_name      /'Linux32 '/
+      data os_name      /'Linux64 '/
+c     data os_name      /'Linux32 '/
 
 c     data date_compile /'2011/08/01  Absoft 11 '/
       data date_compile /'2011/08/01  gfort 4.5 '/

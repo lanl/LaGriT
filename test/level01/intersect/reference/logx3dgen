@@ -1,0 +1,19 @@
+cmo/create/mo1///triplane                                                       
+createpts/xyz/11 11 1/0. 0. 0./1. 1. 1./1 1 1                                   
+connect                                                                         
+cmo/copy/mo2/mo1                                                                
+rotateln/1 0 0/nocopy/.5 -1.0 0.0/.6 2.0 0.0/45.0                               
+cmo/printatt/mo2/-xyz-/minmax                                                   
+intersect/mo_int/mo1/mo2                                                        
+cmo/status                                                                      
+dump/gmv/test01.gmv/mo_int                                                      
+dump/avs/test01.inp/mo_int/1 1 0 0                                              
+cmo/create/mo3///triplane                                                       
+createpts/xyz/11 11 1/0. 0. 0./10. 20. 0./1 1 1                                 
+connect                                                                         
+read/test02.inp/mo4                                                             
+addmesh/merge/mo_union/mo3/mo4                                                  
+dump/test02.gmv/mo_union                                                        
+intersect/mo_intersect/mo3/mo4                                                  
+dump/test03.gmv/mo_intersect                                                    
+finish                                                                          

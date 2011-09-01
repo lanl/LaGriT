@@ -1,14 +1,14 @@
 OS: darwin
 USING: /home/tam/src/lagrit/bin/lagrit_mac_o
-Top directory: /private/var/automount/tam/src/lagrit/test/level01 at Wed Oct 22 10:00:39 2008
+Top directory: /private/var/automount/tam/src/lagrit/test/mylevel01 at Tue Apr  8 12:21:46 2008
  1  Test Directory ./setpts -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:00:40           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:21:46           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -343,9 +343,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:00:43           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:21:47           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -974,9 +974,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:00:52           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:21:56           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1402,9 +1402,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:00:54           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:21:58           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1506,8 +1506,6 @@ finish
 finish                                                                          
 cmo/addatt/cmo1/numbnd/vint/scalar/nnodes/linear/permanent/afgx/0/              
 finish                                                                          
-cmo/addatt/cmo1/id_numb/vint/scalar/nnodes/linear/permanent/afgx/0/             
-finish                                                                          
 sort/-def-/index/-def-/ikey_tmp/numbnd                                          
 cmo/addatt//ikey_tmp/vint/scalar/nnodes///gax/0                                 
 finish                                                                          
@@ -1531,9 +1529,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:00:58           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:22:02           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -5577,9 +5575,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:01:14           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:22:22           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6293,9 +6291,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:01:17           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:22:25           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6777,9 +6775,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:01:20           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:22:28           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7273,9 +7271,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:01:22           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:22:31           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7775,8 +7773,7 @@ Attribute: itp1
  
  Enter a command
 resetpts cell_color 2,1,-1                                                      
-material # start=            2 end=            1 stride=           -1           
-           2 material numbers reset imt1 out of a maximum of            2       
+           2 materials reset for imt1 out of a total of            2            
  Enter a command
 cmo/status/mo2                                                                  
  
@@ -8896,9 +8893,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:01:27           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:22:38           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -10251,9 +10248,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:01:33           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:22:44           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -10674,9 +10671,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:01:38           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:22:49           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -10926,9 +10923,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:01:40           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:22:51           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -11342,9 +11339,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:01:41           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:22:53           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -15397,9 +15394,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:01:54           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:23:10           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17059,9 +17056,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:02:01           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:23:18           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17188,8 +17185,6 @@ finish
 finish                                                                          
 cmo/addatt/cmo1/numbnd/vint/scalar/nnodes/linear/permanent/afgx/0/              
 finish                                                                          
-cmo/addatt/cmo1/id_numb/vint/scalar/nnodes/linear/permanent/afgx/0/             
-finish                                                                          
 sort/-def-/index/-def-/ikey_tmp/numbnd                                          
 cmo/addatt//ikey_tmp/vint/scalar/nnodes///gax/0                                 
 finish                                                                          
@@ -17213,9 +17208,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:02:05           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:23:23           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17713,9 +17708,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:02:07           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:23:25           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18079,9 +18074,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.004   Darwin         *                 
-*               *    date_compile: 2008/10/21                 *                 
-*               *    Run Time: 2008/10/22  10:02:09           *                 
+*               *    Program:  LaGriT V2.002   Darwin         *                 
+*               *    Compiled: 2008/04/08                     *                 
+*               *    Run Time: 2008/04/08  12:23:27           *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 

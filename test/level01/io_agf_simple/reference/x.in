@@ -1,0 +1,10 @@
+* TEST dump/* (lagrit_input_dump)
+* dump and read AVS and GMV files
+* dump FEHM files
+*
+
+read / avs / input_unit_tet.inp / cmo
+
+dump stor test cmo ascii
+
+finish

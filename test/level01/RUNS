@@ -1,0 +1,11 @@
+   clean_testdirs.scr
+   run_test.py
+   check_test.py
+
+clean_testdirs.scr; run_test.py; check_test.py
+
+additional checks
+   diff diffout_lin.txt res*/reference/diffout_lin.txt
+   diff diffout_sun.txt res*/reference/diffout_sun.txt
+   diff diffout_mac.txt res*/reference/diffout_mac.txt
+

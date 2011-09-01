@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.200   Linux m32      *                 
-*               *    date_compile: 2010/06/29                 *                 
-*               *    Run Time: 2010/11/12  13:02:52           *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  10:58:12          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -40,13 +40,13 @@ cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0
 finish                                                                          
 surface/channel/intrface/box/0.6,0.0,-0.2/3.4,0.3,0.2/                          
 surface/lvr/intrface/plane/0.5,-0.5,0.0/0.5,-0.5,-0.2/0.5,2.0 -0.2/             
-  The unit vector for lvr      is  1.0000000i   0.0000000j   0.0000000k         
+  The unit vector for lvr      is  1.0000000i  -0.0000000j   0.0000000k         
 surface/rvr/intrface/plane/3.5,-0.5,0.0/3.5,-0.5,-0.2/3.5,2.0 -0.2/             
-  The unit vector for rvr      is  1.0000000i   0.0000000j   0.0000000k         
+  The unit vector for rvr      is  1.0000000i  -0.0000000j   0.0000000k         
 surface/mhu/intrface/plane/0.0,0.0,0.0/4.0,0.0,0.0/4.0,0.0 -0.2/                
-  The unit vector for mhu      is  0.0000000i   1.0000000j   0.0000000k         
+  The unit vector for mhu      is -0.0000000i   1.0000000j   0.0000000k         
 surface/chu/intrface/plane/0.5,-.008,0.0/3.5,-.008,0.0/3.5,-.008 -0.2/          
-  The unit vector for chu      is  0.0000000i   1.0000000j   0.0000000k         
+  The unit vector for chu      is -0.0000000i   1.0000000j   0.0000000k         
 mregion/PolySil/( le device and lt chu and gt lvr and lt rvr )/                 
 mregion/Silinch/( le device and gt mhu and gt channel )/                        
 mregion/Silichn/( le device and lt channel )/                                   
@@ -114,6 +114,8 @@ search
  Successfully eliminated all multimaterial connections.                         
  
  The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
  
 settets                                                                         
  SETTETS required ITMAT step 2 for        239 tets                              
@@ -311,6 +313,8 @@ Interface node converted to interior       2606
 Interface node converted to interior       2607                                 
  Adding       664 interface-coupled points.                                     
 dump/gmv/output_smooth1.gmv                                                     
+ 
+Second argument is not a filename. Trying to use default mesh object.           
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * begin compare here                                                            
@@ -333,7 +337,6 @@ element volumes b/w  0.5926E-05 and  0.1795E-04:       961
 element volumes b/w  0.1795E-04 and  0.5437E-04:        59                      
 element volumes b/w  0.5437E-04 and  0.1647E-03:       906                      
 element volumes b/w  0.1647E-03 and  0.4989E-03:      5428                      
-element volumes b/w  0.4989E-03 and  0.1511E-02:      2475                      
 element volumes b/w  0.4989E-03 and  0.1511E-02:      2475                      
 min volume =   5.9259259E-06  max volume =   1.5111111E-03                      
 -----------------------------------------------------------                     
@@ -394,7 +397,6 @@ element volumes b/w  0.9263E-07 and  0.6594E-06:        14
 element volumes b/w  0.6594E-06 and  0.4693E-05:       401                      
 element volumes b/w  0.4693E-05 and  0.3341E-04:       454                      
 element volumes b/w  0.3341E-04 and  0.2378E-03:      3283                      
-element volumes b/w  0.2378E-03 and  0.1693E-02:      7067                      
 element volumes b/w  0.2378E-03 and  0.1693E-02:      7067                      
 min volume =   9.2629612E-08  max volume =   1.6927164E-03                      
 -----------------------------------------------------------                     
@@ -469,7 +471,7 @@ The current-mesh-object(CMO) is: 3dmesh
  55            ymax REAL     scalar          scalar const perma   l  2.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  1.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -505,7 +507,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  xic                0.000000000E+00  4.000000000E+00 4.000000000E+00      3328  
  yic               -5.000000000E-01  2.000000000E+00 2.500000000E+00      3328  
  zic               -2.000000000E-01  2.000000000E-01 4.000000000E-01      3328  
- xtetwd                           0           169752          169752     11219  
+ xtetwd                           0           169800          169800     11219  
  itetclr                          1                4               3     11219  
  itettyp                          5                5               0     11219  
  itetoff                          0            44872           44872     11219  
@@ -532,7 +534,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  ymax               2.000000000E+00  2.000000000E+00 0.000000000E+00         1  
  zmax               2.000000000E-01  2.000000000E-01 0.000000000E+00         1  
  kdtree_level                     0                0               0         1  
- max_number_sets                 32               32               0         1  
+ max_number_sets                 64               64               0         1  
  number_of_psets                  1                1               0         1  
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
@@ -543,6 +545,8 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  
 * end compare here                                                              
 dump/gmv/output_smooth2.gmv                                                     
+ 
+Second argument is not a filename. Trying to use default mesh object.           
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * END                                                                           

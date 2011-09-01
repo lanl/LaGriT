@@ -1,4 +1,6 @@
-#! /usr/bin/env python 
+#! /usr/bin/python 
+# for linux /n/local_linux/python2.5.1/bin/python
+# for mac /usr/bin/env python 
 # for lanl machines /usr/bin/env python
 # for sgi /usr/lanl/bin/python
 #------------------------------------------------------------------------------

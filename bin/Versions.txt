@@ -9,7 +9,6 @@ pulled clone src April 27 2011 and May 3 2011
 This version was sent to Andrew Kuprat
 64 bit modifications have been working in general
 
-***************************************************************
 Adam Cozzette changes:
 
 anothermatbld3d.c
@@ -133,6 +132,24 @@ writing u,v,w
 
 Terry Miller file changes:
 
+IN GENERAL >>>>>>
+
+/*  LaGriT assumes that the size of an integer is the same size as a
+ *  pointer.  Use the preprocessor and configure settings to select
+ *  the integer type so that it matches the size of a pointer.
+ */
+#if SIZEOF_INT == SIZEOF_VOIDP
+#define int_ptrsize int
+#elif SIZEOF_LONG == SIZEOF_VOIDP
+#define int_ptrsize long
+
+New Makefile and Makefile.depends includes changes for gfortran and 64 bit
+ -fcray-pointer
+ Enables the Cray pointer extension, which provides a C-like pointer
+ -falign-commons (will try to reorder commons so this is not needed)
+ By default, gfortran enforces proper alignment of all variables in a COMMON block by padding them as needed. On certain platforms this is mandatory, on others it increases performance. If a COMMON block is not declared with consistent data types everywhere, this padding can cause trouble, and -fno-align-commons can be used to disable automatic alignment. The same form of this option should be used for all files that share a COMMON block. To avoid potential alignment issues in COMMON blocks, it is recommended to order objects from largests to smallest.
+ 
+
 readgmv_binary.f - merged with Kuprat version for 64 bit
                    added error capture and added messaging about bytes read
 
@@ -141,6 +158,82 @@ readgmv_ascii.f - added messaging consistent with read binary
 
 Combine routines used for stack_layers into one file stack_options.f
 they used to be scattered between temptam.f and read_trilayers.f
+
+The beads algorithm and routines are now all in their
+own file beads_ona_ring.f - this file and stack had some
+array usage that were incorrect and caused seg faults for
+the beads options. They are working now but should be 
+improved so memory management is consistent with current
+practices. These codes have been the same since before 2000.
+
+I have updated the demo tests as used for the manual and
+rewritten and rerun the beads tests. They are currently in
+/home/tam/src/lagrit/work_2000/stack and stack_beads
+
+I have a new html and image file showing how the beads
+work for the different options. 
+/home/tam/src/lagrit/work_2000/stack_beads/html/stack_beads.html
+
+------- changesets
+
+changeset b13a2a415ef3 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=b13a2a415ef3
+summary: Changes to compile and builds to allow gfortran for linux 64 bit
+
+changeset d8a6f73d4bde in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=d8a6f73d4bde
+summary: Version 3.001 kuprat additions for new filter command
+
+changeset 025fe933aa95 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=025fe933aa95
+summary: Version 3.001 merge of kuprat and tam changes and bug fixes
+
+changeset aeb3852306bc in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=aeb3852306bc
+summary: Version 3.001 Adam C work Add various quality metrics for quads
+
+changeset 978c5375e4a1 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=978c5375e4a1
+summary: Version 3.001 - Adam C work for sorting line polygons
+
+changeset 8ae83dc2e41a in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=8ae83dc2e41a
+summary: Version 3.001 - Adam C work for added several functions for computing the
+
+changeset 1f94775b63e7 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=1f94775b63e7
+summary: Version 3.001 - Adam C work for hybrid version of voronoi control volumes
+
+changeset d6f9aa60769a in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=d6f9aa60769a
+summary: Version 3.001 - 64 bit for linux
+
+changeset dc645c0684d1 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=dc645c0684d1
+summary: Version 3.001 - added error catching to avoid seg faults
+
+changeset cb99635035d9 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=cb99635035d9
+summary: Version 3.001 - tam work to clarify routines for stack command
+
+changeset 3bec6ff60180 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=3bec6ff60180
+summary: Version 3.001 - Adam C work in support of his debugging
+
+changeset 73909b2a7736 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=73909b2a7736
+summary: Version 3.001 - new include files for this version and for Adam C work
+
+changeset e5b3592353fe in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=e5b3592353fe
+summary: Version 3.001 - Adam C added for fortran interface for exodus file workchangeset 71f512772ca9 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagritdetails: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=71f512772ca9summary: Version 3.001 - new build for exodus files and 64 bit workchangeset 7b543e19ef2c in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=7b543e19ef2c
+summary: Full notes on version changes.
+
+changeset 921a89558212 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
+details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=921a89558212
+summary: Added tag Release V3.001 for changeset 7b543e19ef2c
+
 
 
 =======================================================================
@@ -152,7 +245,7 @@ pull merge push latest files
 NOTE: cmo_setatt.f was started but not finished!!!!!
 Assigns scalar value to selected attribute
 
--------
+------- changesets
 
 changeset 7d4c4cce15e2 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lagrit
 details: https://ancho.lanl.gov/lagrit/hg/lagrit?cmd=changeset;node=7d4c4cce15e2

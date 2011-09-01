@@ -1,0 +1,277 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  13:16:38          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# Input files:                                                                  
+#   test01.inp      Original line graph with various kinds of components        
+#   test02.inp      Shuffled version of original file                           
+#   test03.inp      Hybrid mesh containing line segments and a triangle         
+#   test04.inp      Trivial mesh with 2 points and no elements                  
+#                                                                               
+# Output files:                                                                 
+#                                                                               
+#   test*.gmv       GMV version of corresponding AVS file                       
+#   test*s.inp      ------------- Sorted ----------------                       
+#   test*s.gmv      -------------- Files ----------------                       
+# This should stop gracefully with an error (no mesh object).                   
+sort//line_graph/ascending/key                                                  
+ SORT: CMO found bad mesh object: -def-                                         
+read/test01.inp/mo01                                                            
+read/avs/test01.inp/mo01                                                        
+geniee                                                                          
+ geniee: mesh has                     6  jtet loops, max cycle length=          
+                                                                               4
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo01                                           
+ 
+  1 Mesh Object name: mo01                                                      
+    number of nodes =            33        number of elements =           33    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+# Error (must be "ascending" or "descending")                                   
+sort/mo01/line_graph/wrong/key                                                  
+ SORT:Invalid option:wrong      Use:ascending or descending                     
+# Error (extra argument)                                                        
+sort/mo01/line_graph/ascending/key/extra_arg                                    
+ SORT: Error - Too many arguments for line_graph option                         
+# Should generate a key since one is not provided.                              
+sort/mo01/line_graph/ascending                                                  
+cmo/addatt//ikey_line_graph/vint/scalar/nelements///gax/0                       
+finish                                                                          
+cmo/DELATT/mo01/cid                                                             
+cmo_DELATT attribute Error:   1 cid                                             
+cmo_command error: DELATT                          mo01                         
+error in command : cmo/DELATT/mo01/cid                                          
+finish                                                                          
+cmo/addatt/mo01/cid/vint/scalar/nelements                                       
+finish                                                                          
+cmo/DELATT/mo01/ctype                                                           
+cmo_DELATT attribute Error:   1 ctype                                           
+cmo_command error: DELATT                          mo01                         
+error in command : cmo/DELATT/mo01/ctype                                        
+finish                                                                          
+cmo/addatt/mo01/ctype/vint/scalar/nelements                                     
+finish                                                                          
+cmo/DELATT/mo01/loopid                                                          
+cmo_DELATT attribute Error:   1 loopid                                          
+cmo_command error: DELATT                          mo01                         
+error in command : cmo/DELATT/mo01/loopid                                       
+finish                                                                          
+cmo/addatt/mo01/loopid/vint/scalar/nelements                                    
+finish                                                                          
+# We perform this on both test01.inp and test02.inp. Then we can verify in GMV  
+# that both were sorted correctly.                                              
+# ----------------------------------------                                      
+dump/output_test01.gmv/mo01                                                     
+dump/gmv/output_test01.gmv/mo01                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+sort/mo01/line_graph/ascending/key                                              
+cmo/addatt//key/vint/scalar/nelements///gax/0                                   
+finish                                                                          
+cmo/DELATT/mo01/cid                                                             
+finish                                                                          
+cmo/addatt/mo01/cid/vint/scalar/nelements                                       
+finish                                                                          
+cmo/DELATT/mo01/ctype                                                           
+finish                                                                          
+cmo/addatt/mo01/ctype/vint/scalar/nelements                                     
+finish                                                                          
+cmo/DELATT/mo01/loopid                                                          
+finish                                                                          
+cmo/addatt/mo01/loopid/vint/scalar/nelements                                    
+finish                                                                          
+reorder/mo01/key                                                                
+geniee                                                                          
+ geniee: mesh has                     6  jtet loops, max cycle length=          
+                                                                               4
+finish                                                                          
+dump/output_test01s.inp/mo01                                                    
+dump/avs/output_test01s.inp/mo01                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+dump/output_test01s.gmv/mo01                                                    
+dump/gmv/output_test01s.gmv/mo01                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# ----------------------------------------                                      
+read/test02.inp/mo02                                                            
+read/avs/test02.inp/mo02                                                        
+geniee                                                                          
+ geniee: mesh has                     6  jtet loops, max cycle length=          
+                                                                               4
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo02                                           
+ 
+  1 Mesh Object name: mo01                                                      
+    number of nodes =            33        number of elements =           33    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo02                                                      
+    number of nodes =            33        number of elements =           33    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+dump/output_test02.gmv/mo02                                                     
+dump/gmv/output_test02.gmv/mo02                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+sort/mo02/line_graph/ascending/key                                              
+cmo/addatt//key/vint/scalar/nelements///gax/0                                   
+finish                                                                          
+cmo/DELATT/mo02/cid                                                             
+cmo_DELATT attribute Error:   1 cid                                             
+cmo_command error: DELATT                          mo02                         
+error in command : cmo/DELATT/mo02/cid                                          
+finish                                                                          
+cmo/addatt/mo02/cid/vint/scalar/nelements                                       
+finish                                                                          
+cmo/DELATT/mo02/ctype                                                           
+cmo_DELATT attribute Error:   1 ctype                                           
+cmo_command error: DELATT                          mo02                         
+error in command : cmo/DELATT/mo02/ctype                                        
+finish                                                                          
+cmo/addatt/mo02/ctype/vint/scalar/nelements                                     
+finish                                                                          
+cmo/DELATT/mo02/loopid                                                          
+cmo_DELATT attribute Error:   1 loopid                                          
+cmo_command error: DELATT                          mo02                         
+error in command : cmo/DELATT/mo02/loopid                                       
+finish                                                                          
+cmo/addatt/mo02/loopid/vint/scalar/nelements                                    
+finish                                                                          
+reorder/mo02/key                                                                
+geniee                                                                          
+ geniee: mesh has                     6  jtet loops, max cycle length=          
+                                                                               4
+finish                                                                          
+dump/output_test02s.inp/mo02                                                    
+dump/avs/output_test02s.inp/mo02                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+dump/output_test02s.gmv/mo02                                                    
+dump/gmv/output_test02s.gmv/mo02                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# Make sure the line_graph sort gives an error when it receives a mesh object   
+# that has more than just line segments.                                        
+read/test03.inp/mo03                                                            
+read/avs/test03.inp/mo03                                                        
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo03                                           
+ 
+  1 Mesh Object name: mo01                                                      
+    number of nodes =            33        number of elements =           33    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo02                                                      
+    number of nodes =            33        number of elements =           33    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo03                                                      
+    number of nodes =             3        number of elements =            4    
+    dimensions geometry =         3        element type =                hyb    
+    dimensions topology =         1       10 nodes     10 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+sort/mo03/line_graph/ascending/key                                              
+cmo/addatt//key/vint/scalar/nelements///gax/0                                   
+finish                                                                          
+ SORT: ERROR - itet must consist only of line segments.                         
+# Make sure the line_graph sort can deal with meshes with no elements.          
+read/test04.inp/mo04                                                            
+read/avs/test04.inp/mo04                                                        
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo04                                           
+ 
+  1 Mesh Object name: mo01                                                      
+    number of nodes =            33        number of elements =           33    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo02                                                      
+    number of nodes =            33        number of elements =           33    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo03                                                      
+    number of nodes =             3        number of elements =            4    
+    dimensions geometry =         3        element type =                hyb    
+    dimensions topology =         1       10 nodes     10 faces     12 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: mo04                                                      
+    number of nodes =             2        number of elements =            0    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+sort/mo04/line_graph/ascending/key                                              
+ SORT: Quitting early because there are 0 elements.                             
+reorder/mo04/key                                                                
+dump/output_test04.inp/mo04                                                     
+dump/avs/output_test04.inp/mo04                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

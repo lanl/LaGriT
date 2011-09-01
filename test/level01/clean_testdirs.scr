@@ -4,7 +4,7 @@
 # Usage: clean_testdirs 
 #
 # Remove any  out* *gmvF and *x3dgen files in each of the test directories.
-# Remove stdout*txt and diff*txt from top directory. 
+# Do not Remove stdout*txt and diff*txt from top directory. 
 # Skip directory result_files
 #
 #######    Begin script:  ################
@@ -15,8 +15,14 @@ set dirs = (*)
 #
 # remove previous log files 
   'rm' -f outx3dgen logx3dgen
-  'rm' -f stdout*.txt
-  'rm' -f diffout*.txt
+   mv  stdout_sun.txt stdout_sun.old.txt
+   mv  stdout_lin.txt stdout_lin.old.txt
+   mv  stdout_mac.txt stdout_mac.old.txt
+   mv  stdout_maci.txt stdout_maci.old.txt
+   mv  diffout_sun.txt diffout_sun.old.txt
+   mv  diffout_lin.txt diffout_lin.old.txt
+   mv  diffout_mac.txt diffout_mac.old.txt
+   mv  diffout_maci.txt diffout_maci.old.txt
 #
 # loop through test directories
 #

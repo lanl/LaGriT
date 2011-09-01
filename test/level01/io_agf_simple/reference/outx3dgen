@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.200   Linux m32      *                 
-*               *    date_compile: 2010/06/29                 *                 
-*               *    Run Time: 2010/11/12  12:44:34           *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  10:58:09          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -258,7 +258,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
  zmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
  kdtree_level                     0                0               0         1  
- max_number_sets                 32               32               0         1  
+ max_number_sets                 64               64               0         1  
  number_of_psets                  0                0               0         1  
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
@@ -282,7 +282,6 @@ element volumes b/w  0.1667E+00 and  0.1914E+00:         4
 element volumes b/w  0.1914E+00 and  0.2199E+00:         0                      
 element volumes b/w  0.2199E+00 and  0.2526E+00:         0                      
 element volumes b/w  0.2526E+00 and  0.2902E+00:         0                      
-element volumes b/w  0.2902E+00 and  0.3333E+00:         1                      
 element volumes b/w  0.2902E+00 and  0.3333E+00:         1                      
 min volume =   1.6666667E-01  max volume =   3.3333333E-01                      
 -----------------------------------------------------------                     
@@ -357,7 +356,7 @@ The current-mesh-object(CMO) is: cmo
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -382,10 +381,9 @@ finish
 read/gmv/output_ascii.gmv/cmogmva/ascii                                         
 geniee                                                                          
 finish                                                                          
-* linux can not always read this file                                           
-read/gmv/output.gmv/cmogmv/                                                     
+Nodes:          8 Elements:          5                                          
+Done reading GMV ascii file: output_ascii.gmv                                   
  
- GMV read error: empty file                                                     
 read/avs/output.inp/cmoavs/                                                     
 geniee                                                                          
 finish                                                                          
@@ -405,13 +403,7 @@ The current-mesh-object(CMO) is: cmoavs
     dimensions topology =         3        4 nodes      4 faces      6 edges    
     boundary flag =        16000000        status =                 inactive    
  
-  3 Mesh Object name: cmogmv                                                    
-    number of nodes =             0        number of elements =            0    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
- 
-  4 Mesh Object name: cmoavs                                                    
+  3 Mesh Object name: cmoavs                                                    
     number of nodes =             8        number of elements =            5    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
@@ -423,85 +415,12 @@ finish
 cmo status cmogmv                                                               
  
 The current-mesh-object(CMO) is: cmoavs                                         
- 
-  3 Mesh Object name: cmogmv                                                    
-    number of nodes =             0        number of elements =            0    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
- 
-          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
- 
-  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
-  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
-  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
-  4          nnodes  INT     scalar          scalar const perma   l  0.000E+00  
-  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
-  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
-  7       nelements  INT     scalar          scalar const perma   l  0.000E+00  
-  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
-  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
- 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
- 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
- 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
- 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
- 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
- 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
- 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
- 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
- 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
- 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
- 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
- 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
- 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
- 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
- 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
- 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
- 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
- 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
- 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
- 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
- 31           vor2d CHAR     scalar          scalar const perma   l yes         
- 32           vor3d CHAR     scalar          scalar const perma   l no          
- 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
- 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
- 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
- 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
- 37         ipointi  INT     scalar          scalar const perma   l  0.000E+00  
- 38         ipointj  INT     scalar          scalar const perma   l  0.000E+00  
- 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
- 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
- 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
- 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
- 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
- 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
- 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
- 46        dumptype CHAR     scalar          scalar const perma   l binary      
- 47         velname CHAR     scalar          scalar const perma   l vels        
- 48        densname CHAR     scalar          scalar const perma   l ric         
- 49        presname CHAR     scalar          scalar const perma   l pic         
- 50        enername CHAR     scalar          scalar const perma   l eic         
- 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
- 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
- 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
- 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
- 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
- 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
- 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
- 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
- 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
- 61       psetnames VCHA     scalar max_number_sets const perma   l             
- 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
- 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
- 64       fsetnames VCHA     scalar max_number_sets const perma   l             
- 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ Mesh Object does not exist: cmoavs                                             
 cmo status cmoavs                                                               
  
 The current-mesh-object(CMO) is: cmoavs                                         
  
-  4 Mesh Object name: cmoavs                                                    
+  3 Mesh Object name: cmoavs                                                    
     number of nodes =             8        number of elements =            5    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
@@ -566,7 +485,7 @@ The current-mesh-object(CMO) is: cmoavs
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -575,5 +494,16 @@ The current-mesh-object(CMO) is: cmoavs
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
 * end compare here                                                              
+* linux can not always read this file                                           
+* start acceptable difference (linux)                                           
+read/gmv/output.gmv/cmogmv/                                                     
+Reading GMV binary file gmvinputieee                                            
+ no geometry for mesh object                                                    
+geniee                                                                          
+finish                                                                          
+Nodes:          8 Elements:          5                                          
+Done reading GMV binary total bytes:       1176 file:  output.gmv               
+ 
+* end acceptable difference (linux)                                             
 finish                                                                          
 LaGriT successfully completed                                                   

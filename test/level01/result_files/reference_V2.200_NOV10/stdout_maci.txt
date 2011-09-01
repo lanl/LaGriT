@@ -1,0 +1,605 @@
+Start in directory: /home/tam/src/lagrit/mytest/level01 at Mon Nov 15 10:03:53 2010
+
+Diff Summary ===================================================================
+
+1 Check Directory ./addmesh_add --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.100   Linux m32      *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+2 comment lines.
+1 lines failed.
+1 Done with Directory ./addmesh_add -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./addmesh_add/reference/outx3dgen Thu Jun 18 07:26:41 2009
++++ ./addmesh_add/outx3dgen Mon Nov 15 09:59:15 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.100   Linux m32      *                 
+-*               *    date_compile: 2009/06/15                 *                 
+-*               *    Run Time: 2009/06/18  07:23:33           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  09:59:08           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+2 Check Directory ./addmesh_append --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.100   Linux m32      *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+2 comment lines.
+1 lines failed.
+2 Done with Directory ./addmesh_append -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./addmesh_append/reference/outx3dgen Thu Jun 18 07:27:06 2009
++++ ./addmesh_append/outx3dgen Mon Nov 15 09:59:16 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.100   Linux m32      *                 
+-*               *    date_compile: 2009/06/15                 *                 
+-*               *    Run Time: 2009/06/18  07:23:37           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  09:59:15           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+3 Check Directory ./addmesh_doublemesh --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.002   SunOS          *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+
+Test has 1 diffs at line 376 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+1 lines failed.
+3 Done with Directory ./addmesh_doublemesh -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./addmesh_doublemesh/reference/outx3dgen Tue Oct 21 12:43:10 2008
++++ ./addmesh_doublemesh/outx3dgen Mon Nov 15 09:59:19 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:11           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  09:59:17           *                 
+@@ -376,1 +376,1 @@
+- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
++ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+4 Check Directory ./connect_cube --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.002   SunOS          *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+
+Test has 4 diffs at line 172 >>
+Lines Essentially the Same: 4 out of 4
+
+Test has 1 diffs at line 199 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+1 lines failed.
+4 Done with Directory ./connect_cube -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./connect_cube/reference/outx3dgen Tue Oct 21 12:43:11 2008
++++ ./connect_cube/outx3dgen Mon Nov 15 09:59:20 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:39           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  09:59:19           *                 
+@@ -172,4 +172,4 @@
+- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
+- epsilonl           1.000000000E-08  1.000000000E-08 0.000000000E+00         1  
+- epsilona           1.000000000E-08  1.000000000E-08 0.000000000E+00         1  
+- epsilonv           1.000000000E-08  1.000000000E-08 0.000000000E+00         1  
++ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
++ epsilonl           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
++ epsilona           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
++ epsilonv           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+@@ -199,1 +199,1 @@
+-epsilonl, epsilonaspect:   1.0000000E-08  1.0000000E-24                         
++epsilonl, epsilonaspect:   9.9999999E-09  9.9999998E-25                         
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+5 Check Directory ./createpts --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.002   SunOS          *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+
+Test has 1 diffs at line 355 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+1 lines failed.
+5 Done with Directory ./createpts -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./createpts/reference/outx3dgen Tue Oct 21 12:43:12 2008
++++ ./createpts/outx3dgen Mon Nov 15 09:59:23 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:58:38           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  09:59:21           *                 
+@@ -355,1 +355,1 @@
+-epsilonl, epsilonaspect:   1.0000000E-08  1.0000000E-24                         
++epsilonl, epsilonaspect:   9.9999999E-09  9.9999998E-25                         
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+6 Check Directory ./interp_continuous --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.100   Linux m32      *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+2 comment lines.
+1 lines failed.
+6 Done with Directory ./interp_continuous -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./interp_continuous/reference/outx3dgen Tue Jun 16 13:09:52 2009
++++ ./interp_continuous/outx3dgen Mon Nov 15 09:59:30 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.100   Linux m32      *                 
+-*               *    date_compile: 2009/05/28                 *                 
+-*               *    Run Time: 2009/06/16  13:06:09           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  09:59:24           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+7 Check Directory ./interp_map --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.100   Linux m32      *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+2 comment lines.
+1 lines failed.
+7 Done with Directory ./interp_map -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./interp_map/reference/outx3dgen Tue Jun 16 13:08:39 2009
++++ ./interp_map/outx3dgen Mon Nov 15 09:59:45 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.100   Linux m32      *                 
+-*               *    date_compile: 2009/05/28                 *                 
+-*               *    Run Time: 2009/06/16  13:06:10           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  09:59:30           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+8 Check Directory ./interp_voronoi --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.002   SunOS          *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+2 comment lines.
+1 lines failed.
+8 Done with Directory ./interp_voronoi -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./interp_voronoi/reference/outx3dgen Tue Oct 21 12:43:19 2008
++++ ./interp_voronoi/outx3dgen Mon Nov 15 10:00:37 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:58:49           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  09:59:46           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+9 Check Directory ./intrp_2D_sizes --------------------------
+
+Test has 1 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.200   Linux m32      *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 0 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+1 comment lines.
+1 lines failed.
+9 Done with Directory ./intrp_2D_sizes -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./intrp_2D_sizes/reference/outx3dgen Fri Nov 12 12:20:29 2010
++++ ./intrp_2D_sizes/outx3dgen Mon Nov 15 10:00:42 2010
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.200   Linux m32      *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2010/11/12  12:19:40           *                 
++*               *    Run Time: 2010/11/15  10:00:37           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+10 Check Directory ./io_agf_simple --------------------------
+
+Test has 1 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.200   Linux m32      *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 0 out of 1
+
+Test has 1 diffs at line 7 >>
+Lines Essentially the Same: 1 out of 1
+1 comment lines.
+1 lines failed.
+10 Done with Directory ./io_agf_simple -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./io_agf_simple/reference/outx3dgen Fri Nov 12 12:44:41 2010
++++ ./io_agf_simple/outx3dgen Mon Nov 15 10:00:44 2010
+@@ -5,1 +5,1 @@
+-*               *    Program:  LaGriT V2.200   Linux m32      *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
+@@ -7,1 +7,1 @@
+-*               *    Run Time: 2010/11/12  12:44:34           *                 
++*               *    Run Time: 2010/11/15  10:00:42           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+11 Check Directory ./refine_octree --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.100   Linux m32      *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+2 comment lines.
+1 lines failed.
+11 Done with Directory ./refine_octree -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./refine_octree/reference/outx3dgen Tue Jun 16 12:56:21 2009
++++ ./refine_octree/outx3dgen Mon Nov 15 10:00:47 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.100   Linux m32      *                 
+-*               *    date_compile: 2009/05/28                 *                 
+-*               *    Run Time: 2009/06/16  09:45:20           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  10:00:45           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+12 Check Directory ./refine_octree_prd --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.100   Linux m32      *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+
+Test has 1 diffs at line 789 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+1 lines failed.
+12 Done with Directory ./refine_octree_prd -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./refine_octree_prd/reference/outx3dgen Tue Jun 16 13:00:03 2009
++++ ./refine_octree_prd/outx3dgen Mon Nov 15 10:00:52 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.100   Linux m32      *                 
+-*               *    date_compile: 2009/05/28                 *                 
+-*               *    Run Time: 2009/06/16  09:45:21           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  10:00:48           *                 
+@@ -789,1 +789,1 @@
+- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
++ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+13 Check Directory ./refine_recon_quality --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.002   SunOS          *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+2 comment lines.
+1 lines failed.
+13 Done with Directory ./refine_recon_quality -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./refine_recon_quality/reference/outx3dgen Tue Oct 21 12:43:47 2008
++++ ./refine_recon_quality/outx3dgen Mon Nov 15 10:00:54 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  08:00:12           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  10:00:53           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+14 Check Directory ./rmpoint --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.100   Linux m32      *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+
+Test has 1 diffs at line 81 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 659 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 761 >>
+Lines Essentially the Same: 1 out of 1
+
+Test has 1 diffs at line 1444 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+1 lines failed.
+14 Done with Directory ./rmpoint -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./rmpoint/reference/outx3dgen Tue Jun 16 13:02:59 2009
++++ ./rmpoint/outx3dgen Mon Nov 15 10:01:00 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.100   Linux m32      *                 
+-*               *    date_compile: 2009/05/28                 *                 
+-*               *    Run Time: 2009/06/16  09:45:23           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  10:00:55           *                 
+@@ -81,1 +81,1 @@
+- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
++ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+@@ -659,1 +659,1 @@
+- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
++ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+@@ -761,1 +761,1 @@
+- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
++ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+@@ -1444,1 +1444,1 @@
+- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
++ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+15 Check Directory ./setpts --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.002   SunOS          *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+2 comment lines.
+1 lines failed.
+15 Done with Directory ./setpts -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./setpts/reference/outx3dgen Tue Oct 21 12:43:50 2008
++++ ./setpts/outx3dgen Mon Nov 15 10:01:01 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:58:18           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  10:01:00           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+16 Check Directory ./smooth --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.002   SunOS          *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+
+Test has 1 diffs at line 515 >>
+Lines Essentially the Same: 1 out of 1
+2 comment lines.
+1 lines failed.
+16 Done with Directory ./smooth -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./smooth/reference/outx3dgen Tue Nov  4 13:46:14 2008
++++ ./smooth/outx3dgen Mon Nov 15 10:01:06 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  07:59:23           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  10:01:02           *                 
+@@ -515,1 +515,1 @@
+- epsilon            1.000000000E-15  1.000000000E-15 0.000000000E+00         1  
++ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+17 Check Directory ./surface --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.002   SunOS          *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+2 comment lines.
+1 lines failed.
+17 Done with Directory ./surface -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./surface/reference/outx3dgen Tue Nov  4 13:46:34 2008
++++ ./surface/outx3dgen Mon Nov 15 10:01:07 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.002   SunOS          *                 
+-*               *    Compiled: 2008/04/08                     *                 
+-*               *    Run Time: 2008/04/08  08:00:16           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  10:01:07           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+18 Check Directory ./zone_outside --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.200   Linux m32      *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+2 comment lines.
+1 lines failed.
+18 Done with Directory ./zone_outside -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./zone_outside/reference/outx3dgen Wed Sep  1 11:02:07 2010
++++ ./zone_outside/outx3dgen Mon Nov 15 10:01:12 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.200   Linux m32      *                 
+-*               *    date_compile: 2010/08/30                 *                 
+-*               *    Run Time: 2010/09/01  09:38:16           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  10:01:08           *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+19 Check Directory ./zone_outside_minmax --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V2.200   Linux m32      *
++*               *    Program:  LaGriT V2.200  Mac intel m32   *
+Lines Essentially the Same: 2 out of 3
+2 comment lines.
+1 lines failed.
+19 Done with Directory ./zone_outside_minmax -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./zone_outside_minmax/reference/outx3dgen Wed Sep  1 15:16:16 2010
++++ ./zone_outside_minmax/outx3dgen Mon Nov 15 10:01:27 2010
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V2.200   Linux m32      *                 
+-*               *    date_compile: 2010/08/30                 *                 
+-*               *    Run Time: 2010/09/01  15:16:06           *                 
++*               *    Program:  LaGriT V2.200  Mac intel m32   *                 
++*               *    date_compile: 2010/06/29                 *                 
++*               *    Run Time: 2010/11/15  10:01:12           *                 
+
+End Report from diff =========================================================
+All checks complete, 19 directories failed out of 19
+  ./addmesh_add Error: 1 lines failed.
+  ./addmesh_append Error: 1 lines failed.
+  ./addmesh_doublemesh Error: 1 lines failed.
+  ./connect_cube Error: 1 lines failed.
+  ./createpts Error: 1 lines failed.
+  ./interp_continuous Error: 1 lines failed.
+  ./interp_map Error: 1 lines failed.
+  ./interp_voronoi Error: 1 lines failed.
+  ./intrp_2D_sizes Error: 1 lines failed.
+  ./io_agf_simple Error: 1 lines failed.
+  ./refine_octree Error: 1 lines failed.
+  ./refine_octree_prd Error: 1 lines failed.
+  ./refine_recon_quality Error: 1 lines failed.
+  ./rmpoint Error: 1 lines failed.
+  ./setpts Error: 1 lines failed.
+  ./smooth Error: 1 lines failed.
+  ./surface Error: 1 lines failed.
+  ./zone_outside Error: 1 lines failed.
+  ./zone_outside_minmax Error: 1 lines failed.
+

@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.200   Linux m32      *                 
-*               *    date_compile: 2010/06/29                 *                 
-*               *    Run Time: 2010/11/12  13:02:56           *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  10:58:14          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -106,7 +106,7 @@ finish
 finish                                                                          
  
  CONNECTED COMPONENTS:                                                          
-   1  different exterior boundary components                                    
+                    1  different exterior boundary components                   
  Set#        Representitive Node #        # Nodes in Set                        
             (numbnd_e(node#) attribute)                                         
       1                 181                5724                                 

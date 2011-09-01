@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# This is a script for testing the connect command on simple point distributions
+# at a variety of displacements in space. The test_delaunay_2d script uses it to
+# test that the connect command works correctly regardless of the location of
+# the point distribution.
+
+lagrit >/dev/null 2>&1 <<EOF
+cmo / create / mo / / / triplane
+createpts / xyz / $5 $5 1 / $1 $2 0. / $3 $4 0. / 1 1 1
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / itp / 1 0 0 / 0
+connect
+finish
+EOF

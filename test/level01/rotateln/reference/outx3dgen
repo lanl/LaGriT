@@ -1,0 +1,48 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  12:10:26          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# Test the rotateln command. This test was written in the process of tracking   
+# down a bug where part of the point distribution would rotate in one direction 
+# and the other part would rotate in the opposite direction. This test should   
+# work now although it did not work before this bug was fixed.                  
+# Create a cube of points and rotate it 90 degrees about the z-axis.            
+define/SIZE/10.0                                                                
+cmo/create/mo01///hex                                                           
+createpts/xyz/2,2,10/0,0,0/SIZE,SIZE,SIZE/1 1 1                                 
+  RZ GENERATED POINTS                    1 TO                   40              
+rotateln/1 0 0/nocopy/0 0 0/0 0 5/90/0,0,0                                      
+dump/output_test01.gmv/mo01                                                     
+dump/gmv/output_test01.gmv/mo01                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+dump/output_test01.inp/mo01                                                     
+dump/avs/output_test01.inp/mo01                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

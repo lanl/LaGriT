@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.200   Linux m32      *                 
-*               *    date_compile: 2010/06/29                 *                 
-*               *    Run Time: 2010/11/12  13:02:40           *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  10:58:03          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -138,6 +138,8 @@ Interface node converted to interior       3465
 There are    368  multimaterial tets.                                           
 * Output the final grid                                                         
 dump/gmv/output_createbrick.gmv                                                 
+ 
+Second argument is not a filename. Trying to use default mesh object.           
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * begin compare brick                                                           
@@ -210,7 +212,7 @@ The current-mesh-object(CMO) is: cmohex
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -336,7 +338,7 @@ The current-mesh-object(CMO) is: cmoquad
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             

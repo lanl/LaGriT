@@ -1,0 +1,42 @@
+# Create a new mesh along with some point sets.
+cmo / create / mo / / / hex
+createpts / brick / xyz / 11, 11, 11 / 0, 0, 0 / 10, 10, 10 / 1, 1, 1
+pset / pset1 / geom / rtp / 1 0 0 / 0, 0, 0 / 5, 360, 180 /
+pset / pset2 / geom / xyz / 1 0 0 / 7, 7, 7 / 10, 10, 10 /
+
+eltset / eset1 / inclusive / pset get pset1 /
+eltset / / list
+
+# Assign colors to the points and elements so that we can see them in GMV.
+eltset / eset2 / inclusive / pset get pset2 /
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / imt / pset get pset1 / 2
+cmo / setatt / mo / imt / pset get pset2 / 3
+cmo / setatt / mo / itetclr / 1 0 0 / 1
+cmo / setatt / mo / itetclr / eltset get eset1 / 2
+cmo / setatt / mo / itetclr / eltset get eset2 / 3
+
+dump / gmv / test01.gmv / mo
+
+# Test the list command.
+eltset / / list
+eltset / 0 / list
+eltset / -def- / list
+
+# Verify that eltset only appends '.cellset' if it is not already present.
+eltset / eset1 / write / eset01
+eltset / eset2 / write / eset02.cellset
+
+# Test various incantations of the [ascii|binary] option.
+eltset / eset1 / write / eset03 / ascii
+eltset / eset1 / write / eset04 / binary
+eltset / eset1 / write / eset05 / 
+eltset / eset1 / write / eset06 / -def-
+eltset / eset1 / write / eset07
+
+# Verify that -def-, -all-, and <blank> work properly as eltset names.
+eltset / -def- / write / eset08
+eltset / -all- / write / eset09
+eltset / / write / eset10
+
+finish

@@ -1,0 +1,280 @@
+gmv_attributes2
+
+filename /home/tam/src/lagrit/mytest/level01/intrp_2D_sizes/reference/view_field2_id_elem.gmv
+
+matrgba 28 0.000000e+00 1.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 1.000000e+00 0.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 1.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 0.000000e+00 4.880000e-01 1.000000e+00 0.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 1.000000e+00 2.500000e-01 0.000000e+00 1.000000e+00 
+
+active_mat 0 mat00001
+active_mat 1 mat00002
+
+angles -9.000000e+01 9.000000e+01 0.000000e+00
+
+magnify 2.264644e+00
+
+range 1.020000e+16 1.020000e+16 0.000000e+00
+
+span 1.442498e+16
+
+aspect 1.624174e+00
+
+pan 9.720548e+13 -1.991242e+15
+
+translate -5.000000e+15 -5.000000e+15 -0.000000e+00
+
+plotbox_mins -1.000000e+14 -1.000000e+14 0.000000e+00
+
+plotbox_maxs 1.010000e+16 1.010000e+16 0.000000e+00
+
+explodefact 0.000000e+00 0.000000e+00 0.000000e+00
+
+velscale 1.000000e+00
+
+velarrowsize 1.000000e+00
+
+axisflag 0
+
+nodesflag 1
+
+linesflag 0
+
+polysflag 0
+
+cellsflag 1
+
+celledgesflag 0
+
+cellhiddenedgesflag 0
+
+cellexpflag -1
+
+timeflag 0
+
+cycleflag 0
+
+distscaleflag 0
+
+textureflag 1
+
+tracerflag 0
+
+nodefieldactive Node ^field2  ^
+
+cellfieldactive Cell ^id_elem ^
+
+backgroundcolor 255 255 255
+
+light  0.000000e+00 0.000000e+00
+
+xscale 1.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 
+
+yscale 1.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 
+
+zscale 1.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 
+
+scaleaxis 1.000000e+00 1.000000e+00 1.000000e+00
+
+nodefield_limits 17
+     ^imt1    ^ 1.000000e+00 2.121000e+03
+     ^itp1    ^ 0.000000e+00 1.000000e+01
+     ^icr1    ^ 0.000000e+00 1.000000e-05
+     ^isn1    ^ 0.000000e+00 1.000000e-05
+     ^field3  ^ 0.000000e+00 1.000000e+00
+     ^id_node ^ 0.000000e+00 2.121000e+03
+     ^field2  ^ 0.000000e+00 3.998000e+03
+     ^id_elem ^ 0.000000e+00 3.991000e+03
+     ^Vect Mag^ 0.000000e+00 1.000000e-05
+     FldCalc1 0.000000e+00 1.000000e-05
+     FldCalc2 0.000000e+00 1.000000e-05
+     FldCalc3 0.000000e+00 1.000000e-05
+     FldCalc4 0.000000e+00 1.000000e-05
+     FldCalc5 0.000000e+00 1.000000e-05
+     X-Coords 0.000000e+00 1.000000e+16
+     Y-Coords 0.000000e+00 1.000000e+16
+     Z-Coords 0.000000e+00 1.000000e-05
+nodefield_nice_limits 17
+     ^imt1    ^ 1.000000e+00 2.121000e+03
+     ^itp1    ^ 0.000000e+00 1.000000e+01
+     ^icr1    ^ 0.000000e+00 1.000000e-05
+     ^isn1    ^ 0.000000e+00 1.000000e-05
+     ^field3  ^ 0.000000e+00 1.000000e+00
+     ^id_node ^ 0.000000e+00 2.121000e+03
+     ^field2  ^ 0.000000e+00 3.998000e+03
+     ^id_elem ^ 0.000000e+00 3.991000e+03
+     ^Vect Mag^ 0.000000e+00 1.000000e-05
+     FldCalc1 0.000000e+00 1.000000e-05
+     FldCalc2 0.000000e+00 1.000000e-05
+     FldCalc3 0.000000e+00 1.000000e-05
+     FldCalc4 0.000000e+00 1.000000e-05
+     FldCalc5 0.000000e+00 1.000000e-05
+     X-Coords 0.000000e+00 1.000000e+16
+     Y-Coords 0.000000e+00 1.000000e+16
+     Z-Coords 0.000000e+00 1.000000e-05
+nodefield_lim_flags 17  
+     ^imt1    ^ 0 0 0
+     ^itp1    ^ 0 0 0
+     ^icr1    ^ 0 0 0
+     ^isn1    ^ 0 0 0
+     ^field3  ^ 0 0 0
+     ^id_node ^ 0 0 0
+     ^field2  ^ 0 0 0
+     ^id_elem ^ 0 0 0
+     ^Vect Mag^ 0 0 0
+     FldCalc1 0 0 0
+     FldCalc2 0 0 0
+     FldCalc3 0 0 0
+     FldCalc4 0 0 0
+     FldCalc5 0 0 0
+     X-Coords 0 0 0
+     Y-Coords 0 0 0
+     Z-Coords 0 0 0
+ 
+cellfield_limits 6
+     ^id_elem ^ 0.000000e+00 4.000000e+03
+     FldCalc1 0.000000e+00 0.000000e+00
+     FldCalc2 0.000000e+00 0.000000e+00
+     FldCalc3 0.000000e+00 0.000000e+00
+     FldCalc4 0.000000e+00 0.000000e+00
+     FldCalc5 0.000000e+00 0.000000e+00
+ 
+cellfield_nice_limits 6
+     ^id_elem ^ 0.000000e+00 4.000000e+03
+     FldCalc1 0.000000e+00 0.000000e+00
+     FldCalc2 0.000000e+00 0.000000e+00
+     FldCalc3 0.000000e+00 0.000000e+00
+     FldCalc4 0.000000e+00 0.000000e+00
+     FldCalc5 0.000000e+00 0.000000e+00
+cellfield_lim_flags 6  
+     ^id_elem ^ 0 0 0
+     FldCalc1 0 0 0
+     FldCalc2 0 0 0
+     FldCalc3 0 0 0
+     FldCalc4 0 0 0
+     FldCalc5 0 0 0
+ 
+plotbox_mins_prev -1.000000e+14 -1.000000e+14 0.000000e+00
+
+plotbox_maxs_prev 1.010000e+16 1.010000e+16 0.000000e+00
+
+cliponbox 0
+
+nrefl_loops 1
+
+reflect 0 0 0
+
+clipvalue 0.000000e+00 1.000000e+00
+
+polysubset_mins -1.000000e+14 -1.000000e+14 0.000000e+00
+
+polysubset_maxs 1.010000e+16 1.010000e+16 0.000000e+00
+
+subset_mins -1.000000e+14 -1.000000e+14 0.000000e+00
+
+subset_maxs 1.010000e+16 1.010000e+16 0.000000e+00
+
+mat_order 2 0 1 
+
+nodeselflag Material 1
+                  mat00002
+nodeselflag Flag ^imt1    ^ ALL
+
+nodeandorflag 2 0 0 
+
+cellselflag Material ALL
+
+cellandorflag 1 0 
+
+colorbarflag 1
+
+colorbarpref 0
+
+boundingboxflag 0
+
+boundingbox_mins 0.000000e+00 0.000000e+00 0.000000e+00
+
+boundingbox_maxs 1.000000e+16 1.000000e+16 0.000000e+00
+
+boundingbox_mins_prev 0.000000e+00 0.000000e+00 0.000000e+00
+
+boundingbox_maxs_prev 1.000000e+16 1.000000e+16 0.000000e+00
+
+viewflag 0
+
+flypos 0.000000e+00 0.000000e+00 0.000000e+00 
+
+cellcontflag 0
+
+cliponcellsel 0
+
+vectfld_ NONE NONE NONE
+
+maxspeed 0.000000e+00
+
+vectorflag 0
+
+vectorarrow 1
+
+vectorlog 0
+
+cvectfld_ NONE NONE NONE
+
+cmaxspeed 0.000000e+00
+
+cvectorflag 0
+
+titleflag 0
+
+nodeselmat_on 1
+
+cellselmat_on 1
+
+bboxcoordflag 1
+
+nodenumflag 0
+
+cellnumflag 0
+
+pnt_size 4 0
+
+line_size 1 0
+
+node0matflag 0
+
+cell0matflag 0
+
+tracehistflag 0
+
+tracehiststop 0
+
+tracehiststride 1
+
+tracehistpoints 1
+
+cellshadeflag 0
+
+fieldcolortype 0
+
+nset_contours 10
+
+facerefineflag 0
+
+cellnormflag 0
+
+cellmedianedgeflag 0
+
+cellnodenumflag 0
+
+cellfacenumflag 0
+
+polystiplflag 0
+
+drawunselnodes 0
+
+drawunselcells 0
+
+distscale_x 120
+distscale_y 60
+orient_axisflag 0
+orient_axis_x 840
+orient_axis_y 60
+end_attributes
+

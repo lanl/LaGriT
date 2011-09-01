@@ -1,0 +1,124 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/05/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Jul 29  08:45:49          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# Create a new mesh along with some point sets.                                 
+cmo/create/mo///hex                                                             
+createpts/brick/xyz/11,11,11/0,0,0/10,10,10/1,1,1                               
+          Number of nodes:        1331                                          
+          Number of elements:        1000                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.100000000000E+04                                  
+pset/pset1/geom/rtp/1 0 0/0,0,0/5,360,180/                                      
+ 
+ THE PSET  pset1  HAS         99 POINTS                                         
+pset/pset2/geom/xyz/1 0 0/7,7,7/10,10,10/                                       
+ 
+ THE PSET  pset2  HAS         64 POINTS                                         
+# Assign colors to the points and elements so that we can see them in GMV.      
+cmo/setatt/mo/imt/1 0 0/1                                                       
+      1331 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo/imt/pset get pset1/2                                              
+        99 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo/imt/pset get pset2/3                                              
+        64 values reset for attribute imt1                                      
+ 
+# The points should be visible in GMV as green, blue, and red (according to the 
+# default color spectrum).                                                      
+dump/gmv/test01.gmv/mo                                                          
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# Test the list command.                                                        
+pset//list                                                                      
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+pset/0/list                                                                     
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+pset/-def-/list                                                                 
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+# Verify that pset only appends '.vertexset' if it is not already present.      
+pset/pset1/write/pset01                                                         
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT pset1    1 PSETS TO FILE                                           
+pset/pset2/write/pset02.vertexset                                               
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+PSET: OUTPUT pset2    1 PSETS TO FILE                                           
+# Test various incantations of the [ascii|binary] option.                       
+pset/pset1/write/pset03/ascii                                                   
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT pset1    1 PSETS TO FILE                                           
+pset/pset1/write/pset04/binary                                                  
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT pset1    1 PSETS TO FILE                                           
+pset/pset1/write/pset05/                                                        
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT pset1    1 PSETS TO FILE                                           
+pset/pset1/write/pset06/-def-                                                   
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT pset1    1 PSETS TO FILE                                           
+pset/pset1/write/pset07                                                         
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT pset1    1 PSETS TO FILE                                           
+# Verify that -def-, -all-, and <blank> work properly as pset names.            
+pset/-def-/write/pset08                                                         
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT -all-    1 PSETS TO FILE                                           
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT -all-    1 PSETS TO FILE                                           
+pset/-all-/write/pset09                                                         
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT -all-    1 PSETS TO FILE                                           
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT -all-    1 PSETS TO FILE                                           
+pset//write/pset10                                                              
+PSET: THERE ARE  2 PSETS DEFINED                                                
+  pset1             pset2                                                       
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT -all-    1 PSETS TO FILE                                           
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT -all-    1 PSETS TO FILE                                           
+finish                                                                          
+LaGriT successfully completed                                                   

@@ -1,0 +1,22 @@
+cmo/create/mo///hex                                                             
+createpts/brick/xyz/11,11,11/0,0,0/10,10,10/1,1,1                               
+pset/pset1/geom/rtp/1 0 0/0,0,0/5,360,180/                                      
+pset/pset2/geom/xyz/1 0 0/7,7,7/10,10,10/                                       
+cmo/setatt/mo/imt/1 0 0/1                                                       
+cmo/setatt/mo/imt/pset get pset1/2                                              
+cmo/setatt/mo/imt/pset get pset2/3                                              
+dump/gmv/test01.gmv/mo                                                          
+pset//list                                                                      
+pset/0/list                                                                     
+pset/-def-/list                                                                 
+pset/pset1/write/pset01                                                         
+pset/pset2/write/pset02.vertexset                                               
+pset/pset1/write/pset03/ascii                                                   
+pset/pset1/write/pset04/binary                                                  
+pset/pset1/write/pset05/                                                        
+pset/pset1/write/pset06/-def-                                                   
+pset/pset1/write/pset07                                                         
+pset/-def-/write/pset08                                                         
+pset/-all-/write/pset09                                                         
+pset//write/pset10                                                              
+finish                                                                          

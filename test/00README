@@ -1,1 +1,5 @@
 Directory to hold unit testing files.
+
+Level01 tests are required for QA projects and test basic and required functionality.
+Level02 tests are for certain select algorithms and advanced applications
+Level03 tests are created by student or guest users

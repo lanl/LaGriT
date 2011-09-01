@@ -1,0 +1,16 @@
+# Test the rotateln command. This test was written in the process of tracking
+# down a bug where part of the point distribution would rotate in one direction
+# and the other part would rotate in the opposite direction. This test should
+# work now although it did not work before this bug was fixed.
+
+# Create a cube of points and rotate it 90 degrees about the z-axis.
+
+define / SIZE / 10.0
+
+cmo / create / mo01 / / / hex
+createpts / xyz / 2, 2, 10 / 0, 0, 0 / SIZE, SIZE, SIZE / 1 1 1
+rotateln / 1 0 0 / nocopy / 0 0 0 / 0 0 5 / 90 / 0, 0, 0
+dump / output_test01.gmv / mo01
+dump / output_test01.inp / mo01
+
+finish

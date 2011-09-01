@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.200   Linux m32      *                 
-*               *    date_compile: 2010/06/29                 *                 
-*               *    Run Time: 2010/11/12  13:02:38           *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  10:58:02          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -60,7 +60,7 @@ finish
 cmo/setatt//nconbnd/0                                                           
  cannot attribute nconbnd in doublemesh                                         
 surface/top/reflect/plane/0.,0.,zmx/1.,0.,zmx/1.,1.,zmx/                        
-  The unit vector for top      is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for top      is  0.0000000i  -0.0000000j   1.0000000k         
 cmo/addatt//ncon50/INT/scalar/scalar/constant/permanent/l/0                     
 finish                                                                          
 cmo/addatt//nconbnd/INT/scalar/scalar/constant/permanent/l/0                    
@@ -68,11 +68,11 @@ finish
 cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0                 
 finish                                                                          
 surface/bottom/reflect/plane/0.,0.,zmn/1.,0.,zmn/1.,1.,zmn/                     
-  The unit vector for bottom   is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for bottom   is  0.0000000i  -0.0000000j   1.0000000k         
 surface/left/reflect/plane/xmn,0.,0./xmn,1.,0./xmn,1.,1./                       
-  The unit vector for left     is  1.0000000i   0.0000000j   0.0000000k         
+  The unit vector for left     is  1.0000000i  -0.0000000j   0.0000000k         
 surface/right/reflect/plane/xmx,0.,0./xmx,1.,0./xmx,1.,1./                      
-  The unit vector for right    is  1.0000000i   0.0000000j   0.0000000k         
+  The unit vector for right    is  1.0000000i  -0.0000000j   0.0000000k         
 surface/front/reflect/plane/0.,ymx,0./1.,ymx,0./1.,ymx,1./                      
   The unit vector for front    is  0.0000000i  -1.0000000j   0.0000000k         
 surface/back/reflect/plane/0.,ymn,0./1.,ymn,0./1.,ymn,1./                       
@@ -111,6 +111,8 @@ boundary/dirichlet/icr1/25/bottom/front/left
 boundary/dirichlet/icr1/26/bottom/front/right                                   
 *                                                                               
 dump/gmv/output_doublemesh.gmv                                                  
+ 
+Second argument is not a filename. Trying to use default mesh object.           
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * begin compare                                                                 
@@ -183,7 +185,7 @@ The current-mesh-object(CMO) is: doublemesh
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -257,7 +259,7 @@ The current-mesh-object(CMO) is: doublemesh
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -331,7 +333,7 @@ The current-mesh-object(CMO) is: doublemesh
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -393,7 +395,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  ymax               1.000000001E+00  1.000000001E+00 0.000000000E+00         1  
  zmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
  kdtree_level                     0                0               0         1  
- max_number_sets                 32               32               0         1  
+ max_number_sets                 64               64               0         1  
  number_of_psets                  0                0               0         1  
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
@@ -420,7 +422,6 @@ element volumes b/w  0.8966E-08 and  0.1021E-06:        24
 element volumes b/w  0.1021E-06 and  0.1162E-05:       335                      
 element volumes b/w  0.1162E-05 and  0.1323E-04:      2082                      
 element volumes b/w  0.1323E-04 and  0.1507E-03:     11728                      
-element volumes b/w  0.1507E-03 and  0.1715E-02:      4607                      
 element volumes b/w  0.1507E-03 and  0.1715E-02:      4607                      
 element volumes <= 0.0:     18776                                               
 element volumes <  0.0:     18776                                               

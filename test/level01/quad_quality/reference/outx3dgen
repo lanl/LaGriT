@@ -1,0 +1,283 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  12:02:50          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# Test cmo / addatt / / quad_quality and the associated quality / quad command. 
+# Input files:                                                                  
+#   test03.inp                                                                  
+#   test04.inp                                                                  
+#   test05.inp                                                                  
+#                                                                               
+# Output files:                                                                 
+#   output_test03.gmv                                                           
+#   output_test04.gmv                                                           
+#   output_test05.gmv                                                           
+# Make sure we can handle an empty mesh.                                        
+cmo/create/mo01///quad                                                          
+cmo/addatt/mo01/quad_quality/quality regularity qflag                           
+ADDATT/quad_quality: filling new attribute: quality                             
+WARNING: MO has zero nodes                                                      
+WARNING: NO ACTION                                                              
+quality/quad                                                                    
+         0 total elements in mesh.                                              
+ 
+# We should be able to handle a non-quad mesh, too.                             
+cmo/create/mo02///hex                                                           
+createpts/brick/xyz/11,11,11/0. 0. 0./10. 10. 10./1 1 1                         
+          Number of nodes:        1331                                          
+          Number of elements:        1000                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.100000000000E+04                                  
+cmo/addatt/mo02/quad_quality/quality regularity qflag                           
+ADDATT/quad_quality: filling new attribute: quality                             
+ADDATT error: quad_quality requires the mesh to consist solely of quads.        
+ 
+ADDATT ERRORS BEFORE COMPLETION ierror_return =     0                           
+ 
+quality/quad                                                                    
+quality: Error - the quad mesh must consist solely of quads.                    
+# Make sure we assign the correct quality metrics to a perfect quad mesh.       
+read/test03.inp/mo03                                                            
+read/avs/test03.inp/mo03                                                        
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo03                                           
+ 
+  1 Mesh Object name: mo01                                                      
+    number of nodes =             0        number of elements =            0    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo02                                                      
+    number of nodes =          1331        number of elements =         1000    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo03                                                      
+    number of nodes =           121        number of elements =          100    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+cmo/addatt/mo03/quad_quality/quality regularity qflag                           
+ADDATT/quad_quality: filling new attribute: quality                             
+quality/quad                                                                    
+cmo/addatt/mo03/quad_quality/_quality _regularity _qflag                        
+ADDATT/quad_quality: filling new attribute: _quality                            
+finish                                                                          
+              Quad Quality                                                      
+------------------------------------------                                      
+0.00 to 0.01:     0                                                             
+0.01 to 0.02:     0                                                             
+0.02 to 0.05:     0                                                             
+0.05 to 0.10:     0                                                             
+0.10 to 0.20:     0                                                             
+0.20 to 0.50:     0                                                             
+0.50 to 1.00:   100                                                             
+------------------------------------------                                      
+              Quad Regularity                                                   
+------------------------------------------                                      
+0.00 to 0.01:     0                                                             
+0.01 to 0.02:     0                                                             
+0.02 to 0.05:     0                                                             
+0.05 to 0.10:     0                                                             
+0.10 to 0.20:     0                                                             
+0.20 to 0.50:     0                                                             
+0.50 to 1.00:   100                                                             
+------------------------------------------                                      
+       Normal quads:  100                                                       
+   Degenerate quads:    0                                                       
+       Warped quads:    0                                                       
+-----------------------------------------------------------                     
+       100 total elements evaluated.                                            
+ 
+dump/output_test03.gmv/mo03                                                     
+dump/gmv/output_test03.gmv/mo03                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# Analyze a quad mesh that has been perturbed in the x and y directions. This   
+# should have some pretty bad quads but it should still be perfectly planar.    
+read/test04.inp/mo04                                                            
+read/avs/test04.inp/mo04                                                        
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo04                                           
+ 
+  1 Mesh Object name: mo01                                                      
+    number of nodes =             0        number of elements =            0    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo02                                                      
+    number of nodes =          1331        number of elements =         1000    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo03                                                      
+    number of nodes =           121        number of elements =          100    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: mo04                                                      
+    number of nodes =           121        number of elements =          100    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+cmo/addatt/mo04/quad_quality/quality regularity qflag                           
+ADDATT/quad_quality: filling new attribute: quality                             
+quality/quad                                                                    
+cmo/addatt/mo04/quad_quality/_quality _regularity _qflag                        
+ADDATT/quad_quality: filling new attribute: _quality                            
+finish                                                                          
+              Quad Quality                                                      
+------------------------------------------                                      
+0.00 to 0.01:     4                                                             
+0.01 to 0.02:     3                                                             
+0.02 to 0.05:     1                                                             
+0.05 to 0.10:     6                                                             
+0.10 to 0.20:    13                                                             
+0.20 to 0.50:    46                                                             
+0.50 to 1.00:    27                                                             
+------------------------------------------                                      
+              Quad Regularity                                                   
+------------------------------------------                                      
+0.00 to 0.01:    10                                                             
+0.01 to 0.02:     0                                                             
+0.02 to 0.05:     0                                                             
+0.05 to 0.10:     0                                                             
+0.10 to 0.20:     0                                                             
+0.20 to 0.50:     0                                                             
+0.50 to 1.00:    90                                                             
+------------------------------------------                                      
+       Normal quads:   90                                                       
+   Degenerate quads:    0                                                       
+       Warped quads:   10                                                       
+-----------------------------------------------------------                     
+       100 total elements evaluated.                                            
+ 
+dump/output_test04.gmv/mo04                                                     
+dump/gmv/output_test04.gmv/mo04                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# Analyze a quad mesh that has been perturbed in the x, y, and z directions.    
+# This should have a lot of really bad quads.                                   
+read/test05.inp/mo05                                                            
+read/avs/test05.inp/mo05                                                        
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo05                                           
+ 
+  1 Mesh Object name: mo01                                                      
+    number of nodes =             0        number of elements =            0    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo02                                                      
+    number of nodes =          1331        number of elements =         1000    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo03                                                      
+    number of nodes =           121        number of elements =          100    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: mo04                                                      
+    number of nodes =           121        number of elements =          100    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  5 Mesh Object name: mo05                                                      
+    number of nodes =           121        number of elements =          100    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+cmo/addatt/mo05/quad_quality/quality regularity qflag                           
+ADDATT/quad_quality: filling new attribute: quality                             
+quality/quad                                                                    
+cmo/addatt/mo05/quad_quality/_quality _regularity _qflag                        
+ADDATT/quad_quality: filling new attribute: _quality                            
+finish                                                                          
+              Quad Quality                                                      
+------------------------------------------                                      
+0.00 to 0.01:     0                                                             
+0.01 to 0.02:     1                                                             
+0.02 to 0.05:     0                                                             
+0.05 to 0.10:     1                                                             
+0.10 to 0.20:     1                                                             
+0.20 to 0.50:    53                                                             
+0.50 to 1.00:    44                                                             
+------------------------------------------                                      
+              Quad Regularity                                                   
+------------------------------------------                                      
+0.00 to 0.01:     1                                                             
+0.01 to 0.02:     1                                                             
+0.02 to 0.05:     0                                                             
+0.05 to 0.10:     1                                                             
+0.10 to 0.20:     2                                                             
+0.20 to 0.50:    17                                                             
+0.50 to 1.00:    78                                                             
+------------------------------------------                                      
+       Normal quads:   78                                                       
+   Degenerate quads:    0                                                       
+       Warped quads:   22                                                       
+-----------------------------------------------------------                     
+       100 total elements evaluated.                                            
+ 
+dump/output_test05.gmv/mo05                                                     
+dump/gmv/output_test05.gmv/mo05                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

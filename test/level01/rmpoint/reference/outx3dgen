@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.200   Linux m32      *                 
-*               *    date_compile: 2010/06/29                 *                 
-*               *    Run Time: 2010/11/12  13:02:52           *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  10:58:11          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -46,6 +46,8 @@ connect
  Successfully eliminated all multimaterial connections.                         
  
  The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
  
 cmo/printatt//-all-/minmax                                                      
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
@@ -98,7 +100,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
  zmax               2.000000000E-01  2.000000000E-01 0.000000000E+00         1  
  kdtree_level                     0                0               0         1  
- max_number_sets                 32               32               0         1  
+ max_number_sets                 64               64               0         1  
  number_of_psets                  0                0               0         1  
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
@@ -527,7 +529,7 @@ The current-mesh-object(CMO) is: mo2
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  1.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -625,6 +627,8 @@ connect
  
  The mesh is now complete!                                                      
  
+LaGriT FINISH: connect                                                          
+ 
 cmo/printatt//-all-/minmax                                                      
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00       450  
@@ -676,7 +680,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
  zmax               2.000000000E-01  2.000000000E-01 0.000000000E+00         1  
  kdtree_level                     0                0               0         1  
- max_number_sets                 32               32               0         1  
+ max_number_sets                 64               64               0         1  
  number_of_psets                  0                0               0         1  
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
@@ -778,7 +782,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
  zmax               2.000000000E-01  2.000000000E-01 0.000000000E+00         1  
  kdtree_level                     0                0               0         1  
- max_number_sets                 32               32               0         1  
+ max_number_sets                 64               64               0         1  
  number_of_psets                  0                0               0         1  
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
@@ -986,7 +990,7 @@ The current-mesh-object(CMO) is: mo5
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1060,7 +1064,7 @@ The current-mesh-object(CMO) is: mo5
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1134,7 +1138,7 @@ The current-mesh-object(CMO) is: mo5
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1208,7 +1212,7 @@ The current-mesh-object(CMO) is: mo5
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1247,6 +1251,8 @@ connect
  Successfully eliminated all multimaterial connections.                         
  
  The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
  
 * test rmpoint on a pset                                                        
 cmo/create/abc                                                                  
@@ -1327,7 +1333,7 @@ The current-mesh-object(CMO) is: abc
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1401,7 +1407,7 @@ The current-mesh-object(CMO) is: abc
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  1.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1461,7 +1467,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
  zmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
  kdtree_level                     0                0               0         1  
- max_number_sets                 32               32               0         1  
+ max_number_sets                 64               64               0         1  
  number_of_psets                  1                1               0         1  
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  

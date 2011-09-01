@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.200   Linux m32      *                 
-*               *    date_compile: 2010/06/29                 *                 
-*               *    Run Time: 2010/11/12  12:46:03           *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  10:58:00          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -154,7 +154,6 @@ element volumes b/w  0.3835E-01 and  0.6128E-01:         0
 element volumes b/w  0.6128E-01 and  0.9791E-01:         0                      
 element volumes b/w  0.9791E-01 and  0.1565E+00:         0                      
 element volumes b/w  0.1565E+00 and  0.2500E+00:         1                      
-element volumes b/w  0.1565E+00 and  0.2500E+00:         1                      
 min volume =   2.4000000E-02  max volume =   2.5000000E-01                      
 -----------------------------------------------------------                     
          2 total elements evaluated.                                            
@@ -275,7 +274,6 @@ element volumes b/w  0.3427E-04 and  0.8619E-04:         0
 element volumes b/w  0.8619E-04 and  0.2168E-03:         0                      
 element volumes b/w  0.2168E-03 and  0.5453E-03:         0                      
 element volumes b/w  0.5453E-03 and  0.1372E-02:       729                      
-element volumes b/w  0.5453E-03 and  0.1372E-02:       729                      
 min volume =   1.3622818E-05  max volume =   1.3717421E-03                      
 -----------------------------------------------------------                     
       3078 total elements evaluated.                                            
@@ -314,7 +312,6 @@ element volumes b/w  0.2626E-03 and  0.3017E-03:         0
 element volumes b/w  0.3017E-03 and  0.3465E-03:         0                      
 element volumes b/w  0.3465E-03 and  0.3981E-03:         0                      
 element volumes b/w  0.3981E-03 and  0.4572E-03:       729                      
-element volumes b/w  0.3981E-03 and  0.4572E-03:       729                      
 min volume =   2.2862369E-04  max volume =   4.5724737E-04                      
 -----------------------------------------------------------                     
       3645 total elements evaluated.                                            
@@ -349,7 +346,6 @@ element volumes b/w  0.2270E-05 and  0.2608E-05:      9396
 element volumes b/w  0.2608E-05 and  0.2996E-05:         0                      
 element volumes b/w  0.2996E-05 and  0.3441E-05:         0                      
 element volumes b/w  0.3441E-05 and  0.3953E-05:         0                      
-element volumes b/w  0.3953E-05 and  0.4541E-05:      2349                      
 element volumes b/w  0.3953E-05 and  0.4541E-05:      2349                      
 min volume =   2.2704697E-06  max volume =   4.5409394E-06                      
 -----------------------------------------------------------                     
@@ -433,6 +429,8 @@ connect
  
  The mesh is now complete!                                                      
  
+LaGriT FINISH: connect                                                          
+ 
 resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
@@ -455,7 +453,6 @@ element volumes b/w  0.1135E-05 and  0.3768E-05:     14959
 element volumes b/w  0.3768E-05 and  0.1251E-04:      2693                      
 element volumes b/w  0.1251E-04 and  0.4151E-04:      1625                      
 element volumes b/w  0.4151E-04 and  0.1378E-03:      1459                      
-element volumes b/w  0.1378E-03 and  0.4572E-03:      3500                      
 element volumes b/w  0.1378E-03 and  0.4572E-03:      3500                      
 min volume =   1.1352349E-06  max volume =   4.5724737E-04                      
 -----------------------------------------------------------                     
@@ -489,7 +486,6 @@ element volumes b/w  0.1135E-05 and  0.3768E-05:     14959
 element volumes b/w  0.3768E-05 and  0.1251E-04:      2693                      
 element volumes b/w  0.1251E-04 and  0.4151E-04:      1625                      
 element volumes b/w  0.4151E-04 and  0.1378E-03:      1459                      
-element volumes b/w  0.1378E-03 and  0.4572E-03:      3500                      
 element volumes b/w  0.1378E-03 and  0.4572E-03:      3500                      
 min volume =   1.1352349E-06  max volume =   4.5724737E-04                      
 -----------------------------------------------------------                     

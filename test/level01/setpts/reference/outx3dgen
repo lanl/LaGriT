@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.200   Linux m32      *                 
-*               *    date_compile: 2010/06/29                 *                 
-*               *    Run Time: 2010/11/12  13:02:52           *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  10:58:12          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -30,7 +30,7 @@ cmo/create/abc
 * geometry made up of 6 bounding planes and one                                 
 * interface planes to divide into 10 regions                                    
 surface/pbot/reflect/plane/0,0,0/1,0,0/1,1,0/                                   
-  The unit vector for pbot     is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for pbot     is  0.0000000i  -0.0000000j   1.0000000k         
 cmo/addatt//ncon50/INT/scalar/scalar/constant/permanent/l/0                     
 finish                                                                          
 cmo/addatt//nconbnd/INT/scalar/scalar/constant/permanent/l/0                    
@@ -38,33 +38,33 @@ finish
 cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0                 
 finish                                                                          
 surface/ptop/reflect/plane/0,0,1/1,0,1/1,1,1/                                   
-  The unit vector for ptop     is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for ptop     is  0.0000000i  -0.0000000j   1.0000000k         
 surface/prgt/reflect/plane/1,0,0/1,1,0/1,1,1/                                   
-  The unit vector for prgt     is  1.0000000i   0.0000000j   0.0000000k         
+  The unit vector for prgt     is  1.0000000i  -0.0000000j   0.0000000k         
 surface/plft/reflect/plane/0,0,0/0,1,0/0,1,1/                                   
-  The unit vector for plft     is  1.0000000i   0.0000000j   0.0000000k         
+  The unit vector for plft     is  1.0000000i  -0.0000000j   0.0000000k         
 surface/pfrt/reflect/plane/0,0,0/1,0,0/1,0,1/                                   
   The unit vector for pfrt     is  0.0000000i  -1.0000000j   0.0000000k         
 surface/pbck/reflect/plane/0,1,0/1,1,0/1,1,1/                                   
   The unit vector for pbck     is  0.0000000i  -1.0000000j   0.0000000k         
 surface/p5/intrface/plane/0,0,.5/1,0,.5/1,1,.5/                                 
-  The unit vector for p5       is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for p5       is  0.0000000i  -0.0000000j   1.0000000k         
 surface/p1/intrface/plane/0,0,.1/1,0,.1/1,1,.1/                                 
-  The unit vector for p1       is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for p1       is  0.0000000i  -0.0000000j   1.0000000k         
 surface/p2/intrface/plane/0,0,.2/1,0,.2/1,1,.2/                                 
-  The unit vector for p2       is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for p2       is  0.0000000i  -0.0000000j   1.0000000k         
 surface/p3/intrface/plane/0,0,.3/1,0,.3/1,1,.3/                                 
-  The unit vector for p3       is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for p3       is  0.0000000i  -0.0000000j   1.0000000k         
 surface/p4/intrface/plane/0,0,.4/1,0,.4/1,1,.4/                                 
-  The unit vector for p4       is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for p4       is  0.0000000i  -0.0000000j   1.0000000k         
 surface/p6/intrface/plane/0,0,.6/1,0,.6/1,1,.6/                                 
-  The unit vector for p6       is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for p6       is  0.0000000i  -0.0000000j   1.0000000k         
 surface/p7/intrface/plane/0,0,.7/1,0,.7/1,1,.7/                                 
-  The unit vector for p7       is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for p7       is  0.0000000i  -0.0000000j   1.0000000k         
 surface/p8/intrface/plane/0,0,.8/1,0,.8/1,1,.8/                                 
-  The unit vector for p8       is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for p8       is  0.0000000i  -0.0000000j   1.0000000k         
 surface/p9/intrface/plane/0,0,.9/1,0,.9/1,1,.9/                                 
-  The unit vector for p9       is  0.0000000i   0.0000000j   1.0000000k         
+  The unit vector for p9       is  0.0000000i  -0.0000000j   1.0000000k         
 *define geometric regions                                                       
 region/top/le ptop and ge plft and le prgt and ge pbck and le pfrt and ge p9/   
 region/bot/ge pbot and ge plft and le prgt and ge pbck and le pfrt and lt p1/   
@@ -138,9 +138,13 @@ connect
  
  The mesh is now complete!                                                      
  
+LaGriT FINISH: connect                                                          
+ 
 settets                                                                         
  Adding       648 interface-coupled points.                                     
 dump/gmv/output.gmv                                                             
+ 
+Second argument is not a filename. Trying to use default mesh object.           
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * begin compare here                                                            
@@ -213,7 +217,7 @@ The current-mesh-object(CMO) is: abc
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -259,7 +263,6 @@ element volumes b/w  0.1667E-03 and  0.1914E-03:      5880
 element volumes b/w  0.1914E-03 and  0.2199E-03:         0                      
 element volumes b/w  0.2199E-03 and  0.2526E-03:         0                      
 element volumes b/w  0.2526E-03 and  0.2902E-03:         0                      
-element volumes b/w  0.2902E-03 and  0.3333E-03:        60                      
 element volumes b/w  0.2902E-03 and  0.3333E-03:        60                      
 min volume =   1.6666667E-04  max volume =   3.3333333E-04                      
 -----------------------------------------------------------                     

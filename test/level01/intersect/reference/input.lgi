@@ -1,0 +1,47 @@
+# Test the sorting changes to the intersect command. In particular, these tests
+# should make sure that sort / / line_graph is run properly on the result of the
+# surface intersection.
+
+# Note: The test segfaults toward the end, apparently due to a pre-existing bug
+# in LaGriT. This should eventually be fixed.
+
+# Input files:
+#   test02.inp - a sinusoidal surface
+
+# Output files:
+#   test01.{gmv,inp} - the intersection of two planes
+#   test02.gmv - the union of a plane and a sinusoidal surface
+#   test03.gmv - the intersection of a plane and a sinusoidal surface
+
+# Lay out a mesh on a plane sheet.
+cmo / create / mo1 / / / triplane
+createpts / xyz / 11 11 1 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+connect
+
+# Make a copy of the mesh and rotate it about a line.
+cmo / copy / mo2 / mo1
+rotateln / 1 0 0 / nocopy / .5 -1.0 0.0 / .6 2.0 0.0 / 45.0
+cmo / printatt / mo2 / -xyz- / minmax
+
+# Intersect the two meshes. Afterward mo_int should have its edges sorted and
+# should have attributes cid, ctype, and loop_id set properly.
+intersect / mo_int / mo1 / mo2
+cmo / status
+
+dump / gmv / test01.gmv / mo_int
+dump / avs / test01.inp / mo_int / 1 1 0 0
+
+# Perform another intersection, this time of the xy-plane with a sort of
+# sinusoidal surface.
+cmo / create / mo3 / / / triplane
+createpts / xyz / 11 11 1 / 0. 0. 0. / 10. 20. 0. / 1 1 1
+connect
+
+read / test02.inp / mo4
+addmesh / merge / mo_union / mo3 / mo4
+dump / test02.gmv / mo_union
+
+intersect / mo_intersect / mo3 / mo4
+dump / test03.gmv / mo_intersect
+
+finish

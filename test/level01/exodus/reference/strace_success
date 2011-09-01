@@ -1,0 +1,2660 @@
+execve("/home/adamc/bin/lagrit", ["lagrit"], [/* 120 vars */]) = 0
+brk(0)                                  = 0x1491b000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb36de3000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb36de4000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/tls/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/tls/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/tls/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/tls", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib", {st_mode=S_IFDIR|S_ISGID|0771, st_size=4096, ...}) = 0
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/tls/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/tls/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/tls/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/tls", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib", {st_mode=S_IFDIR|S_ISGID|0771, st_size=8192, ...}) = 0
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/tls/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/tls/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/tls/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/tls", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64", {st_mode=S_IFDIR|S_ISGID|0771, st_size=8192, ...}) = 0
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib32/tls/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib32/tls/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib32/tls/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib32/tls", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib32/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib32/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib32/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/gcc/gcc-4.5.1/lib32", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/tls/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/mp/gmp-5.0.1/lib/tls/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/tls/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/mp/gmp-5.0.1/lib/tls", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/mp/gmp-5.0.1/lib/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/mp/gmp-5.0.1/lib", {st_mode=S_IFDIR|S_ISGID|0771, st_size=4096, ...}) = 0
+open("/scratch/ymp/packages/lib/tls/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/lib/tls/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/tls/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/lib/tls", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/lib/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/scratch/ymp/packages/lib", {st_mode=S_IFDIR|0775, st_size=4096, ...}) = 0
+open("/home/adamc/local/lib/tls/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/home/adamc/local/lib/tls/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/tls/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/home/adamc/local/lib/tls", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/x86_64/libnetcdf.so.7", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/home/adamc/local/lib/x86_64", 0x7fff1a37ef90) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libnetcdf.so.7", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\220d\3\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=2739715, ...}) = 0
+mmap(NULL, 3258816, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x2afb36de5000
+mprotect(0x2afb36ea7000, 2097152, PROT_NONE) = 0
+mmap(0x2afb370a7000, 327680, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0xc2000) = 0x2afb370a7000
+mmap(0x2afb370f7000, 39360, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x2afb370f7000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/pgplot/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/pgplot/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/pgplot/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/pgplot/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/pgplot/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/pgplot/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/pgplot/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/pgplot/lib", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/gsl/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/gsl/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/gsl/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/gsl/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/lib64/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/lib64/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/lib64/tls", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/lib64/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/lib64/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libm.so.6", O_RDONLY)  = -1 ENOENT (No such file or directory)
+stat("/usr/lib64", {st_mode=S_IFDIR|0755, st_size=77824, ...}) = 0
+open("/usr/ees/matlab/extern/lib/glnxa64/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/matlab/extern/lib/glnxa64/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/matlab/extern/lib/glnxa64/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/matlab/extern/lib/glnxa64/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/matlab/extern/lib/glnxa64", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/ees/lf9561/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/lf9561/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/lf9561/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/lf9561/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/lf9561/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/ees/absoft/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/absoft/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/absoft/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/absoft/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/absoft/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/ees/GMT4.0/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/GMT4.0/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/GMT4.0/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/GMT4.0/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/GMT4.0/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/GMT4.0/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/GMT4.0/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/GMT4.0/lib", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/atlas/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/atlas/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/atlas/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/atlas/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/ees/umfpack/UMFPACK/MATLAB/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/umfpack/UMFPACK/MATLAB/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/umfpack/UMFPACK/MATLAB/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/umfpack/UMFPACK/MATLAB/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/umfpack/UMFPACK/MATLAB", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/lib/tls", 0x7fff1a37ef60)    = -1 ENOENT (No such file or directory)
+open("/usr/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/lib/libm.so.6", O_RDONLY)    = -1 ENOENT (No such file or directory)
+stat("/usr/lib", {st_mode=S_IFDIR|0755, st_size=65536, ...}) = 0
+open("/usr/ees/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/lib", {st_mode=S_IFDIR|0755, st_size=20480, ...}) = 0
+open("/usr/lanl/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/lanl/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/lanl/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/lanl/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/lanl/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/ees/mpi/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/mpi/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/mpi/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/mpi/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/mpi/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/ees/xrt/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/xrt/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/xrt/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/xrt/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/xrt/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/xrt/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/xrt/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/xrt/lib", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/disspla/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/disspla/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/disspla/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/disspla/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/disspla/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/disspla/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/disspla/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/disspla/lib", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/hg/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/hg/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/hg/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/hg/lib", {st_mode=S_IFDIR|0755, st_size=4096, ...}) = 0
+open("/usr/ees/avs_xp/express/lib/linux_64/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/avs_xp/express/lib/linux_64/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/avs_xp/express/lib/linux_64/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/avs_xp/express/lib/linux_64/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/avs_xp/express/lib/linux_64", {st_mode=S_IFDIR|0755, st_size=12288, ...}) = 0
+open("/usr/java/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/java/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/java/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/java/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/java/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/java/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/java/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/java/lib", 0x7fff1a37ef60)   = -1 ENOENT (No such file or directory)
+open("/usr/java/jre/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/java/jre/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/java/jre/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/java/jre/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/java/jre/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/java/jre/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/java/jre/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/java/jre/lib", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/GMT/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/GMT/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/GMT/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/GMT/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/GMT/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/GMT/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/GMT/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/GMT/lib", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/oracle/lib/tls/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/oracle/lib/tls/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/oracle/lib/tls/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/oracle/lib/tls", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/oracle/lib/x86_64/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/oracle/lib/x86_64", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/usr/ees/oracle/lib/libm.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+stat("/usr/ees/oracle/lib", 0x7fff1a37ef60) = -1 ENOENT (No such file or directory)
+open("/etc/ld.so.cache", O_RDONLY)      = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=158236, ...}) = 0
+mmap(NULL, 158236, PROT_READ, MAP_PRIVATE, 3, 0) = 0x2afb37101000
+close(3)                                = 0
+open("/lib64/libm.so.6", O_RDONLY)      = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0`>\300\362>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=615136, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb37128000
+mmap(0x3ef2c00000, 2629848, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3ef2c00000
+mprotect(0x3ef2c82000, 2093056, PROT_NONE) = 0
+mmap(0x3ef2e81000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x81000) = 0x3ef2e81000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libstdc++.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libstdc++.so.6", O_RDONLY) = 3
+read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0\2003\4\0004\0\0\0"..., 832) = 832
+close(3)                                = 0
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libstdc++.so.6", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\260m\5\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0775, st_size=6152080, ...}) = 0
+mmap(NULL, 3162424, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x2afb37129000
+mprotect(0x2afb37210000, 2093056, PROT_NONE) = 0
+mmap(0x2afb3740f000, 40960, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0xe6000) = 0x2afb3740f000
+mmap(0x2afb37419000, 82232, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x2afb37419000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libgcc_s.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libgcc_s.so.1", O_RDONLY) = 3
+read(3, "\177ELF\1\1\1\0\0\0\0\0\0\0\0\0\3\0\3\0\1\0\0\0p\36\0\0004\0\0\0"..., 832) = 832
+close(3)                                = 0
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libgcc_s.so.1", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\360'\0\0\0\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0664, st_size=523556, ...}) = 0
+mmap(NULL, 2182232, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x2afb3742e000
+mprotect(0x2afb37443000, 2093056, PROT_NONE) = 0
+mmap(0x2afb37642000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x14000) = 0x2afb37642000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libc.so.6", O_RDONLY)  = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib/libc.so.6", O_RDONLY)    = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/libc.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/lib64/libc.so.6", O_RDONLY)      = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\220\332\201\362>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=1722304, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb37643000
+mmap(0x3ef2800000, 3502424, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3ef2800000
+mprotect(0x3ef294e000, 2097152, PROT_NONE) = 0
+mmap(0x3ef2b4e000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x14e000) = 0x3ef2b4e000
+mmap(0x3ef2b53000, 16728, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3ef2b53000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libcurl.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libcurl.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libcurl.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libcurl.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libcurl.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libcurl.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libcurl.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libcurl.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libcurl.so.3", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0 \260\200!5\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=252456, ...}) = 0
+mmap(0x3521800000, 2345576, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3521800000
+mprotect(0x352183b000, 2097152, PROT_NONE) = 0
+mmap(0x3521a3b000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3b000) = 0x3521a3b000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib/libdl.so.2", O_RDONLY)   = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/libdl.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/lib64/libdl.so.2", O_RDONLY)     = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\20\16\0\363>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=23360, ...}) = 0
+mmap(0x3ef3000000, 2109696, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3ef3000000
+mprotect(0x3ef3002000, 2097152, PROT_NONE) = 0
+mmap(0x3ef3202000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2000) = 0x3ef3202000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libgssapi_krb5.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libgssapi_krb5.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libgssapi_krb5.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libgssapi_krb5.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libgssapi_krb5.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libgssapi_krb5.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libgssapi_krb5.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libgssapi_krb5.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libgssapi_krb5.so.2", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\222`\376>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=190976, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb37644000
+mmap(0x3efe600000, 2283888, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3efe600000
+mprotect(0x3efe62c000, 2097152, PROT_NONE) = 0
+mmap(0x3efe82c000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2c000) = 0x3efe82c000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libkrb5.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libkrb5.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libkrb5.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libkrb5.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libkrb5.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libkrb5.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libkrb5.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libkrb5.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libkrb5.so.3", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\260\222\241\375>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=614056, ...}) = 0
+mmap(0x3efda00000, 2706784, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3efda00000
+mprotect(0x3efda92000, 2093056, PROT_NONE) = 0
+mmap(0x3efdc91000, 16384, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x91000) = 0x3efdc91000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libk5crypto.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libk5crypto.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libk5crypto.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libk5crypto.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libk5crypto.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libk5crypto.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libk5crypto.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libk5crypto.so.3", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libk5crypto.so.3", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\260V\240\376>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=153720, ...}) = 0
+mmap(0x3efea00000, 2247528, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3efea00000
+mprotect(0x3efea24000, 2093056, PROT_NONE) = 0
+mmap(0x3efec23000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x23000) = 0x3efec23000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/libcom_err.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/lib64/libcom_err.so.2", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\320\n`\375>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=10000, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb37645000
+mmap(0x3efd600000, 2103048, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3efd600000
+mprotect(0x3efd602000, 2093056, PROT_NONE) = 0
+mmap(0x3efd801000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1000) = 0x3efd801000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libidn.so.11", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libidn.so.11", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libidn.so.11", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libidn.so.11", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libidn.so.11", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libidn.so.11", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libidn.so.11", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libidn.so.11", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libidn.so.11", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\220/\340\377>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=204856, ...}) = 0
+mmap(0x3effe00000, 2297840, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3effe00000
+mprotect(0x3effe31000, 2093056, PROT_NONE) = 0
+mmap(0x3f00030000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x30000) = 0x3f00030000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib/libssl.so.6", O_RDONLY)  = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/libssl.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/lib64/libssl.so.6", O_RDONLY)    = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\200-\241\377>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=315032, ...}) = 0
+mmap(0x3effa00000, 2407792, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3effa00000
+mprotect(0x3effa46000, 2097152, PROT_NONE) = 0
+mmap(0x3effc46000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x46000) = 0x3effc46000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/libcrypto.so.6", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/lib64/libcrypto.so.6", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\200\232\345\374>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=1366272, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb37646000
+mmap(0x3efce00000, 3475344, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3efce00000
+mprotect(0x3efcf2d000, 2093056, PROT_NONE) = 0
+mmap(0x3efd12c000, 135168, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x12c000) = 0x3efd12c000
+mmap(0x3efd14d000, 14224, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3efd14d000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libz.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libz.so.1", O_RDONLY)  = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\320\37\200\363>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=85928, ...}) = 0
+mmap(0x3ef3800000, 2178920, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3ef3800000
+mprotect(0x3ef3814000, 2093056, PROT_NONE) = 0
+mmap(0x3ef3a13000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x13000) = 0x3ef3a13000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libkrb5support.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libkrb5support.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libkrb5support.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libkrb5support.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libkrb5support.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libkrb5support.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libkrb5support.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libkrb5support.so.0", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libkrb5support.so.0", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\360\" \376>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=35984, ...}) = 0
+mmap(0x3efe200000, 2128848, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3efe200000
+mprotect(0x3efe208000, 2093056, PROT_NONE) = 0
+mmap(0x3efe407000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x7000) = 0x3efe407000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/libkeyutils.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/lib64/libkeyutils.so.1", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0`\v\340\376>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=9728, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb37647000
+mmap(0x3efee00000, 2102672, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3efee00000
+mprotect(0x3efee02000, 2093056, PROT_NONE) = 0
+mmap(0x3eff001000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1000) = 0x3eff001000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/libresolv.so.2", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/lib64/libresolv.so.2", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\2402\240\374>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=92736, ...}) = 0
+mmap(0x3efca00000, 2181864, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3efca00000
+mprotect(0x3efca11000, 2097152, PROT_NONE) = 0
+mmap(0x3efcc11000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x11000) = 0x3efcc11000
+mmap(0x3efcc13000, 6888, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3efcc13000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/libselinux.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/lib64/libselinux.so.1", O_RDONLY) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\340E\240\373>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=95464, ...}) = 0
+mmap(0x3efba00000, 2192800, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3efba00000
+mprotect(0x3efba15000, 2097152, PROT_NONE) = 0
+mmap(0x3efbc15000, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x15000) = 0x3efbc15000
+mmap(0x3efbc17000, 1440, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3efbc17000
+close(3)                                = 0
+open("/scratch/ymp/packages/mpi/mpich2-1.2.1p1-gcc-4.5.1/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/gcc/gcc-4.5.1/lib64/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/mp/gmp-5.0.1/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/scratch/ymp/packages/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/home/adamc/local/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/gsl/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/tls/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib64/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/matlab/extern/lib/glnxa64/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lf9561/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/absoft/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/atlas/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/umfpack/UMFPACK/MATLAB/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/lanl/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/mpi/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/hg/lib/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/usr/ees/avs_xp/express/lib/linux_64/libsepol.so.1", O_RDONLY) = -1 ENOENT (No such file or directory)
+open("/lib64/libsepol.so.1", O_RDONLY)  = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0@=\300\371>\0\0\0"..., 832) = 832
+fstat(3, {st_mode=S_IFREG|0755, st_size=247496, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb37648000
+mmap(0x3ef9c00000, 2383168, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x3ef9c00000
+mprotect(0x3ef9c3b000, 2097152, PROT_NONE) = 0
+mmap(0x3ef9e3b000, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x3b000) = 0x3ef9e3b000
+mmap(0x3ef9e3c000, 40256, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x3ef9e3c000
+close(3)                                = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb37649000
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb3764a000
+arch_prctl(ARCH_SET_FS, 0x2afb3764a190) = 0
+mprotect(0x3efcc11000, 4096, PROT_READ) = 0
+mprotect(0x3ef3202000, 4096, PROT_READ) = 0
+mprotect(0x3ef2b4e000, 16384, PROT_READ) = 0
+mprotect(0x2afb3740f000, 32768, PROT_READ) = 0
+mprotect(0x3ef2e81000, 4096, PROT_READ) = 0
+mprotect(0x3ef261c000, 4096, PROT_READ) = 0
+munmap(0x2afb37101000, 158236)          = 0
+access("/etc/selinux/", F_OK)           = 0
+brk(0)                                  = 0x1491b000
+brk(0x1493c000)                         = 0x1493c000
+open("/etc/selinux/config", O_RDONLY)   = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=513, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb37101000
+read(3, "# This file controls the state o"..., 4096) = 513
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+munmap(0x2afb37101000, 4096)            = 0
+open("/proc/mounts", O_RDONLY)          = 3
+fstat(3, {st_mode=S_IFREG|0444, st_size=0, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb37101000
+read(3, "rootfs / rootfs rw 0 0\n/dev/root"..., 4096) = 4088
+close(3)                                = 0
+munmap(0x2afb37101000, 4096)            = 0
+open("/selinux/mls", O_RDONLY)          = 3
+read(3, "1", 19)                        = 1
+close(3)                                = 0
+socket(PF_FILE, SOCK_STREAM, 0)         = 3
+connect(3, {sa_family=AF_FILE, path="/var/run/setrans/.setrans-unix"...}, 110) = 0
+sendmsg(3, {msg_name(0)=NULL, msg_iov(5)=[{"\1\0\0\0", 4}, {"\1\0\0\0", 4}, {"\1\0\0\0", 4}, {"\0", 1}, {"\0", 1}], msg_controllen=0, msg_flags=0}, MSG_NOSIGNAL) = 14
+readv(3, [{"\1\0\0\0", 4}, {"\1\0\0\0", 4}, {"\0\0\0\0", 4}], 3) = 12
+readv(3, [{"\0", 1}], 1)                = 1
+close(3)                                = 0
+fstat(0, {st_mode=S_IFREG|0640, st_size=138, ...}) = 0
+lseek(0, 0, SEEK_CUR)                   = 0
+ioctl(0, SNDCTL_TMR_TIMEBASE or TCGETS, 0x7fff1a37f910) = -1 ENOTTY (Inappropriate ioctl for device)
+fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 2), ...}) = 0
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+ioctl(1, SNDCTL_TMR_TIMEBASE or TCGETS, {B38400 opost isig icanon echo ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=60239, ...}) = 0
+lseek(2, 0, SEEK_CUR)                   = 60307
+ioctl(2, SNDCTL_TMR_TIMEBASE or TCGETS, 0x7fff1a37f910) = -1 ENOTTY (Inappropriate ioctl for device)
+getcwd("/home/adamc/mercurial/lagrit/test/level01/exodus"..., 4096) = 49
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=3900, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=60583, ...}) = 0
+fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 2), ...}) = 0
+fstat(0, {st_mode=S_IFREG|0640, st_size=138, ...}) = 0
+open("outx3dgen", O_RDWR|O_CREAT, 0666) = 3
+fstat(3, {st_mode=S_IFREG|0640, st_size=3900, ...}) = 0
+lseek(3, 0, SEEK_CUR)                   = 0
+ioctl(3, SNDCTL_TMR_TIMEBASE or TCGETS, 0x7fff1a37eec0) = -1 ENOTTY (Inappropriate ioctl for device)
+stat("logx3dgen", {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=61071, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=3900, ...}) = 0
+fstat(1, {st_mode=S_IFCHR|0620, st_rdev=makedev(136, 2), ...}) = 0
+fstat(0, {st_mode=S_IFREG|0640, st_size=138, ...}) = 0
+open("logx3dgen", O_RDWR|O_CREAT, 0666) = 4
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+lseek(4, 0, SEEK_CUR)                   = 0
+ioctl(4, SNDCTL_TMR_TIMEBASE or TCGETS, 0x7fff1a37eec0) = -1 ENOTTY (Inappropriate ioctl for device)
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, " \n", 2)                      = 2
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, " \n", 2)                      = 2
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "*               * * * * * * * * "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=3900, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=62297, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=3900, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=3900, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=62530, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=3900, ...}) = 0
+write(3, " \n", 2)                      = 2
+ftruncate(3, 2)                         = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "*               *               "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=63119, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=63346, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "*               *    Program:  L"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=63844, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=64071, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+open("/etc/localtime", O_RDONLY)        = 5
+fstat(5, {st_mode=S_IFREG|0644, st_size=2427, ...}) = 0
+fstat(5, {st_mode=S_IFREG|0644, st_size=2427, ...}) = 0
+mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb37101000
+read(5, "TZif2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\4\0\0\0\4\0\0\0\0"..., 4096) = 2427
+lseek(5, -1550, SEEK_CUR)               = 877
+read(5, "TZif2\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\5\0\0\0\5\0\0\0\0"..., 4096) = 1550
+close(5)                                = 0
+munmap(0x2afb37101000, 4096)            = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "*               *    date_compil"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=65123, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=65350, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "*               *    Run Time: 2"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=65848, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=66075, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "*               *    Manual:   h"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=66573, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=66800, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "*               *               "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=67298, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=67525, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "*               * * * * * * * * "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=68023, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=68250, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, " \n", 2)                      = 2
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "                               -"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=68926, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=69153, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "LaGriT Copyright: This program w"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=69651, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=69878, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "at Los Alamos National Laborator"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=70376, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=70603, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "with the U.S. Department of Ener"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=71101, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=71328, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "by the DOE and Los Alamos Nation"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=71826, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=72053, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "public to copy and use this soft"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=72551, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=72778, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "and any statement of authorship "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=73276, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=73503, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "U.S. Government nor LANS makes a"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=74001, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=74228, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "any liability or responsibility "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=74726, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=74953, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "                               -"..., 81) = 81
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, " \n", 2)                      = 2
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=75629, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=75856, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, " \n", 2)                      = 2
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "Output log file: outx3dgen      "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=76532, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=76759, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37ec90)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "Command log file: logx3dgen     "..., 81) = 81
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, " \n", 2)                      = 2
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=77435, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=77662, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+brk(0x14961000)                         = 0x14961000
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, " Enter a command\n", 17)      = 17
+read(0, "cmo / create / mohex /// hex\ncre"..., 8192) = 138
+stat("tty", 0x7fff1a37f1c0)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "cmo/create/mohex///hex          "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=78452, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=78679, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("logx3dgen", {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+stat("logx3dgen", {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=405, ...}) = 0
+write(4, "cmo/create/mohex///hex          "..., 81) = 81
+ftruncate(4, 81)                        = 0
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, " Enter a command\n", 17)      = 17
+stat("tty", 0x7fff1a37f1c0)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "createpts/brick/xyz/11 11 11/0 0"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=79694, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=79920, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("logx3dgen", {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+stat("logx3dgen", {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+brk(0x14983000)                         = 0x14983000
+brk(0x149ab000)                         = 0x149ab000
+stat("tty", 0x7fff1a37d7b0)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "          Number of nodes:      "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=80757, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=80983, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37d7b0)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "          Number of elements:   "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=81480, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=81706, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37d7b0)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "          Number of negative vol"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=82203, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=82429, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37d7b0)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "          Total volume:     0.10"..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=82926, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=83152, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+brk(0x149ce000)                         = 0x149ce000
+brk(0x149c4000)                         = 0x149c4000
+brk(0x149ba000)                         = 0x149ba000
+brk(0x149b7000)                         = 0x149b7000
+brk(0x149ab000)                         = 0x149ab000
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, " Enter a command\n", 17)      = 17
+read(0, "", 8192)                       = 0
+stat("tty", 0x7fff1a37f1c0)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "resetpts/itp                    "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=84137, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=84363, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("logx3dgen", {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+stat("logx3dgen", {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+stat("tty", 0x7fff1a37e420)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "geniee                          "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=85094, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=85320, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+brk(0x149ce000)                         = 0x149ce000
+brk(0x149c3000)                         = 0x149c3000
+brk(0x149b8000)                         = 0x149b8000
+brk(0x149ae000)                         = 0x149ae000
+brk(0x149ab000)                         = 0x149ab000
+stat("tty", 0x7fff1a37e420)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "finish                          "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=86082, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=86308, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, " Enter a command\n", 17)      = 17
+read(0, "", 8192)                       = 0
+stat("tty", 0x7fff1a37f1c0)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "dump/hexcube.exo/mohex          "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=87028, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=87254, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("logx3dgen", {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+stat("logx3dgen", {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+stat("tty", 0x7fff1a37e120)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "dump/exo/hexcube.exo/mohex      "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=87985, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=88211, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=88437, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=88663, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=88889, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=89115, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=89341, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=89567, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=89793, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=90019, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=90245, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=90471, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=90697, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=90923, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=91149, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=91375, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=91601, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=91827, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=92053, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=92279, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=92505, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=92731, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=92957, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=93183, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=93409, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=93635, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+mmap(NULL, 439803904, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb3764b000
+open("hexcube.exo", O_RDWR|O_CREAT|O_TRUNC, 0666) = 5
+fstat(5, {st_mode=S_IFREG|0640, st_size=0, ...}) = 0
+brk(0x149cd000)                         = 0x149cd000
+fstat(5, {st_mode=S_IFREG|0640, st_size=0, ...}) = 0
+lseek(5, 0, SEEK_CUR)                   = 0
+lseek(5, 24, SEEK_SET)                  = 24
+write(5, "\0\0\0\0\0\0\0\0", 8)         = 8
+lseek(5, 0, SEEK_SET)                   = 0
+mmap(NULL, 528384, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x2afb519b9000
+lseek(5, 0, SEEK_CUR)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\4\0\0\0\nlen_string\0\0"..., 268) = 268
+munmap(0x2afb3764b000, 439803904)       = 0
+lseek(5, 0, SEEK_CUR)                   = 268
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\v\0\0\0\nlen_string\0\0"..., 1144) = 1144
+lseek(5, 0, SEEK_CUR)                   = 1144
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\v\0\0\0\nlen_string\0\0"..., 1264) = 1264
+lseek(5, 0, SEEK_CUR)                   = 1264
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "", 8192)                       = 0
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "", 8192)                       = 0
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 1116) = 1116
+lseek(5, 0, SEEK_CUR)                   = 33884
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\v\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\v\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\f\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 1116
+lseek(5, 0, SEEK_CUR)                   = 33884
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 1220) = 1220
+lseek(5, 0, SEEK_CUR)                   = 33988
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\f\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\f\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 8192, SEEK_SET)                = 8192
+write(5, "\314\314\314\314?\357\377\377\377\377\377\377\0\0\0\0\0\0\0\0?\271\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 16384, SEEK_SET)               = 16384
+write(5, "\0\0\0\0?\343333333?\343333333?\343333333?\34333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 1220
+lseek(5, 0, SEEK_CUR)                   = 33988
+lseek(5, 24576, SEEK_SET)               = 24576
+write(5, "\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231"..., 9412) = 9412
+lseek(5, 0, SEEK_CUR)                   = 33988
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\f\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\f\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 1220
+lseek(5, 0, SEEK_CUR)                   = 33988
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+write(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 1496) = 1496
+lseek(5, 0, SEEK_CUR)                   = 34264
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\0\0\0\0?\343333333?\343333333?\343333333?\34333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\0\0\0\0?\343333333?\343333333?\343333333?\34333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\314\314\314\314?\357\377\377\377\377\377\377\0\0\0\0\0\0\0\0?\271\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\314\314\314\314?\357\377\377\377\377\377\377\0\0\0\0\0\0\0\0?\271\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "3334?\323333334?\323333334?\323333334?\32333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\f\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\f\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\17\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "", 8192)                       = 0
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 1305) = 1305
+lseek(5, 0, SEEK_CUR)                   = 42265
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\17\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 16384) = 1305
+lseek(5, 0, SEEK_CUR)                   = 42265
+lseek(5, 40960, SEEK_SET)               = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "", 8192)                       = 0
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+write(5, "\0\0\1\3\0\0\1\16\0\0\1\r\0\0\1{\0\0\1|\0\0\1\207\0\0\1\206\0\0\1\3"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "", 8192)                       = 0
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+write(5, "\0\0\0023\0\0\2>\0\0\2=\0\0\2\253\0\0\2\254\0\0\2\267\0\0\2\266\0\0\0023"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "", 8192)                       = 0
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 65536, SEEK_SET)               = 65536
+write(5, "\0\0\3m\0\0\3x\0\0\3w\0\0\3\345\0\0\3\346\0\0\3\361\0\0\3\360\0\0\3m"..., 8764) = 8764
+lseek(5, 0, SEEK_CUR)                   = 74300
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\17\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\17\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3m\0\0\3x\0\0\3w\0\0\3\345\0\0\3\346\0\0\3\361\0\0\3\360\0\0\3m"..., 16384) = 8764
+lseek(5, 0, SEEK_CUR)                   = 74300
+lseek(5, 73728, SEEK_SET)               = 73728
+write(5, "\0\0\4\233\0\0\4\246\0\0\4\245\0\0\5\23\0\0\5\24\0\0\5\37\0\0\5\36\0\0\4\233"..., 636) = 636
+lseek(5, 0, SEEK_CUR)                   = 74364
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\0023\0\0\2>\0\0\2=\0\0\2\253\0\0\2\254\0\0\2\267\0\0\2\266\0\0\0023"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\0023\0\0\2>\0\0\2=\0\0\2\253\0\0\2\254\0\0\2\267\0\0\2\266\0\0\0023"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3k\0\0\3v\0\0\3u\0\0\3\343\0\0\3\344\0\0\3\357\0\0\3\356\0\0\3k"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\1\3\0\0\1\16\0\0\1\r\0\0\1{\0\0\1|\0\0\1\207\0\0\1\206\0\0\1\3"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\1\3\0\0\1\16\0\0\1\r\0\0\1{\0\0\1|\0\0\1\207\0\0\1\206\0\0\1\3"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\0020\0\0\2;\0\0\2:\0\0\2\250\0\0\2\251\0\0\2\264\0\0\2\263\0\0\0020"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\1\1\0\0\1\f\0\0\1\v\0\0\1y\0\0\1z\0\0\1\205\0\0\1\204\0\0\1\1"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "3334?\323333334?\323333334?\323333334?\32333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "3334?\323333334?\323333334?\323333334?\32333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\0\0\0\0?\271\231\231\231\231\231\232?\311\231\231\231\231\231\232?\323333334?\331\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\0\0\0\0?\271\231\231\231\231\231\232?\311\231\231\231\231\231\232?\323333334?\331\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\17\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\17\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\20\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\233\0\0\4\246\0\0\4\245\0\0\5\23\0\0\5\24\0\0\5\37\0\0\5\36\0\0\4\233"..., 8192) = 636
+lseek(5, 0, SEEK_CUR)                   = 74364
+lseek(5, 73728, SEEK_SET)               = 73728
+write(5, "\0\0\4\233\0\0\4\246\0\0\4\245\0\0\5\23\0\0\5\24\0\0\5\37\0\0\5\36\0\0\4\233"..., 3044) = 3044
+lseek(5, 0, SEEK_CUR)                   = 76772
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\20\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\20\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\233\0\0\4\246\0\0\4\245\0\0\5\23\0\0\5\24\0\0\5\37\0\0\5\36\0\0\4\233"..., 8192) = 3044
+lseek(5, 0, SEEK_CUR)                   = 76772
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3k\0\0\3v\0\0\3u\0\0\3\343\0\0\3\344\0\0\3\357\0\0\3\356\0\0\3k"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\230\0\0\4\243\0\0\4\242\0\0\5\20\0\0\5\21\0\0\5\34\0\0\5\33\0\0\4\230"..., 3108) = 3108
+lseek(5, 0, SEEK_CUR)                   = 76836
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\0020\0\0\2;\0\0\2:\0\0\2\250\0\0\2\251\0\0\2\264\0\0\2\263\0\0\0020"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\0020\0\0\2;\0\0\2:\0\0\2\250\0\0\2\251\0\0\2\264\0\0\2\263\0\0\0020"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3i\0\0\3t\0\0\3s\0\0\3\341\0\0\3\342\0\0\3\355\0\0\3\354\0\0\3i"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\1\1\0\0\1\f\0\0\1\v\0\0\1y\0\0\1z\0\0\1\205\0\0\1\204\0\0\1\1"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\1\1\0\0\1\f\0\0\1\v\0\0\1y\0\0\1z\0\0\1\205\0\0\1\204\0\0\1\1"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2.\0\0\0029\0\0\0028\0\0\2\246\0\0\2\247\0\0\2\262\0\0\2\261\0\0\2."..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\0\377\0\0\1\n\0\0\1\t\0\0\1w\0\0\1x\0\0\1\203\0\0\1\202\0\0\0\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "3334?\331\231\231\231\231\231\232?\340\0\0\0\0\0\0?\343333333?\346ff"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "3334?\331\231\231\231\231\231\232?\340\0\0\0\0\0\0?\343333333?\346ff"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\20\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\20\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\21\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\230\0\0\4\243\0\0\4\242\0\0\5\20\0\0\5\21\0\0\5\34\0\0\5\33\0\0\4\230"..., 8192) = 3108
+lseek(5, 0, SEEK_CUR)                   = 76836
+lseek(5, 73728, SEEK_SET)               = 73728
+write(5, "\0\0\4\230\0\0\4\243\0\0\4\242\0\0\5\20\0\0\5\21\0\0\5\34\0\0\5\33\0\0\4\230"..., 3592) = 3592
+lseek(5, 0, SEEK_CUR)                   = 77320
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\21\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\21\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\230\0\0\4\243\0\0\4\242\0\0\5\20\0\0\5\21\0\0\5\34\0\0\5\33\0\0\4\230"..., 8192) = 3592
+lseek(5, 0, SEEK_CUR)                   = 77320
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3i\0\0\3t\0\0\3s\0\0\3\341\0\0\3\342\0\0\3\355\0\0\3\354\0\0\3i"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\226\0\0\4\241\0\0\4\240\0\0\5\16\0\0\5\17\0\0\5\32\0\0\5\31\0\0\4\226"..., 3656) = 3656
+lseek(5, 0, SEEK_CUR)                   = 77384
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2.\0\0\0029\0\0\0028\0\0\2\246\0\0\2\247\0\0\2\262\0\0\2\261\0\0\2."..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2.\0\0\0029\0\0\0028\0\0\2\246\0\0\2\247\0\0\2\262\0\0\2\261\0\0\2."..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3g\0\0\3r\0\0\3q\0\0\3\337\0\0\3\340\0\0\3\353\0\0\3\352\0\0\3g"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\377\0\0\1\n\0\0\1\t\0\0\1w\0\0\1x\0\0\1\203\0\0\1\202\0\0\0\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\377\0\0\1\n\0\0\1\t\0\0\1w\0\0\1x\0\0\1\203\0\0\1\202\0\0\0\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2,\0\0\0027\0\0\0026\0\0\2\244\0\0\2\245\0\0\2\260\0\0\2\257\0\0\2,"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\0\374\0\0\1\7\0\0\1\6\0\0\1t\0\0\1u\0\0\1\200\0\0\1\177\0\0\0\374"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "3333?\346ffffff?\351\231\231\231\231\231\231?\354\314\314\314\314\314\314?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "3333?\346ffffff?\351\231\231\231\231\231\231?\354\314\314\314\314\314\314?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "\0\0\0\0?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\21\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\21\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\22\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\226\0\0\4\241\0\0\4\240\0\0\5\16\0\0\5\17\0\0\5\32\0\0\5\31\0\0\4\226"..., 8192) = 3656
+lseek(5, 0, SEEK_CUR)                   = 77384
+lseek(5, 73728, SEEK_SET)               = 73728
+write(5, "\0\0\4\226\0\0\4\241\0\0\4\240\0\0\5\16\0\0\5\17\0\0\5\32\0\0\5\31\0\0\4\226"..., 4140) = 4140
+lseek(5, 0, SEEK_CUR)                   = 77868
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\22\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\22\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\226\0\0\4\241\0\0\4\240\0\0\5\16\0\0\5\17\0\0\5\32\0\0\5\31\0\0\4\226"..., 8192) = 4140
+lseek(5, 0, SEEK_CUR)                   = 77868
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3g\0\0\3r\0\0\3q\0\0\3\337\0\0\3\340\0\0\3\353\0\0\3\352\0\0\3g"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\224\0\0\4\237\0\0\4\236\0\0\5\f\0\0\5\r\0\0\5\30\0\0\5\27\0\0\4\224"..., 4204) = 4204
+lseek(5, 0, SEEK_CUR)                   = 77932
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2,\0\0\0027\0\0\0026\0\0\2\244\0\0\2\245\0\0\2\260\0\0\2\257\0\0\2,"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2,\0\0\0027\0\0\0026\0\0\2\244\0\0\2\245\0\0\2\260\0\0\2\257\0\0\2,"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3d\0\0\3o\0\0\3n\0\0\3\334\0\0\3\335\0\0\3\350\0\0\3\347\0\0\3d"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\374\0\0\1\7\0\0\1\6\0\0\1t\0\0\1u\0\0\1\200\0\0\1\177\0\0\0\374"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\374\0\0\1\7\0\0\1\6\0\0\1t\0\0\1u\0\0\1\200\0\0\1\177\0\0\0\374"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2*\0\0\0025\0\0\0024\0\0\2\242\0\0\2\243\0\0\2\256\0\0\2\255\0\0\2*"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\0\372\0\0\1\5\0\0\1\4\0\0\1r\0\0\1s\0\0\1~\0\0\1}\0\0\0\372"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\0\0\0\0?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\0\0\0\0?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\314\314\314\314?\357\377\377\377\377\377\377\0\0\0\0\0\0\0\0?\271\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\314\314\314\314?\357\377\377\377\377\377\377\0\0\0\0\0\0\0\0?\271\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\22\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\22\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\23\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\224\0\0\4\237\0\0\4\236\0\0\5\f\0\0\5\r\0\0\5\30\0\0\5\27\0\0\4\224"..., 8192) = 4204
+lseek(5, 0, SEEK_CUR)                   = 77932
+lseek(5, 73728, SEEK_SET)               = 73728
+write(5, "\0\0\4\224\0\0\4\237\0\0\4\236\0\0\5\f\0\0\5\r\0\0\5\30\0\0\5\27\0\0\4\224"..., 4688) = 4688
+lseek(5, 0, SEEK_CUR)                   = 78416
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\23\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\23\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\224\0\0\4\237\0\0\4\236\0\0\5\f\0\0\5\r\0\0\5\30\0\0\5\27\0\0\4\224"..., 8192) = 4688
+lseek(5, 0, SEEK_CUR)                   = 78416
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3d\0\0\3o\0\0\3n\0\0\3\334\0\0\3\335\0\0\3\350\0\0\3\347\0\0\3d"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\222\0\0\4\235\0\0\4\234\0\0\5\n\0\0\5\v\0\0\5\26\0\0\5\25\0\0\4\222"..., 4752) = 4752
+lseek(5, 0, SEEK_CUR)                   = 78480
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2*\0\0\0025\0\0\0024\0\0\2\242\0\0\2\243\0\0\2\256\0\0\2\255\0\0\2*"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2*\0\0\0025\0\0\0024\0\0\2\242\0\0\2\243\0\0\2\256\0\0\2\255\0\0\2*"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3b\0\0\3m\0\0\3l\0\0\3\332\0\0\3\333\0\0\3\346\0\0\3\345\0\0\3b"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\372\0\0\1\5\0\0\1\4\0\0\1r\0\0\1s\0\0\1~\0\0\1}\0\0\0\372"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\372\0\0\1\5\0\0\1\4\0\0\1r\0\0\1s\0\0\1~\0\0\1}\0\0\0\372"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2(\0\0\0023\0\0\0022\0\0\2\240\0\0\2\241\0\0\2\254\0\0\2\253\0\0\2("..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\0\370\0\0\1\3\0\0\1\2\0\0\1p\0\0\1q\0\0\1|\0\0\1{\0\0\0\370"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\231\231\231\232?\311\231\231\231\231\231\232?\323333334?\331\231\231\231\231\231\232?\340\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\231\231\231\232?\311\231\231\231\231\231\232?\323333334?\331\231\231\231\231\231\232?\340\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\23\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\23\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\24\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\222\0\0\4\235\0\0\4\234\0\0\5\n\0\0\5\v\0\0\5\26\0\0\5\25\0\0\4\222"..., 8192) = 4752
+lseek(5, 0, SEEK_CUR)                   = 78480
+lseek(5, 73728, SEEK_SET)               = 73728
+write(5, "\0\0\4\222\0\0\4\235\0\0\4\234\0\0\5\n\0\0\5\v\0\0\5\26\0\0\5\25\0\0\4\222"..., 5236) = 5236
+lseek(5, 0, SEEK_CUR)                   = 78964
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\24\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\24\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\222\0\0\4\235\0\0\4\234\0\0\5\n\0\0\5\v\0\0\5\26\0\0\5\25\0\0\4\222"..., 8192) = 5236
+lseek(5, 0, SEEK_CUR)                   = 78964
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3b\0\0\3m\0\0\3l\0\0\3\332\0\0\3\333\0\0\3\346\0\0\3\345\0\0\3b"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\220\0\0\4\233\0\0\4\232\0\0\5\10\0\0\5\t\0\0\5\24\0\0\5\23\0\0\4\220"..., 5300) = 5300
+lseek(5, 0, SEEK_CUR)                   = 79028
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2(\0\0\0023\0\0\0022\0\0\2\240\0\0\2\241\0\0\2\254\0\0\2\253\0\0\2("..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2(\0\0\0023\0\0\0022\0\0\2\240\0\0\2\241\0\0\2\254\0\0\2\253\0\0\2("..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3`\0\0\3k\0\0\3j\0\0\3\330\0\0\3\331\0\0\3\344\0\0\3\343\0\0\3`"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\370\0\0\1\3\0\0\1\2\0\0\1p\0\0\1q\0\0\1|\0\0\1{\0\0\0\370"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\370\0\0\1\3\0\0\1\2\0\0\1p\0\0\1q\0\0\1|\0\0\1{\0\0\0\370"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2%\0\0\0020\0\0\2/\0\0\2\235\0\0\2\236\0\0\2\251\0\0\2\250\0\0\2%"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\0\366\0\0\1\1\0\0\1\0\0\0\1n\0\0\1o\0\0\1z\0\0\1y\0\0\0\366"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\231\231\231\232?\340\0\0\0\0\0\0?\343333333?\346ffffff?\351\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\231\231\231\232?\340\0\0\0\0\0\0?\343333333?\346ffffff?\351\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\24\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\24\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\25\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\220\0\0\4\233\0\0\4\232\0\0\5\10\0\0\5\t\0\0\5\24\0\0\5\23\0\0\4\220"..., 8192) = 5300
+lseek(5, 0, SEEK_CUR)                   = 79028
+lseek(5, 73728, SEEK_SET)               = 73728
+write(5, "\0\0\4\220\0\0\4\233\0\0\4\232\0\0\5\10\0\0\5\t\0\0\5\24\0\0\5\23\0\0\4\220"..., 5784) = 5784
+lseek(5, 0, SEEK_CUR)                   = 79512
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\25\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\25\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\220\0\0\4\233\0\0\4\232\0\0\5\10\0\0\5\t\0\0\5\24\0\0\5\23\0\0\4\220"..., 8192) = 5784
+lseek(5, 0, SEEK_CUR)                   = 79512
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3`\0\0\3k\0\0\3j\0\0\3\330\0\0\3\331\0\0\3\344\0\0\3\343\0\0\3`"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\215\0\0\4\230\0\0\4\227\0\0\5\5\0\0\5\6\0\0\5\21\0\0\5\20\0\0\4\215"..., 5848) = 5848
+lseek(5, 0, SEEK_CUR)                   = 79576
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2%\0\0\0020\0\0\2/\0\0\2\235\0\0\2\236\0\0\2\251\0\0\2\250\0\0\2%"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2%\0\0\0020\0\0\2/\0\0\2\235\0\0\2\236\0\0\2\251\0\0\2\250\0\0\2%"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3^\0\0\3i\0\0\3h\0\0\3\326\0\0\3\327\0\0\3\342\0\0\3\341\0\0\3^"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\366\0\0\1\1\0\0\1\0\0\0\1n\0\0\1o\0\0\1z\0\0\1y\0\0\0\366"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\366\0\0\1\1\0\0\1\0\0\0\1n\0\0\1o\0\0\1z\0\0\1y\0\0\0\366"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2#\0\0\2.\0\0\2-\0\0\2\233\0\0\2\234\0\0\2\247\0\0\2\246\0\0\2#"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\0\364\0\0\0\377\0\0\0\376\0\0\1l\0\0\1m\0\0\1x\0\0\1w\0\0\0\364"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\357\377\377\377\377\377\377?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "ffff?\351\231\231\231\231\231\231?\354\314\314\314\314\314\314?\357\377\377\377\377\377\377\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "ffff?\351\231\231\231\231\231\231?\354\314\314\314\314\314\314?\357\377\377\377\377\377\377\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\25\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\25\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\26\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\215\0\0\4\230\0\0\4\227\0\0\5\5\0\0\5\6\0\0\5\21\0\0\5\20\0\0\4\215"..., 8192) = 5848
+lseek(5, 0, SEEK_CUR)                   = 79576
+lseek(5, 73728, SEEK_SET)               = 73728
+write(5, "\0\0\4\215\0\0\4\230\0\0\4\227\0\0\5\5\0\0\5\6\0\0\5\21\0\0\5\20\0\0\4\215"..., 6332) = 6332
+lseek(5, 0, SEEK_CUR)                   = 80060
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\26\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\26\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\215\0\0\4\230\0\0\4\227\0\0\5\5\0\0\5\6\0\0\5\21\0\0\5\20\0\0\4\215"..., 8192) = 6332
+lseek(5, 0, SEEK_CUR)                   = 80060
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3^\0\0\3i\0\0\3h\0\0\3\326\0\0\3\327\0\0\3\342\0\0\3\341\0\0\3^"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\5\r\0\0\5\f\0\0\4\211\0\0\4\212\0\0\4\225\0\0\4\224\0\0\5\2\0\0\5\3"..., 6440) = 6440
+lseek(5, 0, SEEK_CUR)                   = 80168
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2#\0\0\2.\0\0\2-\0\0\2\233\0\0\2\234\0\0\2\247\0\0\2\246\0\0\2#"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2#\0\0\2.\0\0\2-\0\0\2\233\0\0\2\234\0\0\2\247\0\0\2\246\0\0\2#"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3\335\0\0\3\334\0\0\3Y\0\0\3Z\0\0\3e\0\0\3d\0\0\3\322\0\0\3\323"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\364\0\0\0\377\0\0\0\376\0\0\1l\0\0\1m\0\0\1x\0\0\1w\0\0\0\364"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\364\0\0\0\377\0\0\0\376\0\0\1l\0\0\1m\0\0\1x\0\0\1w\0\0\0\364"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2\243\0\0\2\242\0\0\2\37\0\0\2 \0\0\2+\0\0\2*\0\0\2\230\0\0\2\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\1h\0\0\1g\0\0\0\344\0\0\0\345\0\0\0\360\0\0\0\357\0\0\1]\0\0\1^"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\377\377\377\377\0\0\0\0\0\0\0\0?\271\231\231\231\231\231\232?\311\231\231\231\231\231\232?\32333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\377\377\377\377\0\0\0\0\0\0\0\0?\271\231\231\231\231\231\232?\311\231\231\231\231\231\232?\32333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "?\346ffffff?\346ffffff?\351\231\231\231\231\231\231?\351\231\231\231\231\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\26\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\26\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\27\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\5\r\0\0\5\f\0\0\4\211\0\0\4\212\0\0\4\225\0\0\4\224\0\0\5\2\0\0\5\3"..., 16384) = 6440
+lseek(5, 0, SEEK_CUR)                   = 80168
+lseek(5, 73728, SEEK_SET)               = 73728
+write(5, "\0\0\5\r\0\0\5\f\0\0\4\211\0\0\4\212\0\0\4\225\0\0\4\224\0\0\5\2\0\0\5\3"..., 11240) = 11240
+lseek(5, 0, SEEK_CUR)                   = 84968
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\27\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\27\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\2\265\0\0\2R\0\0\1\357\0\0\1\214\0\0\1)\0\0\0\306\0\0\0c\0\0\3\337"..., 8192) = 3048
+lseek(5, 0, SEEK_CUR)                   = 84968
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\5\r\0\0\5\f\0\0\4\211\0\0\4\212\0\0\4\225\0\0\4\224\0\0\5\2\0\0\5\3"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+write(5, "\0\0\1\210\0\0\1%\0\0\0\302\0\0\0_\0\0\2O\0\0\1\354\0\0\1\211\0\0\1&"..., 3156) = 3156
+lseek(5, 0, SEEK_CUR)                   = 85076
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3\335\0\0\3\334\0\0\3Y\0\0\3Z\0\0\3e\0\0\3d\0\0\3\322\0\0\3\323"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\220\0\0\4\376\0\0\4\377\0\0\5\n\0\0\5\t\0\0\4\206\0\0\4\207\0\0\4\222"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2\243\0\0\2\242\0\0\2\37\0\0\2 \0\0\2+\0\0\2*\0\0\2\230\0\0\2\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2\243\0\0\2\242\0\0\2\37\0\0\2 \0\0\2+\0\0\2*\0\0\2\230\0\0\2\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3`\0\0\3\316\0\0\3\317\0\0\3\332\0\0\3\331\0\0\3V\0\0\3W\0\0\3b"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\1h\0\0\1g\0\0\0\344\0\0\0\345\0\0\0\360\0\0\0\357\0\0\1]\0\0\1^"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\1h\0\0\1g\0\0\0\344\0\0\0\345\0\0\0\360\0\0\0\357\0\0\1]\0\0\1^"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2%\0\0\2\223\0\0\2\224\0\0\2\237\0\0\2\236\0\0\2\34\0\0\2\35\0\0\2("..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\0\353\0\0\1Y\0\0\1Z\0\0\1e\0\0\1d\0\0\0\341\0\0\0\342\0\0\0\355"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "?\346ffffff?\346ffffff?\351\231\231\231\231\231\231?\351\231\231\231\231\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "?\346ffffff?\346ffffff?\351\231\231\231\231\231\231?\351\231\231\231\231\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "?\351\231\231\231\231\231\231?\354\314\314\314\314\314\314?\357\377\377\377\377\377\377\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "?\351\231\231\231\231\231\231?\354\314\314\314\314\314\314?\357\377\377\377\377\377\377\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "3333?\343333333?\343333333?\343333333?\34333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\27\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\27\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\30\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\1\210\0\0\1%\0\0\0\302\0\0\0_\0\0\2O\0\0\1\354\0\0\1\211\0\0\1&"..., 8192) = 3156
+lseek(5, 0, SEEK_CUR)                   = 85076
+lseek(5, 81920, SEEK_SET)               = 81920
+write(5, "\0\0\1\210\0\0\1%\0\0\0\302\0\0\0_\0\0\2O\0\0\1\354\0\0\1\211\0\0\1&"..., 3956) = 3956
+lseek(5, 0, SEEK_CUR)                   = 85876
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\30\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\30\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\1\210\0\0\1%\0\0\0\302\0\0\0_\0\0\2O\0\0\1\354\0\0\1\211\0\0\1&"..., 8192) = 3956
+lseek(5, 0, SEEK_CUR)                   = 85876
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\220\0\0\4\376\0\0\4\377\0\0\5\n\0\0\5\t\0\0\4\206\0\0\4\207\0\0\4\222"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+write(5, "\0\0\3\266\0\0\2X\0\0\2\262\0\0\3\f\0\0\3f\0\0\3\300\0\0\2\274\0\0\3\26"..., 4064) = 4064
+lseek(5, 0, SEEK_CUR)                   = 85984
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3`\0\0\3\316\0\0\3\317\0\0\3\332\0\0\3\331\0\0\3V\0\0\3W\0\0\3b"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\201\0\0\4\202\0\0\4\215\0\0\4\214\0\0\4\372\0\0\4\373\0\0\5\6\0\0\5\5"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2%\0\0\2\223\0\0\2\224\0\0\2\237\0\0\2\236\0\0\2\34\0\0\2\35\0\0\2("..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2%\0\0\2\223\0\0\2\224\0\0\2\237\0\0\2\236\0\0\2\34\0\0\2\35\0\0\2("..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3R\0\0\3S\0\0\3^\0\0\3]\0\0\3\313\0\0\3\314\0\0\3\327\0\0\3\326"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\353\0\0\1Y\0\0\1Z\0\0\1e\0\0\1d\0\0\0\341\0\0\0\342\0\0\0\355"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\353\0\0\1Y\0\0\1Z\0\0\1e\0\0\1d\0\0\0\341\0\0\0\342\0\0\0\355"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2\27\0\0\2\30\0\0\2#\0\0\2\"\0\0\2\220\0\0\2\221\0\0\2\234\0\0\2\233"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\0\335\0\0\0\336\0\0\0\351\0\0\0\350\0\0\1V\0\0\1W\0\0\1b\0\0\1a"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "3333?\343333333?\343333333?\343333333?\34333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "3333?\343333333?\343333333?\343333333?\34333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\0\0\0\0?\343333333?\346ffffff?\351\231\231\231\231\231\231?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\0\0\0\0?\343333333?\346ffffff?\351\231\231\231\231\231\231?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "?\340\0\0\0\0\0\0?\340\0\0\0\0\0\0?\340\0\0\0\0\0\0?\340\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\30\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\30\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\31\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\3\266\0\0\2X\0\0\2\262\0\0\3\f\0\0\3f\0\0\3\300\0\0\2\274\0\0\3\26"..., 8192) = 4064
+lseek(5, 0, SEEK_CUR)                   = 85984
+lseek(5, 81920, SEEK_SET)               = 81920
+write(5, "\0\0\3\266\0\0\2X\0\0\2\262\0\0\3\f\0\0\3f\0\0\3\300\0\0\2\274\0\0\3\26"..., 4864) = 4864
+lseek(5, 0, SEEK_CUR)                   = 86784
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\31\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\31\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\3\266\0\0\2X\0\0\2\262\0\0\3\f\0\0\3f\0\0\3\300\0\0\2\274\0\0\3\26"..., 8192) = 4864
+lseek(5, 0, SEEK_CUR)                   = 86784
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\201\0\0\4\202\0\0\4\215\0\0\4\214\0\0\4\372\0\0\4\373\0\0\5\6\0\0\5\5"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+write(5, "\0\0\1|\0\0\1\326\0\0\0020\0\0\2\212\0\0\2\344\0\0\3>\0\0\3\230\0\0\1,"..., 4972) = 4972
+lseek(5, 0, SEEK_CUR)                   = 86892
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3R\0\0\3S\0\0\3^\0\0\3]\0\0\3\313\0\0\3\314\0\0\3\327\0\0\3\326"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\367\0\0\5\2\0\0\5\1\0\0\4~\0\0\4\177\0\0\4\212\0\0\4\211\0\0\4\367"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2\27\0\0\2\30\0\0\2#\0\0\2\"\0\0\2\220\0\0\2\221\0\0\2\234\0\0\2\233"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2\27\0\0\2\30\0\0\2#\0\0\2\"\0\0\2\220\0\0\2\221\0\0\2\234\0\0\2\233"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3\274\0\0\3\307\0\0\3\306\0\0\3C\0\0\3D\0\0\3O\0\0\3N\0\0\3\274"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\335\0\0\0\336\0\0\0\351\0\0\0\350\0\0\1V\0\0\1W\0\0\1b\0\0\1a"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\335\0\0\0\336\0\0\0\351\0\0\0\350\0\0\1V\0\0\1W\0\0\1b\0\0\1a"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2\215\0\0\2\230\0\0\2\227\0\0\2\24\0\0\2\25\0\0\2 \0\0\2\37\0\0\2\215"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\1R\0\0\1]\0\0\1\\\0\0\0\331\0\0\0\332\0\0\0\345\0\0\0\344\0\0\1R"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "?\340\0\0\0\0\0\0?\340\0\0\0\0\0\0?\340\0\0\0\0\0\0?\340\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "?\340\0\0\0\0\0\0?\340\0\0\0\0\0\0?\340\0\0\0\0\0\0?\340\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "?\323333334?\331\231\231\231\231\231\232?\340\0\0\0\0\0\0?\343333333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "?\323333334?\331\231\231\231\231\231\232?\340\0\0\0\0\0\0?\343333333"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "\231\231\231\232?\331\231\231\231\231\231\232?\331\231\231\231\231\231\232?\331\231\231\231\231\231\232?\331\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\31\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\31\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\32\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\1|\0\0\1\326\0\0\0020\0\0\2\212\0\0\2\344\0\0\3>\0\0\3\230\0\0\1,"..., 8192) = 4972
+lseek(5, 0, SEEK_CUR)                   = 86892
+lseek(5, 81920, SEEK_SET)               = 81920
+write(5, "\0\0\1|\0\0\1\326\0\0\0020\0\0\2\212\0\0\2\344\0\0\3>\0\0\3\230\0\0\1,"..., 5772) = 5772
+lseek(5, 0, SEEK_CUR)                   = 87692
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\32\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\32\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\1|\0\0\1\326\0\0\0020\0\0\2\212\0\0\2\344\0\0\3>\0\0\3\230\0\0\1,"..., 8192) = 5772
+lseek(5, 0, SEEK_CUR)                   = 87692
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\367\0\0\5\2\0\0\5\1\0\0\4~\0\0\4\177\0\0\4\212\0\0\4\211\0\0\4\367"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+write(5, "\0\0\1\4\0\0\1^\0\0\1\270\0\0\2\22\0\0\2l\0\0\2\306\0\0\0Z\0\0\0\264"..., 5880) = 5880
+lseek(5, 0, SEEK_CUR)                   = 87800
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3\274\0\0\3\307\0\0\3\306\0\0\3C\0\0\3D\0\0\3O\0\0\3N\0\0\3\274"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\206\0\0\4\205\0\0\4\363\0\0\4\364\0\0\4\377\0\0\4\376\0\0\4{\0\0\4|"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2\215\0\0\2\230\0\0\2\227\0\0\2\24\0\0\2\25\0\0\2 \0\0\2\37\0\0\2\215"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2\215\0\0\2\230\0\0\2\227\0\0\2\24\0\0\2\25\0\0\2 \0\0\2\37\0\0\2\215"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3K\0\0\3J\0\0\3\270\0\0\3\271\0\0\3\304\0\0\3\303\0\0\3@\0\0\3A"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\1R\0\0\1]\0\0\1\\\0\0\0\331\0\0\0\332\0\0\0\345\0\0\0\344\0\0\1R"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\1R\0\0\1]\0\0\1\\\0\0\0\331\0\0\0\332\0\0\0\345\0\0\0\344\0\0\1R"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2\33\0\0\2\32\0\0\2\210\0\0\2\211\0\0\2\224\0\0\2\223\0\0\2\21\0\0\2\22"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\0\341\0\0\0\340\0\0\1N\0\0\1O\0\0\1Z\0\0\1Y\0\0\0\326\0\0\0\327"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\231\231\231\232?\331\231\231\231\231\231\232?\331\231\231\231\231\231\232?\331\231\231\231\231\231\232?\331\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\231\231\231\232?\331\231\231\231\231\231\232?\331\231\231\231\231\231\232?\331\231\231\231\231\231\232?\331\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\0\0\0\0?\271\231\231\231\231\231\232?\311\231\231\231\231\231\232?\323333334?\331\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "\0\0\0\0?\271\231\231\231\231\231\232?\311\231\231\231\231\231\232?\323333334?\331\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "?\311\231\231\231\231\231\232?\323333334?\323333334?\323333334"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\32\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\32\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\33\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\1\4\0\0\1^\0\0\1\270\0\0\2\22\0\0\2l\0\0\2\306\0\0\0Z\0\0\0\264"..., 8192) = 5880
+lseek(5, 0, SEEK_CUR)                   = 87800
+lseek(5, 81920, SEEK_SET)               = 81920
+write(5, "\0\0\1\4\0\0\1^\0\0\1\270\0\0\2\22\0\0\2l\0\0\2\306\0\0\0Z\0\0\0\264"..., 6680) = 6680
+lseek(5, 0, SEEK_CUR)                   = 88600
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\33\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\33\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\1\4\0\0\1^\0\0\1\270\0\0\2\22\0\0\2l\0\0\2\306\0\0\0Z\0\0\0\264"..., 8192) = 6680
+lseek(5, 0, SEEK_CUR)                   = 88600
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\206\0\0\4\205\0\0\4\363\0\0\4\364\0\0\4\377\0\0\4\376\0\0\4{\0\0\4|"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+write(5, "\0\0\0\36\0\0\0x\0\0\0\322\0\0\0(\0\0\0\202\0\0\0\334\0\0\0016\0\0\0002"..., 6788) = 6788
+lseek(5, 0, SEEK_CUR)                   = 88708
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3K\0\0\3J\0\0\3\270\0\0\3\271\0\0\3\304\0\0\3\303\0\0\3@\0\0\3A"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\371\0\0\4v\0\0\4w\0\0\4\202\0\0\4\201\0\0\4\357\0\0\4\360\0\0\4\373"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2\33\0\0\2\32\0\0\2\210\0\0\2\211\0\0\2\224\0\0\2\223\0\0\2\21\0\0\2\22"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2\33\0\0\2\32\0\0\2\210\0\0\2\211\0\0\2\224\0\0\2\223\0\0\2\21\0\0\2\22"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3\277\0\0\3<\0\0\3=\0\0\3H\0\0\3G\0\0\3\265\0\0\3\266\0\0\3\301"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\341\0\0\0\340\0\0\1N\0\0\1O\0\0\1Z\0\0\1Y\0\0\0\326\0\0\0\327"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\0\341\0\0\0\340\0\0\1N\0\0\1O\0\0\1Z\0\0\1Y\0\0\0\326\0\0\0\327"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2\217\0\0\2\f\0\0\2\r\0\0\2\30\0\0\2\27\0\0\2\205\0\0\2\206\0\0\2\221"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\1T\0\0\0\322\0\0\0\323\0\0\0\336\0\0\0\335\0\0\1K\0\0\1L\0\0\1W"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "?\311\231\231\231\231\231\232?\323333334?\323333334?\323333334"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "?\311\231\231\231\231\231\232?\323333334?\323333334?\323333334"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "?\354\314\314\314\314\314\314?\357\377\377\377\377\377\377\0\0\0\0\0\0\0\0?\271\231\231\231\231\231\232"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "?\354\314\314\314\314\314\314?\357\377\377\377\377\377\377\0\0\0\0\0\0\0\0?\271\231\231\231\231\231\232"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\33\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\33\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\34\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\0\36\0\0\0x\0\0\0\322\0\0\0(\0\0\0\202\0\0\0\334\0\0\0016\0\0\0002"..., 8192) = 6788
+lseek(5, 0, SEEK_CUR)                   = 88708
+lseek(5, 81920, SEEK_SET)               = 81920
+write(5, "\0\0\0\36\0\0\0x\0\0\0\322\0\0\0(\0\0\0\202\0\0\0\334\0\0\0016\0\0\0002"..., 7588) = 7588
+lseek(5, 0, SEEK_CUR)                   = 89508
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\34\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\34\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\0\36\0\0\0x\0\0\0\322\0\0\0(\0\0\0\202\0\0\0\334\0\0\0016\0\0\0002"..., 8192) = 7588
+lseek(5, 0, SEEK_CUR)                   = 89508
+lseek(5, 73728, SEEK_SET)               = 73728
+read(5, "\0\0\4\371\0\0\4v\0\0\4w\0\0\4\202\0\0\4\201\0\0\4\357\0\0\4\360\0\0\4\373"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+write(5, "\0\0\2;\0\0\1\341\0\0\1\207\0\0\3\255\0\0\3S\0\0\2\371\0\0\2\237\0\0\2E"..., 7696) = 7696
+lseek(5, 0, SEEK_CUR)                   = 89616
+lseek(5, 65536, SEEK_SET)               = 65536
+read(5, "\0\0\3\277\0\0\3<\0\0\3=\0\0\3H\0\0\3G\0\0\3\265\0\0\3\266\0\0\3\301"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+write(5, "\0\0\4\353\0\0\4\354\0\0\4\367\0\0\4\366\0\0\4s\0\0\4t\0\0\4\177\0\0\4~"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 81920
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2\217\0\0\2\f\0\0\2\r\0\0\2\30\0\0\2\27\0\0\2\205\0\0\2\206\0\0\2\221"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 57344, SEEK_SET)               = 57344
+read(5, "\0\0\2\217\0\0\2\f\0\0\2\r\0\0\2\30\0\0\2\27\0\0\2\205\0\0\2\206\0\0\2\221"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+write(5, "\0\0\3\260\0\0\3\261\0\0\3\274\0\0\3\273\0\0\0038\0\0\0039\0\0\3D\0\0\3C"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 73728
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\1T\0\0\0\322\0\0\0\323\0\0\0\336\0\0\0\335\0\0\1K\0\0\1L\0\0\1W"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 49152, SEEK_SET)               = 49152
+read(5, "\0\0\1T\0\0\0\322\0\0\0\323\0\0\0\336\0\0\0\335\0\0\1K\0\0\1L\0\0\1W"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+write(5, "\0\0\2\201\0\0\2\202\0\0\2\215\0\0\2\214\0\0\2\t\0\0\2\n\0\0\2\25\0\0\2\24"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 65536
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 40960, SEEK_SET)               = 40960
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+write(5, "\0\0\1F\0\0\1G\0\0\1R\0\0\1Q\0\0\0\316\0\0\0\317\0\0\0\332\0\0\0\331"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 57344
+lseek(5, 32768, SEEK_SET)               = 32768
+read(5, "\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314\314\314\314\314?\354\314\314"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 49152
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 24576, SEEK_SET)               = 24576
+read(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 32768, SEEK_SET)               = 32768
+write(5, "?\351\231\231\231\231\231\231?\351\231\231\231\231\231\231?\351\231\231\231\231\231\231?\351\231\231\231\231\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 40960
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 16384, SEEK_SET)               = 16384
+read(5, "\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\271\231\231\231\231\231\232?\311\231\231"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 32768
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "3333?\346ffffff?\351\231\231\231\231\231\231?\354\314\314\314\314\314\314?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 8192, SEEK_SET)                = 8192
+read(5, "3333?\346ffffff?\351\231\231\231\231\231\231?\354\314\314\314\314\314\314?\357\377\377"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 16384
+write(5, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 24576
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\34\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+read(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\34\0\0\0\nlen_string\0\0"..., 8192) = 8192
+lseek(5, 0, SEEK_CUR)                   = 8192
+lseek(5, 0, SEEK_SET)                   = 0
+write(5, "CDF\2\0\0\0\0\0\0\0\n\0\0\0\35\0\0\0\nlen_string\0\0"..., 16384) = 16384
+lseek(5, 0, SEEK_CUR)                   = 16384
+lseek(5, 81920, SEEK_SET)               = 81920
+read(5, "\0\0\2;\0\0\1\341\0\0\1\207\0\0\3\255\0\0\3S\0\0\2\371\0\0\2\237\0\0\2E"..., 8192) = 7696
+lseek(5, 0, SEEK_CUR)                   = 89616
+lseek(5, 90112, SEEK_SET)               = 90112
+read(5, "", 8192)                       = 0
+lseek(5, 0, SEEK_CUR)                   = 90112
+lseek(5, 81920, SEEK_SET)               = 81920
+write(5, "\0\0\2;\0\0\1\341\0\0\1\207\0\0\3\255\0\0\3S\0\0\2\371\0\0\2\237\0\0\2E"..., 8496) = 8496
+fsync(5)                                = 0
+fstat(5, {st_mode=S_IFREG|0640, st_size=90416, ...}) = 0
+close(5)                                = 0
+munmap(0x2afb519b9000, 528384)          = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=184775, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=185002, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=185229, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=185456, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("tty", 0x7fff1a37e120)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "finish                          "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=185954, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=186181, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, " Enter a command\n", 17)      = 17
+read(0, "", 8192)                       = 0
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "                                "..., 81) = 81
+read(0, "", 8192)                       = 0
+stat("tty", 0x7fff1a37f1c0)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "finish                          "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=187137, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=187364, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("logx3dgen", {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+stat("logx3dgen", {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+stat("tty", 0x7fff1a37f1c0)             = -1 ENOENT (No such file or directory)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+lseek(1, 0, SEEK_CUR)                   = -1 ESPIPE (Illegal seek)
+write(1, "LaGriT successfully completed   "..., 81) = 81
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=188096, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+stat("outx3dgen", {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+fstat(4, {st_mode=S_IFREG|0640, st_size=81, ...}) = 0
+fstat(2, {st_mode=S_IFREG|0640, st_size=188323, ...}) = 0
+fstat(3, {st_mode=S_IFREG|0640, st_size=2, ...}) = 0
+write(4, "createpts/brick/xyz/11 11 11/0 0"..., 324) = 324
+close(4)                                = 0
+write(3, " \n*               * * * * * * * "..., 3898) = 3898
+close(3)                                = 0
+exit_group(0)                           = ?

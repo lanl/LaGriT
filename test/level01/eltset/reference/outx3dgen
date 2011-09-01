@@ -1,0 +1,154 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/08/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 31  10:58:20          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# Create a new mesh along with some point sets.                                 
+cmo/create/mo///hex                                                             
+createpts/brick/xyz/11,11,11/0,0,0/10,10,10/1,1,1                               
+          Number of nodes:        1331                                          
+          Number of elements:        1000                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.100000000000E+04                                  
+pset/pset1/geom/rtp/1 0 0/0,0,0/5,360,180/                                      
+ 
+ THE PSET  pset1  HAS         99 POINTS                                         
+pset/pset2/geom/xyz/1 0 0/7,7,7/10,10,10/                                       
+ 
+ THE PSET  pset2  HAS         64 POINTS                                         
+eltset/eset1/inclusive/pset get pset1/                                          
+ 
+ THE ELTSET eset1                            HAS         99 ELEMENTS            
+eltset//list                                                                    
+ 
+ THERE ARE  1 ELTSETS DEFINED                                                   
+  eset1                                                                         
+# Assign colors to the points and elements so that we can see them in GMV.      
+eltset/eset2/inclusive/pset get pset2/                                          
+ 
+ THE ELTSET eset2                            HAS         64 ELEMENTS            
+cmo/setatt/mo/imt/1 0 0/1                                                       
+      1331 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo/imt/pset get pset1/2                                              
+        99 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo/imt/pset get pset2/3                                              
+        64 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo/itetclr/1 0 0/1                                                   
+      1000 values reset for attribute itetclr                                   
+ 
+cmo/setatt/mo/itetclr/eltset get eset1/2                                        
+        99 values reset for attribute itetclr                                   
+ 
+cmo/setatt/mo/itetclr/eltset get eset2/3                                        
+        64 values reset for attribute itetclr                                   
+ 
+dump/gmv/test01.gmv/mo                                                          
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# Test the list command.                                                        
+eltset//list                                                                    
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+eltset/0/list                                                                   
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+eltset/-def-/list                                                               
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+# Verify that eltset only appends '.cellset' if it is not already present.      
+eltset/eset1/write/eset01                                                       
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+eltset/eset2/write/eset02.cellset                                               
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: OUTPUT eset2    1 ELTSETS TO FILE                                       
+# Test various incantations of the [ascii|binary] option.                       
+eltset/eset1/write/eset03/ascii                                                 
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+eltset/eset1/write/eset04/binary                                                
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+eltset/eset1/write/eset05/                                                      
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+eltset/eset1/write/eset06/-def-                                                 
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+eltset/eset1/write/eset07                                                       
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+# Verify that -def-, -all-, and <blank> work properly as eltset names.          
+eltset/-def-/write/eset08                                                       
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+eltset/-all-/write/eset09                                                       
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+eltset//write/eset10                                                            
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+finish                                                                          
+LaGriT successfully completed                                                   

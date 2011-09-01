@@ -1,0 +1,54 @@
+# Input files:
+#   test01.inp      Original line graph with various kinds of components
+#   test02.inp      Shuffled version of original file
+#   test03.inp      Hybrid mesh containing line segments and a triangle
+#   test04.inp      Trivial mesh with 2 points and no elements
+#
+# Output files:
+#
+#   test*.gmv       GMV version of corresponding AVS file
+#   test*s.inp      ------------- Sorted ----------------
+#   test*s.gmv      -------------- Files ----------------
+
+# This should stop gracefully with an error (no mesh object).
+sort / / line_graph / ascending / key
+
+read / test01.inp / mo01
+
+# Error (must be "ascending" or "descending")
+sort / mo01 / line_graph / wrong / key
+
+# Error (extra argument)
+sort / mo01 / line_graph / ascending / key / extra_arg
+
+# Should generate a key since one is not provided.
+sort / mo01 / line_graph / ascending
+
+# We perform this on both test01.inp and test02.inp. Then we can verify in GMV
+# that both were sorted correctly.
+# ----------------------------------------
+dump / output_test01.gmv / mo01
+sort / mo01 / line_graph / ascending / key
+reorder / mo01 / key
+dump / output_test01s.inp / mo01
+dump / output_test01s.gmv / mo01
+# ----------------------------------------
+read / test02.inp / mo02
+dump / output_test02.gmv / mo02
+sort / mo02 / line_graph / ascending / key
+reorder / mo02 / key
+dump / output_test02s.inp / mo02
+dump / output_test02s.gmv / mo02
+
+# Make sure the line_graph sort gives an error when it receives a mesh object
+# that has more than just line segments.
+read / test03.inp / mo03
+sort / mo03 / line_graph / ascending / key
+
+# Make sure the line_graph sort can deal with meshes with no elements.
+read / test04.inp / mo04
+sort / mo04 / line_graph / ascending / key
+reorder / mo04 / key
+dump / output_test04.inp / mo04
+
+finish

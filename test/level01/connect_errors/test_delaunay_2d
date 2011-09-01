@@ -1,0 +1,57 @@
+#!/usr/bin/perl
+
+# Test that the "connect" command will work on a square point distribution in a
+# variety of different locations in space.
+
+# Usage: ./test_delaunay_2d [-s|-d]
+#
+# With -s, test with a sparse square (2 x 2 = 4 points). With -d, test with a
+# dense square (11 x 11 = 121 points). Both are unit squares as far as Euclidean
+# distance is concerned.
+
+use warnings;
+use strict;
+
+my $i;
+
+my $smallwidth = 2;
+my $largewidth = 11;
+my $width;
+
+if (@ARGV < 1) {
+    print "Usage: $0 [-s|-d]\n";
+    exit;
+}
+
+if ($ARGV[0] eq "-s") {
+    $width = $smallwidth;
+} else {
+    $width = $largewidth;
+}
+
+run_tests_with_fixed_x(0);
+for ($i = 0; $i < 6; $i++) {
+    run_tests_with_fixed_x(10**$i);
+    run_tests_with_fixed_x(-1 * 10**$i);
+}
+
+sub run_tests_with_fixed_x {
+    my ($x) = @_;
+    my $i;
+
+    run_lagrit($x, 0, $smallwidth);
+    for ($i = 0; $i < 6; $i++) {
+        run_lagrit($x, 10**$i, $smallwidth);
+        run_lagrit($x, -1 * 10**$i, $smallwidth);
+    }
+}
+
+sub run_lagrit {
+    my ($x, $y, $width) = @_;
+    my $x1 = $x + 1;
+    my $y1 = $y + 1;
+    `./run_lagrit $x $y $x1 $y1 $width >/dev/null 2>&1`;
+    if ($? != 0) {
+        print "Failure at ($x, $y)\n";
+    }
+}

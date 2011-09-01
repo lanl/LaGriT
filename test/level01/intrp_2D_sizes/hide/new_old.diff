@@ -1,0 +1,261 @@
+
+----------------------------------------------------------                      
+Search Point:           2000                                                    
+Retrieve within epsilonl:   0.314018491737E+04 candidates:         2            
+ 
+*** SEARCH SINK Pnt:       2000 Candidate:   1   SOURCE Elem:        988        
+--------   inside_tri                                                           
+vol,eps,eps_find:   0.000000000000E+00  1.000000000000E+00  4.440892098501E-16  
+ Warning upper bound: volume epsilon adjusted to one.                           
+Exit inside_tri iflag, vol, eps:     1  0.000000000000E+00  1.000000000000E+00  
+--------   inside_tri2d                                                         
+    2 Multiple edge tests: last flag and epsilon:     2  1.110223024625E+28     
+ Warning upper bound: volume epsilon adjusted to one.                           
+Multiple point and edge tests succeeded:     3                                  
+FOUND INSIDE: Exit inside_tri2d iflag, len eps:     2  1.110223024625E+28       
+ 
+Exit inside_element type     3  with iflag:     2                               
+FOUND in element:            988 flag:     2                                    
+Element xyz(1):    9.500000000000E+15  1.000000000000E+16  0.000000000000E+00   
+Element xyz(2):    9.500000000000E+15  9.900000000000E+15  0.000000000000E+00   
+Element xyz(3):    1.000000000000E+16  1.000000000000E+16  0.000000000000E+00   
+Query Pnt:     1.000000000000E+16  1.000000000000E+16  0.000000000000E+00       
+ 
+*** SEARCH SINK Pnt:       2000 Candidate:   2   SOURCE Elem:        727        
+--------   inside_tri                                                           
+vol,eps,eps_find:   0.000000000000E+00  1.000000000000E+00  4.440892098501E-16  
+ Warning upper bound: volume epsilon adjusted to one.                           
+Exit inside_tri iflag, vol, eps:     1  0.000000000000E+00  1.000000000000E+00  
+--------   inside_tri2d                                                         
+ Warning upper bound: volume epsilon adjusted to one.                           
+Exit inside_tri2d iflag 0, DOT: -2.5000000E+57 -4.0000000E+43 -5.6000000E+44    
+FOUND INSIDE: Exit inside_tri2d iflag, len eps:     0  1.110223024625E+28       
+ 
+Exit inside_element type     3  with iflag:     0                               
+FOUND in element:            727 flag:     0                                    
+Element xyz(1):    1.000000000000E+16  1.000000000000E+16  0.000000000000E+00   
+Element xyz(2):    9.500000000000E+15  9.900000000000E+15  0.000000000000E+00   
+Element xyz(3):    1.000000000000E+16  9.900000000000E+15  0.000000000000E+00   
+Query Pnt:     1.000000000000E+16  1.000000000000E+16  0.000000000000E+00       
+           2000             2217           2000    Total                        
+ 
+             2000 sink point at (   1.00000E+016  1.00000E+016  0.00000E+000 )  
+        727.00000 value assigned from element:               727                
+cmo select cmosink                                                              
+finish                                                                          
+intrp/map done.                                                                 
+ 
+cmo kdtree release                                                              
+cmo/DELATT/cmosource/sbox                                                       
+finish                                                                          
+cmo/DELATT/cmosource/v12                                                        
+finish                                                                          
+cmo/DELATT/cmosource/linkt                                                      
+finish                                                                          
+cmo/DELATT/cmosource/v2                                                         
+finish                                                                          
+finish                                                                          
+cmo printatt cmosource id_elem minmax                                           
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ id_elem                          1             4000            3999      4000  
+ 
+cmo printatt cmosink field2 minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ field2             1.000000000E+00  3.998000000E+03 3.997000000E+03      2000  
+ 
+cmo printatt cmosink field2 100,2000,100                                        
+Attribute: field2                                                               
+       100  2.50000E+01                                                         
+       200  3.51800E+03                                                         
+       300  1.29200E+03                                                         
+       400  2.30000E+03                                                         
+       500  3.05600E+03                                                         
+       600  7.60000E+01                                                         
+       700  1.83900E+03                                                         
+       800  3.59300E+03                                                         
+       900  3.35100E+03                                                         
+      1000  3.48000E+02                                                         
+      1100  2.87900E+03                                                         
+      1200  3.39200E+03                                                         
+      1300  1.15700E+03                                                         
+      1400  2.66800E+03                                                         
+      1500  3.42500E+03                                                         
+      1600  3.93800E+03                                                         
+      1700  6.94000E+02                                                         
+      1800  4.74000E+02                                                         
+      1900  3.72800E+03                                                         
+      2000  7.27000E+02                                                         
+ 
+cmo printatt cmosink pt_gtg 100,2000,100                                        
+Attribute: pt_gtg                                                               
+       100        105                                                           
+       200        210                                                           
+       300        315                                                           
+       400        420                                                           
+       500        525                                                           
+       600        630                                                           
+       700        735                                                           
+       800        840                                                           
+       900        945                                                           
+      1000       1050                                                           
+      1100       1176                                                           
+      1200       1281                                                           
+      1300       1386                                                           
+      1400       1491                                                           
+      1500       1596                                                           
+      1600       1701                                                           
+      1700       1806                                                           
+      1800       1911                                                           
+      1900       2016                                                           
+      2000       2121                                                           
+ 
+cmo printatt cmosink el_gtg 100,2000,100                                        
+Attribute: el_gtg                                                               
+       100         25                                                           
+       200       3518                                                           
+       300       1292                                                           
+       400       2300                                                           
+       500       3056                                                           
+       600         76                                                           
+       700       1839                                                           
+       800       3593                                                           
+       900       3351                                                           
+      1000        348                                                           
+      1100       2879                                                           
+      1200       3392                                                           
+      1300       1157                                                           
+      1400       2668                                                           
+      1500       3425                                                           
+      1600       3938                                                           
+      1700        694                                                           
+      1800        474                                                           
+      1900       3728                                                           
+      2000        727                                                           
+ 
+--------- old version has some bad candidate selections
+
+----------------------------------------------------------                      
+Search Point:           2000                                                    
+Retrieve within epsilonl:   0.314018491737E+04 candidates:         2            
+ 
+SEARCH SINK Pnt:       2000 SOURCE Elem:          1                             
+vol,eps,eps_find:   0.000000000000E+00  1.000000000000E+00  4.440892098501E-16  
+ Warning: volume epsilon adjusted down to one.                                  
+Exit inside_tri iflag, vol, eps:     1  0.000000000000E+00  1.000000000000E+00  
+ Warning: volume epsilon adjusted down to one.                                  
+Exit inside_tri2d iflag, len eps:    13  1.110223024625E+28                     
+Exit inside_element iflag:    13                                                
+Element xyz(1):    9.500000000000E+15  1.000000000000E+16  0.000000000000E+00   
+Query Pnt  xyz:    1.000000000000E+16  1.000000000000E+16  0.000000000000E+00   
+ 
+SEARCH SINK Pnt:       2000 SOURCE Elem:          2                             
+vol,eps,eps_find:   0.000000000000E+00  1.000000000000E+00  4.440892098501E-16  
+ Warning: volume epsilon adjusted down to one.                                  
+Exit inside_tri iflag, vol, eps:     1  0.000000000000E+00  1.000000000000E+00  
+ Warning: volume epsilon adjusted down to one.                                  
+Exit inside_tri2d iflag 0, DOT: -2.5000000E+57 -4.0000000E+43 -5.6000000E+44    
+Exit inside_element iflag:     0                                                
+Element xyz(1):    1.000000000000E+16  1.000000000000E+16  0.000000000000E+00   
+Query Pnt  xyz:    1.000000000000E+16  1.000000000000E+16  0.000000000000E+00   
+           2000             2207           2000    Total                        
+ 
+             2000 sink point at (   1.00000E+016  1.00000E+016  0.00000E+000 )  
+        988.00000 value assigned from element:               988                
+cmo select cmosink                                                              
+finish                                                                          
+intrp/map done.                                                                 
+ 
+cmo kdtree release                                                              
+cmo/DELATT/cmosource/sbox                                                       
+finish                                                                          
+cmo/DELATT/cmosource/v12                                                        
+finish                                                                          
+cmo/DELATT/cmosource/linkt                                                      
+finish                                                                          
+cmo/DELATT/cmosource/v2                                                         
+finish                                                                          
+finish                                                                          
+ Enter a command
+                                                                                
+cmo printatt cmosource id_elem minmax                                           
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ id_elem                          1             4000            3999      4000  
+ 
+ Enter a command
+cmo printatt cmosink field2 minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ field2             1.000000000E+00  3.998000000E+03 3.997000000E+03      2000  
+ 
+ Enter a command
+cmo printatt cmosink field2 100,2000,100                                        
+Attribute: field2                                                               
+       100  2.50000E+01                                                         
+       200  3.51800E+03                                                         
+       300  1.29200E+03                                                         
+       400  2.30000E+03                                                         
+       500  3.05600E+03                                                         
+       600  7.60000E+01                                                         
+       700  1.83900E+03                                                         
+       800  3.59300E+03                                                         
+       900  3.35100E+03                                                         
+      1000  3.48000E+02                                                         
+      1100  2.87900E+03                                                         
+      1200  3.39200E+03                                                         
+      1300  1.15700E+03                                                         
+      1400  2.66800E+03                                                         
+      1500  3.42500E+03                                                         
+      1600  3.93800E+03                                                         
+      1700  1.71300E+03                                                         
+      1800  3.21400E+03                                                         
+      1900  3.72800E+03                                                         
+      2000  9.88000E+02                                                         
+ 
+ Enter a command
+cmo printatt cmosink pt_gtg 100,2000,100                                        
+Attribute: pt_gtg                                                               
+       100        105                                                           
+       200        210                                                           
+       300        315                                                           
+       400        420                                                           
+       500        525                                                           
+       600        630                                                           
+       700        735                                                           
+       800        840                                                           
+       900        945                                                           
+      1000       1050                                                           
+      1100       1176                                                           
+      1200       1281                                                           
+      1300       1386                                                           
+      1400       1491                                                           
+      1500       1596                                                           
+      1600       1701                                                           
+      1700       1806                                                           
+      1800       1911                                                           
+      1900       2016                                                           
+      2000       2121                                                           
+ 
+ Enter a command
+cmo printatt cmosink el_gtg 100,2000,100                                        
+Attribute: el_gtg                                                               
+       100         25                                                           
+       200       3518                                                           
+       300       1292                                                           
+       400       2300                                                           
+       500       3056                                                           
+       600         76                                                           
+       700       1839                                                           
+       800       3593                                                           
+       900       3351                                                           
+      1000        348                                                           
+      1100       2879                                                           
+      1200       3392                                                           
+      1300       1157                                                           
+      1400       2668                                                           
+      1500       3425                                                           
+      1600       3938                                                           
+      1700       1713                                                           
+      1800       3214                                                           
+      1900       3728                                                           
+      2000        988                                                           
+ 
+ 

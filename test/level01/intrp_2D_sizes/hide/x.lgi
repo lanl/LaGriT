@@ -1,0 +1,97 @@
+*
+define / SIZE_SRCX / 21
+define / SIZE_SRCY / 101
+define / SIZE_SNKX / 20
+define / SIZE_SNKY / 100
+
+* Build a source simple 2d triangular mesh
+cmo / create / cmosource / / / triplane
+createpts/xyz/SIZE_SRCX,SIZE_SRCY,1/0.,0.,0./1.,1.,0./1,1,1
+cmo / setatt / cmosource / imt / 1 0 0 / 1
+cmo / setatt / cmosource / itp / 1 0 0 / 0
+connect 
+resetpts / itp 
+
+* Build a sink second simple 2d triangular mesh
+cmo / create / cmosink / / / triplane
+createpts/xyz/SIZE_SNKX,SIZE_SNKY,1/0.,0.,0./1.,1.,0./1,1,1
+cmo / setatt / cmosink / imt / 1 0 0 / 1
+cmo / setatt / cmosink / itp / 1 0 0 / 0
+connect
+resetpts / itp 
+
+* Add some floating point attributes for interpolate 
+cmo/addatt/cmosource/field3/vdouble/scalar/nnodes
+cmo/copyatt/cmosource cmosource / field3 xic
+cmo/addatt/cmosink/field2/vdouble/scalar/nnodes
+cmo/addatt/cmosink/field3/vdouble/scalar/nnodes
+cmo/setatt/cmosink/field3 0.0
+cmo/setatt/cmosink/field2 0.0
+
+
+cmo/setatt/cmosink/idebug 5
+cmo/setatt/cmosource/idebug 5
+
+*  smallest numbers
+
+* test 1 old  
+cmo / select / cmosource
+scale/ 1 0 0 / relative / xyz / 1.e10 1.e10 1.0
+cmo / select / cmosink
+scale/ 1 0 0 / relative / xyz / 1.e10 1.e10 1.0
+*infile diagnostic.mlgi
+*interpolate/ continuous / cmosink field3 /1,0,0/ &
+         cmosource field3
+
+* test 2 old  
+cmo / select / cmosource
+scale/ 1 0 0 / relative / xyz / 1.e2 1.e2 1.0
+cmo / select / cmosink
+scale/ 1 0 0 / relative / xyz / 1.e2 1.e2 1.0
+*infile diagnostic.mlgi
+*interpolate/ continuous / cmosink field3 /1,0,0/ &
+*         cmosource field3
+*dump / gmv / out_1.ep02.gmv / cmosink  ascii
+*
+*
+** test 3 old  
+cmo / select / cmosource
+scale/ 1 0 0 / relative / xyz / 1.e2 1.e2 1.0
+cmo / select / cmosink
+scale/ 1 0 0 / relative / xyz / 1.e2 1.e2 1.0
+* infile diagnostic.mlgi
+* interpolate/ continuous / cmosink field3 /1,0,0/ &
+*          cmosource field3
+* dump / gmv / out_1.ep04.gmv / cmosink  ascii
+
+* test 4 old  
+cmo / select / cmosource
+scale/ 1 0 0 / relative / xyz / 1.e2 1.e2 1.0
+cmo / select / cmosink
+scale/ 1 0 0 / relative / xyz / 1.e2 1.e2 1.0
+* infile diagnostic.mlgi
+* interpolate/ continuous / cmosink field3 /1,0,0/ &
+*          cmosource field3
+*
+* dump / gmv / out_1.ep06_old.gmv / cmosink 
+*
+*cmo printatt cmosource xic minmax
+*cmo printatt cmosource xic minmax
+*cmo printatt cmosource -xyz- 1,1,0
+*cmo printatt cmosource field3 1,1,0
+*
+*cmo printatt cmosink field3 minmax
+*cmo printatt cmosink field3 minmax
+*cmo printatt cmosink -xyz- 1,1,0
+*cmo printatt cmosink field3 
+
+* test 5 old
+cmo/set_id/cmosource element / id_elem
+interpolate/map/cmosink field2/1,0,0/cmosource id_elem 
+
+
+dump / gmv / 2d_sink_old.gmv / cmosink  
+dump / avs / 2d_sink_old.inp / cmosink 
+dump / gmv / 2d_source.gmv / cmosource
+
+finish

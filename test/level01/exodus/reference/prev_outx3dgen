@@ -1,0 +1,54 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.001   Linux m64      *                 
+*               *    date_compile: 2011/05/01  gfort 4.5      *                 
+*               *    Run Time: 2011/Aug 12  13:42:43          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+cmo/create/mohex///hex                                                          
+createpts/brick/xyz/11 11 11/0 0 0/1 1 1/1 1 1                                  
+          Number of nodes:        1331                                          
+          Number of elements:        1000                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.100000000000E+01                                  
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+dump/hexcube.exo/mohex                                                          
+dump/exo/hexcube.exo/mohex                                                      
+cmo/set_id/mohex/element/e_num_temp                                             
+cmo/addatt/mohex e_num_temp/VINT/scalar/nelements/linear/permanent//0           
+finish                                                                          
+finish                                                                          
+sort/mohex/index/ascending/ikey_utr/itetclr/e_num_temp                          
+cmo/addatt//ikey_utr/vint/scalar/nelements///gax/0                              
+finish                                                                          
+finish                                                                          
+cmo/DELATT/mohex/e_num_temp                                                     
+finish                                                                          
+cmo/modatt/mohex/itetclr/ioflag/lga                                             
+finish                                                                          
+cmo/modatt/mohex/itetclr/ioflag/l                                               
+finish                                                                          
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   
