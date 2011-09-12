@@ -170,8 +170,8 @@ C
       character*(*) cmsgin(nwds)
 C
      
-      integer iunit, lunget
-      integer*4 iunit4
+      integer iunit
+      integer*4 iunit4, lunget
 
       integer ierror_return
 
@@ -179,6 +179,25 @@ C
      * iopt_nurbl, iopt_nurbp, iopt_nurbs, iopt_points, iopt_values,
      * ipointi,ipointj, ist1,itype,kli,ksi,ksj,len1,lenfile,
      * nbinx,nbiny,nbinz,ierr1,nen,nef,npoints,nsdgeom,nsdtopo
+
+C     for defining sizes in gmv binary files
+      integer ftype
+      integer  IEEE, ASCII, IEEEI4R4, IEEEI4R8, IEEEI8R4,
+     * IEEEI8R8, IECXI4R4, IECXI4R8, IECXI8R4, IECXI8R8
+
+C     these formats are currently supported:
+      data IEEE / 0 /
+      data ASCII / 1 /
+      data IEEEI4R4 / 0 /
+
+C     these formats are not currently supported: 
+      data IEEEI4R8 / 2 /
+      data IEEEI8R4 / 3 /
+      data IEEEI8R8 / 4 /
+      data IECXI4R4 / 5 /
+      data IECXI4R8 / 6 /
+      data IECXI8R4 / 7 /
+      data IECXI8R8 / 8 /
 
       real*8 one,two,zero
 
@@ -206,7 +225,7 @@ C
 C
 C#######################################################################
 C
-      character*32 iword
+      character*32 iword, iword2
 C
       integer icharln
 C
@@ -454,35 +473,103 @@ C
             write(logmess,*) 'GMV read error: cannot find file '
      &         //ifile(1:lenfile)
             call writloga('default',1,logmess,0,ierr)
-            return
+            go to 9000
          endif
 
          iunit=-1
          call hassign(iunit,ifile,ierror)
+         iunit4 = iunit
          if (ierror.lt.0 .or. iunit.lt.0) then
             call x3d_error(isubname,'hassign bad file unit')
             write(logmess,*) 'WARNING: file not opened: '
      &         //ifile(1:lenfile)
             call writloga('default',1,logmess,0,ierr)
-            return
-         else
-            iunit4 = iunit
+            go to 9000
          endif
 
          read(iunit4,'(a32)',err=900) iword
          goto 901
+
+C        this is skipped if there is no error
 900      write(logmess,*) 'GMV read error: empty file'
          call writloga('default',1,logmess,0,ierr)
-         return
+         print*,'File ',ifile(1:lenfile),' iunit: ',iunit4 
+         go to 9000
+
 901      continue
+
          close(iunit4)
-         if(iword(1:8).eq.'gmvinput'.and.iword(9:12).eq.'ieee') then
-            call readgmv_binary(ifile(1:lenfile),ierror_return)
-         else
-            call readgmv_ascii(ifile(1:lenfile),ierror_return)
-         endif
-         call setsize()
+         if(iword(1:8).eq.'gmvinput') then
 C
+C       This tag can be used to read and write additional sizes
+C       copied from sample I/O files found on GMV web site
+C       ASCII:
+C       gmvinput ascii
+C       IEEEI4R4:
+C       gmvinputieee    nodes
+C       12345678901234567890123456789012
+  
+          iword2 = iword(9:29)
+          ftype = -1
+          if (iword2(1:5).eq. 'ascii') ftype=ASCII
+          if (iword2(1:6).eq. ' ascii') ftype=ASCII
+          if (iword2(1:7).eq. '  ascii') ftype=ASCII
+          if (iword2(1:8).eq. '   ascii') ftype=ASCII
+          if (iword2(1:4).eq. 'ieee') ftype=IEEEI4R4
+          if (iword2(1:5).eq.' ieee') ftype=IEEEI4R4
+          if (iword2(1:8).eq.'ieeei4r4') ftype=IEEEI4R4
+          if (iword2(1:9).eq.' ieeei4r4') ftype=IEEEI4R4
+
+          if (iword2(1:8).eq.'ieeei4r8') ftype=IEEEI4R8
+          if (iword2(1:9).eq.' ieeei4r8') ftype=IEEEI4R8
+          if (iword2(1:8).eq.'ieeei8r4') ftype=IEEEI8R4
+          if (iword2(1:9).eq.' ieeei8r4') ftype=IEEEI8R4
+          if (iword2(1:8).eq.'ieeei8r8') ftype=IEEEI8R8
+          if (iword2(1:9).eq.' ieeei8r8') ftype=IEEEI8R8
+          if (iword2(1:8).eq.'iecxi4r4') ftype=IECXI4R4
+          if (iword2(1:9).eq.' iecxi4r4') ftype=IECXI4R4
+          if (iword2(1:8).eq.'iecxi4r8') ftype=IECXI4R8
+          if (iword2(1:9).eq.' iecxi4r8') ftype=IECXI4R8
+          if (iword2(1:8).eq.'iecxi8r4') ftype=IECXI8R4
+          if (iword2(1:9).eq.' iecxi8r4') ftype=IECXI8R4
+          if (iword2(1:8).eq.'iecxi8r8') ftype=IECXI8R8
+          if (iword2(1:9).eq.' iecxi8r8') ftype=IECXI8R8
+
+          if (ftype .eq. -1) then
+            write(logmess,'(a,a,a,a)')
+     *      "Invalid GMV file type: ",
+     *      '^',iword2,'^'
+            call writloga('default',0,logmess,0,ierror)
+            write(logmess,'(a,a)')"Must be of file type: ",
+     *      " ascii, ieee, or iecx "
+            call writloga('default',0,logmess,0,ierror)
+            goto 9000
+
+          else if(ftype.eq. IEEEI4R4 ) then
+             call readgmv_binary(ifile(1:lenfile),ierror_return)
+
+          else if (ftype.eq. ASCII ) then
+             call readgmv_ascii(ifile(1:lenfile),ierror_return)
+          
+          else
+            write(logmess,'(a,a,a,a)')
+     *      "Unsupported GMV file type: ",
+     *      '^',iword2,'^'
+            call writloga('default',0,logmess,0,ierror)
+            goto 9000
+
+          endif
+          call setsize()
+
+C     missing keyword gmvinput
+      else
+         write(logmess,'(a)')
+     *   "Not a GMV file, gmvinput token not found."
+         call writloga('default',0,logmess,0,ierror)
+         goto 9000
+      endif
+C     end gmv ascii and binary formats
+
       elseif(idsb(1:lenidsb).eq.'readgmvfreeformat' .or.
      *       ioption(1:len1).eq.'gmvfreeformat') then
 C
@@ -503,7 +590,7 @@ C
          if (ierror.ne.0) then
             write(logmess,*) 'GMV read error: no mesh object'
             call writloga('default',1,logmess,0,ierr)
-            return
+            go to 9000
          endif
          call cmo_set_info('nnodes',cmo,0,1,1,ierror)
          call cmo_set_info('nelements',cmo,0,1,1,ierror)
@@ -517,7 +604,7 @@ C
             write(logmess,*) 'GMV read error: cannot find file '
      &         //ifile(1:lenfile)
             call writloga('default',1,logmess,0,ierr)
-            return
+            go to 9000
          endif
          iunit=-1
          call hassign(iunit,ifile,ierror)
@@ -526,7 +613,7 @@ C
             write(logmess,*) 'WARNING: file not opened: '
      &         //ifile(1:lenfile)
             call writloga('default',1,logmess,0,ierr)
-            return
+            go to 9000
          else
            iunit4 = iunit
          endif
@@ -535,7 +622,7 @@ C
          goto 911
 910      write(logmess,*) 'GMV read error: empty file'
          call writloga('default',1,logmess,0,ierr)
-         return
+         go to 9000
 911      continue
          close(iunit4)
          if(iword(1:8).eq.'gmvinput'.and.iword(9:12).eq.'ieee') then
@@ -895,17 +982,15 @@ C
 C
 C     close up the file that was opened.
 C
-C     try to get file unit with normal file name (this means it was a 
-C     fortran file open)
-      iunit=lunget(ifile(1:lenfile))
-      if (iunit.ne.-1) then
-         iunit4= iunit
+C     try to get file unit with normal file name 
+C     (this means it was a fortran file open)
+      iunit4=lunget(ifile(1:lenfile))
+      if (iunit4.ne.-1) then
          close(iunit4)
       else
 C     try to get file unit with filename + F (this means it was a C file
 C     open)
-         iunit=lunget(ifile(1:lenfile) // 'F')
-         iunit4= iunit
+         iunit4=lunget(ifile(1:lenfile) // 'F')
          if (iunit4.ne.-1) then
             close(iunit4)
             call cclose(iunit4)

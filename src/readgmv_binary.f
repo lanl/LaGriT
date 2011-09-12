@@ -154,7 +154,8 @@ c
       character*32 isubname,cmo,cmoattnam,ctype,cvelnm,
      *         clen,cinter,cpers,cio,crank
       character*32  cmotype,cout,geom_name,c32blank
-      character*132 iline, iword1, iword2
+      character*32  iword1, iword2
+      character*132 iline
       character*132 file, Fifile
       character*132 logmess
       character*8092 cbuff
@@ -293,14 +294,16 @@ C     IF word 1 is not gmvinput
          call cclose(iunit4)
          goto 9999
       endif
-
 C
 C     done checking header for tag gmvinput and format ieee 
 C     continue reading file
-
       ihybrid=0
-C
+
+C     foreach word1 keyword, read keyword, then fill cmo
+C     return here to read each word flag
+
  100  continue
+
       ibytes=8
       nbyte_total = nbyte_total + ibytes
       call cread(iunit4,iword1,ibytes,ierror)
@@ -334,10 +337,10 @@ C
             nbyte_total = nbyte_total + ibytes
             call cread(iunit4,xtemp4,ibytes,ierror)
             if(ierror.ne.0) go to 9998 
-
             do i=1,nnodes
                xic(i)=xtemp4(i)
             enddo
+
             ibytes=4*nnodes
             nbyte_total = nbyte_total + ibytes
             call cread(iunit4,xtemp4,ibytes,ierror)
@@ -345,6 +348,7 @@ C
             do i=1,nnodes
                yic(i)=xtemp4(i)
             enddo
+
             ibytes=4*nnodes
             nbyte_total = nbyte_total + ibytes 
             call cread(iunit4,xtemp4,ibytes,ierror)
@@ -357,6 +361,7 @@ C
 C
          endif
          goto 100
+
       elseif(iword1(1:5).eq.'cells') then
 C
          ibytes=4
@@ -373,17 +378,21 @@ C
             itoff=0
             jtoff=0
             do ielements=1,nelements
+
                ibytes=8
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,ctype,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
-            call nulltoblank_lg(ctype,charlength)
+               call nulltoblank_lg(ctype,charlength)
                ifound=0
+
                if(ctype(1:3).eq.'lin') then
+
                   ibytes=4*(1+nelmnen(ifelmlin))
                   nbyte_total = nbyte_total + ibytes
                   call cread(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
+
                   icount=liste(1)
                   i1=liste(2)
                   i2=liste(3)
@@ -396,10 +405,12 @@ C
                      endif
                   enddo
                elseif(ctype(1:3).eq.'tri') then
+
                   ibytes=4*(1+nelmnen(ifelmtri))
                   nbyte_total = nbyte_total + ibytes
                   call cread(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
+
                   icount=liste(1)
                   i1=liste(2)
                   i2=liste(3)
@@ -413,10 +424,12 @@ C
                      endif
                   enddo
                elseif(ctype(1:4).eq.'quad') then
+
                   ibytes=4*(1+nelmnen(ifelmqud))
                   nbyte_total = nbyte_total + ibytes 
                   call cread(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
+
                   icount=liste(1)
                   i1=liste(2)
                   i2=liste(3)
@@ -431,10 +444,12 @@ C
                      endif
                   enddo
                elseif(ctype(1:3).eq.'tet') then
+
                   ibytes=4*(1+nelmnen(ifelmtet))
                   nbyte_total = nbyte_total + ibytes
                   call cread(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
+
                   icount=liste(1)
                   i1=liste(2)
                   i2=liste(3)
@@ -450,10 +465,12 @@ C
                   enddo
                   if(i1.eq.i4) ctype='tri'
                elseif(ctype(1:3).eq.'pyr') then
+
                   ibytes=4*(1+nelmnen(ifelmpyr))
                   nbyte_total = nbyte_total + ibytes
                   call cread(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
+
                   icount=liste(1)
                   i5=liste(2)
                   i1=liste(3)
@@ -469,10 +486,12 @@ C
                      endif
                   enddo
                elseif(ctype(1:3).eq.'pri') then
+
                   ibytes=4*(1+nelmnen(ifelmpri))
                   nbyte_total = nbyte_total + ibytes
                   call cread(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
+
                   icount=liste(1)
                   i1=liste(2)
                   i2=liste(3)
@@ -489,10 +508,12 @@ C
                      endif
                   enddo
                elseif(ctype(1:3).eq.'hex') then
+
                   ibytes=4*(1+nelmnen(ifelmhex))
                   nbyte_total = nbyte_total + ibytes
                   call cread(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
+
                   icount=liste(1)
                   i1=liste(2)
                   i2=liste(3)
@@ -931,11 +952,15 @@ CCCC        ! moved to end
          goto 100
 C
       elseif(iword1(1:8).eq.'velocity') then
+
          ibytes=4
          nbyte_total = nbyte_total + ibytes
          call cread(iunit4,iflag4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
          iflag=iflag4
+
+C        if iflag is 1
+C        create and assign vector attribute vels
          if(iflag.eq.1) then
             call cmo_get_name(cmo,icscode)
             call cmo_get_info('nnodes',cmo,nnodes,ilen,itype,icscode)
@@ -954,6 +979,7 @@ C
                endif
                length=nnodes
                call mmgetblk('xtemp4',isubname,ipxtemp4,length,2,ics)
+
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
@@ -961,6 +987,7 @@ C
                do i=1,nnodes
                   vels(1,i)=xtemp4(i)
                enddo
+
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
@@ -968,6 +995,7 @@ C
                do i=1,nnodes
                   vels(2,i)=xtemp4(i)
                enddo
+
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
@@ -975,46 +1003,65 @@ C
                do i=1,nnodes
                   vels(3,i)=xtemp4(i)
                enddo
+
                call mmrelblk('xtemp4',isubname,ipxtemp4,icscode)
+
             endif
+
+C        else iflag is not 1 (should be 0)
+C        data were written fgmvwritevelocitydata(igmvtype,u,v,w)
+C        note that values are read, but are not copied into cmo 
          else
             call cmo_get_name(cmo,icscode)
             call cmo_get_info('nelements',cmo,
      *                        nelements,ilen,itype,icscode)
+
             if(nelements.gt.0) then
                length=nelements
                call mmgetblk('xtemp4',isubname,ipxtemp4,length,2,ics)
+
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
+
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
+
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
+
                call mmrelblk('xtemp4',isubname,ipxtemp4,icscode)
+
             endif
          endif
          goto 100
 C
+C     read and fill each of the attribute arrays
+C     iflag 1 is node and iflag 0 is element
+C     keyword endvars will end the list
       elseif(iword1(1:8).eq.'variable') then
 C
  110     continue
+
          ibytes=8
          nbyte_total = nbyte_total + ibytes
          call cread(iunit4,cmoattnam,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
-            call nulltoblank_lg(cmoattnam,charlength)
+         call nulltoblank_lg(cmoattnam,charlength)
          if(cmoattnam(1:7).eq.'endvars') goto 100
+
          ibytes=4
          nbyte_total = nbyte_total + ibytes
          call cread(iunit4,iflag4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
          iflag=iflag4
+
+C        node attributes
          if(iflag.eq.1) then
             call cmo_get_info('nnodes',cmo,
      *                        nnodes,ilen,itype,icscode)
@@ -1032,10 +1079,12 @@ C
                lenc=icharlnf(ctype)
                length=nnodes
                call mmgetblk('xtemp4',isubname,ipxtemp4,length,2,ics)
+
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
+
                if(ctype(1:lenc).eq.'VINT') then
                   call mmfindbk(cmoattnam,cmo,ipiarray,lenout,icscode)
                   do i=1,nnodes
@@ -1048,6 +1097,7 @@ C
                   enddo
                endif
                call mmrelblk('xtemp4',isubname,ipxtemp4,icscode)
+
             else
                cbuff='cmo/addatt/' //
      *               cmo(1:icharlnf(cmo)) //
@@ -1060,6 +1110,7 @@ C
                call mmfindbk(cmoattnam,cmo,ipxarray,lenout,icscode)
                length=nnodes
                call mmgetblk('xtemp4',isubname,ipxtemp4,length,2,ics)
+
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
@@ -1067,8 +1118,11 @@ C
                do i=1,nnodes
                   xarray(i)=xtemp4(i)
                enddo
+
                call mmrelblk('xtemp4',isubname,ipxtemp4,icscode)
             endif
+
+C        element attributes
          elseif(iflag.eq.0) then
             call cmo_get_info('nelements',cmo,
      *                        nelements,ilen,itype,icscode)
@@ -1086,10 +1140,12 @@ C
                lenc=icharlnf(ctype)
                length=nelements
                call mmgetblk('xtemp4',isubname,ipxtemp4,length,2,ics)
+
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
+
                if(ctype(1:lenc).eq.'VINT') then
                   call mmfindbk(cmoattnam,cmo,ipiarray,lenout,icscode)
                   do i=1,nelements
@@ -1102,6 +1158,7 @@ C
                   enddo
                endif
                call mmrelblk('xtemp4',isubname,ipxtemp4,icscode)
+
             else
 C
 C    Special case for AMR variables
@@ -1120,6 +1177,7 @@ C
                call mmfindbk(cmoattnam,cmo,ipiarray,lenout,icscode)
                length=nelements
                call mmgetblk('xtemp4',isubname,ipxtemp4,length,2,ics)
+
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
@@ -1127,6 +1185,7 @@ C
                do i=1,nelements
                   iarray(i)=nint(xtemp4(i))
                enddo
+
                call mmrelblk('xtemp4',isubname,ipxtemp4,icscode)
 C
 C    END Special case for AMR variables
@@ -1143,6 +1202,7 @@ C
                call mmfindbk(cmoattnam,cmo,ipxarray,lenout,icscode)
                length=nelements
                call mmgetblk('xtemp4',isubname,ipxtemp4,length,2,ics)
+
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
@@ -1150,6 +1210,7 @@ C
                do i=1,nelements
                   xarray(i)=xtemp4(i)
                enddo
+
                call mmrelblk('xtemp4',isubname,ipxtemp4,icscode)
               endif
             endif
@@ -1171,10 +1232,12 @@ C
                lenc=icharlnf(ctype)
                length=nelements
                call mmgetblk('xtemp4',isubname,ipxtemp4,length,2,ics)
+
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
+
                if(ctype(1:lenc).eq.'VINT') then
                   call mmfindbk(cmoattnam,cmo,ipiarray,lenout,icscode)
                   do i=1,nelements
@@ -1199,6 +1262,7 @@ C
                call mmfindbk(cmoattnam,cmo,ipxarray,lenout,icscode)
                length=nelements
                call mmgetblk('xtemp4',isubname,ipxtemp4,length,2,ics)
+
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,xtemp4,ibytes,ierror)
@@ -1206,30 +1270,36 @@ C
                do i=1,nelements
                   xarray(i)=xtemp4(i)
                enddo
+
                call mmrelblk('xtemp4',isubname,ipxtemp4,icscode)
+
             endif
          endif
          goto 110
-      elseif(iword1(1:5).eq.'flags') then
+
 C
- 
+      elseif(iword1(1:5).eq.'flags') then
  120     continue
+
          ibytes=8
          nbyte_total = nbyte_total + ibytes
          call cread(iunit4,cmoattnam,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
-            call nulltoblank_lg(cmoattnam,charlength)
+         call nulltoblank_lg(cmoattnam,charlength)
          if(cmoattnam(1:7).eq.'endflag') goto 100
+
          ibytes=4
          nbyte_total = nbyte_total + ibytes
          call cread(iunit4,maxclrpoint4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
-            maxclrpoint=maxclrpoint4
+         maxclrpoint=maxclrpoint4
+
          ibytes=4
          nbyte_total = nbyte_total + ibytes
          call cread(iunit4,iflag4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
-            iflag=iflag4
+         iflag=iflag4
+
          do i=1,maxclrpoint
             iword2=' '
             ibytes=8
@@ -1237,6 +1307,7 @@ C
             call cread(iunit4,iword2,ibytes,ierror)
             if (ierror.ne.0 ) go to 9998
          enddo
+
          if(iflag.eq.1) then
             call mmfindbk(cmoattnam,cmo,ipout,lenout,icscode)
             if(icscode.eq.0) then
@@ -1249,6 +1320,7 @@ C
                   length=nnodes
                   call mmgetblk('itemp4',isubname,ipitemp4,length,1
      &               ,icscode)
+
                   ibytes=4*nnodes
                   nbyte_total = nbyte_total + ibytes
                   call cread(iunit4,itemp4,ibytes,ierror)
@@ -1262,6 +1334,7 @@ C
                   call mmfindbk(cmoattnam,cmo,ipxarray,lenout,icscode)
                   length=nnodes
                   call mmgetblk('xtemp4',isubname,ipxtemp4,length,2,ics)
+
                   ibytes=4*nnodes
                   nbyte_total = nbyte_total + ibytes
                   call cread(iunit4,xtemp4,ibytes,ierror)
@@ -1270,6 +1343,7 @@ C
                      xarray(i)=xtemp4(i)
                   enddo
                   call mmrelblk('xtemp4',isubname,ipxtemp4,icscode)
+
                endif
             else
                cbuff='cmo/addatt/' //
@@ -1284,14 +1358,16 @@ C
                length=nnodes
                call mmgetblk('itemp4',isubname,ipitemp4,length,1
      &            ,icscode)
+
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,itemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
-                  do it=1,nnodes
-                     iarray(it)=itemp4(it)
-                  enddo
-                  call mmrelblk('itemp4',isubname,ipitemp4,icscode)
+               do it=1,nnodes
+                  iarray(it)=itemp4(it)
+               enddo
+               call mmrelblk('itemp4',isubname,ipitemp4,icscode)
+
             endif
          elseif(iflag.eq.0) then
             call mmfindbk(cmoattnam,cmo,ipout,lenout,icscode)
@@ -1304,18 +1380,21 @@ C
                   length=nelements
                   call mmgetblk('itemp4',isubname,ipitemp4,length,1
      &               ,icscode)
+
                   ibytes=4*nelements
                   nbyte_total = nbyte_total + ibytes
                   call cread(iunit4,itemp4,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
-                   do it=1,nelements
-                      iarray(it)=itemp4(it)
-                   enddo
-                   call mmrelblk('itemp4',isubname,ipitemp4,icscode)
+                  do it=1,nelements
+                     iarray(it)=itemp4(it)
+                  enddo
+                  call mmrelblk('itemp4',isubname,ipitemp4,icscode)
+
                elseif(ctype(1:lenc).eq.'VDOUBLE') then
                   call mmfindbk(cmoattnam,cmo,ipxarray,lenout,icscode)
                   length=nelements
                   call mmgetblk('xtemp4',isubname,ipxtemp4,length,2,ics)
+
                   ibytes=4*nelements
                   nbyte_total = nbyte_total + ibytes
                   call cread(iunit4,xtemp4,ibytes,ierror)
@@ -1324,6 +1403,7 @@ C
                      xarray(i)=xtemp4(i)
                   enddo
                   call mmrelblk('xtemp4',isubname,ipxtemp4,icscode)
+
                endif
             else
                cbuff='cmo/addatt/' //
@@ -1338,6 +1418,7 @@ C
                length=nelements
                call mmgetblk('itemp4',isubname,ipitemp4,length,1
      &            ,icscode)
+
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,itemp4,ibytes,ierror)
@@ -1346,6 +1427,7 @@ C
                    iarray(it)=itemp4(it)
                enddo
                call mmrelblk('itemp4',isubname,ipitemp4,icscode)
+
             endif
          endif
 C
@@ -1368,9 +1450,12 @@ C
          call cread(iunit4,maxclrpoint4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
          maxclrpoint=maxclrpoint4
+
          ibytes=4
          nbyte_total = nbyte_total + ibytes
          call cread(iunit4,iflag4,ibytes,ierror)
+         iflag=iflag4
+
          if (ierror.ne.0 ) go to 9998
          do i=1,maxclrpoint
             iword2=' '
@@ -1378,19 +1463,21 @@ C
             nbyte_total = nbyte_total + ibytes
             call cread(iunit4,iword2,ibytes,ierror)
             if (ierror.ne.0 ) go to 9998
-               call nulltoblank_lg(iword2,charlength)
+            call nulltoblank_lg(iword2,charlength)
             len1=icharlnb(iword2)
             do j=1,len1
                if(iword2(j:j).eq.' ') then
                   iword2(j:j)='_'
                endif
             enddo
+
             if(isgeom) then
               do j=1,nmregs
                 if(cmregs(j).eq.iword2(1:len1)) matregs(j)=i
               enddo
             endif
          enddo
+
          if(iflag.eq.1) then
             call cmo_get_info('nnodes',cmo,nnodes,ilen,itype,icscode)
             if(nnodes.gt.0) then
@@ -1405,6 +1492,7 @@ C
                length=nnodes
                call mmgetblk('itemp4',isubname,ipitemp4,length,1
      &            ,icscode)
+
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,itemp4,ibytes,ierror)
@@ -1416,6 +1504,7 @@ C
                   itetclr(it)=imt1(itet1(itetoff(it)+1))
                enddo
                call mmrelblk('itemp4',isubname,ipitemp4,icscode)
+
             endif
          elseif(iflag.eq.0) then
             call cmo_get_info('nelements',cmo,
@@ -1425,6 +1514,7 @@ C
                length=nelements
                call mmgetblk('itemp4',isubname,ipitemp4,length,1
      &            ,icscode)
+
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
                call cread(iunit4,itemp4,ibytes,ierror)
@@ -1433,6 +1523,7 @@ C
                   itetclr(it)=itemp4(it)
                enddo
                call mmrelblk('itemp4',isubname,ipitemp4,icscode)
+
             endif
          endif
          goto 100
@@ -1442,19 +1533,23 @@ C
          ird=1
          ibytes=4
          dowhile(ird.eq.1)
+
              nbyte_total = nbyte_total + ibytes
              call cread(iunit4,iword1,ibytes,ierror)
              if (ierror.ne.0 ) go to 9998
+
              if(iword1(1:4).eq.'endp') then
                 nbyte_total = nbyte_total + ibytes
                 call cread(iunit4,iword1,ibytes,ierror)
                 if (ierror.ne.0 ) go to 9998
                 if(iword1(1:3).eq.'oly') ird=0
              endif
+
          enddo
          goto 100
 C
       elseif(iword1(1:7).eq.'cycleno') then
+
          ibytes=4
          nbyte_total = nbyte_total + ibytes
          call cread(iunit4,ihcycle4,ibytes,ierror)
@@ -1465,7 +1560,9 @@ C
      *                   ihcycle,rout,cout,1,icscode)
          if (icscode .ne. 0) call x3d_error(isubname,'set_global')
          goto 100
+
       elseif(iword1(1:8).eq.'probtime') then
+
          ibytes=4
          nbyte_total = nbyte_total + ibytes
          call cread(iunit4,xtime4,ibytes,ierror)

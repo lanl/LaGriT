@@ -58,13 +58,15 @@ C
 C
 C#######################################################################
 C
-      integer i, iunit, lenname
+      integer i, lenname
 
       character*32 ifile
 C
 C#######################################################################
 C
-      integer lunget, lenchar
+      integer*4 lunget
+      integer*4 iunit4
+      integer   lenchar
 C
 C#######################################################################
 C
@@ -74,11 +76,11 @@ C
       do i=1,numlogs
          if(logtype(i).eq.iopt.or.logname(i).eq.iopt) then
             ierr=0
-            iunit=lunget(logname(i))
+            iunit4=lunget(logname(i))
             ifile=logname(i)
             lenname=lenchar(ifile)
-C****       close(iunit)
-C****       open(unit=iunit,file=ifile(1:lenname),
+C****       close(iunit4)
+C****       open(unit=iunit4,file=ifile(1:lenname),
 C*****           status='unknown')
          endif
       enddo

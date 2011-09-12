@@ -84,7 +84,8 @@ C
 C
 C#######################################################################
 C
-      integer lunget, l1, l2, icharln
+      integer*4 lunget, iunit4
+      integer l1, l2, icharln
       logical opn
 C
 C#######################################################################
@@ -102,7 +103,8 @@ C        _______________________________________________________________
 C
 C        SEND MESSAGE ONLY TO tty.
 C
-         iunit=lunget('tty')
+         iunit4=lunget('tty')
+         iunit = iunit4
 C           *** GET THE LOGICAL UNIT NUMBER ASSOCAITED WITH THIS FILE.
          call writlogb(iunit,isbefore,imess,isafter,ierr)
 C
