@@ -21,19 +21,11 @@ dump / gmv / output_ascii.gmv / cmo / ascii
 dump / avs / output.inp / cmo /
 * end compare here
 
-* read AVS and GMV files read AVS and GMV
-read / gmv / output_ascii.gmv / cmogmva / ascii
-
-read / avs / output.inp / cmoavs /
-* begin compare
-cmo status cmogmv
-cmo status cmoavs
+* read write ascii binary
+* begin compare write AVS and GMV
+cmo delete cmo
+infile test_io.lgi
 * end compare here
-
-* linux can not always read this file
-* start acceptable difference (linux)
-read / gmv / output.gmv / cmogmv /
-* end acceptable difference (linux)
 
 finish
 
