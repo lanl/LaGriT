@@ -1,14 +1,14 @@
 OS: linux2
-USING: /home/tam/src/lagrit/src/lagrit_lin64_o_gfort4.5
-Top directory: /home/tam/src/lagrit/test/level01 at Wed Aug 31 13:19:55 2011
+USING: lagrit64
+Top directory: /home/tam/src/lagrit/test/level01 at Fri Sep  9 13:08:16 2011
  1  Test Directory ./addmesh_add -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:19:55          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:16          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -635,9 +635,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:19:58          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:18          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1051,9 +1051,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:19:58          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:18          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1548,9 +1548,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:19:58          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:19          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1801,9 +1801,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:19:59          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:19          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -2231,9 +2231,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:19:59          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:19          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -3900,9 +3900,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:00          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:20          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7959,9 +7959,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:02          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -12035,9 +12035,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:04          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -13053,9 +13053,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:06          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:26          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -13455,147 +13455,268 @@ finish
 * end compare here                                                              
  Enter a command
                                                                                 
-* read AVS and GMV files read AVS and GMV                                       
+* read write ascii binary                                                       
  Enter a command
-read/gmv/output_ascii.gmv/cmogmva/ascii                                         
-geniee                                                                          
+* begin compare write AVS and GMV                                               
+ Enter a command
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+ Enter a command
+infile test_io.lgi                                                              
+* TEST dump/* read/* binary and ascii                                           
+*****                                                                           
+* dump and read AVS, GMV, lagrit files                                          
+*                                                                               
+cmo/create/cmo///hex                                                            
+createpts/brick/xyz/3 3 3/0. 0. 0./1. 1. 1./1 1 1                               
+          Number of nodes:          27                                          
+          Number of elements:           8                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.100000000000E+01                                  
+cmo/set_id/cmo/both/idnode idelem                                               
+cmo/addatt/cmo idnode/VINT/scalar/nnodes/linear/permanent//0                    
 finish                                                                          
-Nodes:          8 Elements:          5                                          
-Done reading GMV ascii file: output_ascii.gmv                                   
+cmo/addatt/cmo idelem/VINT/scalar/nelements/linear/permanent//0                 
+finish                                                                          
+cmo/copyatt/cmo/cmo/itetclr/idelem                                              
+         8 copied from cmo idelem to -> cmo itetclr                             
  
- Enter a command
+cmo/copyatt/cmo/cmo/imt/idnode                                                  
+        27 copied from cmo idnode to -> cmo imt1                                
+ 
                                                                                 
-read/avs/output.inp/cmoavs/                                                     
-                    4                    0
+dump gmv output_hex8_ascii.gmv cmo ascii                                        
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump gmv output_hex8_binary.gmv cmo                                             
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump avs output_hex8_ascii.inp cmo ascii                                        
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump lagrit output_hex8_ascii.lagrit cmo ascii                                  
+dump lagrit output_hex8_binary.lagrit cmo binary                                
+                                                                                
+**********************                                                          
+* read lagrit ascii twice                                                       
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+read lagrit output_hex8_ascii.lagrit cmo                                        
+cmo/addatt/cmo/idnode/VINT/scalar/nnodes/linear/permanent/agltn                 
+finish                                                                          
+cmo/addatt/cmo/idelem/VINT/scalar/nelements/linear/permanent/agltn              
+finish                                                                          
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+read lagrit output_hex8_ascii.lagrit cmo                                        
+cmo/addatt/cmo/idnode/VINT/scalar/nnodes/linear/permanent/agltn                 
+finish                                                                          
+cmo/addatt/cmo/idelem/VINT/scalar/nelements/linear/permanent/agltn              
+finish                                                                          
+**********************                                                          
+* read lagrit binary twice                                                      
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+read lagrit output_hex8_binary.lagrit cmo                                       
+ascii read failed - will try binary                                             
+cmo/addatt/cmo/idnode/VINT/scalar/nnodes/linear/permanent/agltn                 
+finish                                                                          
+cmo/addatt/cmo/idelem/VINT/scalar/nelements/linear/permanent/agltn              
+finish                                                                          
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+read lagrit output_hex8_binary.lagrit cmo                                       
+ascii read failed - will try binary                                             
+cmo/addatt/cmo/idnode/VINT/scalar/nnodes/linear/permanent/agltn                 
+finish                                                                          
+cmo/addatt/cmo/idelem/VINT/scalar/nelements/linear/permanent/agltn              
+finish                                                                          
+                                                                                
+**********************                                                          
+* read avs ascii twice                                                          
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+read/avs/output_hex8_ascii.inp/cmo                                              
+                    5                    1
+cmo/addatt/cmo/idnode/VINT/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+cmo/addatt/cmo/idelem/VINT/scalar/nelements/linear/permanent/gxaf/0.0           
+finish                                                                          
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
  
-The current-mesh-object(CMO) is: cmoavs                                         
+The current-mesh-object(CMO) is: cmo                                            
  
   1 Mesh Object name: cmo                                                       
-    number of nodes =             8        number of elements =            5    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
- 
-  2 Mesh Object name: cmogmva                                                   
-    number of nodes =             8        number of elements =            5    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
- 
-  3 Mesh Object name: cmoavs                                                    
-    number of nodes =             8        number of elements =            5    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    number of nodes =            27        number of elements =            8    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
     boundary flag =        16000000        status =                   active    
  
  
 finish                                                                          
- Enter a command
-* begin compare                                                                 
- Enter a command
-cmo status cmogmv                                                               
- 
-The current-mesh-object(CMO) is: cmoavs                                         
- Mesh Object does not exist: cmoavs                                             
- Enter a command
-cmo status cmoavs                                                               
- 
-The current-mesh-object(CMO) is: cmoavs                                         
- 
-  3 Mesh Object name: cmoavs                                                    
-    number of nodes =             8        number of elements =            5    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                   active    
- 
-          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
- 
-  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
-  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
-  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
-  4          nnodes  INT     scalar          scalar const perma   l  8.000E+00  
-  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
-  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
-  7       nelements  INT     scalar          scalar const perma   l  5.000E+00  
-  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
-  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
- 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
- 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
- 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
- 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
- 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
- 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
- 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
- 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
- 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
- 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
- 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
- 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
- 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
- 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
- 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
- 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
- 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
- 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
- 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
- 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
- 31           vor2d CHAR     scalar          scalar const perma   l yes         
- 32           vor3d CHAR     scalar          scalar const perma   l no          
- 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
- 34        epsilonl REAL     scalar          scalar const perma   l  3.846E-13  
- 35        epsilona REAL     scalar          scalar const perma   l  6.661E-13  
- 36        epsilonv REAL     scalar          scalar const perma   l  2.220E-13  
- 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
- 38         ipointj  INT     scalar          scalar const perma   l  8.000E+00  
- 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
- 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
- 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
- 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
- 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
- 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
- 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
- 46        dumptype CHAR     scalar          scalar const perma   l binary      
- 47         velname CHAR     scalar          scalar const perma   l vels        
- 48        densname CHAR     scalar          scalar const perma   l ric         
- 49        presname CHAR     scalar          scalar const perma   l pic         
- 50        enername CHAR     scalar          scalar const perma   l eic         
- 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
- 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
- 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
- 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
- 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
- 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
- 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
- 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
- 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
- 61       psetnames VCHA     scalar max_number_sets const perma   l             
- 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
- 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
- 64       fsetnames VCHA     scalar max_number_sets const perma   l             
- 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
- Enter a command
-* end compare here                                                              
- Enter a command
-                                                                                
-* linux can not always read this file                                           
- Enter a command
-* start acceptable difference (linux)                                           
- Enter a command
-read/gmv/output.gmv/cmogmv/                                                     
-Reading GMV binary file gmvinputieee                                            
- no geometry for mesh object                                                    
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+read/avs/output_hex8_ascii.inp/cmo                                              
+                    5                    1
+cmo/addatt/cmo/idnode/VINT/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+cmo/addatt/cmo/idelem/VINT/scalar/nelements/linear/permanent/gxaf/0.0           
+finish                                                                          
 geniee                                                                          
 finish                                                                          
-Nodes:          8 Elements:          5                                          
-Done reading GMV binary total bytes:       1176 file:  output.gmv               
+cmo/status/brief                                                                
  
+The current-mesh-object(CMO) is: cmo                                            
+ 
+  1 Mesh Object name: cmo                                                       
+    number of nodes =            27        number of elements =            8    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+**********************                                                          
+* read gmv ascii twice                                                          
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+read/gmv/output_hex8_ascii.gmv/cmo                                              
+cmo/addatt/cmo/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0           
+finish                                                                          
+cmo/addatt/cmo/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxaf/0.0        
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+Nodes:         27 Elements:          8                                          
+Done reading GMV ascii file: output_hex8_ascii.gmv                              
+ 
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+read/gmv/output_hex8_ascii.gmv/cmo                                              
+cmo/addatt/cmo/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0           
+finish                                                                          
+cmo/addatt/cmo/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxaf/0.0        
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+Nodes:         27 Elements:          8                                          
+Done reading GMV ascii file: output_hex8_ascii.gmv                              
+ 
+**********************                                                          
+* read gmv binary twice                                                         
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+read/gmv/output_hex8_binary.gmv/cmo                                             
+Reading GMV binary file gmvinputieee                                            
+cmo/addatt/cmo/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0            
+finish                                                                          
+cmo/addatt/cmo/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxa/0.0         
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+Nodes:         27 Elements:          8                                          
+Done reading GMV binary total bytes:       4612 file:  output_hex8_binary.gmv   
+ 
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+read/gmv/output_hex8_binary.gmv/cmo                                             
+Reading GMV binary file gmvinputieee                                            
+cmo/addatt/cmo/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0            
+finish                                                                          
+cmo/addatt/cmo/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxa/0.0         
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+Nodes:         27 Elements:          8                                          
+Done reading GMV binary total bytes:       4612 file:  output_hex8_binary.gmv   
+ 
+                                                                                
+**********************                                                          
+* read small gmv binary                                                         
+* this has been a problem for a long time                                       
+cmo/create/cmohex///hex                                                         
+createpts/brick/xyz/2 2 2/0. 0. 0./1. 1. 1./1 1 1                               
+          Number of nodes:           8                                          
+          Number of elements:           1                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.100000000000E+01                                  
+hextotet/6/cmo1/cmohex                                                          
+ set idebug
+ iremove_vol=   0 iremove_dup=   0 icheckpt=   1                                
+Input Mesh type hex using option    6                                           
+Element Material ID, min/max/range:          1         1         0              
+Epsilon-dist, distmax, distmin:  -1.0000000E-06  1.0000000E+00  1.0000000E+00   
+Epsilon-volume, volmax:   1.0000000E-06  1.0000000E+00                          
+cmo/addatt/cmo1/iign/vint/scalar/nnodes/-def-/-def-/gx/-def-                    
+finish                                                                          
+  WARNING: Volumes le zero not removed, nelements=          6                   
+No duplicate points                                                             
+  WARNING: Duplicate points not removed, nnodes =          8                    
+resetpts itp                                                                    
+geniee                                                                          
+finish                                                                          
+cmo/set_id/cmo1/both/idnode idelem                                              
+cmo/addatt/cmo1 idnode/VINT/scalar/nnodes/linear/permanent//0                   
+finish                                                                          
+cmo/addatt/cmo1 idelem/VINT/scalar/nelements/linear/permanent//0                
+finish                                                                          
+cmo/copyatt/cmo1/cmo1/itetclr/idelem                                            
+         6 copied from cmo1 idelem to -> cmo1 itetclr                           
+ 
+cmo/copyatt/cmo1/cmo1/imt/idnode                                                
+         8 copied from cmo1 idnode to -> cmo1 imt1                              
+ 
+cmo printatt cmo1 itetclr minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetclr                          1                6               5         6  
+ 
+                                                                                
+dump gmv output_tet1_ascii.gmv cmo1 ascii                                       
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump gmv output_tet1_binary.gmv cmo1                                            
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+read gmv output_tet1_ascii.gmv cmo2                                             
+cmo/addatt/cmo2/iign/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0            
+finish                                                                          
+cmo/addatt/cmo2/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0          
+finish                                                                          
+cmo/addatt/cmo2/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxaf/0.0       
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+Nodes:          8 Elements:          6                                          
+Done reading GMV ascii file: output_tet1_ascii.gmv                              
+ 
+cmo printatt cmo2 itetclr minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetclr                          1                6               5         6  
+ 
+read gmv output_tet1_binary.gmv cmo3                                            
+Reading GMV binary file gmvinputieee                                            
+cmo/addatt/cmo3/iign/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0             
+finish                                                                          
+cmo/addatt/cmo3/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0           
+finish                                                                          
+cmo/addatt/cmo3/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxa/0.0        
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+Nodes:          8 Elements:          6                                          
+Done reading GMV binary total bytes:       1956 file:  output_tet1_binary.gmv   
+ 
+cmo printatt cmo3 itetclr minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetclr                          1                6               5         6  
+ 
+                                                                                
+                                                                                
+finish                                                                          
  Enter a command
-* end acceptable difference (linux)                                             
+* end compare here                                                              
  Enter a command
                                                                                 
 finish                                                                          
@@ -13605,9 +13726,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:06          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:27          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -14090,9 +14211,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:07          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:27          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -15466,9 +15587,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:07          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:28          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -15968,9 +16089,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:08          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:28          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17597,9 +17718,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:08          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:29          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17937,9 +18058,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:08          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:29          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18364,9 +18485,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:10          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:31          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18479,9 +18600,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:10          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:31          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18610,9 +18731,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:11          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:33          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18909,9 +19030,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:15          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:37          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -19160,9 +19281,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:16          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:37          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -19370,9 +19491,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:16          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:37          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -19887,9 +20008,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:16          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -20587,9 +20708,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:17          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -20762,9 +20883,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:17          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:39          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -21093,9 +21214,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:17          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:39          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -21158,9 +21279,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:17          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:39          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -21500,9 +21621,9 @@ MEMORY SIZES :
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:17          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:39          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -21534,23 +21655,23 @@ memory/print
 --------
 
 INDEX         LENGTH    TYPE     ADDRESS     NAME                           PARTITION
-   2                10   1       374741184 global_type                      global_lg                       
-   3                10   1       374741376 global_index                     global_lg                       
-   1                10   3       374743136 global_name                      global_lg                       
-   4                20   1       374803616 global_integer                   global_lg                       
-   5                20   2       374803888 global_real                      global_lg                       
-   6                20   3       374804160 global_character                 global_lg                       
-   7                10   3       374804912 geom_names                       geom_lg                         
-   8                80   1       374805344 geom_info                        geom_lg                         
-   9                 8   3       374806096 defcmo_attparam_names            define_cmo_lg                   
-  10                10   3       374806464 cmo_names                        define_cmo_lg                   
-  11                10   1       374806896 cmo_natts                        define_cmo_lg                   
-  12               455   3       374807088 cmo_attlist                      default_cmo_lg                  
-  13                65   3       374821760 cmo_attparam_cdefault            default_cmo_lg                  
-  14                65   1       374823952 cmo_attparam_idefault            default_cmo_lg                  
-  15                65   2       374824576 cmo_attparam_rdefault            default_cmo_lg                  
-  16              2560   1       374825200 cmd_stack                        initlagrit                      
-  17              1280   1       374845792 definition                       initlagrit                      
+   2                10   1       133511424 global_type                      global_lg                       
+   3                10   1       133511616 global_index                     global_lg                       
+   1                10   3       133513376 global_name                      global_lg                       
+   4                20   1       133573856 global_integer                   global_lg                       
+   5                20   2       133574128 global_real                      global_lg                       
+   6                20   3       133574400 global_character                 global_lg                       
+   7                10   3       133575152 geom_names                       geom_lg                         
+   8                80   1       133575584 geom_info                        geom_lg                         
+   9                 8   3       133576336 defcmo_attparam_names            define_cmo_lg                   
+  10                10   3       133576704 cmo_names                        define_cmo_lg                   
+  11                10   1       133577136 cmo_natts                        define_cmo_lg                   
+  12               455   3       133577328 cmo_attlist                      default_cmo_lg                  
+  13                65   3       133592000 cmo_attparam_cdefault            default_cmo_lg                  
+  14                65   1       133594192 cmo_attparam_idefault            default_cmo_lg                  
+  15                65   2       133594816 cmo_attparam_rdefault            default_cmo_lg                  
+  16              2560   1       133595440 cmd_stack                        initlagrit                      
+  17              1280   1       133616032 definition                       initlagrit                      
 
 Total BYTES =                51456   Total MEGABYTES =   51.456E-03
 --------
@@ -21692,9 +21813,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:25          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:48          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -21739,9 +21860,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:20:26          *                 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *                 
+*               *    Run Time: 2011/Sep  9  13:08:48          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
