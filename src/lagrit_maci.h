@@ -11,7 +11,7 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=3)
-      parameter      (v_minor=002)
+      parameter      (v_minor=005)
 c
       character*22   date_compile
       character*8    os_name
@@ -21,7 +21,7 @@ c
 c     data os_name      /'Darwini '/
 c     data os_name      /'Maci64  '/
       data os_name      /'Maci32  '/
-      data date_compile /'2011/09/09            '/
+      data date_compile /'2012/06/15            '/
 c
       integer         NCall
       save            NCall

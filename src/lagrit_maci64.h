@@ -1,6 +1,6 @@
 c
 c----------------------------------------------------------------
-c lagrit.h for SGI IRIX with 32 bit
+c lagrit.h for mac OSX intel 32 bit 
 c
 c This is a template for the lagrit program banner
 c Substitute the TAG strings with Date and Linux, Darwin, SunOS, or IRIX
@@ -18,7 +18,9 @@ c
       character*16   my_name
 c
       data my_name      /'lagritgen'/
-      data os_name      /'IRIX64  '/
+c     data os_name      /'Darwini '/
+      data os_name      /'Maci64  '/
+c     data os_name      /'Maci32  '/
       data date_compile /'2012/06/15            '/
 c
       integer         NCall
