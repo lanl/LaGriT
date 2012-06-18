@@ -176,10 +176,6 @@ C
      *            cmo_name(1:icharlnf(cmo_name)),
      *            att_name(1:icharlnf(att_name))
                call writloga('default',0,logmess,0,ierr)
-               write(logmess,'(a,a,a,a)')
-     *           'cmo name = ', cmo_name(1:icharlnf(cmo_name)),
-     *           '  attribute name = ', att_name(1:icharlnf(att_name))
-               call writloga('default',0,logmess,0,ierr)
             else
                ierror_return=-2
             endif

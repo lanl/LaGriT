@@ -391,9 +391,13 @@ C
 C
       isubname  = 'cmo_addatt'
       idone     = 0
+      irank     = 1
       fill_type = 'notset'
       norm_type = 'notset'
       cmo_type  = 'notset'
+      att_list(1)  = 'notset'
+      att_list(2)  = 'notset'
+      att_list(3)  = 'notset'
  
 C.... Extract the CMO-name and get default settings
       cmo_name=cmsgin(3)
@@ -1013,28 +1017,55 @@ C
 C     second endif for skipping addatt call
 C
 C     End adding the attribute att_name to the Mesh Object
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C     setup and add attribute done, now fill the attributes
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
  
 C     Notify User if we are going to write to a new or old attribute
       if (ierror_return.eq.-1) iexist = 1
       if (fill_type(1:6).ne.'notset') then
-         if (iexist.eq.1 .and. job_type(1:6).eq.'addatt') then
-           write(logmess,'(a,a,a,a)')
-     *     'ADDATT/',fill_type(1:icharlnf(fill_type)),
-     *      ' WARNING: filling existing attribute: ',
-     *      att_name(1:icharlnf(att_name))
-            call writloga('default',0,logmess,0,ierr)
-         elseif (iexist.eq.1 .and. job_type(1:7).eq.'fillatt') then
+
+C tam - print job_type but do not need to check addatt or fillatt here
+C     - just check iexist and write information
+C     - removed WARNING as it already appears earlier
+
+         if (iexist.eq.1) then
+
+           if (irank .eq. 3) then
+             write(logmess,'(a,a,a,a,2x,a,2x,a)')
+     *        'ADDATT/',fill_type(1:icharlnf(fill_type)),
+     *        ': writing to existing attributes: ',
+     *         att_list(1)(1:icharlnf(att_list(1) )),
+     *         att_list(2)(1:icharlnf(att_list(2) )),
+     *         att_list(3)(1:icharlnf(att_list(3) ))
+               call writloga('default',0,logmess,0,ierr)
+           else
             write(logmess,'(a,a,a,a)')
      *      'ADDATT/',fill_type(1:icharlnf(fill_type)),
-     *      ': filling existing attribute: ',
+     *      ': writing to existing attribute: ',
      *      att_name(1:icharlnf(att_name))
             call writloga('default',0,logmess,0,ierr)
+           endif
+
          else
-           write(logmess,'(a,a,a,a)')
-     *     'ADDATT/',fill_type(1:icharlnf(fill_type)),
-     *     ': filling new attribute: ',
-     *      att_name(1:icharlnf(att_name))
-            call writloga('default',0,logmess,0,ierr)
+
+           if (irank .eq. 3) then
+              write(logmess,'(a,a,a,a,2x,a,2x,a)')
+     *         'ADDATT/',fill_type(1:icharlnf(fill_type)),
+     *         ': creating 3 new attributes: ',
+     *          att_list(1)(1:icharlnf(att_list(1) )),
+     *          att_list(2)(1:icharlnf(att_list(2) )),
+     *          att_list(3)(1:icharlnf(att_list(3) ))
+               call writloga('default',0,logmess,0,ierr)
+           else
+               write(logmess,'(a,a,a,a)')
+     *         'ADDATT/',fill_type(1:icharlnf(fill_type)),
+     *         ': creating new attribute: ',
+     *          att_name(1:icharlnf(att_name))
+               call writloga('default',0,logmess,0,ierr)
+           endif
+
          endif
          job_type='fillatt'
       endif
@@ -1120,8 +1151,8 @@ C.... keyword area_normal or unit_area or area
       flen = icharlnf(fill_type)
 C     Fill each triangle attribute with normal
       if (fill_type(1:flen).eq. 'area_normal'  .or.
-     *    fill_type(1:flen).eq.  'unit_area'     .or.
-     *    fill_type(1:flen).eq.  'area'          ) then
+     *  fill_type(1:flen).eq.  'unit_area_normal' .or.
+     *  fill_type(1:flen).eq.  'area'          ) then
  
        call cmo_get_info(att_name,cmo_name,ipvalue,ilen,ityp,ierr)
        if(ierr.ne.0) call x3d_error(isubname,'get_info new attribute')
@@ -1269,7 +1300,7 @@ c       add the remaining 2 attributes
            else
             write(logmess,'(a,a,a,a)')
      *      'ADDATT/',fill_type(1:icharlnf(fill_type)),
-     *      ': filling new attribute: ',
+     *      ': creating new attribute: ',
      *      att_name(1:icharlnf(att_name))
             call writloga('default',0,logmess,0,ierr)
            endif
@@ -1939,7 +1970,7 @@ C       node i and all nodes connected to i.
         enddo
         endif
 
-        logmess = 'cmo/printatt/'//cmo_name//att_name//'/minmax ;finish'
+        logmess='cmo/printatt/'//cmo_name//att_name//'/minmax ; finish'
         call dotask(logmess, ierr)
 
       elseif(fill_type(1:flen) .eq. 'quad_quality') then
