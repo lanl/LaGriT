@@ -1,16 +1,5 @@
       subroutine dump_material_list(ifile,iselect)
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C                         Copyright, 1996                              C
-C This program was prepared by the Regents of the University of        C
-C California at Los Alamos National Laboratory (the University) under  C
-C Contract No. W-7405-ENG-36 with the U.S. Department of Energy (DOE). C
-C The University has certain rights in the program pursuant to the     C
-C contract and the program should not be copied or distributed outside C
-C your organization. All rights in the program are reserved by the DOE C
-C and the University. Neither the U.S. Government nor the University   C
-C makes any warranty, express or implied, or assumes and liability or  C
-C responsibility for the use of this software.                         C
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
 *****************************************************************
 *
 *	FUNCTION:
