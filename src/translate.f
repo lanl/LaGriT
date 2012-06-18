@@ -195,6 +195,9 @@ C
 C     ..................................................................
 C     GET PARSER VALUES FOR POINT SET
 C
+      if (ipointi.eq.0) ipointi = max(1,ipointi)
+      if (ipointj.eq.0) ipointj = max(1,npoints)
+ 
       if(msgtype(2).eq.1.and.imsgin(2).eq.0) then
          imsgin(2)=ipointi
       endif
