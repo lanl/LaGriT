@@ -6,43 +6,24 @@ C     PURPOSE -
 C
 C     COPYRIGHT COMDECK.
 C
-C     CHANGE HISTORY -
+C     CHANGE HISTORY - 
+C        TAM - modifed to include most recent Copyright notice 
 C
-C        $Log: copyrite.h,v $
-C        Revision 2.00  2007/11/05 19:45:51  spchu
-C        Import to CVS
-C
-CPVCS    
-CPVCS       Rev 1.5   06 Apr 2001 13:11:56   gable
-CPVCS    No change.
-CPVCS    
-CPVCS       Rev 1.4   Tue Oct 26 14:07:50 1999   dcg
-CPVCS    No change.
-CPVCS    
-CPVCS       Rev 1.3   Mon Apr 14 16:37:24 1997   pvcs
-CPVCS    No change.
-CPVCS    
-CPVCS       Rev 1.2   11/08/95 09:23:34   dcg
-CPVCS    fix spelling
-CPVCS
-CPVCS       Rev 1.1   11/06/95 12:09:48   dcg
-CPVCS    clean up
-CPVCS
-CPVCS       Rev 1.0   11/13/94 15:41:28   het
-CPVCS    Orginal Version
+C     The copyright notice is written to screen and file at run time
+C     from the routine writinit.f
 C
 C ######################################################################
+C 2007 LaGriT Version 2.0 LA-CC number: 07-038
 C
-C
-C     Copyright, 1995, The Regents of the University of California.
-C     This software was produced under U.S. Government contract
-C     (W-7405-ENG-36) by the Los Alamos National Laboratory, which is
-C     operated by the University of California for the U.S. Department
-C     of Energy.  The U.S. Government is licensed to use, reproduce, and
-C     distribute this software.
-C     Neither the Government nor the University makes any
-C     warranty, expressed or implied, or assumes any liability or
-C     responsibility for the use of this software.
+C Copyright Notice: This program was prepared by Los Alamos National 
+C Security, LLC at Los Alamos National Laboratory (LANL) under contract 
+C No. DE-AC52-06NA25396 with the U.S. Department of Energy (DOE). All rights 
+C in the program are reserved by the DOE and Los Alamos National Security, LLC. 
+C Permission is granted to the public to copy and use this software without 
+C charge, provided that this Notice and any statement of authorship are 
+C reproduced on all copies. Neither the U.S. Government nor LANS makes any 
+C warranty, express or implied, or assumes any liability or responsibility 
+C for the use of this software.
 C
 C#######################################################################
 C
