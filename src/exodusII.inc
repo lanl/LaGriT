@@ -1,18 +1,89 @@
 ! -*- mode: fortran -*-
 !
-! Copyright 1994 Sandia Corporation. Under the terms of Contract
-! DE-AC04-94AL85000 with Sandia Corporation, the U.S. Governement
-! retains certain rights in this software.
+!*******************************************************************
 !
-! See the COPYRIGHT file for copying and redistribution conditions.
-!
-!***************************************************************
-!
-! Name: exodusII.inc - Exodus II Application include file 
+! Name: exodusII.inc - Exodus II Application include file
 !
 !       Use this include file to define general Exodus II parameters
 !
-!*****************************************************************************
+!********************************************************************
+!
+! These copyright notices are included for use of libraries which
+! are used to write exodus format output files for a mesh.
+! See code in dumpexodusII.f and exodusII.inc
+!
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! FILE: /exodusii-5.09/exodusii/COPYRIGHT
+!
+! Copyright (c) 2005 Sandia Corporation. Under the terms of Contract
+! DE-AC04-94AL85000 with Sandia Corporation, the U.S. Governement
+! retains certain rights in this software.
+! 
+! Redistribution and use in source and binary forms, with or without
+! modification, are permitted provided that the following conditions are
+! met:
+! 
+!     * Redistributions of source code must retain the above copyright
+!       notice, this list of conditions and the following disclaimer.
+! 
+!     * Redistributions in binary form must reproduce the above
+!       copyright notice, this list of conditions and the following
+!       disclaimer in the documentation and/or other materials provided
+!       with the distribution.  
+! 
+!     * Neither the name of Sandia Corporation nor the names of its
+!       contributors may be used to endorse or promote products derived
+!       from this software without specific prior written permission.
+! 
+! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+! "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+! LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+! A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+! OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+! SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+! LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+! DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+! THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+! (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+! OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+!
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+! File: /netcdf-4.1.3/COPYRIGHT
+! 
+! Copyright 1993-2004 University Corporation for Atmospheric Research/Unidata
+! 
+! Portions of this software were developed by the Unidata Program at the 
+! University Corporation for Atmospheric Research.
+! 
+! Access and use of this software shall impose the following obligations
+! and understandings on the user. The user is granted the right, without
+! any fee or cost, to use, copy, modify, alter, enhance and distribute
+! this software, and any derivative works thereof, and its supporting
+! documentation for any purpose whatsoever, provided that this entire
+! notice appears in all copies of the software, derivative works and
+! supporting documentation.  Further, UCAR requests that the user credit
+! UCAR/Unidata in any publications that result from the use of this
+! software or in any product that includes this software, although this
+! is not an obligation. The names UCAR and/or Unidata, however, may not
+! be used in any advertising or publicity to endorse or promote any
+! products or commercial entity unless specific written permission is
+! obtained from UCAR/Unidata. The user also understands that
+! UCAR/Unidata is not obligated to provide the user with any support,
+! consulting, training or assistance of any kind with regard to the use,
+! operation and performance of this software nor to provide the user
+! with any updates, revisions, new versions or "bug fixes."
+! 
+! THIS SOFTWARE IS PROVIDED BY UCAR/UNIDATA "AS IS" AND ANY EXPRESS OR
+! IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+! WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+! DISCLAIMED. IN NO EVENT SHALL UCAR/UNIDATA BE LIABLE FOR ANY SPECIAL,
+! INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING
+! FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+! NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
+! WITH THE ACCESS, USE OR PERFORMANCE OF THIS SOFTWARE.
+!
+!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+!
 !
 !       Define Exodus functions that return values
 !
@@ -155,3 +226,4 @@
         parameter (EXNULL = -1006)   ! EXNULL - null entity found
         parameter (EXPMSG = -1000)   ! EXPMSG - message print code - no error implied
         parameter (EXLMSG = -1001)   ! EXLMSG - print last error message msg code
+
