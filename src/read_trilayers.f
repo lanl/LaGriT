@@ -162,21 +162,7 @@ CPVCS       Rev 1.10   Thu Apr 06 13:42:16 2000   dcg
 CPVCS    replace get_info_i call
 C
 C**********************************************************************
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C                         Copyright, 1996
-C
-C This program was prepared by the Regents of the University of
-C California at Los Alamos National Laboratory (the University) under
-C Contract No. W-7405-ENG-36 with the U.S. Department of Energy(DOE).
-C The University has certain rights in the program pursuant to the
-C contract and the program should not be copied or distributed outside
-C your organization.All rights in the program are reserved by the DOE
-C and the University. Neither the U.S. Government nor the University
-C makes any warranty, express or implied, or assumes and liability
-C or responsibility for the use of this software.
-C
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-c
+
       implicit none
 c
 c ARGS

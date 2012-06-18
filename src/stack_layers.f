@@ -174,21 +174,7 @@ CPVCS       Rev 1.10   Thu Apr 06 13:42:16 2000   dcg
 CPVCS    replace get_info_i call
 C
 C**********************************************************************
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C                         Copyright, 1996
-C
-C This program was prepared by the Regents of the University of
-C California at Los Alamos National Laboratory (the University) under
-C Contract No. W-7405-ENG-36 with the U.S. Department of Energy(DOE).
-C The University has certain rights in the program pursuant to the
-C contract and the program should not be copied or distributed outside
-C your organization.All rights in the program are reserved by the DOE
-C and the University. Neither the U.S. Government nor the University
-C makes any warranty, express or implied, or assumes and liability
-C or responsibility for the use of this software.
-C
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-c
+
       implicit none
 c
 c ARGS
@@ -885,13 +871,24 @@ c      TURN OFF OUTPUT
  
 c      here def2 becomes def1 of the 2 surfaces
 c      then we read in a new def2
+C TAM  NOTE BUG in copy of 9th cmo, missing user attributes
+C      results in MMNEWLEN ERROR
+
        if (ii.gt.2 ) then
-         call dotaskx3d('cmo/copy/def1/cmonxt/ ; finish',ierr)
-         if(ierr .ne. 0)call x3d_error(isubname, 'cmo copy cmonxt')
+         call cmo_copy("def1","cmonxt", ierr)
+         if(ierr .ne. 0) then
+           call x3d_error(isubname, 'copy cmonxt to def1 ')
+           goto 9999
+         endif
          call dotaskx3d('cmo/delete/cmonxt/ ; finish',ierr)
+
        elseif (ii.eq.2) then
-         call dotaskx3d('cmo/copy/cmoprev/def1/ ; finish',ierr)
-         if(ierr .ne. 0)call x3d_error(isubname, 'cmo copy def1')
+         call cmo_copy("cmoprev","def1", ierr)
+         if(ierr .ne. 0) then
+           call x3d_error(isubname, 'copy def1 to cmoprev')
+           goto 9999
+         endif
+     
        endif
  
       ifile = flist(nread)
@@ -1049,8 +1046,11 @@ c-----If this is a refinement layer
 c-----Else this is top layer of pair, make def2 cmonxt
       else
  
-        call dotaskx3d('cmo/copy/cmonxt/def2/ ; finish',ierr)
-        if(ierr .ne. 0)call x3d_error(isubname, 'cmo copy')
+        call cmo_copy("cmonxt","def2", ierr)
+        if(ierr .ne. 0) then
+          call x3d_error(isubname, 'copy def2 cmonxt')
+          goto 9999
+        endif
         call dotaskx3d('cmo/delete/def2/ ; finish',ierr)
         nlayer =  nlayer + 1
         layerlist(nlayer) = ifile2
@@ -1607,9 +1607,12 @@ C     Done creating cmo, now do screen summary
       write(logmess,'(a,i10,a,i14)')
      >'Nodes    per layer: ',npoints,'  stacked total: ',nnode
       call writloga('default',0,logmess,0,ierr1)
-      if (ntrunc.ne.0) then
+      if (iopt_trunc.ne.0 .and. ntrunc.ne.0) then
          write(logmess,'(a,a,i9)')'Layers truncated by ',
      >   ifile_trunc(1:icharlnf(ifile_trunc)) //' layer ', ntrunc
+         call writloga('default',0,logmess,0,ierrw)
+      else
+         write(logmess,'(a)')'No Truncating layer specified.'
          call writloga('default',0,logmess,0,ierrw)
       endif
 

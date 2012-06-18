@@ -27,15 +27,15 @@
  Other parts, specifically the programs labeled skiplist.h and sl.c
  are under the GNU copyleft and were created by Dominic Giampaolo while
  he was a student at WPI.  (Hey, if it's a good implementation and
- it's free, USE IT!)  The university cannot copywrite that code.
+ it's free, USE IT!)  The university cannot copyright that code.
+
+ For more on this copyright see skiplist.h and sl.c in this file
+
 ***********************************************************************/
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-
-
-
 
 /********************************skiplist.h******************************/
 
@@ -424,7 +424,7 @@ void DoForSL(SkipList l, int_ptrsize (*function)(), void *arg)
 /*********************matrix_values_compress.c****************************** 
 
 This file contains routines for compressing a sparse matrix.
-The Univeristy can copywrite this.
+The Univeristy can copyright this.
 
 ***************************************************************************/ 
 

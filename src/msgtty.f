@@ -771,7 +771,7 @@ C ######################################################################
 C
 C     preprocess include file not used so commented out
 C     include "machine.h"
-      include "copyrite.h"
+
       include "chydro.h"
       include "neibor.h"
       include "consts.h"
