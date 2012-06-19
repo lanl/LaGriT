@@ -1,8 +1,13 @@
-#! /usr/bin/env python 
-# for lanl machines /usr/bin/env python
+#! /n/local_linux/epd/bin/python2.7
+#
+# /usr/local/bin/python -> python3.2  
+# NOTE: this uses python before vers 3
+#        newer versions use print as function not statement
+#
+# for vers 3 lanl machines /usr/bin/env python
 # for sgi /usr/lanl/bin/python
 #------------------------------------------------------------------------------
-#  Name: check_test.py
+#  Name: run_test.py
 #  Last Modified: Jan 2008 by TAM tamiller@lanl.gov 
 #
 #  Need to:
@@ -50,7 +55,7 @@ if __name__ == "__main__":
 
 # define executable
   xlagrit="lagrit"
-  xlagrit="lagrit64"
+  xlagrit="mylagrit"
 
 # get platform
   print "======="

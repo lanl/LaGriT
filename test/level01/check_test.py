@@ -1,4 +1,9 @@
-#! /usr/bin/python 
+#! /n/local_linux/epd/bin/python2.7
+#
+# This script will not run with /usr/local/bin/python -> python3.2  
+# for linux /n/local_linux/python2.5.1/bin/python
+#
+# default is now vers 3 in  /usr/bin/python 
 # for linux /n/local_linux/python2.5.1/bin/python
 # for mac /usr/bin/env python 
 # for lanl machines /usr/bin/env python
@@ -286,6 +291,7 @@ if __name__ == "__main__":
 #         Check the chunk from diff formatted result
 #         start with line @@ -lineno,chunksize +lineno,chunksize @@ 
 #         followed by chunksize number of lines
+#         later versions of diff allow a single number
 #         ' 'for common line -in reference file  +in test file
 
           chunk = 0
@@ -299,9 +305,19 @@ if __name__ == "__main__":
                oldlins = string.split(words[1], ',' )
                newlins = string.split(words[2], ',' )
                tlineno= int(newlins[0][1:])
-               tnum= int(newlins[1])
-               rnum= int(oldlins[1])
-               if (newlins[1] == oldlins[1]) : 
+
+#          versions of python greater than 2.5 allow single value instead of pairs
+#          avoid indexing number that may not exist
+               if (len(newlins) > 1) :
+                  tnum= int(newlins[1])
+               else :
+                  tnum = 0
+               if (len(oldlins) > 1) :
+                  rnum= int(oldlins[1])
+               else :
+                  rnum = 0
+
+               if (tnum == rnum ) : 
                   chdr="\n"+"Test has "+repr(tnum)+" diffs at line "+repr(tlineno)+" >>"
                elif (tnum > rnum) :
                   ifail=ifail+(tnum-rnum)
