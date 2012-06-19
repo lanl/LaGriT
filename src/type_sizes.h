@@ -22,6 +22,20 @@
 #define SIZEOF_VOIDP 8
 #endif
 
+/**** Mac 32 ****/
+#ifdef mac
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 4
+#define SIZEOF_VOIDP 4
+#endif
+
+/**** Mac x64 ****/
+#ifdef macx64
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 8
+#define SIZEOF_VOIDP 8
+#endif
+
 #if SIZEOF_INT == SIZEOF_VOIDP
 #define int_ptrsize int
 #elif SIZEOF_LONG == SIZEOF_VOIDP
