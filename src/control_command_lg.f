@@ -126,9 +126,11 @@ c
       endif
 c process finish command
       if(command(1:len_cmd).eq.'finish') then
+
          if( clevels(nlevels).ne.'interactive_lg'.and.
-     *       clevels(nlevels).ne.'internal_lg')
-     *       close(jlevels(nlevels))
+     *       clevels(nlevels).ne.'internal_lg') then
+           close(jlevels(nlevels))
+         endif
          nlevels=nlevels-1
          if(nlevels.eq.0) then
            write(error_msg,9001)
@@ -139,6 +141,7 @@ c process finish command
          if(clevels(nlevels+1)(1:11).eq.'internal_lg') go to 9999
          go to 100
       endif
+
 c parse command
       do i=1,maxcmd_args
          msgtype(i)=0
@@ -150,7 +153,7 @@ c  handle file change commands
          if (nwds.lt.2) then
             ierror=1
             write(error_msg,9002) cmsgout(1)(1:6)
- 9002       format ('file name missing from command : ',a)
+ 9002  format ('Error: file name missing from command : ',a)
             call writloga('default',0,error_msg,0,icscode)
             go to 100
          endif
@@ -164,11 +167,15 @@ c
          iunit=-1
          call hassign(iunit,clevels(nlevels),icscode)
          if (iunit.lt.0 .or. icscode.lt.0) then
-         call x3d_error(isubname,'hassign bad file unit')
+           write(error_msg,'(a,i5)') 
+     *     'hassign bad file unit : ',iunit
+           call writloga('default',0,error_msg,0,icscode)
+           write(error_msg,'(a)') 'Error: infile not used.' 
+           call writloga('default',0,error_msg,1,icscode)
          endif
-
          jlevels(nlevels)=iunit
          go to 100
+
 c  handle define commands
       elseif(cmsgout(1)(1:6).eq.'define') then
          if(ndefinitions+2.ge.maxdefinitions) then
