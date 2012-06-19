@@ -1,4 +1,4 @@
- 
+
 C#####################################################################
 C
 C      FILE - stack_options.f
@@ -447,7 +447,11 @@ C Derive new output cmo
       call cmo_exist(cmoout,ierr)
       if(ierr.ne.0) then
          call cmo_copy(cmoout,cmoin,ierr)
-         if(ierr.ne.0) call x3d_error(isubname,'copy cmo')
+         if(ierr.ne.0) then
+           call x3d_error(isubname,'copy cmoin to cmoout')
+           ierr = ierr+1
+           return
+         endif
       endif
       call cmo_select(cmoout,ierr)
       call cmo_set_info('nnodes',cmoout,nnode,1,1,ierr)
