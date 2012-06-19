@@ -27,12 +27,11 @@ C Default name mangle scheme
 #define SIZEOF_VOIDP 8
 #endif
 
-/**** sun ****/
-#ifdef sun
-#define FCV_UNDERSCORE  
+#ifdef macx64
+#define FCV_UNDERSCORE
 #define SIZEOF_INT 4
-#define SIZEOF_LONG 4
-#define SIZEOF_VOIDP 4
+#define SIZEOF_LONG 8
+#define SIZEOF_VOIDP 8
 #endif
 
 #ifdef mac
@@ -43,6 +42,15 @@ C Default name mangle scheme
 #endif
 
 /**** hp ****/
+
+/**** sun ****/
+#ifdef sun
+#define FCV_UNDERSCORE  
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 4
+#define SIZEOF_VOIDP 4
+#endif
+
 #ifdef hp
 #define FCV_NONE 
 #endif
