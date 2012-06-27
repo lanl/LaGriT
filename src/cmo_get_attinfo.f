@@ -15,13 +15,13 @@ C        cmo_name  - (character) Name of the Mesh Object.
 C
 C     OUTPUT ARGUMENTS -
 C
-C        iout          - The data to be returned (integer).
-C        rout          -  (real)
-C        cout          -  (character)
-C        ipout         -  (pointer)
-C        lout          - The length of the data to be returned.
-C        itype         - The type of the data to be returned (I=1,R=2,C=3
-c                                          pointer=4).
+C        iout    - The data to be returned (integer).
+C        rout    -  (real)
+C        cout    -  (character)
+C        ipout   -  (real*8 pointer)
+C        lout    - The length of the data to be returned.
+C        itype   - The type of the data to be returned (I=1,R=2,C=3
+C                                          pointer=4).
 C        ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error).
 C
 C     CHANGE HISTORY -
@@ -47,23 +47,24 @@ C
       include 'cmo_lg.h'
 C
 C#######################################################################
-C
+C     PARAMATERS
+
       character*(*) ioption, cmo_name
-      character*32 partname,ioptfind,cout
-      real*8 rout
+      character*32 cout
       pointer (ipout,out)
       real*8 out(*)
+      real*8 rout
+      integer  iout, lout, itype, ierror_return
 C
-      integer  lout, itype, iout, ierror
-C
-      integer ierror_return
 C
 C#######################################################################
 C
 C     LOCAL VARIABLE DEFINITION
 C
       integer i, len, ierr, icscode,length,icmo_index, natts
+      integer ierror
 C
+      character*32 partname,ioptfind
       character*132 logmess
  
 C

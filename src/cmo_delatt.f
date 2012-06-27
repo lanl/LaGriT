@@ -252,7 +252,7 @@ C       for default argument, get name of current cmo
         if (ierr.ne.0) then
           ierror=-1
           write(logmess,'(a,a)')
-     *    'cmo_DELATT Mesh Object does not exist: ',cmo(1:lcmo)
+     *    'DELATT Mesh Object does not exist: ',cmo(1:lcmo)
           call writloga('default',0,logmess,0,ierr)
            ierr_report=1
           goto 9999
@@ -260,12 +260,15 @@ C       for default argument, get name of current cmo
 
         call cmo_get_attparam(att_name,cmo,index,ctype,crank,
      &       clength,cinter,cpers,cio,ierror)
+
+C       attribute already gone, no action
         if (ierror.ne.0) then
-           write(logmess,'(a,i3,1xa)')
-     *     'cmo_DELATT attribute Error: ',ierror,att_name(1:latt)
+           write(logmess,'(a,a)')
+     *     'DELATT no action, attribute does not exist: ',
+     *     att_name(1:latt)
            call writloga('default',0,logmess,0,ierr)
            ierr_report=1
-           goto 9999
+           goto 1000
         endif
         ctype_att=ctype
         cpers_att=cpers

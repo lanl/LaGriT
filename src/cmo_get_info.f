@@ -1,12 +1,13 @@
       subroutine cmo_get_info(ioption,cmo_name,
-     *                        iout,lout,itype,ierror_return)
+     *                        ipout,lout,itype,ierror_return)
 C
 C
 C#######################################################################
 C
-C     PURPOSE -
-C
+C     PURPOSE - 
 C        This routine returns Mesh Object information.
+C        Note difference that cmo_get_intinfo() iout is integer
+C        Note difference that cmo_get_info() ipout is real*8 pointer 
 C
 C     INPUT ARGUMENTS -
 C
@@ -14,13 +15,23 @@ C        ioption   - (character) The option to be performed.
 C        cmo_name  - (character) Name of the Mesh Object.
 C
 C     OUTPUT ARGUMENTS -
+C        (TAM - changed iout to ipout and stuff to out)
 C
-C        iout          - The data to be returned.
-C        lout          - The length of the data to be returned.
-C        itype         - The type of the data to be returned (I=1,R=2,C=3).
+C        ipout   - pointer(ipout,out) 
+C                  real*8 out(*)
+C                  The data to be returned.
+C        lout   - (integer) The length of the data to be returned.
+C
+C        itype -   The type of the data to be returned (I=1,R=2,C=3).
+C           Note what actually happens in code:
+C                  (INT=1 or REAL=2)
+C                  Otherwise 4 for CHARACTER, VINT, VDOUBLE, VCHAR
+C
 C        ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error).
 C
+C
 C     CHANGE HISTORY -
+C        April 2000 Replaced all use of cmo_get_i() with cmo_get_info() 
 C
 C        $Log: cmo_get_info.f,v $
 C        Revision 2.00  2007/11/05 19:45:48  spchu
@@ -115,15 +126,12 @@ C
       include 'cmo_lg.h'
 C
 C#######################################################################
-C
+C     PARAMETERS
+
       character*(*) ioption, cmo_name
-      character*32 partname,ioptfind
-C
-      integer  lout, itype
-      pointer(iout,stuff)
-      real*8 stuff(*)
-C
-      integer ierror_return
+      pointer(ipout, out)
+      real*8 out(*)
+      integer  lout, itype, ierror_return
 C
 C#######################################################################
 C
@@ -131,6 +139,7 @@ C     LOCAL VARIABLE DEFINITION
 C
       integer i, len, ierr, icscode,length,icmo_index, natts
 C
+      character*32 partname,ioptfind
       character*132 logmess
  
 C
@@ -157,7 +166,7 @@ C
          ierror_return=-1
 C
          write(logmess,'(a,a)')
-     *            'CMO_GET_INFO: Mesh Object does not exist: ', cmo_name
+     *   'CMO_GET_INFO: Mesh Object does not exist: ', cmo_name
          call writloga('default',0,logmess,0,ierr)
 C
       else
@@ -169,7 +178,7 @@ c
             call mmfindbk('cmo_natts',partname,ipcmo_natts,
      *        len,icscode)
             call cmo_get_index(cmo_name,i,icscode)
-            iout=cmo_natts(i)
+            ipout=cmo_natts(i)
             ierror_return=0
             go to 9999
          endif
@@ -182,7 +191,7 @@ C
           if(ioption.eq.'icr') ioptfind='icr1'
           if(ioption.eq.'itp') ioptfind='itp1'
           if(ioption.eq.'isn') ioptfind='isn1'
-          call mmfindbk(ioptfind,cmo_name,iout,lout,icscode)
+          call mmfindbk(ioptfind,cmo_name,ipout,lout,icscode)
 C
 C....    If it is not a memory array then check to see if it is
 C           a scalar variable in the Mesh Object storage block.
@@ -211,7 +220,7 @@ C
                      call mmfindbk('cmo_attparam_idefault'
      *                ,cmo_name,ipcmo_attparam_idefault,
      *                length,icscode)
-                     iout=cmo_attparam_idefault(i)
+                     ipout=cmo_attparam_idefault(i)
                      go to 9999
                   elseif(cmo_attlist(number_of_params_per_att*
      *               (i-1)+2).eq.'REAL') then
@@ -220,7 +229,7 @@ C
                      call mmfindbk('cmo_attparam_rdefault'
      *                ,cmo_name,ipcmo_attparam_rdefault,
      *                length,icscode)
-                     iout=nint(cmo_attparam_rdefault(i))
+                     ipout=nint(cmo_attparam_rdefault(i))
                      go to 9999
                   else
                      ierror_return=-1

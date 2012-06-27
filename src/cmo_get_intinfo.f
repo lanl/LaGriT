@@ -7,6 +7,8 @@ C
 C     PURPOSE -
 C
 C        This routine returns Mesh Object information.
+C        Note difference that cmo_get_intinfo() iout is integer
+C        Note difference that cmo_get_info() iout is real*8 pointer
 C
 C     INPUT ARGUMENTS -
 C
@@ -15,9 +17,12 @@ C        cmo_name  - (character) Name of the Mesh Object.
 C
 C     OUTPUT ARGUMENTS -
 C
-C        iout          - The data to be returned.
-C        lout          - The length of the data to be returned.
-C        itype         - The type of the data to be returned (I=1,R=2,C=3).
+C        iout    - (integer)  data to be returned.
+C        lout    - (integer)  length of the data to be returned.
+C        itype   - (integer) type of the data to be returned 
+C                  (INT=1 or REAL=2) 
+C                   Otherwise -1 for CHARACTER, VINT, VDOUBLE, VCHAR
+C 
 C        ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error).
 C
 C     CHANGE HISTORY -
@@ -50,13 +55,10 @@ C
       include 'cmo_lg.h'
 C
 C#######################################################################
-C
+C     PARAMETERS
+
       character*(*) ioption, cmo_name
-      character*32 partname
-C
-      integer  lout, itype,iout
-C
-      integer ierror_return
+      integer  iout, lout, itype, ierror_return
 C
 C#######################################################################
 C
@@ -64,6 +66,7 @@ C     LOCAL VARIABLE DEFINITION
 C
       integer i, len, ierr, icscode,length,icmo_index, natts
 C
+      character*32 partname
       character*132 logmess
  
 C
@@ -90,7 +93,7 @@ C
          ierror_return=-1
 C
          write(logmess,'(a,a)')
-     *            'CMO_GET_INFO: Mesh Object does not exist: ', cmo_name
+     *  'CMO_GET_INTINFO: Mesh Object does not exist: ',cmo_name
          call writloga('default',0,logmess,0,ierr)
 C
       else
@@ -154,7 +157,7 @@ C
             lout=-1
 c              write(logmess,9000) cmo_name,ioption
 c              call writloga('default',0,logmess,0,ierr)
- 9000          format('Illegal CMO_GET_INFO option: ',2a32)
+ 9000       format('Illegal CMO_GET_INTINFO option: ',2a32)
          endif
 C
       endif
