@@ -109,7 +109,7 @@ C        valid, no action, reorder all attributes
 C        valid, no action, do not reorder attributes
       else
          logmess = 
-     *     'REORDER: ERROR, fourth arugment must be empty or no_att'
+     *     'REORDER: ERROR, fourth argument must be empty or no_att'
          call writloga('default',0,logmess,0,ierr)
          ierr = -1
          goto 9999
@@ -134,7 +134,7 @@ C
 C     ERROR
 C
          logmess =
-     1   'REORDER: ERROR, sort key must be length nnode or nelem'
+     1   'REORDER: ERROR, sort key invalid or 0 length.'
          call writloga('default',0,logmess,0,ierr)
          ierr = -1
          goto 9999

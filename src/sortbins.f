@@ -2,24 +2,28 @@
      1     (imsgin,xmsgin,cmsgin,msgtyp,nwds,ier)
 C
 C#######################################################################
-C    FORMAT - sort/cmoname/bins      /[ASCENDING|descending]/[ikey]/in_att/[epsilon_user]
-C    FORMAT - sort/cmoname/index|rank/[ASCENDING|descending]/[ikey]/in_att1 in_att2 in_att3 ...
-C    FORMAT - sort/cmoname/line_graph/[ASCENDING|descending]/[ikey]
+C    FORMAT - sort/cmoname/bins/
+C                  [ASCENDING|descending]/[ikey]/in_att/[epsilon_user]
+C    FORMAT - sort/cmoname/index|rank/
+C                  [ASCENDING|descending]/[ikey]/in_att1 in_att2 in_att3 ...
+C    FORMAT - sort/cmoname/line_graph/
+C                  [ASCENDING|descending]/[ikey]/lg_sort_type
 C
 C    INPUT ARGUMENTS - imsgin,xmsgin,cmsgin,msgtyp,nwds
-C    INPUTS
-C            cmoname = name of MO to operate on ( / / and /-def/ supported)
+C    TOKENS
+C     1      sort
+C     2      cmoname = name of MO to operate on ( / / and /-def/ supported)
 C
-C            index - multi-key sort such that in_att1(ikey(i)) i=1,...nnodes
+C     3      index - multi-key sort such that in_att1(ikey(i)) i=1,...nnodes
 C                    lists the attribute in_att1 in ascending or descending order.
 C
 C                    The ikey attribute will contain the permutation vector
 C                    that could then be used in reordering the MO.
 C                    (i.e. reorder/cmo/ikey)
 C
-C            rank  - multi-key sort such that ikey(i) lists the ranking of the node
+C     3      rank  - multi-key sort such that ikey(i) lists the ranking of the node
 C                    in the sorted list.
-C            bins  - single-key sort which assigns each in_att1 value a bin.
+C     3      bins  - single-key sort which assigns each in_att1 value a bin.
 C                    ikey(i) list the bin number of in_att1(i)
 C                    If all array values are unique, then the maximum
 C                    value of the index array will equal the number of
@@ -32,27 +36,40 @@ C                    When the bins option is used there is an optional
 C                    argument, epsilon_user, that sets the epsilon value
 C                    used to compare bins. Default is 1.e-10.
 C
-C            ascending - default, sort in ascending order
+C     3      line_graph algorithm sorts elements or nodes
+C                    default calls sort on elements
 C
-C            descending - sort in descending order
+C     4      ascending - default, sort in ascending order
 C
-C            ikey - integer vector (VINT) which will hold the output
+C     4      descending - sort in descending order
+C
+C     5      ikey - integer vector (VINT) which will hold the output
 C                   sorted key values. If it exists it will be used,
 C                   if it does not exist it will be created.
-C                   If no value is given default key attribute name
+C                   If token is -def- the default key attribute name
 C                   will be concatination of 'ikey_' and the first
 C                   input attribute name. (i.e. /-def-/imt will produce
-C                   a sort key named ikey_imt)
+C                   a sort key named ikey_imt). If the line_graph option
+C		    is used, and token is -def- the key_name name will
+C		    be named 'lg_ikey_nodes' or 'lg_ikey_elements'  
+C	     
 C
-C            in_att - input attribute node based array upon which the
+C      6     in_att - input attribute node based array upon which the
 C                     sorting routine will sort
 C
 C                     Multi-key sorts can have an arbitrary number of input
 C                     attributes. Attribute in_att1(n) has priority over
 C                     in_att2(n) in breaking ties.
 C
-C                     Note: all attributes are put into a real*8 work array
-C                     before being sent to the sort routine.
+C
+C      6     lg_sort_type (for line_graph) - character string which controls 
+C                           the key_name
+C			    that will be created by the line_graph
+C			    algorithm. Options are 'nodes' and 'elements'
+C                           Default is elements
+C		    
+C             Note: all attributes are put into a real*8 work array
+C             before being sent to the sort routine.
 C
 C    Old Syntax still supported
 C
@@ -169,7 +186,7 @@ C     source file.
       integer itet(10000000)
       integer itettyp(10000000)
       integer itype, ilen, ier, itype_att, irank
-      integer ierror
+      integer ierror, ierr
       integer nwds, nnodes, nkey, mkey, nsize, ioff_set, narg_input
       integer cid, comptype, loopid
       integer nelem, nsort
@@ -183,9 +200,9 @@ C     source file.
  
       character*32 cmsgin(nwds)
       character*32 isubname, cmonam
-      character*32 sort_key
-C     nsort_name will either be 'nnodes' or 'nelements'.
-      character*32 nsort_name
+      character*32 key_name
+C     nsort_clen will either be 'nnodes' or 'nelements'.
+      character*32 nsort_clen, lg_sort_type
       character*32 isort_type
       character*32 sort_order
       character*32 catt_name
@@ -194,15 +211,27 @@ C     nsort_name will either be 'nnodes' or 'nelements'.
       character*132 logmess
 C
 C#######################################################################
-C begin
+C begin BEGIN SORT
 
+C     set defaults for some important name strings and counters 
       isubname='sortbins'
+      isort_type = 'notset'
+      nsort_clen = 'notset'
+      lg_sort_type = 'notset'
+      key_name = 'notset'
+      nnodes = 0
+      nelem = 0
+      nsort = 0
       ier = 0
 c
-c    Decide what to do based on command line strings
+C#######################################################################
+C    SETUP and PARSE TOKENS
+C#######################################################################
 c
-c    2 - Get the mesh object
+c    TOKEN 2 - Get the mesh object
 c
+
+c     Get default mesh object if -def-
       cmonam = cmsgin(2)
       if((cmsgin(2)(1:icharlnf(cmsgin(2))) .eq. '-def-'))
      1   then
@@ -214,39 +243,63 @@ c
            goto 9999
          endif
       endif
-C
+
 C     Check that cmonam is a valid mesh object
-C
-      call cmo_get_info('nnodes',cmonam,nnodes,ilen,itype,ier)
-      if(ier .ne. 0)then
-           write(logmess,9005) cmsgin(2)(1:icharlnf(cmsgin(2)))
+
+      call cmo_exist(cmonam,ier)
+      if(ier.ne.0) then
+        write(logmess,*)
+     *  ' SORT: ERROR: mesh object does not exist: '
+     *   //cmonam(1:icharlnf(cmonam))
+        call writloga('default',0,logmess,1,ierr)
+        goto 9999
+      endif
+
+      call cmo_get_intinfo('nnodes',cmonam,nnodes,ilen,itype,ier)
+      if(ier .ne. 0) then
+        write(logmess,9005) cmonam(1:icharlnf(cmonam))
  9005   format(" SORT: ERROR looking for nnodes of mesh object: ",a)
-           call writloga('default',0,logmess,0,ier)
-           goto 9999
+        call writloga('default',0,logmess,0,ier)
+        goto 9999
       endif
-      call cmo_get_info('nelements',cmonam,nelem,ilen,itype,ier)
+
+C     Check that mesh object has elements
+
+      call cmo_get_intinfo('nelements',cmonam,nelem,ilen,itype,ier)
       if(ier .ne. 0)then
-           write(logmess,9006) cmsgin(2)(1:icharlnf(cmsgin(2)))
+        write(logmess,9006) cmonam(1:icharlnf(cmonam))
  9006   format(" SORT: ERROR looking for nelements of mesh object: ",a)
-           call writloga('default',0,logmess,0,ier)
-           goto 9999
+        call writloga('default',0,logmess,1,ier)
+        goto 9999
       endif
+      if (nelem .eq. 0) then
+         write(logmess, '(a)')
+     *   ' SORT: ERROR mesh object has 0 elements.'
+         call writloga('default',0,logmess,1,ier)
+         goto 9999
+      endif
+
 C
 C#######################################################################
 C
-C    3 - Get the sort method to be used (bins,index, or rank)
+C    TOKEN 3 - Get the sort method to be used (bins,index, or rank)
+C              also check on specific tokens related to each
 C
+
+C     isort_type index
       if((cmsgin(3)(1:icharlnf(cmsgin(3))) .eq. 'index') .or.
      1   (cmsgin(3)(1:icharlnf(cmsgin(3))) .eq. '-def-') .or.
      2   (nwds .eq. 1).or. (nwds .eq. 2))then
-            isort_type = 'index'
+         isort_type = 'index'
+
+C     isort_type bins
       elseif(cmsgin(3)(1:icharlnf(cmsgin(3))) .eq. 'bins') then
-            isort_type = 'bins'
+         isort_type = 'bins'
 C
-C     Check for user specified epsilon
-C
-        epsilon_user = 1.e-10
-        if(nwds .gt. 6)then
+C        TOKEN 7 for bins - user specified epsilon
+
+         epsilon_user = 1.e-10
+         if(nwds .gt. 6)then
            if(msgtyp(7) .eq. 2)then
               epsilon_user = xmsgin(7)
            else
@@ -258,37 +311,40 @@ C
               call writloga('default',0,logmess,0,ier)
            endif
          endif
+
+C     isort_type rank
       elseif(cmsgin(3)(1:icharlnf(cmsgin(3))) .eq. 'rank') then
-            isort_type = 'rank'
+         isort_type = 'rank'
+
+C     isort_type line_graph
       elseif(cmsgin(3)(1:icharlnf(cmsgin(3))) .eq. 'line_graph') then
-            isort_type = 'line_graph'
-            if (nwds .gt. 5) then
-              write(logmess,'(a)')
-     *         ' SORT: Error - Too many arguments for line_graph option'
-              call writloga('default',0,logmess,0,ier)
-              goto 9999
-            endif
-            if (nelem .eq. 0) then
-              write(logmess, '(a)')
-     *           ' SORT: Quitting early because there are 0 elements.'
-              call writloga('default',0,logmess,0,ier)
-              goto 9999
-            endif
+         isort_type = 'line_graph'
+
+         if (nwds .gt. 6) then
+           write(logmess,'(a)')
+     *      ' SORT: ERROR - Too many arguments for line_graph option'
+           call writloga('default',0,logmess,1,ier)
+           goto 9999
+         endif
+
       else
+C       TOKEN 3 has not been recognized
+
         write(logmess,9010) cmsgin(3)(1:icharlnf(cmsgin(3)))
- 9010   format(" SORT: Invalid option: ",a)
+ 9010   format(" SORT: ERROR invalid option 3 : ",a)
         call writloga('default',0,logmess,0,ier)
         write(logmess,9015)
  9015   format
-     1  ("Usage: sort/cmo/[INDEX,bins,rank]/...")
-        call writloga('default',0,logmess,0,ier)
+     1  ("Usage: sort/cmo/[INDEX,bins,rank,line_graph]/...")
+        call writloga('default',0,logmess,1,ier)
         goto 9999
+
       endif
 C
 C
 C#######################################################################
 C
-C    4 - Determine if sort is in ascending or descending order
+C    TOKEN 4 - Determine if sort is in ascending or descending order
 C
       sort_order = cmsgin(4)
       if((cmsgin(4)(1:icharlnf(cmsgin(4))) .eq. '-def-')) then
@@ -307,25 +363,119 @@ C       spelling just to support old control files.
 C
         isort_order = -1
         rsort_order = -1.0d0
+
       else
-        write(logmess,9018) cmsgin(4)(1:icharlnf(cmsgin(3)))
- 9018   format(" SORT:Invalid option:",a," Use:ascending or descending")
-        call writloga('default',0,logmess,0,ier)
+        write(logmess,9018) cmsgin(4)(1:icharlnf(cmsgin(4)))
+ 9018   format(" SORT: ERROR invalid option 4: ",a,
+     *  " Use: ascending or descending")
+        call writloga('default',0,logmess,1,ier)
         goto 9999
       endif
-C
+
 C######################################################################
+C     TOKEN 5 - Get or create the sort key array name key_name
 C
+C     If default -def- then use the name of the first
+C     attribute (command line argument 6) to name the sort key.
 C
-C    6 - Get arrays that control the multi-key sort and put them
-C        into a real*8 work array. This does not apply to the line_graph
-C        sort.
-C
-      if (isort_type .ne. 'line_graph') then
+      if((cmsgin(5)(1:icharlnf(cmsgin(5))) .ne.'-def-') .and.
+     *   nwds.ge.5 .and. msgtyp(5).eq.3  ) then
+         key_name = cmsgin(5)
+
+      elseif ((cmsgin(5)(1:icharlnf(cmsgin(5))).eq.'-def-') .and.  
+     *    nwds.ge.6 .and. msgtyp(6).eq.3 ) then
+
+        key_name = 'ikey'//'_'//(cmsgin(6)(1:icharlnf(cmsgin(6))))
+        write(logmess,'(a,a)')
+     *  " SORT: using created name for sort key: ",
+     *  key_name(1:icharlnf(key_name))   
+        call writloga('default',0,logmess,0,ier)
+
+      elseif (nwds.lt.5 .and. key_name(1:6).eq.'notset') then
+
+        key_name = 'lg_key_line_graph'
+        write(logmess,'(a,a)')
+     *  " SORT: using default name for sort key: ",
+     *  key_name(1:icharlnf(key_name))   
+        call writloga('default',0,logmess,0,ier)
+
+      endif
+ 
+C######################################################################
+C    TOKEN 6 - depends on isort_type
+C            - get key name and add attribute of appropriate length
+
+C     line_graph 
+C     TOKEN 6 is lg_sort_type 
+C     defined as elements or nodes (elements is the default)
+C     note, we use lg_sort_type, but may be able to just use nsort_clen
+      if (isort_type .eq. 'line_graph') then
+
+        if (nwds .gt. 6) then
+           write(logmess,'(a)')
+     *      ' SORT: ERROR - Too many arguments for line_graph option'
+           call writloga('default',0,logmess,1,ier)
+           goto 9999
+
+         elseif (nwds .lt. 6 ) then
+              lg_sort_type = "elements"
+              write(logmess, '(a)')
+     *        ' Default line_graph option: using "elements"'
+              call writloga('default',0,logmess,0,ier)
+         else
+C           if nwds equal 6 look for valid key word tokens
+
+            lg_sort_type = cmsgin(6)
+
+C           allow short version node or nodes, elem or elements
+            if(lg_sort_type(1:4).ne.'node' .and.
+     *        lg_sort_type(1:4) .ne.'elem' )
+     *        then
+              write(logmess, '(a)')
+     *        'Invalid option: line_graph must be "nodes" or "elements"'
+              call writloga('default',0,logmess,0,ier)
+              goto 9999
+            endif
+
+         endif
+
+C        check for valid cmo and set attribute name
+         if (lg_sort_type(1:4) .eq. 'node') then
+            if (nnodes .eq. 0) then
+                write(logmess, '(a)')
+     *          ' SORT: Quitting early because there are 0 nodes.'
+                call writloga('default',0,logmess,0,ier)
+                goto 9999
+             endif
+             nsort = nnodes
+             if (key_name(1:8) .eq. '-notset-') 
+     *           key_name = "lg_key_nodes"
+             nsort_clen = "nnodes"
+             lg_sort_type = "nodes"
+
+         else
+            if (nelem .eq. 0) then
+               write(logmess, '(a)')
+     *         ' SORT: Quitting early because there are 0 elements.'
+               call writloga('default',0,logmess,0,ier)
+               goto 9999
+             endif
+             nsort = nelem
+             if (key_name(1:8) .eq. '-notset-') 
+     *           key_name = "lg_key_elements"
+             nsort_clen = "nelements"
+             lg_sort_type = "elements"
+         endif 
+
+      else 
+C     TOKEN 6 - for all except line_graph
+C     Get arrays that control the multi-key sort and put them
+C     into a real*8 work arrays. 
+
          narg_input = 6
 C
-C        Tokens narg_input through nwds will be the arrays that control
-C        the sort.
+C        TOKEN(S) narg_input through nwds 
+C        will be the arrays that control the sort.
 C
          if(isort_type .ne. 'bins')then
             nkey = nwds - narg_input + 1
@@ -351,14 +501,34 @@ C
          call cmo_get_length(catt_name,cmonam,ilen,irank,ier)
          nsize = ilen * nkey
          nsort = ilen
-         nsort_name = clen
- 
+         nsort_clen = clen
+
+         if(nsort .le. 0)then
+           write(logmess, '(a,a,a,a)') " SORT: ERROR attribute: "
+     *     ,catt_name(1:icharlnf(catt_name))
+     *     ," of length ", clen
+           call writloga('default',0,logmess,0,ier)
+           write(logmess,9027) nsort
+ 9027      format(" SORT: ERROR nsort = ",i11)
+           call writloga('default',0,logmess,1,ier)
+           goto 9999
+         endif
+
 C
 C        Allocate a 1D array that is nsort*nkey long. This
 C        will be passed into the heap sort routine and treated
 C        as a 2D array rwork(nkey,nsort)
 C
          call mmgetblk('rwork',isubname,iprwork,nsize,2,ier)
+         if(ier .ne. 0)then
+           write(logmess, '(a,a,a,i11)') 
+     *     " SORT: ERROR allocating work array: rwork for option "
+     *     ,isort_type(1:icharlnf(isort_type))
+     *     ," of size ",nsize
+           call writloga('default',0,logmess,1,ier)
+           goto 9999
+         endif
+
 C
 C        Fill the real*8 work array that will be passed to the sort
 C        routine
@@ -375,11 +545,10 @@ C
  
          if(ilen .ne. nsort)then
            write(logmess,9026) ilen
- 9026      format(" SORT:ERROR att_in length = ",i11)
+ 9026      format(" SORT: ERROR att_in length = ",i11)
            call writloga('default',0,logmess,0,ier)
            write(logmess,9027) nsort
- 9027      format(" SORT:ERROR nsort = ",i11)
-           call writloga('default',0,logmess,0,ier)
+           call writloga('default',0,logmess,1,ier)
            goto 9999
          endif
 C
@@ -412,70 +581,92 @@ C
                enddo
             else
                write(logmess,9028) ctype(1:icharlnf(ctype))
- 9028          format(" SORT:ERROR att_in type=",a,
+ 9028          format(" SORT: ERROR attribute type=",a,
      *            " Must be VINT or VDOUBLE")
-               call writloga('default',0,logmess,0,ier)
+               call writloga('default',0,logmess,1,ier)
                goto 9999
             endif
          enddo
-      endif
-c
-C######################################################################
-C    5 - Get or create the sort key array
-C
-C        Do this after the previous step so that the dotask command
-C        does not interfer with the parsing of the sort key array names.
-C
-C
-      sort_key = cmsgin(5)
 
-      if (isort_type .eq. 'line_graph') then
-         nsort = nelem
-         nsort_name = "nelements"
       endif
-c
-c   What if sort_key exists and is named??? Make sure
-c   it is integer, and we will overwrite it.
-c
-C   If blank or default then use the name of the first
-C   attribute (command line argument 6) to name the sort key. For the
-C   line graph option we just call it ikey_line_graph.
-C
-      if((cmsgin(5)(1:icharlnf(cmsgin(5))) .eq. '-def-') .or.
-     *      nwds .lt. 5) then
-        if (isort_type .eq. 'line_graph') then
-           sort_key = 'ikey_line_graph'
-        else
-           sort_key = 'ikey'//'_'//(cmsgin(6)
-     1       (1:icharlnf(cmsgin(6))))
-        endif
-      endif
-C
-C      Check to see if 'sort_key' exists as a variable, if not
-C      then add it using a dotask call
+C     end TOKEN 6
+
+C######################################################################
+C     SETUP DONE - PARSED TOKENS DONE
+C######################################################################
+C     Allocate or get arrays for sort key pointer
+
+C      get or create the sort key array with length type nsort_clen
+C      Check to see if value in 'key_name' exists as a variable, 
+C      if not, then create it using a dotask call
+C      Note,this should correctly create the attribute length
+C      as nnodes or nelements as defined in value of nsort_clen 
 C
       ier = 0
-      call mmfindbk(sort_key,cmonam,ipikey,ilen,ier)
-      if(ier .ne. 0)then
+      call mmfindbk(key_name,cmonam,ipikey,ilen,ier)
+
+      if(ier .ne. 0) then
+
          ier = 0
-         cmdmessage = 'cmo/addatt/ /'//
-     1                 sort_key(1:icharlnf(sort_key))//
-     2                 '/vint/scalar/'//nsort_name//'/ / /gax/0;finish'
- 
+         cmdmessage='cmo/addatt/'//cmonam(1:icharlnf(cmonam)) //
+     1   '/'// key_name(1:icharlnf(key_name))//
+     2   '/vint/scalar/'//nsort_clen//'/ / /gax/0 ; finish'
          call dotaskx3d(cmdmessage, ier)
+
+       else
+
+C      check that existing attribute has the correct length
+          if (nsort_clen(1:6) .eq. 'nnodes') then
+
+             if (ilen .ne. nnodes) then
+               cmdmessage='cmo/DELATT/'//cmonam(1:icharlnf(cmonam)) //
+     *         '/'// key_name(1:icharlnf(key_name))//' ; finish'
+               call dotaskx3d(cmdmessage, ier)
+
+               cmdmessage='cmo/addatt/'//cmonam(1:icharlnf(cmonam)) //
+     *         '/'// key_name(1:icharlnf(key_name))//
+     *         '/vint/scalar/'//nsort_clen//'/ / /gax/0 ; finish'
+               call dotaskx3d(cmdmessage, ier)
+
+             endif
+
+          elseif (nsort_clen(1:9) .eq. 'nelements') then
+
+             if (ilen .ne. nelem ) then
+               cmdmessage='cmo/DELATT/'//cmonam(1:icharlnf(cmonam)) //
+     *         '/'// key_name(1:icharlnf(key_name))//' ; finish'
+               call dotaskx3d(cmdmessage, ier)
+
+               cmdmessage='cmo/addatt/'//cmonam(1:icharlnf(cmonam)) //
+     *         '/'// key_name(1:icharlnf(key_name))//
+     *         '/vint/scalar/'//nsort_clen//'/ / /gax/0 ; finish'
+               call dotaskx3d(cmdmessage, ier)
+             endif
+
+          endif
+
        endif
  
-       call cmo_get_info(sort_key,cmonam,ipikey,ilen,itype,ier)
- 
 C######################################################################
-C     Allocate work array for index pointers
+C     Allocate work array for index pointers and check ikey
 C
+      call cmo_get_info(key_name,cmonam,ipikey,ilen,itype,ier)
+      if(ier.ne.0) call x3d_error(isubname,'get info sort attribute')
+      if(ilen.ne.nsort) 
+     *  call x3d_error(isubname,'attribute length ne sort length')
+
       call mmgetblk('iwork',isubname,ipiwork,nsort,1,ier)
- 
-      do i = 1, nsort
-         iwork(i) = i
-         ikey (i) = i
-      enddo
+      if (ier.ne.0 .or. nsort.eq.0) then 
+          write(logmess,9030) nsort
+ 9030     format(" SORT: ERROR work array allocation length = ",i11)
+          call writloga('default',0,logmess,1,ier)
+          goto 9999
+      else
+        do i = 1, nsort
+           iwork(i) = i
+           ikey(i) = i
+        enddo
+      endif
 C
 C
 C     Old version had to distinguish between real or integer arrays
@@ -498,8 +689,10 @@ C
          call index_rank(nsort,iwork,ikey)
       elseif(isort_type(1:10) .eq. 'line_graph') then
          call cmo_get_info('itet', cmonam, ipitet, ilen, itype, ier)
+         if(ier.ne.0) call x3d_error(isubname,'get info itet')
          call cmo_get_info('itettyp', cmonam, ipitettyp, ilen, itype,
      *      ier)
+         if(ier.ne.0) call x3d_error(isubname,'get info itettyp')
 C
 C        Loop through and make sure that itet consists solely of line
 C        segments.
@@ -513,49 +706,77 @@ C
                goto 9999
             endif
          enddo
-C
-C        Create new attributes. We run a delete on the attribute names
-C        just to zero them out in case they already exist.
-C
-         ier = 0
-         cmdmessage = 'cmo/DELATT/' // cmonam(1:icharlnf(cmonam)) //
-     *      '/cid; finish'
-         call dotaskx3d(cmdmessage, ier)
-         cmdmessage = 'cmo/addatt/' // cmonam(1:icharlnf(cmonam)) //
-     *      '/cid/vint/scalar/nelements; finish'
-         call dotaskx3d(cmdmessage, ier)
 
-         cmdmessage = 'cmo/DELATT/' // cmonam(1:icharlnf(cmonam)) //
+
+	if (lg_sort_type .eq. 'elements') then
+C
+C          Create new temporary attributes.
+C          remove attributes to zero them out.
+           ier = 0
+
+C      addatt cid
+
+           cmdmessage='cmo/DELATT/'//cmonam(1:icharlnf(cmonam))//
+     *     '/cid; finish'
+           call dotaskx3d(cmdmessage, ier)
+           cmdmessage='cmo/addatt/'//cmonam(1:icharlnf(cmonam))//
+     *     '/cid/VINT/scalar/nelements/linear/temporary; finish'
+           call dotaskx3d(cmdmessage, ier)
+
+           call cmo_get_info('cid', cmonam(1:icharlnf(cmonam)), ipcid,
+     *        ilen, itype, ier)
+           if(ier.ne.0) call x3d_error(isubname,'get info cid')
+
+C      addatt ctype
+           cmdmessage = 'cmo/DELATT/' // cmonam(1:icharlnf(cmonam)) //
      *      '/ctype; finish'
-         call dotaskx3d(cmdmessage, ier)
-         cmdmessage = 'cmo/addatt/' // cmonam(1:icharlnf(cmonam)) //
-     *      '/ctype/vint/scalar/nelements; finish'
-         call dotaskx3d(cmdmessage, ier)
+           call dotaskx3d(cmdmessage, ier)
+           cmdmessage='cmo/addatt/'//cmonam(1:icharlnf(cmonam)) //
+     *      '/ctype/VINT/scalar/nelements/linear/temporary; finish'
+           call dotaskx3d(cmdmessage, ier)
+          
+           call cmo_get_info('ctype', cmonam(1:icharlnf(cmonam)),
+     *        ipcomptype, ilen, itype, ier)
+           if(ier.ne.0) call x3d_error(isubname,'get info ctype')
 
-         cmdmessage = 'cmo/DELATT/' // cmonam(1:icharlnf(cmonam)) //
+C      addatt loopid
+           cmdmessage='cmo/DELATT/'//cmonam(1:icharlnf(cmonam)) //
      *      '/loopid; finish'
-         call dotaskx3d(cmdmessage, ier)
-         cmdmessage = 'cmo/addatt/' // cmonam(1:icharlnf(cmonam)) //
-     *      '/loopid/vint/scalar/nelements; finish'
-         call dotaskx3d(cmdmessage, ier)
+           call dotaskx3d(cmdmessage, ier)
+           cmdmessage='cmo/addatt/'// cmonam(1:icharlnf(cmonam)) //
+     *      '/loopid/VINT/scalar/nelements/linear/temporary; finish'
+           call dotaskx3d(cmdmessage, ier)
+          
+           call cmo_get_info('loopid', cmonam(1:icharlnf(cmonam)),
+     *        iploopid, ilen, itype, ier)
+           if(ier.ne.0) call x3d_error(isubname,'get info loopid')
+
+C    ALLOCATION AND ATTRIBUTES DONE
 C
-C        Get ahold of the attributes we just created.
+C          Now let the C++ code take care of the rest!
 C
-         call cmo_get_info('cid', cmonam(1:icharlnf(cmonam)), ipcid,
-     *      ilen, itype, ier)
-         call cmo_get_info('ctype', cmonam(1:icharlnf(cmonam)),
-     *      ipcomptype, ilen, itype, ier)
-         call cmo_get_info('loopid', cmonam(1:icharlnf(cmonam)),
-     *      iploopid, ilen, itype, ier)
+C   SORT BY ELEMENT
+           call line_graph_sort(itet, cid, comptype, loopid, 
+     *		ikey, ilen)
+
 C
-C        Now let the C++ code take care of the rest!
-C
-         call line_graph_sort(itet, cid, comptype, loopid, ikey, ilen)
+	elseif (lg_sort_type .eq. 'nodes') then
+
+C   SORT BY NODE
+	   call line_graph_nsort(itet, ikey, nnodes)
+
+	endif
       endif
 C
 C
 C######################################################################
 C
+
+        write(logmess,'(a,a)')
+     *  " SORT: new order written to sort key attribute: ",
+     *  key_name(1:icharlnf(key_name))
+        call writloga('default',0,logmess,1,ier)
+
  9999 call mmrelprt(isubname,ierror)
  
       return
@@ -588,8 +809,10 @@ C
       character*132 cbuff
 
 C######################################################################
-C begin
-C    1 - Get the sort method to be used (bins,index, or rank)
+C begin BEGIN OLD SORT
+
+C    NWDS = 3
+C    TOKEN 3 - Get the sort method to be used (bins,index, or rank)
 C
       if((cmsgin(3)(1:icharlnf(cmsgin(3))) .eq. 'index') .or.
      1   (cmsgin(2)(1:icharlnf(cmsgin(3))) .eq. '-def-') .or.
