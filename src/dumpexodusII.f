@@ -1,6 +1,17 @@
 
 c     **************************************************************
-      subroutine dumpexodusII(ifile)
+c     subroutine dumpexodusII(ifiles)
+
+      subroutine dumpexodusII(
+     >               imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
+
+C     dump/exo/ ifile / cmoname
+C               default: single argument for output filename
+C
+C     dump/exo/ ifile / cmoname / facesets / files / file1, file2, ...filen
+C               output filename
+C               import facesets from files with tag based on order 1 to n
+C     
 c
 c     **************************************************************
 c
@@ -14,7 +25,13 @@ c
       include 'lagrit.h'
 
 c     arguments
-      character*(*) ifile
+c     character*(*) ifile
+
+      integer nwds
+      integer imsgin(nwds), msgtype(nwds)
+      real*8 xmsgin(nwds)
+      character*(*) cmsgin(nwds)
+      integer ierror
 
 c     local variables
 
@@ -26,52 +43,63 @@ c     vars in place of nelmnen and nelmnef
       integer nelfaces(8)
       data nelfaces / 0, 1, 3, 4, 4, 5, 5, 6 /
 
-      character*24 now
-      character*33 qarec_text(4),coor_names_text(3)
-      character*33 name_nod_var0(500), name_elem_var0(500)
-      character*33 root3, str, str1, str2, str3, str4
-      character*132 filename, cmo_name, logmess
-      character*132 root,root2,isubname
-      character*3 blk_num 
-      character*41 lentitle
-      character*2 lenebprop1
-      character*5 lenconnect_varid
-    
-      integer i,j,k, j1, k1, k2, ierr, idx, idx1, idx2, ioffset
+      integer i,j,k,ii,j1, k1, k2, idx, idx1, idx2, ioffset
+      integer ierr, ierrw
       integer len_cmo_name, iblk_num, if_debug_local
       integer icharlnf,eltyp
-      character*132 cbuff
+      integer ierror_return
 
       integer nnodes, nelements, nen, mbndry
       integer iout,loutx,louty,loutz,loutk,itype
       integer lout
       integer nsdgeom, ndimtopo
       integer status
-      integer llen_string, llen_line
+      integer ilen, llen_string, llen_line
       integer id_elem, nelblocks, iblockel
       integer inumqarec
-      real api,vers
       integer wsize,fsize
       integer maxelblk
       integer nouter1, nouter2, nnouter
       integer nsidesets1, nsidesets2, nsidesets, nnodesets
+      integer import_sidesets, nfiles
       integer n11, n12, n13, n21, n22, n23
       integer fnodes_j(4), fnodes_k(4)
       integer nfnk, nfnj, nf, nn
+      integer nnj, nnk, col_j, col_k, nmat
       integer offset, ibeg, iend
       integer elem_id, iblk_id
       integer idexo, icompws, iows, inumatt, num_qa_rec
-      integer nnj, nnk, col_j, col_k, nmat
+      integer idexi, in_compws, in_ws, in_numatt, in_num
+      integer iunit, iflag, ncount, ival, ival2
+      integer*4 iunit4
 
       real*8  t1xyz(3,3), t2xyz(3,3), lxyz1(3,2), lxyz2(3,2)
       real*8  cosang, cosang_flat
+      real api,vers
       
       logical done
 
       integer num_att_vec(2)
       integer qarecvec(3)
+
+      character*72 ifile, ifile2, filename, cmo_name
+      character*72 flist(nwds)
+      pointer (ipflist, flist)
+
+      character*24 now
+      character*33 qarec_text(4),coor_names_text(3)
+      character*33 name_nod_var0(500), name_elem_var0(500)
+      character*33 root3, str, str1, str2, str3, str4
+      character*132 root,root2,isubname
+      character*3 blk_num
+      character*41 lentitle
+      character*2 lenebprop1
+      character*5 lenconnect_varid
+      character*132 cbuff, logmess
+
       character*(MXSTLN) qa_record(4,1)
       character*8 eltyp_str
+      character*8 iword, iword2
       
 
 c     Mapping between local node nums from LaGriT to Exodus II
@@ -180,7 +208,9 @@ C
 c**********************************************************
 C     Begin dumpnetcdf
 C
+      ierror_return = 0
       if_debug_local = 0
+      import_sidesets = 0
 c
       isubname ='dumpexodusII'
       lentitle= 'LaGriT to ExodusII output'
@@ -192,24 +222,112 @@ c
       vers=4.5700002
       wsize=8
       fsize=0
-      filename=ifile(1:icharlnf(ifile))
       llen_string=33
       llen_line=81
       inumqarec=1
       inumatt=1
 
+C     there is a delay during setup, write to screen
+C     so user knows work is being done.
+      write(logmess,"(a)")'ExodusII dump:' 
+      call writloga('default',1,logmess,0,ierrw)
+
 c**********************************************************
 c
-c     Turn off screen output of dotask commands
 c
-      if(if_debug_local .eq. 0)call writset('stat','tty','off',ierr)
-c
-c     
+C ----Parse the input commands --------------------------------     
+C     Do some error checking on options
+C
+
+C     default - output ifile and cmoname must be provided
+C     dump/exo/ ifile / cmoname
+
+      if (msgtype(3).eq. 3) then
+         ifile = cmsgin(3)
+      else
+         write(logmess,"(a,a)") isubname,
+     *   " Error : filename not given."
+         call writloga('default',0,logmess,1,ierr)
+         ierror_return = -1
+         go to 9999
+      endif
+
+      if (msgtype(4).eq. 3) then
+         cmo_name = cmsgin(4)
+      else
+         write(logmess,"(a,a)") isubname,
+     *   " Error : cmo name not given."
+         call writloga('default',0,logmess,1,ierr)
+         ierror_return = -1
+      endif
+
+      
+C     dump/exo/ ifile/ cmoname / facesets 
+C     dump/exo/ ifile / cmoname/ facesets / file1,file2,...filen
+
+      if (msgtype(5).eq.3 .and. cmsgin(5)(1:8).eq.'facesets') then
+
+         if (nwds.gt.5 .and. msgtype(6).eq.3 ) then
+         import_sidesets = 1
+
+         call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
+         if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk flist')
+
+         nfiles = 0
+         do ii = 6,nwds
+           nfiles = nfiles+1
+           flist(nfiles) = cmsgin(ii)
+           print*,'got ',nfiles,flist(nfiles)
+           
+           ilen = icharlnf(flist(nfiles))
+           call fexist(flist(nfiles)(1:ilen),ierr)
+           if(ierr.eq.0) then
+             print*,'Missing facesets file: ',flist(nfiles)(1:ilen)
+             ierror_return = -2
+             goto 9999
+           endif
+
+         enddo 
+       
+         else 
+
+           write(logmess,"(a,a)") 'dump/exo/ ifile / cmoname', 
+     *     " Unknown options, will write default facesets."
+           call writloga('default',0,logmess,1,ierr)
+
+         endif
+
+      endif
+
+
+C-----Done parsing input ------------------------------------
 
 c     Get CMO info
 
-      call cmo_get_name(cmo_name,ierr)
+C     set cmo and ierror_return in case things blow up
+      call cmo_exist(cmo_name,ierr)
+      if(ierr.ne.0) then
+        write(logmess,*)
+     *  'dump/exo Warning: cannot find default mesh object.'
+        call writloga('default',0,logmess,0,ierrw)
+        ierror_return = -3
+        go to 9999
+      endif
       len_cmo_name=icharlnf(cmo_name)
+
+      filename=ifile(1:icharlnf(ifile))
+
+      write(logmess,"(a,a)")
+     & 'Writing to file: ',filename(1:icharlnf(filename))
+       call writloga('default',0,logmess,0,ierr)
+
+      write(logmess,"(a,a)")  
+     & 'Using cmo: ',cmo_name(1:len_cmo_name)
+      call writloga('default',0,logmess,0,ierr)
+
+c     Turn off screen output of dotask commands
+c
+      if(if_debug_local .eq. 0)call writset('stat','tty','off',ierr)
       ierr=0
       cbuff = ' '
       write(cbuff,*) 'cmo/set_id/' // cmo_name(1:len_cmo_name)//
@@ -852,20 +970,40 @@ C     hard-coded here. Likewise for iows, the IO word size.
       iows = 8
       idexo = excre_wrapper(filename,exclob,icompws,iows,status,
      *      icharlnf(filename))
-      if (status.ne.0) 
-     &     call exerr(isubname,"Error exporting to ExodusII ",status)
+
+      if (status.ne.0) then 
+        call exerr(isubname,
+     & " Error opening ExodusII file. ",status)
+        ierror_return = status
+        go to 9999
+      endif
 
 
 c
 c     Put initialization information
 c
 
+C TAM
+      print*,'INITIALIZE exodus '
+      print*,'   nnodes: ',nnodes
+      print*,'   nelements: ',nelements
+      print*,'   nelblocks: ',nelblocks
+      print*,'   nnodesets: ',nnodesets
+      print*,'   nsidesets: ',nsidesets
+      if (import_sidesets .eq. 1) then
+         nsidesets = nfiles
+         print*,'   nsidesets changed to: ',nsidesets
+      endif
+
       call EXPINI(idexo, 'Lagrit-to-ExodusII', nsdgeom, nnodes, 
      &     nelements, nelblocks, nnodesets, nsidesets, status)
-      if (status.ne.0) 
-     &     call exerr(isubname,"Error exporting to ExodusII ",status)
 
-
+      if (status.ne.0) then 
+         call exerr(isubname,
+     &   " Error writing ExodusII init parameters.",status)
+         ierror_return = status
+         go to 9999
+      endif
 
 c
 c     Put some QA info - problem name, date, time etc.
@@ -879,18 +1017,21 @@ c
       qa_record(4,1) = "Time"
 
       call EXPQA(idexo, num_qa_rec, qa_record, status)
-      if (status.ne.0) 
-     &     call exerr(isubname,"Error exporting to ExodusII ",status)
-
-
+      if (status.ne.0) then 
+          call exerr(isubname,
+     &    " Error writing ExodusII date/time. ",status)
+          ierror_return = status
+          go to 9999
+      endif
 
       call EXPCOR(idexo, xic, yic, zic, status)
-      if (status.ne.0) 
-     &     call exerr(isubname,"Error exporting to ExodusII ",status)
-
-
-
-
+      if (status.ne.0) then 
+          call exerr(isubname,
+     &    " Error writing ExodusII coordinates. ",status)
+          ierror_return = status
+          go to 9999
+      endif
+      
 c     Write out element blocks
 
       call mmgetblk
@@ -927,8 +1068,13 @@ c        element block info
 
          call EXPELB(idexo, iblk_id, eltyp_str, numelblk(i),
      &        nelnodes(eltyp), inumatt, status)
-         if (status.ne.0) 
-     &        call exerr(isubname,"Error exporting to ExodusII ",status)
+         if (status.ne.0) then 
+              call exerr(isubname,
+     &    "Error writing ExodusII element block. ",status)
+          ierror_return = status
+          go to 9999
+      endif
+
 
 
 
@@ -949,8 +1095,12 @@ c        in any block
          enddo
 
          call EXPELC(idexo, iblk_id, elconblk, status)
-         if (status.ne.0) 
-     &        call exerr(isubname,"Error exporting to ExodusII ",status)
+         if (status.ne.0) then 
+            call exerr(isubname,
+     &      " Error writing ExodusII element connectivity. ",status)
+            ierror_return = status
+            go to 9999
+         endif
 
       enddo
 
@@ -963,13 +1113,20 @@ c     Write out node sets
       do i = 1, nnodesets
 
          call EXPNP(idexo, nodeset_tag(i), nnodes_ns(i), 0, status)
-         if (status.ne.0) 
-     &        call exerr(isubname,"Error exporting to ExodusII ",status)
-
+         if (status.ne.0) then 
+            call exerr(isubname,
+     &      " Error writing ExodusII node sets. ",status)
+            ierror_return = status
+            go to 9999
+         endif
 
          call EXPNS(idexo, nodeset_tag(i), outernodes(ibeg), status)
-         if (status.ne.0) 
-     &        call exerr(isubname,"Error exporting to ExodusII ",status)
+         if (status.ne.0) then 
+            call exerr(isubname,
+     &      " Error writing ExodusII outer nodes. ",status)
+            ierror_return = status
+            go to 9999
+         endif
          
          ibeg = ibeg + nnodes_ns(i)
       enddo
@@ -977,7 +1134,119 @@ c     Write out node sets
 
 
 
+C TAM - add option to import facesets from files
+C     update facesets information
+C     nsidesets - number of sets = nfiles
+C     sideset_tag(1:nfiles) - id number tag to assign
+C     nfaces_ss( )  - indexes into big arrays 
+C     sselemlist( ) - indexed big array with all elem sets 
+C     ssfacelist( )  - indexed big array with all face sets)
 
+C     get sidesets from list of files
+      if (import_sidesets .eq. 1) then
+       
+      print*,'Exodus SIDESETS imported from files. ',nfiles
+      print*,'Overwrite internal defs with nsidesets: ',nsidesets
+      
+      offset = 0
+      ibeg=0
+      do i = 1, nfiles
+
+        iunit=-1
+        ifile2 = flist(i)
+        ilen = icharlnf(ifile2)
+        call hassign(iunit,ifile2,ierr)
+        iunit4 = iunit
+        if (ierr.lt.0 .or. iunit.lt.0) then
+            write(logmess,*) 'WARNING: file not opened: '
+     &         //ifile2(1:ilen)
+            call writloga('default',1,logmess,0,ierr)
+            ierr = -1
+            go to 9000
+        endif
+
+C       look for top of file text with following lines:
+C       ....
+C       idelem1, integer 
+C       idface1, integer 
+
+        iflag = 0
+        ncount = 0  
+        do while (iflag.eq.0) 
+          read(iunit4,'(a8)',err=9000) iword
+          read(iunit4,'(a8)',err=9000) iword2
+          if (iword(1:6).eq.'idelem' .and.
+     &      iword2(1:6).eq.'idface') iflag=1
+        enddo
+
+C       read and save values from current file
+        if ( iflag .eq. 1) then
+  110       continue
+            read(iunit4,*,end=3000) ival,ival2
+            ncount= ncount+1
+
+            if (ncount .gt. nouter1) then
+              print*,'Warning: array size too small.'
+              print*,'ncount: ',ncount,' size: ',nouter1
+            endif
+
+            outerelems1(ncount) = ival
+            outerfaces1(ncount) = ival2
+            go to 110        
+        endif
+
+ 3000  close(iunit)
+
+       print*
+       print*,'done reading ',ifile2
+       print*,' total values ',ncount
+       if (ncount .le. 0) then
+         print*,'No idelem idface tags in file ',ifile2(1:ilen)
+       endif
+
+C     ********** now overwrite previous sideset arrays *******
+      iend = offset + ncount
+      if (iend .gt. nouter1*3) then
+        print*,'Warning: ncount may be greater than array size.'
+      endif
+
+      print*,'Total read: ',iend
+      print*,'Current offset: ',offset
+      print*,'Set tag: ',i,' nfaces: ',ncount
+
+      sideset_tag(i) = i 
+      nfaces_ss(i) = ncount 
+      do j = 1, ncount 
+         sselemlist(offset+j) = outerelems1(j)
+         ssfacelist(offset+j) = outerfaces1(j)
+      enddo
+
+      print*,'first: ',sselemlist(offset+1),
+     &         ssfacelist(offset+1)
+      print*,'last:  ',sselemlist(offset+ncount),
+     &         ssfacelist(offset+ncount)
+
+      offset = offset + nfaces_ss(i)
+      print*,'Set new offset: ',offset
+
+C     ********** done overwrite previous sideset arrays *******
+
+C     end loop through nfiles
+      enddo
+
+ 9000 if (ierr .lt. 0) then
+        print*,'Could not read facesets file ',ifile2(1:ilen)
+      endif
+
+  
+
+C     default - create facesets internally using materials
+      else 
+
+      print*,'Exodus SIDESETS defined internally. '
+      print*,'   nsidesets: ',nsidesets
+
+      endif
 
 c     Write out side sets
 
@@ -1003,33 +1272,44 @@ c     Then write out the info
       do i = 1, nsidesets
 
          call EXPSP(idexo, sideset_tag(i), nfaces_ss(i), 0, status)
-         if (status.ne.0) 
-     &        call exerr(isubname,"Error exporting to ExodusII ",status)
+         if (status.ne.0) then 
+            call exerr(isubname,
+     &      " Error writing ExodusII sidesets tags. ",status)
+            ierror_return = status
+            go to 9999
+         endif
+
 
 
          call EXPSS(idexo, sideset_tag(i), sselemlist(ibeg),
      &        ssfacelist(ibeg), status)
-         if (status.ne.0) 
-     &        call exerr(isubname,"Error exporting to ExodusII ",status)
+         if (status.ne.0) then 
+            call exerr(isubname,
+     &      " Error writing ExodusII sidesets. ",status)
+            ierror_return = status
+            go to 9999
+         endif
+
          
+      print*,'EXPSP ',i,' starting at ',ibeg
+      print*,'   sideset_tag :',sideset_tag(i)
+      print*,'   nfaces_ss :',nfaces_ss(i)
+      print*,'EXPSS ',i
+      print*,'   sselemlist :',sselemlist(ibeg)
+      print*,'   ssfacelist :',ssfacelist(ibeg)
+
          ibeg = ibeg + nfaces_ss(i)
       enddo
-
-
-
-
 
 c     Close the Exodus II file
 
       call EXCLOS(idexo, status)
-      if (status.ne.0) 
-     &     call exerr(isubname,"Error exporting to ExodusII ",status)
-
-
-
-
-c
-
+      if (status.ne.0) then 
+           call exerr(isubname,
+     &      " Error closing ExodusII file. ",status)
+            ierror_return = status
+            go to 9999
+       endif
 
 c
 c     For netCDF output reset ioflag of itetclr
@@ -1038,16 +1318,22 @@ c
      &               '/ itetclr / ioflag / l ; finish'
       call dotask(cbuff,ierr)
 c
+
+ 9999 continue
+
+c     Turn on screen output
+      if(if_debug_local .eq. 0)call writset('stat','tty','on',ierr)
+
       if(if_debug_local .ne. 0)call mmprint()
 c
       call mmrelprt(isubname, ierr)
-c
-c     Turn on screen output
-c
-      if(if_debug_local .eq. 0)call writset('stat','tty','on',ierr)
-c
 
-
+      ierror = ierror_return
+      if (ierror .ne. 0) then
+         write(logmess,"(a,i5)")
+     *   "ExodusII dump exiting with Error flag: ",ierror
+         call writloga('default',1,logmess,1,ierr)
+      endif
 
 
       return

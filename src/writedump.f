@@ -363,6 +363,7 @@ C
           endif
 C***Find the index of the '.' in the file name
          extindex = index(cmsgin(2), '.', .TRUE.)
+
 C***If there is no '.', it is not valid, so try other syntax
          if (extindex .eq. 0) then
              write(logmess,'(a)') 'Second argument is not a filename. '
@@ -414,6 +415,8 @@ C***found a well-formed 3-token call.
              endif
           endif
       endif
+
+C     end 3 command option for exodus
 
 C***The rest of the code is for handling all other cases
 
@@ -1381,13 +1384,35 @@ C      elseif(ioption(1:leno).eq.'rtt') then
 C
 C         call dumprtt(ifile(1:lenfile),cmo)
 C
-C     DUMP / exo
+C     DUMP / exo / filename / cmo
+C          playing with facesets syntax
+C     DUMP / exo / filename / cmo / facesets
+C     DUMP / exo / filename / cmo / facesets / file1,..filen
+C      for now, do not allow the short cut for exo syntax
+C      allow shortcuts once the syntax has been figured out
+
       elseif((ioption(1:leno).eq.'exodusii') .or.
      1       (ioption(1:leno).eq.'exo'     ) .or.
+     1       (ioption(1:leno).eq.'exodus'  ) .or.
      1       (ioption(1:leno).eq.'exodusII')) then
          
-         call dumpexodusII(ifile(1:lenfile))
-         ierror_return = 0
+c      call dumpexodusII(ifile(1:lenfile))
+
+       if (nwds.lt.4) then
+         write(logmess,'(a)') 
+     *   'Syntax for exo: dump / exo / outfile / cmoname'
+         call writloga('default',0,logmess,0,ierrw)
+         write(logmess,'(a)')'Try again.'
+         call writloga('default',0,logmess,1,ierrw)
+         ierror_return = -1
+
+       else
+
+         call dumpexodusII(imsgin,xmsgin,cmsgin,msgtype,
+     *                          nwds,ierror)
+         ierror_return = ierror
+       
+       endif
 
       else
 C
