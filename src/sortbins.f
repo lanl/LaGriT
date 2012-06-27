@@ -599,12 +599,19 @@ C     Allocate or get arrays for sort key pointer
 C      get or create the sort key array with length type nsort_clen
 C      Check to see if value in 'key_name' exists as a variable, 
 C      if not, then create it using a dotask call
+C
 C      Note,this should correctly create the attribute length
 C      as nnodes or nelements as defined in value of nsort_clen 
+C
+C      Note, there are some redundancies in the code with error
+C      checking and extra variables that can be cleaned up.
+C      For now they are left errors are caught if there are holes in logic 
 C
       ier = 0
       call mmfindbk(key_name,cmonam,ipikey,ilen,ier)
 
+C     extra checks to make sure attribute for sort key is correct 
+C     some logic in above code will not have created the attribute yet
       if(ier .ne. 0) then
 
          ier = 0
@@ -613,9 +620,11 @@ C
      2   '/vint/scalar/'//nsort_clen//'/ / /gax/0 ; finish'
          call dotaskx3d(cmdmessage, ier)
 
-       else
+      else
+C     check that existing attribute has the correct length
+C     we may want to delete these, but should work to reuse
+C     as key array is intialized each time to 1 thru nsort
 
-C      check that existing attribute has the correct length
           if (nsort_clen(1:6) .eq. 'nnodes') then
 
              if (ilen .ne. nnodes) then
@@ -645,15 +654,23 @@ C      check that existing attribute has the correct length
 
           endif
 
-       endif
- 
+      endif
+
 C######################################################################
 C     Allocate work array for index pointers and check ikey
 C
       call cmo_get_info(key_name,cmonam,ipikey,ilen,itype,ier)
-      if(ier.ne.0) call x3d_error(isubname,'get info sort attribute')
-      if(ilen.ne.nsort) 
-     *  call x3d_error(isubname,'attribute length ne sort length')
+
+C     this is an extra check, nsort should be correctly set
+C     to nnodes or nelements by this point
+      if ( (nsort.ne.ilen) .or. (ier.ne.0) ) then
+           write(logmess,'(a,a5,i11,a,a)')
+     *      " SORT: ERROR invalid length  ",
+     *      nsort_clen(1:4), nsort,
+     *      " for attribute: ", key_name
+           call writloga('default',0,logmess,1,ier)
+           goto 9999
+      endif
 
       call mmgetblk('iwork',isubname,ipiwork,nsort,1,ier)
       if (ier.ne.0 .or. nsort.eq.0) then 
@@ -708,13 +725,12 @@ C
          enddo
 
 
+C    SORT BY ELEMENT
 	if (lg_sort_type .eq. 'elements') then
 C
 C          Create new temporary attributes.
 C          remove attributes to zero them out.
            ier = 0
-
-C      addatt cid
 
            cmdmessage='cmo/DELATT/'//cmonam(1:icharlnf(cmonam))//
      *     '/cid; finish'
@@ -727,7 +743,6 @@ C      addatt cid
      *        ilen, itype, ier)
            if(ier.ne.0) call x3d_error(isubname,'get info cid')
 
-C      addatt ctype
            cmdmessage = 'cmo/DELATT/' // cmonam(1:icharlnf(cmonam)) //
      *      '/ctype; finish'
            call dotaskx3d(cmdmessage, ier)
@@ -739,7 +754,6 @@ C      addatt ctype
      *        ipcomptype, ilen, itype, ier)
            if(ier.ne.0) call x3d_error(isubname,'get info ctype')
 
-C      addatt loopid
            cmdmessage='cmo/DELATT/'//cmonam(1:icharlnf(cmonam)) //
      *      '/loopid; finish'
            call dotaskx3d(cmdmessage, ier)
@@ -751,19 +765,17 @@ C      addatt loopid
      *        iploopid, ilen, itype, ier)
            if(ier.ne.0) call x3d_error(isubname,'get info loopid')
 
-C    ALLOCATION AND ATTRIBUTES DONE
 C
-C          Now let the C++ code take care of the rest!
+C   setup done, now let the C++ code take care of the rest!
 C
-C   SORT BY ELEMENT
            call line_graph_sort(itet, cid, comptype, loopid, 
-     *		ikey, ilen)
-
-C
-	elseif (lg_sort_type .eq. 'nodes') then
+     *		ikey, nelem)
 
 C   SORT BY NODE
-	   call line_graph_nsort(itet, ikey, nnodes)
+C   note the last argument is the number of elements
+	elseif (lg_sort_type .eq. 'nodes') then
+
+	   call line_graph_nsort(itet, ikey, nelem)
 
 	endif
       endif
