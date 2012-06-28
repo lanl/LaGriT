@@ -1,3 +1,75 @@
+=======================================================================
+LaGriT V3.005 
+*               *    Program:  LaGriT V3.005   Linux m64      * 
+*               *    date_compile: 2012/04/15  gfort 4.5      *
+
+fixed bugs related to cmo/addatt and cmo/readatt resulting in seg fault
+added error checking to cmo/readatt and stack routines
+fixes and added option for sort line_graph option for nodes, elements, both
+
+updated test/level01 reference files to reflect 64 bit results 
+added test/level01/ ascem_demo001 eltset exodus hybrid_volume
+updated test/level01/*.py to point to non-version 3 python which
+        has different syntax for common routines such as print
+
+
+=======================================================================
+LaGriT V3.002 
+*               *    Program:  LaGriT V3.002   Linux m64      *                 
+*               *    date_compile: 2011/09/09  gfort 4.5      *  
+
+fixed bug: read/gmv small binary 
+fixed bug: read/gmv second time (file not closing correctly)
+           added better format checking, error messages 
+
+M src/readdump.f
+M src/readgmv_binary.f
+M src/writfls.f
+M src/writloga.f
+
+Expanded read/write tests
+M test/level01/io_agf_simple/input.lgi
+M test/level01/io_agf_simple/reference/input.lgi
+M test/level01/io_agf_simple/reference/output_ascii.gmv
+M test/level01/io_agf_simple/reference/outx3dgen
+M test/level01/result_files/diffout_lin.txt
+M test/level01/result_files/stdout_lin64.txt
+? io_agf_simple/reference/output_hex8_ascii.gmv
+? io_agf_simple/reference/output_hex8_ascii.inp
+? io_agf_simple/reference/output_hex8_ascii.lagrit
+? io_agf_simple/reference/output_hex8_binary.gmv
+? io_agf_simple/reference/output_hex8_binary.gmvF
+? io_agf_simple/reference/output_hex8_binary.lagrit
+? io_agf_simple/reference/output_tet1_ascii.gmv
+? io_agf_simple/reference/output_tet1_binary.gmv
+? io_agf_simple/reference/output_tet1_binary.gmvF
+
+
+Update to V3.002
+M bin/lagrit_lin64_o_gfort4.5
+M lib/lagrit_lin64_g_gfort4.5.a
+M lib/lagrit_lin64_o_gfort4.5.a
+M src/lagrit.h
+M src/lagrit.template.h
+M src/lagrit_lin.h
+M src/lagrit_lin64.h
+M src/lagrit_mac.h
+M src/lagrit_maci.h
+M src/lagrit_sgi.h
+M src/lagrit_sun.h
+
+hg commit
+V3.002 for new release has bug fixes. 
+This closes #103 for 64bit version of LaGriT 
+This version closes #66 writing outside ares for median and voronoi
+This fixes #110 for all but a few cases that are added to test/level01
+close #4 to create eltset like psets
+close #34 reading gmv binary with few elements
+fixes #50 where quality prints largets volume bin twice
+close #60 addatt voronoi and hybrid
+
+
+
 
 =======================================================================
 LaGriT V3.001 Tue Aug 30 16:16:50 MDT 2011
