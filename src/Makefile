@@ -94,8 +94,8 @@ CFLAGS = -m32 -Dlin
 ifeq ($(MOPT), 64)
 OSTAG = _lin64
 OBJDIR = lin_objects_m64/
-FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 
-FF90FLAGS = -fcray-pointer -fdefault-integer-8  -m64 -Dlinx64 
+FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64
+FF90FLAGS = -fcray-pointer -fdefault-integer-8  -m64 -Dlinx64
 CFLAGS = -m64 -Dlinx64
 endif
 
@@ -130,6 +130,24 @@ FFLAGS = -f -m32 -q
 FF90FLAGS = -m32 
 CFLAGS =  -m32
 OBJDIR = objects_maci/
+
+ifeq ($(COMPILER),GFORTRAN)
+FC = gfortran
+FC90 = gfortran
+CC= gcc
+FFLAGS = -fcray-pointer -m32  
+FF90FLAGS = -fcray-pointer -m32 
+
+ifeq ($(MOPT), 64)
+OSTAG = _maci64
+OBJDIR = lin_objects_maci64/
+FFLAGS = -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64 
+FF90FLAGS = -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64 
+CFLAGS = -m64 -Dmacx64
+endif
+
+endif
+
 endif
 #
 endif
@@ -188,6 +206,9 @@ endif
 SUFF2 =""
 ifeq ($(COMPILER),GFORTRAN)
 SUFF2 = _gfort4.5
+ifeq ($(OPSYS), Darwin)
+SUFF2 = _gfort4.6
+endif
 endif
 ifeq ($(COMPILER),ABSOFT)
 SUFF2 = _absoft
@@ -334,14 +355,14 @@ $(OBJDIR)%.o : %.c
 $(OBJDIR)%.o : %.cpp
 	$(CXX) $(COPT) $(CFLAGS) -c -o $@ $<
 
-machine.h : machine_header.h
-	@echo "--------------------------------------------------"
-	@echo "Remove and re-make machine.h from machine_header.F"
-	cp -p machine_header.h machine_header.F
-	$(CC) -E $(CFLAGS) machine_header.F -o machine.h
-	cp -p machine.h $(OBJDIR)
-	-rm -f machine_header.F
-	@echo "--------------------------------------------------"
+#machine.h : machine_header.h
+#	@echo "--------------------------------------------------"
+#	@echo "Remove and re-make machine.h from machine_header.F"
+#	cp -p machine_header.h machine_header.F
+#	$(CC) -E $(CFLAGS) machine_header.F -o machine.h
+#	cp -p machine.h $(OBJDIR)
+#	-rm -f machine_header.F
+#	@echo "--------------------------------------------------"
 
 $(OBJDIR)%.o : %.F 
 	cp lagrit$(OSTAG).h lagrit.h

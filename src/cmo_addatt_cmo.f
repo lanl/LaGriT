@@ -151,6 +151,31 @@ C
       att_name = cmsgin(4)
 
 C
+      if((cmo_name(1:icharlnf(cmo_name))) .eq. '-def-') then
+         call cmo_get_name(cmo_name, ier)
+         if(ier.ne.0) then
+           write(logmess,9000) cmo_name(1:icharlnf(cmo_name))
+ 9000   format(" ADDATT: CMO found bad mesh object: ",a)
+           call writloga('default',0,logmess,0,ier)
+           ierror_return = 1
+           goto 9999
+         endif
+      endif
+
+C     Check the mesh object name
+      call cmo_exist(cmo_name,ier)
+      if(ier.ne.0) then
+         write(logmess,'(a,a)')
+     *     'ADDATT: Not a valid mesh object: ',
+     *      cmo_name(1:icharlnf(cmo_name))
+         call writloga('default',1,logmess,1,ier)
+         ierror_return = 1
+         goto 9999
+      endif
+
+
+
+C
 C.... Check if this a new Attribute.
 C
 C

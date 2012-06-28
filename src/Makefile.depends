@@ -266,6 +266,7 @@ $(OBJDIR)kdtree_cmo.o: consts.h local_element.h
 $(OBJDIR)kdtreeselect.o: local_element.h
 $(OBJDIR)laplace2d.o: local_element.h consts.h
 $(OBJDIR)line_graph_sort.o: line_graph_sort.cpp
+$(OBJDIR)line_graph_nsort.o: line_graph_nsort.cpp
 $(OBJDIR)lineseg_inter.o: consts.h
 $(OBJDIR)lineseglineseg.o: local_element.h local_element.h
 $(OBJDIR)linesegtri.o: local_element.h

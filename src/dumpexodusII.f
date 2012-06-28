@@ -96,6 +96,7 @@ c     vars in place of nelmnen and nelmnef
       character*2 lenebprop1
       character*5 lenconnect_varid
       character*132 cbuff, logmess
+      character*32 option
 
       character*(MXSTLN) qa_record(4,1)
       character*8 eltyp_str
@@ -240,7 +241,7 @@ C     Do some error checking on options
 C
 
 C     default - output ifile and cmoname must be provided
-C     dump/exo/ ifile / cmoname
+C     dump/exo/ ifile / cmoname / option
 
       if (msgtype(3).eq. 3) then
          ifile = cmsgin(3)
@@ -263,32 +264,86 @@ C     dump/exo/ ifile / cmoname
 
       
 C     dump/exo/ ifile/ cmoname / facesets 
+C     dump/exo/ ifile / cmoname/ facesets / on
+C     dump/exo/ ifile / cmoname/ facesets / off
 C     dump/exo/ ifile / cmoname/ facesets / file1,file2,...filen
+C     dump/exo/ ifile / cmoname/ facesets / on file1,file2,...filen
+C     dump/exo/ ifile / cmoname/ facesets / off file1,file2,...filen
 
       if (msgtype(5).eq.3 .and. cmsgin(5)(1:8).eq.'facesets') then
 
          if (nwds.gt.5 .and. msgtype(6).eq.3 ) then
-         import_sidesets = 1
+           if (cmsgin(6).eq. 'on') then
+	      option = cmsgin(6)
+              if (nwds .gt. 6) then
+	      import_sidesets = 1
 
-         call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
-         if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk flist')
+	      call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
+              if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk flist')
 
-         nfiles = 0
-         do ii = 6,nwds
-           nfiles = nfiles+1
-           flist(nfiles) = cmsgin(ii)
-           print*,'got ',nfiles,flist(nfiles)
-           
-           ilen = icharlnf(flist(nfiles))
-           call fexist(flist(nfiles)(1:ilen),ierr)
-           if(ierr.eq.0) then
-             print*,'Missing facesets file: ',flist(nfiles)(1:ilen)
-             ierror_return = -2
-             goto 9999
-           endif
+              nfiles = 0
+              do ii = 7,nwds
+        	nfiles = nfiles+1
+        	flist(nfiles) = cmsgin(ii)
+        	print*,'got ',nfiles,flist(nfiles)
+        	
+        	ilen = icharlnf(flist(nfiles))
+        	call fexist(flist(nfiles)(1:ilen),ierr)
+        	if(ierr.eq.0) then
+        	  print*,'Missing facesets file: ',flist(nfiles)(1:ilen)
+        	  ierror_return = -2
+        	  goto 9999
+        	endif
 
-         enddo 
-       
+              enddo
+	      endif
+
+	   elseif (cmsgin(6).eq. 'off') then
+	      option = cmsgin(6)
+              if (nwds .gt. 6) then
+	      import_sidesets = 1
+
+	      call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
+              if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk flist')
+
+              nfiles = 0
+              do ii = 7,nwds
+        	nfiles = nfiles+1
+        	flist(nfiles) = cmsgin(ii)
+        	print*,'got ',nfiles,flist(nfiles)
+        	
+        	ilen = icharlnf(flist(nfiles))
+        	call fexist(flist(nfiles)(1:ilen),ierr)
+        	if(ierr.eq.0) then
+        	  print*,'Missing facesets file: ',flist(nfiles)(1:ilen)
+        	  ierror_return = -2
+        	  goto 9999
+        	endif
+
+              enddo
+	      endif
+	   else
+	      import_sidesets = 1
+
+	      call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
+              if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk flist')
+
+              nfiles = 0
+              do ii = 6,nwds
+        	nfiles = nfiles+1
+        	flist(nfiles) = cmsgin(ii)
+        	print*,'got ',nfiles,flist(nfiles)
+        	
+        	ilen = icharlnf(flist(nfiles))
+        	call fexist(flist(nfiles)(1:ilen),ierr)
+        	if(ierr.eq.0) then
+        	  print*,'Missing facesets file: ',flist(nfiles)(1:ilen)
+        	  ierror_return = -2
+        	  goto 9999
+        	endif
+
+              enddo 
+	   endif
          else 
 
            write(logmess,"(a,a)") 'dump/exo/ ifile / cmoname', 
@@ -539,11 +594,29 @@ c     collect all the outer faces
       enddo
 
 
+      if (option .eq. 'off') then
+	if ( import_sidesets .eq. 1) then
+	   call mmgetblk
+     &        ('sselemlist',isubname,ipsselemlist,3*nouter1,1,ierr)
+	   call mmgetblk
+     &        ('ssfacelist',isubname,ipssfacelist,3*nouter1,1,ierr)
+	   nnodesets = 0
+	   goto 2001
+	else
+	   print *, 'No facesets imported, no. of faceset = 0.'
+	   nsidesets = 0
+	   nnodesets = 0
+	   goto 4000
+	endif
+      else
+	goto 2000
+      endif
 
 
 c     Break up these faces first according to sharp edges (or edges
 c     according to sharp corners)
 
+ 2000 print *, 'GOING THROUGH THE LONG LOOP!!!!!!!!!'
       call mmgetblk
      &     ('fmarked',isubname,ipfmarked,nouter1,1,ierr)
       call mmgetblk
@@ -882,10 +955,7 @@ c     mesh will be made into one sideset (the first one)
          offset = offset + nfaces_ss1(i)
          ibeg = ibeg + nfaces_ss1(i)
       enddo
-
-
-
-      
+      print *, 'JUST GONE THROUGH THE LONG LOOP!!!!!!!!!'
 
 
 c     ASSUME THERE ARE AS MANY NODESETS AS SIDESETS - EACH NODESET IS
@@ -947,9 +1017,119 @@ c                 add to nodeset
       nnodesets = nsidesets
 
 
+C TAM - add option to import facesets from files
+C     update facesets information
+C     nsidesets - number of sets = nfiles
+C     sideset_tag(1:nfiles) - id number tag to assign
+C     nfaces_ss( )  - indexes into big arrays 
+C     sselemlist( ) - indexed big array with all elem sets 
+C     ssfacelist( )  - indexed big array with all face sets)
 
+C     get sidesets from list of files
+      if (import_sidesets .eq. 1) then
+       
+ 2001 print*,'Exodus SIDESETS imported from files. ',nfiles
+      print*,'Overwrite internal defs with nsidesets: ',nsidesets
+      
+      offset = 0
+      ibeg=0
+      do i = 1, nfiles
 
+        iunit=-1
+        ifile2 = flist(i)
+        ilen = icharlnf(ifile2)
+        call hassign(iunit,ifile2,ierr)
+        iunit4 = iunit
+        if (ierr.lt.0 .or. iunit.lt.0) then
+            write(logmess,*) 'WARNING: file not opened: '
+     &         //ifile2(1:ilen)
+            call writloga('default',1,logmess,0,ierr)
+            ierr = -1
+            go to 9000
+        endif
 
+C       look for top of file text with following lines:
+C       ....
+C       idelem1, integer 
+C       idface1, integer 
+
+        iflag = 0
+        ncount = 0  
+        do while (iflag.eq.0) 
+          read(iunit4,'(a8)',err=9000) iword
+          read(iunit4,'(a8)',err=9000) iword2
+          if (iword(1:6).eq.'idelem' .and.
+     &      iword2(1:6).eq.'idface') iflag=1
+        enddo
+
+C       read and save values from current file
+        if ( iflag .eq. 1) then
+  110       continue
+            read(iunit4,*,end=3000) ival,ival2
+            ncount= ncount+1
+
+            if (ncount .gt. nouter1) then
+              print*,'Warning: array size too small.'
+              print*,'ncount: ',ncount,' size: ',nouter1
+            endif
+
+            outerelems1(ncount) = ival
+            outerfaces1(ncount) = ival2
+            go to 110        
+        endif
+
+ 3000  close(iunit)
+
+       print*
+       print*,'done reading ',ifile2
+       print*,' total values ',ncount
+       if (ncount .le. 0) then
+         print*,'No idelem idface tags in file ',ifile2(1:ilen)
+       endif
+
+C     ********** now overwrite previous sideset arrays *******
+      iend = offset + ncount
+      if (iend .gt. nouter1*3) then
+        print*,'Warning: ncount may be greater than array size.'
+      endif
+
+      print*,'Total read: ',iend
+      print*,'Current offset: ',offset
+      print*,'Set tag: ',i,' nfaces: ',ncount
+
+      sideset_tag(i) = i 
+      nfaces_ss(i) = ncount 
+      do j = 1, ncount 
+         sselemlist(offset+j) = outerelems1(j)
+         ssfacelist(offset+j) = outerfaces1(j)
+      enddo
+
+      print*,'first: ',sselemlist(offset+1),
+     &         ssfacelist(offset+1)
+      print*,'last:  ',sselemlist(offset+ncount),
+     &         ssfacelist(offset+ncount)
+
+      offset = offset + nfaces_ss(i)
+      print*,'Set new offset: ',offset
+
+C     ********** done overwrite previous sideset arrays *******
+
+C     end loop through nfiles
+      enddo
+
+ 9000 if (ierr .lt. 0) then
+        print*,'Could not read facesets file ',ifile2(1:ilen)
+      endif
+      goto 4000
+  
+
+C     default - create facesets internally using materials
+      else 
+      
+        print*,'Exodus SIDESETS defined internally. '
+        print*,'   nsidesets: ',nsidesets
+
+      endif
 
 
 
@@ -966,7 +1146,7 @@ c
 
 C     This is the "computer word size." It should probably not be
 C     hard-coded here. Likewise for iows, the IO word size.
-      icompws=8
+ 4000 icompws=8
       iows = 8
       idexo = excre_wrapper(filename,exclob,icompws,iows,status,
      *      icharlnf(filename))
@@ -984,16 +1164,40 @@ c     Put initialization information
 c
 
 C TAM
-      print*,'INITIALIZE exodus '
-      print*,'   nnodes: ',nnodes
-      print*,'   nelements: ',nelements
-      print*,'   nelblocks: ',nelblocks
-      print*,'   nnodesets: ',nnodesets
-      print*,'   nsidesets: ',nsidesets
-      if (import_sidesets .eq. 1) then
-         nsidesets = nfiles
-         print*,'   nsidesets changed to: ',nsidesets
+      if (option .eq. 'on') then
+	print*,'INITIALIZE exodus '
+	print*,'   nnodes: ',nnodes
+	print*,'   nelements: ',nelements
+	print*,'   nelblocks: ',nelblocks
+	print*,'   nnodesets: ',nnodesets
+	print*,'   nsidesets: ',nsidesets
+	if (import_sidesets .eq. 1) then
+           nsidesets = nfiles
+           print*,'   nsidesets changed to: ',nsidesets
+	else
+	   print*, 'DEFAULT - parameters created internally.'
+	endif
+      elseif (option .eq. 'off') then
+	if (import_sidesets .eq. 1) then
+           nsidesets = nfiles
+           print*,'   nsidesets is created: ',nsidesets
+	   print*,'INITIALIZE exodus '
+	   print*,'   nnodes: ',nnodes
+	   print*,'   nelements: ',nelements
+	   print*,'   nelblocks: ',nelblocks
+	   print*,'   nnodesets: ',nnodesets
+	   print*,'   nsidesets: ',nsidesets
+	else
+	   print*, 'No facesets imported, nsidesets = 0'
+   	   print*,'INITIALIZE exodus '
+	   print*,'   nnodes: ',nnodes
+	   print*,'   nelements: ',nelements
+	   print*,'   nelblocks: ',nelblocks
+	   print*,'   nnodesets: ',nnodesets
+	   print*,'   nsidesets: ',nsidesets
+	endif
       endif
+	
 
       call EXPINI(idexo, 'Lagrit-to-ExodusII', nsdgeom, nnodes, 
      &     nelements, nelblocks, nnodesets, nsidesets, status)
@@ -1105,7 +1309,7 @@ c        in any block
       enddo
 
 
-
+C     print *, "CHECK ERR P1"
 
 c     Write out node sets
 
@@ -1131,122 +1335,7 @@ c     Write out node sets
          ibeg = ibeg + nnodes_ns(i)
       enddo
 
-
-
-
-C TAM - add option to import facesets from files
-C     update facesets information
-C     nsidesets - number of sets = nfiles
-C     sideset_tag(1:nfiles) - id number tag to assign
-C     nfaces_ss( )  - indexes into big arrays 
-C     sselemlist( ) - indexed big array with all elem sets 
-C     ssfacelist( )  - indexed big array with all face sets)
-
-C     get sidesets from list of files
-      if (import_sidesets .eq. 1) then
-       
-      print*,'Exodus SIDESETS imported from files. ',nfiles
-      print*,'Overwrite internal defs with nsidesets: ',nsidesets
-      
-      offset = 0
-      ibeg=0
-      do i = 1, nfiles
-
-        iunit=-1
-        ifile2 = flist(i)
-        ilen = icharlnf(ifile2)
-        call hassign(iunit,ifile2,ierr)
-        iunit4 = iunit
-        if (ierr.lt.0 .or. iunit.lt.0) then
-            write(logmess,*) 'WARNING: file not opened: '
-     &         //ifile2(1:ilen)
-            call writloga('default',1,logmess,0,ierr)
-            ierr = -1
-            go to 9000
-        endif
-
-C       look for top of file text with following lines:
-C       ....
-C       idelem1, integer 
-C       idface1, integer 
-
-        iflag = 0
-        ncount = 0  
-        do while (iflag.eq.0) 
-          read(iunit4,'(a8)',err=9000) iword
-          read(iunit4,'(a8)',err=9000) iword2
-          if (iword(1:6).eq.'idelem' .and.
-     &      iword2(1:6).eq.'idface') iflag=1
-        enddo
-
-C       read and save values from current file
-        if ( iflag .eq. 1) then
-  110       continue
-            read(iunit4,*,end=3000) ival,ival2
-            ncount= ncount+1
-
-            if (ncount .gt. nouter1) then
-              print*,'Warning: array size too small.'
-              print*,'ncount: ',ncount,' size: ',nouter1
-            endif
-
-            outerelems1(ncount) = ival
-            outerfaces1(ncount) = ival2
-            go to 110        
-        endif
-
- 3000  close(iunit)
-
-       print*
-       print*,'done reading ',ifile2
-       print*,' total values ',ncount
-       if (ncount .le. 0) then
-         print*,'No idelem idface tags in file ',ifile2(1:ilen)
-       endif
-
-C     ********** now overwrite previous sideset arrays *******
-      iend = offset + ncount
-      if (iend .gt. nouter1*3) then
-        print*,'Warning: ncount may be greater than array size.'
-      endif
-
-      print*,'Total read: ',iend
-      print*,'Current offset: ',offset
-      print*,'Set tag: ',i,' nfaces: ',ncount
-
-      sideset_tag(i) = i 
-      nfaces_ss(i) = ncount 
-      do j = 1, ncount 
-         sselemlist(offset+j) = outerelems1(j)
-         ssfacelist(offset+j) = outerfaces1(j)
-      enddo
-
-      print*,'first: ',sselemlist(offset+1),
-     &         ssfacelist(offset+1)
-      print*,'last:  ',sselemlist(offset+ncount),
-     &         ssfacelist(offset+ncount)
-
-      offset = offset + nfaces_ss(i)
-      print*,'Set new offset: ',offset
-
-C     ********** done overwrite previous sideset arrays *******
-
-C     end loop through nfiles
-      enddo
-
- 9000 if (ierr .lt. 0) then
-        print*,'Could not read facesets file ',ifile2(1:ilen)
-      endif
-
-  
-
-C     default - create facesets internally using materials
-      else 
-
-      print*,'Exodus SIDESETS defined internally. '
-      print*,'   nsidesets: ',nsidesets
-
-      endif
+C     print *, "CHECK ERR P2"
 
 c     Write out side sets
 
