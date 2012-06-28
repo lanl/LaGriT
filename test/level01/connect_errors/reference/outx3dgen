@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  10:58:30          *                 
+*               *    Program:  LaGriT V3.005   Linux m64      *                 
+*               *    date_compile: 2012/04/15  gfort 4.5      *                 
+*               *    Run Time: 2012/Jun 13  15:49:45          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -358,12 +358,10 @@ cmo delete mo
 connect                                                                         
 CMO_GET_INFO: Mesh Object does not exist: -notset-                              
 CMO_GET_INFO: Mesh Object does not exist: -notset-                              
-Error: connect     > can not get cmo name.                                      
+LaGriT ABORT: connect                                                           
  
-connect > ending with ierr1 flag:         1                                     
-ERROR END COUNT:     1 for connect                                              
- 
-LaGriT WARNING: connect returned error:     1                                   
+ndimensions_topo=*** ndimensions_geom=  3 not consistent - connect will not work
+LaGriT ABORT: connect                                                           
  
 # CHECK empty cmo                                                               
 cmo create mo                                                                   

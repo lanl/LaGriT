@@ -1,0 +1,104 @@
+# Hybrid control volume tests
+
+# These tests verify the hybrid and nohybrid options of dump / fehm and dump /
+# stor. They also test cmo / addatt / / hybrid_volume, which is closely related.
+
+# Input files:
+#   test03.inp
+#   test04.inp
+#   test08.gmv
+#   test09.inp
+
+# Output files:
+#   test01.{gmv,stor}
+#   test02.gmv
+#   test03.gmv
+#   test04.{gmv,stor}
+#   test05.stor
+#   test06.stor
+#   test07.stor
+#   test08.stor
+#   test09.gmv
+#   test09_{hybrid,nohybrid}.stor
+#   test11.{gmv,stor}
+#   test11_h.stor
+
+# Verify that the sum of the Voronoi volumes, the sum of the hybrid volumes, and
+# the sum of the element volumes are all the same.
+cmo / create / mo1 / / / tet
+createpts / xyz / 11, 11, 11 / 0, 0, 0 / 10, 10, 10 / 1, 1, 1
+connect
+dump / test01.gmv / mo1
+dump / stor / test01 / mo1 / hybrid
+cmo / addatt / mo1 / hybrid_volume / hybrid
+cmo / addatt / mo1 / voronoi_volume / voronoi
+cmo / addatt / mo1 / volume / element_volume
+math / sum / mo1 / total_hybrid_volume / 1 0 0 / mo1 / hybrid
+math / sum / mo1 / total_voronoi_volume / 1 0 0 / mo1 / voronoi
+math / sum / mo1 / total_element_volume / 1 0 0 / mo1 / element_volume
+
+# Check that the code gives an error message when given a hex mesh instead of a
+# tet mesh.
+cmo / create / mo2 / / / hex
+createpts / brick / xyz / 11, 11, 11 / 0, 0, 0 / 10, 10, 10 / 1, 1, 1
+dump / test02.gmv / mo2
+dump / stor / test02 / mo2 / hybrid
+
+# Check that it gives an error message if it gets a hybrid tet and hex mesh.
+read / test03.inp / mo3
+dump / test03.gmv / mo3
+dump / stor / test03 / mo3 / hybrid
+
+# Check that it behaves alright if it gets a 2D (triangular) mesh.  Actually
+# right now if the 2D code (matbld2d_stor) is called, it mostly ignores any
+# superfluous arguments passed to it, including "hybrid" and "nohybrid". Ideally
+# it should check the arguments and complain about the ones that don't make
+# sense.
+read / test04.inp / mo4
+dump / test04.gmv / mo4
+dump / stor / test04 / mo4 / hybrid
+dump / stor / test04 / mo4 / nohybrid
+
+# Check that it gives an error message if it is asked to do the hybrid option
+# along with the "none" or "coefs" compression options.
+dump / stor / test05 / mo1 / none / hybrid
+dump / stor / test06 / mo1 / coefs / hybrid
+
+# Make sure that with the nohybrid option (default), the results haven't changed
+# from previous versions of LaGriT. Actually there should be slight numerical
+# differences because the new code calculates area coefficients in a slightly
+# different way.
+dump / stor / test07 / mo1
+
+finish
+
+# Same thing with a much more complicated mesh. We also calculate the volume
+# three different ways (as above) and verify that they all match.
+read / test08.gmv / mo8
+dump / stor / test08 / mo8
+cmo / addatt / mo8 / hybrid_volume / hybrid
+cmo / addatt / mo8 / voronoi_volume / voronoi
+cmo / addatt / mo8 / volume / element_volume
+math / sum / mo8 / total_hybrid_volume / 1 0 0 / mo8 / hybrid
+math / sum / mo8 / total_voronoi_volume / 1 0 0 / mo8 / voronoi
+math / sum / mo8 / total_element_volume / 1 0 0 / mo8 / element_volume
+
+# Pathological case: Voronoi center lies directly on an edge. In this case the
+# hybrid and nohybrid cases should produce the same results.
+read / test09.inp / mo9
+dump / test09.gmv / mo9
+dump / stor / test09_hybrid / mo9 / hybrid
+dump / stor / test09_nohybrid / mo9 / nohybrid
+
+# Let's run the hybrid code on a non-Delaunay mesh. The code should produce a
+# warning when it detects that the mesh is non-Delaunay.
+cmo / create / mo10 /// hex
+createpts / brick / xyz / 2 2 2 / 0 0 0 / 1 1 10 / 1 1 1
+hextotet / 24 / mo11 / mo10
+cmo / addatt / mo11 / voronoi
+dump / test11.gmv / mo11
+
+dump / stor / test11 / mo11
+dump / stor / test11_h / mo11 / hybrid
+
+finish

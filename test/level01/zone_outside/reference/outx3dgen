@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  10:58:14          *                 
+*               *    Program:  LaGriT V3.005   Linux m64      *                 
+*               *    date_compile: 2012/06/15  gfort 4.5      *                 
+*               *    Run Time: 2012/Jun 26  16:13:47          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -101,8 +101,10 @@ finish
 cmo/addatt/cmo1/id_numb/vint/scalar/nnodes/linear/permanent/afgx/0/             
 finish                                                                          
 sort/-def-/index/-def-/ikey_tmp/numbnd                                          
-cmo/addatt//ikey_tmp/vint/scalar/nnodes///gax/0                                 
+cmo/addatt/cmo1/ikey_tmp/vint/scalar/nnodes///gax/0                             
 finish                                                                          
+ SORT: new order written to sort key attribute: ikey_tmp                        
+ 
 finish                                                                          
  
  CONNECTED COMPONENTS:                                                          

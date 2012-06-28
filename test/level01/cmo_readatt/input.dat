@@ -1,0 +1,7 @@
+# variables = "x [m]" "y [m]" "Mass mean" "Mass std dev" "Mass mean error" "Mass lower bound" "Mass upper bound"
+499075 526575 0    1 2 3 1
+499100 526575 0    1 2 3 2
+499075 526600 0    1 2 3 3
+499100 526600 1.1  1 2 3 4
+499100 526675 .09  1 2 3 5
+499050 526700 .10  1 2 3 6

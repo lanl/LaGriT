@@ -1,0 +1,9 @@
+
+# read file with existing attributes
+# note values have tab seperator
+cmo create cmo2
+cmo printatt cmo2 -xyz- 
+cmo readatt cmo2/xic  yic /1,0,0/test_tab.dat
+cmo printatt cmo2 -xyz- 
+
+finish                                                                          

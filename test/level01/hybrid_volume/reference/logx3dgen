@@ -1,0 +1,26 @@
+cmo/create/mo1///tet                                                            
+createpts/xyz/11,11,11/0,0,0/10,10,10/1,1,1                                     
+connect                                                                         
+dump/test01.gmv/mo1                                                             
+dump/stor/test01/mo1/hybrid                                                     
+cmo/addatt/mo1/hybrid_volume/hybrid                                             
+cmo/addatt/mo1/voronoi_volume/voronoi                                           
+cmo/addatt/mo1/volume/element_volume                                            
+math/sum/mo1/total_hybrid_volume/1 0 0/mo1/hybrid                               
+math/sum/mo1/total_voronoi_volume/1 0 0/mo1/voronoi                             
+math/sum/mo1/total_element_volume/1 0 0/mo1/element_volume                      
+cmo/create/mo2///hex                                                            
+createpts/brick/xyz/11,11,11/0,0,0/10,10,10/1,1,1                               
+dump/test02.gmv/mo2                                                             
+dump/stor/test02/mo2/hybrid                                                     
+read/test03.inp/mo3                                                             
+dump/test03.gmv/mo3                                                             
+dump/stor/test03/mo3/hybrid                                                     
+read/test04.inp/mo4                                                             
+dump/test04.gmv/mo4                                                             
+dump/stor/test04/mo4/hybrid                                                     
+dump/stor/test04/mo4/nohybrid                                                   
+dump/stor/test05/mo1/none/hybrid                                                
+dump/stor/test06/mo1/coefs/hybrid                                               
+dump/stor/test07/mo1                                                            
+finish                                                                          

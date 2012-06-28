@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  11:38:43          *                 
+*               *    Program:  LaGriT V3.005   Linux m64      *                 
+*               *    date_compile: 2012/06/15  gfort 4.5      *                 
+*               *    Run Time: 2012/Jun 26  16:14:33          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -35,13 +35,19 @@ geniee
 finish                                                                          
 dump/output_hexcube.exo/mohex                                                   
 dump/exo/output_hexcube.exo/mohex                                               
+ 
+ExodusII dump:                                                                  
+Writing to file: output_hexcube.exo                                             
+Using cmo: mohex                                                                
 cmo/set_id/mohex/element/e_num_temp                                             
 cmo/addatt/mohex e_num_temp/VINT/scalar/nelements/linear/permanent//0           
 finish                                                                          
 finish                                                                          
 sort/mohex/index/ascending/ikey_utr/itetclr/e_num_temp                          
-cmo/addatt//ikey_utr/vint/scalar/nelements///gax/0                              
+cmo/addatt/mohex/ikey_utr/vint/scalar/nelements///gax/0                         
 finish                                                                          
+ SORT: new order written to sort key attribute: ikey_utr                        
+ 
 finish                                                                          
 cmo/DELATT/mohex/e_num_temp                                                     
 finish                                                                          

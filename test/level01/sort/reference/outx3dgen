@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  13:16:38          *                 
+*               *    Program:  LaGriT V3.005   Linux m64      *                 
+*               *    date_compile: 2012/06/15  gfort 4.5      *                 
+*               *    Run Time: 2012/Jun 27  11:31:31          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -35,9 +35,390 @@ Command log file: logx3dgen
 #   test*.gmv       GMV version of corresponding AVS file                       
 #   test*s.inp      ------------- Sorted ----------------                       
 #   test*s.gmv      -------------- Files ----------------                       
+###### EXTRACT and LINE SORT #############                                      
+read avs test_surf.inp cmo                                                      
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmo                                            
+ 
+  1 Mesh Object name: cmo                                                       
+    number of nodes =            12        number of elements =            6    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+extract/surfmesh/1,0,0/cmol/cmo/external                                        
+cmo/addatt/cmol/itetclr0/vint/scalar/nelements////0                             
+finish                                                                          
+cmo/addatt/cmol/itetclr1/vint/scalar/nelements////0                             
+finish                                                                          
+cmo/addatt/cmol/idnode0/vint/scalar/nnodes////0                                 
+finish                                                                          
+cmo/addatt/cmol/idelem0/vint/scalar/nelements////0                              
+finish                                                                          
+cmo/addatt/cmol/idelem1/vint/scalar/nelements////0                              
+finish                                                                          
+cmo/addatt/cmol/facecol/vint/scalar/nelements////0                              
+finish                                                                          
+cmo/addatt/cmol/idface0/vint/scalar/nelements////0                              
+finish                                                                          
+cmo/addatt/cmol/idface1/vint/scalar/nelements////0                              
+finish                                                                          
+cmo/addatt/cmol/ncon50/int/scalar/scalar/constant/permanent/x/0                 
+finish                                                                          
+cmo/addatt/cmol/nconbnd/int/scalar/scalar/constant/permanent/x/0                
+finish                                                                          
+cmo/addatt/cmol/icontab/vint/scalar/ncon50/constant/permanent/x/0               
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+finish                                                                          
+cmo status cmol                                                                 
+ 
+The current-mesh-object(CMO) is: cmol                                           
+ 
+  2 Mesh Object name: cmol                                                      
+    number of nodes =            10        number of elements =           10    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  1.000E+01  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  1.000E+01  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  1.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  2.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  1.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  2.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  1.000E+01  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66        itetclr0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 67        itetclr1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 68         idnode0 VINT     scalar          nnodes linea tempo agl  0.000E+00  
+ 69         idelem0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 70         idelem1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 71         facecol VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 72         idface0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 73         idface1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 74          ncon50  INT     scalar          scalar const perma   x  0.000E+00  
+ 75         nconbnd  INT     scalar          scalar const perma   x  0.000E+00  
+ 76         icontab VINT     scalar          ncon50 const perma   x  0.000E+00  
+# make nelem and nnode unequal                                                  
+# 8 elements and 9 nodes                                                        
+cmo select cmol                                                                 
+rmpoint 1,1,0 inclusive                                                         
+ Dudded         1 points plus parents, plus          2 elements removed.        
+rmpoint compress                                                                
+         1 points removed and          0 elements removed.                      
+   The new point count is         9.                                            
+   The new element count is         8.                                          
+resetpts itp                                                                    
+geniee                                                                          
+finish                                                                          
+### sort 8 elements                                                             
+sort/cmol/line_graph/ascending/el_key                                           
+ Default line_graph option: using "elements"                                    
+cmo/addatt/cmol/el_key/vint/scalar/nelements///gax/0                            
+finish                                                                          
+cmo/DELATT/cmol/cid                                                             
+DELATT no action, attribute does not exist: cid                                 
+finish                                                                          
+cmo/addatt/cmol/cid/VINT/scalar/nelements/linear/temporary                      
+finish                                                                          
+cmo/DELATT/cmol/ctype                                                           
+DELATT no action, attribute does not exist: ctype                               
+finish                                                                          
+cmo/addatt/cmol/ctype/VINT/scalar/nelements/linear/temporary                    
+finish                                                                          
+cmo/DELATT/cmol/loopid                                                          
+DELATT no action, attribute does not exist: loopid                              
+finish                                                                          
+cmo/addatt/cmol/loopid/VINT/scalar/nelements/linear/temporary                   
+finish                                                                          
+ SORT: new order written to sort key attribute: el_key                          
+ 
+cmo printatt cmol nelements                                                     
+Attribute: nelements                                                            
+         1         8                                                            
+ 
+cmo printatt cmol el_key                                                        
+Attribute: el_key                                                               
+         1          1                                                           
+         2          2                                                           
+         3          4                                                           
+         4          7                                                           
+         5          8                                                           
+         6          5                                                           
+         7          6                                                           
+         8          3                                                           
+ 
+### sort 9 nodes                                                                
+sort/cmol/line_graph/ascending/n_key/nodes                                      
+cmo/addatt/cmol/n_key/vint/scalar/nnodes///gax/0                                
+finish                                                                          
+ SORT: new order written to sort key attribute: n_key                           
+ 
+cmo printatt cmol nnodes                                                        
+Attribute: nnodes                                                               
+         1         9                                                            
+ 
+cmo printatt cmol n_key                                                         
+Attribute: n_key                                                                
+         1          1                                                           
+         2          3                                                           
+         3          4                                                           
+         4          6                                                           
+         5          9                                                           
+         6          7                                                           
+         7          8                                                           
+         8          5                                                           
+         9          2                                                           
+ 
+cmo delete cmo                                                                  
+     Released Mesh Object: cmo                                                  
+cmo delete cmol                                                                 
+     Released Mesh Object: cmol                                                 
+###### POLY SORT #############                                                  
+# simply poly line sort for simple case with elem and nodes                     
+read avs input_poly_no_sort.inp mol_poly                                        
+cmo/addatt/mol_poly/idnode0/VINT/scalar/nnodes/linear/permanent/gxaf/0.0        
+finish                                                                          
+cmo/addatt/mol_poly/idN_old/VINT/scalar/nnodes/linear/permanent/gxaf/0.0        
+finish                                                                          
+cmo/addatt/mol_poly/idE_old/VINT/scalar/nelements/linear/permanent/gxaf/0.0     
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mol_poly                                       
+ 
+  1 Mesh Object name: mol_poly                                                  
+    number of nodes =            10        number of elements =           10    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+cmo status mol_poly                                                             
+ 
+The current-mesh-object(CMO) is: mol_poly                                       
+ 
+  1 Mesh Object name: mol_poly                                                  
+    number of nodes =            10        number of elements =           10    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  1.000E+01  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  1.000E+01  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  1.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  2.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  1.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  2.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.196E-12  
+ 35        epsilona REAL     scalar          scalar const perma   l  6.439E-12  
+ 36        epsilonv REAL     scalar          scalar const perma   l  6.439E-12  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  1.000E+01  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  5.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  2.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  0.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66         idnode0 VINT     scalar          nnodes linea perma gxa  0.000E+00  
+ 67         idN_old VINT     scalar          nnodes linea perma gxa  0.000E+00  
+ 68         idE_old VINT     scalar       nelements linea perma gxa  0.000E+00  
+cmo copy mol_poly2 mol_poly                                                     
+# SORT ELEMENT ##############                                                   
+cmo select mol_poly                                                             
+sort/mol_poly/line_graph/ascending/ekey/element                                 
+cmo/addatt/mol_poly/ekey/vint/scalar/nelements///gax/0                          
+finish                                                                          
+cmo/DELATT/mol_poly/cid                                                         
+DELATT no action, attribute does not exist: cid                                 
+finish                                                                          
+cmo/addatt/mol_poly/cid/VINT/scalar/nelements/linear/temporary                  
+finish                                                                          
+cmo/DELATT/mol_poly/ctype                                                       
+DELATT no action, attribute does not exist: ctype                               
+finish                                                                          
+cmo/addatt/mol_poly/ctype/VINT/scalar/nelements/linear/temporary                
+finish                                                                          
+cmo/DELATT/mol_poly/loopid                                                      
+DELATT no action, attribute does not exist: loopid                              
+finish                                                                          
+cmo/addatt/mol_poly/loopid/VINT/scalar/nelements/linear/temporary               
+finish                                                                          
+ SORT: new order written to sort key attribute: ekey                            
+ 
+cmo printatt mol_poly ekey                                                      
+Attribute: ekey                                                                 
+         1          1                                                           
+         2          3                                                           
+         3          4                                                           
+         4          6                                                           
+         5          9                                                           
+         6         10                                                           
+         7          7                                                           
+         8          8                                                           
+         9          5                                                           
+        10          2                                                           
+ 
+reorder mol_poly ekey                                                           
+geniee                                                                          
+finish                                                                          
+dump gmv output_poly_elem.gmv mol_poly ascii                                    
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# SORT NODE ################                                                    
+cmo select mol_poly2                                                            
+sort/mol_poly2/line_graph/ascending/nkey/node                                   
+cmo/addatt/mol_poly2/nkey/vint/scalar/nnodes///gax/0                            
+finish                                                                          
+ SORT: new order written to sort key attribute: nkey                            
+ 
+cmo printatt mol_poly2 nkey                                                     
+Attribute: nkey                                                                 
+         1          1                                                           
+         2          2                                                           
+         3          4                                                           
+         4          5                                                           
+         5          7                                                           
+         6         10                                                           
+         7          8                                                           
+         8          9                                                           
+         9          6                                                           
+        10          3                                                           
+ 
+reorder mol_poly2 nkey                                                          
+dump gmv output_poly_node.gmv mol_poly2 ascii                                   
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo delete mol_poly                                                             
+     Released Mesh Object: mol_poly                                             
+cmo delete mol_poly2                                                            
+     Released Mesh Object: mol_poly2                                            
+########### ERROR CAPTURE FOR NO MESH OBJECT ########                           
 # This should stop gracefully with an error (no mesh object).                   
 sort//line_graph/ascending/key                                                  
  SORT: CMO found bad mesh object: -def-                                         
+###########                                                                     
 read/test01.inp/mo01                                                            
 read/avs/test01.inp/mo01                                                        
 geniee                                                                          
@@ -57,60 +438,109 @@ The current-mesh-object(CMO) is: mo01
  
 finish                                                                          
 finish                                                                          
+########### ERROR CAPTURE ARG 4 #################                               
 # Error (must be "ascending" or "descending")                                   
 sort/mo01/line_graph/wrong/key                                                  
- SORT:Invalid option:wrong      Use:ascending or descending                     
-# Error (extra argument)                                                        
+ SORT: ERROR invalid option 4: wrong Use: ascending or descending               
+ 
+########### ERROR CAPTURE ARG 6 ###############                                 
+# Error (invalid argument)                                                      
 sort/mo01/line_graph/ascending/key/extra_arg                                    
- SORT: Error - Too many arguments for line_graph option                         
+Invalid option: line_graph must be "nodes" or "elements"                        
+########### DEFAULT CREATE INTERNAL KEY #######                                 
 # Should generate a key since one is not provided.                              
+# but not recommended since reorder will need att name                          
 sort/mo01/line_graph/ascending                                                  
-cmo/addatt//ikey_line_graph/vint/scalar/nelements///gax/0                       
+ SORT: using default name for sort key: lg_key_line_graph                       
+ Default line_graph option: using "elements"                                    
+cmo/addatt/mo01/lg_key_line_graph/vint/scalar/nelements///gax/0                 
 finish                                                                          
 cmo/DELATT/mo01/cid                                                             
-cmo_DELATT attribute Error:   1 cid                                             
-cmo_command error: DELATT                          mo01                         
-error in command : cmo/DELATT/mo01/cid                                          
+DELATT no action, attribute does not exist: cid                                 
 finish                                                                          
-cmo/addatt/mo01/cid/vint/scalar/nelements                                       
+cmo/addatt/mo01/cid/VINT/scalar/nelements/linear/temporary                      
 finish                                                                          
 cmo/DELATT/mo01/ctype                                                           
-cmo_DELATT attribute Error:   1 ctype                                           
-cmo_command error: DELATT                          mo01                         
-error in command : cmo/DELATT/mo01/ctype                                        
+DELATT no action, attribute does not exist: ctype                               
 finish                                                                          
-cmo/addatt/mo01/ctype/vint/scalar/nelements                                     
+cmo/addatt/mo01/ctype/VINT/scalar/nelements/linear/temporary                    
 finish                                                                          
 cmo/DELATT/mo01/loopid                                                          
-cmo_DELATT attribute Error:   1 loopid                                          
-cmo_command error: DELATT                          mo01                         
-error in command : cmo/DELATT/mo01/loopid                                       
+DELATT no action, attribute does not exist: loopid                              
 finish                                                                          
-cmo/addatt/mo01/loopid/vint/scalar/nelements                                    
+cmo/addatt/mo01/loopid/VINT/scalar/nelements/linear/temporary                   
 finish                                                                          
-# We perform this on both test01.inp and test02.inp. Then we can verify in GMV  
-# that both were sorted correctly.                                              
-# ----------------------------------------                                      
+ SORT: new order written to sort key attribute: lg_key_line_graph               
+ 
+########### SORT EXAMPLES USING ELEMENTS #####                                  
+# create key attribute and reorder                                              
+# should delete previous created attributes and addatt again                    
+cmo addatt mo01 key_save VINT scalar nelements                                  
+sort/mo01/line_graph/ascending/key                                              
+ Default line_graph option: using "elements"                                    
+cmo/addatt/mo01/key/vint/scalar/nelements///gax/0                               
+finish                                                                          
+cmo/DELATT/mo01/cid                                                             
+finish                                                                          
+cmo/addatt/mo01/cid/VINT/scalar/nelements/linear/temporary                      
+finish                                                                          
+cmo/DELATT/mo01/ctype                                                           
+finish                                                                          
+cmo/addatt/mo01/ctype/VINT/scalar/nelements/linear/temporary                    
+finish                                                                          
+cmo/DELATT/mo01/loopid                                                          
+finish                                                                          
+cmo/addatt/mo01/loopid/VINT/scalar/nelements/linear/temporary                   
+finish                                                                          
+ SORT: new order written to sort key attribute: key                             
+ 
+cmo printatt mo01 key                                                           
+Attribute: key                                                                  
+         1         29                                                           
+         2         28                                                           
+         3         26                                                           
+         4         24                                                           
+         5         23                                                           
+         6         25                                                           
+         7         27                                                           
+         8         30                                                           
+         9         31                                                           
+        10         32                                                           
+        11         33                                                           
+        12         18                                                           
+        13         19                                                           
+        14         20                                                           
+        15         22                                                           
+        16         21                                                           
+        17          6                                                           
+        18          8                                                           
+        19         10                                                           
+        20         11                                                           
+        21          9                                                           
+        22          7                                                           
+        23         12                                                           
+        24         14                                                           
+        25         16                                                           
+        26         17                                                           
+        27         15                                                           
+        28         13                                                           
+        29          1                                                           
+        30          2                                                           
+        31          4                                                           
+        32          3                                                           
+        33          5                                                           
+ 
 dump/output_test01.gmv/mo01                                                     
 dump/gmv/output_test01.gmv/mo01                                                 
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
-sort/mo01/line_graph/ascending/key                                              
-cmo/addatt//key/vint/scalar/nelements///gax/0                                   
+dump/output_test01.inp/mo01                                                     
+dump/avs/output_test01.inp/mo01                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
-cmo/DELATT/mo01/cid                                                             
 finish                                                                          
-cmo/addatt/mo01/cid/vint/scalar/nelements                                       
-finish                                                                          
-cmo/DELATT/mo01/ctype                                                           
-finish                                                                          
-cmo/addatt/mo01/ctype/vint/scalar/nelements                                     
-finish                                                                          
-cmo/DELATT/mo01/loopid                                                          
-finish                                                                          
-cmo/addatt/mo01/loopid/vint/scalar/nelements                                    
-finish                                                                          
+# Now reorder based on sort key attribute                                       
 reorder/mo01/key                                                                
 geniee                                                                          
  geniee: mesh has                     6  jtet loops, max cycle length=          
@@ -126,7 +556,94 @@ dump/gmv/output_test01s.gmv/mo01
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
+cmo status mo01                                                                 
+ 
+The current-mesh-object(CMO) is: mo01                                           
+ 
+  1 Mesh Object name: mo01                                                      
+    number of nodes =            33        number of elements =           33    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  3.300E+01  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  3.300E+01  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  1.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  2.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  1.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  2.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  4.082E-12  
+ 35        epsilona REAL     scalar          scalar const perma   l  7.505E-11  
+ 36        epsilonv REAL     scalar          scalar const perma   l  7.505E-11  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  3.300E+01  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.700E+01  
+ 55            ymax REAL     scalar          scalar const perma   l  7.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  0.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66  jtet_cycle_max  INT     scalar          scalar const tempo   x  4.000E+00  
+ 67 lg_key_line_gra VINT     scalar       nelements linea tempo gax  0.000E+00  
+ 68        key_save VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 69             key VINT     scalar       nelements linea tempo gax  0.000E+00  
+ 70             cid VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 71           ctype VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 72          loopid VINT     scalar       nelements linea tempo agl  0.000E+00  
+########### SORT EXAMPLES USING ELEMENTS #####                                  
 # ----------------------------------------                                      
+# We perform this on both test01.inp and test02.inp. Then we can verify in GMV  
+# that both were sorted correctly.                                              
 read/test02.inp/mo02                                                            
 read/avs/test02.inp/mo02                                                        
 geniee                                                                          
@@ -158,29 +675,62 @@ cmo/modatt/-def-/-def-/ioflag/x
 finish                                                                          
 finish                                                                          
 sort/mo02/line_graph/ascending/key                                              
-cmo/addatt//key/vint/scalar/nelements///gax/0                                   
+ Default line_graph option: using "elements"                                    
+cmo/addatt/mo02/key/vint/scalar/nelements///gax/0                               
 finish                                                                          
 cmo/DELATT/mo02/cid                                                             
-cmo_DELATT attribute Error:   1 cid                                             
-cmo_command error: DELATT                          mo02                         
-error in command : cmo/DELATT/mo02/cid                                          
+DELATT no action, attribute does not exist: cid                                 
 finish                                                                          
-cmo/addatt/mo02/cid/vint/scalar/nelements                                       
+cmo/addatt/mo02/cid/VINT/scalar/nelements/linear/temporary                      
 finish                                                                          
 cmo/DELATT/mo02/ctype                                                           
-cmo_DELATT attribute Error:   1 ctype                                           
-cmo_command error: DELATT                          mo02                         
-error in command : cmo/DELATT/mo02/ctype                                        
+DELATT no action, attribute does not exist: ctype                               
 finish                                                                          
-cmo/addatt/mo02/ctype/vint/scalar/nelements                                     
+cmo/addatt/mo02/ctype/VINT/scalar/nelements/linear/temporary                    
 finish                                                                          
 cmo/DELATT/mo02/loopid                                                          
-cmo_DELATT attribute Error:   1 loopid                                          
-cmo_command error: DELATT                          mo02                         
-error in command : cmo/DELATT/mo02/loopid                                       
+DELATT no action, attribute does not exist: loopid                              
 finish                                                                          
-cmo/addatt/mo02/loopid/vint/scalar/nelements                                    
+cmo/addatt/mo02/loopid/VINT/scalar/nelements/linear/temporary                   
 finish                                                                          
+ SORT: new order written to sort key attribute: key                             
+ 
+cmo printatt mo02 key                                                           
+Attribute: key                                                                  
+         1          2                                                           
+         2         12                                                           
+         3         13                                                           
+         4          9                                                           
+         5          5                                                           
+         6         17                                                           
+         7         25                                                           
+         8         21                                                           
+         9          7                                                           
+        10         30                                                           
+        11         11                                                           
+        12         14                                                           
+        13         18                                                           
+        14         10                                                           
+        15         24                                                           
+        16         27                                                           
+        17          1                                                           
+        18          3                                                           
+        19         22                                                           
+        20         16                                                           
+        21          4                                                           
+        22          6                                                           
+        23         31                                                           
+        24         32                                                           
+        25         26                                                           
+        26         19                                                           
+        27         20                                                           
+        28         33                                                           
+        29         23                                                           
+        30          8                                                           
+        31         29                                                           
+        32         15                                                           
+        33         28                                                           
+ 
 reorder/mo02/key                                                                
 geniee                                                                          
  geniee: mesh has                     6  jtet loops, max cycle length=          
@@ -196,6 +746,7 @@ dump/gmv/output_test02s.gmv/mo02
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
+########### ERROR CAPTURE INVALID ELEMENT TYPE #####                            
 # Make sure the line_graph sort gives an error when it receives a mesh object   
 # that has more than just line segments.                                        
 read/test03.inp/mo03                                                            
@@ -228,9 +779,11 @@ The current-mesh-object(CMO) is: mo03
 finish                                                                          
 finish                                                                          
 sort/mo03/line_graph/ascending/key                                              
-cmo/addatt//key/vint/scalar/nelements///gax/0                                   
+ Default line_graph option: using "elements"                                    
+cmo/addatt/mo03/key/vint/scalar/nelements///gax/0                               
 finish                                                                          
  SORT: ERROR - itet must consist only of line segments.                         
+########### ERROR CAPTURE 0 ELEMENTS  #####                                     
 # Make sure the line_graph sort can deal with meshes with no elements.          
 read/test04.inp/mo04                                                            
 read/avs/test04.inp/mo04                                                        
@@ -266,8 +819,10 @@ The current-mesh-object(CMO) is: mo04
 finish                                                                          
 finish                                                                          
 sort/mo04/line_graph/ascending/key                                              
- SORT: Quitting early because there are 0 elements.                             
+ SORT: ERROR mesh object has 0 elements.                                        
+ 
 reorder/mo04/key                                                                
+REORDER: ERROR, sort key invalid or 0 length.                                   
 dump/output_test04.inp/mo04                                                     
 dump/avs/output_test04.inp/mo04                                                 
 cmo/modatt/-def-/-def-/ioflag/x                                                 

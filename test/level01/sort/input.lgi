@@ -10,41 +10,111 @@
 #   test*s.inp      ------------- Sorted ----------------
 #   test*s.gmv      -------------- Files ----------------
 
+###### EXTRACT and LINE SORT #############
+read avs test_surf.inp cmo                                                      
+extract/surfmesh/1,0,0/cmol/cmo/external                                        
+cmo status cmol
+
+# make nelem and nnode unequal
+# 8 elements and 9 nodes
+cmo select cmol                                                                 
+rmpoint 1,1,0 inclusive                                                         
+rmpoint compress                                                                
+resetpts itp                                                                    
+
+### sort 8 elements
+sort/cmol/line_graph/ascending/el_key                                           
+cmo printatt cmol nelements
+cmo printatt cmol el_key                                                        
+
+### sort 9 nodes
+sort/cmol/line_graph/ascending/n_key/nodes       
+cmo printatt cmol nnodes
+cmo printatt cmol n_key        
+
+cmo delete cmo
+cmo delete cmol
+
+###### POLY SORT #############
+# simply poly line sort for simple case with elem and nodes
+read avs input_poly_no_sort.inp mol_poly
+cmo status mol_poly
+cmo copy mol_poly2 mol_poly
+
+# SORT ELEMENT ##############
+cmo select mol_poly
+sort/mol_poly/line_graph/ascending/ekey/element
+cmo printatt mol_poly ekey
+reorder mol_poly ekey
+dump gmv output_poly_elem.gmv mol_poly ascii
+
+# SORT NODE ################
+cmo select mol_poly2
+sort/mol_poly2/line_graph/ascending/nkey/node
+cmo printatt mol_poly2 nkey
+reorder mol_poly2 nkey
+dump gmv output_poly_node.gmv mol_poly2 ascii
+
+cmo delete mol_poly
+cmo delete mol_poly2
+
+########### ERROR CAPTURE FOR NO MESH OBJECT ########
 # This should stop gracefully with an error (no mesh object).
 sort / / line_graph / ascending / key
 
+###########
+
 read / test01.inp / mo01
 
+########### ERROR CAPTURE ARG 4 #################
 # Error (must be "ascending" or "descending")
 sort / mo01 / line_graph / wrong / key
 
-# Error (extra argument)
+########### ERROR CAPTURE ARG 6 ###############
+# Error (invalid argument)
 sort / mo01 / line_graph / ascending / key / extra_arg
 
+########### DEFAULT CREATE INTERNAL KEY #######
 # Should generate a key since one is not provided.
+# but not recommended since reorder will need att name
 sort / mo01 / line_graph / ascending
 
-# We perform this on both test01.inp and test02.inp. Then we can verify in GMV
-# that both were sorted correctly.
-# ----------------------------------------
-dump / output_test01.gmv / mo01
+########### SORT EXAMPLES USING ELEMENTS #####
+# create key attribute and reorder
+# should delete previous created attributes and addatt again
+cmo addatt mo01 key_save VINT scalar nelements
 sort / mo01 / line_graph / ascending / key
+cmo printatt mo01 key
+dump / output_test01.gmv / mo01
+dump / output_test01.inp / mo01
+
+# Now reorder based on sort key attribute
 reorder / mo01 / key
 dump / output_test01s.inp / mo01
 dump / output_test01s.gmv / mo01
+cmo status mo01
+
+
+########### SORT EXAMPLES USING ELEMENTS #####
 # ----------------------------------------
+# We perform this on both test01.inp and test02.inp. Then we can verify in GMV
+# that both were sorted correctly.
+
 read / test02.inp / mo02
 dump / output_test02.gmv / mo02
 sort / mo02 / line_graph / ascending / key
+cmo printatt mo02 key
 reorder / mo02 / key
 dump / output_test02s.inp / mo02
 dump / output_test02s.gmv / mo02
 
+########### ERROR CAPTURE INVALID ELEMENT TYPE #####
 # Make sure the line_graph sort gives an error when it receives a mesh object
 # that has more than just line segments.
 read / test03.inp / mo03
 sort / mo03 / line_graph / ascending / key
 
+########### ERROR CAPTURE 0 ELEMENTS  #####
 # Make sure the line_graph sort can deal with meshes with no elements.
 read / test04.inp / mo04
 sort / mo04 / line_graph / ascending / key

@@ -1,0 +1,69 @@
+# cmo / readatt
+# created Mar 7 2012 tamiller@lanl.gov
+
+#---------------------------------------------
+# read file with user added attributes
+cmo create cmo1                                                                 
+cmo/readatt/cmo1/xic,yic,zic,x1,x2,x3,x4/add///input.dat                         
+cmo printatt cmo1 -xyz-                                                         
+cmo status cmo1
+cmo printatt cmo1 -all- minmax
+dump avs output1.inp cmo1                                                          
+cmo delete cmo1
+
+#---------------------------------------------
+# use add command for 0 points
+cmo create cmo1                                                                 
+cmo/readatt/cmo1/xic,yic,zic,xvalue/add///input_dylan.dat                              
+cmo printatt cmo1 -all- minmax 
+dump gmv output_dylan.gmv cmo1 ascii                         
+dump avs output_dylan.inp cmo1  
+
+#---------------------------------------------
+# use add command adding to 10 points 
+cmo/readatt/cmo1/xic,yic,zic,xvalue/add///input_dylan.dat
+cmo printatt cmo1 -all- minmax
+dump gmv output_dylan_add.gmv cmo1 ascii
+dump avs output_dylan_add.inp cmo1
+cmo delete cmo1
+
+#---------------------------------------------
+# read into created quad mesh 14261 values 
+define MINX 498000.                                                             
+define MAXX 500500.                                                             
+define MINY 537000.                                                             
+define MAXY 540500.                                                             
+define NX 101                                                                    
+define NY 141 
+
+cmo/create/cmoquad///quad                                                       
+quadxy NX NY/MINX MINY 0./MAXX MINY 0./MAXX MAXY 0./MINX MAXY 0.                
+  rzbrick/xyz/NX,NY,1/1,0,0/connect                                               
+  cmo/setatt/cmoquad/itetclr 1                                                    
+  cmo/setatt/cmoquad/ipolydat no                                                  
+
+cmo/readatt/cmoquad/xic,yic,zic/1,0,0/input_ev.dat                                   
+  dump avs2 output_ev.inp cmoquad 1 1 0 0                                               
+  dump gmv output_ev.gmv cmoquad                                                        
+  cmo/printatt/cmoquad/ -xyz- minmax
+cmo /delete / cmoquad
+
+
+#---------------------------------------------
+# read file with tab spacing
+cmo create cmo1
+cmo printatt cmo1 -xyz- 
+cmo readatt cmo1/xic  yic /1,0,0/input_tab.dat
+cmo printatt cmo1 -xyz- 
+cmo delete cmo1
+
+#---------------------------------------------
+# read same file with bad number of values
+cmo create cmo1
+cmo readatt cmo1/xic  yic /1,0,0/input_bad.dat
+cmo printatt cmo1 -xyz- 
+cmo delete cmo1
+#---------------------------------------------
+
+
+finish                                                                          

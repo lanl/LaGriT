@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  11:47:12          *                 
+*               *    Program:  LaGriT V3.005   Linux m64      *                 
+*               *    date_compile: 2012/06/15  gfort 4.5      *                 
+*               *    Run Time: 2012/Jun 26  16:14:13          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -147,7 +147,8 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
 # Intersect the two meshes. Afterward mo_int should have its edges sorted and   
 # should have attributes cid, ctype, and loop_id set properly.                  
 intersect/mo_int/mo1/mo2                                                        
-cmo/addatt//line_sort_key/vint/scalar/nelements///gax/0                         
+ Default line_graph option: using "elements"                                    
+cmo/addatt/mo_int/line_sort_key/vint/scalar/nelements///gax/0                   
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
@@ -155,11 +156,9 @@ first element type:    2 lin
  
 finish                                                                          
 cmo/DELATT/mo_int/cid                                                           
-cmo_DELATT attribute Error:   1 cid                                             
-cmo_command error: DELATT                          mo_int                       
-error in command : cmo/DELATT/mo_int/cid                                        
+DELATT no action, attribute does not exist: cid                                 
 finish                                                                          
-cmo/addatt/mo_int/cid/vint/scalar/nelements                                     
+cmo/addatt/mo_int/cid/VINT/scalar/nelements/linear/temporary                    
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
@@ -167,11 +166,9 @@ first element type:    2 lin
  
 finish                                                                          
 cmo/DELATT/mo_int/ctype                                                         
-cmo_DELATT attribute Error:   1 ctype                                           
-cmo_command error: DELATT                          mo_int                       
-error in command : cmo/DELATT/mo_int/ctype                                      
+DELATT no action, attribute does not exist: ctype                               
 finish                                                                          
-cmo/addatt/mo_int/ctype/vint/scalar/nelements                                   
+cmo/addatt/mo_int/ctype/VINT/scalar/nelements/linear/temporary                  
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
@@ -179,17 +176,17 @@ first element type:    2 lin
  
 finish                                                                          
 cmo/DELATT/mo_int/loopid                                                        
-cmo_DELATT attribute Error:   1 loopid                                          
-cmo_command error: DELATT                          mo_int                       
-error in command : cmo/DELATT/mo_int/loopid                                     
+DELATT no action, attribute does not exist: loopid                              
 finish                                                                          
-cmo/addatt/mo_int/loopid/vint/scalar/nelements                                  
+cmo/addatt/mo_int/loopid/VINT/scalar/nelements/linear/temporary                 
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
 first element type:    2 lin                                                    
  
 finish                                                                          
+ SORT: new order written to sort key attribute: line_sort_key                   
+ 
 reorder/mo_int/line_sort_key                                                    
 geniee                                                                          
 finish                                                                          
@@ -593,7 +590,8 @@ cmo/modatt/-def-/-def-/ioflag/x
 finish                                                                          
 finish                                                                          
 intersect/mo_intersect/mo3/mo4                                                  
-cmo/addatt//line_sort_key/vint/scalar/nelements///gax/0                         
+ Default line_graph option: using "elements"                                    
+cmo/addatt/mo_intersect/line_sort_key/vint/scalar/nelements///gax/0             
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
@@ -601,11 +599,9 @@ first element type:    2 lin
  
 finish                                                                          
 cmo/DELATT/mo_intersect/cid                                                     
-cmo_DELATT attribute Error:   1 cid                                             
-cmo_command error: DELATT                          mo_intersect                 
-error in command : cmo/DELATT/mo_intersect/cid                                  
+DELATT no action, attribute does not exist: cid                                 
 finish                                                                          
-cmo/addatt/mo_intersect/cid/vint/scalar/nelements                               
+cmo/addatt/mo_intersect/cid/VINT/scalar/nelements/linear/temporary              
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
@@ -613,11 +609,9 @@ first element type:    2 lin
  
 finish                                                                          
 cmo/DELATT/mo_intersect/ctype                                                   
-cmo_DELATT attribute Error:   1 ctype                                           
-cmo_command error: DELATT                          mo_intersect                 
-error in command : cmo/DELATT/mo_intersect/ctype                                
+DELATT no action, attribute does not exist: ctype                               
 finish                                                                          
-cmo/addatt/mo_intersect/ctype/vint/scalar/nelements                             
+cmo/addatt/mo_intersect/ctype/VINT/scalar/nelements/linear/temporary            
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
@@ -625,17 +619,17 @@ first element type:    2 lin
  
 finish                                                                          
 cmo/DELATT/mo_intersect/loopid                                                  
-cmo_DELATT attribute Error:   1 loopid                                          
-cmo_command error: DELATT                          mo_intersect                 
-error in command : cmo/DELATT/mo_intersect/loopid                               
+DELATT no action, attribute does not exist: loopid                              
 finish                                                                          
-cmo/addatt/mo_intersect/loopid/vint/scalar/nelements                            
+cmo/addatt/mo_intersect/loopid/VINT/scalar/nelements/linear/temporary           
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
 first element type:    2 lin                                                    
  
 finish                                                                          
+ SORT: new order written to sort key attribute: line_sort_key                   
+ 
 reorder/mo_intersect/line_sort_key                                              
 geniee                                                                          
 finish                                                                          

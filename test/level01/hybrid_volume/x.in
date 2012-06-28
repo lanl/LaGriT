@@ -1,0 +1,6 @@
+read gmv test01.gmv mo                                                          
+dump gmv test01_ascii.gmv mo                                                    
+read gmv test01_ascii.gmv mo2                                                   
+read gmv test01_ascii.gmv mo3                                                   
+read gmv test01.gmv mo                                                          
+finish                                                                          
