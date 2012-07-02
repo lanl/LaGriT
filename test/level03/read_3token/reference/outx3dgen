@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.105   Linux m32      *                 
-*               *    date_compile: 2010/05/25                 *                 
-*               *    Run Time: 2010/06/17  14:58:26           *                 
+*               *    Program:  LaGriT V3.005   Linux m64      *                 
+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
+*               *    Run Time: 2012/Jul  2  14:25:28          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -122,6 +122,9 @@ cmo/addatt/d/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
+Nodes:          8 Elements:          5                                          
+Done reading GMV ascii file: test.gmv                                           
+ 
 finish                                                                          
 finish                                                                          
 LaGriT successfully completed                                                   

@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.105   Linux m32      *                 
-*               *    date_compile: 2010/05/25                 *                 
-*               *    Run Time: 2010/06/17  14:56:49           *                 
+*               *    Program:  LaGriT V3.005   Linux m64      *                 
+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
+*               *    Run Time: 2012/Jul  2  14:17:30          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -181,6 +181,8 @@ connect
  
  The mesh is now complete!                                                      
  
+LaGriT FINISH: connect                                                          
+ 
 math/multiply/cube/zic/1,0,0/cube/zic/10000                                     
 math/multiply/cube/yic/1,0,0/cube/yic/10000                                     
 math/multiply/cube/xic/1,0,0/cube/xic/10000                                     
@@ -223,6 +225,12 @@ cmo/addatt/main_mo_lin_ext_tmp/zic_S
 finish                                                                          
 cmo/addatt/surf_mo_lin_ext_tmp/zic_S                                            
 finish                                                                          
+cmo/addatt/main_mo_lin_ext_tmp/z_save                                           
+finish                                                                          
+cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/z_save/zic                  
+      3375 copied from main_mo_lin_ext_tmp zic to -> main_mo_lin_ext_tmp z_save 
+ 
+finish                                                                          
 extract/surfmesh/1,0,0/hull_mo_lin_ext_tmp/main_mo_lin_ext_tmp/external         
 cmo/addatt/hull_mo_lin_ext_tmp/itetclr0/vint/scalar/nelements////0              
 finish                                                                          
@@ -236,20 +244,44 @@ cmo/addatt/hull_mo_lin_ext_tmp/idelem1/vint/scalar/nelements////0
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/facecol/vint/scalar/nelements////0               
 finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/idface0/vint/scalar/nelements////0               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/idface1/vint/scalar/nelements////0               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_old/VDOUBLE/scalar/nnodes/linear/temporary/ag
+ltn                                                                             
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_new/VDOUBLE/scalar/nnodes/linear/temporary/ag
+ltn                                                                             
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_L0/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_L1/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_S/VDOUBLE/scalar/nnodes/linear/temporary/aglt
+n                                                                               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/z_save/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/ncon50/int/scalar/scalar/constant/permanent/x/0  
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/nconbnd/int/scalar/scalar/constant/permanent/x/0 
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/icontab/vint/scalar/ncon50/constant/permanent/x/0
 finish                                                                          
+resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
+finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/area_normal/xyz/norm                             
-ADDATT/area_normal: filling new attribute: norm                                 
+ADDATT/area_normal: creating new attribute: norm                                
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/scalar/nx ny nz/norm                             
-ADDATT/scalar: filling new attribute: nx                                        
+ADDATT/scalar: creating 3 new attributes: nx  ny  nz                            
 finish                                                                          
 eltset/bot_els/nz/le/0.0                                                        
  
@@ -267,16 +299,18 @@ pset/top_pts/eltset/top_els
  
  THE PSET  top_pts  HAS       1009 POINTS                                       
 finish                                                                          
-dump/gmv/hull.gmv/hull_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,bot_els                                              
  Dudded       953 points plus parents, and       1960 elements removed.         
 finish                                                                          
+cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
+finish                                                                          
+rmpoint/element/eltset,get,top_els                                              
+ Dudded       953 points plus parents, and       1960 elements removed.         
+finish                                                                          
 cmo/addatt/top_mo_lin_ext_tmp/zic_L1                                            
+CMO_ADDATT warning: attribute already exist: top_mo_lin_ext_tmp  zic_L1         
 finish                                                                          
 cmo/copyatt/top_mo_lin_ext_tmp/top_mo_lin_ext_tmp/zic_L1/zic                    
       1178 copied from top_mo_lin_ext_tmp zic to -> top_mo_lin_ext_tmp zic_L1   
@@ -288,16 +322,8 @@ cmo/setatt/top_mo_lin_ext_tmp/zic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/top.gmv/top_mo_lin_ext_tmp                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
-cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
-finish                                                                          
-rmpoint/element/eltset,get,top_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
-finish                                                                          
 cmo/addatt/bot_mo_lin_ext_tmp/zic_L0                                            
+CMO_ADDATT warning: attribute already exist: bot_mo_lin_ext_tmp  zic_L0         
 finish                                                                          
 cmo/copyatt/bot_mo_lin_ext_tmp/bot_mo_lin_ext_tmp/zic_L0/zic                    
       1178 copied from bot_mo_lin_ext_tmp zic to -> bot_mo_lin_ext_tmp zic_L0   
@@ -309,10 +335,6 @@ cmo/setatt/bot_mo_lin_ext_tmp/zic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/bot.gmv/bot_mo_lin_ext_tmp                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copyatt/surf_mo_lin_ext_tmp/surf_mo_lin_ext_tmp/zic_S/zic                   
        625 copied from surf_mo_lin_ext_tmp zic to -> surf_mo_lin_ext_tmp zic_S  
  
@@ -323,10 +345,6 @@ cmo/setatt/surf_mo_lin_ext_tmp/zic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/surf.gmv/surf_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/zic_old/zic                 
       3375 copied from main_mo_lin_ext_tmp zic to -> main_mo_lin_ext_tmp zic_old
  
@@ -336,10 +354,6 @@ cmo/setatt/main_mo_lin_ext_tmp/zic/1,0,0/0.0
  
 finish                                                                          
 geniee                                                                          
-finish                                                                          
-dump/gmv/main.gmv/main_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 finish                                                                          
 interpolate/continuous/main_mo_lin_ext_tmp,zic_S/1,0,0/surf_mo_lin_ext_tmp,zic_S
 nodes in indexed point set  =       3375                                        
@@ -463,10 +477,6 @@ cmo/DELATT/bot_mo_lin_ext_tmp/v2
 finish                                                                          
 finish                                                                          
 finish                                                                          
-dump/gmv/check.gmv/main_mo_lin_ext_tmp                                          
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 math/subtract/main_mo_lin_ext_tmp/zic_old/1,0,0/main_mo_lin_ext_tmp/zic_old/main
 _mo_lin_ext_tmp/zic_L0                                                          
 finish                                                                          
@@ -504,6 +514,8 @@ finish
 cmo/release/bot_mo_lin_ext_tmp                                                  
      Released Mesh Object: bot_mo_lin_ext_tmp                                   
 finish                                                                          
+COMPUTE linear_transform: Done.                                                 
+error in command : finish                                                       
 dump/gmv/cube1.gmv/cube                                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -524,6 +536,12 @@ cmo/addatt/main_mo_lin_ext_tmp/zic_S
 finish                                                                          
 cmo/addatt/surf_mo_lin_ext_tmp/zic_S                                            
 finish                                                                          
+cmo/addatt/main_mo_lin_ext_tmp/z_save                                           
+finish                                                                          
+cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/z_save/zic                  
+      3375 copied from main_mo_lin_ext_tmp zic to -> main_mo_lin_ext_tmp z_save 
+ 
+finish                                                                          
 extract/surfmesh/1,0,0/hull_mo_lin_ext_tmp/main_mo_lin_ext_tmp/external         
 cmo/addatt/hull_mo_lin_ext_tmp/itetclr0/vint/scalar/nelements////0              
 finish                                                                          
@@ -537,20 +555,44 @@ cmo/addatt/hull_mo_lin_ext_tmp/idelem1/vint/scalar/nelements////0
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/facecol/vint/scalar/nelements////0               
 finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/idface0/vint/scalar/nelements////0               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/idface1/vint/scalar/nelements////0               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_old/VDOUBLE/scalar/nnodes/linear/temporary/ag
+ltn                                                                             
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_new/VDOUBLE/scalar/nnodes/linear/temporary/ag
+ltn                                                                             
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_L0/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_L1/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_S/VDOUBLE/scalar/nnodes/linear/temporary/aglt
+n                                                                               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/z_save/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/ncon50/int/scalar/scalar/constant/permanent/x/0  
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/nconbnd/int/scalar/scalar/constant/permanent/x/0 
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/icontab/vint/scalar/ncon50/constant/permanent/x/0
 finish                                                                          
+resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
+finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/area_normal/xyz/norm                             
-ADDATT/area_normal: filling new attribute: norm                                 
+ADDATT/area_normal: creating new attribute: norm                                
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/scalar/nx ny nz/norm                             
-ADDATT/scalar: filling new attribute: nx                                        
+ADDATT/scalar: creating 3 new attributes: nx  ny  nz                            
 finish                                                                          
 eltset/bot_els/nz/ge/0.0                                                        
  
@@ -568,16 +610,18 @@ pset/top_pts/eltset/top_els
  
  THE PSET  top_pts  HAS       1009 POINTS                                       
 finish                                                                          
-dump/gmv/hull.gmv/hull_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,bot_els                                              
  Dudded       953 points plus parents, and       1960 elements removed.         
 finish                                                                          
+cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
+finish                                                                          
+rmpoint/element/eltset,get,top_els                                              
+ Dudded       953 points plus parents, and       1960 elements removed.         
+finish                                                                          
 cmo/addatt/top_mo_lin_ext_tmp/zic_L1                                            
+CMO_ADDATT warning: attribute already exist: top_mo_lin_ext_tmp  zic_L1         
 finish                                                                          
 cmo/copyatt/top_mo_lin_ext_tmp/top_mo_lin_ext_tmp/zic_L1/zic                    
       1178 copied from top_mo_lin_ext_tmp zic to -> top_mo_lin_ext_tmp zic_L1   
@@ -589,16 +633,8 @@ cmo/setatt/top_mo_lin_ext_tmp/zic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/top.gmv/top_mo_lin_ext_tmp                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
-cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
-finish                                                                          
-rmpoint/element/eltset,get,top_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
-finish                                                                          
 cmo/addatt/bot_mo_lin_ext_tmp/zic_L0                                            
+CMO_ADDATT warning: attribute already exist: bot_mo_lin_ext_tmp  zic_L0         
 finish                                                                          
 cmo/copyatt/bot_mo_lin_ext_tmp/bot_mo_lin_ext_tmp/zic_L0/zic                    
       1178 copied from bot_mo_lin_ext_tmp zic to -> bot_mo_lin_ext_tmp zic_L0   
@@ -610,10 +646,6 @@ cmo/setatt/bot_mo_lin_ext_tmp/zic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/bot.gmv/bot_mo_lin_ext_tmp                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copyatt/surf_mo_lin_ext_tmp/surf_mo_lin_ext_tmp/zic_S/zic                   
        625 copied from surf_mo_lin_ext_tmp zic to -> surf_mo_lin_ext_tmp zic_S  
  
@@ -624,10 +656,6 @@ cmo/setatt/surf_mo_lin_ext_tmp/zic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/surf.gmv/surf_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/zic_old/zic                 
       3375 copied from main_mo_lin_ext_tmp zic to -> main_mo_lin_ext_tmp zic_old
  
@@ -637,10 +665,6 @@ cmo/setatt/main_mo_lin_ext_tmp/zic/1,0,0/0.0
  
 finish                                                                          
 geniee                                                                          
-finish                                                                          
-dump/gmv/main.gmv/main_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 finish                                                                          
 interpolate/continuous/main_mo_lin_ext_tmp,zic_S/1,0,0/surf_mo_lin_ext_tmp,zic_S
 nodes in indexed point set  =       3375                                        
@@ -764,10 +788,6 @@ cmo/DELATT/bot_mo_lin_ext_tmp/v2
 finish                                                                          
 finish                                                                          
 finish                                                                          
-dump/gmv/check.gmv/main_mo_lin_ext_tmp                                          
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 math/subtract/main_mo_lin_ext_tmp/zic_old/1,0,0/main_mo_lin_ext_tmp/zic_old/main
 _mo_lin_ext_tmp/zic_L0                                                          
 finish                                                                          
@@ -805,6 +825,8 @@ finish
 cmo/release/bot_mo_lin_ext_tmp                                                  
      Released Mesh Object: bot_mo_lin_ext_tmp                                   
 finish                                                                          
+COMPUTE linear_transform: Done.                                                 
+error in command : finish                                                       
 dump/gmv/cube2.gmv/cube                                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -825,6 +847,12 @@ cmo/addatt/main_mo_lin_ext_tmp/yic_S
 finish                                                                          
 cmo/addatt/surf_mo_lin_ext_tmp/yic_S                                            
 finish                                                                          
+cmo/addatt/main_mo_lin_ext_tmp/y_save                                           
+finish                                                                          
+cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/y_save/yic                  
+      3375 copied from main_mo_lin_ext_tmp yic to -> main_mo_lin_ext_tmp y_save 
+ 
+finish                                                                          
 extract/surfmesh/1,0,0/hull_mo_lin_ext_tmp/main_mo_lin_ext_tmp/external         
 cmo/addatt/hull_mo_lin_ext_tmp/itetclr0/vint/scalar/nelements////0              
 finish                                                                          
@@ -838,20 +866,44 @@ cmo/addatt/hull_mo_lin_ext_tmp/idelem1/vint/scalar/nelements////0
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/facecol/vint/scalar/nelements////0               
 finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/idface0/vint/scalar/nelements////0               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/idface1/vint/scalar/nelements////0               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/yic_old/VDOUBLE/scalar/nnodes/linear/temporary/ag
+ltn                                                                             
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/yic_new/VDOUBLE/scalar/nnodes/linear/temporary/ag
+ltn                                                                             
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/yic_L0/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/yic_L1/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/yic_S/VDOUBLE/scalar/nnodes/linear/temporary/aglt
+n                                                                               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/y_save/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/ncon50/int/scalar/scalar/constant/permanent/x/0  
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/nconbnd/int/scalar/scalar/constant/permanent/x/0 
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/icontab/vint/scalar/ncon50/constant/permanent/x/0
 finish                                                                          
+resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
+finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/area_normal/xyz/norm                             
-ADDATT/area_normal: filling new attribute: norm                                 
+ADDATT/area_normal: creating new attribute: norm                                
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/scalar/nx ny nz/norm                             
-ADDATT/scalar: filling new attribute: nx                                        
+ADDATT/scalar: creating 3 new attributes: nx  ny  nz                            
 finish                                                                          
 eltset/bot_els/ny/le/0.0                                                        
  
@@ -869,16 +921,18 @@ pset/top_pts/eltset/top_els
  
  THE PSET  top_pts  HAS       1009 POINTS                                       
 finish                                                                          
-dump/gmv/hull.gmv/hull_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,bot_els                                              
  Dudded       953 points plus parents, and       1960 elements removed.         
 finish                                                                          
+cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
+finish                                                                          
+rmpoint/element/eltset,get,top_els                                              
+ Dudded       953 points plus parents, and       1960 elements removed.         
+finish                                                                          
 cmo/addatt/top_mo_lin_ext_tmp/yic_L1                                            
+CMO_ADDATT warning: attribute already exist: top_mo_lin_ext_tmp  yic_L1         
 finish                                                                          
 cmo/copyatt/top_mo_lin_ext_tmp/top_mo_lin_ext_tmp/yic_L1/yic                    
       1178 copied from top_mo_lin_ext_tmp yic to -> top_mo_lin_ext_tmp yic_L1   
@@ -890,16 +944,8 @@ cmo/setatt/top_mo_lin_ext_tmp/yic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/top.gmv/top_mo_lin_ext_tmp                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
-cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
-finish                                                                          
-rmpoint/element/eltset,get,top_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
-finish                                                                          
 cmo/addatt/bot_mo_lin_ext_tmp/yic_L0                                            
+CMO_ADDATT warning: attribute already exist: bot_mo_lin_ext_tmp  yic_L0         
 finish                                                                          
 cmo/copyatt/bot_mo_lin_ext_tmp/bot_mo_lin_ext_tmp/yic_L0/yic                    
       1178 copied from bot_mo_lin_ext_tmp yic to -> bot_mo_lin_ext_tmp yic_L0   
@@ -911,10 +957,6 @@ cmo/setatt/bot_mo_lin_ext_tmp/yic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/bot.gmv/bot_mo_lin_ext_tmp                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copyatt/surf_mo_lin_ext_tmp/surf_mo_lin_ext_tmp/yic_S/yic                   
        625 copied from surf_mo_lin_ext_tmp yic to -> surf_mo_lin_ext_tmp yic_S  
  
@@ -925,10 +967,6 @@ cmo/setatt/surf_mo_lin_ext_tmp/yic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/surf.gmv/surf_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/yic_old/yic                 
       3375 copied from main_mo_lin_ext_tmp yic to -> main_mo_lin_ext_tmp yic_old
  
@@ -938,10 +976,6 @@ cmo/setatt/main_mo_lin_ext_tmp/yic/1,0,0/0.0
  
 finish                                                                          
 geniee                                                                          
-finish                                                                          
-dump/gmv/main.gmv/main_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 finish                                                                          
 interpolate/continuous/main_mo_lin_ext_tmp,yic_S/1,0,0/surf_mo_lin_ext_tmp,yic_S
 nodes in indexed point set  =       3375                                        
@@ -1065,10 +1099,6 @@ cmo/DELATT/bot_mo_lin_ext_tmp/v2
 finish                                                                          
 finish                                                                          
 finish                                                                          
-dump/gmv/check.gmv/main_mo_lin_ext_tmp                                          
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 math/subtract/main_mo_lin_ext_tmp/yic_old/1,0,0/main_mo_lin_ext_tmp/yic_old/main
 _mo_lin_ext_tmp/yic_L0                                                          
 finish                                                                          
@@ -1106,6 +1136,8 @@ finish
 cmo/release/bot_mo_lin_ext_tmp                                                  
      Released Mesh Object: bot_mo_lin_ext_tmp                                   
 finish                                                                          
+COMPUTE linear_transform: Done.                                                 
+error in command : finish                                                       
 dump/gmv/cube3.gmv/cube                                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -1126,6 +1158,12 @@ cmo/addatt/main_mo_lin_ext_tmp/yic_S
 finish                                                                          
 cmo/addatt/surf_mo_lin_ext_tmp/yic_S                                            
 finish                                                                          
+cmo/addatt/main_mo_lin_ext_tmp/y_save                                           
+finish                                                                          
+cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/y_save/yic                  
+      3375 copied from main_mo_lin_ext_tmp yic to -> main_mo_lin_ext_tmp y_save 
+ 
+finish                                                                          
 extract/surfmesh/1,0,0/hull_mo_lin_ext_tmp/main_mo_lin_ext_tmp/external         
 cmo/addatt/hull_mo_lin_ext_tmp/itetclr0/vint/scalar/nelements////0              
 finish                                                                          
@@ -1139,20 +1177,44 @@ cmo/addatt/hull_mo_lin_ext_tmp/idelem1/vint/scalar/nelements////0
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/facecol/vint/scalar/nelements////0               
 finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/idface0/vint/scalar/nelements////0               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/idface1/vint/scalar/nelements////0               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/yic_old/VDOUBLE/scalar/nnodes/linear/temporary/ag
+ltn                                                                             
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/yic_new/VDOUBLE/scalar/nnodes/linear/temporary/ag
+ltn                                                                             
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/yic_L0/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/yic_L1/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/yic_S/VDOUBLE/scalar/nnodes/linear/temporary/aglt
+n                                                                               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/y_save/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/ncon50/int/scalar/scalar/constant/permanent/x/0  
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/nconbnd/int/scalar/scalar/constant/permanent/x/0 
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/icontab/vint/scalar/ncon50/constant/permanent/x/0
 finish                                                                          
+resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
+finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/area_normal/xyz/norm                             
-ADDATT/area_normal: filling new attribute: norm                                 
+ADDATT/area_normal: creating new attribute: norm                                
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/scalar/nx ny nz/norm                             
-ADDATT/scalar: filling new attribute: nx                                        
+ADDATT/scalar: creating 3 new attributes: nx  ny  nz                            
 finish                                                                          
 eltset/bot_els/ny/ge/0.0                                                        
  
@@ -1170,16 +1232,18 @@ pset/top_pts/eltset/top_els
  
  THE PSET  top_pts  HAS       1009 POINTS                                       
 finish                                                                          
-dump/gmv/hull.gmv/hull_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,bot_els                                              
  Dudded       953 points plus parents, and       1960 elements removed.         
 finish                                                                          
+cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
+finish                                                                          
+rmpoint/element/eltset,get,top_els                                              
+ Dudded       953 points plus parents, and       1960 elements removed.         
+finish                                                                          
 cmo/addatt/top_mo_lin_ext_tmp/yic_L1                                            
+CMO_ADDATT warning: attribute already exist: top_mo_lin_ext_tmp  yic_L1         
 finish                                                                          
 cmo/copyatt/top_mo_lin_ext_tmp/top_mo_lin_ext_tmp/yic_L1/yic                    
       1178 copied from top_mo_lin_ext_tmp yic to -> top_mo_lin_ext_tmp yic_L1   
@@ -1191,16 +1255,8 @@ cmo/setatt/top_mo_lin_ext_tmp/yic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/top.gmv/top_mo_lin_ext_tmp                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
-cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
-finish                                                                          
-rmpoint/element/eltset,get,top_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
-finish                                                                          
 cmo/addatt/bot_mo_lin_ext_tmp/yic_L0                                            
+CMO_ADDATT warning: attribute already exist: bot_mo_lin_ext_tmp  yic_L0         
 finish                                                                          
 cmo/copyatt/bot_mo_lin_ext_tmp/bot_mo_lin_ext_tmp/yic_L0/yic                    
       1178 copied from bot_mo_lin_ext_tmp yic to -> bot_mo_lin_ext_tmp yic_L0   
@@ -1212,10 +1268,6 @@ cmo/setatt/bot_mo_lin_ext_tmp/yic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/bot.gmv/bot_mo_lin_ext_tmp                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copyatt/surf_mo_lin_ext_tmp/surf_mo_lin_ext_tmp/yic_S/yic                   
        625 copied from surf_mo_lin_ext_tmp yic to -> surf_mo_lin_ext_tmp yic_S  
  
@@ -1226,10 +1278,6 @@ cmo/setatt/surf_mo_lin_ext_tmp/yic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/surf.gmv/surf_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/yic_old/yic                 
       3375 copied from main_mo_lin_ext_tmp yic to -> main_mo_lin_ext_tmp yic_old
  
@@ -1239,10 +1287,6 @@ cmo/setatt/main_mo_lin_ext_tmp/yic/1,0,0/0.0
  
 finish                                                                          
 geniee                                                                          
-finish                                                                          
-dump/gmv/main.gmv/main_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 finish                                                                          
 interpolate/continuous/main_mo_lin_ext_tmp,yic_S/1,0,0/surf_mo_lin_ext_tmp,yic_S
 nodes in indexed point set  =       3375                                        
@@ -1366,10 +1410,6 @@ cmo/DELATT/bot_mo_lin_ext_tmp/v2
 finish                                                                          
 finish                                                                          
 finish                                                                          
-dump/gmv/check.gmv/main_mo_lin_ext_tmp                                          
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 math/subtract/main_mo_lin_ext_tmp/yic_old/1,0,0/main_mo_lin_ext_tmp/yic_old/main
 _mo_lin_ext_tmp/yic_L0                                                          
 finish                                                                          
@@ -1407,6 +1447,8 @@ finish
 cmo/release/bot_mo_lin_ext_tmp                                                  
      Released Mesh Object: bot_mo_lin_ext_tmp                                   
 finish                                                                          
+COMPUTE linear_transform: Done.                                                 
+error in command : finish                                                       
 dump/gmv/cube4.gmv/cube                                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -1435,6 +1477,9 @@ rzbrick/xyz/NX,NY,1/1,0,0/connect
 math/sin/zsurf_quad/zic/1,0,0/zsurf_quad/xic                                    
 math/multiply/zsurf_quad/zic/1,0,0/zsurf_quad/zic/5.0                           
 perturb/1 0 0/0. 0. 1.0                                                         
+perturb zsurf_quad                                                              
+nodes in indexed point set  =        900                                        
+ 
 math/add/zsurf_quad/zic/1 0 0/zsurf_quad/zic/60.                                
 dump/gmv/tmp_surface.gmv/zsurf_quad                                             
 cmo/modatt/-def-/-def-/ioflag/x                                                 
@@ -1466,6 +1511,12 @@ cmo/addatt/main_mo_lin_ext_tmp/zic_S
 finish                                                                          
 cmo/addatt/surf_mo_lin_ext_tmp/zic_S                                            
 finish                                                                          
+cmo/addatt/main_mo_lin_ext_tmp/z_save                                           
+finish                                                                          
+cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/z_save/zic                  
+     18000 copied from main_mo_lin_ext_tmp zic to -> main_mo_lin_ext_tmp z_save 
+ 
+finish                                                                          
 extract/surfmesh/1,0,0/hull_mo_lin_ext_tmp/main_mo_lin_ext_tmp/external         
 cmo/addatt/hull_mo_lin_ext_tmp/itetclr0/vint/scalar/nelements////0              
 finish                                                                          
@@ -1479,13 +1530,37 @@ cmo/addatt/hull_mo_lin_ext_tmp/idelem1/vint/scalar/nelements////0
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/facecol/vint/scalar/nelements////0               
 finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/idface0/vint/scalar/nelements////0               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/idface1/vint/scalar/nelements////0               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_old/VDOUBLE/scalar/nnodes/linear/temporary/ag
+ltn                                                                             
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_new/VDOUBLE/scalar/nnodes/linear/temporary/ag
+ltn                                                                             
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_L0/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_L1/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/zic_S/VDOUBLE/scalar/nnodes/linear/temporary/aglt
+n                                                                               
+finish                                                                          
+cmo/addatt/hull_mo_lin_ext_tmp/z_save/VDOUBLE/scalar/nnodes/linear/temporary/agl
+tn                                                                              
+finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/ncon50/int/scalar/scalar/constant/permanent/x/0  
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/nconbnd/int/scalar/scalar/constant/permanent/x/0 
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/icontab/vint/scalar/ncon50/constant/permanent/x/0
 finish                                                                          
+resetpts/itp                                                                    
 geniee                                                                          
+finish                                                                          
 finish                                                                          
 finish                                                                          
 hextotet/4/hull_mo_lin_ext_tmp_tri/hull_mo_lin_ext_tmp                          
@@ -1504,10 +1579,10 @@ cmo/move/hull_mo_lin_ext_tmp/hull_mo_lin_ext_tmp_tri
      Released Mesh Object: hull_mo_lin_ext_tmp                                  
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/area_normal/xyz/norm                             
-ADDATT/area_normal: filling new attribute: norm                                 
+ADDATT/area_normal: creating new attribute: norm                                
 finish                                                                          
 cmo/addatt/hull_mo_lin_ext_tmp/scalar/nx ny nz/norm                             
-ADDATT/scalar: filling new attribute: nx                                        
+ADDATT/scalar: creating 3 new attributes: nx  ny  nz                            
 finish                                                                          
 eltset/bot_els/nz/le/0.0                                                        
  
@@ -1525,16 +1600,18 @@ pset/top_pts/eltset/top_els
  
  THE PSET  top_pts  HAS       6149 POINTS                                       
 finish                                                                          
-dump/gmv/hull.gmv/hull_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,bot_els                                              
  Dudded      6033 points plus parents, and      12180 elements removed.         
 finish                                                                          
+cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
+finish                                                                          
+rmpoint/element/eltset,get,top_els                                              
+ Dudded      6033 points plus parents, and      12180 elements removed.         
+finish                                                                          
 cmo/addatt/top_mo_lin_ext_tmp/zic_L1                                            
+CMO_ADDATT warning: attribute already exist: top_mo_lin_ext_tmp  zic_L1         
 finish                                                                          
 cmo/copyatt/top_mo_lin_ext_tmp/top_mo_lin_ext_tmp/zic_L1/zic                    
       7774 copied from top_mo_lin_ext_tmp zic to -> top_mo_lin_ext_tmp zic_L1   
@@ -1546,16 +1623,8 @@ cmo/setatt/top_mo_lin_ext_tmp/zic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/top.gmv/top_mo_lin_ext_tmp                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
-cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
-finish                                                                          
-rmpoint/element/eltset,get,top_els                                              
- Dudded      6033 points plus parents, and      12180 elements removed.         
-finish                                                                          
 cmo/addatt/bot_mo_lin_ext_tmp/zic_L0                                            
+CMO_ADDATT warning: attribute already exist: bot_mo_lin_ext_tmp  zic_L0         
 finish                                                                          
 cmo/copyatt/bot_mo_lin_ext_tmp/bot_mo_lin_ext_tmp/zic_L0/zic                    
       7774 copied from bot_mo_lin_ext_tmp zic to -> bot_mo_lin_ext_tmp zic_L0   
@@ -1567,10 +1636,6 @@ cmo/setatt/bot_mo_lin_ext_tmp/zic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/bot.gmv/bot_mo_lin_ext_tmp                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copyatt/surf_mo_lin_ext_tmp/surf_mo_lin_ext_tmp/zic_S/zic                   
        900 copied from surf_mo_lin_ext_tmp zic to -> surf_mo_lin_ext_tmp zic_S  
  
@@ -1579,8 +1644,8 @@ hextotet/4/surf_mo_lin_ext_tmp_tri/surf_mo_lin_ext_tmp
  iremove_vol=   0 iremove_dup=   0 icheckpt=   1                                
 Input Mesh type qua using option    4                                           
 Element Material ID, min/max/range:          1         1         0              
-Epsilon-dist, distmax, distmin:  -1.4880741E-05  2.2143644E+02  1.0844709E+02   
-Epsilon-volume, volmax:   1.5138260E-04  1.5138260E+02                          
+Epsilon-dist, distmax, distmin:  -1.4776803E-05  2.1835391E+02  1.0844709E+02   
+Epsilon-volume, volmax:   1.4952850E-04  1.4952850E+02                          
 cmo/addatt/surf_mo_lin_ext_tmp_tri/iign/vint/scalar/nnodes/-def-/-def-/gx/-def- 
 finish                                                                          
   WARNING: Volumes le zero not removed, nelements=       3364                   
@@ -1596,10 +1661,6 @@ cmo/setatt/surf_mo_lin_ext_tmp/zic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/surf.gmv/surf_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/copyatt/main_mo_lin_ext_tmp/main_mo_lin_ext_tmp/zic_old/zic                 
      18000 copied from main_mo_lin_ext_tmp zic to -> main_mo_lin_ext_tmp zic_old
  
@@ -1610,15 +1671,11 @@ cmo/setatt/main_mo_lin_ext_tmp/zic/1,0,0/0.0
 finish                                                                          
 geniee                                                                          
 finish                                                                          
-dump/gmv/main.gmv/main_mo_lin_ext_tmp                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 interpolate/continuous/main_mo_lin_ext_tmp,zic_S/1,0,0/surf_mo_lin_ext_tmp,zic_S
 nodes in indexed point set  =      18000                                        
  
 INTRP METHOD: continuous   FUNCTION:     linear                                 
-      TIEBREAKER:     maxtie   FLAG:      plus1  0.669025852661E+02             
+      TIEBREAKER:     maxtie   FLAG:      plus1  0.669683912738E+02             
  
 cmo select surf_mo_lin_ext_tmp                                                  
 finish                                                                          
@@ -1784,10 +1841,6 @@ cmo/DELATT/bot_mo_lin_ext_tmp/v2
 finish                                                                          
 finish                                                                          
 finish                                                                          
-dump/gmv/check.gmv/main_mo_lin_ext_tmp                                          
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 math/subtract/main_mo_lin_ext_tmp/zic_old/1,0,0/main_mo_lin_ext_tmp/zic_old/main
 _mo_lin_ext_tmp/zic_L0                                                          
 finish                                                                          
@@ -1825,6 +1878,8 @@ finish
 cmo/release/bot_mo_lin_ext_tmp                                                  
      Released Mesh Object: bot_mo_lin_ext_tmp                                   
 finish                                                                          
+COMPUTE linear_transform: Done.                                                 
+error in command : finish                                                       
 dump/gmv/cube_w_topo.gmv/mo_hex                                                 
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          

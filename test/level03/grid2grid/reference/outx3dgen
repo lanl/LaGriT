@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.105   Linux m32      *                 
-*               *    date_compile: 2010/05/25                 *                 
-*               *    Run Time: 2010/06/17  14:56:05           *                 
+*               *    Program:  LaGriT V3.005   Linux m64      *                 
+*               *    date_compile: 2012/06/15  gfort 4.5      *                 
+*               *    Run Time: 2012/Jul  2  11:59:27          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -41,7 +41,7 @@ createpts/brick/xyz/3,3,3/-1.0 -1.0 -1.0/1.0 1.0 1.0/1 1 1
           Total volume:     0.800000000000E+01                                  
 *dump/gmv/cube0.gmv/octcube                                                     
 cmo/addatt/octcube/median/xcen ycen zcen                                        
-ADDATT/median: filling new attribute: xcen                                      
+ADDATT/median: creating 3 new attributes: xcen  ycen  zcen                      
 eltset/xpos1/xcen/gt/0.0                                                        
  
  THE ELTSET xpos1                            HAS          4 ELEMENTS            
@@ -91,12 +91,9 @@ finish
 *dump/gmv/cube1.gmv/octcube                                                     
 cmo/addatt/octcube/median/xcen ycen zcen                                        
 CMO_ADDATT warning: attribute already exist: octcube  xcen                      
-cmo name = octcube  attribute name = xcen                                       
-ADDATT/median WARNING: filling existing attribute: xcen                         
+ADDATT/median: writing to existing attributes: xcen  ycen  zcen                 
 CMO_ADDATT warning: attribute already exist: octcube  ycen                      
-cmo name = octcube  attribute name = ycen                                       
 CMO_ADDATT warning: attribute already exist: octcube  zcen                      
-cmo name = octcube  attribute name = zcen                                       
 eltset/xpos2/xcen/gt/0.5                                                        
  
  THE ELTSET xpos2                            HAS          4 ELEMENTS            
@@ -140,12 +137,9 @@ finish
 *dump/gmv/cube2.gmv/octcube                                                     
 cmo/addatt/octcube/median/xcen ycen zcen                                        
 CMO_ADDATT warning: attribute already exist: octcube  xcen                      
-cmo name = octcube  attribute name = xcen                                       
-ADDATT/median WARNING: filling existing attribute: xcen                         
+ADDATT/median: writing to existing attributes: xcen  ycen  zcen                 
 CMO_ADDATT warning: attribute already exist: octcube  ycen                      
-cmo name = octcube  attribute name = ycen                                       
 CMO_ADDATT warning: attribute already exist: octcube  zcen                      
-cmo name = octcube  attribute name = zcen                                       
 eltset/xpos3/xcen/gt/0.75                                                       
  
  THE ELTSET xpos3                            HAS          4 ELEMENTS            
@@ -189,12 +183,9 @@ finish
 *dump/gmv/cube3.gmv/octcube                                                     
 cmo/addatt/octcube/median/xcen ycen zcen                                        
 CMO_ADDATT warning: attribute already exist: octcube  xcen                      
-cmo name = octcube  attribute name = xcen                                       
-ADDATT/median WARNING: filling existing attribute: xcen                         
+ADDATT/median: writing to existing attributes: xcen  ycen  zcen                 
 CMO_ADDATT warning: attribute already exist: octcube  ycen                      
-cmo name = octcube  attribute name = ycen                                       
 CMO_ADDATT warning: attribute already exist: octcube  zcen                      
-cmo name = octcube  attribute name = zcen                                       
 eltset/xpos4/xcen/gt/0.875                                                      
  
  THE ELTSET xpos4                            HAS          4 ELEMENTS            
@@ -238,12 +229,9 @@ finish
 *dump/gmv/cube4.gmv/octcube                                                     
 cmo/addatt/octcube/median/xcen ycen zcen                                        
 CMO_ADDATT warning: attribute already exist: octcube  xcen                      
-cmo name = octcube  attribute name = xcen                                       
-ADDATT/median WARNING: filling existing attribute: xcen                         
+ADDATT/median: writing to existing attributes: xcen  ycen  zcen                 
 CMO_ADDATT warning: attribute already exist: octcube  ycen                      
-cmo name = octcube  attribute name = ycen                                       
 CMO_ADDATT warning: attribute already exist: octcube  zcen                      
-cmo name = octcube  attribute name = zcen                                       
 eltset/xpos5/xcen/gt/0.9375                                                     
  
  THE ELTSET xpos5                            HAS          4 ELEMENTS            
@@ -287,12 +275,9 @@ finish
 *dump/gmv/cube5.gmv/octcube                                                     
 cmo/addatt/octcube/median/xcen ycen zcen                                        
 CMO_ADDATT warning: attribute already exist: octcube  xcen                      
-cmo name = octcube  attribute name = xcen                                       
-ADDATT/median WARNING: filling existing attribute: xcen                         
+ADDATT/median: writing to existing attributes: xcen  ycen  zcen                 
 CMO_ADDATT warning: attribute already exist: octcube  ycen                      
-cmo name = octcube  attribute name = ycen                                       
 CMO_ADDATT warning: attribute already exist: octcube  zcen                      
-cmo name = octcube  attribute name = zcen                                       
 eltset/xpos6/xcen/gt/0.96875                                                    
  
  THE ELTSET xpos6                            HAS          4 ELEMENTS            
@@ -407,7 +392,7 @@ The current-mesh-object(CMO) is: octcube
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -424,6 +409,8 @@ The current-mesh-object(CMO) is: octcube
 grid2grid/tree_to_fe/octcube/octcube                                            
 cmo/copy/octcube/octcube                                                        
 Mesh Objects are identical: octcube                         octcube             
+ ERROR CMO: copy  octcube     -1                                                
+ 
 error in command : cmo/copy/octcube/octcube                                     
 finish                                                                          
 eltset/-parentset-/itetkid/gt/0                                                 
@@ -466,7 +453,6 @@ element volumes b/w  0.3815E-05 and  0.4626E-04:        15
 element volumes b/w  0.4626E-04 and  0.5609E-03:         7                      
 element volumes b/w  0.5609E-03 and  0.6801E-02:         7                      
 element volumes b/w  0.6801E-02 and  0.8247E-01:         7                      
-element volumes b/w  0.8247E-01 and  0.1000E+01:        14                      
 element volumes b/w  0.8247E-01 and  0.1000E+01:        14                      
 min volume =   3.8146973E-06  max volume =   1.0000000E+00                      
 -----------------------------------------------------------                     
@@ -542,7 +528,7 @@ The current-mesh-object(CMO) is: octcube
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -630,7 +616,7 @@ The current-mesh-object(CMO) is: octcube2
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -687,7 +673,6 @@ element volumes b/w  0.3815E-05 and  0.4626E-04:        15
 element volumes b/w  0.4626E-04 and  0.5609E-03:         7                      
 element volumes b/w  0.5609E-03 and  0.6801E-02:         7                      
 element volumes b/w  0.6801E-02 and  0.8247E-01:         7                      
-element volumes b/w  0.8247E-01 and  0.1000E+01:        14                      
 element volumes b/w  0.8247E-01 and  0.1000E+01:        14                      
 min volume =   3.8146973E-06  max volume =   1.0000000E+00                      
 -----------------------------------------------------------                     
@@ -763,7 +748,7 @@ The current-mesh-object(CMO) is: octcube3
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -795,7 +780,7 @@ rzbrick/xyz/3,3,1/1,0,0/connect
 *connect                                                                        
 *dump/gmv/plane0.gmv/quadplane                                                  
 cmo/addatt/quadplane/median/xcen ycen zcen                                      
-ADDATT/median: filling new attribute: xcen                                      
+ADDATT/median: creating 3 new attributes: xcen  ycen  zcen                      
 eltset/xpos1/xcen/gt/0.0                                                        
  
  THE ELTSET xpos1                            HAS          2 ELEMENTS            
@@ -839,12 +824,9 @@ finish
 *dump/gmv/plane1.gmv/quadplane                                                  
 cmo/addatt/quadplane/median/xcen ycen zcen                                      
 CMO_ADDATT warning: attribute already exist: quadplane  xcen                    
-cmo name = quadplane  attribute name = xcen                                     
-ADDATT/median WARNING: filling existing attribute: xcen                         
+ADDATT/median: writing to existing attributes: xcen  ycen  zcen                 
 CMO_ADDATT warning: attribute already exist: quadplane  ycen                    
-cmo name = quadplane  attribute name = ycen                                     
 CMO_ADDATT warning: attribute already exist: quadplane  zcen                    
-cmo name = quadplane  attribute name = zcen                                     
 eltset/xpos2/xcen/gt/0.5                                                        
  
  THE ELTSET xpos2                            HAS          2 ELEMENTS            
@@ -882,12 +864,9 @@ finish
 *dump/gmv/plane2.gmv/quadplane                                                  
 cmo/addatt/quadplane/median/xcen ycen zcen                                      
 CMO_ADDATT warning: attribute already exist: quadplane  xcen                    
-cmo name = quadplane  attribute name = xcen                                     
-ADDATT/median WARNING: filling existing attribute: xcen                         
+ADDATT/median: writing to existing attributes: xcen  ycen  zcen                 
 CMO_ADDATT warning: attribute already exist: quadplane  ycen                    
-cmo name = quadplane  attribute name = ycen                                     
 CMO_ADDATT warning: attribute already exist: quadplane  zcen                    
-cmo name = quadplane  attribute name = zcen                                     
 eltset/xpos3/xcen/gt/0.75                                                       
  
  THE ELTSET xpos3                            HAS          2 ELEMENTS            
@@ -925,12 +904,9 @@ finish
 *dump/gmv/plane3.gmv/quadplane                                                  
 cmo/addatt/quadplane/median/xcen ycen zcen                                      
 CMO_ADDATT warning: attribute already exist: quadplane  xcen                    
-cmo name = quadplane  attribute name = xcen                                     
-ADDATT/median WARNING: filling existing attribute: xcen                         
+ADDATT/median: writing to existing attributes: xcen  ycen  zcen                 
 CMO_ADDATT warning: attribute already exist: quadplane  ycen                    
-cmo name = quadplane  attribute name = ycen                                     
 CMO_ADDATT warning: attribute already exist: quadplane  zcen                    
-cmo name = quadplane  attribute name = zcen                                     
 eltset/xpos4/xcen/gt/0.875                                                      
  
  THE ELTSET xpos4                            HAS          2 ELEMENTS            
@@ -968,12 +944,9 @@ finish
 *dump/gmv/plane4.gmv/quadplane                                                  
 cmo/addatt/quadplane/median/xcen ycen zcen                                      
 CMO_ADDATT warning: attribute already exist: quadplane  xcen                    
-cmo name = quadplane  attribute name = xcen                                     
-ADDATT/median WARNING: filling existing attribute: xcen                         
+ADDATT/median: writing to existing attributes: xcen  ycen  zcen                 
 CMO_ADDATT warning: attribute already exist: quadplane  ycen                    
-cmo name = quadplane  attribute name = ycen                                     
 CMO_ADDATT warning: attribute already exist: quadplane  zcen                    
-cmo name = quadplane  attribute name = zcen                                     
 eltset/xpos5/xcen/gt/0.9375                                                     
  
  THE ELTSET xpos5                            HAS          2 ELEMENTS            
@@ -1011,12 +984,9 @@ finish
 *dump/gmv/plane5.gmv/quadplane                                                  
 cmo/addatt/quadplane/median/xcen ycen zcen                                      
 CMO_ADDATT warning: attribute already exist: quadplane  xcen                    
-cmo name = quadplane  attribute name = xcen                                     
-ADDATT/median WARNING: filling existing attribute: xcen                         
+ADDATT/median: writing to existing attributes: xcen  ycen  zcen                 
 CMO_ADDATT warning: attribute already exist: quadplane  ycen                    
-cmo name = quadplane  attribute name = ycen                                     
 CMO_ADDATT warning: attribute already exist: quadplane  zcen                    
-cmo name = quadplane  attribute name = zcen                                     
 eltset/xpos6/xcen/gt/0.96875                                                    
  
  THE ELTSET xpos6                            HAS          2 ELEMENTS            
@@ -1125,7 +1095,7 @@ The current-mesh-object(CMO) is: quadplane
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  0.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1142,6 +1112,8 @@ The current-mesh-object(CMO) is: quadplane
 grid2grid/tree_to_fe                                                            
 cmo/copy/quadplane/quadplane                                                    
 Mesh Objects are identical: quadplane                       quadplane           
+ ERROR CMO: copy  quadplane     -1                                              
+ 
 error in command : cmo/copy/quadplane/quadplane                                 
 finish                                                                          
 eltset/-parentset-/itetkid/gt/0                                                 
@@ -1184,7 +1156,6 @@ element volumes b/w  0.2441E-03 and  0.1289E-02:         7
 element volumes b/w  0.1289E-02 and  0.6801E-02:         3                      
 element volumes b/w  0.6801E-02 and  0.3590E-01:         3                      
 element volumes b/w  0.3590E-01 and  0.1895E+00:         3                      
-element volumes b/w  0.1895E+00 and  0.1000E+01:         6                      
 element volumes b/w  0.1895E+00 and  0.1000E+01:         6                      
 min volume =   2.4414063E-04  max volume =   1.0000000E+00                      
 -----------------------------------------------------------                     
@@ -1260,7 +1231,7 @@ The current-mesh-object(CMO) is: quadplane
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  0.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1348,7 +1319,7 @@ The current-mesh-object(CMO) is: quadplane2
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  0.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1365,6 +1336,8 @@ The current-mesh-object(CMO) is: quadplane2
 grid2grid/tree_to_fe/quadplane2                                                 
 cmo/copy/quadplane2/quadplane2                                                  
 Mesh Objects are identical: quadplane2                      quadplane2          
+ ERROR CMO: copy  quadplane2     -1                                             
+ 
 error in command : cmo/copy/quadplane2/quadplane2                               
 finish                                                                          
 eltset/-parentset-/itetkid/gt/0                                                 
@@ -1407,7 +1380,6 @@ element volumes b/w  0.2441E-03 and  0.1289E-02:         7
 element volumes b/w  0.1289E-02 and  0.6801E-02:         3                      
 element volumes b/w  0.6801E-02 and  0.3590E-01:         3                      
 element volumes b/w  0.3590E-01 and  0.1895E+00:         3                      
-element volumes b/w  0.1895E+00 and  0.1000E+01:         6                      
 element volumes b/w  0.1895E+00 and  0.1000E+01:         6                      
 min volume =   2.4414063E-04  max volume =   1.0000000E+00                      
 -----------------------------------------------------------                     
@@ -1483,7 +1455,7 @@ The current-mesh-object(CMO) is: quadplane2
  55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
  56            zmax REAL     scalar          scalar const perma   l  0.000E+00  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1653,6 +1625,8 @@ cmo/setatt/cmo_hex/itetclr/eltset,get,esphere/3
       6187 values reset for attribute itetclr                                   
  
 dump/gmv/output_refine_amr.gmv                                                  
+ 
+Second argument is not a filename. Trying to use default mesh object.           
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * begin compare hex octree                                                      
@@ -1725,7 +1699,7 @@ The current-mesh-object(CMO) is: cmo_hex
  55            ymax REAL     scalar          scalar const perma   l  5.000E-01  
  56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  2.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1761,7 +1735,6 @@ element volumes b/w  0.1953E-05 and  0.6801E-05:      6560
 element volumes b/w  0.6801E-05 and  0.2368E-04:      1440                      
 element volumes b/w  0.2368E-04 and  0.8247E-04:         0                      
 element volumes b/w  0.8247E-04 and  0.2872E-03:       272                      
-element volumes b/w  0.2872E-03 and  0.1000E-02:        50                      
 element volumes b/w  0.2872E-03 and  0.1000E-02:        50                      
 min volume =   1.9531250E-06  max volume =   1.0000000E-03                      
 -----------------------------------------------------------                     
@@ -1850,7 +1823,7 @@ The current-mesh-object(CMO) is: cmo_tet
  55            ymax REAL     scalar          scalar const perma   l  5.000E-01  
  56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
- 58 max_number_sets  INT     scalar          scalar const perma   l  3.200E+01  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
  59 number_of_psets  INT     scalar          scalar const perma   l  2.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
@@ -1887,7 +1860,6 @@ element volumes b/w  0.3255E-06 and  0.1134E-05:     39360
 element volumes b/w  0.1134E-05 and  0.3947E-05:      8640                      
 element volumes b/w  0.3947E-05 and  0.1374E-04:         0                      
 element volumes b/w  0.1374E-04 and  0.4786E-04:      1632                      
-element volumes b/w  0.4786E-04 and  0.1667E-03:       300                      
 element volumes b/w  0.4786E-04 and  0.1667E-03:       300                      
 min volume =   3.2552083E-07  max volume =   1.6666667E-04                      
 -----------------------------------------------------------                     
@@ -1938,7 +1910,6 @@ element volumes b/w  0.1953E-05 and  0.6801E-05:      6560
 element volumes b/w  0.6801E-05 and  0.2368E-04:       620                      
 element volumes b/w  0.2368E-04 and  0.8247E-04:         0                      
 element volumes b/w  0.8247E-04 and  0.2872E-03:        92                      
-element volumes b/w  0.2872E-03 and  0.1000E-02:        16                      
 element volumes b/w  0.2872E-03 and  0.1000E-02:        16                      
 min volume =   1.9531250E-06  max volume =   1.0000000E-03                      
 -----------------------------------------------------------                     
