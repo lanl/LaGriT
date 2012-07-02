@@ -7,9 +7,6 @@ cmo/status/cmo
 dump/gmv/output.gmv/cmo/                                                        
 dump/gmv/output_ascii.gmv/cmo/ascii                                             
 dump/avs/output.inp/cmo/                                                        
-read/gmv/output_ascii.gmv/cmogmva/ascii                                         
-read/avs/output.inp/cmoavs/                                                     
-cmo status cmogmv                                                               
-cmo status cmoavs                                                               
-read/gmv/output.gmv/cmogmv/                                                     
+cmo delete cmo                                                                  
+infile test_io.lgi                                                              
 finish                                                                          

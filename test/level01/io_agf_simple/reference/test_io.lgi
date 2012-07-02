@@ -1,0 +1,70 @@
+* TEST dump/* read/* binary and ascii 
+*****
+* dump and read AVS, GMV, lagrit files
+*
+cmo/create/cmo///hex 
+createpts/brick/xyz/3 3 3/0. 0. 0./1. 1. 1./1 1 1 
+cmo/set_id/cmo/both/idnode idelem 
+cmo/copyatt/cmo/cmo/itetclr/idelem 
+cmo/copyatt/cmo/cmo/imt/idnode 
+
+dump gmv output_hex8_ascii.gmv cmo ascii
+dump gmv output_hex8_binary.gmv cmo
+dump avs output_hex8_ascii.inp cmo ascii
+dump lagrit output_hex8_ascii.lagrit cmo ascii
+dump lagrit output_hex8_binary.lagrit cmo binary
+
+**********************
+* read lagrit ascii twice
+cmo delete cmo
+read lagrit output_hex8_ascii.lagrit cmo
+cmo delete cmo
+read lagrit output_hex8_ascii.lagrit cmo
+**********************
+* read lagrit binary twice
+cmo delete cmo
+read lagrit output_hex8_binary.lagrit cmo
+cmo delete cmo
+read lagrit output_hex8_binary.lagrit cmo
+
+**********************
+* read avs ascii twice
+cmo delete cmo
+read / avs / output_hex8_ascii.inp / cmo
+cmo delete cmo
+read / avs / output_hex8_ascii.inp / cmo
+**********************
+* read gmv ascii twice
+cmo delete cmo
+read / gmv / output_hex8_ascii.gmv / cmo
+cmo delete cmo
+read / gmv / output_hex8_ascii.gmv / cmo
+**********************
+* read gmv binary twice
+cmo delete cmo
+read / gmv / output_hex8_binary.gmv / cmo
+cmo delete cmo
+read / gmv / output_hex8_binary.gmv / cmo
+
+**********************
+* read small gmv binary 
+* this has been a problem for a long time
+cmo/create/cmohex///hex 
+createpts/brick/xyz/2 2 2/0. 0. 0./1. 1. 1./1 1 1 
+hextotet/6 / cmo1 / cmohex
+resetpts itp
+cmo/set_id/cmo1/both/idnode idelem
+cmo/copyatt/cmo1/cmo1/itetclr/idelem
+cmo/copyatt/cmo1/cmo1/imt/idnode
+cmo printatt cmo1 itetclr minmax
+
+dump gmv output_tet1_ascii.gmv cmo1 ascii
+dump gmv output_tet1_binary.gmv cmo1 
+read gmv output_tet1_ascii.gmv cmo2
+cmo printatt cmo2 itetclr minmax
+read gmv output_tet1_binary.gmv cmo3
+cmo printatt cmo3 itetclr minmax
+
+
+finish
+

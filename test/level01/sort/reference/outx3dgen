@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V3.005   Linux m64      *                 
 *               *    date_compile: 2012/06/15  gfort 4.5      *                 
-*               *    Run Time: 2012/Jun 27  11:31:31          *                 
+*               *    Run Time: 2012/Jul  2  11:51:05          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -198,7 +198,7 @@ DELATT no action, attribute does not exist: loopid
 finish                                                                          
 cmo/addatt/cmol/loopid/VINT/scalar/nelements/linear/temporary                   
 finish                                                                          
- SORT: new order written to sort key attribute: el_key                          
+ SORT: order key written to attribute: el_key                                   
  
 cmo printatt cmol nelements                                                     
 Attribute: nelements                                                            
@@ -219,7 +219,7 @@ Attribute: el_key
 sort/cmol/line_graph/ascending/n_key/nodes                                      
 cmo/addatt/cmol/n_key/vint/scalar/nnodes///gax/0                                
 finish                                                                          
- SORT: new order written to sort key attribute: n_key                           
+ SORT: order key written to attribute: n_key                                    
  
 cmo printatt cmol nnodes                                                        
 Attribute: nnodes                                                               
@@ -365,7 +365,7 @@ DELATT no action, attribute does not exist: loopid
 finish                                                                          
 cmo/addatt/mol_poly/loopid/VINT/scalar/nelements/linear/temporary               
 finish                                                                          
- SORT: new order written to sort key attribute: ekey                            
+ SORT: order key written to attribute: ekey                                     
  
 cmo printatt mol_poly ekey                                                      
 Attribute: ekey                                                                 
@@ -391,7 +391,7 @@ cmo select mol_poly2
 sort/mol_poly2/line_graph/ascending/nkey/node                                   
 cmo/addatt/mol_poly2/nkey/vint/scalar/nnodes///gax/0                            
 finish                                                                          
- SORT: new order written to sort key attribute: nkey                            
+ SORT: order key written to attribute: nkey                                     
  
 cmo printatt mol_poly2 nkey                                                     
 Attribute: nkey                                                                 
@@ -417,7 +417,7 @@ cmo delete mol_poly2
 ########### ERROR CAPTURE FOR NO MESH OBJECT ########                           
 # This should stop gracefully with an error (no mesh object).                   
 sort//line_graph/ascending/key                                                  
- SORT: CMO found bad mesh object: -def-                                         
+ ERROR SORT: found bad mesh object: -def-                                       
 ###########                                                                     
 read/test01.inp/mo01                                                            
 read/avs/test01.inp/mo01                                                        
@@ -441,7 +441,8 @@ finish
 ########### ERROR CAPTURE ARG 4 #################                               
 # Error (must be "ascending" or "descending")                                   
 sort/mo01/line_graph/wrong/key                                                  
- SORT: ERROR invalid option 4: wrong Use: ascending or descending               
+ ERROR SORT: invalid option 4: wrong                                            
+ SORT: option should be ascending or descending                                 
  
 ########### ERROR CAPTURE ARG 6 ###############                                 
 # Error (invalid argument)                                                      
@@ -470,7 +471,7 @@ DELATT no action, attribute does not exist: loopid
 finish                                                                          
 cmo/addatt/mo01/loopid/VINT/scalar/nelements/linear/temporary                   
 finish                                                                          
- SORT: new order written to sort key attribute: lg_key_line_graph               
+ SORT: order key written to attribute: lg_key_line_graph                        
  
 ########### SORT EXAMPLES USING ELEMENTS #####                                  
 # create key attribute and reorder                                              
@@ -492,7 +493,7 @@ cmo/DELATT/mo01/loopid
 finish                                                                          
 cmo/addatt/mo01/loopid/VINT/scalar/nelements/linear/temporary                   
 finish                                                                          
- SORT: new order written to sort key attribute: key                             
+ SORT: order key written to attribute: key                                      
  
 cmo printatt mo01 key                                                           
 Attribute: key                                                                  
@@ -693,7 +694,7 @@ DELATT no action, attribute does not exist: loopid
 finish                                                                          
 cmo/addatt/mo02/loopid/VINT/scalar/nelements/linear/temporary                   
 finish                                                                          
- SORT: new order written to sort key attribute: key                             
+ SORT: order key written to attribute: key                                      
  
 cmo printatt mo02 key                                                           
 Attribute: key                                                                  
@@ -782,7 +783,7 @@ sort/mo03/line_graph/ascending/key
  Default line_graph option: using "elements"                                    
 cmo/addatt/mo03/key/vint/scalar/nelements///gax/0                               
 finish                                                                          
- SORT: ERROR - itet must consist only of line segments.                         
+  ERROR SORT: line_graph elements must be of type line.                         
 ########### ERROR CAPTURE 0 ELEMENTS  #####                                     
 # Make sure the line_graph sort can deal with meshes with no elements.          
 read/test04.inp/mo04                                                            
@@ -819,7 +820,7 @@ The current-mesh-object(CMO) is: mo04
 finish                                                                          
 finish                                                                          
 sort/mo04/line_graph/ascending/key                                              
- SORT: ERROR mesh object has 0 elements.                                        
+ ERROR SORT: mesh object has 0 elements.                                        
  
 reorder/mo04/key                                                                
 REORDER: ERROR, sort key invalid or 0 length.                                   
