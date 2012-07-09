@@ -1,4 +1,4 @@
-      subroutine cmo_att_derive(sink_mo,src_mo,ierror_return)
+      subroutine cmo_att_derive(sink_in,src_in,ierror_return)
 C
 C
 C#######################################################################
@@ -11,8 +11,8 @@ C         The new attributes are left uninitialized.
 C
 C      INPUT ARGUMENTS -
 C
-C         sink_mo - (character) Derived Mesh Object Name.
-C         src_mo - (character) Master Mesh Object Name.
+C         sink_in - (character) Derived Mesh Object Name.
+C         src_in - (character) Master Mesh Object Name.
 C
 C      OUTPUT ARGUMENTS -
 C
@@ -33,7 +33,7 @@ C
 C
 C#######################################################################
 C
-      character*(*) src_mo, sink_mo
+      character*32 sink_in, src_in
 C
       integer ierror_return
 C
@@ -50,7 +50,9 @@ C
 C
 C  Variables for subroutine calls
       integer numatts, lout, itype
-      character*32 attname
+
+C  copy arguments into local variables to avoid losing them during dotask
+      character*32 attname, src_mo, sink_mo
       character*32 ctype, crank, clen, cinter, cpers, cio
       character*32 ctype2, crank2, clen2, cinter2, cpers2, cio2
 C
@@ -59,8 +61,12 @@ C
       integer icharlnf
 C
 C#######################################################################
+C BEGIN begin
 C
-      len=icharlnf(sink_mo)
+      ierror_return = 0
+
+      len=icharlnf(sink_in)
+      sink_mo = sink_in(1:len)
       if((sink_mo(1:len).eq.'-cmo-') .or.
      *   (sink_mo(1:len).eq.'-def-')) then
 C
@@ -70,7 +76,8 @@ C
 C
       endif
 C
-      len=icharlnf(src_mo)
+      len=icharlnf(src_in)
+      src_mo = src_in(1:len)
       if((src_mo(1:len).eq.'-cmo-') .or.
      *   (src_mo(1:len).eq.'-def-')) then
 C
@@ -116,16 +123,21 @@ C....    Loop through all the attributes in the source. For each
 C        attribute, get its important parameters. Check if it exists in
 C        the sink mesh already. If it doesn't, create it using a dotask.
       do i=1,numatts
+
+
           call cmo_get_attribute_name(src_mo,i,attname,ierror)
+
           call cmo_get_attparam(attname, src_mo, index, 
      *                          ctype, crank, clen, cinter, cpers, cio,
      *                          ierror)
+
           call cmo_get_attparam(attname, sink_mo, index,
      *                          ctype2,crank2,clen2,cinter2,cpers2,cio2,
      *                          ierror)
+
 C....    If the sink mesh already has an attribute with this name:
+C...     See if it is the same or a different type
           if (ierror .eq. 0) then
-C...     See if it is the same or a different attribute
               if (crank .ne. crank2 .or. clen .ne. clen2) then
                   ierror_return = -1
                   write(logmess, '(a,a)') 
@@ -166,8 +178,13 @@ C...     See if it is the same or a different attribute
                   goto 9000
               endif
               goto 9000 
+
           endif
-C...    Now, since the attribute isn't in the sink mesh, we add it
+C...      Now, since the attribute isn't in the sink mesh, we add it
+          
+          if (ierror.eq.0) print*, "Exists, but add anyway!"
+          print*,"adding ",sink_mo,attname
+
           cmd = 'cmo/addatt/'
      *        //sink_mo(1:icharlnf(sink_mo))//'/'
      *        //attname(1:icharlnf(attname))//'/'
@@ -177,19 +194,21 @@ C...    Now, since the attribute isn't in the sink mesh, we add it
      *        //cinter(1:icharlnf(cinter))//'/'
      *        //cpers(1:icharlnf(cpers))//'/'
      *        //cio(1:icharlnf(cio))//'; finish'
+
           call dotask(cmd, ierror)
+
 9000      continue
       enddo
+
+      print*,"Done adding attributes to ",
+     *      sink_mo(1:icharlnf(sink_mo))
+      print*,"from mesh object ",src_mo(1:icharlnf(src_mo))
+
 9999  return
+
       end
 
-
-
-
-
-
-
-      subroutine cmo_att_union(sink_mo,src_mo,ierror_return)
+      subroutine cmo_att_union(sink_in,src_in,ierror_return)
 C
 C
 C#######################################################################
@@ -202,8 +221,8 @@ C         work properly). The new attributes are left uninitialized.
 C
 C      INPUT ARGUMENTS -
 C
-C         sink_mo - (character) Derived Mesh Object Name.
-C         src_mo - (character) Master Mesh Object Name.
+C         sink_in - (character) Derived Mesh Object Name.
+C         src_in - (character) Master Mesh Object Name.
 C
 C      OUTPUT ARGUMENTS -
 C
@@ -219,13 +238,29 @@ C
       implicit none
 
       integer ierror, ierror2, ierror_return
-      character*32 sink_mo, src_mo
+      character*32 sink_in, src_in
+      character*32 cmo1, cmo2
 C
 C#######################################################################
 C
-      call cmo_att_derive(sink_mo,src_mo,ierror)
-      call cmo_att_derive(src_mo, sink_mo, ierror2)
+C     protect mesh names from being overwritten by dotask calls
+      cmo1 = sink_in
+      cmo2 = src_in
+
+      print*,"cmo_att_union: in ",sink_in,src_in,cmo1,cmo2
+
+      call cmo_att_derive(cmo1, cmo2, ierror)
+
+      cmo1 = sink_in
+      cmo2 = src_in
+
+
+      call cmo_att_derive(cmo2, cmo1, ierror2)
+
       if (ierror .ne. 0 .or. ierror2 .ne. 0) ierror_return = -1
+
+      print*,"cmo_att_union: out ",sink_in,src_in,cmo1,cmo2
+
       return
       end
 
