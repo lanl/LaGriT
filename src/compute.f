@@ -29,7 +29,7 @@ C
 C
 C     Subroutine Input Variables
 C
-      integer       nwds, ierror
+      integer       nwds, ierror, ierrw
       character*(*) cmsgin(nwds)
       integer       imsgin(nwds), msgtype(nwds)
       real*8        xmsgin(nwds)
@@ -49,17 +49,32 @@ C
       endif
 
       if(cmsgin(2) .eq. 'distance_field')then
-      call distance_field
-     &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
-      return
+
+        call distance_field
+     &  (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
+
+        write(logmess,'(a)')'COMPUTE distance_field: Done.'
+        call writloga('default',0,logmess,0,ierrw)
+        return
+
       elseif(cmsgin(2) .eq. 'signed_distance_field')then
-      call distance_field_signed
+
+        call distance_field_signed
+     &  (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
+        write(logmess,'(a)')'COMPUTE distance_field_signed: Done.'
+        call writloga('default',0,logmess,0,ierrw)
+        return
+
+      elseif(cmsgin(2) .eq. 'linear_transform' .or.
+     &        cmsgin(2) .eq. 'linear_extrapolate' )then
+
+        cmsgin(2) = 'linear_transform'
+        call linear_transform 
      &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
-      return
-      elseif(cmsgin(2) .eq. 'linear_transform')then
-      call linear_transform 
-     &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
-      return
+        write(logmess,'(a)')'COMPUTE linear_transform: Done.'
+        call writloga('default',0,logmess,0,ierrw)
+        return
+
       else
          write(logmess,'(a)')
      &    'ERROR compute: No valid second argument found.'
