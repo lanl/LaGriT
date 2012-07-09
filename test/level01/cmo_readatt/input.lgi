@@ -9,10 +9,10 @@ cmo printatt cmo1 -xyz-
 cmo status cmo1
 cmo printatt cmo1 -all- minmax
 dump avs output1.inp cmo1                                                          
-cmo delete cmo1
 
 #---------------------------------------------
 # use add command for 0 points
+cmo delete cmo1
 cmo create cmo1                                                                 
 cmo/readatt/cmo1/xic,yic,zic,xvalue/add///input_dylan.dat                              
 cmo printatt cmo1 -all- minmax 
@@ -51,19 +51,46 @@ cmo /delete / cmoquad
 
 #---------------------------------------------
 # read file with tab spacing
+cmo delete cmo1
 cmo create cmo1
 cmo printatt cmo1 -xyz- 
 cmo readatt cmo1/xic  yic /1,0,0/input_tab.dat
 cmo printatt cmo1 -xyz- 
-cmo delete cmo1
 
 #---------------------------------------------
 # read same file with bad number of values
-cmo create cmo1
-cmo readatt cmo1/xic  yic /1,0,0/input_bad.dat
-cmo printatt cmo1 -xyz- 
+# report error trying to read bad line
 cmo delete cmo1
+cmo create cmo1
+cmo readatt cmo1/xic  yic /add///input_bad.dat
+
 #---------------------------------------------
+# 750 is normal acceptable length
+# Use wc -L to get longest record length
 
+# record length less than 750
+# use 8 out of 15 values per line
+cmo delete cmo1
+cmo create cmo1
+cmo/readatt/cmo1/imt,xic,yic,zic,x1,x2,x3,x4/add///input_wide.dat
+cmo status cmo1
 
-finish                                                                          
+cmo printatt cmo1 -all-
+
+#---------------------------------------------
+#### Check error, parser not finding all values in line ####
+# request expected 40 attributes, readatt fills first 27
+# record length greater than 750
+cmo delete cmo1
+cmo create cmo1
+cmo/readatt/cmo1/imt,xic,yic,zic, &
+   x5,x6,x7,int8,x9,x10,x11,x12,x13,x14 &
+   x15,x16,x17,x18,x19,x20,x21,x22,x23,x24 &
+   x25,x26,x27,x28,x29,x30,x31,x32,x33,x34 &
+   x35,x36,x37,x38,x39,x40 &
+   add///input_verywide.dat
+
+cmo printatt cmo1 -all-
+
+finish
+

@@ -3,8 +3,8 @@
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.005   Linux m64      *                 
-*               *    date_compile: 2012/04/15  gfort 4.5      *                 
-*               *    Run Time: 2012/Jun 13  15:49:26          *                 
+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
+*               *    Run Time: 2012/Jul  9  07:58:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -30,26 +30,26 @@ Command log file: logx3dgen
 # read file with user added attributes                                          
 cmo create cmo1                                                                 
 cmo/readatt/cmo1/xic,yic,zic,x1,x2,x3,x4/add///input.dat                        
-readatt reading     7 values from each line.                                    
-readatt filling attribute: xic                                                  
-readatt filling attribute: yic                                                  
-readatt filling attribute: zic                                                  
+readatt: reading     7 values from each line.                                   
+readatt filling attribute:       1  xic                                         
+readatt filling attribute:       2  yic                                         
+readatt filling attribute:       3  zic                                         
 readatt adding attribute: x1                                                    
 cmo/addatt/cmo1/x1/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
 finish                                                                          
-readatt filling attribute: x1                                                   
+readatt filling attribute:       4  x1                                          
 readatt adding attribute: x2                                                    
 cmo/addatt/cmo1/x2/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
 finish                                                                          
-readatt filling attribute: x2                                                   
+readatt filling attribute:       5  x2                                          
 readatt adding attribute: x3                                                    
 cmo/addatt/cmo1/x3/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
 finish                                                                          
-readatt filling attribute: x3                                                   
+readatt filling attribute:       6  x3                                          
 readatt adding attribute: x4                                                    
 cmo/addatt/cmo1/x4/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
 finish                                                                          
-readatt filling attribute: x4                                                   
+readatt filling attribute:       7  x4                                          
 cmo/status/cmo1 brief                                                           
  
 The current-mesh-object(CMO) is: cmo1                                           
@@ -63,8 +63,9 @@ The current-mesh-object(CMO) is: cmo1
  
 finish                                                                          
 readatt added nodes          1 to          6                                    
-END readatt:     7 attribute values from               6 lines.                 
- 
+File values used:     7 out of     7 from each line.                            
+File values written to     7 out of     7 attributes.                           
+END readatt: reading     7 values from               6 lines.                   
 cmo printatt cmo1 -xyz-                                                         
 Warning: nelements = 0                                                          
 Attribute: xic                                                                  
@@ -234,20 +235,20 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
 dump avs output1.inp cmo1                                                       
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
-cmo delete cmo1                                                                 
-     Released Mesh Object: cmo1                                                 
 #---------------------------------------------                                  
 # use add command for 0 points                                                  
+cmo delete cmo1                                                                 
+     Released Mesh Object: cmo1                                                 
 cmo create cmo1                                                                 
 cmo/readatt/cmo1/xic,yic,zic,xvalue/add///input_dylan.dat                       
-readatt reading     4 values from each line.                                    
-readatt filling attribute: xic                                                  
-readatt filling attribute: yic                                                  
-readatt filling attribute: zic                                                  
+readatt: reading     4 values from each line.                                   
+readatt filling attribute:       1  xic                                         
+readatt filling attribute:       2  yic                                         
+readatt filling attribute:       3  zic                                         
 readatt adding attribute: xvalue                                                
 cmo/addatt/cmo1/xvalue/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0          
 finish                                                                          
-readatt filling attribute: xvalue                                               
+readatt filling attribute:       4  xvalue                                      
 cmo/status/cmo1 brief                                                           
  
 The current-mesh-object(CMO) is: cmo1                                           
@@ -261,8 +262,9 @@ The current-mesh-object(CMO) is: cmo1
  
 finish                                                                          
 readatt added nodes          1 to         10                                    
-END readatt:     4 attribute values from              10 lines.                 
- 
+File values used:     4 out of     4 from each line.                            
+File values written to     4 out of     4 attributes.                           
+END readatt: reading     4 values from              10 lines.                   
 cmo printatt cmo1 -all- minmax                                                  
 Warning: nelements = 0                                                          
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
@@ -330,11 +332,11 @@ finish
 #---------------------------------------------                                  
 # use add command adding to 10 points                                           
 cmo/readatt/cmo1/xic,yic,zic,xvalue/add///input_dylan.dat                       
-readatt reading     4 values from each line.                                    
-readatt filling attribute: xic                                                  
-readatt filling attribute: yic                                                  
-readatt filling attribute: zic                                                  
-readatt filling attribute: xvalue                                               
+readatt: reading     4 values from each line.                                   
+readatt filling attribute:       1  xic                                         
+readatt filling attribute:       2  yic                                         
+readatt filling attribute:       3  zic                                         
+readatt filling attribute:       4  xvalue                                      
 cmo/status/cmo1 brief                                                           
  
 The current-mesh-object(CMO) is: cmo1                                           
@@ -348,8 +350,9 @@ The current-mesh-object(CMO) is: cmo1
  
 finish                                                                          
 readatt added nodes         11 to         20                                    
-END readatt:     4 attribute values from              10 lines.                 
- 
+File values used:     4 out of     4 from each line.                            
+File values written to     4 out of     4 attributes.                           
+END readatt: reading     4 values from              10 lines.                   
 cmo printatt cmo1 -all- minmax                                                  
 Warning: nelements = 0                                                          
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
@@ -439,10 +442,10 @@ cmo/setatt/cmoquad/ipolydat no
          1 values reset for attribute ipolydat                                  
  
 cmo/readatt/cmoquad/xic,yic,zic/1,0,0/input_ev.dat                              
-readatt reading     5 values from each line.                                    
-readatt filling attribute: xic                                                  
-readatt filling attribute: yic                                                  
-readatt filling attribute: zic                                                  
+readatt: reading     5 values from each line.                                   
+readatt filling attribute:       1  xic                                         
+readatt filling attribute:       2  yic                                         
+readatt filling attribute:       3  zic                                         
 cmo/status/cmoquad brief                                                        
  
 The current-mesh-object(CMO) is: cmoquad                                        
@@ -455,8 +458,9 @@ The current-mesh-object(CMO) is: cmoquad
  
  
 finish                                                                          
-END readatt:     5 attribute values from           14241 lines.                 
- 
+File values used:     3 out of     5 from each line.                            
+File values written to     3 out of     3 attributes.                           
+END readatt: reading     5 values from           14241 lines.                   
 dump avs2 output_ev.inp cmoquad 1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -473,6 +477,8 @@ cmo/delete/cmoquad
      Released Mesh Object: cmoquad                                              
 #---------------------------------------------                                  
 # read file with tab spacing                                                    
+cmo delete cmo1                                                                 
+Mesh Object release skipped, it does not exist: cmo1                            
 cmo create cmo1                                                                 
 cmo printatt cmo1 -xyz-                                                         
 npoints = 0 in subroutine cmo_setatt                                            
@@ -482,9 +488,9 @@ Warning: nelements = 0
  0 length attribute: zic                                                        
  
 cmo readatt cmo1/xic yic/1,0,0/input_tab.dat                                    
-readatt reading     2 values from each line.                                    
-readatt filling attribute: xic                                                  
-readatt filling attribute: yic                                                  
+readatt: reading     2 values from each line.                                   
+readatt filling attribute:       1  xic                                         
+readatt filling attribute:       2  yic                                         
 cmo/status/cmo1 brief                                                           
  
 The current-mesh-object(CMO) is: cmo1                                           
@@ -498,8 +504,9 @@ The current-mesh-object(CMO) is: cmo1
  
 finish                                                                          
 readatt added nodes          1 to          8                                    
-END readatt:     2 attribute values from               8 lines.                 
- 
+File values used:     2 out of     2 from each line.                            
+File values written to     2 out of     2 attributes.                           
+END readatt: reading     2 values from               8 lines.                   
 cmo printatt cmo1 -xyz-                                                         
 Warning: nelements = 0                                                          
 Attribute: xic                                                                  
@@ -530,30 +537,1179 @@ Attribute: zic
          7  0.00000E+00                                                         
          8  0.00000E+00                                                         
  
-cmo delete cmo1                                                                 
-     Released Mesh Object: cmo1                                                 
 #---------------------------------------------                                  
 # read same file with bad number of values                                      
-cmo create cmo1                                                                 
-cmo readatt cmo1/xic yic/1,0,0/input_bad.dat                                    
-readatt reading     7 values from each line.                                    
- 
-ERROR: read found     3 values but expected     7                               
- 
-END readatt:     7 attribute values from               2 lines.                 
- 
-ERROR readatt: early exit. -2                                                   
- 
-error in command : cmo readatt cmo1/xic yic/1,0,0/input_bad.dat                 
-cmo printatt cmo1 -xyz-                                                         
-npoints = 0 in subroutine cmo_setatt                                            
-Warning: nelements = 0                                                          
- 0 length attribute: xic                                                        
- 0 length attribute: yic                                                        
- 0 length attribute: zic                                                        
- 
+# report error trying to read bad line                                          
 cmo delete cmo1                                                                 
      Released Mesh Object: cmo1                                                 
+cmo create cmo1                                                                 
+cmo readatt cmo1/xic yic/add///input_bad.dat                                    
+readatt: reading     8 values from each line.                                   
+ERROR line:     3 found     2 values but expected     8                         
+ERROR readatt: read failed:  number of lines read from file:               2    
+ERROR readatt: attributes failed:  number of attributes written:               0
+ERROR readatt: early exit.                                                      
+ ERROR CMO: readatt  cmo1     -2                                                
+ 
+error in command : cmo readatt cmo1/xic yic/add///input_bad.dat                 
 #---------------------------------------------                                  
+# 750 is normal acceptable length                                               
+# Use wc -L to get longest record length                                        
+# record length less than 750                                                   
+# use 8 out of 15 values per line                                               
+cmo delete cmo1                                                                 
+     Released Mesh Object: cmo1                                                 
+cmo create cmo1                                                                 
+cmo/readatt/cmo1/imt,xic,yic,zic,x1,x2,x3,x4/add///input_wide.dat               
+readatt: reading    15 values from each line.                                   
+readatt filling attribute:       1  imt1                                        
+readatt filling attribute:       2  xic                                         
+readatt filling attribute:       3  yic                                         
+readatt filling attribute:       4  zic                                         
+readatt adding attribute: x1                                                    
+cmo/addatt/cmo1/x1/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+readatt filling attribute:       5  x1                                          
+readatt adding attribute: x2                                                    
+cmo/addatt/cmo1/x2/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+readatt filling attribute:       6  x2                                          
+readatt adding attribute: x3                                                    
+cmo/addatt/cmo1/x3/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+readatt filling attribute:       7  x3                                          
+readatt adding attribute: x4                                                    
+cmo/addatt/cmo1/x4/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+readatt filling attribute:       8  x4                                          
+cmo/status/cmo1 brief                                                           
+ 
+The current-mesh-object(CMO) is: cmo1                                           
+ 
+  1 Mesh Object name: cmo1                                                      
+    number of nodes =             3        number of elements =            0    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+readatt added nodes          1 to          3                                    
+File values used:     8 out of    15 from each line.                            
+File values written to     8 out of     8 attributes.                           
+END readatt: reading    15 values from               3 lines.                   
+cmo status cmo1                                                                 
+ 
+The current-mesh-object(CMO) is: cmo1                                           
+ 
+  1 Mesh Object name: cmo1                                                      
+    number of nodes =             3        number of elements =            0    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  3.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  0.000E+00  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  3.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66              x1 VDOU     scalar          nnodes linea perma gxa  0.000E+00  
+ 67              x2 VDOU     scalar          nnodes linea perma gxa  0.000E+00  
+ 68              x3 VDOU     scalar          nnodes linea perma gxa  0.000E+00  
+ 69              x4 VDOU     scalar          nnodes linea perma gxa  0.000E+00  
+cmo printatt cmo1 -all-                                                         
+Warning: nelements = 0                                                          
+Attribute: -def-                                                                
+         1  0.00000E+00                                                         
+         2  0.00000E+00                                                         
+         3  0.00000E+00                                                         
+Attribute: scalar                                                               
+         1         1                                                            
+Attribute: vector                                                               
+         1         3                                                            
+Attribute: nnodes                                                               
+         1         3                                                            
+Attribute: nedges                                                               
+         1         0                                                            
+Attribute: nfaces                                                               
+         1         0                                                            
+Attribute: nelements                                                            
+         1         0                                                            
+Attribute: mbndry                                                               
+         1  16000000                                                            
+Attribute: ndimensions_topo                                                     
+         1         3                                                            
+Attribute: ndimensions_geom                                                     
+         1         3                                                            
+Attribute: nodes_per_element                                                    
+         1         4                                                            
+Attribute: edges_per_element                                                    
+         1         6                                                            
+Attribute: faces_per_element                                                    
+         1         4                                                            
+Attribute: isetwd                                                               
+         1  0.00000E+00                                                         
+         2  0.00000E+00                                                         
+         3  0.00000E+00                                                         
+Attribute: ialias                                                               
+         1          0                                                           
+         2          0                                                           
+         3          0                                                           
+Attribute: imt1                                                                 
+         1          1                                                           
+         2          2                                                           
+         3          3                                                           
+Attribute: itp1                                                                 
+         1          0                                                           
+         2          0                                                           
+         3          0                                                           
+Attribute: icr1                                                                 
+         1          0                                                           
+         2          0                                                           
+         3          0                                                           
+Attribute: isn1                                                                 
+         1          0                                                           
+         2          0                                                           
+         3          0                                                           
+Attribute: xic                                                                  
+         1  2.00000E+05                                                         
+         2  1.00000E+05                                                         
+         3  1.00000E+05                                                         
+Attribute: yic                                                                  
+         1  3.00000E+03                                                         
+         2  2.00000E+05                                                         
+         3  2.00000E+05                                                         
+Attribute: zic                                                                  
+         1  4.00000E+05                                                         
+         2  3.00000E+03                                                         
+         3  3.00000E+03                                                         
+ 0 length attribute: xtetwd                                                     
+ 0 length attribute: itetclr                                                    
+ 0 length attribute: itettyp                                                    
+ 0 length attribute: itetoff                                                    
+ 0 length attribute: jtetoff                                                    
+ 0 length attribute: itet                                                       
+ 0 length attribute: jtet                                                       
+Attribute: ipolydat                                                             
+         1yes                                                                   
+Attribute: vor2d                                                                
+         1yes                                                                   
+Attribute: vor3d                                                                
+         1no                                                                    
+Attribute: epsilon                                                              
+         1   1.00000E-15                                                        
+Attribute: epsilonl                                                             
+         1   1.00000E-08                                                        
+Attribute: epsilona                                                             
+         1   1.00000E-08                                                        
+Attribute: epsilonv                                                             
+         1   1.00000E-08                                                        
+Attribute: ipointi                                                              
+         1         1                                                            
+Attribute: ipointj                                                              
+         1         3                                                            
+Attribute: idebug                                                               
+         1         0                                                            
+Attribute: itypconv_sm                                                          
+         1         1                                                            
+Attribute: maxiter_sm                                                           
+         1        25                                                            
+Attribute: tolconv_sm                                                           
+         1   1.00000E+00                                                        
+Attribute: nnfreq                                                               
+         1         1                                                            
+Attribute: ivoronoi                                                             
+         1         1                                                            
+Attribute: iopt2to2                                                             
+         1         2                                                            
+Attribute: dumptype                                                             
+         1binary                                                                
+Attribute: velname                                                              
+         1vels                                                                  
+Attribute: densname                                                             
+         1ric                                                                   
+Attribute: presname                                                             
+         1pic                                                                   
+Attribute: enername                                                             
+         1eic                                                                   
+Attribute: xmin                                                                 
+         1  -1.00000E+00                                                        
+Attribute: ymin                                                                 
+         1  -1.00000E+00                                                        
+Attribute: zmin                                                                 
+         1  -1.00000E+00                                                        
+Attribute: xmax                                                                 
+         1   1.00000E+00                                                        
+Attribute: ymax                                                                 
+         1   1.00000E+00                                                        
+Attribute: zmax                                                                 
+         1   1.00000E+00                                                        
+Attribute: kdtree_level                                                         
+         1         0                                                            
+Attribute: max_number_sets                                                      
+         1        64                                                            
+Attribute: number_of_psets                                                      
+         1         0                                                            
+Attribute: number_of_eltsets                                                    
+         1         0                                                            
+Attribute: psetnames                                                            
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+         6                                                                      
+         7                                                                      
+         8                                                                      
+         9                                                                      
+        10                                                                      
+        11                                                                      
+        12                                                                      
+        13                                                                      
+        14                                                                      
+        15                                                                      
+        16                                                                      
+        17                                                                      
+        18                                                                      
+        19                                                                      
+        20                                                                      
+        21                                                                      
+        22                                                                      
+        23                                                                      
+        24                                                                      
+        25                                                                      
+        26                                                                      
+        27                                                                      
+        28                                                                      
+        29                                                                      
+        30                                                                      
+        31                                                                      
+        32                                                                      
+        33                                                                      
+        34                                                                      
+        35                                                                      
+        36                                                                      
+        37                                                                      
+        38                                                                      
+        39                                                                      
+        40                                                                      
+        41                                                                      
+        42                                                                      
+        43                                                                      
+        44                                                                      
+        45                                                                      
+        46                                                                      
+        47                                                                      
+        48                                                                      
+        49                                                                      
+        50                                                                      
+        51                                                                      
+        52                                                                      
+        53                                                                      
+        54                                                                      
+        55                                                                      
+        56                                                                      
+        57                                                                      
+        58                                                                      
+        59                                                                      
+        60                                                                      
+        61                                                                      
+        62                                                                      
+        63                                                                      
+        64                                                                      
+Attribute: eltsetnames                                                          
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+         6                                                                      
+         7                                                                      
+         8                                                                      
+         9                                                                      
+        10                                                                      
+        11                                                                      
+        12                                                                      
+        13                                                                      
+        14                                                                      
+        15                                                                      
+        16                                                                      
+        17                                                                      
+        18                                                                      
+        19                                                                      
+        20                                                                      
+        21                                                                      
+        22                                                                      
+        23                                                                      
+        24                                                                      
+        25                                                                      
+        26                                                                      
+        27                                                                      
+        28                                                                      
+        29                                                                      
+        30                                                                      
+        31                                                                      
+        32                                                                      
+        33                                                                      
+        34                                                                      
+        35                                                                      
+        36                                                                      
+        37                                                                      
+        38                                                                      
+        39                                                                      
+        40                                                                      
+        41                                                                      
+        42                                                                      
+        43                                                                      
+        44                                                                      
+        45                                                                      
+        46                                                                      
+        47                                                                      
+        48                                                                      
+        49                                                                      
+        50                                                                      
+        51                                                                      
+        52                                                                      
+        53                                                                      
+        54                                                                      
+        55                                                                      
+        56                                                                      
+        57                                                                      
+        58                                                                      
+        59                                                                      
+        60                                                                      
+        61                                                                      
+        62                                                                      
+        63                                                                      
+        64                                                                      
+Attribute: geom_name                                                            
+         1-defaultgeom-                                                         
+         2-defaultgeom-                                                         
+         3-defaultgeom-                                                         
+         4-defaultgeom-                                                         
+         5-defaultgeom-                                                         
+         6-defaultgeom-                                                         
+         7-defaultgeom-                                                         
+         8-defaultgeom-                                                         
+         9-defaultgeom-                                                         
+        10-defaultgeom-                                                         
+        11-defaultgeom-                                                         
+        12-defaultgeom-                                                         
+        13-defaultgeom-                                                         
+        14-defaultgeom-                                                         
+        15-defaultgeom-                                                         
+        16-defaultgeom-                                                         
+        17-defaultgeom-                                                         
+        18-defaultgeom-                                                         
+        19-defaultgeom-                                                         
+        20-defaultgeom-                                                         
+        21-defaultgeom-                                                         
+        22-defaultgeom-                                                         
+        23-defaultgeom-                                                         
+        24-defaultgeom-                                                         
+        25-defaultgeom-                                                         
+        26-defaultgeom-                                                         
+        27-defaultgeom-                                                         
+        28-defaultgeom-                                                         
+        29-defaultgeom-                                                         
+        30-defaultgeom-                                                         
+        31-defaultgeom-                                                         
+        32-defaultgeom-                                                         
+        33-defaultgeom-                                                         
+        34-defaultgeom-                                                         
+        35-defaultgeom-                                                         
+        36-defaultgeom-                                                         
+        37-defaultgeom-                                                         
+        38-defaultgeom-                                                         
+        39-defaultgeom-                                                         
+        40-defaultgeom-                                                         
+        41-defaultgeom-                                                         
+        42-defaultgeom-                                                         
+        43-defaultgeom-                                                         
+        44-defaultgeom-                                                         
+        45-defaultgeom-                                                         
+        46-defaultgeom-                                                         
+        47-defaultgeom-                                                         
+        48-defaultgeom-                                                         
+        49-defaultgeom-                                                         
+        50-defaultgeom-                                                         
+        51-defaultgeom-                                                         
+        52-defaultgeom-                                                         
+        53-defaultgeom-                                                         
+        54-defaultgeom-                                                         
+        55-defaultgeom-                                                         
+        56-defaultgeom-                                                         
+        57-defaultgeom-                                                         
+        58-defaultgeom-                                                         
+        59-defaultgeom-                                                         
+        60-defaultgeom-                                                         
+        61-defaultgeom-                                                         
+        62-defaultgeom-                                                         
+        63-defaultgeom-                                                         
+        64-defaultgeom-                                                         
+Attribute: fsetnames                                                            
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+         6                                                                      
+         7                                                                      
+         8                                                                      
+         9                                                                      
+        10                                                                      
+        11                                                                      
+        12                                                                      
+        13                                                                      
+        14                                                                      
+        15                                                                      
+        16                                                                      
+        17                                                                      
+        18                                                                      
+        19                                                                      
+        20                                                                      
+        21                                                                      
+        22                                                                      
+        23                                                                      
+        24                                                                      
+        25                                                                      
+        26                                                                      
+        27                                                                      
+        28                                                                      
+        29                                                                      
+        30                                                                      
+        31                                                                      
+        32                                                                      
+        33                                                                      
+        34                                                                      
+        35                                                                      
+        36                                                                      
+        37                                                                      
+        38                                                                      
+        39                                                                      
+        40                                                                      
+        41                                                                      
+        42                                                                      
+        43                                                                      
+        44                                                                      
+        45                                                                      
+        46                                                                      
+        47                                                                      
+        48                                                                      
+        49                                                                      
+        50                                                                      
+        51                                                                      
+        52                                                                      
+        53                                                                      
+        54                                                                      
+        55                                                                      
+        56                                                                      
+        57                                                                      
+        58                                                                      
+        59                                                                      
+        60                                                                      
+        61                                                                      
+        62                                                                      
+        63                                                                      
+        64                                                                      
+Attribute: number_of_fsets                                                      
+         1         0                                                            
+Attribute: x1                                                                   
+         1  5.00000E+05                                                         
+         2  4.00000E+05                                                         
+         3  4.00000E+05                                                         
+Attribute: x2                                                                   
+         1  6.00000E+03                                                         
+         2  5.00000E+05                                                         
+         3  5.00000E+05                                                         
+Attribute: x3                                                                   
+         1  7.00000E+05                                                         
+         2  6.00000E+03                                                         
+         3  6.00000E+03                                                         
+Attribute: x4                                                                   
+         1  8.00000E+00                                                         
+         2  2.00000E+00                                                         
+         3  3.00000E+00                                                         
+ 
+#---------------------------------------------                                  
+#### Check error, parser not finding all values in line ####                    
+# request expected 40 attributes, readatt fills first 27                        
+# record length greater than 750                                                
+cmo delete cmo1                                                                 
+     Released Mesh Object: cmo1                                                 
+cmo create cmo1                                                                 
+cmo/readatt/cmo1/imt,xic,yic,zic,x5,x6,x7,int8,x9,x10,x11,x12,x13,x14 x15,x16,x1
+7,x18,x19,x20,x21,x22,x23,x24 x25,x26,x27,x28,x29,x30,x31,x32,x33,x34 x35,x36,x3
+7,x38,x39,x40 add///input_verywide.dat                                          
+readatt: reading    27 values from each line.                                   
+ 
+Warning readatt:                                                                
+  Number of attributes:    40                                                   
+  is greater than values read from each line:    27                             
+  Line length:       1024 may exceed readable length.                           
+readatt filling attribute:       1  imt1                                        
+readatt filling attribute:       2  xic                                         
+readatt filling attribute:       3  yic                                         
+readatt filling attribute:       4  zic                                         
+readatt adding attribute: x5                                                    
+cmo/addatt/cmo1/x5/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+readatt filling attribute:       5  x5                                          
+readatt adding attribute: x6                                                    
+cmo/addatt/cmo1/x6/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+readatt filling attribute:       6  x6                                          
+readatt adding attribute: x7                                                    
+cmo/addatt/cmo1/x7/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+readatt filling attribute:       7  x7                                          
+readatt adding attribute: int8                                                  
+cmo/addatt/cmo1/int8/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0            
+finish                                                                          
+readatt filling attribute:       8  int8                                        
+readatt adding attribute: x9                                                    
+cmo/addatt/cmo1/x9/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0              
+finish                                                                          
+readatt filling attribute:       9  x9                                          
+readatt adding attribute: x10                                                   
+cmo/addatt/cmo1/x10/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      10  x10                                         
+readatt adding attribute: x11                                                   
+cmo/addatt/cmo1/x11/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      11  x11                                         
+readatt adding attribute: x12                                                   
+cmo/addatt/cmo1/x12/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      12  x12                                         
+readatt adding attribute: x13                                                   
+cmo/addatt/cmo1/x13/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      13  x13                                         
+readatt adding attribute: x14                                                   
+cmo/addatt/cmo1/x14/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      14  x14                                         
+readatt adding attribute: x15                                                   
+cmo/addatt/cmo1/x15/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      15  x15                                         
+readatt adding attribute: x16                                                   
+cmo/addatt/cmo1/x16/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      16  x16                                         
+readatt adding attribute: x17                                                   
+cmo/addatt/cmo1/x17/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      17  x17                                         
+readatt adding attribute: x18                                                   
+cmo/addatt/cmo1/x18/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      18  x18                                         
+readatt adding attribute: x19                                                   
+cmo/addatt/cmo1/x19/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      19  x19                                         
+readatt adding attribute: x20                                                   
+cmo/addatt/cmo1/x20/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      20  x20                                         
+readatt adding attribute: x21                                                   
+cmo/addatt/cmo1/x21/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      21  x21                                         
+readatt adding attribute: x22                                                   
+cmo/addatt/cmo1/x22/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      22  x22                                         
+readatt adding attribute: x23                                                   
+cmo/addatt/cmo1/x23/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      23  x23                                         
+readatt adding attribute: x24                                                   
+cmo/addatt/cmo1/x24/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      24  x24                                         
+readatt adding attribute: x25                                                   
+cmo/addatt/cmo1/x25/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      25  x25                                         
+readatt adding attribute: x26                                                   
+cmo/addatt/cmo1/x26/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      26  x26                                         
+readatt adding attribute: x27                                                   
+cmo/addatt/cmo1/x27/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+finish                                                                          
+readatt filling attribute:      27  x27                                         
+cmo/status/cmo1 brief                                                           
+ 
+The current-mesh-object(CMO) is: cmo1                                           
+ 
+  1 Mesh Object name: cmo1                                                      
+    number of nodes =             3        number of elements =            0    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+readatt added nodes          1 to          3                                    
+File values used:    27 out of    27 from each line.                            
+File values written to    27 out of    40 attributes.                           
+END readatt: reading    27 values from               3 lines.                   
+cmo printatt cmo1 -all-                                                         
+Warning: nelements = 0                                                          
+Attribute: -def-                                                                
+         1  0.00000E+00                                                         
+         2  0.00000E+00                                                         
+         3  0.00000E+00                                                         
+Attribute: scalar                                                               
+         1         1                                                            
+Attribute: vector                                                               
+         1         3                                                            
+Attribute: nnodes                                                               
+         1         3                                                            
+Attribute: nedges                                                               
+         1         0                                                            
+Attribute: nfaces                                                               
+         1         0                                                            
+Attribute: nelements                                                            
+         1         0                                                            
+Attribute: mbndry                                                               
+         1  16000000                                                            
+Attribute: ndimensions_topo                                                     
+         1         3                                                            
+Attribute: ndimensions_geom                                                     
+         1         3                                                            
+Attribute: nodes_per_element                                                    
+         1         4                                                            
+Attribute: edges_per_element                                                    
+         1         6                                                            
+Attribute: faces_per_element                                                    
+         1         4                                                            
+Attribute: isetwd                                                               
+         1  0.00000E+00                                                         
+         2  0.00000E+00                                                         
+         3  0.00000E+00                                                         
+Attribute: ialias                                                               
+         1          0                                                           
+         2          0                                                           
+         3          0                                                           
+Attribute: imt1                                                                 
+         1          1                                                           
+         2          2                                                           
+         3          3                                                           
+Attribute: itp1                                                                 
+         1          0                                                           
+         2          0                                                           
+         3          0                                                           
+Attribute: icr1                                                                 
+         1          0                                                           
+         2          0                                                           
+         3          0                                                           
+Attribute: isn1                                                                 
+         1          0                                                           
+         2          0                                                           
+         3          0                                                           
+Attribute: xic                                                                  
+         1  2.00000E+05                                                         
+         2  1.00000E+05                                                         
+         3  1.00000E+05                                                         
+Attribute: yic                                                                  
+         1  3.00000E+03                                                         
+         2  2.00000E+05                                                         
+         3  2.00000E+05                                                         
+Attribute: zic                                                                  
+         1  4.00000E+05                                                         
+         2  3.00000E+03                                                         
+         3  3.00000E+03                                                         
+ 0 length attribute: xtetwd                                                     
+ 0 length attribute: itetclr                                                    
+ 0 length attribute: itettyp                                                    
+ 0 length attribute: itetoff                                                    
+ 0 length attribute: jtetoff                                                    
+ 0 length attribute: itet                                                       
+ 0 length attribute: jtet                                                       
+Attribute: ipolydat                                                             
+         1yes                                                                   
+Attribute: vor2d                                                                
+         1yes                                                                   
+Attribute: vor3d                                                                
+         1no                                                                    
+Attribute: epsilon                                                              
+         1   1.00000E-15                                                        
+Attribute: epsilonl                                                             
+         1   1.00000E-08                                                        
+Attribute: epsilona                                                             
+         1   1.00000E-08                                                        
+Attribute: epsilonv                                                             
+         1   1.00000E-08                                                        
+Attribute: ipointi                                                              
+         1         1                                                            
+Attribute: ipointj                                                              
+         1         3                                                            
+Attribute: idebug                                                               
+         1         0                                                            
+Attribute: itypconv_sm                                                          
+         1         1                                                            
+Attribute: maxiter_sm                                                           
+         1        25                                                            
+Attribute: tolconv_sm                                                           
+         1   1.00000E+00                                                        
+Attribute: nnfreq                                                               
+         1         1                                                            
+Attribute: ivoronoi                                                             
+         1         1                                                            
+Attribute: iopt2to2                                                             
+         1         2                                                            
+Attribute: dumptype                                                             
+         1binary                                                                
+Attribute: velname                                                              
+         1vels                                                                  
+Attribute: densname                                                             
+         1ric                                                                   
+Attribute: presname                                                             
+         1pic                                                                   
+Attribute: enername                                                             
+         1eic                                                                   
+Attribute: xmin                                                                 
+         1  -1.00000E+00                                                        
+Attribute: ymin                                                                 
+         1  -1.00000E+00                                                        
+Attribute: zmin                                                                 
+         1  -1.00000E+00                                                        
+Attribute: xmax                                                                 
+         1   1.00000E+00                                                        
+Attribute: ymax                                                                 
+         1   1.00000E+00                                                        
+Attribute: zmax                                                                 
+         1   1.00000E+00                                                        
+Attribute: kdtree_level                                                         
+         1         0                                                            
+Attribute: max_number_sets                                                      
+         1        64                                                            
+Attribute: number_of_psets                                                      
+         1         0                                                            
+Attribute: number_of_eltsets                                                    
+         1         0                                                            
+Attribute: psetnames                                                            
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+         6                                                                      
+         7                                                                      
+         8                                                                      
+         9                                                                      
+        10                                                                      
+        11                                                                      
+        12                                                                      
+        13                                                                      
+        14                                                                      
+        15                                                                      
+        16                                                                      
+        17                                                                      
+        18                                                                      
+        19                                                                      
+        20                                                                      
+        21                                                                      
+        22                                                                      
+        23                                                                      
+        24                                                                      
+        25                                                                      
+        26                                                                      
+        27                                                                      
+        28                                                                      
+        29                                                                      
+        30                                                                      
+        31                                                                      
+        32                                                                      
+        33                                                                      
+        34                                                                      
+        35                                                                      
+        36                                                                      
+        37                                                                      
+        38                                                                      
+        39                                                                      
+        40                                                                      
+        41                                                                      
+        42                                                                      
+        43                                                                      
+        44                                                                      
+        45                                                                      
+        46                                                                      
+        47                                                                      
+        48                                                                      
+        49                                                                      
+        50                                                                      
+        51                                                                      
+        52                                                                      
+        53                                                                      
+        54                                                                      
+        55                                                                      
+        56                                                                      
+        57                                                                      
+        58                                                                      
+        59                                                                      
+        60                                                                      
+        61                                                                      
+        62                                                                      
+        63                                                                      
+        64                                                                      
+Attribute: eltsetnames                                                          
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+         6                                                                      
+         7                                                                      
+         8                                                                      
+         9                                                                      
+        10                                                                      
+        11                                                                      
+        12                                                                      
+        13                                                                      
+        14                                                                      
+        15                                                                      
+        16                                                                      
+        17                                                                      
+        18                                                                      
+        19                                                                      
+        20                                                                      
+        21                                                                      
+        22                                                                      
+        23                                                                      
+        24                                                                      
+        25                                                                      
+        26                                                                      
+        27                                                                      
+        28                                                                      
+        29                                                                      
+        30                                                                      
+        31                                                                      
+        32                                                                      
+        33                                                                      
+        34                                                                      
+        35                                                                      
+        36                                                                      
+        37                                                                      
+        38                                                                      
+        39                                                                      
+        40                                                                      
+        41                                                                      
+        42                                                                      
+        43                                                                      
+        44                                                                      
+        45                                                                      
+        46                                                                      
+        47                                                                      
+        48                                                                      
+        49                                                                      
+        50                                                                      
+        51                                                                      
+        52                                                                      
+        53                                                                      
+        54                                                                      
+        55                                                                      
+        56                                                                      
+        57                                                                      
+        58                                                                      
+        59                                                                      
+        60                                                                      
+        61                                                                      
+        62                                                                      
+        63                                                                      
+        64                                                                      
+Attribute: geom_name                                                            
+         1-defaultgeom-                                                         
+         2-defaultgeom-                                                         
+         3-defaultgeom-                                                         
+         4-defaultgeom-                                                         
+         5-defaultgeom-                                                         
+         6-defaultgeom-                                                         
+         7-defaultgeom-                                                         
+         8-defaultgeom-                                                         
+         9-defaultgeom-                                                         
+        10-defaultgeom-                                                         
+        11-defaultgeom-                                                         
+        12-defaultgeom-                                                         
+        13-defaultgeom-                                                         
+        14-defaultgeom-                                                         
+        15-defaultgeom-                                                         
+        16-defaultgeom-                                                         
+        17-defaultgeom-                                                         
+        18-defaultgeom-                                                         
+        19-defaultgeom-                                                         
+        20-defaultgeom-                                                         
+        21-defaultgeom-                                                         
+        22-defaultgeom-                                                         
+        23-defaultgeom-                                                         
+        24-defaultgeom-                                                         
+        25-defaultgeom-                                                         
+        26-defaultgeom-                                                         
+        27-defaultgeom-                                                         
+        28-defaultgeom-                                                         
+        29-defaultgeom-                                                         
+        30-defaultgeom-                                                         
+        31-defaultgeom-                                                         
+        32-defaultgeom-                                                         
+        33-defaultgeom-                                                         
+        34-defaultgeom-                                                         
+        35-defaultgeom-                                                         
+        36-defaultgeom-                                                         
+        37-defaultgeom-                                                         
+        38-defaultgeom-                                                         
+        39-defaultgeom-                                                         
+        40-defaultgeom-                                                         
+        41-defaultgeom-                                                         
+        42-defaultgeom-                                                         
+        43-defaultgeom-                                                         
+        44-defaultgeom-                                                         
+        45-defaultgeom-                                                         
+        46-defaultgeom-                                                         
+        47-defaultgeom-                                                         
+        48-defaultgeom-                                                         
+        49-defaultgeom-                                                         
+        50-defaultgeom-                                                         
+        51-defaultgeom-                                                         
+        52-defaultgeom-                                                         
+        53-defaultgeom-                                                         
+        54-defaultgeom-                                                         
+        55-defaultgeom-                                                         
+        56-defaultgeom-                                                         
+        57-defaultgeom-                                                         
+        58-defaultgeom-                                                         
+        59-defaultgeom-                                                         
+        60-defaultgeom-                                                         
+        61-defaultgeom-                                                         
+        62-defaultgeom-                                                         
+        63-defaultgeom-                                                         
+        64-defaultgeom-                                                         
+Attribute: fsetnames                                                            
+         1                                                                      
+         2                                                                      
+         3                                                                      
+         4                                                                      
+         5                                                                      
+         6                                                                      
+         7                                                                      
+         8                                                                      
+         9                                                                      
+        10                                                                      
+        11                                                                      
+        12                                                                      
+        13                                                                      
+        14                                                                      
+        15                                                                      
+        16                                                                      
+        17                                                                      
+        18                                                                      
+        19                                                                      
+        20                                                                      
+        21                                                                      
+        22                                                                      
+        23                                                                      
+        24                                                                      
+        25                                                                      
+        26                                                                      
+        27                                                                      
+        28                                                                      
+        29                                                                      
+        30                                                                      
+        31                                                                      
+        32                                                                      
+        33                                                                      
+        34                                                                      
+        35                                                                      
+        36                                                                      
+        37                                                                      
+        38                                                                      
+        39                                                                      
+        40                                                                      
+        41                                                                      
+        42                                                                      
+        43                                                                      
+        44                                                                      
+        45                                                                      
+        46                                                                      
+        47                                                                      
+        48                                                                      
+        49                                                                      
+        50                                                                      
+        51                                                                      
+        52                                                                      
+        53                                                                      
+        54                                                                      
+        55                                                                      
+        56                                                                      
+        57                                                                      
+        58                                                                      
+        59                                                                      
+        60                                                                      
+        61                                                                      
+        62                                                                      
+        63                                                                      
+        64                                                                      
+Attribute: number_of_fsets                                                      
+         1         0                                                            
+Attribute: x5                                                                   
+         1  5.00000E+05                                                         
+         2  4.00000E+05                                                         
+         3  4.00000E+05                                                         
+Attribute: x6                                                                   
+         1  6.00000E+03                                                         
+         2  5.00000E+05                                                         
+         3  5.00000E+05                                                         
+Attribute: x7                                                                   
+         1  7.00000E+05                                                         
+         2  6.00000E+03                                                         
+         3  6.00000E+03                                                         
+Attribute: int8                                                                 
+         1  8.00000E+00                                                         
+         2  2.00000E+00                                                         
+         3  3.00000E+00                                                         
+Attribute: x9                                                                   
+         1  9.00000E+05                                                         
+         2  8.00000E+05                                                         
+         3  8.00000E+05                                                         
+Attribute: x10                                                                  
+         1  1.00000E+04                                                         
+         2  9.00000E+05                                                         
+         3  9.00000E+05                                                         
+Attribute: x11                                                                  
+         1  1.10000E+06                                                         
+         2  1.00000E+04                                                         
+         3  1.00000E+04                                                         
+Attribute: x12                                                                  
+         1  1.20000E+06                                                         
+         2  1.10000E+06                                                         
+         3  1.10000E+06                                                         
+Attribute: x13                                                                  
+         1  1.30000E+04                                                         
+         2  1.20000E+06                                                         
+         3  1.20000E+06                                                         
+Attribute: x14                                                                  
+         1  1.40000E+04                                                         
+         2  1.30000E+04                                                         
+         3  1.30000E+04                                                         
+Attribute: x15                                                                  
+         1  1.50000E+01                                                         
+         2  1.40000E+01                                                         
+         3  1.40000E+01                                                         
+Attribute: x16                                                                  
+         1  1.60000E+05                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+Attribute: x17                                                                  
+         1  1.70000E+05                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+Attribute: x18                                                                  
+         1  1.80000E+03                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+Attribute: x19                                                                  
+         1  1.90000E+05                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+Attribute: x20                                                                  
+         1  2.00000E+05                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+Attribute: x21                                                                  
+         1  2.10000E+05                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+Attribute: x22                                                                  
+         1  2.20000E+05                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+Attribute: x23                                                                  
+         1  2.30000E+05                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+Attribute: x24                                                                  
+         1  2.40000E+05                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+Attribute: x25                                                                  
+         1  2.50000E+05                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+Attribute: x26                                                                  
+         1  2.60000E+05                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+Attribute: x27                                                                  
+         1  2.70000E+05                                                         
+         2  1.23457E-05                                                         
+         3  1.23457E+05                                                         
+ 
 finish                                                                          
 LaGriT successfully completed                                                   
