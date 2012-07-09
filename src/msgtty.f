@@ -2448,7 +2448,7 @@ C
          call cmo_get_info('yic',cmo,ipyic,lenyic,icmotype,ierror)
          call cmo_get_info('zic',cmo,ipzic,lenzic,icmotype,ierror)
 C
-c        call dotask('recon2;finish',ierror_return)
+c        call dotask('recon2 ; finish',ierror_return)
 C
 c        if(mod(i,10).eq.0) then
 c        endif

@@ -1,17 +1,28 @@
 =======================================================================
 LaGriT V3.005 
+
 *               *    Program:  LaGriT V3.005   Linux m64      * 
 *               *    date_compile: 2012/04/15  gfort 4.5      *
 
+added option for sort line_graph option for nodes or elements
+added faceset option for dump exodus files
 fixed bugs related to cmo/addatt and cmo/readatt resulting in seg fault
 added error checking to cmo/readatt and stack routines
-fixes and added option for sort line_graph option for nodes, elements, both
 
 updated test/level01 reference files to reflect 64 bit results 
 added test/level01/ ascem_demo001 eltset exodus hybrid_volume
 updated test/level01/*.py to point to non-version 3 python which
         has different syntax for common routines such as print
 
+Version LaGriT V3.005 as of June 2012: 
+   linux 32 and 64 bit (compiled with gfortran 4.5)
+
+Version LaGriT V2.200: 
+   intel maci 32 and 64 bit
+   powerpc mac 32 bit
+   sun solaris 32 bit
+   linux 32 bit (compiled with Absoft)
+   sgi 32 bit
 
 =======================================================================
 LaGriT V3.002 

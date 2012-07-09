@@ -161,7 +161,7 @@ gfortran  -g  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o lagrit_fdate.o 
 
 make MOPT=64 COPT=-g lib
 
-gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_g_gfort4.5.a /home/tam/src/lg_util/src/util_lin64_g_gfort4.5.a -L/home/tam/local/lib -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
+gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_g_gfort4.5.a /home/tam/src/lg_util/lib/util_lin64_g_gfort4.5.a -L/home/tam/local/lib -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
 
 cp mylagrit /home/tam/bin
 

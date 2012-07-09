@@ -193,9 +193,11 @@ C#######################################################################
 C
 C     LOCAL VARIABLE DEFINITION
 C
-      character*32 cmo_name, coption, cmolist, attlist,cmo_sink,cmo_src
-     *   ,geom_name_arg
-      integer len, ierr, lenopt
+      character*32 cmo_name, cmo1,cmo2, coption 
+      character*32 cmolist, attlist,cmo_sink,cmo_src,geom_name_arg
+
+      integer len, ierr, ierr1, ierr2, lenopt, ierrw
+      integer inum1,inum2,inum3,inum4,inum5
 C
       character*132 logmess
 C
@@ -204,16 +206,39 @@ C
       integer icharlnf
 C
 C#######################################################################
+C BEGIN begin
 C
 C
-C
-      coption = cmsgin(2)
-      lenopt=icharlnf(coption)
-      cmo_name = cmsgin(3)
+      ierror_return = 0 
+      cmo_name = '-notset-'
+      coption = '-notset-'
+     
+      if (nwds.ge.2 .and. msgtype(2).eq.3) then
+         coption = cmsgin(2)
+         lenopt=icharlnf(coption)
+      else
+         write(logmess,'(a)')
+     *   ' ERROR CMO: Invalid option, must be character type.'
+         call writloga('default',0,logmess,1,ierr)
+         ierror_return = -1
+         go to 9999
+      endif
+
+      if (nwds.gt.2) then
+         if (msgtype(3).eq.3) then
+            cmo_name = cmsgin(3)
+         endif
+      endif
 
       if(cmo_name(1:icharlnf(cmo_name)) .eq. '-def-')then
         call cmo_get_name(cmo_name,ierr)
+        if(ierr.ne.0) then
+           write(logmess,'(a)') 'CMO found bad mesh object'
+           call writloga('default',0,logmess,0,ierrw)
+           go to 9999
+        endif
       endif
+
 C
 C**** The cmo MAY or MAY NOT exist for these actions. 
 C   DESTROY / mo_name /
@@ -263,10 +288,10 @@ C   SETATT  / mo_name / attribute ifirst ilast istride / / value
        call cmo_exist(cmo_name,ierr)
        if(ierr .ne. 0)then
          write(logmess,'(a)')
-     *   "WARNING: MO DOES NOT EXIST: "//cmo_name
+     *   "Warning: MO DOES NOT EXIST: "//cmo_name
          call writloga('default',0,logmess,0,ierr)
          write(logmess,'(a)')
-     *   "WARNING: NO ACTION: "//coption(1:lenopt)
+     *   "Warning: NO ACTION: "//coption(1:lenopt)
          call writloga('default',0,logmess,0,ierr)
          write(logmess,'(a)')'cmo_command: RETURN'
          call writloga('default',0,logmess,0,ierr)
@@ -288,7 +313,7 @@ C
 C
             ierror_return=-1
             write(logmess,'(a)')
-     *            '    ERROR: Must specify Mesh Object and Attribute. '
+     *  ' ERROR CMO addatt: Must specify Mesh Object and Attribute'
             call writloga('default',0,logmess,0,ierr)
 C
          endif
@@ -313,8 +338,8 @@ C
 C
             ierror_return=-1
             write(logmess,'(a,a)')
-     *            '    ERROR: Must specify Mesh Object and Attribute'
-     *           ,' point or element setand value'
+     *     ' ERROR CMO setatt: Must specify Mesh Object and Attribute'
+     *     ,' point or element set and value'
             call writloga('default',0,logmess,0,ierr)
 C
          endif
@@ -333,8 +358,8 @@ C
 C
             ierror_return=-1
             write(logmess,'(a,a)')
-     *            '    ERROR: Must specify Mesh Object and Attribute'
-     *           ,' point or element set'
+     *   ' ERROR CMO printatt: Must specify Mesh Object and Attribute'
+     *      ,' point or element set'
             call writloga('default',0,logmess,0,ierr)
 C
          endif
@@ -352,8 +377,8 @@ C
 C
             ierror_return=-1
             write(logmess,'(a,a)')
-     *            '    ERROR: Must specify Mesh Object and Attribute'
-     *           ,' point or element set'
+     *   '  ERROR CMO copyatt: Must specify Mesh Object and Attribute'
+     *      ,' point or element set'
             call writloga('default',0,logmess,0,ierr)
 C
          endif
@@ -386,7 +411,7 @@ C
 C
             ierror_return=-1
             write(logmess,'(a)')
-     *            '    ERROR: No Destination Mesh Object defined. '
+     *   ' ERROR CMO copy: No Destination Mesh Object defined'
             call writloga('default',0,logmess,0,ierr)
 C
          endif
@@ -404,7 +429,7 @@ C
 C
             ierror_return=-1
             write(logmess,'(a)')
-     *            '    ERROR: No Mesh Object defined. '
+     *      ' ERROR CMO create: No Mesh Object defined'
             call writloga('default',0,logmess,0,ierr)
 C
          endif
@@ -436,7 +461,7 @@ C
 C
             ierror_return=-1
             write(logmess,'(a)')
-     *            '    ERROR: Must specify Mesh Object and Attribute. '
+     *   ' ERROR CMO delatt: Must specify Mesh Object and Attribute'
             call writloga('default',0,logmess,0,ierr)
 C
          endif
@@ -448,16 +473,32 @@ C
          if(nwds .ge. 3) then
 C
             if(nwds.lt.4) then
-               cmsgin(4)='-cmo-'
+               cmo2 = '-cmo-'
+            elseif (msgtype(4).eq.3) then
+               cmo2 = cmsgin(4)
+            else
+              write(logmess,'(a)')
+     *   ' ERROR CMO derive: need second mesh object.'
+              call writloga('default',0,logmess,0,ierrw)
+              goto 9999
+            endif
+
+            if (msgtype(3).eq.3) then
+               cmo1 = cmsgin(3)
+            else
+              write(logmess,'(a)')
+     *       ' ERROR CMO derive: need first mesh object.'
+              call writloga('default',0,logmess,0,ierrw)
+              goto 9999
             endif
 C
-            call cmo_derive(cmsgin(3),cmsgin(4),ierror_return)
+            call cmo_derive(cmo1,cmo2,ierror_return)
 C
          else
 C
             ierror_return=-1
             write(logmess,'(a)')
-     *            '    ERROR: No Destination Mesh Object defined. '
+     *  ' ERROR CMO derive: No Destination Mesh Object defined.'
             call writloga('default',0,logmess,0,ierr)
 C
          endif
@@ -468,14 +509,33 @@ C
 C....    ATT_DERIVE Option.
 C
          if(nwds .ge. 3) then
+
             if(nwds.lt.4) then
-               cmsgin(4)='-cmo-'
+               cmo2 = '-cmo-'
+            elseif (msgtype(4).eq.3) then
+               cmo2 = cmsgin(4)
+            else
+              write(logmess,'(a)')
+     * ' ERROR CMO attribute_derive: need second mesh object.'
+              call writloga('default',0,logmess,0,ierrw)
+              goto 9999
             endif
-            call cmo_att_derive(cmsgin(3),cmsgin(4),ierror_return)
+
+            if (msgtype(3).eq.3) then
+               cmo1 = cmsgin(3)
+            else
+              write(logmess,'(a)')
+     * ' ERROR CMO attribute_derive: need first mesh object.'
+              call writloga('default',0,logmess,0,ierrw)
+              goto 9999
+            endif
+
+            call cmo_att_derive(cmo1,cmo2,ierror_return)
          else
             ierror_return=-1
-            write(logmess,'(a)')
-     *            '    ERROR: No Destination Mesh Object defined. '
+            write(logmess,'(a,a)')
+     *      ' ERROR CMO attribute_derive: ',
+     *      'No Destination Mesh Object defined.'
             call writloga('default',0,logmess,0,ierr)
          endif
 c
@@ -484,11 +544,39 @@ C
 C....    ATT_UNION Option.
 C
          if(nwds .eq. 4) then
-            call cmo_att_union(cmsgin(3),cmsgin(4),ierror_return)
+
+            if (msgtype(4).eq.3) then
+               cmo2 = cmsgin(4)
+            else
+              write(logmess,'(a,i5)')
+     *   ' ERROR CMO union: invalid type argument 4: ',msgtype(4)
+              call writloga('default',0,logmess,0,ierrw)
+              goto 9999
+            endif
+
+            if (msgtype(3).eq.3) then
+               cmo1 = cmsgin(3)
+            else
+              write(logmess,'(a,i5)')
+     *   ' ERROR CMO union: invalid type argument 3: ',msgtype(3)
+              call writloga('default',0,logmess,0,ierrw)
+              goto 9999
+            endif
+
+C tam -remove - this kind of self call overwrites arguments
+C           call cmo_att_union(cmo1,cmo2,ierror_return)
+
+            call cmo_att_derive(cmo1, cmo2, ierr1)
+            if (ierr1.eq.0) then
+               call cmo_att_derive(cmo2, cmo1, ierr2)
+            endif 
+
+            if (ierr1.ne.0 .or. ierr2.ne.0) ierror_return = -1
+
          else
             ierror_return=-1
             write(logmess,'(a)')
-     *            '    ERROR: Need two mesh objects for att_union. '
+     *      ' ERROR CMO union: Need two mesh objects defined. '
             call writloga('default',0,logmess,0,ierr)
          endif
 C
@@ -536,14 +624,18 @@ C
          endif
 C
          if(nwds.lt.4) then
-            imsgin(4)=1
+            inum4=1
+         else
+            inum4 = imsgin(4)
          endif
 C
          if(nwds.lt.5) then
-            imsgin(5)=1
+            inum5=1
+         else
+            inum5= imsgin(5)
          endif
 C
-         call cmo_memory(cmolist,imsgin(4),imsgin(5),ierror_return)
+         call cmo_memory(cmolist,inum4,inum5,ierror_return)
 C
       elseif(coption(1:lenopt).eq.'modatt') then
 C
@@ -558,8 +650,8 @@ C
 C
             ierror_return=-1
             write(logmess,'(a,a)')
-     *            '    ERROR: Must specify Mesh Object, Attribute,',
-     *            ' Field, and the new Field.'
+     *     ' ERROR CMO modatt: Must specify Mesh Object, Attribute,',
+     *     ' Field, and the new Field.'
             call writloga('default',0,logmess,0,ierr)
 C
          endif
@@ -569,18 +661,34 @@ C
 C....    MOVE Option.
 C
          if(nwds .ge. 3) then
-C
-            if(nwds.lt.4) then
-               cmsgin(4)='-cmo-'
+
+           if(nwds.lt.4) then
+               cmo2 = '-cmo-'
+            elseif (msgtype(4).eq.3) then
+               cmo2 = cmsgin(4)
+            else
+              write(logmess,'(a)')
+     *     ' ERROR CMO move: invalid type argument 4'
+              call writloga('default',0,logmess,0,ierrw)
+              goto 9999
+            endif
+
+            if (msgtype(3).eq.3) then
+               cmo1 = cmsgin(3)
+            else
+              write(logmess,'(a)')
+     *     ' ERROR CMO move: invalid type argument 3'
+              call writloga('default',0,logmess,0,ierrw)
+              goto 9999
             endif
 C
-            call cmo_move(cmsgin(3),cmsgin(4),ierror_return)
+            call cmo_move(cmo1,cmo2,ierror_return)
 C
          else
 C
             ierror_return=-1
             write(logmess,'(a)')
-     *            '    ERROR: No Destination Mesh Object defined. '
+     *      ' ERROR CMO move: No Destination Mesh Object defined. '
             call writloga('default',0,logmess,0,ierr)
 C
          endif
@@ -611,12 +719,13 @@ C
  
          if(nwds.ge.4) then
             if(msgtype(4).eq.3 .and. cmsgin(4).ne.'-def-') then
-               call cmo_recolor(cmo_name,cmsgin(4),ierror_return)
+               cmo2 = cmsgin(4)
             else
-               call cmo_recolor(cmo_name,'save',ierror_return)
+               cmo2='save'
             endif
-         else
-            call cmo_recolor(cmo_name,'save',ierror_return)
+
+            call cmo_recolor(cmo_name,cmo2,ierror_return)
+
          endif
  
 C
@@ -628,13 +737,15 @@ C....    RELEASE Option.
 C
          if(nwds.ge.3) then
 C
+            ierror_return = 0
             call cmo_release(cmo_name,ierror_return)
 C
          else
 C
             ierror_return=-1
-            write(logmess,'(a)')
-     *            '    ERROR: No Mesh Object defined. '
+            write(logmess,'(a,a,a)')
+     *   ' ERROR CMO ',coption(1:lenopt),
+     *   ': No Mesh Object defined. '
             call writloga('default',0,logmess,0,ierr)
 C
          endif
@@ -765,7 +876,7 @@ C
          call cmo_verify(cmolist,ierror_return)
 C
          if (ierror_return.eq.0) then
-            write(logmess,'(a)') 'Mesh Object is OK '
+            write(logmess,'(a)') 'CMO Mesh Object is OK '
             call writloga('default',0,logmess,0,ierr)
          endif
 C
@@ -775,17 +886,19 @@ C
 C....    Illegal Option.
 C
          ierror_return=-1
-         write(logmess,'(a,a,a)') 'Illegal CMO_COMMAND option'
-     *           ,coption(1:lenopt), '.'
+         write(logmess,'(a,a)') 
+     *   'ERROR CMO: invalid option: '
+     *           ,coption(1:lenopt)
          call writloga('default',0,logmess,0,ierr)
 C
       endif
 C
-      if(ierror_return.gt.0) then
-         write(logmess,9100) coption,cmo_name
-         call writloga('default',0,logmess,0,ierr)
- 9100    format('cmo_command error: ',2a32)
+ 9999 if(ierror_return.ne.0) then
+         write(logmess,'(a,a,2x,a,2x,i5)') 
+     *   ' ERROR CMO: ',coption(1:icharlnf(coption)),
+     *   cmo_name(1:icharlnf(cmo_name)),ierror_return
+         call writloga('default',0,logmess,1,ierr)
       endif
-C
+     
       return
       end

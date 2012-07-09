@@ -107,6 +107,7 @@ C
 C#######################################################################
 C
       len=icharlnf(cmo_name)
+      ierror_return = 0
 C
       if((cmo_name(1:len).eq.'-cmo-') .or.
      *   (cmo_name(1:len).eq.'-def-')) then
@@ -118,22 +119,26 @@ C
       endif
 C
 C.... Check to see if the Mesh Object exists.
+C     NOTE: This is not an error, just return
 C
       call cmo_exist(cmo_name,icscode)
 C
       if(icscode.ne.0) then
 C
-         ierror_return=-1
-C
-         write(logmess,'(a,a)') 'Mesh Object does not exist: ', cmo_name
+         ierror_return=0
+         write(logmess,'(a,a)') 
+     *   'Mesh Object release skipped, ' //
+     *   'it does not exist: ',
+     *     cmo_name(1:icharlnf(cmo_name))
          call writloga('default',0,logmess,0,ierr)
 C
       else
 C
          ierror_return=0
 C
-         write(logmess,'(a,a)') '     Released Mesh Object: ', cmo_name
-            call writloga('default',0,logmess,0,ierr)
+         write(logmess,'(a,a)') '     Released Mesh Object: ', 
+     *     cmo_name(1:icharlnf(cmo_name))
+           call writloga('default',0,logmess,0,ierr)
 C
 C....    Delete the entry from the Mesh Object data structures.
 C

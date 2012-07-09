@@ -24,7 +24,7 @@ c     data os_name      /'Linux64 '/
       data os_name      /'Linux32 '/
 
 c     data date_compile /'2011/08/01  Absoft 11 '/
-      data date_compile /'2012/06/15  gfort 4.5 '/
+      data date_compile /'2012/06/29  gfort 4.5 '/
 c
       integer         NCall
       save            NCall

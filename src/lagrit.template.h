@@ -1,9 +1,9 @@
 c
 c----------------------------------------------------------------
-c lagrit.h for SGI IRIX with 32 bit
+c lagrit.h for linux with 32 bit
 c
 c This is a template for the lagrit program banner
-c Substitute the TAG strings with Date and Linux, Darwin, SunOS, or IRIX
+c Substitute the TAG strings with Date and Linux, Darwin etc
 c Compile library with updated lagrit.h used in writinit()
 c This template is preserved in lagrit.template.h
 c
@@ -11,7 +11,7 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=3)
-      parameter      (v_minor=002)
+      parameter      (v_minor=005)
 c
       character*22   date_compile
       character*8    os_name
@@ -20,7 +20,7 @@ c
       data my_name      /'lagritgen'/
       data os_name      /'OSTAG   '/
       data date_compile /'DATETAG               '/
-      data date_compile /'2011/09/09            '/
+      data date_compile /'2012/06/29            '/
 c
       integer         NCall
       save            NCall
