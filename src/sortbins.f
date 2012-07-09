@@ -238,7 +238,7 @@ c     Get default mesh object if -def-
          call cmo_get_name(cmonam, ier)
          if(ier.ne.0) then
            write(logmess,9000) cmsgin(2)(1:icharlnf(cmsgin(2)))
- 9000   format(" SORT: CMO found bad mesh object: ",a)
+ 9000   format(" ERROR SORT: found bad mesh object: ",a)
            call writloga('default',0,logmess,0,ier)
            goto 9999
          endif
@@ -249,7 +249,7 @@ C     Check that cmonam is a valid mesh object
       call cmo_exist(cmonam,ier)
       if(ier.ne.0) then
         write(logmess,*)
-     *  ' SORT: ERROR: mesh object does not exist: '
+     *  ' ERROR SORT: mesh object does not exist: '
      *   //cmonam(1:icharlnf(cmonam))
         call writloga('default',0,logmess,1,ierr)
         goto 9999
@@ -258,7 +258,7 @@ C     Check that cmonam is a valid mesh object
       call cmo_get_intinfo('nnodes',cmonam,nnodes,ilen,itype,ier)
       if(ier .ne. 0) then
         write(logmess,9005) cmonam(1:icharlnf(cmonam))
- 9005   format(" SORT: ERROR looking for nnodes of mesh object: ",a)
+ 9005  format(" ERROR SORT: looking for nnodes of mesh object: ",a)
         call writloga('default',0,logmess,0,ier)
         goto 9999
       endif
@@ -268,13 +268,13 @@ C     Check that mesh object has elements
       call cmo_get_intinfo('nelements',cmonam,nelem,ilen,itype,ier)
       if(ier .ne. 0)then
         write(logmess,9006) cmonam(1:icharlnf(cmonam))
- 9006   format(" SORT: ERROR looking for nelements of mesh object: ",a)
+ 9006  format(" ERROR SORT: looking for nelements of mesh object: ",a)
         call writloga('default',0,logmess,1,ier)
         goto 9999
       endif
       if (nelem .eq. 0) then
          write(logmess, '(a)')
-     *   ' SORT: ERROR mesh object has 0 elements.'
+     *   ' ERROR SORT: mesh object has 0 elements.'
          call writloga('default',0,logmess,1,ier)
          goto 9999
       endif
@@ -304,10 +304,10 @@ C        TOKEN 7 for bins - user specified epsilon
               epsilon_user = xmsgin(7)
            else
               write(logmess,9008) msgtyp(7)
- 9008         format(" SORT: Arg(7) epsilon_user not float: ",i2)
+ 9008       format(" Warning SORT: Arg 7 epsilon_user not float: ",i2)
               call writloga('default',0,logmess,0,ier)
-              write(logmess,9009)
- 9009         format(" SORT: Arg(7) Using default = 1.e-10 ")
+              write(logmess,'(a)')
+     *        " SORT: Using default epsilon = 1.e-10 "
               call writloga('default',0,logmess,0,ier)
            endif
          endif
@@ -322,7 +322,7 @@ C     isort_type line_graph
 
          if (nwds .gt. 6) then
            write(logmess,'(a)')
-     *      ' SORT: ERROR - Too many arguments for line_graph option'
+     *      ' ERROR SORT: Too many arguments for line_graph option'
            call writloga('default',0,logmess,1,ier)
            goto 9999
          endif
@@ -331,7 +331,7 @@ C     isort_type line_graph
 C       TOKEN 3 has not been recognized
 
         write(logmess,9010) cmsgin(3)(1:icharlnf(cmsgin(3)))
- 9010   format(" SORT: ERROR invalid option 3 : ",a)
+ 9010   format(" ERROR SORT: invalid option 3 : ",a)
         call writloga('default',0,logmess,0,ier)
         write(logmess,9015)
  9015   format
@@ -365,9 +365,12 @@ C
         rsort_order = -1.0d0
 
       else
-        write(logmess,9018) cmsgin(4)(1:icharlnf(cmsgin(4)))
- 9018   format(" SORT: ERROR invalid option 4: ",a,
-     *  " Use: ascending or descending")
+        write(logmess,'(a,a)')
+     *  " ERROR SORT: invalid option 4: ",
+     *    cmsgin(4)(1:icharlnf(cmsgin(4)))
+        call writloga('default',0,logmess,0,ier)
+        write(logmess,'(a)') 
+     *  " SORT: option should be ascending or descending"
         call writloga('default',0,logmess,1,ier)
         goto 9999
       endif
@@ -413,7 +416,7 @@ C     note, we use lg_sort_type, but may be able to just use nsort_clen
 
         if (nwds .gt. 6) then
            write(logmess,'(a)')
-     *      ' SORT: ERROR - Too many arguments for line_graph option'
+     *      ' SORT ERROR: Too many arguments for line_graph option'
            call writloga('default',0,logmess,1,ier)
            goto 9999
 
@@ -443,7 +446,7 @@ C        check for valid cmo and set attribute name
          if (lg_sort_type(1:4) .eq. 'node') then
             if (nnodes .eq. 0) then
                 write(logmess, '(a)')
-     *          ' SORT: Quitting early because there are 0 nodes.'
+     *      ' ERROR SORT: Quitting early because there are 0 nodes.'
                 call writloga('default',0,logmess,0,ier)
                 goto 9999
              endif
@@ -456,7 +459,7 @@ C        check for valid cmo and set attribute name
          else
             if (nelem .eq. 0) then
                write(logmess, '(a)')
-     *         ' SORT: Quitting early because there are 0 elements.'
+     *    ' ERROR SORT: Quitting early because there are 0 elements.'
                call writloga('default',0,logmess,0,ier)
                goto 9999
              endif
@@ -504,12 +507,12 @@ C
          nsort_clen = clen
 
          if(nsort .le. 0)then
-           write(logmess, '(a,a,a,a)') " SORT: ERROR attribute: "
+          write(logmess, '(a,a,a,a)') " ERROR SORT: attribute: "
      *     ,catt_name(1:icharlnf(catt_name))
      *     ," of length ", clen
            call writloga('default',0,logmess,0,ier)
            write(logmess,9027) nsort
- 9027      format(" SORT: ERROR nsort = ",i11)
+ 9027     format(" ERROR SORT: nsort = ",i11)
            call writloga('default',0,logmess,1,ier)
            goto 9999
          endif
@@ -522,7 +525,7 @@ C
          call mmgetblk('rwork',isubname,iprwork,nsize,2,ier)
          if(ier .ne. 0)then
            write(logmess, '(a,a,a,i11)') 
-     *     " SORT: ERROR allocating work array: rwork for option "
+     *     " ERROR SORT: allocating work array: rwork for option "
      *     ,isort_type(1:icharlnf(isort_type))
      *     ," of size ",nsize
            call writloga('default',0,logmess,1,ier)
@@ -545,7 +548,7 @@ C
  
          if(ilen .ne. nsort)then
            write(logmess,9026) ilen
- 9026      format(" SORT: ERROR att_in length = ",i11)
+ 9026      format(" ERROR SORT: att_in length = ",i11)
            call writloga('default',0,logmess,0,ier)
            write(logmess,9027) nsort
            call writloga('default',0,logmess,1,ier)
@@ -581,7 +584,7 @@ C
                enddo
             else
                write(logmess,9028) ctype(1:icharlnf(ctype))
- 9028          format(" SORT: ERROR attribute type=",a,
+ 9028          format(" ERROR SORT: attribute type=",a,
      *            " Must be VINT or VDOUBLE")
                call writloga('default',0,logmess,1,ier)
                goto 9999
@@ -665,7 +668,7 @@ C     this is an extra check, nsort should be correctly set
 C     to nnodes or nelements by this point
       if ( (nsort.ne.ilen) .or. (ier.ne.0) ) then
            write(logmess,'(a,a5,i11,a,a)')
-     *      " SORT: ERROR invalid length  ",
+     *      " ERROR SORT: invalid length  ",
      *      nsort_clen(1:4), nsort,
      *      " for attribute: ", key_name
            call writloga('default',0,logmess,1,ier)
@@ -675,7 +678,7 @@ C     to nnodes or nelements by this point
       call mmgetblk('iwork',isubname,ipiwork,nsort,1,ier)
       if (ier.ne.0 .or. nsort.eq.0) then 
           write(logmess,9030) nsort
- 9030     format(" SORT: ERROR work array allocation length = ",i11)
+ 9030   format(" ERROR SORT: work array allocation length = ",i11)
           call writloga('default',0,logmess,1,ier)
           goto 9999
       else
@@ -717,7 +720,7 @@ C
          do i = 1, ilen
             if (itettyp(i) .ne. ifelmlin) then
                write(logmess, *)
-     *         'SORT: ERROR - itet must consist only of line segments.'
+     *    ' ERROR SORT: line_graph elements must be of type line.'
                call writloga('default',0,logmess,0,ier)
                ier = 1
                goto 9999
@@ -785,7 +788,7 @@ C######################################################################
 C
 
         write(logmess,'(a,a)')
-     *  " SORT: new order written to sort key attribute: ",
+     *  " SORT: order key written to attribute: ",
      *  key_name(1:icharlnf(key_name))
         call writloga('default',0,logmess,1,ier)
 
@@ -836,7 +839,7 @@ C
             isort_type = 'rank'
       else
         write(logmess,9010) cmsgin(3)(1:icharlnf(cmsgin(3)))
- 9010   format(" SORT: Invalid option: ",a)
+ 9010   format(" SORT ERROR: Invalid option: ",a)
         call writloga('default',0,logmess,0,ier)
         write(logmess,9015)
  9015   format
