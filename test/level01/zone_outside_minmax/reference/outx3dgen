@@ -3,8 +3,8 @@
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.005   Linux m64      *                 
-*               *    date_compile: 2012/06/15  gfort 4.5      *                 
-*               *    Run Time: 2012/Jun 26  16:13:51          *                 
+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
+*               *    Run Time: 2012/Jul  9  08:00:35          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -68,19 +68,19 @@ sort/xyz/bins
 sort/-def-/bins/ascending/i_index/xic                                           
 cmo/addatt/cmo1/i_index/vint/scalar/nnodes///gax/0                              
 finish                                                                          
- SORT: new order written to sort key attribute: i_index                         
+ SORT: order key written to attribute: i_index                                  
  
 finish                                                                          
 sort/-def-/bins/ascending/j_index/yic                                           
 cmo/addatt/cmo1/j_index/vint/scalar/nnodes///gax/0                              
 finish                                                                          
- SORT: new order written to sort key attribute: j_index                         
+ SORT: order key written to attribute: j_index                                  
  
 finish                                                                          
 sort/-def-/bins/ascending/k_index/zic                                           
 cmo/addatt/cmo1/k_index/vint/scalar/nnodes///gax/0                              
 finish                                                                          
- SORT: new order written to sort key attribute: k_index                         
+ SORT: order key written to attribute: k_index                                  
  
 finish                                                                          
 finish                                                                          
@@ -139,7 +139,7 @@ finish
 sort/-def-/index/-def-/ikey_tmp/numbnd                                          
 cmo/addatt/cmo1/ikey_tmp/vint/scalar/nnodes///gax/0                             
 finish                                                                          
- SORT: new order written to sort key attribute: ikey_tmp                        
+ SORT: order key written to attribute: ikey_tmp                                 
  
 finish                                                                          
  
@@ -196,19 +196,19 @@ sort/xyz/bins
 sort/-def-/bins/ascending/i_index/xic                                           
 cmo/addatt/cmo1/i_index/vint/scalar/nnodes///gax/0                              
 finish                                                                          
- SORT: new order written to sort key attribute: i_index                         
+ SORT: order key written to attribute: i_index                                  
  
 finish                                                                          
 sort/-def-/bins/ascending/j_index/yic                                           
 cmo/addatt/cmo1/j_index/vint/scalar/nnodes///gax/0                              
 finish                                                                          
- SORT: new order written to sort key attribute: j_index                         
+ SORT: order key written to attribute: j_index                                  
  
 finish                                                                          
 sort/-def-/bins/ascending/k_index/zic                                           
 cmo/addatt/cmo1/k_index/vint/scalar/nnodes///gax/0                              
 finish                                                                          
- SORT: new order written to sort key attribute: k_index                         
+ SORT: order key written to attribute: k_index                                  
  
 finish                                                                          
 finish                                                                          
@@ -267,7 +267,7 @@ finish
 sort/-def-/index/-def-/ikey_tmp/numbnd                                          
 cmo/addatt/cmo1/ikey_tmp/vint/scalar/nnodes///gax/0                             
 finish                                                                          
- SORT: new order written to sort key attribute: ikey_tmp                        
+ SORT: order key written to attribute: ikey_tmp                                 
  
 finish                                                                          
  
