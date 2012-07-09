@@ -17,6 +17,7 @@ C     NOTES -
 C
 C      Syntax for this command:
 C      compute / linear_transform / main_mesh / surface_mesh / [ direction / node attribute ]
+C      old option was called linear_extrapolate
 C      
 C      "node attribute" must exist in both the surface and the main
 C      meshes before beginning. If a node attribute is not
@@ -95,29 +96,32 @@ C     arguments 3, 4, 5, 6
 C
       if(nwds < 4 .or. nwds > 6) then
          write(logmess,'(a)')
-     &    'ERROR lin_trans: Wrong number of arguments.'
+     &    'ERROR COMPUTE linear_transform: Wrong number of arguments.'
          call writloga('default',0,logmess,0,ierror)
          ierror = -2
          goto 9999
       endif
       if(msgtype(3) .ne. 3) then
-         write(logmess,'(a)')
-     &    'ERROR lin_trans: Argument 3 must be of type character.'
+         write(logmess,'(a,a)')
+     &    'ERROR COMPUTE linear_transform: ',
+     &    'Argument 3 must be of type character.'
          call writloga('default',0,logmess,0,ierror)
          ierror = -2
          goto 9999
       endif
       if(msgtype(4) .ne. 3) then
-         write(logmess,'(a)')
-     &    'ERROR lin_trans: Argument 4 must be of type character.'
+         write(logmess,'(a,a)')
+     &    'ERROR COMPUTE linear_transform: ',
+     &    ' Argument 4 must be of type character.'
          call writloga('default',0,logmess,0,ierror)
          ierror = -2
          goto 9999
       endif
       if (nwds .ge. 5) then
           if(msgtype(5) .ne. 3) then
-             write(logmess,'(a)')
-     &     'ERROR lin_trans: Argument 5 must be of type character.'
+             write(logmess,'(a,a)')
+     &     'ERROR COMPUTE linear_transform: ',
+     &      'Argument 5 must be of type character.'
              call writloga('default',0,logmess,0,ierror)
              ierror = -2
              goto 9999
@@ -125,8 +129,9 @@ C
       endif
       if (nwds .eq. 6) then
           if(msgtype(6) .ne. 3) then
-             write(logmess,'(a)')
-     &     'ERROR lin_trans: Argument 6 must be of type character.'
+             write(logmess,'(a,a)')
+     &     'ERROR COMPUTE linear_transform: ',
+     &     'Argument 6 must be of type character.'
              call writloga('default',0,logmess,0,ierror)
              ierror = -2
              goto 9999
@@ -638,19 +643,19 @@ C     call dotask(cmd, ierror)
           call dotask(cmd,ierror)
       endif
 
-      cmd = 'cmo/release/main_mo_lin_ext_tmp; finish'
+      cmd = 'cmo/release/main_mo_lin_ext_tmp ; finish'
       call dotask(cmd, ierror)
  
-      cmd = 'cmo/release/surf_mo_lin_ext_tmp; finish'
+      cmd = 'cmo/release/surf_mo_lin_ext_tmp ; finish'
       call dotask(cmd, ierror)
  
-      cmd = 'cmo/release/hull_mo_lin_ext_tmp; finish'
+      cmd = 'cmo/release/hull_mo_lin_ext_tmp ; finish'
       call dotask(cmd, ierror)
  
-      cmd = 'cmo/release/top_mo_lin_ext_tmp; finish'
+      cmd = 'cmo/release/top_mo_lin_ext_tmp ; finish'
       call dotask(cmd, ierror)
  
-      cmd = 'cmo/release/bot_mo_lin_ext_tmp; finish'
+      cmd = 'cmo/release/bot_mo_lin_ext_tmp ; finish'
       call dotask(cmd, ierror)
  
 C
