@@ -71,7 +71,9 @@ C#######################################################################
 C
       implicit none
       include 'commands_lg.h'
-      integer ierror,icscode,nwds,jname,istrt,iend,i,nloop
+      integer ierror
+
+      integer icscode,nwds,jname,istrt,iend,i,nloop
       integer imsgout(maxcmd_args),msgtype(maxcmd_args),icharlnf,
      *  len1,len2,j,k,imatch,nremove,ioff,iunit
       real*8 xmsgout(maxcmd_args)
@@ -125,13 +127,14 @@ c
          go to 100
       endif
 c process finish command
-      if(command(1:len_cmd).eq.'finish') then
+      if(command(1:6).eq.'finish') then
 
          if( clevels(nlevels).ne.'interactive_lg'.and.
      *       clevels(nlevels).ne.'internal_lg') then
            close(jlevels(nlevels))
          endif
          nlevels=nlevels-1
+
          if(nlevels.eq.0) then
            write(error_msg,9001)
  9001      format ('LaGriT successfully completed')
@@ -245,6 +248,7 @@ c  expand definitions if found
 c
 c  go to msgtty to process other commands
 c
+         ierror = 0
          call msgtty(imsgout,msgtype,xmsgout,cmsgout,nwds,ierror)
          if (ierror.ne.0) then
               ierror=1
