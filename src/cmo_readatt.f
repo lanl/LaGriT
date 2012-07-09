@@ -6,16 +6,30 @@ C#######################################################################
 C
 C      PURPOSE -
 C
-C         Reads cmo attributes from a file
+C      Reads cmo attributes from a file
+C      Assume record style format with the same number of values per line
+C      There can be fewer attributes written than number of values
+C      The first values are used, the rest are not
+C      If there are more attributes listed than there are values
+C      then only the first nwords number of attributes are filled
+C
+C      Note: the parser has a limited length which is near 25 words
+C      
 C  cmo/readatt/cmo_name/attr1/attr2/.../pset,get,pset_name/file_name
 C  cmo/readatt/cmo_name/attr1/attr2/.../add///file_name
-c         if attr1, attr2 do not exist VDOUBLE attributes are
-C         created.
-C         if 'add' is specified then new nodes are added to the cmo
-C         if a pset is given, the specified nodes are modified
 C
-C         Lines of an input file that have # in the first column or that do not
-C         have a real or integer as their first word are skipped.
+C     if attr1, attr2 do not exist VDOUBLE attributes are created.
+C     if 'add' is specified then new nodes are added to the cmo
+C     if a pset is given, the specified nodes are modified
+C
+C     Lines of an input file that have # in the first column or that do not
+C     have a real or integer as their first word are skipped.
+C
+C     each line is parsed and number of values saved in nwords
+C     number of attributes to write to is num_att
+C     num_att can be less than nwords
+C     the number of attributes written to can not be more than nwords
+C     number of valid attributes written to is itotal
 C
 C      INPUT ARGUMENTS -
 C
@@ -48,15 +62,23 @@ C
 C#######################################################################
 C
       implicit none
-      integer ierror_return,icount,length,l,icscode,lenfile,
-     *   i,j,ilen,itype,ierror,nvalues,lenout,iunit,npointsnew,
-     *   npoints,istart,ityp,ipt1,ipt2,ipt3,mpno
-C
+C 
 C#######################################################################
-C
       integer nwds, imsgin(nwds), msgtype(nwds)
       REAL*8 xmsgin(nwds)
-      character*32 cmsgin(nwds),ich1,ich2,ich3
+      character*32 cmsgin(nwds)
+      integer ierror_return
+
+      integer nline, length,l,icscode,lenfile,
+     *   i,j,ilen,itype,ierror,nwords,lenout,iunit,npointsnew,
+     *   npoints,istart,ityp,ipt1,ipt2,ipt3,mpno
+      integer itotal, num_write 
+
+C     NOTE: 128 length is defined in getcmds.f of lg_util code.
+      integer NW_LENGTH
+      PARAMETER (NW_LENGTH = 128)
+C
+      character*32 ich1,ich2,ich3
 C
 C#######################################################################
 C
@@ -73,12 +95,13 @@ C
 
 C     these message arrays are used to hold values from
 C     each line as read from the input data file
-      integer lenparse, nwds2
-      integer      msgt(128)
-      real*8       xmsg(128)
-      integer      imsg(128)
-      character*32 cmsg(128)
-      character*32 att_list(128)
+      integer lenparse, nwds2, limin, limax
+
+      integer      msgt(NW_LENGTH)
+      real*8       xmsg(NW_LENGTH)
+      integer      imsg(NW_LENGTH)
+      character*32 cmsg(NW_LENGTH)
+      character*32 att_list(NW_LENGTH)
 C
 C#######################################################################
 C
@@ -108,6 +131,8 @@ C
 C     Define the subroutine name for memory management and errors.
 C
       ierror_return = 0
+      itotal = 0
+      num_write = 0
       cglobal='global'
       cdefault='default'
       isubname='cmo_readatt'
@@ -160,7 +185,7 @@ C
       if(ierror.eq.0) then
          write(logmess,9000) ifile(1:lenfile)
  9000    format('The file, ',a,', does not exist.')
-         call writloga('default',1,logmess,0,ierror)
+         call writloga('default',0,logmess,0,ierror)
          ierror_return = -1
          goto 9999
       endif
@@ -175,17 +200,14 @@ C
       if (ierror.ne.0 .or. iunit.lt.0) then
          write(logmess,*) 'hassign bad file no for '
      &         //ifile(1:lenfile)
-         call writloga('default',1,logmess,0,icscode)
+         call writloga('default',0,logmess,0,icscode)
          ierror_return = -1
          goto 9999
       endif
 
-C
-      icount=0
 C     TAM - commented out this strange assignment
-C     nvalues=nwds-7
-      nvalues=0
-C
+C     nwords=nwds-7
+ 
 C     temp array to hold values
 C
       length=500000
@@ -193,13 +215,17 @@ C
       if (icscode.ne.0 ) then
          write(logmess,'(a,i5,a,i15)') 'mmgetblk fail: ',icscode 
      &        ,' with length: ',length 
-         call writloga('default',1,logmess,1,icscode)
+         call writloga('default',0,logmess,0,icscode)
          ierror_return = -2 
          goto 9999
       endif
 
- 100  continue
 C     READ FILE LINES
+      nwords=0
+      nline=0
+      limin = 0
+      limax = 0
+ 100  continue
       read(iunit,'(a)',end=110) fline
 
 C     Check for comment lines '#' or lines that do not have either an
@@ -210,57 +236,83 @@ C     as those found in the header of a TecPlot style file.
       if (fline(1:1).ne.'#') then 
 
         lenparse = len(fline)
+        if (nline == 0) then
+           limin = lenparse 
+           limax = lenparse 
+        endif
 
+        if (lenparse .le. 0) then
+
+        write(logmess,'(a,i10)')
+     *    "readatt: found 0 line length line number: ",nline+1 
+        call writloga('default',0,logmess,0,icscode)
+        write(logmess,'(a,i10)') 
+
+        else
+
+        if (lenparse.gt.0 .and. lenparse.lt.limin) limin = lenparse
+        if (lenparse.gt.0 .and. lenparse.gt.limax) limax = lenparse
+
+C       parse the line
         call parse_string2(lenparse,fline(1:lenparse),
-     &    imsg,msgt,xmsg,cmsg,nwds2)
+     &      imsg,msgt,xmsg,cmsg,nwds2)
 
-        if (icount .eq. 0) then
-          write(logmess,'(a,i5,a)')'readatt reading ',nwds2,
+        if (nline .eq. 0) then
+          write(logmess,'(a,i5,a)')'readatt: reading ',nwds2,
      &    ' values from each line.'
           call writloga('default',0,logmess,0,icscode)
+          nwords = nwds2
+
         else
-          if (nwds2 .ne. nvalues) then
-          write(logmess,'(a,i5,a,i5)') 'ERROR: read found '
-     &      ,nwds2,' values but expected ',nvalues
-          call writloga('default',1,logmess,1,icscode)
-          ierror_return = -2
-          goto 9999
+C         return with error 
+C         xvalues expects the same number of values per line
+          if (nwds2 .ne. nwords) then
+            write(logmess,'(a,i5,a,i5,a,i5)') 'ERROR line: ',
+     &      nline+1,' found '
+     &      ,nwds2,' values but expected ',nwords
+            call writloga('default',0,logmess,0,icscode)
+            ierror_return = -2
+            goto 9999
           endif
         endif
-        nvalues = nwds2
 
         if (msgt(1).eq.1 .or. msgt(1) .eq.2) then
-          icount=icount+1
+          nline=nline+1
 
 c         if needed, re-allocate for more values
-          if(icount*nvalues.gt.length) then
+          if(nline*nwords.gt.length) then
             l=max(int(0.5*length), 500000)
 
             call mmincblk('xvalues',isubname,ipxvalues,l,icscode)
             if (icscode.ne.0 ) then
              write(logmess,'(a,i5,a,i15)') 'mmincblk fail: ',icscode
      &       ,' with length: ',l
-              call writloga('default',1,logmess,1,icscode)
+              call writloga('default',0,logmess,0,icscode)
               ierror_return = -2
               goto 9999
             endif
             length=length+l
           endif
-          read(fline,*) (xvalues(nvalues*(icount-1)+i),i=1,nvalues)
+          read(fline,*) (xvalues(nwords*(nline-1)+i),i=1,nwords)
 
          else
 
            write(logmess,'(a,i5)')
      *       "ERROR: read found unallowed type: ",msgt(1) 
-           call writloga('default',1,logmess,0,icscode)
+           call writloga('default',0,logmess,0,icscode)
            write(logmess,'(a,i10)') 
-     *     'ERROR character string at line ',icount+1
+     *     'ERROR character string at line ',nline+1
            call writloga('default',0,logmess,0,icscode)
            print*,"ERROR: string: [",cmsg(1),"]"
            print*," "
            ierror_return = -2
            goto 9999
+
          endif
+C        end if valid type
+
+       endif
+C      end if lenparse gt 0
 
       endif
       goto 100
@@ -269,13 +321,33 @@ C     DONE READ FILE LINES
  
       close(iunit)
 
-      if (icount .le. 0) then
-         write(logmess,'(a,a,i15)') 'ERROR: read failed: ', 
-     &      ' number of lines read from file: ',icount 
-         call writloga('default',1,logmess,1,icscode)
-         ierror_return = -2
-         goto 9999
+C     report inconsistancies that may have caused read problems
+
+      if (num_att .gt. nwords) then
+         write(logmess,'(a)') 'Warning readatt:'
+         call writloga('default',1,logmess,0,icscode)
+         write(logmess,'(a,i5)') 
+     &   '  Number of attributes: ',  num_att
+         call writloga('default',0,logmess,0,icscode)
+         write(logmess,'(a,i5)') 
+     &   '  is greater than values read from each line: ',nwords 
+         call writloga('default',0,logmess,0,icscode)
+
+         if (limax.ne.limin) then
+           write(logmess,'(a,i10,a,i10)')
+     &     '  Line lengths differ, min: ',limin,
+     &     ' max: ',limax
+           call writloga('default',0,logmess,0,icscode)
+         endif
+
+         if (limax.gt.750 .or. limin.gt.750) then
+           write(logmess,'(a,i10,a)') 
+     &     '  Line length: ',limax,' may exceed readable length.'
+           call writloga('default',0,logmess,0,icscode)
+         endif
       endif
+      if (nline.le.0 ) goto 9999
+
 C
 C     it is possible to have 0 npoints if cmo is empty so far
       call cmo_get_info('nnodes',cmo,npoints,ilen,ityp,ierror)
@@ -290,7 +362,7 @@ C     it is possible to have 0 npoints if cmo is empty so far
       istart = npoints
 
       if(npoints.eq.0 .or. if_addpoints .eqv. .true.) then
-         ilen=icount
+         ilen=nline
       else
          ilen=npoints
       endif
@@ -299,44 +371,44 @@ C     it is possible to have 0 npoints if cmo is empty so far
       if (icscode.ne.0 ) then
          write(logmess,'(a,i5,a,i15)') 'mmgetblk/mpary1 fail: ',icscode
      &        ,' with length: ',ilen
-         call writloga('default',1,logmess,1,icscode)
+         call writloga('default',0,logmess,0,icscode)
          ierror_return = -3
          goto 9999
       endif
 
       if(npoints.eq.0) then
-          npointsnew=icount
-          do i=1,icount
+          npointsnew=nline
+          do i=1,nline
              mpary1(i)= i
           enddo
           ipointi=ipointj+1
-          ipointj=ipointj+icount
+          ipointj=ipointj+nline
           call set_info_i('ipointi',cmo,cglobal,cdefault,
      *                ipointi,icscode)
           call set_info_i('ipointj',cmo,cglobal,cdefault,
      *                ipointj,icscode)
 
       elseif( if_addpoints .eqv. .true. ) then
-          npointsnew=icount+npoints
+          npointsnew=nline+npoints
           ipointi=ipointj+1
-          ipointj=ipointj+icount
+          ipointj=ipointj+nline
           call set_info_i('ipointi',cmo,cglobal,cdefault,
      *                ipointi,icscode)
           call set_info_i('ipointj',cmo,cglobal,cdefault,
      *                ipointj,icscode)
 
-          do i=1,icount
+          do i=1,nline
              mpary1(i)= i+npoints
           enddo
       elseif(ipt1 .gt. npoints)  then
-          npointsnew=icount+npoints
-          do i=1,icount
+          npointsnew=nline+npoints
+          do i=1,nline
              mpary1(i)= i+npoints
           enddo
       elseif(ipt2 .gt. npoints)
      *    then
-          npointsnew=icount+ipt1-1
-          do i=1,icount
+          npointsnew=nline+ipt1-1
+          do i=1,nline
              mpary1(i)= i+ipt1-1
           enddo
       else
@@ -347,7 +419,7 @@ C     it is possible to have 0 npoints if cmo is empty so far
           call pntlimc(ich1,ich2,ich3,ipmpary1,mpno,npoints,
      *            isetwd, itp1)
         endif
-        npointsnew=max(npoints,icount,mpary1(mpno))
+        npointsnew=max(npoints,nline,mpary1(mpno))
       endif
 
 c     if this has not been done, do it now 
@@ -367,15 +439,33 @@ C
       if (ierror .ne. 0) call x3d_error(isubname,'cmo_newlen')
 C
 C     ******************************************************************
-C
-C
 
 C     assume order of attribute names are order of values read
 C     the number of attributes filled are the number of attributes
-C     on the command line and can be less than nvalues read from file
-      do i=1,num_att
+C     on the command line and can be less than nwords read from file
+      num_write = min(num_att,nwords)
+
+C     process equal number of values and attributes
+C     if values read > num_att, write
+C        write to first num_att attributes out of total
+C     if values read < num_att,
+C        write to first nwords attributes out of total
+
+      do i=1,num_write
 
          cmoatt=att_list(i)
+C        to avoid problems adding unecessary extra attribute  
+C        which would not be recognized and written to because
+C        it is assumed to be one of these cmo reserved words
+         if(cmoatt(1:icharlnf(cmoatt)).eq.'imt')cmoatt='imt1'
+         if(cmoatt(1:icharlnf(cmoatt)).eq.'itp')cmoatt='itp1'
+         if(cmoatt(1:icharlnf(cmoatt)).eq.'icr')cmoatt='icr1'
+         if(cmoatt(1:icharlnf(cmoatt)).eq.'isn')cmoatt='isn1'
+         if(cmoatt(1:icharlnf(cmoatt)).eq.'ign')cmoatt='ign1'
+         if(cmoatt(1:icharlnf(cmoatt)).eq.'xic1')cmoatt='xic'
+         if(cmoatt(1:icharlnf(cmoatt)).eq.'yic1')cmoatt='yic'
+         if(cmoatt(1:icharlnf(cmoatt)).eq.'zic1')cmoatt='zic'
+
          call mmfindbk(cmoatt,cmo,ipxarray,lenout,icscode)
 
          if(icscode.ne.0) then
@@ -396,16 +486,16 @@ C     on the command line and can be less than nvalues read from file
 
          endif
 
-         write(logmess,'(a,a)') 'readatt filling attribute: ', 
-     &        cmoatt(1:icharlnf(cmoatt))
+         write(logmess,'(a,2x,i5,2x,a)') 'readatt filling attribute: ', 
+     &        i,cmoatt(1:icharlnf(cmoatt))
          call writloga('default',0,logmess,0,icscode)
 
          call mmgettyp(ipxarray,itype,icscode)
-         do j=1,icount
+         do j=1,nline
             if(itype.eq.1) then
-               iarray(mpary1(j))=int(xvalues(nvalues*(j-1)+i))
+               iarray(mpary1(j))=int(xvalues(nwords*(j-1)+i))
              else if (itype.eq.2) then
-               xarray(mpary1(j))=xvalues(nvalues*(j-1)+i)
+               xarray(mpary1(j))=xvalues(nwords*(j-1)+i)
              else
                write(logmess,'(a,i5)') 'ERROR: Unsupported type: ',itype 
                call writloga('default',1,logmess,0,icscode)
@@ -413,6 +503,7 @@ C     on the command line and can be less than nvalues read from file
                goto 9999
              endif
          enddo
+         itotal = itotal + 1
       enddo
 C
 C     Print status to screen
@@ -430,16 +521,47 @@ C
       call writloga('default',0,logmess,0,icscode)
       endif
 
+
+C     each line is parsed and number of values saved in nwords
+C     number of attributes to write to is num_att
+C     num_att can be less than nwords
+C     the number of attributes written to can not be more than nwords
+C     number of valid attributes written to is itotal
+
+
+       write(logmess,'(a,i5,a,i5,a)') 
+     * 'File values used: ',num_write,' out of ',
+     *  nwords,' from each line.'
+        call writloga('default',0,logmess,0,icscode)
+
+       write(logmess,'(a,i5,a,i5,a)') 
+     * 'File values written to ',itotal,' out of ',
+     *  num_att,' attributes.'
+        call writloga('default',0,logmess,0,icscode)
+
  9999 continue
 
-      write(logmess,'(a,i5,a,i15,a)') 'END readatt: ',
-     *      nvalues," attribute values from ",icount," lines."
-      call writloga('default',0,logmess,1,icscode)
+      if (nline.le.0 .or. ierror_return.ne.0) then
+         write(logmess,'(a,a,i15)') 'ERROR readatt: read failed: ',
+     &      ' number of lines read from file: ',nline
+         call writloga('default',0,logmess,0,icscode)
+      endif
 
-      if (icount .le. 0 .or. ierror_return.ne.0) then
-        write(logmess,'(a,i3)') 'ERROR readatt: early exit.',
-     *     ierror_return
-        call writloga('default',0,logmess,1,icscode)
+      if (itotal.eq.0 .or. itotal.lt.num_write ) then
+         write(logmess,'(a,a,i15)') 
+     &      'ERROR readatt: attributes failed: ',
+     &      ' number of attributes written: ',itotal
+         call writloga('default',0,logmess,0,icscode)
+      endif
+
+      if (ierror_return.ne.0) then
+        write(logmess,'(a)') 'ERROR readatt: early exit.'
+        call writloga('default',0,logmess,0,icscode)
+
+      else
+        write(logmess,'(a,i5,a,i15,a)') 'END readatt: reading ',
+     *  nwords,' values from ',nline," lines."
+        call writloga('default',0,logmess,0,icscode)
       endif
 
       close(iunit)
