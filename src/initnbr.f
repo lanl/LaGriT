@@ -1,6 +1,5 @@
 *dk,initnbr
       subroutine initnbr
-      implicit none
 C
 C #####################################################################
 C
@@ -44,6 +43,7 @@ CPVCS
 CPVCS    Original version.
 C
 C #####################################################################
+      implicit none
 C
       include "neibor.h"
 C
@@ -62,12 +62,18 @@ c     pointer( ipit0    , it0(2,1)   )                                  cdgnra11
 c     pointer( ipit1    , it1(3,1)   )                                  cdgnra12
 c     pointer( ipitx    , itx(1)     )                                  cdgnra13
 c     pointer( iptmpx   , tmpx(1)    )                                  cdgnra14
-      integer izero,ione,idum1,idum2
+
+      integer izero,ione,idum1
+      character*8 cdum2
 C
 C ####################################################################
-C
+C BEGIN begin
 C
       ininbr='done'
+      cdum2='-notset-'
+      izero=0
+      ione=1
+      idum1=0
 C
 C     ******************************************************************
 C
@@ -199,7 +205,8 @@ C
       izero=0
       ione=1
 C
-      call mflip(izero,idum1,idum2)
+C     corrected cdum2 from integer to character cdum2 
+      call mflip(izero,idum1,cdum2)
       lenremov=0
       leniopen=0
       lenvacnt=0

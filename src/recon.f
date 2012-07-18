@@ -231,45 +231,55 @@ c....            meshes, we check xy- projected areas are positive
 c....            and larger than EPSILONA.
 C ######################################################################
 C
-      implicit real*8 (a-h,o-z)
-C
-      character*132 logmess
+      implicit none
 C
       include "local_element.h"
       include "chydro.h"
       include "neibor.h"
       include "consts.h"
-C
-      pointer (ipimt1, imt1)
-      pointer (ipitp1, itp1)
-      integer imt1(*), itp1(*)
-C
-C
-      pointer (ipitlist, itlist)
-      integer itlist(*)
-C
-C ######################################################################
-C
+
+C arguments
       integer nwds, imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
-C
+
+C variables
+      pointer (ipimt1, imt1)
+      pointer (ipitp1, itp1)
+      integer imt1(*), itp1(*)
+
+      pointer (ipitet, itet )
+      integer itet(*)
+
+      pointer (ipitlist, itlist)
+      integer itlist(*)
+
+      pointer (iptable2, table2 )
+      integer table2(*)
+
+      pointer (ipxcontab, xcontab )
+      real*8 xcontab(*)
+
       integer ierror,idum,ierrwrt,ijob,ilen,itype,icscode,nen,nef,nsd
      &   ,nelements,length,icmotype,ier,nelements_save,npoints,l,i
      &   ,nconbnd,ntets,it,lenfix,ntlist,i1,ics,lenout,icharlnf
+
       real*8 toldamage,xmin,xmax,ymin,ymax,zmin,zmax,epsilona,epsilonv
+
       logical lcheckaxy
  
+      character*132 logmess
       character*32 isubname,contblnm
       character*32 cmo
+      character*8 cdum
 C
 C#######################################################################
-C
+C BEGIN begin
 C
       isubname="recon"
       contblnm='contable'
+      cdum='-notset-'
       idum=0
-C
 C
       call cmo_get_name(cmo,ierror)
       if(ierror.ne.0) then
@@ -316,7 +326,7 @@ c.... greater than EPSILONA.
       call cmo_get_info('ivoronoi',cmo,
      *                ivoronoi,ilen,itype,icscode)
          if (icscode .ne. 0) call x3d_error(isubname,'cmo_get_info')
-      if(ivornoi.eq.5) go to 9999
+      if(ivoronoi.eq.5) go to 9999
       if(abs(ivoronoi).eq.2) then
          call mega_hessian()
          call mega_error()
@@ -432,7 +442,7 @@ C      CLEAR XCONTAB IF IT EXISTS
 c
 c  clear flip memory
 c
-      call mflip(99,idum,idum)
+      call mflip(99,idum,cdum)
 C
       return
       end
