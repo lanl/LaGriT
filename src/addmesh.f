@@ -244,9 +244,13 @@ C
 C
 C ######################################################################
 C
+
+C arguments
       integer nwds, imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
+
+C variables
       real*8 bz3,by3,bx3,bz2,by2,bx2,bz1,by1,bx1,ay3,ax3,az3,
      *  az1,ay1,ax1,ax2,ay2,az2
       integer j3,j2,j1,i3,istart,jf,jt,i,it,nef3,nen3,nsdtopo3,
@@ -264,13 +268,13 @@ C
       pointer (ipxic1, xic1)
       pointer (ipyic1, yic1)
       pointer (ipzic1, zic1)
-      real*8 xic1(10000000), yic1(10000000), zic1(10000000)
-      pointer (ipitetclr1, itetclr1(10000000))
-      pointer (ipitettyp1, itettyp1(10000000))
-      pointer (ipitetoff1, itetoff1(10000000))
-      pointer (ipjtetoff1, jtetoff1(10000000))
-      pointer (ipitet1, itet1(10000000))
-      pointer (ipjtet1, jtet1(10000000))
+      real*8 xic1(*), yic1(*), zic1(*)
+      pointer (ipitetclr1, itetclr1(*))
+      pointer (ipitettyp1, itettyp1(*))
+      pointer (ipitetoff1, itetoff1(*))
+      pointer (ipjtetoff1, jtetoff1(*))
+      pointer (ipitet1, itet1(*))
+      pointer (ipjtet1, jtet1(*))
       integer itetclr1,itettyp1,itetoff1,jtetoff1,itet1,jtet1,
      * itetclr2,itettyp2,itetoff2,jtetoff2,itet2,jtet2,
      * itetclr3,itettyp3,itetoff3,jtetoff3,itet3,jtet3
@@ -281,13 +285,13 @@ C
       pointer (ipxic2, xic2)
       pointer (ipyic2, yic2)
       pointer (ipzic2, zic2)
-      real*8 xic2(10000000), yic2(10000000), zic2(10000000)
-      pointer (ipitetclr2, itetclr2(10000000))
-      pointer (ipitettyp2, itettyp2(10000000))
-      pointer (ipitetoff2, itetoff2(10000000))
-      pointer (ipjtetoff2, jtetoff2(10000000))
-      pointer (ipitet2, itet2(10000000))
-      pointer (ipjtet2, jtet2(10000000))
+      real*8 xic2(*), yic2(*), zic2(*)
+      pointer (ipitetclr2, itetclr2(*))
+      pointer (ipitettyp2, itettyp2(*))
+      pointer (ipitetoff2, itetoff2(*))
+      pointer (ipjtetoff2, jtetoff2(*))
+      pointer (ipitet2, itet2(*))
+      pointer (ipjtet2, jtet2(*))
 C
 C     __________________________________________________________________
 C     Resulting Mesh Object.
@@ -295,13 +299,13 @@ C
       pointer (ipxic3, xic3)
       pointer (ipyic3, yic3)
       pointer (ipzic3, zic3)
-      real*8 xic3(10000000), yic3(10000000), zic3(10000000)
-      pointer (ipitetclr3, itetclr3(10000000))
-      pointer (ipitettyp3, itettyp3(10000000))
-      pointer (ipitetoff3, itetoff3(10000000))
-      pointer (ipjtetoff3, jtetoff3(10000000))
-      pointer (ipitet3, itet3(10000000))
-      pointer (ipjtet3, jtet3(10000000))
+      real*8 xic3(*), yic3(*), zic3(*)
+      pointer (ipitetclr3, itetclr3(*))
+      pointer (ipitettyp3, itettyp3(*))
+      pointer (ipitetoff3, itetoff3(*))
+      pointer (ipjtetoff3, jtetoff3(*))
+      pointer (ipitet3, itet3(*))
+      pointer (ipjtet3, jtet3(*))
 C
       pointer(ipicmo_c,icmo_c)
       pointer(ipicmo_c,xcmo_c)
@@ -309,12 +313,9 @@ C
       pointer(ipicmo_a,icmo_a)
       pointer(ipicmo_a,xcmo_a)
       pointer(ipicmo_a,ccmo_a)
-      integer icmo_c(10000000),icmo_a(10000000)
-      real*8 xcmo_c(10000000),xcmo_a(1000000)
-      character*32 ccmo_a(*),ccmo_c(*)
+      integer icmo_c(*),icmo_a(*)
+      real*8 xcmo_c(*),xcmo_a(*)
 
-      character*32 cname,ctype,clength,defname
-      character*32 isubname, cmoa, cmob, cmoc, coperator
       integer nuser_refine,nmcmoatt_a
       character*8 refine_type
       integer ipointi,ipointj,lencmo,itpcmo,itp1_boundary,
@@ -325,18 +326,21 @@ C
       pointer (ipipoint_overlap1, ipoint_overlap1)
       pointer (ipitet_overlap1, itet_overlap1)
       pointer (ipitet_border1, itet_border1)
-      integer ipoint_overlap1(1000000)
-      integer itet_overlap1(10000000), itet_border1(10000000)
+      integer ipoint_overlap1(*)
+      integer itet_overlap1(*), itet_border1(*)
 C
       pointer (ipipoint_overlap2, ipoint_overlap2)
       pointer (ipitet_overlap2, itet_overlap2)
       pointer (ipitet_border2, itet_border2)
-      integer ipoint_overlap2(1000000)
-      integer itet_overlap2(10000000), itet_border2(10000000)
+      integer ipoint_overlap2(*)
+      integer itet_overlap2(*), itet_border2(*)
 C
       pointer (ipitet_delete, itet_delete)
-      integer itet_delete(10000000)
+      integer itet_delete(*)
 C
+      character*32 cname,ctype,clength,defname
+      character*32 isubname, cmoa, cmob, cmoc, coperator
+      character*32 ccmo_a(*),ccmo_c(*)
       character*32 pset_name
       character*132 logmess
       character*8 cglobal, cdefault
@@ -521,6 +525,15 @@ C
       call cmo_get_intinfo('nnodes',cmob,npoints2,length,icmotp,ierr)
       call cmo_get_intinfo('nelements',cmob,numtet2,length,icmotp,ierr)
       call cmo_get_intinfo('mbndry',cmob,mbndry2,length,icmotp,ierr)
+
+      if ((npoints2 .eq. 0) .and. (numtet2 .eq. 0)) then
+         write(logmess,'(a,a)')
+          'WARNING: not valid mesh object to append,
+     *      no action using ',cmob(1:icharlnf(cmob))
+         call writloga('default',0,logmess,0,ierr)
+         goto 9999
+      endif
+
       call cmo_get_intinfo('ndimensions_topo',cmob,
      *                  nsdtopo2,length,icmotp,ierr)
       call cmo_get_intinfo('ndimensions_geom',cmob,
