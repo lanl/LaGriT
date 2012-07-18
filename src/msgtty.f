@@ -946,6 +946,13 @@ C           massage: AUTOMATIC REFINE/DE-REFINE.
 C
             call massage(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
 C
+         elseif(idsb(1:lenidsb) .eq. 'massage2') then
+C
+C           ************************************************************
+C           massage2: AUTOMATIC REFINE/DE-REFINE.
+C
+            call massage2(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+C
          elseif(idsb(1:lenidsb) .eq. 'geometry') then
 C
 C           ************************************************************

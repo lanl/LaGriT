@@ -24,10 +24,7 @@ C         ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
-C        $Log: massage.f,v $
-C        Revision 2.00  2007/11/05 19:46:00  spchu
-C        Import to CVS
-C
+C        $Log:   /pvcs.config/t3d/src/massage.f_a  $
 CPVCS    
 CPVCS       Rev 1.40   19 Jul 2005 07:17:40   gable
 CPVCS    Added norecon option.
@@ -367,6 +364,7 @@ C
       character*132 logmess
       pointer (ipitp1, itp1)
       integer itp1(lenptr)
+      integer icharlnf, ilen
 C
       pointer (ipmpary,mpary),(ipout,out)
       integer mpary(lenptr),out(*)
@@ -376,13 +374,13 @@ C
       character*32 cmo,isubname,cout
       integer length,icmotype,icscode,mpno,inclusive,msmoothed,
      &   nnodes,ierrdum,i,nnodesold,iout,
-     &   ierr,j,nsd_topo,len_nnodes,inc
+     &   ierr,j,nsd_topo,len_nnodes,inc, field_option
       logical ldiffer,lnosmooth,lstrictmergelength,
      &   llite,lignoremats,lcheckaxy,lcheckroughness,lexclusive,
      &   lsemiexclusive, lrecon
       real*8 bisection_length,merge_length,toldamage,tolar,epsilonl,
      &   tolroughness,range
-      character*32 comend, psetname, cmode
+      character*32 comend, psetname, cmode, field_name
       character*132 cbuf
  
       integer maxagditer
@@ -397,6 +395,7 @@ C
 C
       isubname = 'massage'
 C
+      field_option = 0
       ierror=0
       lnosmooth=.false.
       lstrictmergelength=.false.
@@ -431,6 +430,11 @@ C
       call mmgetblk('mpary',isubname,ipmpary,nnodes,1,icscode)
       if (icscode .ne. 0) call x3d_error(isubname,'mmgetblk')
 C
+      
+      if (msgtype(2) .eq. 3) then
+         field_name = cmsgin(2)
+         field_option = 1
+      else
       if (msgtype(3).le.0.or.cmsgin(3)(1:5).eq.'-def-') then
          if (msgtype(2).le.0.or.cmsgin(2)(1:5).eq.'-def-') then
             bisection_length=1.d99
@@ -456,6 +460,7 @@ C
             merge_length=xmsgin(3)
          endif
       endif
+      endif
  
       if (msgtype(4).le.0.or.cmsgin(4)(1:5).eq.'-def-') then
          toldamage=-1.
@@ -464,6 +469,7 @@ C
      *      nwds)
          toldamage=xmsgin(4)
       endif
+      
  
 c....The fifth argument, if present and type real will be TOLROUGHNESS.
 c....This causes all remaining arguments to be shifted by one.
@@ -767,8 +773,22 @@ c.... issue SETHESSIAN command to generate necessary 2nd derivatives.
             go to 9999
          endif
       else
+         if (field_option .ne. 0) then
+            cbuf = 'cmo/DELATT/' // cmo(1:icharlnf(cmo)) //
+     &        '/rf_field_name; finish'
+            call dotaskx3d(cbuf, ierror)
+            cbuf = 'cmo/addatt/' // cmo(1:icharlnf(cmo)) //
+     &        '/rf_field_name; finish'
+            call dotaskx3d(cbuf, ierror)
+            cbuf = 'cmo/setatt/' // cmo(1:icharlnf(cmo)) //
+     &        '/rf_field_name////' // field_name// ';finish'
+            call dotaskx3d(cbuf, ierror)
+            call cel_chain_f(cmo, field_name, toldamage, mpary, mpno,
+     &         inclusive, psetname, cmode, ierror)
+         else
          call cel_chain(cmo,bisection_length,toldamage,mpary,mpno,
      &    inclusive,psetname,cmode,ierror)
+         endif
       endif
       call cmo_get_info('nnodes',cmo,
      &   nnodes,length,icmotype,icscode)
