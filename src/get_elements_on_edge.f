@@ -53,14 +53,12 @@ C ######################################################################
 C
       implicit none
 C
-      character*132 logmess
-C
       include "local_element.h"
-C
-C ######################################################################
-C
-C
-      integer nelts,itin,iein,numinc
+
+C arguments (itin,iein,nelts,ipelts,ipedges,
+C  ipitetoff,ipjtetoff,ipitet,ipjtet,ipitettyp,ipiparent,nef,mbndry)
+
+      integer itin,iein,nelts,nef,mbndry
       pointer (ipelts, elts)
       integer elts(*)
       pointer (ipedges, edgs)
@@ -69,23 +67,27 @@ C
       pointer (ipjtetoff, jtetoff)
       pointer (ipitettyp, itettyp)
       integer  itetoff(*), jtetoff(*),itettyp(*)
-C
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
       integer itet1(*), jtet1(*)
       pointer (ipiparent, iparent)
       integer iparent(*)
+
+C
+C ######################################################################
 C
       integer ilen,icscode,ierror,iip1,iip2,
-     *        ie,ip1,ip2,nef,ilen1,
+     *        ie,ip1,ip2,ilen1,
      *        i1,i2,itstart,itt,itold,itnew,
-     *        iff,ifold,ifnew,j,mbndry,
+     *        iff,ifold,ifnew,j,
      *        ittyp,nf,k,ittypst,
-     *        jt,idir,nfstart,nf1
+     *        jt,idir,nfstart,nf1,numinc
+
+      character*132 logmess
       character*32 isubname,blkelts,prtelts,blkedges,prtedges
 C
 C#######################################################################
-C
+C BEGIN begin
 C
       isubname='get_elements_on_edge'
       numinc=100
@@ -557,6 +559,8 @@ C
 C
 C  Loop through all neigbors of element to find one that shares
 C  this edge
+C  NOTE 2D has only one face so looping gives unpredictable result
+C  replaced do j=1,ielmface0(nf,ittyp) with j = 1
 C
       nelts = 1
       elts(1)=itin
@@ -564,15 +568,15 @@ C
       itt=itin
       ittyp=itettyp(itt)
  10   do nf =1,nelmnef(ittyp)
-         do j=1,ielmface0(nf,ittyp)
-            ie=ielmface2(j,nf,ittyp)
-            i1=itet1(itetoff(itt)+ielmedge1(1,ie,ittyp))
-            i2=itet1(itetoff(itt)+ielmedge1(2,ie,ittyp))
-            i1=iparent(i1)
-            i2=iparent(i2)
-            if(i1.eq.ip1.and.i2.eq.ip2.or.
-     *         i2.eq.ip1.and.i1.eq.ip2) then
-               iff=nf
+         j = 1
+         ie=ielmface2(j,nf,ittyp)
+         i1=itet1(itetoff(itt)+ielmedge1(1,ie,ittyp))
+         i2=itet1(itetoff(itt)+ielmedge1(2,ie,ittyp))
+         i1=iparent(i1)
+         i2=iparent(i2)
+         if(i1.eq.ip1.and.i2.eq.ip2.or.
+     *      i2.eq.ip1.and.i1.eq.ip2) then
+            iff=nf
 C
 C  check if external boundary face
 C
@@ -618,7 +622,7 @@ C
 C end loop on edges
          enddo
 C end loop on faces
-      enddo
+C     enddo - loop removed, there is just one face for 2d
 C
 C  shouldn't ever get here
 C
