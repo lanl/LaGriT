@@ -85,20 +85,27 @@ C
       implicit none
 C
       include 'local_element.h'
-C
-      integer iobtuse,ierror,nsdtopo,length,icmotype,i,nelements,icscode
-     &   ,ierrmat,lenout
+
+C arguments (iobtuse,toldamage,lcheckaxy,epsilona)
+      integer iobtuse
       real*8 toldamage,epsilona
       logical lcheckaxy
+C
+      integer iloop_max
+      parameter (iloop_max=50)
+
+      pointer (ipineg, ineg)
+      integer nneg, ineg(2,*)
+
+      integer ierror,nsdtopo,length,icmotype,i,nelements,icscode
+     &       ,ierrmat,lenout
+
 
       character*132 logmess
       character*32 cmo, isubname
 C
-      pointer (ipineg, ineg)
-      integer nneg, ineg(2,10000000)
-      
-      integer iloop_max
-      parameter (iloop_max=50)
+C ######################################################################
+C BEGIN begin
 C
       isubname='reconloop2d'
 C
@@ -119,27 +126,32 @@ C  get info from mesh object and make sure it is a 2d mesh
 C
 C
       do i= 1, iloop_max
-         write(logmess,'(a,i5)') 'RECON2D reconnection loop: ',i
+         write(logmess,'(a,i5)') 'RECON2D reconnection loop2d: ',i
          call writloga('default',0,logmess,0,ierror)
          call recon2d(cmo,toldamage,lcheckaxy,epsilona)
          call cmo_get_info('nelements',cmo,
      *                     nelements,length,icmotype,ierror)
          length=nelmnee(ifelmtri)*nelements
+
          if(iobtuse.eq.1) then
-            call mmgetblk('ineg',isubname,ipineg,length,2,icscode)
+            call mmgetblk('ineg',isubname,ipineg,length,1,icscode)
             call matbld0tri(nneg,ipineg,ierrmat)
+
             if(ierrmat.gt.0) then
                call refine_edge_2d(cmo,ierror)
+
                if(ierror.gt.0) goto 100
                call mmrelblk('ineg',isubname,ipineg,icscode)
                call cmo_get_info('nelements',cmo,
      *                            nelements,length,icmotype,ierror)
                length=nelmnee(ifelmtri)*nelements
+
                call mmgetblk('ineg',isubname,ipineg,length,2,icscode)
                call matbld0tri(nneg,ipineg,ierrmat)
                call mmrelblk('ineg',isubname,ipineg,icscode)
                if(ierrmat.lt.0) goto 110
             else
+
                call mmrelblk('ineg',isubname,ipineg,icscode)
                goto 110
             endif
@@ -148,10 +160,12 @@ C
          endif
       enddo
  100  continue
+
       call mmfindbk('ineg',isubname,ipineg,lenout,icscode)
       if(icscode.eq.0) then
          call mmrelblk('ineg',isubname,ipineg,icscode)
       endif
+
  110  continue
 C
       goto 9999
