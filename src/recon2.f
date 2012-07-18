@@ -1,7 +1,5 @@
       subroutine recon2(npoints,ntets,toldamage)
-      implicit none
 C
-      character*132 logmess
 C
 C #####################################################################
 C
@@ -148,6 +146,7 @@ CPVCS    pointer statements for current_mesh_object database access.
 C
 C ######################################################################
 C
+      implicit none
 C
       include "local_element.h"
       include "cmo.h"
@@ -155,35 +154,39 @@ C
       include "consts.h"
       include "neibor.h"
       include "cmerge.h"
-C
-      pointer (ipitetoff, itetoff)
-      pointer (ipjtetoff, jtetoff)
-      integer itetoff(1000000), jtetoff(1000000)
-C
-C ######################################################################
-C
-      pointer( ipiopen   , lst(1000000)     )
-      integer lst
-C
+
+C arguments
+      integer npoints,ntets
+      real*8 toldamage
+
+C constants
+      real*8 alargenumber,asmallnumber,atolerance
+      parameter (alargenumber=1.0d+30)
+      parameter (asmallnumber=1.0d-30)
+      parameter (atolerance=1.0d-09)
+
+C variables
+      integer ntet(10), mtet(10),idnew(16),jdnew(16)
       integer ipos(3),itets(4),id(12),jd(12)
       integer invert(maxmerg)
-C
-      character*32 isubname
-      character*32  blkout, prtout
-      character*8 cglobal, cdefault
-C
-C ######################################################################
-C
-      logical flip, noicontab
+
+      pointer (ipitetoff, itetoff)
+      pointer (ipjtetoff, jtetoff)
+      integer itetoff(*), jtetoff(*)
+ 
+      pointer(ipiopen, lst)
+      integer lst(*)
+      pointer (ipicontab,icontab)
+      integer icontab(50,*)
+      pointer (ipiholes,iholes)
+      integer iholes(*)
+
       pointer (ipxmegah, xmegah)
       pointer (ipxmegadet, xmegadet)
       pointer (ipxmegaerr, xmegaerr)
-      real*8 xmegah(1000000), xmegadet(1000000),
-     *                 xmegaerr(1000000)
-      integer ntet(10), mtet(10),idnew(16),jdnew(16)
-      pointer (ipiholes,iholes)
-      integer iholes(10000000)
-      integer npoints,ntets,ierror,length,icmotype,ioptinv,
+      real*8 xmegah(*), xmegadet(*), xmegaerr(*)
+
+      integer ierror,length,icmotype,ioptinv,
      *  icscode,i2ndtime,ione,itwo,ithree,nnegvol,
      *  niters,n22,n32,n23,n23i,n32i,n32x,n44,n44i,n20,
      *  nface,indx,i,n2to2,n3to2,n2to3,n2to3i,
@@ -207,29 +210,31 @@ C
      *  nholes,iflag,iepos,ip1,ip2,jpos,nppos,nflips,
      *  iflg,j1max,j2max,j4max,j5max
       integer nflipsb,n2to3b, nbdyfc,monitor,nnfreq,iopt2to2
-      pointer (ipicontab,icontab)
-      integer icontab(50,*)
-      logical itsttp
+
       real*8 cvmgm,cvmgpr,cvmgn,cvmgzr,cvmgmr
       real*8 crosx,crosy,crosz,crosx1,crosy1,crosz1,
      *   volume,xxlarge,xxsmall,xst,xst2,en,
      *  a124x, a124y,a124z,a215x,a215y,a215z,atotx,flag,
      *  atoty,atotz,atot,xmid,ymid,zmid,dot124,dot215,
      *  dot1,dot2, dot4,dot5,dotmin,dotmax,damage,
-     *  toldamage, dist4,dist5,xa,ya,za,xb,yb,zb,
+     *  dist4,dist5,xa,ya,za,xb,yb,zb,
      *  xd,yd,zd,xn,yn,zn,xl,yl,zl,q,rout,
      *  xv,yv,zv,dist,d,vol,vol1,vol2,vol3,vol4,xtest,
      *  xvoltet,x1,x2,x3,y1,y2,y3,z1,z2,z3,cksign1,
      *  cksign2,cksign3,volitk,volitx,volit
+
       real*8 a,b,c,e,f,xone,xfix3tst,
      *  xfix1tst,xfix2tst,xc,yc,zc,em,t1,
-     *  coordmax,t2,test1,distsq,voljt,
-     * alargenumber, asmallnumber, atolerance
-      character*32 cout
-      parameter (alargenumber=1.0d+30)
-      parameter (asmallnumber=1.0d-30)
-      parameter (atolerance=1.0d-09)
+     *  coordmax,t2,test1,distsq,voljt
+
+      logical itsttp
+      logical flip, noicontab
  
+      character*132 logmess
+      character*32 isubname
+      character*32  blkout, prtout
+      character*32 cout
+      character*8 cglobal, cdefault
 C
 C ######################################################################
 C
@@ -1092,8 +1097,14 @@ C
 C     MAKE SURE MEMORY IS ADEQUATE
 C
       if(lenremov.lt.4) then
+
+C        check to see if code ever gets here
+C        original code would do nothing if this was called
          lenremov=4
          call mflip(ione,lenremov,'iremov')
+         write (logmess,'(a)') 
+     *   'REPORT RECON2: MFLIP NEWLEN FOR iremov'
+         call writloga('default', 0, logdan, 0, ierr)
       endif
       if(leniopen.lt.nface1) then
          leniopen=nface1+100
