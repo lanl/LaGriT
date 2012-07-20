@@ -459,7 +459,8 @@ C
       enddo
       ierror=0
       last_char=last_char-idx
-      cmd_stack(last_char+1:maxlen_stack)=' '
+      cmd_stack(last_char+1:len_cmd)=' '
+cTAM  cmd_stack(last_char+1:maxlen_stack)=' '
 c
 c  get rid of leading blanks in command
 c
