@@ -32,20 +32,22 @@ C######################################################################
       parameter (lenptr=1000000)
  
       integer nwds, imsgin(nwds), msgtype(nwds)
-      integer i, j, k, ilen, itype, ierror, ierrw, ierr, itest
-      real*8 xmsgin(nwds), xmin, xmax, ipt, factor, REF_H, tmp2
-      integer imin, imax, ntimes, tmp1
+      integer i, j, k, ilen, itype, ierror, ierrw, ierr, itest, iout
+      real*8 xmsgin(nwds), xmin, xmax, ipt, factor, REF_H, tmp2, test
+      integer imin, imax, ntimes, tmp1, iout1
 
       character*(*) cmsgin(nwds)
       character*32 cmdsave(nwds), file_name, field_name, cmo,
-     *             HSCALE_CHAR(10000000)
-      
+     *             HSCALE_CHAR(10000000), REF_H_CHAR, cout
+
       character*132 cbuf, cbufsave, logmess
 
       pointer (ipedge_max, edge_max)
       pointer (ipfield, field)
+      pointer(ipout1, iout1)
       real*8 edge_max(10000000), field(10000000), HSCALE(10000000)
 
+      test = 1.e-2
 
       file_name = cmsgin(2)
       call fexist(file_name,ierr)
@@ -97,6 +99,40 @@ C  Check that user has specified a valid mesh object.
          call writloga('default',0,logmess,0,ierrw)
          goto 9999
       endif
+C
+C     Create a temporary attribute called target_edge_length
+      write(REF_H_CHAR,'(f10.4)') REF_H
+      call cmo_get_info('target_edge_length', cmo, iout,
+     *   ilen, itype, ierror)
+      if(ierror .eq. 0) then
+         cbuf = 'cmo/DELATT/' // cmo(1:icharlnf(cmo)) //
+     *      '/target_edge_length; finish'
+         call dotaskx3d(cbuf, ierror)
+         cbuf = 'cmo/addatt/' // cmo(1:icharlnf(cmo)) //
+     *      '/target_edge_length/real/scalar/scalar//temporary; finish'
+         call dotaskx3d (cbuf, ierror)
+         cbuf = 'cmo/setatt/' // cmo(1:icharlnf(cmo)) //
+     *      '/target_edge_length/' // REF_H_CHAR // ';finish'
+         call dotaskx3d (cbuf, ierror)
+      else
+          cbuf = 'cmo/addatt/' // cmo(1:icharlnf(cmo)) //
+     *      '/target_edge_length/real/scalar/scalar//temporary; finish'
+         call dotaskx3d (cbuf, ierror)
+         cbuf = 'cmo/setatt/' // cmo(1:icharlnf(cmo)) //
+     *      '/target_edge_length/' // REF_H_CHAR // ';finish'
+         call dotaskx3d (cbuf, ierror)
+      endif
+      cbuf = 'cmo/status/' // cmo(1:icharlnf(cmo))// ';finish'
+      call dotaskx3d (cbuf, ierror)
+      cbuf = 'cmo/printatt/' // cmo(1:icharlnf(cmo))//
+     *   '/target_edge_length;finish'
+      call dotaskx3d (cbuf, ierror)
+      call cmo_get_attinfo('target_edge_length',cmo,iout,test,cout,
+     *                        ipout1,ilen,itype, ierror)
+      print *, 'cmo name', cmo
+      print *, 'value of target edge length', test
+
+      
 C
 C     Create the edgemax array using quality
 C     and get the maximum edge length
@@ -171,7 +207,10 @@ C     Repeat the last refinement for good mesh quality
          call dotaskx3d(cbufsave, ierror)
       enddo
       
-
+C     Delete the temporary attribute 'target_edge_length'
+      cbuf = 'cmo/DELATT/' // cmo(1:icharlnf(cmo)) //
+     *   '/target_edge_length; finish'
+      call dotaskx3d(cbuf, ierror)
 
 
  9999 continue

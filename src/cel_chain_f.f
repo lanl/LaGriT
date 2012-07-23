@@ -127,9 +127,11 @@ c #####################################################################
       pointer (ipyic, yic)
       pointer (ipzic, zic)
       pointer (iprf_field, rf_field)
+      pointer (ipdfield, dfield)
       pointer (ipitet, itet)
       pointer (ipitetoff, itetoff)
       pointer (ipitettyp, itettyp)
+      pointer (ipiout1, iout1)
       integer itp1(lenptr)
       integer icr1(lenptr)
       integer isn1(lenptr)
@@ -138,12 +140,14 @@ c #####################################################################
       real*8 yic(lenptr)
       real*8 zic(lenptr)
       real*8 rf_field(lenptr)
+      real*8 dfield(lenptr)
+      real*8 REF_H
       integer itet(lenptr)
       integer itetoff(lenptr)
       integer itettyp(lenptr)
       pointer (ipjtet,jtet)
       pointer (ipjtetoff,jtetoff)
-      integer jtet(lenptr),jtetoff(lenptr)
+      integer jtet(lenptr),jtetoff(lenptr), iout1, iout, ilen
  
       pointer (ipireal1,ireal1),(ipinvmpary,invmpary),
      &   (ipiparent,iparent),(ipmpary,mpary),(ipiedges,iedges),
@@ -161,7 +165,8 @@ c #####################################################################
       real*8 elen(lenptr),xadd(lenptr),yadd(lenptr),zadd(lenptr),
      &   tollength(lenptr)
       logical visited(lenptr),interior_edge,lnotrefinable
- 
+      logical region_condition
+
       pointer (ipelts,elts)
       integer elts(lenptr)
       pointer (ipedges,edges)
@@ -169,7 +174,7 @@ c #####################################################################
  
       character*8 cglobal, cdefault,ich1,ich2
       character*32 cmo,isubname,psetname,cmode, refine_field_name
-      character*32 field_name
+      character*32 field_name, cout
 c$$$      character*132 cbuf
  
       integer mpary_in(lenptr),mpno_in,loc1,loc2,ipar1,ipar2,flag,
@@ -208,6 +213,7 @@ c.... of the lengths of dynamically managed arrays.
       len_elist=0
       len_elements=0
       niter=0
+      region_condition = .false.
 c....
 c.... Create temporary storage for elements that share an edge and
 c.... their local edge numbers
@@ -258,15 +264,26 @@ c.... Get info from mesh object.
       call cmo_get_info('mbndry',cmo,mbndry,length,icmotype,ierror)
       call cmo_get_info('ndimensions_topo',cmo,nsd,length,icmotype,
      &   ierror)
+      call cmo_get_attinfo('target_edge_length',cmo,iout,REF_H,cout,
+     *                        ipiout1,ilen,icmotype, ierror)
 
 C
-C     Look for the refine field 
+C     Look for dfield and refine field 
 C
       call cmo_get_info
      &     (refine_field_name,cmo,iprf_field,length,icmotype,ierror)
       if(ierror .ne. 0)then
-          logmess=' refine failed - cannot get field, check field name
-     &       or existence'
+          logmess=' refine failed - cannot get refine field, 
+     &       check field name or existence'
+          call writloga('default',0,logmess,0,ierror)
+         go to 9999
+      endif
+
+      call cmo_get_info
+     &     ('dfield',cmo,ipdfield,length,icmotype,ierror)
+      if(ierror .ne. 0)then
+          logmess=' refine failed - cannot get distance field,
+     &       check field name or existence'
           call writloga('default',0,logmess,0,ierror)
          go to 9999
       endif
@@ -445,7 +462,11 @@ c.... If ELEN > TOLLENGTH we place the edge in IELIST.
      &         (yic(nod1)-yic(nod2))**2+
      &         (zic(nod1)-zic(nod2))**2)
             tollength(k) = min(rf_field(nod1), rf_field(nod2))
-            if (elen(k).gt.tollength(k)) then
+            region_condition = ((dfield(nod1) + dfield(nod2))
+     &         .le. (1.155*elen(k))) .and. 
+     &         (elen(k) .ge. (1*REF_H))
+            if (elen(k).gt.tollength(k)
+     &         .or. region_condition) then
                if (inclusive.eq.0) then
                   if(invmpary(nod1).ne.0.and.
      &               invmpary(nod2).ne.0) then
