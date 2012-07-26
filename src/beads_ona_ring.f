@@ -31,14 +31,16 @@ C     column ordered a(i,j), a(i,j+1), a(i,j+2) ...   iorder = 2
 C
 C     For the above ordering to work correctly the input array must
 C     have the same dimensions as npoint and nvec.
+
       implicit none
+
 C     Passed in variables
       integer npoint, nvec, iorder, ierr
-      character*72 errmsg
-      real*4 z_in2d(npoint*nvec)
-      real*4 z_out2d(npoint*nvec)
-      real*4 d_pinch(npoint-1)
-      real*4 d_min(npoint-1)
+      character*82 errmsg
+      real*8 z_in2d(npoint*nvec)
+      real*8 z_out2d(npoint*nvec)
+      real*8 d_pinch(npoint-1)
+      real*8 d_min(npoint-1)
       integer id_move(npoint-1)
 c
 c     Declare malloc as integer function
@@ -46,11 +48,11 @@ c     Declare malloc as integer function
 c
 c     Local variables
       real*8 z_in, z_out
-      pointer (ipz_in,  z_in(1000000))
-      pointer (ipz_out, z_out(1000000))
-      real*4 d_pinch_wk, d_min_wk
-      pointer (ipd_pinch_wk, d_pinch_wk(1000000))
-      pointer (ipd_min_wk,   d_min_wk(1000000))
+      pointer (ipz_in,  z_in(*))
+      pointer (ipz_out, z_out(*))
+      real*8 d_pinch_wk, d_min_wk
+      pointer (ipd_pinch_wk, d_pinch_wk(*))
+      pointer (ipd_min_wk,   d_min_wk(*))
  
       integer i, n, nbyte_r8, nbyte_r4
 C
@@ -120,7 +122,7 @@ C##############################################################
       implicit none
 
 C     Passed in variables
-      character*72 errmsg
+      character*82 errmsg
       integer npoint, nvec, iorder, ierr
       real*8 z_in2d(npoint*nvec)
       real*8 z_out2d(npoint*nvec)
@@ -133,8 +135,8 @@ c     Declare malloc as integer function
 c
 c     Local variables
       real*8 z_in, z_out
-      pointer (ipz_in,  z_in(1000000))
-      pointer (ipz_out, z_out(1000000))
+      pointer (ipz_in,  z_in(*))
+      pointer (ipz_out, z_out(*))
  
       integer i, n, nbyte_r
 C
@@ -218,16 +220,18 @@ c     Passed in variables
       real*8 d_min(npoint-1)
       integer id_move(npoint-1)
 c
+      integer malloc
+
 c     Local variables
       real*8 d, d_change, d_up, d_dn
       integer id_status, ipt_up, ipt_dn
-      pointer (ipd, d(1000000))
-      pointer (ipd_change, d_change(1000000))
-      pointer (ipd_up,     d_up(1000000))
-      pointer (ipd_dn,     d_dn(1000000))
-      pointer (ipid_status, id_status(1000000))
-      pointer (ipipt_up,    ipt_up(1000000))
-      pointer (ipipt_dn,    ipt_dn(1000000))
+      pointer (ipd, d(*))
+      pointer (ipd_change, d_change(*))
+      pointer (ipd_up,     d_up(*))
+      pointer (ipd_dn,     d_dn(*))
+      pointer (ipid_status, id_status(*))
+      pointer (ipipt_up,    ipt_up(*))
+      pointer (ipipt_dn,    ipt_dn(*))
  
       integer i, itrue, ifalse, npoint_last_call, icall
       integer ndist, nbyte_r, nbyte_i

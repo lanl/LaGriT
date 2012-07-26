@@ -161,49 +161,56 @@ C
       integer nresnm
       parameter (nresnm=71)
 C
-      character*132 logmess
 C
       include 'cmo_lg.h'
       include "cmo.h"
       include "machine.h"
 C
-C#######################################################################
+C arguments cmo_interpolate(cmo_sink,cmo_src,cmolength,
+C             nlist, nvalue, list, ilist,xweight, ierror_return) 
 C
       character*(*) cmo_sink, cmo_src, cmolength
-      integer ierror_return
-      integer nlist, nvalue
+      integer nlist, nvalue, ierror_return
       integer list(nlist)
       integer ilist(nvalue,nlist)
       real*8 xweight(nvalue,nlist)
-      logical luser
-      character*32 cresnm(nresnm)
-      real*8 xaverage3,xaverage2,xvalue,xsum1,xaverage1,tweight,
-     * xval,cinterpolate
+
 C
 C#######################################################################
-C
-      character*32 clength, ctype, cinterp, ctabinterp, cname
-      integer i, j, k, i1, icmolen, icmotyp,ival,maxlen2
-      integer ivalue, iaverage2,l,i2,ierror,irank,len,len1,lentype,
-     * length,index,nameln,icharlnf,nen,nef,ierr,icmo_sink,icmo_src,
-     * ilen,itype,icscode,nmcmoatt_sink,irank_src,maxlen,ifdebug,ibad
-      character*32 crank,cpers,cio,cval
-C
+C variables
+
+      pointer (ipcmo_sink, ccmo_sink1)
+      character*32 ccmo_sink1(*)
+
       pointer (ipxtmp, xtmp)
       pointer (ipcmo_sink, icmo_sink1)
       pointer (ipcmo_sink, xcmo_sink)
-      pointer (ipcmo_sink, ccmo_sink1)
       integer icmo_sink1(*)
       REAL*8 xtmp(*), xcmo_sink(*)
-      character*32 ccmo_sink1(*)
-C
+
       pointer (ipcmo_src, icmo_src1)
       pointer (ipcmo_src, xcmo_src)
       pointer (ipcmo_src, ccmo_src1)
       integer icmo_src1(*)
       REAL*8 xcmo_src(*)
+
+      real*8 xaverage3,xaverage2,xvalue,xsum1,xaverage1,tweight,
+     * xval,cinterpolate
+
+      integer i, j, k, i1, icmolen, icmotyp,ival,maxlen2
+      integer ivalue, iaverage2,l,i2,ierror,irank,len,len1,lentype,
+     * length,index,nameln,icharlnf,nen,nef,ierr,icmo_sink,icmo_src,
+     * ilen,itype,icscode,nmcmoatt_sink,irank_src,maxlen,ifdebug,ibad
+
+      logical luser
+
+      character*132 logmess
+      character*32 coption
       character*32 ccmo_src1(*)
+      character*32 clength, ctype, cinterp, ctabinterp, cname
+      character*32 crank,cpers,cio,cval
 C
+      character*32 cresnm(nresnm)
       data cresnm/'nnodes','nelements','nfaces','nedges','mbndry',
      *  'ndimensions_topo','ndimensions_geom','nodes_per_element',
      *  'edges_per_element','faces_per_element','isetwd','imt1',
@@ -220,7 +227,7 @@ C
      * 'icontab'/
 C
 C#######################################################################
-C
+C BEGIN begin
 C
 C
       ierror_return=-1
@@ -559,11 +566,11 @@ C
                         do k=1,nvalue
                            i2=ilist(k,j)
                            if ((i2.gt.0 ) .and. (i2.le.maxlen2)) then
+                            coption='function'
                             xvalue=icmo_src1(irank_src*(i2-1)+
-     *                                min(l,irank_src))
-                            xsum1=xsum1+
-     *                           xweight(k,j)*
-     *                           cinterpolate('function',cinterp,xvalue)
+     *                         min(l,irank_src))
+                            xsum1=xsum1 + xweight(k,j)*
+     *                         cinterpolate(coption,cinterp,xvalue)
                             tweight=tweight+xweight(k,j)
                            else
                             ibad = i2
@@ -574,8 +581,9 @@ C
                         else
                            xaverage1=0.0
                         endif
+                        coption='inverse'
                         xaverage2=
-     *                      cinterpolate('inverse',cinterp,xaverage1)
+     *                      cinterpolate(coption,cinterp,xaverage1)
                         i1=list(j)
                         if ((i1.gt.0 ) .and. (i1.le.maxlen)) then
                          icmo_sink1(l+irank*(i1-1))=nint(xaverage2)
@@ -820,11 +828,12 @@ C                       xaverage1=xval
                         do k=1,nvalue
                          i2=ilist(k,j)
                          if(i2.ne.0 .and. i2.le.maxlen2) then
+                           coption='function'
                            xvalue=xcmo_src(irank_src*(i2-1)+
-     *                                min(l,irank_src))
+     *                           min(l,irank_src))
                            xsum1=xsum1+
      *                           xweight(k,j)*
-     *                           cinterpolate('function',cinterp,xvalue)
+     *                           cinterpolate(coption,cinterp,xvalue)
                            tweight=tweight+xweight(k,j)
                          else
                            ibad = i2
@@ -835,8 +844,9 @@ C                       xaverage1=xval
                         else
                            xaverage1=0.0
                         endif
+                        coption='inverse'
                         xaverage2=
-     *                      cinterpolate('inverse',cinterp,xaverage1)
+     *                      cinterpolate(coption,cinterp,xaverage1)
                         i1=list(j)
                         if ((i1.gt.0 ) .and. (i1.le.maxlen)) then
                          xcmo_sink(l+irank*(i1-1))=xaverage2

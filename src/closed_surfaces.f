@@ -63,55 +63,55 @@ C#######################################################################
 C
       implicit none
 C
-      character*132 logmess
-      character*8 cbndry
-C
       include "chydro.h"
       include 'geom_lg.h'
       include 'consts.h'
  
-C
+C argument
+      character*8 cbndry
 C#######################################################################
+
+C variables
 C
-      integer ierror,ilen,ityp,length,npoints,
-     *  icscode, nconbnd,
-     * lenmm0,lenmm1,lenmm2,lenmm3,lenmm4,ics,npmiss,ip,
-     * itp,imd,i,nimt,imtck,imt,npts,
-     * iregck
-      real*8 srchval,rout
-      pointer(ipout,out)
-      real*8 out(*)
-      real*8 a,b,c,d,e,f
-      real*8 crosx,crosy,crosz
+      pointer(ipregno, iregno(*))
+      pointer(ipsurfno, isurfno(*))
+      integer iregno,isurfno
+
       pointer (ipimt1, imt1)
       pointer (ipitp1, itp1)
+      integer imt1(*), itp1(*)
+
+      pointer(ipout,out)
+      real*8 out(*)
+
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
-      integer imt1(1000000), itp1(1000000)
-      real*8 xic(1000000), yic(1000000), zic(1000000)
+      real*8 xic(*), yic(*), zic(*)
+
+      real*8 srchval,rout
+
+      integer ierror,ilen,ityp,length,npoints,
+     * icscode, nconbnd, lout, itype, 
+     * lenmm0,lenmm1,lenmm2,lenmm3,lenmm4,ics,npmiss,ip,
+     * itp,imd,i,nimt,imtck,imt,npts,
+     * iregck, iout
  
-C
-      pointer(ipregno, iregno(1000000))
-      pointer(ipsurfno, isurfno(1000000))
-      integer iregno,isurfno
-C
       character*32 isubname,  cmo, geom_name
-      integer iout,lout,itype
+      character*132 logmess
+      character*32 crtype
 C
 C#######################################################################
 C
 C     MACROS.
 C
+      real*8 crosx,crosy,crosz, a,b,c,d,e,f
       crosx(a,b,c,d,e,f)=b*f-c*e
       crosy(a,b,c,d,e,f)=c*d-a*f
       crosz(a,b,c,d,e,f)=a*e-b*d
 C
 C#######################################################################
-C
-C
-C
-C     ******************************************************************
+C BEGIN begin
 C
       isubname='close_surfaces'
 C
@@ -177,7 +177,8 @@ C     CALL getregv TO FIND THE MREGION FOR THE POINTS
 C
       npts=npoints
       iregck=0
-      call getregv2(xic,yic,zic,itp1,npts,srchval,'mregion',iregck,
+      crtype='mregion'
+      call getregv2(xic,yic,zic,itp1,npts,srchval,crtype,iregck,
      &             cmo,iregno,isurfno,
      &             ierror)
 C
@@ -263,10 +264,9 @@ C
       return
       end
 C
-      subroutine getregv2(x,y,z,itp1,npts,epsln,irtype,iregck,
-     &                   cmo,iregno,isurfno,
-     &                   ierr)
-C
+      subroutine getregv2(x,y,z,itp1,npts,epsln,crtype,iregck,
+     &                   cmo,iregno,isurfno,ierr)
+
 C#######################################################################
 C
 C     PURPOSE -
@@ -285,7 +285,7 @@ C        y - Y COORDINATE OF THE POINTS TO CHECK
 C        z - Z COORDINATE OF THE POINTS TO CHECK
 C        npts - NO. OF POINTS TO CHECK
 C        epsln - EPSILON FOR SURFACE CHECKS
-C        irtype - TYPE OF REGION TO CHECK (region or mregion)
+C        crtype - TYPE OF REGION TO CHECK (region or mregion)
 C        iregck - PARTICULAR REGION TO CHECK AGAINST (0=ALL REGIONS)
 C        iregck - PARTICULAR REGION TO CHECK AGAINST (0=ALL REGIONS)
 C        ipiregs - POINTER TO THE ARRAY of region data:
@@ -306,32 +306,37 @@ C#######################################################################
 C
       implicit none
 C
-C
       include "chydro.h"
       include 'geom_lg.h'
 C
 C#######################################################################
+C arguments getregv2(x,y,z,itp1,npts,epsln,crtype,iregck,
+C                        cmo,iregno,isurfno, ierr)
+
+      character*32 crtype,cmo
+      integer npts,jp,ierr,iregck
+      integer itp1(npts), iregno(npts), isurfno(npts)
+      real*8 x(npts),y(npts),z(npts)
+      real*8 epsln
+
+C variables
+      integer icscode,irstrt,irend,ip,ii,is,i2,
+     *   ir,ndef,nltgt,nstr,idefreg,len0, len1,len2,nxsurf,i
+      integer ierror,ioff,length,itype,lout,iout
 C
-      integer npts,jp,ierr,icscode,irstrt,irend,iregck,i2,ip,
-     *   ir,ndef,nltgt,nstr,idefreg,len0, len1,len2,nxsurf,i,
-     *   ii,is
-      integer icharlnf
-      real*8 x(npts),y(npts),z(npts),epsln,rout
       pointer(ipout,out)
       real*8 out(*)
-      integer itp1(npts)
-      integer iregno(npts),isurfno(npts),ierror,ioff,length,
-     * iout,lout,itype
+      real*8 rout
 C
+      integer icharlnf
       integer isurftst(512)
       logical ioper
 C
-      character*32 irtype, isubname, iword, iword1, iword2, itest
-C
-      character*32 isurfnm,cmo,geom_name
- 
+      character*32 isubname, iword, iword1, iword2, itest
+      character*32 isurfnm,geom_name
 C
 C#######################################################################
+C BEGIN begin
 C
       isubname='getregv2'
       iregck=0
@@ -349,8 +354,8 @@ C     ******************************************************************
 C
 C     MAKE SURE WE HAVE REGIONS AND SURFACES.
 C
-      if ( (nregs.le.0.and.irtype(1:7).eq.'region') .or.
-     *   (nmregs.le.0.and.irtype(1:7).eq.'mregion')
+      if ( (nregs.le.0.and.crtype(1:6).eq.'region') .or.
+     *   (nmregs.le.0.and.crtype(1:7).eq.'mregion')
      *      .or. nsurf.le.0) then
          ierr=1
          go to 9999
@@ -363,7 +368,7 @@ C
       call mmfindbk('sheetnm',geom_name,ipsheetnm,length,ierror)
       call mmfindbk('surfparam',geom_name,ipsurfparam,length,ierror)
       call mmfindbk('offsparam',geom_name,ipoffsparam,length,ierror)
-      if (irtype(1:6).eq.'region') then
+      if (crtype(1:6).eq.'region') then
         call mmfindbk('cregs',geom_name,ipcregs,length,ierror)
         call mmfindbk('offregdef',geom_name,ipoffregdef,length,ierror)
         call mmfindbk('ndefregs',geom_name,ipndefregs,length,ierror)
@@ -382,7 +387,7 @@ C     ALL REGIONS MUST BE INCLOSED BY A SINGLE SURFACE
 C
       irstrt=1
       irend=nregs
-      if(irtype(1:7).eq.'mregion') irend=nmregs
+      if(crtype(1:7).eq.'mregion') irend=nmregs
 C     ******************************************************************
 C
 C     LOOP THROUGH POINTS IN GROUPS OF 512.

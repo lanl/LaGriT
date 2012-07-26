@@ -1,7 +1,6 @@
-*dk,fnd2to3i
+Cdk,fnd2to3i
       subroutine fnd2to3i(it1,ipos1,it2,it3,ibdytet,id,jd,
      *                    npoints,ntets)
-       implicit real*8 (a-h,o-z)
 C
 C ######################################################################
 C
@@ -73,18 +72,29 @@ CPVCS       Rev 1.0   11/10/94 12:13:56   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
+
+C arguments
+      integer it1,ipos1,it2,it3,ibdytet,npoints,ntets
+      integer id(12),jd(12)
+
+C variables
+      integer nmulti
       parameter (nmulti = 200)
-      dimension ichain1(nmulti),imt1a(nmulti),id(12),jd(12)
-C
-C ######################################################################
-C
+      integer ichain1(nmulti),imt1a(nmulti)
+
+      integer icmotype,ier,ierror,
+     *        length,lenimt1,lenisn1,lenitetclr,lenitet,lenjtet,
+     *        ipos2,i1,i2,i3,i4,indx,imtx,kndx,m,n1,n2,i5,j1,j2,j3,
+     *        k1,k2,jtemp,k,kpt,ict,ipar,icscode,ict123,ict45,it,
+     *        isum1,isum2,isum3,isum4,isum5,ierrwrt,l1,l2,l3,k3
+
+C ###################################################################
+C BEGIN begin
 C
 C     ******************************************************************
 C     FETCH MESH OBJECT NAME AND POINTER INFORMATION.

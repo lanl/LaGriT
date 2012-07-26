@@ -1556,7 +1556,12 @@ c     ****************************************************************
       
 
       subroutine get_int_ang(lxyz1, lxyz2, cosang)
-      real*8 lxyz1(3,3), lxyz2(3,3)
+
+C     changed dimension to be same as used (3,2)
+C     real*8 lxyz1(3,3) 
+C     real*8 lxyz2(3,3)
+      real*8 lxyz1(3,2) 
+      real*8 lxyz2(3,2)
       real*8 cosang
       real*8 v1(3), v2(3), v1_len, v2_len
 

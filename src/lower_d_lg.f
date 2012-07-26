@@ -1,5 +1,5 @@
-*dk,lower_d_lg
-c ........................................................................
+Cdk,lower_d_lg
+C
 c23456789012345678901234567890123456789012345678901234567890123456789012
 C #####################################################################
 C
@@ -377,14 +377,13 @@ c ........................................................................
  
       implicit none
  
+C arguments
       integer nwds,ierror
       character*(*) cmsgin(nwds)
       integer imsgin(nwds),msgtyp(nwds)
       real*8 xmsgin(nwds)
  
-      character*40 cmo0,cmo1,cmo2,cmo3,action
-     &            ,cmo_save,action2
-      character*132 cbuf
+C variables
  
       integer lenaction,lcmo0,lcmo1,lcmo2,lcmo3
      &       ,ierr,local_debug,nwds_skip,iwd,n_extract
@@ -395,10 +394,13 @@ c ........................................................................
       integer d0_clrtab(*),d0_clroff(*)
  
       integer icharlnf
-      external icharlnf
+
+      character*32 cmo0,cmo1,cmo2,cmo3,action,cmo_save,action2
+      character*132 cbuf
  
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
- 
+C BEGIN begin
+C
       call cmo_get_name(cmo_save,ierr)
       local_debug=0
  
@@ -701,7 +703,7 @@ c -----------------------------------------------------
          if (action(1:lenaction).ne.'refilter'
      &              .or.action(1:lenaction).eq.'recreate') then
             ! filtering done in create call for refilter
-            call filter_lower_d_lg(cmo0,action,ivalue,lact2,ierror)
+            call filter_lower_d_lg(cmo0,action,ivalue,action2,ierror)
             if (ierror.ne.0) goto 9999
          endif
  
@@ -845,6 +847,9 @@ c ........................................................................
      &          ,d2_jtet(*),d2_jtetoff(*)
      &          ,d2_itettyp(*),d2_itetclr(*)
      &          ,d2_elm_d1(*)
+
+        pointer (ipd2_elm_tmp, d2_elm_tmp)
+        integer d2_elm_tmp(*)
  
         integer  d3_nnodes,d3_nelements
      &          ,d3_nef_cmo,d3_nee_cmo,d3_nen_cmo
@@ -1274,6 +1279,10 @@ c........ (assign d2 storage, d1 to d2 storage) ..................
         call cmo_get_info('d2_itettyp',cmo,ip_d2_itettyp,len,ityp,ierr)
         call cmo_get_info('d2_itetclr',cmo,ip_d2_itetclr,len,ityp,ierr)
         call cmo_get_info('d2_elm_d1',cmo,ip_d2_elm_d1,len,ityp,ierr)
+
+C       this is not expected to be used, but pass into routines 
+C       with correct length in case it is
+        call cmo_get_info('d2_elm_tmp',cmo,ipd2_elm_tmp,len,ityp,ierr)
  
         ! re-get re newlen ...
         call cmo_get_info('d1_jtet',cmo,ip_d1_jtet,len,ityp,ierr)
@@ -1433,6 +1442,10 @@ c........ (find d3 lengths) ..................
 c d3_nnodes,d3_nelements
 c d3_nef_cmo,d3_nee_cmo,d3_nen_cmo
  
+C TAM - can not pass j scalar just because d2_elm_d3 is not used
+C       need to pass appropriate non scalar
+C          ,d0_node_topo,j changed to 0_node_topo,d2_elm_tmp
+
         j=0  ! d2_elm_d3 -> not used as d_topo=1
         d_topo=d0_topo-2
  
@@ -1452,7 +1465,7 @@ c but press on just creating node translation
      &          ,itp1,icr1,icontab,isn1,iparent
      &          ,d3_nnodes,d3_nelements
      &          ,d3_nef_cmo,d3_nee_cmo,d3_nen_cmo
-     &          ,d0_node_topo,j
+     &          ,d0_node_topo,d2_elm_tmp
      &          ,ierror)
         if (ierror.ne.0) goto 9999
         if (local_debug.gt.0) then
@@ -2805,9 +2818,12 @@ c ........................................................................
         implicit none
         include 'chydro.h'
         include 'local_element.h'
- 
+
+C arguments
         character*(*) cmo_in,input_action1,input_action2
         integer input_value,ierror,ivalue
+
+C variables 
  
         pointer (ip_itetclr,itetclr),(ip_clrtab,clrtab)
      &         ,(ip_clroff,clroff),(ip_d0_node_topo,d0_node_topo)
@@ -2826,20 +2842,27 @@ c ........................................................................
      &         ,d1_nnodes,d2_nnodes,d3_nnodes,last_action
      &         ,d1_nelts,d2_nelts,lact2
  
-        ! coding caution:
-        ! rankfilter must be consistent with rankfilter in filter_lower_d_lg
-        integer icharlnf,nactions,rankfilter
+
+        integer icharlnf 
+
+C       coding caution: rankfilter in filter_lower_d_lg
+C       must be consistent with rankfilter in control_lower_d_lg
+        integer nactions,rankfilter
         parameter(nactions=17,rankfilter=3)
         character*32 transl_action(nactions)
  
         character*32 isubname,action,action2,cmo
+
 c -----------------------------------------------------
+C BEGIN begin
+C
         local_debug=0
         isubname='filter_lower_d_lg'
  
         if (local_debug.gt.0) then
-           write(*,*) 'filter action',input_action1,input_action2
-           write(*,*) 'filter value',input_value
+           write(*,*) 'filter action 1 :',input_action1
+           write(*,*) 'filter action 2 :',input_action2
+           write(*,*) 'filter value: ',input_value
         endif
  
 c ...   !! set up the translate table

@@ -1,4 +1,4 @@
-*dk,popcones_lg
+Cdk,popcones_lg
       subroutine popcones_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,
      &   ierror)
 C
@@ -277,15 +277,22 @@ c
      &   ,next,numedges,nodek,
      &   ierrw,matmax,imat,nmat,jteti,ifac,k1,ibcomp,jtetopp,
      &   itop,iopp,ihybj,ifacj,itypj,nbcomp,ip1,ip2,i2,nnodes_old,
-     &   nadd,node1,maxadj,notused,nfoundbcomp,nfoundprot,ncomp,
+     &   nadd,node1,maxadj,nfoundbcomp,nfoundprot,ncomp,
      &   isprev,iscurr,nconbnd,len1,len2,nodj1,jtetcurr,icurr,ihyb1
      &   ,ityp1,nodek1,itrip,flag
+
+C     dummy variable to pass into subroutines
+      integer notused(1)
+      data notused(1) / 0 /
  
       logical lcompresswherepossible
       parameter (lcompresswherepossible=.true.)
  
       integer locdebug,maxtrip
       parameter (locdebug=0,maxtrip=10)
+
+C ##########################################################
+C BEGIN begin
  
       len_isurfelt=0
       len_iedges_first_=0

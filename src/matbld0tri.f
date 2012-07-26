@@ -78,9 +78,6 @@ C ######################################################################
 C
       implicit none
 C
-      character*132 logmess
-C
-C
 C#######################################################################
 C
 C      PURPOSE -
@@ -101,32 +98,32 @@ C         HTMMDDAA-YY
 C
 C#######################################################################
 C
+      include "local_element.h"
       include "consts.h"
-C
-      integer ierr1
+
+C arguments (nneg,ipineg,ierr1)
+      integer nneg,ierr1
       pointer (ipineg, ineg)
-      integer nneg, ineg(2,1000000)
-C
+      integer ineg(2,*)
+
+C variables
       pointer (ipimt1, imt1)
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
+      integer imt1(*), itp1(*), isn1(*)
+
       pointer (ipitet, itet)
       pointer (ipjtet, jtet)
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
-      integer imt1(*), itp1(*), isn1(*)
-      real*8 xic(*),    yic(*),  zic(*)
       integer itet(3,*), jtet(3,*)
       integer itet1(*), jtet1(*)
-c
-C
-C#######################################################################
-C
-C
-C
+
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*),    yic(*),  zic(*)
+
       pointer (ipiparent, iparent)
       integer iparent(*)
       pointer (ipitetp, itetp1)
@@ -135,47 +132,50 @@ C
       integer itetp(3,*)
 C
       pointer (ipisort, isort)
+      integer isort(*)
+
       pointer (ipicolmat, icolmat)
       pointer (ipirowmat, irowmat)
-      pointer (ipisendnn, isendnn)
-      pointer (ipxsendnn, xsendnn)
+      integer icolmat(*), irowmat(*)
       pointer (ipirowcnt, irowcnt)
       pointer (ipirowoff, irowoff)
-      integer isort(*)
-      integer icolmat(*), irowmat(*)
-      integer isendnn(*)
-      real*8 xsendnn(*)
       integer irowcnt(*), irowoff(*)
-c
-      character*32 cmo, isubname
-      integer idebug
+      pointer (ipnmat, nmat)
+      integer nmat(*)
+      pointer (ipimat, imat)
+      integer imat(*)
+      pointer (ipidxmat, idxmat)
+      integer idxmat(*)
+
+      pointer (ipisendnn, isendnn)
+      integer isendnn(*)
+      pointer (ipxsendnn, xsendnn)
+      real*8 xsendnn(*)
 C
       pointer (ipamat, amat)
       real*8 amat(*)
-      pointer (ipnmat, nmat)
-      integer nmat(*)
-      pointer (ipconst, const)
-      real*8 const(*)
-      pointer (ipimat, imat)
-      integer imat(*)
       pointer (ipxmat, xmat)
       real*8 xmat(*)
-      pointer (ipidxmat, idxmat)
-      integer idxmat(*)
-      integer nconn,length,indxmin,ncoefs,i1,i2,i3,it,index,i,
-     *  nen,nef,n12,itype,icscode,nsd,nnmax,indxmax,ierrw,
-     *  icount,j
+      pointer (ipconst, const)
+      real*8 const(*)
+
       real*8 cvx,cvy,cvz,xdot,amatmax,amatmin,xdot1,xdot2,xdot3,
      * xarea1,xarea2,xarea3,ds1,ds2,ds3,x12,y12,z12,x13,y13,z13,
      * x23,y23,z23,ql,xl,yl,zl,dot3,rn,dotb3,xn,yn,zn,xn1,yn1,
      * zn1,xd,yd,zd,xb,yb,zb,xfac,za,ya,xa,xv,yv,zv,xm,ym,zm,
      * x2,y2,z2,x3,y3,z3,x1,y1,z1,rb3,cmx,cmy,cmz
 C
-      parameter (nconn=6)
-      integer lconn(2,nconn)
-      real*8 crosx,crosy,crosz,a,b,c,d,e,f,xfactri
+
       integer ierror,ierr,ityp,ilen,npoints,ntets,
      *  ipackopt,idiag
+
+      integer idebug
+      integer nconn,length,indxmin,ncoefs,i1,i2,i3,it,index,i,
+     *  nen,nef,n12,itype,icscode,nsd,nnmax,indxmax,ierrw,
+     *  icount,j, maxineg
+
+      parameter (nconn=6)
+      integer lconn(2,nconn)
       data lconn / 1, 2,
      *             2, 1,
      *             1, 3,
@@ -183,16 +183,20 @@ C
      *             2, 3,
      *             3, 2 /
 C
+      real*8 crosx,crosy,crosz,a,b,c,d,e,f,xfactri
       data xfactri / 1.0d-06 /
 C
       crosx(a,b,c,d,e,f)=b*f-c*e
       crosy(a,b,c,d,e,f)=c*d-a*f
       crosz(a,b,c,d,e,f)=a*e-b*d
 C
+      character*132 logmess
+      character*32 cmo, isubname
 C
 C#######################################################################
+C BEGIN begin
 C
-      isubname='matbld0'
+      isubname='matbld0tri'
  
 C
 C     ******************************************************************
@@ -213,9 +217,12 @@ C
  
       call cmo_get_info('idebug',cmo,idebug,ilen,ityp,ierr)
       if(idebug.ne.0) then
-        write(logmess,'(a,i5)')"debug option set to: ",idebug
+        write(logmess,'(a,i5)')"matbl0tri idebug set to: ",idebug
         call writloga('default',0,logmess,0,ierr)
       endif
+
+C     calculate max length of work array passed in from reconloop2d
+      maxineg = (nelmnee(ifelmtri)*ntets)+100
  
 C
 C     ******************************************************************
@@ -260,9 +267,9 @@ C
       call mmgetblk('xsendnn',isubname,ipxsendnn,length,2,icscode)
 C
       length=npoints
-      call mmgetblk("iparent",isubname,ipiparent,length,2,icscode)
+      call mmgetblk("iparent",isubname,ipiparent,length,1,icscode)
       length=3*ntets
-      call mmgetblk("itetp",isubname,ipitetp,length,2,icscode)
+      call mmgetblk("itetp",isubname,ipitetp,length,1,icscode)
 C
 C
 C     ..................................................................
@@ -476,9 +483,10 @@ C*****      print *,'Negative area 3: ',it,i2,i3,xdot3,xarea3,xdot
             amatmax=amat(i)
          endif
       enddo
+
+C*****
+C     write Min and Max value and index of isendnn
       do i=1,n12
-C***      if(isendnn(i).eq.indxmin) print *,"Min send: ",indxmin,i
-C***      if(isendnn(i).eq.indxmax) print *,"Max send: ",indxmax,i
          if(isendnn(i).eq.indxmin) then
            write(logmess,'(a,i10,i10)') 'Min send: ',indxmin,i
            call writloga('tty',0,logmess,0,ierrw)
@@ -507,6 +515,11 @@ C     enddo
       nneg=0
       if(icount.gt.0) then
          call hpsort1(icount,xmat,one,idxmat)
+         if (icount .gt. maxineg) then
+            call x3d_error(isubname,'ineg array too short.') 
+            ierr1 = 1
+            goto 9999
+         endif
          do i=1,icount
             j=imat(idxmat(i))
             if(amat(j).lt.-xfactri*abs(amatmax)) then
@@ -521,9 +534,9 @@ C     enddo
             ierr1=0
          endif
          if(idebug.eq.0) then
-            write(logmess,'(a,i9,a,1pe15.7,a,1pe15.7))')
+           write(logmess,'(a,i10,a,1pe15.7,a,1pe15.7)')
      *         'Matbld0tri: total neg',icount,
-     *          " mincoef= ",amatmin," maxcoef= ",amatmax
+     *          ' mincoef= ',amatmin,' maxcoef= ',amatmax
             call writloga('default',0,logmess,0,ierrw)
             write(logmess,'(a)')
      *         'Negative coeff2d:        sort   edge     vor_coeff
@@ -537,9 +550,9 @@ C     enddo
                call writloga('default',0,logmess,0,ierrw)
             enddo
          else
-            write(logmess,'(a,i9,a,1pe15.7,a,1pe15.7))')
+            write(logmess,'(a,i9,a,1pe15.7,a,1pe15.7)')
      *         'Matbld0tri: total neg',icount,
-     *          " mincoef= ",amatmin," maxcoef= ",amatmax
+     *          ' mincoef= ',amatmin,' maxcoef= ',amatmax
             call writloga('default',0,logmess,0,ierrw)
             write(logmess,'(a)')
      *         'Negative coeff2d:        sort   edge     vor_coeff
@@ -563,6 +576,11 @@ C
 C
       goto 9999
  9999 continue
+      
+      if (idebug.gt.1) then
+         print*,isubname,' mmprint() '
+         call mmprint()
+      endif
       call mmrelprt(isubname,icscode)
       return
       end
