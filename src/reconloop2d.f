@@ -108,6 +108,7 @@ C ######################################################################
 C BEGIN begin
 C
       isubname='reconloop2d'
+      nneg = 0
 C
 C  get info from mesh object and make sure it is a 2d mesh
       call cmo_get_name(cmo,ierror)
@@ -124,6 +125,10 @@ C  get info from mesh object and make sure it is a 2d mesh
          goto 9999
       endif
 C
+C     loop through refine and matbld0tri
+C     ineg must be a length consistent for use with matbld0tri
+C     a single element can need length of 36 or more
+C     1000 elements can need length of 60 or more
 C
       do i= 1, iloop_max
          write(logmess,'(a,i5)') 'RECON2D reconnection loop2d: ',i
@@ -131,7 +136,7 @@ C
          call recon2d(cmo,toldamage,lcheckaxy,epsilona)
          call cmo_get_info('nelements',cmo,
      *                     nelements,length,icmotype,ierror)
-         length=nelmnee(ifelmtri)*nelements
+         length= (nelmnee(ifelmtri)*nelements)+100
 
          if(iobtuse.eq.1) then
             call mmgetblk('ineg',isubname,ipineg,length,1,icscode)
@@ -144,9 +149,8 @@ C
                call mmrelblk('ineg',isubname,ipineg,icscode)
                call cmo_get_info('nelements',cmo,
      *                            nelements,length,icmotype,ierror)
-               length=nelmnee(ifelmtri)*nelements
-
-               call mmgetblk('ineg',isubname,ipineg,length,2,icscode)
+               length= (nelmnee(ifelmtri)*nelements)+100
+               call mmgetblk('ineg',isubname,ipineg,length,1,icscode)
                call matbld0tri(nneg,ipineg,ierrmat)
                call mmrelblk('ineg',isubname,ipineg,icscode)
                if(ierrmat.lt.0) goto 110
@@ -160,6 +164,11 @@ C
          endif
       enddo
  100  continue
+
+      if (ierror.gt.0) then
+         call x3d_error(isubname,'call matbld0tri error')
+         print*,'length: ',length,'lout: ',lenout,'nneg: ',nneg
+      endif
 
       call mmfindbk('ineg',isubname,ipineg,lenout,icscode)
       if(icscode.eq.0) then
