@@ -84,65 +84,75 @@ c ######################################################################
 c
       implicit none
 C
-      character*132 logmess
-C
-c
       include 'geom_lg.h'
       include "local_element.h"
-c
+
+C arguments
       character*(*) ifile
+      integer ierror
+
+C variables
       integer iflag_all,ipolydata,ivoronoi3d,ivoronoi2d,ihcycle,
      *  ics,j,ifprm,len2,imore,icount,maxclrpoint,lenc,
      *  lenout,length,ierror_return,lout,iout,imat,
      *  ifelmnew,leni,nee,nsdtopo,nsdgeom,i1,i2,i3,i4,i5,i6,i7,i8,
      *  ifound,itoff,jtoff,ierr,ilen,ityp,nelements,icscode,nnodes,
-     *  icharlnf,len1,ihybrid,iunit,ielements,ierror,ier
-      integer if_invert_ele, if_lagrit, if_invert_hit
-      integer icharlnb,iflag,index,itp,ierrwrt,itype,i
-      real*8 time,rout,a,b,c,d,e,f,crosx,crosy,crosz
-      character*32 cinter,cpers,cio,clen,crank,cout,iword2
+     *  icharlnf,len1,ihybrid,iunit,ielements,ier
+      integer if_invert_ele, if_lagrit, if_invert_hit,
+     *        iflag,index,itp,ierrwrt,itype,i
+      integer nsd, nen, nef
+
+      integer icharlnb
 C
+      pointer (ipitetclr, itetclr)
+      pointer (ipitettyp, itettyp)
+      pointer (ipitetoff, itetoff)
+      pointer (ipjtetoff, jtetoff)
+      integer itetclr(*),itettyp(*),itetoff(*),jtetoff(*)
+
+      pointer (ipitet, itet1)
+      pointer (ipjtet, jtet1)
+      integer itet1(*),jtet1(*)
+C
+      pointer (ipxarray, xarray(*))
+      integer iarray
+      pointer (ipiarray, iarray(*))
+      real*8 xarray
+
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
       pointer (ipvels,vels)
       real*8 vels(3,*)
-C
-      real*8 xic(*), yic(*), zic(*)
-C
-      integer nsd, nen, nef
-      pointer (ipitetclr, itetclr(*))
-      pointer (ipitettyp, itettyp(*))
-      pointer (ipitetoff, itetoff(*))
-      pointer (ipjtetoff, jtetoff(*))
-      pointer (ipitet, itet1(*))
-      pointer (ipjtet, jtet1(*))
-      integer itetclr,itettyp,itetoff,jtetoff,itet1,jtet1
-C
-      pointer (ipxarray, xarray(*))
-      pointer (ipiarray, iarray(*))
-      real*8 xarray
-      integer iarray
+
       pointer (ipxtemp,xtemp)
       real*8 xtemp(*)
       pointer (ipout,out)
       real*8 out(*)
 C
-      character*132 iline, iword
-      character*32 isubname,cmo,cmoattnam,ctype,geom_name
- 
-      character*32   cmotype, cvelnm
+      real*8 time,rout,a,b,c,d,e,f,crosx,crosy,crosz
+C
       character*8092 cbuff
+      character*132 logmess
+      character*132 iline, iword, iword2
+      character*32 cinter,cpers,cio,clen,crank,cout
+      character*32  isubname,cmo,cmoattnam,ctype,geom_name
+      character*32  cmotype, cvelnm
  
 c
+      crosx(a,b,c,d,e,f)=b*f-c*e
+      crosy(a,b,c,d,e,f)=c*d-a*f
+      crosz(a,b,c,d,e,f)=a*e-b*d
+C
       data ivoronoi2d / 1 /
       data ivoronoi3d / 0 /
       data ipolydata / 1 /
       data iflag_all / 0 /
 c
-      crosx(a,b,c,d,e,f)=b*f-c*e
-      crosy(a,b,c,d,e,f)=c*d-a*f
-      crosz(a,b,c,d,e,f)=a*e-b*d
+C
+C#######################################################
+C BEGIN begin
 c
       isubname="readgmv_ascii"
  
@@ -186,7 +196,9 @@ C
      *                        ipout,lout,itype,ierror)
       call mmfindbk('cmregs',geom_name,ipcmregs,length,ierror)
       call mmfindbk('matregs',geom_name,ipmatregs,length,ierror)
+
       read(iunit,'(a80)',err=9998,end=9999) iline
+
       if(iline(1:80).eq.' ') go to 100
       if(iline(1:6).eq.'endgmv') goto 9999
 C
@@ -217,9 +229,14 @@ C
 C
          len1=icharlnf(iline)
          iline=iline((len1+1):len(iline))
-         read(iword,*) iline
+C TAM
+C gfortran 4.6 on mac fails here
+C commented out because iword is not used here
+C        read(iword,*) iline
+
          if(iline(1:6) .eq. 'LaGriT')if_lagrit = 1
          goto 100
+
       elseif(iline(1:8).eq.'simdate') then
 C
 C     Do not invert tet connectivity. If simdate keyword
@@ -1069,63 +1086,67 @@ c ######################################################################
 c
       implicit none
 C
-      character*132 logmess
-c
       include 'geom_lg.h'
       include "local_element.h"
 C
+C arguments
+      character*(*) ifile
+      integer ierror
+
+C variables
       integer iflag_all,ipolydata,ivoronoi3d,ivoronoi2d,ihcycle,
      *  ics,j,ifprm,len2,imore,icount,maxclrpoint,lenc,
      *  lenout,length,ierror_return,lout,iout,imat,
      *  ifelmnew,leni,nee,nsdtopo,nsdgeom,i1,i2,i3,i4,i5,i6,i7,i8,
      *  ifound,itoff,jtoff,ierr,ilen,ityp,nelements,icscode,nnodes,
-     *  icharlnf,len1,ihybrid,iunit,ielements,ier,ierror
+     *  icharlnf,len1,ihybrid,iunit,ielements,ier
       integer icharlnb,iflag,index,itp,ierrwrt,itype,i
-      real*8 time,rout,a,b,c,d,e,f,crosx,crosy,crosz
-      character*32 cinter,cpers,cio,crank,clen
-c
-      character*(*) ifile
+      integer nsd, nen, nef
 C
+      pointer (ipiarray, iarray)
+      integer iarray(*)
+      pointer (ipxarray, xarray)
+      real*8 xarray(*)
+
+      pointer (ipout,out)
+      real*8 out(*)
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
       pointer (ipvels,vels)
       real*8 vels(3,*)
 C
-      real*8 xic(*), yic(*), zic(*)
+      pointer (ipitetclr, itetclr)
+      pointer (ipitettyp, itettyp)
+      pointer (ipitetoff, itetoff)
+      pointer (ipjtetoff, jtetoff)
+      integer itetclr(*),itettyp(*),itetoff(*),jtetoff(*)
+
+      pointer (ipitet, itet1)
+      pointer (ipjtet, jtet1)
+      integer itet1(*),jtet1(*)
 C
-      integer nsd, nen, nef
-      pointer (ipitetclr, itetclr(*))
-      pointer (ipitettyp, itettyp(*))
-      pointer (ipitetoff, itetoff(*))
-      pointer (ipjtetoff, jtetoff(*))
-      pointer (ipitet, itet1(*))
-      pointer (ipjtet, jtet1(*))
-      integer itetclr,itettyp,itetoff,jtetoff,itet1,jtet1
-C
-C
-      pointer (ipxarray, xarray(*))
-      pointer (ipiarray, iarray(*))
-      real*8 xarray
-      integer iarray
-      pointer (ipout,out)
-      real*8 out(*)
-C
+      character*8092 cbuff
+      character*132 logmess
       character*132 iline, iword
       character*32 isubname,cmo,cmoattnam,ctype,geom_name
- 
       character*32   cmotype, cvelnm
-      character*8092 cbuff
- 
+      character*32 cinter,cpers,cio,crank,clen
 c
+      real*8 time,rout,a,b,c,d,e,f,crosx,crosy,crosz
+      crosx(a,b,c,d,e,f)=b*f-c*e
+      crosy(a,b,c,d,e,f)=c*d-a*f
+      crosz(a,b,c,d,e,f)=a*e-b*d
+
       data ivoronoi2d / 1 /
       data ivoronoi3d / 0 /
       data ipolydata / 1 /
       data iflag_all / 0 /
 c
-      crosx(a,b,c,d,e,f)=b*f-c*e
-      crosy(a,b,c,d,e,f)=c*d-a*f
-      crosz(a,b,c,d,e,f)=a*e-b*d
+C
+C##########################################################
+C BEGIN begin
 c
       isubname="readgmv_asciistar"
  
