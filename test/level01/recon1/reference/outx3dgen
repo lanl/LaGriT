@@ -1,0 +1,1715 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.006   Linux m64      *                 
+*               *    date_compile: 2012/07/23  gfort 4.5      *                 
+*               *    Run Time: 2012/Jul 26  08:25:41          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+##############################################                                  
+# seven triangles with materials set                                            
+cmo/create/mo///triplane                                                        
+read/avs/input_fan.inp/mo                                                       
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo                                             
+ 
+  1 Mesh Object name: mo                                                        
+    number of nodes =             7        number of elements =            0    
+    dimensions geometry =         2        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+cmo/setatt/mo/imt/1 0 0/1                                                       
+Warning: nelements = 0                                                          
+         7 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo/itp/1 0 0/0                                                       
+Warning: nelements = 0                                                          
+         7 values reset for attribute itp1                                      
+ 
+connect                                                                         
+ Coordinates of enclosing triangle are:                                         
+          -0.26250D+01-0.80000D+00-0.00000D+00                                  
+           0.41250D+01-0.87500D+00-0.00000D+00                                  
+           0.75750D+00 0.70000D+01-0.00000D+00                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+cmo setatt mo itetclr 1                                                         
+         5 values reset for attribute itetclr                                   
+ 
+cmo setatt mo itetclr 1 1 1 5                                                   
+         1 values reset for attribute itetclr                                   
+ 
+cmo setatt mo itetclr 2 2 1 2                                                   
+         1 values reset for attribute itetclr                                   
+ 
+cmo setatt mo itetclr 3 3 1 3                                                   
+         1 values reset for attribute itetclr                                   
+ 
+cmo setatt mo itetclr 4 4 1 4                                                   
+         1 values reset for attribute itetclr                                   
+ 
+cmo setatt mo itetclr 5 5 1 1                                                   
+         1 values reset for attribute itetclr                                   
+ 
+cmo printatt mo itetclr                                                         
+Attribute: itetclr                                                              
+         1          5                                                           
+         2          2                                                           
+         3          3                                                           
+         4          4                                                           
+         5          1                                                           
+ 
+# set double defined points                                                     
+settets parents                                                                 
+cmo printatt mo itetclr                                                         
+Attribute: itetclr                                                              
+         1          5                                                           
+         2          2                                                           
+         3          3                                                           
+         4          4                                                           
+         5          1                                                           
+ 
+cmo printatt mo imt1                                                            
+Attribute: imt1                                                                 
+         1          1                                                           
+         2          1                                                           
+         3          1                                                           
+         4          1                                                           
+         5          1                                                           
+         6          1                                                           
+         7          1                                                           
+ 
+# set node imt1 based on element color                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+settets color_points                                                            
+ Adding        13 interface-coupled points.                                     
+dump gmv tmp2.gmv mo                                                            
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+cmo printatt mo itetclr                                                         
+Attribute: itetclr                                                              
+         1          5                                                           
+         2          2                                                           
+         3          3                                                           
+         4          4                                                           
+         5          1                                                           
+ 
+cmo printatt mo imt1                                                            
+Attribute: imt1                                                                 
+         1          5                                                           
+         2          1                                                           
+         3          2                                                           
+         4          2                                                           
+         5          3                                                           
+         6          5                                                           
+         7          5                                                           
+         8          1                                                           
+         9          2                                                           
+        10          3                                                           
+        11          4                                                           
+        12          5                                                           
+        13          1                                                           
+        14          2                                                           
+        15          3                                                           
+        16          2                                                           
+        17          4                                                           
+        18          3                                                           
+        19          4                                                           
+        20          5                                                           
+ 
+dump/gmv/output_fan_connect.gmv/mo                                              
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   3.5108335E-13  4.3274364E-38                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          2                          
+elements with aspect ratio b/w .5  and 1. :          3                          
+min aspect ratio =  0.3865E-01  max aspect ratio =  0.1140E+00                  
+ 
+epsilonvol:   5.5511151E-13                                                     
+---------------------------------------                                         
+All elements have volume  5.0000000E-02                                         
+-----------------------------------------------------------                     
+         5 total elements evaluated.                                            
+ 
+cmo setatt mo idebug 1                                                          
+         1 values reset for attribute idebug                                    
+ 
+recon 1                                                                         
+RECON2D reconnection loop2d:     1                                              
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       10 mincoef=  -1.4230249E+00 maxcoef=   1.6263456E+00
+Negative coeff2d:          1        24 -1.4230249E+00        12         7       
+Negative coeff2d:          2        10 -1.4230249E+00         7        12       
+Negative coeff2d:          3        45 -1.1648176E+00        19        11       
+Negative coeff2d:          4        23 -1.1648176E+00        11        19       
+Negative coeff2d:          5        20 -9.3391648E-01        10        18       
+Negative coeff2d:          6        42 -9.3391648E-01        18        10       
+Negative coeff2d:          7        17 -7.2993150E-01         9        16       
+Negative coeff2d:          8        36 -7.2993150E-01        16         9       
+Negative coeff2d:          9        28 -5.5226805E-01        13         8       
+Negative coeff2d:         10        14 -5.5226805E-01         8        13       
+Edge iteration refine_edge_2d:          1         5                             
+Edge-refined tris: before=         5 after=         8                           
+Edge iteration refine_edge_2d:          2         3                             
+Edge-refined tris: before=         8 after=        14                           
+nlist =              5 sink nnodes =             25 mmgetlen =           1020   
+ refine_edge_2d: new nnodes and nelements:            25            14          
+ calling mmverify to check new lengths:                                         
+settets/parents                                                                 
+ SETTETS required ITMAT step 2 for          9 tets                              
+ SETTETS required ITMAT step 4 for          9 tets                              
+Interface node converted to interior         23                                 
+ Adding         6 interface-coupled points.                                     
+nlist =              6 sink nnodes =             25 mmgetlen =           1020   
+finish                                                                          
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       24 mincoef=  -9.4058732E+00 maxcoef=   9.2457396E+00
+Negative coeff2d:          1        47 -9.4058732E+00        18        10       
+Negative coeff2d:          2        20 -9.4058732E+00        10        18       
+Negative coeff2d:          3        24 -5.8703322E+00        11        17       
+Negative coeff2d:          4        43 -5.8703322E+00        17        11       
+Negative coeff2d:          5        13 -2.4500000E+00         8         2       
+Negative coeff2d:          6         3 -2.4500000E+00         2         8       
+Negative coeff2d:          7        77 -1.0644834E+00        27        15       
+Negative coeff2d:          8        39 -1.0644834E+00        15        27       
+Negative coeff2d:          9        27 -7.1151247E-01        12        21       
+Negative coeff2d:         10        59 -7.1151247E-01        21        12       
+Negative coeff2d:         11        12 -6.3245553E-01         7        21       
+Negative coeff2d:         12        58 -6.3245553E-01        21         7       
+Negative coeff2d:         13        57 -5.8240879E-01        20        28       
+Negative coeff2d:         14        81 -5.8240879E-01        28        20       
+Negative coeff2d:         15        53 -5.0960769E-01        19        29       
+Negative coeff2d:         16        86 -5.0960769E-01        29        19       
+Negative coeff2d:         17        71 -3.6496575E-01        26         9       
+Negative coeff2d:         18        17 -3.6496575E-01         9        26       
+Negative coeff2d:         19        42 -3.0413813E-01        16        26       
+Negative coeff2d:         20        73 -3.0413813E-01        26        16       
+Negative coeff2d:         21        89 -2.7613403E-01        30        14       
+Negative coeff2d:         22        35 -2.7613403E-01        14        30       
+Negative coeff2d:         23        94 -2.2090722E-01        31        13       
+Negative coeff2d:         24        31 -2.2090722E-01        13        31       
+RECON2D reconnection loop2d:     2                                              
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       24 mincoef=  -9.4058732E+00 maxcoef=   9.2457396E+00
+Negative coeff2d:          1        47 -9.4058732E+00        18        10       
+Negative coeff2d:          2        20 -9.4058732E+00        10        18       
+Negative coeff2d:          3        24 -5.8703322E+00        11        17       
+Negative coeff2d:          4        43 -5.8703322E+00        17        11       
+Negative coeff2d:          5        13 -2.4500000E+00         8         2       
+Negative coeff2d:          6         3 -2.4500000E+00         2         8       
+Negative coeff2d:          7        77 -1.0644834E+00        27        15       
+Negative coeff2d:          8        39 -1.0644834E+00        15        27       
+Negative coeff2d:          9        27 -7.1151247E-01        12        21       
+Negative coeff2d:         10        59 -7.1151247E-01        21        12       
+Negative coeff2d:         11        12 -6.3245553E-01         7        21       
+Negative coeff2d:         12        58 -6.3245553E-01        21         7       
+Negative coeff2d:         13        57 -5.8240879E-01        20        28       
+Negative coeff2d:         14        81 -5.8240879E-01        28        20       
+Negative coeff2d:         15        53 -5.0960769E-01        19        29       
+Negative coeff2d:         16        86 -5.0960769E-01        29        19       
+Negative coeff2d:         17        71 -3.6496575E-01        26         9       
+Negative coeff2d:         18        17 -3.6496575E-01         9        26       
+Negative coeff2d:         19        42 -3.0413813E-01        16        26       
+Negative coeff2d:         20        73 -3.0413813E-01        26        16       
+Negative coeff2d:         21        89 -2.7613403E-01        30        14       
+Negative coeff2d:         22        35 -2.7613403E-01        14        30       
+Negative coeff2d:         23        94 -2.2090722E-01        31        13       
+Negative coeff2d:         24        31 -2.2090722E-01        13        31       
+Edge iteration refine_edge_2d:          1         8                             
+Edge-refined tris: before=        14 after=        27                           
+nlist =              8 sink nnodes =             39 mmgetlen =           1020   
+ refine_edge_2d: new nnodes and nelements:            39            27          
+ calling mmverify to check new lengths:                                         
+settets/parents                                                                 
+ SETTETS required ITMAT step 2 for         10 tets                              
+ SETTETS required ITMAT step 4 for         10 tets                              
+ Adding        10 interface-coupled points.                                     
+nlist =             10 sink nnodes =             39 mmgetlen =           1020   
+finish                                                                          
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       36 mincoef=  -1.4174036E+01 maxcoef=   8.6977008E+00
+Negative coeff2d:          1        69 -1.4174036E+01        23        10       
+Negative coeff2d:          2        21 -1.4174036E+01        10        23       
+Negative coeff2d:          3        62 -4.3527179E+00        21        20       
+Negative coeff2d:          4        59 -4.3527179E+00        20        21       
+Negative coeff2d:          5        28 -3.8220577E+00        12        28       
+Negative coeff2d:          6        89 -3.8220577E+00        28        12       
+Negative coeff2d:          7       159 -2.3535295E+00        48        18       
+Negative coeff2d:          8        53 -2.3535295E+00        18        48       
+Negative coeff2d:          9        79 -1.8000000E+00        26        14       
+Negative coeff2d:         10        35 -1.8000000E+00        14        26       
+Negative coeff2d:         11        99 -1.6568042E+00        30         9       
+Negative coeff2d:         12        18 -1.6568042E+00         9        30       
+Negative coeff2d:         13        47 -1.0644834E+00        17        29       
+Negative coeff2d:         14        95 -1.0644834E+00        29        17       
+Negative coeff2d:         15       104 -4.1881156E-01        31         2       
+Negative coeff2d:         16         4 -4.1881156E-01         2        31       
+Negative coeff2d:         17       117 -3.1622777E-01        36        21       
+Negative coeff2d:         18        66 -3.1622777E-01        21        36       
+Negative coeff2d:         19       136 -2.5480385E-01        42        28       
+Negative coeff2d:         20        93 -2.5480385E-01        28        42       
+Negative coeff2d:         21       109 -2.3717082E-01        32         7       
+Negative coeff2d:         22        13 -2.3717082E-01         7        32       
+Negative coeff2d:         23        56 -1.8200275E-01        19        43       
+Negative coeff2d:         24       139 -1.8200275E-01        43        19       
+Negative coeff2d:         25       130 -1.5206906E-01        41        15       
+Negative coeff2d:         26        41 -1.5206906E-01        15        41       
+Negative coeff2d:         27        84 -1.5206906E-01        26        47       
+Negative coeff2d:         28       155 -1.5206906E-01        47        26       
+Negative coeff2d:         29       102 -1.1045361E-01        30        44       
+Negative coeff2d:         30       144 -1.1045361E-01        44        30       
+Negative coeff2d:         31       127 -9.1241438E-02        40        16       
+Negative coeff2d:         32        44 -9.1241438E-02        16        40       
+Negative coeff2d:         33        32 -5.5226805E-02        13        45       
+Negative coeff2d:         34       147 -5.5226805E-02        45        13       
+Negative coeff2d:         35        94 -4.4430600E-16        29        11       
+Negative coeff2d:         36        25 -4.4430600E-16        11        29       
+RECON2D reconnection loop2d:     3                                              
+Recon2d: iteration number=          1 number of flips=          5               
+Recon2d: iteration number=          2 number of flips=          1               
+Recon2d: iteration number=          3 number of flips=          1               
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       42 mincoef=  -3.8220577E+00 maxcoef=   4.1692700E+00
+Negative coeff2d:          1        79 -3.8220577E+00        28        12       
+Negative coeff2d:          2        26 -3.8220577E+00        12        28       
+Negative coeff2d:          3       154 -3.4208626E+00        48        10       
+Negative coeff2d:          4        21 -3.4208626E+00        10        48       
+Negative coeff2d:          5       155 -2.3535295E+00        48        18       
+Negative coeff2d:          6        49 -2.3535295E+00        18        48       
+Negative coeff2d:          7        17 -1.6568042E+00         9        30       
+Negative coeff2d:          8        88 -1.6568042E+00        30         9       
+Negative coeff2d:          9        45 -7.5952544E-01        17        49       
+Negative coeff2d:         10       162 -7.5952544E-01        49        17       
+Negative coeff2d:         11        60 -3.1622777E-01        21        36       
+Negative coeff2d:         12       106 -3.1622777E-01        36        21       
+Negative coeff2d:         13       111 -2.8333333E-01        39         2       
+Negative coeff2d:         14         4 -2.8333333E-01         2        39       
+Negative coeff2d:         15        59 -2.7669930E-01        21        32       
+Negative coeff2d:         16        99 -2.7669930E-01        32        21       
+Negative coeff2d:         17        83 -2.5480385E-01        28        42       
+Negative coeff2d:         18       128 -2.5480385E-01        42        28       
+Negative coeff2d:         19        97 -2.3717082E-01        32         7       
+Negative coeff2d:         20        12 -2.3717082E-01         7        32       
+Negative coeff2d:         21       123 -2.2230302E-01        41        27       
+Negative coeff2d:         22        76 -2.2230302E-01        27        41       
+Negative coeff2d:         23        56 -2.1840330E-01        20        42       
+Negative coeff2d:         24       126 -2.1840330E-01        42        20       
+Negative coeff2d:         25        52 -1.8200275E-01        19        43       
+Negative coeff2d:         26       132 -1.8200275E-01        43        19       
+Negative coeff2d:         27       121 -1.5206906E-01        41        15       
+Negative coeff2d:         28        38 -1.5206906E-01        15        41       
+Negative coeff2d:         29       151 -1.5206906E-01        47        26       
+Negative coeff2d:         30        74 -1.5206906E-01        26        47       
+Negative coeff2d:         31       118 -1.2165525E-01        40        26       
+Negative coeff2d:         32        72 -1.2165525E-01        26        40       
+Negative coeff2d:         33        91 -1.1045361E-01        30        44       
+Negative coeff2d:         34       138 -1.1045361E-01        44        30       
+Negative coeff2d:         35       117 -9.1241438E-02        40        16       
+Negative coeff2d:         36        41 -9.1241438E-02        16        40       
+Negative coeff2d:         37       136 -8.2840208E-02        44        14       
+Negative coeff2d:         38        34 -8.2840208E-02        14        44       
+Negative coeff2d:         39        30 -5.5226805E-02        13        45       
+Negative coeff2d:         40       142 -5.5226805E-02        45        13       
+Negative coeff2d:         41        84 -4.4430600E-16        29        11       
+Negative coeff2d:         42        23 -4.4430600E-16        11        29       
+Edge iteration refine_edge_2d:          1        15                             
+Edge-refined tris: before=        27 after=        51                           
+Edge iteration refine_edge_2d:          2         1                             
+Edge-refined tris: before=        51 after=        53                           
+nlist =             15 sink nnodes =             64 mmgetlen =           1020   
+ refine_edge_2d: new nnodes and nelements:            64            53          
+ calling mmverify to check new lengths:                                         
+settets/parents                                                                 
+ SETTETS required ITMAT step 2 for         21 tets                              
+ SETTETS required ITMAT step 4 for         21 tets                              
+ Adding        22 interface-coupled points.                                     
+nlist =             22 sink nnodes =             64 mmgetlen =           1020   
+finish                                                                          
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       54 mincoef=  -1.3500000E+00 maxcoef=   1.6643421E+00
+Negative coeff2d:          1       123 -1.3500000E+00        39         8       
+Negative coeff2d:          2        15 -1.3500000E+00         8        39       
+Negative coeff2d:          3       185 -1.2962382E+00        49        43       
+Negative coeff2d:          4       149 -1.2962382E+00        43        49       
+Negative coeff2d:          5       167 -1.2749769E+00        46        48       
+Negative coeff2d:          6       178 -1.2749769E+00        48        46       
+Negative coeff2d:          7       282 -8.8219822E-01        81        11       
+Negative coeff2d:          8        24 -8.8219822E-01        11        81       
+Negative coeff2d:          9       141 -8.6172469E-01        42        21       
+Negative coeff2d:         10        63 -8.6172469E-01        21        42       
+Negative coeff2d:         11       190 -7.3296378E-01        49        85       
+Negative coeff2d:         12       300 -7.3296378E-01        85        49       
+Negative coeff2d:         13       117 -7.0877590E-01        36        28       
+Negative coeff2d:         14        89 -7.0877590E-01        28        36       
+Negative coeff2d:         15       126 -4.0813098E-01        39        45       
+Negative coeff2d:         16       160 -4.0813098E-01        45        39       
+Negative coeff2d:         17       107 -3.9579210E-01        32        20       
+Negative coeff2d:         18        58 -3.9579210E-01        20        32       
+Negative coeff2d:         19        79 -3.9382023E-01        26        44       
+Negative coeff2d:         20       153 -3.9382023E-01        44        26       
+Negative coeff2d:         21        99 -2.8750000E-01        30        47       
+Negative coeff2d:         22       171 -2.8750000E-01        47        30       
+Negative coeff2d:         23        48 -2.3173021E-01        17        73       
+Negative coeff2d:         24       250 -2.3173021E-01        73        17       
+Negative coeff2d:         25        69 -1.8200275E-01        23        18       
+Negative coeff2d:         26        51 -1.8200275E-01        18        23       
+Negative coeff2d:         27        39 -1.7500000E-01        15        23       
+Negative coeff2d:         28        68 -1.7500000E-01        23        15       
+Negative coeff2d:         29        64 -1.1858541E-01        21        54       
+Negative coeff2d:         30       198 -1.1858541E-01        54        21       
+Negative coeff2d:         31       145 -1.0714124E-01        42        67       
+Negative coeff2d:         32       228 -1.0714124E-01        67        42       
+Negative coeff2d:         33       175 -1.0609401E-01        48        23       
+Negative coeff2d:         34        72 -1.0609401E-01        23        48       
+Negative coeff2d:         35       263 -9.1001374E-02        76        28       
+Negative coeff2d:         36        91 -9.1001374E-02        28        76       
+Negative coeff2d:         37         4 -9.0437306E-02         2        45       
+Negative coeff2d:         38       159 -9.0437306E-02        45         2       
+Negative coeff2d:         39       111 -7.9056942E-02        32        59       
+Negative coeff2d:         40       207 -7.9056942E-02        59        32       
+Negative coeff2d:         41       139 -7.1513559E-02        41        65       
+Negative coeff2d:         42       220 -7.1513559E-02        65        41       
+Negative coeff2d:         43       246 -4.5620719E-02        72        26       
+Negative coeff2d:         44        80 -4.5620719E-02        26        72       
+Negative coeff2d:         45       135 -3.9483465E-02        40        79       
+Negative coeff2d:         46       275 -3.9483465E-02        79        40       
+Negative coeff2d:         47       271 -2.7613403E-02        78        30       
+Negative coeff2d:         48       101 -2.7613403E-02        30        78       
+Negative coeff2d:         49        31 -6.3375022E-03        13        69       
+Negative coeff2d:         50       235 -6.3375022E-03        69        13       
+Negative coeff2d:         51       170 -5.4417255E-16        47         9       
+Negative coeff2d:         52        18 -5.4417255E-16         9        47       
+Negative coeff2d:         53        56 -2.7755576E-16        20         7       
+Negative coeff2d:         54        12 -2.7755576E-16         7        20       
+RECON2D reconnection loop2d:     4                                              
+Recon2d: iteration number=          1 number of flips=         11               
+Recon2d: iteration number=          2 number of flips=          1               
+Recon2d: iteration number=          3 number of flips=          1               
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       58 mincoef=  -1.3500000E+00 maxcoef=   1.6643421E+00
+Negative coeff2d:          1        14 -1.3500000E+00         8        39       
+Negative coeff2d:          2       111 -1.3500000E+00        39         8       
+Negative coeff2d:          3       279 -8.8219822E-01        81        11       
+Negative coeff2d:          4        23 -8.8219822E-01        11        81       
+Negative coeff2d:          5       168 -7.3296378E-01        49        85       
+Negative coeff2d:          6       299 -7.3296378E-01        85        49       
+Negative coeff2d:          7       162 -7.1955042E-01        48        86       
+Negative coeff2d:          8       304 -7.1955042E-01        86        48       
+Negative coeff2d:          9        83 -5.0708942E-01        28        82       
+Negative coeff2d:         10       285 -5.0708942E-01        82        28       
+Negative coeff2d:         11        46 -2.3173021E-01        17        73       
+Negative coeff2d:         12       239 -2.3173021E-01        73        17       
+Negative coeff2d:         13       294 -2.0038578E-01        84        30       
+Negative coeff2d:         14        92 -2.0038578E-01        30        84       
+Negative coeff2d:         15       244 -1.8876452E-01        74        18       
+Negative coeff2d:         16        50 -1.8876452E-01        18        74       
+Negative coeff2d:         17        99 -1.2608360E-01        32        50       
+Negative coeff2d:         18       171 -1.2608360E-01        50        32       
+Negative coeff2d:         19       114 -1.2000000E-01        39        63       
+Negative coeff2d:         20       195 -1.2000000E-01        63        39       
+Negative coeff2d:         21        60 -1.1858541E-01        21        54       
+Negative coeff2d:         22       177 -1.1858541E-01        54        21       
+Negative coeff2d:         23       213 -1.0714124E-01        67        42       
+Negative coeff2d:         24       132 -1.0714124E-01        42        67       
+Negative coeff2d:         25        61 -9.8821177E-02        21        59       
+Negative coeff2d:         26       186 -9.8821177E-02        59        21       
+Negative coeff2d:         27       165 -9.6539682E-02        49        73       
+Negative coeff2d:         28       241 -9.6539682E-02        73        49       
+Negative coeff2d:         29        82 -9.1001374E-02        28        76       
+Negative coeff2d:         30       256 -9.1001374E-02        76        28       
+Negative coeff2d:         31       100 -7.9056942E-02        32        59       
+Negative coeff2d:         32       187 -7.9056942E-02        59        32       
+Negative coeff2d:         33       133 -7.2801099E-02        42        76       
+Negative coeff2d:         34       257 -7.2801099E-02        76        42       
+Negative coeff2d:         35       126 -7.1513559E-02        41        65       
+Negative coeff2d:         36       204 -7.1513559E-02        65        41       
+Negative coeff2d:         37       160 -6.9831369E-02        48        74       
+Negative coeff2d:         38       247 -6.9831369E-02        74        48       
+Negative coeff2d:         39       251 -4.7854776E-02        75        43       
+Negative coeff2d:         40       138 -4.7854776E-02        43        75       
+Negative coeff2d:         41        72 -4.5620719E-02        26        72       
+Negative coeff2d:         42       234 -4.5620719E-02        72        26       
+Negative coeff2d:         43       271 -3.9483465E-02        79        40       
+Negative coeff2d:         44       122 -3.9483465E-02        40        79       
+Negative coeff2d:         45       266 -2.7613403E-02        78        30       
+Negative coeff2d:         46        91 -2.7613403E-02        30        78       
+Negative coeff2d:         47        30 -6.3375022E-03        13        69       
+Negative coeff2d:         48       221 -6.3375022E-03        69        13       
+Negative coeff2d:         49       142 -5.3102469E-03        44        78       
+Negative coeff2d:         50       267 -5.3102469E-03        78        44       
+Negative coeff2d:         51       194 -5.0373134E-03        63         2       
+Negative coeff2d:         52         4 -5.0373134E-03         2        63       
+Negative coeff2d:         53       270 -3.3627905E-03        79        26       
+Negative coeff2d:         54        74 -3.3627905E-03        26        79       
+Negative coeff2d:         55       152 -5.4417255E-16        47         9       
+Negative coeff2d:         56        17 -5.4417255E-16         9        47       
+Negative coeff2d:         57        54 -2.7755576E-16        20         7       
+Negative coeff2d:         58        11 -2.7755576E-16         7        20       
+Edge iteration refine_edge_2d:          1        23                             
+Edge-refined tris: before=        53 after=        92                           
+nlist =             23 sink nnodes =            109 mmgetlen =           1020   
+ refine_edge_2d: new nnodes and nelements:           109            92          
+ calling mmverify to check new lengths:                                         
+settets/parents                                                                 
+ SETTETS required ITMAT step 2 for         37 tets                              
+ SETTETS required ITMAT step 4 for         37 tets                              
+ Adding        32 interface-coupled points.                                     
+nlist =             32 sink nnodes =            109 mmgetlen =           1020   
+finish                                                                          
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       60 mincoef=  -2.2728871E+00 maxcoef=   2.2793269E+00
+Negative coeff2d:          1        27 -2.2728871E+00        12        36       
+Negative coeff2d:          2       114 -2.2728871E+00        36        12       
+Negative coeff2d:          3       315 -1.0949761E+00        81        49       
+Negative coeff2d:          4       186 -1.0949761E+00        49        81       
+Negative coeff2d:          5       336 -1.0266710E+00        85        11       
+Negative coeff2d:          6        24 -1.0266710E+00        11        85       
+Negative coeff2d:          7       176 -5.3335665E-01        48        71       
+Negative coeff2d:          8       258 -5.3335665E-01        71        48       
+Negative coeff2d:          9       507 -3.0250697E-01       139        81       
+Negative coeff2d:         10       320 -3.0250697E-01        81       139       
+Negative coeff2d:         11       129 -2.9548924E-01        40        14       
+Negative coeff2d:         12        34 -2.9548924E-01        14        40       
+Negative coeff2d:         13        46 -2.6875000E-01        17        43       
+Negative coeff2d:         14       149 -2.6875000E-01        43        17       
+Negative coeff2d:         15       327 -2.3245755E-01        83        39       
+Negative coeff2d:         16       124 -2.3245755E-01        39        83       
+Negative coeff2d:         17       174 -2.1851113E-01        48        41       
+Negative coeff2d:         18       138 -2.1851113E-01        41        48       
+Negative coeff2d:         19       281 -1.5983628E-01        75        49       
+Negative coeff2d:         20       185 -1.5983628E-01        49        75       
+Negative coeff2d:         21       227 -1.5521012E-01        65        18       
+Negative coeff2d:         22        52 -1.5521012E-01        18        65       
+Negative coeff2d:         23       339 -1.2599791E-01        85       110       
+Negative coeff2d:         24       392 -1.2599791E-01       110        85       
+Negative coeff2d:         25       123 -8.9249771E-02        39        77       
+Negative coeff2d:         26       293 -8.9249771E-02        77        39       
+Negative coeff2d:         27       294 -6.2932531E-02        77        63       
+Negative coeff2d:         28       221 -6.2932531E-02        63        77       
+Negative coeff2d:         29       305 -3.8971428E-02        79        44       
+Negative coeff2d:         30       158 -3.8971428E-02        44        79       
+Negative coeff2d:         31       277 -3.7214632E-02        74        65       
+Negative coeff2d:         32       230 -3.7214632E-02        65        74       
+Negative coeff2d:         33       276 -2.4315301E-02        74        41       
+Negative coeff2d:         34       139 -2.4315301E-02        41        74       
+Negative coeff2d:         35       151 -2.3753476E-02        43        73       
+Negative coeff2d:         36       269 -2.3753476E-02        73        43       
+Negative coeff2d:         37       333 -5.7985591E-03        84        72       
+Negative coeff2d:         38       266 -5.7985591E-03        72        84       
+Negative coeff2d:         39       249 -5.2560280E-03        69        63       
+Negative coeff2d:         40       220 -5.2560280E-03        63        69       
+Negative coeff2d:         41       343 -4.7642213E-03        86        71       
+Negative coeff2d:         42       260 -4.7642213E-03        71        86       
+Negative coeff2d:         43       202 -4.3288784E-03        54        82       
+Negative coeff2d:         44       322 -4.3288784E-03        82        54       
+Negative coeff2d:         45        18 -5.4417255E-16         9        47       
+Negative coeff2d:         46       169 -5.4417255E-16        47         9       
+Negative coeff2d:         47       107 -5.3606310E-16        32        67       
+Negative coeff2d:         48       238 -5.3606310E-16        67        32       
+Negative coeff2d:         49        57 -2.7755576E-16        20         7       
+Negative coeff2d:         50        12 -2.7755576E-16         7        20       
+Negative coeff2d:         51       287 -1.6653345E-16        76        21       
+Negative coeff2d:         52        63 -1.6653345E-16        21        76       
+Negative coeff2d:         53       155 -1.2412671E-16        44        40       
+Negative coeff2d:         54       131 -1.2412671E-16        40        44       
+Negative coeff2d:         55       211 -5.5511151E-17        59        76       
+Negative coeff2d:         56       288 -5.5511151E-17        76        59       
+Negative coeff2d:         57        95 -1.3877788E-17        30        26       
+Negative coeff2d:         58        76 -1.3877788E-17        26        30       
+Negative coeff2d:         59       247 -6.9388939E-18        69         2       
+Negative coeff2d:         60         4 -6.9388939E-18         2        69       
+RECON2D reconnection loop2d:     5                                              
+Recon2d: iteration number=          1 number of flips=         18               
+Recon2d: iteration number=          2 number of flips=          2               
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       44 mincoef=  -2.2728871E+00 maxcoef=   2.2793269E+00
+Negative coeff2d:          1        27 -2.2728871E+00        12        36       
+Negative coeff2d:          2       113 -2.2728871E+00        36        12       
+Negative coeff2d:          3        24 -1.0266710E+00        11        85       
+Negative coeff2d:          4       308 -1.0266710E+00        85        11       
+Negative coeff2d:          5       295 -3.0250697E-01        81       139       
+Negative coeff2d:          6       505 -3.0250697E-01       139        81       
+Negative coeff2d:          7       365 -2.8736719E-01       110        49       
+Negative coeff2d:          8       177 -2.8736719E-01        49       110       
+Negative coeff2d:          9       170 -2.2961120E-01        48       111       
+Negative coeff2d:         10       371 -2.2961120E-01       111        48       
+Negative coeff2d:         11       492 -1.6391482E-01       136        81       
+Negative coeff2d:         12       294 -1.6391482E-01        81       136       
+Negative coeff2d:         13       124 -1.5710383E-01        39       108       
+Negative coeff2d:         14       356 -1.5710383E-01       108        39       
+Negative coeff2d:         15       367 -1.2599791E-01       110        85       
+Negative coeff2d:         16       311 -1.2599791E-01        85       110       
+Negative coeff2d:         17       400 -8.4136562E-02       117        17       
+Negative coeff2d:         18        46 -8.4136562E-02        17       117       
+Negative coeff2d:         19       179 -7.0790009E-02        49       127       
+Negative coeff2d:         20       449 -7.0790009E-02       127        49       
+Negative coeff2d:         21        50 -6.1461598E-02        18       116       
+Negative coeff2d:         22       395 -6.1461598E-02       116        18       
+Negative coeff2d:         23       445 -5.5259317E-02       126        48       
+Negative coeff2d:         24       173 -5.5259317E-02        48       126       
+Negative coeff2d:         25       123 -1.3619403E-02        39        99       
+Negative coeff2d:         26       335 -1.3619403E-02        99        39       
+Negative coeff2d:         27        18 -5.4417255E-16         9        47       
+Negative coeff2d:         28       162 -5.4417255E-16        47         9       
+Negative coeff2d:         29       224 -5.3606310E-16        67        32       
+Negative coeff2d:         30       106 -5.3606310E-16        32        67       
+Negative coeff2d:         31        12 -2.7755576E-16         7        20       
+Negative coeff2d:         32        54 -2.7755576E-16        20         7       
+Negative coeff2d:         33       266 -1.6653345E-16        76        21       
+Negative coeff2d:         34        60 -1.6653345E-16        21        76       
+Negative coeff2d:         35       147 -1.2412671E-16        44        40       
+Negative coeff2d:         36       128 -1.2412671E-16        40        44       
+Negative coeff2d:         37       267 -5.5511151E-17        76        59       
+Negative coeff2d:         38       200 -5.5511151E-17        59        76       
+Negative coeff2d:         39       209 -3.0531133E-17        63        99       
+Negative coeff2d:         40       336 -3.0531133E-17        99        63       
+Negative coeff2d:         41        94 -1.3877788E-17        30        26       
+Negative coeff2d:         42        75 -1.3877788E-17        26        30       
+Negative coeff2d:         43       233 -6.9388939E-18        69         2       
+Negative coeff2d:         44         4 -6.9388939E-18         2        69       
+Edge iteration refine_edge_2d:          1        10                             
+Edge-refined tris: before=        92 after=       109                           
+nlist =             10 sink nnodes =            151 mmgetlen =           1020   
+ refine_edge_2d: new nnodes and nelements:           151           109          
+ calling mmverify to check new lengths:                                         
+settets/parents                                                                 
+ SETTETS required ITMAT step 2 for         44 tets                              
+ SETTETS required ITMAT step 4 for         44 tets                              
+ Adding        14 interface-coupled points.                                     
+nlist =             14 sink nnodes =            151 mmgetlen =           1020   
+finish                                                                          
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       52 mincoef=  -8.6320713E-01 maxcoef=   8.7483445E-01
+Negative coeff2d:          1       160 -8.6320713E-01        46        10       
+Negative coeff2d:          2        21 -8.6320713E-01        10        46       
+Negative coeff2d:          3       118 -5.2957507E-01        36       138       
+Negative coeff2d:          4       515 -5.2957507E-01       138        36       
+Negative coeff2d:          5       378 -3.6592471E-01       111        46       
+Negative coeff2d:          6       164 -3.6592471E-01        46       111       
+Negative coeff2d:          7       175 -3.4807210E-01        48       114       
+Negative coeff2d:          8       394 -3.4807210E-01       114        48       
+Negative coeff2d:          9       510 -3.4098403E-01       137        36       
+Negative coeff2d:         10       117 -3.4098403E-01        36       137       
+Negative coeff2d:         11       403 -4.3944262E-02       116        15       
+Negative coeff2d:         12        39 -4.3944262E-02        15       116       
+Negative coeff2d:         13       563 -4.1276207E-02       154       111       
+Negative coeff2d:         14       382 -4.1276207E-02       111       154       
+Negative coeff2d:         15       176 -3.8633650E-02        48       124       
+Negative coeff2d:         16       445 -3.8633650E-02       124        48       
+Negative coeff2d:         17       527 -7.1154763E-03       140       108       
+Negative coeff2d:         18       365 -7.1154763E-03       108       140       
+Negative coeff2d:         19       572 -4.1552291E-03       156       126       
+Negative coeff2d:         20       460 -4.1552291E-03       126       156       
+Negative coeff2d:         21       126 -3.5040186E-03        39       120       
+Negative coeff2d:         22       426 -3.5040186E-03       120        39       
+Negative coeff2d:         23       469 -2.8576226E-03       128       117       
+Negative coeff2d:         24       412 -2.8576226E-03       117       128       
+Negative coeff2d:         25       416 -1.9050817E-03       118        49       
+Negative coeff2d:         26       182 -1.9050817E-03        49       118       
+Negative coeff2d:         27        18 -5.4417255E-16         9        47       
+Negative coeff2d:         28       167 -5.4417255E-16        47         9       
+Negative coeff2d:         29       229 -5.3606310E-16        67        32       
+Negative coeff2d:         30       107 -5.3606310E-16        32        67       
+Negative coeff2d:         31        12 -2.7755576E-16         7        20       
+Negative coeff2d:         32        55 -2.7755576E-16        20         7       
+Negative coeff2d:         33       514 -2.2887834E-16       138        12       
+Negative coeff2d:         34        27 -2.2887834E-16        12       138       
+Negative coeff2d:         35        47 -2.2204460E-16        17       128       
+Negative coeff2d:         36       466 -2.2204460E-16       128        17       
+Negative coeff2d:         37       271 -1.6653345E-16        76        21       
+Negative coeff2d:         38        61 -1.6653345E-16        21        76       
+Negative coeff2d:         39       298 -1.3049456E-16        81       110       
+Negative coeff2d:         40       372 -1.3049456E-16       110        81       
+Negative coeff2d:         41       150 -1.2412671E-16        44        40       
+Negative coeff2d:         42       131 -1.2412671E-16        40        44       
+Negative coeff2d:         43       272 -5.5511151E-17        76        59       
+Negative coeff2d:         44       205 -5.5511151E-17        59        76       
+Negative coeff2d:         45       316 -3.4694470E-17        85       139       
+Negative coeff2d:         46       520 -3.4694470E-17       139        85       
+Negative coeff2d:         47       214 -3.0531133E-17        63        99       
+Negative coeff2d:         48       342 -3.0531133E-17        99        63       
+Negative coeff2d:         49        95 -1.3877788E-17        30        26       
+Negative coeff2d:         50        76 -1.3877788E-17        26        30       
+Negative coeff2d:         51       238 -6.9388939E-18        69         2       
+Negative coeff2d:         52         4 -6.9388939E-18         2        69       
+RECON2D reconnection loop2d:     6                                              
+Recon2d: iteration number=          1 number of flips=         10               
+Recon2d: iteration number=          2 number of flips=          1               
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       42 mincoef=  -8.6320713E-01 maxcoef=   8.7483445E-01
+Negative coeff2d:          1        21 -8.6320713E-01        10        46       
+Negative coeff2d:          2       159 -8.6320713E-01        46        10       
+Negative coeff2d:          3       118 -3.6396463E-01        36       142       
+Negative coeff2d:          4       524 -3.6396463E-01       142        36       
+Negative coeff2d:          5       116 -1.9722964E-01        36        54       
+Negative coeff2d:          6       189 -1.9722964E-01        54        36       
+Negative coeff2d:          7       161 -1.0308143E-01        46        71       
+Negative coeff2d:          8       244 -1.0308143E-01        71        46       
+Negative coeff2d:          9       557 -4.1276207E-02       154       111       
+Negative coeff2d:         10       379 -4.1276207E-02       111       154       
+Negative coeff2d:         11       556 -2.3763621E-02       154        48       
+Negative coeff2d:         12       173 -2.3763621E-02        48       154       
+Negative coeff2d:         13       568 -4.1552291E-03       156       126       
+Negative coeff2d:         14       451 -4.1552291E-03       126       156       
+Negative coeff2d:         15       291 -3.1448498E-04        80       124       
+Negative coeff2d:         16       437 -3.1448498E-04       124        80       
+Negative coeff2d:         17        18 -5.4417255E-16         9        47       
+Negative coeff2d:         18       165 -5.4417255E-16        47         9       
+Negative coeff2d:         19       225 -5.3606310E-16        67        32       
+Negative coeff2d:         20       108 -5.3606310E-16        32        67       
+Negative coeff2d:         21        54 -2.7755576E-16        20         7       
+Negative coeff2d:         22        12 -2.7755576E-16         7        20       
+Negative coeff2d:         23        27 -2.2887834E-16        12       138       
+Negative coeff2d:         24       504 -2.2887834E-16       138        12       
+Negative coeff2d:         25        46 -2.2204460E-16        17       128       
+Negative coeff2d:         26       457 -2.2204460E-16       128        17       
+Negative coeff2d:         27       268 -1.6653345E-16        76        21       
+Negative coeff2d:         28        60 -1.6653345E-16        21        76       
+Negative coeff2d:         29       296 -1.3049456E-16        81       110       
+Negative coeff2d:         30       370 -1.3049456E-16       110        81       
+Negative coeff2d:         31       149 -1.2412671E-16        44        40       
+Negative coeff2d:         32       129 -1.2412671E-16        40        44       
+Negative coeff2d:         33       269 -5.5511151E-17        76        59       
+Negative coeff2d:         34       200 -5.5511151E-17        59        76       
+Negative coeff2d:         35       315 -3.4694470E-17        85       139       
+Negative coeff2d:         36       509 -3.4694470E-17       139        85       
+Negative coeff2d:         37       341 -3.0531133E-17        99        63       
+Negative coeff2d:         38       209 -3.0531133E-17        63        99       
+Negative coeff2d:         39        95 -1.3877788E-17        30        26       
+Negative coeff2d:         40        75 -1.3877788E-17        26        30       
+Negative coeff2d:         41       234 -6.9388939E-18        69         2       
+Negative coeff2d:         42         4 -6.9388939E-18         2        69       
+Edge iteration refine_edge_2d:          1         8                             
+Edge-refined tris: before=       109 after=       123                           
+nlist =              8 sink nnodes =            173 mmgetlen =           1020   
+ refine_edge_2d: new nnodes and nelements:           173           123          
+ calling mmverify to check new lengths:                                         
+settets/parents                                                                 
+ SETTETS required ITMAT step 2 for         50 tets                              
+ SETTETS required ITMAT step 4 for         50 tets                              
+ Adding        12 interface-coupled points.                                     
+nlist =             12 sink nnodes =            173 mmgetlen =           1020   
+finish                                                                          
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       50 mincoef=  -7.0971803E-01 maxcoef=   7.2775674E-01
+Negative coeff2d:          1        18 -7.0971803E-01         9        84       
+Negative coeff2d:          2       309 -7.0971803E-01        84         9       
+Negative coeff2d:          3       501 -2.1392039E-01       136        49       
+Negative coeff2d:          4       177 -2.1392039E-01        49       136       
+Negative coeff2d:          5       167 -1.3595570E-01        47       141       
+Negative coeff2d:          6       527 -1.3595570E-01       141        47       
+Negative coeff2d:          7       502 -9.5897831E-02       136       110       
+Negative coeff2d:          8       373 -9.5897831E-02       110       136       
+Negative coeff2d:          9       414 -5.2463852E-02       118       127       
+Negative coeff2d:         10       458 -5.2463852E-02       127       118       
+Negative coeff2d:         11       494 -2.5548799E-02       134       154       
+Negative coeff2d:         12       566 -2.5548799E-02       154       134       
+Negative coeff2d:         13       487 -2.0329120E-02       133       125       
+Negative coeff2d:         14       448 -2.0329120E-02       125       133       
+Negative coeff2d:         15       379 -3.0946246E-03       111       114       
+Negative coeff2d:         16       393 -3.0946246E-03       114       111       
+Negative coeff2d:         17       575 -2.4219783E-03       156        80       
+Negative coeff2d:         18       292 -2.4219783E-03        80       156       
+Negative coeff2d:         19       535 -2.3134812E-03       142       158       
+Negative coeff2d:         20       588 -2.3134812E-03       158       142       
+Negative coeff2d:         21       108 -5.3606310E-16        32        67       
+Negative coeff2d:         22       225 -5.3606310E-16        67        32       
+Negative coeff2d:         23       606 -4.2789127E-16       162        54       
+Negative coeff2d:         24       192 -4.2789127E-16        54       162       
+Negative coeff2d:         25        54 -2.7755576E-16        20         7       
+Negative coeff2d:         26        12 -2.7755576E-16         7        20       
+Negative coeff2d:         27       512 -2.2887834E-16       138        12       
+Negative coeff2d:         28        27 -2.2887834E-16        12       138       
+Negative coeff2d:         29        46 -2.2204460E-16        17       128       
+Negative coeff2d:         30       461 -2.2204460E-16       128        17       
+Negative coeff2d:         31        21 -2.1879533E-16        10       164       
+Negative coeff2d:         32       615 -2.1879533E-16       164        10       
+Negative coeff2d:         33       268 -1.6653345E-16        76        21       
+Negative coeff2d:         34        60 -1.6653345E-16        21        76       
+Negative coeff2d:         35       596 -1.4789356E-16       160        71       
+Negative coeff2d:         36       247 -1.4789356E-16        71       160       
+Negative coeff2d:         37       371 -1.3049456E-16       110        81       
+Negative coeff2d:         38       296 -1.3049456E-16        81       110       
+Negative coeff2d:         39       149 -1.2412671E-16        44        40       
+Negative coeff2d:         40       129 -1.2412671E-16        40        44       
+Negative coeff2d:         41       269 -5.5511151E-17        76        59       
+Negative coeff2d:         42       200 -5.5511151E-17        59        76       
+Negative coeff2d:         43       316 -3.4694470E-17        85       139       
+Negative coeff2d:         44       517 -3.4694470E-17       139        85       
+Negative coeff2d:         45       342 -3.0531133E-17        99        63       
+Negative coeff2d:         46       209 -3.0531133E-17        63        99       
+Negative coeff2d:         47        95 -1.3877788E-17        30        26       
+Negative coeff2d:         48        75 -1.3877788E-17        26        30       
+Negative coeff2d:         49       234 -6.9388939E-18        69         2       
+Negative coeff2d:         50         4 -6.9388939E-18         2        69       
+RECON2D reconnection loop2d:     7                                              
+Recon2d: iteration number=          1 number of flips=          9               
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       40 mincoef=  -7.0971803E-01 maxcoef=   7.2775674E-01
+Negative coeff2d:          1        18 -7.0971803E-01         9        84       
+Negative coeff2d:          2       312 -7.0971803E-01        84         9       
+Negative coeff2d:          3       315 -8.0402755E-02        84       141       
+Negative coeff2d:          4       523 -8.0402755E-02       141        84       
+Negative coeff2d:          5       499 -5.8119120E-02       136       163       
+Negative coeff2d:          6       603 -5.8119120E-02       163       136       
+Negative coeff2d:          7        94 -3.7770949E-02        29       136       
+Negative coeff2d:          8       496 -3.7770949E-02       136        29       
+Negative coeff2d:          9       413 -1.3061815E-02       118        75       
+Negative coeff2d:         10       268 -1.3061815E-02        75       118       
+Negative coeff2d:         11       227 -5.3606310E-16        67        32       
+Negative coeff2d:         12       110 -5.3606310E-16        32        67       
+Negative coeff2d:         13       194 -4.2789127E-16        54       162       
+Negative coeff2d:         14       596 -4.2789127E-16       162        54       
+Negative coeff2d:         15        54 -2.7755576E-16        20         7       
+Negative coeff2d:         16        12 -2.7755576E-16         7        20       
+Negative coeff2d:         17        27 -2.2887834E-16        12       138       
+Negative coeff2d:         18       506 -2.2887834E-16       138        12       
+Negative coeff2d:         19       459 -2.2204460E-16       128        17       
+Negative coeff2d:         20        46 -2.2204460E-16        17       128       
+Negative coeff2d:         21       606 -2.1879533E-16       164        10       
+Negative coeff2d:         22        21 -2.1879533E-16        10       164       
+Negative coeff2d:         23       272 -1.6653345E-16        76        21       
+Negative coeff2d:         24        60 -1.6653345E-16        21        76       
+Negative coeff2d:         25       249 -1.4789356E-16        71       160       
+Negative coeff2d:         26       586 -1.4789356E-16       160        71       
+Negative coeff2d:         27       375 -1.3049456E-16       110        81       
+Negative coeff2d:         28       299 -1.3049456E-16        81       110       
+Negative coeff2d:         29       151 -1.2412671E-16        44        40       
+Negative coeff2d:         30       131 -1.2412671E-16        40        44       
+Negative coeff2d:         31       273 -5.5511151E-17        76        59       
+Negative coeff2d:         32       202 -5.5511151E-17        59        76       
+Negative coeff2d:         33       320 -3.4694470E-17        85       139       
+Negative coeff2d:         34       512 -3.4694470E-17       139        85       
+Negative coeff2d:         35       346 -3.0531133E-17        99        63       
+Negative coeff2d:         36       211 -3.0531133E-17        63        99       
+Negative coeff2d:         37        97 -1.3877788E-17        30        26       
+Negative coeff2d:         38        75 -1.3877788E-17        26        30       
+Negative coeff2d:         39       236 -6.9388939E-18        69         2       
+Negative coeff2d:         40         4 -6.9388939E-18         2        69       
+Edge iteration refine_edge_2d:          1         5                             
+Edge-refined tris: before=       123 after=       133                           
+nlist =              5 sink nnodes =            190 mmgetlen =           1020   
+ refine_edge_2d: new nnodes and nelements:           190           133          
+ calling mmverify to check new lengths:                                         
+settets/parents                                                                 
+ SETTETS required ITMAT step 2 for         55 tets                              
+ SETTETS required ITMAT step 4 for         55 tets                              
+ Adding        10 interface-coupled points.                                     
+nlist =             10 sink nnodes =            190 mmgetlen =           1020   
+finish                                                                          
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       46 mincoef=  -5.7731408E-01 maxcoef=   5.9920193E-01
+Negative coeff2d:          1       369 -5.7731408E-01       108         8       
+Negative coeff2d:          2        15 -5.7731408E-01         8       108       
+Negative coeff2d:          3        88 -2.5151214E-01        28        54       
+Negative coeff2d:          4       191 -2.5151214E-01        54        28       
+Negative coeff2d:          5       601 -1.1798990E-01       162        54       
+Negative coeff2d:          6       195 -1.1798990E-01        54       162       
+Negative coeff2d:          7       312 -1.0976821E-01        83       151       
+Negative coeff2d:          8       547 -1.0976821E-01       151        83       
+Negative coeff2d:          9        60 -6.1187557E-02        21        76       
+Negative coeff2d:         10       275 -6.1187557E-02        76        21       
+Negative coeff2d:         11       658 -3.5051146E-03       178        84       
+Negative coeff2d:         12       317 -3.5051146E-03        84       178       
+Negative coeff2d:         13       679 -2.5356189E-03       182       163       
+Negative coeff2d:         14       609 -2.5356189E-03       163       182       
+Negative coeff2d:         15       111 -5.3606310E-16        32        67       
+Negative coeff2d:         16       230 -5.3606310E-16        67        32       
+Negative coeff2d:         17        54 -2.7755576E-16        20         7       
+Negative coeff2d:         18        12 -2.7755576E-16         7        20       
+Negative coeff2d:         19        27 -2.2887834E-16        12       138       
+Negative coeff2d:         20       510 -2.2887834E-16       138        12       
+Negative coeff2d:         21        46 -2.2204460E-16        17       128       
+Negative coeff2d:         22       463 -2.2204460E-16       128        17       
+Negative coeff2d:         23        21 -2.1879533E-16        10       164       
+Negative coeff2d:         24       611 -2.1879533E-16       164        10       
+Negative coeff2d:         25       252 -1.4789356E-16        71       160       
+Negative coeff2d:         26       591 -1.4789356E-16       160        71       
+Negative coeff2d:         27       379 -1.3049456E-16       110        81       
+Negative coeff2d:         28       302 -1.3049456E-16        81       110       
+Negative coeff2d:         29       152 -1.2412671E-16        44        40       
+Negative coeff2d:         30       132 -1.2412671E-16        40        44       
+Negative coeff2d:         31       637 -8.3266727E-17       174       136       
+Negative coeff2d:         32       502 -8.3266727E-17       136       174       
+Negative coeff2d:         33       687 -8.0995055E-17       184         9       
+Negative coeff2d:         34        18 -8.0995055E-17         9       184       
+Negative coeff2d:         35       276 -5.5511151E-17        76        59       
+Negative coeff2d:         36       205 -5.5511151E-17        59        76       
+Negative coeff2d:         37       323 -3.4694470E-17        85       139       
+Negative coeff2d:         38       516 -3.4694470E-17       139        85       
+Negative coeff2d:         39       349 -3.0531133E-17        99        63       
+Negative coeff2d:         40       214 -3.0531133E-17        63        99       
+Negative coeff2d:         41       677 -2.7755576E-17       182       136       
+Negative coeff2d:         42       503 -2.7755576E-17       136       182       
+Negative coeff2d:         43        98 -1.3877788E-17        30        26       
+Negative coeff2d:         44        76 -1.3877788E-17        26        30       
+Negative coeff2d:         45       239 -6.9388939E-18        69         2       
+Negative coeff2d:         46         4 -6.9388939E-18         2        69       
+RECON2D reconnection loop2d:     8                                              
+Recon2d: iteration number=          1 number of flips=          6               
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       42 mincoef=  -5.7731408E-01 maxcoef=   5.9920193E-01
+Negative coeff2d:          1        15 -5.7731408E-01         8       108       
+Negative coeff2d:          2       365 -5.7731408E-01       108         8       
+Negative coeff2d:          3       618 -7.5882789E-02       168        54       
+Negative coeff2d:          4       193 -7.5882789E-02        54       168       
+Negative coeff2d:          5       368 -5.9935937E-02       108       151       
+Negative coeff2d:          6       545 -5.9935937E-02       151       108       
+Negative coeff2d:          7       329 -4.9998199E-02        89        54       
+Negative coeff2d:          8       191 -4.9998199E-02        54        89       
+Negative coeff2d:          9       356 -2.0920801E-02       103        21       
+Negative coeff2d:         10        61 -2.0920801E-02        21       103       
+Negative coeff2d:         11       109 -5.3606310E-16        32        67       
+Negative coeff2d:         12       227 -5.3606310E-16        67        32       
+Negative coeff2d:         13        12 -2.7755576E-16         7        20       
+Negative coeff2d:         14        54 -2.7755576E-16        20         7       
+Negative coeff2d:         15        27 -2.2887834E-16        12       138       
+Negative coeff2d:         16       508 -2.2887834E-16       138        12       
+Negative coeff2d:         17        46 -2.2204460E-16        17       128       
+Negative coeff2d:         18       461 -2.2204460E-16       128        17       
+Negative coeff2d:         19        21 -2.1879533E-16        10       164       
+Negative coeff2d:         20       606 -2.1879533E-16       164        10       
+Negative coeff2d:         21       249 -1.4789356E-16        71       160       
+Negative coeff2d:         22       588 -1.4789356E-16       160        71       
+Negative coeff2d:         23       376 -1.3049456E-16       110        81       
+Negative coeff2d:         24       298 -1.3049456E-16        81       110       
+Negative coeff2d:         25       150 -1.2412671E-16        44        40       
+Negative coeff2d:         26       130 -1.2412671E-16        40        44       
+Negative coeff2d:         27       633 -8.3266727E-17       174       136       
+Negative coeff2d:         28       500 -8.3266727E-17       136       174       
+Negative coeff2d:         29       681 -8.0995055E-17       184         9       
+Negative coeff2d:         30        18 -8.0995055E-17         9       184       
+Negative coeff2d:         31       272 -5.5511151E-17        76        59       
+Negative coeff2d:         32       202 -5.5511151E-17        59        76       
+Negative coeff2d:         33       317 -3.4694470E-17        85       139       
+Negative coeff2d:         34       514 -3.4694470E-17       139        85       
+Negative coeff2d:         35       344 -3.0531133E-17        99        63       
+Negative coeff2d:         36       211 -3.0531133E-17        63        99       
+Negative coeff2d:         37       672 -2.7755576E-17       182       136       
+Negative coeff2d:         38       501 -2.7755576E-17       136       182       
+Negative coeff2d:         39        96 -1.3877788E-17        30        26       
+Negative coeff2d:         40        75 -1.3877788E-17        26        30       
+Negative coeff2d:         41       236 -6.9388939E-18        69         2       
+Negative coeff2d:         42         4 -6.9388939E-18         2        69       
+Edge iteration refine_edge_2d:          1         5                             
+Edge-refined tris: before=       133 after=       138                           
+nlist =              5 sink nnodes =            205 mmgetlen =           1020   
+ refine_edge_2d: new nnodes and nelements:           205           138          
+ calling mmverify to check new lengths:                                         
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       40 mincoef=  -4.3512529E-03 maxcoef=   1.5206906E-01
+Negative coeff2d:          1       367 -4.3512529E-03       108       195       
+Negative coeff2d:          2       716 -4.3512529E-03       195       108       
+Negative coeff2d:          3       620 -2.1110645E-03       168       197       
+Negative coeff2d:          4       729 -2.1110645E-03       197       168       
+Negative coeff2d:          5       109 -5.3606310E-16        32        67       
+Negative coeff2d:          6       227 -5.3606310E-16        67        32       
+Negative coeff2d:          7        54 -2.7755576E-16        20         7       
+Negative coeff2d:          8        12 -2.7755576E-16         7        20       
+Negative coeff2d:          9       508 -2.2887834E-16       138        12       
+Negative coeff2d:         10        27 -2.2887834E-16        12       138       
+Negative coeff2d:         11       461 -2.2204460E-16       128        17       
+Negative coeff2d:         12        46 -2.2204460E-16        17       128       
+Negative coeff2d:         13        21 -2.1879533E-16        10       164       
+Negative coeff2d:         14       606 -2.1879533E-16       164        10       
+Negative coeff2d:         15       588 -1.4789356E-16       160        71       
+Negative coeff2d:         16       249 -1.4789356E-16        71       160       
+Negative coeff2d:         17       298 -1.3049456E-16        81       110       
+Negative coeff2d:         18       376 -1.3049456E-16       110        81       
+Negative coeff2d:         19       150 -1.2412671E-16        44        40       
+Negative coeff2d:         20       130 -1.2412671E-16        40        44       
+Negative coeff2d:         21       500 -8.3266727E-17       136       174       
+Negative coeff2d:         22       633 -8.3266727E-17       174       136       
+Negative coeff2d:         23        18 -8.0995055E-17         9       184       
+Negative coeff2d:         24       681 -8.0995055E-17       184         9       
+Negative coeff2d:         25       202 -5.5511151E-17        59        76       
+Negative coeff2d:         26       272 -5.5511151E-17        76        59       
+Negative coeff2d:         27       705 -5.5511151E-17       193        21       
+Negative coeff2d:         28        62 -5.5511151E-17        21       193       
+Negative coeff2d:         29       514 -3.4694470E-17       139        85       
+Negative coeff2d:         30       317 -3.4694470E-17        85       139       
+Negative coeff2d:         31       344 -3.0531133E-17        99        63       
+Negative coeff2d:         32       211 -3.0531133E-17        63        99       
+Negative coeff2d:         33       501 -2.7755576E-17       136       182       
+Negative coeff2d:         34       672 -2.7755576E-17       182       136       
+Negative coeff2d:         35        96 -1.3877788E-17        30        26       
+Negative coeff2d:         36        75 -1.3877788E-17        26        30       
+Negative coeff2d:         37       192 -9.6875377E-18        54       191       
+Negative coeff2d:         38       696 -9.6875377E-18       191        54       
+Negative coeff2d:         39       236 -6.9388939E-18        69         2       
+Negative coeff2d:         40         4 -6.9388939E-18         2        69       
+RECON2D reconnection loop2d:     9                                              
+Recon2d: iteration number=          1 number of flips=          2               
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg       36 mincoef=  -5.3606310E-16 maxcoef=   1.5206906E-01
+Negative coeff2d:          1       109 -5.3606310E-16        32        67       
+Negative coeff2d:          2       227 -5.3606310E-16        67        32       
+Negative coeff2d:          3        54 -2.7755576E-16        20         7       
+Negative coeff2d:          4        12 -2.7755576E-16         7        20       
+Negative coeff2d:          5        27 -2.2887834E-16        12       138       
+Negative coeff2d:          6       508 -2.2887834E-16       138        12       
+Negative coeff2d:          7       461 -2.2204460E-16       128        17       
+Negative coeff2d:          8        46 -2.2204460E-16        17       128       
+Negative coeff2d:          9        21 -2.1879533E-16        10       164       
+Negative coeff2d:         10       607 -2.1879533E-16       164        10       
+Negative coeff2d:         11       588 -1.4789356E-16       160        71       
+Negative coeff2d:         12       249 -1.4789356E-16        71       160       
+Negative coeff2d:         13       298 -1.3049456E-16        81       110       
+Negative coeff2d:         14       376 -1.3049456E-16       110        81       
+Negative coeff2d:         15       130 -1.2412671E-16        40        44       
+Negative coeff2d:         16       150 -1.2412671E-16        44        40       
+Negative coeff2d:         17       500 -8.3266727E-17       136       174       
+Negative coeff2d:         18       633 -8.3266727E-17       174       136       
+Negative coeff2d:         19        18 -8.0995055E-17         9       184       
+Negative coeff2d:         20       681 -8.0995055E-17       184         9       
+Negative coeff2d:         21       202 -5.5511151E-17        59        76       
+Negative coeff2d:         22       272 -5.5511151E-17        76        59       
+Negative coeff2d:         23       705 -5.5511151E-17       193        21       
+Negative coeff2d:         24        62 -5.5511151E-17        21       193       
+Negative coeff2d:         25       514 -3.4694470E-17       139        85       
+Negative coeff2d:         26       318 -3.4694470E-17        85       139       
+Negative coeff2d:         27       345 -3.0531133E-17        99        63       
+Negative coeff2d:         28       211 -3.0531133E-17        63        99       
+Negative coeff2d:         29       501 -2.7755576E-17       136       182       
+Negative coeff2d:         30       672 -2.7755576E-17       182       136       
+Negative coeff2d:         31        96 -1.3877788E-17        30        26       
+Negative coeff2d:         32        75 -1.3877788E-17        26        30       
+Negative coeff2d:         33       192 -9.6875377E-18        54       191       
+Negative coeff2d:         34       696 -9.6875377E-18       191        54       
+Negative coeff2d:         35       236 -6.9388939E-18        69         2       
+Negative coeff2d:         36         4 -6.9388939E-18         2        69       
+RECON: done.                                                                    
+cmo status mo                                                                   
+ 
+The current-mesh-object(CMO) is: mo                                             
+ 
+  1 Mesh Object name: mo                                                        
+    number of nodes =           205        number of elements =          138    
+    dimensions geometry =         2        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  2.050E+02  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  1.380E+02  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  2.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  2.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  3.511E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  5.551E-13  
+ 36        epsilonv REAL     scalar          scalar const perma   l  5.551E-13  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.910E+02  
+ 38         ipointj  INT     scalar          scalar const perma   l  2.050E+02  
+ 39          idebug  INT     scalar          scalar const perma   l  1.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.500E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  5.000E-01  
+ 56            zmax REAL     scalar          scalar const perma   l  0.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+dump/gmv/output_fan_recon1.gmv/mo                                               
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   3.5108335E-13  4.3274364E-38                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          1                          
+elements with aspect ratio b/w .1  and .2 :          6                          
+elements with aspect ratio b/w .2  and .5 :         23                          
+elements with aspect ratio b/w .5  and 1. :        108                          
+min aspect ratio =  0.8499E-01  max aspect ratio =  0.9981E+00                  
+ 
+epsilonvol:   5.5511151E-13                                                     
+---------------------------------------                                         
+element volumes b/w  0.4529E-03 and  0.7505E-03:        24                      
+element volumes b/w  0.7505E-03 and  0.1244E-02:        37                      
+element volumes b/w  0.1244E-02 and  0.2061E-02:        37                      
+element volumes b/w  0.2061E-02 and  0.3415E-02:        22                      
+element volumes b/w  0.3415E-02 and  0.5659E-02:        18                      
+min volume =   4.5287178E-04  max volume =   5.6590524E-03                      
+-----------------------------------------------------------                     
+       138 total elements evaluated.                                            
+ 
+cmo/delete/mo                                                                   
+     Released Mesh Object: mo                                                   
+##############################################                                  
+# single triangle with angle slightly gt 90                                     
+# should output 2 elements and 4 points                                         
+cmo/create/mo///triplane                                                        
+read/avs/input_tri1a.inp/mo                                                     
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo                                             
+ 
+  1 Mesh Object name: mo                                                        
+    number of nodes =             3        number of elements =            0    
+    dimensions geometry =         2        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+cmo/setatt/mo/imt/1 0 0/1                                                       
+Warning: nelements = 0                                                          
+         3 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo/itp/1 0 0/0                                                       
+Warning: nelements = 0                                                          
+         3 values reset for attribute itp1                                      
+ 
+connect                                                                         
+ Coordinates of enclosing triangle are:                                         
+          -0.20250D+01-0.18600D+01-0.00000D+00                                  
+           0.29250D+01-0.20250D+01-0.00000D+00                                  
+           0.45450D+00 0.54000D+01 0.00000D+00                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+dump/gmv/output_tri1a_connect.gmv/mo                                            
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   3.4542034E-13  4.1213901E-38                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :          1                          
+min aspect ratio =  0.6998E+00  max aspect ratio =  0.6998E+00                  
+ 
+epsilonvol:   5.3734794E-13                                                     
+---------------------------------------                                         
+All elements have volume  4.9500000E-01                                         
+-----------------------------------------------------------                     
+         1 total elements evaluated.                                            
+ 
+cmo setatt mo idebug 1                                                          
+         1 values reset for attribute idebug                                    
+ 
+recon 1                                                                         
+RECON2D reconnection loop2d:     1                                              
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg        2 mincoef=  -1.5713484E-01 maxcoef=   6.1415907E-01
+Negative coeff2d:          1         8 -1.5713484E-01         3         2       
+Negative coeff2d:          2         6 -1.5713484E-01         2         3       
+Edge iteration refine_edge_2d:          1         1                             
+Edge-refined tris: before=         1 after=         2                           
+nlist =              1 sink nnodes =              4 mmgetlen =           1003   
+ refine_edge_2d: new nnodes and nelements:             4             2          
+ calling mmverify to check new lengths:                                         
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg        2 mincoef=  -1.3092279E-16 maxcoef=   7.7781746E-01
+Negative coeff2d:          1         8 -1.3092279E-16         3         1       
+Negative coeff2d:          2         3 -1.3092279E-16         1         3       
+RECON2D reconnection loop2d:     2                                              
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg        2 mincoef=  -1.3092279E-16 maxcoef=   7.7781746E-01
+Negative coeff2d:          1         8 -1.3092279E-16         3         1       
+Negative coeff2d:          2         3 -1.3092279E-16         1         3       
+RECON: done.                                                                    
+cmo status mo                                                                   
+ 
+The current-mesh-object(CMO) is: mo                                             
+ 
+  1 Mesh Object name: mo                                                        
+    number of nodes =             4        number of elements =            2    
+    dimensions geometry =         2        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  4.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  2.000E+00  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  2.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  2.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  3.454E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  5.373E-13  
+ 36        epsilonv REAL     scalar          scalar const perma   l  5.373E-13  
+ 37         ipointi  INT     scalar          scalar const perma   l  3.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  4.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  1.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E-01  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E-01  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  0.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+dump/gmv/output_tri1a_recon1.gmv/mo                                             
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo select mo                                                                   
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   3.4542034E-13  4.1213901E-38                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :          2                          
+min aspect ratio =  0.8144E+00  max aspect ratio =  0.8144E+00                  
+ 
+epsilonvol:   5.3734794E-13                                                     
+---------------------------------------                                         
+All elements have volume  2.4750000E-01                                         
+-----------------------------------------------------------                     
+         2 total elements evaluated.                                            
+ 
+cmo/delete/mo                                                                   
+     Released Mesh Object: mo                                                   
+##############################################                                  
+# single triangle with extreme angle gt 90                                      
+# should output 3 elements and 5 points                                         
+cmo/create/mo///triplane                                                        
+read/avs/input_tri1b.inp/mo                                                     
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo                                             
+ 
+  1 Mesh Object name: mo                                                        
+    number of nodes =             3        number of elements =            0    
+    dimensions geometry =         2        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+cmo/setatt/mo/imt/1 0 0/1                                                       
+Warning: nelements = 0                                                          
+         3 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo/itp/1 0 0/0                                                       
+Warning: nelements = 0                                                          
+         3 values reset for attribute itp1                                      
+ 
+connect                                                                         
+ Coordinates of enclosing triangle are:                                         
+          -0.18050D+02-0.16000D+01 0.00000D+00                                  
+           0.27850D+02-0.17500D+01 0.00000D+00                                  
+           0.49490D+01 0.46400D+02 0.00000D+00                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+dump/gmv/output_tri1b_connect.gmv/mo                                            
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   2.2757135E-12  1.1785628E-35                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :          1                          
+min aspect ratio =  0.1872E+00  max aspect ratio =  0.1872E+00                  
+ 
+epsilonvol:   2.3323565E-11                                                     
+---------------------------------------                                         
+All elements have volume  5.1000000E+00                                         
+-----------------------------------------------------------                     
+         1 total elements evaluated.                                            
+ 
+cmo setatt mo idebug 1                                                          
+         1 values reset for attribute idebug                                    
+ 
+recon 1                                                                         
+RECON2D reconnection loop2d:     1                                              
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg        2 mincoef=  -5.0000000E-01 maxcoef=   5.0990195E+00
+Negative coeff2d:          1         7 -5.0000000E-01         3         1       
+Negative coeff2d:          2         3 -5.0000000E-01         1         3       
+Edge iteration refine_edge_2d:          1         1                             
+Edge-refined tris: before=         1 after=         2                           
+nlist =              1 sink nnodes =              4 mmgetlen =           1003   
+ refine_edge_2d: new nnodes and nelements:             4             2          
+ calling mmverify to check new lengths:                                         
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg        2 mincoef=  -2.4622195E+01 maxcoef=   2.5505099E+01
+Negative coeff2d:          1         8 -2.4622195E+01         3         2       
+Negative coeff2d:          2         6 -2.4622195E+01         2         3       
+RECON2D reconnection loop2d:     2                                              
+matbl0tri idebug set to:     1                                                  
+Matbld0tri: total neg        2 mincoef=  -2.4622195E+01 maxcoef=   2.5505099E+01
+Negative coeff2d:          1         8 -2.4622195E+01         3         2       
+Negative coeff2d:          2         6 -2.4622195E+01         2         3       
+Edge iteration refine_edge_2d:          1         1                             
+Edge-refined tris: before=         2 after=         3                           
+nlist =              1 sink nnodes =              5 mmgetlen =           1003   
+ refine_edge_2d: new nnodes and nelements:             5             3          
+ calling mmverify to check new lengths:                                         
+matbl0tri idebug set to:     1                                                  
+RECON2D reconnection loop2d:     3                                              
+matbl0tri idebug set to:     1                                                  
+RECON: done.                                                                    
+cmo status mo                                                                   
+ 
+The current-mesh-object(CMO) is: mo                                             
+ 
+  1 Mesh Object name: mo                                                        
+    number of nodes =             5        number of elements =            3    
+    dimensions geometry =         2        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  5.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  3.000E+00  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  2.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  2.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  2.276E-12  
+ 35        epsilona REAL     scalar          scalar const perma   l  2.332E-11  
+ 36        epsilonv REAL     scalar          scalar const perma   l  2.332E-11  
+ 37         ipointi  INT     scalar          scalar const perma   l  3.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  5.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  1.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -2.000E-01  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+01  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  0.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+dump/gmv/output_tri1b_recon1.gmv/mo                                             
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo select mo                                                                   
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   2.2757135E-12  1.1785628E-35                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :          3                          
+min aspect ratio =  0.1891E+00  max aspect ratio =  0.3597E+00                  
+ 
+epsilonvol:   2.3323565E-11                                                     
+---------------------------------------                                         
+element volumes b/w  0.1262E+01 and  0.1453E+01:         2                      
+element volumes b/w  0.1453E+01 and  0.1672E+01:         0                      
+element volumes b/w  0.1672E+01 and  0.1925E+01:         0                      
+element volumes b/w  0.1925E+01 and  0.2215E+01:         0                      
+element volumes b/w  0.2215E+01 and  0.2550E+01:         1                      
+min volume =   1.2623762E+00  max volume =   2.5500000E+00                      
+-----------------------------------------------------------                     
+         3 total elements evaluated.                                            
+ 
+cmo/delete/mo                                                                   
+     Released Mesh Object: mo                                                   
+##############################################                                  
+# read dfn triangulation with 2956 elements                                     
+# this mesh was causing recon 1 to seg fault                                    
+read/avs/input_tri_dfn.inp/mo                                                   
+cmo/addatt/mo/dfield/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0            
+finish                                                                          
+cmo/addatt/mo/a_b/VINT/scalar/nnodes/linear/permanent/gxaf/0.0                  
+finish                                                                          
+cmo/addatt/mo/b_a/VINT/scalar/nnodes/linear/permanent/gxaf/0.0                  
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo                                             
+ 
+  1 Mesh Object name: mo                                                        
+    number of nodes =          2956        number of elements =         5773    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+quality/aspect/y                                                                
+cmo/addatt//aratio/VDOUBLE/scalar/nelements                                     
+finish                                                                          
+ 
+epsilonl, epsilonaspect:   1.6715512E-12  4.6704537E-36                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :         17                          
+elements with aspect ratio b/w .5  and 1. :       5756                          
+min aspect ratio =  0.3877E+00  max aspect ratio =  0.1000E+01                  
+-----------------------------------------------------------                     
+      5773 total elements evaluated.                                            
+ 
+dump stor tmp mo                                                                
+***Construct Regular Sparse Matrix:2D***                                        
+Matbldtri: total neg       20 mincoef=  -1.5584216E-01 maxcoef=   2.0243665E+00 
+Negative coeff2d:        sort   edge     vor_coeff        row_node  col_node    
+Negative coeff2d:          1      9368 -1.5584216E-01      1290      2919       
+Negative coeff2d:          2     20166 -1.5584216E-01      2919      1290       
+Negative coeff2d:          3      9369 -1.4553635E-01      1291         9       
+Negative coeff2d:          4        43 -1.4553635E-01         9      1291       
+Negative coeff2d:          5      1134 -1.4056409E-01       159        43       
+Negative coeff2d:          6       288 -1.4056409E-01        43       159       
+Negative coeff2d:          7     10675 -1.0349588E-01      1480       128       
+Negative coeff2d:          8       911 -1.0349588E-01       128      1480       
+Negative coeff2d:          9      2476 -8.3681107E-02       337      1480       
+Negative coeff2d:         10     10676 -8.3681107E-02      1480       337       
+Negative coeff2d:         11        16 -5.4148198E-02         3      2688       
+Negative coeff2d:         12     18640 -5.4148198E-02      2688         3       
+Negative coeff2d:         13       283 -5.1931821E-02        42       332       
+Negative coeff2d:         14      2447 -5.1931821E-02       332        42       
+Negative coeff2d:         15      2448 -5.1931821E-02       332       124       
+Negative coeff2d:         16       887 -5.1931821E-02       124       332       
+Negative coeff2d:         17      5216 -2.0553861E-02       714      2956       
+Negative coeff2d:         18     20409 -2.0553861E-02      2956       714       
+Negative coeff2d:         19       933 -1.2926804E-02       132      1671       
+Negative coeff2d:         20     11978 -1.2926804E-02      1671       132       
+------------                                                                    
+Matbldtri                                                                       
+Number of Nodes             =       2956                                        
+Max. Connection to a Node   =         10                                        
+Number of Area Coefficients =      20412                                        
+Minimum Voronoi area        =   1.2890083E-03                                   
+Maximum Voronoi area        =   7.5937659E-02                                   
+Minimum Voronoi edge length =  -1.5584216E-01                                   
+Maximum Voronoi edge length =   2.0243665E+00                                   
+Total   Voronoi area        =   2.1639800E+01                                   
+Total   Triangle area       =   2.1639800E+01                                   
+dump/gmv/input_tri_dfn.gmv/mo                                                   
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   1.6715512E-12  4.6704537E-36                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :         17                          
+elements with aspect ratio b/w .5  and 1. :       5756                          
+min aspect ratio =  0.3877E+00  max aspect ratio =  0.1000E+01                  
+ 
+epsilonvol:   1.3316296E-11                                                     
+---------------------------------------                                         
+element volumes b/w  0.6507E-03 and  0.1653E-02:      1256                      
+element volumes b/w  0.1653E-02 and  0.4199E-02:      3491                      
+element volumes b/w  0.4199E-02 and  0.1067E-01:       513                      
+element volumes b/w  0.1067E-01 and  0.2710E-01:       503                      
+element volumes b/w  0.2710E-01 and  0.6883E-01:        10                      
+min volume =   6.5072812E-04  max volume =   6.8831195E-02                      
+-----------------------------------------------------------                     
+      5773 total elements evaluated.                                            
+ 
+recon 1                                                                         
+RECON2D reconnection loop2d:     1                                              
+Matbld0tri: total neg        20 mincoef=  -4.8854732E-02 maxcoef=   2.5645398E-0
+                                                                               1
+Negative coeff2d:        sort   edge     vor_coeff        row_node  col_node    
+Negative coeff2d:          1       288 -4.8854732E-02        43       159       
+Negative coeff2d:          2      1134 -4.8854732E-02       159        43       
+Negative coeff2d:          3      9368 -1.5077308E-02      1290      2919       
+Negative coeff2d:          4     20166 -1.5077308E-02      2919      1290       
+Negative coeff2d:          5        43 -1.2645724E-02         9      1291       
+Negative coeff2d:          6      9369 -1.2645724E-02      1291         9       
+Negative coeff2d:          7       283 -9.0247627E-03        42       332       
+Negative coeff2d:          8      2447 -9.0247627E-03       332        42       
+Negative coeff2d:          9      2448 -9.0247627E-03       332       124       
+Negative coeff2d:         10       887 -9.0247627E-03       124       332       
+Negative coeff2d:         11     10675 -8.9928075E-03      1480       128       
+Negative coeff2d:         12       911 -8.9928075E-03       128      1480       
+Negative coeff2d:         13      2476 -7.2710923E-03       337      1480       
+Negative coeff2d:         14     10676 -7.2710923E-03      1480       337       
+Negative coeff2d:         15        16 -6.1860279E-03         3      2688       
+Negative coeff2d:         16     18640 -6.1860279E-03      2688         3       
+Negative coeff2d:         17      5216 -2.0430145E-03       714      2956       
+Negative coeff2d:         18     20409 -2.0430145E-03      2956       714       
+Negative coeff2d:         19       933 -1.1232163E-03       132      1671       
+Negative coeff2d:         20     11978 -1.1232163E-03      1671       132       
+Edge iteration refine_edge_2d:          1        10                             
+Edge-refined tris: before=      5773 after=      5783                           
+RECON2D reconnection loop2d:     2                                              
+RECON: done.                                                                    
+dump stor tmp mo                                                                
+***Construct Regular Sparse Matrix:2D***                                        
+------------                                                                    
+Matbldtri                                                                       
+Number of Nodes             =       2966                                        
+Max. Connection to a Node   =         10                                        
+Number of Area Coefficients =      20462                                        
+Minimum Voronoi area        =   7.0109978E-04                                   
+Maximum Voronoi area        =   7.5937659E-02                                   
+Minimum Voronoi edge length =   0.0000000E+00                                   
+Maximum Voronoi edge length =   2.0243665E+00                                   
+Total   Voronoi area        =   2.1639800E+01                                   
+Total   Triangle area       =   2.1639800E+01                                   
+dump/gmv/output_dfn_recon1.gmv/mo                                               
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo DELATT mo aratio                                                            
+quality/aspect/y                                                                
+cmo/addatt//aratio/VDOUBLE/scalar/nelements                                     
+finish                                                                          
+ 
+epsilonl, epsilonaspect:   1.6715512E-12  4.6704537E-36                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :         17                          
+elements with aspect ratio b/w .5  and 1. :       5766                          
+min aspect ratio =  0.3877E+00  max aspect ratio =  0.1000E+01                  
+-----------------------------------------------------------                     
+      5783 total elements evaluated.                                            
+ 
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   1.6715512E-12  4.6704537E-36                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :         17                          
+elements with aspect ratio b/w .5  and 1. :       5766                          
+min aspect ratio =  0.3877E+00  max aspect ratio =  0.1000E+01                  
+ 
+epsilonvol:   1.3316296E-11                                                     
+---------------------------------------                                         
+element volumes b/w  0.6029E-03 and  0.1555E-02:      1037                      
+element volumes b/w  0.1555E-02 and  0.4011E-02:      3634                      
+element volumes b/w  0.4011E-02 and  0.1035E-01:       579                      
+element volumes b/w  0.1035E-01 and  0.2669E-01:       523                      
+element volumes b/w  0.2669E-01 and  0.6883E-01:        10                      
+min volume =   6.0286186E-04  max volume =   6.8831195E-02                      
+-----------------------------------------------------------                     
+      5783 total elements evaluated.                                            
+ 
+### input file done ######                                                      
+finish                                                                          
+LaGriT successfully completed                                                   

@@ -1,0 +1,73 @@
+cmo/create/mo///triplane                                                        
+read/avs/input_fan.inp/mo                                                       
+cmo/setatt/mo/imt/1 0 0/1                                                       
+cmo/setatt/mo/itp/1 0 0/0                                                       
+connect                                                                         
+resetpts/itp                                                                    
+cmo setatt mo itetclr 1                                                         
+cmo setatt mo itetclr 1 1 1 5                                                   
+cmo setatt mo itetclr 2 2 1 2                                                   
+cmo setatt mo itetclr 3 3 1 3                                                   
+cmo setatt mo itetclr 4 4 1 4                                                   
+cmo setatt mo itetclr 5 5 1 1                                                   
+cmo printatt mo itetclr                                                         
+settets parents                                                                 
+cmo printatt mo itetclr                                                         
+cmo printatt mo imt1                                                            
+resetpts/itp                                                                    
+settets color_points                                                            
+dump gmv tmp2.gmv mo                                                            
+resetpts/itp                                                                    
+cmo printatt mo itetclr                                                         
+cmo printatt mo imt1                                                            
+dump/gmv/output_fan_connect.gmv/mo                                              
+quality                                                                         
+cmo setatt mo idebug 1                                                          
+recon 1                                                                         
+cmo status mo                                                                   
+dump/gmv/output_fan_recon1.gmv/mo                                               
+quality                                                                         
+cmo/delete/mo                                                                   
+cmo/create/mo///triplane                                                        
+read/avs/input_tri1a.inp/mo                                                     
+cmo/setatt/mo/imt/1 0 0/1                                                       
+cmo/setatt/mo/itp/1 0 0/0                                                       
+connect                                                                         
+resetpts/itp                                                                    
+dump/gmv/output_tri1a_connect.gmv/mo                                            
+quality                                                                         
+cmo setatt mo idebug 1                                                          
+recon 1                                                                         
+cmo status mo                                                                   
+dump/gmv/output_tri1a_recon1.gmv/mo                                             
+cmo select mo                                                                   
+quality                                                                         
+cmo/delete/mo                                                                   
+cmo/create/mo///triplane                                                        
+read/avs/input_tri1b.inp/mo                                                     
+cmo/setatt/mo/imt/1 0 0/1                                                       
+cmo/setatt/mo/itp/1 0 0/0                                                       
+connect                                                                         
+resetpts/itp                                                                    
+dump/gmv/output_tri1b_connect.gmv/mo                                            
+quality                                                                         
+cmo setatt mo idebug 1                                                          
+recon 1                                                                         
+cmo status mo                                                                   
+dump/gmv/output_tri1b_recon1.gmv/mo                                             
+cmo select mo                                                                   
+quality                                                                         
+cmo/delete/mo                                                                   
+read/avs/input_tri_dfn.inp/mo                                                   
+resetpts/itp                                                                    
+quality/aspect/y                                                                
+dump stor tmp mo                                                                
+dump/gmv/input_tri_dfn.gmv/mo                                                   
+quality                                                                         
+recon 1                                                                         
+dump stor tmp mo                                                                
+dump/gmv/output_dfn_recon1.gmv/mo                                               
+cmo DELATT mo aratio                                                            
+quality/aspect/y                                                                
+quality                                                                         
+finish                                                                          
