@@ -11,7 +11,7 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=3)
-      parameter      (v_minor=005)
+      parameter      (v_minor=006)
 c
       character*22   date_compile
       character*8    os_name
@@ -24,7 +24,7 @@ c     data os_name      /'Linux   '/
 c     data os_name      /'Linux32 '/
 
 c     data date_compile /'2011/09/01  Absoft 11 '/
-      data date_compile /'2012/06/29  gfort 4.5 '/
+      data date_compile /'2012/07/26  gfort 4.5 '/
 c
       integer         NCall
       save            NCall
