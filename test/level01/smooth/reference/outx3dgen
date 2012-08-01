@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  10:58:12          *                 
+*               *    Program:  LaGriT V3.006   Linux m64      *                 
+*               *    date_compile: 2012/07/19  gfort 4.5      *                 
+*               *    Run Time: 2012/Jul 19  16:53:10          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -363,9 +363,25 @@ total computer functional value= 0.2173512E+08
  root mean square node motion 0.4176397E-04                                     
 recon                                                                           
 RECON3D reconnection loop:     1                                                
+ recon2: MFLIP NEWLEN FOR iremov with:          4                               
 Trying to increment nodnbrp arrays in flp2to3i                                  
- RECON:ntets=    11213 nface=       46 nflips=     5427                         
+ filholes: reset number of elements:          10772                             
+ filholes: reset number of elements:          11160                             
+ filholes: reset number of elements:          11324                             
+ filholes: reset number of elements:          11253                             
+ filholes: reset number of elements:          11249                             
+ filholes: reset number of elements:          11249                             
+ filholes: reset number of elements:          11247                             
+ filholes: reset number of elements:          11245                             
+ filholes: reset number of elements:          11236                             
+ filholes: reset number of elements:          11221                             
+ filholes: reset number of elements:          11220                             
+ filholes: reset number of elements:          11215                             
+ filholes: reset number of elements:          11213                             
+ recon2: ntets=    11213 nface=       46 nflips=     5427                       
  niter=       13 negvol=        0 nbface=       42                              
+ recon2 set new node and element total:           3328         11213            
+RECON: done.                                                                    
 smooth                                                                          
 SMOOTH: position option                                                         
 nodes in point set  =       3056                                                
@@ -374,9 +390,19 @@ total computer functional value= 0.2103578E+08
  root mean square node motion 0.1051676E-03                                     
 recon                                                                           
 RECON3D reconnection loop:     1                                                
+ recon2: MFLIP NEWLEN FOR iremov with:          4                               
 Trying to increment nodnbrp arrays in flp2to3i                                  
- RECON:ntets=    11219 nface=       51 nflips=     1725                         
+ filholes: reset number of elements:          11367                             
+ filholes: reset number of elements:          11275                             
+ filholes: reset number of elements:          11267                             
+ filholes: reset number of elements:          11228                             
+ filholes: reset number of elements:          11222                             
+ filholes: reset number of elements:          11219                             
+ filholes: reset number of elements:          11219                             
+ recon2: ntets=    11219 nface=       51 nflips=     1725                       
  niter=        7 negvol=        0 nbface=       42                              
+ recon2 set new node and element total:           3328         11219            
+RECON: done.                                                                    
 * begin compare here                                                            
 quality                                                                         
  

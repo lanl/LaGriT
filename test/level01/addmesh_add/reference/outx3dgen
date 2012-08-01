@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  10:58:00          *                 
+*               *    Program:  LaGriT V3.006   Linux m64      *                 
+*               *    date_compile: 2012/07/19  gfort 4.5      *                 
+*               *    Run Time: 2012/Jul 19  16:52:39          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -363,25 +363,24 @@ Max/min 1:    1.000E+00   1.000E+00   1.000E+00   0.000E+00   0.000E+00   0.000E
                                                                              +00
 Max/min 2:    6.000E-01   6.000E-01   9.000E-01   4.000E-01   4.000E-01   1.000E
                                                                              -01
+ADDMESH ADD:          0 refine iteration.                                       
 Max/min 1:    1.000E+00   1.000E+00   1.000E+00   0.000E+00   0.000E+00   0.000E
                                                                              +00
 Max/min 2:    6.000E-01   6.000E-01   9.000E-01   4.000E-01   4.000E-01   1.000E
                                                                              -01
 refine tet edges:                                                               
-Refine edges:        344                                                        
-Edge_add iteration:          1       344                                        
-Edge-refined tets: old=      3645 new=      4025                                
-Edge_add iteration:          2       246                                        
-Edge-refined tets: old=      4025 new=      4553                                
-Edge_add iteration:          3       130                                        
-Edge-refined tets: old=      4553 new=      5189                                
-Edge_add iteration:          4        19                                        
-Edge-refined tets: old=      5189 new=      5369                                
+Refine edges:          2                                                        
+Edge_add iteration:          1         2                                        
+Edge-refined tets: old=      3645 new=      3651                                
 recon/0                                                                         
 RECON3D reconnection loop:     1                                                
- RECON:ntets=     5951 nface=       18 nflips=     1701                         
- niter=        7 negvol=        0 nbface=       11                              
+ recon2: MFLIP NEWLEN FOR iremov with:          4                               
+ recon2: ntets=     3663 nface=        2 nflips=       17                       
+ niter=        2 negvol=        0 nbface=        2                              
+ recon2 set new node and element total:           1002          3663            
+RECON: done.                                                                    
 finish                                                                          
+ADDMESH ADD: recon done.                                                        
 Max/min 1:    1.000E+00   1.000E+00   1.000E+00   0.000E+00   0.000E+00   0.000E
                                                                              +00
 Max/min 2:    6.000E-01   6.000E-01   9.000E-01   4.000E-01   4.000E-01   1.000E
@@ -409,14 +408,14 @@ cmo/create/cmo_tet3///tet
 copypts/cmo_tet3/cmo_add                                                        
 cmo/addatt/cmo_tet3/iign/VINT/scalar/nnodes/linear/temporary/gx/0.0             
 finish                                                                          
-copypts added nodes          1 to       4312                                    
+copypts added nodes          1 to       3967                                    
 cmo/setatt/cmo_tet3/imt/1 0 0/1                                                 
 Warning: nelements = 0                                                          
-      4312 values reset for attribute imt1                                      
+      3967 values reset for attribute imt1                                      
  
 cmo/setatt/cmo_tet3/itp/1 0 0/0                                                 
 Warning: nelements = 0                                                          
-      4312 values reset for attribute itp1                                      
+      3967 values reset for attribute itp1                                      
  
 connect                                                                         
  Coordinates of enclosing tetrahedron are:                                      
@@ -441,22 +440,22 @@ epsilonl, epsilonaspect:   3.8459254E-13  5.6885628E-38
 elements with aspect ratio < .01:                    0                          
 elements with aspect ratio b/w .01 and .02:          0                          
 elements with aspect ratio b/w .02 and .05:          0                          
-elements with aspect ratio b/w .05 and .1 :          5                          
-elements with aspect ratio b/w .1  and .2 :        124                          
-elements with aspect ratio b/w .2  and .5 :       3601                          
-elements with aspect ratio b/w .5  and 1. :      20506                          
-min aspect ratio =  0.5932E-01  max aspect ratio =  0.1000E+01                  
+elements with aspect ratio b/w .05 and .1 :          1                          
+elements with aspect ratio b/w .1  and .2 :        133                          
+elements with aspect ratio b/w .2  and .5 :       2714                          
+elements with aspect ratio b/w .5  and 1. :      18444                          
+min aspect ratio =  0.5846E-01  max aspect ratio =  0.1000E+01                  
  
 epsilonvol:   2.2204460E-13                                                     
 ---------------------------------------                                         
-element volumes b/w  0.1135E-05 and  0.3768E-05:     14959                      
-element volumes b/w  0.3768E-05 and  0.1251E-04:      2693                      
-element volumes b/w  0.1251E-04 and  0.4151E-04:      1625                      
-element volumes b/w  0.4151E-04 and  0.1378E-03:      1459                      
-element volumes b/w  0.1378E-03 and  0.4572E-03:      3500                      
-min volume =   1.1352349E-06  max volume =   4.5724737E-04                      
+element volumes b/w  0.2270E-05 and  0.6560E-05:     13957                      
+element volumes b/w  0.6560E-05 and  0.1896E-04:      2419                      
+element volumes b/w  0.1896E-04 and  0.5477E-04:       774                      
+element volumes b/w  0.5477E-04 and  0.1583E-03:       235                      
+element volumes b/w  0.1583E-03 and  0.4572E-03:      3907                      
+min volume =   2.2704697E-06  max volume =   4.5724737E-04                      
 -----------------------------------------------------------                     
-     24236 total elements evaluated.                                            
+     21292 total elements evaluated.                                            
  
 cmo/setatt//ipolydat/no                                                         
          1 values reset for attribute ipolydat                                  
@@ -474,22 +473,22 @@ epsilonl, epsilonaspect:   3.8459254E-13  5.6885628E-38
 elements with aspect ratio < .01:                    0                          
 elements with aspect ratio b/w .01 and .02:          0                          
 elements with aspect ratio b/w .02 and .05:          0                          
-elements with aspect ratio b/w .05 and .1 :          5                          
-elements with aspect ratio b/w .1  and .2 :        124                          
-elements with aspect ratio b/w .2  and .5 :       3601                          
-elements with aspect ratio b/w .5  and 1. :      20506                          
-min aspect ratio =  0.5932E-01  max aspect ratio =  0.1000E+01                  
+elements with aspect ratio b/w .05 and .1 :          1                          
+elements with aspect ratio b/w .1  and .2 :        133                          
+elements with aspect ratio b/w .2  and .5 :       2714                          
+elements with aspect ratio b/w .5  and 1. :      18444                          
+min aspect ratio =  0.5846E-01  max aspect ratio =  0.1000E+01                  
  
 epsilonvol:   2.2204460E-13                                                     
 ---------------------------------------                                         
-element volumes b/w  0.1135E-05 and  0.3768E-05:     14959                      
-element volumes b/w  0.3768E-05 and  0.1251E-04:      2693                      
-element volumes b/w  0.1251E-04 and  0.4151E-04:      1625                      
-element volumes b/w  0.4151E-04 and  0.1378E-03:      1459                      
-element volumes b/w  0.1378E-03 and  0.4572E-03:      3500                      
-min volume =   1.1352349E-06  max volume =   4.5724737E-04                      
+element volumes b/w  0.2270E-05 and  0.6560E-05:     13957                      
+element volumes b/w  0.6560E-05 and  0.1896E-04:      2419                      
+element volumes b/w  0.1896E-04 and  0.5477E-04:       774                      
+element volumes b/w  0.5477E-04 and  0.1583E-03:       235                      
+element volumes b/w  0.1583E-03 and  0.4572E-03:      3907                      
+min volume =   2.2704697E-06  max volume =   4.5724737E-04                      
 -----------------------------------------------------------                     
-     24236 total elements evaluated.                                            
+     21292 total elements evaluated.                                            
  
 finish                                                                          
 LaGriT successfully completed                                                   

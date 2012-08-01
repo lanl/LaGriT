@@ -18,6 +18,7 @@ quality/angle/gt/90.
 refine/maxsize///edge/1,0,0/0.01,0.0,0.0/                                       
 recon                                                                           
 refine/constant/boron/linear/edge/1,0,0/1.3+20/                                 
+cmo setatt 3dmesh idebug 2                                                      
 quality/aspect                                                                  
 quality/volume                                                                  
 quality/angle/gt/90.                                                            

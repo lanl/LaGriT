@@ -24,6 +24,8 @@ refine/maxsize///edge/1,0,0/0.01,0.0,0.0/
 recon
 refine/constant/boron/linear/edge/1,0,0/1.3+20/
 
+cmo setatt 3dmesh idebug 2
+
 * begin compare refine 1
 quality/aspect
 quality/volume
