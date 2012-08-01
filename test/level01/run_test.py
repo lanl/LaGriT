@@ -55,6 +55,8 @@ if __name__ == "__main__":
 
 # define executable
   xlagrit="lagrit"
+  xlagrit="/home/tam/src/build_lagrit/lin64/lagrit_lin64"
+  xlagrit="/home/tam/src/build_lagrit/mac64/lagrit_maci64"
   xlagrit="mylagrit"
 
 # get platform

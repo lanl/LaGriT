@@ -1,27 +1,25 @@
-Start in directory: /home/tam/src/lagrit/test/level01 at Mon Jul  9 08:09:43 2012
+Start in directory: /home/tam/src/lagrit/test/level01 at Fri Jul 27 10:53:47 2012
 
 Diff Summary ===================================================================
 
 1 Check Directory ./addmesh_add --------------------------
 
-Test has 3 diffs at line 5 >>
-Lines Essentially the Same: 3 out of 3
-3 comment lines.
+Test has 2 diffs at line 6 >>
+Lines Essentially the Same: 2 out of 2
+2 comment lines.
 No lines differ.
 1 Done with Directory ./addmesh_add -----------------------
 Check done.
 
 Full Report from diff =========================================================
 
---- ./addmesh_add/reference/outx3dgen	Thu Jun 28 16:13:14 2012
-+++ ./addmesh_add/outx3dgen	Mon Jul  9 08:00:01 2012
-@@ -5,3 +5,3 @@
--*               *    Program:  LaGriT V3.001   Linux m64      *                 
--*               *    date_compile: 2011/08/01  gfort 4.5      *                 
--*               *    Run Time: 2011/Aug 31  10:58:00          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  07:59:55          *                 
+--- ./addmesh_add/reference/outx3dgen	Fri Jul 20 07:56:37 2012
++++ ./addmesh_add/outx3dgen	Fri Jul 27 10:53:05 2012
+@@ -6,2 +6,2 @@
+-*               *    date_compile: 2012/07/19  gfort 4.5      *                 
+-*               *    Run Time: 2012/Jul 19  16:52:39          *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:00          *                 
 
 End Report from diff =========================================================
 
@@ -51,14 +49,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./addmesh_append/reference/outx3dgen	Thu Jun 28 16:13:14 2012
-+++ ./addmesh_append/outx3dgen	Mon Jul  9 08:00:01 2012
++++ ./addmesh_append/outx3dgen	Fri Jul 27 10:53:06 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:02          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:01          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:05          *                 
 @@ -92 +91,0 @@
 -cmo name = first_cmo  attribute name = Aint                                     
 @@ -101 +99,0 @@
@@ -84,14 +82,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./addmesh_doublemesh/reference/outx3dgen	Thu Jun 28 16:13:14 2012
-+++ ./addmesh_doublemesh/outx3dgen	Mon Jul  9 08:00:02 2012
++++ ./addmesh_doublemesh/outx3dgen	Fri Jul 27 10:53:07 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:02          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:01          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:06          *                 
 
 End Report from diff =========================================================
 
@@ -109,14 +107,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./addmesh_merge/reference/outx3dgen	Thu Jun 28 16:13:14 2012
-+++ ./addmesh_merge/outx3dgen	Mon Jul  9 08:00:03 2012
++++ ./addmesh_merge/outx3dgen	Fri Jul 27 10:53:07 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:19          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:02          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:07          *                 
 
 End Report from diff =========================================================
 
@@ -124,8 +122,9 @@ Diff Summary ===================================================================
 
 5 Check Directory ./cmo_readatt --------------------------
 
-Test has 0 diffs at line 7 >>
-Lines Essentially the Same: 0 out of 0
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 5 Done with Directory ./cmo_readatt -----------------------
 Check done.
@@ -133,10 +132,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./cmo_readatt/reference/outx3dgen	Mon Jul  9 07:59:34 2012
-+++ ./cmo_readatt/outx3dgen	Mon Jul  9 08:00:05 2012
-@@ -7 +7 @@
++++ ./cmo_readatt/outx3dgen	Fri Jul 27 10:53:09 2012
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.005   Linux m64      *                 
+-*               *    date_compile: 2012/06/29  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul  9  07:58:22          *                 
-+*               *    Run Time: 2012/Jul  9  08:00:03          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:07          *                 
 
 End Report from diff =========================================================
 
@@ -154,14 +157,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./connect_cube/reference/outx3dgen	Thu Jun 28 16:13:14 2012
-+++ ./connect_cube/outx3dgen	Mon Jul  9 08:00:06 2012
++++ ./connect_cube/outx3dgen	Fri Jul 27 10:53:10 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:02          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:05          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:09          *                 
 
 End Report from diff =========================================================
 
@@ -169,9 +172,9 @@ Diff Summary ===================================================================
 
 7 Check Directory ./connect_errors --------------------------
 
-Test has 2 diffs at line 6 >>
-Lines Essentially the Same: 2 out of 2
-2 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 7 Done with Directory ./connect_errors -----------------------
 Check done.
@@ -179,12 +182,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./connect_errors/reference/outx3dgen	Thu Jun 28 16:13:14 2012
-+++ ./connect_errors/outx3dgen	Mon Jul  9 08:00:06 2012
-@@ -6,2 +6,2 @@
++++ ./connect_errors/outx3dgen	Fri Jul 27 10:53:10 2012
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/04/15  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jun 13  15:49:45          *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:06          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:10          *                 
 
 End Report from diff =========================================================
 
@@ -202,14 +207,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./createpts/reference/outx3dgen	Thu Jun 28 16:13:14 2012
-+++ ./createpts/outx3dgen	Mon Jul  9 08:00:06 2012
++++ ./createpts/outx3dgen	Fri Jul 27 10:53:10 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:03          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:06          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:10          *                 
 
 End Report from diff =========================================================
 
@@ -227,26 +232,39 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./eltset/reference/outx3dgen	Thu Jun 28 16:13:14 2012
-+++ ./eltset/outx3dgen	Mon Jul  9 08:00:06 2012
++++ ./eltset/outx3dgen	Fri Jul 27 10:53:10 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:20          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:06          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:10          *                 
 
 End Report from diff =========================================================
 
 Diff Summary ===================================================================
 
 10 Check Directory ./exodus --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 10 Done with Directory ./exodus -----------------------
 Check done.
 
 Full Report from diff =========================================================
 
+--- ./exodus/reference/outx3dgen	Mon Jul  9 08:06:00 2012
++++ ./exodus/outx3dgen	Fri Jul 27 10:53:11 2012
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.005   Linux m64      *                 
+-*               *    date_compile: 2012/06/29  gfort 4.5      *                 
+-*               *    Run Time: 2012/Jul  9  08:00:06          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:10          *                 
 
 End Report from diff =========================================================
 
@@ -254,9 +272,9 @@ Diff Summary ===================================================================
 
 11 Check Directory ./hybrid_volume --------------------------
 
-Test has 2 diffs at line 6 >>
-Lines Essentially the Same: 2 out of 2
-2 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 11 Done with Directory ./hybrid_volume -----------------------
 Check done.
@@ -264,12 +282,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./hybrid_volume/reference/outx3dgen	Thu Jun 28 16:13:15 2012
-+++ ./hybrid_volume/outx3dgen	Mon Jul  9 08:00:08 2012
-@@ -6,2 +6,2 @@
++++ ./hybrid_volume/outx3dgen	Fri Jul 27 10:53:12 2012
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/15  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jun 27  07:44:35          *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:07          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:11          *                 
 
 End Report from diff =========================================================
 
@@ -287,14 +307,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./interp_continuous/reference/outx3dgen	Thu Jun 28 16:13:25 2012
-+++ ./interp_continuous/outx3dgen	Mon Jul  9 08:00:10 2012
++++ ./interp_continuous/outx3dgen	Fri Jul 27 10:53:14 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:03          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:08          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:12          *                 
 
 End Report from diff =========================================================
 
@@ -312,14 +332,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./interp_map/reference/outx3dgen	Thu Jun 28 16:13:25 2012
-+++ ./interp_map/outx3dgen	Mon Jul  9 08:00:12 2012
++++ ./interp_map/outx3dgen	Fri Jul 27 10:53:16 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:04          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:10          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:14          *                 
 
 End Report from diff =========================================================
 
@@ -337,26 +357,39 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./interp_voronoi/reference/outx3dgen	Thu Jun 28 16:13:26 2012
-+++ ./interp_voronoi/outx3dgen	Mon Jul  9 08:00:16 2012
++++ ./interp_voronoi/outx3dgen	Fri Jul 27 10:53:20 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:05          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:12          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:16          *                 
 
 End Report from diff =========================================================
 
 Diff Summary ===================================================================
 
 15 Check Directory ./intersect --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 15 Done with Directory ./intersect -----------------------
 Check done.
 
 Full Report from diff =========================================================
 
+--- ./intersect/reference/outx3dgen	Mon Jul  9 08:06:43 2012
++++ ./intersect/outx3dgen	Fri Jul 27 10:53:21 2012
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.005   Linux m64      *                 
+-*               *    date_compile: 2012/06/29  gfort 4.5      *                 
+-*               *    Run Time: 2012/Jul  9  08:00:16          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:20          *                 
 
 End Report from diff =========================================================
 
@@ -366,9 +399,9 @@ Diff Summary ===================================================================
 
 Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2010/06/29                 *
-+*               *    date_compile: 2012/06/29  gfort 4.5      *
++*               *    date_compile: 2012/07/26  gfort 4.5      *
 -*               *    Run Time: 2010/11/12  12:19:40           *
-+*               *    Run Time: 2012/Jul  9  08:00:17          *
++*               *    Run Time: 2012/Jul 27  10:53:21          *
 Lines Essentially the Same: 1 out of 3
 
 Test has 3 diffs at line 46 >>
@@ -412,14 +445,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./intrp_2D_sizes/reference/outx3dgen	Thu Jun 28 16:13:27 2012
-+++ ./intrp_2D_sizes/outx3dgen	Mon Jul  9 08:00:20 2012
++++ ./intrp_2D_sizes/outx3dgen	Fri Jul 27 10:53:24 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V2.200   Linux m32      *                 
 -*               *    date_compile: 2010/06/29                 *                 
 -*               *    Run Time: 2010/11/12  12:19:40           *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:17          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:21          *                 
 @@ -46,3 +46,3 @@
 -          -0.17500D+01-0.16000D+01 0.00000D+00                                  
 -           0.27500D+01-0.17500D+01 0.00000D+00                                  
@@ -457,14 +490,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./io_agf_simple/reference/outx3dgen	Fri Jun 29 08:21:32 2012
-+++ ./io_agf_simple/outx3dgen	Mon Jul  9 08:00:21 2012
++++ ./io_agf_simple/outx3dgen	Fri Jul 27 10:53:25 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.002   Linux m64      *                 
 -*               *    date_compile: 2011/09/09  gfort 4.5      *                 
 -*               *    Run Time: 2011/Sep  9  12:46:09          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:21          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:24          *                 
 
 End Report from diff =========================================================
 
@@ -482,14 +515,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./pset/reference/outx3dgen	Thu Jun 28 16:13:27 2012
-+++ ./pset/outx3dgen	Mon Jul  9 08:00:22 2012
++++ ./pset/outx3dgen	Fri Jul 27 10:53:25 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/05/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Jul 29  08:45:49          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:21          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:25          *                 
 
 End Report from diff =========================================================
 
@@ -497,9 +530,9 @@ Diff Summary ===================================================================
 
 19 Check Directory ./quad_quality --------------------------
 
-Test has 2 diffs at line 6 >>
-Lines Essentially the Same: 2 out of 2
-2 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 19 Done with Directory ./quad_quality -----------------------
 Check done.
@@ -507,12 +540,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./quad_quality/reference/outx3dgen	Thu Jun 28 16:13:27 2012
-+++ ./quad_quality/outx3dgen	Mon Jul  9 08:00:22 2012
-@@ -6,2 +6,2 @@
++++ ./quad_quality/outx3dgen	Fri Jul 27 10:53:25 2012
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/15  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jun 27  07:44:37          *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:22          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:25          *                 
 
 End Report from diff =========================================================
 
@@ -530,14 +565,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./refine_octree/reference/outx3dgen	Thu Jun 28 16:13:27 2012
-+++ ./refine_octree/outx3dgen	Mon Jul  9 08:00:23 2012
++++ ./refine_octree/outx3dgen	Fri Jul 27 10:53:27 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:10          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:22          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:25          *                 
 
 End Report from diff =========================================================
 
@@ -555,26 +590,37 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./refine_octree_prd/reference/outx3dgen	Thu Jun 28 16:13:28 2012
-+++ ./refine_octree_prd/outx3dgen	Mon Jul  9 08:00:25 2012
++++ ./refine_octree_prd/outx3dgen	Fri Jul 27 10:53:28 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:10          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:23          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:27          *                 
 
 End Report from diff =========================================================
 
 Diff Summary ===================================================================
 
 22 Check Directory ./refine_recon_quality --------------------------
+
+Test has 2 diffs at line 6 >>
+Lines Essentially the Same: 2 out of 2
+2 comment lines.
 No lines differ.
 22 Done with Directory ./refine_recon_quality -----------------------
 Check done.
 
 Full Report from diff =========================================================
 
+--- ./refine_recon_quality/reference/outx3dgen	Fri Jul 20 08:03:35 2012
++++ ./refine_recon_quality/outx3dgen	Fri Jul 27 10:53:28 2012
+@@ -6,2 +6,2 @@
+-*               *    date_compile: 2012/07/19  gfort 4.5      *                 
+-*               *    Run Time: 2012/Jul 19  16:53:09          *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:28          *                 
 
 End Report from diff =========================================================
 
@@ -592,14 +638,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./rmpoint/reference/outx3dgen	Thu Jun 28 16:13:28 2012
-+++ ./rmpoint/outx3dgen	Mon Jul  9 08:00:26 2012
++++ ./rmpoint/outx3dgen	Fri Jul 27 10:53:29 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:11          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:25          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:28          *                 
 
 End Report from diff =========================================================
 
@@ -617,14 +663,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./rotateln/reference/outx3dgen	Thu Jun 28 16:13:28 2012
-+++ ./rotateln/outx3dgen	Mon Jul  9 08:00:26 2012
++++ ./rotateln/outx3dgen	Fri Jul 27 10:53:29 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  12:10:26          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:26          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:29          *                 
 
 End Report from diff =========================================================
 
@@ -642,14 +688,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./setpts/reference/outx3dgen	Thu Jun 28 16:13:28 2012
-+++ ./setpts/outx3dgen	Mon Jul  9 08:00:26 2012
++++ ./setpts/outx3dgen	Fri Jul 27 10:53:29 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:12          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:26          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:29          *                 
 
 End Report from diff =========================================================
 
@@ -657,24 +703,22 @@ Diff Summary ===================================================================
 
 26 Check Directory ./smooth --------------------------
 
-Test has 3 diffs at line 5 >>
-Lines Essentially the Same: 3 out of 3
-3 comment lines.
+Test has 2 diffs at line 6 >>
+Lines Essentially the Same: 2 out of 2
+2 comment lines.
 No lines differ.
 26 Done with Directory ./smooth -----------------------
 Check done.
 
 Full Report from diff =========================================================
 
---- ./smooth/reference/outx3dgen	Thu Jun 28 16:13:28 2012
-+++ ./smooth/outx3dgen	Mon Jul  9 08:00:31 2012
-@@ -5,3 +5,3 @@
--*               *    Program:  LaGriT V3.001   Linux m64      *                 
--*               *    date_compile: 2011/08/01  gfort 4.5      *                 
--*               *    Run Time: 2011/Aug 31  10:58:12          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:26          *                 
+--- ./smooth/reference/outx3dgen	Fri Jul 20 07:59:30 2012
++++ ./smooth/outx3dgen	Fri Jul 27 10:53:33 2012
+@@ -6,2 +6,2 @@
+-*               *    date_compile: 2012/07/19  gfort 4.5      *                 
+-*               *    Run Time: 2012/Jul 19  16:53:10          *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:29          *                 
 
 End Report from diff =========================================================
 
@@ -682,9 +726,9 @@ Diff Summary ===================================================================
 
 27 Check Directory ./sort --------------------------
 
-Test has 2 diffs at line 6 >>
-Lines Essentially the Same: 2 out of 2
-2 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 27 Done with Directory ./sort -----------------------
 Check done.
@@ -692,12 +736,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./sort/reference/outx3dgen	Mon Jul  2 11:53:18 2012
-+++ ./sort/outx3dgen	Mon Jul  9 08:00:31 2012
-@@ -6,2 +6,2 @@
++++ ./sort/outx3dgen	Fri Jul 27 10:53:34 2012
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/15  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul  2  11:51:05          *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:31          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:33          *                 
 
 End Report from diff =========================================================
 
@@ -715,14 +761,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./surface/reference/outx3dgen	Thu Jun 28 16:13:29 2012
-+++ ./surface/outx3dgen	Mon Jul  9 08:00:31 2012
++++ ./surface/outx3dgen	Fri Jul 27 10:53:34 2012
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:14          *                 
-+*               *    Program:  LaGriT V3.005   Linux m64      *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:31          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:34          *                 
 
 End Report from diff =========================================================
 
@@ -730,12 +776,12 @@ Diff Summary ===================================================================
 
 29 Check Directory ./zone_outside --------------------------
 
-Test has 2 diffs at line 6 >>
-Lines Essentially the Same: 2 out of 2
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 106 >>
 Lines Essentially the Same: 0 out of 0
-2 comment lines.
+3 comment lines.
 No lines differ.
 29 Done with Directory ./zone_outside -----------------------
 Check done.
@@ -743,12 +789,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./zone_outside/reference/outx3dgen	Thu Jun 28 16:13:29 2012
-+++ ./zone_outside/outx3dgen	Mon Jul  9 08:00:35 2012
-@@ -6,2 +6,2 @@
++++ ./zone_outside/outx3dgen	Fri Jul 27 10:53:37 2012
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/15  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jun 26  16:13:47          *                 
-+*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-+*               *    Run Time: 2012/Jul  9  08:00:31          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:34          *                 
 @@ -106 +106 @@
 - SORT: new order written to sort key attribute: ikey_tmp                        
 + SORT: order key written to attribute: ikey_tmp                                 
@@ -758,14 +806,50 @@ End Report from diff =========================================================
 Diff Summary ===================================================================
 
 30 Check Directory ./zone_outside_minmax --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 30 Done with Directory ./zone_outside_minmax -----------------------
 Check done.
 
 Full Report from diff =========================================================
 
+--- ./zone_outside_minmax/reference/outx3dgen	Mon Jul  9 08:09:19 2012
++++ ./zone_outside_minmax/outx3dgen	Fri Jul 27 10:53:46 2012
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.005   Linux m64      *                 
+-*               *    date_compile: 2012/06/29  gfort 4.5      *                 
+-*               *    Run Time: 2012/Jul  9  08:00:35          *                 
++*               *    Program:  LaGriT V3.006   Linux m64      *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:37          *                 
 
 End Report from diff =========================================================
-All checks complete, 1 directories failed out of 30
+
+Diff Summary ===================================================================
+
+31 Check Directory ./recon1 --------------------------
+
+Test has 2 diffs at line 6 >>
+Lines Essentially the Same: 2 out of 2
+2 comment lines.
+No lines differ.
+31 Done with Directory ./recon1 -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./recon1/reference/outx3dgen	Thu Jul 26 08:25:42 2012
++++ ./recon1/outx3dgen	Fri Jul 27 10:53:47 2012
+@@ -6,2 +6,2 @@
+-*               *    date_compile: 2012/07/23  gfort 4.5      *                 
+-*               *    Run Time: 2012/Jul 26  08:25:41          *                 
++*               *    date_compile: 2012/07/26  gfort 4.5      *                 
++*               *    Run Time: 2012/Jul 27  10:53:46          *                 
+
+End Report from diff =========================================================
+All checks complete, 1 directories failed out of 31
   ./intrp_2D_sizes Error: 16 lines failed.
 
