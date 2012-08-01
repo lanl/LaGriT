@@ -1,7 +1,6 @@
 *dk,flipbdyc
       subroutine flipbdyc(nbdyfc,n3to2i,n4to4i,n2to3i,n2to3,n2to0,
      *                    npoints,ntets,toldamage)
-       implicit none
 C
 C ######################################################################
 C
@@ -91,31 +90,23 @@ CPVCS       Rev 1.0   11/10/94 12:13:04   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
       include 'local_element.h'
-C
-C ######################################################################
-C
+
+C arguments (nbdyfc,n3to2i,n4to4i,n2to3i,n2to3,n2to0,
+C                         npoints,ntets,toldamage)
+      integer nbdyfc,n3to2i,n4to4i,n2to3i,n2to3,n2to0,
+     *        npoints,ntets
+      real*8 toldamage
+
+C variables
       integer nmulti
       parameter (nmulti = 200)
-      integer id(16),jd(16),itets(4),ichain1(nmulti),imt1a(nmulti),
-     *          ichain2(nmulti),imt2(nmulti),imt1b(nmulti),imt1c(nmulti)
-      integer nbdyfc,n3to2i,n4to4i,n2to3i,n2to3,n2to0,
-     *    ierror,npoints,ntets ,i,j,k ,iposfnd,length,icmotype,
-     *    j0,ione,itwo,iface,jtemp,i1,i2,ntest,nflips,jj,kk,iflag2,
-     *    iflag1,ibdytet,nfpos,ll,ict4,ict2,icount,
-     *    ntv,i6,it5,i3b,ntets_local,ii,nelts,nef,iflag,iflip,
-     *    it2save,itx,nepos,icscode,ict3,ipar,ict1,itv,imtx,it4,
-     *    it3,jtemp2,nflipsb,i5,it2,kptr,k2,k1,n2,n1,n3,it,ifaceo,
-     *    niter,n2to0o,n2to3o,i3,i4,i0,ipos3,ict,np2,np1,ichoice2,
-     *    ichoice1,ifpos,ivt,ipos2
-      real*8 toldamage,crosx1,crosy1,crosz1,volume,dot,dlen2,
-     *  zn2,yn2,xn2,dlen1,xn1,yn1,zn1,volit2,xst,volit4,volit3,
-     *  volit
-      logical itsttp
+
       pointer (ipielts,ielts)
       integer ielts(*)
       pointer (ipiparent,iparent)
@@ -123,6 +114,23 @@ C
       pointer (ipitetoff,itetoff)
       pointer (ipjtetoff,jtetoff)
       integer itetoff(*),jtetoff(*)
+
+      integer id(16),jd(16),itets(4),ichain1(nmulti),imt1a(nmulti),
+     *          ichain2(nmulti),imt2(nmulti),imt1b(nmulti),imt1c(nmulti)
+
+      integer  ierror,i,j,k,iposfnd,length,icmotype,
+     *    j0,ione,itwo,iface,jtemp,i1,i2,ntest,nflips,jj,kk,iflag2,
+     *    iflag1,ibdytet,nfpos,ll,ict4,ict2,icount,
+     *    ntv,i6,it5,i3b,ntets_local,ii,nelts,nef,iflag,iflip,
+     *    it2save,itx,nepos,icscode,ict3,ipar,ict1,itv,imtx,it4,
+     *    it3,jtemp2,nflipsb,i5,it2,kptr,k2,k1,n2,n1,n3,it,ifaceo,
+     *    niter,n2to0o,n2to3o,i3,i4,i0,ipos3,ict,np2,np1,ichoice2,
+     *    ichoice1,ifpos,ivt,ipos2
+
+      real*8 volit,crosx1,crosy1,crosz1,volume,dot,dlen2,
+     *  zn2,yn2,xn2,dlen1,xn1,yn1,zn1,volit2,xst,volit4,volit3
+
+      logical itsttp
       character*32 isubname
 C
 C ######################################################################
@@ -142,6 +150,8 @@ C
      *                             iabs(i3-i0)*4+3,iabs(i4-i0)*4+4)
 C
 C ######################################################################
+C BEGIN begin
+C
       isubname='flipbdyc'
 C
 C     ******************************************************************

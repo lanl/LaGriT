@@ -4,7 +4,6 @@
 C
        implicit none
 C
-       character*132 logmess
 C
 C ######################################################################
 C
@@ -70,29 +69,35 @@ C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
+
+C arguments (ipiholes,nholes,ipdum,npoints,ntets)
+      integer nholes,npoints,ntets
+      pointer(ipiholes , iholes)
+      pointer(ipdum    , dum)
+      integer iholes(*),dum(*)
+
 C
 C ######################################################################
 C
-      integer ierrfls,it2,it2sum,ierrdum,it1sum,it1,jtemp,itetnum,
-     *  ier,leni,i1,i2,i3,i4,ierror,length,icmotype,i,j,k,npoints,ntets,
-     *  nholes,iholes,dum,iatt,natt,nlen,lout,itout,it,itold,index
-      integer icharln
-      real*8 crosx1,crosy1,crosz1
-      real*8 volume,volit1,volit2
-      pointer( ipiholes , iholes(1) )
-      pointer( ipdum    , dum(1)    )
-      character*4 if1,if2,if3,if4
-      character*32 isubname,ctype,crank,cattr_name,clength,cio,cpers,
-     *  cinter
       pointer (ipitalias, italias)
       integer italias(*)
-C
-      pointer (ipxcmo,xcmo),(ipxcmo,icmo),(ipxcmo,ccmo)
+
+      pointer (ipxcmo,xcmo)
       integer icmo(*)
+      pointer (ipxcmo,icmo)
       real*8 xcmo(*)
+      pointer (ipxcmo,ccmo)
       character*32 ccmo(*)
 
-C ######################################################################
+      integer ierrfls,it2,it2sum,ierrdum,it1sum,it1,jtemp,itetnum,
+     *  ier,leni,i1,i2,i3,i4,ierror,length,icmotype,i,j,k,
+     *  iatt,natt,nlen,lout,itout,it,itold,index
+
+      integer icharln
+
+      real*8 crosx1,crosy1,crosz1
+      real*8 volume,volit1,volit2
+
 C
 C     DEFINE THE STATEMENT FUNCTIONS NEEDED TO CALCULATE TET VOLUMES.
 C
@@ -106,6 +111,12 @@ C
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
 C
+      character*132 logmess
+      character*32 isubname,ctype,crank,cattr_name,clength,cio,cpers,
+     *  cinter
+      character*4 if1,if2,if3,if4
+
+C ######################################################################
 C ######################################################################
 C
 C
@@ -283,10 +294,17 @@ C
       if(icmoset.eq.1) then
          call cmo_set_info('nelements',cmo,ntets,1,1,ierror)
       endif
+      write(logmess,'(a,i14)') 
+     * ' filholes: reset number of elements: ',ntets
+       call writloga('default',0,logmess,0,ierrdum)
+
 C
 C     ..................................................................
 C     CHECK THE JTET ARRAY FOR AN INCONSISTENCY.
       if(idebug.gt.1) then
+         write(logmess,'(a)') 
+     * ' filholes: call tetestd for consistency check.'
+         call writloga('default',0,logmess,0,ierrdum)
          call tettestd
       endif
 C

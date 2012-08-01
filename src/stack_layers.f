@@ -224,18 +224,18 @@ c LOCAL VARS
      >,       ilen, ityp, ipointi, ipointj
      >,       idone, squished, ichg, icnt
  
-      character*72 layerlist(100000)
+      character*72 layerlist(*)
       character*72 flist(nwds)
       pointer (ipflist, flist)
       pointer (iplayerlist, layerlist)
  
-      integer ltyplist(100000)
+      integer ltyplist(*)
       pointer (ipltyplist,ltyplist)
-      integer iclr(100000)
+      integer iclr(*)
       pointer (ipiclr, iclr)
-      integer irefine(100000)
+      integer irefine(*)
       pointer (ipirefine, irefine)
-      integer layertyp(1000000)
+      integer layertyp(*)
       pointer (iplayertyp, layertyp)
  
       real*8 xmin,xmax,ymin,ymax
@@ -245,11 +245,11 @@ c LOCAL VARS
       integer nbeads
       real*8  xprev, yprev
       real*8  dmin, dpinch
-      real*8  zin(100000)
-      real*8  zout(100000)
-      real*8  d_pinch(100000)
-      real*8  d_min(100000)
-      integer id_move(100000)
+      real*8  zin(*)
+      real*8  zout(*)
+      real*8  d_pinch(*)
+      real*8  d_min(*)
+      integer id_move(*)
       pointer (ipd_pinch, d_pinch)
       pointer (ipd_min, d_min)
       pointer (ipid_move, id_move)
@@ -259,25 +259,25 @@ c LOCAL VARS
  
  
 c CMO
-      integer ltype_sav(1000000)
+      integer ltype_sav(*)
       pointer (ipltype_sav, ltype_sav)
-      integer itetclr_sav(1000000)
+      integer itetclr_sav(*)
       pointer (ipitetclr_sav, itetclr_sav)
-      integer itetclr(1000000)
+      integer itetclr(*)
       pointer (ipitetclr, itetclr)
-      integer ibuff(1000000)
+      integer ibuff(*)
       pointer (ipibuff, ibuff)
  
-      real*8 xic(1000000)
+      real*8 xic(*)
       pointer (ipxic, xic)
-      real*8 yic(1000000)
+      real*8 yic(*)
       pointer (ipyic, yic)
  
-      real*8 zic(1000000)
+      real*8 zic(*)
       pointer (ipzic, zic)
-      real*8 zic2(1000000)
+      real*8 zic2(*)
       pointer (ipzic2, zic2)
-      real*8 z_trunc(1000000)
+      real*8 z_trunc(*)
       pointer (ipz_trunc, z_trunc)
  
  

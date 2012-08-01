@@ -32,59 +32,83 @@ CPVCS
 CPVCS       Rev 1.0   11/10/94 12:18:00   pvcs
 CPVCS    Original version.
 C
-       implicit real*8 (a-h,o-z)
+      implicit none
 C
-      character*132 logmess
+      integer nplen,nvalues
+      parameter (nplen=10000000)
+      parameter (nvalues=3)
 C
-C
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
       pointer (ipitet, itet)
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet)
       pointer (ipjtet, jtet1)
-      integer itet(4,1000000), jtet(4,1000000)
-      integer itet1(4*1000000), jtet1(4*1000000)
-      dimension   xic(1000000), yic(1000000), zic(1000000)
+      integer itet(4,*), jtet(4,*)
+      integer itet1(*), jtet1(*)
+
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*)
 C
       pointer (ipitflag, itflag)
+      integer itflag(*)
+
       pointer (ipitetnn, itetnn)
       pointer (ipitetnn1, itetnn1)
       pointer (ipitetnn2, itetnn2)
+      integer itetnn(4,*), itetnn1(4,*), itetnn2(4,*)
+
       pointer (ipkfix, kfix)
       pointer (ipkfix, kfix1)
-      pointer (ipxfix, xfix)
-      dimension xfix(4,1000000)
-      integer kfix(4,1000000), kfix1(4*1000000)
-      integer itflag(1000000),
-     *        itetnn(4,1000000), itetnn1(4,1000000), itetnn2(4,1000000)
+      integer kfix(4,*), kfix1(*)
 C
-      parameter (nvalues=3)
       pointer (iplist_sink, list_sink)
       pointer (iplist_source, list_source)
+      integer list_sink(*), list_source(nvalues,*)
+C
+      integer ierror,ier,ierrw,ics,icscode
+      integer npoints,length,icmotype,ntets,mbndry,nen,nef,
+     *        nface1,icount,ibound,i,i1,i2,i3,i4,i5,
+     *        it,nedge,j,j1,j2,j3,j4,l,l1,l2,l3,
+     *        ifc,jt,jf,if,iclrt1,iclrt2,
+     *        ifaceiter,nface1_save
+      integer lenitetclr,lenitettyp,lenitetoff,lenjtetoff,
+     *        lenitet,lenjtet,lenxic,lenyic,lenzic
+      integer nadd1,iedgeiter,npointsnew,ntetsnew,nedge_save
+      integer k,kf,ke,kt,irefine,iface,nelementsmm,
+     *        ntetsinc,nnodesmm,npointsinc,inc,inc1,inc2,
+     *        kflast,ktlast,kelast,jcount,idnum,idum,
+     *        itstart,itlast,ifstart,ielast,iestart,iflast
+
+      real*8 xa,ya,za,xb,yb,zb,xc,yc,zc,xn,yn,zn,
+     *       xd,yd,zd,xl,yl,zl,xv,yv,zv
+      real*8 xdotmin,xdot,xdotl,ds23,ds2i,ds3i
+      real*8 x1,y1,z1,x2,y2,z2,x3,y3,z3,xint,yint,zint
+      real*8 xxsmall,q,vol,dist
+C
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
+
+      pointer (ipxfix, xfix)
+      real*8 xfix(4,*)
       pointer (ipxweight_source, xweight_source)
-      integer list_sink(10000000), list_source(nvalues,10000000)
-      real*8 xweight_source(nvalues,10000000)
-C
-      character*32 cmo, cmolength
-      character*32 isubname, iblknam, iprtnam
-C
-      integer itetface0(4), itetface1(4,4)
+      real*8 xweight_source(nvalues,*)
+
 c  a tolerance
       real*8 xst2
       data xst2/1.0d-9/
+
+      integer itetface0(4), itetface1(4,4)
       data itetface0 / 3, 3, 3, 3 /
       data itetface1 / 2, 3, 4, 1,
      *                 1, 4, 3, 2,
      *                 1, 2, 4, 3,
      *                 1, 3, 2, 4 /
+
       integer itetface2(3,3,4)
       data itetface2 / 3, 4, 2,
      *                         4, 2, 3,
@@ -98,6 +122,7 @@ c  a tolerance
      *                         3, 2, 1,
      *                         2, 1, 3,
      *                         1, 3, 2 /
+
       integer itetface3(2,3,4)
       data itetface3 / 2, 1,
      *                 3, 1,
@@ -111,9 +136,13 @@ c  a tolerance
      *                 1, 3,
      *                 3, 3,
      *                 2, 2 /
+
+      real*8 a,b,c,d,e,f,crosx,crosy,crosz
       crosx(a,b,c,d,e,f)=b*f-c*e
       crosy(a,b,c,d,e,f)=c*d-a*f
       crosz(a,b,c,d,e,f)=a*e-b*d
+
+      real*8 crosx1,crosy1,crosz1,volume
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -123,6 +152,13 @@ c  a tolerance
       volume(i1,i2,i3,i4)=(xic(i4)-xic(i1))*crosx1(i1,i2,i3)+
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
+C
+      character*132 logmess
+      character*32 cmo, cmolength
+      character*32 isubname, iblknam, iprtnam
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C BEGIN begin
 C
       isubname='refine_face'
 C
@@ -146,11 +182,11 @@ C
 C
       xxsmall=1.0d-30
       length=ntets
-      call mmgetblk("itflag",isubname,ipitflag,length,2,icscode)
+      call mmgetblk("itflag",isubname,ipitflag,length,1,icscode)
       length=4*ntets
-      call mmgetblk("itetnn" ,isubname,ipitetnn ,length,2,icscode)
-      call mmgetblk("itetnn1",isubname,ipitetnn1,length,2,icscode)
-      call mmgetblk("itetnn2",isubname,ipitetnn2,length,2,icscode)
+      call mmgetblk("itetnn" ,isubname,ipitetnn ,length,1,icscode)
+      call mmgetblk("itetnn1",isubname,ipitetnn1,length,1,icscode)
+      call mmgetblk("itetnn2",isubname,ipitetnn2,length,1,icscode)
       call mmgetblk("kfix",isubname,ipkfix,length,2,icscode)
       call mmgetblk("xfix",isubname,ipxfix,length,2,icscode)
 C
@@ -313,6 +349,11 @@ C*****               kfix(k,i)=0
              endif
           enddo
   10  continue
+
+C compiler: WARNING This statement can not be reached.
+C     nface1=0
+C     ^  
+
       nface1=0
       do it=1,ntets
          do j=1,4
@@ -349,6 +390,12 @@ C*****               kfix(k,i)=0
          enddo
       enddo
       goto 7
+
+C  From compiler
+C  WARNING: This statement can not be reached.
+C      nface1=0
+C      ^        
+
       nface1=0
       do it=1,ntets
          do j=1,4
@@ -385,9 +432,9 @@ C*****               kfix(k,i)=0
       ifaceiter=0
 C
       length=nface1
-      call mmgetblk('list_sink',isubname,iplist_sink,length,2,icscode)
+      call mmgetblk('list_sink',isubname,iplist_sink,length,1,icscode)
       length=nvalues*nface1
-      call mmgetblk('list_source',isubname,iplist_source,length,2,
+      call mmgetblk('list_source',isubname,iplist_source,length,1,
      *              icscode)
       call mmgetblk('xweight_source',isubname,ipxweight_source,length,2,
      *              icscode)

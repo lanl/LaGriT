@@ -2,7 +2,6 @@
       subroutine find3to2(it1,ipos,it2,it3,id,jd,flag,
      *                    npoints,ntets)
 C
-       implicit real*8 (a-h,o-z)
 C ######################################################################
 C
 C      PURPOSE -
@@ -68,14 +67,33 @@ CPVCS    Original version.
 C
 C ######################################################################
 C
+      implicit none
+C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
 C
 C ######################################################################
 C
-      dimension id(12),jd(12)
-C
+C arguments it1,ipos,it2,it3,id,jd,flag,npoints,ntets 
+      integer it1,ipos,it2,it3,flag,npoints,ntets
+      integer id(12),jd(12)
+
+C variables
+ 
+      integer i1,i2,i3,i4,i5
+      integer ierror,ierrwrt,lenitet,icmotype,lenjtet,i,it,
+     *        isum1,isum2,isum3,isum4,isum5,ict12,
+     *        j,k,length,lenxic, lenyic,lenzic,ipos1,ipos2,ipos3,
+     *        ipos4,ict345
+
+      real*8 xst,xn,yn,zn,xa,ya,za,x3,y3,z3,x7,y7,z7,sn,s3,s7,
+     *       dot1,dot2 
+
+    
+C statement functions
+
+      real*8 crosx1,crosy1,crosz1
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -84,7 +102,7 @@ C
      *              (xic(k)-xic(i))*(yic(j)-yic(i))
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C     ******************************************************************
 C     FETCH MESH OBJECT NAME AND POINTER INFORMATION.

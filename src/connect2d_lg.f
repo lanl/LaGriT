@@ -146,11 +146,11 @@ c
       integer  nimts,imts1,matlst
       logical itsttp, ifp1,ifp2,ifp3
       real*8 xcoords(12),vvbarmin
+
+      character*8 cglobal,cdefault
       data cglobal,cdefault/'global','default'/
 
       character*8 cpart,cnnodes
-
-      character*8 cglobal,cdefault
       character*32 isubname,blkname
       character*32 cpt1,cpt2,cpt3,geom_name
       character*132 logmess

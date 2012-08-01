@@ -45,17 +45,23 @@ C
 C
 C#######################################################################
 C
+C arguments (x,y,z,npts,epsln,regname,iregloc,ierr)
       integer npts
       real*8 x(npts),y(npts),z(npts),epsln
       character*(*) regname
-      integer ierr
       integer iregloc(npts)
+      integer ierr
+
+C variables
+      integer iout,lout,itype,ierror,length,i
+
       pointer(ipout,out)
       real*8 out(*),rout
+
       character*32 cmo,isubname,geomn,irtype
-      integer iout,lout,itype,ierror,length,i
 C
 C#######################################################################
+C BEGIN begin
 C
       isubname='tstregv'
       irtype='region'

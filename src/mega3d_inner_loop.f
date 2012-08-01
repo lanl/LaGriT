@@ -58,50 +58,48 @@ C
       include 'geom_lg.h'
       include 'smooth.h'
  
+      character*32 action
+
       integer imt1(*),itp1(*),icr1(*),icontab(*)
- 
-      real*8 xic(*)
-      real*8 yic(*)
-      real*8 zic(*)
+      integer iedgeoff(*),iedge(*),iedgemat(*)
       integer itetclr(*),itet(*),itetoff(*),itettyp(*)
  
-      real*8 fvec(*),reffield(*)
+      pointer (iplocvoloff,locvoloff), (ipivoloffoff,ivoloffoff)
+      integer locvoloff(*),ivoloffoff(*)
+
       integer invmpary(*),ichildary(*),
      &   invchildary(*),ieltary(*)
  
-      character*32 action
- 
       integer iparent(*)
       integer nodhyb(*),nodhyboff(*)
-      pointer (ipvoloff,voloff),(iplocvoloff,locvoloff),
-     &   (ipivoloffoff,ivoloffoff)
+
+      pointer (ipvoloff,voloff)
       real*8 voloff(*)
-      integer locvoloff(*),ivoloffoff(*)
- 
-      integer iedgeoff(*),iedge(*),iedgemat(*)
+
+      real*8 xic(*)
+      real*8 yic(*)
+      real*8 zic(*)
+      real*8 fvec(*),reffield(*)
       real*8 xsave(*),ysave(*),zsave(*)
- 
-      real*8 hxx(*),hxy(*),hxz(*),hyy(*),hyz(*),hzz(*),range
+      real*8 hxx(*),hxy(*),hxz(*),hyy(*),hyz(*),hzz(*)
+
       real*8 err,
      &   ctrl,dx,dy,dz,xnew,ynew,znew,
      &   pf,pfx(3),pfxx(3,3),
      &   pftot,epsilonl,epsilonv,rdamp,ds_in,dx_in,
      &   dy_in,dz_in,ds,xmn,xmx,ymn,ymx,zmn,zmx,dxpoly,dypoly
-     &   ,dzpoly,fdx,fdy,fdz
+     &   ,dzpoly,fdx,fdy,fdz,range
+
+      real*8 absvoltol,relvoltol
+      real*8 pfval(-1:1,-1:1,-1:1)
+
       integer mpk,lochybnod
- 
-      logical lplanar
  
       integer nnodes,nelements,i,k,
      &   ineghess,izeromove_forcvol,izeromove_free,
      &   izeromove_val,node,ichildno,ieltno,j,
      &   ii,ihyb,idamp,nincelts
  
-      real*8 absvoltol,relvoltol
-c
-      logical lusefd
- 
-      real*8 pfval(-1:1,-1:1,-1:1)
  
       integer istencil(3,10)
       data istencil / 0,0,0,
@@ -115,6 +113,14 @@ c
      &   1,0,1,
      &   1,1,0 /
       save istencil
+
+      logical lplanar
+      logical lusefd
+
+C
+C ##############################################################
+C BEGIN begin
+C
  
       idamp=0
       rdamp=1.

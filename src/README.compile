@@ -50,6 +50,7 @@ Compile lagrit library and build executable
 # build -g debug version for use with debuggers such as gdb
  
 cp lagrit_lin64.h lagrit.h
+cp machine_m64.h machine.h 
 
 make MOPT=64 COPT=-g lib
 
@@ -149,12 +150,12 @@ INDEX         LENGTH    TYPE     ADDRESS     NAME                           PART
 Total BYTES =                51456   Total MEGABYTES =   51.456E-03
 --------
 
-======================================
-Sample compile and link session:
-
+==============================================
+Sample compile and link session linux 64 bit:
 (Note this sample explicitly copies needed version of machine.h rather than letting the Makefile compile from machine_header.h)
 
-rm machine.h
+rm *.o *.mod
+cp machine_m64.h  machine.h
 cp lagrit_lin64.h lagrit.h
 gfortran  -g  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o lagrit_main.o lagrit_main.f
 gfortran  -g  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
@@ -164,4 +165,23 @@ make MOPT=64 COPT=-g lib
 gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_g_gfort4.5.a /home/tam/src/lg_util/lib/util_lin64_g_gfort4.5.a -L/home/tam/local/lib -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
 
 cp mylagrit /home/tam/bin
+==============================================
+Sample compile and link session linux 32 bit:
+(Note this sample explicitly copies needed version of machine.h rather than letting the Makefile compile from machine_header.h)
+
+rm *.o *.mod
+cp machine_m32.h  machine.h
+cp lagrit_lin.h lagrit.h
+make COPT=-g lib
+gfortran -g -fcray-pointer -m32 -c -o lagrit_main.o lagrit_main.f
+gfortran -g  -fcray-pointer -m32 -c -o lagrit_fdate.o lagrit_fdate.f
+
+gfortran -g -m32 -static -fcray-pointer -fno-sign-zero -o mylagrit32 lagrit_main.o lagrit_fdate.o lagrit_lin_g_gfort4.5.a /home/tam/src/lg_util/lib/util_lin_g_gfort4.5.a -L/home/tam/src/build_lagrit/lin32 -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
+
+cp mylagrit32 /home/tam/bin
+==============================================
+
+Note  ABSOFT compilers are more picky during compile time, use to find code errors
+/opt/absoft11.1/bin/f77  and /opt/absoft11.1/bin/f90
+
 

@@ -2,7 +2,6 @@
       subroutine find2to3(it1,ipos1,it2,ipos2,it3,id,jd,
      *                    npoints,ntets,ierflg)
 C
-       implicit real*8 (a-h,o-z)
 C ######################################################################
 C
 C      PURPOSE -
@@ -69,13 +68,22 @@ CPVCS    Original version.
 C
 C ######################################################################
 C
+      implicit none
+
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
-      dimension id(12),jd(12)
+
+C arguments (it1,ipos1,it2,ipos2,it3,id,jd,npoints,ntets,ierflg)
+      integer it1,ipos1,it2,ipos2,it3,npoints,ntets,ierflg 
+      integer id(12),jd(12)
+
+C variables
+ 
+      integer i1,i2,i3,i4,i5,if,j1,j2,j3,l1,l2,l3,k1,k2,k3 
+      integer ierror,ierrwrt,lenitet,icmotype,lenjtet,i,it, 
+     *        isum1,isum2,isum3,isum4,isum5,ict12,ict45,ict123
+
 C
 C ######################################################################
 C

@@ -75,29 +75,17 @@ C
 C#######################################################################
 C
       include 'cmo_lg.h'
-C
-C#######################################################################
-C
+
+C arguments (cmo_name1,cmo_name2,ierror_return)
       character*(*) cmo_name1, cmo_name2
-C
       integer ierror_return
-C
+
 C#######################################################################
 C
 C     LOCAL VARIABLE DEFINITION
 C
-      integer i, ierror, ierr, len,natts,index,ilen,length
-      character*32 partname
-C
-      character*132 logmess
-C
-      integer icscode
-c
-c  list of attribute parameters for new mesh object
-c  for each of the names in defcmo_attparam_names
-c
-      pointer (ipnew_attlist,new_attlist)
-      character*32 new_attlist(*)
+      integer i,ierror,icscode,ierr,len,natts,index,ilen,length
+      integer icharlnf
 c
 c  list of values for the 'default' parameter for each attribute
 c  for new mesh object - divided into integer,real and character types
@@ -108,12 +96,18 @@ c
       real*8 new_attparam_rdefault(*)
       pointer(ipnew_attparam_cdefault,new_attparam_cdefault)
       character*32 new_attparam_cdefault(*)
+c
+c  list of attribute parameters for new mesh object
+c  for each of the names in defcmo_attparam_names
+c
+      pointer (ipnew_attlist,new_attlist)
+      character*32 new_attlist(*)
+
+      character*32 partname
+      character*132 logmess
 C
 C#######################################################################
-C
-      integer icharlnf
-C
-C#######################################################################
+C BEGIN begin
 C
       len=icharlnf(cmo_name1)
 C

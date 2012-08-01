@@ -45,9 +45,14 @@ C
 C
 C#######################################################################
 C
-      implicit real*8 (a-h,o-z)
-C
+      implicit none
+
       include "chydro.h"
+
+C arguments
+      real*8 x1,y1,z1,x2,y2,z2
+C variables
+      real*8 x0,y0,z0,ax,bx,cx,ay,by,cy,az,bz,cz
 C
 C#######################################################################
 C

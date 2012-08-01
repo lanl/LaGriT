@@ -1,7 +1,6 @@
 *dk,fnd3to2i
       subroutine fnd3to2i(it1,ipos,it2,it3,id,jd,iflip,
      *                    npoints,ntets)
-       implicit real*8 (a-h,o-z)
 C
 C ######################################################################
 C
@@ -78,15 +77,33 @@ CPVCS    Original version.
 C
 C ######################################################################
 C
+      implicit none
+C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
+
+C arguments
+      integer it1,ipos,it2,it3,iflip,npoints,ntets
+      integer id(12),jd(12)
+
+      integer nmulti
       parameter (nmulti = 200)
-      dimension kpts(4),ichain1(nmulti),imt1a(nmulti),id(12),jd(12)
+      integer ichain1(nmulti),imt1a(nmulti)
+      integer kpts(4)
+
+      integer i,j,k
+      integer ierror,length,icmotype,lenimt1,lenxic,lenyic,
+     *        lenzic,lenitetclr,ier,lenitet,lenjtet,ipos1,ipos2,
+     *        ipos3,ipos4,jtemp2,i5,imtx,kpt,ict,ipar,m,i1,i2,
+     *        i3,i4,jtemp4,jtemp8,ict12,it,ict345,isum1,isum2,
+     *        isum3,isum4,isum5,ierrwrt,jtemp3
+
+      real*8 xst,xn,yn,zn,xa,ya,za,x3,y3,z3,x7,y7,z7,sn,s3,s7,
+     *       dot1,dot2
+
 C
+      real*8 crosx1,crosy1,crosz1
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-

@@ -527,9 +527,10 @@ C
       call cmo_get_intinfo('mbndry',cmob,mbndry2,length,icmotp,ierr)
 
       if ((npoints2 .eq. 0) .and. (numtet2 .eq. 0)) then
+
          write(logmess,'(a,a)')
-          'WARNING: not valid mesh object to append,
-     *      no action using ',cmob(1:icharlnf(cmob))
+     *    'WARNING: third mesh name not valid,' //
+     *    ' no action using ',cmob(1:icharlnf(cmob))
          call writloga('default',0,logmess,0,ierr)
          goto 9999
       endif

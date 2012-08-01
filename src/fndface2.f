@@ -1,7 +1,6 @@
 *dk,fndface2
       subroutine fndface2(itt1,itt2,itt3,ibdytet,id1,jd1,iposbest,
      *                    npoints,ntets)
-       implicit none
 C
 C ######################################################################
 C
@@ -85,36 +84,42 @@ CPVCS       Rev 1.0   11/10/94 12:14:14   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
       include "cmerge.h"
-C
-C ######################################################################
-C
-      character*8 isubname
-      integer itets(3),id1(12),jd1(12),id(12),jd(12)
-      pointer (ipiitmp , iitmp(4,1))
-      pointer (ipjjtmp , jjtmp(4,1))
-      pointer (ipkttmp , kttmp(1)  )
-C
-      pointer (ipiisave, iisave(1) )
-      pointer (ipjjsave, jjsave(1) )
-      integer iitmp,jjtmp,kttmp,
-     *  iisave,jjsave,i,j,k,i1,i2,i3,i4,ierror,length,
+
+C arguments
+      integer itt1,itt2,itt3,ibdytet,iposbest,npoints,ntets
+      integer id1(12),jd1(12)
+
+C variables
+      integer itets(3),id(12),jd(12)
+
+      pointer (ipiitmp , iitmp)
+      pointer (ipjjtmp , jjtmp)
+      pointer (ipkttmp , kttmp)
+      integer iitmp(4,*),jjtmp(4,*),kttmp(*)
+
+      pointer (ipiisave, iisave)
+      pointer (ipjjsave, jjsave)
+      integer iisave(*),jjsave(*)
+
+      integer i,j,k,i1,i2,i3,i4,ierror,length,
      *  icmotype,ilen,ictrecvr,maxiter,maxpairs,irecvrfl,iextbdy,
      *  iokflg,len,itinv,itk,it,kpt,niter,n2to3,n2to0,m,
-     *  itx,ifposx,it2,ifpos2,it3,ninvrt
-      real*8 volitk,volit,crosx1,crosy1,crosz1,xlarge,alargenumber,
-     *  volume,distsq
-      integer  itt1,itt2,itt3,ibdytet,iposbest,npoints,ntets,
+     *  itx,ifposx,it2,ifpos2,it3,ninvrt,
      *  itnext,ierr,ierflg,ifpos,ics,len4,itetcnto,len5
+
+      real*8 volitk,volit,xlarge,alargenumber
 C
 C ######################################################################
 C
 C     MACROS.
 C
+      real*8 crosx1,crosy1,crosz1,volume,distsq
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -126,6 +131,8 @@ C
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
       distsq(i,j)=(xic(i)-xic(j))**2+(yic(i)-yic(j))**2+
      *            (zic(i)-zic(j))**2
+C
+      character*8 isubname
 C
 C ######################################################################
 C

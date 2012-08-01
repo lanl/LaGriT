@@ -1,7 +1,6 @@
 *dk,try2to3i
       subroutine try2to3i(it1,ifpos1,it2,ibdytet,iflip,
      *                    npoints,ntets)
-       implicit real*8 (a-h,o-z)
 C
 C ######################################################################
 C
@@ -68,24 +67,34 @@ CPVCS    Original version.
 C
 C ######################################################################
 C
+      implicit none
+C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
+
+C arguments (it1,ifpos1,it2,ibdytet,iflip,npoints,ntets)
+      integer it1,ifpos1,it2,ibdytet,iflip,npoints,ntets
+
+C variables
+
+      integer nmulti
       parameter (nmulti = 200)
-      dimension kpts(3),ichain1(nmulti),imt0(nmulti)
+
+      integer kpts(3),ichain1(nmulti),imt0(nmulti)
+
+      integer ierror,length,icmotype,lenitetclr,ier,lenitet,
+     *        lenjtet,m,kpos1,kpt,kpos2,k,ktest,ict1,ipar
+ 
+C     MACROS function statements
 C
-C ######################################################################
-C
-C     MACROS.
-C
+      integer iposfnd,i0,i1,i2,i3,i4
       iposfnd(i0,i1,i2,i3,i4)=min0(iabs(i1-i0)*4+1,iabs(i2-i0)*4+2,
      *                             iabs(i3-i0)*4+3,iabs(i4-i0)*4+4)
+
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C
 C     ******************************************************************

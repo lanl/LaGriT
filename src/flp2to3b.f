@@ -1,7 +1,6 @@
-      subroutine flp2to3b(it1,it2,it3,id,jd,
-     *                    npoints,ntets)
 C
-       implicit none
+      subroutine flp2to3b(it1,it2,it3,id,jd,npoints,ntets)
+C
 C ######################################################################
 C
 C      PURPOSE -
@@ -72,20 +71,21 @@ CPVCS       Rev 1.0   11/10/94 12:13:14   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
 C
 C ######################################################################
-C
+C  arguments (it1,it2,it3,id,jd,npoints,ntets)
       integer it2,it3,it1,npoints,ntets,id(12),jd(12)
-      character*4 if1,if2,if3,if4
+
+C  variables
       integer ierror,icmotype,leni,jtemp
-      character*8 cpart
-      character*132 logmess
-      real*8 crosx1,crosy1,crosz1,volume,volit1,volit2,volit3
       integer i,j,k,i1,i2,i3,i4,icscode,it1sum,it2sum,ierrfls,it3sum
+
+      real*8 crosx1,crosy1,crosz1,volume,volit1,volit2,volit3
 C
 C ######################################################################
 C
@@ -101,6 +101,9 @@ C
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
 C
+      character*4 if1,if2,if3,if4
+      character*8 cpart
+
 C ######################################################################
 C
 C

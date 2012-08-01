@@ -1,8 +1,6 @@
 *dk,flip2to3
-      subroutine flip2to3(it1,it2,it3,id,jd,
-     *                    npoints,ntets)
+      subroutine flip2to3(it1,it2,it3,id,jd,npoints,ntets)
 C
-       implicit none
 C ######################################################################
 C
 C      PURPOSE -
@@ -64,21 +62,24 @@ CPVCS       Rev 1.0   11/10/94 12:12:44   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
-      integer it1,it2,it3,npoints,ntets,id(12),jd(12)
-      character*4 if1,if2,if3,if4
-c     character*132 logmess
-      real*8 crosx1,crosy1,crosz1,volit1,volit2,volit3,volume
+
+C arguments (it1,it2,it3,id,jd,npoints,ntets)
+      integer it1,it2,it3,npoints,ntets
+      integer id(12),jd(12)
+
+C variables
+
       integer jtemp,i,j,k,i1,i2,i3,i4,leni,icmotype,ierror,
      *  icscode,it1sum,it2sum,it3sum
-C
-C ######################################################################
+
+      character*4 if1,if2,if3,if4
+
+      real*8 crosx1,crosy1,crosz1,volit1,volit2,volit3,volume
 C
 C     DEFINE THE STATEMENT FUNCTIONS NEEDED TO CALCULATE TET VOLUMES.
 C
@@ -93,7 +94,7 @@ C
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C     ******************************************************************
 C     FETCH MESH OBJECT NAME AND POINTER INFORMATION.

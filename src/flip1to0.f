@@ -1,7 +1,6 @@
 *dk,flip1to0
-      subroutine flip1to0(it1,
-     *                    npoints,ntets)
-       implicit real*8 (a-h,o-z)
+      subroutine flip1to0(it1,npoints,ntets)
+C
 C ######################################################################
 C
 C     PURPOSE -
@@ -52,18 +51,28 @@ CPVCS       Rev 1.0   11/10/94 12:12:28   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
+
+C arguments (it1,npoints,ntets)
+      integer it1,npoints,ntets
+
+C variables
+      integer i,j,k,i1,i2,i3,i4
+      integer ierror,length,icmotype,lenitp1,lenxic,lenyic,lenzic,
+     *        lenitet,lenjtet,iepos,ip1,ip2,ip3,ip4,itsum,
+     *        ierrdum,ione   
 C
-C ######################################################################
-C
-      character*4 if1,if2,if3,if4
       logical itsttp
-C
-C ######################################################################
-C
+      character*4 if1,if2,if3,if4
+
+      real*8 volit
+
+C MACROS statement functions
+      real*8 crosx1,crosy1,crosz1,volume
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -73,9 +82,9 @@ C
       volume(i1,i2,i3,i4)=(xic(i4)-xic(i1))*crosx1(i1,i2,i3)+
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
-C
+
 C ######################################################################
-C
+C BEGIN begin
 C
 C     ******************************************************************
 C     FETCH MESH OBJECT NAME AND POINTER INFORMATION.

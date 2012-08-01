@@ -158,7 +158,6 @@ C
 C#######################################################################
 C
       implicit none
-      character*132 logmess
 C
 C#######################################################################
 C
@@ -171,8 +170,9 @@ C
       integer nwds, imsgin(nwds), msgtype(nwds)
       REAL*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
-C
       integer ierror
+
+C
 C
 C#######################################################################
 C
@@ -180,80 +180,73 @@ C
 C
       pointer (ipisn1, isn1 )
       integer isn1(*)
-C
+ 
       pointer (ipitp1, itp1 )
       integer itp1(*)
-C
+ 
       pointer (ipisetwd, isetwd )
       integer isetwd(*)
-C
+ 
       pointer (ipxic, xic )
       pointer (ipyic, yic )
       pointer (ipzic, zic )
       REAL*8 xic(*), yic(*), zic(*)
-C
+ 
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       integer itettyp(*), itetoff(*)
       pointer (ipitet, itet1 )
       integer itet1(*)
-C
-C
+ 
       pointer (ipialias, ialiastmp)
       integer ialiastmp(*)
-C
-      pointer(ipxfield,xfield)
-      real*8 xfield(1000000)
-      pointer(ipxfield,ifield)
-      integer ifield(1000000)
-
-C
+ 
       pointer (ipiparent, iparent)
       integer iparent(*)
-C
+ 
       pointer (ipialiasf, ialiasf)
       integer ialiasf(*)
+
+      pointer (ipint1, int1)
+      integer int1(*)
+ 
+      pointer (ipmodpnt, modpnt )
+      integer modpnt(*)
+ 
+      pointer (ipmpary , mpary )
+      integer mpary(*)
+ 
+      pointer(ipxfield,xfield)
+      real*8 xfield(*)
+      pointer(ipxfield,ifield)
+      integer ifield(*)
+
       pointer (ipxicf, xicf)
       pointer (ipyicf, yicf)
       pointer (ipzicf, zicf)
-      real*8 xicf(1000000), yicf(1000000), zicf(1000000)
+      real*8 xicf(*), yicf(*), zicf(*)
       real*8 xnoise
-C
-C#######################################################################
-C
-      integer ipt1, ipt2, ipt3
-      character*32 ich1,ich2,ich3
-C
-      character*32 isubname, cmo
-C
-      pointer (ipint1, int1)
-      integer int1(*)
-C
-      pointer (ipmodpnt, modpnt )
-      integer modpnt(*)
-C
-      pointer (ipmpary , mpary )
-      integer mpary(*)
-C
-      integer  i1
       REAL*8 dsmin, dsmin1
+ 
+      integer ipt1, ipt2, ipt3
+      integer  i1
       integer len, itype, ierr, icscode, ierrw
       integer ilen_fld,ityp_fld,irank_fld, if_sort
       integer nelements,ierrdum,nptsmax,ipointi,ipointj,mpno,
      *  length,i,i2,icount,it
-C
+ 
       integer icharlnf
-C
+ 
       character*8 cglobal, cdefault, coption
       character*10 sort_type
+      character*32 ich1,ich2,ich3
+      character*32 isubname, cmo
       character*128 cattribute
+      character*132 logmess
       character*1024 cmdmess
 C
 C#######################################################################
-C
-C
-C#######################################################################
-C
+C BEGIN begin
 C
       isubname='filter'
       cglobal='global'
@@ -618,16 +611,16 @@ C
       integer ncoord_bin(*), ncoord_off(*)
       integer ialias1(*)
 C
-      character*32 isubname
-C
+      integer length,  icscode
       integer  i1, i2, i, j, k,
      *        ix, iy, iz, ixpe, ixme, iype, iyme, izpe, izme,
      *        ncube, nx, ny, nz, nxyz, isum,
      *        ibin, ibinpe, ibinme, ibin1
+
       real*8 xnoise, dsmin1, dsminsq
-      integer length,  icscode
       real*8 xmin1, ymin1, zmin1, xmax1, ymax1, zmax1,
      *       xavg1, yavg1, zavg1, dx1, dy1, dz1, distance
+
       real*8 alargenumber
       parameter (alargenumber=1.d+30)
 C
@@ -636,7 +629,10 @@ C
       integer icc
       icc(i,j,k)=i+(j-1+(k-1)*(ny-1))*(nx-1)
 C
+      character*32 isubname
+C
 C#######################################################################
+C BEGIN begin
 C
       isubname='filter_points'
 C
@@ -964,43 +960,42 @@ C
       integer mpno, mpary(mpno)
       real*8 dsmin
 C
-      character*132 logmess
 C
       pointer (ipisn1, isn1 )
-      integer isn1(1000000)
+      integer isn1(*)
 C
       pointer (ipitp1, itp1 )
-      integer itp1(1000000)
+      integer itp1(*)
 C
       pointer (ipisetwd, isetwd )
-      integer isetwd(1000000)
+      integer isetwd(*)
 C
       pointer (ipxic, xic )
       pointer (ipyic, yic )
       pointer (ipzic, zic )
-      REAL*8 xic(1000000), yic(1000000), zic(1000000)
+      REAL*8 xic(*), yic(*), zic(*)
 C
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itettyp(1000000), itetoff(1000000), jtetoff(1000000)
+      integer itettyp(*), itetoff(*), jtetoff(*)
       pointer (ipitet, itet1 )
-      integer itet1(1000000)
+      integer itet1(*)
       pointer (ipjtet, jtet1 )
-      integer jtet1(1000000)
+      integer jtet1(*)
 C
       pointer (ipialias, ialias)
-      integer ialias(1000000)
+      integer ialias(*)
 C
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
+      integer iparent(*)
 C
       pointer (ipialiasf, ialiasf)
-      integer ialiasf(1000000)
+      integer ialiasf(*)
       pointer (ipxicf, xicf)
       pointer (ipyicf, yicf)
       pointer (ipzicf, zicf)
-      real*8 xicf(1000000), yicf(1000000), zicf(1000000)
+      real*8 xicf(*), yicf(*), zicf(*)
 C
 C#######################################################################
 C
@@ -1008,10 +1003,12 @@ C
       integer len, itype, ierr, length, icscode, ierrw
       integer i1, it, i, i2, icount, ierror
 C
+      character*132 logmess
       character*32 isubname
 C
 C
 C#######################################################################
+C BEGIN begin
 C
       isubname='filter_subset'
       ierror = 0

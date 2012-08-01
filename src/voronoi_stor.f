@@ -3000,7 +3000,11 @@ c        call hgather(ict2,xcen(3,1),3,xcen(3,1),3,kdd,1)
  610    continue
  600    continue
       goto 242
+
+C compiler error - This statement can not be reached.
+C     need to redo this weird set of statements
       if(ierr.ne.0) goto 242
+
       ierr=1
       goto 135
 242   continue

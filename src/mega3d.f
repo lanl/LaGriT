@@ -121,10 +121,7 @@ CPVCS       Rev 1.0   Tue Sep 02 23:07:42 1997   kuprat
 CPVCS    Initial revision.
 C
       implicit none
- 
-      integer lenptr
-      parameter (lenptr=1000000)
- 
+
       include 'consts.h'
       include 'local_element.h'
       include 'chydro.h'
@@ -133,91 +130,103 @@ C     this preprocess file does not appear to be used, commented out
 C     include 'machine.h'
       include 'geom_lg.h'
  
-      character*132 logmess
+C arguments (cmo,mpary,mpno,ctrl,action,cfield,climit1,climit2,climit3,ierror)
+      character*32 cmo,action,cfield,climit1,climit2,climit3
+      integer mpary(*)
+      integer mpno,ierror
+      real*8 ctrl
+
+
+
+C variables
+      integer lenptr
+      parameter (lenptr=1000000)
+      logical lusefd,firsttot
+      parameter (lusefd=.false.)
+
       pointer (ipimt1, imt1)
+      pointer (ipitetclr, itetclr)
+      integer imt1(*), itetclr(*)
+
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
       pointer (ipicr1, icr1)
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
-      pointer (ipitetclr, itetclr)
+      integer itp1(*), isn1(*), icr1(*)
+
       pointer (ipitet, itet)
       pointer (ipitetoff, itetoff)
       pointer (ipitettyp, itettyp)
-      integer imt1(lenptr)
-      pointer (ipicontab, icontab)
-      integer icontab(50,lenptr)
-      integer itp1(lenptr)
-      integer isn1(lenptr)
-      integer icr1(lenptr)
-      real*8 xic(lenptr)
-      real*8 yic(lenptr)
-      real*8 zic(lenptr)
-      integer itetclr(lenptr)
-      integer itet(lenptr)
-      integer itetoff(lenptr)
-      integer itettyp(lenptr)
- 
-      pointer (ipfvec,fvec),
-     &   (ipinvmpary,invmpary),(ipichildary,ichildary),
-     &   (ipinvchildary,invchildary),(ipieltary,ieltary),
-     &   (ipreffield,reffield)
-      real*8 fvec(lenptr),reffield(lenptr)
-      integer mpary(lenptr),invmpary(lenptr),ichildary(lenptr),
-     &   invchildary(lenptr),ieltary(lenptr)
- 
-      character*32 cmo,action,cmo1,climit1,climit2,climit3,blkname,
-     &   cfield,geom_name
-      character*32 isubname
-      character*132 com
- 
-      pointer (ipninexact,ninexact)
-      integer ninexact(lenptr)
-      pointer (ipireal1,ireal1)
-      integer ireal1(lenptr)
-      pointer (ipiparent,iparent)
-      integer iparent(lenptr)
+      integer itet(*), itetoff(*), itettyp(*)
+
       pointer (ipnodhyb,nodhyb),(ipnodhyboff,nodhyboff)
-      integer nodhyb(lenptr),nodhyboff(lenptr)
-      pointer (ipvoloff,voloff),(iplocvoloff,locvoloff),
-     &   (ipivoloffoff,ivoloffoff)
-      real*8 voloff(lenptr)
-      integer locvoloff(lenptr),ivoloffoff(lenptr)
+      integer nodhyb(*),nodhyboff(*)
+
+      pointer (ipiparent,iparent)
+      integer iparent(*)
+
+      pointer (ipicontab, icontab)
+      integer icontab(50,*)
+
+      pointer (ipninexact,ninexact)
+      integer ninexact(*)
+
+      pointer (ipinvmpary,invmpary)
+      pointer (ipichildary,ichildary)
+      pointer (ipinvchildary,invchildary)
+      pointer (ipieltary,ieltary)
+      integer invmpary(*),ichildary(*),invchildary(*),ieltary(*)
+
+      pointer (iplocvoloff,locvoloff)
+      pointer (ipivoloffoff,ivoloffoff)
+      integer locvoloff(*),ivoloffoff(*)
+
       pointer (ipiedgeoff,iedgeoff)
       pointer (ipiedge,iedge)
       pointer (ipiedgemat,iedgemat)
-      integer iedgeoff(lenptr),iedge(lenptr),iedgemat(lenptr)
+      integer iedgeoff(*),iedge(*),iedgemat(*)
+
+      pointer (ipireal1,ireal1)
+      integer ireal1(*)
+ 
+      pointer (ipfvec,fvec)
+      pointer (ipreffield,reffield)
+      real*8 fvec(*),reffield(*)
+
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
+
+      pointer (ipvoloff,voloff) 
+      real*8 voloff(*)
+
       pointer (ipxsave,xsave),(ipysave,ysave),(ipzsave,zsave)
-      real*8 xsave(lenptr),ysave(lenptr),zsave(lenptr)
-      pointer (iphxx,hxx),(iphxy,hxy),(iphxz,hxz),(iphyy,hyy),(iphyz,hyz
-     &   ),(iphzz,hzz)
-      real*8 hxx(*),hxy(*),hxz(*),hyy(*),hyz(*),hzz(*),range
+      real*8 xsave(*),ysave(*),zsave(*)
+
+      pointer (iphxx,hxx),(iphxy,hxy),(iphxz,hxz)
+      pointer (iphyy,hyy),(iphyz,hyz),(iphzz,hzz)
+      real*8 hxx(*),hxy(*),hxz(*),hyy(*),hyz(*),hzz(*)
+
+      pointer(ipout,out)
+      real*8 out(*)
+
       real*8 x1,y1,z1,x2,y2,z2,x3,y3,z3,crosx,crosy,crosz,
-     *   xmin,xmax,ymin,ymax,zmin,zmax,time,rout,
-     &   ctrl,volmin,volmax,vol6,err,
+     &   xmin,xmax,ymin,ymax,zmin,zmax,time,rout,range,
+     &   volmin,volmax,vol6,err,
      &   tolconv_sm,pf,pfx(3),pfxx(3,3),
      &   err1,pftot,epsilonl,epsilonv,area(3),
      &   epsilona,sob
+      real*8 absvoltol
  
-      integer mpno,ierror,nnodes,length,icmotype,nelements,
+      integer nnodes,length,icmotype,nelements,
      &   mbndry,icscode,i,ierrw,k,niters,iter,k1,
      &   ineghess,izeromove_force,izeromove_forcvol,izeromove_free,
      &   izeromove_val,ilen,ityp,len,
      &   node,maxiter_sm,itypconv_sm,ierrdum,nextnode,
      &   mpno_old,ichildno,ieltno,nod,nod1,j,locnod,jteti,
-     &   ii,ihyb,loctet,
+     &   ii,ihyb,loctet,ierr,
      &   i1,i2,i3,i4,icharlnf,iout,lout,itype
-      pointer(ipout,out)
-      real*8 out(*)
- 
-      real*8 absvoltol
-      character*32 cout
-      character*132 cbuf
-      integer ierr
-c
-      logical lusefd,firsttot
-      parameter (lusefd=.false.)
+
  
       integer istencil(3,10)
       data istencil / 0,0,0,
@@ -238,7 +247,18 @@ c ((x2,y2,z2)-(x1,y1,z1)) x ((x3,y3,z3)-(x1,y1,z1)) .
       crosx(x1,y1,z1,x2,y2,z2,x3,y3,z3)=(y2-y1)*(z3-z1)-(z2-z1)*(y3-y1)
       crosy(x1,y1,z1,x2,y2,z2,x3,y3,z3)=(z2-z1)*(x3-x1)-(x2-x1)*(z3-z1)
       crosz(x1,y1,z1,x2,y2,z2,x3,y3,z3)=(x2-x1)*(y3-y1)-(y2-y1)*(x3-x1)
- 
+
+C
+      character*32 cmo1,blkname,geom_name
+      character*32 isubname
+      character*32 cout
+      character*132 com
+      character*132 cbuf
+      character*132 logmess
+C
+C ###################################################################### 
+C BEGIN begin
+C
       isubname = 'mega3d'
       ierror=0
  
@@ -268,10 +288,14 @@ c  get info from mesh object to be smoothed
      *   ipout,lout,itype,icscode)
       call cmo_get_info('nnodes',cmo,
      *   nnodes,length,icmotype,icscode)
+      if (nnodes.le.0) call x3d_error(isubname,'get_info: 0 nodes')
       call cmo_get_info('nelements',cmo,
      *   nelements,length,icmotype,icscode)
+      if (nelements.le.0) call x3d_error(isubname,'get_info: 0 elems')
       call cmo_get_info('mbndry',cmo,
      *   mbndry,length,icmotype,icscode)
+      if (mbndry.le.0) call x3d_error(isubname,'get_info: 0 mbndry')
+
       call cmo_get_info('imt1',cmo,ipimt1,length,icmotype,icscode)
       call cmo_get_info('itp1',cmo,ipitp1,length,icmotype,icscode)
       call cmo_get_info('icr1',cmo,ipicr1,length,icmotype,icscode)

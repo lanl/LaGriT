@@ -29,48 +29,53 @@ C ######################################################################
 C
       implicit none
 C
-      character*132 logmess
-C
       include 'local_element.h'
 C
       integer ierror
-C
-      character*40 isubname, cmo
-      character*8092 cbuff
 C
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
       real*8 xic(*), yic(*), zic(*)
-C
+ 
       pointer (ipitet, itet1)
       integer itet1(*)
       pointer (ipitetclr, itetclr)
       integer itetclr(*)
-C
+ 
       pointer (ipxmegah, xmegah)
       pointer (iptmp, tmp)
-      real*8 xmegah(*)
-      real*8 tmp(*)
+      real*8 xmegah(*), tmp(*)
+
       integer igeom_gwt,ivoronoi,ilen,itype,icscode,ierrwrt,
      *  nen,nef,nsd,mbndry,nnodes,nelements,length,icmotype,
      *  kdim,lenout,ier,ityp,ierr,kpe
+
+      character*32 isubname, cmo
+      character*132 logmess
+      character*8092 cbuff
+
       common / kent1 / igeom_gwt
       external fcn
 C
+C********************************************************
+C BEGIN begin
+C
       isubname='mega_hessian'
+      igeom_gwt=0
 C
       call cmo_get_name(cmo,ierror)
-      call cmo_get_info('ivoronoi',cmo,
-     *                ivoronoi,ilen,itype,icscode)
-      igeom_gwt=0
-      if(ivoronoi.eq.-2) igeom_gwt=1
+
       if(ierror.ne.0) then
          write(logmess,9000)
  9000    format('No CMOs defined')
          call writloga('default',1,logmess,1,ierrwrt)
          goto 9999
       endif
+
+      call cmo_get_info('ivoronoi',cmo,
+     *                ivoronoi,ilen,itype,icscode)
+      if(ivoronoi.eq.-2) igeom_gwt=1
 C
       call cmo_get_info('nodes_per_element',cmo,nen,ilen,itype,icscode)
       call cmo_get_info('faces_per_element',cmo,nef,ilen,itype,icscode)
@@ -134,30 +139,50 @@ C
 C
       return
       end
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 *dk,mkh2d
       subroutine mkh2d (nk,kdim,xic,yic,zic,
      +           nel,kpe,kel,ireg,h,tmp,fcn)
-      implicit integer (i-n),real*8 (a-h,o-z)
-      real*8 xic(nk),yic(nk),zic(nk)
-      real*8 h(kdim,kdim,nk),tmp(nk)
-      integer kel(kpe,nel),ireg(nel)
-      external fcn
 c
 c     Compute 2D Surface Hessian Matrix
 c     kpe = kdim = 3
-c
+
+C     implicit integer (i-n),real*8 (a-h,o-z)
+      implicit none
+
+C arguments
+      integer nk,kdim
+      real*8 xic(nk),yic(nk),zic(nk)
+      integer nel,kpe
+      integer kel(kpe,nel)
+      integer ireg(nel)
+      real*8 h(kdim,kdim,nk),tmp(nk)
+      external fcn
+
+c variables
       real*8 u(3),xm(3),g(2,3),ht(3,3)
       real*8 v1(3),v2(3),w(3)
-      integer edge(2,3)
+
+      real*8 h0,vtv,a1,b1,scl,a2,b2,a11,a12,a21,a22,
+     *       um,em,g11,g21,g22,det
+      integer ix,iy,k,it,k1,k2,k3,ie,i,j,iv,jv
 c
+      integer ne
       data ne / 3 /
+
+      integer edge(2,3)
       data edge(1,1),edge(2,1) / 1, 2 /
       data edge(1,2),edge(2,2) / 1, 3 /
       data edge(1,3),edge(2,3) / 2, 3 /
 c
+      real*8 zero,one
       data zero,one /0.0d0, 1.0d0/
 c
+      integer  igeom_gwt
       common / kent1 / igeom_gwt
+c
+c ***********************************************
 c
       h0=float(igeom_gwt)
       do ix=1,kdim
@@ -315,32 +340,51 @@ c
       end
 c
 c
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 *dk,b2dnxm
       subroutine b2dnxm (n,ntri,en,m,mtri,em,
      +           nk,kdim,xic,yic,zic,h,
      +           nel,kpe,kel,det,err,flip)
-      implicit integer (i-n),real*8 (a-h,o-z)
-      real*8 xic(nk),yic(nk),zic(nk)
-      real*8 h(kdim,kdim,nk)
-      integer ntri(n),mtri(m),kel(kpe,nel)
-      real*8 det(nel),err(nel)
-      logical flip
 c
 c     Test for n x m flip
 c
-      real*8 dx(3),dy(3),dz(3)
-      integer edge(2,3)
+c     Triangle Errors
 c
+C     implicit integer (i-n),real*8 (a-h,o-z)
+      implicit none
+   
+c arguments
+      integer n,m,nk,kdim,nel,kpe
+      integer ntri(n),mtri(m)
+      real*8  en,em
+      real*8  xic(nk),yic(nk),zic(nk)
+      real*8  h(kdim,kdim,nk)
+      integer kel(kpe,nel)
+      real*8  det(nel),err(nel)
+      logical flip
+
+c variables
+      real*8 dx(3),dy(3),dz(3)
+
+      real*8 eps,area,geom,d11,d12,d22,esum,
+     *       e1,e2,ehe,atol,etri
+
+      integer ii,it,ie,i,iv,j,jv 
+c
+      integer ne
       data ne / 3 /
+      integer edge(2,3)
       data edge(1,1),edge(2,1) / 1, 2 /
       data edge(1,2),edge(2,2) / 1, 3 /
       data edge(1,3),edge(2,3) / 2, 3 /
 c
+      real*8 zero,one
       data zero,one /0.0d0, 1.0d0/
 c
+      integer  igeom_gwt
       common / kent1 / igeom_gwt
 c
-c     Triangle Errors
+c *****************************************
 c
       flip=.false.
       eps=1.0d-10
@@ -475,29 +519,46 @@ c
       end
 c
 c
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 *dk,errb2d
       subroutine errb2d (n,ntri,nk,kdim,xic,yic,zic,h,
      +           nel,kpe,kel,det,err)
-      implicit integer (i-n),real*8 (a-h,o-z)
-      real*8 xic(nk),yic(nk),zic(nk)
-      real*8 h(kdim,kdim,nk)
-      integer ntri(n),kel(kpe,nel)
-      real*8 det(nel),err(nel)
 c
 c     2D Triangle Errors
 c
+C     implicit integer (i-n),real*8 (a-h,o-z)
+      implicit none
+
+c arguments
+      integer n,nk,kdim,nel,kpe
+      integer ntri(n)
+      real*8  xic(nk),yic(nk),zic(nk)
+      real*8  h(kdim,kdim,nk)
+      integer kel(kpe,nel)
+      real*8  det(nel),err(nel)
+
+c variables
+
       real*8 dx(3),dy(3),dz(3)
-      integer edge(2,3)
-c
+
+      real*8 geom,d11,d12,d22,esum,e1,e2,ehe
+
+      integer in,it,i,iv,j,jv,ie
+
+      integer ne
       data ne / 3 /
+      integer edge(2,3)
       data edge(1,1),edge(2,1) / 1, 2 /
       data edge(1,2),edge(2,2) / 1, 3 /
       data edge(1,3),edge(2,3) / 2, 3 /
 c
+      real*8 zero,one
       data zero,one /0.0d0, 1.0d0/
 c
+      integer igeom_gwt
       common / kent1 / igeom_gwt
 c
+c ****************************************************
 c     Triangle Errors
 c
       do in=1,n
@@ -551,21 +612,38 @@ c
 c
       return
       end
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 *dk,mkh3d
       subroutine mkh3d (nk,kdim,xic,yic,zic,
      +           nel,kpe,kel,ireg,h,tmp,fcn)
-      implicit integer (i-n),real*8 (a-h,o-z)
-      real*8 xic(nk),yic(nk),zic(nk)
-      real*8 h(kdim,kdim,nk),tmp(nk)
-      integer kel(kpe,nel),ireg(nel)
-      external fcn
 c
 c     Compute the Nodal Error Matrix
 c
+
+C     implicit integer (i-n),real*8 (a-h,o-z)
+      implicit none
+
+c arguments
+      integer nk,kdim,nel,kpe
+      real*8  xic(nk),yic(nk),zic(nk)
+      integer kel(kpe,nel),ireg(nel)
+      real*8  h(kdim,kdim,nk),tmp(nk)
+      external fcn
+
+c variables
       real*8 u(4),xm(3),g(3,4),ht(3,3)
-      integer edge(2,6)
+
+      real*8 h0,a11,a12,a21,a22,
+     *       um,em,det,c33,det2,gxy,a23,c22,
+     *       a13,a31,a32,a33,c11,c12,c13,c21,c23,c31,c32
+
+      integer ix,iy,k,it,k1,k2,k3,ie,i,j,iv,jv,k4
+
 c
+      integer ne
       data ne / 6 /
+      integer edge(2,6)
       data edge(1,1),edge(2,1) / 1, 2 /
       data edge(1,2),edge(2,2) / 1, 3 /
       data edge(1,3),edge(2,3) / 2, 3 /
@@ -573,9 +651,13 @@ c
       data edge(1,5),edge(2,5) / 2, 4 /
       data edge(1,6),edge(2,6) / 3, 4 /
 c
+      real*8 zero,one
       data zero,one /0.0d0, 1.0d0/
 c
+      integer igeom_gwt
       common / kent1 / igeom_gwt
+c
+c*********************************************
 c
 c.....Initialize
       h0=float(igeom_gwt)
@@ -702,22 +784,35 @@ c
       return
       end
 c
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 *dk,errb3d
       subroutine errb3d (n,ntet,nk,kdim,xic,yic,zic,h,
      +           nel,kpe,kel,det,err)
-      implicit integer (i-n),real*8 (a-h,o-z)
-      real*8 xic(nk),yic(nk),zic(nk)
-      real*8 h(kdim,kdim,nk)
-      integer ntet(n),kel(kpe,nel)
-      real*8 det(nel),err(nel)
 c
 c     3D Tetrahedra Error ( Error Bound )
 c
+C     implicit integer (i-n),real*8 (a-h,o-z)
+      implicit none
+
+c arguments
+      integer n,nk,kdim,nel,kpe
+      integer ntet(n)
+      real*8  xic(nk),yic(nk),zic(nk)
+      real*8  h(kdim,kdim,nk)
+      integer kel(kpe,nel)
+      real*8  det(nel),err(nel)
+
+c variables
       real*8 dx(6),dy(6),dz(6)
-      integer edge(2,6),face(2,4)
+
+      real*8 geom,cx,cy,cz,esum,e1,e2,ehe
+
+      integer in,it,i,iv,j,jv,ie,i1,i2 
 c
+      integer ne,nf
       data ne,nf / 6, 4 /
 c
+      integer edge(2,6),face(2,4)
       data edge(1,1),edge(2,1) / 1, 2 /
       data edge(1,2),edge(2,2) / 1, 3 /
       data edge(1,3),edge(2,3) / 2, 3 /
@@ -730,10 +825,13 @@ c
       data face(1,3),face(2,3) / 1, 4 /
       data face(1,4),face(2,4) / 1, 2 /
 c
+      real*8 zero,one
       data zero,one /0.0d0, 1.0d0/
 C
+      integer igeom_gwt
       common / kent1 / igeom_gwt
 C
+c ********************************************
 c
 c     Tetrahedra Errors
 c
@@ -799,24 +897,40 @@ c
 c
       return
       end
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 *dk,b3dnxm
       subroutine b3dnxm (n,ntet,en,m,mtet,em,
      +           nk,kdim,xic,yic,zic,h,
      +           nel,kpe,kel,det,err,flip)
-      implicit integer (i-n),real*8 (a-h,o-z)
-      real*8 xic(nk),yic(nk),zic(nk)
-      real*8 h(kdim,kdim,nk)
-      integer ntet(n),mtet(m),kel(kpe,nel)
-      real*8 det(nel),err(nel)
-      logical flip
 c
 c     Test for n x m flip ( Error Bound )
 c
+C     implicit integer (i-n),real*8 (a-h,o-z)
+      implicit none
+
+c arguments
+      integer n,m,nk,kdim,nel,kpe
+      real*8 en,em
+      integer ntet(n),mtet(m)
+      real*8  xic(nk),yic(nk),zic(nk)
+      real*8  h(kdim,kdim,nk)
+      integer kel(kpe,nel)
+      real*8  det(nel),err(nel)
+      logical flip
+
+c variables
       real*8 dx(6),dy(6),dz(6)
-      integer edge(2,6),face(2,4)
+
+      real*8 vol,geom,eps,cx,cy,cz,esum,ehe,vtol,
+     *       etet,e1,e2
+
+      integer i,ii,it,iv,j,jv,ie,i1,i2
 c
+      integer ne,nf
       data ne,nf / 6, 4 /
 c
+      integer edge(2,6),face(2,4)
       data edge(1,1),edge(2,1) / 1, 2 /
       data edge(1,2),edge(2,2) / 1, 3 /
       data edge(1,3),edge(2,3) / 2, 3 /
@@ -829,9 +943,13 @@ c
       data face(1,3),face(2,3) / 1, 4 /
       data face(1,4),face(2,4) / 1, 2 /
 c
+      real*8 zero,one
       data zero,one /0.0d0, 1.0d0/
 C
+      integer igeom_gwt
       common / kent1 / igeom_gwt
+c
+c ****************************************************
 c
 c     Tetrahedra Errors
 c
@@ -989,14 +1107,23 @@ c
       return
       end
 c
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       subroutine fcn (kdim,x,ireg,f)
-      implicit integer (i-n),real*8 (a-h,o-z)
-      real*8 x(kdim)
 c
 c     f(x)
 c
+C     implicit integer (i-n),real*8 (a-h,o-z)
+      implicit none
+c arguments
+      integer kdim,ireg
+      real*8 x(kdim),f
+c variables
+      integer k
+
       real*8 ev(3)
       data ev / 1.0d0, 1.0d0, 1.0d0 /
+
+C***********************************************
 c
       f=0.0d0
       do k=1,kdim

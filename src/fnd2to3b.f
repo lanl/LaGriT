@@ -110,28 +110,34 @@ C
 C
 C ######################################################################
 C
+C arguments
+      integer it1,ipos1,it2,ipos2,it3,npoints,ntets
+      integer id(12),jd(12)
+
+C variables
       integer nmulti
       parameter (nmulti = 200)
-      integer id(12),jd(12),ix(3),ichain0(nmulti),imt0(nmulti),
-     *          kpts(3),conopt(9)
-      character*8 inodes(1),cdefname
-      character*32 cvelnm,cdensnm,cpresnm,isubname
-      logical itsttp
-      logical ifvels,ifdens,ifpres
+
+      integer ichain0(nmulti),imt0(nmulti)
+      integer ix(3),kpts(3),conopt(9)
+
       pointer (ipxcontab,xcontab)
-      real*8 xcontab(9,1000000)
+      real*8 xcontab(9,*)
       pointer (ipvels,vels)
       pointer (ipdens,dens)
       pointer (ippres,pres)
-      real*8 vels(3,1000000),dens(1000000),pres(1000000)
+      real*8 vels(3,*),dens(*),pres(*)
       pointer(ipout,out)
       real*8 out(*),rout
-      integer iout,ilen,ityp,leni,icmotype,ier,it1,ipos1,it2,it3,
-     *  npoints,ione,i5,j1,j3,icr,jtemp,l1,l2,l3,k1,k2,k3,ipos,
+
+      real*8 wnorm,unew,vnew,wnew,vnorm,unorm,third
+
+      integer iout,ilen,ityp,leni,icmotype,ier,
+     *  ione,i5,j1,j3,icr,jtemp,l1,l2,l3,k1,k2,k3,ipos,
      *  kpt,lenxic,icscode,isum5,isum4,isum3,isum2,isum1,it,ict45,
      *  ict123,kcr,isnx,index,ipari5,ichild2,ict0,ierrwrt,iposfnd,
-     *  k,ict,ipar,i,imtx2,imtx1,j2,nintero,ipari1,newi5,ntets,ipos2
-      real*8 wnorm,unew,vnew,wnew,vnorm,unorm,third
+     *  k,ict,ipar,i,imtx2,imtx1,j2,nintero,ipari1,newi5
+
 C
 C#######################################################################
 C
@@ -140,9 +146,17 @@ C
       integer i0,i1,i2,i3,i4
       iposfnd(i0,i1,i2,i3,i4)=min0(iabs(i1-i0)*4+1,iabs(i2-i0)*4+2,
      *                             iabs(i3-i0)*4+3,iabs(i4-i0)*4+4)
+
+C#######################################################################
+C
+      logical itsttp
+      logical ifvels,ifdens,ifpres
+
+      character*8 inodes(1),cdefname
+      character*32 cvelnm,cdensnm,cpresnm,isubname
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C
 C     ******************************************************************

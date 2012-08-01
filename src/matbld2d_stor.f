@@ -578,7 +578,7 @@ c
          endif
  
          if(idebug.eq.0) then
-            write(logmess,'(a,i9,a,1pe15.7,a,1pe15.7))')
+            write(logmess,'(a,i9,a,1pe15.7,a,1pe15.7)')
      *         "Matbldtri: total neg",icount,
      *          " mincoef= ",amatmin," maxcoef= ",amatmax
             call writloga('default',0,logmess,0,ierrw)

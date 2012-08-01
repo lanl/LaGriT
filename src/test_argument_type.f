@@ -1,6 +1,7 @@
 *dk,test_argument_type.f
       subroutine test_argument_type (nargs,itype,istart,imsgin,xmsgin,
-     x      cmsgin,msgtype,nwds)
+     *      cmsgin,msgtype,nwds)
+C
 C    ###################################################################
 C
 C      PURPOSE:
@@ -34,11 +35,20 @@ CPVCS    Initial revision.
 C
 C    ###################################################################
       implicit none
-      integer itype,istart,nwds,i,index,ierr,nargs
+
+C arguments nargs,itype,istart,imsgin,xmsgin,cmsgin,msgtype,nwds
+      integer nargs,itype,istart
       real*8 xmsgin(nwds)
       integer imsgin(nwds), msgtype(nwds)
       character*(*) cmsgin(nwds)
+      integer nwds
+
+C variables
+      integer i,index,ierr
       character*132 logmess
+C
+C    ###################################################################
+C BEGIN begin
 C
       if(istart+nargs-1.gt.nwds) then
          do i=nwds+1,istart+nargs-1

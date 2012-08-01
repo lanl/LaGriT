@@ -1,4 +1,6 @@
-c
+C
+C This file has refine_edge_add, refine_edge_add_tet, and find_boundary_faces
+C
       subroutine refine_edge_add(cmo_name,
      *                           nadd,
      *                           ipitadd,ipieadd,
@@ -166,54 +168,57 @@ C ######################################################################
 C
       implicit none
 C
-      character*132 logmess
-C
       include 'local_element.h'
       include 'chydro.h'  
       include 'massage.h'
 C
 C ######################################################################
 C
-C
+C  arguments
       character*(*) cmo_name
       integer nadd
       pointer (ipitadd, itadd)
-      integer itadd(nadd)
       pointer (ipieadd, ieadd)
-      integer ieadd(nadd)
       pointer (ipiadd, iadd)
-      integer iadd(nadd)
+      integer itadd(nadd), ieadd(nadd), iadd(nadd)
+
       pointer (ipxadd, xadd)
       pointer (ipyadd, yadd)
       pointer (ipzadd, zadd)
       real*8 xadd(nadd), yadd(nadd), zadd(nadd)
-C
+
+C variables
+
       pointer (ipitp1, itp1)
       pointer (ipicr1, icr1)
       pointer (ipisn1, isn1)
-      integer itp1(1000000),icr1(1000000),isn1(1000000)
+      integer itp1(*),icr1(*),isn1(*)
+
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*)
 C
       pointer (ipitet, itet)
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet)
       pointer (ipjtet, jtet1)
-      integer itet(4,1000000), jtet(4,1000000)
-      integer itet1(4*1000000), jtet1(4*1000000)
+      integer itet(4,*), jtet(4,*)
+      integer itet1(*), jtet1(*)
       pointer (ipitpadd,itpadd)
       pointer (ipicradd,icradd)
-      integer itpadd(1000000),icradd(1000000)
+      integer itpadd(*),icradd(*)
 C
       integer i,icscode,ilen,itype,it,ie,i2p,i3p,j,i2,i3,
      *   nef,nen,nsd,node,node1,icharlnf,nnodes,flag
+
+      character*132 logmess
       character*32 isubname
 C
 C#######################################################################
+C BEGIN begin
 C
       isubname='refine_edge_add'
       call cmo_exist(cmo_name,icscode)
@@ -318,6 +323,8 @@ C
       return
       end
 c
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
       subroutine refine_edge_add_tet(cmo_name,nadd,ipitadd,ipieadd,
      *                               iadd,xadd,yadd,zadd,oflag)
  
@@ -405,12 +412,9 @@ CPVCS       Rev 1.0   11/10/94 12:17:58   pvcs
 CPVCS    Original version.
 C
 C     ##################################################################
+C BEGIN begin refine_edge_add_tet
 C
-       implicit none
-C
-      character*132 logmess,cbuff
-C
-C     ##################################################################
+      implicit none
 C
       include 'chydro.h'
       include 'consts.h'
@@ -418,52 +422,52 @@ C
       include 'neibor.h'
       include 'cmo.h'
       include 'massage.h'
-C
-C     ##################################################################
-C
+
+C arguments
       character*(*) cmo_name
-C
-      integer nadd
+      integer nadd, oflag
+
       pointer (ipitadd, itadd)
       pointer (ipieadd, ieadd)
       integer itadd(nadd), ieadd(nadd)
-C
+
       integer iadd(nadd)
       real*8 xadd(nadd), yadd(nadd), zadd(nadd)
-C
+ 
+C variables
+
       pointer (ipint1add, int1add)
       integer int1add(nadd)
-C
+ 
       pointer (ipiaddorder1, iaddorder1)
       pointer (ipiaddorder2, iaddorder2)
       integer iaddorder1(nadd), iaddorder2(nadd)
-C
  
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itetoff(1000000), jtetoff(1000000)
-C
+      integer itetoff(*), jtetoff(*)
+ 
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
-C
+      integer iparent(*)
+ 
       pointer (ipint1, int1)
-      integer int1(1000000)
+      integer int1(*)
 C
       pointer (ipitflag, itflag)
       pointer (ipitetnn, itetnn)
       pointer (ipitetnn1, itetnn1)
       pointer (ipitetnn2, itetnn2)
-      integer itflag(1000000),
-     *        itetnn(4,1000000), itetnn1(4,1000000), itetnn2(4,1000000)
+      integer itflag(*),
+     *        itetnn(4,*), itetnn1(4,*), itetnn2(4,*)
 C
       pointer (ipiedge_tet, iedge_tet)
       pointer (ipiedge_face, iedge_face)
       pointer (ipiedge_edge, iedge_edge)
       pointer (ipiedge_p1, iedge_p1)
       pointer (ipiedge_p2, iedge_p2)
-      integer iedge_tet(6*1000000), iedge_face(6*1000000),
-     *        iedge_edge(6*1000000), iedge_p1(6*1000000),
-     *        iedge_p2(6*1000000)
+      integer iedge_tet(*), iedge_face(*),
+     *        iedge_edge(*), iedge_p1(*),
+     *        iedge_p2(*)
 C
       pointer (ipelts,elts)
       integer elts(*)
@@ -471,16 +475,20 @@ C
       integer edges(*)
       pointer (ipfaces,faces)
       integer faces(*)
-      pointer (ipxics,xics),(ipyics,yics),(ipzics,zics)
-      real*8 xics(*),yics(*),zics(*)
+
 c
       integer nvalues
       parameter (nvalues=2)
+
       pointer (iplist_sink, list_sink)
       pointer (iplist_source, list_source)
       pointer (ipxweight_source, xweight_source)
       pointer (ipout,outs)
       integer outs(*)
+
+      pointer (ipxics,xics),(ipyics,yics),(ipzics,zics)
+      real*8 xics(*),yics(*),zics(*)
+
       integer list_sink(nadd), list_source(nvalues,nadd)
       real*8 xweight_source(nvalues,nadd)
 C
@@ -497,32 +505,34 @@ C
       pointer (ipwork,work)
       real*8 work(*)
 c
+      character*132 logmess,cbuff
       character*32 cmolength
       character*32 isubname, iblknam, iprtnam
-      logical  isboundary
       character*8 eq
-C
-C#######################################################################
+
+      logical  isboundary
 C
       integer ierror,npoints,icmotype,ntets,nen,nef,
      *  npointsinc,nelementsmm,inc,ntetsinc,nnodesmm,ics,idum,inc1,
      *  inc2,ilen,jj,jtettmp,nadd1,iedgeiter,npointsnew,
      *  ntetsnew,npointsnew1,nedge_save,jcount,ktlast,kflast,kelast,
-     *  irefine,ierrw,kt,kf,itype,l1,kk,l2,it1,it2,oflag,
+     *  irefine,ierrw,kt,kf,itype,l1,kk,l2,it1,it2,
      *  jnew,inew,itnew,iedge,nedge,j2,j3,ip1,ip2,
      *  ie,it,ier,ict,ielt,indx,n1,n2,n3,n4,
      *  i,j,k,i1,i2,i3,i4,length,icscode,flag,
-     *  imtmatch,istrta,istrtb,istrtc,nelts,if,iout,
+     *  imtmatch,istrta,istrtb,istrtc,nelts,if,
      *  nelementss,nfound,icand,ipoint,minpt,
      *  node1,node2,node3,node4,ifac2,ifac1
+
       real*8 xa,ya,za,voltet1,voltet2,voltetold,voltetnew,
-     *  rout,qx,qy,qz,xold,yold,zold,epsln,damage,epslnv,
+     *  qx,qy,qz,xold,yold,zold,epsln,damage,epslnv,
      *  distmax,dist,x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4
 c
       include 'statementfunctions.h'
 c
 C     ###################################################################
-C
+C BEGIN begin refine_edge_add_tet
+
 c   initialize
       oflag=0
       icmoget=1
@@ -682,8 +692,8 @@ C        int1() =  0 ==> not an interface point.
 C        int1() =  1 ==> an interface point.
 C
       call mmfindbk('xic',cmo,ipxic,length,icscode)
-      call mmgetblk("int1",isubname,ipint1,length,2,icscode)
-      call unpacktp("intrface","set",npoints,ipitp1,ipint1,ierror)
+      call mmgetblk('int1',isubname,ipint1,length,1,icscode)
+      call unpacktp('intrface','set',npoints,ipitp1,ipint1,ierror)
       if(ierror.ne.0) call x3d_error('refine_edge_add', 'unpacktp')
 C
 C     ******************************************************************
@@ -1533,6 +1543,8 @@ C
       end
 c
 c
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
       subroutine find_boundary_faces (i1,i2,nelts,elts,mbndry,jtet,
      *   itet,itettyp,
      *   it1,it2,iface1,iface2)
@@ -1540,11 +1552,23 @@ c
 c  starting at element it find boundary faces containing edge
 c  with endpoints i1,i2.
 c
+C************************************************************
+C
       implicit none
+
       include 'local_element.h'
-      integer i1,i2,it1,it2,iface1,iface2,nbnds,nelts,elts(*),k,i,it,
-     *  jtet(4,*),itettyp(*),mbndry,ierror,ityp,nptfnd,kk,itet(4,*)
+   
+C arguments
+      integer i1,i2,mbndry,it1,it2,iface1,iface2
+      integer elts(*), jtet(4,*), itet(4,*), itettyp(*)
+
+C variables
+
+      integer nbnds,nelts,k,i,it,ierror,ityp,nptfnd,kk
       character*132 logmess
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C BEGIN begin find_boundary_faces
  
       nbnds=0
 c

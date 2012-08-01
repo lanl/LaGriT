@@ -238,9 +238,6 @@ C
 C ######################################################################
 C
       implicit none
- 
-C
-      character*132 logmess,cbuf
 C
       include "local_element.h"
 C
@@ -256,6 +253,7 @@ C
       integer iprd
 C
       character*32 cmo,isubname,mesh_type
+      character*132 logmess,cbuf
 C
 C#######################################################################
 C
@@ -439,19 +437,16 @@ C
 C#######################################################################
 C
  
-      pointer (ipout,iout(*))
-      integer iout
-      pointer (ipisetwd, isetwd(*))
-      pointer (ipimt1, imt1(*))
-      pointer (ipitp1, itp1(*))
-      pointer (ipicr1, icr1(*))
-      pointer (ipisn1, isn1(*))
-      pointer (ipxic, xic(*))
-      pointer (ipyic, yic(*))
-      pointer (ipzic, zic(*))
-      integer isetwd,imt1,itp1,icr1,isn1
-      real*8 xic,yic,zic
-C
+      pointer (ipout,iout)
+      integer iout(*)
+
+      pointer (ipisetwd, isetwd)
+      pointer (ipimt1, imt1)
+      pointer (ipitp1, itp1)
+      pointer (ipicr1, icr1)
+      pointer (ipisn1, isn1)
+      integer isetwd(*),imt1(*),itp1(*),icr1(*),isn1(*)
+
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
       integer itet1(*), jtet1(*)
@@ -463,6 +458,9 @@ C
       integer itetclr(*), itettyp(*),
      *        itetoff(*), jtetoff(*)
 C
+      pointer (ipnedge_bin, nedge_bin)
+      pointer (ipnedge_off, nedge_off)
+      integer nedge_bin(*), nedge_off(*)
 C
       pointer (ipitadd, itadd)
       pointer (ipitadd2, itadd2)
@@ -472,52 +470,56 @@ C
       pointer (iplist, list)
       integer itadd(*), ifadd(*), ieadd(*),
      *        list(*), itdone(*),itadd2(*)
+
       pointer (ipiadd, iadd)
       integer iadd(*)
+      pointer (ipiarray, iarray)
+      integer iarray(*)
+      pointer (ipmpary, mpary)
+      integer mpary(*)
+
+      pointer (ipiparent, iparent)
+      integer iparent(*)
+      pointer (ipintp,intp)
+      integer intp(*)
+
       pointer (ipxadd, xadd)
       pointer (ipyadd, yadd)
       pointer (ipzadd, zadd)
       real*8 xadd(*), yadd(*), zadd(*)
 C
-      pointer (ipnedge_bin, nedge_bin)
-      pointer (ipnedge_off, nedge_off)
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*),yic(*),zic(*)
+C
       pointer (ipxedge1, xedge1)
       pointer (ipyedge1, yedge1)
       pointer (ipzedge1, zedge1)
-      integer nedge_bin(*), nedge_off(*)
       real*8 xedge1(*), yedge1(*), zedge1(*)
 C
       real*8 xrefine(3)
 C
-      pointer (ipmpary, mpary(*))
-      pointer (ipxfield, xfield(*))
-      integer mpary
-      real*8 xfield, toldamage
+      pointer (ipxfield, xfield)
+      real*8 xfield(*) 
 C
-      pointer (ipiarray, iarray)
-      integer iarray(*)
-C
-      pointer (ipiparent, iparent)
-      integer iparent(*)
-      pointer (ipintp,intp)
-      integer intp(*)
-c
-      character*32 ich1,ich2,ich3,ctype,crank,clen,cinter,cpers,cio
-C
+      real*8 toldamage
+
+      integer coption_len,ioption,ierror_return,index,iprd
+ 
       character*132 logmess,cbuf
+      character*32 ich1,ich2,ich3,ctype,crank,clen,cinter,cpers,cio
 C
       character*32 iblknam, cmo ,cmode, surfname,psetname
 C
-C
       character*32 coption, itopo, cinterp, mesh_type
-      integer coption_len,ioption,ierror_return,index,iprd
       character*32 isubname,cnewx,cnewy,cnewz
+
       integer icharlnf
  
 C
 C ######################################################################
-C
-C
+C BEGIN begin
 C
       isubname='refine'
 c

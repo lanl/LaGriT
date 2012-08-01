@@ -1,4 +1,7 @@
 *dk,refine_element_add
+C This file has subroutines refine_element_add,  refine_hex_add, 
+C refine_tet_add, refine_tri_add, and refine_hex_prd
+  
       subroutine refine_element_add(cmo_name,
      *                              iprd, nadd,
      *                              ipitadd,
@@ -159,7 +162,7 @@ C ######################################################################
 C
       integer nadd3,idifflev,jf,jt,jtoff,iflag,itpar,nadd2,length,
      *  ipointj,it,i,nadd1,i1,lenout,nsd,nef,nen,mbndry,nelements,
-     *  icscode,itype,ilen,nnodes,ierrwrt,icharlnf,ierror,ics,
+     *  icscode,ics,itype,ilen,nnodes,ierrwrt,icharlnf,ierror,
      *  imesh_type, ifdebug
  
 C prd variables
@@ -172,27 +175,27 @@ C cmo pointers
       pointer (ipitettyp, itettyp)
       pointer (ipjtetoff, jtetoff)
       pointer (ipjtet, jtet1)
-      integer itettyp(1000000), jtetoff(1000000), jtet1(1000000)
+      integer itettyp(*), jtetoff(*), jtet1(*)
  
       pointer (ipitetoff, itetoff)
       pointer (ipitet, itet1)
-      integer itetoff(1000000), itet1(1000000)
+      integer itetoff(*), itet1(*)
 
 C prd variables
       pointer (ipiptest, iptest)
       pointer (ipittest, ittest)
-      integer iptest(10000000), ittest(10000000)
+      integer iptest(*), ittest(*)
       pointer (ipxradavg, xradavg)
-      real*8 xradavg(1000000)
+      real*8 xradavg(*)
  
 c octree
 C
       pointer (ipitetpar, itetpar)
       pointer (ipitetkid, itetkid)
       pointer (ipitetlev, itetlev)
-      integer itetpar(1000000),
-     *        itetkid(1000000),
-     *        itetlev(1000000)
+      integer itetpar(*),
+     *        itetkid(*),
+     *        itetlev(*)
 C
       pointer (ipitflag, itflag)
       pointer (ipitadd2, itadd2)
@@ -200,8 +203,8 @@ C
       pointer (ipxadd2, xadd2)
       pointer (ipyadd2, yadd2)
       pointer (ipzadd2, zadd2)
-      integer itflag(1000000), itadd2(1000000), iadd2(1000000)
-      real*8 xadd2(1000000), yadd2(1000000), zadd2(1000000)
+      integer itflag(*), itadd2(*), iadd2(*)
+      real*8 xadd2(*), yadd2(*), zadd2(*)
  
 C
       character*32 isubname,cmoattnam,cglobal,cdefault,mesh_type,cout
@@ -850,94 +853,96 @@ c**************************************************************
      *                          iadd,xadd,yadd,zadd)
 C
 C
-       implicit none
-C
-      character*132 logmess
+      implicit none
 C
       include "local_element.h"
-      integer nadd,leni,jt,kf,kt,ie11,ie12,ie10,ie9,ie8,ie7,ie6,
-     *  ie5,if6,if5,if4,if3,if2,if1,i8,i7,i6,i5,i4,i3,i2,i1,ie4,
-     *  ie3,ie2,ie1,inc1,inc2,idum,ics,nnodesmm,inc,
-     *  j,joff,i9,itype,ilen,nelementsmm,npointsinc,it1,ntet1_save,
-     *  nptsinc,ierrw,nef1,it,itetiter,ntet1,ntetsnew,npointsnew,
-     *  nadd1,irefine,i,icscode,ier,nsdtopo,nen,nef,mbndry,
-     *  ntetsinc,ninc,ntets,ierror,icmotype,length,npoints
-      real*8 xxsmall
-C
+
+C arguments
       character*(*) cmo_name
-C
+      integer nadd
       pointer (ipitadd, itadd)
       integer itadd(nadd)
       integer iadd(nadd)
       real*8 xadd(nadd), yadd(nadd), zadd(nadd)
+
+C variables
+
+      integer jt,kf,kt,ie11,ie12,ie10,ie9,ie8,ie7,ie6,
+     *  ie5,if6,if5,if4,if3,if2,if1,i8,i7,i6,i5,i4,i3,i2,i1,ie4,
+     *  ie3,ie2,ie1,inc1,inc2,idum,nnodesmm,inc,leni,
+     *  j,joff,i9,itype,ilen,nelementsmm,npointsinc,it1,ntet1_save,
+     *  nptsinc,ierrw,nef1,it,itetiter,ntet1,ntetsnew,npointsnew,
+     *  nadd1,irefine,i,icscode,ics,ier,nsdtopo,nen,nef,mbndry,
+     *  ntetsinc,ninc,ntets,ierror,icmotype,length,npoints
+
+      real*8 xxsmall
 C
       pointer (ipiaddorder, iaddorder)
       integer iaddorder(nadd)
+
+      pointer (iplist_sink1, list_sink1)
+      pointer (iplist_source1, list_source1)
+      integer list_sink1(nadd), list_source1(*)
+
+      pointer (iplist_sink2, list_sink2)
+      pointer (iplist_source2, list_source2)
+      integer list_sink2(nadd), list_source2(*)
+
+      pointer (iplist_sink3, list_sink3)
+      pointer (iplist_source3, list_source3)
+      integer list_sink3(nadd), list_source3(*)
 C
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
-      integer itp1(10000000), isn1(10000000)
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
-      real*8 xic(10000000), yic(10000000), zic(10000000)
-C
+      integer itp1(*), isn1(*)
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
-      integer itet1(8*1000000), jtet1(6*1000000)
+      integer itet1(*), jtet1(*)
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*)
 C
       pointer (ipitetpar, itetpar)
       pointer (ipitetkid, itetkid)
       pointer (ipitetlev, itetlev)
-      integer itetpar(1000000),
-     *        itetkid(1000000),
-     *        itetlev(1000000)
+      integer itetpar(*),itetkid(*),itetlev(*)
 C
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
+      integer iparent(*)
 C
       pointer (ipitflag, itflag)
       pointer (ipitetnn, itetnn1)
       pointer (ipitetnn1, jtetnn1)
       pointer (ipitetnn2, jtetnn2)
-      integer itflag(1000000),
-     *        itetnn1(8*1000000),
-     *        jtetnn1(6*1000000), jtetnn2(6*1000000)
+      integer itflag(*),itetnn1(*),jtetnn1(*),jtetnn2(*)
 C
-      pointer (iplist_sink1, list_sink1)
-      pointer (iplist_source1, list_source1)
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
+C
       pointer (ipxweight_source1, xweight_source1)
-      integer list_sink1(nadd), list_source1(1000000)
-      real*8 xweight_source1(1000000)
-      pointer (iplist_sink2, list_sink2)
-      pointer (iplist_source2, list_source2)
+      real*8 xweight_source1(*)
       pointer (ipxweight_source2, xweight_source2)
-      integer list_sink2(nadd), list_source2(1000000)
-      real*8 xweight_source2(1000000)
-      pointer (iplist_sink3, list_sink3)
-      pointer (iplist_source3, list_source3)
+      real*8 xweight_source2(*)
       pointer (ipxweight_source3, xweight_source3)
-      integer list_sink3(nadd), list_source3(1000000)
-      real*8 xweight_source3(1000000)
+      real*8 xweight_source3(*)
 C
       integer ifacept(10), iedgept(20)
 C
+      character*132 logmess
       character*32 cmo
       character*32 cmolength
       character*32 isubname, iblknam, iprtnam
 C
 C     ###################################################################
+C BEGIN begin
 C
       isubname='refine_hex_add'
-C
       xxsmall=1.0d-30
-C
       cmo=cmo_name
 C
 C     This was getting called when nadd = 0 which results
@@ -1717,74 +1722,76 @@ CPVCS       Rev 1.0   11/10/94 12:18:08   pvcs
 CPVCS    Original version.
 C
       implicit none
-      integer nadd,npoints,length,icmotype,ntets,ierror,mbndry,nen,
-     *  nef,nsdtopo,leni,ier,icscode,i,irefine,nadd1,npointsnew,
-     *  ntetsnew,ntet1,itetiter,it,nef1,ierrw,ntet1_save,it1,
-     *  npointsnew1,npointsinc,nelementsmm,ilen,itype,ninc,inc,
-     *  ntetsinc,nnodesmm,ics,idum,inc1,inc2,i1,i2,i3,i4,kt,kf,jt
-      real*8 xxsmall
- 
-C
-      character*132 logmess
-C
+
       include "local_element.h"
       include 'chydro.h'
-C
+
+C arguments
       character*(*) cmo_name
-C
+      integer nadd
       pointer (ipitadd, itadd)
       integer itadd(nadd)
       integer iadd(nadd)
       real*8 xadd(nadd), yadd(nadd), zadd(nadd)
-C
+
+C variables
+
+      integer npoints,length,icmotype,ntets,ierror,mbndry,nen,
+     *  nef,nsdtopo,leni,ier,icscode,i,irefine,nadd1,npointsnew,
+     *  ntetsnew,ntet1,itetiter,it,nef1,ierrw,ntet1_save,it1,
+     *  npointsnew1,npointsinc,nelementsmm,ilen,itype,ninc,inc,
+     *  ntetsinc,nnodesmm,ics,idum,inc1,inc2,i1,i2,i3,i4,kt,kf,jt
+
       pointer (ipiaddorder, iaddorder)
       integer iaddorder(nadd)
+
+      pointer (iplist_sink, list_sink)
+      pointer (iplist_source, list_source)
+      integer list_sink(nadd), list_source(*)
 C
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
-      integer itp1(10000000), isn1(10000000)
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
-      real*8 xic(10000000), yic(10000000), zic(10000000)
-C
+      integer itp1(*), isn1(*)
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
-      integer itet1(4*1000000), jtet1(4*1000000)
+      integer itet1(*), jtet1(*)
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
-C
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*)
+ 
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
-C
+      integer iparent(*)
+ 
       pointer (ipitflag, itflag)
       pointer (ipitetnn, itetnn1)
       pointer (ipitetnn1, jtetnn1)
       pointer (ipitetnn2, jtetnn2)
-      integer itflag(1000000),
-     *        itetnn1(4*1000000),
-     *        jtetnn1(4*1000000), jtetnn2(4*1000000)
-C
-      pointer (iplist_sink, list_sink)
-      pointer (iplist_source, list_source)
+      integer itflag(*), itetnn1(*),
+     *        jtetnn1(*),jtetnn2(*)
+ 
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
+
       pointer (ipxweight_source, xweight_source)
-      integer list_sink(nadd), list_source(1000000)
-      real*8 xweight_source(1000000)
+      real*8 xweight_source(*)
+
+      real*8 xxsmall
 C
+      character*132 logmess
       character*32 cmo
       character*32 cmolength
       character*32 isubname, iblknam, iprtnam
 C
 C     ###################################################################
+C BEGIN begin
 C
       isubname='refine_tet_add'
-C
       xxsmall=1.0d-30
-C
       cmo=cmo_name
 C
 C     This was getting called when nadd = 0 which results
@@ -2159,90 +2166,98 @@ c                 if iadd(i).gt.0 iadd(i) is the node to be added
 c    xadd, yadd, zadd  coordinates of node to be added to the
 c                      mesh
 c
-C
+CCCCCCC
       implicit none
 C
       include "local_element.h"
-      integer nvalues,i,j,k,jcount,ierrdum,leni,kt,kf,isum,ie1,
-     *  ie2,iedge,iedge1,i12,i31,i23,inc2,inc1,len,nnodesmm,
-     *  ntetsinc,inc,icount,jf,jt,itype,nelementsmm,npointsinc,
-     *  nef1,ntetsnew,npointsnew,nadd1,it,ierrw,nedge,iedge2,
-     *  icscode,ier,nef,nen,mbndry,ntets,ierror,icmotype,npoints,
-     *  ics,ilen,iedgeiter,length,i4,i3,i2,i1
- 
-      real*8 crosx1,crosy1,crosz1,volume,crosx,crosy,crosz,
-     *  a,b,c,d,e,f
-C
-      character*132 logmess
-C
+
+C arguments
       character*(*) cmo
       integer nadd
       pointer (ipitadd, itadd)
       integer itadd(nadd)
       integer iadd(nadd)
       real*8 xadd(nadd), yadd(nadd), zadd(nadd)
-C
+
+C variables
+
+      integer nvalues
+      parameter (nvalues=2)
+
+      integer i,j,k,jcount,ierrdum,leni,kt,kf,isum,ie1,
+     *  ie2,iedge,iedge1,i12,i31,i23,inc2,inc1,len,nnodesmm,
+     *  ntetsinc,inc,icount,jf,jt,itype,nelementsmm,npointsinc,
+     *  nef1,ntetsnew,npointsnew,nadd1,it,ierrw,nedge,iedge2,
+     *  icscode,ier,nef,nen,mbndry,ntets,ierror,icmotype,npoints,
+     *  ics,ilen,iedgeiter,length,i4,i3,i2,i1
+ 
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
       pointer (ipint1, int1)
-      integer itp1(10000000), isn1(10000000), int1(1000000)
-C
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
+      integer itp1(*), isn1(*), int1(*)
+ 
       pointer (ipitet, itet)
       pointer (ipjtet, jtet)
+      integer itet(3,*), jtet(3,*)
+
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
-      integer itet(3,10000000), jtet(3,10000000)
-      integer itet1(4*1000000), jtet1(4*1000000)
-      real*8 xic(10000000), yic(10000000), zic(10000000)
+      integer itet1(*), jtet1(*)
+
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*)
+
       pointer (ipitetnn, itetnn)
       pointer (ipitetnn1, itetnn1)
       pointer (ipitetnn2, itetnn2)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
-      integer itetnn(3,1000000),
-     *        itetnn1(3,1000000),
-     *        itetnn2(3,1000000)
+      integer itetnn(3,*),
+     *        itetnn1(3,*),
+     *        itetnn2(3,*)
+
       pointer (ipiedge_tet, iedge_tet)
       pointer (ipiedge_face, iedge_face)
       pointer (ipiedge_edge, iedge_edge)
-      integer iedge_tet(6*1000000), iedge_face(6*1000000),
-     *        iedge_edge(6*1000000)
-C
-      parameter (nvalues=2)
+      integer iedge_tet(*), iedge_face(*),
+     *        iedge_edge(*)
+
       pointer (iplist_sink, list_sink)
       pointer (iplist_source, list_source)
-      pointer (ipxweight_source, xweight_source)
-      integer list_sink(1000000), list_source(nvalues,1000000)
-      real*8 xweight_source(nvalues,1000000)
-C
+      integer list_sink(*), list_source(nvalues,*)
+
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
-C
+      integer iparent(*)
+ 
       pointer (ipitflag, itflag)
+      integer itflag(*)
       pointer (ipifadd, ifadd)
-      integer itflag(1000000)
-      integer ifadd(3,1000000)
-C
+      integer ifadd(3,*)
+ 
       integer ieadd(3)
-C
+ 
       pointer (ipint1add, int1add)
-      integer int1add(1000000)
+      integer int1add(*)
 C
-      character*32 isubname, iblknam, iprtnam
-      character*32 cmolength
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
+
+      pointer (ipxweight_source, xweight_source)
+      real*8 xweight_source(nvalues,*)
+C
       integer itriface0(3), itriface1(3,3)
       data itriface0 / 2, 2, 2 /
       data itriface1 / 2, 3, 1,
      *                 3, 1, 2,
      *                 1, 2, 3 /
 C
+      real*8 crosx1,crosy1,crosz1,volume,crosx,crosy,crosz,
+     *  a,b,c,d,e,f
+
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -2252,6 +2267,10 @@ C
       volume(i1,i2,i3,i4)=(xic(i4)-xic(i1))*crosx1(i1,i2,i3)+
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
+
+      character*132 logmess
+      character*32 isubname, iblknam, iprtnam
+      character*32 cmolength
 C
 C
 C ######################################################################
@@ -2773,15 +2792,22 @@ CPVCS       Rev 1.24   Sun Feb 23 10:38:52 1997   het
 CPVCS    Add the refinement for quads.
 c**************************************************************
 C
-C
-       implicit none
-C
-      character*132 logmess
+      implicit none
 C
       include "local_element.h"
+
+C  arguments
+      character*(*) cmo_name
+      integer iprd, nadd
+      pointer (ipitadd, itadd)
+      integer itadd(nadd)
+      integer iadd(nadd)
+      real*8 xadd(nadd), yadd(nadd), zadd(nadd)
+
+C variables
 C
 C prd added variables
-      integer nadd, iprd, lenout, lenitp1, lenisn1, lenitetpar,
+      integer lenout, lenitp1, lenisn1, lenitetpar,
      *  lenitetkid, lenitetlev, lenitetclr, lenitettyp, lenxic,
      *  lenyic, lenzic,lenitetoff, lenjtetoff, lenitet, lenjtet,
      *  naddnew, iflag, itoff, jtoff,istride,ntnew,icount,
@@ -2799,98 +2825,95 @@ C prd added variables
       real*8 radavg, rad1, xradfac, rad2,rad3,radavg12
       real*8 xxsmall
 C
-      character*(*) cmo_name
-C
-      pointer (ipitadd, itadd)
-      integer itadd(nadd)
-      integer iadd(nadd)
-      real*8 xadd(nadd), yadd(nadd), zadd(nadd)
-C
       pointer (ipiaddorder, iaddorder)
       integer iaddorder(nadd)
+
+      pointer (iplist_sink1, list_sink1)
+      pointer (iplist_source1, list_source1)
+      integer list_sink1(nadd), list_source1(*)
+
+      pointer (iplist_sink2, list_sink2)
+      pointer (iplist_source2, list_source2)
+      integer list_sink2(nadd), list_source2(*)
+
+      pointer (iplist_sink3, list_sink3)
+      pointer (iplist_source3, list_source3)
+      integer list_sink3(nadd), list_source3(*)
 C
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
-      integer itp1(10000000), isn1(10000000)
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
-      real*8 xic(10000000), yic(10000000), zic(10000000)
-C
+      integer itp1(*), isn1(*)
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
-      integer itet1(8*1000000), jtet1(6*1000000)
+      integer itet1(*), jtet1(*)
+
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
-C
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*)
+ 
       pointer (ipitetpar, itetpar)
       pointer (ipitetkid, itetkid)
       pointer (ipitetlev, itetlev)
-      integer itetpar(1000000),
-     *        itetkid(1000000),
-     *        itetlev(1000000)
-C
+      integer itetpar(*),itetkid(*),itetlev(*)
+
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
-C
+      integer iparent(*)
+ 
       pointer (ipitflag, itflag)
       pointer (ipitetnn, itetnn1)
       pointer (ipitetnn1, jtetnn1)
       pointer (ipitetnn2, jtetnn2)
-      integer itflag(1000000),
-     *        itetnn1(8*1000000),
-     *        jtetnn1(6*1000000), jtetnn2(6*1000000)
+      integer itflag(*),itetnn1(*),jtetnn1(*),jtetnn2(*)
+
 C
-      pointer (iplist_sink1, list_sink1)
-      pointer (iplist_source1, list_source1)
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
+ 
       pointer (ipxweight_source1, xweight_source1)
-      integer list_sink1(nadd), list_source1(1000000)
-      real*8 xweight_source1(1000000)
-      pointer (iplist_sink2, list_sink2)
-      pointer (iplist_source2, list_source2)
+      real*8 xweight_source1(*)
       pointer (ipxweight_source2, xweight_source2)
-      integer list_sink2(nadd), list_source2(1000000)
-      real*8 xweight_source2(1000000)
-      pointer (iplist_sink3, list_sink3)
-      pointer (iplist_source3, list_source3)
+      real*8 xweight_source2(*)
       pointer (ipxweight_source3, xweight_source3)
-      integer list_sink3(nadd), list_source3(1000000)
-      real*8 xweight_source3(1000000)
+      real*8 xweight_source3(*)
+
 c
 c prd added ----
       pointer (ipitlist_sink, itlist_sink)
       pointer (ipitlist_source, itlist_source)
-      integer itlist_sink(10000000), itlist_source(10000000)
+      integer itlist_sink(*), itlist_source(*)
  
       pointer (ipxtweight_source, xtweight_source)
-      real*8 xtweight_source(10000000)
+      real*8 xtweight_source(*)
  
       pointer (ipxradavg, xradavg)
-      real*8 xradavg(1000000)
+      real*8 xradavg(*)
  
       integer itet0(10)
+
 c prd added ----
 C
       integer ifacept(10), iedgept(20)
 C
       integer icharlnf
+
       character*32 cmo
       character*32 cmolength
       character*32 isubname, iblknam, iprtnam
       character*32 cmoattnam
+      character*132 logmess
       character*8192 cbuff
  
 C
 C     ###################################################################
-C
+C BEGIN begin
+
       isubname='refine_hex_prd'
-C
       xxsmall=1.0d-30
-C
       cmo=cmo_name
 C
 C     This was getting called when nadd = 0 which results

@@ -3,7 +3,6 @@
      *                    iopt,id,jd,id2,jd2,
      *                    npoints,ntets,ierflg)
 C
-       implicit real*8 (a-h,o-z)
 C ######################################################################
 C
 C      PURPOSE -
@@ -68,13 +67,26 @@ CPVCS    Original version.
 C
 C ######################################################################
 C
+      implicit none
+C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
-      dimension id(16),jd(16),id2(16),jd2(16),ipos(2,4)
+
+C arguments (it1,iepos,it2,it3,it4,i1,i2,i3,i4,i5,i6,
+C                         iopt,id,jd,id2,jd2,
+C                         npoints,ntets,ierflg)
+
+      integer it1,iepos,it2,it3,it4,i1,i2,i3,i4,i5,i6,iopt
+      integer id(16),jd(16),id2(16),jd2(16)
+      integer npoints,ntets,ierflg
+
+C variables
+
+      integer ipos(2,4)
+
+      integer ierror,lenitet,icmotype,lenjtet,i,ict12,ict35,ict46,
+     *        it,isum1,isum2,isum3,isum5,isum4,isum6,ierrwrt
 C
 C ######################################################################
 C

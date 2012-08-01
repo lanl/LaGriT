@@ -38,46 +38,64 @@ CPVCS    Initial revision.
  
       include 'local_element.h'
       include 'consts.h'
+
+C arguments (cmo,mpary,mpno,ctrl,igeom,ierror)
+      character*32 cmo
+      integer mpno,igeom,ierror
+      integer mpary(*)
+      real*8 ctrl
+
+C variables
  
+      real*8 alf,tolx
+      parameter (alf=1.d-4,tolx=1.d-7)
+
+      integer innerit
+      parameter (innerit=4)
+
       integer lenptr
       parameter (lenptr=1000000)
- 
-      integer mpary(lenptr)
- 
-      character*132 logmess
+
  
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
       pointer (ipitet, itet)
       pointer (ipitetoff, itetoff)
       pointer (ipitettyp, itettyp)
- 
-      integer itp1(lenptr)
-      integer isn1(lenptr)
-      real*8 xic(lenptr)
-      real*8 yic(lenptr)
-      real*8 zic(lenptr)
-      integer itet(lenptr)
-      integer itetoff(lenptr)
-      integer itettyp(lenptr)
+      integer itp1(*)
+      integer isn1(*)
+      integer itet(*)
+      integer itetoff(*)
+      integer itettyp(*)
+
+      pointer (ipnoditet,noditet), (ipnoditetoff,noditetoff)
+      integer noditet(2,*),noditetoff(*)
+      pointer (ipireal1,ireal1)
+      integer ireal1(*)
+
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*)
+      real*8 yic(*)
+      real*8 zic(*)
  
       pointer (ipu,u), (ipv,v)
+      real*8 u(0:lenptr), v(0:lenptr)
+
       pointer (ipxsave,xsave), (ipysave,ysave), (ipzsave,zsave)
-      real*8 u(0:lenptr), v(0:lenptr),
-     &   xsave(lenptr), ysave(lenptr), zsave(lenptr)
- 
-      pointer (ipnoditet,noditet), (ipnoditetoff,noditetoff),
-     &   (ipwtnoditet,wtnoditet), (ipvoff,voff),
+      real*8   xsave(*), ysave(*), zsave(*)
+
+      pointer   (ipwtnoditet,wtnoditet), (ipvoff,voff),
      &   (ipvcurr,vcurr)
-      pointer (ipireal1,ireal1)
-      integer noditet(2,lenptr),noditetoff(lenptr),
-     &   ireal1(lenptr)
-      real*8 wtnoditet(lenptr), voff(lenptr), vcurr(lenptr)
+      real*8 wtnoditet(*), voff(*), vcurr(*)
  
-      real*8 tn1(3),eu1(3),ev1(3),tni(3),ctrl,x1,y1,z1,
+      pointer (ipout,out)
+      real*8 out(*)
+
+      real*8 epsilona,rout
+
+      real*8 tn1(3),eu1(3),ev1(3),tni(3),x1,y1,z1,
      &   x2,y2,z2,x3,y3,z3,dcross,areamin,areamax,epsilonl,
      &   tolconv_sm,area(3),err,f,dfu,dfv,d2fuu,d2fuv,d2fvv,
      &   e1u,e1v,e2u,e2v,e3u,e3v,s1,s2,s3,sshare,a,b,dau,dav,
@@ -88,30 +106,18 @@ CPVCS    Initial revision.
      &   areatinv,dareatu,dareatv,ft,dcrossp,areaminp,areamaxp,
      &   denom,wt,sqt,dsqtu,dsqtv,d2sqtuu,d2sqtuv,d2sqtvv
  
-      integer mpno,ierror,nnodes,length,icmotype,nelements,
+      integer nnodes,length,icmotype,nelements,
      &   mbndry,ilen,ityp,icscode,nod1,nod2,nod3,nod4,ierrw,
      &   i,ioff,maxiter_sm,itypconv_sm,maxdeg,iout,
      &   k,iouter,iter,node,nnitet,ierrdum,indx,i1,i2,
-     &   ineghess,izeromov,ntri,nqud,nsimp,j,j1,j2,ii,igeom
+     &   ineghess,izeromov,ntri,nqud,nsimp,j,j1,j2,ii
  
       logical  negvol
  
-      integer innerit
-      parameter (innerit=4)
- 
-      real*8 epsilona
-      pointer (ipout,out)
-      real*8 alf,tolx,rout,out(*)
-      parameter (alf=1.d-4,tolx=1.d-7)
- 
-      character*32 cmo,cout
-      character*32 isubname
- 
- 
+c statement functions for the components of the cross product
       real*8 x1_,y1_,z1_,x2_,y2_,z2_,x3_,y3_,z3_,crosx,crosy,crosz
       real*8 f_,fi,fj,fij,dfto2,hfto2
- 
-c statement functions for the components of the cross product
+
 c ((x2,y2,z2)-(x1,y1,z1)) x ((x3,y3,z3)-(x1,y1,z1)) .
       crosx(x1_,y1_,z1_,x2_,y2_,z2_,x3_,y3_,z3_)=(y2_-y1_)*(z3_-z1_)
      &   -(z2_-z1_)*(y3_-y1_)
@@ -127,6 +133,12 @@ c...  d(f**2)/dxi in terms of f, df/dxi.
 c...  d2(f**2)/(dxi*dxj) in terms of f, df/dxi, df/dxj, d2f/(dxi*dxj).
  
       hfto2(f_,fi,fj,fij)=2.d0*(fi*fj+f_*fij)
+C
+      character*132 logmess
+      character*32  isubname,cout
+ 
+C ######################################################################
+C BEGIN begin
  
       isubname = 'mega2d'
  
@@ -135,10 +147,14 @@ c...  d2(f**2)/(dxi*dxj) in terms of f, df/dxi, df/dxj, d2f/(dxi*dxj).
 c  get info from mesh object to be smoothed
       call cmo_get_info('nnodes',cmo,
      *   nnodes,length,icmotype,ierror)
+      if(nnodes.le.0) call x3d_error(isubname, 'get_info: 0 nodes')
       call cmo_get_info('nelements',cmo,
      *   nelements,length,icmotype,ierror)
+      if(nelements.le.0) call x3d_error(isubname, 'get_info: 0 elems')
       call cmo_get_info('mbndry',cmo,
      *   mbndry,length,icmotype,ierror)
+      if(mbndry.le.0) call x3d_error(isubname, 'get_info: 0 mbndry')
+
       call cmo_get_info('itp1',cmo,ipitp1,ilen,ityp,ierror)
       call cmo_get_info('isn1',cmo,ipisn1,ilen,ityp,ierror)
       call cmo_get_info('xic',cmo,ipxic,ilen,ityp,ierror)
@@ -147,6 +163,7 @@ c  get info from mesh object to be smoothed
       call cmo_get_info('itet',cmo,ipitet,ilen,ityp,ierror)
       call cmo_get_info('itetoff',cmo,ipitetoff,ilen,ityp,ierror)
       call cmo_get_info('itettyp',cmo,ipitettyp,ilen,ityp,ierror)
+
  
 c...  get epsilon length.
  
@@ -168,6 +185,7 @@ C
       call mmgetblk('ireal1',isubname,ipireal1,nnodes,1,icscode)
       call unpacktp("allreal","set",nnodes,ipitp1,ipireal1,ierrdum)
       if(ierrdum.ne.0) call x3d_error(isubname, 'unpacktp')
+
  
 c  Compute a unit normal for the 'whole mesh' by adding up all the
 c  area vectors for all the elements and normalizing.

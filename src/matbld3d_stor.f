@@ -2853,7 +2853,7 @@ c         else
 c            ierr1=0
 c         endif
  
-        write(logmess,'(a,i9,a,1pe15.7,a,1pe15.7))')
+        write(logmess,'(a,i9,a,1pe15.7,a,1pe15.7)')
      *    "Matbld3d_stor: total neg",icount_neg,
      *    " mincoef= ",amatmin," maxcoef= ",amatmax
         call writloga('default',0,logmess,0,ierrw)

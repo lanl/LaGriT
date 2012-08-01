@@ -1,4 +1,6 @@
 *dk,refine2ed
+C This file has subroutines refine_edge_2d and refine2db
+C
       subroutine refine_edge_2d(cmo,ierr1)
 C
 C     CHANGE HISTORY -
@@ -130,74 +132,112 @@ CPVCS
 CPVCS       Rev 1.0   11/10/94 12:17:54   pvcs
 CPVCS    Original version.
 C
-       implicit real*8 (a-h,o-z)
+      implicit none
+
       include 'consts.h'
       include "local_element.h"
-C
-      character*132 logmess
-C
+
+C arguments
       character*(*) cmo
-C
+      integer ierr1
+
+C constants
+      integer nplen,nvalues
+      parameter (nplen=10000000)
+      parameter (nvalues=2)
+
+C variables
       pointer (ipimt1, imt1)
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
-      integer imt1(1000000), itp1(1000000), isn1(1000000)
-      dimension xic(1000000), yic(1000000), zic(1000000)
+      integer imt1(*), itp1(*), isn1(*)
+
+
       pointer (ipitet, itet)
       pointer (ipjtet, jtet)
-      integer itet(3,1000000), jtet(3,1000000)
+      integer itet(3,*), jtet(3,*)
+
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
-C
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*)
+ 
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
-C
+      integer iparent(*)
       pointer (ipint1, int1)
-      integer int1(1000000)
-C
+      integer int1(*)
       pointer (ipitflag, itflag)
+      integer itflag(*)
+
       pointer (ipitetnn, itetnn)
       pointer (ipitetnn1, itetnn1)
       pointer (ipitetnn2, itetnn2)
-      integer itflag(1000000),
-     *        itetnn(3,1000000), itetnn1(3,1000000), itetnn2(3,1000000)
+      integer itetnn(3,*),itetnn1(3,*),itetnn2(3,*)
+
       pointer (ipiedge_tet, iedge_tet)
       pointer (ipiedge_face, iedge_face)
       pointer (ipiedge_edge, iedge_edge)
-      integer iedge_tet(6*1000000), iedge_face(6*1000000),
-     *        iedge_edge(6*1000000)
-      pointer (ipxedge, xedge)
-      real*8 xedge(6*1000000)
-C
+      integer iedge_tet(*), iedge_face(*)
+      integer iedge_edge(*)
+
       pointer (ipint1add, int1add)
-      integer int1add(1000000)
-C
-      parameter (nvalues=2)
+      integer int1add(*)
+ 
       pointer (iplist_sink, list_sink)
       pointer (iplist_source, list_source)
-      pointer (ipxweight_source, xweight_source)
-      integer list_sink(1000000), list_source(nvalues,1000000)
-      real*8 xweight_source(nvalues,1000000)
+      integer list_sink(*), list_source(nvalues,*)
+
+      integer ierror,ier,ierrw,ics,icscode,ierrwrt
+      integer ichk,ilen,ityp,ierr,idebug
+      integer npoints,length,icmotype,ntets,mbndry,nen,nef,
+     *        icount,i,i1,i2,i3,i4,
+     *        it,nedge,j,j1,j2,j3,l,l1,l2,l3,
+     *        jt,jf,lit,li,iedge,nelementsmm,ntetsinc,
+     *        nnodesmm
+      integer lenitetclr,lenitettyp,lenitetoff,lenjtetoff,
+     *        lenitet,lenjtet,lenxic,lenyic,lenzic,
+     *        lenimt1,lenitp1,lenisn1,ierrdum
+      integer nadd1,iedgeiter,npointsnew,ntetsnew,nedge_save
+      integer k,kf,kt,irefine,npointsinc,inc,inc1,inc2,
+     *        kflast,ktlast,jcount,iflag,
+     *        itstart,itlast,ifstart,iestart,iflast
+
 C
-      character*32 cmolength
-      character*32 isubname, iblknam, iprtnam
+      integer icharlnf
+C
+      real*8 xfac,xdot,xdotl,ds23,ds2i,ds3i,ds1,ds2,ds3
+      real*8 x1,y1,z1,x2,y2,z2,x3,y3,z3,xint,yint,zint
+      real*8 xa,ya,za,xb,yb,zb,xd,yd,zd,xn1,yn1,zn1,
+     *       xn,yn,zn,rn,dotb3,dot3,rb3,ql,xl,yl,zl,
+     *       xv,yv,zv,x23,y23,z23,xarea,var1,
+     *       voltri,voltri1,voltri2
+
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
+
+      pointer (ipxweight_source, xweight_source)
+      real*8 xweight_source(nvalues,*)
+
+      pointer (ipxedge, xedge)
+      real*8 xedge(*)
+
       integer itriface0(3), itriface1(3,3)
       data itriface0 / 2, 2, 2 /
       data itriface1 / 2, 3, 1,
      *                 3, 1, 2,
      *                 1, 2, 3 /
 C
+      real*8 xfactri
       data xfactri / 0.25d+00 /
+
 C*****data xfactri / 0.333333333333333d+00 /
 C*****data xfactri / 0.5d+00 /
 C
+      real*8 crosx1,crosy1,crosz1,volume
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -208,21 +248,32 @@ C
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
 C
+      real*8 crosx,crosy,crosz,a,b,c,d,e,f
       crosx(a,b,c,d,e,f)=b*f-c*e
       crosy(a,b,c,d,e,f)=c*d-a*f
       crosz(a,b,c,d,e,f)=a*e-b*d
 C
+      character*132 logmess
+      character*32 cmolength
+      character*32 isubname, iblknam, iprtnam
+
+C     ******************************************************************
+C  BEGIN begin
+C
+      isubname='refine_edge_2d'
       ierr1=0
       nedge=0
       iedgeiter = 0
 C
-      isubname='refine_edge_2d'
-C
-C     ******************************************************************
-C
 C
       call cmo_get_info('nnodes',cmo,npoints,length,icmotype,ierror)
+      if (ierror.ne.0) call x3d_error(isubname,'get info nnodes')
       call cmo_get_info('nelements',cmo,ntets,length,icmotype,ierror)
+      if (ierror.ne.0) call x3d_error(isubname,'get info nelements')
+
+      call cmo_get_info('idebug',cmo,idebug,length,icmotype,ierror)
+      if (idebug.gt.0) print*,isubname
+
       call cmo_get_info('mbndry',cmo,mbndry,length,icmotype,ierror)
       call cmo_get_info('nodes_per_element',cmo,
      *                  nen,length,icmotype,ierror)
@@ -247,7 +298,7 @@ C
 C     Get the parents for each node.
 C
       call mmfindbk('xic',cmo,ipxic,length,icscode)
-      call mmgetblk("iparent",isubname,ipiparent,length,2,icscode)
+      call mmgetblk("iparent",isubname,ipiparent,length,1,icscode)
       call unpackpc(npoints,itp1,isn1,iparent)
 C
 C     ******************************************************************
@@ -257,21 +308,24 @@ C        int1() =  0 ==> not an interface point.
 C        int1() =  1 ==> an interface point.
 C
       call mmfindbk('xic',cmo,ipxic,length,icscode)
-      call mmgetblk("int1",isubname,ipint1,length,2,icscode)
-      call unpacktp("intrface","set",npoints,ipitp1,ipint1,ierrdum)
+      call mmgetblk('int1',isubname,ipint1,length,1,icscode)
+      call unpacktp('intrface','set',npoints,ipitp1,ipint1,ierrdum)
       if(ierrdum.ne.0) call x3d_error('refine_edge_add', 'unpacktp')
 C
       length=3*ntets
-      call mmgetblk('iedgetet',isubname,ipiedge_tet,length,2,icscode)
-      call mmgetblk('iedgefac',isubname,ipiedge_face,length,2,icscode)
-      call mmgetblk('iedgeedg',isubname,ipiedge_edge,length,2,icscode)
+      call mmgetblk('iedgetet',isubname,ipiedge_tet,length,1,icscode)
+      call mmgetblk('iedgefac',isubname,ipiedge_face,length,1,icscode)
+      call mmgetblk('iedgeedg',isubname,ipiedge_edge,length,1,icscode)
       call mmgetblk('xedge',isubname,ipxedge,length,2,icscode)
+
       length=ntets
-      call mmgetblk('itflag',isubname,ipitflag,length,2,icscode)
+      call mmgetblk('itflag',isubname,ipitflag,length,1,icscode)
+
       length=3*ntets
-      call mmgetblk('itetnn' ,isubname,ipitetnn ,length,2,icscode)
-      call mmgetblk('itetnn1',isubname,ipitetnn1,length,2,icscode)
-      call mmgetblk('itetnn2',isubname,ipitetnn2,length,2,icscode)
+      call mmgetblk('itetnn' ,isubname,ipitetnn ,length,1,icscode)
+      call mmgetblk('itetnn1',isubname,ipitetnn1,length,1,icscode)
+      call mmgetblk('itetnn2',isubname,ipitetnn2,length,1,icscode)
+
 c
 c     Find and flag all outside or interface noded
 c
@@ -478,15 +532,15 @@ C
 C
 C
       length=nedge
-      call mmgetblk('int1add',isubname,ipint1add,length,2,icscode)
+      call mmgetblk('int1add',isubname,ipint1add,length,1,icscode)
       do i=1,nedge
          int1add(i)=0
       enddo
 C
       length=nedge
-      call mmgetblk('list_sink',isubname,iplist_sink,length,2,icscode)
+      call mmgetblk('list_sink',isubname,iplist_sink,length,1,icscode)
       length=nvalues*nedge
-      call mmgetblk('list_source',isubname,iplist_source,length,2,
+      call mmgetblk('list_source',isubname,iplist_source,length,1,
      *              icscode)
       call mmgetblk('xweight_source',isubname,ipxweight_source,length,2,
      *              icscode)
@@ -594,7 +648,14 @@ C
          irefine=irefine+1
          call mmfindbk('xic',cmo,ipxic,length,icscode)
          if((npointsnew+1).gt.length) then
+
             npointsinc=npointsnew+1000
+            if (idebug.gt.0) then
+             print*,isubname,'increment arrays, calling mmverify'
+             print*,'length ',npointsnew,' increased to: ',npointsinc
+             call mmverify()
+            endif
+
             call cmo_set_info('nnodes',cmo,npointsinc,1,1,ierror)
             call mmgetlen(ipitetclr,nelementsmm,icscode)
             call cmo_set_info('nelements',cmo,nelementsmm,1,1,ierror)
@@ -604,6 +665,13 @@ C
             call cmo_get_info('xic',cmo,ipxic,lenxic,icmotype,ierror)
             call cmo_get_info('yic',cmo,ipyic,lenyic,icmotype,ierror)
             call cmo_get_info('zic',cmo,ipzic,lenzic,icmotype,ierror)
+
+C TAM added increment to iparent and int1 as they were overwritten
+C     in cases where npointsnew is greater than npoints
+C     note that int1 is incremented, but at the end of this loop.
+            call mmnewlen('iparent',isubname,ipiparent,
+     *                              npointsinc,ier)
+            call mmnewlen('int1',isubname,ipint1,npointsinc,ier)
          endif
          npointsnew=npointsnew+1
 C
@@ -792,8 +860,13 @@ C
 C
       call cmo_get_info('itp1',cmo,ipitp1,length,icmotype,ierror)
       length=npoints
-      call mmnewlen("int1",isubname,ipint1,length,icscode)
-      call unpacktp("intrface","set",npoints,ipitp1,ipint1,ierrdum)
+
+C TAM? why is the length of int1 changed here?
+C     it has already been incremented for earlier work
+C     and should now be equal or greater than npoints in length
+
+      call mmnewlen('int1',isubname,ipint1,length,icscode)
+      call unpacktp('intrface','set',npoints,ipitp1,ipint1,ierrdum)
       if(ierrdum.ne.0) call x3d_error('refine_edge_add', 'unpacktp')
 C
       icount=0
@@ -812,6 +885,18 @@ C
       call cmo_set_info('nnodes',cmo,npoints,1,1,ierror)
       call cmo_set_info('ipointj',cmo,npoints,1,1,ierror)
       call cmo_set_info('nelements',cmo,ntets,1,1,ierror)
+
+      if (idebug.ge.1) then
+         write (logmess,'(a,i14,i14)')
+     *   ' refine_edge_2d: new nnodes and nelements:',
+     *           npoints,ntets
+         call writloga('default', 0, logmess, 0, ierr)
+
+         write (logmess,'(a)')
+     *   ' calling mmverify to check new lengths:'
+         call writloga('default', 0, logmess, 0, ierr)
+         call mmverify()
+      endif
 C
       if(jcount.gt.0.or.icount.gt.0) then
          call dotaskx3d('settets/parents ; finish',ierror)
@@ -825,6 +910,8 @@ C
       call mmrelprt(isubname,icscode)
       return
       end
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 *dk,refine2db
       subroutine refine2db()
 C
@@ -841,78 +928,98 @@ CPVCS
 CPVCS       Rev 1.0   11/10/94 12:17:54   pvcs
 CPVCS    Original version.
 C
-       implicit real*8 (a-h,o-z)
+      implicit none
 C
       include "local_element.h"
       include 'consts.h'
 C
-      character*132 logmess
+      integer nplen,nvalues
+      parameter (nplen=10000000)
+      parameter (nvalues=2)
+
 C
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
       pointer (ipint1, int1)
-      integer itp1(1000000), isn1(1000000), int1(1000000)
-C
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
+      integer itp1(*), isn1(*), int1(*)
+ 
       pointer (ipitet, itet)
       pointer (ipjtet, jtet)
+      integer itet(3,*), jtet(3,*)
+
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
-      integer itet(3,1000000), jtet(3,1000000)
-      integer itet1(4*1000000), jtet1(4*1000000)
-      dimension xic(1000000), yic(1000000), zic(1000000)
+      integer itet1(4*nplen), jtet1(4*nplen)
+
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*)
+
       pointer (ipitetnn, itetnn)
       pointer (ipitetnn1, itetnn1)
       pointer (ipitetnn2, itetnn2)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
-      integer itetnn(3,1000000),
-     *        itetnn1(3,1000000),
-     *        itetnn2(3,1000000)
+      integer itetnn(3,*),
+     *        itetnn1(3,*),
+     *        itetnn2(3,*)
+
       pointer (ipiedge_tet, iedge_tet)
       pointer (ipiedge_face, iedge_face)
       pointer (ipiedge_edge, iedge_edge)
-      integer iedge_tet(6*1000000), iedge_face(6*1000000),
-     *        iedge_edge(6*1000000)
-C
-      parameter (nvalues=2)
+      integer iedge_tet(6*nplen), iedge_face(6*nplen),
+     *        iedge_edge(6*nplen)
+ 
+      pointer (ipiparent, iparent)
+      integer iparent(*)
+      
       pointer (iplist_sink, list_sink)
       pointer (iplist_source, list_source)
-      pointer (ipxweight_source, xweight_source)
-      integer list_sink(1000000), list_source(nvalues,1000000)
-      real*8 xweight_source(nvalues,1000000)
-C
-      pointer (ipiparent, iparent)
-      integer iparent(1000000)
-C
-      pointer (ipitflag, itflag)
+      integer list_sink(*), list_source(nvalues,*)
+
       pointer (ipitlist, itlist)
+      integer itlist(*)
       pointer (ipifadd, ifadd)
-      integer itlist(1000000)
-      integer itflag(1000000)
-      integer ifadd(3,1000000)
-C
-      integer ieadd(3)
-C
+      integer ifadd(3,*)
+      pointer (ipitflag, itflag)
+      integer itflag(*)
       pointer (ipint1add, int1add)
-      integer int1add(1000000)
+      integer int1add(*)
+ 
+      integer ieadd(3)
+ 
+      integer ierror,ier,ierrw,icscode,idebug,ierr
+      integer i,i1,i2,i3,i4,j,k,i31,
+     *        i23,i12,ie1,ie2,isum,ierrdum,jt,jf,kt,kf
+      integer icount,inc,ics,inc1,inc2,iedge1,iedge2,iedge,
+     *        iedgeiter,nedge,npoints,length,icmotype,ntets,
+     *        mbndry,nen,nef,lenitp1,lenisn1,lenxic,lenyic,
+     *        lenzic,lenitetclr,lenitettyp,lenitetoff,lenjtetoff,
+     *        lenitet,lenjtet,it,ntlist,nadd1,npointsnew,ntetsnew,
+     *        nef1,npointsinc,jcount,nnodesmm,nelementsmm,ntetsinc
+
+      real*8 x1,y1,z1,x2,y2,z2,x3,y3,z3,xa,ya,za,xarea
+
 C
-      character*32 isubname, iblknam, iprtnam
-      character*32 cmo, cmolength
+      pointer (ipxweight_source, xweight_source)
+      real*8 xweight_source(nvalues,*)
+
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
+C
       integer itriface0(3), itriface1(3,3)
       data itriface0 / 2, 2, 2 /
       data itriface1 / 2, 3, 1,
      *                 3, 1, 2,
      *                 1, 2, 3 /
-C
+ 
+      real*8 xarea_ref
       data xarea_ref / 0.0d+00 /
 C
+      real*8 crosx1,crosy1,crosz1,volume
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -922,15 +1029,19 @@ C
       volume(i1,i2,i3,i4)=(xic(i4)-xic(i1))*crosx1(i1,i2,i3)+
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
-C
-C
-C ######################################################################
-C
+
+      real*8 crosx,crosy,crosz,a,b,c,d,e,f
       crosx(a,b,c,d,e,f)=b*f-c*e
       crosy(a,b,c,d,e,f)=c*d-a*f
       crosz(a,b,c,d,e,f)=a*e-b*d
+
+C
+      character*132 logmess
+      character*32 isubname, iblknam, iprtnam
+      character*32 cmo, cmolength
 C
 C ######################################################################
+C BEGIN begin
 C
       isubname='refine2db'
       iedgeiter = 0
@@ -939,7 +1050,11 @@ C
       call cmo_get_name(cmo,ierror)
 C
       call cmo_get_info('nnodes',cmo,npoints,length,icmotype,ierror)
+      if (ierror.ne.0) call x3d_error(isubname,'get info nnodes')
       call cmo_get_info('nelements',cmo,ntets,length,icmotype,ierror)
+      if (ierror.ne.0) call x3d_error(isubname,'get info nelements')
+
+      call cmo_get_info('idebug',cmo,idebug,length,icmotype,ierror)
       call cmo_get_info('mbndry',cmo,mbndry,length,icmotype,ierror)
       call cmo_get_info('nodes_per_element',cmo,
      *                  nen,length,icmotype,ierror)
@@ -963,29 +1078,29 @@ C
 C     Get the parents for each node.
 C
       call mmfindbk('xic',cmo,ipxic,length,icscode)
-      call mmgetblk('int1add',isubname,ipint1add,length,2,icscode)
-      call mmgetblk('iparent',isubname,ipiparent,length,2,icscode)
+      call mmgetblk('int1add',isubname,ipint1add,length,1,icscode)
+      call mmgetblk('iparent',isubname,ipiparent,length,1,icscode)
       call unpackpc(npoints,itp1,isn1,iparent)
 C
       length=nef*ntets
-      call mmgetblk('iedgetet',isubname,ipiedge_tet,length,2,icscode)
-      call mmgetblk('iedgefac',isubname,ipiedge_face,length,2,icscode)
-      call mmgetblk('iedgeedg',isubname,ipiedge_edge,length,2,icscode)
+      call mmgetblk('iedgetet',isubname,ipiedge_tet,length,1,icscode)
+      call mmgetblk('iedgefac',isubname,ipiedge_face,length,1,icscode)
+      call mmgetblk('iedgeedg',isubname,ipiedge_edge,length,1,icscode)
       length=nen*ntets
-      call mmgetblk('itetnn' ,isubname,ipitetnn ,length,2,icscode)
+      call mmgetblk('itetnn' ,isubname,ipitetnn ,length,1,icscode)
       length=nef*ntets
-      call mmgetblk('itetnn1',isubname,ipitetnn1,length,2,icscode)
-      call mmgetblk('itetnn2',isubname,ipitetnn2,length,2,icscode)
+      call mmgetblk('itetnn1',isubname,ipitetnn1,length,1,icscode)
+      call mmgetblk('itetnn2',isubname,ipitetnn2,length,1,icscode)
 C
       write(logmess,'(a,i10,i10)')
      *     'Edge iteration refine2db: ',iedgeiter,nedge
       call writloga('default',0,logmess,0,ierrw)
 C
       length=ntets
-      call mmgetblk('itlist',isubname,ipitlist,length,2,icscode)
-      call mmgetblk('itflag',isubname,ipitflag,length,2,icscode)
+      call mmgetblk('itlist',isubname,ipitlist,length,1,icscode)
+      call mmgetblk('itflag',isubname,ipitflag,length,1,icscode)
       length=nef*ntets
-      call mmgetblk('ifadd',isubname,ipifadd,length,2,icscode)
+      call mmgetblk('ifadd',isubname,ipifadd,length,1,icscode)
 C
       do it=1,ntets
          do i=1,nen
@@ -1027,9 +1142,9 @@ C
       enddo
 C
       length=6*ntets
-      call mmgetblk('list_sink',isubname,iplist_sink,length,2,icscode)
+      call mmgetblk('list_sink',isubname,iplist_sink,length,1,icscode)
       length=nvalues*6*ntets
-      call mmgetblk('list_source',isubname,iplist_source,length,2,
+      call mmgetblk('list_source',isubname,iplist_source,length,1,
      *              icscode)
       call mmgetblk('xweight_source',isubname,ipxweight_source,length,2,
      *              icscode)
@@ -1394,6 +1509,14 @@ C
          call cmo_get_info('nelements',cmo,ntets,length,icmotype,ierror)
       endif
 C
+      if (idebug.ge.1) then
+         write (logmess,'(a,i14,i14)') 
+     *   ' refine_edge_2d: exit with node and element total: ', 
+     *           npoints,ntets 
+         call writloga('default', 0, logmess, 0, ierr)
+         call mmverify()
+      endif
+
       call mmrelprt(isubname,icscode)
       return
       end

@@ -1,8 +1,6 @@
 *dk,flp2to0b
-      subroutine flp2to0b(it1,ipos1,it2,
-     *                    npoints,ntets)
-       implicit none
-      character*8 if1,if2,if3,if4
+      subroutine flp2to0b(it1,ipos1,it2,npoints,ntets)
+C
 C ######################################################################
 C
 C     PURPOSE -
@@ -64,6 +62,7 @@ CPVCS       Rev 1.0   11/10/94 12:13:10   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
@@ -71,13 +70,20 @@ C
 C
 C ######################################################################
 C
+
+C  arguments (it1,ipos1,it2,npoints,ntets)
+      integer it1,ipos1,it2,npoints,ntets
+
+C variables
       integer nmulti
       parameter (nmulti = 200)
-      dimension ichain0(nmulti),imt0(nmulti),ipts(3),ix(3),jd(3),kd(3)
+      integer ichain0(nmulti),imt0(nmulti)
+      integer ipts(3),ix(3),jd(3),kd(3)
+
       integer l1,l2,l3,ione,it2x,length,icmotype,ierror,
-     *  it1,it2,ipos1,npoints,ntets,i,j,k,ichain0,imt0,
-     *  ipts,ix,jd,kd,i1,i2,i3,i4,ier,it1sum,it2sum,ierrdum,
+     *  i,j,k,i1,i2,i3,i4,ier,it1sum,it2sum,ierrdum,
      *  ierrfls,jtemp,ipos2,imtx1,imtx2,ict,ipar,ktemp
+
       real*8 volit1,volit2,volume,crosx1,crosy1,crosz1
 C
 C ######################################################################
@@ -93,6 +99,8 @@ C
       volume(i1,i2,i3,i4)=(xic(i4)-xic(i1))*crosx1(i1,i2,i3)+
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
+C
+      character*8 if1,if2,if3,if4
 C
 C ######################################################################
 C

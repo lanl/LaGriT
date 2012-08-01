@@ -342,6 +342,7 @@ C
 C
       if(nen.eq.nelmnen(ifelmtri).and.nef.eq.nelmnef(ifelmtri)) then
          call reconloop2d(ijob,toldamage,lcheckaxy,epsilona)
+
       elseif(nen.eq.nelmnen(ifelmtet).and.nef.eq.nelmnef(ifelmtet).and.
      *       nsd.eq.3) then
 C
@@ -353,8 +354,9 @@ C
          call cmo_get_info('itp1',cmo,ipitp1,l,i,ierror)
          call cmo_get_info('itet',cmo,ipitet,l,i,ierror)
 C  set up temporary storage
+C  set 1000 as min length to avoid single elements lacking memory
          l=max(l,4*ntets)
-         length=(l-1)/4+1
+         length=max(1000,(l-1)/4+1)
          call mmgetblk("ifittet",isubname,ipifittet,length,2,icscode)
          do it=1,ntets
             ifittet(it)=0
@@ -444,5 +446,8 @@ c  clear flip memory
 c
       call mflip(99,idum,cdum)
 C
+      write(logmess,'(a)') 'RECON: done.'
+      call writloga('default',0,logmess,0,ier)
+
       return
       end

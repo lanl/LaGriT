@@ -2,7 +2,6 @@
       subroutine findface(itt,iposbest,
      *                    npoints,ntets)
 C
-       implicit none
 C ######################################################################
 C
 C     PURPOSE -
@@ -78,8 +77,7 @@ CPVCS
 CPVCS       Rev 1.0   11/10/94 12:12:18   pvcs
 CPVCS    Original version.
 C
-C
-C ######################################################################
+      implicit none
 C
       include "consts.h"
       include "cmo.h"
@@ -89,32 +87,39 @@ C
 C
 C ######################################################################
 C
-C
-      character*8 isubname
+C arguments (itt,iposbest,npoints,ntets)
+      integer itt,iposbest,npoints,ntets
+
+C variables
       integer itets(3),id(12),jd(12),itetx(4),indx(6)
-      real*8 distp(6)
-      pointer (ipiitmp , iitmp(4,1))
-      pointer (ipjjtmp , jjtmp(4,1))
-      pointer (ipkttmp , kttmp(1)  )
-C
-      pointer (ipiisave, iisave(1) )
-      pointer (ipjjsave, jjsave(1) )
-      real*8 crosx1,crosy1,crosz1,volume,distsq
+
+C     pointer (ipiitmp , iitmp(4,1))
+C     pointer (ipjjtmp , jjtmp(4,1))
+C     pointer (ipkttmp , kttmp(1)  )
+C     pointer (ipiisave, iisave(1) )
+C     pointer (ipjjsave, jjsave(1) )
+      pointer (ipiitmp , iitmp)
+      pointer (ipjjtmp , jjtmp)
+      pointer (ipkttmp , kttmp)
+      pointer (ipiisave, iisave)
+      pointer (ipjjsave, jjsave)
+      integer iitmp(4,*),jjtmp(4,*),kttmp(*),iisave(*),jjsave(*)
+
+
       integer i,j,k,i1,i2,i3,i4,ierror,ilen,icmotype,
      *  ictrecvr,maxiter,maxpairs,irecvrfl,iextbdy,len,len4,ics,m,
      *  kpt,kptn,jj,itk,it,ifpos,niter,n2to3,n2to0,itx,ifposx,it2,
      *  ifpos2,it3,ierflg,len5,jtemp,kpt2,ninvrt,itnext,ierr,iokflg
-      integer itt,iposbest,npoints,ntets,
-     *  iitmp,jjtmp,kttmp,iisave,jjsave,itetcnto
-      real*8 xlarge
-      real*8 dmin,volit,volitk
+     *  ,itetcnto
+
+      real*8 distp(6)
+      real*8 xlarge,dmin,volit,volitk
       real*8 alargenumber
       parameter ( alargenumber=1.d+30)
-C
-C ######################################################################
-C
-C     MACROS.
-C
+
+C     MACROS. statement functions
+ 
+      real*8 crosx1,crosy1,crosz1,volume,distsq
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -126,9 +131,12 @@ C
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
       distsq(i,j)=(xic(i)-xic(j))**2+(yic(i)-yic(j))**2+
      *            (zic(i)-zic(j))**2
+
+C
+      character*8 isubname
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C     ******************************************************************
 C     FETCH MESH OBJECT NAME AND POINTER INFORMATION.

@@ -46,11 +46,11 @@ C
  
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
-      integer isn1(1000000), itp1(1000000)
+      integer isn1(*), itp1(*)
 C
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
-      integer itettyp(10000000), itetoff(10000000)
+      integer itettyp(*), itetoff(*)
 C
       pointer (ipitet, itet)
       pointer (ipjtet, jtet)
@@ -60,9 +60,9 @@ C
       pointer (ipyic, yic)
       pointer (ipzic, zic)
  
-      integer itetclr(1000000), jtetoff(1000000)
-      integer itet(10000000),  jtet(10000000)
-      real*8 xic(1000000), yic(1000000), zic(1000000)
+      integer itetclr(*), jtetoff(*)
+      integer itet(*),  jtet(*)
+      real*8 xic(*), yic(*), zic(*)
  
 C
 C
@@ -75,7 +75,7 @@ C#######################################################################
       real*8 centx,centy,centz,radius2,dist
  
       pointer(ipncc,ncc)
-      real*8 ncc(10000000)
+      real*8 ncc(*)
  
       include 'chydro.h'
       include 'local_element.h'
@@ -290,9 +290,9 @@ C
 c
       integer k,i,it
       pointer (ipncc,ncc)
-      real*8 ncc(10000000)
+      real*8 ncc(*)
       pointer (ipietet,ietet)
-      integer ietet(3,10000000)
+      integer ietet(3,*)
       real*8 dist,dist2,radius2,centx,centy,centz,
      *    a11,a12,a13,a21,a22,a23
       character*32 isubname
@@ -309,11 +309,11 @@ C
 C
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
-      integer isn1(1000000), itp1(1000000)
+      integer isn1(*), itp1(*)
 C
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
-      integer itettyp(10000000), itetoff(10000000)
+      integer itettyp(*), itetoff(*)
 C
       pointer (ipitet, itet)
       pointer (ipjtet, jtet)
@@ -323,11 +323,11 @@ C
       pointer (ipyic, yic)
       pointer (ipzic, zic)
  
-      integer itetclr(1000000), jtetoff(1000000)
-      integer itet(10000000),  jtet(10000000)
-      real*8 xic(1000000), yic(1000000), zic(1000000)
+      integer itetclr(*), jtetoff(*)
+      integer itet(*),  jtet(*)
+      real*8 xic(*), yic(*), zic(*)
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
+      integer iparent(*)
       real*8 xcoef,ycoef,zcoef,xcoef1,ycoef1,zcoef1,sumcoef,d,
      *   xij,yij,zij,cmag,coef,mostnegcoef,eps
       integer iff,itt,idir,jt,nf,nfstart,ie,i1,i2,q1,q2,ierfnd,

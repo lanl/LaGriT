@@ -99,7 +99,7 @@ CPVCS       Rev 1.0   Wed Nov 04 02:45:12 1998   kuprat
 CPVCS    Initial revision.
 c
 c #####################################################################
- 
+C 
       implicit none
       include 'consts.h'
       include 'local_element.h'
@@ -107,46 +107,96 @@ c #####################################################################
       include 'geom_lg.h'
       include 'smooth.h'
       include 'massage.h'
+
+C arguments (cmo,toldamage,msmoothed,mpary_in,mpno_in,ierror)
+      character*32 cmo
+      real*8 toldamage
+      integer msmoothed,mpno_in,ierror
+      integer mpary_in(*)
+
+C variables
  
       integer lenptr
       parameter (lenptr=1000000)
+      integer maxlenstr
+      parameter (maxlenstr=4095)
+
+      real*8 asmallnumber
+      parameter (asmallnumber=-1.0d+99)
+      real*8 tolcutfactor, tolimprovefactor,ctrl
+      parameter (tolcutfactor=0.25,tolimprovefactor=1.1)
+      real*8 alg_epsilon
+      parameter (alg_epsilon=1.d-10)
+
+      logical lusefd
+      parameter (lusefd=.false.)
  
-      character*132 logmess
       pointer (ipimt1, imt1), (ipitp1, itp1),(ipisn1, isn1),
      *  (ipicr1, icr1)
-      pointer (ipxic, xic),(ipyic, yic),(ipzic, zic)
+      integer itp1(*),isn1(*),icr1(*),imt1(*)
+
       pointer (ipitetclr, itetclr)
-      integer itetclr(lenptr)
+      integer itetclr(*)
+
       pointer (ipitet, itet),(ipitetoff, itetoff)
-      pointer (ipitettyp, itettyp),(ipicontab, icontab)
-      integer icontab(50,lenptr)
-      integer itp1(lenptr),isn1(lenptr),icr1(lenptr),imt1(lenptr)
-      real*8 xic(lenptr),yic(lenptr),zic(lenptr)
-      integer itet(lenptr),itetoff(lenptr),itettyp(lenptr)
+      integer itet(*),itetoff(*)
+
       pointer (ipjtet,jtet),(ipjtetoff,jtetoff)
-      integer jtet(lenptr),jtetoff(lenptr)
+      integer jtet(*),jtetoff(*)
+
+      pointer (ipitettyp, itettyp),(ipicontab, icontab)
+      integer itettyp(*), icontab(50,*)
+
+      pointer (ipxic, xic),(ipyic, yic),(ipzic, zic)
+      real*8 xic(*),yic(*),zic(*)
  
       pointer (ipnodhyb,nodhyb),(ipnodhyboff,nodhyboff)
-      integer nodhyb(lenptr),nodhyboff(lenptr)
+      integer nodhyb(*),nodhyboff(*)
+
       pointer (ipieltary,ieltary)
-      integer ieltary(lenptr)
+      integer ieltary(*)
+
       pointer (ipireal1,ireal1),(ipinvmpary,invmpary),
      &   (ipichildary,ichildary),(ipinvchildary,invchildary),
      &   (ipiparent,iparent),(ipmpary,mpary)
-      integer invmpary(lenptr),ichildary(lenptr),invchildary(lenptr),
-     &   ireal1(lenptr),iparent(lenptr),mpary(lenptr)
-      pointer (ipvoloff,voloff),(iplocvoloff,locvoloff),
-     &   (ipivoloffoff,ivoloffoff)
-      real*8 voloff(lenptr)
-      integer locvoloff(lenptr),ivoloffoff(lenptr)
-      pointer (ipiedgeoff,iedgeoff),(ipiedge,iedge),
-     *  (ipiedgemat,iedgemat)
-      integer iedgeoff(lenptr),iedge(lenptr),iedgemat(lenptr)
+      integer invmpary(*),ichildary(*),invchildary(*),
+     &   ireal1(*),iparent(*),mpary(*)
+
+      pointer (ipvoloff,voloff) 
+      real*8 voloff(*)
+
+      pointer (iplocvoloff,locvoloff),(ipivoloffoff,ivoloffoff)
+      integer locvoloff(*),ivoloffoff(*)
+
+      pointer (ipiedge,iedge)
+      integer iedge(*)
+      pointer (ipiedgeoff,iedgeoff),(ipiedgemat,iedgemat)
+      integer iedgeoff(*), iedgemat(*)
+
+      pointer (ipitets,itets)
+      integer itets(3,*)
+      pointer (iplinkt, linkt)
+      integer linkt(*)
+      pointer (ipitfound,itfound),(ipisurftst,isurftst)
+      integer itfound(*),isurftst(*)
+
+      pointer (ipsbox, sbox),(ipout,out)
+      real*8 sbox(*),out(*)
+
       pointer (ipfvec,fvec),(ipreffield,reffield)
-      real*8 fvec(lenptr),reffield(lenptr)
+      real*8 fvec(*),reffield(*)
+
       pointer (iphxx,hxx),(iphxy,hxy),(iphxz,hxz),(iphyy,hyy),
      &   (iphyz,hyz),(iphzz,hzz)
-      real*8 hxx(*),hxy(*),hxz(*),hyy(*),hyz(*),hzz(*),range
+      real*8 hxx(*),hxy(*),hxz(*),hyy(*),hyz(*),hzz(*)
+
+      pointer (ipxics,xics),(ipyics,yics),(ipzics,zics)
+      real*8 xics(*),yics(*),zics(*)
+      pointer (ipxsave,xsave),(ipysave,ysave),(ipzsave,zsave)
+      real*8 xsave(*),ysave(*),zsave(*)
+
+      pointer (ipwork,work)
+      real*8 work(*)
  
       pointer (ipmcr,mcr),(ipmat,mat),
      &   (ipnearestnbr,nearestnbr),
@@ -154,25 +204,18 @@ c #####################################################################
      &   (ipdnbr,dnbr),(ipnbrlist,nbrlist),
      &   (ipielts,ielts),(iplstale,lstale),
      *   (iptested,tested),(ipinvtested,invtested)
-      integer mcr(lenptr),mat(lenptr),invneibr(lenptr),
-     &   nearestnbr(lenptr),neibr(lenptr),nbrlist(lenptr),
-     &   ielts(lenptr),tested(lenptr),invtested(lenptr)
-      real*8  areak,dnbr(lenptr),pf,pfx(3),pfxx(3,3),distpmin,
+      integer mcr(*),mat(*),invneibr(*),
+     &   nearestnbr(*),neibr(*),nbrlist(*),
+     &   ielts(*),tested(*),invtested(*)
+
+      real*8  areak,dnbr(*),pf,pfx(3),pfxx(3,3),distpmin,
      *   xplane(3),yplane(3),zplane(3),distp,xp,yp,zp,xelm(2),
-     *   yelm(2),zelm(2),asmallnumber
-      logical lstale(lenptr),lmoved, validfield
+     *   yelm(2),zelm(2),range
+
+      logical lstale(*),lmoved, validfield
  
-      integer maxlenstr
-      parameter (maxlenstr=4095)
- 
-      character*8  cdefault, cwarn
-      character*32 cmo,isubname,cfield,action,cout,
-     *   geom_name
-      character*132 cbuff
-      parameter (asmallnumber=-1.0d+99)
- 
-      integer mpary_in(lenptr),mpno_in,iflag,
-     &   ierror,nnodes,length,icmotype,nelements,mbndry,icscode,
+      integer iflag,
+     &   nnodes,length,icmotype,nelements,mbndry,icscode,
      &   ieltno,i,j,node,nod1,icr,nmat,ii,lochybnod,ihyb,
      &   ityp,k,locnbr,nbr,nnbr,ilen,indx,
      &   nearnbr,k1,i2,i3,i4,minmat,maxmat,nfound,ipoint,
@@ -183,42 +226,31 @@ c #####################################################################
      &   nodek1,minpt,kk,icand,
      &   nef_cmo,ioppnod,len_ielts,nsmoothed,
      &   ismooth,nextnode,ifromicr,ifromitp,mpk,
-     &   msmoothed,maxsweep,isweep,ntested,nnodess
+     &   maxsweep,isweep,ntested,nnodess
  
-      real*8 toldamage,dnearnbr,frac,damage,xproj,damagea,
-     &   yproj,zproj,a1x,a1y,a1z,ax,ay,az,atot,avec,alg_epsilon,
+      real*8 dnearnbr,frac,damage,xproj,damagea,
+     &   yproj,zproj,a1x,a1y,a1z,ax,ay,az,atot,avec,
      &   projmin,projmax,proj,ascend,epsln,xold,yold,zold,
      &   vtol,vtolabs,worstvol,projdamage,damage_est_2,
      &   dartol,worstar,xcen,ycen,zcen,xnew,ynew,znew,dist,
      &   synthx,synthy,synthz,omega,darl2,dcen
      &   ,toldamageused,rout,x1,y1,z1,distmin,damaged,
      *   damage_est_discrete,dist1,epsilonv,xcenadapt,ycenadapt,
-     *   zcenadapt,err,pftot,xcena,ycena,zcena,v
-c
-      pointer (ipxics,xics),(ipyics,yics),(ipzics,zics)
-      real*8 xics(*),yics(*),zics(*)
-      pointer (ipitets,itets)
-      integer itets(3,*)
-      pointer (iplinkt, linkt),(ipsbox, sbox),(ipout,out)
-      integer linkt(*)
-      real*8 sbox(*),out(*)
-      pointer (ipitfound,itfound),(ipisurftst,isurftst),(ipwork,work)
-      integer itfound(*),isurftst(*)
-      real*8 work(*)
-      pointer (ipxsave,xsave),(ipysave,ysave),(ipzsave,zsave)
-      real*8 xsave(*),ysave(*),zsave(*)
+     *   zcenadapt,err,pftot,xcena,ycena,zcena
  
-c
-      parameter (alg_epsilon=1.d-10)
       logical lvalidface,lwontinvert_smooth,ltripedge,lsomereversed,
-     * lusefd,goodface
-      parameter (lusefd=.false.)
-      character*8 eq
+     * goodface
  
-      real*8 tolcutfactor, tolimprovefactor,ctrl
-      parameter (tolcutfactor=0.25,tolimprovefactor=1.1)
- 
+C commonly used statment functions include above any other macros 
       include 'statementfunctions.h'
+
+      character*132 logmess
+      character*132 cbuff
+      character*32 isubname,cfield,action,cout,geom_name
+      character*8  cdefault, cwarn, eq
+C
+C #############################################################
+C BEGIN begin
  
       isubname='sgd'
       cdefault='default'
@@ -1938,19 +1970,19 @@ c$$$      call dotaskx3d('dump gmv gmv.sgd.noterminate ; finish',ierr)
       if (validfield) call polyfun(5,action,node,nodhyb,nodhyboff,
      &   ieltary,ieltno,invmpary,ipvoloff,iplocvoloff,ipivoloffoff,
      &   itettyp,itetclr,itet,itetoff,xic,yic,zic,
-     &   nnodes,nelements,iedge,iedgeoff,iedgemat,ichildary,
+     &   nnodes,nelements,ichildary,
      &   ichildno,invchildary,imt1,epsilonv,fvec,reffield,iparent,
      &   hxx,hxy,hxz,hyy,hyz,hzz,range,pf,pfx,pfxx)
  
  9999 continue
       call mmrelprt(isubname,icscode)
 c
-c
-c
-c
       return
       end
  
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C
+
       subroutine polyar1(nelt,ielts,itet,itetoff,xic,yic,
      &         zic,nsdtopo,worstvol,darl2,worstar)
  
@@ -1965,6 +1997,10 @@ c
       real*8 dar,epsilonaspect
  
       include 'statementfunctions.h'
+C
+C#############################################################
+C BEGIN begin
+C
  
       darl2=0.
       worstar=1.d99
@@ -2003,6 +2039,8 @@ c$$$     &         ,dar,epsilonaspect)
       endif
       return
       end
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
  
       function lwontinvert_smooth(node,xnew,ynew,znew,nodhyb,ieltary
      &   ,nelt,itettyp,iparent,itet,itetoff,xic,yic,zic,vtol,synthx
@@ -2016,14 +2054,19 @@ c$$$     &         ,dar,epsilonaspect)
       integer node,nodhyb(*),ieltary(*),nelt,itettyp(*),
      &   iparent(*),itet(*),itetoff(*),j,ii,ihyb,ityp,
      &   j1,nbr
+
       real*8 xic(*),yic(*),zic(*),vtol,cros(3),vol,dartol,dar,
      &   dot,synthx,synthy,synthz,x(4),y(4),z(4),xnew,ynew,znew,
      &   darhere
+
       logical lwontinvert_smooth,lsomereversed
  
       real*8 epsilonaspect
  
       include 'statementfunctions.h'
+C
+C##############################################################
+C BEGIN begin
  
       lwontinvert_smooth=.true.
  

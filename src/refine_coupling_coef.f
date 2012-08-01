@@ -24,40 +24,54 @@ CPVCS    remove duplicate declarations
 CPVCS
 CPVCS       Rev 1.0   Thu Feb 26 12:14:46 1998   dcg
 CPVCS    Initial revision.
+C
       implicit none
+C
       include 'local_element.h'
       include 'chydro.h'
+C
       pointer (ipiadd,iadd)
       pointer (ipieadd,ieadd)
       pointer (ipitadd,itadd)
-      pointer (ipxadd,xadd)
-      pointer (ipyadd,yadd)
-      pointer (ipzadd,zadd)
       pointer (ipitpadd,itpadd)
       pointer (ipicradd,icradd)
       integer ieadd(*),iadd(*),itadd(*),itpadd(*),icradd(*)
-      real*8 xadd(*),yadd(*),zadd(*)
-      pointer (ipietet,ietet)
-      integer ietet(3,10000000)
-      pointer (ipxic,xic)
-      pointer (ipyic,yic)
-      pointer (ipzic,zic)
-      real*8 xic(*),yic(*),zic(*)
+
       pointer (ipiparent,iparent)
       pointer (ipitp,itp1)
       pointer (ipicr,icr1)
       pointer (ipisn,isn1)
+      integer iparent(*),itp1(*),icr1(*),isn1(*)
+
       pointer (ipitet,itet)
       pointer (ipitetoff,itetoff)
       pointer (ipitettyp,itettyp)
-      integer iparent(*),itp1(*),isn1(*),itet(*),itetoff(*),itettyp(*),
-     *   icr1(*)
+      integer itet(*),itetoff(*),itettyp(*)
+
+      pointer (ipietet,ietet)
+      integer ietet(3,*)
+
+      pointer (ipxadd,xadd)
+      pointer (ipyadd,yadd)
+      pointer (ipzadd,zadd)
+      real*8 xadd(*),yadd(*),zadd(*)
+
+      pointer (ipxic,xic)
+      pointer (ipyic,yic)
+      pointer (ipzic,zic)
+      real*8 xic(*),yic(*),zic(*)
+
+      real*8 a,b,c,d,sf,au,bu,cu,xp,yp,zp,xproj,yproj,zproj
+
       integer ierror,ilen,itype,npoints,ntets,numneg,icscode,len_elist,
      *   nadd,it,i,iface,ittyp,i1,i2,i3,i4,iedge,node1,
      *   node,flag
+
       character*32 cmo,isubname,cdefault
-      real*8 a,b,c,d,sf,au,bu,cu,xp,yp,zp,xproj,yproj,zproj
       character*132 logmess
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C BEGIN begin
 C
       isubname='refine_coup_coef'
       cdefault='default'

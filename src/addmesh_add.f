@@ -100,12 +100,11 @@ C
 C
 C ######################################################################
 C
-      implicit real*8 (a-h, o-z)
+      implicit none
 C
       include 'chydro.h'
       include 'local_element.h'
 C
-      character*132 logmess
 C
 C ######################################################################
 C
@@ -115,50 +114,63 @@ C
 C
 C ######################################################################
 C
-      pointer (ipimt1, imt1(1000000))
-      pointer (ipitp1, itp1(1000000))
+      pointer (ipimt1, imt1)
+      pointer (ipitp1, itp1)
+      integer imt1(*),itp1(*)
+      pointer (ipitettyp1, itettyp1)
+      pointer (ipitetclr1, itetclr1)
+      integer itettyp1(*),itetclr1
+
+      pointer (ipitetoff1, itetoff1)
+      pointer (ipjtetoff1, jtetoff1)
+      integer itetoff1(*),jtetoff1(*)
+
+      pointer (ipitet1, itet1)
+      pointer (ipjtet1, jtet1)
+      integer itet1(4,*),jtet1(4,*)
+C
+      pointer (ipitest, itest)
+      integer itest(*)
+C
+      pointer (ipitettypb, itettypb)
+      pointer (ipjtetoffb, jtetoffb)
+      pointer (ipjtet1b, jtet1b)
+      integer itettypb(*),jtetoffb(*),jtet1b(*)
+C
+      pointer (ipitetclrc, itetclrc)
+      pointer (ipitettypc, itettypc)
+      pointer (ipitetoffc, itetoffc)
+      pointer (ipjtetoffc, jtetoffc)
+      integer itetclrc(*),itettypc(*),itetoffc(*),jtetoffc(*)
+      pointer (ipitet1c, itet1c)
+      pointer (ipjtet1c, jtet1c)
+      integer itet1c(*),jtet1c(*)
+C
+      pointer (ipimt1d, imt1d)
+      integer imt1d(*)
+C
+      pointer (ipitettypd, itettypd)
+      pointer (ipitetclrd, itetclrd)
+      integer itettypd(*), itetclrd(*)
+      pointer (ipitet1d, itet1d)
+      pointer (ipjtet1d, jtet1d)
+      pointer (ipitetoffd, itetoffd)
+      pointer (ipjtetoffd, jtetoffd)
+      integer itet1d(*),jtet1d(*),itetoffd(*),jtetoffd(*)
+C
       pointer (ipxic1, xic1)
       pointer (ipyic1, yic1)
       pointer (ipzic1, zic1)
-      pointer (ipitettyp1, itettyp1(10000000))
-      pointer (ipitetclr1, itetclr1(10000000))
-      pointer (ipitet1, itet1(4,1000000))
-      pointer (ipjtet1, jtet1(4,1000000))
-C
-      dimension xic1(1000000), yic1(1000000), zic1(1000000)
-C
-      pointer (ipitest, itest)
-      integer itest(10000000)
-C
-C      pointer (ipitetclrb, itetclrb(1000000))
-      pointer (ipitettypb, itettypb(1000000))
-C      pointer (ipitetoffb, itetoffb(1000000))
-      pointer (ipjtetoffb, jtetoffb(1000000))
-C      pointer (ipitet1b, itet1b(1000000))
-      pointer (ipjtet1b, jtet1b(1000000))
-C
-      pointer (ipitetclrc, itetclrc(1000000))
-      pointer (ipitettypc, itettypc(1000000))
-      pointer (ipitetoffc, itetoffc(1000000))
-      pointer (ipjtetoffc, jtetoffc(1000000))
-      pointer (ipitet1c, itet1c(1000000))
-      pointer (ipjtet1c, jtet1c(1000000))
-C
-      pointer (ipimt1d, imt1d(1000000))
+      real*8 xic1(*), yic1(*), zic1(*)
+
       pointer (ipxic1d, xic1d)
       pointer (ipyic1d, yic1d)
       pointer (ipzic1d, zic1d)
-      dimension xic1d(1000000), yic1d(1000000), zic1d(1000000)
-C
-      pointer (ipitettypd, itettypd(10000000))
-      pointer (ipitetclrd, itetclrd(10000000))
-      pointer (ipitet1d, itet1d(1000000))
-      pointer (ipjtet1d, jtet1d(1000000))
-      pointer (ipitetoffd, itetoffd(1000000))
-      pointer (ipjtetoffd, jtetoffd(1000000))
+      integer xic1d(*), yic1d(*), zic1d(*)
 C
 C ######################################################################
 C
+      character*132 logmess
       character*32 isubname, cmonam, cmod
       character*32 itopo
 C
@@ -167,17 +179,17 @@ C
       pointer (ipipoint_overlap1, ipoint_overlap1)
       pointer (ipitet_overlap1, itet_overlap1)
       pointer (ipitet_border1, itet_border1)
-      integer ipoint_overlap1(1000000)
-      integer itet_overlap1(10000000), itet_border1(10000000)
+      integer ipoint_overlap1(*)
+      integer itet_overlap1(*), itet_border1(*)
 C
       pointer (ipipoint_overlap2, ipoint_overlap2)
       pointer (ipitet_overlap2, itet_overlap2)
       pointer (ipitet_border2, itet_border2)
-      integer ipoint_overlap2(1000000)
-      integer itet_overlap2(10000000), itet_border2(10000000)
+      integer ipoint_overlap2(*)
+      integer itet_overlap2(*), itet_border2(*)
 C
       pointer (ipitet_delete, itet_delete)
-      integer itet_delete(10000000)
+      integer itet_delete(*)
 C
       logical cont
       logical all_tets
@@ -189,10 +201,28 @@ C
       pointer (ipxadd, xadd)
       pointer (ipyadd, yadd)
       pointer (ipzadd, zadd)
-      integer itadd(1000000), ieadd(1000000)
-      real*8 xadd(1000000), yadd(1000000), zadd(1000000)
+      integer itadd(*), ieadd(*)
+      real*8 xadd(*), yadd(*), zadd(*)
       pointer (ipiadd, iadd)
-      integer iadd(1000000)
+      integer iadd(*)
+C
+      integer nuser_refine,jdebug,istitch,icscode,npoints1,
+     *        ilen,icmotp,numtet1,lenitettyp,ier,npoints2,
+     *        numtet2,length,i1,it,nrefine,i,ierrw,ics,nsdtopo1,
+     *        icmotype,nsdgeom1,nen1,nef1,lenimt1,lenitp1,lenxic1,
+     *        lenyic1,lenzic1,lenitetclr,lenitet,lenjtet,len,ierr,
+     *        lenitetoff,lenjtetoff,nadd,i2,i3,i4,npoints_save,npoints,
+     *        ref_distance,nadd1,ie,j1,j2,j,distance,numtet_save,
+     *        itp1_boundary,nptsc,nelemc,
+     *        lenitetc,lenjtetc,ifacemax,nelemd,lenimt1d,
+     *        lenyic1d,lenzic1d,lenitetd,lenjtetd,itoffd,jtoffd,
+     *        lenjtetoffc, lenxic1d
+
+      integer mbndry,mbndry_old,mbndry_new
+
+      real*8 xedge,yedge,zedge
+
+      integer icharlnf
 C
       integer itet_edge(2,6)
       data itet_edge / 1, 2,
@@ -209,6 +239,7 @@ C
       data istitch / 1 /
 C
 C ######################################################################
+C BEGIN begin
 C
       isubname='addmesh_add'
 C
@@ -280,20 +311,31 @@ C
 C   Check to make sure that all elements are tets before attempt refinement.
 C
       all_tets = .true.
-      print *, 'numtet1 = ' , numtet1
+
+      if (numtet1.le.0 ) then
+          write (logmess,'(a)') 
+     *    'No refinement attempted - 0 elements.'
+          call writloga ('default',0,logmess,0,ierrw)
+          all_tets = .false.
+      endif
+
       do i=1, numtet1
          if (itettyp1(i).ne.5) then
             all_tets = .false.
          endif
       enddo
       if (.not.all_tets ) then
-      	  write (logmess, *) 'No refinement attempted.',
+      	  write (logmess,'(a,a)') 'No refinement attempted.',
      *                       'All elements must be tets.'
       	  call writloga ('default',0,logmess,0,ierrw)
       endif
       do while (cont  .and. all_tets )
          nrefine = nrefine + 1
-         print *, 'Completed ', nrefine - 1, ' refine iterations.'
+
+         write (logmess,'(a,i10,a)')
+     *   'ADDMESH ADD: ', nrefine-1, ' refine iteration.'
+         call writloga ('default',0,logmess,0,ierrw)
+
          call mmrelblk('ipoint_overlap1',isubname,ipipoint_overlap1,ics)
          call mmrelblk('itet_overlap1',isubname,ipitet_overlap1,icscode)
          call mmrelblk('itet_border1',isubname,ipitet_border1,icscode)
@@ -547,6 +589,14 @@ C
             endif
             if (jdebug.eq.1) goto 9998
 	    call dotaskx3d ("recon/0 ; finish", ierror)
+            if (ierror.ne.0) then
+              write(logmess,'(a,i5)') 
+     *        'ADDMESH ADD: recon finished with error: ',ierror
+              call writloga('default',0,logmess,0,ierrw)
+            else
+              write(logmess,'(a)')'ADDMESH ADD: recon done.'
+              call writloga('default',0,logmess,0,ierrw)
+            endif
 C
 C     ENDIF EDGE REFINEMENT
          endif
@@ -909,7 +959,7 @@ C   first version
 C
 C ######################################################################
 C
-      implicit real*8 (a-h, o-z)
+      implicit none 
       include "local_element.h"
 C
 C ######################################################################
@@ -930,10 +980,10 @@ C
       pointer (ipitetoff1, itetoff1)
       pointer (ipitp1, itp1)
 C
-      real*8 xic1(10000000), yic1(10000000), zic1(10000000)
-      integer itet1(10000000), itettyp1(10000000), itetoff1(10000000)
-      integer itp1(1000000)
-C
+      real*8 xic1(*), yic1(*), zic1(*)
+      integer itet1(*), itettyp1(*), itetoff1(*)
+      integer itp1(*)
+
       real*8 xicvol1(8), yicvol1(8), zicvol1(8)
 C
 C     POINTERS TO SLAVE MESH OBJECT
@@ -946,16 +996,30 @@ C
       pointer (ipitetoff2, itetoff2)
       pointer (ipitp2, itp2)
 C
-      real*8 xic2(10000000), yic2(10000000), zic2(10000000)
-      integer itet2(10000000), itettyp2(10000000), itetoff2(10000000)
-      integer itp2(1000000)
+      real*8 xic2(*), yic2(*), zic2(*)
+      integer itet2(*), itettyp2(*), itetoff2(*)
+      integer itp2(*)
 C
-      real*8 xicvol2(8), yicvol2(8), zicvol2(8)
-C
+CCC
+C 
+
+      integer mbndry1,mbndry2
+
       pointer (ipitet_border1, itet_border1)
-      integer  itet_border1(10000000)
+      integer  itet_border1(*)
+
+      real*8 xicvol2(8), yicvol2(8), zicvol2(8)
+
+      real*8 rmax_vol1,rmax_vol2,volelm
+
+      integer nuser_refine,nrefine,icscode,npoints1,ilen,icmotp,
+     *        ierror,numtet1,lenxic1,lenyic1,lenzic1,lenitettyp,
+     *        ier,npoints2,numtet2,lenxic2,lenyic2,lenzic2,
+     *        nboundary_elems,it,i,i1,ierrw
+
       logical cont
       logical boundary
+
       character*132 logmess
       character*32 isubname
 C
@@ -966,11 +1030,13 @@ C     THAT CAN EXIST BETWEEN THE LARGEST ELEMENT ON THE BOUNDARY OF
 C     THE MASTER MESH AND THE LARGEST ELEMENT ON THE BOUNDARY OF THE
 C     SLAVE MESH
 C
+      real*8 size_difference
       parameter (size_difference = 5.0)
 C     BEGIN_ AND END_BOUNDARY REPRESENT THE BEGINNING AND END OF THE
 C     SPECTRUM OF NODAL LABELS IN THE ITP ARRAY THAT INDICATE THAT THE
 C     NODE IS A BOUNDARY NODE.
 C
+      integer begin_boundary,end_boundary
       parameter (begin_boundary = 10)
       parameter (end_boundary = 19)
 C
@@ -999,7 +1065,7 @@ C     MASTER MESH OBJECT INFORAMTION
 C
       call cmo_get_info('nnodes',cmoc,npoints1,ilen,icmotp,ierror)
       call cmo_get_info('nelements',cmoc,numtet1,ilen,icmotp,ierror)
-      call cmo_get_info('mbndry',cmoc,ipmbndry1,ilen,icmotp,ierror)
+      call cmo_get_info('mbndry',cmoc,mbndry1,ilen,icmotp,ierror)
       call cmo_get_info('itp1',cmoc,ipitp1,ilen,icmotp,ierror)
       call cmo_get_info('xic' ,cmoc,ipxic1,lenxic1,icmotp,ierror)
       call cmo_get_info('yic' ,cmoc,ipyic1,lenyic1,icmotp,ierror)
@@ -1014,7 +1080,7 @@ C     SLAVE MESH OBJECT INFORMATION
 C
       call cmo_get_info('nnodes',cmob,npoints2,ilen,icmotp,ierror)
       call cmo_get_info('nelements',cmob,numtet2,ilen,icmotp,ierror)
-      call cmo_get_info('mbndry',cmob,ipmbndry2,ilen,icmotp,ierror)
+      call cmo_get_info('mbndry',cmob,mbndry2,ilen,icmotp,ierror)
       call cmo_get_info('itp1',cmob,ipitp2,ilen,icmotp,ierror)
       call cmo_get_info('xic' ,cmob,ipxic2,lenxic2,icmotp,ierror)
       call cmo_get_info('yic' ,cmob,ipyic2,lenyic2,icmotp,ierror)
@@ -1097,29 +1163,4 @@ C
 C
  9999 return
       end
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
  

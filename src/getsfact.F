@@ -1,8 +1,8 @@
+C
+C This file has subroutines  getsfact and getsfactv
+C
       subroutine getsfact(x1,y1,z1,x2,y2,z2,cmo,istype,surfdata,
      &               sheetnm,ckmin,ckmax,epsln,sfact,nsfact)
-      implicit none
-C
-      character*132 logmess
 C
 C
 C#######################################################################
@@ -97,12 +97,26 @@ CPVCS       Rev 1.0   11/10/94 12:14:34   pvcs
 CPVCS    Original version.
 C
 C#######################################################################
+      implicit none
 C
-      real*8 sfact(100),ckmin,ckmax,epsln,ckzero,x1,y1,z1,
-     * x2,y2,z2,rnorm,sck1,ts,xchk,ychk,zchk,xc,yc,zc,s1,s2,t1,t2,
+C args getsfact(x1,y1,z1,x2,y2,z2,cmo,istype,surfdata,
+C                    sheetnm,ckmin,ckmax,epsln,sfact,nsfact)
+
+      character*32 cmo, sheetnm, istype
+      real*8 x1,y1,z1,x2,y2,z2,ckmin,ckmax,epsln
+      real*8 sfact(100)
+      real*8 surfdata(*)
+      integer nsfact
+
+C variables
+
+      real*8 ckzero
+      parameter(ckzero=1.0d-14)
+
+      real*8 rnorm,sck1,ts,xchk,ychk,zchk,xc,yc,zc,s1,s2,t1,t2,
      * sck2,xe,ye,ze,zdist,ar,br,cr,bc2,ac2,ab2,ax,bx,cx,ay,by,cy,
      * az,bz,cz,abc2,st1,st2,zchk2
-      parameter(ckzero=1.0d-14)
+
       real*8 rt1(1000),rt2(1000),zt1(1000),zt2(1000)
       real*8 s1a(1000),s2a(1000),zv(1000),cva(1000)
       real*8 zr1t(1000),zr2t(1000),chksqrd(1000)
@@ -110,11 +124,13 @@ C
       real*8 a,b,c,d,denom,chksqr,cv
       real*8 xr1,yr1,zr1,xr2,yr2,zr2,r
       real*8 top1(1000),top2(1000),bot(1000)
-      real*8 surfdata(*)
       logical surftst
-      integer nsfact,istrt,i,iout,ntab,itype
+      integer istrt,i,iout,ntab,itype
 C
-      character*32 cgeom,sheetnm,istype,cmo
+      character*32 cgeom
+C
+C ###################################################################
+C BEGIN begin
 C
       nsfact=0
 C
@@ -633,31 +649,46 @@ C
       implicit none
 C
       include 'machine.h'
- 
+
+C arguments getsfactv(x1,y1,z1,x2,y2,z2,nvec,cmo,istype,surfdata,
+C               sheetnm,ckmin,ckmax,epsln,sfact,nsfact)
+
+      character*32 cmo, sheetnm, istype
+      real*8 sfact(100,*), x1(*), y1(*), z1(*),
+     &   x2(*), y2(*), z2(*), surfdata(*)
+      real*8 ckmin,ckmax,epsln
+      integer nsfact(*), nvec
+
+C variables
+
       integer lenptr
       parameter (lenptr=1000000)
+
+      real*8 ckzero
+      parameter(ckzero=1.0d-14)
+
+      integer isurftst(6*KVECLEN),line(6*KVECLEN)
  
-      real*8 sfact(100,lenptr), x1(lenptr), y1(lenptr), z1(lenptr),
-     &   x2(lenptr), y2(lenptr), z2(lenptr)
       real*8 xchk(6*KVECLEN), ychk(6*KVECLEN), zchk(6*KVECLEN),
      &   tsv(6*KVECLEN)
-      integer nsfact(lenptr),isurftst(6*KVECLEN),line(6*KVECLEN)
- 
-      real*8 a,b,c,d,denom,chksqr,cv,rnorm,surfdata(*)
+
+      real*8 a,b,c,d,denom,chksqr,cv,rnorm
       real*8 aa,bb,cc,xr1,yr1,zr1,xr2,yr2,zr2,cva,r
-      real*8 chksqrd,zv,rt1,rt2,zt1,zt2,zr1t,zr2t,ckzero,
-     &   ckmin,ckmax,epsln,sck1,ts,xc,yc,zc,s1,s2,t1,t2,sck2,xe,
+      real*8 chksqrd,zv,rt1,rt2,zt1,zt2,zr1t,zr2t,
+     &   sck1,ts,xc,yc,zc,s1,s2,t1,t2,sck2,xe,
      &   ye,ze,zdist,ar,br,cr,bc2,ac2,ab2,abc2,ax,bx,cx,ay,by,cy,
      &   az,bz,cz,top1,top2,bot,s1a,s2a,st1,st2,zchk1,zchk2
-      integer nvec,nwdat,i,j,istrt,ivec,iout,k,ntab,ioff,loclen,
+
+      integer i,j,istrt,ivec,iout,k,ntab,ioff,loclen,
      &   ierrw,iimax
-      parameter(ckzero=1.0d-14)
-      character*132 logmess
 C
-      character*32  istype, cgeom, cmo, sheetnm
+      character*132 logmess
+      character*32  cgeom
 C
 C#######################################################################
+C BEGIN begin
 C
+      if (nvec .le. 0) call x3d_error('getsfact','nvec = 0')
       do i=1,nvec
          nsfact(i)=0
       enddo

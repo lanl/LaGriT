@@ -46,12 +46,7 @@ C
 C
       include 'local_element.h'
 C
-      character*132 logmess
-C
       integer ierror
-C
-      character*40 isubname, cmo
-      character*8092 cbuff
 C
       pointer (ipxic, xic)
       pointer (ipyic, yic)
@@ -62,15 +57,25 @@ C
       integer itet1(*)
 C
       pointer (iplelements, lelements)
+      integer lelements(*)
+
       pointer (ipxmegah, xmegah)
       pointer (ipxmegadet, xmegadet)
       pointer (ipxmegaerr, xmegaerr)
-      integer lelements(*)
-      integer ierrwrt,nen,ilen,itype,icscode,nef,nsd,mbndry,nnodes,
-     *  nelements,length,icmotype,lenout,ier,ityp,ierr,it,kdim,kpe
       real*8 xmegah(*), xmegadet(*),
      *                 xmegaerr(*)
+
+      integer ierrwrt,nen,ilen,itype,icscode,nef,nsd,mbndry,nnodes,
+     *  nelements,length,icmotype,lenout,ier,ityp,ierr,it,kdim,kpe
+
       external fcn
+
+      character*32 isubname, cmo
+      character*132 logmess
+      character*8092 cbuff
+C
+C ##############################################################
+C BEGIN begin
 C
       isubname='mega_error'
 C

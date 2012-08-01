@@ -1,7 +1,7 @@
 *dk,tst2to3i
       subroutine tst2to3i(n1,n2,n3,n4,n5,iflag1,iflag2,
      *                    npoints,ntets)
-       implicit real*8 (a-h,o-z)
+C
 C ######################################################################
 C
 C     PURPOSE -
@@ -54,11 +54,25 @@ CPVCS       Rev 1.0   11/10/94 12:20:04   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
       include "cmerge.h"
+
+C arguments (n1,n2,n3,n4,n5,iflag1,iflag2,npoints,ntets)
+      integer n1,n2,n3,n4,n5,iflag1,iflag2,npoints,ntets
+
+C variables
+      integer i,j,k,ierror,lenxic,lenyic,lenzic,icmotype
+
+      real*8 xst,xn1,yn1,zn1,sn1,xnorm1,ynorm1,znorm1,
+     *       xnorm2,ynorm2,znorm2,xnorm3,ynorm3,znorm3,
+     *       snorm1,snorm2,snorm3,dot1,dot2,dot3,
+     *       test1,test2,test3
+
+      real*8 crosx1,crosy1,crosz1
 C
 C ######################################################################
 C
@@ -72,7 +86,7 @@ C
      *              (xic(k)-xic(i))*(yic(j)-yic(i))
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C
 C

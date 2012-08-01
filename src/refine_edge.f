@@ -38,50 +38,64 @@ CPVCS
 CPVCS       Rev 1.0   11/10/94 12:17:50   pvcs
 CPVCS    Original version.
 C
-       implicit real*8 (a-h,o-z)
+      implicit none
+
       include 'consts.h'
 C
-      character*132 logmess
+      integer nplen,nvalues
+      parameter (nplen=10000000)
+      parameter (nvalues=2)
 C
-C
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
+      pointer (ipitetclr, itetclr(*))
+      pointer (ipitetoff, itetoff(*))
+      pointer (ipjtetoff, jtetoff(*))
+      pointer (ipitettyp, itettyp(*))
+      integer itetclr,itetoff,jtetoff,itettyp
+
       pointer (ipitet, itet)
-      pointer (ipitet, itet1)
-      pointer (ipjtet, jtet)
-      pointer (ipjtet, jtet1)
-      integer itet(4,1000000), jtet(4,1000000)
-      integer itet1(4*1000000), jtet1(4*1000000)
-      dimension   xic(1000000), yic(1000000), zic(1000000)
-      pointer (ipitetclr, itetclr)
-      pointer (ipitettyp, itettyp)
-      pointer (ipitetoff, itetoff)
-      pointer (ipjtetoff, jtetoff)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
-C
+      pointer (ipjtet,  jtet)
+      integer itet(4,*), jtet(4,*)
+
       pointer (ipitflag, itflag)
+      integer itflag(*)
+
       pointer (ipitetnn, itetnn)
       pointer (ipitetnn1, itetnn1)
       pointer (ipitetnn2, itetnn2)
-      integer itflag(1000000),
-     *        itetnn(4,1000000), itetnn1(4,1000000), itetnn2(4,1000000)
+      integer itetnn(4,*),itetnn1(4,*),itetnn2(4,*)
+
       pointer (ipiedge_tet, iedge_tet)
       pointer (ipiedge_face, iedge_face)
       pointer (ipiedge_edge, iedge_edge)
-      integer iedge_tet(6*1000000), iedge_face(6*1000000),
-     *        iedge_edge(6*1000000)
+      integer iedge_tet(*), iedge_face(*),
+     *        iedge_edge(*)
 C
-      parameter (nvalues=2)
       pointer (iplist_sink, list_sink)
       pointer (iplist_source, list_source)
-      pointer (ipxweight_source, xweight_source)
-      integer list_sink(10000000), list_source(nvalues,10000000)
-      real*8 xweight_source(nvalues,10000000)
+      integer list_sink(*), list_source(nvalues,*)
+
+      integer ierror,ier,ierrw,ics,icscode
+      integer npoints,length,icmotype,ntets,mbndry,nen,nef,
+     *        icount,ibound,i,i1,i2,i3,i4,it,nedge,iedge,
+     *        j,j1,j2,j3,l,l1,l2,l3,lit,li,lj,k1,k2,k3
+      integer lenitetclr,lenitettyp,lenitetoff,lenjtetoff,
+     *        lenitet,lenjtet,lenxic,lenyic,lenzic
+      integer nadd1,iedgeiter,npointsnew,ntetsnew,nedge_save,
+     *        nelementsmm,ntetsinc,nnodesmm
+      integer k,kf,ke,kt,irefine,npointsinc,inc,inc1,inc2,
+     *        kflast,ktlast,kelast,jcount,idum,
+     *        itstart,itlast,ifstart,ielast,iestart,iflast
+
+      real*8 xdotmin,xdot,xdotl,ds23,ds2i,ds3i
+      real*8 x1,y1,z1,x2,y2,z2,x3,y3,z3,xint,yint,zint
+
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
 C
-      character*32 cmo, cmolength
-      character*32 isubname, iblknam, iprtnam
+      pointer (ipxweight_source, xweight_source)
+      real*8 xweight_source(nvalues,*)
 C
       integer itetface0(4), itetface1(4,4)
 C     top,back,left,right
@@ -116,6 +130,8 @@ C     top,back,left,right
      *                 1, 3,
      *                 3, 3,
      *                 2, 2 /
+
+      real*8 crosx1,crosy1,crosz1,volume
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -125,7 +141,16 @@ C     top,back,left,right
       volume(i1,i2,i3,i4)=(xic(i4)-xic(i1))*crosx1(i1,i2,i3)+
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
+
 C
+      character*132 logmess
+      character*32 cmo, cmolength
+      character*32 isubname, iblknam, iprtnam
+C
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C     BEGIN begin
+
       isubname='refine_edge'
 C
       call cmo_get_name(cmo,ierror)
@@ -159,15 +184,15 @@ C
          goto 9999
       endif
       length=3*icount
-      call mmgetblk("iedgetet",isubname,ipiedge_tet,length,2,icscode)
-      call mmgetblk("iedgefac",isubname,ipiedge_face,length,2,icscode)
-      call mmgetblk("iedgeedg",isubname,ipiedge_edge,length,2,icscode)
+      call mmgetblk("iedgetet",isubname,ipiedge_tet,length,1,icscode)
+      call mmgetblk("iedgefac",isubname,ipiedge_face,length,1,icscode)
+      call mmgetblk("iedgeedg",isubname,ipiedge_edge,length,1,icscode)
       length=ntets
-      call mmgetblk("itflag",isubname,ipitflag,length,2,icscode)
+      call mmgetblk("itflag",isubname,ipitflag,length,1,icscode)
       length=4*ntets
-      call mmgetblk("itetnn" ,isubname,ipitetnn ,length,2,icscode)
-      call mmgetblk("itetnn1",isubname,ipitetnn1,length,2,icscode)
-      call mmgetblk("itetnn2",isubname,ipitetnn2,length,2,icscode)
+      call mmgetblk("itetnn" ,isubname,ipitetnn ,length,1,icscode)
+      call mmgetblk("itetnn1",isubname,ipitetnn1,length,1,icscode)
+      call mmgetblk("itetnn2",isubname,ipitetnn2,length,1,icscode)
       do it=1,ntets
          do i=1,4
             itetnn(i,it)=itet(i,it)
@@ -241,9 +266,9 @@ C*****                              endif
       enddo
 C
       length=nedge
-      call mmgetblk('list_sink',isubname,iplist_sink,length,2,icscode)
+      call mmgetblk('list_sink',isubname,iplist_sink,length,1,icscode)
       length=nvalues*nedge
-      call mmgetblk('list_source',isubname,iplist_source,length,2,
+      call mmgetblk('list_source',isubname,iplist_source,length,1,
      *              icscode)
       call mmgetblk('xweight_source',isubname,ipxweight_source,length,2,
      *              icscode)
@@ -557,8 +582,14 @@ C
      *                     ierror)
       if(ierror.ne.0) call x3d_error(isubname,'cmo_interpolate',ier)
 C
-      call cmo_set_info('nnodes',cmo,npoints,1,1,ierror)
-      call cmo_set_info('nelements',cmo,ntets,1,1,ierror)
+      if (npoints .le. 0) then
+         call x3d_error(isubname,'calling set mesh with 0 nodes.')
+         call cmo_set_info('nnodes',cmo,npoints,1,1,ierror)
+      endif
+      if (ntets .le. 0) then
+         call x3d_error(isubname,'calling set mesh with 0 tets.')
+         call cmo_set_info('nelements',cmo,ntets,1,1,ierror)
+      endif
 C
       call mmrelprt(isubname,icscode)
 C

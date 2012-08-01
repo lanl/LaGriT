@@ -44,22 +44,18 @@ C
 C ######################################################################
 C
       implicit none
+
       include 'local_element.h'
 C
       integer nwds, imsgin(nwds),msgtype(nwds), ierror
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
 C
-C
-      pointer (ipitp1, itp1(*))
-      pointer (ipisn1, isn1(*))
-      pointer (ipisetwd, isetwd(*))
-      pointer (ipxic, xic(*))
-      pointer (ipyic, yic(*))
-      pointer (ipzic, zic(*))
-      integer itp1,isn1,isetwd
-      real*8 xic,yic,zic
-C
+      pointer (ipitp1, itp1)
+      pointer (ipisn1, isn1)
+      pointer (ipisetwd, isetwd)
+      integer itp1(*),isn1(*),isetwd(*)
+
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
       integer itet1(*), jtet1(*)
@@ -79,10 +75,7 @@ C
       pointer (ipipt1, ipt1)
       pointer (ipipt2, ipt2)
       integer ipt1(*),ipt2(*)
-      pointer (ipxadd, xadd)
-      pointer (ipyadd, yadd)
-      pointer (ipzadd, zadd)
-      real*8 xadd(*), yadd(*), zadd(*)
+
       pointer (ipiseedtet, iseedtet)
       integer iseedtet(*)
       pointer (ipiparent, iparent)
@@ -95,14 +88,29 @@ C
       integer intp(*)
       pointer (ipmpary,mpary)
       integer mpary(*)
+
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*),yic(*),zic(*)
+ 
+      pointer (ipxadd, xadd)
+      pointer (ipyadd, yadd)
+      pointer (ipzadd, zadd)
+      real*8 xadd(*), yadd(*), zadd(*)
 C
       integer length,icscode,itype,npoints,ntets,ilen,mbndry,
      *   nef,i,nf,it,k,naddmax,isum,i1,jp1,jp2,inc,
      *   ityp,nadd,nelts,j,mpno,
      *   ip1,ip2,ip3,ipointi,ipointj,jmin,jmax
+
       character*32 cmo,isubname,ich1,ich2,ich3
       character*8 copt
+
       logical linclusive
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C BEGIN begin
 c
       isubname='refine_interface'
       linclusive=.true.

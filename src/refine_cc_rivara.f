@@ -23,39 +23,56 @@ CPVCS    delete unused variables
 CPVCS
 CPVCS       Rev 1.0   Fri Jul 24 14:53:08 1998   dcg
 CPVCS    Initial revision.
+C
       implicit none
+C
       include 'local_element.h'
       include 'chydro.h'
-      pointer (ipiadd,iadd)
+
+C variables
       pointer (ipieadd,ieadd)
+      pointer (ipiadd,iadd)
       pointer (ipitadd,itadd)
-      pointer (ipxadd,xadd)
-      pointer (ipyadd,yadd)
-      pointer (ipzadd,zadd)
       pointer (ipitpadd,itpadd)
       pointer (ipicradd,icradd)
       integer ieadd(*),iadd(*),itadd(*),itpadd(*),icradd(*)
-      real*8 xadd(*),yadd(*),zadd(*)
+
       pointer (ipietet,ietet)
-      integer ietet(3,10000000)
+      integer ietet(3,*)
+
+      pointer (ipxadd,xadd)
+      pointer (ipyadd,yadd)
+      pointer (ipzadd,zadd)
+      real*8 xadd(*),yadd(*),zadd(*)
+
       pointer(ipncc,ncc)
-      real*8 ncc(10000000)
+      real*8 ncc(*)
+
       pointer (ipxic,xic)
       pointer (ipyic,yic)
       pointer (ipzic,zic)
       real*8 xic(*),yic(*),zic(*)
+
       pointer (ipiparent,iparent)
       pointer (ipitp,itp1)
       pointer (ipisn,isn1)
+      integer iparent(*),itp1(*),isn1(*)
+
       pointer (ipitet,itet)
       pointer (ipitetoff,itetoff)
       pointer (ipitettyp,itettyp)
-      integer iparent(*),itp1(*),isn1(*),itet(*),itetoff(*),itettyp(*)
+      integer itet(*),itetoff(*),itettyp(*)
+
       integer ierror,ilen,itype,npoints,ntets,numneg,len_elist,isave,
      *   icscode,nadd,it,i,ittyp,i1,i2,iedge
-      character*32 cmo,isubname
+
       real*8 dist,maxcc
+
+      character*32 cmo,isubname
       character*132 logmess
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C BEGIN begin
 C
       isubname='refine_coup_coef'
 C

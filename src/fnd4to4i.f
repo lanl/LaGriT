@@ -2,7 +2,6 @@
       subroutine fnd4to4i(it1,it2,it3,it4,i1,i2,i3,i3b,i4,i5,i6,
      *                    id,jd,
      *                    npoints,ntets)
-       implicit none
 C
 C ######################################################################
 C
@@ -67,32 +66,39 @@ CPVCS       Rev 1.0   11/10/94 12:14:08   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
+
+C arguments fnd4to4i(it1,it2,it3,it4,i1,i2,i3,i3b,i4,i5,i6,
+C                         id,jd, npoints,ntets)
+      integer it1,it2,it3,it4,i1,i2,i3,i3b,i4,i5,i6,npoints,ntets
+      integer id(16),jd(16)
+
+C variables
       integer nmulti
       parameter (nmulti = 200)
-      integer kpts(3),ichain1(nmulti),imt1a(nmulti),id(16),jd(16),
-     *          ipos(2,4)
-      integer m,ierror,length,icmotype,kpt,imtx,k,ict,ipar,i0,i1,i2,i3,
-     *  i4,i5,i6,i1b,i2b,ict12,isum1,isum2,isum3,npoints,ntets,
-     *  it1,it2,it3,it4,ierrwrt,isum6,isum5,isum4,it,ict35,ict46,i5b,
-     *  i3b
-      integer iposfnd,min0
+
+      integer ichain1(nmulti),imt1a(nmulti)
+      integer kpts(3)
+      integer ipos(2,4)
+
+      integer m,ierror,length,icmotype,kpt,imtx,k,ict,ipar,i0,
+     *  i1b,i2b,ict12,isum1,isum2,isum3,
+     *  ierrwrt,isum6,isum5,isum4,it,ict35,ict46,i5b
 C
 C ######################################################################
 C
 C     MACROS.
 C
+      integer iposfnd,min0
       iposfnd(i0,i1,i2,i3,i4)=min0(iabs(i1-i0)*4+1,iabs(i2-i0)*4+2,
      *                             iabs(i3-i0)*4+3,iabs(i4-i0)*4+4)
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C
 C     ******************************************************************

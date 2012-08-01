@@ -231,10 +231,10 @@ C variables
       logical flip, noicontab
  
       character*132 logmess
-      character*32 isubname
+      character*32  isubname
       character*32  blkout, prtout
-      character*32 cout
-      character*8 cglobal, cdefault
+      character*32  cout
+      character*8  cglobal, cdefault
 C
 C ######################################################################
 C
@@ -252,30 +252,52 @@ C
       volume(i1,i2,i3,i4)=(xic(i4)-xic(i1))*crosx1(i1,i2,i3)+
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
+
 c      jtet30(m1,m2)=jtet(m1,m2).and.jmsk30
 c      jtet130(m)=jtet1(m).and.jmsk30
 C
 C ######################################################################
+C BEGIN begin
 C
-      isubname='recon'
+      isubname='recon2'
       ioptinv=0
       idebug=0
       cglobal='global'
       cdefault='default'
+C     init some variables that may encounter write before set
+      n3to2i=0
+      n4to4i=0
+      n2to3i=0
+      n2to3=0
+      n2to0=0
+      n2to2=0
+      n3to2=0
+      n2to3i=0
+      n3to2i=0
+      n3to2x=0
+      n4to4=0
+      n4to4i=0
+      n2to0r=0
+      n2to0b=0
+      n1to0=0
+
+C
       call cmo_get_name(cmo,ierror)
+      if (ierror.ne.0) call x3d_error(isubname,'get cmo name')
+      if (ierror.ne.0) call x3d_error(isubname,cmo)
 C
       call cmo_get_info('ivoronoi',cmo,
      *                ivoronoi,ilen,itype,icscode)
-         if (icscode .ne. 0) call x3d_error(isubname,'get_info_i')
+      if (icscode .ne. 0) call x3d_error(isubname,'get_info_i')
       call get_global('monitor',
      *                monitor,rout,cout,itype,icscode)
-         if (icscode .ne. 0) call x3d_error(isubname,'get_info_i')
+      if (icscode .ne. 0) call x3d_error(isubname,'get_info_i')
       call cmo_get_info('nnfreq',cmo,
      *                nnfreq,ilen,itype,icscode)
-         if (icscode .ne. 0) call x3d_error(isubname,'get_info_i')
+      if (icscode .ne. 0) call x3d_error(isubname,'get_info_i')
       call cmo_get_info('iopt2to2',cmo,
      *                iopt2to2,ilen,itype,icscode)
-         if (icscode .ne. 0) call x3d_error(isubname,'get_info_i')
+      if (icscode .ne. 0) call x3d_error(isubname,'get_info_i')
       call cmo_get_info('idebug',cmo,
      *                idebug,ilen,itype,icscode)
       if (icscode .ne. 0) call x3d_error(isubname,'get_info_i')
@@ -328,6 +350,21 @@ C
          call mmnewlen('merglst2',cglobal,ipmerglst2,length,icscode)
       else
          call mmgetblk('merglst2',cglobal,ipmerglst2,length,2,icscode)
+      endif
+
+C TAM kfix should be correct length as set up in recon
+      ilen=max(1000,nint(1.7*4*length))
+      call mmfindbk('kfix',isubname,ipkfix,lenfix,icscode)
+
+      if(icscode.ne.0) then
+         if (idebug.ge.1) then
+           print*,'recon2: call mmgetblk for kfix'
+         endif
+         call mmgetblk('kfix',isubname,ipkfix,ilen,1,icscode)
+      else
+         if(lenfix.lt.length) then
+           call mmnewlen('kfix',isubname,ipkfix,length,icscode)
+         endif
       endif
  
 C
@@ -394,6 +431,7 @@ C*****         itest=ifittet(i).and.msktrec
          call mflip(ione,ntets,'ivacnt')
          call mflip(ione,ntets,'iopen')
       endif
+
 C
 C     ******************************************************************
 C
@@ -418,10 +456,9 @@ C
 C     ******************************************************************
 C
  1    continue
+
       if(idebug.gt.1) then
-         write(logdan,9000) niters
-         call writloga("bat",0,logdan,0,ierrdum)
- 9000    format('  niters=',i10)
+        call mmverify()
       endif
 C
       n2to2=0
@@ -496,6 +533,7 @@ C
          call mmfindbk('megadet',cmo,ipxmegadet,lenout,icscode)
          call mmfindbk('megaerr',cmo,ipxmegaerr,lenout,icscode)
 C
+         call mmfindbk('megaerr',cmo,ipxmegaerr,lenout,icscode)
          do it=1,ntets
             do i=1,nelmnef(ifelmtet)
                kfix(i,it)=0
@@ -603,7 +641,8 @@ C
      *   call filholes(ipivacnt,nholes,ipiopen,npoints,ntets)
          nvacnt=0
          write(logmess,18) nflips
- 18      format (' number of 3to2 flips with ivoronoi=2 is: ',i9)
+ 18      format (' recon2: number of 3to2 flips with ivoronoi=2 is: '
+     *            ,i14)
          call writloga('default',0,logmess,0,ier)
 C
 C  2 to 3 flips with ivoronoi=2 or -2
@@ -674,7 +713,8 @@ c
             enddo
          enddo
          write(logmess,28) nflips
- 28      format (' number of 2to3 flips with ivoronoi=2 is: ',i9)
+ 28      format (' recon2: number of 2to3 flips with ivoronoi=2 is: '
+     *            ,i14)
          call writloga('default',0,logmess,0,ier)
 C
 C        Try the 4-to-4 flip
@@ -721,7 +761,8 @@ C
  36         continue
          enddo
          write(logmess,38) nflips
- 38      format (' number of 4to4 flips with ivoronoi=2 is: ',i9)
+ 38      format (' recon2: number of 4to4 flips with ivoronoi=2 is: '
+     *            ,i14)
          call writloga('default',0,logmess,0,ier)
 C  test now for 2to2 boundary flips
          nflips=0
@@ -956,14 +997,16 @@ C
  220           continue
             enddo
          enddo
-         write(logmess,221) nflips
- 221     format (' number of 2to2 flips with ivoronoi=2 is: ',i9)
+        write(logmess,221) nflips
+ 221    format (' recon2: number of 2to2 flips with ivoronoi=2 is: '
+     *          ,i14)
          call writloga('default',0,logmess,0,ier)
 C
 C  go to return
 c
          go to 9999
       elseif(nrecon.le.ntets) then
+
          do 10 i=1,ntets
             xa=xic(itet(1,i))
             ya=yic(itet(1,i))
@@ -1089,6 +1132,7 @@ c
             kfix(1,i)=cvmgmr(kfix(1,i),-it,-vol)
  11      continue
       endif
+
       call kmprsn(ntets*4,kfix1,1,kfix1,1,kfix1,1,nface1)
       if(nface1.eq.0.and.niters.eq.0) goto 9998
 C
@@ -1096,16 +1140,17 @@ C     ******************************************************************
 C
 C     MAKE SURE MEMORY IS ADEQUATE
 C
-      if(lenremov.lt.4) then
+C TAM note -  original code would do nothing with iremov array
+C        this has been fixed to call mmincblk same as other arrays
 
-C        check to see if code ever gets here
-C        original code would do nothing if this was called
+      if(lenremov.lt.4) then
          lenremov=4
          call mflip(ione,lenremov,'iremov')
-         write (logmess,'(a)') 
-     *   'REPORT RECON2: MFLIP NEWLEN FOR iremov'
-         call writloga('default', 0, logdan, 0, ierr)
+         write (logmess,'(a,i10)') 
+     *   ' recon2: MFLIP NEWLEN FOR iremov with: ',lenremov
+         call writloga('default', 0, logmess, 0, ierr)
       endif
+
       if(leniopen.lt.nface1) then
          leniopen=nface1+100
          call mflip(ione,leniopen,'iopen')
@@ -1113,6 +1158,7 @@ C        original code would do nothing if this was called
       do 15 i=1,nface1
          lst(i)=kfix1(i)
  15   continue
+C     will land here at the end of most iterations
 C
 C     ******************************************************************
 C
@@ -1263,7 +1309,6 @@ C     __________________________________________________________________
 C
 C     FLIP BOUNDARY CONNECTIONS
 C
- 
       if (nbfaces.ge.1) then
          if (iopt2to2.eq.0.or.iopt2to2.eq.2) then
             if (nconbnd.gt.0) then
@@ -1968,7 +2013,7 @@ Cdcg   set t2 to zero
          write(logdan,1003) ntets,nface,isum
          call writloga('default',0,logdan,0,ierr)
          write(logdan,1004) niters,nnegvol,nbfaces
- 1003    format(' RECON:ntets= ',i8,' nface= ',i8,' nflips= ',i8)
+ 1003    format(' recon2: ntets= ',i8,' nface= ',i8,' nflips= ',i8)
  1004    format(  ' niter= ',i8,' negvol= ',i8,' nbface= ',i8)
          call writloga('default',0,logdan,0,ierr)
 C
@@ -2318,8 +2363,16 @@ C
 c      goto 9999
  9999 continue
 C
+
+C        report from subroutine in case need to follow code path
+         write (logmess,'(a,i14,i14)') 
+     *    ' recon2 set new node and element total: ', 
+     *           npoints,ntets 
+         call writloga('default', 0, logmess, 0, ierr)
+
          call cmo_set_info('nnodes',cmo,npoints,1,1,ierror)
          call cmo_set_info('nelements',cmo,ntets,1,1,ierror)
+         if (ierror.ne.0) call x3d_error(isubname,'cmo set info fail')
 C
          call cmo_get_name(cmo,ierror)
          call cmo_get_info('mbndry',cmo,

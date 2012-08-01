@@ -1,7 +1,6 @@
 *dk,face
       subroutine face(num,i1,i2,j1,j2,j3)
 C
-       implicit real*8 (a-h,o-z)
 C #####################################################################
 C
 C     PURPOSE -
@@ -54,9 +53,18 @@ CPVCS    Original version.
 C
 C #####################################################################
 C
+      implicit none
+C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
+
+C arguments (num,i1,i2,j1,j2,j3)
+      integer num,i1,i2,j1,j2,j3
+
+C variables
+      integer ierror,lenitet,icmotype
+
 C
 C ######################################################################
 C

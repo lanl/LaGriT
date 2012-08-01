@@ -46,10 +46,14 @@ C
       include 'local_element.h'
       include 'chydro.h'
       include 'consts.h'
+
+C arguments
+      integer mpno,mpary(*),ierror
       character*32 cxnew,cynew,cznew
+
+C variables
       pointer (ipxnew,xnew),(ipynew,ynew),(ipznew,znew)
       real*8 xnew(*),ynew(*),znew(*)
-      integer mpno,mpary(*),ierror
       pointer (ipitettyp,itettyp)
       integer itettyp(*)
       pointer (ipitet,itet)
@@ -68,12 +72,6 @@ C
       integer imt1(*)
       pointer (ipisetwd,isetwd)
       integer isetwd(*)
-      pointer (ipxic,xic)
-      real*8 xic(*)
-      pointer (ipyic,yic)
-      real*8 yic(*)
-      pointer (ipzic,zic)
-      real*8 zic(*)
       pointer (ipiseed,iseed)
       integer iseed(*)
       pointer (ipiparent,iparent)
@@ -82,26 +80,40 @@ C
       integer ielts(*)
       pointer (ipipset,ipset)
       integer ipset(*)
-      character*32 cmo,cout,isubname
-      integer icscode,nelements,ilen,itype,ierr,i,iseedtet,locnod,
-     *  nelts,nef_cmo,nnodes,i1,i2,i3,i4,nodesold,node1,node,nod,
-     *  icmotype,iemin,itmin,ielt,mbndry,length,nadd,ie,j,
-     *  ityp,iout,len_elist,l,ipt,icount,flag
-      real*8 vol,dist,distance_lg,epsilonl,epsilonv,
-     *  c,cos_lg,cosangle
-      pointer (ipout,out)
-      real*8 out(*)
       pointer (ipitadd,itadd)
       pointer (ipieadd,ieadd)
       pointer (ipiadd,iadd)
       pointer (ipitpadd,itpadd)
       pointer (ipicradd,icradd)
       integer itadd(*),ieadd(*),iadd(*),itpadd(*),icradd(*)
+
+      pointer (ipxic,xic)
+      real*8 xic(*)
+      pointer (ipyic,yic)
+      real*8 yic(*)
+      pointer (ipzic,zic)
+      real*8 zic(*)
+      pointer (ipout,out)
+      real*8 out(*)
+
       pointer (ipxadd,xadd),(ipyadd,yadd),(ipzadd,zadd),
      *  (ipxsave,xsave),(ipysave,ysave),(ipzsave,zsave)
       real *8 xadd(*),yadd(*),zadd(*),xsave(*),ysave(*),zsave(*)
+
+      real*8 vol,dist,distance_lg,epsilonl,epsilonv,
+     *  c,cos_lg,cosangle
+
+      integer icscode,nelements,ilen,itype,ierr,i,iseedtet,locnod,
+     *  nelts,nef_cmo,nnodes,i1,i2,i3,i4,nodesold,node1,node,nod,
+     *  icmotype,iemin,itmin,ielt,mbndry,length,nadd,ie,j,
+     *  ityp,iout,len_elist,l,ipt,icount,flag
+
       character*132 logmess
+      character*32 cmo,cout,isubname
+
 C ######################################################################
+C BEGIN begin
+
       isubname='refine_spawn'
 c.... Allocate memory for 'add' arrays.
       len_elist=mpno

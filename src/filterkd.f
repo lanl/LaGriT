@@ -59,7 +59,6 @@ C
 C#######################################################################
 C
       implicit none
-      character*132 logmess
 C
 C#######################################################################
 C
@@ -93,12 +92,17 @@ C
       pointer (ipzic, zic )
       REAL*8 xic(*), yic(*), zic(*)
 C
+      pointer (ipxicf, xicf)
+      pointer (ipyicf, yicf)
+      pointer (ipzicf, zicf)
+      real*8 xicf(*), yicf(*), zicf(*)
+      real*8 xnoise
+C
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       integer itettyp(*), itetoff(*)
       pointer (ipitet, itet1 )
       integer itet1(*)
-C
 C
       pointer (ipialias, ialiastmp)
       integer ialiastmp(*)
@@ -108,18 +112,8 @@ C
 C
       pointer (ipialiasf, ialiasf)
       integer ialiasf(*)
-      pointer (ipxicf, xicf)
-      pointer (ipyicf, yicf)
-      pointer (ipzicf, zicf)
-      real*8 xicf(*), yicf(*), zicf(*)
-      real*8 xnoise
-C
-C#######################################################################
-C
+
       integer ipt1, ipt2, ipt3
-      character*32 ich1,ich2,ich3
-C
-      character*32 isubname, cmo
 C
       pointer (ipint1, int1)
       integer int1(*)
@@ -146,18 +140,21 @@ C
       integer work(*)
 C
       integer  i1,eltj,eltk,itarg,m,nod,k
-      REAL*8 dsmin, dsmin1
       integer len, itype, ierr, icscode, ierrw
-      logical mapped,badmerge,changed,nocheck
       integer nelements,ierrdum,nptsmax,ipointi,ipointj,mpno,
      *  length,i,i2,icount,it,j,maxnbr
+
+      logical badmerge,changed,nocheck
+
+      REAL*8 dsmin, dsmin1
 C
       character*8 cglobal, cdefault
+      character*132 logmess
+      character*32 ich1,ich2,ich3
+      character*32 isubname, cmo
 C
 C#######################################################################
-C
-C
-C#######################################################################
+C BEGIN begin
 C
 C
       isubname='filterkd'

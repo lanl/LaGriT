@@ -1,7 +1,6 @@
       subroutine flp2to3i(it1,it2,it3,ibdytet,id,jd,
      *                    npoints,ntets)
 C
-       implicit none
 C ######################################################################
 C
 C      PURPOSE -
@@ -59,17 +58,19 @@ CPVCS       Rev 1.0   11/10/94 12:13:22   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
-      integer it1,it2,it3,ntets,npoints,ibdytet, id(12),jd(12)
+
+C arguments (it1,it2,it3,ibdytet,id,jd,npoints,ntets)
+      integer it1,it2,it3,ntets,npoints,id(12),jd(12)
+
+C variables
       real*8 crosx1,crosy1,crosz1,volume,volit1,volit2,volit3
       integer i,j,k,i1,i2,i3,i4,ierror,leni,icmotype,jtemp,
-     *  it1sum,it2sum,it3sum
+     *  it1sum,it2sum,it3sum,ibdytet
       character*4 if1,if2,if3,if4
       character*132 logmess
 C

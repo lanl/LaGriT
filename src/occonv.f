@@ -54,7 +54,10 @@ C
 C#######################################################################
 C
       goto 9998
+
+C compile WARNING This statement can not be reached.
       do 100 i1=0,n-1
+
       do 110 j1=1,n
       icount=icount+1
       xic(icount)=0.25*(xn(i1,j1,1)+xn(i1,j1+1,1)+xn(i1+1,j1,1)+

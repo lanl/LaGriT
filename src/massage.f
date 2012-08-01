@@ -347,52 +347,60 @@ C #####################################################################
 C
       include 'chydro.h'
       include 'massage.h'
- 
-      integer lenptr
-      parameter (lenptr=1000000)
- 
+
+C arguments 
       integer nwds, imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
-C
+      integer ierror
+
+C variables
+      integer lenptr
+      parameter (lenptr=1000000)
+
+      integer locdebug
+      parameter (locdebug=1)
+
+      logical lcompresswherepossible
+      parameter (lcompresswherepossible=.true.)
+
       integer imsginsave(3),msgtypesave(3)
-      real*8 xmsginsave(3)
-      character*32 cmsginsave(3)
  
-      integer ierror,ierrw
- 
-      character*132 logmess
       pointer (ipitp1, itp1)
-      integer itp1(lenptr)
-      integer icharlnf, ilen
-C
+      integer itp1(*)
+ 
       pointer (ipmpary,mpary),(ipout,out)
-      integer mpary(lenptr),out(*)
+      integer mpary(*),out(*)
+
       pointer (ipireal1,ireal1),(ipirealold,irealold)
-      integer ireal1(lenptr),irealold(lenptr)
+      integer ireal1(*),irealold(*)
 C
-      character*32 cmo,isubname,cout
       integer length,icmotype,icscode,mpno,inclusive,msmoothed,
-     &   nnodes,ierrdum,i,nnodesold,iout,
-     &   ierr,j,nsd_topo,len_nnodes,inc, field_option
+     &   nnodes,ierrdum,i,nnodesold,iout,ierr,
+     &   j,nsd_topo,len_nnodes,inc, field_option,ierrw
+
+      integer icharlnf, maxagditer
+
+      real*8 xmsginsave(3)
+
+      real*8 bisection_length,merge_length,toldamage,tolar,epsilonl,
+     &   tolroughness,range
+
       logical ldiffer,lnosmooth,lstrictmergelength,
      &   llite,lignoremats,lcheckaxy,lcheckroughness,lexclusive,
      &   lsemiexclusive, lrecon
-      real*8 bisection_length,merge_length,toldamage,tolar,epsilonl,
-     &   tolroughness,range
+ 
+      character*32 cmsginsave(3)
       character*32 comend, psetname, cmode, field_name
+      character*32 cmo,isubname,cout
       character*132 cbuf
- 
-      integer maxagditer
- 
-      integer locdebug
-      parameter (locdebug=1)
- 
-      logical lcompresswherepossible
-      parameter (lcompresswherepossible=.true.)
+      character*132 logmess
+
+C ################################################################
+C BEGIN begin
+C
  
       comend=' ; finish'
-C
       isubname = 'massage'
 C
       field_option = 0

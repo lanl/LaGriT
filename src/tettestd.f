@@ -1,4 +1,4 @@
-
+C
       subroutine elmtestd(cmo,nwrite,ierror)
 C
 C #####################################################################
@@ -607,9 +607,8 @@ c ..... (return) .........
 C #####################################################################
 C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C
 C #####################################################################
-*dk,tettestd
+
       subroutine tettestd
-       implicit real*8 (a-h,o-z)
 C
 C #####################################################################
 C
@@ -647,10 +646,14 @@ CPVCS       and include the "cmo.h" include file.
 CPVCS
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "neibor.h"
 C
+      integer ierror,nwrite,maxnef,length,icmotype,ierr,i,it,ier,
+     *        lenitetclr,lenitettyp,lenitet,lenjtet,idebug,len,
+     *        mbndry_test,iwrite,nholes,nholed,nincons,k,ierrwrt
       integer jtet_cycle_max
 C
 C ######################################################################

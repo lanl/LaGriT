@@ -48,19 +48,18 @@ C
 C ######################################################################
 C
       implicit none
+
+      include "local_element.h"
+
+C arguments
       integer nwds, imsgin(nwds), ierror
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
-C
-      character*132 logmess
-C
-      pointer (ipitp1, itp1(*))
-      pointer (ipisn1, isn1(*))
-      pointer (ipxic, xic(*))
-      pointer (ipyic, yic(*))
-      pointer (ipzic, zic(*))
-      integer itp1,isn1
-      real*8 xic,yic,zic
+
+C variables
+      pointer (ipitp1, itp1)
+      pointer (ipisn1, isn1)
+      integer itp1(*),isn1(*)
 C
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
@@ -79,10 +78,7 @@ C
       pointer (ipipt1, ipt1)
       pointer (ipipt2, ipt2)
       integer ipt1(*),ipt2(*)
-      pointer (ipxadd, xadd)
-      pointer (ipyadd, yadd)
-      pointer (ipzadd, zadd)
-      real*8 xadd(*), yadd(*), zadd(*)
+
       pointer (ipiseedtet, iseedtet)
       integer iseedtet(*)
       pointer (ipiparent, iparent)
@@ -93,12 +89,24 @@ C
       integer length,icscode,itype,npoints,ntets,ilen,mbndry,
      *   nef,i,nf,it,k,npairs,loc1,loc2,i1,i2,ie,
      *   j1,j2,it1,ityp1,ityp,nn,nadd,nelts,j
+
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*),yic(*),zic(*)
+
+      pointer (ipxadd, xadd)
+      pointer (ipyadd, yadd)
+      pointer (ipzadd, zadd)
+      real*8 xadd(*), yadd(*), zadd(*)
 C
-      include "local_element.h"
-C
+      character*132 logmess
       character*32 cmo,isubname
       logical ifound
-c
+C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C BEGIN begin
+
       isubname='refine_edge_list'
 c
 c  pick up pairs of nodes and find tet and edges they belong to

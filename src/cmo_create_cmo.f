@@ -63,26 +63,26 @@ C
 C#######################################################################
 C
       integer nwds, imsgin(nwds), msgtype(nwds)
+      integer ierror_return
       REAL*8 xmsgin(nwds)
       character*32 cmsgin(nwds)
-      character*32 isubname
 C
-      integer ierror_return
 C
 C#######################################################################
 C
 C     LOCAL VARIABLE DEFINITION
 C
-      character*32 cmo_name
 C
       integer len, ierror, number_nodes, number_elements
-C
-C#######################################################################
-C
+
       integer icharlnf
+
+      character*32 cmo_name
+      character*32 isubname
+C
 C
 C#######################################################################
-C
+C BEGIN begin
 C
 C
 C.... Mesh Object Name.

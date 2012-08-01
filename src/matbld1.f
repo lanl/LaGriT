@@ -71,7 +71,7 @@ c
       implicit none
 c
       character*132 logmess
-      character*8 isubname
+      character*32 isubname
 c
 c
 c#######################################################################

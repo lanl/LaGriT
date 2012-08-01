@@ -2,7 +2,6 @@
       subroutine try2to0b(iary,ntet,nflips,nflipsb,it2,
      *                    npoints,ntets)
 C
-       implicit real*8 (a-h,o-z)
 C ######################################################################
 C
 C     PURPOSE -
@@ -14,6 +13,7 @@ C
 C     INPUT ARGUMENTS -
 C
 C        ipiary   - pointer to the array of tets to check.
+C                   note iary is now an array of itets
 C        ntet    - the number of tets in the list
 C
 C     OUTPUT ARGUMENTS -
@@ -65,23 +65,32 @@ CPVCS    Original version.
 C
 C ######################################################################
 C
+      implicit none
+C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
+
+C arguments (iary,ntet,nflips,nflipsb,it2,npoints,ntets)
+      integer iary(*)
+      integer ntet,nflips,nflipsb,it2,npoints,ntets
+
 C
-C ######################################################################
-C
+      integer nmulti
       parameter (nmulti = 200)
-      dimension ichain0(nmulti),imt0(nmulti)
-c     pointer( ipiary  , iary(1)  )
-      integer iary(1000000)
+      integer ichain0(nmulti),imt0(nmulti)
+
       pointer (ipint1, int1)
-      integer int1(1000000)
-      character*8 isubname
+      integer int1(*)
+
+      integer ierror,length,icmotype,lenimt1,lenitp1,
+     *        lenitetclr,ier,lenitet,lenjtet,i,it,imtx,j,k,
+     *        jtemp,ict,ipar,index,kpt2,ifpos,ierr
+
+      character*32 isubname
 C
 C ######################################################################
-C
-C
+C BEGIN begin
 C
 C     ******************************************************************
 C     FETCH MESH OBJECT NAME AND POINTER INFORMATION.

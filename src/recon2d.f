@@ -53,51 +53,51 @@ CPVCS    this meant using itetoff and jtetoff to access itet and jtet info
 CPVCS    add beginning comments
 C
       implicit none
+C
       include 'chydro.h'
       include 'consts.h'
       include 'cmo.h'
-C
+
+C arguments
       character*(*) cmoin
-      character*132 logmess
+      real*8  toldamage
+      logical lcheckaxy
+      real*8  epsilona
 C
+      integer ntri(10), mtri(10)
+
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
       integer itetoff(*), jtetoff(*)
-C
+ 
       pointer (ipiparent, iparent)
       integer iparent(*)
-C
       pointer (ipitflag, itflag)
+      integer itflag(*)
+
       pointer (ipitetnn, itetnn)
       pointer (ipitetnn1, itetnn1)
       pointer (ipitetnn2, itetnn2)
-      integer itflag(*),
-     *        itetnn(3,*), itetnn1(3,*), itetnn2(3,*)
-C
-      character*32 isubname
+      integer itetnn(3,*), itetnn1(3,*), itetnn2(3,*)
+
       integer i1,i2,i3,j1,it,icscode,kdim,kpe,length,icmotype,ierror,
      *  ntets,npoints,ntetsmax,iter,i,jt,jf,n,iflag,m,irecon,
      *  lenout,nen,nef
-      logical lcheckaxy
-      real*8 epsilona,toldamage,
-     *  dsmax,xv,yv,zv,
+
+      real*8  dsmax,xv,yv,zv,
      *  xa,ya,za,xb,yb,zb,xd,yd,zd,
      *  dotb3,dot3,rb3,ql,xl,yl,zl,ds1,ds2,ds3,ds,em,en,dsj,
      *  ds12,ds23,ds31,az1,az2
  
-C
-C ######################################################################
-C
-      logical flip
       pointer (ipxmegah, xmegah)
       pointer (ipxmegadet, xmegadet)
       pointer (ipxmegaerr, xmegaerr)
-      double precision xmegah(1000000), xmegadet(1000000),
-     *                 xmegaerr(1000000)
-      integer ntri(10), mtri(10)
+      real*8 xmegah(*), xmegadet(*), xmegaerr(*)
+
+      logical flip
 C
-C#######################################################################
-C
+      character*132 logmess
+      character*32 isubname
 C
       integer itriface0(3), itriface1(3,3)
       data itriface0 / 2, 2, 2 /
@@ -107,12 +107,14 @@ C
 C
       integer itermax
       data itermax / 50 /
-C
+ 
+C     useful functions - should be just ahead of any other statement functions
       include 'statementfunctions.h'
 C
+C#######################################################################
+C BEGIN begin
 C
       isubname='recon2d'
-C
       icmoget=1
       cmo=cmoin
 C
@@ -202,6 +204,7 @@ C
          if(iter.gt.itermax) then
             write(logmess,'(a,i10)') "Recon2d max iterations: ",iter
             call writloga('default',0,logmess,0,ierror)
+            if (idebug.gt.1) call mmverify()
             goto 9999
          endif
       endif
@@ -290,8 +293,7 @@ C
                            az2=0.5d0*dcrosz(xic(i3),yic(i3),zic(i3)
      &                        ,xic(j1),yic(j1),zic(j1),xic(i2),yic(i2)
      &                        ,zic(i2))
-                           if (az1.le.epsilona.or.az2.le.epsilona) iflag
-     &                        =0
+                      if (az1.le.epsilona.or.az2.le.epsilona) iflag=0
                         endif
                         if(iflag.gt.0) then
                               irecon=irecon+1
@@ -315,6 +317,7 @@ C
                   endif
                endif
             enddo
+            if (idebug.gt.2) call mmverify()
  20         continue
          endif
       enddo
@@ -330,6 +333,7 @@ C
                itetnn2(i,it)=-1
             enddo
          enddo
+
          call geniee(itetnn,itetnn1,itetnn2,3,3,
      *               ntets,npoints,2,npoints,ntets)
 C
@@ -353,6 +357,7 @@ C
          write(logmess,'(a,i10,a,i10)') 'Recon2d: iteration number= ',
      *       iter,' number of flips= ',irecon
          call writloga('default',0,logmess,0,ierror)
+         if (idebug.gt.1) call mmverify()
          goto 10
       endif
       goto 9999

@@ -1,5 +1,6 @@
+C
       subroutine testdamage(i1,i2,i3,i4,iflag,toldamage)
-      implicit none
+C
 C ######################################################################
 C
 C     PURPOSE -
@@ -34,14 +35,18 @@ CPVCS       Rev 1.0   Mon May 25 00:50:50 1998   kuprat
 CPVCS    Initial revision.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
       include "consts.h"
- 
+
+C arguments (i1,i2,i3,i4,iflag,toldamage)
       integer i1,i2,i3,i4,iflag
       real*8 toldamage
+
+C variables
       integer i,j,k,ierror,lenxic,lenyic,lenzic,icmotype
       real*8 a134x,a134y,a134z,a312x,a312y,a312z,atotx,atoty,atotz,
      &   atot,xmid,ymid,zmid,dot134,dot312,dot1,dot2,dot3,dot4,dotmin,
@@ -146,7 +151,7 @@ c.... distances' from the midpoint of edge (i1,i3) to the points i2, i4.
       end
 C ######################################################################
       subroutine testdamage_refine(i1,i2,i3,i4,qx,qy,qz,toldamage,iflag)
-      implicit none
+C
 C ######################################################################
 C
 C     PURPOSE -
@@ -170,6 +175,8 @@ C
 C
 C ######################################################################
 C
+      implicit none
+C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
@@ -191,7 +198,7 @@ C
      *              (xic(k)-xic(i))*(yic(j)-yic(i))
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C     ******************************************************************
 C     FETCH MESH OBJECT NAME AND POINTER INFORMATION.

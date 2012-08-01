@@ -376,9 +376,9 @@ C
       pointer (ipisn1, isn1)
       pointer (ipicontab,icontab)
       integer icontab(50,*)
-      integer isetwd(nplen)
-      integer imt1(nplen), itp1(nplen),
-     *        icr1(nplen), isn1(nplen), xtetwd
+      integer isetwd(*)
+      integer imt1(*), itp1(*),
+     *        icr1(*), isn1(*), xtetwd
 
       pointer (ipitetclr, itetclr(ntlen))
       pointer (ipitetoff, itetoff(ntlen))
@@ -390,12 +390,10 @@ C
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
-      real*8 xic(nplen), yic(nplen), zic(nplen)
+      real*8 xic(*), yic(*), zic(*)
 C
 C
 C ######################################################################
-C
-C
 
       integer nextlun, iunit
 
@@ -412,9 +410,9 @@ C
      *   ier,irank,l,iregck,ir,lenmm4,ics,npts,ibitpos,is,isurfck,
      *   icrtst,numconstraints,nconbnd,next,nmats,nummaterials,
      *   id_zone_number, if_id_zone_number
-      integer imask,ipointi,ipointj,icscode,lenname,lenmode
+      integer ipointi,ipointj,icscode,lenname,lenmode
       integer icharlnf,mask2,nmask2,i1,inotflg,ierrw,mask,
-     * nmask,it,k,kk,ivaltypa
+     *   nmask,it,k,kk,ivaltypa
       integer n_entry_per_line
 
       integer nbitsmax
@@ -468,6 +466,9 @@ C
       integer ifield(*)
       pointer(ipxfield,cfield)
       character*32 cfield(*)
+C
+      integer imask
+      imask(i)=2**(i-1)
  
       character*32 cpt1, cpt2, cpt3,
      *             cfirst, clast, cstride
@@ -476,18 +477,13 @@ C
       character*128 file_name
       character*132 logmess
 
-
 C ######################################################################
-C
-C
-      imask(i)=2**(i-1)
- 
-C
-C ######################################################################
+C BEGIN begin
 C
       isubname='psetnames'
 C
       ierror = 0
+      i = 0
 C
 C     ******************************************************************
 C

@@ -148,8 +148,6 @@ C ######################################################################
 C
       implicit none
 C
-      character*132 logmess
-C
       include "local_element.h"
 C
 C ######################################################################
@@ -162,16 +160,20 @@ C
       pointer (ipifadd, ifadd)
       integer ifadd(nadd)
       pointer (ipiadd, iadd)
-      integer iadd(1000000)
+      integer iadd(*)
+
       pointer (ipxadd, xadd)
       pointer (ipyadd, yadd)
       pointer (ipzadd, zadd)
       real*8 xadd(nadd), yadd(nadd), zadd(nadd)
+
       integer ierror,icharlnf,ierrwrt,nen,ilen,itype,icscode,nef,
      *  nsd
+
+      character*132 logmess
 C
 C#######################################################################
-C
+C BEGIN begin
 C
       call cmo_exist(cmo_name,ierror)
       if(ierror.ne.0) then
@@ -249,7 +251,6 @@ C     ##################################################################
 C
       implicit none
 C
-      character*132 logmess
 C
 C     ##################################################################
 C
@@ -270,7 +271,11 @@ C
       real*8 xadd(nadd), yadd(nadd), zadd(nadd)
 C
 C     ##################################################################
+
+      integer nvalues
+      parameter (nvalues=2)
 C
+
       pointer (ipint1add, int1add)
       integer int1add(nadd)
 C
@@ -283,68 +288,79 @@ C
       pointer (ipint1, int1)
       pointer (ipicr1, icr1)
       integer itp1(*), isn1(*), int1(*), icr1(*)
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
-      real*8 xic(*), yic(*), zic(*)
-C
+ 
       pointer (ipitet, itet)
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet)
       pointer (ipjtet, jtet1)
+      integer itet(3,*), jtet(3,*)
+      integer itet1(*), jtet1(*)
+
       pointer (ipicontab, icontab)
       integer icontab(50,*)
-      integer itet(3,1000000), jtet(3,1000000)
-      integer itet1(3*1000000), jtet1(3*1000000)
-C
+ 
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
-C
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*)
+ 
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
+      integer iparent(*)
 C
       pointer (ipitflag, itflag)
+      integer itflag(*)
+
       pointer (ipitetnn, itetnn)
       pointer (ipitetnn1, itetnn1)
       pointer (ipitetnn2, itetnn2)
+      integer itetnn(3,*), 
+     *        itetnn1(3,*), itetnn2(3,*)
 C
       pointer (ipiface_p1, iface_p1)
       pointer (ipiface_p2, iface_p2)
+      integer iface_p1(nadd), iface_p2(nadd)
+
       pointer (ipictemp,ictemp)
-      pointer (ipicrnew,icrnew), (ipitpnew,itpnew)
+      pointer (ipicrnew,icrnew)
+      integer ictemp(*),icrnew(*)
+
+      pointer (ipitpnew,itpnew)
       integer itpnew(*)
-      integer iface_p1(nadd), iface_p2(nadd),ictemp(*),icrnew(*)
-      integer itflag(1000000),
-     *        itetnn(3,1000000), itetnn1(3,1000000), itetnn2(3,1000000)
-C
+ 
       pointer (iplist_sink, list_sink)
       pointer (iplist_source, list_source)
+      integer list_sink(nadd), list_source(nvalues,nadd)
+
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
+
       pointer (ipxweight_source, xweight_source)
-C
-      character*32 cmo
-      character*32 cmolength
-      character*32 isubname, iblknam, iprtnam
-      logical ifound
+      real*8 xweight_source(nvalues,nadd)
+
+      real*8 xxsmall,x1,y1,z1,x2,y2,z2,x3,y3,z3
+ 
       integer icscode,i,ierror,icmotype,nen,nef,ier,
-     *   nconbnd,iface,nface1,it,jt,lencmo,i1,i2,i3,length,icmot,
+     *  nconbnd,iface,nface1,it,jt,lencmo,i1,i2,i3,length,icmot,
      *  npoints,icount,jcount,if1,if2,itype,kk,k,ilen,idum,inc1,
      *  inc2,kt,kf,ntetsinc,inc,ierr,npointsnew1,npointsinc,
      *  j2,j3,i5,jtf,itf,inew,itnew,ip1,ip2,nface1_save,ierrw,
      *  npointsnew,ntetsnew,ifaceiter,nef1,if,j,mbndry,ntets,
      *  irefine,nadd1,ip3,intadd,jf,nelementsmm,nnodesmm,ics,iflag,
-     *  nvalues,iskip
-      parameter (nvalues=2)
- 
-      integer list_sink(nadd), list_source(nvalues,nadd)
-      real*8 xweight_source(nvalues,nadd),xxsmall,x1,y1,z1,x2,y2,z2
-     *  ,x3,y3,z3
-C
+     *  iskip
+
+      logical ifound
+
+      character*132 logmess
+      character*32 cmo
+      character*32 cmolength
+      character*32 isubname, iblknam, iprtnam
 C
 C     ###################################################################
+C BEGIN begin
 C
       isubname='refine_face_add_tri'
 C
@@ -967,7 +983,9 @@ C
 C
       return
       end
-*dk,refine_face_add_tet
+
+Cok,refine_face_add_tet
+
       subroutine refine_face_add_tet(cmo_name,
      *                               nadd,
      *                               ipitadd,ipifadd,
@@ -1045,8 +1063,6 @@ C     ##################################################################
 C
       implicit none
 C
-      character*132 logmess
-C
 C     ##################################################################
 C
       include "local_element.h"
@@ -1066,6 +1082,8 @@ C
       real*8 xadd(nadd), yadd(nadd), zadd(nadd)
 C
 C     ##################################################################
+      integer nvalues
+      parameter (nvalues=3)
 C
       pointer (ipint1add, int1add)
       integer int1add(nadd)
@@ -1078,31 +1096,31 @@ C
       pointer (ipisn1, isn1)
       pointer (ipint1, int1)
       pointer (ipicr1, icr1)
-      integer itp1(10000000), isn1(10000000), int1(1000000),
-     * icr1(1000000)
+      integer itp1(*), isn1(*), int1(*),
+     * icr1(*)
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
-      real*8 xic(10000000), yic(10000000), zic(10000000)
+      real*8 xic(*), yic(*), zic(*)
 C
       pointer (ipitet, itet)
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet)
       pointer (ipjtet, jtet1)
-      integer itet(4,1000000), jtet(4,1000000)
-      integer itet1(4*1000000), jtet1(4*1000000)
+      integer itet(4,*), jtet(4,*)
+      integer itet1(*), jtet1(*)
 C
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*)
       pointer (ipicontab, icontab)
-      integer icontab(50,1000000)
+      integer icontab(50,*)
 C
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
+      integer iparent(*)
 C
       pointer (ipitflag, itflag)
       pointer (ipitetnn, itetnn)
@@ -1110,39 +1128,37 @@ C
       pointer (ipitetnn2, itetnn2)
       pointer (ipitpnew,itpnew)
       pointer (ipicrnew,icrnew)
-      integer itpnew(1000000),icrnew(1000000)
+      integer itpnew(*),icrnew(*)
       pointer (ipictemp,ictemp)
-      integer ictemp(1000000)
+      integer ictemp(*)
 C
       pointer (ipiface_p1, iface_p1)
       pointer (ipiface_p2, iface_p2)
       pointer (ipiface_p3, iface_p3)
       integer iface_p1(nadd), iface_p2(nadd), iface_p3(nadd)
-      integer itflag(1000000),
-     *        itetnn(4,1000000), itetnn1(4,1000000), itetnn2(4,1000000)
-      integer nvalues
-C
-      parameter (nvalues=3)
+      integer itflag(*),
+     *        itetnn(4,*), itetnn1(4,*), itetnn2(4,*)
       pointer (iplist_sink, list_sink)
       pointer (iplist_source, list_source)
-      pointer (ipxweight_source, xweight_source)
       integer list_sink(nadd), list_source(nvalues,nadd)
+
+      pointer (ipxweight_source, xweight_source)
       real*8 xweight_source(nvalues,nadd)
+
+      real*8 xxsmall
+
       logical itsttp,ivrt,ifre,irfl
+
       integer jcount,icount,npoints,ierrdum,kf,kt,inc1,
      *  inc2,idum,ics,nnodesmm,ntetsinc,inc,npointsnew1,j2,j3,j4,
      *  i5,jtf,itf,icnt,n,n1,n2,n3,nsb,nsa,nsd,icrnw,icrc,
      *  icrb,icra,itpnw,jt,intadd,inew,itnew,ip1,ip2,ip3,
-     *  i1,i2,i3,ierrw,ifaceiter,nface1,ntetsnew,npointsnew,
+     *  i,i1,i2,i3,ierrw,ifaceiter,nface1,ntetsnew,npointsnew,
      *  nadd1,irefine,if,j,it,nconbnd,ier,nef,nen,mbndry,
      *  icmotype,ntets,jf,i4,iface,
-     *  nelementsmm,npointsinc,nsc,nface1_save,ierror,i,
+     *  nelementsmm,npointsinc,nsc,nface1_save,ierror,
      *  icscode,length,ilen
-      real*8 xxsmall
 C
-      character*32 cmo
-      character*32 cmolength
-      character*32 isubname, iblknam, iprtnam
       integer itetface0(4), itetface1(4,4)
 C     top,back,left,right
       data itetface0 / 3, 3, 3, 3 /
@@ -1177,8 +1193,13 @@ C     top,back,left,right
      *                 3, 3,
      *                 2, 2 /
 C
+      character*132 logmess
+      character*32 cmo
+      character*32 cmolength
+      character*32 isubname, iblknam, iprtnam
 C
 C     ###################################################################
+C BEGIN begin
 C
       isubname='refine_face_add_tet'
 C

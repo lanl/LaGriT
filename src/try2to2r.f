@@ -1,7 +1,7 @@
 *dk,try2to2r
       subroutine try2to2r(nface,n2to2,
      *                    npoints,ntets,toldamage)
-       implicit real*8 (a-h,o-z)
+
 C ######################################################################
 C
 C     PURPOSE -
@@ -66,24 +66,44 @@ CPVCS    Original version.
 C
 C ######################################################################
 C
+      implicit none
+C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
       include "cmerge.h"
       include "consts.h"
-C
-C ######################################################################
-C
-      dimension id(8),jd(8),ktmp(lenblk),itets(301)
-C
+
+C arguments (nface,n2to2,npoints,ntets,toldamage)
+      integer nface,n2to2,npoints,ntets
+      real*8 toldamage
+
+C variables
+
+      integer id(8),jd(8),itets(301)
+
       pointer (ipicontab,icontab)
-      integer icontab(50,1000000)
-      dimension ifindx(4,4)
+      integer icontab(50,*)
+
+      integer i,j,k,i1,i2,i3,i4,i5,ip1,ip2,it,it2,ipos1 
+      integer ierror,length,icmotype,lenitp1,lenicr1,
+     *        lenxic,lenyic,lenzic,lenitetclr,ier,lenitet,
+     *        lenjtet,itwo,iface,n1,n2,n3,volit,n2to0,
+     *        volit2,m,idup,icrnbr1,icrnbr2,icrnbr4,
+     *        icrnbr5,j1,j2,j4,j5,irb1,irb2,irb4,irb5,
+     *        ipos2,iflag,
+     *        nflips,itx
+
+      real*8  xn,yn,zn,sn,xnorm1,ynorm1,znorm1,snorm1,
+     *        xnorm2,ynorm2,znorm2,snorm2,dot1,dot2,xst
+      real*8 a124x,a124y,a124z,a215x,a215y,a215z,
+     *       atotx,atoty,atotz,atot,xmid,ymid,zmid,
+     *       dot124,dot215,dot4,dot5,dotmin,dotmax,
+     *       damage,dist4,dist5
+
       logical itsttp
 C
-C ######################################################################
-C
-C
+      real*8 crosx1,crosy1,crosz1,volume
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -93,9 +113,11 @@ C
       volume(i1,i2,i3,i4)=(xic(i4)-xic(i1))*crosx1(i1,i2,i3)+
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
+
+      character*32 isubname
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C
 C     ******************************************************************

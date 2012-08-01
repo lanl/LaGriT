@@ -51,7 +51,6 @@ C
 C#######################################################################
 C
       character*(*) cmo_name
-C
       integer ierror_return
 C
 C#######################################################################
@@ -59,7 +58,6 @@ C
 C     LOCAL VARIABLE DEFINITION
 C
       character*32 isubname,partname
-C
       character*132 logmess
 C
       integer   iexist, len, ierr, icscode

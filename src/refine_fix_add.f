@@ -71,8 +71,6 @@ C ######################################################################
 C
       implicit none
 C
-      character*132 logmess
-C
       include "local_element.h"
 C
 C ######################################################################
@@ -96,21 +94,24 @@ C
       pointer (ipisn1, isn1)
       pointer (ipitpnew, itpnew)
       pointer (ipicrnew, icrnew)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000),
-     *        itp1(1000000), icr1(1000000),
-     *        isn1(1000000),
-     *        itpnew(1000000), icrnew(1000000)
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*),
+     *        itp1(*), icr1(*),
+     *        isn1(*),
+     *        itpnew(*), icrnew(*)
 C
  
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
       integer itet1(*), jtet1(*)
+
       pointer (ipicontab, icontab)
-      integer icontab(50,1000000)
+      integer icontab(50,*)
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
- 
+      integer iparent(*)
+
+      pointer (ipictemp,ictemp)
+      integer ictemp(*)
 C
       integer ilen,itype,icscode,ierror,n,iip1,iip2,
      *        i,ie,it,ip1,ip2,nef,nconbnd,nnodes,
@@ -118,14 +119,16 @@ C
      *        iff,ifold,ifnew,j,mbndry,icra,icrb,
      *        nsa,nsb,nsc,n1,n2,icnt,ittyp,nf,
      *        iflag1,jt,idir,nfstart,nf1,nsdtopo
-      pointer (ipictemp,ictemp)
-      integer ictemp(1000000)
+
       integer icharlnf
+
       logical itsttp,ivrt,ifre,irfl
+
+      character*132 logmess
       character*32 isubname
 C
 C#######################################################################
-C
+C BEGIN begin
 C
       isubname='refine_fix'
       call cmo_exist(cmo_name,ierror)

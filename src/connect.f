@@ -344,13 +344,13 @@ C        *** POINTERS RELATED TO MREGIONS AND SURFACES.
       logical lif_search_intrface_edges
       real*8 xcoords(12),vvbarmin
 
+      character*8 cglobal,cdefault
       data cglobal,cdefault/'global','default'/
 
       integer shiftl, ior
       external shiftl
 
       character*8 cpart,cnnodes
-      character*8 cglobal,cdefault
       character*32 isubname,blkname,cout
       character*32 cpt1,cpt2,cpt3,geom_name
       character*132 logmess

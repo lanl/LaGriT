@@ -19,12 +19,25 @@ C
 C     SCALE ALL THE EMEMENTS IN THE 2D MATRIX SUCH THAT THE
 C        DIAGONAL ELEMENTS ARE UNITY.
 C
-      implicit double precision (a-h, o-z)
-      dimension AFP(ncoefs)
-      dimension INDEX_ROW(ncoefs)
-      dimension INDEX_COL(ncoefs)
-      dimension UMAT(nrows), BMAT(nrows), XMAT(nrows)
-      dimension DMAT(nrows)
+C     implicit double precision (a-h, o-z)
+C     dimension AFP(ncoefs)
+C     dimension INDEX_ROW(ncoefs)
+C     dimension INDEX_COL(ncoefs)
+C     dimension UMAT(nrows), BMAT(nrows), XMAT(nrows)
+C     dimension DMAT(nrows)
+
+      implicit none
+
+      integer nrows, ncols, ncoefs, i
+
+      real*8  AFP(ncoefs)
+      integer INDEX_ROW(ncoefs)
+      integer INDEX_COL(ncoefs)
+      real*8  UMAT(nrows), BMAT(nrows), XMAT(nrows)
+      real*8  DMAT(nrows)
+
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
 C     COLLECT THE DIAGONAL ELEMENTS FROM THE 2D MATRIX (AMAT).
 C

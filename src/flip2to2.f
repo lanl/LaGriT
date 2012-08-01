@@ -1,7 +1,7 @@
 *dk,flip2to2
-      subroutine flip2to2(it1,it2,id,jd,
-     *                    npoints,ntets)
-       implicit real*8 (a-h,o-z)
+      subroutine flip2to2(it1,it2,id,jd,npoints,ntets)
+
+C
 C ######################################################################
 C
 C     PURPOSE -
@@ -50,18 +50,25 @@ CPVCS    Original version.
 C
 C ######################################################################
 C
+      implicit none
+C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
-      dimension id(8),jd(8)
-C
-C ######################################################################
+
+C arguments (it1,it2,id,jd,npoints,ntets)
+      integer it1,it2,npoints,ntets
+      integer id(8),jd(8)
+
+C variables
+      integer i,j,k,i1,i2,i3,i4
+      integer ierror,length,icmotype,lenimt1,lenitet,lenjtet,
+     *   lenxic,lenyic,lenzic,lenitetclr,ier,
+     *   jd2,jd4,jd7,jd8
 C
 C     DEFINE THE STATEMENT FUNCTIONS NEEDED TO CALCULATE TET VOLUMES.
 C
+      real*8 crosx1,crosy1,crosz1,volume
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-

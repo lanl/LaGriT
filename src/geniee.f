@@ -145,27 +145,44 @@ C     CHANGE HISTORY -
 C
 C ######################################################################
 C
-      implicit real*8 (a-h, o-z)
-C
-      character*132 logmess
+      implicit none
 C
       include "local_element.h"
 C
-      pointer (ipnedge_bin, nedge_bin)
-      pointer (ipnedge_off, nedge_off)
-      integer nedge_bin(*), nedge_off(*)
-      pointer (ipitface, itface)
-      pointer (ipifface, ifface)
-      integer itface(*), ifface(*)
-C
+
+C arguments itet1,jtet1,jtet2,
+C                        nen,nef,
+C                        nelements,nnodes,
+C                        nsd,
+C                        nnodes_max,nelements_max)
+
+      integer nen,nef,nelements,nnodes,nsd,nnodes_max,nelements_max
       integer itet1(nen*nelements)
       integer jtet1(nef*nelements)
       integer jtet2(nef*nelements)
-C
+
+
+
+C variables
+      pointer (ipitface, itface)
+      pointer (ipifface, ifface)
+      integer itface(*), ifface(*)
+
+      pointer (ipnedge_bin, nedge_bin)
+      pointer (ipnedge_off, nedge_off)
+      integer nedge_bin(*), nedge_off(*)
+
+      integer itettyp,ierrwrt,jtettyp,length,icscode,i,it,ifsum,j,
+     *        j1,isum,nodemax1,nodemin1,nodesum1,nodemax2,nodesum2,
+     *        nodesum3,k,jt,jf,modemax1,modemax2,modemin1,modesum2,
+     *        modesum3,modesum1
+
+
+      character*132 logmess
       character*32 isubname
 C
 C ######################################################################
-C
+C BEGIN begin
 C
       isubname='geniee'
 C

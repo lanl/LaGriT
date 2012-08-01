@@ -1,7 +1,6 @@
 *dk,try4to4x
       subroutine try4to4x(iepos,it,iflag,nface2,i,
      *                    npoints,ntets)
-       implicit none
 C
 C ######################################################################
 C
@@ -63,26 +62,34 @@ CPVCS    Original version.
 C
 C ######################################################################
 C
+      implicit none
+
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
+
+C arguments (iepos,it,iflag,nface2,i,npoints,ntets)
+      integer iepos,it,iflag,nface2,i,npoints,ntets
+
+C variables
+
       pointer( ipiopen , lst(*) )
       integer lst
       integer id(16,2),jd(16,2),itets(4)
+
       real*8 alargenumber
       parameter (alargenumber= 1.0d+30)
-      real*8 crosx1,crosy1,crosz1,volume
+
       real*8 test1,test2,test3,test4,test5,test6,test7,test8,
      *  vol1,vol2,vol3,xxlarge,val1,val2,valinit,vol4,distsq,
      *  xv,yv,zv
-      integer ip,itv,nflips,ierflg,ifindopt,np1,np2,np3,jf1,jf2,idum,
+
+      integer ip,itv,nflips,ierflg,ifindopt,np1,np2,np3,jf1,jf2,
      *  itx,i5,i6,it5,iofs,iflg1,iflg2,ilen,icmotype,ierror,
-     *  ier,ifour,it2,it4,ipos2,it3,ipos3
-      integer iepos,it,iflag,nface2,i,npoints,ntets,j,k,i1,i2,i3,i4
+     *  ier,ifour,it2,it4,ipos2,it3,ipos3,idum,
+     *  j,k,i1,i2,i3,i4
 C
+      real*8 crosx1,crosy1,crosz1,volume
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -94,7 +101,7 @@ C
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C
 C     ******************************************************************

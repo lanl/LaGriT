@@ -67,16 +67,14 @@ c ........................................................................
  
       implicit none
       include 'local_element.h'
+
+C arguments
       integer nwds, imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
-      character*132 logmess
-      character*1024 cmdmess
-      character*10   c_int
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
-      real*8 xic(*), yic(*), zic(*)
+
+C variables
+
       pointer (ipitettyp,itettyp),(ipitetoff,itetoff),(ipitet,itet)
       pointer (ipitetclr, itetclr)
       integer itettyp(*),itetoff(*),itet(*), itetclr(*)
@@ -88,15 +86,21 @@ c ........................................................................
       integer id_seed(*)
       pointer (ipitet_sum, itet_sum)
       integer itet_sum(*)
+
       integer k_id1(8), k_id2(8)
-      real*8 r
-      character*32 cmo,isubname
-      integer ierr,icscode,nelements,ilen,ityp,it,ioff
-      integer ityp1, ityp2, ioff1, ioff2
+      integer ierr,nelements,ilen,ityp,it,ioff,ityp2,ioff2
       integer itetclr_max, itetclr_tag, k_id1_sum, it1, it2, j
       integer if_same, i_search_range, if_delete, number_found
+
+      character*10   c_int
+      character*32   cmo,isubname
+      character*132  logmess
+      character*1024 cmdmess
  
 C#######################################################################
+C BEGIN begin
+C
+
 C get some initial info
  
       isubname='filter_elem_graph'

@@ -25,44 +25,56 @@ C
       include 'local_element.h'
       include 'consts.h'
 C
-      character*132 logmess
-C
       pointer ( ipitp1 , itp1 )
+      integer  itp1(*)
+
       pointer ( ipitetclr , itetclr )
+      pointer ( ipitettyp , itettyp )
+      integer itetclr(*),itettyp(*)
+
       pointer ( ipitetoff , itetoff )
       pointer ( ipjtetoff , jtetoff )
-      pointer ( ipitettyp , itettyp )
+      integer itetoff(*),jtetoff(*)
+
       pointer ( ipitet1 , itet1 )
       pointer ( ipjtet1 , jtet1 )
-      pointer ( ipxic,xic)
-      pointer ( ipyic,yic)
-      pointer ( ipzic,zic)
-      real*8 xic(*),yic(*),zic(*)
-      pointer ( ipclr, clr)
+      integer itet1(*),jtet1(*)
+
       integer clr(*)
+      pointer ( ipclr, clr)
       pointer ( iptetnum, tetnum)
       integer tetnum(*)
       pointer ( ipnf, nf)
       integer nf(*)
-      pointer ( ipareaf, areaf)
-      real*8 areaf(*)
-      integer itetclr(*),itettyp(*),itetoff(*),itet1(*),jtet1(*),
-     *   jtetoff(*)
-      integer  itp1(*)
-C
+ 
       pointer ( ipibnd1, ibnd1)
       integer ibnd1(*)
-C
-C#######################################################################
-C
+
+      integer n(6)
+
+      pointer ( ipxic,xic)
+      pointer ( ipyic,yic)
+      pointer ( ipzic,zic)
+      real*8 xic(*),yic(*),zic(*)
+      pointer ( ipareaf, areaf)
+      real*8 areaf(*)
+
+ 
       integer nelements,nnodes,i1,i2,i3,i4,length,icscode,i,kt,ityp,
      *   it,ne,oldclr,ilenc,itypc,neiclr,k,mbndry,j,jt,nfacets,
-     *   maxfacets,n(6)
-      character*32 isubname, cmo,status
-      real*8 vol,vol1,areatri,a(6)
+     *   maxfacets
+
+      real*8 a(6)
+      real*8 vol,vol1,areatri
+
       include 'statementfunctions.h'
+
+      character*132 logmess
+      character*32 isubname, cmo,status
 c
 C     ******************************************************************
+C BEGIN begin
+C
       isubname='test_interior_mat'
 C
 C     GET mesh object info
@@ -125,6 +137,7 @@ c
             ne=ne+1
 c
 c  look for boundary faces and count number of materials
+C  NOTE compiler warning of unsafe goto 50 statement
 c
             do j=1,4
                jt=jtet1(jtetoff(tetnum(it))+j)
@@ -201,6 +214,9 @@ c
                   do k=1,nfacets
                      if(neiclr.eq.nf(k)) then
                         areaf(k)=areaf(k)+areatri
+
+C compiler WARNING  
+C  Transfer of control into the DO loop is not safe
                         go to 50
                      endif
                   enddo

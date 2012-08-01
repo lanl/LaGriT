@@ -142,9 +142,9 @@ C
       pointer (ipitp1, itp1)
       pointer (ipicr1, icr1)
       pointer (ipisn1, isn1)
-      integer isetwd(1000000), ialias(1000000)
-      integer imt1(1000000), itp1(1000000),
-     *        icr1(1000000), isn1(1000000)
+      integer isetwd(*), ialias(*)
+      integer imt1(*), itp1(*),
+     *        icr1(*), isn1(*)
 C
       common / icmo_integer_pointers / ipisetwd,
      *                                 ipialias,
@@ -160,7 +160,7 @@ C
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
-      REAL*8 xic(1000000), yic(1000000), zic(1000000)
+      REAL*8 xic(*), yic(*), zic(*)
 C
       common / cmo_real_pointers / ipxic, ipyic, ipzic
       save / cmo_real_pointers /
@@ -174,9 +174,9 @@ C
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet)
       pointer (ipjtet, jtet1)
-      integer itetclr(1000000), itettyp(1000000)
-      integer itet(4,1000000), itet1(4*1000000)
-      integer jtet(4,1000000), jtet1(4*1000000)
+      integer itetclr(*), itettyp(*)
+      integer itet(4,*), itet1(*)
+      integer jtet(4,*), jtet1(*)
 C
       common / icmo_conn_pointers / ipitetclr,
      *                              ipitettyp,

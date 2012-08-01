@@ -1,7 +1,6 @@
 *dk,try2to2b
       subroutine try2to2b(nface,n2to2,
      *                    npoints,ntets)
-       implicit real*8 (a-h,o-z)
 C ######################################################################
 C
 C     PURPOSE -
@@ -76,26 +75,37 @@ CPVCS    Original version.
 C
 C ######################################################################
 C
-C
-C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
       include "cmerge.h"
-C
-C ######################################################################
-C
+
+C arguments (nface,n2to2,npoints,ntets)
+      integer nface,n2to2,npoints,ntets
+
+C variables
+      integer id(8),jd(8),itets(301)
+
       pointer (ipicontab,icontab)
-      integer icontab(50,1000000)
-      dimension id(8),jd(8),ktmp(lenblk),itets(301)
+      integer icontab(50,*)
+
+      integer i,j,k,i1,i2,i3,i4,i5,ip1,ip2,it,it2 
+      integer ierror,length,icmotype,nconbnd,lenitp1,lenicr1,
+     *        lenxic,lenyic,lenzic,lenitetclr,ier,lenitet,
+     *        lenjtet,ilen,itwo,iface,n1,n2,n3,volit,n2to0,
+     *        volit2,m,idup,icrnbr1,icrnbr2,icrnbr4,
+     *        icrnbr5,j1,j2,j4,j5,irb1,irb2,irb4,irb5,
+     *        iepos,iofs,ipos2,iflag,ntet,ibndflg,ivorerr,
+     *        itlast,itest1,itest2,idum,ierrwrt,nflips,itx
+
+      real*8  xn,yn,zn,sn,xnorm1,ynorm1,znorm1,snorm1,
+     *        xnorm2,ynorm2,znorm2,snorm2,dot1,dot2,xst
+
       logical itsttp
 C
-      dimension ifindx(4,4)
-C
-C ######################################################################
-C
-C
+      real*8 crosx1,crosy1,crosz1,volume
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -105,9 +115,12 @@ C
       volume(i1,i2,i3,i4)=(xic(i4)-xic(i1))*crosx1(i1,i2,i3)+
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
+
+C
+      character*132 logmess
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C
 C     ******************************************************************

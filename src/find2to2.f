@@ -1,7 +1,7 @@
 *dk,find2to2
       subroutine find2to2(it1,it2,i1,i2,i3,i4,i5,id,jd,
      *                    npoints,ntets)
-       implicit real*8 (a-h,o-z)
+
 C ######################################################################
 C
 C     PURPOSE -
@@ -56,17 +56,27 @@ CPVCS    Original version.
 C
 C
 C ######################################################################
+C 
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
+
+C arguments (it1,it2,i1,i2,i3,i4,i5,id,jd,npoints,ntets)
+      integer it1,it2,i1,i2,i3,i4,i5, npoints,ntets
+      integer id(8),jd(8)
+
+C variables
+C
+      integer ipos(2,2)
+      integer ierror,ierrwrt,lenitet,icmotype,lenjtet,i,it,
+     *        isum1,isum2,isum3,isum4,isum5,ict12,ict45
+
+      
 C
 C ######################################################################
-C
-      dimension id(8),jd(8),ipos(2,2)
-C
-C ######################################################################
-C
+C BEGIN begin
 C
 C     ******************************************************************
 C     FETCH MESH OBJECT NAME AND POINTER INFORMATION.

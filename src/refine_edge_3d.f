@@ -6,76 +6,105 @@ C $Log: refine_edge_3d.f,v $
 C Revision 2.00  2007/11/09 20:04:00  spchu
 C Import to CVS
 C
-CPVCS    
+CPVCS  
 CPVCS       Rev 1.1   08 Feb 2006 14:38:18   dcg
 CPVCS     "enforce lower case - add external statements for shift routines
 CPVCS    these changes needed to compile with absoft pro fortran"
 CPVCS    
-
 CPVCS       Rev 1.0   21 Mar 2002 10:07:18   dcg
-
 CPVCS    Initial revision.
-
 C
-      implicit real*8 (a-h,o-z)
+      implicit none
 C
       include 'local_element.h'
-C
+C     for definition of zero
+      include 'consts.h'
+
+C arguments
       character*(*) cmo
-C
+      integer ierr1
+
+C constants
+      integer nplen,nvalues
+      parameter (nplen=10000000)
+      parameter (nvalues=2)
+
+C variables
       pointer (ipimt1, imt1)
       pointer (ipitp1, itp1)
       pointer (ipisn1, isn1)
-      pointer (ipxic, xic)
-      pointer (ipyic, yic)
-      pointer (ipzic, zic)
-      integer imt1(1000000), itp1(1000000), isn1(1000000)
-      dimension xic(1000000), yic(1000000), zic(1000000)
+      integer imt1(*), itp1(*), isn1(*)
+
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
+      integer itetclr(*), itettyp(*),
+     *        itetoff(*), jtetoff(*)
+
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
-      integer itet1(1000000), jtet1(1000000)
-C
+      integer itet1(*), jtet1(*)
+ 
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
-C
+      integer iparent(*)
+ 
       pointer (ipint1, int1)
-      integer int1(1000000)
-C
+      integer int1(*)
+ 
       pointer (ipitadd, itadd)
       pointer (ipieadd, ieadd)
-      integer itadd(1000000), ieadd(1000000)
+      integer itadd(*), ieadd(*)
+
       pointer (ipip1, ip1)
       pointer (ipip2, ip2)
-      integer ip1(1000000), ip2(1000000)
+      integer ip1(*), ip2(*)
+
       pointer (ipiadd, iadd)
+      integer iadd(*)
+
+      integer ierror,ier,icscode,ierrdum
+      integer i,j,k,i1,i2,i3,i4,it,nadd,ntets,length,
+     *        iflag,ie,j1,j2,j3,npoints,icmotype,mbndry,
+     *        nen,nef,lenimt1,lenitp1,lenisn1,iflag1,
+     *        lenxic, lenyic,lenzic,lenitetclr,lenitettyp,
+     *        lenitetoff,lenjtetoff,lenitet,lenjtet,l,k2,k3
+
+C
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
+
       pointer (ipxadd, xadd)
       pointer (ipyadd, yadd)
       pointer (ipzadd, zadd)
-      integer iadd(1000000)
-      real*8 xadd(1000000), yadd(1000000), zadd(1000000)
+      real*8 xadd(*), yadd(*), zadd(*)
+
       pointer (ipxdot1, xdot1)
-      real*8 xdot1(1000000)
+      real*8 xdot1(*)
+
+      real*8 xfac,xdot,ds23,ds2i,ds3i,ds1,ds2,ds3
+      real*8 x1,y1,z1,x2,y2,z2,x3,y3,z3,xint,yint,zint
+      real*8 xa,ya,za,xb,yb,zb,xd,yd,zd,xn1,yn1,zn1,
+     *       xn,yn,zn,rn,dotb3,dot3,rb3,ql,xl,yl,zl,
+     *       xv,yv,zv,x23,y23,z23,xarea,
+     *       voltri,voltri1,voltri2,epsilonl
 C
-      parameter (nvalues=2)
       real*8 atolerance
       parameter (atolerance=1.0d-10)
-c
-      character*32 isubname
+
+      real*8 xfactri
+      data xfactri / 0.5d+00 /
+C*****data xfactri / 0.333333333333333d+00 /
+ 
       integer itriface0(3), itriface1(3,3)
       data itriface0 / 2, 2, 2 /
       data itriface1 / 2, 3, 1,
      *                 3, 1, 2,
      *                 1, 2, 3 /
-C
-C*****data xfactri / 0.333333333333333d+00 /
-      data xfactri / 0.5d+00 /
-C
+     
+      real*8 crosx1,crosy1,crosz1,volume 
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -85,16 +114,19 @@ C
       volume(i1,i2,i3,i4)=(xic(i4)-xic(i1))*crosx1(i1,i2,i3)+
      *                    (yic(i4)-yic(i1))*crosy1(i1,i2,i3)+
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
-C
+
+      real*8 crosx,crosy,crosz,a,b,c,d,e,f
       crosx(a,b,c,d,e,f)=b*f-c*e
       crosy(a,b,c,d,e,f)=c*d-a*f
       crosz(a,b,c,d,e,f)=a*e-b*d
 C
-      ierr1=0
-C
-      isubname='refine_edge_3d'
+      character*32 isubname
 C
 C     ******************************************************************
+C  BEGIN begin
+C
+      ierr1=0
+      isubname='refine_edge_3d'
 C
 C
       call cmo_get_info('nnodes',cmo,npoints,length,icmotype,ierror)
@@ -133,8 +165,8 @@ C        int1() =  0 ==> not an interface point.
 C        int1() =  1 ==> an interface point.
 C
       call mmfindbk('xic',cmo,ipxic,length,icscode)
-      call mmgetblk("int1",isubname,ipint1,length,2,icscode)
-      call unpacktp("intrface","set",npoints,ipitp1,ipint1,ierrdum)
+      call mmgetblk('int1',isubname,ipint1,length,1,icscode)
+      call unpacktp('intrface','set',npoints,ipitp1,ipint1,ierrdum)
       if(ierrdum.ne.0) call x3d_error('refine_edge_add', 'unpacktp')
 C
       call get_epsilon('epsilonl', epsilonl)

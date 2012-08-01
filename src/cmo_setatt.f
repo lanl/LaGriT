@@ -177,29 +177,35 @@ c
 c#######################################################################
 c
       include 'cmo_lg.h'
-c
-c#######################################################################
-c
-c
-      pointer ( ipmpary1 , mpary1(1) )
-      pointer (ipitp1,itp1(1000000))
-      pointer (ipisetwd,isetwd(1000000))
-      pointer (ipxtetwd,xtetwd(1000000))
-      integer itp1,isetwd,xtetwd
-      integer mpary1
-c
-      integer nwds, imsgin(nwds), msgtype(nwds)
-      REAL*8 xmsgin(nwds)
+
+C arguments (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
+      integer nwds, ierror
+      integer imsgin(nwds), msgtype(nwds)
+      REAL*8  xmsgin(nwds)
       character*(*) cmsgin(nwds)
-C
-      pointer(ipxfield,xfield)
-      real*8 xfield(*)
+ 
+C variables
+ 
+      pointer ( ipmpary1 , mpary1)
+      pointer (ipisetwd,isetwd)
+      pointer (ipxtetwd,xtetwd)
+      integer mpary1(*),isetwd(*),xtetwd(*)
+      pointer (ipitp1,itp1)
+      integer itp1(*)
+
       pointer(ipxfield,ifield)
       integer ifield(*)
       pointer(ipxfield,cfield)
       character*32 cfield(*)
-C
-      integer  ntets,length,icmotype,ierror,cmonmlen
+      pointer(ipxfield,xfield)
+      real*8 xfield(*)
+
+      pointer (ipout,out)
+      real*8 out(*)
+
+      real*8  xvalue,xmin,xmax,rout
+ 
+      integer  ntets,length,icmotype,cmonmlen
       integer indxtyp, i, inxt, ilast, istart, iend
       integer ics,ierr,ierrw,lenattnam,
      * len,ier,ilength,ilen,itin,attlen,index,nmcmoat,
@@ -207,28 +213,25 @@ C
      * ipt1,ipt2,ipt3, ipt1_sav,ipt2_sav,ipt3_sav,
      * it,mpno,j1,i1,irank,l,iout,lout,isetvar,
      * attyp,ityp,itotal,nset,ifound
-      pointer (ipout,out)
-      real*8 out(*)
-c
       integer ivalue,imin,imax
-      real*8  xvalue,xmin,xmax,rout
-      integer printopt
-      integer NOWRITE, VALUES, LIST, MINMAX
-      logical iset, ivalid, mmset
+
       integer icharlnf
-c
+      integer printopt
+
+      integer NOWRITE, VALUES, LIST, MINMAX
+      data NOWRITE, VALUES, LIST, MINMAX /0,1,2,3/
+
+      logical iset, ivalid, mmset
+ 
       character*32 attnam,cout,cvalue
       character*32 clength, cname,att_name,cinter,cpers,cio
       character*32 isubname
  
       character*32 ich1,ich2,ich3, cmo, crank, ctype,clen
       character*132 logmess
- 
-      data NOWRITE, VALUES, LIST, MINMAX /0,1,2,3/
-c
 c
 c#######################################################################
-c
+c BEGIN begin
 c
 c     ******************************************************************
 c

@@ -1,7 +1,6 @@
 *dk,test2to3
-      subroutine test2to3(n1,n2,n3,n4,n5,iflag,
-     *                    npoints,ntets)
-       implicit real*8 (a-h,o-z)
+      subroutine test2to3(n1,n2,n3,n4,n5,iflag,npoints,ntets)
+C
 C ######################################################################
 C
 C     PURPOSE -
@@ -48,11 +47,21 @@ CPVCS       Rev 1.0   11/10/94 12:19:10   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
-C
-C ######################################################################
+
+C arguments (n1,n2,n3,n4,n5,iflag,npoints,ntets)
+      integer n1,n2,n3,n4,n5,iflag,npoints,ntets
+
+      integer i,j,k,ierror,lenxic,lenyic,lenzic,icmotype
+
+      real*8 xst,xn1,yn1,zn1,sn1,xnorm1,ynorm1,znorm1,
+     *       xnorm2,ynorm2,znorm2,xnorm3,ynorm3,znorm3,
+     *       snorm1,snorm2,snorm3,dot1,dot2,dot3
+
+      real*8 crosx1,crosy1,crosz1
 C
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
@@ -63,7 +72,7 @@ C
 C
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C
 C     ******************************************************************

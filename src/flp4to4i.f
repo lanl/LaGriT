@@ -1,7 +1,6 @@
 *dk,flp4to4i
       subroutine flp4to4i(it1,it2,it3,it4,id,jd,
      *                    npoints,ntets)
-       implicit real*8 (a-h,o-z)
 C
 C ######################################################################
 C
@@ -53,19 +52,27 @@ CPVCS       Rev 1.0   11/10/94 12:13:34   pvcs
 CPVCS    Original version.
 C
 C ######################################################################
+      implicit none
 C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
-      dimension id(16),jd(16)
+
+C arguments
+      integer it1,it2,it3,it4,npoints,ntets
+      integer id(16),jd(16)
+
+C variables
+      integer i,j,k,i1,i2,i3,i4
+      integer ierror,length,lenimt1,lenxic,k1,k2,k3,k4,
+     *        lenyic,lenzic,lenitetclr,ier,lenitet,lenjtet,
+     *        icmotype,jtemp
 C
 C ######################################################################
 C
 C     DEFINE THE STATEMENT FUNCTIONS NEEDED TO CALCULATE TET VOLUMES.
 C
+      real*8 crosx1,crosy1,crosz1,volume
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -77,7 +84,7 @@ C
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C     ******************************************************************
 C     FETCH MESH OBJECT NAME AND POINTER INFORMATION.

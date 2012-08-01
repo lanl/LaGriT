@@ -2,7 +2,6 @@
       subroutine try4to4xv(iepos,it,iflag,ntet,mtet,
      *         xmegah,xmegadet,xmegaerr,
      *         npoints,ntets,toldamage,iopt2to2)
-       implicit none
 C
 C ######################################################################
 C
@@ -48,27 +47,45 @@ CPVCS    test for correct tet material types before attempting flip
 C
 C ######################################################################
 C
+      implicit none
+C
       include "cmo.h"
       include "chydro.h"
       include "neibor.h"
-C
-C ######################################################################
-C
-      integer ntet(*),mtet(*),
-     *  idold(16),idnew(16),jdold(16),jdnew(16)
-      integer iepos,it,iflag, i,it2,it3,it4,it5,ifac,ifac2,ifac3,
-     *      ifac4, ierror,  npoints,ntets,length,icmotype,ierflg,
-     *      i1,i2,i3,i4,i5,i6,ipos2,ipos3,iflg1,iflg2,
-     *      ifour,ier,j,k,kpe,nsd,n,m,iofs,jj,nmulti,ipar,i3b,i4b,
-     *      ict,imt1a(200),ichain(200),imtx,iflg,ipar1,iopt2to2
-      real*8 crosx1,crosy1,crosz1,volume,xxlarge,val1,val2,
-     *     vol1,vol2,vol3,vol4,alargenumber,
-     *     valinit,en,em,toldamage
-      parameter (alargenumber= 1.0d+30)
-      real*8 xmegah(*), xmegadet(*),xmegaerr(*)
-      logical flip,interface1,interface2,itsttp
+
+C arguments 
+C   (iepos,it,iflag,ntet,mtet,xmegah,xmegadet,xmegaerr,
+C                             npoints,ntets,toldamage,iopt2to2)
+
+      integer iepos,it,iflag
+      integer ntet(*),mtet(*)
+      real*8 xmegah(*), xmegadet(*), xmegaerr(*)
+      integer npoints,ntets
+      real*8 toldamage
+      integer iopt2to2
+
+C variables
+      integer nmulti
       data nmulti/200/
+
+      integer idold(16),idnew(16),jdold(16),jdnew(16)
+      integer imt1a(200),ichain(200)
+
+      integer  i,it2,it3,it4,it5,ifac,ifac2,ifac3,
+     *      ifac4, ierror, length,icmotype,ierflg,
+     *      i1,i2,i3,i4,i5,i6,ipos2,ipos3,iflg1,iflg2,
+     *      ifour,ier,j,k,kpe,nsd,n,m,iofs,jj,ipar,i3b,i4b,
+     *      ict,imtx,iflg,ipar1
+
+      logical flip,interface1,interface2,itsttp
+
+      real*8 xxlarge,val1,val2,vol1,vol2,vol3,vol4,
+     *       valinit,en,em
+
+      real*8 alargenumber
+      parameter (alargenumber= 1.0d+30)
 C
+      real*8 crosx1,crosy1,crosz1,volume
       crosx1(i,j,k)=(yic(j)-yic(i))*(zic(k)-zic(i))-
      *              (yic(k)-yic(i))*(zic(j)-zic(i))
       crosy1(i,j,k)=(xic(k)-xic(i))*(zic(j)-zic(i))-
@@ -80,7 +97,7 @@ C
      *                    (zic(i4)-zic(i1))*crosz1(i1,i2,i3)
 C
 C ######################################################################
-C
+C BEGIN begin
 C
 C
 C     ******************************************************************
