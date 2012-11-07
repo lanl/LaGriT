@@ -27,6 +27,8 @@ c
 c     arguments
 c     character*(*) ifile
 
+      integer nbitsmax
+      parameter (nbitsmax=32)
       integer nwds
       integer imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
@@ -48,10 +50,9 @@ c     vars in place of nelmnen and nelmnef
       integer len_cmo_name, iblk_num, if_debug_local
       integer icharlnf,eltyp
       integer ierror_return
-
       integer nnodes, nelements, nen, mbndry
       integer iout,loutx,louty,loutz,loutk,itype
-      integer lout
+      integer lout, length
       integer nsdgeom, ndimtopo
       integer status
       integer ilen, llen_string, llen_line
@@ -60,8 +61,8 @@ c     vars in place of nelmnen and nelmnef
       integer wsize,fsize
       integer maxelblk
       integer nouter1, nouter2, nnouter
-      integer nsidesets1, nsidesets2, nsidesets, nnodesets
-      integer import_sidesets, nfiles
+      integer nsidesets1, nsidesets2, nsidesets
+      integer neltsets, npsets, nfiles
       integer n11, n12, n13, n21, n22, n23
       integer fnodes_j(4), fnodes_k(4)
       integer nfnk, nfnj, nf, nn
@@ -70,22 +71,24 @@ c     vars in place of nelmnen and nelmnef
       integer elem_id, iblk_id
       integer idexo, icompws, iows, inumatt, num_qa_rec
       integer idexi, in_compws, in_ws, in_numatt, in_num
-      integer iunit, iflag, ncount, ival, ival2
+      integer iunit, iflag, ncount, ival, ival2, itp1
+      integer setcount, index, mpno, set_id
       integer*4 iunit4
+      integer num_att_vec(2)
+      integer qarecvec(3)
 
       real*8  t1xyz(3,3), t2xyz(3,3), lxyz1(3,2), lxyz2(3,2)
       real*8  cosang, cosang_flat
       real api,vers
       
       logical done
+      logical output_psets, output_eltsets, output_facesets,
+     *   import_facesets, auto_facesets, auto_nodesets
 
-      integer num_att_vec(2)
-      integer qarecvec(3)
+      pointer (ipflist, flist)
+      character*72 flist(nwds)
 
       character*72 ifile, ifile2, filename, cmo_name
-      character*72 flist(nwds)
-      pointer (ipflist, flist)
-
       character*24 now
       character*33 qarec_text(4),coor_names_text(3)
       character*33 name_nod_var0(500), name_elem_var0(500)
@@ -143,6 +146,8 @@ C
       integer jtet(*),jtetoff(*)
       pointer (ipikey_utr,ikey_utr)
       integer ikey_utr(*)
+      pointer (ipitp1, itp1)
+      integer itp1(*)
       pointer (ipimt1,imt1)
       integer imt1(*)
       pointer (ipitetclr,itetclr)
@@ -151,6 +156,19 @@ C
       integer itettyp(*)
       pointer (ipitetp,itetp)
       integer itetp(*)
+      pointer (ipeltsetnames1,eltsetnames1)
+      character*32 eltsetnames1(*)
+      pointer (ippsetnames1,psetnames1)
+      character*32 psetnames1(*)
+      character*32 cpt1, cpt2, cpt3
+      pointer (ippmpary1, pmpary1)
+      integer pmpary1(*)
+      pointer (ipempary1, empary1)
+      integer empary1(*)
+      pointer (ipxtetwd, xtetwd)
+      integer xtetwd(*)
+      pointer (ipisetwd, isetwd)
+      integer isetwd(*)
 
 c
 c     Local temporary memory managed arrays
@@ -209,9 +227,19 @@ C
 c**********************************************************
 C     Begin dumpnetcdf
 C
+
+C     Initialize flags for output sets
+      output_psets = .false.
+      output_eltsets = .false.
+      output_facesets = .false.
+      import_facesets = .false.
+      auto_facesets = .false.
+      auto_nodesets = .false.
+
+
       ierror_return = 0
       if_debug_local = 0
-      import_sidesets = 0
+
 c
       isubname ='dumpexodusII'
       lentitle= 'LaGriT to ExodusII output'
@@ -261,97 +289,49 @@ C     dump/exo/ ifile / cmoname / option
          call writloga('default',0,logmess,1,ierr)
          ierror_return = -1
       endif
-
       
-C     dump/exo/ ifile/ cmoname / facesets 
-C     dump/exo/ ifile / cmoname/ facesets / on
-C     dump/exo/ ifile / cmoname/ facesets / off
-C     dump/exo/ ifile / cmoname/ facesets / file1,file2,...filen
-C     dump/exo/ ifile / cmoname/ facesets / on file1,file2,...filen
-C     dump/exo/ ifile / cmoname/ facesets / off file1,file2,...filen
 
-      if (msgtype(5).eq.3 .and. cmsgin(5)(1:8).eq.'facesets') then
+C     No psets and eltsets: dump/exo/ outfile/ cmoname / / / facesets
+C     No facesets: dump/exo/ outfile/ cmoname / psets / eltsets /
+C     dump/exo/ outfile/ cmoname / psets / eltsets / facesets 
+C     dump/exo/ outfile/ cmoname / psets / eltsets / facesets file1,file2,...filen
 
-         if (nwds.gt.5 .and. msgtype(6).eq.3 ) then
-           if (cmsgin(6).eq. 'on') then
-	      option = cmsgin(6)
-              if (nwds .gt. 6) then
-	      import_sidesets = 1
+C     Check for pset and eltset options
+      if (msgtype(5).eq.3 .and. cmsgin(5)(1:5).eq.'psets') then
+         output_psets = .true.
+      endif
 
-	      call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
-              if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk flist')
+      if (msgtype(6).eq.3 .and. cmsgin(6)(1:7).eq.'eltsets') then
+         output_eltsets = .true.
+      endif
 
-              nfiles = 0
-              do ii = 7,nwds
-        	nfiles = nfiles+1
-        	flist(nfiles) = cmsgin(ii)
-        	print*,'got ',nfiles,flist(nfiles)
+
+C     Check for faceset option
+
+      if (msgtype(7).eq.3 .and. cmsgin(7)(1:8).eq.'facesets') then
+         auto_facesets = .true.
+         output_facesets = .true.
+         if (nwds.gt.7) then
+            auto_facesets = .false.
+            import_facesets = .true.
+	    call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
+            if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk flist')
+
+            nfiles = 0
+            do ii = 8,nwds
+              nfiles = nfiles+1
+              flist(nfiles) = cmsgin(ii)
+              print*,'got ',nfiles,flist(nfiles)
         	
-        	ilen = icharlnf(flist(nfiles))
-        	call fexist(flist(nfiles)(1:ilen),ierr)
-        	if(ierr.eq.0) then
-        	  print*,'Missing facesets file: ',flist(nfiles)(1:ilen)
-        	  ierror_return = -2
-        	  goto 9999
-        	endif
-
-              enddo
-	      endif
-
-	   elseif (cmsgin(6).eq. 'off') then
-	      option = cmsgin(6)
-              if (nwds .gt. 6) then
-	      import_sidesets = 1
-
-	      call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
-              if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk flist')
-
-              nfiles = 0
-              do ii = 7,nwds
-        	nfiles = nfiles+1
-        	flist(nfiles) = cmsgin(ii)
-        	print*,'got ',nfiles,flist(nfiles)
-        	
-        	ilen = icharlnf(flist(nfiles))
-        	call fexist(flist(nfiles)(1:ilen),ierr)
-        	if(ierr.eq.0) then
-        	  print*,'Missing facesets file: ',flist(nfiles)(1:ilen)
-        	  ierror_return = -2
-        	  goto 9999
-        	endif
-
-              enddo
-	      endif
-	   else
-	      import_sidesets = 1
-
-	      call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
-              if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk flist')
-
-              nfiles = 0
-              do ii = 6,nwds
-        	nfiles = nfiles+1
-        	flist(nfiles) = cmsgin(ii)
-        	print*,'got ',nfiles,flist(nfiles)
-        	
-        	ilen = icharlnf(flist(nfiles))
-        	call fexist(flist(nfiles)(1:ilen),ierr)
-        	if(ierr.eq.0) then
-        	  print*,'Missing facesets file: ',flist(nfiles)(1:ilen)
-        	  ierror_return = -2
-        	  goto 9999
-        	endif
-
-              enddo 
-	   endif
-         else 
-
-           write(logmess,"(a,a)") 'dump/exo/ ifile / cmoname', 
-     *     " Unknown options, will write default facesets."
-           call writloga('default',0,logmess,1,ierr)
-
+              ilen = icharlnf(flist(nfiles))
+              call fexist(flist(nfiles)(1:ilen),ierr)
+              if(ierr.eq.0) then
+                print*,'Missing facesets file: ',flist(nfiles)(1:ilen)
+                ierror_return = -2
+                goto 9999
+              endif
+            enddo
          endif
-
       endif
 
 
@@ -423,6 +403,7 @@ c     Retrieve detailed info about mesh including coordinates, connectivity
       call cmo_get_info('yic',cmo_name,ipyic,lout,itype,ierr)
       call cmo_get_info('zic',cmo_name,ipzic,lout,itype,ierr)
       call cmo_get_info('imt1',cmo_name,ipimt1,lout,itype,ierr)
+      call cmo_get_info('itp1',cmo_name,ipitp1,lout,itype,ierr)
       call cmo_get_info('itetclr',cmo_name,
      *                  ipitetclr,lout,itype,ierr)
       call cmo_get_info('itettyp',cmo_name,
@@ -444,10 +425,8 @@ c     Retrieve detailed info about mesh including coordinates, connectivity
       call cmo_get_info('ndimensions_topo',cmo_name,
      *                        ndimtopo,lout,itype,ierr)
       call cmo_get_info('mbndry',cmo_name,mbndry,lout,itype,ierr)
-
-
-
-
+      call cmo_get_info('xtetwd',cmo_name,ipxtetwd,lout,itype,ierr)
+      call cmo_get_info('isetwd',cmo_name,ipisetwd,lout,itype,ierr)
 
 
 
@@ -455,9 +434,48 @@ c-------------------------------------------------------------------
 c     PREPROCESS
 c-------------------------------------------------------------------
 
+c-------------------------------------------------------------------
+c     COUNT ELEMENT SETS AND POINT SETS
+c-------------------------------------------------------------------
+      print*
+      print*, 'Counting number of psets and eltsets'
+      if (output_psets .eqv. .true.) then
+         npsets = 0
+         call mmfindbk('psetnames',cmo_name,
+     *        ippsetnames1,lout,ierr)
+         do i=1,nbitsmax
+            if (psetnames1(i) .ne.' '.and.
+     *          psetnames1(i)(1:5).ne.'-def-')
+     *         npsets=npsets + 1
+         enddo
+         length = max(nnodes, nelements)
+         call mmgetblk('pmpary1',isubname,ippmpary1,length,2,ierr)
+      else
+         npsets = 0
+      endif
+      print *, 'Finish counting psets'
+      print *, 'Number of psets: ', npsets
 
 
-c     FIRST DO SOME PROCESSING TO SET UP ELEMENT BLOCKS
+      if (output_eltsets .eqv. .true.) then
+         neltsets = 0
+         call mmfindbk('eltsetnames',cmo_name,
+     *        ipeltsetnames1,lout,ierr)
+         do i=1,nbitsmax
+            if (eltsetnames1(i) .ne.' '.and.
+     *          eltsetnames1(i)(1:5).ne.'-def-')
+     *         neltsets=neltsets + 1
+         enddo
+         length = max(nnodes, nelements)
+         call mmgetblk('empary1',isubname,ipempary1,length,2,ierr)
+      else
+         neltsets = 0
+      endif
+      print *, 'Finish counting eltsets'
+      print *, 'Number of eltsets: ', neltsets
+      print*
+
+c     DO SOME PROCESSING TO SET UP ELEMENT BLOCKS
 
 c
 c     First count the blocks, then allocate an array, then fill the array.
@@ -537,10 +555,7 @@ c
 
 
 
-
-
-
-c     THEN DO SOME PROCESSING TO SET UP SIDESETS
+c     THEN DO SOME PROCESSING TO SET UP FACESETS
 
 c     First we will form a list of outer faces - outerfaces1,outerelems1
 c
@@ -594,29 +609,27 @@ c     collect all the outer faces
       enddo
 
 
-      if (option .eq. 'off') then
-	if ( import_sidesets .eq. 1) then
+      if (output_facesets .eqv. .true.) then
+	if ( auto_facesets .eqv. .false.) then
 	   call mmgetblk
      &        ('sselemlist',isubname,ipsselemlist,3*nouter1,1,ierr)
 	   call mmgetblk
      &        ('ssfacelist',isubname,ipssfacelist,3*nouter1,1,ierr)
-	   nnodesets = 0
 	   goto 2001
 	else
-	   print *, 'No facesets imported, no. of faceset = 0.'
-	   nsidesets = 0
-	   nnodesets = 0
-	   goto 4000
-	endif
+           goto 2000
+        endif
       else
-	goto 2000
+	nsidesets = 0
+	goto 4000
       endif
 
 
 c     Break up these faces first according to sharp edges (or edges
 c     according to sharp corners)
 
- 2000 print *, 'GOING THROUGH THE LONG LOOP!!!!!!!!!'
+ 2000 print *, 'WARNING: trying to figure out sidesets automatically'
+      print *, 'This process will take a while'
       call mmgetblk
      &     ('fmarked',isubname,ipfmarked,nouter1,1,ierr)
       call mmgetblk
@@ -955,15 +968,22 @@ c     mesh will be made into one sideset (the first one)
          offset = offset + nfaces_ss1(i)
          ibeg = ibeg + nfaces_ss1(i)
       enddo
-      print *, 'JUST GONE THROUGH THE LONG LOOP!!!!!!!!!'
+      print *, 'Done setting up the sidesets!'
+      print*
 
 
-c     ASSUME THERE ARE AS MANY NODESETS AS SIDESETS - EACH NODESET IS
-c     JUST A COLLECTION OF THE UNIQUE NODES OF A SIDESET
+c     ASSUME THERE ARE AS MANY PSETS AS FACESETS - EACH PSET IS
+c     JUST A COLLECTION OF THE UNIQUE NODES OF A FACESET
       
 c     assuming each mesh face has a max of four nodes, allocate the most
 c     conservative amount of space for list of outer nodes
 
+      if ((output_psets .eqv. .true.) .and. (npsets .eq. 0)) then
+      print *, 'WARNING: You have not defined any psets'
+      print *, 'Trying to define psets automatically'
+      print *, 'Assume there are as many psets as facesets.'
+      print *, 'Each pset is just a collection of'
+      print *, 'the unique nodes of a faceset.'
       nnouter = 0
       do i = 1, nsidesets
          nnouter = nnouter + nfaces_ss(i)
@@ -1014,7 +1034,11 @@ c                 add to nodeset
          ibeg = ibeg + nfaces_ss(i)
 
       enddo                     ! do i = 1, nsideset
-      nnodesets = nsidesets
+      npsets = nsidesets
+      auto_nodesets = .true.
+      endif
+      goto 4000
+      
 
 
 C TAM - add option to import facesets from files
@@ -1025,11 +1049,7 @@ C     nfaces_ss( )  - indexes into big arrays
 C     sselemlist( ) - indexed big array with all elem sets 
 C     ssfacelist( )  - indexed big array with all face sets)
 
-C     get sidesets from list of files
-      if (import_sidesets .eq. 1) then
-       
- 2001 print*,'Exodus SIDESETS imported from files. ',nfiles
-      print*,'Overwrite internal defs with nsidesets: ',nsidesets
+ 2001 print*,'Exodus FACESETS imported from files. ',nfiles
       
       offset = 0
       ibeg=0
@@ -1041,7 +1061,7 @@ C     get sidesets from list of files
         call hassign(iunit,ifile2,ierr)
         iunit4 = iunit
         if (ierr.lt.0 .or. iunit.lt.0) then
-            write(logmess,*) 'WARNING: file not opened: '
+            write(logmess,*) 'ERROR: file not opened: '
      &         //ifile2(1:ilen)
             call writloga('default',1,logmess,0,ierr)
             ierr = -1
@@ -1087,7 +1107,7 @@ C       read and save values from current file
          print*,'No idelem idface tags in file ',ifile2(1:ilen)
        endif
 
-C     ********** now overwrite previous sideset arrays *******
+C     ********** now write to faceset arrays *******
       iend = offset + ncount
       if (iend .gt. nouter1*3) then
         print*,'Warning: ncount may be greater than array size.'
@@ -1112,25 +1132,18 @@ C     ********** now overwrite previous sideset arrays *******
       offset = offset + nfaces_ss(i)
       print*,'Set new offset: ',offset
 
-C     ********** done overwrite previous sideset arrays *******
+C     ********** done writing to faceset arrays *******
 
 C     end loop through nfiles
       enddo
+      nsidesets = nfiles
 
  9000 if (ierr .lt. 0) then
-        print*,'Could not read facesets file ',ifile2(1:ilen)
+        print*, 'Could not read facesets file ',ifile2(1:ilen)
+	print*, 'No facesets will be defined'
+        nsidesets = 0
       endif
-      goto 4000
-  
-
-C     default - create facesets internally using materials
-      else 
-      
-        print*,'Exodus SIDESETS defined internally. '
-        print*,'   nsidesets: ',nsidesets
-
-      endif
-
+      continue
 
 
 
@@ -1162,45 +1175,10 @@ C     hard-coded here. Likewise for iows, the IO word size.
 c
 c     Put initialization information
 c
-
-C TAM
-      if (option .eq. 'on') then
-	print*,'INITIALIZE exodus '
-	print*,'   nnodes: ',nnodes
-	print*,'   nelements: ',nelements
-	print*,'   nelblocks: ',nelblocks
-	print*,'   nnodesets: ',nnodesets
-	print*,'   nsidesets: ',nsidesets
-	if (import_sidesets .eq. 1) then
-           nsidesets = nfiles
-           print*,'   nsidesets changed to: ',nsidesets
-	else
-	   print*, 'DEFAULT - parameters created internally.'
-	endif
-      elseif (option .eq. 'off') then
-	if (import_sidesets .eq. 1) then
-           nsidesets = nfiles
-           print*,'   nsidesets is created: ',nsidesets
-	   print*,'INITIALIZE exodus '
-	   print*,'   nnodes: ',nnodes
-	   print*,'   nelements: ',nelements
-	   print*,'   nelblocks: ',nelblocks
-	   print*,'   nnodesets: ',nnodesets
-	   print*,'   nsidesets: ',nsidesets
-	else
-	   print*, 'No facesets imported, nsidesets = 0'
-   	   print*,'INITIALIZE exodus '
-	   print*,'   nnodes: ',nnodes
-	   print*,'   nelements: ',nelements
-	   print*,'   nelblocks: ',nelblocks
-	   print*,'   nnodesets: ',nnodesets
-	   print*,'   nsidesets: ',nsidesets
-	endif
-      endif
-	
-
-      call EXPINI(idexo, 'Lagrit-to-ExodusII', nsdgeom, nnodes, 
-     &     nelements, nelblocks, nnodesets, nsidesets, status)
+      print*,'INITIALIZE exodus '
+      call exo_lg_ini(idexo, nsdgeom, nnodes, 
+     &     nelements, nelblocks, npsets, 
+     &     nsidesets, neltsets, status)
 
       if (status.ne.0) then 
          call exerr(isubname,
@@ -1308,13 +1286,11 @@ c        in any block
 
       enddo
 
+C     Write out node sets
 
-C     print *, "CHECK ERR P1"
-
-c     Write out node sets
-
+      if (auto_nodesets .eqv. .true.) then
       ibeg = 1
-      do i = 1, nnodesets
+      do i = 1, npsets
 
          call EXPNP(idexo, nodeset_tag(i), nnodes_ns(i), 0, status)
          if (status.ne.0) then 
@@ -1335,9 +1311,56 @@ c     Write out node sets
          ibeg = ibeg + nnodes_ns(i)
       enddo
 
-C     print *, "CHECK ERR P2"
+      else
+      if (npsets .ne. 0) then
+      set_id = 0
+      print *, 'NUMBER OF NODE SETS: ', npsets
+      do j = 1, nbitsmax
+         if((psetnames1(j) .ne.' ')   .and.
+     *      (psetnames1(j)(1:5) .ne. '-def-')) then
+            set_id = set_id + 1
+            cpt1='pset'
+            cpt2='get'
+            cpt3=psetnames1(j)
+            mpno=nnodes
+            call pntlimc(cpt1,cpt2,cpt3,ippmpary1,mpno,
+     *          nnodes,isetwd,itp1)
+            print*, 'Writing to EXO file nodeset no. ', set_id
+C            do i = 1, mpno
+C               print*, 'Value of node in this set', pmpary1(i)
+C            enddo
+            call exo_put_sets(idexo, EX_NODE_SET, trim(cpt3), set_id,
+     *         mpno, 0, pmpary1, status)
+         endif
+      enddo
+      endif
+      endif
 
-c     Write out side sets
+C     Write out element sets
+
+      if (neltsets .ne. 0) then
+      set_id = 0
+      print *
+      print *, 'NUMBER OF ELEMENT SETS: ', neltsets
+      do j = 1, nbitsmax
+         if((eltsetnames1(j) .ne.' ')   .and.
+     *      (eltsetnames1(j)(1:5) .ne. '-def-')) then
+            set_id = set_id + 1
+            cpt1='eset'
+            cpt2='get'
+            cpt3=eltsetnames1(j)
+            mpno=nelements
+            call eltlimc(cpt1,cpt2,cpt3,ipempary1,mpno,
+     *          nelements,xtetwd)
+            print*, 'Writing to EXO file eltset no. ', set_id
+            call exo_put_sets(idexo, EX_ELEM_SET, trim(cpt3), set_id,
+     *         mpno, 0, empary1, status)
+         endif
+      enddo
+      endif
+
+
+c     Write out face sets
 
 
 c     First transform LaGriT local face numbers to Exodus II local face
