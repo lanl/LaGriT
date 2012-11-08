@@ -34,12 +34,14 @@ C
       implicit none
       integer ierror_return
 C
+      ierror_return = 0
       call initlagrit('noisy',' ',' ')
 C
       call control_command_lg(ierror_return)
 C
       stop
-      end
+      end program lagrit_main
+
       subroutine user_sub(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierr1)
 C
 C
