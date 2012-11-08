@@ -38,6 +38,12 @@
 # Modified July 7 2009 to update compiler flags for V2.100 release 
 # Modified Jan 1 2011 to include gfortran flags and .cpp files
 # Modified Aug 8 2011 to include work from Adam Cozzette and .cpp files 
+# Modified Nov 2012 to work with new exodus libraries (see dump/exo):
+#   http://sourceforge.net/projects/exodusii/files/
+#     Exodus II 5.22a
+#     HDF5 version 1.8.6
+#     netcdf-4.1.3
+#     Contact: Greg Sjaardema, Sandia National Laboratories, gdsjaar@sandia.gov
 #
 ##########################################################################
 # user defined variables 

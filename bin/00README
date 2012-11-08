@@ -1,8 +1,52 @@
 Directory to hold LaGriT executable files.
 Online release notes: http://lagrit.lanl.gov/release.shtml
+============================================================
+As of Sep 26 2012 the LAGRIT dev directory holds all 
+Versions and *.txt , this is now personal space.
+
+Versions to be used by dev team are copied to /n/swdev/LAGRIT/bin 
+
+Versions to be used distributed are copied to /n/swqa/LAGRIT/bin 
+   and associated archive directory
 
 ============================================================
-Version 3.001 Release
+Version 3.006 Release for linux and mac with 64 and 32 bit
+
+*               *                                             *                 
+*               *    Program:  LaGriT V3.006   Linux m64      *                 
+*               *    date_compile: 2012/07/26  gfort 4.5      *                
+
+Now includes netcdf and exodus libs for writing exodus mesh 
+files and reading and writing facesets.
+Dump exodus files with/without facesets, fast/slow options:
+Syntax:
+  dump / exo / ifile / cmoname / facesets / on
+  dump / exo / ifile / cmoname / facesets / off
+  dump /exo / ifile / cmoname / facesets / on file1,file2,...filen
+  dump /exo / ifile / cmoname / facesets / off file1,file2,...filen
+
+Added line sort by nodes or elements for creating valid polygons 
+that can be read and used by other routines. 
+Syntax:
+  sort / line_graph / cmo / ascending | descending / [key] / [nodes/elements]
+
+Added option for massage to refine based on an attribute field. 
+Syntax:
+  massage / [bisection length/field name] / merge_length / toldamage / ...
+
+Under development massage2 syntax for incremental refinement strategies.
+Syntax in work: 
+  massage2/ [file name] / [Target Length Scale]/[field name]/ &
+     merge_length/toldamage/[tolroughness]/[ifirst,ilast,istride]/ ...
+
+Code improvements related to recon 0 and recon 1 will 
+result in slightly different but better connectivity results.
+
+Memory and bug fixes related to 64 bit code changes.
+Improved error catching for common routines.
+
+============================================================
+Version 3.001 Release (linux only)
 
 Major changes to most parts of the code to enable 64 bit compile.
 Added memory / print option as check for correct linking for 64 bit.

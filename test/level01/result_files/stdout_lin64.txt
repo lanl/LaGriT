@@ -1,14 +1,14 @@
 OS: linux2
 USING: mylagrit
-Top directory: /home/tam/src/lagrit/test/level01 at Fri Jul 27 10:53:00 2012
+Top directory: /home/tam/src/lagrit/test/level01 at Wed Sep 26 16:50:00 2012
  1  Test Directory ./addmesh_add -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:00          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:00          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -632,9 +632,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:05          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:04          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1044,9 +1044,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:06          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:04          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1541,9 +1541,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:07          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:05          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1693,18 +1693,28 @@ cmo/copy/cmo7/cmoa
 finish                                                                          
  Enter a command
 addmesh/merge/cmo7/cmo7/cmob                                                    
+cmo/move/-tmp_source_internal-/cmo7                                             
+finish                                                                          
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
  Enter a command
 addmesh/merge/cmo7/cmo7/cmoc                                                    
+cmo/move/-tmp_source_internal-/cmo7                                             
+finish                                                                          
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
  Enter a command
 cmo/status/brief                                                                
  
-The current-mesh-object(CMO) is: cmo7                                           
+The current-mesh-object(CMO) is: cmoa                                           
  
   1 Mesh Object name: cmoa                                                      
     number of nodes =            27        number of elements =           48    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
+    boundary flag =        16000000        status =                   active    
  
   2 Mesh Object name: cmob                                                      
     number of nodes =            27        number of elements =           48    
@@ -1758,7 +1768,7 @@ The current-mesh-object(CMO) is: cmo7
     number of nodes =            81        number of elements =          144    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                   active    
+    boundary flag =        16000000        status =                 inactive    
  
  
  Enter a command
@@ -1792,9 +1802,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:07          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:05          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -3598,9 +3608,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:09          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:07          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -3851,9 +3861,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:10          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:07          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -4284,9 +4294,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:10          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:08          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -4714,9 +4724,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:10          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:08          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -4920,13 +4930,31 @@ ELTSET: OUTPUT -all-    1 ELTSETS TO FILE
 finish                                                                          
 LaGriT successfully completed                                                   
  10  Test Directory ./exodus -----------------------
+Title: LaGriT to Exodus 
+number of dimension: 3 
+number of nodes: 1331 
+number of elements: 1000 
+number of edges: 0 
+number of edge blocks: 0 
+number of element blocks: 1 
+number of face blocks: 0 
+number of node sets: 0 
+number of edge sets: 0 
+number of element sets: 0 
+number of side sets: 0 
+number of face sets: 0 
+number of node maps: 0 
+number of edge maps: 0 
+number of face maps: 0 
+number of element maps: 0 
+
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:10          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:08          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -4965,52 +4993,14 @@ dump/exo/output_hexcube.exo/mohex
 ExodusII dump:                                                                  
 Writing to file: output_hexcube.exo                                             
 Using cmo: mohex                                                                
- GOING THROUGH THE LONG LOOP!!!!!!!!!
- JUST GONE THROUGH THE LONG LOOP!!!!!!!!!
- Exodus SIDESETS defined internally. 
-    nsidesets:                     7
- EXPSP                     1  starting at                     1
-    sideset_tag :                    1
-    nfaces_ss :                  600
- EXPSS                     1
-    sselemlist :           1
-    ssfacelist :           5
- EXPSP                     2  starting at                   601
-    sideset_tag :                  101
-    nfaces_ss :                  100
- EXPSS                     2
-    sselemlist :           1
-    ssfacelist :           5
- EXPSP                     3  starting at                   701
-    sideset_tag :                  102
-    nfaces_ss :                  100
- EXPSS                     3
-    sselemlist :           1
-    ssfacelist :           1
- EXPSP                     4  starting at                   801
-    sideset_tag :                  103
-    nfaces_ss :                  100
- EXPSS                     4
-    sselemlist :           1
-    ssfacelist :           4
- EXPSP                     5  starting at                   901
-    sideset_tag :                  104
-    nfaces_ss :                  100
- EXPSS                     5
-    sselemlist :          10
-    ssfacelist :           2
- EXPSP                     6  starting at                  1001
-    sideset_tag :                  105
-    nfaces_ss :                  100
- EXPSS                     6
-    sselemlist :          91
-    ssfacelist :           3
- EXPSP                     7  starting at                  1101
-    sideset_tag :                  106
-    nfaces_ss :                  100
- EXPSS                     7
-    sselemlist :         901
-    ssfacelist :           6
+
+ Counting number of psets and eltsets
+ Finish counting psets
+ Number of psets:                     0
+ Finish counting eltsets
+ Number of eltsets:                     0
+
+ INITIALIZE exodus 
 finish                                                                          
  Enter a command
                                                                                 
@@ -5021,9 +5011,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:11          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:08          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -5537,9 +5527,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:12          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:10          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7206,9 +7196,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:14          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:11          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -11265,9 +11255,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:16          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:13          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -15341,9 +15331,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:20          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:17          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -16035,9 +16025,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:21          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:18          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17053,9 +17043,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:24          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:20          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17726,9 +17716,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:25          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:21          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17901,9 +17891,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:25          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18232,9 +18222,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:25          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18717,9 +18707,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:27          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:23          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -20093,9 +20083,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:28          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -20642,9 +20632,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:28          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -22271,9 +22261,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:29          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -22336,9 +22326,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:29          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -22676,9 +22666,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:29          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -23129,9 +23119,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:33          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:28          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24094,9 +24084,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:34          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:29          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24209,9 +24199,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:34          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:29          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24342,9 +24332,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:37          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:31          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24657,9 +24647,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.006   Linux m64      *                 
-*               *    date_compile: 2012/07/26  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul 27  10:53:46          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/01  gfort 4.5      *                 
+*               *    Run Time: 2012/Sep 26  16:50:37          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 

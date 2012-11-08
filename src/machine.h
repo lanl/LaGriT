@@ -77,16 +77,16 @@ C             64 bit integer can be set to 4 or 8
 C             LaGriT integer size must be equal to pointer size
 
       integer NBYTES_REAL, NBYTES_INT
-      parameter (NBYTES_REAL = 8, NBYTES_INT = 4)
+      parameter (NBYTES_REAL = 8, NBYTES_INT = 8)
 
       integer BYTES_PER_INT, BYTES_PER_REAL
-      parameter (BYTES_PER_INT = 4, BYTES_PER_REAL = 8)
+      parameter (BYTES_PER_INT = 8, BYTES_PER_REAL = 8)
 
       integer BYTES_PER_CHAR
       parameter (BYTES_PER_CHAR = 32)
 
       integer BYTES_PER_PTR
-      parameter (BYTES_PER_PTR = 4) 
+      parameter (BYTES_PER_PTR = 8) 
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C                     System-Dependent Quantities.

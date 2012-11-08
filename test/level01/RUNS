@@ -9,3 +9,8 @@ additional checks
    diff diffout_sun.txt res*/reference/diffout_sun.txt
    diff diffout_mac.txt res*/reference/diffout_mac.txt
 
+/usr/bin/valgrind
+ valgrind --leak-check=yes --track-origins=yes  --log-file=memcheck.txt mylagrit < input.lgi
+mkdir valgrind
+cp memcheck.txt valgrind
+
