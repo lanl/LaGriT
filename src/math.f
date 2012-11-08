@@ -16,6 +16,7 @@ c               plus, add
 c               minus, sub, subtract
 c               times, multiply, mult
 c               divide
+c               modulo
 c
 c     or a function
 c               min, max
@@ -269,6 +270,8 @@ c     parse for arithmetic operators
 	 op='/'
       elseif(cmsgin(2)(1:5).eq.'power') then
 	 op='^'
+      elseif(cmsgin(2)(1:6).eq.'modulo') then
+	 op='mod'
       elseif(cmsgin(2)(1:3).eq.'min') then
 	 op='('
       elseif(cmsgin(2)(1:3).eq.'max') then
@@ -958,6 +961,8 @@ c
                if(isrc1.lt.isrc2) isink=isrc2
             elseif(op(1:4).eq.'ceil') then
                if(isrc1.gt.isrc2) isink=isrc2
+            elseif(op(1:3).eq.'mod') then
+               isink=MOD(isrc1,isrc2)
             else
                ierror=1
                go to 9040
@@ -985,6 +990,9 @@ c
                if(isrc1.lt.xsrc2) isink=nint(xsrc2)
             elseif(op(1:4).eq.'ceil') then
                if(isrc1.gt.isrc2) isink=nint(xsrc2)
+            elseif(op(1:3).eq.'mod') then
+               ierror=1
+               go to 9060
             else
                ierror=1
                go to 9040
@@ -1012,6 +1020,9 @@ c
                if(xsrc1.lt.isrc2) isink=isrc2
             elseif(op(1:4).eq.'ceil') then
                if(xsrc1.gt.isrc2) isink=isrc2
+            elseif(op(1:3).eq.'mod') then
+               ierror=1
+               go to 9060
             else
                ierror=1
                go to 9040
@@ -1039,6 +1050,9 @@ c
                if(xsrc1.lt.xsrc2) xsink=xsrc2
             elseif(op(1:4).eq.'ceil') then
                if(xsrc1.gt.xsrc2) xsink=xsrc2
+            elseif(op(1:3).eq.'mod') then
+               ierror=1
+               go to 9060
             else
                ierror=1
                go to 9040
@@ -1113,6 +1127,9 @@ c
                if(isrc1.lt.isrc2) xsink=isrc2
             elseif(op(1:4).eq.'ceil') then
                if(isrc1.gt.isrc2) xsink=isrc2
+            elseif(op(1:3).eq.'mod') then
+               ierror=1
+               go to 9060
             else
                ierror=1
                go to 9040
@@ -1140,6 +1157,9 @@ c
                if(xsrc1.lt.isrc2) xsink=isrc2
             elseif(op(1:4).eq.'ceil') then
                if(xsrc1.gt.isrc2) xsink=isrc2
+            elseif(op(1:3).eq.'mod') then
+               ierror=1
+               go to 9060
             else
                ierror=1
                go to 9040
@@ -1167,6 +1187,9 @@ c
                if(isrc1.lt.xsrc2) xsink=xsrc2
             elseif(op(1:4).eq.'ceil') then
                if(isrc1.gt.xsrc2) xsink=xsrc2
+            elseif(op(1:3).eq.'mod') then
+               ierror=1
+               go to 9060
             else
                ierror=1
                go to 9040
@@ -1194,6 +1217,9 @@ c
                if(xsrc1.lt.xsrc2) xsink=xsrc2
             elseif(op(1:4).eq.'ceil') then
                if(xsrc1.gt.xsrc2) xsink=xsrc2
+            elseif(op(1:3).eq.'mod') then
+               ierror=1
+               go to 9060
             else
                ierror=1
                go to 9040
@@ -1213,6 +1239,10 @@ c
       go to 9999
  9050 write(logmess,9051)
  9051 format(' Divide by zero')
+      call writloga('default',0,logmess,0,ier)
+      go to 9999
+ 9060 write(logmess,9061)
+ 9061 format(' Wrong type for MODULO, must be integers')
       call writloga('default',0,logmess,0,ier)
       go to 9999
  9999 continue
