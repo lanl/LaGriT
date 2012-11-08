@@ -453,12 +453,42 @@ C     Case 3 0 0 - Change the name of one of the sources to the existing sink an
          write(logmess,9010) cmob
          call writloga('default',0,logmess,0,ierr)
          cmob = cmoc
-C     Case 4 0 0 - Change the name of one of the sources to the existing sink and continue
+C     Case 4 0 - 0 Change the name of one of the sources to the existing sink and continue
        elseif((ierrc .eq. 0).and.(ierra .ne. 0).and.(ierrb .eq. 0))then
          write(logmess,9010) cmoa
          call writloga('default',0,logmess,0,ierr)
          cmoa = cmoc
-C     Case 1 or 5, just continue with no changes to input syntax.
+C     Case 1 0 0 0 If the name of the sink and one of the sources are the same, change
+C     one of the sources name to -tmp_source_internal-
+       elseif((ierrc .eq. 0).and.(ierra .eq. 0).and.(ierrb .eq. 0))then
+          if (cmoc .eq. cmoa) then
+             call cmo_exist('-tmp_source_internal-',ierr)
+             if(ierr .ne. 0) then
+             cbuff = 'cmo/move/-tmp_source_internal-/' 
+     *       // cmoa(1:icharlnf(cmoa)) // '; finish'
+             call dotaskx3d(cbuff, ierr)
+             cmoa = '-tmp_source_internal-' 
+             else
+             write(logmess,*)'ERROR: name of internal 
+     *       mesh object conflicts with existing mesh object. EXIT'
+             call writloga('default',0,logmess,0,ierr)
+             goto 9999
+             endif
+          elseif(cmoc .eq. cmob) then
+             call cmo_exist('-tmp_source_internal-',ierr)
+             if(ierr .ne. 0) then
+             cbuff = 'cmo/move/-tmp_source_internal-/'
+     *       // cmob(1:icharlnf(cmob)) // '; finish'
+             call dotaskx3d(cbuff, ierr)
+             cmob = '-tmp_source_internal-' 
+             else
+             write(logmess,*)'ERROR: name of internal 
+     *       mesh object conflicts with existing mesh object. EXIT'
+             call writloga('default',0,logmess,0,ierr)
+             goto 9999
+             endif
+          endif      
+C     Case 5, just continue with no changes to input syntax.
        else
           continue
        endif
@@ -971,6 +1001,12 @@ C
      &                      icscode)
             if (icscode .ne. 0) call x3d_error(isubname,'cmo_set_info')
          endif
+      endif
+C
+      call cmo_exist('-tmp_source_internal-',ierr)
+      if(ierr .eq. 0) then
+         cbuff = 'cmo/delete/-tmp_source_internal-/;finish'
+         call dotaskx3d(cbuff, ierr)
       endif
 C
       goto 9999
