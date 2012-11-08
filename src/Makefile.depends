@@ -163,6 +163,8 @@ $(OBJDIR)extract_line.o: chydro.h local_element.h
 $(OBJDIR)extract_network.o: local_element.h
 $(OBJDIR)extract_surfmesh.o: local_element.h
 $(OBJDIR)extrude.o: local_element.h
+$(OBJDIR)exo_init_ext.o: exo_init_ext.c
+$(OBJDIR)exo_put_sets.o: exo_put_sets.c
 $(OBJDIR)face.o: cmo.h chydro.h neibor.h
 $(OBJDIR)field_compose.o: consts.h
 $(OBJDIR)field_scale.o: consts.h
