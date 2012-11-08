@@ -71,7 +71,7 @@ C#######################################################################
 
       integer nline, length,l,icscode,lenfile,
      *   i,j,ilen,itype,ierror,nwords,lenout,iunit,npointsnew,
-     *   npoints,istart,ityp,ipt1,ipt2,ipt3,mpno
+     *   npoints,istart,ityp,ipt1,ipt2,ipt3,mpno, line_index
       integer itotal, num_write 
 
 C     NOTE: 128 length is defined in getcmds.f of lg_util code.
@@ -295,18 +295,25 @@ c         if needed, re-allocate for more values
           endif
           read(fline,*) (xvalues(nwords*(nline-1)+i),i=1,nwords)
 
-         else
+        else
+           line_index = nline + line_index + 1
+           write(logmess,'(a,i10)')
+     *       'WARNING: read found character string at line ', 
+     *       line_index
+           call writloga('default',0,logmess,0,icscode)
+           print*, "Skipping this line"
+           goto 100
 
-           write(logmess,'(a,i5)')
-     *       "ERROR: read found unallowed type: ",msgt(1) 
-           call writloga('default',0,logmess,0,icscode)
-           write(logmess,'(a,i10)') 
-     *     'ERROR character string at line ',nline+1
-           call writloga('default',0,logmess,0,icscode)
-           print*,"ERROR: string: [",cmsg(1),"]"
-           print*," "
-           ierror_return = -2
-           goto 9999
+C           write(logmess,'(a,i5)')
+C     *       "ERROR: read found unallowed type: ",msgt(1) 
+C           call writloga('default',0,logmess,0,icscode)
+C           write(logmess,'(a,i10)') 
+C     *     'ERROR character string at line ',nline+1
+C           call writloga('default',0,logmess,0,icscode)
+C           print*,"ERROR: string: [",cmsg(1),"]"
+C           print*," "
+C           ierror_return = -2
+C           goto 9999
 
          endif
 C        end if valid type
@@ -314,6 +321,8 @@ C        end if valid type
        endif
 C      end if lenparse gt 0
 
+      else
+         line_index = line_index + 1
       endif
       goto 100
  110  continue
