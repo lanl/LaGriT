@@ -12,7 +12,7 @@ c        (see also subroutine copyatt_mpary_lg below)
 c
 c     there is currently no provision for indexed sets
 c
-c     copy element to node:
+c     copy element to node: ! Not for 2 different mesh objects !
 c     This routine allows the value of an element attribute 
 c     to be copied to each of the element's node vertices. 
 C     It is assumed that each element has its own set of node points. 
@@ -40,6 +40,8 @@ c       cmo / addatt / cmosnk / elevation
 c       cmo / copyatt / cmosnk cmosrc / elevation zic /
 c         - will copy the zic field of cmosrc to the
 c           elevation field of cmosnk
+c
+c       reserved words -all- -xyx- nnode nelement are recognized
 c
 c       cmo / copyatt / cmo / cmo / itetsav / itetclr
 c       cmo set_id cmo element itetclr
@@ -114,20 +116,20 @@ c      integer itp1(*),isetwd(*),xtetwd(*)
       REAL*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
 C
-      integer nlen_copy,icmotype,ierror,ilen,latt_snk
+      integer nlen_copy,icmotype,ierror,ilen,lentyp_snk
  
       integer indxtyp, i,idx,nen,ipt, inxt, ilast, istart, iend
 c      integer ipt_start, ipt_stride, ipointi, ipointj
       integer ics,ierr,ier2,ierrw,
-     * len,ier,latt_src,itin,attlen,
+     * len,ier,lentyp_src,itin,attlen,
      * ipt1,ipt2,ipt3, ipt1_sav,ipt2_sav,ipt3_sav,
-     * k,i1,i2,l,
-     * ityp,itotal,nset,ivalue,nelements
+     * k,i1,i2,l, elem_to_vertices,
+     * ityp,itotal,nset,ivalue
 c     integer mpno,ifound,imin,imax
  
       integer attyp,attyp2
       integer irank_src,irank_sink,index,index2
-      integer ntet_src,nnode_src,nnode_snk,ntet_snk
+      integer nelem_src,nnode_src,nnode_snk,nelem_snk
 c
 c      real*8  xvalue,xmin,xmax
       integer printopt
@@ -172,6 +174,8 @@ c
       printopt  =  NOWRITE
       indxtyp   = 1
       ierror    = 1
+      elem_to_vertices = 0
+      
 C
 c     ******************************************************************
 c
@@ -209,7 +213,7 @@ c     4 - get mesh object source
         if (cmosrc(1:ilen).eq.'-def-') then
            call cmo_get_name(cmosrc,ierror)
            if(ierror.ne.0) then
-             write(logmess,'(a)') 'CMO found bad mesh object'
+             write(logmess,'(a)') 'CMO ADDATT: found bad mesh object'
              call writloga('default',0,logmess,0,ierrw)
              go to 9999
            endif
@@ -237,6 +241,7 @@ c     6 - get source attribute if different from sink
       endif
  
  
+C     Not implemented yet
 C     define users selected point set
       ipt1=1
       ipt2=0
@@ -259,42 +264,56 @@ C     define users selected point set
           inxt=inxt+1
           if (ilast.ge.inxt .and. msgtype(inxt).eq.3 ) ich3=cmsgin(inxt)
           indxtyp=3
+          write(logmess,'(a)') 'CMO ADDATT: point set not implemented.'
+          call writloga('default',0,logmess,0,ierrw)
+          go to 9999
         endif
       endif
+      ierr=0
+ 9991 if (ierr.ne.0) then
+        write(logmess,'(a)')'cmo/copyatt: not a valid syntax'
+        call writloga('default',0,logmess,1,ierrw)
+        goto 9999
+      endif
+
+C     ******************************************************************
+C     END Parse commands
  
-c     check that there are points -- if none return
+c     check mesh cmo's
+c     the  mesh objects must have nodes -- if none return
 c     both mesh objects must have nodes
 c     they do not need to have elements
-c     set nnode_src and ntet_src lengths to copy from
+c     set nnode_src and nelem_src lengths to copy from
 
       call cmo_get_info('nnodes',cmosink,nnode_snk,ilen,icmotype,ierr)
       call cmo_get_info('nnodes',cmosrc,nnode_src,ilen,icmotype,ier2)
       if (ierr.ne.0 .or. ier2 .ne. 0)
-     *       call x3d_error('cmo points',isubname)
+     *       call x3d_error('cmo get_info nnodes',isubname)
+
       if(nnode_src.eq.0) then
-        write(logmess,'(a,a)')'nnode_src = 0 in cmo ',cmosrc
+        write(logmess,'(a,a)')'nnode source = 0 in cmo ',cmosrc
+        call writloga('default',0,logmess,0,ierrw)
+        go to 9999
+      endif
+      if(nnode_snk.eq.0) then
+        write(logmess,'(a,a)')'nnode sink = 0 in cmo ',cmosink
         call writloga('default',0,logmess,0,ierrw)
         go to 9999
       endif
 
-      call cmo_get_info('nelements',cmosink,ntet_snk,ilen,icmotype,ierr)
-      call cmo_get_info('nelements',cmosrc,ntet_src,ilen,icmotype,ier2)
-      if(ntet_src.eq.0) then
-        write(logmess,'(a)') 'Warning: nelements = 0 '
+      call cmo_get_info('nelements',cmosink,nelem_snk,ilen,icmotype,ier)
+      call cmo_get_info('nelements',cmosrc,nelem_src,ilen,icmotype,ier2)
+      if(nelem_src.eq.0) then
+        write(logmess,'(a,a)')'Warning: nelements = 0 in cmo ',cmosrc
         call writloga('default',0,logmess,0,ierrw)
       endif
-      nelements = ntet_src
- 
-C     END Parse commands
-      ierr=0
- 
- 9991 if (ierr.ne.0) then
-        write(logmess,'(a)')'cmo/copyatt: not a valid syntax'
-        call writloga('default',0,logmess,1,ierrw)
-c       call dotask('help/cmo/copyatt ; finish ',ierrw)
-        goto 9999
+      if(nelem_snk.eq.0) then
+        write(logmess,'(a,a)')'Warning: nelements = 0 in cmo ',cmosink
+        call writloga('default',0,logmess,0,ierrw)
       endif
  
+c     figure out loop through all attributes
+c     usually this is one to one, but we support multiple attribute copy
       istart = 1
       if (attnam(1:5).eq.'nnode' .or. attnam(1:8).eq.'nelement' .or.
      *    attnam(1:5).eq.'-all-'  )  then
@@ -310,6 +329,7 @@ c       call dotask('help/cmo/copyatt ; finish ',ierrw)
  
 c     ******************************************************************
 C     loop through all cmo attributes
+C     usually 1 to 1, but also -all-, nnode, nelement, or -xyz-
 C     take action on those chosen by user
  
       itotal=0
@@ -324,8 +344,10 @@ C     take action on those chosen by user
  
 C       ................................................................
 C       decide if there is output for this attribute based on src cmo
+
         if(attnam(1:5).eq.'-all-') then
-c       ...copy all attributes except scalar
+c       ...get name for each of all attributes except scalar
+
           call cmo_get_attribute_name(cmosrc,i,csrcnam,ier)
           call cmo_get_attparam(csrcnam,cmosrc,index,ctype,crank
      *       ,clength,cinter,cpers,cio,ierror)
@@ -341,7 +363,8 @@ c       ...copy all attributes except scalar
           endif
  
         elseif(attnam(1:5).eq.'nnode') then
-c       ...copy all attributes of length nnode
+c       ...get name for each of attributes of length nnode
+
           call cmo_get_attribute_name(cmosrc,i,csrcnam,ier)
           call cmo_get_attparam(csrcnam,cmosrc,index,ctype,crank,
      *       clength,cinter,cpers,cio,ierror)
@@ -358,7 +381,8 @@ c       ...copy all attributes of length nelement
           if (clength(1:4).eq.'nele') ivalid=.true.
  
         elseif(attnam(1:5).eq.'-xyz-' .and. i.eq.1) then
-c       ...copy the coordinates
+c       ...get the coordinate names
+
           csrcnam='xic'
           csnknam = csrcnam
           ivalid=.true.
@@ -397,12 +421,8 @@ c         to avoid problems with sbnloc not recognizing att name
         endif
         if (ier.ne.0) goto 9999
  
- 
 C       ................................................................
-C       if a valid attribute
-C       look up and setup current attribute
-C       compare attributes to see if copy can be done
- 
+C       get attributes based on current csrcnam and csnknam  
         if (ivalid) then
  
 C         SOURCE CMO STORAGE
@@ -453,45 +473,45 @@ c           ...need to create attribute in sink cmo
           endif
  
 C          Done getting Storage Block info for attributes
-c          get mesh object type=attyp, length=latt_src and rank=irank_src
+c          get mesh object type=attyp, length=lentyp_src and rank=irank_src
 c          ...attributes exist, continue definitions
  
+C         SET lentyp_snk and lentyp_src to detirmine copy type
           call cmo_get_info(clength2,cmosink,attlen,ityp,itin,ierror)
-          if(clength2(1:6).eq.'nnodes') latt_snk=1
-          if(clength2(1:9).eq.'nelements') latt_snk=2
-          if(clength2(1:6).eq.'scalar') latt_snk=3
+          if(clength2(1:6).eq.'nnodes') lentyp_snk=1
+          if(clength2(1:9).eq.'nelements') lentyp_snk=2
+          if(clength2(1:6).eq.'scalar') lentyp_snk=3
  
           call cmo_get_info(clength,cmosrc,attlen,ityp,itin,ierror)
-          if(clength(1:6).eq.'nnodes') latt_src=1
-          if(clength(1:9).eq.'nelements') latt_src=2
-          if(clength(1:6).eq.'scalar') latt_src=3
+          if(clength(1:6).eq.'nnodes') lentyp_src=1
+          if(clength(1:9).eq.'nelements') lentyp_src=2
+          if(clength(1:6).eq.'scalar') lentyp_src=3
 
 c         some of this is reported below so this may be redundant
-          if (latt_src.ne.latt_snk) then
-           if((latt_snk .eq. 1).and.(latt_src .eq. 2)) then
-             if(nnode_snk .eq. ntet_src)then
+          if (lentyp_src.ne.lentyp_snk) then
+           if((lentyp_snk .eq. 1).and.(lentyp_src .eq. 2)) then
+             if(nnode_snk .eq. nelem_src)then
                call x3d_error('WARNING:copy element att into node att ',
      *                          isubname)
              else
                call x3d_error('incompatible att length types for ',
      *                          isubname)
-               goto 9990
              endif
-           elseif((latt_snk .eq. 2).and.(latt_src .eq. 1)) then
-             if(nnode_src .eq. ntet_snk)then
+           elseif((lentyp_snk .eq. 2).and.(lentyp_src .eq. 1)) then
+             if(nnode_src .eq. nelem_snk)then
                call x3d_error('WARNING:copy node att into elem att ',
      *                          isubname)
              else
                call x3d_error('incompatible att length types for ',
      *                          isubname)
-               goto 9990
              endif
            else
                call x3d_error('incompatible att length types for ',
      *                          isubname)
-               goto 9990
            endif
           endif
+
+C         SET attyp and attyp2 for copy of int, real, or char
  
           if (ctype(1:1).ne.'V') then
 c              ...type for source attribute not found
@@ -538,40 +558,53 @@ c              ...type for sink attribute not found
                call writloga('default',0,logmess,0,ierrw)
            endif
  
- 
-c            get RANK FIELD for sink attributes
- 
+c          SET RANK FIELD for attributes
            call cmo_get_info(crank,cmosink,irank_sink,ilen,itin,ier)
            if (ier.ne.0) call x3d_error('get sink rank:',isubname)
            if (ier.ne.0) goto 9999
- 
-c            get RANK FIELD for source attributes
- 
            call cmo_get_info(crank2,cmosrc,irank_src,ilen,itin,ierr)
            if (ierr.ne.0) call x3d_error('get source rank:',isubname)
            if (ierr.ne.0) goto 9999
- 
            if (irank_src .ne. irank_sink) then
-                call x3d_error('incompatible att ranks for ',isubname)
-                goto 9999
+               call x3d_error('incompatible att ranks for ',isubname)
+               goto 9999
            endif
  
-          len=icharlnf(csnknam)
-          call mmgetpr(csnknam(1:len),cmosink,ipxvalsink,ics)
-          if (ics.ne.0) call x3d_error('mmgetpr sink value',isubname)
-          len=icharlnf(csrcnam)
-          call mmgetpr(csrcnam(1:len),cmosrc,ipxvalsrc,ics)
-          if (ics.ne.0) call x3d_error('mmgetpr source value',isubname)
-          ierror=0
+C          SET pointers to attributes
+C          report if error, continue if this is a loop, otherwise return
 
+           len=icharlnf(csnknam)
+           call mmgetpr(csnknam(1:len),cmosink,ipxvalsink,ics)
+           if (ics.ne.0) then
+              call x3d_error('mmgetpr sink value',isubname)
+              if (iend.eq.1) then
+                 write(logmess,'(a,a,a)')
+     *           'CMO_COPYATT ERROR: can not get attribute pointer: ',
+     *            cmosink, csnknam
+                 call writloga('default',0,logmess,0,ierrw)
+                 goto 9999
+              endif          
+           endif
+
+           len=icharlnf(csrcnam)
+           call mmgetpr(csrcnam(1:len),cmosrc,ipxvalsrc,ics)
+           if (ics.ne.0) then
+              call x3d_error('mmgetpr source value',isubname)
+              if (iend.eq.1) then
+                 write(logmess,'(a,a,a)')
+     *          'CMO_COPYATT ERROR: can not get attribute pointer: ',
+     *           cmosrc, csrcnam
+                 call writloga('default',0,logmess,0,ierrw)
+                 goto 9999
+              endif
+           endif
+           ierror=0
  
 C       ................................................................
-C         set index boundaries- node or element or other
-c         !not used! then fill mpary1 with index numbers
-c         using lengths nnode_src,nnode_snk,ntet_src,ntet_snk
+c         check length and combinations to copy 
 
-          if(latt_src.eq.1 .and. latt_snk.eq.1) then
-c         ...node type index to selected node source cmo attribute
+          if(lentyp_src.eq.1 .and. lentyp_snk.eq.1) then
+c         ...node to node  
  
             nlen_copy=nnode_src
  
@@ -590,52 +623,52 @@ c           ...if sink points are greater than source
  
             endif
  
-          elseif(latt_src.eq.2 .and. latt_snk.eq.2) then
-c         ...element type index to selected element cmo attribute
+          elseif(lentyp_src.eq.2 .and. lentyp_snk.eq.2) then
+c         ...element to element 
  
-            nlen_copy=ntet_src
-            if (ntet_src.le.0) then
+            nlen_copy=nelem_src
+            if (nelem_src.le.0) then
               write(logmess,'(a,a)')' 0 element attribute: ',csrcnam
               call writloga('default',0,logmess,0,ierrw)
               goto 9998
             endif
  
 c           ...if sink elements are less than source
-            if (ntet_snk .lt. ntet_src) then
-              nlen_copy=ntet_snk
+            if (nelem_snk .lt. nelem_src) then
+              nlen_copy=nelem_snk
               write(logmess,'(a,i5)')
-     * 'Warning: sink elems lt source elems by ',ntet_src-ntet_snk
+     * 'Warning: sink elems lt source elems by ',nelem_src-nelem_snk
               call writloga('default',0,logmess,0,ierrw)
  
 c           ...if sink elements are greater than source
-            elseif (ntet_snk .gt. ntet_src) then
+            elseif (nelem_snk .gt. nelem_src) then
               write(logmess,'(a,i5)')
-     * 'Warning: sink elems gt source elems by ',ntet_snk-ntet_src
+     * 'Warning: sink elems gt source elems by ',nelem_snk-nelem_src
               call writloga('default',0,logmess,0,ierrw)
  
             endif
 
 c         non-standard combinations give warnings and pick smallest length
-          elseif(latt_src.eq.1 .and. latt_snk.eq.2) then
-c         ...node type index to selected element source cmo attribute
+          elseif(lentyp_src.eq.1 .and. lentyp_snk.eq.2) then
+c         ...node to element 
 
             nlen_copy=nnode_src
 
 c           ...if sink elements are less than source points
-            if (ntet_snk .lt. nnode_src) then
-              nlen_copy=ntet_snk
+            if (nelem_snk .lt. nnode_src) then
+              nlen_copy=nelem_snk
               write(logmess,'(a,i5)')
-     *  'Warning: sink elems lt source nodes by ',nnode_src-ntet_snk
+     *  'Warning: sink elems lt source nodes by ',nnode_src-nelem_snk
               call writloga('default',0,logmess,0,ierrw)
 
 c           ...if sink elements are greater than source points
-            elseif (ntet_snk .gt. nnode_src) then
+            elseif (nelem_snk .gt. nnode_src) then
               write(logmess,'(a,i5)')
-     *  'Warning: sink nodes gt source nodes by ',ntet_snk-nnode_src
+     *  'Warning: sink nodes gt source nodes by ',nelem_snk-nnode_src
               call writloga('default',0,logmess,0,ierrw)
 
 c           ...if sink elements are equal to source points 
-            elseif (ntet_snk .eq. nnode_src) then
+            elseif (nelem_snk .eq. nnode_src) then
               write(logmess,'(a,i5)')
      *  'sink elements and source nodes are equal length: ',nlen_copy
               call writloga('default',0,logmess,0,ierrw)
@@ -643,35 +676,50 @@ c           ...if sink elements are equal to source points
             endif
 
 c         non-standard combinations give warnings and pick smallest length
-          elseif(latt_src.eq.2 .and. latt_snk.eq.1) then
-c         ...element type index to selected node source cmo attribute
 
-            nlen_copy=ntet_src
+          elseif(lentyp_src.eq.2 .and. lentyp_snk.eq.1) then
+c         ...element to node (where cmo sink differs from cmo source) 
+C         !!!! element into node is done below (element to vertice copy) !!!!
+
+c         first check if this should go into special case element to vertice
+c         otherwise copy here
+
+            nlen_copy=nelem_src
+
+            if ( cmosrc(1:icharlnf(cmosrc)) .eq.
+     *          cmosink(1:icharlnf(cmosink))  ) then
+
+               elem_to_vertices = 1
+               print*,'Special Copy...'
+
+            else
+
+            elem_to_vertices = 0
 
 c           ...if sink nodes are less than source elements
-            if (nnode_snk .lt. ntet_src) then
+            if (nnode_snk .lt. nelem_src) then
               nlen_copy=nnode_snk
               write(logmess,'(a,i5)')
-     *  'Warning: sink nodes lt source elements by ',ntet_src-nnode_snk
+     *  'Warning: sink nodes lt source elements by ',nelem_src-nnode_snk
               call writloga('default',0,logmess,0,ierrw)
 
 c           ...if sink nodes are greater than source elements
-            elseif (nnode_snk .gt. ntet_src) then
+            elseif (nnode_snk .gt. nelem_src) then
               write(logmess,'(a,i5)')
-     *  'Warning: sink nodes gt source elements by ',nnode_snk-ntet_src
+     *  'Warning: sink nodes gt source elements by ',nnode_snk-nelem_src
               call writloga('default',0,logmess,0,ierrw)
 
 c           ...if sink elements are equal to source points
-            elseif (ntet_snk .eq. nnode_src) then
+            elseif (nnode_snk .eq. nelem_src) then
               write(logmess,'(a,i5)')
      *  'sink elements and source nodes are equal length: ',nlen_copy
               call writloga('default',0,logmess,0,ierrw)
 
             endif
+            endif
  
- 
-          elseif(latt_src.eq.3) then
-c         ...scalar type index to selected set
+          elseif(lentyp_src.eq.3) then
+c         ...scalar type 
  
             nlen_copy=1
  
@@ -680,29 +728,26 @@ c         ...unknown type index to selected set combination
             nlen_copy=0
           endif
  
-c         for now start is 1 and stride is 1
+c         pset not supported - for now start is 1 and stride is 1
           ipt1 = 1
           ipt2 = nlen_copy
           ipt3 = 1
 c         .............................................END selected set
-c
+ 
           if (nlen_copy.le.0) then
              len=icharlnf(csrcnam)
              write(logmess,'(a,a)')
-     *       'No values acquired for indexed set of ',csrcnam(1:len)
+     * 'CMO ADDATT ERROR: copy length is 0 from source ',csrcnam(1:len)
              call writloga('default',0,logmess,0,ierrw)
-             !not used! call mmrelblk('mpary1',isubname,ipmpary1,ics)
              go to 9999
           endif
  
- 
 c         COPY LOOP
-c         Copy valid src cmo attribute to current sink cmo attribute
-c         New options can be added in this part of the loop
+c         Copy valid src attribute to current sink attribute
  
 C         ***************************************************************
-C         SET ATTRIBUTE VALUES
-          if (ivalid) then
+C         COPY ATTRIBUTE VALUES
+          if (ivalid .and. elem_to_vertices.eq.0 ) then
  
             nset=0
             do k=1,nlen_copy
@@ -732,17 +777,17 @@ C         SET ATTRIBUTE VALUES
                   endif
                enddo
             enddo
- 
+
             write(logmess,'(i10,a,a,a,a,a,a,a,a)')
-     *        nset,' copied from ',cmosrc(1:icharlnf(cmosrc)),' ',
-     *        csrcnam(1:icharlnf(csrcnam)),
-     *        ' to -> ',cmosink(1:icharlnf(cmosink)),' ',
-     *        csnknam(1:icharlnf(csnknam))
+     *      nset,' copied from ',cmosrc(1:icharlnf(cmosrc)),' ',
+     *      csrcnam(1:icharlnf(csrcnam)),
+     *      ' to -> ',cmosink(1:icharlnf(cmosink)),' ',
+     *      csnknam(1:icharlnf(csnknam))
             call writloga('default',0,logmess,0,ierrw)
  
           endif
-c
         endif
+
 c       ...............................................................
 c       END COPY loop for attributes
  
@@ -756,13 +801,15 @@ c
 c     ******************************************************************
 c     END Loop through all possible attributes
 
+C     NOTE, Special case - this is outside of the loop through attributes
 C     Loop through elements
-C     Allow element attribute to be copied to point attribute
+C     Allow element attribute to be copied to vertice node attribute
 C     if each element has valid parent-child chains
 C     parent points are not assigned a value
 C
-9990  if (clength(1:9).eq.'nelements' .and. 
-     *    clength2(1:6).eq.'nnodes') then
+9990  if ( elem_to_vertices .eq. 1 ) then
+
+        nlen_copy=nelem_src
 
         call cmo_get_info('itettyp',cmosrc,ipitettyp,ilen,ityp,ierr)
         if(ierr.ne.0) call x3d_error(isubname,'get_info itettyp')
@@ -770,7 +817,6 @@ C
         if(ierr.ne.0) call x3d_error(isubname,'get_info itet')
         call cmo_get_info('itetoff',cmosrc,ipitetoff,ilen,ityp,ierr)
         if(ierr.ne.0) call x3d_error(isubname,'get_info itetoff')
-
 
         len=icharlnf(csnknam)
         call mmgetpr(csnknam(1:len),cmosink,ipxvalsink,ics)
@@ -780,8 +826,7 @@ C
         if (ics.ne.0) call x3d_error('mmgetpr source value',isubname)
         ierror=0
 
-
-        do idx = 1, nelements
+        do idx = 1, nlen_copy 
           nen=nelmnen(itettyp(idx))
           do i=1,nen
             ipt=itet(itetoff(idx)+i)
@@ -807,20 +852,19 @@ C
         enddo
 
         write(logmess,'(i10,a,a,a,a,a,a,a,a)')
-     *    nset,' copied from ',cmosrc(1:icharlnf(cmosrc)),' ',
-     *    csrcnam(1:icharlnf(csrcnam)),
-     *    ' to -> ',cmosink(1:icharlnf(cmosink)),' ',
-     *    csnknam(1:icharlnf(csnknam))
+     *   nset,' copied from ',cmosrc(1:icharlnf(cmosrc)),
+     *   ' element ',csrcnam(1:icharlnf(csrcnam)),
+     *   ' to -> ',cmosink(1:icharlnf(cmosink)),
+     *   ' node vertices ',csnknam(1:icharlnf(csnknam))
         call writloga('default',0,logmess,0,ierrw)
 
       endif
 c     ******************************************************************
-c     END Loop through elements
- 
+c     END Loop through elements for special elem to vertice copy
+
       logmess = ' '
       call writloga('default',0,logmess,0,ierrw)
       if (mmset) call mmrelprt(isubname,ics)
-c
  
 c     error returns transfer to this statement 9999
       goto 9999
