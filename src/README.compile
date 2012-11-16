@@ -1,87 +1,24 @@
 Version 3.X LaGriT libraries and executables
 with linux 64 bit compiled with gfortran 4.5 or greater -------
 
-Check for valid compiler versions.
- 
-gcc --version
-gcc (GCC) 4.1.2 20080704 (Red Hat 4.1.2-50)
+Check for valid compiler versions, examples using gfortran 4.5 or greater.
 
-gfortran --version
-GNU Fortran (GCC) 4.5.1
+  Target: x86_64-unknown-linux-gnu
+  Configured with: ../gcc-4.5.1/configure --prefix=/scratch/ymp/packages/gcc/gcc-4.5.1
+  Thread model: posix gcc version 4.5.1 (GCC)
 
+Version 3 LaGriT uses these external libraries:
 
-==============================================================
-Compile lg_util library
-
-In directory lg_util/src
-Use make install or copy libraries to lg_util/lib (used by lagrit compile)
-
-------- debug and optimized version 64 bit
-
-check mm2000.h that BYTES_PER_INT = 8
-if not then Remove and re-make mm2000.h from mm2000_header.F
-    rm -f mm2000.h
-    gcc -g -E -m64 -Dlinx64 mm2000_header.F -o mm2000.h
-    cp -p mm2000.h objects_lin64_g_gfort4.5/
-    cp -p mm2000.h objects_lin64_o_gfort4.5/
-
-make MOPT=64 COPT=-g lib
-make MOPT=64 lib
-
--rw-r--r-- 1 tam pf 643136 Aug 15 14:02 util_lin64_g_gfort4.5.a
--rw-r--r-- 1 tam pf 260512 Aug 15 14:03 util_lin64_o_gfort4.5.a
-
-==============================================================
-Compile lagrit library and build executable
-
-# for linux version only
-# create library and build executable in this directory
-#
-# Target: x86_64-unknown-linux-gnu
-# Configured with: ../gcc-4.5.1/configure --prefix=/scratch/ymp/packages/gcc/gcc-4.5.1 
-# Thread model: posix gcc version 4.5.1 (GCC) 
-# this adds the libraries needed for exodus read/write commands.
-#
-# Call buildgfort for all versions
-# or copy and past sections for single version compile and build
-
-
-# OSTYPE = Linux gfortran 64 bit ------------------------------------------------
-# build -g debug version for use with debuggers such as gdb
- 
-cp lagrit_lin64.h lagrit.h
-cp machine_m64.h machine.h 
-
-make MOPT=64 COPT=-g lib
-
-gfortran  -g -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o lagrit_main.o lagrit_main.f
-gfortran  -g -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
-
-gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o lagrit_lin64_g_gfort4.5 lagrit_main.o lagrit_fdate.o lagrit_lin64_g_gfort4.5.a /home/tam/src/lg_util/lib/util_lin64_g_gfort4.5.a -lm -L/home/tam/local/lib -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
-
--rw-r----- 1 tam pf 23666226 Aug 31 09:53 lagrit_lin64_g_gfort4.5.a
--rwxr-x--x 1 tam pf 14985136 Aug 31 10:09 lagrit_lin64_g_gfort4.5*
-
-
-# OSTYPE = Linux gfortran 64 bit ------------------------------------------------
-# build -O version optimized
-
-cp lagrit_lin64.h lagrit.h
-
-make MOPT=64 lib
-
-gfortran -O  -Dlinx64 -fcray-pointer -fdefault-integer-8  -c -o lagrit_main.o lagrit_main.f
-gfortran -O  -Dlinx64 -fcray-pointer -fdefault-integer-8  -c -o lagrit_fdate.o lagrit_fdate.f
-
-gfortran -O -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o lagrit_lin64_o_gfort4.5 lagrit_main.o lagrit_fdate.o lagrit_lin64_o_gfort4.5.a /home/tam/src/lg_util/lib/util_lin64_o_gfort4.5.a -lm -L/home/tam/local/lib -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
-
--rw-r----- 1 tam pf 10265720 Aug 31 10:09 lagrit_lin64_o_gfort4.5.a
--rwxr-x--x 1 tam pf  8480343 Aug 31 10:10 lagrit_lin64_o_gfort4.5*
+ Contact: Greg Sjaardema, Sandia National Laboratories, gdsjaar@sandia.gov
+ http://sourceforge.net/projects/exodusii/files/
+   Exodus II 5.22b
+   HDF5 version 1.8.6
+   netcdf-4.1.3
 
 ==============================================================
 If do not have and do not need the ExodusII and netCDF libraries.
 
-LaGriT V3.0 supports ExodusII file format output (which sits on top of netCDF). 
+LaGriT V3.0 supports ExodusII file format output (which sits on top of netCDF).
 This means that if you want to compile your own code you have to build the ExodusII and netCDF libraries yourself. We do not distribute those packages. A quick and dirty option to compile without these libraries would to just take the code that calls those libraries and replace dumpexodusII.f it with:
 
      subroutine dumpexodusII(ifile)
@@ -89,9 +26,50 @@ This means that if you want to compile your own code you have to build the Exodu
      end
 
 ==============================================================
+STEPS to COMPILE LAGRIT V3
+# OSTYPE = Linux gfortran 4.5 for 64 bit 
+# build -g debug version for use with debuggers such as gdb
+
+
+STEP 1 
+Compile lg_util library (LaGriT memory management routines)
+
+In directory lg_util/src
+
+CAUTION: check mm2000.h that BYTES_PER_INT = 8
+if not then Remove and re-make mm2000.h from mm2000_header.F
+    rm -f mm2000.h
+    gcc -g -E -m64 -Dlinx64 mm2000_header.F -o mm2000.h
+    cp -p mm2000.h objects_lin64_g_gfort4.5/
+
+make MOPT=64 COPT=-g install
+
+
+
+STEP 2
+Compile LaGriT library and build executable example for Linux 64 bit
+The script 'buildbin.scr' can be used to compile and link libraries
+This is similar to the 'go' script we use which has explicit compile commands
+ 
+cp lagrit_lin64.h lagrit.h
+cp machine_m64.h machine.h 
+
+make MOPT=64 COPT=-g lib
+
+
+STEP 3
+Compile the drivers, build the executable and link to needed libraries
+
+gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
+gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
+
+gfortran -g -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -static -fno-sign-zero -o lagrit_lin64_o_gfort4.5 lagrit_main.o lagrit_fdate.o ./lagrit_lin64_g_gfort4.5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/lg_util/lib/util_lin64_g_gfort4.5.a -L/n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/lin64/lib -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+
+==============================================================
 
 Running executable lagrit_lin64_o_gfort4.5
 
+% lagrit_lin64_o_gfort4.5
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
@@ -119,7 +97,7 @@ Command log file: logx3dgen
  
  Enter a command
 memory print
-memory print                                                                    
+
 --------
 
 MEMORY SIZES : 
@@ -151,37 +129,4 @@ Total BYTES =                51456   Total MEGABYTES =   51.456E-03
 --------
 
 ==============================================
-Sample compile and link session linux 64 bit:
-(Note this sample explicitly copies needed version of machine.h rather than letting the Makefile compile from machine_header.h)
-
-rm *.o *.mod
-cp machine_m64.h  machine.h
-cp lagrit_lin64.h lagrit.h
-gfortran  -g  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o lagrit_main.o lagrit_main.f
-gfortran  -g  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
-
-make MOPT=64 COPT=-g lib
-
-gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_g_gfort4.5.a /home/tam/src/lg_util/lib/util_lin64_g_gfort4.5.a -L/home/tam/local/lib -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
-
-cp mylagrit /home/tam/bin
-==============================================
-Sample compile and link session linux 32 bit:
-(Note this sample explicitly copies needed version of machine.h rather than letting the Makefile compile from machine_header.h)
-
-rm *.o *.mod
-cp machine_m32.h  machine.h
-cp lagrit_lin.h lagrit.h
-make COPT=-g lib
-gfortran -g -fcray-pointer -m32 -c -o lagrit_main.o lagrit_main.f
-gfortran -g  -fcray-pointer -m32 -c -o lagrit_fdate.o lagrit_fdate.f
-
-gfortran -g -m32 -static -fcray-pointer -fno-sign-zero -o mylagrit32 lagrit_main.o lagrit_fdate.o lagrit_lin_g_gfort4.5.a /home/tam/src/lg_util/lib/util_lin_g_gfort4.5.a -L/home/tam/src/build_lagrit/lin32 -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
-
-cp mylagrit32 /home/tam/bin
-==============================================
-
-Note  ABSOFT compilers are more picky during compile time, use to find code errors
-/opt/absoft11.1/bin/f77  and /opt/absoft11.1/bin/f90
-
 

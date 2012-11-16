@@ -8,7 +8,8 @@
 #   sed 's/"//g' make.tmp | awk '{if(NF> 0) print "$(OBJDIR)"$0 }'
 # DO NOT DELETE THIS LINE - makedepend depends upon it.
 # Preprocess include files
-$(OBJDIR)machine.h: machine_header.h 
+# remove this and do hard copy instead, has platform issues 
+# $(OBJDIR)machine.h: machine_header.h 
 # Source .f files 
 $(OBJDIR)addmesh.o: local_element.h chydro.h
 $(OBJDIR)addmesh_add.o: chydro.h local_element.h local_element.h

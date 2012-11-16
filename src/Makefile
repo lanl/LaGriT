@@ -40,7 +40,7 @@
 # Modified Aug 8 2011 to include work from Adam Cozzette and .cpp files 
 # Modified Nov 2012 to work with new exodus libraries (see dump/exo):
 #   http://sourceforge.net/projects/exodusii/files/
-#     Exodus II 5.22a
+#     Exodus II 5.22b
 #     HDF5 version 1.8.6
 #     netcdf-4.1.3
 #     Contact: Greg Sjaardema, Sandia National Laboratories, gdsjaar@sandia.gov
@@ -340,6 +340,13 @@ list:;
 #   makedepend -fmakefile.tmp *.c
 #   edit to add OBJDIR in front of each .o name
 #   mv makefile.tmp Makefile.depends
+#
+#   we prefer to find and copy the machine relevant 
+#   lagrit.h or machine.h
+#   commented out due to compiler and platform incompatibilities
+#   instead, use copy before using this Makefile
+#      cp lagrit_lin64.h lagrit.h
+#      cp machine_m64.h machine.h
 # ------------------------------------------------------------------
 $(OBJDIR)%.o : %.f 
 	cp lagrit$(OSTAG).h lagrit.h
@@ -361,6 +368,8 @@ $(OBJDIR)%.o : %.c
 $(OBJDIR)%.o : %.cpp
 	$(CXX) $(COPT) $(CFLAGS) -c -o $@ $<
 
+# this is commented out due to platform issues
+# cp machine_m64.h machine.h or machine_m32.h 
 #machine.h : machine_header.h
 #	@echo "--------------------------------------------------"
 #	@echo "Remove and re-make machine.h from machine_header.F"
