@@ -75,103 +75,104 @@ C ######################################################################
 C
       implicit none
 C
-      character*132 logmess
-C
       character*(*) ifile
-C
-C
-C*******************************************************************
 C
       include "chydro.h"
       include "consts.h"
 C
-      integer ierror
-C
+C*******************************************************************
 C
       pointer (ipisetwd, isetwd)
+      integer isetwd(*)
       pointer (ipimt1, imt1)
       pointer (ipitp1, itp1)
+      integer imt1(*), itp1(*)
       pointer (ipicr1, icr1)
       pointer (ipisn1, isn1)
+      integer icr1(*), isn1(*)
+
+      pointer (ipitet, itet)
+      pointer (ipjtet, jtet)
+      integer itet(3,*), jtet(3,*)
+C     NOT itet(*), jtet(*) 
+
+      pointer (ipitet, itet1)
+      pointer (ipjtet, jtet1)
+      integer itet1(*), jtet1(*)
+
+      integer itetclr(*)
+      pointer (ipitetclr, itetclr)
+
+      pointer (ipitemp, itemp)
+      integer itemp(*)
+C
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
-      pointer (ipitetclr, itetclr)
-      pointer (ipitet, itet)
-      pointer (ipitet, itet1)
-      pointer (ipjtet, jtet)
-      pointer (ipjtet, jtet1)
-      integer isetwd(1000000)
-      integer imt1(1000000), itp1(1000000),
-     *        icr1(1000000), isn1(1000000),
-     *        itet(3,1000000), jtet(3,1000000), itetclr(1000000)
-      integer itet1(3*1000000), jtet1(3*1000000)
-      real*8   xic(1000000), yic(1000000), zic(1000000)
-C
+      real*8   xic(*), yic(*), zic(*)
+
       pointer (ipvolic, volic)
-      real*8 volic(1000000)
+      real*8 volic(*)
       pointer (ipvolicx, volicx)
-      real*8 volicx(1000000)
+      real*8 volicx(*)
       pointer (ipvolicy, volicy)
-      real*8 volicy(1000000)
+      real*8 volicy(*)
       pointer (ipvolicz, volicz)
-      real*8 volicz(1000000)
-C
-      character*32 cmo
+      real*8 volicz(*)
 C
       pointer (ipumat, umat)
-      real*8 umat(1000000)
+      real*8 umat(*)
       pointer (ipbmat, bmat)
-      real*8 bmat(1000000)
-C
-      pointer (ipitemp, itemp)
-      integer itemp(10000000)
-C
-      character*32 isubname, ifilename
-      character*72  title_string
-      character*24 string, fdate
+      real*8 bmat(*)
 C
 C#######################################################################
 C
       pointer (ipiparent, iparent)
-      integer iparent(1000000)
+      integer iparent(*)
       pointer (ipitetp, itetp1)
-      integer itetp1(3*1000000)
+      integer itetp1(*)
       pointer (ipitetp, itetp)
-      integer itetp(3,1000000)
+      integer itetp(3,*)
 C
       pointer (ipisort, isort)
+      integer isort(*)
+
       pointer (ipicolmat, icolmat)
       pointer (ipirowmat, irowmat)
-      pointer (ipisendnn, isendnn)
-      pointer (ipxsendnn, xsendnn)
+      integer icolmat(*), irowmat(*)
+
       pointer (ipirowcnt, irowcnt)
       pointer (ipirowoff, irowoff)
       pointer (ipirowdag, irowdag)
-      integer isort(6*1000000+1000000)
-      integer icolmat(6*1000000+1000000), irowmat(6*1000000+1000000)
-      real*8 isendnn(6*1000000+1000000), xsendnn(6*1000000+1000000)
-      integer irowcnt(1000000), irowoff(1000000), irowdag(1000000)
+      integer irowcnt(*), irowoff(*), irowdag(*)
+
+      pointer (ipisendnn, isendnn)
+      pointer (ipxsendnn, xsendnn)
+      real*8 isendnn(*), xsendnn(*)
  
-      pointer (ipamat, amat)
-      real*8 amat(6*1000000+1000000)
-      pointer (ipnmat, nmat)
-      integer nmat(6*1000000+1000000)
-      pointer (ipconst, const)
-      real*8 const(6*1000000+1000000)
-      pointer (ipimat, imat)
-      integer imat(12*1000000+1000000)
-      pointer (ipxmat, xmat)
-      real*8 xmat(12*1000000+1000000)
       pointer (ipidxmat, idxmat)
-      integer idxmat(12*1000000+1000000)
-      integer nconn,itmax,isolve,ier,icmotype,
+      integer idxmat(*)
+      pointer (ipnmat, nmat)
+      integer nmat(*)
+      integer imat(*)
+      pointer (ipxmat, xmat)
+
+      pointer (ipamat, amat)
+      real*8 amat(*)
+      pointer (ipimat, imat)
+      real*8 xmat(*)
+
+      pointer (ipconst, const)
+      real*8 const(*)
+
+      integer ierror,ier,icmotype,
      *  npoints,mbndry,nsdtopo,nsdgeom,ntets,nen,nef,i1p,i2p,
      *  i3p,i1,i2,i3,ncoefs,nnmax,i,index,it,n12,idiag,
      *  ipackopt,ierrw,length,icscode,irow,idsave,icount,
      *  jcount,j,ierr1,num_conn_max,neq,neqp1,ncont,iwtotl,
      *  icharlnf,iunit,narea
-      real*8 cpmult,a,b,c,d,e,f,crosx,crosy,crosz,a1x,a1y,a1z,
+
+      real*8 a1x,a1y,a1z,
      *  ds23,ds13,xdot,cvx,cvy,cvz,cmx,cmy,cmz,xarea1,xarea2,
      *  xarea3,xdot3,xdot2,xdot1,x12,y12,z12,x13,y13,z13,x23,y23,
      *  z23,xv,yv,zv,ds1,ds2,ds3,ql,rb3,xl,yl,zl,dotb3,
@@ -181,6 +182,7 @@ C
      *  volic_check,volic_diff,volmin,volmax,rn,
      *  voltotal_vor
 C
+      integer nconn
       parameter (nconn=6)
       integer lconn(2,nconn)
       data lconn / 1, 2,
@@ -190,27 +192,56 @@ C
      *             2, 3,
      *             3, 2 /
 C
-      data cpmult / 0.0 /
+      integer itmax, isolve
       data itmax / 10 /
       data isolve / 0 /
+
+      real*8 cpmult
+      data cpmult / 0.0 /
 C
+      real*8 crosx,crosy,crosz,a,b,c,d,e,f
       crosx(a,b,c,d,e,f)=b*f-c*e
       crosy(a,b,c,d,e,f)=c*d-a*f
       crosz(a,b,c,d,e,f)=a*e-b*d
 C
+      character*24 string, fdate
+      character*32 cmo,isubname, ifilename
+      character*72  title_string
+      character*132 logmess
+C
 C
 C#######################################################################
-C
-C
+C BEGIN begin
 C
       isubname='matbld2d'
-C
-C
+
       call cmo_get_name(cmo,ierror)
- 
+      if(ierror.ne.0) then
+        write(logmess,'(a,a)')
+     *   " ADDATT: CMO found bad mesh object: ",
+     *     cmo(1:icharlnf(cmo))
+        call writloga('default',0,logmess,0,ier)
+        goto 9999
+      endif
 C
-      call cmo_get_info('nnodes',cmo,npoints,length,icmotype,ierror)
+      call cmo_get_info('nnodes',cmo,npoints,length,icmotype,ier)
+      if(ier.ne.0) call x3d_error(isubname,'get_info nnodes')
       call cmo_get_info('nelements',cmo,ntets,length,icmotype,ier)
+      if(ier.ne.0) call x3d_error(isubname,'get_info nelements')
+
+      if (npoints.le.0) then 
+        write(logmess,'(a,a)') 
+     *  "ERROR matbld2d: CMO has 0 points: ",cmo(1:icharlnf(cmo))
+        call writloga('default',0,logmess,0,ier)
+        goto 9999
+      endif
+      if (ntets.le.0) then
+        write(logmess,'(a,a)')
+     *  "ERROR matbld2d: CMO has 0 points: ",cmo(1:icharlnf(cmo))
+        call writloga('default',0,logmess,0,ier)
+        goto 9999
+      endif
+
       call cmo_get_info('mbndry',cmo,mbndry,length,icmotype,ierror)
       call cmo_get_info('ndimensions_topo',cmo,
      *                  nsdtopo,length,icmotype,ierror)
@@ -264,9 +295,16 @@ C
 C
 C
 C     ..................................................................
-C     ALLOCATE SOME TEMPARY ARRAYS.
+C     ALLOCATE SOME TEMPARY WORK ARRAYS.
 C
       length=nconn*ntets+idiag*npoints
+      if (length.le.0) then
+        write(logmess,'(a)')
+     *  "ERROR matbld2d: 0 length, can not allocate work arrays."
+        call writloga('default',0,logmess,0,ier)
+        goto 9999
+      endif
+
       call mmgetblk("isort",isubname,ipisort,length,2,icscode)
       call mmgetblk("icolmat",isubname,ipicolmat,length,2,icscode)
       call mmgetblk("irowmat",isubname,ipirowmat,length,2,icscode)
@@ -373,7 +411,7 @@ C
          volicz(i)=0.0
       enddo
 c
-c    Loop throught all the triangle elements and
+c    Loop through all the triangle elements and
 c    accumulate the Voronoi length and area contribution
 c    from each element.
 c
@@ -689,6 +727,7 @@ c
      1  "Total   Triangle area       = ",voltotal_vor
       call writloga('default',0,logmess,0,ierrw)
  
+CCCCC setup to WRITE files
       neq=npoints
       neqp1=neq+1
       ncont=neqp1+ncoefs
@@ -697,7 +736,9 @@ C
       length=ncont
       call mmgetblk('itemp',isubname,ipitemp,length,2,icscode)
 C
+CCCCC setup file to WRITE
       ifilename=ifile(1:icharlnf(ifile)) // '.stor'
+
       iunit=-1
       call hassign(iunit,ifilename,ierror)
       if (iunit.lt.0 .or. ierror.lt.0) then
@@ -709,7 +750,12 @@ C
       endif
 
 C
+CCCCC WRITE to the file
 C
+        write(logmess,'(a)')
+     *  "Matbldtri  writing FEHM stor format."
+        call writloga('default',1,logmess,0,ierrw)
+
 C     Get a time stamp for the file header (second line).
 C
       string = fdate()
@@ -761,6 +807,16 @@ c      write(iunit,9000) (0.0,i=1,ncoefs)
 c      write(iunit,9000) (0.0,i=1,ncoefs)
 c      write(iunit,9000) (0.0,i=1,ncoefs)
 C
+
+        write(logmess,'(a)')
+     *  "*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***"
+        call writloga('default',1,logmess,1,ierrw)
+
+       write(logmess,'(a,a)')
+     *  "2D Matrix Coefficient file written with name ",
+     *  ifilename(1:icharlnf(ifilename))
+        call writloga('default',0,logmess,1,ierrw)
+
       close(iunit)
 C
 C     ..................................................................
@@ -947,5 +1003,6 @@ c
       area2 = sign(area2,a2_sign)
       area3 = sign(area3,a3_sign)
 C  
-      return
+
+ 9999 return
       end
