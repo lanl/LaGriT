@@ -361,6 +361,10 @@ C
       call writloga('default',1,interfil,0,ierrdum)
 
       write(interfil,'(a)')
+     * '                           LaGriT V3 LACC-2012-084' 
+      call writloga('default',0,interfil,0,ierrdum)
+
+      write(interfil,'(a)')
      * 'LaGriT Copyright: This program was prepared by' 
      * //' Los Alamos National Security, LLC'
       call writloga('default',0,interfil,0,ierrdum)
