@@ -1,19 +1,20 @@
 OS: linux2
 USING: mylagrit
-Top directory: /home/tam/src/lagrit/test/level01 at Wed Sep 26 16:50:00 2012
+Top directory: /home/tam/src/lagrit/test/level01 at Fri Nov 16 08:09:19 2012
  1  Test Directory ./addmesh_add -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:00          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:19          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -633,13 +634,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:04          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:23          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -1045,13 +1047,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:04          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:23          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -1542,13 +1545,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:05          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -1803,13 +1807,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:05          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -3609,13 +3614,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:07          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:26          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -3862,13 +3868,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:07          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:27          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -4295,13 +4302,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:08          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:27          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -4725,13 +4733,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:08          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:27          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -4953,13 +4962,14 @@ number of element maps: 0
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:08          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:32          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -4990,17 +5000,11 @@ finish
 dump/output_hexcube.exo/mohex                                                   
 dump/exo/output_hexcube.exo/mohex                                               
  
-ExodusII dump:                                                                  
-Writing to file: output_hexcube.exo                                             
-Using cmo: mohex                                                                
-
- Counting number of psets and eltsets
- Finish counting psets
- Number of psets:                     0
- Finish counting eltsets
- Number of eltsets:                     0
-
- INITIALIZE exodus 
+ExodusII: Start writing to file: output_hexcube.exo using cmo: mohex            
+ 
+ 
+ExodusII: Done writing to file: output_hexcube.exo using cmo: mohex             
+ 
 finish                                                                          
  Enter a command
                                                                                 
@@ -5012,13 +5016,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:08          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:32          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -5395,6 +5400,13 @@ Minimum Voronoi edge length =   0.0000000E+00
 Maximum Voronoi edge length =   1.0000000E+00                                   
 Total   Voronoi area        =   1.0000000E+00                                   
 Total   Triangle area       =   1.0000000E+00                                   
+ 
+Matbldtri  writing FEHM stor format.                                            
+ 
+*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+ 
+2D Matrix Coefficient file written with name test04.stor                        
+ 
  Enter a command
 dump/stor/test04/mo4/nohybrid                                                   
 ***Construct Regular Sparse Matrix:2D***                                        
@@ -5409,6 +5421,13 @@ Minimum Voronoi edge length =   0.0000000E+00
 Maximum Voronoi edge length =   1.0000000E+00                                   
 Total   Voronoi area        =   1.0000000E+00                                   
 Total   Triangle area       =   1.0000000E+00                                   
+ 
+Matbldtri  writing FEHM stor format.                                            
+ 
+*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+ 
+2D Matrix Coefficient file written with name test04.stor                        
+ 
  Enter a command
                                                                                 
 # Check that it gives an error message if it is asked to do the hybrid option   
@@ -5528,13 +5547,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:10          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:35          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -7197,13 +7217,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:11          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -11256,13 +11277,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:13          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -15332,13 +15354,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:17          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:42          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -16026,13 +16049,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:18          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:43          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -17044,13 +17068,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:20          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:46          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -17717,13 +17742,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:21          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:47          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -17892,13 +17918,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:22          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:47          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -18223,13 +18250,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:22          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:48          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -18708,13 +18736,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:23          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:49          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -20084,13 +20113,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:24          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:51          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -20633,13 +20663,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:24          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:51          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -22262,13 +22293,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:25          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:52          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -22327,13 +22359,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:25          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:52          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -22667,13 +22700,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:25          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:52          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -23120,13 +23154,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:28          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:55          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -24085,13 +24120,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:29          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:56          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -24200,13 +24236,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:29          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:56          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -24333,13 +24370,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:31          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:59          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -24648,13 +24686,14 @@ LaGriT successfully completed
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
 *               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/01  gfort 4.5      *                 
-*               *    Run Time: 2012/Sep 26  16:50:37          *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:10:05          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -26429,6 +26468,13 @@ Minimum Voronoi edge length =  -1.5584216E-01
 Maximum Voronoi edge length =   2.0243665E+00                                   
 Total   Voronoi area        =   2.1639800E+01                                   
 Total   Triangle area       =   2.1639800E+01                                   
+ 
+Matbldtri  writing FEHM stor format.                                            
+ 
+*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+ 
+2D Matrix Coefficient file written with name tmp.stor                           
+ 
  Enter a command
 dump/gmv/input_tri_dfn.gmv/mo                                                   
 cmo/modatt/-def-/-def-/ioflag/x                                                 
@@ -26511,6 +26557,13 @@ Minimum Voronoi edge length =   0.0000000E+00
 Maximum Voronoi edge length =   2.0243665E+00                                   
 Total   Voronoi area        =   2.1639800E+01                                   
 Total   Triangle area       =   2.1639800E+01                                   
+ 
+Matbldtri  writing FEHM stor format.                                            
+ 
+*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+ 
+2D Matrix Coefficient file written with name tmp.stor                           
+ 
  Enter a command
 dump/gmv/output_dfn_recon1.gmv/mo                                               
 cmo/modatt/-def-/-def-/ioflag/x                                                 
@@ -26564,6 +26617,95 @@ min volume =   6.0286186E-04  max volume =   6.8831195E-02
                                                                                 
                                                                                 
 ### input file done ######                                                      
+ Enter a command
+finish                                                                          
+LaGriT successfully completed                                                   
+ 32  Test Directory ./memory -----------------------
+
+MEMORY SIZES : 
+ Sizeof char    (type 3) =  1 bytes      Sizeof long        =   8 bytes
+ Sizeof real*8  (type 2) =  8 bytes      Sizeof pointer     =   8 bytes
+ Sizeof integer (type 1) =  4 bytes      Sizeof INT_PTRSIZE =   8 bytes
+
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:10:11          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+ Enter a command
+cmo create cmo                                                                  
+ Enter a command
+memory print                                                                    
+--------
+
+INDEX         LENGTH    TYPE     ADDRESS     NAME                           PARTITION
+   2                10   1       672186672 global_type                      global_lg                       
+   3                10   1       672186864 global_index                     global_lg                       
+   1                10   3       672188624 global_name                      global_lg                       
+   4                20   1       672249104 global_integer                   global_lg                       
+   5                20   2       672249376 global_real                      global_lg                       
+   6                20   3       672249648 global_character                 global_lg                       
+   7                10   3       672250400 geom_names                       geom_lg                         
+   8                80   1       672250832 geom_info                        geom_lg                         
+   9                 8   3       672251584 defcmo_attparam_names            define_cmo_lg                   
+  10                10   3       672251952 cmo_names                        define_cmo_lg                   
+  11                10   1       672252384 cmo_natts                        define_cmo_lg                   
+  12               455   3       672252576 cmo_attlist                      default_cmo_lg                  
+  13                65   3       672267248 cmo_attparam_cdefault            default_cmo_lg                  
+  14                65   1       672269440 cmo_attparam_idefault            default_cmo_lg                  
+  15                65   2       672270064 cmo_attparam_rdefault            default_cmo_lg                  
+  16              2560   1       672270688 cmd_stack                        initlagrit                      
+  17              1280   1       672291280 definition                       initlagrit                      
+  18               455   3       672309024 cmo_attlist                      cmo                             
+  19                65   1       672323696 cmo_attparam_idefault            cmo                             
+  20                65   2       672324320 cmo_attparam_rdefault            cmo                             
+  21                65   3       672324944 cmo_attparam_cdefault            cmo                             
+  22                 1   2       672327136 -def-                            cmo                             
+  23                 1   2       672327248 isetwd                           cmo                             
+  24                 1   1       672327360 ialias                           cmo                             
+  25                 1   1       672327472 imt1                             cmo                             
+  26                 1   1       672327584 itp1                             cmo                             
+  27                 1   1       672327696 icr1                             cmo                             
+  28                 1   1       672327808 isn1                             cmo                             
+  29                 1   2       672327920 xic                              cmo                             
+  30                 1   2       672328032 yic                              cmo                             
+  31                 1   2       672328144 zic                              cmo                             
+  32                 1   2       672328256 xtetwd                           cmo                             
+  33                 1   1       672328368 itetclr                          cmo                             
+  34                 1   1       672328480 itettyp                          cmo                             
+  35                 1   1       672328592 itetoff                          cmo                             
+  36                 1   1       672328704 jtetoff                          cmo                             
+  37                 1   1       672328816 itet                             cmo                             
+  38                 1   1       672328928 jtet                             cmo                             
+  39                64   3       672329040 psetnames                        cmo                             
+  40                64   3       672331200 eltsetnames                      cmo                             
+  41                64   3       672333360 fsetnames                        cmo                             
+
+Total BYTES =                75416   Total MEGABYTES =   75.416E-03
+--------
+ 
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
