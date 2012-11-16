@@ -2,14 +2,15 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.005   Linux m64      *                 
-*               *    date_compile: 2012/06/29  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul  9  08:00:06          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:32          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -36,9 +37,8 @@ finish
 dump/output_hexcube.exo/mohex                                                   
 dump/exo/output_hexcube.exo/mohex                                               
  
-ExodusII dump:                                                                  
-Writing to file: output_hexcube.exo                                             
-Using cmo: mohex                                                                
+ExodusII: Start writing to file: output_hexcube.exo using cmo: mohex            
+ 
 cmo/set_id/mohex/element/e_num_temp                                             
 cmo/addatt/mohex e_num_temp/VINT/scalar/nelements/linear/permanent//0           
 finish                                                                          
@@ -53,8 +53,31 @@ cmo/DELATT/mohex/e_num_temp
 finish                                                                          
 cmo/modatt/mohex/itetclr/ioflag/lga                                             
 finish                                                                          
+ 
+INITIALIZE exodus                                                               
+Title: LAGRIT TO EXODUS                                                         
+number of dimension:               3                                            
+number of nodes:                1331                                            
+number of elements:             1000                                            
+number of edges:                   0                                            
+number of edge blocks:             0                                            
+number of element blocks:          1                                            
+number of face blocks:             0                                            
+number of node sets:               0                                            
+number of edge sets:               3                                            
+number of element sets:            0                                            
+number of side sets:               0                                            
+number of face sets:               0                                            
+number of node maps:               0                                            
+number of edge maps:               0                                            
+number of face maps:               0                                            
+number of element maps:            0                                            
+ 
 cmo/modatt/mohex/itetclr/ioflag/l                                               
 finish                                                                          
+ 
+ExodusII: Done writing to file: output_hexcube.exo using cmo: mohex             
+ 
 finish                                                                          
 finish                                                                          
 LaGriT successfully completed                                                   

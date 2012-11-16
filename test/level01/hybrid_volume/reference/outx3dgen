@@ -2,14 +2,15 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.005   Linux m64      *                 
-*               *    date_compile: 2012/06/15  gfort 4.5      *                 
-*               *    Run Time: 2012/Jun 27  07:44:35          *                 
+*               *    Program:  LaGriT V3.100   Linux m64      *                 
+*               *    date_compile: 2012/10/31   dev vers      *                 
+*               *    Run Time: 2012/Nov 16  08:09:32          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -325,6 +326,13 @@ Minimum Voronoi edge length =   0.0000000E+00
 Maximum Voronoi edge length =   1.0000000E+00                                   
 Total   Voronoi area        =   1.0000000E+00                                   
 Total   Triangle area       =   1.0000000E+00                                   
+ 
+Matbldtri  writing FEHM stor format.                                            
+ 
+*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+ 
+2D Matrix Coefficient file written with name test04.stor                        
+ 
 dump/stor/test04/mo4/nohybrid                                                   
 ***Construct Regular Sparse Matrix:2D***                                        
 ------------                                                                    
@@ -338,6 +346,13 @@ Minimum Voronoi edge length =   0.0000000E+00
 Maximum Voronoi edge length =   1.0000000E+00                                   
 Total   Voronoi area        =   1.0000000E+00                                   
 Total   Triangle area       =   1.0000000E+00                                   
+ 
+Matbldtri  writing FEHM stor format.                                            
+ 
+*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+ 
+2D Matrix Coefficient file written with name test04.stor                        
+ 
 # Check that it gives an error message if it is asked to do the hybrid option   
 # along with the "none" or "coefs" compression options.                         
 dump/stor/test05/mo1/none/hybrid                                                
