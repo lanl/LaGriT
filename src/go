@@ -1,0 +1,45 @@
+
+##################
+# script to compile and build LaGriT executable
+# commands are explicit, there are no variables defined
+# this allows copy and paste to command line
+#
+# The buildbin.scr script uses variables and is more general
+# commands here are a result of running buildbin.scr with following defines
+# buildbin.scr
+#   Linux x86_64 2012/11/15
+#   Working on OS Linux lagrit_lin64_g_gfort4.5 and  lagrit_lin64_g_121115
+#   using libs 
+#   ./lagrit_lin64_g_gfort4.5.a
+#   /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/lg_util/lib/util_lin64_g_gfort4.5.a
+#   /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/lin64/lib
+#
+# Note binary name is changed from lagrit_lin64_g_gfort4.5 to mylagrit
+#
+##################
+
+
+cp -f lagrit_lin64.h lagrit.h
+cp -f  machine_m64.h machine.h
+
+# using make flags -g -fcray-pointer -fdefault-integer-8  -m64 -Dlinx64 
+make MOPT=64 COPT=-g lib
+
+gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
+gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
+
+gfortran -g -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -static -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o ./lagrit_lin64_g_gfort4.5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/lg_util/lib/util_lin64_g_gfort4.5.a -L/n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/lin64/lib -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+
+cp mylagrit /home/tam/bin/mylagrit
+
+exit
+
+# Quan linux
+gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_g_gfort4.5.a /home/tam/src/lg_util/lib/util_lin64_g_gfort4.5.a -L/home/quanb/src/sample_build/exodus/lin64/lib -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+
+# Quan mac
+gfortran  -g  -fcray-pointer -fdefault-integer-8  -Dmacx64 -c -o lagrit_main.o lagrit_main.f
+gfortran  -g  -fcray-pointer -fdefault-integer-8  -Dmacx64 -c -o lagrit_fdate.o lagrit_fdate.f
+
+gfortran -g -Dmacx64 -static-libgfortran -static-libgcc -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_maci64_g_gfort4.6.a /Volumes/quanb/src/sample_build/lg_util/lib/util_maci64_g_gfort4.6.a /Volumes/quanb/src/sample_build/exodus/mac64/lib/libexoIIv2for.a /Volumes/quanb/src/sample_build/exodus/mac64/lib/libexodus.a /Volumes/quanb/src/sample_build/exodus/mac64/lib/libnetcdf.a /Volumes/quanb/src/sample_build/exodus/mac64/lib/libhdf5_hl.a /Volumes/quanb/src/sample_build/exodus/mac64/lib/libhdf5.a /Volumes/quanb/src/sample_build/exodus/mac64/lib/libz.a /usr/local/lib/libgfortran.a /usr/local/lib/libstdc++.a -lm
+
