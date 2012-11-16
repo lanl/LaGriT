@@ -165,6 +165,10 @@ C
       integer pmpary1(*)
       pointer (ipempary1, empary1)
       integer empary1(*)
+      pointer (ipexo_elt_ary, exo_elt_ary)
+      integer exo_elt_ary(*)
+      pointer (ipelem_map, elem_map)
+      integer elem_map(*)
       pointer (ipxtetwd, xtetwd)
       integer xtetwd(*)
       pointer (ipisetwd, isetwd)
@@ -256,10 +260,6 @@ c
       inumqarec=1
       inumatt=1
 
-C     there is a delay during setup, write to screen
-C     so user knows work is being done.
-      write(logmess,"(a)")'ExodusII dump:' 
-      call writloga('default',1,logmess,0,ierrw)
 
 c**********************************************************
 c
@@ -352,13 +352,11 @@ C     set cmo and ierror_return in case things blow up
 
       filename=ifile(1:icharlnf(ifile))
 
-      write(logmess,"(a,a)")
-     & 'Writing to file: ',filename(1:icharlnf(filename))
-       call writloga('default',0,logmess,0,ierr)
 
-      write(logmess,"(a,a)")  
-     & 'Using cmo: ',cmo_name(1:len_cmo_name)
-      call writloga('default',0,logmess,0,ierr)
+      write(logmess,"(a,a,a,a,a,a)")'ExodusII: ',
+     & 'Start writing to file: ',filename(1:icharlnf(filename)),
+     & ' using cmo: ',cmo_name(1:len_cmo_name)
+      call writloga('default',1,logmess,1,ierr)
 
 c     Turn off screen output of dotask commands
 c
@@ -437,8 +435,8 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     COUNT ELEMENT SETS AND POINT SETS
 c-------------------------------------------------------------------
-      print*
-      print*, 'Counting number of psets and eltsets'
+C     print*
+C     print*, 'Counting number of psets and eltsets'
       if (output_psets .eqv. .true.) then
          npsets = 0
          call mmfindbk('psetnames',cmo_name,
@@ -453,8 +451,8 @@ c-------------------------------------------------------------------
       else
          npsets = 0
       endif
-      print *, 'Finish counting psets'
-      print *, 'Number of psets: ', npsets
+C      print *, 'Finish counting psets'
+C      print *, 'Number of psets: ', npsets
 
 
       if (output_eltsets .eqv. .true.) then
@@ -471,9 +469,17 @@ c-------------------------------------------------------------------
       else
          neltsets = 0
       endif
-      print *, 'Finish counting eltsets'
-      print *, 'Number of eltsets: ', neltsets
-      print*
+C      print *, 'Finish counting eltsets'
+C      print *, 'Number of eltsets: ', neltsets
+C      print*
+
+c     SET UP A MAP FOR ELEMENT IDS BETWEEN EXODUS AND LAGRIT
+
+      length = max(nnodes, nelements)
+      call mmgetblk('elem_map',isubname,ipelem_map,length,2,ierr)
+      do i=1, nelements
+         elem_map(ikey_utr(i)) = i
+      enddo
 
 c     DO SOME PROCESSING TO SET UP ELEMENT BLOCKS
 
@@ -1172,10 +1178,48 @@ C     hard-coded here. Likewise for iows, the IO word size.
       endif
 
 
-c
-c     Put initialization information
-c
-      print*,'INITIALIZE exodus '
+C
+C     Put initialization information
+C
+
+
+      write(logmess,"('INITIALIZE exodus')")
+      call writloga('default',1,logmess,0,ierrw)
+      write(logmess,"('Title: LAGRIT TO EXODUS')")
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of dimension:      ',i10)") nsdgeom
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of nodes:          ',i10)") nnodes
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of elements:       ',i10)") nelements
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of edges:          ',i10)") 0
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of edge blocks:    ',i10)") 0
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of element blocks: ',i10)") nelblocks
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of face blocks:    ',i10)") 0
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of node sets:      ',i10)") npsets
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of edge sets:      ',i10)") nsdgeom
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of element sets:   ',i10)") neltsets
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of side sets:      ',i10)") nsidesets
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of face sets:      ',i10)") 0
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of node maps:      ',i10)") 0
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of edge maps:      ',i10)") 0
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of face maps:      ',i10)") 0
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,"('number of element maps:   ',i10)") 0
+      call writloga('default',0,logmess,1,ierrw)
+      
       call exo_lg_ini(idexo, nsdgeom, nnodes, 
      &     nelements, nelblocks, npsets, 
      &     nsidesets, neltsets, status)
@@ -1315,6 +1359,12 @@ C     Write out node sets
       if (npsets .ne. 0) then
       set_id = 0
       print *, 'NUMBER OF NODE SETS: ', npsets
+      write(logmess,'(a,i10,a)')'WRITING EXODUS NODE SETS:',
+     &   npsets, ' sets in total'
+      call writloga('default',0,logmess,0,ierr)
+      write(logmess,'(a32,a20,a25)')'Nodeset Names',
+     &   'Set ID','# nodes in set'
+      call writloga('default',0,logmess,0,ierr)
       do j = 1, nbitsmax
          if((psetnames1(j) .ne.' ')   .and.
      *      (psetnames1(j)(1:5) .ne. '-def-')) then
@@ -1326,11 +1376,19 @@ C     Write out node sets
             call pntlimc(cpt1,cpt2,cpt3,ippmpary1,mpno,
      *          nnodes,isetwd,itp1)
             print*, 'Writing to EXO file nodeset no. ', set_id
-C            do i = 1, mpno
-C               print*, 'Value of node in this set', pmpary1(i)
-C            enddo
-            call exo_put_sets(idexo, EX_NODE_SET, trim(cpt3), set_id,
-     *         mpno, 0, pmpary1, status)
+            print*, 'Nodeset name: ', trim(cpt3)
+            call exo_put_sets(idexo, EX_NODE_SET, trim(cpt3), 
+     *         icharlnf(trim(cpt3)), set_id, mpno, 
+     *         0, pmpary1, status)
+            if (status .eq. 0) then
+               write(logmess,'(a32,i20,i25)')trim(cpt3),
+     &         set_id, mpno
+               call writloga('default',0,logmess,0,ierr)
+            else
+               write(logmess,'(a,i10)')'Error in writing nodeset',
+     &         status
+               call writloga('default',0,logmess,0,ierr)
+            endif
          endif
       enddo
       endif
@@ -1342,6 +1400,12 @@ C     Write out element sets
       set_id = 0
       print *
       print *, 'NUMBER OF ELEMENT SETS: ', neltsets
+      write(logmess,'(a,i10,a)')'WRITING EXODUS ELEMENT SETS:',
+     &   neltsets, ' sets in total'
+      call writloga('default',1,logmess,0,ierr)
+      write(logmess,'(a32,a20,a25)')'Elemset Names',
+     &   'Set ID','# elements in set'
+      call writloga('default',0,logmess,0,ierr)
       do j = 1, nbitsmax
          if((eltsetnames1(j) .ne.' ')   .and.
      *      (eltsetnames1(j)(1:5) .ne. '-def-')) then
@@ -1352,9 +1416,26 @@ C     Write out element sets
             mpno=nelements
             call eltlimc(cpt1,cpt2,cpt3,ipempary1,mpno,
      *          nelements,xtetwd)
+            call mmgetblk('exo_elt',isubname,ipexo_elt_ary, 
+     *        mpno,2,ierr)
+            do i = 1, mpno
+              exo_elt_ary(i) = elem_map(empary1(i))
+            enddo
             print*, 'Writing to EXO file eltset no. ', set_id
-            call exo_put_sets(idexo, EX_ELEM_SET, trim(cpt3), set_id,
-     *         mpno, 0, empary1, status)
+            print*, 'Eltset name: ', trim(cpt3)
+            call exo_put_sets(idexo, EX_ELEM_SET, trim(cpt3), 
+     *         icharlnf(trim(cpt3)), set_id, mpno, 
+     *         0, exo_elt_ary, status)
+            if (status .eq. 0) then
+               write(logmess,'(a32,i20,i25)')trim(cpt3),
+     &         set_id, mpno
+               call writloga('default',0,logmess,0,ierr)
+            else
+               write(logmess,'(a,i10)')'Error in writing elemset',
+     &         status
+               call writloga('default',0,logmess,0,ierr)
+            endif
+            call mmrelblk('exo_elt',isubname,ipexo_elt_ary, ierr)
          endif
       enddo
       endif
@@ -1445,6 +1526,12 @@ c
          write(logmess,"(a,i5)")
      *   "ExodusII dump exiting with Error flag: ",ierror
          call writloga('default',1,logmess,1,ierr)
+      else
+         write(logmess,"(a,a,a,a,a,a)")'ExodusII: ',
+     &      'Done writing to file: ',
+     &      filename(1:icharlnf(filename)),
+     &      ' using cmo: ',cmo_name(1:len_cmo_name)
+            call writloga('default',1,logmess,1,ierr)
       endif
 
 

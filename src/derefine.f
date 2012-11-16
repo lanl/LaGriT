@@ -126,6 +126,7 @@ C
       pointer (ipxicvol, xicvol(10))
       pointer (ipyicvol, yicvol(10))
       pointer (ipzicvol, zicvol(10))
+      pointer (iprf_field, rf_field)
 C
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
@@ -153,7 +154,7 @@ C
       character*32  cmo
       character*32 coption
       integer coption_len
-      character*32 isubname
+      character*32 isubname, field_name
 C
 C ######################################################################
 C
@@ -250,7 +251,10 @@ C
          call pntlimc(ich1,ich2,ich3,ipmpary,mpno,
      *                                npoints,isetwd,itp1)
       endif
- 
+C
+C     read the field name
+       field_name = cmsgin(3)
+
 C     set the allowed point type
        iptyp1=imsgin(4)
        iptyp2=imsgin(5)
