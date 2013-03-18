@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>LANL | LaGriT |</title>
+<!-- TemplateEndEditable -->
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+<meta name="description" content="LaGriT is a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions for a variety of applications." />
+<meta name="Keywords" content="Mesh generation focused on Delaunay triangle and tetrahedral meshing. Mesh generation for geological applications. Mesh smoothing (optimization), reconnection, hybrid meshing (quadrilateral, prism, pyramid, line elements). Constructive solid geometry, Voronoi control volume area volume coefficient calculation."/>
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
+<link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
+</head>
+<body class="home">
+<!-- OPEN include for banner area --> 
+<!--#include virtual="/source/includes/xbanner.inc" --> 
+<!-- CLOSE include for banner area --> 
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/locator.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/locator.inc" --> 
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/toolbar.inc" -->
+
+<div id="content-org">
+  <table border="0" id="mid-section1" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="237" valign="top" class="col1" rowspan="2"><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/nav1.inc --> 
+        <!--#include virtual="/source/orgs/ees/includes/resources.inc" --> 
+        <!--#include virtual="../includes/related_links.inc" --> </td>
+      <td width="892" height="120" valign="top" class="col2-420"><img border="0" alt="" width="420" height="120" src="../images/lagrit1.jpg" /></td>
+      <td width="239" class="col3-180"><img src="../images/lagrit2.jpg" border="0" alt="" width="180" height="120" /></td>
+    </tr>
+    <tr>
+      <td colspan="2" valign="top" class="col2-420"><a name="content"></a> <!-- TemplateBeginEditable name="ContentArea" -->
+        <h2>Header</h2>
+        <p>Coontent.</p>
+        <!-- TemplateEndEditable --></td>
+    </tr>
+  </table>
+</div>
+
+<!-- OPEN include for footer area --> 
+<!--#include virtual="/source/includes/xfooter.inc" --> 
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/email.inc" --> 
+
+<!-- CLOSE include for footer area -->
+
+</body>
+</html>
