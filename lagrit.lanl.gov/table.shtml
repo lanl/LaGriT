@@ -1,421 +1,273 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+<!-- InstanceBegin template="/Templates/no_lanl_header.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
-<title>LANL | LaGriT Table | </title>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>LANL | LaGriT |</title>
+<!-- InstanceEndEditable -->
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
-<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
-<meta name="Keywords" content=" "/>
+<meta name="description" content="LaGriT is a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions for a variety of applications." />
+<meta name="Keywords" content="Mesh generation focused on Delaunay triangle and tetrahedral meshing. Mesh generation for geological applications. Mesh smoothing (optimization), reconnection, hybrid meshing (quadrilateral, prism, pyramid, line elements). Constructive solid geometry, Voronoi control volume area volume coefficient calculation."/>
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
 <link media="all" title="LANLScreenStyle" href="styles/site.css" type="text/css" rel="stylesheet" />
 <link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
 </head>
-   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-   <meta name="Generator" content="Microsoft Word 97">
-   <meta name="GENERATOR" content="Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]">
-   <title>Document2-1</title>
-</head>
-<br />
-<body text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
-<form action="http://searcher-green.lanl.gov/search">
-      <input type="text" name="q" size="25" maxlength="255" value="">
-      <input type="submit" name="btnG" value="Search Online Manual">
-      <input type="hidden" name="client" value="outside_lanl">
-      <input type="hidden" name="proxyreload" value="1" />
-      <input type="hidden" name="proxystylesheet" value="outside_lanl">
-      <input type="hidden" name="site" value="lagrit_docs">
-      <input type="hidden" name="output" value="xml_no_dtd">
-</form>
-
-&nbsp;
-<div align=right></div>
-<table BORDER COLS=3 WIDTH="100%" NOSAVE >
-<tr>
-<td><p><a href="docs/ADDMESH.html">ADDMESH</a></font>
-  (add one mesh to another)</p></td>
-
-<td><p><a href="docs/ASSIGN.html">ASSIGN</a></font>
-  (set global variables)</font></p></td>
-
-</tr>
-
-<tr>
-<td><p><a href="docs/BOUNDAR1.html">BOUNDARY</a></font>
-  (set attributes on surfaces)</font></p></td>
-
-<td><p><a href="docs/BOUNDARY_C.html">BOUNDARY_COMPONENTS</a></font>
-  (count bc's)</font></p></td>
-
-<td><p><a href="docs/bubble.html">BUBBLE</a></font>
-  (extrude to 3d and extract bndry)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/calc_rdist.html">CALC_RDIST</a></font>
-  (calculate radial distance)</font></p></td>
-
-<td><p><a href="docs/CMO2.html">CMO</a></font>
-  (modify mesh object)</font></p></td>
-
-<td><p><a href="docs/COLORMAP.html">COLORMAP</a></font>
-  (build adjacency map)</font></p></td>
-
-</tr>
-<tr>
-<td><p><a href="docs/COMPUTE.html">COMPUTE</a></font>
-  (compute a new mesh attribute)</font></p></td>
-  
-<td><p><a href="docs/CONNECT1.html">CONNECT</a></font>
-  (2D and 3D Delaunay algorithm)</font></p></td>
-
-<td><p><a href="docs/COPYPTS.html">COPYPTS</a></font>(copy points)</p></td>
-</tr>
-
-<tr>
-
-<td>
-<p><a href="docs/COORDSY.HTML">COORDSYS</a></font>
-  (change coordinate system)</font></p></td>
-
-<td><p><a href="docs/createpts.html">CREATEPTS</a></font>
-  (create points)</font></p></td>
-
-<td><p><a href="docs/create_graph.html">CREATE_GRAPH
-  </a></font>(create
-  adjacency graph)</font></p></td>
-
-</tr>
-
-<tr>
-<td><p><a href="docs/DEFINE.html">DEFINE</a></font>
-  (give a name to a number)</font></p></td>
-
-<td><p><a href="docs/DEREFINE.html">DEREFINE</a></font>
-  (merge nodes away)</font></p></td>
-
-<td><p><a href="docs/DOPING1.html">DOPING</a></font>
-  (set an attribute, see interpolate)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/DUMP2.html">DUMP</a></font>
-  (write output files)</font></p></td>
-
-<td><p><a href="docs/DUMP_RECOLOR.html">DUMP_RECOLOR</a></font>
-  (use adjacency map)</font></p></td>
-
-</tr>
-
-<tr>
-<td><p><a href="docs/EDIT2.html">EDIT</a></font>
-  (prints some mesh info)</font></p></td>
-
-<td><p><a href="docs/ELTSET2.html">ELTSET</a></font>
-  (select, name a set of elements)</font></p></td>
-
-<td><p><a href="docs/EXTRACT1.html">EXTRACT</a></font>
-  (extract a surface)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/extrude.html">EXTRUDE</a></font>
-  (extrude a surface)</font></p></td>
-
-</tr>
-
-<tr>
-<td><p><a href="docs/FIELD.html">FIELD</a></font>
-  (manipulate a field attribute)</font></p></td>
-
-<td><p><a href="docs/FILTER.html">FILTER</a></font>
-  (detect and remove duplicate nodes)</font></p></td>
-
-<td><p><a href="docs/FINISH.html">FINISH</a></font>
-  (end processing, EXIT)</font></p></td>
-</tr>
-
-<tr>
-  <td><p><a href="docs/FSET.html">FSET</a> (define a face set) </p></td>
-  <td>&nbsp;</td>
-  
-</tr>
-<tr>
-<td><p><a href="docs/GENIEE.html">GENIEE</a></font>
-  (make/update element connectivity)</font></p></td>
-
-<td><p><a href="docs/geometry.html">GEOMETRY</a></font>
-  (set the geometry name)</font></p></td>
-
-
-</tr>
-
-<tr>
-<td><p><a href="docs/HELP.html">HELP</a></font>
-  (print global variable)</font></p></td>
-
-<td><p><a href="docs/HEXTOTE.html">HEXTOTET</a></font>
-  (convert element types)</font></p></td>
-
-
-</tr>
-
-<tr>
-<td><p><a href="docs/INPUT.html">INFILE</a></font>
-  (read input from a file)</font></p></td>
-
-<td><p><a href="docs/INPUT.html">INPUT</a></font>
-  (read input from a file)</font></p></td>
-
-<td><p><a href="docs/intersectelements.html">INTERSECT_ELEMENTS</a></font>
-  ( .. of 2 meshes)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/INTERSECT.html">INTERSECT</a></font>
-  (..2 2d meshes to get line)</font></p></td>
-
-<td><p><a href="docs/main_interpolate.html">INTERPOLATE</a></font>
-  (.. attribute values</font>)</p></td>
-
-
-</tr>
-
-<tr>
-<td><p><a href="docs/kdtree.html">KDTREE</a></font>
-  (represent mesh as kd-tree)</font></p></td>
-
-
-
-
-</tr>
-
-<tr>
-<td><p><a href="docs/LOG.html">LOG</a></font>
-  (turn log file off and on)</font></p></td>
-
-<td><p><a href="docs/loop.html">LOOP</a></font>
-  (execute command multiple times)</font></p></td>
-
-<td><p><a href="docs/lower_d.html">LOWER_D</a></font>
-  (create lower dimen. structs.)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/MASSAGE.html">MASSAGE</a></font>
-  (optimize the grid)</font></p></td>
-
-<td><p><a href="docs/MATH.html">MATH</a></font>
-  (do math on attributes)</font></p></td>
-
-<td><p><a href="docs/memory.html">MEMORY</a></font>
-  (query state of memory )</font></p></td>
-
-</tr>
-
-<tr>
-<td><p><a href="docs/MERGE.html">MERGE</a></font>
-  (remove nodes)</font></p></td>
-
-<td><p><a href="docs/metis.html">METIS</a></font>
-  (graph partition algorithms)</font></p></td>
-
-<td><p><a href="docs/MODE.html">MODE</a></font>
-  (set modes)</font></p></td>
-
-</tr>
-
-<tr>
-<td><p><a href="docs/MREGION.html">MREGION</a></font>
-  (define a material region)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/NEGATIVE.html">NEGATIVE_AIJ</a></font>
-  (test bndry for neg. coef.)</font></p></td>
-
-
-
-
-</tr>
-
-<tr>
-<td><p><a href="docs/OFFSETSURF.html">OFFSETSURF</a></font>
-  (..triangulated surface)</font></p></td>
-
-
-
-
-</tr>
-
-<tr>
-<td><p><a href="docs/PSTATUS.html">PSTATUS</a></font>
-  (operate on point set)</font></p></td>
-
-<td><p><a href="docs/PERTURB.html">PERTURB</a></font>
-  (perturb node locations)</font></p></td>
-
-<td><p><a href="docs/PSET.html">PSET</a></font>
-  (define, name sets of nodes)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/QUADXY.html">QUADXY</a></font>
-  (define a logical xy node set)</font></p></td>
-
-<td><p><a href="docs/QUADXYZ1.HTML">QUADXYZ</a></font>
-  (define a logical xyz node set)</font></p></td>
-
-<td><p><a href="docs/QUALITY.html">QUALITY</a></font>
-  (evaluate mesh quality)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/RADAPT.html">RADAPT</a></font>
-  (adaptive smoothing)</font></p></td>
-
-<td><p><a href="docs/rankvolume.html">RANKVOLUME</a></font>
-    (list small volume elements)</font></p></td>
-
-<td><p><a href="docs/READ.html">READ</a></font>
-  (read data)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/RECON.html">RECON</a></font>
-  (swap edges/faces)</font></p></td>
-
-<td><p><a href="docs/REFINE.html">REFINE</a></font>
-  (refine elements, edges)</font></p></td>
-
-<td><p><a href="docs/REGION.html">REGION</a></font>
-  (define a geometric region)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/REGNPTS.html">REGNPTS</a></font>
-  (distributes nodes in region)</font></p></td>
-
-<td><p><a href="docs/REORDER.html">REORDER</a></font>
-  (reorder nodes in a mesh)</font></p></td>
-
-<td><p><a href="docs/RESETPT.html">RESETPTS</a></font>
-  (reset node values)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/RM.html">RM</a></font>
-  (remove nodes in area)</font></p></td>
-
-<td><p><a href="docs/RMMAT.html">RMMAT</a></font>
-  (remove a material)</font></p></td>
-
-<td><p><a href="docs/RMPOINT.html">RMPOINT</a></font>
-  (remove nodes/elements)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/RMREGION.html">RMREGION</a></font>
-  (remove a geometric region)</font></p></td>
-
-<td><p><a href="docs/RMSPHERE.html">RMSPHERE</a></font>
-  (remove nodes in a sphere)</font></p></td>
-
-<td><p><a href="docs/RMSURF.html">RMSURF</a></font>
-  (remove nodes in /on a surface)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/ROTATELN.html">ROTATELN</a></font>
-  (rotate nodes about a line)</font></p></td>
-
-<td><p><a href="docs/ROTATEPT.html">ROTATEPT</a></font>&nbsp; (rotate nodes about a point)</font></p></td>
-
-<td><p><a href="docs/RZ.html">RZ</a></font>
-  (see createpts)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/RZAMR.html">RZAMR</a></font>
-  (see createpts)</font></p></td>
-
-<td><p><a href="docs/RZBRICK.html">RZBRICK</a></font>
-  (see createpts)</font></p></td>
-
-<td><p><a href="docs/RZRAN.html">RZRAN</a></font>
-  (see createpts)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/RZS.html">RZS</a></font>
-  (see createpts)</font></p></td>
-
-<td><p><a href="docs/RZV_LG.html">RZV</a></font>
-  (see createpts)</font></p></td>
-
-
-</tr>
-
-<tr>
-<td><p><a href="docs/SCALE.html">SCALE</a></font>
-  (scale node coordinates)</font></p></td>
-
-<td><p><a href="docs/SETPTS.html">SETPTS</a></font>
-  (set node type, itp, and material, imt)</font></p></td>
-
-<td><p><a href="docs/SETSIZE.html">SETSIZE</a></font>
-  (calc size of space, set epsilon)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/SETTETS.html">SETTETS</a></font>
-  (make child nodes, etc)</font></p></td>
-
-<td><p><a href="docs/SMOOTH.html">SMOOTH</a></font>
-  (node smoothing)</font></p></td>
-
-<td><p><a href="docs/SORT.html">SORT</a></font>
-  (sort an attribute)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/STACK.html">STACK</a></font>
-  (read,merge,stack,surfaces)</font></p></td>
-
-<td><p><a href="docs/SURFACE.html">SURFACE</a></font>
-  (define a geometric surface)</font></p></td>
-
-<td><p><a href="docs/SURFPTS.html">SURFPTS</a></font>
-  (make nodes on a surface)</font></p></td>
-</tr>
-
-<tr>
-<td><p><a href="docs/TRANS.html">TRANS</a></font>
-  (translate node coordinates)</font></p></td>
-
-<td><p><a href="docs/TRIAGN.html">TRIANGULATE</a></font>
-  ( ..a polygon)</font></p></td>
-
-
-</tr>
-
-<tr>
-<td><p><a href="docs/UNG2AVS.html">UNG2AVS</a></font>
-  (UNGenerate to AVS)</font></p></td>
-
-<td><p><a href="docs/UPSCALE.html">UPSCALE</a> (attribute from fine to coarse grid) </p></td>
-
-
-</tr>
-
-<tr>
-<td><p><a href="docs/ZQ.html">ZQ</a></font>
-  (see <a href="docs/cmo_setatt.html">cmo/setatt</a>)</font></p></td>
-
-
-
-
-</tr>
+<body class="home">
+<table border=0 cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="237" valign="top" class="col1"><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/nav1.inc --> 
+      <!--#include virtual="/source/orgs/ees/includes/resources.inc" --> 
+      <!--#include virtual="includes/related_links.inc" --> 
+      <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/transparent.gif" /></td>
+    <td valign="top" class="col2-420"><!-- InstanceBeginEditable name="ContentArea" -->
+      <div class="wide_tbl">
+        <h3>Table of LaGriT Commands </h3>
+        <table border="1" cellpadding="0" cellspacing="0" class="wide_tbl">
+          <tr></tr>
+          <tr>
+            <th width="15" bgcolor="#CCCCCC"><p>A</p></th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/ADDMESH.html">ADDMESH</a> (add one mesh to another)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/ASSIGN.html">ASSIGN</a> (set global variables)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
+          </tr>
+          <tr>
+            <th><p>B</p></th>
+            <td nowrap="nowrap"><p><a href="docs/BOUNDAR1.html">BOUNDARY</a> (set attributes on surfaces)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/BOUNDARY_C.html">BOUNDARY_COMPONENTS</a> (count bc's)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/bubble.html">BUBBLE</a> (extrude to 3d and extract bndry)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC"><p>C</p></th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/calc_rdist.html">CALC_RDIST</a> (calculate radial distance)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/CMO2.html">CMO</a> (modify mesh object)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/COLORMAP.html">COLORMAP</a> (build adjacency map)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC">&nbsp;</th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/COMPUTE.html">COMPUTE</a> (compute a new mesh attribute)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/CONNECT1.html">CONNECT</a> (2D and 3D Delaunay algorithm)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/COPYPTS.html">COPYPTS</a>(copy points)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC">&nbsp;</th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/COORDSY.HTML">COORDSYS</a> (change coordinate system)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/createpts.html">CREATEPTS</a> (create points)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/create_graph.html">CREATE_GRAPH </a>(create
+                adjacency graph)</p></td>
+          </tr>
+          <tr>
+            <th><p>D</p></th>
+            <td nowrap="nowrap"><p><a href="docs/DEFINE.html">DEFINE</a> (give a name to a number)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/DEREFINE.html">DEREFINE</a> (merge nodes away)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/DOPING1.html">DOPING</a> (set an attribute, see interpolate)</p></td>
+          </tr>
+          <tr>
+            <th>&nbsp;</th>
+            <td nowrap="nowrap"><p><a href="docs/DUMP2.html">DUMP</a> (write output files)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/DUMP_RECOLOR.html">DUMP_RECOLOR</a> (use adjacency map)</p></td>
+            <td nowrap="nowrap">&nbsp;</td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC"><p>E</p></th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/EDIT2.html">EDIT</a> (prints some mesh info)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/ELTSET2.html">ELTSET</a> (select, name a set of elements)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/EXTRACT1.html">EXTRACT</a> (extract a surface)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC">&nbsp;</th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/extrude.html">EXTRUDE</a> (extrude a surface)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
+          </tr>
+          <tr>
+            <th><p>F</p></th>
+            <td nowrap="nowrap"><p><a href="docs/FIELD.html">FIELD</a> (manipulate a field attribute)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/FILTER.html">FILTER</a> (detect and remove duplicate nodes)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/FINISH.html">FINISH</a> (end processing, EXIT)</p></td>
+          </tr>
+          <tr>
+            <th>&nbsp;</th>
+            <td nowrap="nowrap"><p><a href="docs/FSET.html">FSET</a> (define a face set) </p></td>
+            <td nowrap="nowrap">&nbsp;</td>
+            <td nowrap="nowrap">&nbsp;</td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC"><p>G</p></th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/GENIEE.html">GENIEE</a> (make/update element connectivity)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/geometry.html">GEOMETRY</a> (set the geometry name)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
+          </tr>
+          <tr>
+            <th><p>H</p></th>
+            <td nowrap="nowrap"><p><a href="docs/HELP.html">HELP</a> (print global variable)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/HEXTOTE.html">HEXTOTET</a> (convert element types)</p></td>
+            <td nowrap="nowrap">&nbsp;</td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC"><p>I</p></th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/INPUT.html">INFILE</a> (read input from a file)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/INPUT.html">INPUT</a> (read input from a file)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/intersectelements.html">INTERSECT_ELEMENTS</a> ( .. of 2 meshes)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC">&nbsp;</th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/INTERSECT.html">INTERSECT</a> (..2 2d meshes to get line)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/main_interpolate.html">INTERPOLATE</a> (.. attribute values)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
+          </tr>
+          <tr>
+            <th><p>K</p></th>
+            <td nowrap="nowrap"><p><a href="docs/kdtree.html">KDTREE</a> (represent mesh as kd-tree)</p></td>
+            <td nowrap="nowrap">&nbsp;</td>
+            <td nowrap="nowrap">&nbsp;</td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC"><p>L</p></th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/LOG.html">LOG</a> (turn log file off and on)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/loop.html">LOOP</a> (execute command multiple times)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/lower_d.html">LOWER_D</a> (create lower dimen. structs.)</p></td>
+          </tr>
+          <tr>
+            <th><p>M</p></th>
+            <td nowrap="nowrap"><p><a href="docs/MASSAGE.html">MASSAGE</a> (optimize the grid)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/MATH.html">MATH</a> (do math on attributes)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/memory.html">MEMORY</a> (query state of memory )</p></td>
+          </tr>
+          <tr>
+            <th>&nbsp;</th>
+            <td nowrap="nowrap"><p><a href="docs/MERGE.html">MERGE</a> (remove nodes)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/metis.html">METIS</a> (graph partition algorithms)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/MODE.html">MODE</a> (set modes)</p></td>
+          </tr>
+          <tr>
+            <th>&nbsp;</th>
+            <td nowrap="nowrap"><p><a href="docs/MREGION.html">MREGION</a> (define a material region)</p></td>
+            <td nowrap="nowrap">&nbsp;</td>
+            <td nowrap="nowrap">&nbsp;</td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC"><p>N</p></th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/NEGATIVE.html">NEGATIVE_AIJ</a> (test bndry for neg. coef.)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
+          </tr>
+          <tr>
+            <th><p>O</p></th>
+            <td nowrap="nowrap"><p><a href="docs/OFFSETSURF.html">OFFSETSURF</a> (..triangulated surface)</p></td>
+            <td nowrap="nowrap">&nbsp;</td>
+            <td nowrap="nowrap">&nbsp;</td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC"><p>P</p></th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/PSTATUS.html">PSTATUS</a> (operate on point set)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/PERTURB.html">PERTURB</a> (perturb node locations)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/PSET.html">PSET</a> (define, name sets of nodes)</p></td>
+          </tr>
+          <tr>
+            <th><p>Q</p></th>
+            <td nowrap="nowrap"><p><a href="docs/QUADXY.html">QUADXY</a> (define a logical xy node set)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/QUADXYZ1.HTML">QUADXYZ</a> (define a logical xyz node set)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/QUALITY.html">QUALITY</a> (evaluate mesh quality)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC"><p>R</p></th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RADAPT.html">RADAPT</a> (adaptive smoothing)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/rankvolume.html">RANKVOLUME</a> (list small volume elements)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/READ.html">READ</a> (read data)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC">&nbsp;</th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RECON.html">RECON</a> (swap edges/faces)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/REFINE.html">REFINE</a> (refine elements, edges)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/REGION.html">REGION</a> (define a geometric region)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC">&nbsp;</th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/REGNPTS.html">REGNPTS</a> (distributes nodes in region)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/REORDER.html">REORDER</a> (reorder nodes in a mesh)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RESETPT.html">RESETPTS</a> (reset node values)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC">&nbsp;</th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RM.html">RM</a> (remove nodes in area)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RMMAT.html">RMMAT</a> (remove a material)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RMPOINT.html">RMPOINT</a> (remove nodes/elements)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC">&nbsp;</th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RMREGION.html">RMREGION</a> (remove a geometric region)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RMSPHERE.html">RMSPHERE</a> (remove nodes in a sphere)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RMSURF.html">RMSURF</a> (remove nodes in /on a surface)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC">&nbsp;</th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/ROTATELN.html">ROTATELN</a> (rotate nodes about a line)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/ROTATEPT.html">ROTATEPT</a>(rotate nodes about a point)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RZ.html">RZ</a> (see createpts)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC">&nbsp;</th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RZAMR.html">RZAMR</a> (see createpts)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RZBRICK.html">RZBRICK</a> (see createpts)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RZRAN.html">RZRAN</a> (see createpts)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC">&nbsp;</th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RZS.html">RZS</a> (see createpts)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/RZV_LG.html">RZV</a> (see createpts)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
+          </tr>
+          <tr>
+            <th><p>S</p></th>
+            <td nowrap="nowrap"><p><a href="docs/SCALE.html">SCALE</a> (scale node coordinates)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/SETPTS.html">SETPTS</a> (set node type, itp, and material, imt)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/SETSIZE.html">SETSIZE</a> (calc size of space, set epsilon)</p></td>
+          </tr>
+          <tr>
+            <th>&nbsp;</th>
+            <td nowrap="nowrap"><p><a href="docs/SETTETS.html">SETTETS</a> (make child nodes, etc)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/SMOOTH.html">SMOOTH</a> (node smoothing)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/SORT.html">SORT</a> (sort an attribute)</p></td>
+          </tr>
+          <tr>
+            <th>&nbsp;</th>
+            <td nowrap="nowrap"><p><a href="docs/STACK.html">STACK</a> (read,merge,stack,surfaces)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/SURFACE.html">SURFACE</a> (define a geometric surface)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/SURFPTS.html">SURFPTS</a> (make nodes on a surface)</p></td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC"><p>T</p></th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/TRANS.html">TRANS</a> (translate node coordinates)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/TRIAGN.html">TRIANGULATE</a> ( ..a polygon)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
+          </tr>
+          <tr>
+            <th><p>U</p></th>
+            <td nowrap="nowrap"><p><a href="docs/UNG2AVS.html">UNG2AVS</a> (UNGenerate to AVS)</p></td>
+            <td nowrap="nowrap"><p><a href="docs/UPSCALE.html">UPSCALE</a> (attribute from fine to coarse grid) </p></td>
+            <td nowrap="nowrap">&nbsp;</td>
+          </tr>
+          <tr>
+            <th bgcolor="#CCCCCC"><p>Z</p></th>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/ZQ.html">ZQ</a> (see <a href="docs/cmo_setatt.html">cmo/setatt</a>)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
+          </tr>
+        </table>
+      </div>
+      <!-- InstanceEndEditable --> <img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/transparent.gif" /></td>
+  </tr>
 </table>
 
-<blockquote>&nbsp;</blockquote>
+<!-- OPEN include for footer area --> 
+<!--#include virtual="/source/includes/xfooter.inc" --> 
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/email.inc" --> 
+
+<!-- CLOSE include for footer area -->
 
 </body>
+<!-- InstanceEnd -->
 </html>

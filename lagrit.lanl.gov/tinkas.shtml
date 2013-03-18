@@ -1,97 +1,71 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/no_banner.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
-<title>Tetrahedral LaGriT mesh for Microstructure Evolution </title>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>LANL | LaGriT |</title>
+<!-- InstanceEndEditable -->
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
-
-<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
-
-<meta name="keywords" content=" "/>
-
-<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
+<meta name="description" content="LaGriT is a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions for a variety of applications." />
+<meta name="Keywords" content="Mesh generation focused on Delaunay triangle and tetrahedral meshing. Mesh generation for geological applications. Mesh smoothing (optimization), reconnection, hybrid meshing (quadrilateral, prism, pyramid, line elements). Constructive solid geometry, Voronoi control volume area volume coefficient calculation."/>
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+<link media="all" title="LANLScreenStyle" href="styles/site.css" type="text/css" rel="stylesheet" />
 <link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
-
 </head>
 <body class="home">
+<!-- OPEN include for banner area --> 
+<!--#include virtual="/source/includes/xbanner.inc" --> 
+<!-- CLOSE include for banner area --> 
 
-<!-- OPEN include for banner area -->
-<!--#include virtual="/source/includes/xbanner.inc" -->
-<!-- CLOSE include for banner area -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/locator.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/locator.inc" --> 
 
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/identifier.inc -->
-<!--#include virtual="includes/identifier.inc" -->
-
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc -->
-<!--#include virtual="includes/toolbar.inc" -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/toolbar.inc" -->
 
 <div id="content-org">
   <table id="mid-section1" cellspacing="0" cellpadding="0">
     <tr>
-      <td width="236"  valign="top" class="col1">
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/nav1.inc -->
-
-<!--#include virtual="includes/nav1.inc" -->
-<!--#include virtual="includes/groups.inc" -->
-<!--#include virtual="includes/contacts.inc" -->
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/contacts.inc -->
-        <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
-     
-   <td width="771" valign="top" class="col2-420">
- <a name="content"></a>
-<!-- OPTIONAL: OPEN include for content area -->
-
-  
-        <h1>Pictures Created by Tinka Gammel </h1>
-        <table width="493" border="0">
+      <td width="237" valign="top" class="col1"><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/nav1.inc --> 
+        <!--#include virtual="/source/orgs/ees/includes/resources.inc" --> 
+        <!--#include virtual="includes/related_links.inc" --> 
+        <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/transparent.gif" /></td>
+      <td><a name="content"></a> <!-- InstanceBeginEditable name="ContentArea" -->
+        <h2>Pictures Created by Tinka Gammel </h2>
+        <table width="493" border="0" cellspacing="15">
           <tr>
-            <td width="225"><p><img src="images/tinka1small.jpg" width="225" height="175" /></p>
-            <p align="center">a</p></td>
-            <td width="258">Initial (t=0) microstructure for a&nbsp; short metallic line used in the gradient-weighted finite element calculations (b) and (c), generated by discrete Potts evolution of random effective spins on the elements of the tetrahedral LaGriT mesh followed by a few timesteps of evolution under mean curvature to remove discrete artifacts.</td>
+            <td width="225" valign="top"><p><img src="images/tinka1small.jpg" width="225" height="175" /></p>
+              <p align="center">a</p></td>
+            <td width="258" valign="top"><p>Initial (t=0) microstructure for a&nbsp; short metallic line used in the gradient-weighted finite element calculations (b) and (c), generated by discrete Potts evolution of random effective spins on the elements of the tetrahedral LaGriT mesh followed by a few timesteps of evolution under mean curvature to remove discrete artifacts.</p></td>
           </tr>
           <tr>
-            <td><img src="images/tinka1bsmall.jpg" width="225" height="175" /></p>
-			<p  align="center">b</p></td>
-            <td>Microstructure at t=4 using mean curvature grain boundary motion.</td>
+            <td valign="top"><img src="images/tinka1bsmall.jpg" width="225" height="175" />
+              <p  align="center">b</p></td>
+            <td valign="top"><p>Microstructure at t=4 using mean curvature grain boundary motion.</p></td>
           </tr>
           <tr>
-            <td><img src="images/tinka1csmall.jpg" width="225" height="175" /></p>
-			 <p align="center">c</p></td>
-            <td>Microstructure at t=4 when an orientation dependent grain boundary energy is used. <br />
-            Note that while the gross features of (b) and (c) are the same, the&nbsp; mean curvature evolution in (b) accurately reproduces the well-known predictions for mean curvature motion (grains meeting at triple lines with 120 degree angles, etc), whereasthe orientation dependent grainboundary energy used in (c) gives rise to the steps and facets expected for crytalline metals such as Copper.</td>
+            <td valign="top"><img src="images/tinka1csmall.jpg" width="225" height="175" />
+              <p align="center">c</p></td>
+            <td valign="top"><p>Microstructure at t=4 when an orientation dependent grain boundary energy is used. Note that while the gross features of (b) and (c) are the same, the&nbsp; mean curvature evolution in (b) accurately reproduces the well-known predictions for mean curvature motion (grains meeting at triple lines with 120 degree angles, etc), whereasthe orientation dependent grainboundary energy used in (c) gives rise to the steps and facets expected for crytalline metals such as Copper.</p></td>
           </tr>
           <tr>
-            <td><img src="images/tinka3small.jpg" width="225" height="175" /></td>
-            <td>Orientation-dependence of the grain boundary energy between grains 3 <br />
-              and 4 of Figure 1. The figure has the same orientation as Figure 1. The <br />
-              direction to the surface from the center is the direction of the grain <br />
-              boundary normal, and the length of the vector (and color of the <br />
-              surface) gives the magnitude.&nbsp; This surface is different for each grain pair since it <br />
-              is a function of their relative orientations as well as the grain boundary normal dependence shown here. <br />
-              The interactionwith the boundary for this simulation was chosen to be grain and <br />
-              orientation independent. The grains have fcc symmetry and the <br />
-              parameters were chosen to approximate Copper. We are currently <br />
-              investigating ways to more accurately model the orientation dependence <br />
-            within the scope of the finite element calculation.</td>
+            <td align="center" valign="top"><p><img src="images/tinka3small.jpg" width="225" height="175" /> </p>
+              <p>d</p></td>
+            <td valign="top"><p>Orientation-dependence of the grain boundary energy between grains 3 and 4 of Figure 1. The figure has the same orientation as Figure 1. The direction to the surface from the center is the direction of the grain boundary normal, and the length of the vector (and color of the surface) gives the magnitude.&nbsp; This surface is different for each grain pair since it is a function of their relative orientations as well as the grain boundary normal dependence shown here. The interactionwith the boundary for this simulation was chosen to be grain and orientation independent. The grains have fcc symmetry and the parameters were chosen to approximate Copper. We are currently investigating ways to more accurately model the orientation dependence within the scope of the finite element calculation.</p></td>
           </tr>
-        </table>        <p>&nbsp;</p>
-        <p><a href="index.shtml">Return to LaGriT home page</a></p>
-      <h1><img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/xtransparent.gif" /> </h1></td>
-      <td width="314" valign="top" class="col3-180">
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/related_links.inc -->
-<!--#include virtual="includes/related_links.inc" -->
-
-      <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
+        </table>
+        <!-- InstanceEndEditable --> <img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/transparent.gif" /></td>
     </tr>
   </table>
 </div>
 
-<!-- OPEN include for footer area -->
-<!--#include virtual="/source/includes/xfooter.inc" -->
+<!-- OPEN include for footer area --> 
+<!--#include virtual="/source/includes/xfooter.inc" --> 
 
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc -->
-
-<!--#include virtual="../includes/email.inc" -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/email.inc" --> 
 
 <!-- CLOSE include for footer area -->
+
 </body>
-</html>
+<!-- InstanceEnd --></html>
