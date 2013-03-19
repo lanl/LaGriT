@@ -70,6 +70,14 @@ average surface normal) that triggers refinement.<br>
     </li>
   </ul>
   <p> </p>
+  <p><font face="Times New Roman,Times"><b>bisection_length</b> can either be a scalar value
+or a node field (a node attribute). In the first case, the algorithm directly compares the edge
+length to the <b>bisection_length</b> value. If the edge length is greater than the <b>bisection_length</b>,
+the edge will be refined. In the second case, the algorithm compares the edge length to the minimum 
+value of the field at the two nodes incident to this edge. If the edge lenght is greater than
+this minimum value, the edge will be refined. Thus, one should put a minimum floor value (probably equal to
+twice the desired minimum edge lenth) for the field. Otherwise the code will refine indefinitely.
+For an example of an appropriate field, see <b>MASSAGE2</b> at the end. </font> <br>
   <p><font face="Times New Roman,Times"><span style="font-weight: bold;">toldamage</span></font><font
  face="Times New Roman,Times"> is a parameter which controls how much
 the grid will be deformed.&nbsp; The 'damage' is a measure of how much
@@ -284,6 +292,12 @@ material interfaces or external boundaries less than 0.01 ; smoothing
 of nodes causing damage less than 0.01 is allowed ; face swapping
 causing damage less than 0.01
 is allowed.</font>
+  <p><b><font face="Times New Roman,Times">massage</font></b><font
+ style="font-family: courier;" face="Courier New,Courier">/<span
+ style="font-family: courier new,courier,monospace;">H_SCALE/0.1/0.01</span>/</font>
+  <br>
+  <font face="Times">&nbsp;</font><font face="Times New Roman,Times">Same as above, except that the <b>bisection_length</b> is a
+node field called H_SCALE in this case.</font>
   <p><font face="Times New Roman,Times"><b>massage<small
  style="font-family: courier new,courier,monospace;">/</small></b></font><span
  style="font-family: courier;"><span

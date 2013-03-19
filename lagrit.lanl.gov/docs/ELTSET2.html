@@ -23,7 +23,7 @@
       boolian comparison with other eltsets</font> </li>
     <li><font face="Times New Roman,Times"><strong>region</strong> or <strong>mregion</strong> membership</font></li>
     <li><font face="Times New Roman,Times">quality criteria (<strong>volume</strong> or <strong>aspect</strong>      ratio)</font>    </li>
-    <li><strong>list</strong> - list element set members to screen </li>
+    <li><strong>list</strong> - list element set members to screen, or list the names of element sets if no 'eltset_name' is specified. </li>
     <li><strong>write</strong> - write element set members to a file </li>
     <li><strong>delete</strong> - remove element set from mesh object </li>
   </ol>
@@ -58,15 +58,18 @@ region as the vertices. Using itetclr will give the better result.</font></block
 </blockquote>
 EXAMPLES:
 <blockquote>
-  <p><b>eltset/</b><font face="Courier">element_set1</font><font face="Times">/<b>itetclr</b>/<b>eq</b>/</font><font face="Courier">4</font>
+  <p><b><font face = "Times">eltset/</font></b><font face="Courier">element_set1</font><font face="Times">/<b>itetclr</b>/<b>eq</b>/</font><font face="Courier">4</font>
       <br>
     <b><font face="Times">eltset</font>/</b><font face="Courier">element_set2</font><font face="Times">/<b>face</b>/<b>pset</b>/<b>get</b>/mypset</font><br>
 	<b><font face="Times">eltset</font>/</b><font face="Courier">element_set3</font><font face="Times">/<b>inclusive</b>/<b>pset</b>/<b>get</b>/mypset</font><br>
     <font face="Times"><b>eltset</b>/</font><font face="Courier">element_set4</font><font face="Times">/<b>region</b>/</font><font face="Courier">upper</font>
       <br>
     <font face="Times"><b>eltset</b>/</font><font face="Courier">element_set5</font><font face="Times">/<b>volume</b>/<b>lt</b>/3.0 <br>
-</font><font face="Times"><b>eltset</b>/</font><font face="Courier">element_set5</font><font face="Times">/<b>delete</b></font></p>
+</font><font face="Times"><b>eltset</b>/</font><font face="Courier">element_set5</font><font face="Times">/<b>delete</b></font><br>
+<font face="Times"><b>eltset</b></font> /<font face="Courier"> </font>
+/<font face="Times"><b>list </b>(list the names of element sets which have been defined)</font> <br></p>
   </p>
+
 </blockquote>
 </blockquote>
 

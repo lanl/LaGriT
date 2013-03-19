@@ -64,7 +64,7 @@ by a string to be used as whole or part of file name as described below.
 <dir>
 
 <font style="font-family: monospace;" size="+1"><b>dump</b>/ 
-file_name.[<b>inp | avs | gmv | lg | lagrit | ts</b> ] 
+file_name.[<b>inp | avs | gmv | lg | lagrit | ts | exo</b> ] 
 / [cmo_name]
 </font>
 <br>
@@ -199,6 +199,8 @@ node_number number_of_adjacent_elem e1 e2 ... en &nbsp;
 <!--- exodusII --->
 <font style="font-family: monospace;" face="Times" size="+1">
 <b> dump / exo</b> / file_name/ mo_name <br>
+<b> dump / exo</b> / file_name/ mo_name / psets / eltsets / facesets <br>
+<b> dump / exo</b> / file_name/ mo_name / psets / eltsets / facesets file1 file2 ... filen<br>
 <b> dump / exodusii </b> / file_name/ mo_name <br>
 <b> dump / exodusII </b> / file_name/ mo_name</font>
 <br>
@@ -628,7 +630,19 @@ column)<br>
 /file_root/cmo_name/ delatt keepatt_voronoi 
 (write all FEHM zone and
 area files, delete the outside attributes and keep the voronoi area
-attributes)
+attributes) <br> <br>
+<b>dump</b>/ exo / file_name / cmo_name <br>
+Write generic exodus output without any sets. <br>
+<b>dump</b>/ exo / file_name / cmo_name / psets <br>
+Write exodus output with point sets only. <br>
+<b>dump</b>/ exo / file_name / cmo_name / / eltsets <br>
+Write exodus output with element sets only. <br>
+<b>dump</b>/ exo / file_name / cmo_name / / / facesets <br>
+Write exodus output with face sets only. The facesets are internally calculated and defined. Note that the algorithm is computationally expensive and can take a long time to finish.<br>
+<b>dump</b>/ exo / file_name / cmo_name / / / facesets file1,file2,...,filen <br>
+Write exodus output with face sets only. The face sets are imported from file1, file2, ..., filen. <br>
+<b>dump</b>/ exo / file_name / cmo_name / psets / eltsets / facesets file1,file2,...,filen <br>
+Write exodus output with all psets, element sets, and face sets. The face sets are imported from file1, file2, ..., filen. <br>
 </font>
 <br>
 
