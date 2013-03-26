@@ -108,11 +108,11 @@
             <th bgcolor="#CCCCCC"><p>I</p></th>
             <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/commands/INPUT.html">INFILE</a> (read input from a file)</p></td>
             <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/commands/INPUT.html">INPUT</a> (read input from a file)</p></td>
-            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/commands/intersectelements.html">INTERSECT_ELEMENTS</a> ( .. of 2 meshes)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/commands/INTERSECT.html">INTERSECT</a> (..2 2d meshes to get line)</p></td>
           </tr>
           <tr>
             <th bgcolor="#CCCCCC">&nbsp;</th>
-            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/commands/INTERSECT.html">INTERSECT</a> (..2 2d meshes to get line)</p></td>
+            <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/commands/intersectelements.html">INTERSECT_ELEMENTS</a> ( .. of 2 meshes)</p></td>
             <td nowrap="nowrap" bgcolor="#CCCCCC"><p><a href="docs/commands/main_interpolate.html">INTERPOLATE</a> (.. attribute values)</p></td>
             <td nowrap="nowrap" bgcolor="#CCCCCC">&nbsp;</td>
           </tr>
