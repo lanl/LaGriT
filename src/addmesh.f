@@ -258,7 +258,7 @@ C variables
      * nef2,nen2,nsdtopo2,nsdgeom2,numtet2,npoints2,ierror,ierr,
      *  mbndry,npoints1,length,icmotp,numtet1,mbndry1,nsdtopo1,
      *  nsdgeom1,nen1,nef1,len,ier,mbndry2,i1,i2,index,npoints,
-     *  ierra, ierrb, ierrc
+     *  ierra, ierrb, ierrc, nnodes_a, nnodes_b, nnodes_c
 C
 C ######################################################################
 C
@@ -339,7 +339,7 @@ C
       integer itet_delete(*)
 C
       character*32 cname,ctype,clength,defname
-      character*32 isubname, cmoa, cmob, cmoc, coperator
+      character*32 isubname, cmoa, cmob, cmoc, cmo_empty, coperator
       character*32 ccmo_a(*),ccmo_c(*)
       character*32 pset_name
       character*132 logmess
@@ -396,8 +396,29 @@ C
 C     Check if the three mesh objects exist.
 C
       call cmo_exist(cmoa,ierra)
+      if (ierra.eq.0) then
+         call cmo_get_intinfo('nnodes',cmoa,nnodes_a,length,icmotp,ierr)
+      else
+         nnodes_a = 0
+      endif
       call cmo_exist(cmob,ierrb)
+      if (ierrb.eq.0) then
+         call cmo_get_intinfo('nnodes',cmob,nnodes_b,length,icmotp,ierr)
+      else
+         nnodes_b = 0
+      endif
       call cmo_exist(cmoc,ierrc)
+      if (ierrc.eq.0) then
+         call cmo_get_intinfo('nnodes',cmoc,nnodes_c,length,icmotp,ierr)
+      else
+         nnodes_c = 0
+      endif
+
+c      call cmo_get_intinfo('nnodes',cmoa,nnodes_a,length,icmotp,ierr)
+c      call cmo_get_intinfo('nnodes',cmob,nnodes_b,length,icmotp,ierr)
+c      call cmo_get_intinfo('nnodes',cmoc,nnodes_c,length,icmotp,ierr)
+
+ 
 C#######################################################
 C       Possible cases
 C       C A B
@@ -433,7 +454,16 @@ C     Case 2 0 - -  Write an error message and return with no action
          call writloga('default',0,logmess,0,ierr)
          goto 9999
 C     Case 6 - - 0  Just copy cmob into a new mesh object, cmoc
-      elseif((ierrc .ne. 0).and.(ierra .ne. 0).and.(ierrb .eq. 0))then
+      elseif((ierrc .ne. 0).and.(ierra .ne. 0).and.
+     *       ((ierrb .eq. 0).and.(nnodes_b .eq. 0)))then
+9020     format("WARNING: The source object has 0 nodes: ",a)
+         write(logmess,9020) cmob
+         call writloga('default',0,logmess,0,ierr)
+         write(logmess,*)'WARNING: no action'
+         call writloga('default',0,logmess,0,ierr)
+         goto 9999
+      elseif((ierrc .ne. 0).and.(ierra .ne. 0).and.
+     *       ((ierrb .eq. 0).and.(nnodes_b .ne. 0)))then
             cbuff='cmo/copy/' //
      *         cmoc(1:icharlnf(cmoc)) //' / '//
      *         cmob(1:icharlnf(cmob)) //
@@ -441,26 +471,40 @@ C     Case 6 - - 0  Just copy cmob into a new mesh object, cmoc
          call dotask (cbuff, ierror)
          goto 9999
 C     Case 7 - 0 - Just copy cmoa into a new mesh object, cmoc
-      elseif((ierrc .ne. 0).and.(ierra .eq. 0).and.(ierrb .ne. 0))then
+      elseif((ierrc .ne. 0).and.(ierrb .ne. 0).and.
+     *       ((ierra .eq. 0).and.(nnodes_a .ne. 0)))then
             cbuff='cmo/copy/' //
      *         cmoc(1:icharlnf(cmoc)) //' / '//
      *         cmoa(1:icharlnf(cmoa)) //
      *         ' ; finish '
          call dotask (cbuff, ierror)
          goto 9999
+      elseif((ierrc .ne. 0).and.(ierrb .ne. 0).and.
+     *       ((ierra .eq. 0).and.(nnodes_a .eq. 0)))then
+         write(logmess,9020) cmoa
+         call writloga('default',0,logmess,0,ierr)
+         write(logmess,*)'WARNING: no action'
+         call writloga('default',0,logmess,0,ierr)
+         goto 9999
 C     Case 3 0 0 - Change the name of one of the sources to the existing sink and continue
-       elseif((ierrc .eq. 0).and.(ierra .eq. 0).and.(ierrb .ne. 0))then
+       elseif(((ierrc .eq. 0).and.(nnodes_c .ne. 0)).and.
+     *        ((ierra .eq. 0).and.(nnodes_a .ne. 0)).and.
+     *        (ierrb .ne. 0))then
          write(logmess,9010) cmob
          call writloga('default',0,logmess,0,ierr)
          cmob = cmoc
 C     Case 4 0 - 0 Change the name of one of the sources to the existing sink and continue
-       elseif((ierrc .eq. 0).and.(ierra .ne. 0).and.(ierrb .eq. 0))then
+       elseif(((ierrc .eq. 0).and.(nnodes_c .ne. 0)).and.
+     *        (ierra .ne. 0).and.
+     *        ((ierrb .eq. 0).and.(nnodes_b .ne. 0)))then
          write(logmess,9010) cmoa
          call writloga('default',0,logmess,0,ierr)
          cmoa = cmoc
 C     Case 1 0 0 0 If the name of the sink and one of the sources are the same, change
 C     one of the sources name to -tmp_source_internal-
-       elseif((ierrc .eq. 0).and.(ierra .eq. 0).and.(ierrb .eq. 0))then
+       elseif((ierrc .eq. 0).and.
+     *        ((ierra .eq. 0).and.(nnodes_a .ne. 0)).and.
+     *        ((ierrb .eq. 0).and.(nnodes_b .ne. 0)))then
           if (cmoc .eq. cmoa) then
              call cmo_exist('-tmp_source_internal-',ierr)
              if(ierr .ne. 0) then
@@ -487,6 +531,7 @@ C     one of the sources name to -tmp_source_internal-
              call writloga('default',0,logmess,0,ierr)
              goto 9999
              endif
+             cmo_empty = cmob
           endif      
 C     Case 5, just continue with no changes to input syntax.
        else
@@ -559,10 +604,11 @@ C
       if ((npoints2 .eq. 0) .and. (numtet2 .eq. 0)) then
 
          write(logmess,'(a,a)')
-     *    'WARNING: third mesh name not valid,' //
+     *    'WARNING: third mesh not valid, 0 nodes and 0 elements,' //
      *    ' no action using ',cmob(1:icharlnf(cmob))
          call writloga('default',0,logmess,0,ierr)
          goto 9999
+
       endif
 
       call cmo_get_intinfo('ndimensions_topo',cmob,

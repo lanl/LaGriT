@@ -264,25 +264,25 @@ C     Check that cmonam is a valid mesh object
       endif
 
 C     Check that mesh object has elements
-
-      call cmo_get_intinfo('nelements',cmonam,nelem,ilen,itype,ier)
-      if(ier .ne. 0)then
-        write(logmess,9006) cmonam(1:icharlnf(cmonam))
- 9006  format(" ERROR SORT: looking for nelements of mesh object: ",a)
-        call writloga('default',0,logmess,1,ier)
-        goto 9999
-      endif
-      if (nelem .eq. 0) then
-         write(logmess, '(a)')
-     *   ' ERROR SORT: mesh object has 0 elements.'
-         call writloga('default',0,logmess,1,ier)
-         goto 9999
-      endif
+C
+C      call cmo_get_intinfo('nelements',cmonam,nelem,ilen,itype,ier)
+C      if(ier .ne. 0)then
+C        write(logmess,9006) cmonam(1:icharlnf(cmonam))
+C 9006  format(" ERROR SORT: looking for nelements of mesh object: ",a)
+C        call writloga('default',0,logmess,1,ier)
+C        goto 9999
+C      endif
+C      if (nelem .eq. 0) then
+C         write(logmess, '(a)')
+C     *   ' ERROR SORT: mesh object has 0 elements.'
+C         call writloga('default',0,logmess,1,ier)
+C         goto 9999
+C      endif
 
 C
 C#######################################################################
 C
-C    TOKEN 3 - Get the sort method to be used (bins,index, or rank)
+C    TOKEN 3 - Get the sort method to be used (bins,index,rank,etc.)
 C              also check on specific tokens related to each
 C
 
@@ -318,6 +318,23 @@ C     isort_type rank
 
 C     isort_type line_graph
       elseif(cmsgin(3)(1:icharlnf(cmsgin(3))) .eq. 'line_graph') then
+
+C        Check that mesh object has elements
+         call cmo_get_intinfo('nelements',cmonam,nelem,ilen,itype,ier)
+         if(ier .ne. 0)then
+           write(logmess,9006) cmonam(1:icharlnf(cmonam))
+ 9006      format(" ERROR SORT: looking for nelements of 
+     *            mesh object: ",a)
+           call writloga('default',0,logmess,1,ier)
+           goto 9999
+         endif
+         if (nelem .eq. 0) then
+            write(logmess, '(a)')
+     *      ' ERROR SORT: mesh object has 0 elements.'
+            call writloga('default',0,logmess,1,ier)
+            goto 9999
+         endif
+
          isort_type = 'line_graph'
 
          if (nwds .gt. 6) then
