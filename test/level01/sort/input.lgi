@@ -9,6 +9,18 @@
 #   test*.gmv       GMV version of corresponding AVS file
 #   test*s.inp      ------------- Sorted ----------------
 #   test*s.gmv      -------------- Files ----------------
+##########################################
+# SORT POINTS (not connected)
+cmo / create / moquad / / / quad
+createpts / xyz / 3 3 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+cmo / printatt / moquad / xic
+cmo / printatt / moquad / yic
+sort / moquad / index / ascending / ikey / xic yic
+reorder / moquad / ikey
+cmo / printatt / moquad / xic
+cmo / printatt / moquad / yic
+rzbrick/xyz/3,3,1/1,0,0/connect
+cmo / delete / moquad
 
 ###### EXTRACT and LINE SORT #############
 read avs test_surf.inp cmo                                                      
