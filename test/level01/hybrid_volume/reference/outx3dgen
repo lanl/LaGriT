@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.100   Linux m64      *                 
-*               *    date_compile: 2012/10/31   dev vers      *                 
-*               *    Run Time: 2012/Nov 16  08:09:32          *                 
+*               *    Program:  LaGriT V3.101   Linux m64      *                 
+*               *    date_compile: 2013/04/16  RH gf4.5       *                 
+*               *    Run Time: 2013/Apr 18  15:58:01          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -80,15 +80,15 @@ AMatbld3d_stor: Using hybrid median-Voronoi volumes
 cmo/addatt/mo1/hybrid_factor/vdouble/scalar/nelements                           
 finish                                                                          
 AMatbld3d_stor: *****Negative Coefficients ******                               
-AMatbld3d_stor: Total Number of Negative Coefficients       1                   
-AMatbld3d_stor: Number of Significant Negative Coefs       0                    
-AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs       1                    
+AMatbld3d_stor: Total Number of Negative Coefficients         1                 
+AMatbld3d_stor: Number of Significant Negative Coefs         0                  
+AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs         1                  
 cmo/addatt/mo1/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/afgx/0.0/           
 finish                                                                          
 cmo/addatt/mo1/ij_ccoef/VINT/scalar/nnodes/linear/permanent/afgx/0.0/           
 finish                                                                          
-AMatbld3d_stor: npoints =     1331  n connections =       8593                  
-AMatbld3d_stor: Number of written coefs =         4                             
+AMatbld3d_stor: npoints =     1331  ncoefs =       8593                         
+AMatbld3d_stor: Number of unique coefs =         4                              
 AMatbld3d_stor: Maximum num. connections to a node =          8                 
 AMatbld3d_stor: Volume min =   1.2500000E-01                                    
 AMatbld3d_stor: Volume max =   1.0000000E+00                                    
@@ -97,11 +97,13 @@ AMatbld3d_stor: abs(Aij/xij) min =   4.9065389E-18
 AMatbld3d_stor: abs(Aij/xij) max =   1.0000000E+00                              
 AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18                                 
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
-Compression used for graph and coefficient values                               
-The area coefficient values were written as scalar area/distance                
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph and coefficient values         
 ascii STOR file written with name test01.stor                                   
  
 *** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
+ 
+3D Matrix Coefficient file written with name test01.stor                        
  
 cmo/addatt/mo1/hybrid_volume/hybrid                                             
 ADDATT/hybrid_volume: creating new attribute: hybrid                            
@@ -111,11 +113,11 @@ cmo/addatt/mo1/hybrid_factor/vdouble/scalar/nelements
 CMO_ADDATT warning: attribute already exist: mo1  hybrid_factor                 
 finish                                                                          
 AMatbld3d_stor: *****Negative Coefficients ******                               
-AMatbld3d_stor: Total Number of Negative Coefficients       1                   
-AMatbld3d_stor: Number of Significant Negative Coefs       0                    
-AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs       1                    
-AMatbld3d_stor: npoints =     1331  n connections =       8593                  
-AMatbld3d_stor: Number of written coefs =      4962                             
+AMatbld3d_stor: Total Number of Negative Coefficients         1                 
+AMatbld3d_stor: Number of Significant Negative Coefs         0                  
+AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs         1                  
+AMatbld3d_stor: npoints =     1331  ncoefs =       8593                         
+AMatbld3d_stor: Number of unique coefs =      4962                              
 AMatbld3d_stor: Maximum num. connections to a node =          8                 
 AMatbld3d_stor: Volume min =   1.2500000E-01                                    
 AMatbld3d_stor: Volume max =   1.0000000E+00                                    
@@ -124,20 +126,22 @@ AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00
 AMatbld3d_stor: abs(Aij/xij) max =   1.0000000E+00                              
 AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18                                 
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
-Compression used for graph, not coefficient values                              
-The area coefficient values were written as scalar area/distance                
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph, not coefficient values        
 mo1 attribute with voronoi volumes created with name hybrid                     
  
 *** SPARSE COEFFICIENT MATRIX _gstor SUCCESSFUL ***                             
  
+3D Matrix Coefficient file written with name -notset-                           
+ 
 cmo/addatt/mo1/voronoi_volume/voronoi                                           
 ADDATT/voronoi_volume: creating new attribute: voronoi                          
 AMatbld3d_stor: *****Negative Coefficients ******                               
-AMatbld3d_stor: Total Number of Negative Coefficients       1                   
-AMatbld3d_stor: Number of Significant Negative Coefs       0                    
-AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs       1                    
-AMatbld3d_stor: npoints =     1331  n connections =       8593                  
-AMatbld3d_stor: Number of written coefs =      4962                             
+AMatbld3d_stor: Total Number of Negative Coefficients         1                 
+AMatbld3d_stor: Number of Significant Negative Coefs         0                  
+AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs         1                  
+AMatbld3d_stor: npoints =     1331  ncoefs =       8593                         
+AMatbld3d_stor: Number of unique coefs =      4962                              
 AMatbld3d_stor: Maximum num. connections to a node =          8                 
 AMatbld3d_stor: Volume min =   1.2500000E-01                                    
 AMatbld3d_stor: Volume max =   1.0000000E+00                                    
@@ -146,11 +150,13 @@ AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00
 AMatbld3d_stor: abs(Aij/xij) max =   1.0000000E+00                              
 AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18                                 
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
-Compression used for graph, not coefficient values                              
-The area coefficient values were written as scalar area/distance                
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph, not coefficient values        
 mo1 attribute with voronoi volumes created with name voronoi                    
  
 *** SPARSE COEFFICIENT MATRIX _gstor SUCCESSFUL ***                             
+ 
+3D Matrix Coefficient file written with name -notset-                           
  
 cmo/addatt/mo1/volume/element_volume                                            
 ADDATT/volume: creating new attribute: element_volume                           
@@ -432,11 +438,11 @@ dump/stor/test07/mo1
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
 AMatbld3d_stor: *****Negative Coefficients ******                               
-AMatbld3d_stor: Total Number of Negative Coefficients       1                   
-AMatbld3d_stor: Number of Significant Negative Coefs       0                    
-AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs       1                    
-AMatbld3d_stor: npoints =     1331  n connections =       8593                  
-AMatbld3d_stor: Number of written coefs =         4                             
+AMatbld3d_stor: Total Number of Negative Coefficients         1                 
+AMatbld3d_stor: Number of Significant Negative Coefs         0                  
+AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs         1                  
+AMatbld3d_stor: npoints =     1331  ncoefs =       8593                         
+AMatbld3d_stor: Number of unique coefs =         4                              
 AMatbld3d_stor: Maximum num. connections to a node =          8                 
 AMatbld3d_stor: Volume min =   1.2500000E-01                                    
 AMatbld3d_stor: Volume max =   1.0000000E+00                                    
@@ -445,11 +451,13 @@ AMatbld3d_stor: abs(Aij/xij) min =   4.9065389E-18
 AMatbld3d_stor: abs(Aij/xij) max =   1.0000000E+00                              
 AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18                                 
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
-Compression used for graph and coefficient values                               
-The area coefficient values were written as scalar area/distance                
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph and coefficient values         
 ascii STOR file written with name test07.stor                                   
  
 *** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
+ 
+3D Matrix Coefficient file written with name test07.stor                        
  
 finish                                                                          
 LaGriT successfully completed                                                   
