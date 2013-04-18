@@ -2,14 +2,15 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.002   Linux m64      *                 
-*               *    date_compile: 2011/09/09  gfort 4.5      *                 
-*               *    Run Time: 2011/Sep  9  12:46:09          *                 
+*               *    Program:  LaGriT V3.101   Linux m64      *                 
+*               *    date_compile: 2013/04/16  RH gf4.5       *                 
+*               *    Run Time: 2013/Apr 18  16:21:46          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -109,9 +110,9 @@ finish
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs       0                    
-AMatbld3d_stor: npoints =        8  n connections =         32                  
-AMatbld3d_stor: Number of written coefs =         2                             
+AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         0                 
+AMatbld3d_stor: npoints =        8  ncoefs =         32                         
+AMatbld3d_stor: Number of unique coefs =         2                              
 AMatbld3d_stor: Maximum num. connections to a node =          4                 
 AMatbld3d_stor: Volume min =   1.2500000E-01                                    
 AMatbld3d_stor: Volume max =   1.2500000E-01                                    
@@ -120,11 +121,13 @@ AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00
 AMatbld3d_stor: abs(Aij/xij) max =   2.5000000E-01                              
 AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
 AMatbld3d_stor: (Aij/xij) min =  -2.5000000E-01                                 
-Compression used for graph and coefficient values                               
-The area coefficient values were written as scalar area/distance                
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph and coefficient values         
 unformatted STOR file written with name outbin.stor                             
  
 *** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
+ 
+3D Matrix Coefficient file written with name outbin.stor                        
  
 dump/fehm/outascii/cmo/ascii//scalar                                            
 *** Write FEHMN GEOM AND ZONE FILES ***                                         
@@ -190,9 +193,9 @@ finish
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs       0                    
-AMatbld3d_stor: npoints =        8  n connections =         32                  
-AMatbld3d_stor: Number of written coefs =         2                             
+AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         0                 
+AMatbld3d_stor: npoints =        8  ncoefs =         32                         
+AMatbld3d_stor: Number of unique coefs =         2                              
 AMatbld3d_stor: Maximum num. connections to a node =          4                 
 AMatbld3d_stor: Volume min =   1.2500000E-01                                    
 AMatbld3d_stor: Volume max =   1.2500000E-01                                    
@@ -201,11 +204,13 @@ AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00
 AMatbld3d_stor: abs(Aij/xij) max =   2.5000000E-01                              
 AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
 AMatbld3d_stor: (Aij/xij) min =  -2.5000000E-01                                 
-Compression used for graph and coefficient values                               
-The area coefficient values were written as scalar area/distance                
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph and coefficient values         
 ascii STOR file written with name outascii.stor                                 
  
 *** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
+ 
+3D Matrix Coefficient file written with name outascii.stor                      
  
 cmo/printatt//-all-/minmax                                                      
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
