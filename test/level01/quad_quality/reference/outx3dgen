@@ -2,14 +2,15 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.005   Linux m64      *                 
-*               *    date_compile: 2012/06/15  gfort 4.5      *                 
-*               *    Run Time: 2012/Jun 27  07:44:37          *                 
+*               *    Program:  LaGriT V3.101   Linux m64      *                 
+*               *    date_compile: 2013/04/16  RH gf4.5       *                 
+*               *    Run Time: 2013/Apr 18  16:03:26          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -37,7 +38,7 @@ Command log file: logx3dgen
 # Make sure we can handle an empty mesh.                                        
 cmo/create/mo01///quad                                                          
 cmo/addatt/mo01/quad_quality/quality regularity qflag                           
-ADDATT/quad_quality: creating new attribute: quality                            
+ADDATT/quad_quality: creating 3 new attributes: quality  regularity  qflag      
 WARNING: MO has zero nodes                                                      
 WARNING: NO ACTION                                                              
 quality/quad                                                                    
@@ -51,10 +52,10 @@ createpts/brick/xyz/11,11,11/0. 0. 0./10. 10. 10./1 1 1
           Number of negative volume elements:           0                       
           Total volume:     0.100000000000E+04                                  
 cmo/addatt/mo02/quad_quality/quality regularity qflag                           
-ADDATT/quad_quality: creating new attribute: quality                            
+ADDATT/quad_quality: creating 3 new attributes: quality  regularity  qflag      
 ADDATT error: quad_quality requires the mesh to consist solely of quads.        
  
-ADDATT ERRORS BEFORE COMPLETION ierror_return =     0                           
+ADDATT ERRORS BEFORE COMPLETION ierror_return =    -1                           
  
 quality/quad                                                                    
 quality: Error - the quad mesh must consist solely of quads.                    
@@ -89,10 +90,10 @@ The current-mesh-object(CMO) is: mo03
 finish                                                                          
 finish                                                                          
 cmo/addatt/mo03/quad_quality/quality regularity qflag                           
-ADDATT/quad_quality: creating new attribute: quality                            
+ADDATT/quad_quality: creating 3 new attributes: quality  regularity  qflag      
 quality/quad                                                                    
 cmo/addatt/mo03/quad_quality/_quality _regularity _qflag                        
-ADDATT/quad_quality: creating new attribute: _quality                           
+ADDATT/quad_quality: creating 3 new attributes: _quality  _regularity  _qflag   
 finish                                                                          
               Quad Quality                                                      
 ------------------------------------------                                      
@@ -163,10 +164,10 @@ The current-mesh-object(CMO) is: mo04
 finish                                                                          
 finish                                                                          
 cmo/addatt/mo04/quad_quality/quality regularity qflag                           
-ADDATT/quad_quality: creating new attribute: quality                            
+ADDATT/quad_quality: creating 3 new attributes: quality  regularity  qflag      
 quality/quad                                                                    
 cmo/addatt/mo04/quad_quality/_quality _regularity _qflag                        
-ADDATT/quad_quality: creating new attribute: _quality                           
+ADDATT/quad_quality: creating 3 new attributes: _quality  _regularity  _qflag   
 finish                                                                          
               Quad Quality                                                      
 ------------------------------------------                                      
@@ -243,10 +244,10 @@ The current-mesh-object(CMO) is: mo05
 finish                                                                          
 finish                                                                          
 cmo/addatt/mo05/quad_quality/quality regularity qflag                           
-ADDATT/quad_quality: creating new attribute: quality                            
+ADDATT/quad_quality: creating 3 new attributes: quality  regularity  qflag      
 quality/quad                                                                    
 cmo/addatt/mo05/quad_quality/_quality _regularity _qflag                        
-ADDATT/quad_quality: creating new attribute: _quality                           
+ADDATT/quad_quality: creating 3 new attributes: _quality  _regularity  _qflag   
 finish                                                                          
               Quad Quality                                                      
 ------------------------------------------                                      
