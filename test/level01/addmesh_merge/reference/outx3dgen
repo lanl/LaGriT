@@ -2,14 +2,15 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  10:58:19          *                 
+*               *    Program:  LaGriT V3.101   Linux m64      *                 
+*               *    date_compile: 2013/04/16  RH gf4.5       *                 
+*               *    Run Time: 2013/Apr 19  11:32:32          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -24,166 +25,413 @@ any liability or responsibility for the use of this software.
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
-* test capabilities of addmesh merge                                            
-cmo/create/cmoa                                                                 
-createpts/xyz/3 3 3/0. 0. 0./1. 1. 1./1 1 1                                     
-  RZ GENERATED POINTS                    1 TO                   27              
-connect                                                                         
- No materials associated with        27 noninterface points.                    
- Coordinates of enclosing tetrahedron are:                                      
-          -0.20000D+01   -0.75000D+00   -0.75000D+00                            
-           0.50000D+00   -0.75000D+00    0.42500D+01                            
-           0.30000D+01   -0.75000D+00   -0.75000D+00                            
-           0.50000D+00    0.42500D+01    0.50000D+00                            
- Candidate connections that may cross boundaries =       118                    
- 
- Successfully eliminated all multimaterial connections.                         
- 
- The mesh is now complete!                                                      
- 
-LaGriT FINISH: connect                                                          
- 
-cmo/create/cmob                                                                 
-createpts/xyz/3 3 3/0. 0. 0./1. 1. 1./1 1 1                                     
-  RZ GENERATED POINTS                    1 TO                   27              
-connect                                                                         
- No materials associated with        27 noninterface points.                    
- Coordinates of enclosing tetrahedron are:                                      
-          -0.20000D+01   -0.75000D+00   -0.75000D+00                            
-           0.50000D+00   -0.75000D+00    0.42500D+01                            
-           0.30000D+01   -0.75000D+00   -0.75000D+00                            
-           0.50000D+00    0.42500D+01    0.50000D+00                            
- Candidate connections that may cross boundaries =       118                    
- 
- Successfully eliminated all multimaterial connections.                         
- 
- The mesh is now complete!                                                      
- 
-LaGriT FINISH: connect                                                          
- 
-cmo/create/cmoc                                                                 
-createpts/xyz/3 3 3/0. 0. 0./1. 1. 1./1 1 1                                     
-  RZ GENERATED POINTS                    1 TO                   27              
-connect                                                                         
- No materials associated with        27 noninterface points.                    
- Coordinates of enclosing tetrahedron are:                                      
-          -0.20000D+01   -0.75000D+00   -0.75000D+00                            
-           0.50000D+00   -0.75000D+00    0.42500D+01                            
-           0.30000D+01   -0.75000D+00   -0.75000D+00                            
-           0.50000D+00    0.42500D+01    0.50000D+00                            
- Candidate connections that may cross boundaries =       118                    
- 
- Successfully eliminated all multimaterial connections.                         
- 
- The mesh is now complete!                                                      
- 
-LaGriT FINISH: connect                                                          
- 
-* Case 1                                                                        
-addmesh/merge/cmo1/cmoa/cmob                                                    
-* Case 2                                                                        
-addmesh/merge/cmoc/dum1/dum2                                                    
-WARNING: The source object doesn't exist: dum1                                  
-WARNING: The source object doesn't exist: dum2                                  
- WARNING: no action                                                             
-* Case 3                                                                        
-cmo/copy/cmo2/cmoc                                                              
-addmesh/merge/cmo2/cmoa/dum2                                                    
-WARNING: The source object doesn't exist: dum2                                  
-* Case 4                                                                        
-cmo/copy/cmo3/cmoc                                                              
-addmesh/merge/cmo3/dum1/cmob                                                    
-WARNING: The source object doesn't exist: dum1                                  
-* Case 5                                                                        
-addmesh/merge/cmo4/cmoa/cmob                                                    
-* Case 6                                                                        
-addmesh/merge/cmo5/dum1/cmob                                                    
-cmo/copy/cmo5/cmob                                                              
-finish                                                                          
-* Case 7                                                                        
-addmesh/merge/cmo6/cmoa/dum2                                                    
-cmo/copy/cmo6/cmoa                                                              
-finish                                                                          
-* Case 8                                                                        
-addmesh/merge/dum3/dum1/dum2                                                    
-WARNING: The sink object doesn't exist: dum3                                    
-WARNING: The source object doesn't exist: dum1                                  
-WARNING: The source object doesn't exist: dum2                                  
- WARNING: no action                                                             
+# test addmesh merge scenarios                                                  
+#                                                                               
+*       Possible cases (X => mo exists, - => mo does not exist)                 
+*       C A B                                                                   
+* 1     X X X    Normal C = C + A + B                                           
+* 2     X - -    No change, exit                                                
+* 3     X X -    Modify to C = C + A                                            
+* 4     X - X    Modify to C = C + B                                            
+* 5     - X X    Normal C = A + B                                               
+* 6     - - X    Modify C = B                                                   
+* 7     - X -    Modify C = A                                                   
+* 8     - - -    No action, exit                                                
 *                                                                               
-* Use the syntax                                                                
-*                                                                               
-addmesh/merge/cmo7/cmo7/cmoa                                                    
-cmo/copy/cmo7/cmoa                                                              
-finish                                                                          
-addmesh/merge/cmo7/cmo7/cmob                                                    
-addmesh/merge/cmo7/cmo7/cmoc                                                    
+#######################################################                         
+# create mo_A mo_B mo_C                                                         
+cmo/create/mo_A                                                                 
+createpts/xyz/3 3 3/0. 0. 0./1. 1. 1./1 1 1                                     
+  RZ GENERATED POINTS                    1 TO                   27              
+connect                                                                         
+ No materials associated with        27 noninterface points.                    
+ Coordinates of enclosing tetrahedron are:                                      
+          -0.20000D+01   -0.75000D+00   -0.75000D+00                            
+           0.50000D+00   -0.75000D+00    0.42500D+01                            
+           0.30000D+01   -0.75000D+00   -0.75000D+00                            
+           0.50000D+00    0.42500D+01    0.50000D+00                            
+ Candidate connections that may cross boundaries =       118                    
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+cmo/create/mo_B                                                                 
+createpts/xyz/3 3 3/0. 0. 0./1. 1. 1./1 1 1                                     
+  RZ GENERATED POINTS                    1 TO                   27              
+connect                                                                         
+ No materials associated with        27 noninterface points.                    
+ Coordinates of enclosing tetrahedron are:                                      
+          -0.20000D+01   -0.75000D+00   -0.75000D+00                            
+           0.50000D+00   -0.75000D+00    0.42500D+01                            
+           0.30000D+01   -0.75000D+00   -0.75000D+00                            
+           0.50000D+00    0.42500D+01    0.50000D+00                            
+ Candidate connections that may cross boundaries =       118                    
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+cmo/create/mo_C                                                                 
+createpts/xyz/3 3 3/0. 0. 0./1. 1. 1./1 1 1                                     
+  RZ GENERATED POINTS                    1 TO                   27              
+connect                                                                         
+ No materials associated with        27 noninterface points.                    
+ Coordinates of enclosing tetrahedron are:                                      
+          -0.20000D+01   -0.75000D+00   -0.75000D+00                            
+           0.50000D+00   -0.75000D+00    0.42500D+01                            
+           0.30000D+01   -0.75000D+00   -0.75000D+00                            
+           0.50000D+00    0.42500D+01    0.50000D+00                            
+ Candidate connections that may cross boundaries =       118                    
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
 cmo/status/brief                                                                
  
-The current-mesh-object(CMO) is: cmo7                                           
+The current-mesh-object(CMO) is: mo_C                                           
  
-  1 Mesh Object name: cmoa                                                      
+  1 Mesh Object name: mo_A                                                      
     number of nodes =            27        number of elements =           48    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
     boundary flag =        16000000        status =                 inactive    
  
-  2 Mesh Object name: cmob                                                      
+  2 Mesh Object name: mo_B                                                      
     number of nodes =            27        number of elements =           48    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
     boundary flag =        16000000        status =                 inactive    
  
-  3 Mesh Object name: cmoc                                                      
+  3 Mesh Object name: mo_C                                                      
     number of nodes =            27        number of elements =           48    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
- 
-  4 Mesh Object name: cmo1                                                      
-    number of nodes =            54        number of elements =           96    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
- 
-  5 Mesh Object name: cmo2                                                      
-    number of nodes =            54        number of elements =           96    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
- 
-  6 Mesh Object name: cmo3                                                      
-    number of nodes =            54        number of elements =           96    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
- 
-  7 Mesh Object name: cmo4                                                      
-    number of nodes =            54        number of elements =           96    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
- 
-  8 Mesh Object name: cmo5                                                      
-    number of nodes =            27        number of elements =           48    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
- 
-  9 Mesh Object name: cmo6                                                      
-    number of nodes =            27        number of elements =           48    
-    dimensions geometry =         3        element type =                tet    
-    dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                 inactive    
- 
- 10 Mesh Object name: cmo7                                                      
-    number of nodes =            81        number of elements =          144    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
     boundary flag =        16000000        status =                   active    
  
  
-cmo/select/cmo7                                                                 
+*####################################################                           
+*  Case 1   X X X   AB = A + B                                                  
+addmesh/merge/mo_AB/mo_A/mo_B                                                   
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo_AB                                          
+ 
+  1 Mesh Object name: mo_A                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo_B                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo_C                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: mo_AB                                                     
+    number of nodes =            54        number of elements =           96    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+cmo/delete/mo_AB                                                                
+     Released Mesh Object: mo_AB                                                
+*####################################################                           
+* Case 2    X - -   C = dum + dum                                               
+* No change to C, exit                                                          
+addmesh/merge/mo_C/dum1/dum2                                                    
+WARNING: The source object doesn't exist: dum1                                  
+WARNING: The source object doesn't exist: dum2                                  
+ WARNING: no action                                                             
+cmo/status/mo_C/brief                                                           
+ 
+The current-mesh-object(CMO) is: mo_A                                           
+ 
+  3 Mesh Object name: mo_C                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+ 
+*####################################################                           
+* Case 3    X X -   AC = C + A                                                  
+* Modify to C                                                                   
+cmo/copy/mo_C2/mo_C                                                             
+addmesh/merge/mo_C2/mo_A/dum2                                                   
+WARNING: The source object doesn't exist: dum2                                  
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo_C2                                          
+ 
+  1 Mesh Object name: mo_A                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo_B                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo_C                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: mo_C2                                                     
+    number of nodes =            54        number of elements =           96    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+*####################################################                           
+* Case 4    X - X   CB = C + B                                                  
+* Modify to C                                                                   
+cmo/delete/mo_C2                                                                
+     Released Mesh Object: mo_C2                                                
+cmo/copy/mo_C2/mo_C                                                             
+addmesh/merge/mo_C2/dum1/mo_B                                                   
+WARNING: The source object doesn't exist: dum1                                  
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo_C2                                          
+ 
+  1 Mesh Object name: mo_A                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo_B                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo_C                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: mo_C2                                                     
+    number of nodes =            54        number of elements =           96    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+*####################################################                           
+* Case 5    - X X  New = A + B                                                  
+addmesh/merge/mo_AB/mo_A/mo_B                                                   
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo_AB                                          
+ 
+  1 Mesh Object name: mo_A                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo_B                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo_C                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: mo_C2                                                     
+    number of nodes =            54        number of elements =           96    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  5 Mesh Object name: mo_AB                                                     
+    number of nodes =            54        number of elements =           96    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+cmo/delete/mo_AB                                                                
+     Released Mesh Object: mo_AB                                                
+*####################################################                           
+* Case 6    - - X    Modify C = B                                               
+addmesh/merge/mo_BB/dum1/mo_B                                                   
+cmo/copy/mo_BB/mo_B                                                             
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo_BB                                          
+ 
+  1 Mesh Object name: mo_A                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo_B                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo_C                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: mo_C2                                                     
+    number of nodes =            54        number of elements =           96    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  5 Mesh Object name: mo_BB                                                     
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+*####################################################                           
+* Case 7    - X -    Modify C = A                                               
+addmesh/merge/mo_AA/mo_A/dum2                                                   
+cmo/copy/mo_AA/mo_A                                                             
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo_AA                                          
+ 
+  1 Mesh Object name: mo_A                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo_B                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo_C                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: mo_C2                                                     
+    number of nodes =            54        number of elements =           96    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  5 Mesh Object name: mo_BB                                                     
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  6 Mesh Object name: mo_AA                                                     
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+*####################################################                           
+* Case 8    - - -    No action, exit                                            
+addmesh/merge/dum3/dum1/dum2                                                    
+WARNING: The sink object doesn't exist: dum3                                    
+WARNING: The source object doesn't exist: dum1                                  
+WARNING: The source object doesn't exist: dum2                                  
+ WARNING: no action                                                             
+*####################################################                           
+*                                                                               
+cmo/delete/mo_C2                                                                
+     Released Mesh Object: mo_C2                                                
+cmo/delete/mo_AB                                                                
+Mesh Object release skipped, it does not exist: mo_AB                           
+cmo/delete/mo_AA                                                                
+     Released Mesh Object: mo_AA                                                
+cmo/delete/mo_BB                                                                
+     Released Mesh Object: mo_BB                                                
+*####################################################                           
+* Use the syntax                                                                
+*                                                                               
+addmesh/merge/mo/mo/mo_A                                                        
+cmo/copy/mo/mo_A                                                                
+finish                                                                          
+addmesh/merge/mo/mo/mo_B                                                        
+cmo/move/-tmp_source_internal-/mo                                               
+finish                                                                          
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+addmesh/merge/mo/mo/mo_C                                                        
+cmo/move/-tmp_source_internal-/mo                                               
+finish                                                                          
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo_A                                           
+ 
+  1 Mesh Object name: mo_A                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+  2 Mesh Object name: mo_B                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo_C                                                      
+    number of nodes =            27        number of elements =           48    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: mo                                                        
+    number of nodes =            81        number of elements =          144    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+ 
+cmo/select/mo                                                                   
 quality                                                                         
  
 epsilonl, epsilonaspect:   3.8459254E-13  5.6885628E-38                         
