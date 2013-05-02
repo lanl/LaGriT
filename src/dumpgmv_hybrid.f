@@ -359,9 +359,23 @@ c
 C     ******************************************************************
 C begin
 c
-      isubname="gmvdmp"
+      isubname="dump_gmv"
+      ierror = 0
       icskid=1
 C
+
+C     exit if mesh object is empty
+C     use 9995 to exit without closing un-opened file
+      call cmo_get_info('nnodes',cmo,
+     *                  nnodes,length,ityp,ierror)
+      if (ierror.ne.0.or.nnodes.le.0) then
+         write(logmess,'(a,a)') 
+     *   'DUMP/GMV early exit: no nodes in cmo: ',
+     *   cmo(1:icharlnf(cmo))
+         call writloga('default',0,logmess,0,ics)
+         ierror = -1
+         goto 9995
+      endif
  
 C     ******************************************************************
 C
@@ -384,20 +398,10 @@ C
       ipolydata=1
       if(cvor.eq.'no') ipolydata=0
 C
-C
 C     ******************************************************************
 C
 c  get information from  mesh object
-c
-      call cmo_get_info('nnodes',cmo,
-     *                  nnodes,length,ityp,ierror)
-      if (ierror.ne.0.or.nnodes.le.0) then
-         write(logmess,'(a)') cmo(1:icharlnf(cmo))//' has no nodes'
-         call writloga('default',0,logmess,0,ics)
-         call x3d_error(isubname,'GMV DUMP FAILED')
-         goto 9999
-      endif
-
+ 
 C     Mesh Object attributes
       call cmo_get_info('nelements',cmo,
      *                  nelements,length,ityp,ierror)
@@ -476,7 +480,7 @@ c     Hardwire turning off output of -def- field.
       call mmgetblk("ireal1",isubname,ipireal1,length,2,icscode)
       if (icscode .ne. 0) then
         call x3d_error(isubname,'can not mmgetblk temp arrays')
-        goto 9999
+        goto 9995
       endif
 
 C
@@ -490,7 +494,7 @@ c     check that itp1 exists, else may get segmentation fault
          call hassign(iunit,ifile,ierror)
          if (iunit.lt.0 .or. ierror.lt.0) then
            call x3d_error(isubname,'hassign bad file unit')
-           goto 9999
+           goto 9995
          endif
          write(iunit,"('gmvinput ascii')")
          write(iunit,"('codename LaGriT')")
@@ -505,6 +509,10 @@ C
         cgmvfile=ifile
      	call fgmvwriteopenfile(cgmvfile)
       endif
+
+C     file has been successfully opened
+C     use 9999 for exit instead of 9995 now that file is open
+
       if(idumptype.eq.0) then
          write(iunit,"('nodes   ',i10)") nnodes
          write(iunit,"(10(1pe14.5e3))") (xic(i),i=1,nnodes)
@@ -3362,14 +3370,30 @@ c hope same as pyr,pri works for hybrid: need re "polygons" being written
       goto 9999
  9999 continue
 
-C     try to close file even if errors
+C     Need to add messages for error flags if set
+
+C     try to close file even if errors only if opened
+C     seg fault if trying to close file before it is open
+
       if(idumptype.eq.0) then
          close(iunit)
       else
          call fgmvwriteclosefile()
       endif
-
       call mmrelprt(isubname,icscode)
+
+C     early exit before file is opened
+ 9995 if (ierror .ne. 0) then
+        write(logmess,'(a,a)') 
+     *  "DUMP/GMV ERROR: could not open file for: ",
+     *   cmo(1:icharlnf(cmo))
+        call writloga('default',0,logmess,1,ics)
+      else
+        write(logmess,'(a,a)') 
+     *  "DUMP/GMV Done writing file for: ",
+     *   cmo(1:icharlnf(cmo))
+      endif
+      
       return
       end
 
