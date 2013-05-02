@@ -4,7 +4,7 @@ c #####################################################################
 c
 c     purpose -
 c
-c        create a gmv formatted file from the current mesh object
+c        create a inventor formatted file from the current mesh object
 c
 c     input arguments -
 c
@@ -207,7 +207,7 @@ c
       crosy(a,b,c,d,e,f)=c*d-a*f
       crosz(a,b,c,d,e,f)=a*e-b*d
 c
-      isubname="gmvdmp"
+      isubname="dump_inventor"
       cpart='part'
       cdefname='default'
 c  get information from  mesh object
