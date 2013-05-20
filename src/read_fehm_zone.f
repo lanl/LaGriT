@@ -3,29 +3,44 @@
 C
 C#######################################################################
 C
-C    FORMAT - read / zone|zonn / file_name / [mo_name/-def-] / [att_name/-def-] / 
+C    FORMAT - read / zone|zone_element / file_name / [mo_name/-def-] / [att_name/-def-] / 
 C
 C    INPUT ARGUMENTS - imsgin,xmsgin,cmsgin,msgtyp,nwds
 C
 C    OUTPUT - None
 C
-C    PURPOSE - Parse an FEHM format 'zone' or 'zonn' file. It is assumed that a MO
-C              already exists and the node numbering of the MO is compatible with
-C              the zone/zonn file. The only error checking is that the maximum node
-C              number in the input zone/zonn file is less than or equal to the number
-C              of nodes in the MO.
-C             
-C              The second token zone|zonn does not have any effect. The zone/zonn
-C              option is controled by the value of the zone/zonn keyword that is
-C              read from the input file. If the keyword 'zone' is found in the file
-C              file_name,  the attribute att_name is first initialized to zero.
-C              If the keyword 'zonn' is found, the attribute att_name is not
-C              initialized.
+C    PURPOSE - Parse an FEHM format 'zone' or 'zonn' file which list node 
+C              numbers (or element numbers) that belong to a designated zone.
+C              For instance, nodes can be found and identified as top of the
+C              mesh and written to a zone file with a zone value of 2.
+C              When the file is read, each node number listed are found in 
+C              the MO and the attribute is tagged with a value of 2. 
 C
-C              If att_name is given as -def-, then the imt array is used.
+C              The difference between FEHM zone and zonn is in the initialization.
+C              A zone file initializes the attribute values to 0.
+C              A zonn file does not initialize, so if another zonn is read
+C              after the first, values in the array overwrite earlier reads.
+C              This allows the last zonn list to "win" over earlier versions.
+C               
+C              zone_element will read from zone file into nelements attribute
+C               
+C              It is assumed that a MO already exists and the node numbering 
+C              of the MO is compatible with the zone file.  
+C
+C              Both zone and zonn command options are allowed but the action
+C              of initialization is based on the keyword in the file read: 
+C              read from the input zone/zonn file. 
+C              - keyword 'zone' initializes att_name to zero.
+C              - keyword 'zonn' means the attribute att_name is not initialized.
+C              This means values are overwritten with each reading of values.
+C
+C              If att_name is given as -def-, then the imt array is used,
+C              and itetclr is used for zone_element 
 C
 C              If att_name exits and is type VINT, it is used. If it does
 C              not exist, a VINT array is created.
+C              If att_name exits but is of type or length different differs 
+C              Warning is given and read is still attempted. 
 C
 C
 C#######################################################################
@@ -44,7 +59,7 @@ C
       integer iatt(*)
       pointer (ipiwork,iwork)
       integer iwork(*)
-      integer nnodes, ilen, itp
+      integer nlength, nnodes, nelements, ilen, itp
 c      
 c local parser variables 
 c
@@ -59,11 +74,11 @@ C     Local variables
 C
       integer itype, nnum, iunit, lcmoname, i, 
      1        iwork_min, iwork_max, iflag1, iflag2, id_zone,
-     2        icount
+     2        icount, ierror
       integer icharlnf
       character*132 fname, ftype
       logical iexist
-      character*32  cmoname, att_name, cid_zone
+      character*32  cmoname, att_name, catt_len, coption, cid_zone
       integer itype_bin, itype_asc
       data itype_bin, itype_asc /1,2/
       integer index
@@ -107,12 +122,37 @@ C
          endif
       enddo
       if (ierr .ne. 0) return        
-C
+
+C     ******************************************************************
+C     Parse the command and options
+
+      coption = cmsgin(2)(1:icharlnf(cmsgin(3)))
+
+      fname = cmsgin(3)(1:icharlnf(cmsgin(3)))
+
+      if(nwds .lt. 4)then
+         cmoname = '-def-'
+      else
+         cmoname = cmsgin(4)
+      endif
+      lcmoname=icharlnf(cmoname)
+
+C     Parse the optional attribute name
+
+      if ((nwds .lt. 5) .or. (cmsgin(5)(1:5) .eq. '-def-')) then
+         if (coption(1:9).eq.'zone_elem') then
+             att_name = 'itetclr'
+         else
+             att_name = 'imt'
+         endif
+      else
+         att_name = cmsgin(5)(1:icharlnf(cmsgin(5)))
+      endif
+
 C     ******************************************************************
 C
 C     Open the input file.
 C
-      fname = cmsgin(3)(1:icharlnf(cmsgin(3)))
       inquire(file=fname,exist=iexist,form=ftype,err=9999)
       if (.not.iexist) then 
         ierr = -1
@@ -152,7 +192,7 @@ c
       call hassign(iunit,fname,ierr)
       if (iunit.lt.0 .or. ierr.lt.0) then
         call x3d_error(isubname,'hassign bad file unit')
-        write(logmess,*) 'WARNING: file not written: '
+        write(logmess,*) 'WARNING: file not opened: '
      1     // fname(1:icharlnf(fname)) 
         call writloga('default',0,logmess,1,ierr)
         ierr = -1
@@ -160,14 +200,8 @@ c
       endif
 C
 C     ******************************************************************
-C
-C     Parse MO name
-C
-      if(nwds .lt. 4)then
-         cmoname = '-def-'
-      else
-         cmoname = cmsgin(4)
-      endif
+C     MO mesh object name
+
       lcmoname=icharlnf(cmoname)
       if (cmoname(1:lcmoname).eq. '-def-') then
          call cmo_get_name(cmoname,ierr)
@@ -187,13 +221,10 @@ c
           ierr = -1
           return
          endif
-      lcmoname=icharlnf(cmoname)
+         lcmoname=icharlnf(cmoname)
       endif
       call cmo_exist(cmoname,ierr)
       if (ierr.ne.0) then
-c
-c           error cmoname does not exist
-c
         write(logmess,"(a,a)")
      1     'ERROR: Requested mesh object does not exist: ',
      2      cmoname(1:icharlnf(cmoname))
@@ -208,77 +239,133 @@ c
 C
 C     ******************************************************************
 C
-C     Parse the optional attribute name
-C
-      if ((nwds .lt. 5) .or. (cmsgin(5)(1:5) .eq. '-def-')) then
-         att_name = 'imt'
-      else
-         att_name = cmsgin(5)(1:icharlnf(cmsgin(5)))
-      endif
-C
-C     ******************************************************************
-C
 C     Finished with command line input tokens
 C
+C     Create the attribute (if not default) and read values into the attribute
+C
 C     ******************************************************************
 C
-      call cmo_get_info('nnodes',cmoname,nnodes,ilen,itp,ierr)
-c
-      call cmo_get_attparam(att_name,cmoname,
-     1           index,ctype,crank,clen,cinter,cpers,cio,ierr)
 
-c
-      if(ierr .ne. 0)then
-c
-c     Need to create the attribute
-c
+      if (coption(1:9).ne.'zone_elem') then
+        call cmo_get_info('nnodes',cmoname,nnodes,ilen,itp,ierr)
+        if (ierr.ne.0 .or. nlength.le.0) then
+          write(logmess,"(a)")
+     1    'ERROR: Mesh Object has 0 nodes: ',
+     2    cmoname(1:icharlnf(cmoname))
+          call writloga('default',1,logmess,0,ierr)
+          write(logmess,"(a)")
+     1    'ERROR: No action, RETURN'
+          call writloga('default',0,logmess,1,ierr)
+          ierr = -1
+          return
+        endif
+        nlength = nnodes
+        catt_len = 'nnodes'
+
+      else
+
+        call cmo_get_info('nelements',cmoname,nelements,ilen,itp,ierr)
+        if (ierr.ne.0 .or. nlength.le.0) then
+          write(logmess,"(a)")
+     1    'ERROR: Mesh Object has 0 elements: ',
+     2    cmoname(1:icharlnf(cmoname))
+          call writloga('default',1,logmess,0,ierr)
+          write(logmess,"(a)")
+     1    'ERROR: No action, RETURN'
+          call writloga('default',0,logmess,1,ierr)
+          ierr = -1
+          return
+        endif
+        nlength = nelements
+        catt_len = 'nelements'
+
+      endif
+
+       write(logmess,"(a)")
+     *   'Reading zone file: ' //
+     *    fname(1:icharlnf(fname)) //
+     *   ' into ' // att_name(1:icharlnf(att_name)) //
+     *   ' for ' // catt_len(2:icharlnf(catt_len))
+       call writloga('default',1,logmess,1,ierr)
+
+c     Get pointers for attribute to write into
+
+      call cmo_get_info(att_name,cmoname,ipiatt,ilen,itype,ierror)
+
+c     Create attribute if it does not exist
+
+      if (ierror .ne. 0) then
          dotask_command = 'cmo/addatt/' //
      >        cmoname(1:icharlnf(cmoname)) //
      >        '/' //
      >        att_name(1:icharlnf(att_name)) //
-     >        '/vint/scalar/nnodes/linear/permanent/agl/0/' //
+     >        '/vint/scalar/' // catt_len(1:icharlnf(catt_len)) //
+     >        ' /linear/permanent/agl/0/' //
      >        ' ; finish '
-         call dotask(dotask_command,ierr)
+        call dotask(dotask_command,ierr)
+        call cmo_get_info(att_name,cmoname,ipiatt,ilen,itype,ierror)
+      endif
 c
-c     Check that attribute att_name is of type vint
-c
-      else
-      if(ctype(1:4) .ne. 'VINT') then
-      print *, 'ctype ', ctype
-c
-c     error not type integer
-c
-        write(logmess,"(a,a,a)")
-     1     'ERROR: Attribute requested is not of type integer: ',
-     2      att_name(1:icharlnf(att_name)), ctype
+      if (ierror .ne. 0)then
+        write(logmess,"(a,a)")
+     1  'ERROR: Attribute requested does not exist: ',
+     2  att_name(1:icharlnf(att_name))
         call writloga('default',1,logmess,0,ierr)
         write(logmess,"(a)")
-     1     'ERROR: No action, RETURN'
+     1  'ERROR: No action, RETURN'
         call writloga('default',0,logmess,1,ierr)
         ierr = -1
         return
-      endif
       endif
 
-      call cmo_get_info(att_name,cmoname,ipiatt,ilen,itype,ierr)
-c
-      if (ierr .ne. 0)then
-c
-c        error, att_name does not exist
-c
-        write(logmess,"(a,a)")
-     1     'ERROR: Attribute requested does not exist: ',
-     2      att_name(1:icharlnf(att_name))
-        call writloga('default',1,logmess,0,ierr)
-        write(logmess,"(a)")
+c     get attribute information and do some error checking
+
+      call cmo_get_attparam(att_name,cmoname,
+     1           index,ctype,crank,clen,cinter,cpers,cio,ierror)
+
+      if (ierror .ne. 0) then
+
+c       check, but allow overwrite of unequal attributes
+        if (coption(1:9).eq.'zone_elem' ) then 
+
+          if (clen(1:9).ne.'nelements') then
+            write(logmess,"(a,a,1x,a)")
+     1      'Warning: Expected attribute length nelements, got: ',
+     2      att_name(1:icharlnf(att_name)), clen(1:icharlnf(clen))
+            call writloga('default',0,logmess,0,ierr)
+            write(logmess,"(a)")
+     1       'Values will be written anyway.'
+            call writloga('default',0,logmess,1,ierr)
+          endif
+
+        else 
+
+          if (clen(1:9) .ne. 'nnodes') then
+            write(logmess,"(a,a,1x,a)")
+     1      'Warning: Expected attribute length nnodes, got: ',
+     2      att_name(1:icharlnf(att_name)), clen(1:icharlnf(clen))
+            call writloga('default',0,logmess,0,ierr)
+            write(logmess,"(a)")
+     1      'Values will be written anyway.'
+            call writloga('default',0,logmess,1,ierr)
+          endif
+        endif
+
+        if(ctype(1:4) .ne. 'VINT') then
+          write(logmess,"(a,a,a)")
+     1     'ERROR: Attribute requested is not of type integer: ',
+     2      att_name(1:icharlnf(att_name)), ctype
+          call writloga('default',1,logmess,0,ierr)
+          write(logmess,"(a)")
      1     'ERROR: No action, RETURN'
-        call writloga('default',0,logmess,1,ierr)
-        ierr = -1
-        return
-      endif
+          call writloga('default',0,logmess,1,ierr)
+          ierr = -1
+          return
+        endif
+
+      endif 
 C
 C     ******************************************************************
-C
 c
 c     Enough has gone right. Allocate a temporary work array.
 c
@@ -289,17 +376,29 @@ c
 c
 C
 C     ******************************************************************
-C
+
 C     Some screen output.
 C
-      write(logmess,"(a)")
-     1 ' zone/zonn   id_zone       name      '//
-     2 '      #nodes  index__min   index_max'
-      call writloga('default',1,logmess,0,ierr)
-      write(logmess,"(a)")
+      if (coption(1:9).eq.'zone_elem') then
+         write(logmess,"(a)")
+     1    ' zone/zonn   id_zone       name      '//
+     2    '      #elements  index__min   index_max'
+         call writloga('default',1,logmess,0,ierr)
+         write(logmess,"(a)")
      1 '-------------------------------------'//
      2 '--------------------------------------'
-      call writloga('default',0,logmess,0,ierr)
+         call writloga('default',0,logmess,0,ierr)
+
+      else
+         write(logmess,"(a)")
+     1    ' zone/zonn   id_zone       name      '//
+     2    '      #nodes  index__min   index_max'
+         call writloga('default',1,logmess,0,ierr)
+         write(logmess,"(a)")
+     1 '-------------------------------------'//
+     2 '--------------------------------------'
+         call writloga('default',0,logmess,0,ierr)
+      endif
 
 C     ******************************************************************
 C
@@ -313,6 +412,7 @@ c
       icount = icount + 1
       read(iunit, '(a)',end=9998, err=9999) input_msg
       lenparse = len(input_msg)
+
       call parse_string2(lenparse, input_msg,
      1                       imsg, msgt, xmsg, cmsg, nwds)
       if(      (nwds .gt. 0).and.
@@ -323,15 +423,14 @@ c
 c
 c           Initialize array to zero
 c
-            do i = 1, nnodes
+            do i = 1, nlength
                iatt(i) = 0
             enddo
          elseif (cmsg(1)(1:4) .eq. 'zonn') then
             cif_zone_zonn = 'zonn'
 c
-c          No action required
-c
          else
+c          No action required
 
          endif
 c
@@ -350,17 +449,18 @@ c
            else
               cid_zone = 'NO_NAME'
            endif
+
            read(iunit, '(a)',end=9998, err=9999) input_msg
            call parse_string2(lenparse, input_msg,
      1                       imsg, msgt, xmsg, cmsg, nwds)
            if((msgt(1) .eq. 3) .and. (cmsg(1) .eq. 'nnum'))then
               read(iunit,*) nnum
-              if (nnum .gt. nnodes) then
+              if (nnum .gt. nlength) then
                  write(logmess,"(a)")
-     1     'ERROR: Number of entries is greater than mesh object nnodes'
+     1     'ERROR: Number of entries is greater than attribute length.'
                  call writloga('default',1,logmess,0,ierr)
                  write(logmess,"(a,i10,a,i10)")
-     1           'ERROR: nnum = ',nnum, ' nnodes = ',nnodes
+     1           'ERROR: nnum = ',nnum, ' length = ',nlength
                  call writloga('default',0,logmess,0,ierr)
                  go to 9999
               endif
@@ -372,7 +472,7 @@ c
                     iwork_min = min(iwork(i), iwork_min)
                     iwork_max = max(iwork(i), iwork_max)
                  enddo
-                 if((iwork_min .lt. 1) .or. (iwork_max .gt. nnodes))then
+                 if((iwork_min.lt.1) .or. (iwork_max.gt.nlength))then
                     write(logmess,"(a)")
      1             'ERROR: index values out of range  '
                    call writloga('default',1,logmess,0,ierr)
