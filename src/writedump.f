@@ -1129,34 +1129,47 @@ c           set default to ascii
 C     DUMPFEHM
 C     DUMP / fehm
 C     DUMP / stor
+C     DUMP / pflotran
 C
       elseif((idsb(1:lenidsb ).eq.'dumpfehm') .or.
      *         (ioption(1:leno).eq.'stor') .or.
+     *         (ioption(1:leno).eq.'pflotran') .or.
+     *         (ioption(1:leno).eq.'pflo') .or.
      *         (ioption(1:leno).eq.'fehm')) then
 
-C       Allow keywords any place after the file_name and cmo
+        if (ioption(1:leno).eq.'dumpfehm') ioption='fehm'
+
+C       Min args: dump/stor|fehm|pflotran/ file_root / cmo_name
+C       Allow keywords any place after 4th token of cmo_name
 C       Set defaults, find and send option settings 
-C       dumpfehm will check allowable combinations
-C       ifile, 
+C       subroutine dumpfehm will check allowable combinations
+C        
+C       The following char strings are passed into dumpfehm
+C         ifile 
 C         ioption2 is ifileini name for dump_fehm_geom
 C         ioption is fehm or stor
 C         iomode is writing mode (default ascii) 
+C
 C         ioption3 is coef_option (default scalar)
 C         ioption4 is compress option (default all)
+C                  for pflotran default is filter
 C         ioption5 is outside attribute option (default delatt)
 C         ioption6 is outside area option (default -notset-)
 C       
 
+c       make sure default ioptions are set 
         if(if_cmo_exist.eq.0) then
            len=icharlnf(cmo)
-c          make sure default ioptions are set 
-           if (ioption(1:leno).ne.'stor') ioption='fehm'
            iomode = 'ascii'
            ioption3 = 'scalar'
            ioption4 = 'all'
            ioption5 = 'delatt'
            ioption6 = '-notset-'
            ioption7 = 'nohybrid'
+
+C          pflotran uses ioption4 to for amount of writing
+C          default use of compression token is all
+           if (ioption(1:4).eq.'pflo') ioption4='filter'
 
 
 C          loop through msgtype to find options
@@ -1184,7 +1197,6 @@ c           Find keywords and set options for dumpfehm routine
               if (cmsgin(ii).eq.'area_scalar') ioption3='area_scalar'
               if (cmsgin(ii).eq.'area_vector') ioption3='area_vector'
               if (cmsgin(ii).eq.'area_both') ioption3='area_both'
-              if (cmsgin(ii).eq.'all') ioption4='all'
               if (cmsgin(ii).eq.'graph') ioption4='graph'
               if (cmsgin(ii)(1:4).eq.'coef') ioption4='coefs'
               if (cmsgin(ii).eq.'none') ioption4='none'
@@ -1194,19 +1206,35 @@ c           Find keywords and set options for dumpfehm routine
      *                      ioption6='keepatt_voronoi'
               if (cmsgin(ii).eq.'keepatt_median') 
      *                      ioption6='keepatt_median'
+              if (cmsgin(ii).eq.'all') ioption4='all'
+C
+C             options for hybrid median-voronoi volumes
               if (cmsgin(ii).eq.'hybrid') ioption7='hybrid'
               if (cmsgin(ii).eq.'nohybrid') ioption7='nohybrid'
+C
+C             options for pflotran, 
+C             use option4 to trigger how much is written
+C             more or verbose - will add extra values for debug
+C             filter_zero - skips zero coefs
+C             nofilter_zero - includes zero coefs
+              if (ioption(1:4).eq.'pflo') then
+                if (cmsgin(ii).eq.'more') ioption4='verbose' 
+                if (cmsgin(ii).eq.'verbose') ioption4='verbose'
+                if (cmsgin(ii).eq.'nofilter_zero') ioption4='nofilter'
+                if (cmsgin(ii).eq.'filter_zero') ioption4='filter'
+              endif
 
 C          check for old syntax with alternate_scalar
 C          dump / stor / file_name_as / cmo / asciic / / alternate_scalar
               if (cmsgin(ii).eq.'alternate_scalar') then
                  ioption3='scalar'
                  ioption4='graph'
-                 if (cmsgin(5).eq.'asciic') ioption4='all'
-                 if (cmsgin(5).eq.'binaryc') ioption4='all'
+                 if (cmsgin(6).eq.'asciic') ioption4='all'
+                 if (cmsgin(7).eq.'binaryc') ioption4='all'
               endif 
             endif
            enddo
+
 
            call dumpfehm(ifile(1:icharlnf(ifile)),
      *          ioption2(1:icharlnf(ioption2)),

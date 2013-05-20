@@ -1,21 +1,27 @@
 *DK dumpfehm
       subroutine dumpfehm(ifile,ifileini,ioption,iomode,
-     *       area_coef_option,compress_opt,attrib_option,area_option,
+     *       area_coef_option,write_opt,attrib_option,area_option,
      *       hybrid_option)
 C
 C #####################################################################
 C
 C     PURPOSE -
 C
-C        THIS ROUTINE WRITES A DUMP FILE FOR FEHMN.
+C        THIS ROUTINE WRITES FEHMN and PFLOTRAN style files
 C
 C        Arguments are processed and passed in from writedump() 
 C         ifile is the file or attribute name
 C         ifileini is used by dump_fehm_geom 
-C         ioption is fehm or stor, where fehm will write all fehm files
+C         ioption is fehm or stor
+C            fehm will write suite of fehm files
+C            stor will write fehm stor file only
+C            pflotran will write pflotran stor file
+C
 C         iomode is writing mode such as ascii
 C         area_coef_option is coef_option such as scalar
-C         compress_opt to compress coef values and indices
+C         write_opt triggers how much to write
+C             for stor it compress coef values and indices
+C             for pflotran skips zeros, writes zeros, or extra
 C         attrib_option is outside node option such as keepatt
 C         area_option is attribute option such as keepatt_voronoi
 C
@@ -173,7 +179,7 @@ c
       character ifile*(*), ifileini*(*)
       character ioption*(*)
       character iomode*(*), area_coef_option*(*)
-      character compress_opt*(*),attrib_option*(*),area_option*(*)
+      character write_opt*(*),attrib_option*(*),area_option*(*)
       character hybrid_option*(*)
 
       integer ntets, nen, nsdtopo, nef, ijob
@@ -186,8 +192,10 @@ c
       character*132 logmess
       character*32 isubname, cmo
 C
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C     Begin
       isubname = 'dumpfehm'
+      if (ioption(1:4) .ne.'fehm') isubname='dumpstor' 
       ierror = 0
 c
 c     check cmo and setup
@@ -205,7 +213,7 @@ c
       call cmo_get_info('idebug',cmo,idebug,ilen,ityp,ierr)
 
       if(idebug.ne.0) then
-        write(logmess,'(a5,a6,a,a)')"dump/",ioption,
+        write(logmess,'(a5,a10,a,a)')"dump/",ioption,
      *   ifile(1:icharlnf(ifile)),
      *  " options set to: "
         call writloga('default',0,logmess,0,ierr)
@@ -213,7 +221,7 @@ c
         write(logmess,'(6x,a,2x,a,2x,a,2x,a,2x,a,2x,a)')
      *   iomode(1:icharlnf(iomode)),
      *   area_coef_option(1:icharlnf(area_coef_option)),
-     *   compress_opt(1:icharlnf(compress_opt)),
+     *   write_opt(1:icharlnf(write_opt)),
      *   attrib_option(1:icharlnf(attrib_option)),
      *   area_option(1:icharlnf(area_option)),
      *   hybrid_option(1:icharlnf(hybrid_option))
@@ -234,7 +242,7 @@ C         ifile is the file or attribute name
 C         ioption is fehm or stor, where fehm will write all fehm files
 C         iomode default is ascii
 C         area_coef_option default is scalar
-C         compress_opt default is all 
+C         write_opt default is all 
 c
 c     FEHM - Write all fehm files in addition to the stor file 
 c     OPTIONS for default fehm files 
@@ -245,7 +253,7 @@ c       area_option - keepatt_voronoi | keepatt_median for dump_outside_list
 
       imat_select = 0
  
-      if (ioption(1:4) .ne. 'stor') then
+      if (ioption(1:4) .eq. 'fehm') then
          write(logmess,101)
   101    format('*** Write FEHMN GEOM AND ZONE FILES ***')
         call writloga('default',0,logmess,0,ierror)
@@ -271,9 +279,17 @@ c     matbld3d_cstor - original version, compress coef values (coefs)
 c     matbld3d_gstor - new version, compress graph edges (graph)
 c     matbld3d_astor - new version, compress indices and coef values (all)
 c
-c     matbld2d_stor 
-c     (2D only) 
+c     This has become the default for 3D
+c     anothermatbld3d_wrapper - update by Mike Murphy using linked lists 
+c        ifile : file or attribute name
+c        io : 1=3=unformatted 2=ascii 5=attribute only
+c        num_area_coef : only scalar available, set to 1 
+c        ifcompress: 0= graph - compress coef indices (edge compression)
+c                       1= all - area coef and indices compression 
+c
+c     matbld2d_stor for 2D 
 c        ifile : file name
+c        io_type is used to toggle additional file formats
 c
 c     matbld3d_stor - original sparse matrix 
 c        ifile : file name
@@ -284,22 +300,30 @@ c                       -1=area_scalar -3=area_vector -4=area_both
 c        ifcompress : 0= none - no ccoef compression 
 c                        1= coefs -  compression of area coef values 
 c
-c     anothermatbld3d_wrapper - update by Mike Murphy using linked lists 
-c        ifile : file or attribute name
-c        io : 1=3=unformatted 2=ascii 5=attribute only
-c        num_area_coef : only scalar available, set to 1 
-c        ifcompress: 0= graph - compress coef indices (edge compression)
-c                       1= all - area coef and indices compression 
 c
 
 c---- 2D STOR  -----------------------------------------------c
       if(nsdtopo.eq.2.and.nen.eq.3.and.nef.eq.3) then
 
+c        default flag for FEHM matbld is 2
+         io = 2
+
+c        check for pflotran format option
+         ilen=icharlnf(write_opt)
+         if (ioption(1:4).eq.'pflo') then
+             if (write_opt(1:ilen) .eq.'default') io = 10
+             if (write_opt(1:ilen) .eq.'filter') io = 10
+             if (write_opt(1:ilen) .eq.'nofilter') io = 12
+             if (write_opt(1:ilen) .eq.'all') io = 12
+             if (write_opt(1:ilen) .eq.'verbose') io = 13
+             ifcompress = 1
+         endif
+
          write(logmess,100)
   100    format('***Construct Regular Sparse Matrix:2D***')
          call writloga('default',0,logmess,0,ierror)
 
-         call matbld2d_stor(ifile)
+         call matbld2d_stor(ifile,io)
          
 c---- 3D STOR  -----------------------------------------------c
       elseif(nsdtopo.eq.3.and.nen.eq.4.and.nef.eq.4) then
@@ -309,10 +333,10 @@ c---- 3D STOR  -----------------------------------------------c
          if(iomode(1:3) .eq. 'bin')io = 1
          if(iomode(1:3) .eq. 'asc')io = 2
          if(iomode(1:3) .eq. 'unf')io = 3
-         if(compress_opt(1:3) .eq. 'all') ifcompress=1
-         if(compress_opt(1:4) .eq. 'coef') ifcompress=1
-         if(compress_opt(1:4) .eq. 'none') ifcompress=0
-         if(compress_opt(1:5) .eq. 'graph') ifcompress=0
+         if(write_opt(1:3) .eq. 'all') ifcompress=1
+         if(write_opt(1:4) .eq. 'coef') ifcompress=1
+         if(write_opt(1:4) .eq. 'none') ifcompress=0
+         if(write_opt(1:5) .eq. 'graph') ifcompress=0
          if(hybrid_option(1:6) .eq. 'hybrid') ifhybrid=1
 
          if(area_coef_option(1:6)     .eq.'scalar')then
@@ -336,18 +360,43 @@ C        check for old syntax
 
 C        vector and area options not available in anothermatbld3d
 C        so default to none and use matbld3d (no compression)
-C        we default to none because compression may not work for these
+C        we default to none because compression does not work for these
          if (num_area_coef .ne. 1) then
-            if (compress_opt(1:4).ne."coef") then
-               compress_opt="none" 
+            if (write_opt(1:4).ne."coef") then
+               write_opt="none" 
                ifcompress = 0
             endif 
          endif 
 
 
-c        3D Alternate STOR ----------------------------------------c
-         if(compress_opt(1:5) .eq.'graph' .or. 
-     *      compress_opt(1:3) .eq.'all') then
+c        3D Alternate STOR (default) --------------------------------c
+c        this new version of matbld has become the version of choice
+c        and has provided better results than the old version
+c        the word "alternate" should be phased out
+c        ifile = name
+c        io = format and write type
+c        num_area_coef = type ccoef to write
+c                      = 1 = scalar Aij/distance
+c        ifcompress = 1 with compression, 0 for none
+c        ifhybrid triggers voronoi-median hybrid volumes
+c        
+c        default = all
+
+         if( ioption(1:4)  .eq.'pflo'    .or.
+     *      write_opt(1:5) .eq.'graph'   .or. 
+     *      write_opt(1:7) .eq.'default' .or.
+     *      write_opt(1:3) .eq.'all') then
+
+c          check for pflotran format option
+           ilen = icharlnf(write_opt)
+           if (ioption(1:4).eq.'pflo') then
+             if (write_opt(1:ilen) .eq.'default') io = 10
+             if (write_opt(1:ilen) .eq.'filter') io = 10
+             if (write_opt(1:ilen) .eq.'nofilter') io = 12
+             if (write_opt(1:ilen) .eq.'all') io = 12
+             if (write_opt(1:ilen) .eq.'verbose') io = 13
+             ifcompress = 1
+           endif
 
            write(logmess,110)
   110      format('*** Construct and Compress Sparse Matrix:3D ***')
@@ -372,7 +421,7 @@ c          check arguments
      *                ifcompress, ifhybrid)
 
 
-c        3D Regular STOR  -------------------------------------------c
+c        3D Regular OLD STOR  ---------------------------------------c
          else 
          
            if (ifhybrid .eq. 1) then

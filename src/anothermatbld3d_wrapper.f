@@ -23,8 +23,22 @@ C
 C                 = 5 write voronoi volumes to cmo attribute named ifile 
 C                   skip coefficient work
 C
-C         num_area_coef = 1 Output single component scalar area/distance
-c                           coefficients.
+C                 = 10 Write PFLOTRAN format (no 0 areas)
+C                 = 12 Write PFLOTRAN format (include 0 areas)
+C                 = 13 Write PFLOTRAN plus extra values such as Aij/dist 
+C
+C        --------------------------------------------------------------
+C         NOTE!! current code only supports num_area_coef = 1
+C         this value is passed into sparseMatrix routines
+C         as component_of_interest global variable 
+C           initialize3ddiffusionmat(num_area_coef,...
+C           extractnegativecoefs(j,ipamat) where j = num_area_coef-1
+C           getcomponentmatrixvalues(j,ipamat) where j = num_area_coef-1
+C        --------------------------------------------------------------
+C
+C         num_area_coef = 1 = default hard-wired
+C                           Output single component scalar area/distance
+c                           coefficients THIS IS THE ONLY ONE WORKING.
 C                       = 3 Output x,y,z  vector area/distance coefficients.
 C                       = 4 Output scalar and vector area/distance
 c                           coefficients.
@@ -119,56 +133,48 @@ c  Information from the CMO.
 c
       integer nnodes, ilen,ityp,ierror, ierr, icscode
       integer length, icmotype, ntets, lenxic, lenyic, lenzic,
-     x     lenitet, lenjtet, mbndry
+     *     lenitet, lenjtet, mbndry, nef
  
-      integer nef
- 
-      character*32 cmo, ifilename
-      character*24 string, fdate
-      character*32 isubname
-C    
-      character*32 io_string, coef_string, comp_string
-      character*132 dotask_command
 C
+      pointer (ipitet, itet)
+      integer itet(*)
+      pointer (ipjtet, jtet)
+      integer jtet(*)
+      pointer (ipitetoff,itetoff)
+      pointer (ipjtetoff,jtetoff)
+      integer itetoff(*),jtetoff(*)
+
+      pointer (ipitettyp, itettyp)
+      integer itettyp(*)
+      pointer (ipirowdiag,irowdiag)
+      integer irowdiag(*)
+      pointer (ipitemp, itemp)
+      integer itemp(*)
+      pointer (ipitemp2, itemp2)
+      integer itemp2(*)
+      pointer (ipisn1, isn1)
+      integer isn1(*)
+      pointer (ipitp1, itp1)
+      integer itp1(*)
+      pointer (ipiparent, iparent)
+      integer iparent(*)
+      pointer (ipelts, elts)
+      pointer (ipedges, edges)
+      integer elts(*),edges(*)
+ 
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
-      integer itet(4*1000000)
-      pointer (ipitet, itet)
-      integer jtet(4*1000000)
-      pointer (ipjtet, jtet)
-      pointer (ipitetoff,itetoff)
-      pointer (ipjtetoff,jtetoff)
-      pointer (ipitettyp, itettyp)
-      pointer (ipirowdiag,irowdiag)
-      integer irowdiag(1000000)
-      integer itettyp(1000000)
-      pointer (ipitemp, itemp)
-      integer itemp(10000000)
-      pointer (ipitemp2, itemp2)
-      integer itemp2(10000000)
-      pointer (ipisn1, isn1)
-      integer isn1(1000000)
-      pointer (ipitp1, itp1)
-      integer itp1(1000000)
-      pointer (ipiparent, iparent)
-      integer iparent(1000000)
-      pointer (ipelts, elts)
-      pointer (ipedges, edges)
-      integer elts(1000000),edges(1000000)
- 
-      integer itetoff(4*1000000),jtetoff(4*1000000)
-      real *8 xic, yic, zic
-      dimension xic(1000000), yic(1000000), zic(1000000)
+      real*8 xic(*), yic(*), zic(*)
+
  
 c
 c Variables used in matrix computation and stats
 c
  
-      integer i,j
-      integer iunit, nextlun
-      integer lenitp1, lenisn1 
-      integer iip1, iip2, ip1, ip2
+      integer i,j,ii,jj,icnt 
+      integer lenitp1, lenisn1,iflag 
+      integer iip1,iip2,ip1,ip2,jstop,jstart,iinc,irow,jcol
       integer neq, neqp1, ncont,ncoefs, num_written_coefs
       integer nelts
       integer num_conn_max
@@ -177,66 +183,77 @@ c
       integer entryprocessed
       integer istatus
 
+      integer iunit, nextlun
       integer icharlnf
 
       pointer (ipimatptrs, imatptrs)
-      integer imatptrs(10000000)
+      integer imatptrs(*)
       pointer (ipnegrows, negrows)
-      integer negrows(1000000)
+      integer negrows(*)
       pointer (ipnegcols, negcols)
-      integer negcols(1000000)
- 
-      real*8 ave_con_node, volmin,volmax,voltot
-      real*8 amatmin,amatmax,absamatmin,absamatmax
-
-      pointer (ipccoef, ccoef)
-      real*8 ccoef(*)
+      integer negcols(*)
       pointer (ipij_ccoef, ij_ccoef)
       integer ij_ccoef(*)
 
-c     real*8  volic
-c     pointer (ipvolic,volic)
-c     dimension volic(1000000)
+      pointer (ipccoef, ccoef)
+      real*8 ccoef(*)
 
       pointer (ipvolic, volic)
-      real*8  volic(1000000)
+      real*8  volic(*)
 
       pointer (ipamat, amat)
-      real*8  amat(1000000)
+      real*8  amat(*)
 
       pointer (ipfnegs, fnegs)
-      real*8  fnegs(1000000)
+      real*8  fnegs(*)
 
       pointer (ipvalue,value)
-      real*8  value(1000000)
+      real*8  value(*)
 
-c Variables for attribute in cmo
+      pointer (ipxtemp, xtemp)
+      real*8 xtemp(*)
 
-      character*32 att_name
       pointer (iphybrid_factor, hybrid_factor)
-      real*8 hybrid_factor(1000000)
+      real*8 hybrid_factor(*)
 
-      character*132 logmess
+      real*8 ave_con_node, volmin,volmax,voltot
+      real*8 amatmin,amatmax,absamatmin,absamatmax
 
 C     Text buffer for dotask
       character*256 cbuff
+      character*132 dotask_command
+
+      character*132 logmess
+      character*24 string, fdate
+      character*32 isubname
+      character*32 cmo, ifilename
+      character*32 att_name
+      character*32 io_string, coef_string, comp_string
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C BEGIN begin
  
-CCCCCCCCCCCCCCCCCCCCCCCCCCC
-c     Get mesh information.
-CCCCCCCCCCCCCCCCCCCCCCCCCCC
       ave_con_node=0.0
       volmin=0.0
       volmax=0.0 
       voltot=0.0 
- 
-      isubname='anothermatbld3d_wrapper'
       istatus=0
+      iunit = 0
+      isubname='anothermatbld3d_wrapper'
+      ifilename='-notset-'
+
+C     catch old style, binary is now 3
+      if (io_type.eq.1) io_type=3
 
       if (num_area_coef.ne.1) then
         logmess='AMatbld3d_stor: We only support scalar coefficients'
         call writloga('default', 0,logmess,0,ierror)
         goto 9999
       endif
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCC
+c     Get mesh information.
+CCCCCCCCCCCCCCCCCCCCCCCCCCC
  
       call cmo_get_name(cmo,ierror)
       if (ierror .ne. 0) then
@@ -247,7 +264,6 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCC
       endif
 
       call cmo_get_intinfo('idebug',cmo,idebug,ilen,ityp,ierr)
-
       call cmo_get_info('nnodes',cmo,nnodes,length,icmotype,ierror)
       call cmo_get_info('nelements',cmo,ntets,length,icmotype,ierror)
 
@@ -280,6 +296,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCC
       call cmo_get_info('jtetoff',cmo,ipjtetoff,ilen,icmotype,ierror)
       call cmo_get_info('itettyp', cmo, ipitettyp,ilen,ityp,ierror)
 
+
 C     add information so user knows which routine is being used.
       if (idebug.ne.0) then
       write(logmess,'(a)') "AMatbld3d_stor "
@@ -288,7 +305,20 @@ C     add information so user knows which routine is being used.
       call writloga('default',0,logmess,0,icscode)
       write(logmess,'(a,a)') "  file name        : ",ifile
       call writloga('default',0,logmess,0,icscode)
-      write(logmess,'(a,i5)') "  file type option: ",io_type
+
+      if (io_type .eq. 2) write(logmess,'(a,i5,a)') 
+     *  "  file type option: ",io_type," fehm ascii"
+      if (io_type .eq. 3) write(logmess,'(a,i5,a)') 
+     *  "  file type option: ",io_type," fehm unformatted"
+      if (io_type .eq. 5) write(logmess,'(a,i5,a)') 
+     *  "  file type option: ",io_type," cmo attribute"
+      if (io_type .eq. 10) write(logmess,'(a,i5,a)') 
+     *  "  file type option: ",io_type," pflotran, skip 0 areas"
+      if (io_type .eq. 12) write(logmess,'(a,i5,a)') 
+     *  "  file type option: ",io_type," pflotran, keep 0 areas"
+      if (io_type .eq. 13) write(logmess,'(a,i5,a)') 
+     *  "  file type option: ",io_type," pflotran, extra values"
+
       call writloga('default',0,logmess,0,icscode)
       write(logmess,'(a,i5)') "  compress option : ",ifcompress
       call writloga('default',0,logmess,0,icscode)
@@ -331,15 +361,8 @@ c
         goto 9999
       endif
 
- 
-C---------------------------------------------------------------------------
-C     Build and output the sparse matrix.
-C---------------------------------------------------------------------------
 
- 
-cccccccccccccccc
-c     open file or prepare cmo attribute 
-      iunit=0
+CCCCCC prepare attribute CCCCCCCCCCCCCCCCCCCCCC
       if (io_type .eq. 5) then
       
         att_name = ifile
@@ -351,21 +374,35 @@ c     open file or prepare cmo attribute
            call writloga('default',0,logmess,0,ierr)
         endif
 
+CCCCCC prepare file CCCCCCCCCCCCCCCCCCCCCC
       else 
-cccccccccccccccc
-c     write to file using root ifile to make a name 
-        ifilename=ifile(1:icharlnf(ifile)) // '.stor'
+
 c       Get next available unit number.
 c       Use nextlun(), as nextlun1() can return a negative integer
         iunit = nextlun()
-c       Open the file.
-        if (io_type.eq.1) io_type=3
+
+c       Open the file, use root ifile to make a name 
+        if (io_type .ge. 10 ) then
+            ifilename=ifile(1:icharlnf(ifile)) // '.uge'
+
+c         this is verbose, maybe not a valid pflo format
+          if (io_type .eq. 13 ) then
+            ifilename=ifile(1:icharlnf(ifile)) // '.Vuge'
+          endif
+        else
+            ifilename=ifile(1:icharlnf(ifile)) // '.stor'
+        endif
+
         if(io_type.eq.3)then
          open(unit=iunit, file = ifilename, form = 'unformatted')
-        elseif(io_type .eq. 2)then
+        else
          open(unit=iunit, file = ifilename, form = 'formatted')
         endif
+
+      endif
  
+CCCC WRITE header to file in FEHM format CCCCCCCCCCCCCCCCCCCCCC
+C
 C        Write header to the file.
 c        We assume header 1st line is 72 characters long:
 c
@@ -382,42 +419,40 @@ c       matbld3d_stor with graph and area coefficient compression
 c       06/03 09:57:46 20093-D 3-D Linear Diffusion Model (matbld3d_astor)
 c 123456789012345678901234567890123456789012345678901234567890123456789012
 
-C       Get a time stamp for the file header, placed on the second line.
-        string = fdate()
- 
-        if(io_type .eq. 3)then
-c       BINARY header
+C     Get a time stamp for file headers
+      string = fdate()
+
+c     FEHM BINARY header
+      if(io_type .eq. 3)then
+
           write(title_string,'(a)')
-     1'fehmstor ieeer8i4 LaGriT Sparse Matrix Voronoi Coefficients'
+     *'fehmstor ieeer8i4 LaGriT Sparse Matrix Voronoi Coefficients'
           write(iunit)title_string
 
           if (ifcompress.ne.0) then
           write(title_string,*)
-     1      string,' 3-D Linear Diffusion Model (matbld3d_astor)'
+     *      string,' 3-D Linear Diffusion Model (matbld3d_astor)'
           else
           write(title_string,*)
-     1      string,' 3-D Linear Diffusion Model (matbld3d_gstor)'
+     *      string,' 3-D Linear Diffusion Model (matbld3d_gstor)'
           endif
           write(iunit)title_string
 
 
-        elseif(io_type .eq. 2)then
-C       ASCII header
+C     FEHM ASCII header
+      elseif(io_type .eq. 2)then
 
            if (ifcompress.ne.0) then
            write(iunit,'(a)')
-     1'fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients'
+     *'fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients'
       write(iunit,*)string,'3-D Linear Diffusion Model (matbld3d_astor)'
-            else
-           write(iunit,'(a)')
-     1'fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients'
-      write(iunit,*)string,'3-D Linear Diffusion Model (matbld3d_gstor)'
-            endif
+           endif
 
-        endif
-      endif
-cccccccccccccccc
-c end attribute or file io setup
+      endif 
+
+C---------------------------------------------------------------------------
+C     Build and output the sparse matrix.
+C---------------------------------------------------------------------------
  
       neq=nnodes
       neqp1=neq+1
@@ -447,9 +482,9 @@ C
         enddo
       endif
 
-      if (idebug.ne.0) then
+      if (idebug.gt.1) then
       write(logmess,'(a)') "AMatbld3d_stor: initialize3ddiffusionmat"
-      call writloga('default',1,logmess,0,icscode)
+      call writloga('default',0,logmess,0,icscode)
       write(logmess,*) "  neq and ntets: ",neq,ntets
       call writloga('default',0,logmess,0,icscode)
       endif
@@ -458,9 +493,9 @@ C
      *     ifcompress, neq, xic(1), yic(1), zic(1),  ntets, itet(1),
      *     jtet(1), mbndry, ifhybrid, hybrid_factor(1))
 
-      if (idebug.ne.0) then
+      if (idebug.gt.1) then
       write(logmess,'(a)') "AMatbld3d_stor: check incident tets"
-      call writloga('default',1,logmess,0,icscode)
+      call writloga('default',0,logmess,0,icscode)
       endif
 
 C     For each each edge of every tet, decide if it has been processed.
@@ -484,9 +519,9 @@ C     If not, get all incident tets and compute the entry.
       enddo
       call finalscalar3ddiffusionmat()
 
-      if (idebug.ne.0) then
+      if (idebug.gt.1) then
       write(logmess,'(a)') "AMatbld3d_stor: print coeff information"
-      call writloga('default',1,logmess,0,icscode)
+      call writloga('default',0,logmess,0,icscode)
       write(logmess,*)"mbndry and num_area_coef ",mbndry,num_area_coef
       call writloga('default',0,logmess,0,icscode)
       endif
@@ -495,6 +530,9 @@ C     If not, get all incident tets and compute the entry.
 cccccccccccccccccccccccccccccc
 c print negative coefficients.
 cccccccccccccccccccccccccccccc
+c     note test is using maximum[component_of_interest]*epsilon
+c     where   double eps = 1e-8
+
       j=num_area_coef - 1
       call extractnegativecoefs(j,numnegs,numsuspectnegs,numzerocoefs,
      *                              ipnegrows,ipnegcols,ipfnegs)
@@ -503,8 +541,9 @@ cccccccccccccccccccccccccccccc
      *   "AMatbld3d_stor: *****Zero Negative Coefficients ******"
          call writloga('default',0,logmess,0,ierrw)
  
-         write(logmess,'(a,i8)')
-     *        "AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs",
+C        change 10e-8*max so 10e-8 can be read from reporting
+         write(logmess,'(a,i10)')
+     *        "AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs",
      *        numzerocoefs
          call writloga('default',0,logmess,0,ierrw)
  
@@ -514,18 +553,18 @@ cccccccccccccccccccccccccccccc
      *        "AMatbld3d_stor: *****Negative Coefficients ******"
          call writloga('default',0,logmess,0,ierrw)
  
-         write(logmess,'(a,i8)')
+         write(logmess,'(a,i10)')
      *        "AMatbld3d_stor: Total Number of Negative Coefficients",
      *        numnegs
          call writloga('default',0,logmess,0,ierrw)
  
-         write(logmess,'(a,i8)')
+         write(logmess,'(a,i10)')
      *        "AMatbld3d_stor: Number of Significant Negative Coefs",
      *        numsuspectnegs
          call writloga('default',0,logmess,0,ierrw)
  
-         write(logmess,'(a,i8)')
-     *        "AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs",
+         write(logmess,'(a,i10)')
+     *        "AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs",
      *        numzerocoefs
          call writloga('default',0,logmess,0,ierrw)
  
@@ -550,7 +589,7 @@ c Put the negative ij coefficient value into the two
 c nodes connected to the ij edge.
 c
 c The vector ij_coef will assign the j index value to node i so that
-c one can determine which edge is associated with the neative coefficient
+c one can determine which edge is associated with the negtive coefficient
 c that is assigned to nodes.
 cccccccccccccccccccccccccccccc
 C
@@ -639,7 +678,6 @@ cccccccccccccccccccccccccccc
  
       length = ncont
  
- 
 c     ccccccccccccccccccccccccccccccccccccccccccccccccccccc
 c     Output some statistics about stuff on the third line.
 c     ccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -648,11 +686,11 @@ c     ccccccccccccccccccccccccccccccccccccccccccccccccccccc
  
       write(logmess,'(a,i8,a,i10)')
      *   "AMatbld3d_stor: npoints = ",neq,
-     *   "  n connections = ",ncoefs
+     *   "  ncoefs = ",ncoefs
       call writloga('default',0,logmess,0,ierrw)
  
       write(logmess,'(a,i10)')
-     *"AMatbld3d_stor: Number of written coefs =", num_written_coefs
+     *"AMatbld3d_stor: Number of unique coefs =", num_written_coefs
       call writloga('default',0,logmess,0,ierrw)
  
       write(logmess,'(a,i10)')
@@ -664,24 +702,32 @@ c     ccccccccccccccccccccccccccccccccccccccccccccccccccccc
 ccccccccccccccccccccccccccc
 c  Output Voronoi volumes.
 c  Write to file or attribute
+c  Write in PFLOTRAN or FEHM format
 ccccccccccccccccccccccccccc
 
       call getvoronoivolumes(ipvolic)
 
       if(io_type .eq. 3)then
-         write(iunit)      (volic(i),i=1,neq)
+         write(iunit) (volic(i),i=1,neq)
 
       elseif(io_type .eq. 2)then
+
          write(iunit,9000) (volic(i),i=1,neq)
  9000    format(5(1pe20.12))
 
       elseif(io_type .eq. 5)then
+
          do i = 1,neq
            value(i) = volic(i)
          enddo
 
+      elseif (io_type .ge. 10) then
+
+         call dump_pflo_stor_cells(iunit, io_type,
+     *      xic,yic,zic,volic,nnodes)
+
       endif
- 
+
 c     cccccccccccccccccccccccccccccccccccccccccccccc
 c     Compute some statistics about voronoi volumes.
 c     cccccccccccccccccccccccccccccccccccccccccccccc
@@ -689,7 +735,6 @@ c     cccccccccccccccccccccccccccccccccccccccccccccc
       volmin = volic(1)
       volmax = volic(1)
       voltot = volic(1)
- 
       do i=2,neq
          if (volmin.gt.volic(i)) then
             volmin = volic(i)
@@ -716,7 +761,9 @@ c     ccccccccccccccccccccccccccccccccccccccccccccccccccc
      *   "AMatbld3d_stor: Total Volume: ",voltot
       call writloga('default',0,logmess,0,ierrw)
 
-      if (volic(1) .lt.0 ) then
+C     there may be a sneaky un-released pointer still in the code
+C     this is just some output in case things go awry
+      if (volic(1) .lt.0 .and. volmin.ge.0 ) then
          write(logmess,'(a)')
      *   "AMatbld3d_stor: WARNING: volume pointer may be stale. "
          call writloga('default',1,logmess,0,ierrw)
@@ -727,13 +774,11 @@ c     ccccccccccccccccccccccccccccccccccccccccccccccccccc
  
       call freevoronoivolumes()
 
- 
- 
 cccccccccccccccccccccccccccccccccccccccccccccccccc
+c GET and WRITE the matrix
 c Output entries per row and  entries of each row.
 c (Also known as occupied columns.)
 cccccccccccccccccccccccccccccccccccccccccccccccccc
- 
  
       call getentriesperrow(ipitemp)
       call getoccupiedcolumns(ipitemp2)
@@ -746,8 +791,14 @@ cccccccccccccccccccccccccccccccccccccccccccccccccc
  9010    format(5i10)
       endif
 
-      call freeentriesperrow()
-      call freeoccupiedcolumns()
+c     print*,"itemp ij_ptrs(neqp1) ",neqp1
+c     print*,(itemp(i),i=1,neqp1)
+c     print*,"itemp2 ij_list(ncoefs) ",ncoefs
+c     print*,(itemp2(i),i=1,ncoefs)
+
+C      these are needed later for pflotran format
+       if (io_type .lt. 10) call freeentriesperrow()
+       if (io_type .lt. 10) call freeoccupiedcolumns()
  
  
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -766,28 +817,30 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
          write(iunit,9010) (imatptrs(i),i=1,ncoefs), (njerk,i=1,neqp1)
          write(iunit,9010) (1+irowdiag(i)+neqp1,i=1,neq)
       endif
-      call freematrixpointers()
- 
+
+C     these are needed in the pflotran files 
+      if (io_type .lt. 10) call freematrixpointers()
+
+
 cccccccccccccccccccccccccccccccccccccccccccccc
-c     Output the matrix values.
+c     FINSH WRITING with coef matrix values
+c     Output the matrix values, fill array amat
 c     Get them one component at a time because
 c     of row-major vs. column-major problems.
 cccccccccccccccccccccccccccccccccccccccccccccc
  
+C    LOOP goes from 0 to 0, other options not implemented
+C    This loop encompasses both the FEHM and PFLOTRAN coef output
+C    so getcomponentmatrixvalues(j,ipamat) is called at top of loop
+C    where j = component_of_interest 
+
       do j=0,num_area_coef-1
          call getcomponentmatrixvalues(j,ipamat)
  
-         if(io_type .eq. 3)then
-            write(iunit)      (amat(i),i=1,num_written_coefs)
-         elseif(io_type .eq. 2)then
-            write(iunit,9000) (amat(i),i=1,num_written_coefs)
-         endif
- 
+c        ccccccccccccccccccccccccccccccccccccccccccccccccccc
+c        Compute some statistics about the "amat" values.
+c        ccccccccccccccccccccccccccccccccccccccccccccccccccc
          if (j.eq.num_area_coef-1) then
- 
-c          ccccccccccccccccccccccccccccccccccccccccccccccccccc
-c          Compute some statistics about the "amat" values.
-c          ccccccccccccccccccccccccccccccccccccccccccccccccccc
  
             absamatmin = abs(amat(1))
             absamatmax = abs(amat(1))
@@ -808,50 +861,124 @@ c          ccccccccccccccccccccccccccccccccccccccccccccccccccc
                if (amatmax.lt.amat(i)) then
                   amatmax = amat(i)
                endif
- 
- 
             enddo
- 
+
+c      report stats to screen output
+
             if(num_area_coef .gt. 0)then
                write(logmess,'(a,1pe15.7)')
      *              "AMatbld3d_stor: abs(Aij/xij) min = ",absamatmin
                call writloga('default',0,logmess,0,ierrw)
- 
- 
+
+
                write(logmess,'(a,1pe15.7)')
      *              "AMatbld3d_stor: abs(Aij/xij) max = ",absamatmax
                call writloga('default',0,logmess,0,ierrw)
- 
+
                write(logmess,'(a,1pe15.7)')
      *              "AMatbld3d_stor: (Aij/xij) max = ",amatmax
                call writloga('default',0,logmess,0,ierrw)
- 
+
                write(logmess,'(a,1pe15.7)')
      *              "AMatbld3d_stor: (Aij/xij) min = ",amatmin
                call writloga('default',0,logmess,0,ierrw)
- 
+
             elseif(num_area_coef .lt. 0)then
                write(logmess,'(a,1pe15.7)')
      *              "AMatbld3d_stor: abs(Aij) min = ",absamatmin
                call writloga('default',0,logmess,0,ierrw)
- 
+
                write(logmess,'(a,1pe15.7)')
      *              "AMatbld3d_stor: abs(Aij) max = ",absamatmax
                call writloga('default',0,logmess,0,ierrw)
- 
+
                write(logmess,'(a,1pe15.7)')
      *              "AMatbld3d_stor: (Aij) min = ",amatmin
                call writloga('default',0,logmess,0,ierrw)
- 
+
                write(logmess,'(a,1pe15.7)')
      *              "AMatbld3d_stor: (Aij) max = ",amatmax
                call writloga('default',0,logmess,0,ierrw)
- 
-            endif
-         endif
-         call freematrixvalues()
-      enddo
 
+            endif
+       endif
+
+c      ccccccccccccccccccccccccccccccccccccccccccccccccccc
+C      WRITE PFLOTRAN format first so we can free pointers
+       if (io_type .ge. 10 .and. io_type .lt.20) then
+
+C
+C    For writing pflotran files, need the following arrays:
+C    neq=nnodes
+C    itemp (neq+1) i= value-neq, j = 0 to (next value - current val) 
+C    itemp2(coefs) node pairs, use itemp for i,j start and increments
+C    amat(filled with call to getcomponentmatrixvalues(j,ipamat))
+C    amatptrs(coefs) values are index into amat values
+C          use itemp for i,j start and increments
+C
+C    These arrays can be passed as they are.
+C      itemp(neqp1) = ij_ptrs = ptrs into ij edge list
+C      itemp2(ncoefs) = ij_list = ij edge list
+C      The area array needs to be created.
+C      ij_area(nnodes) = Aij for each edge from amat and amatptrs
+
+C         FILL xtemp with areas 1 thru nnodes
+          ilen = ncoefs
+          call mmgetblk('xtemp',isubname,ipxtemp,ilen,2,ierror)
+          if (ierror.ne.0 .or. ilen.ne.ncoefs) then
+            write(logmess,'(a,i5)')
+     *    "AMatbld3d_stor PFLO: mmgetblk failed: xtemp ",ierror
+            call writloga('default',1,logmess,1,ierrw)
+            istatus = ierror
+            goto 9999
+          endif
+      
+          icnt=0
+          do irow = 1,neq
+             jstart = itemp(irow)-neq
+             jstop = (itemp(irow+1)-itemp(irow))-1
+             do jcol = 0, jstop
+               icnt= icnt+1
+               iip1 = jstart+jcol
+c              we have to undo the negative coef here
+c              2D creates a non-negative amat array
+               xtemp(iip1) = -1 * amat(imatptrs(iip1))
+             enddo
+          enddo
+
+          if (icnt .ne. ncoefs) 
+     *    call x3d_error(isubname,"ij differs from ncoefs")
+
+c         pass matbld values unaltered so they can be modified
+c         in one place for both 2D and 3D output
+          call dump_pflo_coefs(iunit,io_type,
+     *           xic,yic,zic,
+     *           itemp, itemp2, xtemp, amatmax,
+     *           nnodes,ncoefs)
+
+          call mmrelblk('xtemp',isubname,ipxtemp,ierror)
+
+C         Now release pointers we are finished using
+          call freevoronoivolumes()
+          call freeentriesperrow()
+          call freeoccupiedcolumns()
+          call freematrixpointers()
+
+       endif
+C      end writing coefs for PFLOTRAN format
+ 
+c      ccccccccccccccccccccccccccccccccccccccccccccccccccc
+C      WRITE FEHM format 
+       if(io_type .eq. 3)then
+          write(iunit)      (amat(i),i=1,num_written_coefs)
+       elseif(io_type .eq. 2)then
+          write(iunit,9000) (amat(i),i=1,num_written_coefs)
+       endif
+C      END writing coefs for FEHM 
+ 
+       call freematrixvalues()
+      enddo
+C     END loop writing coefficient for FEHM and PFLOTRAN 
 
  
  
@@ -886,6 +1013,10 @@ C              (note matbld3d_stor writes _cstor and _nstor (coefs and none))
       if (io_type.eq.2) io_string='ascii'
       if (io_type.eq.3) io_string='unformatted'
       if (io_type.eq.5) io_string='attribute'
+      if (io_type.eq.10) io_string='PFLOTRAN'
+      if (io_type.eq.12) io_string='PFLOTRAN (all)'
+      if (io_type.eq.13) io_string='PFLOTRAN (verbose)'
+
       if (num_area_coef.eq.1) coef_string = 'scalar area/distance'
       if (num_area_coef.eq.3) coef_string = 'vector area/distance'
       if (num_area_coef.eq.4) 
@@ -893,6 +1024,7 @@ C              (note matbld3d_stor writes _cstor and _nstor (coefs and none))
       if (num_area_coef.eq. -1) coef_string = 'scalar area'
       if (num_area_coef.eq. -3) coef_string = 'vector area'
       if (num_area_coef.eq. -4) coef_string = 'scalar and vector area'
+
       if (ifcompress.eq. 1) 
      * comp_string='graph and coefficient values'
       if (ifcompress.eq. 0) 
@@ -932,13 +1064,15 @@ C
 
 
         write(logmess,'(a,a32)')
-     *  "Compression used for ",
-     *  comp_string
+     *  "AMatbld3d_stor Matrix coefficient values stored as ",
+     *  coef_string 
         call writloga('default',0,logmess,0,ierrw)
 
+        if (io_type .lt. 10) then
+
         write(logmess,'(a,a32)')
-     *  "The area coefficient values were written as ",
-     *  coef_string 
+     *  "AMatbld3d_stor Matrix compression used for ",
+     *  comp_string
         call writloga('default',0,logmess,0,ierrw)
 
         if (io_type .eq. 5) then
@@ -954,7 +1088,7 @@ C
      *  ifilename(1:icharlnf(ifilename)) 
         call writloga('default',0,logmess,0,ierrw)
         endif
-
+        
         if (ifcompress .eq. 0) then
         write(logmess,'(a)')
      *  "*** SPARSE COEFFICIENT MATRIX _gstor SUCCESSFUL ***"
@@ -965,8 +1099,22 @@ C
         call writloga('default',1,logmess,1,ierrw)
         endif
 
+        endif
+
+        if (io_type .ge. 10) then
+        write(logmess,'(a)')
+     *  "*** SPARSE COEFFICIENT MATRIX for PFLOTRAN SUCCESSFUL ***"
+        call writloga('default',1,logmess,1,ierrw)
+        endif
+
       endif
 C     end report
+
+       write(logmess,'(a,a)')
+     *  "3D Matrix Coefficient file written with name ",
+     *  ifilename(1:icharlnf(ifilename))
+        call writloga('default',0,logmess,1,ierrw)
+
 
       call killsparsematrix()
       call mmrelprt(isubname,icscode)
@@ -974,3 +1122,4 @@ C     end report
  
       return
       end
+

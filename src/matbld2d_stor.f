@@ -1,4 +1,4 @@
-      subroutine matbld2d_stor(ifile)
+      subroutine matbld2d_stor(ifile,io_type)
 C
 C#######################################################################
 C
@@ -9,6 +9,7 @@ C
 C      INPUT ARGUMENTS -
 C
 C         ifile - Base file name (.stor is appended).
+C         io_type - toggle for write format
 C
 C      OUTPUT ARGUMENTS -
 C
@@ -76,6 +77,7 @@ C
       implicit none
 C
       character*(*) ifile
+      integer io_type
 C
       include "chydro.h"
       include "consts.h"
@@ -214,6 +216,7 @@ C#######################################################################
 C BEGIN begin
 C
       isubname='matbld2d'
+      print*,'io_type = ', io_type
 
       call cmo_get_name(cmo,ierror)
       if(ierror.ne.0) then
@@ -737,7 +740,16 @@ C
       call mmgetblk('itemp',isubname,ipitemp,length,2,icscode)
 C
 CCCCC setup file to WRITE
-      ifilename=ifile(1:icharlnf(ifile)) // '.stor'
+c     Open the file, use root ifile to make a name
+      if (io_type .ge. 10 ) then
+         ifilename=ifile(1:icharlnf(ifile)) // '.uge'
+c        this is verbose, maybe not a valid pflo format
+         if (io_type .eq. 13 ) then
+           ifilename=ifile(1:icharlnf(ifile)) // '.Vuge'
+         endif
+      else
+         ifilename=ifile(1:icharlnf(ifile)) // '.stor'
+      endif
 
       iunit=-1
       call hassign(iunit,ifilename,ierror)
@@ -752,6 +764,46 @@ CCCCC setup file to WRITE
 C
 CCCCC WRITE to the file
 C
+CCCCC PFLOTRAN format
+      if (io_type .ge. 10) then
+
+        write(logmess,'(a)')
+     *  "Matbldtri  writing PFLOTRAN format."
+        call writloga('default',1,logmess,0,ierrw)
+
+C      write node coordinates and associated volumes
+         call dump_pflo_stor_cells(iunit, io_type,
+     *      xic,yic,zic,volic,neq)
+
+C      write area pair I J midpoint and Aij
+C      Note: assume Aij/dist fehm convention
+C            the subroutine will mult by dist
+
+        do i=1,neq
+           itemp(i)=irowoff(i)+neqp1
+        enddo
+        itemp(neqp1)=irowoff(neq)+irowcnt(neq)+neqp1
+
+c       print*,"itemp ----------------"
+c       print*,(itemp(i),i=1,neqp1)
+c       print*,"icolmat ----------------"
+c       print*,(icolmat(i),i=1,ncoefs)
+c       print*,"amat ----------------"
+c       print*,(amat(i),i=1,ncoefs)
+c       print*,"-------------------- "
+ 
+c        pass matbld values unaltered so they can be modified
+c        in one place for both 2D and 3D output
+         call dump_pflo_coefs(iunit,io_type,
+     *           xic,yic,zic,
+     *           itemp, icolmat, amat,
+     *           amatmax,neq,ncoefs)
+
+C     end pflotran format
+
+CCCCC FEHM format
+      else
+
         write(logmess,'(a)')
      *  "Matbldtri  writing FEHM stor format."
         call writloga('default',1,logmess,0,ierrw)
@@ -807,6 +859,8 @@ c      write(iunit,9000) (0.0,i=1,ncoefs)
 c      write(iunit,9000) (0.0,i=1,ncoefs)
 c      write(iunit,9000) (0.0,i=1,ncoefs)
 C
+      endif
+C     end fehm format
 
         write(logmess,'(a)')
      *  "*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***"
