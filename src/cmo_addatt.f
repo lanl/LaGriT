@@ -25,6 +25,9 @@ C  cmo/fillatt/cmoname/keyword
 C                   -  will skip the call to cmo_addatt()
 C                   - avoids error reports from trying to add existing attribute
 C
+C Vector of form      A[i1 j1 k1 i2 j2 k2 ... in jn kn]
+C Scalar from Vector  Ai[1-n] Aj[1-n] Ak[1-n] 
+C
 C  KEYWORD OPTIONS:
 C===============================================================
 C  area_normal      - creates vector attribute
@@ -34,16 +37,22 @@ C                     implemented only for xyz, not rtp and rtz
 C  unit_area_normal - creates vector attribute
 C                     fills with x,y,z unit area normal for each face
 C                     implemented only for triangles
-C  synth_normal     - creates vector attribute
-C                     fills with xyz angle weighted average normal for each node
+C  synth_normal     - creates vector attribute using offsetsurf
+C  node_normal        fills with xyz angle weighted average normal for each node
 C                     vector components are put into scalar arrays
 C                     x_n_norm, y_n_norm, z_n_norm
 C                     same as node_normal
-C  node_normal      - creates vector attribute
+C                     tri elements only
+C  synth_normal_angle - creates vector attribute using offsetsurf
 C                     fills with xyz angle weighted average normal for each node
 C                     vector components are put into scalar arrays
 C                     x_n_norm, y_n_norm, z_n_norm
-C                     same as synth_normal
+C                     tri elements only
+C  synth_normal_area - creates vector attribute using offsetsurf
+C                     fills with xyz angle weighted average normal for each node
+C                     vector components are put into scalar arrays
+C                     x_n_norm, y_n_norm, z_n_norm
+C                     tri elements only
 C  volume           - creates element attribute
 C                     fills with volume(3D), area(2D) or length(lines)
 C                     implemented only for triangle areas
@@ -113,7 +122,7 @@ C
 C   / area_normal       / xyz | rtz | rtp / v_attname
 C   / unit_area_normal  / xyz | rtz | rtp / v_attname
 C   / node_normal      / v_attname
-C   / synth_normal     / v_attname
+C   / synth_normal     / (will create x_n_norm y_n_norm z_n_norm) 
 C   / volume       / attname /
 C   / ang_mind   / elem_attname /
 C   / ang_minr   / elem_attname /
@@ -448,12 +457,14 @@ C.... keyword area_normal or unit_area_normal
      *     fill_type(1:icharlnf(fill_type)),
      *     ' not implemented for mesh elements: ',cmo_type(1:3)
            call writloga('default',1,logmess,0,ierr)
+           ierror_return = 0
            goto 9999
          endif
          if(nwds.lt.5) then
             write(logmess,'(a,a)') 'ADDATT error: ',
      *      ' attribute name required: '
             call writloga('default',1,logmess,0,ierr)
+            ierror_return = 1 
             goto 9999
          endif
          if (cmsgin(5).eq.'xyz') then
@@ -476,6 +487,7 @@ C.... keyword area_normal or unit_area_normal
      *     fill_type(1:icharlnf(fill_type)),
      *     ' not implemented for: ',norm_type(1:icharlnf(norm_type))
            call writloga('default',1,logmess,0,ierr)
+           ierror_return = 0
            goto 9999
          endif
  
@@ -497,7 +509,19 @@ C
 C      For backwards compatibility, the default is synth_normal
 C      will result in angle weighted normal.
 C 
-       fill_type = 'synth_normal' 
+         fill_type = 'synth_normal' 
+         flen = icharlnf(fill_type)
+
+         if (cmo_type(1:3).ne.'tri') then
+           write(logmess,'(a,a,a,a)')
+     *     'ADDATT/synth_normal warning: ',
+     *     fill_type(1:icharlnf(fill_type)),
+     *     ' not implemented for mesh elements: ',cmo_type(1:3)
+           call writloga('default',1,logmess,0,ierr)
+           ierror_return = 0
+           goto 9999
+         endif
+
 
        if(att_name(1:icharlnf(att_name)).eq.'synth_normal_angle')
      1   fill_type = 'synth_normal_angle' 
@@ -505,7 +529,22 @@ C
      1   fill_type = 'synth_normal_area' 
 
          flen = icharlnf(fill_type)
-         att_name  = '-dummy_var-'
+
+C        offsetsurf will create these attributes, but assign them
+C        here to be consistent with rest of code
+C        adding them again will give a warning, then fill as usual
+         irank = nwds - 4
+         att_list(1) = "x_n_norm"
+         att_list(2) = "y_n_norm"
+         att_list(3) = "z_n_norm"
+         if (irank.ne.0) then
+            write(logmess,'(a,a)') 'ADDATT warning: ',
+     * 'user attribute names ignored, offsetsurf creates attributes.'
+            call writloga('default',1,logmess,0,ierr)
+         endif
+
+         irank = 3
+         att_name = att_list(1)
          cmsgin(5) = 'VDOUBLE'
          cmsgin(6) = 'scalar'
          cmsgin(7) = 'nnodes'
@@ -531,10 +570,11 @@ C.... keyword voronoi_varea
            fill_type = 'voronoi_varea'
        else
            write(logmess,'(a,a,a,a)')
-     *     'ADDATT error: ',
+     *     'ADDATT warning: ',
      *     fill_type(1:icharlnf(fill_type)),
      *     ' not implemented for mesh elements: ',cmo_type(1:3)
            call writloga('default',1,logmess,0,ierr)
+           ierror_return = 0
            goto 9999
        endif
        att_name  = cmsgin(5)
@@ -544,6 +584,7 @@ C.... keyword voronoi_varea
             write(logmess,'(a,a)') 'ADDATT error: ',
      *      ' attribute name required: '
             call writloga('default',1,logmess,0,ierr)
+            ierror_return = 1
             goto 9999
        endif
 
@@ -578,10 +619,11 @@ C     this is the same computation used for outside tet nodes
             write(logmess,'(a,a)') 'ADDATT error: ',
      *      '3 x,y,z attribute names required: '
             call writloga('default',1,logmess,0,ierr)
+            ierror_return = 1
             goto 9999
          endif
 
-         irank = 1
+         irank = 3
          att_name = att_list(1)
          cmsgin(5) ='VDOUBLE'
          cmsgin(6) = 'scalar'
@@ -600,13 +642,14 @@ C     this is the same computation used for outside tet nodes
             write(logmess,'(a,a)') 'ADDATT error: ',
      *        'three attribute names required'
             call writloga('default',1,logmess,0,ierr)
+            ierror_return = 1
             goto 9999
          endif
          att_list(1) = cmsgin(5)
          att_list(2) = cmsgin(6)
          att_list(3) = cmsgin(7)
 
-         irank = 1
+         irank = 3
          att_name = att_list(1)
          cmsgin(5) = 'VDOUBLE'
          cmsgin(6) = 'scalar'
@@ -644,6 +687,7 @@ C     this is the same computation used for outside tet nodes
             write(logmess,'(a,a)') 'ADDATT error: ',
      *        ' attribute name required: '
             call writloga('default',1,logmess,0,ierr)
+            ierror_return = 1
             goto 9999
          endif
          att_name  = cmsgin(5)
@@ -669,6 +713,7 @@ C.... keyword sumnode or avgnode or minnode or maxnode
             write(logmess,'(a,a)') 'ADDATT error: ',
      *        ' attribute name required: '
             call writloga('default',1,logmess,0,ierr)
+            ierror_return = 1
             goto 9999
          endif
          fill_type = att_name
@@ -681,12 +726,14 @@ C        Check and use type of src node based attribute
      *          crank,clength,cinterp,cpersistence,cioflag,ierr)
          if(ierr.ne.0) then
             call x3d_error(isubname,'get_info for node attribute')
+            ierror_return = ierr
             goto 9999
          endif
          if(clength(1:5).ne.'nnode') then
             write(logmess,'(a,a)') 'ADDATT error: ',
      *        ' source attribute must be of length nnode. '
             call writloga('default',1,logmess,0,ierr)
+            ierror_return = 1
             goto 9999
          endif
  
@@ -698,6 +745,7 @@ C        Check and use type of src node based attribute
                 write(logmess,'(a,a,a)') 'ADDATT error: ',
      *          'cmo attribute name reserved: ',att_name(1:i)
                  call writloga('default',1,logmess,0,ierr)
+                ierror_return = -1
                 goto 9999
             else
               cmsgin(5) = ctype
@@ -716,28 +764,54 @@ C.... keyword scalar
       elseif (att_name(1:icharlnf(att_name)).eq.'scalar') then
          fill_type = 'scalar'
          flen = icharlnf(fill_type)
-         vec_name=cmsgin(8)
+
+         if (nwds .eq. 8 ) then
+           vec_name=cmsgin(8)
+         else
+           write(logmess,'(a)')
+     *    'ADDATT error: scalar must have source vector attribute: '
+           call writloga('default',1,logmess,0,ierr)
+           write(logmess,'(a)')
+     *    'cmo/addatt/cmoname/scalar/ v1_snk, v2_snk, v3_snk / v_src'
+           call writloga('default',0,logmess,0,ierr)
+           ierror_return = 1
+           goto 9999
+         endif
+
          irank = 0
          do i = 5, nwds-1
            irank = irank+1
            att_list(irank) = cmsgin(i)
          enddo
- 
+
          if (irank.ne.3) then
            write(logmess,'(a,i5)')
      *    'ADDATT error: scalar must have 3 attributes, got: ',irank
            call writloga('default',1,logmess,0,ierr)
            write(logmess,'(a)')
-     *    'cmo/addatt/cmoname/scalar / v1_snk, v2_snk, v3_snk / v_src'
+     *    'cmo/addatt/cmoname/scalar/ v1_snk, v2_snk, v3_snk / v_src'
            call writloga('default',0,logmess,0,ierr)
+           ierror_return = 1
            goto 9999
          endif
  
 c        let rest of routine add first of 3 attributes att_name
          call cmo_get_attparam(vec_name,cmo_name,idx,ctyp2,crank2,
      *    clen2,cintrp2,cpers2,cio2,ierr)
+
+         if (ierr.ne.0) then
+           ierror_return = ierr
+           write(logmess,'(a)')
+     *     'ADDATT/scalar error: problem with source vector attribute:'
+           call writloga('default',0,logmess,0,ierr)
+           write(logmess,'(a,a,a,a)')
+     *     "Error with cmo attribute:" ,cmo_name(1:icharlnf(cmo_name)),
+     *     " : ",vec_name(1:icharlnf(vec_name)) 
+           call writloga('default',0,logmess,1,ierr)
+           goto 9999
+         endif
+
          att_name = att_list(1)
- 
          cmsgin(5) = 'VDOUBLE'
          cmsgin(6) = 'scalar'
          cmsgin(7) = clen2
@@ -754,6 +828,7 @@ C.... keyword vector
             write(logmess,'(a,a)') 'ADDATT error: ',
      *     ' mesh object name and attribute name required: '
             call writloga('default',1,logmess,0,ierr)
+            ierror_return = 1
             goto 9999
          endif
          att_name=cmsgin(5)
@@ -769,6 +844,7 @@ C.... keyword vector
            write(logmess,'(a)')
      *    'cmo/addatt/cmoname/vector / v_snk / v1_src, v2_src, v3_src '
            call writloga('default',0,logmess,0,ierr)
+           ierror_return = 1
            goto 9999
          endif
  
@@ -815,6 +891,7 @@ C.... keyword voronoi or median (coordinates of)
      *      'cmo/addatt/cmoname/',fill_type(1:icharlnf(fill_type)),
      *      '/ vx_att, vy_att, vz_att '
            call writloga('default',0,logmess,0,ierr)
+           ierror_return = 1
            goto 9999
          endif
  
@@ -859,6 +936,7 @@ C.... keyword xyz_rtp or xyz_rtz
      *      'cmo/addatt/cmoname/',fill_type(1:icharlnf(fill_type)),
      *      '/ vx_att, vy_att, vz_att '
            call writloga('default',0,logmess,0,ierr)
+           ierror_return = 1
            goto 9999
          endif
  
@@ -882,6 +960,7 @@ C
             write(logmess,'(a,a)') 'ADDATT error: ',
      *        ' attribute name required: '
             call writloga('default',1,logmess,0,ierr)
+            ierror_return = 1
             goto 9999
          endif
          att_name  = cmsgin(5)
@@ -1084,6 +1163,7 @@ C....   Setup for fill_type with keyword options
         call cmo_get_attparam(att_name,cmo_name,idx,ctype,crank,
      *       clength,cinterp,cpersistence,cioflag,ierr)
         if (ierr.ne.0) then
+           ierror_return = ierr
            write(logmess,'(a,a,a)')
      *     'ADDATT error: ',
      *     'Attribute to fill does not exist: ',att_name
@@ -1105,6 +1185,7 @@ c
      *       'Attribute needs to be VDOUBLE: ',att_name,ctype
              call writloga('default',0,logmess,0,ierr)
              goto 9999
+             ierror_return = 1
            endif
         endif
  
@@ -1117,6 +1198,7 @@ c       some attributes must be vector rank
      *       'ADDATT: ',
      *       'Attribute needs to be vector: ',att_name,crank
              call writloga('default',0,logmess,0,ierr)
+             ierror_return = 1
              goto 9999
            endif
         endif
@@ -1196,14 +1278,18 @@ c
          mag = sqrt( (xnorm*xnorm)+(ynorm*ynorm)+(znorm*znorm) )
  
 c        Fill vector attribute with face normals
+c        TAM - area normals appear twice as large as expected
+C        so take half of cross product before assignment 
+C        keep direction sign
+
          flen = icharlnf(fill_type)
          if (fill_type(1:flen).eq. 'area_normal') then
            idx = (i-1)*3 + 1
-           value(idx) = xnorm
+           value(idx) = 0.5d0* xnorm
            idx = (i-1)*3 + 2
-           value(idx) = ynorm
+           value(idx) = 0.5d0* ynorm
            idx = (i-1)*3 + 3
-           value(idx) = znorm
+           value(idx) = 0.5d0* znorm
  
 c        Fill vector attribute with unit normals
          elseif (fill_type(1:4).eq. 'unit') then
@@ -1237,7 +1323,7 @@ C.... keyword synth_normal
 C     Fill node attribute with average or synthetic normal
       elseif (fill_type(1:flen).eq. 'synth_normal') then
  
-C This needs to be written
+C This needs to be written?what?
 C       NODE -- central node.
 C       NELTS -- number of surrounding triangles.
 C       IELTS -- array of triangle numbers.
@@ -1257,8 +1343,18 @@ C       just keep the attribute around.
 C
 C       Old version defaults to angle weighted normal.
 C
+
+C       offsetsurf will addatt to cmo_name during routine
+        write(logmess,'(a)')
+     *  'offsetsurf filling synth normal attributes for '
+        call writloga('default',0,logmess,0,ierr)
+        write(logmess,'(2x,a,a)')
+     *  cmo_name(1:icharlnf(cmo_name)),': x_n_norm, y_n_norm, z_n_norm'
+        call writloga('default',0,logmess,0,ierr)
+
         logmess = 
      1   'offsetsurf/-tmp_wrk_mo-/'//cmo_name//'/0.0/keepatt;finish'
+
 C
         flen = icharlnf(fill_type)
         if (fill_type(1:icharlnf(fill_type)).eq.
@@ -1270,15 +1366,16 @@ C
         logmess = 
      1   'offsetsurf/-tmp_wrk_mo-/'//cmo_name//'/0.0/keep_area;finish'
         endif
+
+C       fill and create attributes with offsetsurf
         call dotask(logmess, ierr)
+
+C       clean up
         logmess = 'cmo/delete/-tmp_wrk_mo-;finish'
-        call dotask(logmess, ierr)
-        logmess = 'cmo/DELATT/'//cmo_name//'/-dummy_var- ;finish'
         call dotask(logmess, ierr)
         logmess = 'cmo/select/'//cmo_name//';finish'
         call dotask(logmess, ierr)
         ierror_return = 0
-
  
 C.... keyword voronoi_varea (vector area)
 C     Fill node attribute with voronoi area vector 
@@ -1598,6 +1695,7 @@ c       sink attribute must be type element
            write(logmess,'(a,a)') 'ADDATT error: ',
      *       ' sink attribute must be of length nelement. '
            call writloga('default',1,logmess,0,ierr)
+           ierror_return = 1
            goto 9999
         endif
  
@@ -1747,10 +1845,18 @@ c       create the remaining two attributes
         call cmo_get_info(att_list(1),cmo_name,ipxvec,ilen,ityp,ierr)
         call cmo_get_info(att_list(2),cmo_name,ipyvec,ilen,ityp,ierr)
         call cmo_get_info(att_list(3),cmo_name,ipzvec,ilen,ityp,ierr)
+        if(ierr.ne.0) then
+           ierror_return = ierr
+           call x3d_error(isubname,'get_info new scalar attribute')
+           go to 9999
+        endif
         call cmo_get_info(vec_name,cmo_name,ipvalue,ilen,ityp,ierr)
-        if(ierr.ne.0) call x3d_error(isubname,'get_info new attribute')
+        if(ierr.ne.0) then
+           ierror_return = ierr
+           call x3d_error(isubname,'get_info vector attribute')
+           go to 9999
+        endif
  
-c       assumes vector of rank 3
         do i = 1,nlength
             idx = (i-1)*irank + 1
             xvec(i) = value(idx)
@@ -1813,6 +1919,7 @@ c
              else
                logmess='Voronoi: element not triangle or tetrahedron'
                call writloga('default',0,logmess,0,ierr)
+               ierror_return = -1
                go to 9999
              endif
           enddo
@@ -2032,6 +2139,7 @@ C
      *           'ADDATT error: quad_quality requires the mesh to ',
      *           'consist solely of quads.'
                  call writloga('default',0,logmess,0,ierr)
+                 ierror_return = -1
                  goto 9999
              endif
          enddo
