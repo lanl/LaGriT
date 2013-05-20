@@ -1,99 +1,63 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/general.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
-<title>Utility Subroutines</title>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>LANL | LaGriT |</title>
+<!-- InstanceEndEditable -->
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
-
-<meta name="description" content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information." />
-
-<meta name="keywords" content=" "/>
-
-<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
+<meta name="description" content="LaGriT is a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions for a variety of applications." />
+<meta name="Keywords" content="Mesh generation focused on Delaunay triangle and tetrahedral meshing. Mesh generation for geological applications. Mesh smoothing (optimization), reconnection, hybrid meshing (quadrilateral, prism, pyramid, line elements). Constructive solid geometry, Voronoi control volume area volume coefficient calculation."/>
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+<link media="all" title="LANLScreenStyle" href="styles/site.css" type="text/css" rel="stylesheet" />
 <link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
-
-
 </head>
 <body class="home">
+<!-- OPEN include for banner area --> 
+<!--#include virtual="/source/includes/xbanner.inc" --> 
+<!-- CLOSE include for banner area --> 
 
-<!-- OPEN include for banner area -->
-<!--#include virtual="/source/includes/xbanner.inc" -->
-<!-- CLOSE include for banner area -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/locator.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/locator.inc" --> 
 
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/identifier.inc -->
-<!--#include virtual="includes/identifier.inc" -->
-
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc -->
-<!--#include virtual="includes/toolbar.inc" -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/toolbar.inc" -->
 
 <div id="content-org">
-  <table id="mid-section1" cellspacing="0" cellpadding="0">
+  <table border="0" id="mid-section1" cellspacing="0" cellpadding="0">
     <tr>
-      <td width="236"  valign="top" class="col1">
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/nav1.inc -->
-
-<!--#include virtual="includes/nav1.inc" -->
-<!--#include virtual="includes/groups.inc" -->
-<!--#include virtual="includes/contacts.inc" -->
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/contacts.inc -->
-        <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> </td>
-     
-   <td width="924" valign="top" class="col2-420">
- <a name="content"></a>
-<!-- OPTIONAL: OPEN include for content area -->
-
-  
-        <h1>Utility Subroutines</h1>
-        <blockquote>
-          <div align="left">
-            <p>1. <a href="docs/memmang.html">Memory Manager </a><br />
-              (mmgetblk,mmrelblk,mmrelprt,mmincblk, <br />
-      mmfindbk,mmgettyp,mmgetlen, mmgetnam,mmprint,<br />
-      mmverify,mmggetbk) <br />
-      2. <a href="docs/meshob.html">Mesh Objects</a><br />
-       (cmo_create, cmo_get_info, cmo_set_info,<br />
-      cmo_get_name, cmo_set_name, cmo_get_attribute_name,<br />
-      cmo_newlen, cmo_get_intinfo, cmo_release, cmo_get_attinfo, <br />
-      cmo_get_length, cmo_set_attinfo, cmo_get_attparam) <br />
-      3. <a href="docs/pointsel.html">Point Selection</a><br />
-      (getptyp, unpackpc, unpacktp) <br />
-      4. <a href="docs/charlen.html">Character Length</a><br />
-&nbsp; (icharln, icharlnf, icharlnb, nulltoblank_lg) <br />
-      5. <a href="docs/retpts.html">Retrieving Point Sets and Element Sets&nbsp;</a> <br />
-      (eltlimc, pntlimc, pntlimn) <br />
-      6. <a href="docs/arrcomp.html">Array Compression</a><br />
-      (kmprsm, kmprsn, kmprsnr, kmprsnrrr, kmprsp,<br />
-      kmprspr, kmprsz, kmprszr) <br />
-      7. <a href="docs/arrsort.html">Array Sorting</a><br />
-      </font> (hpsort, hpsort1, hpsorti, hpsortim, hpsortimp,<br />
-      hpsortip, hpsortrmp) <br />
-      8. <a href="docs/miscell.html">Miscellaneous</a><br />
-      (setsize,set_user_bounds,inside,volume_element,<br />
-      user_interpolate) <br />
-      9.<a href="docs/geom.html">Geometry Information </a><br />
-      (geom_lg.h, get_material_number)</p>
-          </div>
-        </blockquote>
-        <p align="left"><img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/xtransparent.gif" /> </p>
-      <p align="left"><a href="index.shtml">Return to LaGriT Home Page</a></p></td>
-      <td valign="top" class="col3-180">
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/related_links.inc -->
-<!--#include virtual="includes/related_links.inc" -->
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p class="ratext">Google Search will go here. <img alt="" class="strut" height="1" width="180" src="http://www.lanl.gov/images/xtransparent.gif" /></p></td>
-
-     
+      <td width="237" valign="top" class="col1" rowspan="2"><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/nav1.inc --> 
+        <!--#include virtual="/source/orgs/ees/includes/resources.inc" --> 
+        <!--#include virtual="includes/related_links.inc" --> </td>
+      <td width="892" height="120" valign="top" class="col2-420"><img border="0" alt="" width="420" height="120" src="images/lagrit1.jpg" /></td>
+      <td width="239" class="col3-180"><img src="images/lagrit2.jpg" border="0" alt="" width="180" height="120" /></td>
+    </tr>
+    <tr>
+      <td colspan="2" valign="top" class="col2-420"><a name="content"></a> <!-- InstanceBeginEditable name="ContentArea" -->
+        <h2>Utility Subroutines</h2>
+        <ol>
+          <li><a href="docs/memmang.html">Memory Manager </a> (mmgetblk,mmrelblk,mmrelprt,mmincblk,      mmfindbk,mmgettyp,mmgetlen, mmgetnam,mmprint,      mmverify,mmggetbk) </li>
+          <li><a href="docs/meshob.html">Mesh Objects</a> (cmo_create, cmo_get_info, cmo_set_info,      cmo_get_name, cmo_set_name, cmo_get_attribute_name,      cmo_newlen, cmo_get_intinfo, cmo_release, cmo_get_attinfo,      cmo_get_length, cmo_set_attinfo, cmo_get_attparam) </li>
+          <li><a href="docs/pointsel.html">Point Selection</a> (getptyp, unpackpc, unpacktp) </li>
+          <li><a href="docs/charlen.html">Character Length</a> &nbsp; (icharln, icharlnf, icharlnb, nulltoblank_lg) </li>
+          <li><a href="docs/retpts.html">Retrieving Point Sets and Element Sets&nbsp;</a> (eltlimc, pntlimc, pntlimn) </li>
+          <li><a href="docs/arrcomp.html">Array Compression</a> (kmprsm, kmprsn, kmprsnr, kmprsnrrr, kmprsp,      kmprspr, kmprsz, kmprszr) </li>
+          <li><a href="docs/arrsort.html">Array Sorting</a> </font> (hpsort, hpsort1, hpsorti, hpsortim, hpsortimp,      hpsortip, hpsortrmp) </li>
+          <li><a href="docs/miscell.html">Miscellaneous</a> (setsize,set_user_bounds,inside,volume_element,      user_interpolate)</li>
+          <li><a href="docs/geom.html">Geometry Information </a> (geom_lg.h, get_material_number)</li>
+        </ol>
+        <!-- InstanceEndEditable --></td>
     </tr>
   </table>
 </div>
 
-<!-- OPEN include for footer area -->
-<!--#include virtual="/source/includes/xfooter.inc" -->
+<!-- OPEN include for footer area --> 
+<!--#include virtual="/source/includes/xfooter.inc" --> 
 
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc -->
-
-<!--#include virtual="../includes/email.inc" -->
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/email.inc" --> 
 
 <!-- CLOSE include for footer area -->
+
 </body>
-</html>
+<!-- InstanceEnd --></html>

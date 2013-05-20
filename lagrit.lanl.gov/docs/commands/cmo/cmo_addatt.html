@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="Content-Type">
+  <meta name="LaGriT command cmo/addatt"
+ content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information.">
+  <meta name="Keywords" content=" ">
+  <link media="all" title="LANLScreenStyle" href="styles/site.css"
+ type="text/css" rel="stylesheet">
+  <link media="print" href="http://www.lanl.gov/styles/xprint.css"
+ type="text/css" rel="stylesheet">
+ <style type="text/css">
+     div.equation {text-align:center;}
+     span.equation {vertical-align:text-bottom;}
+ </style>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=ISO-8859-1">
+  <meta name="Generator" content="Microsoft Word 97">
+  <meta name="GENERATOR"
+ content="Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]">
+  <title>cmo/addatt</title>
+</head>
+<body style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"
+ alink="#ff0000" link="#0000ee" vlink="#551a8b">
+<br>
+<h2> cmo/addatt</h2>
+      
+<blockquote>The <b>cmo/addatt</b> command is used to add and initialize a
+ new mesh object attribute. There are two variations on the command syntax. 
+ The general form is used to add a new attribute to a mesh object. The second 
+ syntax uses keywords to create and/or fill a valid attribute with calculated 
+ values. This syntax can also derive a vector attribute from three attributes 
+ or derive three scalar attributes from a vector attribute.       
+  <p>For the general form, the first two parameters, <font
+ face="Courier">mo_name/att_name </font>are required. All other parameters
+ will resort to default settings if not included on the command line. See
+the   <b><a href="http://lagrit.lanl.gov/docs/cmo_modatt.html"> modatt </a></b> command 
+ for details on these parameters. </p>
+       
+  <p>The keyword syntax uses the fourth token on the command line to define 
+ the type of attribute to create. The syntax for each keyword is unique. If
+the named attribute already exists, values will be overwritten with values
+ as indicated by the keyword. </p>
+       
+  <p>GENERAL FORMAT: </p>
+       
+  <dir><b>cmo/addatt</b> / <font face="Courier">mo_name </font>/ <font
+ face="Courier">att_name </font>/ [ <font face="Courier">type</font> / <font
+ face="Courier">rank</font> / <font face="Courier">length</font> / <font
+ face="Courier">interpolate</font> / <font face="Courier">persistence</font>
+ / <font face="Courier">ioflag</font> / <font face="Courier"> [value]</font></dir>
+          
+  <p><br>
+  KEYWORD FORMAT: </p>
+       
+  <blockquote>
+    <p class="style1">cmo/addatt/mo_name/<b>area_normal</b> 
+      / normal_type / att_v_name 
+      <br>
+      cmo/addatt/mo_name/<b>unit_area_normal</b> 
+      / normal_type / att_v_name 
+      <br>
+      cmo/addatt/mo_name/<b>volume</b> / att_name <br>
+      cmo/addatt/mo_name/<b>voronoi_volume</b> / att_name <br>
+      cmo/addatt/mo_name/<b>hybrid_volume</b> / att_name <br>
+      cmo/addatt/mo_name/<b>voronoi_varea</b> / att_name_xn att_name_yn att_name_zn <br>
+      cmo/addatt/mo_name/<b>vector</b> / att_v_snk / att_xsrc att_ysrc
+        att_zsrc <br>
+    cmo/addatt/mo_name/<b>scalar </b>/ att_xsnk att_ysnk att_zsnk / att_v_src<br>
+        cmo/addatt/mo_name/<b>ang_mind</b> / att_name_elem<br>
+      cmo/addatt/mo_name/<b>ang_maxd</b> /
+      att_name_elem<br>
+      cmo/addatt/mo_name/<b>ang_minr</b>
+      / att_name_elem<br>
+      cmo/addatt/mo_name/<b>ang_maxr</b> /
+      att_name_elem<br>
+      cmo/addatt/mo_name/<b>ang_mind_solid</b> / att_name_elem<br>
+      cmo/addatt/mo_name/<b>ang_maxd_solid</b> / att_name_elem<br>
+      cmo/addatt/mo_name/<b>ang_minr_solid</b> / att_name_elem<br>
+      cmo/addatt/mo_name/<b>ang_maxr_solid</b> / att_name_elem<br>
+      cmo/addatt/mo_name/<b>edge_connections</b> /att_name_node<br>
+      cmo/addatt/mo_name/<b>node_num_diff</b> /  att_name_node<br>
+	  cmo/addatt/mo_name/<b>xyz_rtp</b> /[att_node_r att_node_theta att_node_phi]<br>
+      cmo/addatt/mo_name/<b>xyz_rtz</b> /[att_node_r att_node_theta att_node_z]<br>
+	  cmo/addatt/mo_name/<strong>voronoi </strong>/ x_coord_elem y_coord_elem z_coord_elem<br>
+      cmo/addatt/mo_name/<strong>median </strong>/ x_coord_elem y_coord_elem z_coord_elem<br>
+      cmo/addatt/mo_name/<strong>synth_normal_area </strong>     <br>
+	  cmo/addatt/mo_name/<strong>synth_normal_angle </strong><br>
+      cmo/addatt/mo_name/<strong>sumnode </strong>/ att_name_elem / att_name_node<br>
+      cmo/addatt/mo_name/<strong>avgnode </strong>/ att_name_elem / att_name_node<br>
+      cmo/addatt/mo_name/<strong>minnode </strong>/ att_name_elem / att_name_node<br>
+      cmo/addatt/mo_name/<strong>maxnode </strong>/ att_name_elem / att_name_node<br>
+      cmo/addatt/mo_name/<strong>quad_quality </strong>/ att_name_quality /
+      att_name_regularity / att_name_flag<br>
+    </p>
+  </blockquote>
+          
+  <blockquote><b>area_normal</b>: creates element vector attribute <font
+ face="Courier">att_v_name</font> and fills with the x,y,z components of
+the area normal for each face. The new attribute is <font
+ face="Courier New,Courier"><a
+ href="http://lagrit.lanl.gov/docs/meshobject.html#nelements">nelements</a></font> in 
+ length, type is <a
+ href="http://lagrit.lanl.gov/docs/meshobject.html#type">vdouble</a>, and
+ rank is <font face="Courier New,Courier"><a
+ href="http://lagrit.lanl.gov/docs/meshobject.html#vector">vector</a></font>. 
+     <font face="Courier New,Courier">normal_type</font> choices include <b>xyz, rtz</b>,
+ and <b>rtp</b>. The area_normal is a vector perpendicular to the triangle
+ face with length equal to the area of the triangle. Currently implemented
+ for <b>xyz</b> on triangles only.           
+    <p><b>unit_area_normal</b>: creates vector attribute <font
+ face="Courier">att_v_name</font> and fills with the x,y,z direction components
+ of the area normal for each face. The new attribute is <font
+ face="Courier New,Courier">nelements </font>in length, type is VDOUBLE,
+and rank is <font face="Courier New,Courier">vector</font>. <font
+ face="Courier">normal_type</font> choices include <b>xyz, rtz</b>, and <b>rtp</b>.
+ The unit_area_normal is a vector perpendicular to the triangle face with
+length equal to one. Currently implemented for <b>xyz</b> on triangles only.
+    </p>
+           
+    <p><b>volume</b> or <b>area</b>: creates an element attribute <font
+ face="Courier New,Courier">nelements</font> in length and type VDOUBLE.
+For     <b>volume</b> keyword the <font face="Courier">att_name</font> attribute
+ is filled with <b>volume</b>(if 3D), <b>area</b>(if 2D) or <b>length</b>(if 
+ lines). Currently implemented for triangle areas. </p>
+
+   <p><b>voronoi_volume</b> : creates a node attribute <font
+ face="Courier New,Courier">nnodes</font> in length and type VDOUBLE.
+ Currently implemented for a tetrahedral mesh by calling the build stor function
+ to form the Voronoi bounding area for each node. (See more in <a
+     href="DUMP3.html">dump/stor</a>.) </p>
+
+ <p><b>hybrid_volume</b>: creates a node attribute <code>nnodes</code> in
+ length and of type <code>VDOUBLE</code> which contains the volume of each
+ hybrid median-Voronoi control volume. This is currently implemented for a
+ tetrahedral mesh by calling the build stor function with the
+ <code>hybrid</code> option. See <a href="DUMP3.html">dump/stor</a> for details
+ on what hybrid median-Voronoi volumes are. Currently this option is only
+ available for 3D tetrahedral meshes.</p>
+
+   <p><b>voronoi_varea</b> : creates three node attributes <font
+ face="Courier New,Courier">nnodes</font> in length and type VDOUBLE. The attributes represent
+each of the x,y,z components for the Voronoi areas formed by surrounding nodes. 
+ Currently implemented for a triangle mesh by calling the same routine that is used to compute
+the Voronoi areas for the external faces of a tetrahedral mesh. Works only on a triangle mesh.
+(See more in dump/zone_outside) </p>
+
+
+           
+    <p class="style2"><b>vector</b>: creates attribute of rank 
+     vector from three existing scalar attributes.</p>
+           
+    <p class="style2"><b>scalar</b>: creates three scalar attributes from an existing 
+ vector attribute.</p>
+     <p class="style2"><b>voronoi </b>: creates three element attributes (default names xvor, yvor, zvor) that are the coordinates of the Voronoi point (center of circumscribed circle or sphere) of each element. This is only valid for elements of type tri and tet. This command does not check if a mesh is Delaunay, so a better syntax might be to call this circumscribed_center.</p>
+	 <p class="style2"><strong>median</strong>: creates three element attributes (default names xmed, ymed, zmed) that are the coordinates of the median point (average value of the vertices) of each element. This is valid for all element types. </p>
+     <p>The following commands create element attributes related to dihedral
+angle and solid angle:<b><br>
+ang_mind</b> : create a scalar element attribute and fill it with the  minimum
+dihedral angle (degrees) of the element<br>
+      <b>ang_minr</b> : create a scalar element attribute and fill it with
+the  minimum dihedral angle (radian) of the element<br>
+      <b>ang_maxd</b> : create a scalar element attribute and fill it with
+the  maximum dihedral angle (degrees) of the element<br>
+      <b>ang_maxr</b> : create a scalar element attribute and fill it with
+the  maximum dihedral angle (radian) of the element<br>
+ Dihedral angle will be between 0 and 2&#960;.</p>
+     
+    <p>     <b>ang_mind_solid</b> : create a scalar element attribute and
+fill it with the minimum solid angle (degrees) of the element<br>
+      <b>ang_maxd_solid</b> :  create a scalar element attribute and fill
+it with  the minimum solid angle (radian) of the element<br>
+      <b>ang_minr_solid</b> :  create a scalar element attribute and fill
+it with  the maximum solid angle (degrees) of the element<br>
+      <b>ang_maxr_solid</b> :  create a scalar element attribute and fill
+it with  the maximum solid angle (radian) of the element<br>
+ Solid angle will be between 0 and 4&#960;.</p>
+           
+    <p>Note: Dihedral angle calculations is supported for tri, quad, tet,
+ pyrimide, prism, hex.<br>
+  Note: Solid angle calculation is only supported for tet elements.<br>
+  See also the command <b><a href="./QUALITY.html">quality</a></b> for adding
+ attributes such as element aspect ratio(quality/aratio) and edge length
+ratio (quality/edge_ratio), minimum edge length (quality/ edge_min) and maximum
+edge length (quality/edge_max).</p>
+
+<p><strong>edge_connections</strong>:  creates and integer attribute with the number of edge connections to each node. <br>
+      <strong>node_num_diff</strong>:  
+    creates an integer attribute with the maximum difference in node number between the node and any node it is connected to. That is for node i connected to nodes j_1, j_2, ...j_n, the attribute will contain attribute=max(|i-j_1|,|i-j_2|, ... |i-j_n|) 
+
+<p><strong>xyz_rtp</strong>: create three node attributes and fill them with the node coordinate, x,y,z in spherical coordinates, r,theta,phi. Default values for the attribute, if not specified are, <span class="style1">c_r, c_theta, c_phi</span>. <br>
+      <strong>xyz_rtz</strong>: create three node attributes and fill them with the node coordinate, x,y,z in cylindrical coordinates, r,theta,z. Default values for the attribute, if not specified are, <span class="style1">c_r, c_theta, c_z </span>. 
+    <p>     <b>synth_normal_area</b> : create  node attributes, <span class="style1">x_n_norm, y_n_norm, z_n_norm</span>, and
+fill them with the area weighted normal of each node.<br>
+<strong>synth_normal_angle</strong>
+:  create a node attributes, <span class="style1">x_n_norm, y_n_norm, z_n_norm</span>, and fill
+them with  the angle weighted normal of each node. <br>
+    The synthetic node normal calculations are only supported for mesh objects of type line, tri and quad. If one wants to compute the normals to, for example, the outside nodes of a hex or tet mesh, one must first <a href="EXTRACT1.html">extract</a> a surface mesh and then compute the normals to the surface mesh. The synthetic normal is computed by computing the normal to all elements incident upon a node and then taking the weighted average of all the normals. The weight factor is based on area or incident angle depending upon which option is selected. </p>
+
+<p><strong>sumnode</strong> : create an element attribute <span class="style1">att_name_elem</span> and fill it with the sum of the elements' node attribute, <span class="style1">att_name_node</span>.<br>
+<strong>avgnode</strong> :  create an element attribute <span class="style1">att_name_elem</span> and fill it with the average of the elements' node attribute, <span class="style1">att_name_node</span>.<br>
+ <strong>minnode</strong> :  create an element attribute <span class="style1">att_name_elem</span> and fill it with the minimum value of the elements' node attribute, <span class="style1">att_name_node</span>.<br>
+<strong>maxnode</strong> :  create an element attribute <span class="style1">att_name_elem</span> and fill it with the maximum of the elements' node attribute, <span class="style1">att_name_node</span>.<br>
+   </p>
+<p> <strong>quad_quality</strong> : create element
+attributes <tt>att_name_quality</tt>, <tt>att_name_regularity</tt>, and
+<tt>att_name_flag</tt>. These three attributes all describe the quality of
+each quadrilateral in a quad mesh. </p>
+</p> The first attribute represents the measure
+<div class="equation">
+<img src="quad_quality_equation.png"/>
+</div>
+where <span class="equation"><img src="alpha.png"/></span> is a normalization
+constant and <span class="equation"><img src="h_max.png"/></span> is the longest
+length among the four edges and the two diagonals. <span class="equation">
+<img src="h_s.png"> </span> is defined as
+<div class="equation">
+    <img src="h_s_eq.png"/>,
+</div>
+where <span class="equation"><img src="l_i.png"/></span> is the length of edge
+<i>i</i>. <span class="equation"><img src="s_min.png"/></span> is the minimum
+area of the four triangles that can be constructed by adding one or the other
+diagonal to the quad. This metric ranges from zero for poor quality quads to one
+for high quality quads.
+<img src="quad_quality.jpg"/>
+</p><p>
+The second attribute represents the <i>regularity</i> of each quad ABCD, defined
+as
+<div class="equation">
+    <img src="regularity.png"/>
+</div>
+where
+<div class="equation">
+    <img src="p_ac.png"/>
+</div>
+and
+<div class="equation">
+    <img src="p_bd.png"/>
+</div>
+This is a measure of the extent to which the quad is planar, which cannot be
+detected by the previous metric alone. A perfectly planar quad will have a score
+of one, while a severely warped quad will have a score of zero.
+</p><p>
+Finally, the third attribute is an integer flag which gives some qualitative
+information about each quad:
+<dl>
+    <dt> 0 (Good) </dt>
+    <dd> The quad is non-degenerate and for either of the two ways we can draw a
+    diagonal across it, the area vectors of the two triangles have a positive
+    dot product. </dd>
+
+    <dt> 1 (Degenerate) </dt>
+    <dd> At least one of the triangles determined by three of the vertices of
+    the quad has zero area. In other words, the quad has degenerated into a
+    triangle (or worse). </dd>
+
+    <dt> 2 (Warped) </dt>
+    <dd> One of the quad's diagonals divides it into two triangles whose area
+    vectors have a negative dot product. If the quad is planar then this means
+    it is self-intersecting (or someone entered the vertices in the wrong order
+    by mistake). </dd>
+</dl>
+</p>
+  </blockquote>
+          
+  <p><br>
+  EXAMPLES: </p>
+       
+  <blockquote><span class="style1"><b>cmo</b>/<b>addatt</b>/cmo/boron1/vdouble/scalar/nnodes</span><dir>Create node attribute named boron1 with default interpolate (linear) and default persistence (temporary).</dir>
+    <span class="style1"><b>cmo</b>/<b>addatt</b>/cmo/elem_br/vdouble/scalar/nelements</span><dir>Create element attribute named elem_br with default interpolate (linear) and default persistence (temporary).</dir>
+   <span class="style1"><b>cmo/addatt/</b>-cmo-/boron2/vdouble/scalar/nnodes/asinh/permanent/gl/2.0    </span><dir>Create in the currently active mesh object a node attribute named boron2 and initialize it with value 2.0, set IO flages 
+ to gmv and LaGriT dumps, set interpolation method to asinh..</dir>
+   <span class="style1"><b>cmo/addatt/</b>cmo1/boron3/vdouble/scalar/nnodes/user/temporary    </span><dir>Create temporary node attribute named boron3.</dir>
+   <span class="style1"><b>cmo/addatt/-default-/</b>boron3    </span><dir>Create attribute named boron3 with default mesh object settings.</dir>
+   <span class="style1"><b>cmo/addatt</b>/ cmotri / <b>area_normal</b> 
+ /<b> xyz</b> / anorm    </span><dir>Create and fill element vector named anorm with the x,y,z components 
+ for area normals of each triangle.</dir>
+   <span class="style1"><b>cmo/addatt</b>/ cmotri / <b>unit_area_normal</b> 
+ / <b>xyz </b>/ n_face    </span><dir>Create and fill element vector named n_face with the x,y,z components 
+ for unit area normals of each triangle.</dir>
+   <span class="style1"><b>cmo/addatt</b>/cmo1/ <b>scalar</b> / xnorm, ynorm, znorm / anorm    </span><dir>Create attributes xnorm, ynorm, znorm from the three components
+of the vector attribute anorm.</dir>
+   <span class="style1"><b>cmo/addatt</b>/cmo1/ <b>vector </b>/ vnorm /xnorm, ynorm, znorm    </span><dir>Create vector attribute vnorm from the three attributes xnorm, ynorm, 
+ znorm.</dir>
+
+   <span class="style1"><b>cmo/addatt</b>/ cmotri / <b>area </b>/
+    darea    </span><dir>Create and fill attribute named darea with area of each triangle.<br>
+    </dir>
+
+   <span class="style1"><b>cmo/addatt</b>/ cmotet / <b>voronoi_volume </b>/ vor_vol </span>
+   <dir>Create and fill attribute named vor_vol with Voronoi volume of each node in tetrahedral mesh.<br>
+    </dir>
+
+   <span class="style1"><b>cmo/addatt</b>/ cmotet / <b>hybrid_volume </b>/
+       hybrid_vol </span>
+   <dir>Create and fill an attribute named <code>hybrid_vol</code> with the
+       hybrid median-Voronoi volume of each node in a tetrahedral mesh.<br>
+    </dir>
+
+   <span class="style1"><b>cmo/addatt</b>/ cmotri / <b>voronoi_varea </b>/ xvarea  yvarea  zvarea </span>
+   <dir>Create and fill attributes xvarea, yvarea, and zvarea with xyz components of the Voronoi areas for each node in triangle mesh.<br>
+    </dir>
+
+   <span class="style1"><b>cmo/addatt</b>/ cmoquad / <b>quad_quality </b>/
+       quality  regularity  flag </span>
+   <dir> Create attributes named <tt>quality</tt>, <tt>regularity</tt>, and
+       <tt>flag</tt> with several quad quality measures (see above).
+    </dir>
+
+    <span class="style1">cmo / <b>addatt</b> / cmo / <b>ang_mind</b> / ang_mind<br>
+ cmo / <b>addatt</b> / cmo / <b>ang_minr</b> / ang_minr<br>
+ cmo /<b> addatt</b> / cmo / <b>ang_maxd</b> / ang_maxd<br>
+ cmo / <b>addatt </b>/ cmo / <b>ang_maxr</b> / ang_maxr<br>
+ cmo / <b>addatt</b> / cmo / <b>ang_mind_solid</b> / sang_mind<br>
+ cmo / <b>addatt</b> / cmo / <b>ang_minr_solid</b> / sang_minr<br>
+ cmo / <b>addatt</b> / cmo / <b>ang_maxd_solid</b> / sang_maxd<br>
+ cmo / <b>addatt</b> / cmo / <b>ang_maxr_solid</b> / sang_maxr<br>
+ <br>
+cmo / <b>addatt</b> / cmo /<strong> synth_normal_area</strong><br>
+cmo / <b>addatt</b> / cmo /<strong> synth_normal_angle</strong><br>
+<br>
+cmo / <b>addatt</b> / cmo / <b>sumnode</b> / elem_sum_imt / imt <br>
+cmo / <b>addatt</b> / cmo /<strong> maxnode </strong>/ elem_max_boron / boron</span> <br>
+  
+    <dir><br>
+      <br>
+    </dir>  </blockquote>
+ </blockquote>
+    <br>
+   
+</body>
+</html>

@@ -101,7 +101,7 @@ active mesh object.
     algorithm visits the edges via depth first search.
     </p>
     <p>
-    The <font face="Times"><b>line_graph</b></font> option also generates the
+    The <font face="Times"><b>line_graph</b></font> option for <b>elements</b> also generates the
     following three integer element attributes:
     <ul>
       <li> <font face="Courier">cid</font>: A component id for distinguishing
@@ -134,6 +134,11 @@ active mesh object.
       this case, the cycle corresponding to the label is not fully specified
       because there is more than one right answer. </li>
     </ul>
+	 The <font face="Times"><b>line_graph</b></font> option for <b>nodes</b> is based
+    on the option for elements, except that it does not create extra attributes.
+    Based on the sorted elements, the nodes will be reordered in the same sequence.
+    This is necessary for triangulation as "TRIANGULATE" routine requires the nodes
+    to be in clockwise/counterclockwise order.
     </p>
 </blockquote>
 <! parameter 3 ---------- >
@@ -175,7 +180,7 @@ MULTI-KEY FORMAT:
 LINE GRAPH FORMAT:
 <blockquote><b>sort</b> /  <font face="Courier">cmo_name</font> /
   <b>line_graph</b> / [ <b><u>ascending</u> | descending</b> ] /  <font
-    face="Courier">sort_key_name</font>
+    face="Courier">sort_key_name / [<b><u>elements</u> | nodes</b>]</font>
 </blockquote>
 <! command examples >
 <p>EXAMPLES:
@@ -196,7 +201,7 @@ sort where the sweep is first along x coordinate then y then z.
 commands would produce the finite difference indexing. All points with
 the same x value would be in the same i_index bin, all points with the
 same y value would be in the same j_index bin, etc.
-<p><b>sort</b> / cmo / <b>line_graph</b> / <b>ascending</b> / ikey <br>
+<p><b>sort</b> / cmo / <b>line_graph</b> / <b>ascending</b> / ikey  / elements <br>
 Sort the line segment elements into a reasonable order based on connectivity.
 This also creates attributes <font face="Courier">cid</font>, <font
   face="Courier">ctype</font>, and <font face="Courier">loop_id</font> (see

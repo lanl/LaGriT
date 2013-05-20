@@ -1,56 +1,56 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/general.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
-<title>LANL | LaGriT | </title>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>LANL | LaGriT |</title>
+<!-- InstanceEndEditable -->
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
-<meta name="description" content=" LaGriT Los Alamos Grid Toolbox software for mesh generation in 2D and 3D. LaGriT is a library of tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions for a variety of applications." />
-<meta name="Keywords" content="Finite Element Mesh Generation Grid Generation software delaunay voronoi computational geometry "/>
+<meta name="description" content="LaGriT is a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions for a variety of applications." />
+<meta name="Keywords" content="Mesh generation focused on Delaunay triangle and tetrahedral meshing. Mesh generation for geological applications. Mesh smoothing (optimization), reconnection, hybrid meshing (quadrilateral, prism, pyramid, line elements). Constructive solid geometry, Voronoi control volume area volume coefficient calculation."/>
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
 <link media="all" title="LANLScreenStyle" href="styles/site.css" type="text/css" rel="stylesheet" />
 <link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
 </head>
 <body class="home">
-<!-- OPEN include for banner area -->
-<!--#include virtual="/source/includes/xbanner.inc" -->
-<!-- CLOSE include for banner area -->
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/locator.inc -->
-<!--#include virtual="/includes/identifier.inc" -->
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/toolbar.inc -->
-<!--#include virtual="/includes/toolbar.inc" -->
+<!-- OPEN include for banner area --> 
+<!--#include virtual="/source/includes/xbanner.inc" --> 
+<!-- CLOSE include for banner area --> 
 
-<div id="content-org"> 
-  <table id="mid-section1" cellspacing="0" cellpadding="0">
-    <tr> 
-      <td width="190"valign="top" class="col1"> 
-        <!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/nav1.inc -->
-        <!--#include virtual="/includes/nav1.inc" --> 
-		<!--#include virtual="/includes/groups.inc" -->
-		<!--#include virtual="/includes/contacts.inc" -->
-		 <img alt="" class="strut" height="1" width="160" src="http://www.lanl.gov/images/xtransparent.gif" /> 
-      </td>
-      <td width="892" valign="top" class="col2-420"> 
-	  <img border="0" alt="" width="420" height="120" src="images/lagrit1.jpg" /> 
-        <a name="content"></a> 
-        <!-- OPTIONAL: OPEN include for content area -->
-		<h2>What is LaGriT?</h2>
-        <p>LaGriT is a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions for a variety of applications. Geometric regions within arbitrarily complicated geometries are defined as combinations of bounding surfaces, where the surfaces are described analytically or as tessellated surfaces (triangles and/or quadrilaterals). A variety of techniques for distributing points within these geometric regions are provided. Mesh generation generally uses a Delaunay tetrahedralization algorithm that respects material interfaces. The is also quadtree (2D) and octree (3D) refined meshing for quad and hex meshes. The data structures created to implement this algorithm are compact and powerful and expandable to include hybrid meshes (tet, hex, prism, pyramid, quadrilateral, triangle, line) however the main algorithms are for triangle, quadrilateral, hex and  tetrahedral meshes.      </p>
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/locator.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/locator.inc" --> 
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/toolbar.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/toolbar.inc" -->
+
+<div id="content-org">
+  <table border="0" id="mid-section1" cellspacing="0" cellpadding="0">
+    <tr>
+      <td width="237" valign="top" class="col1" rowspan="2"><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/nav1.inc --> 
+        <!--#include virtual="/source/orgs/ees/includes/resources.inc" --> 
+        <!--#include virtual="includes/related_links.inc" --> </td>
+      <td width="892" height="120" valign="top" class="col2-420"><img border="0" alt="" width="420" height="120" src="images/lagrit1.jpg" /></td>
+      <td width="239" class="col3-180"><img src="images/lagrit2.jpg" border="0" alt="" width="180" height="120" /></td>
+    </tr>
+    <tr>
+      <td colspan="2" valign="top" class="col2-420"><a name="content"></a> <!-- InstanceBeginEditable name="ContentArea" -->
+        <h2>What is LaGriT?</h2>
+        <p>LaGriT is a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions for a variety of applications. Geometric regions within arbitrarily complicated geometries are defined as combinations of bounding surfaces, where the surfaces are described analytically or as tessellated surfaces (triangles and/or quadrilaterals). A variety of techniques for distributing points within these geometric regions are provided. Mesh generation uses a Delaunay tetrahedralization algorithm that respects material interfaces. The data structures created to implement this algorithm are compact and powerful and expandable to include hybrid meshes (tet, hex, prism, pyramid, quadrilateral, triangle, line) however the main algorithms are for triangle and  tetrahedral meshes. </p>
         <p>Mesh refinement, derefinement and smoothing are available to modify the mesh to provide more resolution in areas of interest. Mesh refinement adds nodes to the mesh based on geometric criteria such as edge length or based on field variable shape. Mesh elements may become distorted as mesh nodes move during a time criteria such change in field. Mesh smoothing moves nodes to adapt the mesh to field variable measures, and, at the same time, maintains quality elements. During time dependent (Lagrangian moving mesh) simulation or when nodes are added as a result of refinement operations, mesh reconnection via a series of edge flips can be used to eliminate highly distorted elements.</p>
         <p>LaGriT has three modes of use, 1) command line 2) batch driven via a control file 3) calls from C/Fortran programs. There is no GUI interface. </p>
         <p>NOTICE: Information from this server resides on a computer system funded by the U.S.Department of Energy. Anyone using this system consents to monitoring of this use by system or security personnel. See <a href="http://www.lanl.gov/copyright.shtml"> conditions of use.</a> LaGriT Trademark is owned by the University of California.</p>
-        
-        <img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/xtransparent.gif" /> 
-      </td>
-      <td width="239" class="col3-180"><img src="images/lagrit2.jpg" border="0" alt="" width="180" height="120" />
-        <!--#include virtual="includes/related_links.inc" -->
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-</td>
+        <!-- InstanceEndEditable --></td>
     </tr>
   </table>
 </div>
-<!-- OPEN include for footer area -->
-<!--#include virtual="/source/includes/xfooter.inc" -->
-<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/email.inc -->
-<!--#include virtual="../ees2/includes/email.inc" -->
+
+<!-- OPEN include for footer area --> 
+<!--#include virtual="/source/includes/xfooter.inc" --> 
+
+<!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/includes/email.inc --> 
+<!--#include virtual="/source/orgs/ees/includes/email.inc" --> 
+
 <!-- CLOSE include for footer area -->
+
 </body>
-</html>
+<!-- InstanceEnd --></html>

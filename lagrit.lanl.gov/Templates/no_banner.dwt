@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- InstanceBegin template="/Templates/general.dwt" codeOutsideHTMLIsLocked="false" -->
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<!-- InstanceBeginEditable name="doctitle" -->
+<!-- TemplateBeginEditable name="doctitle" -->
 <title>LANL | LaGriT |</title>
-<!-- InstanceEndEditable -->
+<!-- TemplateEndEditable -->
 <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
 <meta name="description" content="LaGriT is a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions for a variety of applications." />
 <meta name="Keywords" content="Mesh generation focused on Delaunay triangle and tetrahedral meshing. Mesh generation for geological applications. Mesh smoothing (optimization), reconnection, hybrid meshing (quadrilateral, prism, pyramid, line elements). Constructive solid geometry, Voronoi control volume area volume coefficient calculation."/>
-<!-- InstanceBeginEditable name="head" -->
-<!-- InstanceEndEditable -->
-<link media="all" title="LANLScreenStyle" href="styles/site.css" type="text/css" rel="stylesheet" />
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link media="all" title="LANLScreenStyle" href="../styles/site.css" type="text/css" rel="stylesheet" />
 <link media="print" href="http://www.lanl.gov/styles/xprint.css" type="text/css" rel="stylesheet" />
 </head>
 <body class="home">
@@ -24,26 +24,15 @@
 <!--#include virtual="/source/orgs/ees/includes/toolbar.inc" -->
 
 <div id="content-org">
-  <table border="0" id="mid-section1" cellspacing="0" cellpadding="0">
+  <table id="mid-section1" cellspacing="0" cellpadding="0">
     <tr>
-      <td width="237" valign="top" class="col1" rowspan="2"><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/nav1.inc --> 
+      <td width="237" valign="top" class="col1"><!--NOTE: you will need to adjust the following path to link to your local site include file, use a full path ie.: /source/orgs/yourdivision_acronym/yourgroup_acronym/includes/nav1.inc --> 
         <!--#include virtual="/source/orgs/ees/includes/resources.inc" --> 
-        <!--#include virtual="includes/related_links.inc" --> </td>
-      <td width="892" height="120" valign="top" class="col2-420"><img border="0" alt="" width="420" height="120" src="images/lagrit1.jpg" /></td>
-      <td width="239" class="col3-180"><img src="images/lagrit2.jpg" border="0" alt="" width="180" height="120" /></td>
-    </tr>
-    <tr>
-      <td colspan="2" valign="top" class="col2-420"><a name="content"></a> <!-- InstanceBeginEditable name="ContentArea" -->
-        <h2>LaGriT Code Development Team </h2>
-        <p><a href="http://www.ees.lanl.gov/staff/gable">Carl W. Gable</a>, Geological Applications </p>
-        <p><a href="http://phonebook.lanl.gov/phonebook_long.php?102076">Tinka Gammel</a> Denise George (Retired) </p>
-        <p><a href="http://www.pnl.gov">Andrew Kuprat</a></p>
-        <p><a href="http://phonebook.lanl.gov/phonebook_long.php?113691">Terry Miller</a></p>
-        <p> <a href="http://phonebook.lanl.gov/phonebook_long.php?104962">Frank A. Ortega</a></p>
-        <p><a href="http://www.pnl.gov">Harold Trease</a> </p>
-        <p><a href="http://www.pnl.gov">Lynn Trease</a> </p>
-        <p><a href="http://phonebook.lanl.gov/phonebook_long.php?084728">Robert B. Walker</a> </p>
-        <!-- InstanceEndEditable --></td>
+        <!--#include virtual="../includes/related_links.inc" --></td>
+      <td class="col2-420"><a name="content"></a> <!-- TemplateBeginEditable name="ContentArea" -->
+        <h2>Header</h2>
+        <p>Coontent.</p>
+        <!-- TemplateEndEditable --> <img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/transparent.gif" /></td>
     </tr>
   </table>
 </div>
@@ -57,4 +46,4 @@
 <!-- CLOSE include for footer area -->
 
 </body>
-<!-- InstanceEnd --></html>
+</html>
