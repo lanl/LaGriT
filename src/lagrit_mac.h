@@ -21,7 +21,8 @@ c
 c     data os_name      /'Darwin  '/
 c     data os_name      /'Mac64   '/
       data os_name      /'Mac32   '/
-      data date_compile /'2012/07/20            '/
+c     data date_compile /'2013/05/20            '/
+      data date_compile /'2013/05/20  OSX gf4.7 '/
 c
       integer         NCall
       save            NCall

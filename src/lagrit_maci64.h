@@ -22,7 +22,7 @@ c     data os_name      /'Darwini '/
       data os_name      /'Maci64  '/
 c     data os_name      /'Maci32  '/
 c     data date_compile /'2012/07/26 gfort 4.6 '/
-      data date_compile /'2012/10/31   dev vers'/
+      data date_compile /'2013/05/20 OSX gf4.7 '/
 c
       integer         NCall
       save            NCall
