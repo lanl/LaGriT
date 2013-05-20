@@ -1,0 +1,88 @@
+define/Z1/0.1                                                                   
+define/Z2/0.2                                                                   
+read/avs/one_tri.inp/mo1                                                        
+cmo/setatt/mo1/zic/1 0 0/Z1                                                     
+dump/avs/one_tri_z1.inp/mo1/1 1 0 0                                             
+cmo/setatt/mo1/zic/1 0 0/0.0                                                    
+dump/avs/one_tri_z0.inp/mo1/1 1 0 0                                             
+cmo/create/mostack///tri                                                        
+stack/layers/avs/one_tri_z0.inp 1 one_tri_z1.inp                                
+stack/fill/moprism/mostack                                                      
+resetpts/itp                                                                    
+quality                                                                         
+dump/gmv/prism_one.gmv/moprism                                                  
+dump/avs/prism_one.inp/moprism                                                  
+dump/exo/prism_one.exo/moprism                                                  
+cmo/delete/mo1                                                                  
+cmo/delete/mostack                                                              
+cmo/delete/moprism                                                              
+cmo/create/mo1///triplane                                                       
+createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1                                   
+connect                                                                         
+cmo/setatt/mo1/zic/1 0 0/Z1                                                     
+dump/avs/one_tri_z1.inp/mo1/1 1 0 0                                             
+cmo/setatt/mo1/zic/1 0 0/0.0                                                    
+dump/avs/one_tri_z0.inp/mo1/1 1 0 0                                             
+cmo/create/mostack///tri                                                        
+stack/layers/avs/one_tri_z0.inp 1 one_tri_z1.inp                                
+stack/fill/moprism/mostack                                                      
+resetpts/itp                                                                    
+quality                                                                         
+dump/gmv/prism_one_layer.gmv/moprism                                            
+dump/avs/prism_one_layer.inp/moprism                                            
+dump/exo/prism_one_layer.exo/moprism                                            
+cmo/delete/mo1                                                                  
+cmo/delete/mostack                                                              
+cmo/delete/moprism                                                              
+cmo/create/mo1///triplane                                                       
+createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1                                   
+connect                                                                         
+cmo/setatt/mo1/zic/1 0 0/Z2                                                     
+cmo/setatt/mo1/itetclr/1 0 0/1                                                  
+dump/avs/one_tri_z2.inp/mo1/1 1 0 0                                             
+cmo/setatt/mo1/zic/1 0 0/Z1                                                     
+cmo/setatt/mo1/itetclr/1 0 0/1                                                  
+dump/avs/one_tri_z1.inp/mo1/1 1 0 0                                             
+cmo/setatt/mo1/zic/1 0 0/0.0                                                    
+cmo/setatt/mo1/itetclr/1 0 0/1                                                  
+dump/avs/one_tri_z0.inp/mo1/1 1 0 0                                             
+cmo/create/mostack///tri                                                        
+stack/layers/avs/one_tri_z0.inp 1 one_tri_z1.inp 2 one_tri_z2.inp               
+stack/fill/moprism/mostack                                                      
+resetpts/itp                                                                    
+dump/gmv/prism_two_layer.gmv/moprism                                            
+dump/avs/prism_two_layer.inp/moprism                                            
+dump/exo/prism_two_layer.exo/moprism                                            
+cmo/delete/mo1                                                                  
+cmo/delete/mostack                                                              
+cmo/delete/moprism                                                              
+cmo/create/mo1///triplane                                                       
+createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1                                   
+connect                                                                         
+cmo/setatt/mo1/zic/1 0 0/Z2                                                     
+cmo/setatt/mo1/itetclr/1 0 0/1                                                  
+dump/avs/one_tri_z2.inp/mo1/1 1 0 0                                             
+cmo/setatt/mo1/zic/1 0 0/Z1                                                     
+perturb/1 0 0/0. 0. 0.03                                                        
+cmo/setatt/mo1/itetclr/1 0 0/1                                                  
+dump/avs/one_tri_z1.inp/mo1/1 1 0 0                                             
+cmo/setatt/mo1/zic/1 0 0/0.0                                                    
+cmo/setatt/mo1/itetclr/1 0 0/1                                                  
+dump/avs/one_tri_z0.inp/mo1/1 1 0 0                                             
+cmo/create/mostack///tri                                                        
+stack/layers/avs/one_tri_z0.inp 1 one_tri_z1.inp 2 one_tri_z2.inp               
+stack/fill/moprism/mostack                                                      
+resetpts/itp                                                                    
+dump/gmv/prism_two_layer_perturb_z.gmv/moprism                                  
+dump/avs/prism_two_layer_perturb_z.inp/moprism                                  
+dump/exo/prism_two_layer_perturb_z.exo/moprism                                  
+rmmat 2 element                                                                 
+rmpoint/compress                                                                
+resetpts/itp                                                                    
+dump/gmv/prism_one_layer_perturb_z.gmv/moprism                                  
+dump/avs/prism_one_layer_perturb_z.inp/moprism                                  
+dump/exo/prism_one_layer_perturb_z.exo/moprism                                  
+cmo/delete/mo1                                                                  
+cmo/delete/mostack                                                              
+cmo/delete/moprism                                                              
+finish                                                                          

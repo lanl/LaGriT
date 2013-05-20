@@ -1,0 +1,12 @@
+# ticket 106
+# addatt / -def- / scalar does not exit gracefully (Segmentation fault) 
+# when input vector does not exist
+
+cmo / create / mo_tri / / / triplane
+createpts / xyz / 2 2 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+connect / noadd
+
+cmo/addatt/ mo_tri / area_normal / xyz / va_1
+cmo/addatt/ mo_tri / scalar / xva_1 yva_1 zva_1 / v_not_exist
+
+finish

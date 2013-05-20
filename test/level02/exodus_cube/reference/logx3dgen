@@ -1,0 +1,66 @@
+cmo/create/mohex///hex                                                          
+createpts/brick/xyz/3 3 3/0 0 0/1 1 1/1 1 1                                     
+cmo setatt mohex itetclr 1                                                      
+cmo setatt mohex imt 1                                                          
+cmo setatt mohex itetclr 1,2,1 2                                                
+resetpts/itp                                                                    
+dump gmv output_hex_start.gmv mohex                                             
+createpts/median                                                                
+sort/mohex/index/ascending/ikey/itetclr xmed ymed zmed                          
+reorder/mohex/ikey                                                              
+dump/gmv/out_tmp_sort1.gmv/mohex                                                
+cmo/DELATT/mohex/ikey                                                           
+sort/mohex/index/ascending/ikey/zic yic xic                                     
+reorder/mohex/ikey                                                              
+dump/gmv/out_tmp_sort2.gmv/mohex                                                
+cmo/DELATT/mohex/xmed                                                           
+cmo/DELATT/mohex/ymed                                                           
+cmo/DELATT/mohex/zmed                                                           
+cmo/DELATT/mohex/ikey                                                           
+eltset/e_mat1/itetclr/eq/1                                                      
+eltset/e_mat2/itetclr/eq/2                                                      
+eltset/e_mat1/write/output_mat_1.cellset/ascii                                  
+eltset/e_mat2/write/output_mat_1.cellset/ascii                                  
+extract/surfmesh/1 0 0/mo_surf/mohex/external                                   
+cmo/printatt/mo_surf/-all-/minmax                                               
+cmo/addatt/mo_surf/id_side/vint/scalar/nelements                                
+cmo/select mo_surf                                                              
+settets/normal                                                                  
+cmo/copyatt/mo_surf mo_surf/id_side itetclr                                     
+cmo/printatt/mo_surf/id_side/minmax                                             
+dump gmv output_hex_surface.gmv mo_surf                                         
+cmo/DELATT/mo_surf/itetclr0                                                     
+cmo/DELATT/mo_surf/idnode0                                                      
+cmo/DELATT/mo_surf/idelem0                                                      
+cmo/DELATT/mo_surf/facecol                                                      
+cmo/DELATT/mo_surf/itetclr1                                                     
+cmo/DELATT/mo_surf/idface0                                                      
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_bottom/id_side/eq/1                                                    
+eltset/e_delete/not/e_bottom                                                    
+rmpoint/element/eltset get e_delete                                             
+rmpoint/compress                                                                
+cmo/DELATT/mo_tmp/id_side                                                       
+dump/avs2/output_1_bottom.faceset/mo_tmp/0 0 0 2                                
+cmo/printatt/mo_tmp/idelem1                                                     
+cmo/printatt/mo_tmp/idface1                                                     
+cmo/delete/mo_tmp                                                               
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_top/id_side/eq/2                                                       
+eltset/e_delete/not/e_top                                                       
+rmpoint/element/eltset get e_delete                                             
+rmpoint/compress                                                                
+cmo/DELATT/mo_tmp/id_side                                                       
+dump/avs2/output_2_top.faceset/mo_tmp/0 0 0 2                                   
+cmo/printatt/mo_tmp/idelem1                                                     
+cmo/printatt/mo_tmp/idface1                                                     
+cmo/delete/mo_tmp                                                               
+dump/exo/output_hex_final.exo/mohex///facesets output_1_bottom.faceset output_2_
+top.faceset                                                                     
+dump/avs/output_hex_final.inp/mohex                                             
+quality volume material                                                         
+cmo printatt mohex -all- minmax                                                 
+cmo printatt mo_surf -all- minmax                                               
+finish                                                                          

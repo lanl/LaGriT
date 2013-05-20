@@ -1,0 +1,68 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.101   Linux m64      *                 
+*               *    date_compile: 2013/04/16  RH gf4.5       *                 
+*               *    Run Time: 2013/Apr 18  09:58:57          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# ticket 106                                                                    
+# addatt / -def- / scalar does not exit gracefully (Segmentation fault)         
+# when input vector does not exist                                              
+cmo/create/mo_tri///triplane                                                    
+createpts/xyz/2 2 1/0. 0. 0./1. 1. 0./1 1 1                                     
+  RZ GENERATED POINTS                    1 TO                    4              
+connect/noadd                                                                   
+ No materials associated with         4 noninterface points.                    
+ Coordinates of enclosing triangle are:                                         
+          -0.17500D+01-0.16000D+01-0.00000D+00                                  
+           0.27500D+01-0.17500D+01-0.00000D+00                                  
+           0.50500D+00 0.50000D+01-0.00000D+00                                  
+ Cannot locate interface between points         1 and         5.                
+ Cannot locate interface between points         1 and         6.                
+ Cannot locate interface between points         1 and         2.                
+ Cannot locate interface between points         2 and         6.                
+ Cannot locate interface between points         3 and         4.                
+ Cannot locate interface between points         3 and         7.                
+ Cannot locate interface between points         4 and         7.                
+ Cannot locate interface between points         3 and         5.                
+ Cannot locate interface between points         1 and         3.                
+ Cannot locate interface between points         4 and         6.                
+ Cannot locate interface between points         2 and         4.                
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+cmo/addatt/mo_tri/area_normal/xyz/va_1                                          
+ADDATT/area_normal: creating new attribute: va_1                                
+cmo/addatt/mo_tri/scalar/xva_1 yva_1 zva_1/v_not_exist                          
+ADDATT/scalar error: problem with source vector attribute:                      
+Error with cmo attribute:mo_tri : v_not_exist                                   
+ 
+ 
+ADDATT ERRORS BEFORE COMPLETION ierror_return =     1                           
+ 
+finish                                                                          
+LaGriT successfully completed                                                   

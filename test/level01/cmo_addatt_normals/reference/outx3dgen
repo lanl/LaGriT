@@ -1,0 +1,1726 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.101   Linux m64      *                 
+*               *    date_compile: 2013/04/16  RH gf4.5       *                 
+*               *    Run Time: 2013/Apr 18  10:26:05          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# test cmo/addatt compute normals options                                       
+# test cmo/addatt/  area_normal and unit_area_normal                            
+*     implemented only for xyz, not rtp and rtz                                 
+# create the triangles to use for test                                          
+# use surface from brick so triangles point in each of 6 directions             
+cmo/create/mo_hex///hex                                                         
+createpts/brick/xyz/2 2 2/0. 0. 0./2. 2. 2./1 1 1                               
+          Number of nodes:           8                                          
+          Number of elements:           1                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.800000000000E+01                                  
+extract surfmesh/1 0 0/mo_quad/mo_hex/external                                  
+cmo/addatt/mo_quad/itetclr0/vint/scalar/nelements////0                          
+finish                                                                          
+cmo/addatt/mo_quad/itetclr1/vint/scalar/nelements////0                          
+finish                                                                          
+cmo/addatt/mo_quad/idnode0/vint/scalar/nnodes////0                              
+finish                                                                          
+cmo/addatt/mo_quad/idelem0/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_quad/idelem1/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_quad/facecol/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_quad/idface0/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_quad/idface1/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_quad/ncon50/int/scalar/scalar/constant/permanent/x/0              
+finish                                                                          
+cmo/addatt/mo_quad/nconbnd/int/scalar/scalar/constant/permanent/x/0             
+finish                                                                          
+cmo/addatt/mo_quad/icontab/vint/scalar/ncon50/constant/permanent/x/0            
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+hextotet/2/mo_tri/mo_quad                                                       
+ iremove_vol=   0 iremove_dup=   0 icheckpt=   1                                
+Input Mesh type qua using option    2                                           
+Element Material ID, min/max/range:          1         1         0              
+Epsilon-dist, distmax, distmin:  -2.0000000E-06  4.0000000E+00  4.0000000E+00   
+Epsilon-volume, volmax:   4.0000000E-06  4.0000000E+00                          
+cmo/addatt/mo_tri/iign/vint/scalar/nnodes/-def-/-def-/gx/-def-                  
+finish                                                                          
+  WARNING: Volumes le zero not removed, nelements=         12                   
+No duplicate points                                                             
+  WARNING: Duplicate points not removed, nnodes =          8                    
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+cmo/delete/mo_hex                                                               
+     Released Mesh Object: mo_hex                                               
+*********************************************************                       
+# create vector attributes Vunit_anorm and Vanorm                               
+# create three scalar attributes from Vanorm                                    
+# Vector of form      A[i1 j1 k1 i2 j2 k2 ... in jn kn]                         
+# Scalar from Vector  Ai[1-n] Aj[1-n] Ak[1-n]                                   
+cmo addatt mo_tri/area/darea                                                    
+ADDATT/area: creating new attribute: darea                                      
+cmo addatt mo_tri/unit_area_normal/Vunit_anorm                                  
+ADDATT/unit_area_normal: creating new attribute: Vunit_anorm                    
+cmo addatt mo_tri/area_normal/Vanorm                                            
+ADDATT/area_normal: creating new attribute: Vanorm                              
+cmo addatt mo_tri/scalar/x_scalar y_scalar z_scalar/Vanorm                      
+ADDATT/scalar: creating 3 new attributes: x_scalar  y_scalar  z_scalar          
+#---------------------------------------------------                            
+# box -z bottom = tri 1,2 v(x,y,z)                                              
+cmo printatt mo_tri darea 1,2,1                                                 
+Attribute: darea                                                                
+         1  2.00000E+00                                                         
+         2  2.00000E+00                                                         
+ 
+cmo printatt mo_tri Vunit_anorm 1,2,1                                           
+Attribute: Vunit_anorm                                                          
+         1  0.00000E+00                                                         
+         1  0.00000E+00                                                         
+         1 -1.00000E+00                                                         
+         2  0.00000E+00                                                         
+         2  0.00000E+00                                                         
+         2 -1.00000E+00                                                         
+ 
+cmo printatt mo_tri Vanorm 1,2,1                                                
+Attribute: Vanorm                                                               
+         1  0.00000E+00                                                         
+         1  0.00000E+00                                                         
+         1 -2.00000E+00                                                         
+         2  0.00000E+00                                                         
+         2  0.00000E+00                                                         
+         2 -2.00000E+00                                                         
+ 
+cmo printatt mo_tri x_scalar 1,2,1                                              
+Attribute: x_scalar                                                             
+         1  0.00000E+00                                                         
+         2  0.00000E+00                                                         
+ 
+cmo printatt mo_tri y_scalar 1,2,1                                              
+Attribute: y_scalar                                                             
+         1  0.00000E+00                                                         
+         2  0.00000E+00                                                         
+ 
+cmo printatt mo_tri z_scalar 1,2,1                                              
+Attribute: z_scalar                                                             
+         1 -2.00000E+00                                                         
+         2 -2.00000E+00                                                         
+ 
+#---------------------------------------------------                            
+# box +z top = tri 3,4 v(x,y,z)                                                 
+cmo printatt mo_tri darea 3,4,1                                                 
+Attribute: darea                                                                
+         3  2.00000E+00                                                         
+         4  2.00000E+00                                                         
+ 
+cmo printatt mo_tri Vunit_anorm 3,4,1                                           
+Attribute: Vunit_anorm                                                          
+         3  0.00000E+00                                                         
+         3  0.00000E+00                                                         
+         3  1.00000E+00                                                         
+         4  0.00000E+00                                                         
+         4  0.00000E+00                                                         
+         4  1.00000E+00                                                         
+ 
+cmo printatt mo_tri Vanorm 3,4,1                                                
+Attribute: Vanorm                                                               
+         3  0.00000E+00                                                         
+         3  0.00000E+00                                                         
+         3  2.00000E+00                                                         
+         4  0.00000E+00                                                         
+         4  0.00000E+00                                                         
+         4  2.00000E+00                                                         
+ 
+cmo printatt mo_tri x_scalar 3,4,1                                              
+Attribute: x_scalar                                                             
+         3  0.00000E+00                                                         
+         4  0.00000E+00                                                         
+ 
+cmo printatt mo_tri y_scalar 3,4,1                                              
+Attribute: y_scalar                                                             
+         3  0.00000E+00                                                         
+         4  0.00000E+00                                                         
+ 
+cmo printatt mo_tri z_scalar 3,4,1                                              
+Attribute: z_scalar                                                             
+         3  2.00000E+00                                                         
+         4  2.00000E+00                                                         
+ 
+#---------------------------------------------------                            
+# box -y front = tri 5,6 v(x,y,z)                                               
+cmo printatt mo_tri darea 5,6,1                                                 
+Attribute: darea                                                                
+         5  2.00000E+00                                                         
+         6  2.00000E+00                                                         
+ 
+cmo printatt mo_tri Vunit_anorm 5,6,1                                           
+Attribute: Vunit_anorm                                                          
+         5  0.00000E+00                                                         
+         5 -1.00000E+00                                                         
+         5  0.00000E+00                                                         
+         6  0.00000E+00                                                         
+         6 -1.00000E+00                                                         
+         6  0.00000E+00                                                         
+ 
+cmo printatt mo_tri Vanorm 5,6,1                                                
+Attribute: Vanorm                                                               
+         5  0.00000E+00                                                         
+         5 -2.00000E+00                                                         
+         5  0.00000E+00                                                         
+         6  0.00000E+00                                                         
+         6 -2.00000E+00                                                         
+         6  0.00000E+00                                                         
+ 
+cmo printatt mo_tri x_scalar 5,6,1                                              
+Attribute: x_scalar                                                             
+         5  0.00000E+00                                                         
+         6  0.00000E+00                                                         
+ 
+cmo printatt mo_tri y_scalar 5,6,1                                              
+Attribute: y_scalar                                                             
+         5 -2.00000E+00                                                         
+         6 -2.00000E+00                                                         
+ 
+cmo printatt mo_tri z_scalar 5,6,1                                              
+Attribute: z_scalar                                                             
+         5  0.00000E+00                                                         
+         6  0.00000E+00                                                         
+ 
+#---------------------------------------------------                            
+# box +y back = tri 9,10 v(x,y,z)                                               
+cmo printatt mo_tri darea 9,10,1                                                
+Attribute: darea                                                                
+         9  2.00000E+00                                                         
+        10  2.00000E+00                                                         
+ 
+cmo printatt mo_tri Vunit_anorm 9,10,1                                          
+Attribute: Vunit_anorm                                                          
+         9  0.00000E+00                                                         
+         9  1.00000E+00                                                         
+         9  0.00000E+00                                                         
+        10  0.00000E+00                                                         
+        10  1.00000E+00                                                         
+        10  0.00000E+00                                                         
+ 
+cmo printatt mo_tri Vanorm 9,10,1                                               
+Attribute: Vanorm                                                               
+         9  0.00000E+00                                                         
+         9  2.00000E+00                                                         
+         9  0.00000E+00                                                         
+        10  0.00000E+00                                                         
+        10  2.00000E+00                                                         
+        10  0.00000E+00                                                         
+ 
+cmo printatt mo_tri x_scalar 9,10,1                                             
+Attribute: x_scalar                                                             
+         9  0.00000E+00                                                         
+        10  0.00000E+00                                                         
+ 
+cmo printatt mo_tri y_scalar 9,10,1                                             
+Attribute: y_scalar                                                             
+         9  2.00000E+00                                                         
+        10  2.00000E+00                                                         
+ 
+cmo printatt mo_tri z_scalar 9,10,1                                             
+Attribute: z_scalar                                                             
+         9  0.00000E+00                                                         
+        10  0.00000E+00                                                         
+ 
+#---------------------------------------------------                            
+# box +x right = tri 7,8 v(x,y,z)                                               
+cmo printatt mo_tri darea 7,8,1                                                 
+Attribute: darea                                                                
+         7  2.00000E+00                                                         
+         8  2.00000E+00                                                         
+ 
+cmo printatt mo_tri Vunit_anorm 7,8,1                                           
+Attribute: Vunit_anorm                                                          
+         7  1.00000E+00                                                         
+         7  0.00000E+00                                                         
+         7  0.00000E+00                                                         
+         8  1.00000E+00                                                         
+         8  0.00000E+00                                                         
+         8  0.00000E+00                                                         
+ 
+cmo printatt mo_tri Vanorm 7,8,1                                                
+Attribute: Vanorm                                                               
+         7  2.00000E+00                                                         
+         7  0.00000E+00                                                         
+         7  0.00000E+00                                                         
+         8  2.00000E+00                                                         
+         8  0.00000E+00                                                         
+         8  0.00000E+00                                                         
+ 
+cmo printatt mo_tri x_scalar 7,8,1                                              
+Attribute: x_scalar                                                             
+         7  2.00000E+00                                                         
+         8  2.00000E+00                                                         
+ 
+cmo printatt mo_tri y_scalar 7,8,1                                              
+Attribute: y_scalar                                                             
+         7  0.00000E+00                                                         
+         8  0.00000E+00                                                         
+ 
+cmo printatt mo_tri z_scalar 7,8,1                                              
+Attribute: z_scalar                                                             
+         7  0.00000E+00                                                         
+         8  0.00000E+00                                                         
+ 
+#---------------------------------------------------                            
+# box -x left = tri 11,12 v(x,y,z)                                              
+cmo printatt mo_tri darea 11,12,1                                               
+Attribute: darea                                                                
+        11  2.00000E+00                                                         
+        12  2.00000E+00                                                         
+ 
+cmo printatt mo_tri Vunit_anorm 11,12,1                                         
+Attribute: Vunit_anorm                                                          
+        11 -1.00000E+00                                                         
+        11  0.00000E+00                                                         
+        11  0.00000E+00                                                         
+        12 -1.00000E+00                                                         
+        12  0.00000E+00                                                         
+        12  0.00000E+00                                                         
+ 
+cmo printatt mo_tri Vanorm 11,12,1                                              
+Attribute: Vanorm                                                               
+        11 -2.00000E+00                                                         
+        11  0.00000E+00                                                         
+        11  0.00000E+00                                                         
+        12 -2.00000E+00                                                         
+        12  0.00000E+00                                                         
+        12  0.00000E+00                                                         
+ 
+cmo printatt mo_tri x_scalar 11,12,1                                            
+Attribute: x_scalar                                                             
+        11 -2.00000E+00                                                         
+        12 -2.00000E+00                                                         
+ 
+cmo printatt mo_tri y_scalar 11,12,1                                            
+Attribute: y_scalar                                                             
+        11  0.00000E+00                                                         
+        12  0.00000E+00                                                         
+ 
+cmo printatt mo_tri z_scalar 11,12,1                                            
+Attribute: z_scalar                                                             
+        11  0.00000E+00                                                         
+        12  0.00000E+00                                                         
+ 
+#---------------------------------------------------                            
+dump gmv output_box_normals.gmv mo_tri                                          
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump avs2 output_box_normals.inp mo_tri ascii                                   
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+#################################################                               
+# test synthetic normal on vertices (nodes)                                     
+#                                                                               
+# These do not work since quads are not supported                               
+# Should return with ADDATT error                                               
+#                                                                               
+cmo/addatt/mo_quad/synth_normal                                                 
+ 
+ADDATT/synth_normal warning: synth_normal not implemented for mesh elements: qua
+ 
+ADDATT ERRORS BEFORE COMPLETION ierror_return =     0                           
+ 
+cmo/addatt/mo_quad/synth_normal_area                                            
+ 
+ADDATT/synth_normal warning: synth_normal not implemented for mesh elements: qua
+ 
+ADDATT ERRORS BEFORE COMPLETION ierror_return =     0                           
+ 
+cmo/addatt/mo_quad/synth_normal_angle                                           
+ 
+ADDATT/synth_normal warning: synth_normal not implemented for mesh elements: qua
+ 
+ADDATT ERRORS BEFORE COMPLETION ierror_return =     0                           
+ 
+#                                                                               
+# The commands below should work for triangles                                  
+# copy attributes and save so not overwritten each call                         
+cmo/addatt/mo_tri/xsynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/ysynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/zsynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/xsynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/ysynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/zsynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/xsynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+cmo/addatt/mo_tri/ysynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+cmo/addatt/mo_tri/zsynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+#                                                                               
+cmo/addatt/mo_tri/synth_normal                                                  
+ADDATT/synth_normal: creating 3 new attributes: x_n_norm  y_n_norm  z_n_norm    
+offsetsurf filling synth normal attributes for                                  
+  mo_tri: x_n_norm, y_n_norm, z_n_norm                                          
+offsetsurf/-tmp_wrk_mo-/mo_tri/0.0/keepatt                                      
+cmo/addatt/mo_tri/x_n_norm/vdouble/scalar/nnodes/-def-/permanent                
+CMO_ADDATT warning: attribute already exist: mo_tri  x_n_norm                   
+finish                                                                          
+cmo/addatt/mo_tri/y_n_norm/vdouble/scalar/nnodes/-def-/permanent                
+finish                                                                          
+cmo/addatt/mo_tri/z_n_norm/vdouble/scalar/nnodes/-def-/permanent                
+finish                                                                          
+finish                                                                          
+cmo/delete/-tmp_wrk_mo-                                                         
+     Released Mesh Object: -tmp_wrk_mo-                                         
+finish                                                                          
+cmo/select/mo_tri                                                               
+finish                                                                          
+cmo/copyatt/mo_tri mo_tri/xsynth x_n_norm                                       
+         8 copied from mo_tri x_n_norm to -> mo_tri xsynth                      
+ 
+cmo/copyatt/mo_tri mo_tri/ysynth y_n_norm                                       
+         8 copied from mo_tri y_n_norm to -> mo_tri ysynth                      
+ 
+cmo/copyatt/mo_tri mo_tri/zsynth z_n_norm                                       
+         8 copied from mo_tri z_n_norm to -> mo_tri zsynth                      
+ 
+cmo/addatt/mo_tri/synth_normal_area                                             
+CMO_ADDATT warning: attribute already exist: mo_tri  x_n_norm                   
+ADDATT/synth_normal_area: writing to existing attributes: x_n_norm  y_n_norm  z_
+                                                                          n_norm
+cmo/copyatt/mo_tri mo_tri/xsynth_area x_n_norm                                  
+         8 copied from mo_tri x_n_norm to -> mo_tri xsynth_area                 
+ 
+cmo/copyatt/mo_tri mo_tri/ysynth_area y_n_norm                                  
+         8 copied from mo_tri y_n_norm to -> mo_tri ysynth_area                 
+ 
+cmo/copyatt/mo_tri mo_tri/zsynth_area z_n_norm                                  
+         8 copied from mo_tri z_n_norm to -> mo_tri zsynth_area                 
+ 
+cmo/addatt/mo_tri/synth_normal_angle                                            
+CMO_ADDATT warning: attribute already exist: mo_tri  x_n_norm                   
+ADDATT/synth_normal_angle: writing to existing attributes: x_n_norm  y_n_norm  z
+                                                                         _n_norm
+cmo/copyatt/mo_tri mo_tri/xsynth_angle x_n_norm                                 
+         8 copied from mo_tri x_n_norm to -> mo_tri xsynth_angle                
+ 
+cmo/copyatt/mo_tri mo_tri/ysynth_angle y_n_norm                                 
+         8 copied from mo_tri y_n_norm to -> mo_tri ysynth_angle                
+ 
+cmo/copyatt/mo_tri mo_tri/zsynth_angle z_n_norm                                 
+         8 copied from mo_tri z_n_norm to -> mo_tri zsynth_angle                
+ 
+dump gmv output_box_normals.gmv mo_tri                                          
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump avs2 output_box_normals.inp mo_tri ascii                                   
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+#                                                                               
+# Try something that uses synthetic normal                                      
+#                                                                               
+cmo copy mo_tri2 mo_tri                                                         
+offsetsurf/mo_tri_off/mo_tri2/0.1                                               
+# report attributes from cmo/addatt and from offset                             
+cmo/printatt/mo_tri/-all- minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00         8  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                           8                8               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                       12               12               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 2                2               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                3                3               0         1  
+ edges_per_element                3                3               0         1  
+ faces_per_element                3                3               0         1  
+ isetwd                           0                0               0         8  
+ ialias                           0                0               0         8  
+ imt1                             1                1               0         8  
+ itp1                             0                0               0         8  
+ icr1                             0                0               0         8  
+ isn1                             0                0               0         8  
+ xic                0.000000000E+00  2.000000000E+00 2.000000000E+00         8  
+ yic                0.000000000E+00  2.000000000E+00 2.000000000E+00         8  
+ zic                0.000000000E+00  2.000000000E+00 2.000000000E+00         8  
+ xtetwd                           0                0               0        12  
+ itetclr                          1                1               0        12  
+ itettyp                          3                3               0        12  
+ itetoff                          0               33              33        12  
+ jtetoff                          0               33              33        12  
+ itet                             1                8               7        12x3
+ jtet                             1               36              35        12x3
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           7.691850746E-13  7.691850746E-13 0.000000000E+00         1  
+ epsilona           2.664535259E-12  2.664535259E-12 0.000000000E+00         1  
+ epsilonv           1.776356839E-12  1.776356839E-12 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                          8                8               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               2.000000000E+00  2.000000000E+00 0.000000000E+00         1  
+ ymax               2.000000000E+00  2.000000000E+00 0.000000000E+00         1  
+ zmax               2.000000000E+00  2.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ itetclr0                         0                0               0        12  
+ itetclr1                         0                1               1        12  
+ idnode0                          1                8               7         8  
+ idelem0                          0                0               0        12  
+ idelem1                          0                1               1        12  
+ facecol                          0                1               1        12  
+ idface0                          0                0               0        12  
+ idface1                          0                6               6        12  
+ ncon50                           0                0               0         1  
+ nconbnd                          0                0               0         1  
+ 0 length attribute: icontab                                                    
+ iign                             0                0               0         8  
+ darea              2.000000000E+00  2.000000000E+00 0.000000000E+00        12  
+ Vunit_anorm       -1.000000000E+00  1.000000000E+00 2.000000000E+00        12  
+ Vanorm            -2.000000000E+00  2.000000000E+00 4.000000000E+00        12  
+ x_scalar          -2.000000000E+00  2.000000000E+00 4.000000000E+00        12  
+ y_scalar          -2.000000000E+00  2.000000000E+00 4.000000000E+00        12  
+ z_scalar          -2.000000000E+00  2.000000000E+00 4.000000000E+00        12  
+ xsynth            -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ ysynth            -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ zsynth            -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ xsynth_area       -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ ysynth_area       -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ zsynth_area       -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ xsynth_angle      -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ ysynth_angle      -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ zsynth_angle      -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ x_n_norm          -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ y_n_norm          -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ z_n_norm          -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ 
+cmo/printatt/mo_tri2/-all- minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00         8  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                           8                8               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                       12               12               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 2                2               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                3                3               0         1  
+ edges_per_element                3                3               0         1  
+ faces_per_element                3                3               0         1  
+ isetwd                           0                0               0         8  
+ ialias                           0                0               0         8  
+ imt1                             1                1               0         8  
+ itp1                             0                0               0         8  
+ icr1                             0                0               0         8  
+ isn1                             0                0               0         8  
+ xic                0.000000000E+00  2.000000000E+00 2.000000000E+00         8  
+ yic                0.000000000E+00  2.000000000E+00 2.000000000E+00         8  
+ zic                0.000000000E+00  2.000000000E+00 2.000000000E+00         8  
+ xtetwd                           0                0               0        12  
+ itetclr                          1                1               0        12  
+ itettyp                          3                3               0        12  
+ itetoff                          0               33              33        12  
+ jtetoff                          0               33              33        12  
+ itet                             1                8               7        12x3
+ jtet                             1               36              35        12x3
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           7.691850746E-13  7.691850746E-13 0.000000000E+00         1  
+ epsilona           2.664535259E-12  2.664535259E-12 0.000000000E+00         1  
+ epsilonv           1.776356839E-12  1.776356839E-12 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                          8                8               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               2.000000000E+00  2.000000000E+00 0.000000000E+00         1  
+ ymax               2.000000000E+00  2.000000000E+00 0.000000000E+00         1  
+ zmax               2.000000000E+00  2.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ itetclr0                         0                0               0        12  
+ itetclr1                         0                1               1        12  
+ idnode0                          1                8               7         8  
+ idelem0                          0                0               0        12  
+ idelem1                          0                1               1        12  
+ facecol                          0                1               1        12  
+ idface0                          0                0               0        12  
+ idface1                          0                6               6        12  
+ ncon50                           0                0               0         1  
+ nconbnd                          0                0               0         1  
+ 0 length attribute: icontab                                                    
+ iign                             0                0               0         8  
+ darea              2.000000000E+00  2.000000000E+00 0.000000000E+00        12  
+ Vunit_anorm       -1.000000000E+00  1.000000000E+00 2.000000000E+00        12  
+ Vanorm            -2.000000000E+00  2.000000000E+00 4.000000000E+00        12  
+ x_scalar          -2.000000000E+00  2.000000000E+00 4.000000000E+00        12  
+ y_scalar          -2.000000000E+00  2.000000000E+00 4.000000000E+00        12  
+ z_scalar          -2.000000000E+00  2.000000000E+00 4.000000000E+00        12  
+ xsynth            -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ ysynth            -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ zsynth            -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ xsynth_area       -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ ysynth_area       -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ zsynth_area       -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ xsynth_angle      -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ ysynth_angle      -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ zsynth_angle      -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ x_n_norm          -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ y_n_norm          -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ z_n_norm          -5.773502692E-01  5.773502692E-01 1.154700538E+00         8  
+ 
+# report all mesh objects and their attributes                                  
+cmo/status                                                                      
+ 
+The current-mesh-object(CMO) is: mo_tri_off                                     
+ 
+  1 Mesh Object name: mo_quad                                                   
+    number of nodes =             8        number of elements =            6    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  8.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  6.000E+00  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  2.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  8.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66        itetclr0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 67        itetclr1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 68         idnode0 VINT     scalar          nnodes linea tempo agl  0.000E+00  
+ 69         idelem0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 70         idelem1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 71         facecol VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 72         idface0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 73         idface1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 74          ncon50  INT     scalar          scalar const perma   x  0.000E+00  
+ 75         nconbnd  INT     scalar          scalar const perma   x  0.000E+00  
+ 76         icontab VINT     scalar          ncon50 const perma   x  0.000E+00  
+ 
+  2 Mesh Object name: mo_tri                                                    
+    number of nodes =             8        number of elements =           12    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  8.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  1.200E+01  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  2.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  7.692E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  2.665E-12  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.776E-12  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  8.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  2.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  2.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  2.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66        itetclr0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 67        itetclr1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 68         idnode0 VINT     scalar          nnodes linea tempo agl  0.000E+00  
+ 69         idelem0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 70         idelem1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 71         facecol VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 72         idface0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 73         idface1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 74          ncon50  INT     scalar          scalar const perma   x  0.000E+00  
+ 75         nconbnd  INT     scalar          scalar const perma   x  0.000E+00  
+ 76         icontab VINT     scalar          ncon50 const perma   x  0.000E+00  
+ 77            iign VINT     scalar          nnodes linea tempo  gx  0.000E+00  
+ 78           darea VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 79     Vunit_anorm VDOU     vector       nelements linea tempo agl  0.000E+00  
+ 80          Vanorm VDOU     vector       nelements linea tempo agl  0.000E+00  
+ 81        x_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 82        y_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 83        z_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 84          xsynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 85          ysynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 86          zsynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 87     xsynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 88     ysynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 89     zsynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 90    xsynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 91    ysynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 92    zsynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 93        x_n_norm VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+ 94        y_n_norm VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 95        z_n_norm VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 
+  3 Mesh Object name: mo_tri2                                                   
+    number of nodes =             8        number of elements =           12    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  8.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  1.200E+01  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  2.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  7.692E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  2.665E-12  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.776E-12  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  8.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  2.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  2.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  2.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66        itetclr0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 67        itetclr1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 68         idnode0 VINT     scalar          nnodes linea tempo agl  0.000E+00  
+ 69         idelem0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 70         idelem1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 71         facecol VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 72         idface0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 73         idface1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 74          ncon50  INT     scalar          scalar const perma   x  0.000E+00  
+ 75         nconbnd  INT     scalar          scalar const perma   x  0.000E+00  
+ 76         icontab VINT     scalar          ncon50 const perma   x  0.000E+00  
+ 77            iign VINT     scalar          nnodes linea tempo  gx  0.000E+00  
+ 78           darea VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 79     Vunit_anorm VDOU     vector       nelements linea tempo agl  0.000E+00  
+ 80          Vanorm VDOU     vector       nelements linea tempo agl  0.000E+00  
+ 81        x_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 82        y_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 83        z_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 84          xsynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 85          ysynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 86          zsynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 87     xsynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 88     ysynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 89     zsynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 90    xsynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 91    ysynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 92    zsynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 93        x_n_norm VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+ 94        y_n_norm VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 95        z_n_norm VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 
+  4 Mesh Object name: mo_tri_off                                                
+    number of nodes =             8        number of elements =           12    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  8.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  1.200E+01  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  2.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
+ 37         ipointi  INT     scalar          scalar const perma   l  0.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  0.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+# finish                                                                        
+cmo delete mo_tri                                                               
+     Released Mesh Object: mo_tri                                               
+############################################                                    
+## full test includes surface from sphere ###                                   
+#                                                                               
+# Compute normals to exterior surface of a sphere                               
+#                                                                               
+cmo/create/cmo_tet                                                              
+createpts/sphere/1/2/500/0.5,1.0/0.,0.,0./0                                     
+rz/xyz/9/9/1/-6.2500000E-01/-6.2500000E-01/-6.2500000E-01/6.2500000E-01/6.250000
+0E-01/-6.2500000E-01/                                                           
+  RZ GENERATED POINTS                    1 TO                   81              
+finish                                                                          
+rz/xyz/9/9/1/-6.2500000E-01/-6.2500000E-01/6.2500000E-01/6.2500000E-01/6.2500000
+E-01/6.2500000E-01/                                                             
+  RZ GENERATED POINTS                   82 TO                  162              
+finish                                                                          
+rz/xyz/9/1/9/-6.2500000E-01/-6.2500000E-01/-6.2500000E-01/6.2500000E-01/-6.25000
+00E-01/6.2500000E-01/                                                           
+  RZ GENERATED POINTS                  163 TO                  243              
+finish                                                                          
+rz/xyz/9/1/9/-6.2500000E-01/6.2500000E-01/-6.2500000E-01/6.2500000E-01/6.2500000
+E-01/6.2500000E-01/                                                             
+  RZ GENERATED POINTS                  244 TO                  324              
+finish                                                                          
+rz/xyz/1/9/9/-6.2500000E-01/-6.2500000E-01/-6.2500000E-01/-6.2500000E-01/6.25000
+00E-01/6.2500000E-01/                                                           
+  RZ GENERATED POINTS                  325 TO                  405              
+finish                                                                          
+rz/xyz/1/9/9/6.2500000E-01/-6.2500000E-01/-6.2500000E-01/6.2500000E-01/6.2500000
+E-01/6.2500000E-01/                                                             
+  RZ GENERATED POINTS                  406 TO                  486              
+finish                                                                          
+rz/xyz/9/9/1/-8.7500000E-01/-8.7500000E-01/-8.7500000E-01/8.7500000E-01/8.750000
+0E-01/-8.7500000E-01/                                                           
+  RZ GENERATED POINTS                  487 TO                  567              
+finish                                                                          
+rz/xyz/9/9/1/-8.7500000E-01/-8.7500000E-01/8.7500000E-01/8.7500000E-01/8.7500000
+E-01/8.7500000E-01/                                                             
+  RZ GENERATED POINTS                  568 TO                  648              
+finish                                                                          
+rz/xyz/9/1/9/-8.7500000E-01/-8.7500000E-01/-8.7500000E-01/8.7500000E-01/-8.75000
+00E-01/8.7500000E-01/                                                           
+  RZ GENERATED POINTS                  649 TO                  729              
+finish                                                                          
+rz/xyz/9/1/9/-8.7500000E-01/8.7500000E-01/-8.7500000E-01/8.7500000E-01/8.7500000
+E-01/8.7500000E-01/                                                             
+  RZ GENERATED POINTS                  730 TO                  810              
+finish                                                                          
+rz/xyz/1/9/9/-8.7500000E-01/-8.7500000E-01/-8.7500000E-01/-8.7500000E-01/8.75000
+00E-01/8.7500000E-01/                                                           
+  RZ GENERATED POINTS                  811 TO                  891              
+finish                                                                          
+rz/xyz/1/9/9/8.7500000E-01/-8.7500000E-01/-8.7500000E-01/8.7500000E-01/8.7500000
+E-01/8.7500000E-01/                                                             
+  RZ GENERATED POINTS                  892 TO                  972              
+finish                                                                          
+  RZS GENERATED POINTS      1 TO    972                                         
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.673036940234E-12                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+rmpoint/compress                                                                
+         0 points removed and          0 elements removed.                      
+   The new point count is       972.                                            
+   The new element count is         0.                                          
+cmo/setatt/cmo_tet/imt/1 0 0/1                                                  
+Warning: nelements = 0                                                          
+       972 values reset for attribute imt1                                      
+ 
+cmo/setatt/cmo_tet/itp/1 0 0/0                                                  
+Warning: nelements = 0                                                          
+       972 values reset for attribute itp1                                      
+ 
+connect                                                                         
+ Coordinates of enclosing tetrahedron are:                                      
+          -0.43750D+01   -0.21875D+01   -0.21875D+01                            
+           0.00000D+00   -0.21875D+01    0.65625D+01                            
+           0.43750D+01   -0.21875D+01   -0.21875D+01                            
+           0.00000D+00    0.65625D+01    0.00000D+00                            
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+cmo/setatt/cmo_tet/itetclr/1 0 0/1                                              
+      4757 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+extract/surfmesh/1,0,0/mo_tri/cmo_tet                                           
+cmo/addatt/mo_tri/itetclr0/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_tri/itetclr1/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_tri/idnode0/vint/scalar/nnodes////0                               
+finish                                                                          
+cmo/addatt/mo_tri/idelem0/vint/scalar/nelements////0                            
+finish                                                                          
+cmo/addatt/mo_tri/idelem1/vint/scalar/nelements////0                            
+finish                                                                          
+cmo/addatt/mo_tri/facecol/vint/scalar/nelements////0                            
+finish                                                                          
+cmo/addatt/mo_tri/idface0/vint/scalar/nelements////0                            
+finish                                                                          
+cmo/addatt/mo_tri/idface1/vint/scalar/nelements////0                            
+finish                                                                          
+cmo/addatt/mo_tri/ncon50/int/scalar/scalar/constant/permanent/x/0               
+finish                                                                          
+cmo/addatt/mo_tri/nconbnd/int/scalar/scalar/constant/permanent/x/0              
+finish                                                                          
+cmo/addatt/mo_tri/icontab/vint/scalar/ncon50/constant/permanent/x/0             
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+finish                                                                          
+cmo select mo_tri                                                               
+resetpts itp                                                                    
+geniee                                                                          
+finish                                                                          
+# create vector attributes Vunit_anorm and Vanorm                               
+# create three scalar attributes from Vanorm                                    
+# Vector of form      A[i1 j1 k1 i2 j2 k2 ... in jn kn]                         
+# Scalar from Vector  Ai[1-n] Aj[1-n] Ak[1-n]                                   
+cmo addatt mo_tri/area/darea                                                    
+ADDATT/area: creating new attribute: darea                                      
+cmo addatt mo_tri/unit_area_normal/Vunit_anorm                                  
+ADDATT/unit_area_normal: creating new attribute: Vunit_anorm                    
+cmo addatt mo_tri/area_normal/Vanorm                                            
+ADDATT/area_normal: creating new attribute: Vanorm                              
+cmo addatt mo_tri/scalar/x_scalar y_scalar z_scalar/Vanorm                      
+ADDATT/scalar: creating 3 new attributes: x_scalar  y_scalar  z_scalar          
+# create synthetic normals on vertices (nodes)                                  
+# copy attributes and save so not overwritten each call                         
+cmo/addatt/mo_tri/xsynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/ysynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/zsynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/xsynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/ysynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/zsynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/xsynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+cmo/addatt/mo_tri/ysynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+cmo/addatt/mo_tri/zsynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+cmo/addatt/mo_tri/synth_normal                                                  
+ADDATT/synth_normal: creating 3 new attributes: x_n_norm  y_n_norm  z_n_norm    
+offsetsurf filling synth normal attributes for                                  
+  mo_tri: x_n_norm, y_n_norm, z_n_norm                                          
+offsetsurf/-tmp_wrk_mo-/mo_tri/0.0/keepatt                                      
+cmo/addatt/mo_tri/x_n_norm/vdouble/scalar/nnodes/-def-/permanent                
+CMO_ADDATT warning: attribute already exist: mo_tri  x_n_norm                   
+finish                                                                          
+cmo/addatt/mo_tri/y_n_norm/vdouble/scalar/nnodes/-def-/permanent                
+finish                                                                          
+cmo/addatt/mo_tri/z_n_norm/vdouble/scalar/nnodes/-def-/permanent                
+finish                                                                          
+finish                                                                          
+cmo/delete/-tmp_wrk_mo-                                                         
+     Released Mesh Object: -tmp_wrk_mo-                                         
+finish                                                                          
+cmo/select/mo_tri                                                               
+finish                                                                          
+cmo/copyatt/mo_tri mo_tri/xsynth x_n_norm                                       
+       486 copied from mo_tri x_n_norm to -> mo_tri xsynth                      
+ 
+cmo/copyatt/mo_tri mo_tri/ysynth y_n_norm                                       
+       486 copied from mo_tri y_n_norm to -> mo_tri ysynth                      
+ 
+cmo/copyatt/mo_tri mo_tri/zsynth z_n_norm                                       
+       486 copied from mo_tri z_n_norm to -> mo_tri zsynth                      
+ 
+cmo/addatt/mo_tri/synth_normal_area                                             
+CMO_ADDATT warning: attribute already exist: mo_tri  x_n_norm                   
+ADDATT/synth_normal_area: writing to existing attributes: x_n_norm  y_n_norm  z_
+                                                                          n_norm
+cmo/copyatt/mo_tri mo_tri/xsynth_area x_n_norm                                  
+       486 copied from mo_tri x_n_norm to -> mo_tri xsynth_area                 
+ 
+cmo/copyatt/mo_tri mo_tri/ysynth_area y_n_norm                                  
+       486 copied from mo_tri y_n_norm to -> mo_tri ysynth_area                 
+ 
+cmo/copyatt/mo_tri mo_tri/zsynth_area z_n_norm                                  
+       486 copied from mo_tri z_n_norm to -> mo_tri zsynth_area                 
+ 
+cmo/addatt/mo_tri/synth_normal_angle                                            
+CMO_ADDATT warning: attribute already exist: mo_tri  x_n_norm                   
+ADDATT/synth_normal_angle: writing to existing attributes: x_n_norm  y_n_norm  z
+                                                                         _n_norm
+cmo/copyatt/mo_tri mo_tri/xsynth_angle x_n_norm                                 
+       486 copied from mo_tri x_n_norm to -> mo_tri xsynth_angle                
+ 
+cmo/copyatt/mo_tri mo_tri/ysynth_angle y_n_norm                                 
+       486 copied from mo_tri y_n_norm to -> mo_tri ysynth_angle                
+ 
+cmo/copyatt/mo_tri mo_tri/zsynth_angle z_n_norm                                 
+       486 copied from mo_tri z_n_norm to -> mo_tri zsynth_angle                
+ 
+dump/gmv/output_sphere_normals.gmv/mo_tri/ascii                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+#### write cmo information for all the mesh objects ####                        
+cmo status                                                                      
+ 
+The current-mesh-object(CMO) is: mo_tri                                         
+ 
+  1 Mesh Object name: mo_quad                                                   
+    number of nodes =             8        number of elements =            6    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  8.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  6.000E+00  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  2.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  8.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66        itetclr0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 67        itetclr1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 68         idnode0 VINT     scalar          nnodes linea tempo agl  0.000E+00  
+ 69         idelem0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 70         idelem1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 71         facecol VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 72         idface0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 73         idface1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 74          ncon50  INT     scalar          scalar const perma   x  0.000E+00  
+ 75         nconbnd  INT     scalar          scalar const perma   x  0.000E+00  
+ 76         icontab VINT     scalar          ncon50 const perma   x  0.000E+00  
+ 
+  2 Mesh Object name: mo_tri2                                                   
+    number of nodes =             8        number of elements =           12    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  8.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  1.200E+01  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  2.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  7.692E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  2.665E-12  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.776E-12  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  8.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  2.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  2.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  2.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66        itetclr0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 67        itetclr1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 68         idnode0 VINT     scalar          nnodes linea tempo agl  0.000E+00  
+ 69         idelem0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 70         idelem1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 71         facecol VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 72         idface0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 73         idface1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 74          ncon50  INT     scalar          scalar const perma   x  0.000E+00  
+ 75         nconbnd  INT     scalar          scalar const perma   x  0.000E+00  
+ 76         icontab VINT     scalar          ncon50 const perma   x  0.000E+00  
+ 77            iign VINT     scalar          nnodes linea tempo  gx  0.000E+00  
+ 78           darea VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 79     Vunit_anorm VDOU     vector       nelements linea tempo agl  0.000E+00  
+ 80          Vanorm VDOU     vector       nelements linea tempo agl  0.000E+00  
+ 81        x_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 82        y_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 83        z_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 84          xsynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 85          ysynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 86          zsynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 87     xsynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 88     ysynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 89     zsynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 90    xsynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 91    ysynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 92    zsynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 93        x_n_norm VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+ 94        y_n_norm VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 95        z_n_norm VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 
+  3 Mesh Object name: mo_tri_off                                                
+    number of nodes =             8        number of elements =           12    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  8.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  1.200E+01  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  2.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
+ 37         ipointi  INT     scalar          scalar const perma   l  0.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  0.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 
+  4 Mesh Object name: cmo_tet                                                   
+    number of nodes =           972        number of elements =         4757    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  9.720E+02  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  4.757E+03  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  6.730E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  2.040E-12  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.190E-12  
+ 37         ipointi  INT     scalar          scalar const perma   l  9.720E+02  
+ 38         ipointj  INT     scalar          scalar const perma   l  9.720E+02  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -8.750E-01  
+ 52            ymin REAL     scalar          scalar const perma   l -8.750E-01  
+ 53            zmin REAL     scalar          scalar const perma   l -8.750E-01  
+ 54            xmax REAL     scalar          scalar const perma   l  8.750E-01  
+ 55            ymax REAL     scalar          scalar const perma   l  8.750E-01  
+ 56            zmax REAL     scalar          scalar const perma   l  8.750E-01  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 
+  5 Mesh Object name: mo_tri                                                    
+    number of nodes =           486        number of elements =          968    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  4.860E+02  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  9.680E+02  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  2.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  3.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  6.730E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  2.040E-12  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.190E-12  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  4.860E+02  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -8.750E-01  
+ 52            ymin REAL     scalar          scalar const perma   l -8.750E-01  
+ 53            zmin REAL     scalar          scalar const perma   l -8.750E-01  
+ 54            xmax REAL     scalar          scalar const perma   l  8.750E-01  
+ 55            ymax REAL     scalar          scalar const perma   l  8.750E-01  
+ 56            zmax REAL     scalar          scalar const perma   l  8.750E-01  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66        itetclr0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 67        itetclr1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 68         idnode0 VINT     scalar          nnodes linea tempo agl  0.000E+00  
+ 69         idelem0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 70         idelem1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 71         facecol VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 72         idface0 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 73         idface1 VINT     scalar       nelements linea tempo agl  0.000E+00  
+ 74          ncon50  INT     scalar          scalar const perma   x  0.000E+00  
+ 75         nconbnd  INT     scalar          scalar const perma   x  0.000E+00  
+ 76         icontab VINT     scalar          ncon50 const perma   x  0.000E+00  
+ 77           darea VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 78     Vunit_anorm VDOU     vector       nelements linea tempo agl  0.000E+00  
+ 79          Vanorm VDOU     vector       nelements linea tempo agl  0.000E+00  
+ 80        x_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 81        y_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 82        z_scalar VDOU     scalar       nelements linea tempo agl  0.000E+00  
+ 83          xsynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 84          ysynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 85          zsynth VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 86     xsynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 87     ysynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 88     zsynth_area VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 89    xsynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 90    ysynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 91    zsynth_angle VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 92        x_n_norm VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+ 93        y_n_norm VDOU     scalar          nnodes linea perma agl  0.000E+00  
+ 94        z_n_norm VDOU     scalar          nnodes linea perma agl  0.000E+00  
+cmo printatt mo_tri -all- minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00       486  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                         486              486               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                      968              968               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 2                2               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                3                3               0         1  
+ edges_per_element                3                3               0         1  
+ faces_per_element                3                3               0         1  
+ isetwd                           0                0               0       486  
+ ialias                           0                0               0       486  
+ imt1                             1                1               0       486  
+ itp1                             0                0               0       486  
+ icr1                             0                0               0       486  
+ isn1                             0                0               0       486  
+ xic               -8.750000000E-01  8.750000000E-01 1.750000000E+00       486  
+ yic               -8.750000000E-01  8.750000000E-01 1.750000000E+00       486  
+ zic               -8.750000000E-01  8.750000000E-01 1.750000000E+00       486  
+ xtetwd                           0                0               0       968  
+ itetclr                          1                1               0       968  
+ itettyp                          3                3               0       968  
+ itetoff                          0             2901            2901       968  
+ jtetoff                          0             2901            2901       968  
+ itet                             1              486             485       968x3
+ jtet                             1             2904            2903       968x3
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           6.730369402E-13  6.730369402E-13 0.000000000E+00         1  
+ epsilona           2.040034808E-12  2.040034808E-12 0.000000000E+00         1  
+ epsilonv           1.190020305E-12  1.190020305E-12 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                        486              486               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin              -8.750000000E-01 -8.750000000E-01 0.000000000E+00         1  
+ ymin              -8.750000000E-01 -8.750000000E-01 0.000000000E+00         1  
+ zmin              -8.750000000E-01 -8.750000000E-01 0.000000000E+00         1  
+ xmax               8.750000000E-01  8.750000000E-01 0.000000000E+00         1  
+ ymax               8.750000000E-01  8.750000000E-01 0.000000000E+00         1  
+ zmax               8.750000000E-01  8.750000000E-01 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ itetclr0                         0                0               0       968  
+ itetclr1                         1                1               0       968  
+ idnode0                        487              972             485       486  
+ idelem0                          0                0               0       968  
+ idelem1                          5             4602            4597       968  
+ facecol                          1                1               0       968  
+ idface0                          0                0               0       968  
+ idface1                          1                4               3       968  
+ ncon50                           0                0               0         1  
+ nconbnd                          0                0               0         1  
+ 0 length attribute: icontab                                                    
+ darea              3.172491386E-03  1.781128519E-02 1.463879381E-02       968  
+ Vunit_anorm       -9.884310462E-01  9.884310462E-01 1.976862092E+00       968  
+ Vanorm            -1.760522726E-02  1.760522726E-02 3.521045451E-02       968  
+ x_scalar          -1.760522726E-02  1.760522726E-02 3.521045451E-02       968  
+ y_scalar          -1.760522726E-02  1.760522726E-02 3.521045451E-02       968  
+ z_scalar          -1.760522726E-02  1.760522726E-02 3.521045451E-02       968  
+ xsynth            -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ ysynth            -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ zsynth            -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ xsynth_area       -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ ysynth_area       -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ zsynth_area       -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ xsynth_angle      -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ ysynth_angle      -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ zsynth_angle      -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ x_n_norm          -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ y_n_norm          -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ z_n_norm          -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
+ 
+## Done.                                                                        
+finish                                                                          
+LaGriT successfully completed                                                   

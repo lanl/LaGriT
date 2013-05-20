@@ -1,0 +1,249 @@
+# test cmo/addatt compute normals options
+# test cmo/addatt/  area_normal and unit_area_normal
+*     implemented only for xyz, not rtp and rtz
+
+# create the triangles to use for test
+# use surface from brick so triangles point in each of 6 directions
+cmo / create / mo_hex / / / hex
+createpts / brick / xyz / 2 2 2 / 0. 0. 0. / 2. 2. 2. / 1 1 1
+  extract surfmesh / 1 0 0 / mo_quad / mo_hex / external
+  resetpts / itp
+  hextotet / 2 / mo_tri / mo_quad
+  resetpts / itp
+  cmo / delete / mo_hex
+
+*********************************************************
+
+# create vector attributes unit_anorm and anorm
+# create three scalar attributes from anorm
+cmo addatt mo_tri / unit_area_normal / unit_anorm
+cmo addatt mo_tri / area_normal / anorm
+cmo addatt mo_tri / scalar / x_scalar y_scalar z_scalar / anorm
+
+#---------------------------------------------------
+# box -z bottom = tri 1,2 v(x,y,z)
+cmo printatt mo_tri unit_anorm 1,2,1
+cmo printatt mo_tri anorm 1,2,1
+cmo printatt mo_tri x_scalar 1,2,1
+cmo printatt mo_tri y_scalar 1,2,1
+cmo printatt mo_tri z_scalar 1,2,1
+
+#---------------------------------------------------
+# box +z top = tri 3,4 v(x,y,z)
+cmo printatt mo_tri unit_anorm 3,4,1
+cmo printatt mo_tri anorm 3,4,1
+cmo printatt mo_tri x_scalar 3,4,1
+cmo printatt mo_tri y_scalar 3,4,1
+cmo printatt mo_tri z_scalar 3,4,1
+
+#---------------------------------------------------
+# box -x front = tri 5,6 v(x,y,z)
+cmo printatt mo_tri unit_anorm 5,6,1
+cmo printatt mo_tri anorm 5,6,1
+cmo printatt mo_tri x_scalar 5,6,1
+cmo printatt mo_tri y_scalar 5,6,1
+cmo printatt mo_tri z_scalar 5,6,1
+
+#---------------------------------------------------
+# box +x back = tri 9,10 v(x,y,z)
+cmo printatt mo_tri unit_anorm 9,10,1
+cmo printatt mo_tri anorm 9,10,1
+cmo printatt mo_tri x_scalar 9,10,1
+cmo printatt mo_tri y_scalar 9,10,1
+cmo printatt mo_tri z_scalar 9,10,1
+
+#---------------------------------------------------
+# box +y right = tri 7,8 v(x,y,z)
+cmo printatt mo_tri unit_anorm 7,8,1
+cmo printatt mo_tri anorm 7,8,1
+cmo printatt mo_tri x_scalar 7,8,1
+cmo printatt mo_tri y_scalar 7,8,1
+cmo printatt mo_tri z_scalar 7,8,1
+
+#---------------------------------------------------
+# box -y left = tri 11,12 v(x,y,z)
+cmo printatt mo_tri unit_anorm 11,12,1
+cmo printatt mo_tri anorm 11,12,1
+cmo printatt mo_tri x_scalar 11,12,1
+cmo printatt mo_tri y_scalar 11,12,1
+cmo printatt mo_tri z_scalar 11,12,1
+
+#---------------------------------------------------
+
+dump gmv output_box_tri_norms.gmv mo_tri
+dump avs2 output_box_tri_norms.inp mo_tri 
+
+finish
+
+#
+# These do not work since quads are not supported
+# Should return with ADDATT error
+#
+cmo / addatt / mo_quad / synth_normal
+cmo / addatt / mo_quad / synth_normal_area
+cmo / addatt / mo_quad / synth_normal_angle
+#
+# The commands below should work for triangles
+# copy attributes and save so not overwritten each call
+cmo/addatt/mo_tri/xsn/vdouble/scalar/nnodes/-def-/permanent                
+cmo/addatt/mo_tri/ysn/vdouble/scalar/nnodes/-def-/permanent                
+cmo/addatt/mo_tri/zsn/vdouble/scalar/nnodes/-def-/permanent           
+cmo/addatt/mo_tri/xsn_area/vdouble/scalar/nnodes/-def-/permanent                
+cmo/addatt/mo_tri/ysn_area/vdouble/scalar/nnodes/-def-/permanent                
+cmo/addatt/mo_tri/zsn_area/vdouble/scalar/nnodes/-def-/permanent           
+cmo/addatt/mo_tri/xsn_angle/vdouble/scalar/nnodes/-def-/permanent                
+cmo/addatt/mo_tri/ysn_angle/vdouble/scalar/nnodes/-def-/permanent                
+cmo/addatt/mo_tri/zsn_angle/vdouble/scalar/nnodes/-def-/permanent           
+#
+cmo / addatt / mo_tri / synth_normal
+  cmo/copyatt/mo_tri mo_tri/ xsn x_n_norm
+  cmo/copyatt/mo_tri mo_tri/ ysn y_n_norm
+  cmo/copyatt/mo_tri mo_tri/ zsn z_n_norm
+cmo / addatt / mo_tri / synth_normal_area
+  cmo/copyatt/mo_tri mo_tri/ xsn_area x_n_norm
+  cmo/copyatt/mo_tri mo_tri/ ysn_area y_n_norm
+  cmo/copyatt/mo_tri mo_tri/ zsn_area z_n_norm
+cmo / addatt / mo_tri / synth_normal_angle
+  cmo/copyatt/mo_tri mo_tri/ xsn_angle x_n_norm
+  cmo/copyatt/mo_tri mo_tri/ ysn_angle y_n_norm
+  cmo/copyatt/mo_tri mo_tri/ zsn_angle z_n_norm
+#
+# Try something that uses synthetic normal
+#
+cmo copy mo_tri2 mo_tri
+offsetsurf / mo_tri_off  / mo_tri2  / 0.1
+
+# report attributes from cmo/addatt and from offset
+cmo / printatt / mo_tri / -all- minmax
+cmo / printatt / mo_tri2 / -all- minmax
+
+# report all mesh objects and their attributes
+cmo / status 
+
+
+finish
+############################################
+
+## full test on sphere ###
+
+* Define parameter to be used later.
+*
+define/NX/5
+define/NY/5
+define/NX/100
+define/NY/100
+define/NX/50
+define/NY/50
+define/MIN/0.0                                                                  
+define/MAX/10.0
+*
+* Create the quad surfaces
+*
+cmo/create/cmo_quad///quad                                                         
+quadxy NX NY/MIN MIN 0./MAX MIN 0./MAX MAX 0./MIN MAX 0.
+rzbrick/xyz/NX,NY,1/1,0,0/connect
+*
+cmo / setatt / cmo_quad / itetclr / 1 0 0 / 1
+*
+* Use the math command to set the z coordinates to:
+* cmo_quad   z(i)=sin(y(i))
+math/sin/cmo_quad/zic/1,0,0/cmo_quad/yic
+cmo/addatt/cmo_quad/ztmp/vdouble/scalar/nnodes
+math/sin/cmo_quad/ztmp/1,0,0/cmo_quad/xic
+math/add/cmo_quad/zic/1,0,0/cmo_quad/zic/cmo_quad/ztmp
+*
+* Create triangles
+*
+hextotet / 4 / cmo_1 / cmo_quad
+cmo / select / cmo_1
+*
+cmo/setatt/cmo_1/ipolydat/no
+*
+* offset the surface and keep the pseudonormals as attributes in cmo_1
+*
+offsetsurf / cmo_2 / cmo_1 / 1.0 / keepatt
+cmo/setatt/cmo_2/ipolydat/no
+
+cmo / status / brief
+
+dump / gmv / surface_original.gmv / cmo_1 / ascii
+dump / gmv / surface_offset.gmv / cmo_2 / ascii
+*
+*  Add the attributes x_n_norm, y_n_norm, z_n_norm using the
+*  cmo / addatt / cmo_3 / node_normal
+*  cmo / addatt / cmo_3 / synth_normal
+*
+hextotet / 4 / cmo_3 / cmo_quad
+cmo / addatt / cmo_3 / node_normal
+*
+cmo / addatt / cmo_3 / synth_normal
+*
+* As an error check try addatt on an invalid mesh type (quad)
+*
+cmo / addatt / cmo_quad / synth_normal
+offsetsurf / cmo_4 / cmo_quad / 1.0 / keepatt
+*
+* Compute normals to exterior surface of a sphere
+*
+cmo/create/cmo_tet
+mmprint
+createpts/sphere/1/2/500/0.5,1.0/0.,0.,0./0
+filter/1,0,0
+rmpoint / compress
+cmo / setatt / cmo_tet / imt / 1 0 0 / 1
+cmo / setatt / cmo_tet / itp / 1 0 0 / 0
+connect
+cmo / setatt / cmo_tet / itetclr / 1 0 0 / 1
+resetpts / itp
+extract/surfmesh/1,0,0/cmo_tri_sphere1/cmo_tet
+extract/surfmesh/1,0,0/cmo_tri_sphere2/cmo_tet
+extract/surfmesh/1,0,0/cmo_tri_sphere3/cmo_tet
+
+
+cmo / addatt / cmo_tri_sphere1 / synth_normal
+dump/gmv/output_sphere_normals.gmv / cmo_tri_sphere1 / ascii
+
+cmo / addatt / cmo_tri_sphere2 / synth_normal_area
+dump/gmv/output_sphere_normals_area.gmv / cmo_tri_sphere2 / ascii
+
+cmo / addatt / cmo_tri_sphere3 / synth_normal_angle
+dump/gmv/output_sphere_normals_angle.gmv / cmo_tri_sphere3 / ascii
+*
+cmo / delete / cmo_tet
+cmo / delete / cmo_tri_sphere1
+cmo / delete / cmo_tri_sphere2
+cmo / delete / cmo_tri_sphere3
+*
+* Compute normals to exterior surface of a cube
+*
+cmo/create/cmo_tet
+createpts/xyz/5 11 21/0. 0. 0. / 1. 1. 1. / 1 1 1
+cmo / setatt / cmo_tet / imt / 1 0 0 / 1
+cmo / setatt / cmo_tet / itp / 1 0 0 / 0
+connect
+cmo / setatt / cmo_tet / itetclr / 1 0 0 / 1
+resetpts / itp
+extract/surfmesh/1,0,0/cmo_tri_cube1/cmo_tet
+extract/surfmesh/1,0,0/cmo_tri_cube2/cmo_tet
+extract/surfmesh/1,0,0/cmo_tri_cube3/cmo_tet
+
+
+cmo / addatt / cmo_tri_cube1 / synth_normal
+dump/gmv/output_cube_normals.gmv / cmo_tri_cube1 / ascii
+
+cmo / addatt / cmo_tri_cube2 / synth_normal_area
+dump/gmv/output_cube_normals_area.gmv / cmo_tri_cube2 / ascii
+
+cmo / addatt / cmo_tri_cube3 / synth_normal_angle
+dump/gmv/output_cube_normals_angle.gmv / cmo_tri_cube3 / ascii
+*
+cmo / printatt / cmo_tri_sphere1 / -all- / minmax
+cmo / printatt / cmo_tri_sphere2 / -all- / minmax
+cmo / printatt / cmo_tri_sphere3 / -all- / minmax
+cmo / printatt / cmo_tri_cube1 / -all- / minmax
+cmo / printatt / cmo_tri_cube2 / -all- / minmax
+cmo / printatt / cmo_tri_cube3 / -all- / minmax
+*
+finish
+
+

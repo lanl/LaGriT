@@ -1,0 +1,134 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.101   Linux m64      *                 
+*               *    date_compile: 2013/04/16  RH gf4.5       *                 
+*               *    Run Time: 2013/Apr 18  08:02:57          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# Ticket 105                                                                    
+# addatt/ mo_tri / unit_area_normal returns incorrect (zero) result             
+# The following example illustrates the problem.                                
+# I believe the problem is not in the conversion to scalar.                     
+# It is in the creation and filling of the normalized vector.                   
+# - gable                                                                       
+cmo/create/mo_tri///triplane                                                    
+createpts/xyz/2 2 1/0. 0. 0./1. 1. 0./1 1 1                                     
+  RZ GENERATED POINTS                    1 TO                    4              
+connect/noadd                                                                   
+ No materials associated with         4 noninterface points.                    
+ Coordinates of enclosing triangle are:                                         
+          -0.17500D+01-0.16000D+01-0.00000D+00                                  
+           0.27500D+01-0.17500D+01-0.00000D+00                                  
+           0.50500D+00 0.50000D+01-0.00000D+00                                  
+ Cannot locate interface between points         1 and         5.                
+ Cannot locate interface between points         1 and         6.                
+ Cannot locate interface between points         1 and         2.                
+ Cannot locate interface between points         2 and         6.                
+ Cannot locate interface between points         3 and         4.                
+ Cannot locate interface between points         3 and         7.                
+ Cannot locate interface between points         4 and         7.                
+ Cannot locate interface between points         3 and         5.                
+ Cannot locate interface between points         1 and         3.                
+ Cannot locate interface between points         4 and         6.                
+ Cannot locate interface between points         2 and         4.                
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+cmo/addatt/mo_tri/area_normal/xyz/va_1                                          
+ADDATT/area_normal: creating new attribute: va_1                                
+cmo/addatt/mo_tri/scalar/xva_1 yva_1 zva_1/va_1                                 
+ADDATT/scalar: creating 3 new attributes: xva_1  yva_1  zva_1                   
+cmo/addatt/mo_tri/unit_area_normal/xyz/va_2                                     
+ADDATT/unit_area_normal: creating new attribute: va_2                           
+cmo/addatt/mo_tri/scalar/xva_2 yva_2 zva_2/va_2                                 
+ADDATT/scalar: creating 3 new attributes: xva_2  yva_2  zva_2                   
+cmo/printatt/mo_tri/-all-/minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00         4  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                           4                4               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                        2                2               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 2                2               0         1  
+ ndimensions_geom                 2                2               0         1  
+ nodes_per_element                3                3               0         1  
+ edges_per_element                3                3               0         1  
+ faces_per_element                3                3               0         1  
+ isetwd                           0                0               0         4  
+ ialias                           0                0               0         4  
+ imt1                             0                0               0         4  
+ itp1                             0                0               0         4  
+ icr1                             0                0               0         4  
+ isn1                             0                0               0         4  
+ xic                0.000000000E+00  1.000000000E+00 1.000000000E+00         4  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00         4  
+ zic                0.000000000E+00  0.000000000E+00 0.000000000E+00         4  
+ xtetwd                           0                0               0         2  
+ itetclr                          0                0               0         2  
+ itettyp                          3                3               0         2  
+ itetoff                          0                3               3         2  
+ jtetoff                          0                3               3         2  
+ itet                             1                4               3         2x3
+ jtet                             3         16000000        15999997         2x3
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           3.140184917E-13  3.140184917E-13 0.000000000E+00         1  
+ epsilona           4.440892099E-13  4.440892099E-13 0.000000000E+00         1  
+ epsilonv           4.440892099E-13  4.440892099E-13 0.000000000E+00         1  
+ ipointi                          4                4               0         1  
+ ipointj                          4                4               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ zmax               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ va_1               0.000000000E+00  5.000000000E-01 5.000000000E-01         2  
+ xva_1              0.000000000E+00  0.000000000E+00 0.000000000E+00         2  
+ yva_1              0.000000000E+00  0.000000000E+00 0.000000000E+00         2  
+ zva_1              5.000000000E-01  5.000000000E-01 0.000000000E+00         2  
+ va_2               0.000000000E+00  1.000000000E+00 1.000000000E+00         2  
+ xva_2              0.000000000E+00  0.000000000E+00 0.000000000E+00         2  
+ yva_2              0.000000000E+00  0.000000000E+00 0.000000000E+00         2  
+ zva_2              1.000000000E+00  1.000000000E+00 0.000000000E+00         2  
+ 
+finish                                                                          
+LaGriT successfully completed                                                   

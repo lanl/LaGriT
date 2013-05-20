@@ -1,0 +1,19 @@
+cmo create mopts
+cmo readatt mopts/xic,yic,zic/1,0,0/sample_pts.dat
+dump gmv sample_pts.gmv mopts
+cmo printatt mopts -xyz- minmax
+
+cmo create mopts
+cmo readatt mopts/xic,yic,zic/1,0,0/sample_pts.dat
+dump gmv sample_pts.gmv mopts
+cmo printatt mopts -xyz- minmax
+cmo setatt mopts imt 1
+cmo set_id mopts node id_in
+
+connect
+resetpts itp
+dump avs sample_tet.inp mopts
+dump gmv sample_tet.gmv mopts
+cmo printatt mopts id_in
+
+finish

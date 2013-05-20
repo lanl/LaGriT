@@ -1,0 +1,122 @@
+cmo/create/mo_hex///hex                                                         
+createpts/brick/xyz/2 2 2/0. 0. 0./2. 2. 2./1 1 1                               
+extract surfmesh/1 0 0/mo_quad/mo_hex/external                                  
+resetpts/itp                                                                    
+hextotet/2/mo_tri/mo_quad                                                       
+resetpts/itp                                                                    
+cmo/delete/mo_hex                                                               
+cmo addatt mo_tri/area/darea                                                    
+cmo addatt mo_tri/unit_area_normal/Vunit_anorm                                  
+cmo addatt mo_tri/area_normal/Vanorm                                            
+cmo addatt mo_tri/scalar/x_scalar y_scalar z_scalar/Vanorm                      
+cmo printatt mo_tri darea 1,2,1                                                 
+cmo printatt mo_tri Vunit_anorm 1,2,1                                           
+cmo printatt mo_tri Vanorm 1,2,1                                                
+cmo printatt mo_tri x_scalar 1,2,1                                              
+cmo printatt mo_tri y_scalar 1,2,1                                              
+cmo printatt mo_tri z_scalar 1,2,1                                              
+cmo printatt mo_tri darea 3,4,1                                                 
+cmo printatt mo_tri Vunit_anorm 3,4,1                                           
+cmo printatt mo_tri Vanorm 3,4,1                                                
+cmo printatt mo_tri x_scalar 3,4,1                                              
+cmo printatt mo_tri y_scalar 3,4,1                                              
+cmo printatt mo_tri z_scalar 3,4,1                                              
+cmo printatt mo_tri darea 5,6,1                                                 
+cmo printatt mo_tri Vunit_anorm 5,6,1                                           
+cmo printatt mo_tri Vanorm 5,6,1                                                
+cmo printatt mo_tri x_scalar 5,6,1                                              
+cmo printatt mo_tri y_scalar 5,6,1                                              
+cmo printatt mo_tri z_scalar 5,6,1                                              
+cmo printatt mo_tri darea 9,10,1                                                
+cmo printatt mo_tri Vunit_anorm 9,10,1                                          
+cmo printatt mo_tri Vanorm 9,10,1                                               
+cmo printatt mo_tri x_scalar 9,10,1                                             
+cmo printatt mo_tri y_scalar 9,10,1                                             
+cmo printatt mo_tri z_scalar 9,10,1                                             
+cmo printatt mo_tri darea 7,8,1                                                 
+cmo printatt mo_tri Vunit_anorm 7,8,1                                           
+cmo printatt mo_tri Vanorm 7,8,1                                                
+cmo printatt mo_tri x_scalar 7,8,1                                              
+cmo printatt mo_tri y_scalar 7,8,1                                              
+cmo printatt mo_tri z_scalar 7,8,1                                              
+cmo printatt mo_tri darea 11,12,1                                               
+cmo printatt mo_tri Vunit_anorm 11,12,1                                         
+cmo printatt mo_tri Vanorm 11,12,1                                              
+cmo printatt mo_tri x_scalar 11,12,1                                            
+cmo printatt mo_tri y_scalar 11,12,1                                            
+cmo printatt mo_tri z_scalar 11,12,1                                            
+dump gmv output_box_normals.gmv mo_tri                                          
+dump avs2 output_box_normals.inp mo_tri ascii                                   
+cmo/addatt/mo_quad/synth_normal                                                 
+cmo/addatt/mo_quad/synth_normal_area                                            
+cmo/addatt/mo_quad/synth_normal_angle                                           
+cmo/addatt/mo_tri/xsynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/ysynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/zsynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/xsynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/ysynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/zsynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/xsynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+cmo/addatt/mo_tri/ysynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+cmo/addatt/mo_tri/zsynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+cmo/addatt/mo_tri/synth_normal                                                  
+cmo/copyatt/mo_tri mo_tri/xsynth x_n_norm                                       
+cmo/copyatt/mo_tri mo_tri/ysynth y_n_norm                                       
+cmo/copyatt/mo_tri mo_tri/zsynth z_n_norm                                       
+cmo/addatt/mo_tri/synth_normal_area                                             
+cmo/copyatt/mo_tri mo_tri/xsynth_area x_n_norm                                  
+cmo/copyatt/mo_tri mo_tri/ysynth_area y_n_norm                                  
+cmo/copyatt/mo_tri mo_tri/zsynth_area z_n_norm                                  
+cmo/addatt/mo_tri/synth_normal_angle                                            
+cmo/copyatt/mo_tri mo_tri/xsynth_angle x_n_norm                                 
+cmo/copyatt/mo_tri mo_tri/ysynth_angle y_n_norm                                 
+cmo/copyatt/mo_tri mo_tri/zsynth_angle z_n_norm                                 
+dump gmv output_box_normals.gmv mo_tri                                          
+dump avs2 output_box_normals.inp mo_tri ascii                                   
+cmo copy mo_tri2 mo_tri                                                         
+offsetsurf/mo_tri_off/mo_tri2/0.1                                               
+cmo/printatt/mo_tri/-all- minmax                                                
+cmo/printatt/mo_tri2/-all- minmax                                               
+cmo/status                                                                      
+cmo delete mo_tri                                                               
+cmo/create/cmo_tet                                                              
+createpts/sphere/1/2/500/0.5,1.0/0.,0.,0./0                                     
+filter/1,0,0                                                                    
+rmpoint/compress                                                                
+cmo/setatt/cmo_tet/imt/1 0 0/1                                                  
+cmo/setatt/cmo_tet/itp/1 0 0/0                                                  
+connect                                                                         
+cmo/setatt/cmo_tet/itetclr/1 0 0/1                                              
+resetpts/itp                                                                    
+extract/surfmesh/1,0,0/mo_tri/cmo_tet                                           
+cmo select mo_tri                                                               
+resetpts itp                                                                    
+cmo addatt mo_tri/area/darea                                                    
+cmo addatt mo_tri/unit_area_normal/Vunit_anorm                                  
+cmo addatt mo_tri/area_normal/Vanorm                                            
+cmo addatt mo_tri/scalar/x_scalar y_scalar z_scalar/Vanorm                      
+cmo/addatt/mo_tri/xsynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/ysynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/zsynth/vdouble/scalar/nnodes/-def-/permanent                  
+cmo/addatt/mo_tri/xsynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/ysynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/zsynth_area/vdouble/scalar/nnodes/-def-/permanent             
+cmo/addatt/mo_tri/xsynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+cmo/addatt/mo_tri/ysynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+cmo/addatt/mo_tri/zsynth_angle/vdouble/scalar/nnodes/-def-/permanent            
+cmo/addatt/mo_tri/synth_normal                                                  
+cmo/copyatt/mo_tri mo_tri/xsynth x_n_norm                                       
+cmo/copyatt/mo_tri mo_tri/ysynth y_n_norm                                       
+cmo/copyatt/mo_tri mo_tri/zsynth z_n_norm                                       
+cmo/addatt/mo_tri/synth_normal_area                                             
+cmo/copyatt/mo_tri mo_tri/xsynth_area x_n_norm                                  
+cmo/copyatt/mo_tri mo_tri/ysynth_area y_n_norm                                  
+cmo/copyatt/mo_tri mo_tri/zsynth_area z_n_norm                                  
+cmo/addatt/mo_tri/synth_normal_angle                                            
+cmo/copyatt/mo_tri mo_tri/xsynth_angle x_n_norm                                 
+cmo/copyatt/mo_tri mo_tri/ysynth_angle y_n_norm                                 
+cmo/copyatt/mo_tri mo_tri/zsynth_angle z_n_norm                                 
+dump/gmv/output_sphere_normals.gmv/mo_tri/ascii                                 
+cmo status                                                                      
+cmo printatt mo_tri -all- minmax                                                
+finish                                                                          

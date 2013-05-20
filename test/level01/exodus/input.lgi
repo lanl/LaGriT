@@ -1,6 +1,0 @@
-cmo / create / mohex /// hex
-createpts / brick / xyz / 11 11 11 / 0 0 0 / 1 1 1 / 1 1 1
-resetpts / itp
-dump / output_hexcube.exo / mohex
-
-finish

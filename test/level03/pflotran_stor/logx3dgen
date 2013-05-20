@@ -1,0 +1,68 @@
+cmo/create/motri///triplane                                                     
+createpts/xyz/2 2 1/0. 0. 0./1. 1. 0./1 1 1                                     
+cmo/setatt/motri/imt/1 0 0/1                                                    
+connect                                                                         
+rmpoint compress                                                                
+resetpts/itp                                                                    
+dump gmv tri_1x1m.gmv motri                                                     
+dump avs tri_1x1m.inp motri 1 1 0 0                                             
+quality                                                                         
+dump/stor/tri_1x1m/motri                                                        
+dump/pflotran/tri_1x1m/motri                                                    
+dump/pflotran/tri_1x1m_0/motri/nofilter_zero                                    
+cmo delete motri                                                                
+cmo/create/motri///triplane                                                     
+createpts/xyz/2 2 1/0. 0. 0./2. 2. 0./1 1 1                                     
+cmo/setatt/motri/imt/1 0 0/1                                                    
+connect                                                                         
+rmpoint compress                                                                
+resetpts/itp                                                                    
+dump gmv tri_2x2m.gmv motri                                                     
+dump avs tri_2x2m.inp motri 1 1 0 0                                             
+quality                                                                         
+dump/stor/tri_2x2m/motri                                                        
+dump/pflotran/tri_2x2m/motri                                                    
+dump/pflotran/tri_2x2m_0/motri/nofilter_zero                                    
+cmo delete motri                                                                
+cmo/create/motri///triplane                                                     
+createpts/xyz/3 4 1/0. 0. 0./2. 2. 0./1 1 1                                     
+cmo/setatt/motri/imt/1 0 0/1                                                    
+connect                                                                         
+rmpoint compress                                                                
+resetpts/itp                                                                    
+dump gmv tri_3x4_pts.gmv motri                                                  
+dump avs tri_3x4_pts.inp motri 1 1 0 0                                          
+quality                                                                         
+dump/stor/tri_3x4_pts/motri                                                     
+dump/pflotran/tri_3x4_pts/motri                                                 
+dump/pflotran/tri_3x4_pts/motri/nofilter_zero                                   
+cmo delete mohex                                                                
+cmo/create/mohex                                                                
+createpts/xyz/2 2 2/0. 0. 0./1. 1. 1./1 1 1                                     
+cmo/setatt/mohex/imt/1 0 0/1                                                    
+connect                                                                         
+rmpoint compress                                                                
+resetpts/itp                                                                    
+dump gmv hex_1x1m.gmv mohex                                                     
+dump avs hex_1x1m.inp mohex 1 1 0 0                                             
+quality                                                                         
+dump/stor/hex_1x1m/mohex                                                        
+dump/pflotran/hex_1x1m/mohex                                                    
+dump/pflotran/hex_1x1m/mohex/nofilter_zero                                      
+cmo delete mohex                                                                
+cmo/create/mohex                                                                
+createpts/xyz/3 4 2/0. 0. 0./1. 1. 1./1 1 1                                     
+cmo/setatt/mohex/imt/1 0 0/1                                                    
+connect                                                                         
+rmpoint compress                                                                
+resetpts/itp                                                                    
+dump gmv hex_1x1m.gmv mohex                                                     
+dump avs hex_1x1m.inp mohex 1 1 0 0                                             
+quality                                                                         
+dump/stor/hex_3x4_pts/mohex                                                     
+dump/pflotran/hex_3x4_pts/mohex                                                 
+dump/pflotran/hex_3x4_pts/mohex/nofilter_zero                                   
+read gmv sample_tet.gmv motet                                                   
+cmo printatt motet -all- minmax                                                 
+dump pflotran sample_tet motet                                                  
+finish                                                                          

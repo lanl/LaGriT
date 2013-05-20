@@ -1,0 +1,532 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.101   Linux m64      *                 
+*               *    date_compile: 2013/04/25  RH gf4.5       *                 
+*               *    Run Time: 2013/May  6  13:54:07          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# test method and commands for exo mesh and facesets                            
+# create simple cube of hex elements with 2 materials.                          
+# exo mesh and facesets can be viewed using GMV                                 
+# This test reorders the materials based on exo block conventions               
+# Then creates a top and bottom faceset for exo boundaries                      
+cmo/create/mohex///hex                                                          
+createpts/brick/xyz/3 3 3/0 0 0/1 1 1/1 1 1                                     
+          Number of nodes:          27                                          
+          Number of elements:           8                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.100000000000E+01                                  
+cmo setatt mohex itetclr 1                                                      
+         8 values reset for attribute itetclr                                   
+ 
+cmo setatt mohex imt 1                                                          
+        27 values reset for attribute imt1                                      
+ 
+cmo setatt mohex itetclr 1,2,1 2                                                
+         2 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+dump gmv output_hex_start.gmv mohex                                             
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# use sort to order element blocks as exodus will order                         
+# if this is not done, lagrit faceset numbers will not                          
+# correlate to exodus faceset numbers                                           
+# itetclr must be ordered correctly                                             
+# additional sort keys can be based on user preference                          
+# sort based on element itetclr number and median location                      
+createpts/median                                                                
+cmo/addatt//xmed/VDOUBLE/scalar/nelements///gal/0.                              
+finish                                                                          
+cmo/addatt//ymed/VDOUBLE/scalar/nelements///gal/0.                              
+finish                                                                          
+cmo/addatt//zmed/VDOUBLE/scalar/nelements///gal/0.                              
+finish                                                                          
+sort/mohex/index/ascending/ikey/itetclr xmed ymed zmed                          
+cmo/addatt/mohex/ikey/vint/scalar/nelements///gax/0                             
+finish                                                                          
+ SORT: order key written to attribute: ikey                                     
+ 
+reorder/mohex/ikey                                                              
+geniee                                                                          
+finish                                                                          
+dump/gmv/out_tmp_sort1.gmv/mohex                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/DELATT/mohex/ikey                                                           
+# sort nodes based on mesh convention z, y, then x                              
+sort/mohex/index/ascending/ikey/zic yic xic                                     
+cmo/addatt/mohex/ikey/vint/scalar/nnodes///gax/0                                
+finish                                                                          
+ SORT: order key written to attribute: ikey                                     
+ 
+reorder/mohex/ikey                                                              
+dump/gmv/out_tmp_sort2.gmv/mohex                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/DELATT/mohex/xmed                                                           
+cmo/DELATT/mohex/ymed                                                           
+cmo/DELATT/mohex/zmed                                                           
+cmo/DELATT/mohex/ikey                                                           
+# write element sets for each material                                          
+eltset/e_mat1/itetclr/eq/1                                                      
+ 
+ THE ELTSET e_mat1                           HAS          6 ELEMENTS            
+eltset/e_mat2/itetclr/eq/2                                                      
+ 
+ THE ELTSET e_mat2                           HAS          2 ELEMENTS            
+eltset/e_mat1/write/output_mat_1.cellset/ascii                                  
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  e_mat1                            e_mat2                                      
+ELTSET: OUTPUT e_mat1    1 ELTSETS TO FILE                                      
+eltset/e_mat2/write/output_mat_1.cellset/ascii                                  
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  e_mat1                            e_mat2                                      
+ELTSET: OUTPUT e_mat2    1 ELTSETS TO FILE                                      
+# extract the outside surface of the full mesh                                  
+# to get outside face to element relationships                                  
+extract/surfmesh/1 0 0/mo_surf/mohex/external                                   
+cmo/addatt/mo_surf/itetclr0/vint/scalar/nelements////0                          
+finish                                                                          
+cmo/addatt/mo_surf/itetclr1/vint/scalar/nelements////0                          
+finish                                                                          
+cmo/addatt/mo_surf/idnode0/vint/scalar/nnodes////0                              
+finish                                                                          
+cmo/addatt/mo_surf/idelem0/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/idelem1/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/facecol/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/idface0/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/idface1/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/ncon50/int/scalar/scalar/constant/permanent/x/0              
+finish                                                                          
+cmo/addatt/mo_surf/nconbnd/int/scalar/scalar/constant/permanent/x/0             
+finish                                                                          
+cmo/addatt/mo_surf/icontab/vint/scalar/ncon50/constant/permanent/x/0            
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+finish                                                                          
+cmo/printatt/mo_surf/-all-/minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00        26  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                          26               26               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                       24               24               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 2                2               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                4                4               0         1  
+ edges_per_element                4                4               0         1  
+ faces_per_element                4                4               0         1  
+ isetwd                           0                0               0        26  
+ ialias                           0                0               0        26  
+ imt1                             1                1               0        26  
+ itp1                             0                0               0        26  
+ icr1                             0                0               0        26  
+ isn1                             0                0               0        26  
+ xic                0.000000000E+00  1.000000000E+00 1.000000000E+00        26  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00        26  
+ zic                0.000000000E+00  1.000000000E+00 1.000000000E+00        26  
+ xtetwd                           0                0               0        24  
+ itetclr                          1                1               0        24  
+ itettyp                          4                4               0        24  
+ itetoff                          0               92              92        24  
+ jtetoff                          0               92              92        24  
+ itet                             1               26              25        24x4
+ jtet                             1               96              95        24x4
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilona           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilonv           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                         26               26               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ ymin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ zmin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ zmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ itetclr0                         0                0               0        24  
+ itetclr1                         1                2               1        24  
+ idnode0                          1               27              26        26  
+ idelem0                          0                0               0        24  
+ idelem1                          1                8               7        24  
+ facecol                          1                2               1        24  
+ idface0                          0                0               0        24  
+ idface1                          1                6               5        24  
+ ncon50                           0                0               0         1  
+ nconbnd                          0                0               0         1  
+ 0 length attribute: icontab                                                    
+ 
+# ## Set surface elements to direction they face based on normals               
+#  These values will be written to itetclr, copy to id_side attribute           
+#  1 = bottom   2 = top                                                         
+cmo/addatt/mo_surf/id_side/vint/scalar/nelements                                
+cmo/select mo_surf                                                              
+settets/normal                                                                  
+assign_color_normal epsilon for zero:   1.0000000E-15                           
+        20 out of         24 element colors changed.                            
+ 
+cmo/copyatt/mo_surf mo_surf/id_side itetclr                                     
+        24 copied from mo_surf itetclr to -> mo_surf id_side                    
+ 
+cmo/printatt/mo_surf/id_side/minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ id_side                          1                6               5        24  
+ 
+dump gmv output_hex_surface.gmv mo_surf                                         
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# make sure to remove all attributes except idelem1 and idface1                 
+cmo/DELATT/mo_surf/itetclr0                                                     
+cmo/DELATT/mo_surf/idnode0                                                      
+cmo/DELATT/mo_surf/idelem0                                                      
+cmo/DELATT/mo_surf/facecol                                                      
+cmo/DELATT/mo_surf/itetclr1                                                     
+cmo/DELATT/mo_surf/idface0                                                      
+# Get bottom faces and write faceset file                                       
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_bottom/id_side/eq/1                                                    
+ 
+ THE ELTSET e_bottom                         HAS          4 ELEMENTS            
+eltset/e_delete/not/e_bottom                                                    
+ 
+ THE ELTSET e_delete                         HAS         20 ELEMENTS            
+rmpoint/element/eltset get e_delete                                             
+ Dudded        17 points plus parents, and         20 elements removed.         
+rmpoint/compress                                                                
+        17 points removed and          0 elements removed.                      
+   The new point count is         9.                                            
+   The new element count is         4.                                          
+cmo/DELATT/mo_tmp/id_side                                                       
+dump/avs2/output_1_bottom.faceset/mo_tmp/0 0 0 2                                
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    0                                       
+WARNING: dump/avs  iopt_values_elem=    2                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/printatt/mo_tmp/idelem1                                                     
+Attribute: idelem1                                                              
+         1          2                                                           
+         2          5                                                           
+         3          7                                                           
+         4          8                                                           
+ 
+cmo/printatt/mo_tmp/idface1                                                     
+Attribute: idface1                                                              
+         1          1                                                           
+         2          1                                                           
+         3          1                                                           
+         4          1                                                           
+ 
+cmo/delete/mo_tmp                                                               
+     Released Mesh Object: mo_tmp                                               
+# Get top faces and write faceset file                                          
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_top/id_side/eq/2                                                       
+ 
+ THE ELTSET e_top                            HAS          4 ELEMENTS            
+eltset/e_delete/not/e_top                                                       
+ 
+ THE ELTSET e_delete                         HAS         20 ELEMENTS            
+rmpoint/element/eltset get e_delete                                             
+ Dudded        17 points plus parents, and         20 elements removed.         
+rmpoint/compress                                                                
+        17 points removed and          0 elements removed.                      
+   The new point count is         9.                                            
+   The new element count is         4.                                          
+cmo/DELATT/mo_tmp/id_side                                                       
+dump/avs2/output_2_top.faceset/mo_tmp/0 0 0 2                                   
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    0                                       
+WARNING: dump/avs  iopt_values_elem=    2                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/printatt/mo_tmp/idelem1                                                     
+Attribute: idelem1                                                              
+         1          1                                                           
+         2          3                                                           
+         3          4                                                           
+         4          6                                                           
+ 
+cmo/printatt/mo_tmp/idface1                                                     
+Attribute: idface1                                                              
+         1          2                                                           
+         2          2                                                           
+         3          2                                                           
+         4          2                                                           
+ 
+cmo/delete/mo_tmp                                                               
+     Released Mesh Object: mo_tmp                                               
+# write final output mesh and with faceset file                                 
+# This exo file can be read into GMV                                            
+# show the facesets under Display Surfaces                                      
+dump/exo/output_hex_final.exo/mohex///facesets output_1_bottom.faceset output_2_
+top.faceset                                                                     
+ 
+ExodusII: Start writing to file: output_hex_final.exo using cmo: mohex          
+ 
+cmo/set_id/mohex/element/e_num_temp                                             
+cmo/addatt/mohex e_num_temp/VINT/scalar/nelements/linear/permanent//0           
+finish                                                                          
+finish                                                                          
+sort/mohex/index/ascending/ikey_utr/itetclr/e_num_temp                          
+cmo/addatt/mohex/ikey_utr/vint/scalar/nelements///gax/0                         
+finish                                                                          
+ SORT: order key written to attribute: ikey_utr                                 
+ 
+finish                                                                          
+cmo/DELATT/mohex/e_num_temp                                                     
+finish                                                                          
+cmo/modatt/mohex/itetclr/ioflag/lga                                             
+finish                                                                          
+ 
+INITIALIZE exodus                                                               
+Title: LAGRIT TO EXODUS                                                         
+number of dimension:               3                                            
+number of nodes:                  27                                            
+number of elements:                8                                            
+number of edges:                   0                                            
+number of edge blocks:             0                                            
+number of element blocks:          2                                            
+number of face blocks:             0                                            
+number of node sets:               0                                            
+number of edge sets:               3                                            
+number of element sets:            0                                            
+number of side sets:               2                                            
+number of face sets:               0                                            
+number of node maps:               0                                            
+number of edge maps:               0                                            
+number of face maps:               0                                            
+number of element maps:            0                                            
+ 
+cmo/modatt/mohex/itetclr/ioflag/l                                               
+finish                                                                          
+ 
+ExodusII: Done writing to file: output_hex_final.exo using cmo: mohex           
+ 
+dump/avs/output_hex_final.inp/mohex                                             
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# report on hex mesh                                                            
+quality volume material                                                         
+ 
+ 
+QUALITY TOTALS for          2 MATERIALS:                                        
+...........................................................                     
+eltset/-etmp-/itetclr/eq/1/                                                     
+ 
+ THE ELTSET -etmp-                           HAS          6 ELEMENTS            
+finish                                                                          
+ 
+epsilonvol:   2.2204460E-13                                                     
+---------------------------------------                                         
+ 
+  VOLUMES for ELEMENT COLOR          1                                          
+...........................                                                     
+All elements have volume  1.2500000E-01                                         
+eltset/-etmp-/delete/                                                           
+ 
+ ELTSET -etmp-                           DELETED                                
+ 
+finish                                                                          
+eltset/-etmp-/itetclr/eq/2/                                                     
+ 
+ THE ELTSET -etmp-                           HAS          2 ELEMENTS            
+finish                                                                          
+---------------------------------------                                         
+ 
+  VOLUMES for ELEMENT COLOR          2                                          
+...........................                                                     
+All elements have volume  1.2500000E-01                                         
+eltset/-etmp-/delete/                                                           
+ 
+ ELTSET -etmp-                           DELETED                                
+ 
+finish                                                                          
+---------------------------------------                                         
+ 
+  SUMMARY VOLUME/AREA of ELEMENT COLORS for mohex         1           2         
+...........................................................                     
+Color      Num. Elements   Volume          Fractional Volume                    
+    1           6          0.7500000E+00     0.750000000                        
+    2           2          0.2500000E+00     0.250000000                        
+ Total elements:            8          Total Volume:  0.1000000E+01             
+-----------------------------------------------------------                     
+         8 total elements evaluated.                                            
+ 
+cmo printatt mohex -all- minmax                                                 
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00        27  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                          27               27               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                        8                8               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                8                8               0         1  
+ edges_per_element               12               12               0         1  
+ faces_per_element                6                6               0         1  
+ isetwd                           0                0               0        27  
+ ialias                           0                0               0        27  
+ imt1                             1                1               0        27  
+ itp1                             2               12              10        27  
+ icr1                             0                0               0        27  
+ isn1                             0                0               0        27  
+ xic                0.000000000E+00  1.000000000E+00 1.000000000E+00        27  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00        27  
+ zic                0.000000000E+00  1.000000000E+00 1.000000000E+00        27  
+ xtetwd                           1                2               1         8  
+ itetclr                          1                2               1         8  
+ itettyp                          8                8               0         8  
+ itetoff                          0               56              56         8  
+ jtetoff                          0               42              42         8  
+ itet                             1               27              26         8x8
+ jtet                             4         16000047        16000043         8x6
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           3.845925373E-13  3.845925373E-13 0.000000000E+00         1  
+ epsilona           6.661338148E-13  6.661338148E-13 0.000000000E+00         1  
+ epsilonv           2.220446049E-13  2.220446049E-13 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                         27               27               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ zmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ ikey_utr                         1                8               7         8  
+ 
+# report on faces surface mesh                                                  
+cmo printatt mo_surf -all- minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00        26  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                          26               26               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                       24               24               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 2                2               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                4                4               0         1  
+ edges_per_element                4                4               0         1  
+ faces_per_element                4                4               0         1  
+ isetwd                           0                0               0        26  
+ ialias                           0                0               0        26  
+ imt1                             1                1               0        26  
+ itp1                             0                0               0        26  
+ icr1                             0                0               0        26  
+ isn1                             0                0               0        26  
+ xic                0.000000000E+00  1.000000000E+00 1.000000000E+00        26  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00        26  
+ zic                0.000000000E+00  1.000000000E+00 1.000000000E+00        26  
+ xtetwd                           0                0               0        24  
+ itetclr                          1                6               5        24  
+ itettyp                          4                4               0        24  
+ itetoff                          0               92              92        24  
+ jtetoff                          0               92              92        24  
+ itet                             1               26              25        24x4
+ jtet                             1               96              95        24x4
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilona           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilonv           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                         26               26               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ ymin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ zmin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ zmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ idelem1                          1                8               7        24  
+ idface1                          1                6               5        24  
+ ncon50                           0                0               0         1  
+ nconbnd                          0                0               0         1  
+ 0 length attribute: icontab                                                    
+ id_side                          1                6               5        24  
+ 
+finish                                                                          
+LaGriT successfully completed                                                   

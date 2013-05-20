@@ -9,6 +9,18 @@
 #   test*.gmv       GMV version of corresponding AVS file
 #   test*s.inp      ------------- Sorted ----------------
 #   test*s.gmv      -------------- Files ----------------
+##########################################
+# SORT POINTS (not connected)
+cmo / create / moquad / / / quad
+createpts / xyz / 3 3 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+cmo / printatt / moquad / xic
+cmo / printatt / moquad / yic
+sort / moquad / index / ascending / ikey / xic yic
+reorder / moquad / ikey
+cmo / printatt / moquad / xic
+cmo / printatt / moquad / yic
+rzbrick/xyz/3,3,1/1,0,0/connect
+cmo / delete / moquad
 
 ###### EXTRACT and LINE SORT #############
 read avs test_surf.inp cmo                                                      
@@ -79,6 +91,9 @@ sort / mo01 / line_graph / ascending / key / extra_arg
 # but not recommended since reorder will need att name
 sort / mo01 / line_graph / ascending
 
+finish
+This test needs evaluation based on platform.
+
 ########### SORT EXAMPLES USING ELEMENTS #####
 # create key attribute and reorder
 # should delete previous created attributes and addatt again
@@ -93,6 +108,7 @@ reorder / mo01 / key
 dump / output_test01s.inp / mo01
 dump / output_test01s.gmv / mo01
 cmo status mo01
+
 
 
 ########### SORT EXAMPLES USING ELEMENTS #####

@@ -1,0 +1,13 @@
+read gmv sample_tet.gmv motet
+cmo printatt motet -all- minmax
+
+* write pflotran coefficent file, skip zeros
+dump pflotran sample_tet motet
+
+finish
+
+* write regular fehm stor file for comparison
+dump stor sample_tet motet
+
+finish
+

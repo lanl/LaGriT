@@ -1,0 +1,105 @@
+# Test area_normal and unit_area_normal
+
+cmo / create / motri / / / triplane
+
+createpts / xyz / 2 2 1 / 0. 0. 0. / 2. 2. 0. / 1 1 1
+cmo / setatt / motri / imt / 1 0 0 / 1
+cmo / setatt / motri / itp / 1 0 0 / 0
+
+connect
+
+cmo/addatt/ motri / area_normal / xyz / vnorm1
+cmo/addatt/ motri / unit_area_normal / xyz / vnorm2
+
+cmo / addatt / motri / scalar / v1x v1y v1z / vnorm1
+cmo / addatt / motri / scalar / v2x v2y v2z / vnorm2
+
+cmo / DELATT / motri / vnorm1 
+cmo / DELATT / motri / vnorm2
+
+cmo / printatt / motri / v1x / 1 0 0
+cmo / printatt / motri / v1y / 1 0 0
+cmo / printatt / motri / v1z / 1 0 0
+cmo / printatt / motri / v2x / 1 0 0
+cmo / printatt / motri / v2y / 1 0 0
+cmo / printatt / motri / v2z / 1 0 0
+
+dump gmv tmp.gmv motri
+
+* point in y direction
+* rotateln / 1 0 0 / nocopy / -1. -1. 0. / 3. 3. 0. / 90.0 
+rotateln/1,0,0/nocopy/ -1. 0. 0./ 5. 0. 0./ 90. /
+cmo / printatt / motri / -xyz- / minmax
+
+cmo/addatt/ motri / area_normal / xyz / vnorm1
+cmo/addatt/ motri / unit_area_normal / xyz / vnorm2
+
+cmo / addatt / motri / scalar / v1x v1y v1z / vnorm1
+cmo / addatt / motri / scalar / v2x v2y v2z / vnorm2
+
+cmo / DELATT / motri / vnorm1 
+cmo / DELATT / motri / vnorm2
+
+cmo / printatt / motri / v1x / 1 0 0
+cmo / printatt / motri / v1y / 1 0 0
+cmo / printatt / motri / v1z / 1 0 0
+cmo / printatt / motri / v2x / 1 0 0
+cmo / printatt / motri / v2y / 1 0 0
+cmo / printatt / motri / v2z / 1 0 0
+
+dump gmv tmp.gmv motri
+
+finish
+# Test area_normal and unit_area_normal
+
+# create two triangles on xy plane
+cmo / create / motri / / / triplane
+  createpts / xyz / 2 2 1 / 0. 0. 0. / 2. 2. 0. / 1 1 1
+  cmo / setatt / motri / imt / 1 0 0 / 1
+  cmo / setatt / motri / itp / 1 0 0 / 0
+  connect
+  resetpts itp
+
+# # create vector attributes anorm and unit_anorm
+cmo/addatt/ motri / area_normal / xyz / anorm
+cmo/addatt/ motri / unit_area_normal / xyz / unit_anorm
+
+cmo / addatt / motri / scalar / v_nx v_ny v_nz / anorm
+cmo / addatt / motri / scalar / v_ux v_uy v_uz / unit_anorm
+
+cmo printatt motri anorm
+
+cmo / printatt / motri / v_nx / 1 0 0
+cmo / printatt / motri / v_ny / 1 0 0
+cmo / printatt / motri / v_nz / 1 0 0
+cmo / printatt / motri / v_ux / 1 0 0
+cmo / printatt / motri / v_uy / 1 0 0
+cmo / printatt / motri / v_uz / 1 0 0
+
+cmo / DELATT / motri / anorm 
+cmo / DELATT / motri / unit_anorm
+dump gmv tmp.gmv motri
+
+* rotate around x-axis and point in y direction
+rotateln/1,0,0/nocopy/ -1. 0. 0./ 5. 0. 0./ 90. /
+cmo / printatt / motri / -xyz- / minmax
+
+cmo/addatt/ motri / area_normal / xyz / anorm
+cmo/addatt/ motri / unit_area_normal / xyz / unit_anorm
+
+* re-use old attribute arrays
+cmo / addatt / motri / scalar / v_nx v_ny v_nz / anorm
+cmo / addatt / motri / scalar / v_ux v_uy v_uz / unit_anorm
+
+cmo printatt motri anorm
+
+cmo / printatt / motri / v_nx / 1 0 0
+cmo / printatt / motri / v_ny / 1 0 0
+cmo / printatt / motri / v_nz / 1 0 0
+cmo / printatt / motri / v_ux / 1 0 0
+cmo / printatt / motri / v_uy / 1 0 0
+cmo / printatt / motri / v_uz / 1 0 0
+
+dump gmv tmp.gmv motri
+
+finish

@@ -1,0 +1,110 @@
+# test method and commands for exo mesh and facesets
+
+# create simple cube of hex elements with 2 materials.
+# exo mesh and facesets can be viewed using GMV
+# This test reorders the materials based on exo block conventions
+# Then creates a top and bottom faceset for exo boundaries
+
+cmo / create / mohex /// hex
+createpts / brick / xyz / 3 3 3 / 0 0 0 / 1 1 1 / 1 1 1
+cmo setatt mohex itetclr 1
+cmo setatt mohex imt 1
+cmo setatt mohex itetclr 1,2,1 2
+resetpts / itp
+dump gmv output_hex_start.gmv mohex
+
+# use sort to order element blocks as exodus will order
+# if this is not done, lagrit faceset numbers will not
+# correlate to exodus faceset numbers
+# itetclr must be ordered correctly
+# additional sort keys can be based on user preference
+
+# sort based on element itetclr number and median location
+createpts / median
+sort / mohex / index / ascending / ikey / itetclr xmed ymed zmed
+reorder / mohex / ikey
+  dump / gmv / out_tmp_sort1.gmv / mohex
+  cmo / DELATT / mohex / ikey
+
+# sort nodes based on mesh convention z, y, then x
+sort / mohex / index / ascending / ikey / zic yic xic
+reorder / mohex / ikey
+  dump / gmv / out_tmp_sort2.gmv / mohex
+  cmo / DELATT / mohex / xmed
+  cmo / DELATT / mohex / ymed
+  cmo / DELATT / mohex / zmed
+  cmo / DELATT / mohex / ikey
+
+# write element sets for each material
+eltset / e_mat1 / itetclr / eq / 1
+eltset / e_mat2 / itetclr / eq / 2
+eltset/e_mat1/write / output_mat_1.cellset / ascii
+eltset/e_mat2/write / output_mat_1.cellset / ascii
+
+# extract the outside surface of the full mesh
+# to get outside face to element relationships
+extract / surfmesh / 1 0 0 / mo_surf / mohex / external
+cmo / printatt / mo_surf / -all- / minmax
+
+# ## Set surface elements to direction they face based on normals
+#  These values will be written to itetclr, copy to id_side attribute
+#  1 = bottom   2 = top
+
+cmo / addatt / mo_surf / id_side / vint / scalar / nelements
+cmo / select mo_surf
+settets / normal
+cmo / copyatt / mo_surf mo_surf / id_side itetclr
+cmo / printatt / mo_surf / id_side / minmax
+dump gmv output_hex_surface.gmv mo_surf
+
+# make sure to remove all attributes except idelem1 and idface1
+cmo / DELATT / mo_surf / itetclr0
+cmo / DELATT / mo_surf / idnode0
+cmo / DELATT / mo_surf / idelem0
+cmo / DELATT / mo_surf / facecol
+cmo / DELATT / mo_surf / itetclr1
+cmo / DELATT / mo_surf / idface0
+
+# Get bottom faces and write faceset file
+cmo / copy / mo_tmp / mo_surf
+cmo / select / mo_tmp
+eltset / e_bottom / id_side / eq / 1
+eltset / e_delete / not / e_bottom
+rmpoint / element / eltset get e_delete
+rmpoint / compress
+  cmo / DELATT / mo_tmp / id_side
+  dump / avs2 / output_1_bottom.faceset / mo_tmp / 0 0 0 2
+  cmo / printatt / mo_tmp / idelem1
+  cmo / printatt / mo_tmp / idface1
+  cmo / delete / mo_tmp
+
+# Get top faces and write faceset file
+cmo / copy / mo_tmp / mo_surf
+cmo / select / mo_tmp
+eltset / e_top / id_side / eq / 2
+eltset / e_delete / not / e_top
+rmpoint / element / eltset get e_delete
+rmpoint / compress
+  cmo / DELATT / mo_tmp / id_side
+  dump / avs2 / output_2_top.faceset / mo_tmp / 0 0 0 2
+  cmo / printatt / mo_tmp / idelem1
+  cmo / printatt / mo_tmp / idface1
+  cmo / delete / mo_tmp
+
+# write final output mesh and with faceset file
+# This exo file can be read into GMV
+# show the facesets under Display Surfaces
+
+dump / exo / output_hex_final.exo / mohex / / / facesets &
+  output_1_bottom.faceset output_2_top.faceset
+
+dump / avs / output_hex_final.inp / mohex
+
+# report on hex mesh
+quality volume material
+cmo printatt mohex -all- minmax
+
+# report on faces surface mesh
+cmo printatt mo_surf -all- minmax
+
+finish

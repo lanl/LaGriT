@@ -1,0 +1,28 @@
+# check area of triangle
+
+cmo/create/mo///triplane  
+  createpts/xyz/2 2 1/0. 0. 0./1. 1. 0./1 1 1 
+  cmo / setatt / mo / imt / 1 0 0 / 1
+  cmo / setatt / mo / itp / 1 0 0 / 0
+  connect 
+  resetpts/itp  
+
+cmo/addatt/mo/volume/evol 
+cmo/addatt/mo/area/ darea 
+cmo/addatt/mo/area_normal/xyz/att_v_area 
+cmo/addatt/mo/scalar/areax areay areaz/att_v_area 
+
+cmo printatt mo evol
+cmo printatt mo darea
+cmo printatt mo att_v_area
+cmo printatt mo areax
+cmo printatt mo areay
+cmo printatt mo areaz
+
+
+dump/gmv/tri_areas.gmv/mo / ascii  
+
+finish
+
+Ticket #108 2010
+cmo/addatt/mo/area_normal/xyz/att_v_area is off by factor of 2, too large. My guess is that the cross product is being computed and the resulting vector is used. The area of a triangle with sides v1 and v2 should be area = 0.5*(v1 x V2).

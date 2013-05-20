@@ -91,6 +91,9 @@ sort / mo01 / line_graph / ascending / key / extra_arg
 # but not recommended since reorder will need att name
 sort / mo01 / line_graph / ascending
 
+finish
+This test needs evaluation based on platform.
+
 ########### SORT EXAMPLES USING ELEMENTS #####
 # create key attribute and reorder
 # should delete previous created attributes and addatt again
@@ -105,6 +108,7 @@ reorder / mo01 / key
 dump / output_test01s.inp / mo01
 dump / output_test01s.gmv / mo01
 cmo status mo01
+
 
 
 ########### SORT EXAMPLES USING ELEMENTS #####

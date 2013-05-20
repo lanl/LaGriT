@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V3.101   Linux m64      *                 
 *               *    date_compile: 2013/04/16  RH gf4.5       *                 
-*               *    Run Time: 2013/Apr 18  15:58:01          *                 
+*               *    Run Time: 2013/Apr 22  07:46:40          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -82,7 +82,7 @@ finish
 AMatbld3d_stor: *****Negative Coefficients ******                               
 AMatbld3d_stor: Total Number of Negative Coefficients         1                 
 AMatbld3d_stor: Number of Significant Negative Coefs         0                  
-AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs         1                  
+AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         1                 
 cmo/addatt/mo1/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/afgx/0.0/           
 finish                                                                          
 cmo/addatt/mo1/ij_ccoef/VINT/scalar/nnodes/linear/permanent/afgx/0.0/           
@@ -115,7 +115,7 @@ finish
 AMatbld3d_stor: *****Negative Coefficients ******                               
 AMatbld3d_stor: Total Number of Negative Coefficients         1                 
 AMatbld3d_stor: Number of Significant Negative Coefs         0                  
-AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs         1                  
+AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         1                 
 AMatbld3d_stor: npoints =     1331  ncoefs =       8593                         
 AMatbld3d_stor: Number of unique coefs =      4962                              
 AMatbld3d_stor: Maximum num. connections to a node =          8                 
@@ -139,7 +139,7 @@ ADDATT/voronoi_volume: creating new attribute: voronoi
 AMatbld3d_stor: *****Negative Coefficients ******                               
 AMatbld3d_stor: Total Number of Negative Coefficients         1                 
 AMatbld3d_stor: Number of Significant Negative Coefs         0                  
-AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs         1                  
+AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         1                 
 AMatbld3d_stor: npoints =     1331  ncoefs =       8593                         
 AMatbld3d_stor: Number of unique coefs =      4962                              
 AMatbld3d_stor: Maximum num. connections to a node =          8                 
@@ -440,7 +440,7 @@ dump/stor/test07/mo1
 AMatbld3d_stor: *****Negative Coefficients ******                               
 AMatbld3d_stor: Total Number of Negative Coefficients         1                 
 AMatbld3d_stor: Number of Significant Negative Coefs         0                  
-AMatbld3d_stor: Number of 'zero' (< 10e-8*max) coefs         1                  
+AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         1                 
 AMatbld3d_stor: npoints =     1331  ncoefs =       8593                         
 AMatbld3d_stor: Number of unique coefs =         4                              
 AMatbld3d_stor: Maximum num. connections to a node =          8                 

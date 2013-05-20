@@ -1,0 +1,23 @@
+
+read avs tri.inp mo2D
+dump gmv tri.gmv mo2D
+cmo setatt mo2D idebug 2                                                        
+
+********************
+dump stor tri mo2D
+********************
+********************
+dump pflotran tri_zero mo2D nofilter_zero
+********************
+
+read avs tet_one.inp mo3D                                                       
+cmo setatt mo3D idebug 2                                                        
+
+********************
+dump stor tet mo3D
+********************
+********************
+dump pflotran tet_zero mo3D nofilter_zero                                                            
+********************
+
+finish                                                                          

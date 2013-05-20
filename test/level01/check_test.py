@@ -85,6 +85,9 @@ def diff_chunk(rlines,tlines,rcnt,tcnt) :
         if twords[0].find("*") > -1 :
            ico=ico+1
            if debug : print "comment line "+repr(idx)+tlines[idx]
+        elif twords[0].find("#") > -1 :
+           ico=ico+1
+           if debug : print "comment line "+repr(idx)+tlines[idx]
         elif len(twords) < 2 :
            iju=iju+1
            if debug : print "junk line "+repr(idx)+tlines[idx]
@@ -372,6 +375,8 @@ if __name__ == "__main__":
 ##              skip commented and junk lines
 #               if (len(words) > 0) :
 #                  if words[0].find("*") > -1 :
+#                     icomment=icomment+1
+#                  elif words[0].find("#") > -1 :
 #                     icomment=icomment+1
 #                  elif words[0].find("+++") > -1 :
 #                     ijunk=ijunk+1

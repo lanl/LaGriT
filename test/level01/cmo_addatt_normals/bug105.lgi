@@ -1,0 +1,30 @@
+# Ticket 105
+# addatt/ mo_tri / unit_area_normal returns incorrect (zero) result
+# The following example illustrates the problem. 
+# I believe the problem is not in the conversion to scalar. 
+# It is in the creation and filling of the normalized vector.
+# - gable
+
+cmo / create / mo_tri / / / triplane
+createpts / xyz / 2 2 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+connect / noadd
+
+cmo/addatt/ mo_tri / area_normal / xyz / va_1
+cmo/addatt/ mo_tri / scalar / xva_1 yva_1 zva_1 / va_1
+
+cmo/addatt/ mo_tri / unit_area_normal / xyz / va_2
+cmo/addatt/ mo_tri / scalar / xva_2 yva_2 zva_2 / va_2
+
+cmo / printatt / mo_tri / -all- / minmax
+
+finish
+
+Wrong:
+ va_1               0.000000000E+00  1.000000000E+00 1.000000000E+00         2  
+ xva_1              0.000000000E+00  0.000000000E+00 0.000000000E+00         2  
+ yva_1              0.000000000E+00  0.000000000E+00 0.000000000E+00         2  
+ zva_1              1.000000000E+00  1.000000000E+00 0.000000000E+00         2  
+ va_2               0.000000000E+00  0.000000000E+00 0.000000000E+00         2  
+ xva_2              0.000000000E+00  0.000000000E+00 0.000000000E+00         2  
+ yva_2              0.000000000E+00  0.000000000E+00 0.000000000E+00         2  
+ zva_2              0.000000000E+00  0.000000000E+00 0.000000000E+00         2  

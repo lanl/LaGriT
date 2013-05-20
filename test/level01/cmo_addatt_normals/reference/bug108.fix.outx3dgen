@@ -1,0 +1,101 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.101   Linux m64      *                 
+*               *    date_compile: 2013/04/16  RH gf4.5       *                 
+*               *    Run Time: 2013/Apr 17  15:49:46          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# check area of triangle                                                        
+cmo/create/mo///triplane                                                        
+createpts/xyz/2 2 1/0. 0. 0./1. 1. 0./1 1 1                                     
+  RZ GENERATED POINTS                    1 TO                    4              
+cmo/setatt/mo/imt/1 0 0/1                                                       
+Warning: nelements = 0                                                          
+         4 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo/itp/1 0 0/0                                                       
+Warning: nelements = 0                                                          
+         4 values reset for attribute itp1                                      
+ 
+connect                                                                         
+ Coordinates of enclosing triangle are:                                         
+          -0.17500D+01-0.16000D+01-0.00000D+00                                  
+           0.27500D+01-0.17500D+01-0.00000D+00                                  
+           0.50500D+00 0.50000D+01-0.00000D+00                                  
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+cmo/addatt/mo/volume/evol                                                       
+ADDATT/area: creating new attribute: evol                                       
+cmo/addatt/mo/area/darea                                                        
+ADDATT/area: creating new attribute: darea                                      
+cmo/addatt/mo/area_normal/xyz/att_v_area                                        
+ADDATT/area_normal: creating new attribute: att_v_area                          
+cmo/addatt/mo/scalar/areax areay areaz/att_v_area                               
+ADDATT/scalar: creating 3 new attributes: areax  areay  areaz                   
+cmo printatt mo evol                                                            
+Attribute: evol                                                                 
+         1  5.00000E-01                                                         
+         2  5.00000E-01                                                         
+ 
+cmo printatt mo darea                                                           
+Attribute: darea                                                                
+         1  5.00000E-01                                                         
+         2  5.00000E-01                                                         
+ 
+cmo printatt mo att_v_area                                                      
+Attribute: att_v_area                                                           
+         1  0.00000E+00                                                         
+         1  0.00000E+00                                                         
+         1  5.00000E-01                                                         
+         2  0.00000E+00                                                         
+         2  0.00000E+00                                                         
+         2  5.00000E-01                                                         
+ 
+cmo printatt mo areax                                                           
+Attribute: areax                                                                
+         1  0.00000E+00                                                         
+         2  0.00000E+00                                                         
+ 
+cmo printatt mo areay                                                           
+Attribute: areay                                                                
+         1  0.00000E+00                                                         
+         2  0.00000E+00                                                         
+ 
+cmo printatt mo areaz                                                           
+Attribute: areaz                                                                
+         1  5.00000E-01                                                         
+         2  5.00000E-01                                                         
+ 
+dump/gmv/tri_areas.gmv/mo/ascii                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   
