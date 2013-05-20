@@ -945,22 +945,28 @@ c         call readbm(ifile(1:lenfile),ierror_return)
          call setsize()
 C
       elseif(( ioption(1:len1) .eq. 'zone') .or. 
-     1       ( ioption(1:len1) .eq. 'zonn')) then
+     *       ( ioption(1:len1) .eq. 'zonn') .or. 
+     *       ( ioption(1:len1) .eq. 'zone_element')) then
 C
 C     FEHM zone/zonn file format
+C     FEHM zone_element file format
+C     This is just a copy of read/zone (for nodes)
+C     Doing the same thing for element attributes
 C
          call read_fehm_zone(imsgin,xmsgin,cmsgin,msgtype,nwds,
      *      ierror_return)
 C
+C     valid command not found
       else
 C
-         write(logmess,'(a,a)') 'Invalid READ Option ', idsb(1:lenidsb)
+         write(logmess,'(a,a)') 'Invalid command: ',idsb(1:lenidsb)
          call writloga('default',0,logmess,0,ierrw)
-         write(logmess,'(a,a,a)') 'Invalid READ Option ', 
-     1                           idsb(1:lenidsb),  ioption(1:len1)
+         write(logmess,'(a,a)') 'Invalid Option ',
+     *                            ioption(1:len1)
          call writloga('default',0,logmess,0,ierrw)
          ierror_return=-1
          goto 9000
+
 C
       endif
 C
