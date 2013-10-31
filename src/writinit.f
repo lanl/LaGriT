@@ -236,6 +236,9 @@ C
       call writloga('default',0,interfil,0,ierrdum)
 
 C-----Banner Program, OS, and Version Number from lagrit.h
+C     Version and date compile taken directly from lagrit.h
+C     OS information is based on os_name and should be the
+C     same tag used in Makefile
 C
       if (v_major .lt. 10) then 
         Version = ' .     '
@@ -265,15 +268,22 @@ c     otherwise, old util lib is used
 c     change Darwin to Mac to stay under 8 characters 
       else if (os_name(1:6) .eq. 'Maci32') then
       write(interfil,8165) Version
- 8165 format('*',15x,'*    Program:  LaGriT V',a6,' Mac intel m32   *')
+ 8165 format('*',15x,'*    Program:  LaGriT V',a6,' Mac i386 m32    *')
 
       else if (os_name(1:6) .eq. 'Maci64') then
       write(interfil,8166) Version
- 8166 format('*',15x,'*    Program:  LaGriT V',a6,' Mac intel m64   *')
+ 8166 format('*',15x,'*    Program:  LaGriT V',a6,' Mac i386 m64    *')
 
-      else if (os_name(1:5) .eq. 'Mac32') then
-      write(interfil,8175) Version
- 8175 format('*',15x,'*    Program:  LaGriT V',a6,' Mac ppc m32     *')
+      else if (os_name(1:7) .eq. 'MacOS11') then
+      write(interfil,8111) Version
+ 8111 format('*',15x,'*    Program:  LaGriT V',a6,' Mac OS11        *')
+
+      else if (os_name(1:7) .eq. 'MacOS12') then
+      write(interfil,8112) Version
+ 8112 format('*',15x,'*    Program:  LaGriT V',a6,' Mac OS12        *')
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C older OS no longer supported but kept here just in case someone uses it
 
       else if (os_name(1:5) .eq. 'Mac64') then
       write(interfil,8176) Version
@@ -287,7 +297,6 @@ c     change Darwin to Mac to stay under 8 characters
       write(interfil,8178) Version
  8178 format('*',15x,'*    Program:  LaGriT V',a6,' Mac ppc         *')
 
-
       else if (os_name(1:5) .eq. 'Sun32') then
       write(interfil,8288) Version
  8288 format('*',15x,'*    Program:  LaGriT V',a6,'  SunOS m32      *')
@@ -300,6 +309,9 @@ c     change Darwin to Mac to stay under 8 characters
       write(interfil,8388) Version
  8388 format('*',15x,'*    Program:  LaGriT V',a6,'  IRIX64         *')
       else 
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C     If nothing found, use default
 
       write(interfil,8989)  Version
  8989 format('*',15x,'*    Program:  LaGriT V',a6,'  DEF            *')

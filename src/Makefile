@@ -32,7 +32,13 @@
 # command line make options include:
 #    -d (debug) -p (print rules and variables) -v (version)
 #
-# SGI and SUN OS is included here, but no longer supported
+#######################################################
+# The following OS have not been supported since 2010
+# SunOS  flow 5.10 Generic_137137-09 sun4u sparc SUNW,Sun-Fire-880
+# IRIX64 combust 6.5 10151453 IP27
+# The following OS have not been supported since 2011
+# Darwin Kernel Version 9.7.0  powerpc
+#######################################################
 #
 # Created Jan 7 2008 by tamiller@lanl.gov
 # Modified July 7 2009 to update compiler flags for V2.100 release 
@@ -44,6 +50,7 @@
 #     HDF5 version 1.8.6
 #     netcdf-4.1.3
 #     Contact: Greg Sjaardema, Sandia National Laboratories, gdsjaar@sandia.gov
+# Modified Oct 2013 to include Mac 10.6, 10.7, 10.8 with GCC gfortran 
 #
 ##########################################################################
 # user defined variables 
@@ -72,78 +79,74 @@ OPSYS_FULL = $(shell uname -a )
 OPSYS = $(shell uname -s )
 DATETAG = $(shell date '+_%y%m%d')
 NPROC = $(shell uname -p )
-CXX = g++
+NREL = $(shell uname -r )
+
+# init to relevant info
+FC   = notset
+FC90 = notset
+CC   = notset
+CXX  = notset
+SUFF  = ""
+SUFFC = ""
 #
 # Linux OS ------------------------------
 # Linux rainier 2.6.9-55.0.2.ELlargesmp #1 SMP 2007
 # x86_64
 #
 ifeq ($(OPSYS), Linux)
-OSTAG = _lin
-FC = /opt/absoft11.1/bin/f77 
-FC90 = /opt/absoft10.0/bin/f90 
-CC= gcc 
-FFLAGS = -c -f -m32 -q -w 
-FF90FLAGS = -m32 -YEXT_NAMES=LCS  
-CFLAGS = -m32
-OBJDIR = objects_lin/
 
-ifeq ($(COMPILER),GFORTRAN)
+OSTAG = _lin32
+CFLAGS = -m32 -Dlin
+FFLAGS = -fcray-pointer -m32 
+FF90FLAGS = -fcray-pointer -m32 
+
+
 FC = gfortran
 FC90 = gfortran 
 CC= gcc 
-
-FFLAGS = -fcray-pointer -m32 
-FF90FLAGS = -fcray-pointer -m32 
-CFLAGS = -m32 -Dlin
+CXX - g++
 
 ifeq ($(MOPT), 64)
 OSTAG = _lin64
-OBJDIR = lin_objects_m64/
+OBJDIR = lin_objects_m64
 FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64
 FF90FLAGS = -fcray-pointer -fdefault-integer-8  -m64 -Dlinx64
 CFLAGS = -m64 -Dlinx64
 endif
 
+# compile gfortran on linux redhat
+SUFFC = _gf4.5
+
+# end linux options
 endif
 
-endif
 #
 # Mac OSX ------------------------------
-# Darwin darmok.lanl.gov 9.7.0 Darwin Kernel Version 9.7.0
-# powerpc mac
-# -N11 needed for assembler (large code)
+# Mac must be compiled by system since static versions
+# of libSystem.dylib nor crt0.o are provided
+# OS and name, release, and suffix:
+# Darwin 13.x (Mac 10.9) Mavericks macOS13          
+# Darwin 12.x (Mac 10.8) M. Lion   macOS12 with _GCC4.8
+# Darwin 11.x (Mac 10.7) Lion      macOS11 with _GCC4.8
+# Darwin 10.x (Mac 10.6) Snow L.   maci (32,64) with _gfort4.6
 #
 ifeq ($(OPSYS), Darwin)
-OSTAG = _mac
-FC = /Applications/Absoft9.5/bin/f77 
-FC90 = /Applications/Absoft9.5/bin/f90 
-CC= gcc 
-FFLAGS = -c -f -m32 -N11 -q -w 
-FF90FLAGS = -m32 -YEXT_NAMES=LCS 
-CFLAGS = -m32 
-OBJDIR = objects_mac/
 
-# intel mac
-# Darwin i386 Kernel Version 10.7.0 RELEASE_X86_64 x86_64
-#
-ifeq ($(NPROC), i386)
-OSTAG = _maci
-FC = /Applications/Absoft10.2/bin/f77
-FC90 = /Applications/Absoft10.2/bin/f90
-CC= gcc
-FFLAGS = -f -m32 -q
-FF90FLAGS = -m32 
-CFLAGS =  -m32
-OBJDIR = objects_maci/
-
-ifeq ($(COMPILER),GFORTRAN)
 FC = gfortran
 FC90 = gfortran
-CC= gcc
-FFLAGS = -fcray-pointer -m32  
-FF90FLAGS = -fcray-pointer -m32 
+CC  = gcc 
+CXX = g++
+FFLAGS = -fcray-pointer -m32 -arch i386  
+FF90FLAGS = -fcray-pointer -m32 -arch i386
+CFLAGS = -m32 -arch i386 
 
+# MAC OS Darwin 10.x Snow L. 32 bit  
+ifeq ($(NPROC), i386)
+OSTAG = _maci32
+OBJDIR = objects_maci/
+endif
+
+# MAC OS Darwin 10.x Snow L. 64 bit  
 ifeq ($(MOPT), 64)
 OSTAG = _maci64
 OBJDIR = lin_objects_maci64/
@@ -152,51 +155,59 @@ FF90FLAGS = -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64
 CFLAGS = -m64 -Dmacx64
 endif
 
+# MAC OS Darwin 11.x Lion 64 bit  
+ifneq (, $(findstring 11. , $(NREL)) ) 
+OSTAG = _macOS11
+SUFFC = _GCC4.7
+
+FC = /usr/local/bin/gfortran
+FC90 = /usr/local/bin/gfortran
+CC= /usr/local/bin/gcc
+CXX = /usr/local/bin/g++
+
+FFLAGS = -arch x86_64 -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64
+FF90FLAGS = -arch x86_64 -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64
+CFLAGS = -arch x86_64 -m64 -Dmacx64
+
+# end OS 11
+# MAC OS Darwin 12.x Mountain Lion 64 bit  
+else ifneq (, $(findstring 12. , $(NREL)) ) 
+OSTAG = _macOS12
+
+SUFF = $(OSTAG)_g
+SUFFC = _gfort4.6
+SUFFC = _gfort4.8
+SUFFC = _GCC4.8
+
+FC = gfortran
+FC = /usr/local/gfortran/bin/gfortran
+FC = /usr/gcc-4.8.1/bin/gfortran
+
+FC90 = gfortran
+FC90 = /usr/local/gfortran/bin/gfortran
+FC90 = /usr/gcc-4.8.1/bin/gfortran
+
+CC= gcc
+CC= /usr/local/bin/gcc
+CC= /usr/gcc-4.8.1/bin/gcc
+
+CXX = g++
+CXX = /usr/local/bin/g++
+CXX = /usr/gcc-4.8.1/bin/g++
+
+FFLAGS = -arch x86_64 -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64
+FF90FLAGS = -arch x86_64 -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64
+CFLAGS = -arch x86_64 -m64 -Dmacx64
+endif
+# end OS 12
+
+# end Mac options
 endif
 
-endif
-#
-endif
-#######################################################
-# The following OS have not been supported since 2010
-# Use with caution as flags may be out of date
-#
-#
-# SUN OS ------------------------------
-# SunOS flow 5.10 Generic_137137-09 sun4u sparc SUNW,Sun-Fire-880
-# sparc
-#
-ifeq ($(OPSYS), SunOS)
-OSTAG = _sun
-FC = f77 -Bstatic
-FC90 = f90 -Bstatic
-CC = gcc
-FFLAGS = 
-FF90FLAGS = -f77
-FF90FLAGS =
-CFLAGS = 
-OBJDIR = objects_sun/
-endif
-#
-# SGI 64 OS ------------------------------
-# IRIX64 combust 6.5 10151453 IP27
-#  mips 
-# ADD FLAG for 64 bit SGI 
-# needs work and testing
-ifeq ($(OPSYS), IRIX64)
-OSTAG = _sgi64
-OSTAG = _sgi
-FC = /bin/f77
-FC90 = /bin/f90
-CC= cc
-FFLAGS = -c -g -64 -i8 -r10000
-FFLAGS = -n32 -r10000 -avoid_gp_overflow
-FF90FLAGS = -n32 -r10000
-CFLAGS = $(FFLAGS)
-OBJDIR = objects_sgi64/
-OBJDIR = objects_sgi/
-endif
-#######################################################
+# finish name extentsions with 
+# SUFF _g or _o
+# SUFFC compiler ie, _GCC4.8
+
 #
 ifndef COPT
 COPT = -O
@@ -205,27 +216,17 @@ endif
 # form the name suffix based on platform and flags
 # default optimized 32 bit
 SUFF = $(OSTAG)_o
+
 ifeq ($(COPT), -g)
 SUFF = $(OSTAG)_g
 endif
-#
-SUFF2 =""
-ifeq ($(COMPILER),GFORTRAN)
-SUFF2 = _gfort4.5
-ifeq ($(OPSYS), Darwin)
-SUFF2 = _gfort4.6
-endif
-endif
-ifeq ($(COMPILER),ABSOFT)
-SUFF2 = _absoft
-endif
 # 
-OBJDIR = objects$(SUFF)$(SUFF2)/
-LIB   = $(PROJ)$(SUFF)$(SUFF2).a
-PROG  = $(PROJ)$(SUFF)$(SUFF2)
-LIBDATE   = $(PROJ)$(SUFF)$(DATETAG)$(SUFF2).a
-PROGDATE  = $(PROJ)$(SUFF)$(DATETAG)$(SUFF2)
-MODDIR = $(OBJDIR)$(SUFF2)
+OBJDIR = objects$(SUFF)$(SUFFC)/
+LIB   = $(PROJ)$(SUFF)$(SUFFC).a
+PROG  = $(PROJ)$(SUFF)$(SUFFC)
+LIBDATE   = $(PROJ)$(SUFF)$(DATETAG)$(SUFFC).a
+PROGDATE  = $(PROJ)$(SUFF)$(DATETAG)$(SUFFC)
+MODDIR = $(OBJDIR)$(SUFFC)
 MODDIR = $(OBJDIR)
 # 
 ##########################################################################
@@ -328,7 +329,8 @@ list:;
 	@echo "FC90 Compilers: $(FC90)"
 	@echo "C  Compilers: $(CC)"
 	@echo "CFlags: $(FFLAGS) $(COPT),  $(FF90FLAGS) $(COPT), $(CFLAGS) $(COPT)"
-	@echo "OS: $(OPSYS) OS TAG: $(OSTAG) NAME SUFFIX $(SUFF)$(SUFF2)"
+	@echo "OS: $(OPSYS) OS TAG: $(OSTAG) NAME SUFFIX $(SUFF)$(SUFFC)"
+	cat lagrit$(OSTAG).h 
 	@echo " "
 #
 ##########################################################################
