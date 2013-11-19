@@ -59,7 +59,7 @@ C       character*132   mess
      &                  gdim,tdim,mbndry,
      &                  i,i2,i3,nrem,counter,
      &                  curr_cnode,curr_dnode,next_dnode,
-     &                  ilen, itype,ierror
+     &                  ilen, itype,ierror, ierrw
         character*32    cmaxrad, qname
         character*512   ndnodlist
         real*8          bboxx(8), bboxy(8), bboxz(8)
@@ -501,10 +501,19 @@ C    &          itp1(curr_cnode) .ne. 21) then
                !print *,ndnodlist
             endif
         enddo
+
+
 C   Release the memory held by the queue
         call queue_d(qname,ierror)
-        print *,"Number of nodes dudded total: ", nrem
-        
+
+        if (ierror .ne. 0) then
+         write(cmd,'(a,i5)')'excavate Error: from queue_d: ',ierror
+         call writloga('default',1,cmd,1,ierrw)
+        endif
+
+        write(cmd,'(a,i15)')
+     &  'EXCAVATE total number of dudded nodes: ',nrem
+        call writloga('default',1,cmd,1,ierrw)
 
 C############################
 C   Done with either the KD-Tree or the BFS method. Either way, we have
@@ -512,10 +521,21 @@ C   now dudded a selection of points that are too close to the surface.
 C   Time to get rid of them once and for all.
         endif
 
+C   Return error flag
+C   Note from TAM, ierror_return is used as input flag at entry
+C   then ignored. I assign error value here so error may be captured.
+        ierror_return = ierror
 
-
+C   Release the temporary memory
+        call mmrelprt(isubname,ierror)
+        if (ierror .ne. 0) then
+           write(cmd,'(a,i5)')'mmrelprt Error: ',ierror
+           call writloga('default',1,cmd,1,ierrw)
+        endif
         
+C   Final clean up
 C   Remove all the points we just dudded.
+        cmd = ' '
         cmd = 'cmo/select/' // main_mo // '; finish'
         call dotask(cmd, ierror)
         cmd = 'geniee; finish'
