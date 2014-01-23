@@ -1,0 +1,10 @@
+PyLaGriT Class
+
+- The PyLaGriT class provides a python interface to the Los Alamos Grid Toolbox. 
+- The PyLaGrit class is derived class of the perplex packages spawn class, and its objects contains all of spawn's functionality. 
+- Commands can be sent using LaGriT syntax as string arguments to the sendline method. 
+- Direct access to the LaGriT shell is provided by the interact method. 
+- Subclasses of the PyLaGrit class include mesh object (MO), surface, and region and can be created using various methods to PyLaGriT objects. 
+- The mesh object subclass contains subclasses pset and eltset. 
+- Subclasses are contained in dictionaries in the parent class. 
+- The mesh object class contains gmv and paraview methods that dump the appropriate files and open them in viewer. 
