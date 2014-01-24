@@ -116,7 +116,7 @@ class MO(object):
         if isinstance(eltset,EltSet): name = eltset.name
         elif isinstance(eltset,str): name = eltset
         else:
-            print 'eltset must be a string or object of class PSet'
+            print 'eltset must be a string or object of class EltSet'
             return
         cmd = 'rmpoint/element/eltset,get,'+name
         self.sendline(cmd)
@@ -184,7 +184,7 @@ class EltSet(object):
     def __repr__(self):
         return str(self.name)
     def delete(self):
-        cmd = 'pset/'+self.name+'/delete'
+        cmd = 'eltset/'+self.name+'/delete'
         self._parent.sendline(cmd)
         del self._parent.eltset[self.name]
 
