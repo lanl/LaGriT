@@ -108,9 +108,9 @@ class MO(object):
         if isinstance(pset,PSet): name = pset.name
         elif isinstance(pset,str): name = pset
         else:
-            print 'pset must be a string or object of class PSet'
+            print 'p must be a string or object of class PSet'
             return
-        cmd = "rmpoint/pset get "+name+'/'+itype
+        cmd = 'rmpoint/pset,get,'+name+'/'+itype
         self.sendline(cmd)
     def rmpoint_eltset(self,eltset):
         if isinstance(eltset,EltSet): name = eltset.name
