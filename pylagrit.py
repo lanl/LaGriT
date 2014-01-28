@@ -1,29 +1,54 @@
 from pexpect import spawn
+from subprocess import call, PIPE
 import os
 
 class PyLaGriT(spawn):
     ''' Python lagrit class'''
-    def __init__(self, exe, verbose=True, *args, **kwargs):
-        super(PyLaGriT, self).__init__(exe, *args, **kwargs) 
-        self.expect()
+    def __init__(self, exe, verbose=True, batch=False, batchfile='pylagrit.lgi', *args, **kwargs):
+        self.exe = exe
+        self.verbose = verbose
         self.mo = {}
         self.surface = {}
         self.region = {}
-        self.verbose = verbose
-        if verbose: print self.before
+        if batch:
+            try: self.fh = open(batchfile, 'w')
+            except IOError as e: 
+                print "Unable to open "+batchfile+": {1}".format(e.strerror)
+                print "Batch mode disabled"
+                self.batch = False
+            else:
+                self.batchfile = batchfile
+                self.fh.write('# PyLaGriT generated LaGriT script\n')
+        else:
+            super(PyLaGriT, self).__init__(exe, *args, **kwargs) 
+            self.expect()
+            if verbose: print self.before
+    def batch(self):
+        self.fh.write('finish\n')
+        self.fh.close()
+        call(self.exe+' <'+self.batchfile, shell=True, stdout=PIPE)
     def expect(self):
-        super(PyLaGriT, self).expect('Enter a command') 
+        if self.batch:
+            print "expect disabled during batch mode"
+        else:
+            super(PyLaGriT, self).expect('Enter a command') 
     def sendline(self, cmd, verbose=True):
-        super(PyLaGriT, self).sendline(cmd) 
-        self.expect()
-        if verbose and self.verbose: print self.before
+        if self.batch:
+            self.fh.write(cmd+'\n')
+        else:
+            super(PyLaGriT, self).sendline(cmd) 
+            self.expect()
+            if verbose and self.verbose: print self.before
     def interact(self, escape_character='^'):
-        print "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        print "Entering interactive mode"
-        print "To return to python terminal, type a '"+escape_character+"' character"
-        print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-        print self.after
-        super(PyLaGriT, self).interact(escape_character=escape_character) 
+        if self.batch:
+            print "Interactive mode unavailable during batch mode"
+        else:
+            print "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+            print "Entering interactive mode"
+            print "To return to python terminal, type a '"+escape_character+"' character"
+            print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+            print self.after
+            super(PyLaGriT, self).interact(escape_character=escape_character) 
     def cmo_status(self, cmo=None, brief=False):
         cmd = 'cmo/status'
         if cmo: cmd += '/'+cmo 
@@ -40,7 +65,7 @@ class PyLaGriT(spawn):
         if binary: cmd = '/'.join([cmd,'binary'])
         self.sendline(cmd)
         # If format lagrit, cmo read in will not be set to mo_name
-        if format == 'lagrit':
+        if format == 'lagrit' and not self.batch:
             self.sendline('cmo/status/brief', verbose=False)
             for line in self.before.split('\r\n'):
                 if 'current-mesh-object' in line:
