@@ -93,6 +93,7 @@ class PyLaGriT(spawn):
         self.sendline(cmd)
         self.region[name] = Region(name,self)
         return self.region[name]
+
 class MO(object):
     ''' Mesh object class'''
     def __init__(self, name, parent):
@@ -115,6 +116,17 @@ class MO(object):
         maxs = [str(v) for v in maxs]
         stride = [str(v) for v in stride]
         cmd = '/'.join(['pset',name,'geom/xyz',','.join(stride),','.join(mins),','.join(maxs)])
+        self.sendline(cmd)
+        self.pset[name] = PSet(name,self)
+        return self.pset[name]
+    def pset_geom_rtz(self,rtz1,rtz2,center=[0,0,0],stride=[1,0,0],name=None):
+        if name is None:
+            name = make_name('p',self.pset.keys())
+        rtz1 = [str(v) for v in rtz1]
+        rtz2 = [str(v) for v in rtz2]
+        center = [str(v) for v in center]
+        stride = [str(v) for v in stride]
+        cmd = '/'.join(['pset',name,'geom/rtz',','.join(stride),','.join(rtz1),','.join(rtz2),','.join(center)])
         self.sendline(cmd)
         self.pset[name] = PSet(name,self)
         return self.pset[name]
@@ -201,6 +213,8 @@ class PSet(object):
         cmd = 'pset/'+self.name+'/delete'
         self._parent.sendline(cmd)
         del self._parent.pset[self.name]
+    def setatt(self):
+
 
 class EltSet(object):
     ''' EltSet class'''
