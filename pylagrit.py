@@ -10,7 +10,8 @@ class PyLaGriT(spawn):
         self.mo = {}
         self.surface = {}
         self.region = {}
-        if batch:
+        self.batch = batch
+        if self.batch:
             try: self.fh = open(batchfile, 'w')
             except IOError as e: 
                 print "Unable to open "+batchfile+": {1}".format(e.strerror)
