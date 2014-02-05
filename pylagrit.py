@@ -4,13 +4,16 @@ import os
 
 class PyLaGriT(spawn):
     ''' Python lagrit class'''
-    def __init__(self, exe, verbose=True, batch=False, batchfile='pylagrit.lgi', *args, **kwargs):
-        self.exe = exe
+    def __init__(self, lagrit_exe=None, verbose=True, batch=False, batchfile='pylagrit.lgi', gmv_exe=None, paraview_exe=None, *args, **kwargs):
         self.verbose = verbose
         self.mo = {}
         self.surface = {}
         self.region = {}
         self.batch = batch
+        self._check_rc()
+        if lagrit_exe is not None: self.lagrit_exe = lagrit_exe
+        if gmv_exe is not None: self.gmv_exe = gmv_exe
+        if paraview_exe is not None: self.paraview_exe = paraview_exe        
         if self.batch:
             try: self.fh = open(batchfile, 'w')
             except IOError as e: 
@@ -21,7 +24,7 @@ class PyLaGriT(spawn):
                 self.batchfile = batchfile
                 self.fh.write('# PyLaGriT generated LaGriT script\n')
         else:
-            super(PyLaGriT, self).__init__(exe, *args, **kwargs) 
+            super(PyLaGriT, self).__init__(self.lagrit_exe, *args, **kwargs) 
             self.expect()
             if verbose: print self.before
     def batch(self):
@@ -102,6 +105,34 @@ class PyLaGriT(spawn):
         self.sendline(cmd)
         self.region[name] = Region(name,self)
         return self.region[name]
+    def _check_rc(self):
+        # check if pyfehmrc file exists
+        rc_wd1 = os.sep.join(os.getcwd())+os.sep+'.pylagritrc'
+        rc_wd2 = os.sep.join(os.getcwd())+os.sep+'pylagritrc'
+        rc_home1 = os.path.expanduser('~')+os.sep+'.pylagritrc'
+        rc_home2 = os.path.expanduser('~')+os.sep+'pylagritrc'
+        if os.path.isfile(rc_wd1): fp = open(rc_lib1)
+        elif os.path.isfile(rc_wd2): fp = open(rc_lib2)
+        elif os.path.isfile(rc_home1): fp = open(rc_home1)
+        elif os.path.isfile(rc_home2): fp = open(rc_home2)
+        else: return
+        lns = fp.readlines()
+        for ln in lns:
+            ln = ln.split('#')[0]       # strip off the comment
+            if ln.startswith('#'): continue
+            elif ln.strip() == '': continue
+            elif ':' in ln:
+                v = ln.split(':')
+                if v[0].strip() == 'lagrit_exe':
+                    self.lagrit_exe = v[1].strip()
+                elif v[0].strip() == 'gmv_exe':
+                    self.gmv_exe = v[1].strip()
+                elif v[0].strip() == 'paraview_exe':
+                    self.paraview_exe = v[1].strip()
+                else:
+                    print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
+            else:
+                print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
 
 class MO(object):
     ''' Mesh object class'''
@@ -178,14 +209,16 @@ class MO(object):
         self.sendline('/'.join(['sort',self.name,'index',order,'ikey',cycle]))
         self.sendline('reorder / '+self.name+' / ikey')
         self.sendline('cmo / DELATT / '+self.name+' / ikey')
-    def gmv(self,exe,filename=None):
+    def gmv(self,exe=None,filename=None):
         if filename is None: filename = self.name+'.gmv'
+        if exe is not None: self._parent.gmv_exe = exe
         self.sendline('dump/gmv/'+filename+'/'+self.name)
-        os.system(exe+' -i '+filename)
-    def paraview(self,exe,filename=None):
+        os.system(self._parent.gmv_exe+' -i '+filename)
+    def paraview(self,exe=None,filename=None):
         if filename is None: filename = self.name+'.inp'
+        if exe is not None: self._parent.paraview_exe = exe
         self.sendline('dump/avs/'+filename+'/'+self.name)
-        os.system(exe+' '+filename)
+        os.system(self._parent.paraview_exe+' '+filename)
     def dump(self,format,filename=None,*args):
         if filename: 
             if format in ['fehm','zone_outside','zone_outside_minmax']: filename = filename.split('.')[0]
