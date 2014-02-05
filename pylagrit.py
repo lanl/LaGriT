@@ -86,6 +86,15 @@ class PyLaGriT(spawn):
         self.sendline(cmd)
         self.surface[name] = Surface(name,self)
         return self.surface[name]
+    def surface_cylinder(self,coord1,coord2,radius,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self.surface.keys())
+        coord1 = [str(v) for v in coord1]
+        coord2 = [str(v) for v in coord2]
+        cmd = '/'.join(['surface',name,ibtype,'cylinder',','.join(coord1),','.join(coord2),str(radius)])
+        self.sendline(cmd)
+        self.surface[name] = Surface(name,self)
+        return self.surface[name]
     def region_bool(self,bool,name=None): 
         if name is None:
             name = make_name('r',self.region.keys())
@@ -109,6 +118,10 @@ class MO(object):
     def status(self,brief=False):
         print self.name
         self._parent.cmo_status(self.name,brief=brief)
+    def setatt(self,attname,value,stride=[1,0,0]):
+        stride = [str(v) for v in stride]
+        cmd = '/'.join(['cmo/setatt',self.name,attname,','.join(stride),str(value)])
+        self.sendline(cmd)
     def pset_geom_xyz(self,mins,maxs,stride=[1,0,0],name=None):
         if name is None:
             name = make_name('p',self.pset.keys())
@@ -188,8 +201,6 @@ class MO(object):
         for arg in args: cmd = '/'.join(cmd,arg)
         self.sendline(cmd)
 
-
-
 class Surface(object):
     ''' Surface class'''
     def __init__(self, name, parent):
@@ -213,8 +224,6 @@ class PSet(object):
         cmd = 'pset/'+self.name+'/delete'
         self._parent.sendline(cmd)
         del self._parent.pset[self.name]
-    def setatt(self):
-
 
 class EltSet(object):
     ''' EltSet class'''
