@@ -58,28 +58,50 @@ class PyLaGriT(spawn):
         if cmo: cmd += '/'+cmo 
         if brief: cmd += '/brief'
         self.sendline(cmd)
-    def read(self,format,filename,mo_name=None,binary=False):
-        # If format is lagrit, mo_name is irrelevant
+    def read(self,format,filename,name=None,binary=False):
+        # If format is lagrit, name is irrelevant
         if format != 'lagrit':
-            if mo_name is None:
-                mo_name = make_name('mo',self.mo.keys())
-            cmd = '/'.join(['read',format,filename,mo_name])
+            if name is None:
+                name = make_name('mo',self.mo.keys())
+            cmd = '/'.join(['read',format,filename,name])
         else:
             cmd = '/'.join(['read',format,filename,'dum'])
         if binary: cmd = '/'.join([cmd,'binary'])
         self.sendline(cmd)
-        # If format lagrit, cmo read in will not be set to mo_name
+        # If format lagrit, cmo read in will not be set to name
         if format == 'lagrit' and not self.batch:
             self.sendline('cmo/status/brief', verbose=False)
             for line in self.before.split('\r\n'):
                 if 'current-mesh-object' in line:
                     tmp_name = line.split(':')[1].strip()
-                    if mo_name is None: mo_name = tmp_name
-                    elif mo_name != tmp_name: 
-                        self.sendline('cmo/copy/'+mo_name+'/'+tmp_name)
+                    if name is None: name = tmp_name
+                    elif name != tmp_name: 
+                        self.sendline('cmo/copy/'+name+'/'+tmp_name)
                         self.sendline('cmo/release/'+tmp_name)
-        self.mo[mo_name] = MO(mo_name,self)
-        return self.mo[mo_name]
+        self.mo[name] = MO(name,self)
+        return self.mo[name]
+    def addmesh(self, mo1, mo2, style='add', name=None, *args):
+        if isinstance(mo1,MO): mo1name = mo1.name
+        elif isinstance(mo1,str): mo1name = mo1
+        else:
+            print "ERROR: MO object or name of mesh object as a string expected for mo1"
+            return
+        if isinstance(mo2,MO): mo2name = mo2.name
+        elif isinstance(mo2,str): mo2name = mo2
+        else:
+            print "ERROR: MO object or name of mesh object as a string expected for mo2"
+            return
+        if name is None:
+            name = make_name('mo',self.mo.keys())
+        cmd = '/'.join(['addmesh',style,name,mo1name,mo2name])
+        for a in args: 
+            if isinstance(a, str):
+                cmd = '/'.join([cmd,a])
+            elif isinstance(a,list):
+                cmd = '/'.join([cmd,' '.join([str(v) for v in a])])
+        self.sendline(cmd)
+        self.mo[name] = MO(name,self)
+        return self.mo[name]
     def surface_box(self,mins,maxs,name=None,ibtype='reflect'):
         if name is None:
             name = make_name('s',self.surface.keys())
@@ -133,6 +155,7 @@ class PyLaGriT(spawn):
                     print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
             else:
                 print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
+
 
 class MO(object):
     ''' Mesh object class'''
