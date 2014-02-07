@@ -24,7 +24,7 @@ class PyLaGriT(spawn):
                 self.batchfile = batchfile
                 self.fh.write('# PyLaGriT generated LaGriT script\n')
         else:
-            super(PyLaGriT, self).__init__(self.lagrit_exe, *args, **kwargs) 
+            super(PyLaGriT, self).__init__(self.lagrit_exe, timeout=300, *args, **kwargs) 
             self.expect()
             if verbose: print self.before
     def run_batch(self):
@@ -102,6 +102,49 @@ class PyLaGriT(spawn):
         self.sendline(cmd)
         self.mo[name] = MO(name,self)
         return self.mo[name]
+    def addmesh_add(self, mo1, mo2, name=None, refine_factor=None, refine_style='edge'):
+        if refine_factor is None: refine_factor = ' '
+        return self.addmesh( mo1, mo2, 'add', name, refine_factor, refine_style )
+    def addmesh_amr(self, mo1, mo2, name=None):
+        return self.addmesh( mo1, mo2, style='amr', name=name )
+    def addmesh_append(self, mo1, mo2, name=None):
+        return self.addmesh( mo1, mo2, style='append', name=name )
+    def addmesh_delete(self, mo1, mo2, name=None):
+        return self.addmesh( mo1, mo2, style='delete', name=name )
+    def addmesh_glue(self, mo1, mo2, name=None):
+        return self.addmesh( mo1, mo2, style='glue', name=name )
+    def addmesh_intersect(self, pset, mo1, mo2, name=None):
+        if isinstance(pset,PSet): psetname = pset.name
+        elif isinstance(pset,str): psetname = pset
+        else:
+            print "ERROR: PSet object or name of PSet object as a string expected for pset"
+            return
+        if isinstance(mo1,MO): mo1name = mo1.name
+        elif isinstance(mo1,str): mo1name = mo1
+        else:
+            print "ERROR: MO object or name of mesh object as a string expected for mo1"
+            return
+        if isinstance(mo2,MO): mo2name = mo2.name
+        elif isinstance(mo2,str): mo2name = mo2
+        else:
+            print "ERROR: MO object or name of mesh object as a string expected for mo2"
+            return
+        if name is None:
+            name = make_name('mo',self.mo.keys())
+        cmd = '/'.join(['addmesh','intersect',name,psetname,mo1name,mo2name])        
+        self.sendline(cmd)
+        self.pset[name] = PSet(name,self)
+        return self.pset[name]
+    def addmesh_merge(self, mo1, mo2, name=None):
+        return self.addmesh( mo1, mo2, style='merge', name=name )
+    def addmesh_pyramid(self, mo1, mo2, name=None):
+        return self.addmesh( mo1, mo2, style='pyramid', name=name )
+    def addmesh_excavate(self, mo1, mo2, name=None, bfs=False, connect=False):
+        if bfs: bfsstr = 'bfs'
+        else: bfsstr = ' '
+        if connect: connectstr = 'connect'
+        else: connectstr = ' '
+        return self.addmesh( mo1, mo2, 'excavate', name, bfsstr, connectstr )
     def surface_box(self,mins,maxs,name=None,ibtype='reflect'):
         if name is None:
             name = make_name('s',self.surface.keys())
