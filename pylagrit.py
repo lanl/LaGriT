@@ -31,17 +31,17 @@ class PyLaGriT(spawn):
         self.fh.write('finish\n')
         self.fh.close()
         call(self.lagrit_exe+' <'+self.batchfile, shell=True, stdout=PIPE)
-    def expect(self):
+    def expect(self, expectstr='Enter a command'):
         if self.batch:
             print "expect disabled during batch mode"
         else:
-            super(PyLaGriT, self).expect('Enter a command') 
-    def sendline(self, cmd, verbose=True):
+            super(PyLaGriT, self).expect(expectstr) 
+    def sendline(self, cmd, verbose=True, expectstr='Enter a command'):
         if self.batch:
             self.fh.write(cmd+'\n')
         else:
             super(PyLaGriT, self).sendline(cmd) 
-            self.expect()
+            self.expect(expectstr=expectstr)
             if verbose and self.verbose: print self.before
     def interact(self, escape_character='^'):
         if self.batch:
@@ -198,6 +198,25 @@ class PyLaGriT(spawn):
                     print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
             else:
                 print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
+    def extract_surfmesh(self,name=None,cmo_in=None,stride=[1,0,0],reorder=False):
+        if name is None:
+            name = make_name('mo',self.mo.keys())
+        if cmo_in is not None:
+            if not isinstance( cmo_in, MO):
+                print "ERROR: MO object or name of mesh object as a string expected for cmo_in"
+                return
+        if reorder:
+            cmo_in.sendline('createpts/median')
+            self.sendline('/'.join(['sort',cmo_in.name,'index/ascending/ikey/itetclr zmed ymed zmed']))
+            self.sendline('/'.join(['reorder',cmo_in.name,'ikey']))
+            self.sendline('/'.join(['cmo/DELATT',cmo_in.name,'xmed']))
+            self.sendline('/'.join(['cmo/DELATT',cmo_in.name,'ymed']))
+            self.sendline('/'.join(['cmo/DELATT',cmo_in.name,'zmed']))
+            self.sendline('/'.join(['cmo/DELATT',cmo_in.name,'ikey']))
+        stride = [str(v) for v in stride]
+        self.sendline( '/'.join(['extract/surfmesh',','.join(stride),name,cmo_in.name]))
+        self.mo[name] = MO(name,self)
+        return self.mo[name]
 
 
 class MO(object):
@@ -252,6 +271,13 @@ class MO(object):
         self.sendline(cmd)
         self.eltset[name] = EltSet(name,self)
         return self.eltset[name]
+    def eltset_attribute(self,attribute_name,attribute_value,boolstr='eq',name=None):
+        if name is None:
+            name = make_name('e',self.pset.keys())
+        cmd = '/'.join(['eltset',name,attribute_name,boolstr,str(attribute_value)])
+        self.sendline(cmd)
+        self.eltset[name] = EltSet(name,self)
+        return self.eltset[name]
     def rmpoint_pset(self,pset,itype='exclusive'):
         if isinstance(pset,PSet): name = pset.name
         elif isinstance(pset,str): name = pset
@@ -299,6 +325,22 @@ class MO(object):
         cmd = '/'.join(['dump',format,filename,self.name])
         for arg in args: cmd = '/'.join(cmd,arg)
         self.sendline(cmd)
+    def dump_exo(self,filename,psets=False,eltsets=False,facesets=[]):
+        cmd = '/'.join(['dump/exo',filename,self.name])
+        if psets: cmd = '/'.join([cmd,'psets'])
+        else: cmd = '/'.join([cmd,' '])
+        if eltsets: cmd = '/'.join([cmd,'eltsets'])
+        else: cmd = '/'.join([cmd,' '])
+        if len(facesets):
+            cmd = '/'.join([cmd,'facesets'])
+            for fc in facesets: 
+                cmd += ' &\n'+fc.filename
+        print cmd
+        self.sendline(cmd)
+    def delete(self):
+        self.sendline('cmo/delete/'+self.name)
+
+        
 
 class Surface(object):
     ''' Surface class'''
@@ -328,6 +370,7 @@ class EltSet(object):
     ''' EltSet class'''
     def __init__(self, name, parent):
         self.name = name
+        self.faceset = None
         self._parent = parent
     def __repr__(self):
         return str(self.name)
@@ -335,6 +378,24 @@ class EltSet(object):
         cmd = 'eltset/'+self.name+'/delete'
         self._parent.sendline(cmd)
         del self._parent.eltset[self.name]
+    def create_faceset(self,filename=None,reorder=True):
+        if filename is None:
+            filename = make_name( 'faceset', self.facesets.keys() )
+        motmpnm = make_name( 'mo_tmp',self._parent._parent.mo.keys() )
+        self._parent._parent.sendline('/'.join(['cmo/copy',motmpnm,self._parent.name]))
+        self._parent._parent.sendline('/'.join(['cmo/DELATT',motmpnm,'itetclr0']))
+        self._parent._parent.sendline('/'.join(['cmo/DELATT',motmpnm,'itetclr1']))
+        self._parent._parent.sendline('/'.join(['cmo/DELATT',motmpnm,'facecol']))
+        self._parent._parent.sendline('/'.join(['cmo/DELATT',motmpnm,'idface0']))
+        self._parent._parent.sendline('/'.join(['cmo/DELATT',motmpnm,'idelem0']))
+        self._parent._parent.sendline('eltset / eall / itetclr / ge / 0')
+        self._parent._parent.sendline('eltset/edel/not eall '+self.name)
+        self._parent._parent.sendline('rmpoint / element / eltset get edel')
+        self._parent._parent.sendline('rmpoint / compress')
+        self._parent._parent.sendline('/'.join(['dump / avs2',filename,motmpnm,'0 0 0 2']))
+        self._parent._parent.sendline('cmo / delete /'+motmpnm)
+        self.faceset = FaceSet(filename,self)
+        return self.faceset
 
 class Region(object):
     ''' Region class'''
@@ -343,6 +404,15 @@ class Region(object):
         self._parent = parent
     def __repr__(self):
         return str(self.name)
+
+class FaceSet(object):
+    ''' FaceSet class'''
+    def __init__(self, filename, parent):
+        self.filename = filename
+        self._parent = parent
+    def __repr__(self):
+        return str(self.filename)
+
 
 def make_name( base, names ):
     i = 1
