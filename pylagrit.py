@@ -234,10 +234,10 @@ class MO(object):
     def status(self,brief=False):
         print self.name
         self._parent.cmo_status(self.name,brief=brief)
-    def printatt(self,attname=None,stride=[1,0,0],pset=None,type='value'):
+    def printatt(self,attname=None,stride=[1,0,0],pset=None,eltset=None,type='value'):
         stride = [str(v) for v in stride]
         if attname is None: attname = '-all-'
-        if pset is None:
+        if pset is None and eltset is None:
             cmd = '/'.join(['cmo/printatt',self.name,attname,type,','.join(stride)])
         else:
             if pset is not None:
@@ -247,14 +247,13 @@ class MO(object):
                     print "ERROR: PSet object or name of PSet object as a string expected for pset"
                     return
                 cmd = '/'.join(['cmo/printatt',self.name,attname,type,','.join(['pset','get',setname])])
-            # Lagrit doesn't seem to except eltset,get,... for printatt
-            #if eltset is not None:
-            #    if isinstance(eltset,EltSet): setname = eltset.name
-            #    elif isinstance(eltset,str): setname = eltset
-            #    else:
-            #        print "ERROR: EltSet object or name of EltSet object as a string expected for eltset"
-            #        return
-            #    cmd = '/'.join(['cmo/printatt',self.name,attname,type,','.join(['eltset','get',setname])])
+            if eltset is not None:
+                if isinstance(eltset,EltSet): setname = eltset.name
+                elif isinstance(eltset,str): setname = eltset
+                else:
+                    print "ERROR: EltSet object or name of EltSet object as a string expected for eltset"
+                    return
+                cmd = '/'.join(['cmo/printatt',self.name,attname,type,','.join(['eltset','get',setname])])
         self.sendline(cmd)
     def minmax(self,attname=None,stride=[1,0,0],pset=None):
         self.printatt(attname=attname,stride=stride,pset=None,type='minmax')
@@ -426,10 +425,10 @@ class EltSet(object):
         self._parent._parent.sendline('cmo / delete /'+motmpnm)
         self.faceset = FaceSet(filename,self)
         return self.faceset
-    #def minmax(self,attname=None,stride=[1,0,0]):
-    #    self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='minmax')
-    #def list(self,attname=None,stride=[1,0,0]):
-    #    self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='list')
+    def minmax(self,attname=None,stride=[1,0,0]):
+        self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='minmax')
+    def list(self,attname=None,stride=[1,0,0]):
+        self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='list')
 
 class Region(object):
     ''' Region class'''
