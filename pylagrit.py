@@ -217,8 +217,26 @@ class PyLaGriT(spawn):
         self.sendline( '/'.join(['extract/surfmesh',','.join(stride),name,cmo_in.name]))
         self.mo[name] = MO(name,self)
         return self.mo[name]
-
-
+        
+    def read_script(self, fname):
+        '''
+        Read a LaGriT Script
+        
+        Given a script name, executes the script in LaGriT. 
+        '''        
+        f = open(fname)
+        commands = f.readlines()   
+        for c in commands:
+            #Remove newlines and spaces
+            c = ''.join(c.split())
+            if len(c) != 0 and 'finish' not in c:
+                self.sendline(c)
+            
+    def convert(self, flist, ftype):
+        '''Convert File(s)'''
+        pass
+       
+             
 class MO(object):
     ''' Mesh object class'''
     def __init__(self, name, parent):
