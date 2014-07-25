@@ -1,6 +1,7 @@
 from pexpect import spawn
 from subprocess import call, PIPE
 import os
+import glob
 
 class PyLaGriT(spawn):
     ''' Python lagrit class'''
@@ -216,14 +217,18 @@ class PyLaGriT(spawn):
         stride = [str(v) for v in stride]
         self.sendline( '/'.join(['extract/surfmesh',','.join(stride),name,cmo_in.name]))
         self.mo[name] = MO(name,self)
-        return self.mo[name]
-        
+        return self.mo[name] 
+              
     def read_script(self, fname):
         '''
         Read a LaGriT Script
         
         Given a script name, executes the script in LaGriT. 
-        '''        
+        
+        :param fname: The name or path to the lagrit script.
+        :type fname: str
+        '''     
+           
         f = open(fname)
         commands = f.readlines()   
         for c in commands:
@@ -231,12 +236,52 @@ class PyLaGriT(spawn):
             c = ''.join(c.split())
             if len(c) != 0 and 'finish' not in c:
                 self.sendline(c)
+                            
+    def convert(self, pattern, new_ft):
+        '''Convert File(s)
+        
+        For each file of the pattern, creates a new file in the new_ft format. 
+        The new files will be inside the directory that the LaGriT object was
+        instantiated. The name of each file will be the same as the original 
+        file with the extension changed to new_ft.
+        
+        Supports conversion from avs files.
+        Supports conversion to gmv files.
+         
+        :param pattern: Unix style file pattern of files to be converted.
+        :type  pattern: str
+        
+        :param new_ft: New format to convert files.
+        :type  new_ft: str
+        '''
+        
+        #Make sure I support the new filetype.
+        if new_ft not in ['gmv']:
+            raise ValueError('Conversion to %s not supported.'%new_ft)
+
+        for rpath in glob.glob(pattern):
+            #Set everything up for lagrit.
+            path = os.path.abspath(rpath)
+            fname = path[path.rfind('/')+1:path.rfind('.')]
+            old_ft = path[path.rfind('.')+1:]
             
-    def convert(self, flist, ftype):
-        '''Convert File(s)'''
-        pass
-       
-             
+            #Check that I support the old filetype.
+            if old_ft not in ['avs']:
+                raise ValueError('Conversion from %s not supported.'%old_ft)
+  
+            try:
+                os.symlink(path, 'old_format')   
+            except OSError as err:
+                raise err('Unable to create a symbolic link.') 
+                  
+            #Run the commands in lagrit.
+            self.sendline('read/%s/old_format/temp_cmo'%old_ft)   
+            self.sendline('dump/%s/%s.%s/temp_cmo'%(new_ft, fname, new_ft))
+            
+            #Clean up created data.
+            self.sendline('cmo/release/temp_cmo')
+            os.unlink('old_format')
+                        
 class MO(object):
     ''' Mesh object class'''
     def __init__(self, name, parent):

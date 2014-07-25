@@ -32,20 +32,19 @@ class TestPyLaGriT(unittest.TestCase):
         '''
         
         lg = self.lg      
-        os.chdir('test_convert')
         
         #Convert all avs files to gmv with pylagrit.
-        avs_fnames = glob.glob('*.avs')
         with suppress_stdout():
-            lg.convert(avs_fnames, 'gmv')
+            lg.convert('test_convert/*.avs', 'gmv')
         
         #Checks that the generated files are the same as the compare files.
-        for filename in glob.glob('compare_*.gmv'):
+        for filename in glob.glob('test_convert/compare_*.gmv'):
             f1 = open(filename)
-            f2 = open(filename[8:])        
+            f2 = open(filename[21:])        
             old_data = f1.readlines()
             new_data = f2.readlines()
             self.assertEqual(old_data, new_data)
+            os.remove('test.gmv')
                       
 @contextmanager
 def suppress_stdout():
@@ -62,6 +61,7 @@ if __name__ == '__main__':
     runner = unittest.TextTestRunner(verbosity=2)    
     suite = unittest.TestSuite()
     suite.addTest(TestPyLaGriT('test_read_script'))
+    suite.addTest(TestPyLaGriT('test_convert'))
     runner.run(suite)
     
     
