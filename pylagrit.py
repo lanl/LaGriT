@@ -248,7 +248,8 @@ class PyLaGriT(spawn):
         Supports conversion from avs files.
         Supports conversion to gmv files.
          
-        :param pattern: Unix style file pattern of files to be converted.
+        :param pattern: Path, name or unix style file pattern of files to be 
+                        converted.
         :type  pattern: str
         
         :param new_ft: New format to convert files.
@@ -256,17 +257,23 @@ class PyLaGriT(spawn):
         '''
         
         #Make sure I support the new filetype.
-        if new_ft not in ['gmv']:
+        if new_ft not in ['avs', 'gmv']:
             raise ValueError('Conversion to %s not supported.'%new_ft)
-
-        for rpath in glob.glob(pattern):
+        
+        #Make sure there are file patterns of this type.
+        fnames = glob.glob(pattern)
+        if len(fnames) ==  0:
+            raise OSError('No files found matching that name or pattern.')
+        
+        for rpath in fnames:
             #Set everything up for lagrit.
             path = os.path.abspath(rpath)
             fname = path[path.rfind('/')+1:path.rfind('.')]
             old_ft = path[path.rfind('.')+1:]
             
             #Check that I support the old filetype.
-            if old_ft not in ['avs']:
+            print old_ft
+            if old_ft not in ['avs', 'gmv']:
                 raise ValueError('Conversion from %s not supported.'%old_ft)
   
             try:
@@ -277,7 +284,7 @@ class PyLaGriT(spawn):
             #Run the commands in lagrit.
             self.sendline('read/%s/old_format/temp_cmo'%old_ft)   
             self.sendline('dump/%s/%s.%s/temp_cmo'%(new_ft, fname, new_ft))
-            
+
             #Clean up created data.
             self.sendline('cmo/release/temp_cmo')
             os.unlink('old_format')

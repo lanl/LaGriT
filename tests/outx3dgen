@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V3.101   Linux m64      *                 
 *               *    date_compile: 2013/04/25  RH gf4.5       *                 
-*               *    Run Time: 2014/Jul 25  15:09:45          *                 
+*               *    Run Time: 2014/Jul 25  17:54:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -46,7 +46,3 @@ define/ny/20
 define/nz/20                                                                    
 unexpected eof-command ignored                                                  
 empty command stack or other stack error revert to previous mode                
-   
-Mesh Object release skipped, it does not exist: temp_cmo                        
-cmo/release/temp_cmo                                                            
-Mesh Object release skipped, it does not exist: temp_cmo                        

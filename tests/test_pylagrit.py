@@ -4,6 +4,7 @@ import glob
 import sys
 import os
 from contextlib import contextmanager
+import itertools
 
 class TestPyLaGriT(unittest.TestCase):
     '''
@@ -33,19 +34,19 @@ class TestPyLaGriT(unittest.TestCase):
         
         lg = self.lg      
         
-        #Convert all avs files to gmv with pylagrit.
-        with suppress_stdout():
-            lg.convert('test_convert/*.avs', 'gmv')
+        old_formats = ['avs', 'gmv']
+        new_formats = ['avs', 'gmv']
         
-        #Checks that the generated files are the same as the compare files.
-        for filename in glob.glob('test_convert/compare_*.gmv'):
-            f1 = open(filename)
-            f2 = open(filename[21:])        
-            old_data = f1.readlines()
-            new_data = f2.readlines()
-            self.assertEqual(old_data, new_data)
-            os.remove('test.gmv')
-                      
+        for old_ft, new_ft in itertools.product(old_formats, new_formats):
+            #Convert all avs files to gmv with pylagrit
+            with suppress_stdout():
+                lg.convert('test_convert/*.%s'%old_ft, new_ft)
+            
+            if not os.path.isfile('test.%s'%new_ft): 
+                raise OSError('Failed Conversion.')
+                
+            os.remove('test.%s'%new_ft)
+          
 @contextmanager
 def suppress_stdout():
     #Utility to supress standard output.
