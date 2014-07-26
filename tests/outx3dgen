@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V3.101   Linux m64      *                 
 *               *    date_compile: 2013/04/25  RH gf4.5       *                 
-*               *    Run Time: 2014/Jul 25  17:54:22          *                 
+*               *    Run Time: 2014/Jul 25  17:58:43          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -44,5 +44,77 @@ WARNING: NO ACTION
 define/nx/20                                                                    
 define/ny/20                                                                    
 define/nz/20                                                                    
+unexpected eof-command ignored                                                  
+empty command stack or other stack error revert to previous mode                
+   
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: temp_cmo                                       
+ 
+  1 Mesh Object name: temp_cmo                                                  
+    number of nodes =          8010        number of elements =         7832    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+dump/gmv/test.gmv/temp_cmo                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/release/temp_cmo                                                            
+     Released Mesh Object: temp_cmo                                             
+read/gmv/old_format/temp_cmo                                                    
+Reading GMV binary file gmvinputieee                                            
+ no geometry for mesh object                                                    
+geniee                                                                          
+finish                                                                          
+Nodes:       8010 Elements:       7832                                          
+Done reading GMV binary total bytes:    1952856 file:  old_format               
+ 
+dump/avs/compare_test.avs/temp_cmo                                              
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/release/temp_cmo                                                            
+     Released Mesh Object: temp_cmo                                             
+read/gmv/old_format/temp_cmo                                                    
+Reading GMV binary file gmvinputieee                                            
+ no geometry for mesh object                                                    
+geniee                                                                          
+finish                                                                          
+Nodes:       8010 Elements:       7832                                          
+Done reading GMV binary total bytes:    1952856 file:  old_format               
+ 
+dump/avs/test.avs/temp_cmo                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/release/temp_cmo                                                            
+     Released Mesh Object: temp_cmo                                             
+read/gmv/old_format/temp_cmo                                                    
+Reading GMV binary file gmvinputieee                                            
+ no geometry for mesh object                                                    
+geniee                                                                          
+finish                                                                          
+Nodes:       8010 Elements:       7832                                          
+Done reading GMV binary total bytes:    1952856 file:  old_format               
+ 
+dump/gmv/compare_test.gmv/temp_cmo                                              
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/release/temp_cmo                                                            
+     Released Mesh Object: temp_cmo                                             
+read/gmv/old_format/temp_cmo                                                    
+Reading GMV binary file gmvinputieee                                            
+ no geometry for mesh object                                                    
+geniee                                                                          
+finish                                                                          
+Nodes:       8010 Elements:       7832                                          
+Done reading GMV binary total bytes:    1952856 file:  old_format               
+ 
+dump/gmv/test.gmv/temp_cmo                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/release/temp_cmo                                                            
+     Released Mesh Object: temp_cmo                                             
 unexpected eof-command ignored                                                  
 empty command stack or other stack error revert to previous mode                
