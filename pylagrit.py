@@ -257,7 +257,7 @@ class PyLaGriT(spawn):
         '''
         
         #Make sure I support the new filetype.
-        if new_ft not in ['avs', 'gmv']:
+        if new_ft not in ['avs', 'gmv', 'exo']:
             raise ValueError('Conversion to %s not supported.'%new_ft)
         
         #Make sure there are file patterns of this type.
@@ -272,7 +272,6 @@ class PyLaGriT(spawn):
             old_ft = path[path.rfind('.')+1:]
             
             #Check that I support the old filetype.
-            print old_ft
             if old_ft not in ['avs', 'gmv']:
                 raise ValueError('Conversion from %s not supported.'%old_ft)
   
@@ -288,6 +287,13 @@ class PyLaGriT(spawn):
             #Clean up created data.
             self.sendline('cmo/release/temp_cmo')
             os.unlink('old_format')
+            
+    def merge(self, *mesh_objs):
+        '''Merges two or mesh objects together.''' 
+        if len(mesh_objs) > 1:
+            return reduce(self.addmesh_merge, mesh_objs)
+        else:
+            raise ValueError('Must provide at least two objects to merge.')
                         
 class MO(object):
     ''' Mesh object class'''
@@ -515,7 +521,6 @@ class FaceSet(object):
         self._parent = parent
     def __repr__(self):
         return str(self.filename)
-
 
 def make_name( base, names ):
     i = 1

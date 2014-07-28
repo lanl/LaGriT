@@ -29,24 +29,35 @@ class TestPyLaGriT(unittest.TestCase):
         '''
         Test the Conversion Function
         
-        Tests that pylagrit can convert a list of avs files to gmv.
+        Tests that pylagrit can convert files from one format to a new one.
         '''
         
         lg = self.lg      
         
         old_formats = ['avs', 'gmv']
-        new_formats = ['avs', 'gmv']
+        new_formats = ['avs', 'gmv', 'exo']
         
         for old_ft, new_ft in itertools.product(old_formats, new_formats):
             #Convert all avs files to gmv with pylagrit
             with suppress_stdout():
                 lg.convert('test_convert/*.%s'%old_ft, new_ft)
             
+            #If the file did not get generated, assume fail.
             if not os.path.isfile('test.%s'%new_ft): 
-                raise OSError('Failed Conversion.')
-                
+                raise OSError('Failed Conversion.')         
             os.remove('test.%s'%new_ft)
-          
+            
+    def test_merge(self):
+        lg = self.lg
+        with suppress_stdout():
+            mo1 = lg.read('avs', 'contour_file.avs', name='cmo1')
+            mo2 = lg.read('avs', 'contour_file.avs', name='cmo2')
+            mo3 = lg.read('avs', 'contour_file.avs', name='cmo3')
+            new_mo = lg.merge(mo1, mo2, mo3)        
+        #Test that the merge created a new mesh object.
+        if type(new_mo) is type(None):
+            raise ValueError('The new mesh object was not created.')
+            
 @contextmanager
 def suppress_stdout():
     #Utility to supress standard output.
@@ -63,6 +74,7 @@ if __name__ == '__main__':
     suite = unittest.TestSuite()
     suite.addTest(TestPyLaGriT('test_read_script'))
     suite.addTest(TestPyLaGriT('test_convert'))
+    suite.addTest(TestPyLaGriT('test_merge'))
     runner.run(suite)
     
     
