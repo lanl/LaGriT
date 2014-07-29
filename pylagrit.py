@@ -291,12 +291,31 @@ class PyLaGriT(spawn):
             os.unlink('old_format')
             
     def merge(self, *mesh_objs):
-        '''Merges two or mesh objects together.''' 
+        '''
+        Merge Mesh Objects
+        
+        Merges two or more mesh objects together.
+        
+        :param mesh_objs: An argument list of mesh objects.
+        :type  mesh_objs: MO list
+        
+        Returns the MO that represents the merges.
+        ''' 
+        
         if len(mesh_objs) > 1:
             return reduce(self.addmesh_merge, mesh_objs)
         else:
             raise ValueError('Must provide at least two objects to merge.')
-  
+            
+    def create(self, name=None, mesh='tet', npoints=0, nelements=0):
+                        
+        if type(name) is type(None):
+            name = make_name('mo', self.mo.keys())     
+        self.sendline('cmo/create/%s/%i/%i/%s'%(name, npoints, nelements, mesh))
+        self.mo[name] = MO(name, self)
+        return self.mo[name]
+        
+
 class MO(object):
     ''' Mesh object class'''
     def __init__(self, name, parent):

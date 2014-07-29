@@ -80,6 +80,12 @@ class TestPyLaGriT(unittest.TestCase):
         if type(sub) is type(None):
             raise ValueError('The new mesh object was not created.')
         
+    def test_create(self):
+        lg = self.lg
+        with suppress_stdout():
+            mo = lg.create()   
+        if type(mo) is type(None):
+            raise ValueError('The new mesh object was not created.')
      
            
 @contextmanager
@@ -99,6 +105,7 @@ if __name__ == '__main__':
     suite.addTest(TestPyLaGriT('test_read_script'))
     suite.addTest(TestPyLaGriT('test_convert'))
     suite.addTest(TestPyLaGriT('test_merge'))
+    suite.addTest(TestPyLaGriT('test_create'))
     runner.run(suite)
     
     

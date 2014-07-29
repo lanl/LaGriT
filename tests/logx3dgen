@@ -1,4 +1,4 @@
-read/avs/contour_file.avs/mo1                                                   
+cmo/create/mo1/0/0/tet                                                          
 read/avs/contour_file.avs/mo2                                                   
 read/avs/contour_file.avs/mo3                                                   
 addmesh/merge/mo4/mo1/mo2                                                       
