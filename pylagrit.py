@@ -2,6 +2,7 @@ from pexpect import spawn
 from subprocess import call, PIPE
 import os
 import glob
+import re
 
 class PyLaGriT(spawn):
     ''' Python lagrit class'''
@@ -12,6 +13,7 @@ class PyLaGriT(spawn):
         self.region = {}
         self.batch = batch
         self._check_rc()
+        self.values = {}
         if lagrit_exe is not None: self.lagrit_exe = lagrit_exe
         if gmv_exe is not None: self.gmv_exe = gmv_exe
         if paraview_exe is not None: self.paraview_exe = paraview_exe        
@@ -245,8 +247,8 @@ class PyLaGriT(spawn):
         instantiated. The name of each file will be the same as the original 
         file with the extension changed to new_ft.
         
-        Supports conversion from avs files.
-        Supports conversion to gmv files.
+        Supports conversion from avs, and gmv files.
+        Supports conversion to avs, exo, and gmv files.
          
         :param pattern: Path, name or unix style file pattern of files to be 
                         converted.
@@ -294,7 +296,20 @@ class PyLaGriT(spawn):
             return reduce(self.addmesh_merge, mesh_objs)
         else:
             raise ValueError('Must provide at least two objects to merge.')
-                        
+            
+    def define(self, name, exp):
+        '''
+        Define an Expression to a Value
+        
+        Gives a value a string in lagrit and also a keyword in self.values in
+        pylagrit.
+        '''
+        
+        exp = _prime_exp(exp)
+        value = eval(exp)
+        self.sendline('define/%s/%s'%(name, value))
+        self.values[name] = value
+  
 class MO(object):
     ''' Mesh object class'''
     def __init__(self, name, parent):
@@ -529,6 +544,19 @@ def make_name( base, names ):
         i += 1
         name = base+str(i)
     return name
+    
+def _prime_exp(exp):
+    '''
+    Prime and Expression
+    
+    This expression takes a string such as '2*x' and translates it into 
+    "2*self.values['x']" so that it can be used inside a class that has a 
+    dictionary attribute called values.
+    '''
+    variables = re.findall(r'[a-zA-Z_]\w*', exp)
+    for v in variables:
+        exp = exp.replace(v, "self.values['%s']"%v)
+    return exp    
 
 
 

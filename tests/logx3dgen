@@ -1,4 +1,4 @@
-read/avs/contour_file.avs/cmo1                                                  
+define/x/4.0                                                                    
 read/avs/contour_file.avs/cmo2                                                  
 read/avs/contour_file.avs/cmo3                                                  
 addmesh/merge/mo1/cmo1/cmo2                                                     
