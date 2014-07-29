@@ -1,8 +1,8 @@
-define/x/4.0                                                                    
-read/avs/contour_file.avs/cmo2                                                  
-read/avs/contour_file.avs/cmo3                                                  
-addmesh/merge/mo1/cmo1/cmo2                                                     
-addmesh/merge/mo2/mo1/cmo3                                                      
+read/avs/contour_file.avs/mo1                                                   
+read/avs/contour_file.avs/mo2                                                   
+read/avs/contour_file.avs/mo3                                                   
+addmesh/merge/mo4/mo1/mo2                                                       
+addmesh/merge/mo5/mo4/mo3                                                       
 define/nz/20                                                                    
 read/avs/old_format/temp_cmo                                                    
 dump/exo/test.exo/temp_cmo                                                      

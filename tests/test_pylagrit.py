@@ -57,23 +57,31 @@ class TestPyLaGriT(unittest.TestCase):
         
         lg = self.lg
         with suppress_stdout():
-            mo1 = lg.read('avs', 'contour_file.avs', name='cmo1')
-            mo2 = lg.read('avs', 'contour_file.avs', name='cmo2')
-            mo3 = lg.read('avs', 'contour_file.avs', name='cmo3')
+            mo1 = lg.read('avs', 'contour_file.avs')
+            mo2 = lg.read('avs', 'contour_file.avs')
+            mo3 = lg.read('avs', 'contour_file.avs')
             new_mo = lg.merge(mo1, mo2, mo3)        
         #Test that the merge created a new mesh object.
         if type(new_mo) is type(None):
             raise ValueError('The new mesh object was not created.')
-            
-    def test_define(self):
-        'Tests that '
-        lg = self.lg
-        lg.define('x', '4.0')
-        lg.define('y', '2.0')
-        lg.define('z', '1.0/(x-y)')
-        self.assertEqual(lg.values['z'], 0.5)
+                    
+    def test_subset(self):
+        '''
+        Tests the Subset Function
         
-            
+        Tests that the subset function returns a mesh object.
+        '''
+        
+        lg = self.lg
+        mo = lg.read('avs', 'contour_file.avs')
+        
+        sub = lg.subset((0,0,0), (1,1,1))
+        #Test that the merge created a new mesh object.
+        if type(sub) is type(None):
+            raise ValueError('The new mesh object was not created.')
+        
+     
+           
 @contextmanager
 def suppress_stdout():
     #Utility to supress standard output.
@@ -91,7 +99,6 @@ if __name__ == '__main__':
     suite.addTest(TestPyLaGriT('test_read_script'))
     suite.addTest(TestPyLaGriT('test_convert'))
     suite.addTest(TestPyLaGriT('test_merge'))
-    suite.addTest(TestPyLaGriT('test_define'))
     runner.run(suite)
     
     
