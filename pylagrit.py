@@ -294,12 +294,13 @@ class PyLaGriT(spawn):
         '''
         Merge Mesh Objects
         
-        Merges two or more mesh objects together.
+        Merges two or more mesh objects together and returns the combined mesh
+        object.
         
         :param mesh_objs: An argument list of mesh objects.
         :type  mesh_objs: MO list
         
-        Returns the MO that represents the merges.
+        Returns: MO.
         ''' 
         
         if len(mesh_objs) > 1:
@@ -308,6 +309,26 @@ class PyLaGriT(spawn):
             raise ValueError('Must provide at least two objects to merge.')
             
     def create(self, name=None, mesh='tet', npoints=0, nelements=0):
+        '''
+        Create a Mesh Object
+        
+        Creates a mesh object in lagrit and the current LaGriT object then
+        returns the mesh object. 
+        
+        :kwarg name: Name to given to the mesh object.
+        :type  name: str
+        
+        :kwarg mesh: The type of mesh object to create.
+        :type  mesh: str
+        
+        :kwarg npoints: The number of points.
+        :type  npoints: int
+        
+        :kwarg nelements: The number of elements.
+        :type  nelements: int
+        
+        Returns: MO
+        '''
                         
         if type(name) is type(None):
             name = make_name('mo', self.mo.keys())     
@@ -315,7 +336,42 @@ class PyLaGriT(spawn):
         self.mo[name] = MO(name, self)
         return self.mo[name]
         
-
+    def create_tet(self, **kwargs):
+        '''Create a tetrahedron mesh object.'''
+        return self.create(mesh='tet', **kwargs)
+        
+    def create_hex(self, **kwargs):
+        '''Create a hexagon mesh object.'''
+        return self.create(mesh='hex', **kwargs)
+        
+    def create_pri(self, **kwargs):
+        '''Create a prism mesh object.'''
+        return self.create(mesh='pri', **kwargs)  
+            
+    def create_pyr(self, **kwargs):
+        '''Create a pyramid mesh object.'''
+        return self.create(mesh='pyr', **kwargs)
+        
+    def create_tri(self, **kwargs):
+        '''Create a triangle mesh object.'''
+        return self.create(mesh='tri', **kwargs)
+        
+    def create_qua(self, **kwargs):
+        '''Create a quadrilateral mesh object.'''
+        return self.create(mesh='qua', **kwargs) 
+             
+    def create_hyb(self, **kwargs):
+        '''Create a hybrid mesh object.'''
+        return self.create(mesh='hyb', **kwargs)
+        
+    def create_lin(self, **kwargs):
+        '''Create a line mesh object.'''
+        return self.create(mesh='lin', **kwargs)
+        
+    def create_triplane(self, **kwargs):
+        '''Create a triplane mesh object.'''
+        return self.create(mesh='triplane', **kwargs)
+    
 class MO(object):
     ''' Mesh object class'''
     def __init__(self, name, parent):

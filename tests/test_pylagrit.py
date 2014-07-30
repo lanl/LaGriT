@@ -83,11 +83,12 @@ class TestPyLaGriT(unittest.TestCase):
     def test_create(self):
         lg = self.lg
         with suppress_stdout():
-            mo = lg.create()   
-        if type(mo) is type(None):
-            raise ValueError('The new mesh object was not created.')
-     
-           
+            mo1 = lg.create() 
+            mo2 = lg.create_hex() 
+            mo3 = lg.create(mesh='pri') 
+        if any([type(x) is type(None) for x in [mo1, mo2, mo3]]):
+            raise ValueError('An expected mesh object was not created.')
+          
 @contextmanager
 def suppress_stdout():
     #Utility to supress standard output.
