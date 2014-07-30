@@ -315,7 +315,7 @@ class PyLaGriT(spawn):
         Creates a mesh object in lagrit and the current LaGriT object then
         returns the mesh object. 
         
-        :kwarg name: Name to given to the mesh object.
+        :kwarg name: Name to be given to the mesh object.
         :type  name: str
         
         :kwarg mesh: The type of mesh object to create.
@@ -336,41 +336,41 @@ class PyLaGriT(spawn):
         self.mo[name] = MO(name, self)
         return self.mo[name]
         
-    def create_tet(self, **kwargs):
+    def create_tet(self, name=None, npoints=0, nelements=0):
         '''Create a tetrahedron mesh object.'''
-        return self.create(mesh='tet', **kwargs)
+        return self.create(mesh='tet', **minus_self(locals()))
         
-    def create_hex(self, **kwargs):
+    def create_hex(self, name=None, npoints=0, nelements=0):
         '''Create a hexagon mesh object.'''
-        return self.create(mesh='hex', **kwargs)
+        return self.create(mesh='hex', **minus_self(locals()))
         
-    def create_pri(self, **kwargs):
+    def create_pri(self, name=None, npoints=0, nelements=0):
         '''Create a prism mesh object.'''
-        return self.create(mesh='pri', **kwargs)  
+        return self.create(mesh='pri', **minus_self(locals()))  
             
-    def create_pyr(self, **kwargs):
+    def create_pyr(self, name=None, npoints=0, nelements=0):
         '''Create a pyramid mesh object.'''
-        return self.create(mesh='pyr', **kwargs)
+        return self.create(mesh='pyr', **minus_self(locals()))
         
-    def create_tri(self, **kwargs):
+    def create_tri(self, name=None, npoints=0, nelements=0):
         '''Create a triangle mesh object.'''
-        return self.create(mesh='tri', **kwargs)
+        return self.create(mesh='tri', **minus_self(locals()))
         
-    def create_qua(self, **kwargs):
+    def create_qua(self, name=None, npoints=0, nelements=0):
         '''Create a quadrilateral mesh object.'''
-        return self.create(mesh='qua', **kwargs) 
+        return self.create(mesh='qua', **minus_self(locals())) 
              
-    def create_hyb(self, **kwargs):
+    def create_hyb(self, name=None, npoints=0, nelements=0):
         '''Create a hybrid mesh object.'''
-        return self.create(mesh='hyb', **kwargs)
+        return self.create(mesh='hyb', **minus_self(locals()))
         
-    def create_lin(self, **kwargs):
+    def create_lin(self, name=None, npoints=0, nelements=0):
         '''Create a line mesh object.'''
-        return self.create(mesh='lin', **kwargs)
+        return self.create(mesh='lin', **minus_self(locals()))
         
-    def create_triplane(self, **kwargs):
+    def create_triplane(self, name=None, npoints=0, nelements=0):
         '''Create a triplane mesh object.'''
-        return self.create(mesh='triplane', **kwargs)
+        return self.create(mesh='triplane', **minus_self(locals()))
     
 class MO(object):
     ''' Mesh object class'''
@@ -606,6 +606,10 @@ def make_name( base, names ):
         i += 1
         name = base+str(i)
     return name 
+    
+def minus_self(kvpairs):
+    del kvpairs['self']
+    return kvpairs
 
 
 
