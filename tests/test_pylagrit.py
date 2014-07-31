@@ -19,7 +19,12 @@ class TestPyLaGriT(unittest.TestCase):
             self.lg = pylagrit.PyLaGriT('/n/swdev/LAGRIT/bin/lagrit_lin')
 
     def test_read_script(self):
-        #Tests that pylagrit can read a lagrit script. 
+        '''
+        Test the Read Script Function
+        
+        Tests that pylagrit can read a lagrit script. 
+        '''
+        
         lg = self.lg
         for f in glob.glob('test_scripts/*.lg'):
             with suppress_stdout():
@@ -81,6 +86,12 @@ class TestPyLaGriT(unittest.TestCase):
             raise ValueError('The new mesh object was not created.')
         
     def test_create(self):
+        '''
+        Tests the Create Function
+        
+        Tests that the create function returns a mesh object.
+        '''
+    
         lg = self.lg
         with suppress_stdout():
             mo1 = lg.create() 
@@ -88,6 +99,20 @@ class TestPyLaGriT(unittest.TestCase):
             mo3 = lg.create(mesh='pri') 
         if any([type(x) is type(None) for x in [mo1, mo2, mo3]]):
             raise ValueError('An expected mesh object was not created.')
+            
+    def test_createpts(self):
+        '''
+        Test the Create Points Function
+        
+        Tests that a mesh object can run the createpts method with fail.
+        '''
+        
+        lg = self.lg
+        with suppress_stdout():
+            mo = lg.create()
+            npoints = (4, 4, 4)
+            mo.createpts(npoints)    
+         
           
 @contextmanager
 def suppress_stdout():
@@ -107,6 +132,7 @@ if __name__ == '__main__':
     suite.addTest(TestPyLaGriT('test_convert'))
     suite.addTest(TestPyLaGriT('test_merge'))
     suite.addTest(TestPyLaGriT('test_create'))
+    suite.addTest(TestPyLaGriT('test_createpts'))
     runner.run(suite)
     
     

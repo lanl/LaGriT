@@ -312,8 +312,8 @@ class PyLaGriT(spawn):
         '''
         Create a Mesh Object
         
-        Creates a mesh object in lagrit and the current LaGriT object then
-        returns the mesh object. 
+        Creates a mesh object in lagrit and an MO in the LaGriT object. Returns 
+        the mesh object. 
         
         :kwarg name: Name to be given to the mesh object.
         :type  name: str
@@ -517,9 +517,73 @@ class MO(object):
         self.sendline(cmd)
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
-
+    
+    def createpts(self, npts, crd='xyz', ctr=(0,0,0), rnge=None, rz_vls=None):
+        '''
+        Create Points
         
-
+        Creates a grid of points in the mesh object. 
+        
+        :arg  npts: The number of points to create in each dimension.
+        :type npts: tuple(int, int, int)
+        
+        :kwarg crd: Coordinate type of either 'xyz' (cartesian coordinates), 
+                    'rtz' (cylindrical coordinates), or 
+                    'rtp' (spherical coordinates).
+        :type  crd: str
+        
+        :kwarg ctr: Defines the center of each cell. For 0, points are placed in
+                    the middle of each cell. For 1, points are placed at the 
+                    edge of each cell.
+        :type  nelements: tuple(int, int, int)
+        
+        :kwarg rnge: Range of units for each dimension. If not specified, each 
+                     point represents one unit. The first tuple represents the 
+                     min and the second tuple represents the max.
+        :type  rnge: tuple(tuple(int, int, int), tuple(int, int, int))
+        
+        :kwarg rz_vls: Ratio zoning values. Each point will be multiplied by
+                       a scale of the value for that dimension.
+        :type  rz_vls: tuple(int, int, int)
+        '''
+        
+        ni, nj, nk = map(str, npts)
+        iiz, ijz, ikz = map(str, ctr)
+        
+        #Range and ratio values were not specified.
+        if all([type(x) is type(None) for x in [rnge, rz_vls]]):
+            xmx, ymx, zmx = ni, nj, nk  
+            t = (crd, ni, nj, nk, xmx, ymx, zmx, iiz, ijz, ikz)
+            cmd = 'createpts/brick/%s/%s,%s,%s/0, 0, 0/%s,%s,%s/%s,%s,%s'
+            self.sendline(cmd%t)
+        
+        #Range was not specified.    
+        elif type(rnge) is type(None):
+            xmx, ymx, zmx = ni, nj, nk
+            xrz, yrz, zrz = map(str, rz_vls)
+            cmd = 'createpts/brick/%s/%s,%s,%s/0,0,0/%s,%s,%s/%s,%s,%s/'+\
+                  '1,1,1/%s,%s,%s'     
+            t = (crd,ni,nj,nk,xmx,ymx,zmx,iiz,ijz,ikz,xrz,yrz,zrz)
+            self.sendline(cmd%t)  
+        
+        #Ratio values were not specifed.
+        elif type(rz_vls) is type(None):
+            xmn, ymn, zmn = rnge[0]
+            xmx, ymx, zmx = rnge[1]
+            cmd = 'createpts/brick/%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/'
+            t = (crd,ni,nj,nk,xmn,ymn,zmn,xmx,ymx,zmx,iiz,ijz,ikz)
+            self.sendline(cmd%t) 
+        
+        #All values were specified.    
+        else:
+            xmn, ymn, zmn = rnge[0]
+            xmx, ymx, zmx = rnge[1]
+            xrz, yrz, zrz = map(str, rz_vls)
+            cmd = 'createpts/brick/%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/'+\
+                  '1,1,1/%s,%s,%s'
+            t = (crd,ni,nj,nk,xmn,ymn,zmn,xmx,ymx,zmx,iiz,ijz,ikz,xrz,yrz,zrz)  
+            self.sendline(cmd%t) 
+            
 class Surface(object):
     ''' Surface class'''
     def __init__(self, name, parent):

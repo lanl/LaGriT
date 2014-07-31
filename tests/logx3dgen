@@ -1,18 +1,10 @@
-cmo/create/mo1/0/0/tet                                                          
-read/avs/contour_file.avs/mo2                                                   
-read/avs/contour_file.avs/mo3                                                   
-addmesh/merge/mo4/mo1/mo2                                                       
-addmesh/merge/mo5/mo4/mo3                                                       
-define/nz/20                                                                    
-read/avs/old_format/temp_cmo                                                    
-dump/exo/test.exo/temp_cmo                                                      
-cmo/release/temp_cmo                                                            
-read/gmv/old_format/temp_cmo                                                    
-dump/avs/test.avs/temp_cmo                                                      
-cmo/release/temp_cmo                                                            
-read/gmv/old_format/temp_cmo                                                    
-dump/gmv/test.gmv/temp_cmo                                                      
-cmo/release/temp_cmo                                                            
-read/gmv/old_format/temp_cmo                                                    
-dump/exo/test.exo/temp_cmo                                                      
-cmo/release/temp_cmo                                                            
+cmo/create/mo1/0/0/hex                                                          
+cmo select mo1                                                                  
+createpts/brick/xyz/10,10,10/0,0,0/10,10,10/0,0,0                               
+cmo select mo1                                                                  
+dump/gmv/mo1.gmv/mo1                                                            
+cmo/create/mo2/0/0/pri                                                          
+cmo select mo2                                                                  
+createpts/brick/xyz/10,10,10/0,0,0/10,10,10/0,0,0                               
+cmo select mo2                                                                  
+dump/gmv/mo2.gmv/mo2                                                            
