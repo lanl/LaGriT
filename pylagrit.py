@@ -518,29 +518,36 @@ class MO(object):
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
     
-    def createpts_brick(self, npts, mins, maxs, crd, ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
+    def createpts_brick(
+            self, crd, npts, mins, maxs,  
+            ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
         '''
-        Create Points
+        Create and Connect Points
         
-        Creates a grid of points in the mesh object. 
-        
-        :arg  npts: The number of points to create in each dimension.
-        :type npts: tuple(int, int, int)
+        Creates a grid of points in the mesh object and connects them. 
         
         :kwarg crd: Coordinate type of either 'xyz' (cartesian coordinates), 
                     'rtz' (cylindrical coordinates), or 
                     'rtp' (spherical coordinates).
         :type  crd: str
         
+        :arg  npts: The number of points to create in each dimension.
+        :type npts: tuple(int, int, int)
+        
+        :arg  mins: The starting value for each dimension.
+        :type mins: tuple(int, int, int)
+        
+        :arg  maxs: The ending value for each dimension.
+        :type maxs: tuple(int, int, int)
+        
         :kwarg ctr: Defines the center of each cell. For 0, points are placed in
                     the middle of each cell. For 1, points are placed at the 
                     edge of each cell.
-        :type  nelements: tuple(int, int, int)
-        
-        :kwarg rnge: Range of units for each dimension. If not specified, each 
-                     point represents one unit. The first tuple represents the 
-                     min and the second tuple represents the max.
-        :type  rnge: tuple(tuple(int, int, int), tuple(int, int, int))
+        :type  ctr: tuple(int, int, int)
+
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio 
+                          zmoning values.  
+        :type  rz_switch: tuple(int, int, int)
         
         :kwarg rz_vls: Ratio zoning values. Each point will be multiplied by
                        a scale of the value for that dimension.
@@ -554,18 +561,29 @@ class MO(object):
         iirat, ijrat, ikrat = map(str, rz_switch)
         xrz, yrz, zrz = map(str, rz_vls)
 
-        t = (crd, ni, nj, nk, xmn, ymn, zmn, xmx, ymx, zmx, iiz, ijz, ikz, iirat, ijrat, ikrat, xrz, yrz, zrz)
-        cmd = 'createpts/brick/%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/%s,%s,%s'
+        t = (crd, ni, nj, nk, xmn, ymn, zmn, xmx, ymx, zmx) 
+        t = t + (iiz, ijz, ikz, iirat, ijrat, ikrat, xrz, yrz, zrz)
+        cmd = 'createpts/brick/%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/'+\
+              '%s,%s,%s/%s,%s,%s'
         self.sendline(cmd%t)
 
-    def createpts_brick_xyz(self, npts, mins, maxs, ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
-        self.createpts_brick(ntps, mins, maxs, 'xyz', ctr=ctr, rz_switch=rz_switch, rz_vls=rzvls)
+    def createpts_brick_xyz(
+            self, npts, mins, maxs, 
+            ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
+        '''Create and connect Cartesian coordinate points.'''
+        self.createpts_brick('xyz', **minus_self(locals()))
         
-    def createpts_brick_rtz(self, npts, mins, maxs, ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
-        self.createpts_brick(ntps, mins, maxs, 'rtz', ctr=ctr, rz_switch=rz_switch, rz_vls=rzvls)
+    def createpts_brick_rtz(
+            self, npts, mins, maxs, 
+            ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
+        '''Create and connect cylindrical coordinate points.'''
+        self.createpts_brick('rtz', **minus_self(locals()))
         
-    def createpts_brick_rtp(self, npts, mins, maxs, ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
-        self.createpts_brick(ntps, mins, maxs, 'rtp', ctr=ctr, rz_switch=rz_switch, rz_vls=rzvls)
+    def createpts_brick_rtp(
+            self, npts, mins, maxs, 
+            ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
+        '''Create and connect spherical coordinates.'''
+        self.createpts_brick(ntps, **minus_self(locals()))
         
     #def createpts(self, npts, crd='xyz', ctr=(0,0,0), rnge=None, rz_vls=None):
     #    '''

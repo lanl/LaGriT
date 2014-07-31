@@ -68,7 +68,7 @@ class TestPyLaGriT(unittest.TestCase):
             new_mo = lg.merge(mo1, mo2, mo3)        
         #Test that the merge created a new mesh object.
         if type(new_mo) is type(None):
-            raise ValueError('The new mesh object was not created.')
+            raise ValueError('An expected mesh object was not created.')
                     
     def test_subset(self):
         '''
@@ -83,7 +83,7 @@ class TestPyLaGriT(unittest.TestCase):
         sub = lg.subset((0,0,0), (1,1,1))
         #Test that the merge created a new mesh object.
         if type(sub) is type(None):
-            raise ValueError('The new mesh object was not created.')
+            raise ValueError('An expected mesh object was not created.')
         
     def test_create(self):
         '''
@@ -100,7 +100,7 @@ class TestPyLaGriT(unittest.TestCase):
         if any([type(x) is type(None) for x in [mo1, mo2, mo3]]):
             raise ValueError('An expected mesh object was not created.')
             
-    def test_createpts(self):
+    def test_createpts_brick(self):
         '''
         Test the Create Points Function
         
@@ -110,8 +110,10 @@ class TestPyLaGriT(unittest.TestCase):
         lg = self.lg
         with suppress_stdout():
             mo = lg.create()
-            npoints = (4, 4, 4)
-            mo.createpts(npoints)    
+            npts = (4, 4, 4)
+            mins = (0, 0, 0)
+            maxs = (4, 4, 4)
+            mo.createpts_brick('xyz', npts, mins, maxs)    
          
           
 @contextmanager
@@ -132,7 +134,7 @@ if __name__ == '__main__':
     suite.addTest(TestPyLaGriT('test_convert'))
     suite.addTest(TestPyLaGriT('test_merge'))
     suite.addTest(TestPyLaGriT('test_create'))
-    suite.addTest(TestPyLaGriT('test_createpts'))
+    suite.addTest(TestPyLaGriT('test_createpts_brick'))
     runner.run(suite)
     
     
