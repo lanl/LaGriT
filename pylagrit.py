@@ -371,6 +371,23 @@ class PyLaGriT(spawn):
     def create_triplane(self, name=None, npoints=0, nelements=0):
         '''Create a triplane mesh object.'''
         return self.create(mesh='triplane', **minus_self(locals()))
+        
+    def copy(self, mo, name=None):
+        '''
+        Copy Mesh Object
+        
+        Copies a mesh object, mo, and returns the MO object.
+        '''
+        
+        #Check if name was specified, if not just generate one.
+        if type(name) is type(None):
+            name = make_name('mo', self.mo.keys())
+        
+        #Create the MO in lagrit and the PyLaGriT object.
+        self.sendline('cmo/copy/%s/%s'%(name, str(mo)))
+        self.mo[name] = MO(name, self)
+        
+        return self.mo[name]
     
 class MO(object):
     ''' Mesh object class'''
@@ -427,17 +444,17 @@ class MO(object):
         Selects points from geomoetry specified by string geom and returns a 
         PSet.
         
-        :arg p1: Coordinate of one of the shape's defining points.
+        :arg  mins: Coordinate of one of the shape's defining points.
                      xyz (Cartesian):   (x1, y1, z1); 
                      rtz (Cylindrical): (radius1, theta1, z1);
                      rtp (Spherical):   (radius1, theta1, phi1);
-        :typep2: tuple(int, int, int)
+        :typep mins: tuple(int, int, int)
         
-        :arg  p2: Coordinate of one of the shape's defining points.
+        :arg  maxs: Coordinate of one of the shape's defining points.
                      xyz (Cartesian):   (x2, y2, z2); 
                      rtz (Cylindrical): (radius2, theta2, z2);
                      rtp (Spherical):   (radius2, theta2, phi2);
-        :type p2: tuple(int, int, int)
+        :type maxs: tuple(int, int, int)
         
         :kwarg ctr: Coordinate of the relative center.
         :type  ctr: tuple(int, int, int)
@@ -706,22 +723,108 @@ class MO(object):
         '''Create and connect spherical coordinates.'''
         self.createpts_brick(ntps, **minus_self(locals()))
         
-    def subset_xyz(self, mo, mins, maxs):
-        '''Return a tetrahedral subset of mo defined by mins and maxs.'''
+    def pset_not(self, ps, name=None):
+        '''
+        Return PSet from Logical Not
         
-        #Grab all points for the current mesh object.
-        universe = mo.pset_seq('all')
+        Defines and returns a PSet from points that are not inside the PSet, ps.
+        '''
         
-        #Todo: What value should this be to ensure most points are selected?
-        npts = (100, 100, 100)
-        mo.createpts(npts, mins, maxs)
+        #Generated a name if one is not specified.
+        if name is None:
+            name = make_name('p',self.pset.keys())
         
-        #Select the points that were just created.
-        subset = mo.pset_seq('last')
+        #Create the new PSET in lagrit and the pylagrit object.
+        cmd = 'pset/%s/not/%s'%(name, str(ps))
+        self.sendline(cmd)
+        self.pset[name] = PSet(name, self)
         
-        #Intersect the two psets
-        sub_pts = mo.pset_int(subset, universe)
+        return self.pset[name]
         
+    def subset(self, mins, maxs, geom='xyz'):
+        '''
+        Return Mesh Object Subset
+        
+        Creates a new mesh object that contains only a geometric subset defined
+        by mins and maxs. 
+        
+        :arg  mins: Coordinate of one of the shape's defining points.
+                     xyz (Cartesian):   (x1, y1, z1); 
+                     rtz (Cylindrical): (radius1, theta1, z1);
+                     rtp (Spherical):   (radius1, theta1, phi1);
+        :typep mins: tuple(int, int, int)
+        
+        :arg  maxs: Coordinate of one of the shape's defining points.
+                     xyz (Cartesian):   (x2, y2, z2); 
+                     rtz (Cylindrical): (radius2, theta2, z2);
+                     rtp (Spherical):   (radius2, theta2, phi2);
+        :type maxs: tuple(int, int, int)
+        
+        :kwarg geom: Type of geometric shape: 'xyz' (spherical), 
+                     'rtz' (cylindrical), 'rtp' (spherical)
+        :type  geom: str
+        
+        Returns: MO object
+        '''
+        
+        lg = self._parent
+        new_mo = lg.copy(self)
+        sub_pts = new_mo.pset_geom(mins, maxs, geom=geom)
+        rm_pts = new_mo.pset_not(sub_pts)
+        
+        new_mo.rmpoint_pset(rm_pts)
+        return new_mo
+        
+    def subset_xyz(self, mins, maxs):
+        '''
+        Return Tetrehedral MO Subset
+        
+        Creates a new mesh object that contains only a tetrehedral subset 
+        defined by mins and maxs. 
+        
+        :arg  mins: Coordinate point of 1 of the tetrahedral's corners. 
+        :type mins: tuple(int, int, int)
+        
+        :arg  maxs: Coordinate point of 1 of the tetrahedral's corners.
+        :type maxs: tuple(int, int, int)
+        
+        Returns: MO object
+        '''
+        return self.subset(geom='xyz', **minus_self(locals()))
+        
+    def subset_rtz(self, mins, maxs):
+        '''
+        Return Cylindrical MO Subset
+        
+        Creates a new mesh object that contains only a cylindrical subset 
+        defined by mins and maxs. 
+        
+        :arg  mins: Defines radius1, theta1, and z1. 
+        :type mins: tuple(int, int, int)
+        
+        :arg  maxs: Defines radius2, theta2, and z2.
+        :type maxs: tuple(int, int, int)
+        
+        Returns: MO object
+        '''
+        return self.subset(geom='rtz', **minus_self(locals()))
+        
+    def subset_rtp(self, mins, maxs):
+        '''
+        Return Spherical MO Subset
+        
+        Creates a new mesh object that contains only a spherical subset 
+        defined by mins and maxs. 
+        
+        :arg  mins: Defines radius1, theta1, and phi1. 
+        :type mins: tuple(int, int, int)
+        
+        :arg  maxs: Defines radius2, theta2, and phi2.
+        :type maxs: tuple(int, int, int)
+        
+        Returns: MO object
+        '''
+        return self.subset(geom='rtp', **minus_self(locals()))
         
 
 class Surface(object):

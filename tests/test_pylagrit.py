@@ -102,7 +102,7 @@ class TestPyLaGriT(unittest.TestCase):
             
     def test_pset_geom(self):
         '''
-        Test the Geometry Function
+        Test the MO Geometry Function
         
         Tests that each geom method returns a PSet.
         '''
@@ -120,6 +120,60 @@ class TestPyLaGriT(unittest.TestCase):
              
         if any([not isinstance(x, pylagrit.PSet) for x in ps]):
             raise ValueError('PSet not returned.')
+            
+    def test_copy(self):
+        '''
+        Test the Copy Function
+        
+        Tests that the copy function returns a mesh object.
+        '''
+        
+        lg = self.lg
+        with suppress_stdout():
+            mo = lg.create()
+            mo_clone = lg.copy(mo)
+        if not isinstance(mo_clone, pylagrit.MO):
+            raise ValueError('MO not returned.')
+            
+    def test_pset_not(self):
+        '''
+        Test the Mesh Object Not Function
+        
+        Tests that a mesh object can return a PSet using the pset_not function.
+        '''
+        
+        lg = self.lg
+        mins = (1, 1, 1)
+        maxs = (2, 2, 2)
+        with suppress_stdout():
+            mo = lg.create()
+            ps1 = mo.pset_geom(mins, maxs)
+            ps2 = mo.pset_not(ps1)
+        if not isinstance(ps2, pylagrit.PSet):
+            raise ValueError('PSet not returned.')
+            
+    def test_subset(self):
+        '''
+        Test the MO Subset Function
+        
+        Tests that a mesh object can return another mesh object with the subset
+        methods.
+        '''
+        
+        lg = self.lg
+        mins = (1,1,1)
+        maxs = (2,2,2)
+        with suppress_stdout():
+            mo = lg.create()
+            mo_subs = []
+            mo_subs = mo_subs + [mo.subset(mins, maxs)]
+            mo_subs = mo_subs + [mo.subset(mins, maxs, geom='rtz')]
+            mo_subs = mo_subs + [mo.subset(mins, maxs, geom='rtp')]
+            mo_subs = mo_subs + [mo.subset_rtp(mins, maxs)]
+            mo_subs = mo_subs + [mo.subset_rtz(mins, maxs)]
+            
+        if any([not isinstance(x, pylagrit.MO) for x in mo_subs]):
+            raise ValueError('MO not returned.')
          
 @contextmanager
 def suppress_stdout():
@@ -141,6 +195,9 @@ if __name__ == '__main__':
     suite.addTest(TestPyLaGriT('test_create'))
     suite.addTest(TestPyLaGriT('test_createpts_brick'))
     suite.addTest(TestPyLaGriT('test_pset_geom'))
+    suite.addTest(TestPyLaGriT('test_copy'))
+    suite.addTest(TestPyLaGriT('test_pset_not'))
+    suite.addTest(TestPyLaGriT('test_subset'))
     runner.run(suite)
     
     
