@@ -416,27 +416,147 @@ class MO(object):
         stride = [str(v) for v in stride]
         cmd = '/'.join(['cmo/setatt',self.name,attname,','.join(stride),str(value)])
         self.sendline(cmd)
-    def pset_geom_xyz(self,mins,maxs,stride=[1,0,0],name=None):
+        
+    def pset_geom(
+            self, mins, maxs, 
+            ctr=(0,0,0), geom='xyz', stride=(1,0,0), name=None
+        ):
+        '''
+        Define PSet by Geometry
+        
+        Selects points from geomoetry specified by string geom and returns a 
+        PSet.
+        
+        :arg p1: Coordinate of one of the shape's defining points.
+                     xyz (Cartesian):   (x1, y1, z1); 
+                     rtz (Cylindrical): (radius1, theta1, z1);
+                     rtp (Spherical):   (radius1, theta1, phi1);
+        :typep2: tuple(int, int, int)
+        
+        :arg  p2: Coordinate of one of the shape's defining points.
+                     xyz (Cartesian):   (x2, y2, z2); 
+                     rtz (Cylindrical): (radius2, theta2, z2);
+                     rtp (Spherical):   (radius2, theta2, phi2);
+        :type p2: tuple(int, int, int)
+        
+        :kwarg ctr: Coordinate of the relative center.
+        :type  ctr: tuple(int, int, int)
+        
+        :kwarg geom: Type of geometric shape: 'xyz' (spherical), 
+                     'rtz' (cylindrical), 'rtp' (spherical)
+        :type  geom: str
+        
+        :kwarg stride: Nodes defined by ifirst, ilast, and istride.
+        :type  stride: list[int, int, int]
+        
+        :kwarg name: The name to be assigned to the PSet created.
+        :type  name: str
+        
+        Returns: PSet object
+        '''
+        
         if name is None:
             name = make_name('p',self.pset.keys())
+            
         mins = [str(v) for v in mins]
         maxs = [str(v) for v in maxs]
         stride = [str(v) for v in stride]
-        cmd = '/'.join(['pset',name,'geom/xyz',','.join(stride),','.join(mins),','.join(maxs)])
+        center = [str(v) for v in ctr]
+        
+        cmd = '/'.join(['pset', name, 'geom', geom, ','.join(stride),
+                        ','.join(mins),','.join(maxs), ','.join(center)])
         self.sendline(cmd)
-        self.pset[name] = PSet(name,self)
+        self.pset[name] = PSet(name, self)
+        
         return self.pset[name]
-    def pset_geom_rtz(self,rtz1,rtz2,center=[0,0,0],stride=[1,0,0],name=None):
-        if name is None:
-            name = make_name('p',self.pset.keys())
-        rtz1 = [str(v) for v in rtz1]
-        rtz2 = [str(v) for v in rtz2]
-        center = [str(v) for v in center]
-        stride = [str(v) for v in stride]
-        cmd = '/'.join(['pset',name,'geom/rtz',','.join(stride),','.join(rtz1),','.join(rtz2),','.join(center)])
-        self.sendline(cmd)
-        self.pset[name] = PSet(name,self)
-        return self.pset[name]
+
+    def pset_geom_xyz(self, mins, maxs, ctr=(0,0,0), stride=(1,0,0), name=None):
+        '''
+        Define PSet by Tetrahedral Geometry
+        
+        Selects points from a Tetrahedral region.
+        
+        :arg  mins: Coordinate point of 1 of the tetrahedral's corners. 
+        :type mins: tuple(int, int, int)
+        
+        :arg  maxs: Coordinate point of 1 of the tetrahedral's corners.
+        :type maxs: tuple(int, int, int)
+        
+        :kwarg ctr: Coordinate of the relative center.
+        :type  ctr: tuple(int, int, int)
+        
+        :kwarg stride: Nodes defined by ifirst, ilast, and istride.
+        :type  stride: list[int, int, int]
+        
+        :kwarg name: The name to be assigned to the PSet created.
+        :type  name: str
+        
+        Returns: PSet object
+        '''
+        return self.pset_geom(geom='xyz', **minus_self(locals()))
+
+    def pset_geom_rtz(self, mins, maxs, ctr=(0,0,0), stride=(1,0,0), name=None):
+        '''
+        Define PSet by Cylydrical Geometry
+        
+        Selects points from a Tetrahedral region.
+        
+        :arg  mins: Defines radius1, theta1, and z1. 
+        :type mins: tuple(int, int, int)
+        
+        :arg  maxs: Defines radius2, theta2, and z2.
+        :type maxs: tuple(int, int, int)
+        
+        :kwarg stride: Nodes defined by ifirst, ilast, and istride.
+        :type  stride: list[int, int, int]
+        
+        :kwarg name: The name to be assigned to the PSet created.
+        :type  name: str
+        
+        :kwarg ctr: Coordinate of the relative center.
+        :type  ctr: tuple(int, int, int)
+        
+        :kwarg stride: Nodes defined by ifirst, ilast, and istride.
+        :type  stride: list[int, int, int]
+        
+        :kwarg name: The name to be assigned to the PSet created.
+        :type  name: str
+        
+        Returns: PSet object
+        '''
+        return self.pset_geom(geom='rtz', **minus_self(locals()))
+        
+    def pset_geom_rtp(self, mins, maxs, ctr=(0,0,0), stride=(1,0,0), name=None):
+        '''
+        Define PSet by Cylydrical Geometry
+        
+        Selects points from a Tetrahedral region.
+        
+        :arg  mins: Defines radius1, theta1, and phi1. 
+        :type mins: tuple(int, int, int)
+        
+        :arg  maxs: Defines radius2, theta2, and phi2.
+        :type maxs: tuple(int, int, int)
+        
+        :kwarg stride: Nodes defined by ifirst, ilast, and istride.
+        :type  stride: list[int, int, int]
+        
+        :kwarg name: The name to be assigned to the PSet created.
+        :type  name: str
+        
+        :kwarg ctr: Coordinate of the relative center.
+        :type  ctr: tuple(int, int, int)
+        
+        :kwarg stride: Nodes defined by ifirst, ilast, and istride.
+        :type  stride: list[int, int, int]
+        
+        :kwarg name: The name to be assigned to the PSet created.
+        :type  name: str
+        
+        Returns: PSet object
+        '''
+        return self.pset_geom(geom='rtp', **minus_self(locals()))
+        
     def eltset_region(self,region,name=None):
         if name is None:
             name = make_name('e',self.pset.keys())
@@ -520,13 +640,14 @@ class MO(object):
     
     def createpts_brick(
             self, crd, npts, mins, maxs,  
-            ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
+            ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)
+        ):
         '''
         Create and Connect Points
         
         Creates a grid of points in the mesh object and connects them. 
         
-        :kwarg crd: Coordinate type of either 'xyz' (cartesian coordinates), 
+        :arg crd: Coordinate type of either 'xyz' (cartesian coordinates), 
                     'rtz' (cylindrical coordinates), or 
                     'rtp' (spherical coordinates).
         :type  crd: str
@@ -585,72 +706,24 @@ class MO(object):
         '''Create and connect spherical coordinates.'''
         self.createpts_brick(ntps, **minus_self(locals()))
         
-    #def createpts(self, npts, crd='xyz', ctr=(0,0,0), rnge=None, rz_vls=None):
-    #    '''
-    #    Create Points
-    #    
-    #    Creates a grid of points in the mesh object. 
-    #    
-    #    :arg  npts: The number of points to create in each dimension.
-    #    :type npts: tuple(int, int, int)
-    #    
-    #    :kwarg crd: Coordinate type of either 'xyz' (cartesian coordinates), 
-    #                'rtz' (cylindrical coordinates), or 
-    #                'rtp' (spherical coordinates).
-    #    :type  crd: str
-    #    
-    #    :kwarg ctr: Defines the center of each cell. For 0, points are placed in
-    #                the middle of each cell. For 1, points are placed at the 
-    #                edge of each cell.
-    #    :type  nelements: tuple(int, int, int)
-    #    
-    #    :kwarg rnge: Range of units for each dimension. If not specified, each 
-    #                 point represents one unit. The first tuple represents the 
-    #                 min and the second tuple represents the max.
-    #    :type  rnge: tuple(tuple(int, int, int), tuple(int, int, int))
-    #    
-    #    :kwarg rz_vls: Ratio zoning values. Each point will be multiplied by
-    #                   a scale of the value for that dimension.
-    #    :type  rz_vls: tuple(int, int, int)
-    #    '''
-    #    
-    #    ni, nj, nk = map(str, npts)
-    #    iiz, ijz, ikz = map(str, ctr)
-    #    
-    #    #Range and ratio values were not specified.
-    #    if all([type(x) is type(None) for x in [rnge, rz_vls]]):
-    #        xmx, ymx, zmx = ni, nj, nk  
-    #        t = (crd, ni, nj, nk, xmx, ymx, zmx, iiz, ijz, ikz)
-    #        cmd = 'createpts/brick/%s/%s,%s,%s/0, 0, 0/%s,%s,%s/%s,%s,%s'
-    #        self.sendline(cmd%t)
-    #    
-    #    #Range was not specified.    
-    #    elif type(rnge) is type(None):
-    #        xmx, ymx, zmx = ni, nj, nk
-    #        xrz, yrz, zrz = map(str, rz_vls)
-    #        cmd = 'createpts/brick/%s/%s,%s,%s/0,0,0/%s,%s,%s/%s,%s,%s/'+\
-    #              '1,1,1/%s,%s,%s'     
-    #        t = (crd,ni,nj,nk,xmx,ymx,zmx,iiz,ijz,ikz,xrz,yrz,zrz)
-    #        self.sendline(cmd%t)  
-    #    
-    #    #Ratio values were not specifed.
-    #    elif type(rz_vls) is type(None):
-    #        xmn, ymn, zmn = rnge[0]
-    #        xmx, ymx, zmx = rnge[1]
-    #        cmd = 'createpts/brick/%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/'
-    #        t = (crd,ni,nj,nk,xmn,ymn,zmn,xmx,ymx,zmx,iiz,ijz,ikz)
-    #        self.sendline(cmd%t) 
-    #    
-    #    #All values were specified.    
-    #    else:
-    #        xmn, ymn, zmn = rnge[0]
-    #        xmx, ymx, zmx = rnge[1]
-    #        xrz, yrz, zrz = map(str, rz_vls)
-    #        cmd = 'createpts/brick/%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/'+\
-    #              '1,1,1/%s,%s,%s'
-    #        t = (crd,ni,nj,nk,xmn,ymn,zmn,xmx,ymx,zmx,iiz,ijz,ikz,xrz,yrz,zrz)  
-    #        self.sendline(cmd%t) 
-            
+    def subset_xyz(self, mo, mins, maxs):
+        '''Return a tetrahedral subset of mo defined by mins and maxs.'''
+        
+        #Grab all points for the current mesh object.
+        universe = mo.pset_seq('all')
+        
+        #Todo: What value should this be to ensure most points are selected?
+        npts = (100, 100, 100)
+        mo.createpts(npts, mins, maxs)
+        
+        #Select the points that were just created.
+        subset = mo.pset_seq('last')
+        
+        #Intersect the two psets
+        sub_pts = mo.pset_int(subset, universe)
+        
+        
+
 class Surface(object):
     ''' Surface class'''
     def __init__(self, name, parent):

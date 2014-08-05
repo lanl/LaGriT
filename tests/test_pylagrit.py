@@ -70,28 +70,13 @@ class TestPyLaGriT(unittest.TestCase):
         if type(new_mo) is type(None):
             raise ValueError('An expected mesh object was not created.')
                     
-    def test_subset(self):
-        '''
-        Tests the Subset Function
-        
-        Tests that the subset function returns a mesh object.
-        '''
-        
-        lg = self.lg
-        mo = lg.read('avs', 'contour_file.avs')
-        
-        sub = lg.subset((0,0,0), (1,1,1))
-        #Test that the merge created a new mesh object.
-        if type(sub) is type(None):
-            raise ValueError('An expected mesh object was not created.')
-        
     def test_create(self):
         '''
         Tests the Create Function
         
         Tests that the create function returns a mesh object.
         '''
-    
+        
         lg = self.lg
         with suppress_stdout():
             mo1 = lg.create() 
@@ -114,8 +99,28 @@ class TestPyLaGriT(unittest.TestCase):
             mins = (0, 0, 0)
             maxs = (4, 4, 4)
             mo.createpts_brick('xyz', npts, mins, maxs)    
+            
+    def test_pset_geom(self):
+        '''
+        Test the Geometry Function
+        
+        Tests that each geom method returns a PSet.
+        '''
+        
+        lg = self.lg
+        mins = (1, 1, 1)
+        maxs = (2, 2, 2)
+        with suppress_stdout():
+            mo = lg.create()
+            ps = []
+            ps.append(mo.pset_geom(mins, maxs))
+            ps.append(mo.pset_geom_xyz(mins, maxs))
+            ps.append(mo.pset_geom_rtz(mins, maxs))
+            ps.append(mo.pset_geom_rtp(mins, maxs))
+             
+        if any([not isinstance(x, pylagrit.PSet) for x in ps]):
+            raise ValueError('PSet not returned.')
          
-          
 @contextmanager
 def suppress_stdout():
     #Utility to supress standard output.
@@ -135,6 +140,7 @@ if __name__ == '__main__':
     suite.addTest(TestPyLaGriT('test_merge'))
     suite.addTest(TestPyLaGriT('test_create'))
     suite.addTest(TestPyLaGriT('test_createpts_brick'))
+    suite.addTest(TestPyLaGriT('test_pset_geom'))
     runner.run(suite)
     
     
