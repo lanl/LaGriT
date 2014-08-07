@@ -174,7 +174,7 @@ class TestPyLaGriT(unittest.TestCase):
             
         if any([not isinstance(x, pylagrit.MO) for x in mo_subs]):
             raise ValueError('MO not returned.')
-         
+                     
 @contextmanager
 def suppress_stdout():
     #Utility to supress standard output.
