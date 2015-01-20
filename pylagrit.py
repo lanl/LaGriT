@@ -650,14 +650,13 @@ class MO(object):
             cmd = '/'.join([cmd,'facesets'])
             for fc in facesets: 
                 cmd += ' &\n'+fc.filename
-        print cmd
         self.sendline(cmd)
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
     
     def createpts_brick(
             self, crd, npts, mins, maxs,  
-            ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)
+            ctr=(1,1,1), rz_switch=(0,0,0), rz_vls=(1,1,1)
         ):
         '''
         Create and Connect Points
@@ -693,6 +692,8 @@ class MO(object):
         '''
         
         ni, nj, nk = map(str, npts)
+        mins = [float(v) for v in mins]
+        maxs = [float(v) for v in maxs]
         xmn, ymn, zmn = map(str, mins)
         xmx, ymx, zmx = map(str, maxs)
         iiz, ijz, ikz = map(str, ctr)
@@ -707,19 +708,19 @@ class MO(object):
 
     def createpts_brick_xyz(
             self, npts, mins, maxs, 
-            ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
+            ctr=(1,1,1), rz_switch=(0,0,0), rz_vls=(1,1,1)):
         '''Create and connect Cartesian coordinate points.'''
         self.createpts_brick('xyz', **minus_self(locals()))
         
     def createpts_brick_rtz(
             self, npts, mins, maxs, 
-            ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
+            ctr=(1,1,1), rz_switch=(0,0,0), rz_vls=(1,1,1)):
         '''Create and connect cylindrical coordinate points.'''
         self.createpts_brick('rtz', **minus_self(locals()))
         
     def createpts_brick_rtp(
             self, npts, mins, maxs, 
-            ctr=(0,0,0), rz_switch=(0,0,0), rz_vls=(1,1,1)):
+            ctr=(1,1,1), rz_switch=(0,0,0), rz_vls=(1,1,1)):
         '''Create and connect spherical coordinates.'''
         self.createpts_brick(ntps, **minus_self(locals()))
         
