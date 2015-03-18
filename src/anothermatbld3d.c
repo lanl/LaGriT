@@ -854,7 +854,7 @@ void computeentry(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j, int_ptrsize
 void initialize3ddiffusionmat_(int_ptrsize *pentrysize, int_ptrsize *pcompress,
         int_ptrsize *pnnodes, double *xic, double *yic, double *zic, int_ptrsize
         *pntets, int_ptrsize *itet, int_ptrsize *jtet, int_ptrsize *pmbndry,
-        int_ptrsize *ifhybrid, double *hybrid_factor)
+        int_ptrsize *ifhybrid, double *hybrid_factor, double *eps)
  
 /**************************************************************************/
  
@@ -863,8 +863,18 @@ void initialize3ddiffusionmat_(int_ptrsize *pentrysize, int_ptrsize *pcompress,
 	x3dMesh structure.  */
  
 {
+
+  double eps_val;
+
+/*
+  TAM
   double eps = 1e-8;
- 
+  changed to passed in value in eps
+  extend range of ccoef values allow eps to be set by user */
+
+  eps_val = *eps;
+  printf("\nSparseMatrix initialize epsilon to %e\n",eps_val) ;
+
   /* populate mesh structure. */
   Mesh=(x3dMesh*)  malloc(sizeof(x3dMesh));
 
@@ -880,7 +890,8 @@ void initialize3ddiffusionmat_(int_ptrsize *pentrysize, int_ptrsize *pcompress,
   Mesh->hybrid_factor = hybrid_factor;
 
   num_area_coefs = *pentrysize;
-  createSparseMatrix(Mesh->nnodes,num_area_coefs,*pcompress,eps);
+
+  createSparseMatrix(Mesh->nnodes,num_area_coefs,*pcompress,eps_val);
  
 }
  
@@ -890,14 +901,14 @@ void initialize3ddiffusionmat_(int_ptrsize *pentrysize, int_ptrsize *pcompress,
 void initialize3ddiffusionmat(int_ptrsize *pentrysize, int_ptrsize *pcompress,
         int_ptrsize *pnnodes, double *xic, double *yic, double *zic, int_ptrsize
         *pntets, int_ptrsize *itet, int_ptrsize *jtet, int_ptrsize *pmbndry,
-        int_ptrsize *ifhybrid, double *hybrid_factor)
+        int_ptrsize *ifhybrid, double *hybrid_factor,double *eps)
  
 /**************************************************************************/
  
  
 {
   initialize3ddiffusionmat_(pentrysize, pcompress, pnnodes, xic, yic, zic,
-          pntets, itet, jtet, pmbndry, ifhybrid, hybrid_factor);
+          pntets, itet, jtet, pmbndry, ifhybrid, hybrid_factor, eps);
  
 }
  

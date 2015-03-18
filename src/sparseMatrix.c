@@ -213,8 +213,10 @@ int_ptrsize zeroVector(double *value)
  
   for (k=0; k<matrixEntrySize; k++) {
     if (fabs((value[k])) > (maximum[k]*epsilon)) {
-      /*      printf("Value[k] = %e, maximum[k] = %e   epsilon = %e\n",fabs(value[k]),
-			       maximum[k],epsilon); */
+      /* debug 
+      printf("Value[k] = %e, maximum[k] = %e   epsilon = %e\n",fabs(value[k]),
+			       maximum[k],epsilon); 
+     */
       return 0;
     }  /* not zero-vector */
   }
@@ -513,10 +515,11 @@ int_ptrsize countNegCoeffs(entryKey *ek, char *rowc)
              (maximum[component_of_interest]*epsilon)) {
  
       if ((ek->info->value[component_of_interest]) > 0.0) {
-	/*
+	/* debug 
           printf("Row %d Column %d Value %lf\n",(int_ptrsize)rowc,ek->column,
 		 ek->info->value[component_of_interest]);
-		 */
+        */
+
 	  num_suspect_coefs++;
 	  num_neg_coefs++;
       }
@@ -614,7 +617,8 @@ void createSparseMatrix(int_ptrsize numberOfEquations, int_ptrsize sparseMatrixE
   }
  
   epsilon = Epsilon;
- 
+  printf("SparseMatrix using Epsilon %e\n",epsilon) ;
+
   if(Compression) {
     compressionEnabled = 1;
     compressList = (SkipList) NewSL(entryComponentCompare,

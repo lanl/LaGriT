@@ -131,7 +131,7 @@ Ccccccccccc
 c
 c  Information from the CMO.
 c
-      integer nnodes, ilen,ityp,ierror, ierr, icscode
+      integer nnodes, ilen,ityp,iout, ierror, ierr, icscode
       integer length, icmotype, ntets, lenxic, lenyic, lenzic,
      *     lenitet, lenjtet, mbndry, nef
  
@@ -167,6 +167,8 @@ C
       pointer (ipzic, zic)
       real*8 xic(*), yic(*), zic(*)
 
+      pointer (ipout, out)
+      integer out(*)
  
 c
 c Variables used in matrix computation and stats
@@ -192,6 +194,7 @@ c
       integer negrows(*)
       pointer (ipnegcols, negcols)
       integer negcols(*)
+
       pointer (ipij_ccoef, ij_ccoef)
       integer ij_ccoef(*)
 
@@ -219,6 +222,8 @@ c
       real*8 ave_con_node, volmin,volmax,voltot
       real*8 amatmin,amatmax,absamatmin,absamatmax
 
+      real*8 compress_eps, dummy_eps
+
 C     Text buffer for dotask
       character*256 cbuff
       character*132 dotask_command
@@ -227,12 +232,13 @@ C     Text buffer for dotask
       character*24 string, fdate
       character*32 isubname
       character*32 cmo, ifilename
-      character*32 att_name
+      character*32 att_name, cout
       character*32 io_string, coef_string, comp_string
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C BEGIN begin
  
+      compress_eps = 1.0e-8
       ave_con_node=0.0
       volmin=0.0
       volmax=0.0 
@@ -296,6 +302,47 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCC
       call cmo_get_info('jtetoff',cmo,ipjtetoff,ilen,icmotype,ierror)
       call cmo_get_info('itettyp', cmo, ipitettyp,ilen,ityp,ierror)
 
+C TAM
+C     Check for user defined compression epsilon
+C     itype -   The type of the data to be returned (I=1,R=2,C=3).
+C                  (INT=1 or REAL=2, all vectors are 3)
+C     error_return 0 means no error
+
+      write(logmess,'(a,e14.7)')
+     * "AMatbld3d_stor: Matrix compress_eps: ",compress_eps
+      call writloga('default',1,logmess,0,icscode)
+
+      call cmo_get_attinfo('compress_eps',cmo,iout,dummy_eps,
+     *        cout,ipout,ilen,ityp, ierr)
+
+      if (ierr.eq.0) then
+
+         if (ityp.eq.2) then
+           compress_eps = dummy_eps
+
+           write(logmess,'(a,e14.7)')
+     *    "AMatbld3d_stor: Matrix compress_eps set by user: ",
+     *     compress_eps
+           call writloga('default',0,logmess,0,icscode)
+
+         else
+
+           write(logmess,'(a,e14.7)')
+     *    "AMatbld3d_stor: Matrix compress_eps unchanged: ",
+     *     compress_eps
+           call writloga('default',0,logmess,0,icscode)
+           write(logmess,'(a)')
+     *    "               compress_eps must be type REAL (2) "
+           call writloga('default',0,logmess,0,icscode)
+         endif
+
+      endif
+
+       call cmo_get_attinfo('epsilon',cmo,iout,dummy_eps,
+     *        cout,ipout,ilen,ityp, ierr)
+       write(logmess,'(a,e14.7)')
+     * "AMatbld3d_stor: Local epsilon: ",dummy_eps
+       call writloga('default',0,logmess,0,icscode)
 
 C     add information so user knows which routine is being used.
       if (idebug.ne.0) then
@@ -456,6 +503,7 @@ C---------------------------------------------------------------------------
  
       neq=nnodes
       neqp1=neq+1
+
  
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 C     Call C functions to do the real work of building the matrix.
@@ -483,15 +531,22 @@ C
       endif
 
       if (idebug.gt.1) then
-      write(logmess,'(a)') "AMatbld3d_stor: initialize3ddiffusionmat"
+      write(logmess,'(a)') ">> AMatbld3d_stor: initialize3ddiffusionmat"
       call writloga('default',0,logmess,0,icscode)
-      write(logmess,*) "  neq and ntets: ",neq,ntets
+      write(logmess,*) ">>  neq and ntets: ",neq,ntets
+      call writloga('default',0,logmess,0,icscode)
+      write(logmess,*) ">>  compress_eps: ",compress_eps
       call writloga('default',0,logmess,0,icscode)
       endif
 
+C TAM pass compress_eps value
       call initialize3ddiffusionmat(num_area_coef,
      *     ifcompress, neq, xic(1), yic(1), zic(1),  ntets, itet(1),
-     *     jtet(1), mbndry, ifhybrid, hybrid_factor(1))
+     *     jtet(1), mbndry, ifhybrid, hybrid_factor(1), compress_eps)
+
+C     call initialize3ddiffusionmat(num_area_coef,
+C    *     ifcompress, neq, xic(1), yic(1), zic(1),  ntets, itet(1),
+C    *     jtet(1), mbndry, ifhybrid, hybrid_factor(1))
 
       if (idebug.gt.1) then
       write(logmess,'(a)') "AMatbld3d_stor: check incident tets"
@@ -531,7 +586,7 @@ cccccccccccccccccccccccccccccc
 c print negative coefficients.
 cccccccccccccccccccccccccccccc
 c     note test is using maximum[component_of_interest]*epsilon
-c     where   double eps = 1e-8
+c     where SparseMatrix compress_eps = 1e-8 by default or user setatt
 
       j=num_area_coef - 1
       call extractnegativecoefs(j,numnegs,numsuspectnegs,numzerocoefs,
@@ -543,7 +598,7 @@ c     where   double eps = 1e-8
  
 C        change 10e-8*max so 10e-8 can be read from reporting
          write(logmess,'(a,i10)')
-     *        "AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs",
+     *        "AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs",
      *        numzerocoefs
          call writloga('default',0,logmess,0,ierrw)
  
@@ -583,6 +638,7 @@ C        change 10e-8*max so 10e-8 can be read from reporting
      *       'non-Delaunay.'
             call writloga('default',0,logmess,0,ierrw)
          endif
+
 cccccccccccccccccccccccccccccc
 c Create two new node vectors, ccoef, ij_ccoef
 c Put the negative ij coefficient value into the two
@@ -659,6 +715,8 @@ c
 c     Finished reporting negative coefficients
 c
       call freenegcoefs()
+
+
  
 cccccccccccccccccccccccccccc
 C     Third line of file with matrix sizes
@@ -791,6 +849,7 @@ cccccccccccccccccccccccccccccccccccccccccccccccccc
  9010    format(5i10)
       endif
 
+C TAM
 c     print*,"itemp ij_ptrs(neqp1) ",neqp1
 c     print*,(itemp(i),i=1,neqp1)
 c     print*,"itemp2 ij_list(ncoefs) ",ncoefs
@@ -861,6 +920,15 @@ c        ccccccccccccccccccccccccccccccccccccccccccccccccccc
                if (amatmax.lt.amat(i)) then
                   amatmax = amat(i)
                endif
+
+C debug        
+C              if (idebug.gt.1) then
+C                write(logmess,'(a,i8,a,i8,a,1pe15.7)')
+C    *           "CCOEF at row ",i,
+C    *           "  Column ",j," with value ",amat(i)
+C                call writloga('default',0,logmess,0,ierrw)
+C              endif
+
             enddo
 
 c      report stats to screen output
