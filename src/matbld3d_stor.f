@@ -2508,6 +2508,9 @@ c freecompressedvaluesarrays() after they are no longer needed.
 c
  
  
+c tamiller@lanl.gov
+c it appears that 1.0e-08 is too small for 64bit versions of this code
+c consider computing the value based on max ccoef if it is not done already
  
       num_written_coefs = ncoefs
       if(ifcompress.eq.1) then
@@ -2516,7 +2519,13 @@ c         number of significant digits you wish to maintain.
 c         Right now, it is hard coded to eight significant
 c         digits.
  
-         compress_epsilon = 1.0e-08
+        print*
+        compress_epsilon = 1.0e-08
+        print*,"MATBLD3D VALUE compress_epsilon = ",compress_epsilon
+
+        compress_epsilon = 1.0e-14
+        print*,"MATBLD3D VALUE new compress_epsilon = ",compress_epsilon
+        print*
  
  
          call compressmatrixvalues(ncoefs,neq,num_area_coef, ipimatptrs,
@@ -2739,6 +2748,7 @@ c        if (ilenout.lt.npoints) call cmo_newlen(cmo,ics)
         ccoef(i) = 0.0
       enddo
  
+c     fill work arrays for ccoef reporting
       do i=1,neq
          itemp(i)=irowoff(i)+neqp1
       enddo
@@ -2752,6 +2762,8 @@ C
       icount = 0
       amatmin=1.0d+30
       amatmax=-amatmin
+
+
       do i = 1, neq
          numj = itemp(i+1)-itemp(i)
          do jnum = 1, numj
@@ -2781,13 +2793,18 @@ c
             amatmax=max(amatmax,amat(icount))
  
           if(amat(icount) .lt. 0.0)then
-          if(idebug.ne.0) then
+          if(idebug.eq.1) then
+             write(6,766)icount,i,j,xij_dot_aij/xijmag,xij_dot_aij,
+     *                  amatsave
+          else if(idebug.gt.1) then
              write(6,766)icount,i,j,xij_dot_aij/xijmag,xij_dot_aij,
      *                  amatsave
           endif
+
   766     format(3i6,4e14.6)
   767     format(a12,3e14.6)
           endif
+
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
 C     Store the location and value of negative coefs.
@@ -2864,6 +2881,8 @@ c         endif
  
         call writloga('default',0,logmess,0,ierrw)
 C
+
+C Report Neg ccoefs stored in xamat
 c since ssort does not currently work under opt version, and we want
 c avoid printing all neg coeffs, only print those that are valid neg coef
 c only write neg coeffs that are smaller than -espsilon
