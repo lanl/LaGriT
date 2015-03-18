@@ -346,7 +346,7 @@ C
       write(iunit,'(a4)') 'elem'
       if(nsdtopo.eq.2.and.nen.eq.3.and.nef.eq.3) then
          ns=3
-         write(iunit,'(2i8)') ns,nelements
+         write(iunit,'(i8,1x,i12)') ns,nelements
          do it=1,nelements
             index=nen*(it-1)
             i1=itet1(index+1)
@@ -357,7 +357,7 @@ C
          enddo
       elseif(nsdtopo.eq.3.and.nen.eq.4.and.nef.eq.4) then
          ns=4
-         write(iunit,'(2i8)') ns,nelements
+         write(iunit,'(i8,1x,i12)') ns,nelements
          do it=1,nelements
             index=nen*(it-1)
             i1=itet1(index+1)
@@ -368,7 +368,7 @@ C
          enddo
       elseif(nen.eq.8.and.nef.eq.6) then
          ns=8
-         write(iunit,'(2i8)') ns,nelements
+         write(iunit,'(i8,1x,i12)') ns,nelements
          do it=1,nelements
             index=nen*(it-1)
             i1=itet1(1+index)
