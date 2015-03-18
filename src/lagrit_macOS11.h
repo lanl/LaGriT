@@ -11,7 +11,7 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=3)
-      parameter      (v_minor=101)
+      parameter      (v_minor=103)
 c
       character*22   date_compile
       character*8    os_name
@@ -27,7 +27,7 @@ c     data os_name      /'Darwini '/
 
 c     This string is used for writing LaGriT header
 c     data date_compile /'2012/07/26 gfort 4.6 '/
-      data date_compile /'2013/10/20 x64 GCC4.7'/
+      data date_compile /'2015/03/15 x64 GCC4.7'/
 c
       integer         NCall
       save            NCall
