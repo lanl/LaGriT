@@ -104,7 +104,7 @@ FF90FLAGS = -fcray-pointer -m32
 FC = gfortran
 FC90 = gfortran 
 CC= gcc 
-CXX - g++
+CXX = g++
 
 ifeq ($(MOPT), 64)
 OSTAG = _lin64
@@ -127,7 +127,7 @@ endif
 # OS and name, release, and suffix:
 # Darwin 13.x (Mac 10.9) Mavericks macOS13          
 # Darwin 12.x (Mac 10.8) M. Lion   macOS12 with _GCC4.8
-# Darwin 11.x (Mac 10.7) Lion      macOS11 with _GCC4.8
+# Darwin 11.x (Mac 10.7) Lion      macOS11 with _GCC4.7
 # Darwin 10.x (Mac 10.6) Snow L.   maci (32,64) with _gfort4.6
 #
 ifeq ($(OPSYS), Darwin)
@@ -160,10 +160,10 @@ ifneq (, $(findstring 11. , $(NREL)) )
 OSTAG = _macOS11
 SUFFC = _GCC4.7
 
-FC = /usr/local/bin/gfortran
-FC90 = /usr/local/bin/gfortran
-CC= /usr/local/bin/gcc
-CXX = /usr/local/bin/g++
+FC = /usr/gcc-4.7/bin/gfortran 
+FC90 = /usr/gcc-4.7/bin/gfortran
+CC= /usr/gcc-4.7/bin/gcc
+CXX = /usr/gcc-4.7/bin/g++
 
 FFLAGS = -arch x86_64 -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64
 FF90FLAGS = -arch x86_64 -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64
