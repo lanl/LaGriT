@@ -51,10 +51,12 @@ cp lagrit_macOS11.h lagrit.h
 rm *.mod
 rm *.o
 
-/usr/local/bin/gfortran -g -arch x86_64 -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o lagrit_main.o lagrit_main.f
-/usr/local/bin/gfortran -g -arch x86_64 -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o lagrit_fdate.o lagrit_fdate.f
+/usr/gcc-4.7/bin/gfortran -g -arch x86_64 -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o lagrit_main.o lagrit_main.f
+/usr/gcc-4.7/bin/gfortran -g -arch x86_64 -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o lagrit_fdate.o lagrit_fdate.f
 
-/usr/local/bin/gfortran -g -arch x86_64 -Dmacx64 -static-libgfortran -static-libgcc -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o lagrit_macOS11_GCC4.7_g lagrit_main.o lagrit_fdate.o lagrit_macOS11_g_GCC4.7.a ../../lg_util/lib/util_macOS11_g_GCC4.7.a  /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libexoIIv2for.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libexodus.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libnetcdf.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libhdf5_hl.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libhdf5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libz.a /usr/local/lib/libquadmath.a /usr/local/lib/libstdc++.a 
+gnumake COPT=-g MOPT=64 lib
+
+/usr/gcc-4.7/bin/gfortran -g -arch x86_64 -Dmacx64 -static-libgfortran -static-libgcc -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o lagrit_macOS11_GCC4.7_g lagrit_main.o lagrit_fdate.o lagrit_macOS11_g_GCC4.7.a ../../lg_util/lib/util_macOS11_g_GCC4.7.a  /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libexoIIv2for.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libexodus.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libnetcdf.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libhdf5_hl.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libhdf5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/mac64/lib/libz.a /usr/gcc-4.7/lib/libquadmath.a /usr/gcc-4.7/lib/libstdc++.a 
 
 otool -L lagrit_macOS11_GCC4.7_g
 

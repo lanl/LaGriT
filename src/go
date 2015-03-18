@@ -21,6 +21,9 @@
 # must have gfortran and gcc 4.5 or greater !!!!!!
 # source GnuDevelEnv.cshrc
 
+rm *.o
+rm *.mod
+
 cp -f lagrit_lin64.h lagrit.h
 cp -f  machine_m64.h machine.h
 
@@ -28,12 +31,18 @@ make MOPT=64 COPT=-g lib
 
 gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
 gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
+gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o anothermatbld3d_wrapper.o anothermatbld3d_wrapper.f
+gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o dump_fehm_geom.o dump_fehm_geom.f
 
-gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_g_gfort4.5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/lg_util/lib/util_lin64_g_gfort4.5.a -L /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/lin64/lib -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o anothermatbld3d_wrapper.o dump_fehm_geom.o lagrit_lin64_g_gf4.5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/lg_util/lib/util_lin64_g_gfort4.5.a -L /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/lin64/lib -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
 
 # cp mylagrit /home/tam/bin/mylagrit
 # When ready for local distribution through /usr/local/bin/lagrit_g
 # cp mylagrit /n/swdev/LAGRIT/bin/lagrit_lin64_g_gfort4.5
+
+exit
+
+cp mylagrit /n/swdev/LAGRIT/bin/Version3.102/lagrit_lin64_g_gfort4.5
 
 ###### OPTIMIZE  ########
 
@@ -45,11 +54,11 @@ make MOPT=64 lib
 gfortran -O -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
 gfortran -O -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
 
-gfortran -O -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_o_gfort4.5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/lg_util/lib/util_lin64_o_gfort4.5.a -L /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/lin64/lib -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+gfortran -O -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_o_gf4.5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/lg_util/lib/util_lin64_o_gfort4.5.a -L /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/lin64/lib -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
 
 # cp mylagrit /home/tam/bin/mylagrit
 # When ready for local distribution through /usr/local/bin/lagrit
-# cp mylagrit /n/swdev/LAGRIT/bin/lagrit_lin64_o_gfort4.5
+cp mylagrit /n/swdev/LAGRIT/bin/Version3.102/lagrit_lin64_o_gfort4.5
 
 exit
 
