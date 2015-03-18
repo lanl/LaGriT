@@ -2,14 +2,15 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.005   Linux m64      *                 
-*               *    date_compile: 2012/04/15  gfort 4.5      *                 
-*               *    Run Time: 2012/Jun 13  15:49:45          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:06          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved

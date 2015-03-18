@@ -57,7 +57,7 @@ if __name__ == "__main__":
   xlagrit="lagrit"
   xlagrit="/home/tam/src/build_lagrit/lin64/lagrit_lin64"
   xlagrit="/home/tam/src/build_lagrit/mac64/lagrit_maci64"
-  xlagrit="mylagrit"
+  xlagrit="/n/swdev/LAGRIT/work/lagrit/src/mylagrit"
 
 # get platform
   print "======="

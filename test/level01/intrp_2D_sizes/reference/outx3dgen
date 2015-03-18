@@ -2,14 +2,15 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V2.200   Linux m32      *                 
-*               *    date_compile: 2010/06/29                 *                 
-*               *    Run Time: 2010/11/12  12:19:40           *                 
+*               *    Program:  LaGriT V3.101   Linux m64      *                 
+*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
+*               *    Run Time: 2015/Mar 17  17:02:02          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -43,13 +44,15 @@ Warning: nelements = 0
  
 connect                                                                         
  Coordinates of enclosing triangle are:                                         
-          -0.17500D+01-0.16000D+01 0.00000D+00                                  
-           0.27500D+01-0.17500D+01 0.00000D+00                                  
-           0.50500D+00 0.50000D+01 0.00000D+00                                  
+          -0.17500D+01-0.16000D+01-0.00000D+00                                  
+           0.27500D+01-0.17500D+01-0.00000D+00                                  
+           0.50500D+00 0.50000D+01-0.00000D+00                                  
  
  Successfully eliminated all multimaterial connections.                         
  
  The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
  
 resetpts/itp                                                                    
 geniee                                                                          
@@ -68,13 +71,15 @@ Warning: nelements = 0
  
 connect                                                                         
  Coordinates of enclosing triangle are:                                         
-          -0.17500D+01-0.16000D+01 0.00000D+00                                  
-           0.27500D+01-0.17500D+01 0.00000D+00                                  
-           0.50500D+00 0.50000D+01 0.00000D+00                                  
+          -0.17500D+01-0.16000D+01-0.00000D+00                                  
+           0.27500D+01-0.17500D+01-0.00000D+00                                  
+           0.50500D+00 0.50000D+01-0.00000D+00                                  
  
  Successfully eliminated all multimaterial connections.                         
  
  The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
  
 resetpts/itp                                                                    
 geniee                                                                          

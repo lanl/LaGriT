@@ -1,14 +1,14 @@
 OS: linux2
-USING: mylagrit
-Top directory: /n/swdev/LAGRIT/work/lagrit/test/level01 at Thu May  2 15:25:16 2013
+USING: /n/swdev/LAGRIT/work/lagrit/src/mylagrit
+Top directory: /n/swdev/LAGRIT/work/lagrit/test/level01 at Wed Mar 18 12:16:00 2015
  1  Test Directory ./addmesh_add -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:16          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:00          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -633,9 +633,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:19          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:03          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1046,9 +1046,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:19          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:03          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1544,9 +1544,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:21          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:04          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -2092,9 +2092,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:22          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:04          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -3899,9 +3899,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:25          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:05          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -4153,9 +4153,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:26          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:06          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -4555,12 +4555,10 @@ cmo delete mo
 connect                                                                         
 CMO_GET_INFO: Mesh Object does not exist: -notset-                              
 CMO_GET_INFO: Mesh Object does not exist: -notset-                              
-Error: connect     > can not get cmo name.                                      
+LaGriT ABORT: connect                                                           
  
-connect > ending with ierr1 flag:         1                                     
-ERROR END COUNT:     1 for connect                                              
- 
-LaGriT WARNING: connect returned error:     1                                   
+ndimensions_topo=*** ndimensions_geom=  3 not consistent - connect will not work
+LaGriT ABORT: connect                                                           
  
  Enter a command
                                                                                 
@@ -4589,9 +4587,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:26          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:06          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -5020,9 +5018,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:26          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:06          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -5227,13 +5225,16 @@ ELTSET: OUTPUT -all-    1 ELTSETS TO FILE
 finish                                                                          
 LaGriT successfully completed                                                   
  10  Test Directory ./hybrid_volume -----------------------
+
+SparseMatrix initialize epsilon to 1.000000e-08
+SparseMatrix using Epsilon 1.000000e-08
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:27          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:07          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -5337,6 +5338,9 @@ dump/stor/test01/mo1/hybrid
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
  
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
+ 
 AMatbld3d_stor: Using hybrid median-Voronoi volumes                             
 cmo/addatt/mo1/hybrid_factor/vdouble/scalar/nelements                           
 finish                                                                          
@@ -5359,6 +5363,12 @@ AMatbld3d_stor: abs(Aij/xij) max =   1.0000000E+00
 AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18                                 
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
 AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+
+SparseMatrix initialize epsilon to 1.000000e-08
+SparseMatrix using Epsilon 1.000000e-08
+
+SparseMatrix initialize epsilon to 1.000000e-08
+SparseMatrix using Epsilon 1.000000e-08
 AMatbld3d_stor Matrix compression used for graph and coefficient values         
 ascii STOR file written with name test01.stor                                   
  
@@ -5369,6 +5379,9 @@ ascii STOR file written with name test01.stor
  Enter a command
 cmo/addatt/mo1/hybrid_volume/hybrid                                             
 ADDATT/hybrid_volume: creating new attribute: hybrid                            
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
  
 AMatbld3d_stor: Using hybrid median-Voronoi volumes                             
 cmo/addatt/mo1/hybrid_factor/vdouble/scalar/nelements                           
@@ -5399,6 +5412,9 @@ mo1 attribute with voronoi volumes created with name hybrid
  Enter a command
 cmo/addatt/mo1/voronoi_volume/voronoi                                           
 ADDATT/voronoi_volume: creating new attribute: voronoi                          
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Negative Coefficients ******                               
 AMatbld3d_stor: Total Number of Negative Coefficients         1                 
 AMatbld3d_stor: Number of Significant Negative Coefs         0                  
@@ -5615,6 +5631,9 @@ dump/stor/test04/mo4/hybrid
 ------------                                                                    
 Matbldtri                                                                       
 Number of Nodes             =         41                                        
+
+SparseMatrix initialize epsilon to 1.000000e-08
+SparseMatrix using Epsilon 1.000000e-08
 Max. Connection to a Node   =          9                                        
 Number of Area Coefficients =        249                                        
 Minimum Voronoi area        =   7.8125000E-03                                   
@@ -5707,6 +5726,10 @@ Matbld3d_stor: abs(Aij/xij) max =   1.0000000E+00
 Matbld3d_stor: Total Volume:   1.0000000E+03  1.0000000E+03  1.0000000E+03      
 Matbld3d_stor: mmgetblk   itemp:          18175                                 
 Matbld3d_stor:mmgetblk imatptrs:          18175                                 
+
+ MATBLD3D VALUE compress_epsilon =   9.99999993922529029E-009
+ MATBLD3D VALUE new compress_epsilon =   9.99999982451670044E-015
+
 Matbld3d_stor:     Aij/xij min =  -8.3411162E-17                                
 Matbld3d_stor:     Aij/xij max =   1.0000000E+00                                
 Matbld3d_stor: total neg     1060 mincoef=  -8.3411162E-17 maxcoef=   1.0000000E
@@ -5741,6 +5764,9 @@ dump/stor/test07/mo1
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Negative Coefficients ******                               
 AMatbld3d_stor: Total Number of Negative Coefficients         1                 
 AMatbld3d_stor: Number of Significant Negative Coefs         0                  
@@ -5772,9 +5798,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:28          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:08          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7442,9 +7468,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:31          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:09          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -11502,9 +11528,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:36          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:11          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -15579,9 +15605,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:43          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:14          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -16274,9 +16300,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:44          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:14          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17293,9 +17319,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:48          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:16          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17408,12 +17434,21 @@ cmo/DELATT//front_s
 finish                                                                          
 log/tty/on                                                                      
 finish                                                                          
+
+SparseMatrix initialize epsilon to 1.000000e-08
+SparseMatrix using Epsilon 1.000000e-08
+
+SparseMatrix initialize epsilon to 1.000000e-08
+SparseMatrix using Epsilon 1.000000e-08
 *********dump_parent_list********                                               
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         0                 
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
 AMatbld3d_stor: npoints =        8  ncoefs =         32                         
 AMatbld3d_stor: Number of unique coefs =         2                              
 AMatbld3d_stor: Maximum num. connections to a node =          4                 
@@ -17497,8 +17532,11 @@ finish
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         0                 
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
 AMatbld3d_stor: npoints =        8  ncoefs =         32                         
 AMatbld3d_stor: Number of unique coefs =         2                              
 AMatbld3d_stor: Maximum num. connections to a node =          4                 
@@ -17971,9 +18009,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:50          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:17          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18147,9 +18185,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:51          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:17          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18479,9 +18517,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:51          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:17          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -20421,9 +20459,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:53          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:18          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -20907,9 +20945,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:54          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:19          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -22284,9 +22322,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:56          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:20          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -22834,9 +22872,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:56          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:20          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24464,9 +24502,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:57          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:20          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24530,9 +24568,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:57          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:20          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24871,9 +24909,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:25:58          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:21          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -25325,9 +25363,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:26:00          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -25972,9 +26010,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:26:01          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -26088,9 +26126,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:26:02          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -26222,9 +26260,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:26:05          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:26          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -26538,9 +26576,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
-*               *    Run Time: 2013/May  2  15:26:12          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:31          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 

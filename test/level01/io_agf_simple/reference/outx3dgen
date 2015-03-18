@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/16  RH gf4.5       *                 
-*               *    Run Time: 2013/Apr 18  16:21:46          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:16          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -109,8 +109,11 @@ finish
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         0                 
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
 AMatbld3d_stor: npoints =        8  ncoefs =         32                         
 AMatbld3d_stor: Number of unique coefs =         2                              
 AMatbld3d_stor: Maximum num. connections to a node =          4                 
@@ -192,8 +195,11 @@ finish
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         0                 
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
 AMatbld3d_stor: npoints =        8  ncoefs =         32                         
 AMatbld3d_stor: Number of unique coefs =         2                              
 AMatbld3d_stor: Maximum num. connections to a node =          4                 

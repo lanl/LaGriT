@@ -57,7 +57,7 @@ def diff_chunk(rlines,tlines,rcnt,tcnt) :
   ico = 0
   iju = 0
   count = 0
-  debug = 0
+  debug = 1
 
 #-Loop over each pair of lines 0 to tcnt
   count = max(tcnt,rcnt)
@@ -157,6 +157,7 @@ def diff_chunk(rlines,tlines,rcnt,tcnt) :
               else :
                 if (rwords[i] != twords[i]) :
                    if debug : print "words differ "+rwords[i]+" and "+twords[i] 
+# check for -0 and 0 
                    ibad = 1
                 else :
                    if debug : print "words same "+rwords[i]+" and "+twords[i] 

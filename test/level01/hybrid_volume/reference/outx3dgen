@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/16  RH gf4.5       *                 
-*               *    Run Time: 2013/Apr 22  07:46:40          *                 
+*               *    Program:  LaGriT V3.102   Linux m64      *                 
+*               *    date_compile: 2013/11/12  RH gf4.5       *                 
+*               *    Run Time: 2015/Mar 18  12:16:07          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -76,6 +76,9 @@ dump/stor/test01/mo1/hybrid
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
  
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
+ 
 AMatbld3d_stor: Using hybrid median-Voronoi volumes                             
 cmo/addatt/mo1/hybrid_factor/vdouble/scalar/nelements                           
 finish                                                                          
@@ -108,6 +111,9 @@ ascii STOR file written with name test01.stor
 cmo/addatt/mo1/hybrid_volume/hybrid                                             
 ADDATT/hybrid_volume: creating new attribute: hybrid                            
  
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
+ 
 AMatbld3d_stor: Using hybrid median-Voronoi volumes                             
 cmo/addatt/mo1/hybrid_factor/vdouble/scalar/nelements                           
 CMO_ADDATT warning: attribute already exist: mo1  hybrid_factor                 
@@ -136,6 +142,9 @@ mo1 attribute with voronoi volumes created with name hybrid
  
 cmo/addatt/mo1/voronoi_volume/voronoi                                           
 ADDATT/voronoi_volume: creating new attribute: voronoi                          
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Negative Coefficients ******                               
 AMatbld3d_stor: Total Number of Negative Coefficients         1                 
 AMatbld3d_stor: Number of Significant Negative Coefs         0                  
@@ -437,6 +446,9 @@ dump/stor/test07/mo1
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Negative Coefficients ******                               
 AMatbld3d_stor: Total Number of Negative Coefficients         1                 
 AMatbld3d_stor: Number of Significant Negative Coefs         0                  
