@@ -181,7 +181,7 @@ C        **ASSIGN LOG FILES AND WRITE CODE VERSION INFORMATION
 C
 c  inititalize global data and cmo data
 c
-      call sbinit
+      call sbinit()
  
 C     ******************************************************************
 c  set up for interactive i/o
