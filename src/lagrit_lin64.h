@@ -24,6 +24,7 @@ c     data os_name      /'Linux   '/
 c     data os_name      /'Linux32 '/
 
 c     data date_compile /'2011/09/01  Absoft 11 '/
+c     data date_compile /'2015/03/15  RH gf4.5  '/
       data date_compile /'2015/03/15  RH gf4.5  '/
 c
       integer         NCall
