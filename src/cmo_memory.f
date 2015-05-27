@@ -64,7 +64,7 @@ C#######################################################################
 C
 C     LOCAL VARIABLE DEFINITION
 C
-      integer len, lentype, i,  ierr, ier, icscode
+      integer len, lentype, i,  ierr, ier, icscode, k
       integer irank, length, mmlength,ierror,j,itype,ilen,index
 C
       character*32 cname, ctype, clength, crank, cinter,cpers,
