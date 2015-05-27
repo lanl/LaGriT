@@ -5,13 +5,10 @@
 #
 # make [help or list] will print information without calling compiler
 #
-# for 64 bit compiles add MOPT=64 to make command
-# the following will compile library with debug and 64 bit options
-# make MOPT=64 COPT=-g lib
-#
 # NOTE: make sure machine.h has compiled from machine_header.F
 #       correctly so that NBYTES_INT = 8
 #       remove machine_header.F so it is not picked up in wildcards
+#       or copy machine_m64.h to machine.h 
 # 
 # make OR make lib 
 #    default creates or updates optimized *.o in OBJDIR_o 
@@ -40,25 +37,23 @@
 # Darwin Kernel Version 9.7.0  powerpc
 #######################################################
 #
-# Created Jan 7 2008 by tamiller@lanl.gov
-# Modified July 7 2009 to update compiler flags for V2.100 release 
-# Modified Jan 1 2011 to include gfortran flags and .cpp files
-# Modified Aug 8 2011 to include work from Adam Cozzette and .cpp files 
+# Modified Mar 2015 for Ubuntu and defaults to 64 bit
+# Modified Oct 2013 to include Mac 10.6, 10.7, 10.8 with GCC gfortran 
 # Modified Nov 2012 to work with new exodus libraries (see dump/exo):
 #   http://sourceforge.net/projects/exodusii/files/
 #     Exodus II 5.22b
 #     HDF5 version 1.8.6
 #     netcdf-4.1.3
 #     Contact: Greg Sjaardema, Sandia National Laboratories, gdsjaar@sandia.gov
-# Modified Oct 2013 to include Mac 10.6, 10.7, 10.8 with GCC gfortran 
+# Modified Aug 8 2011 to include work from Adam Cozzette and .cpp files 
+# Modified Jan 1 2011 to include gfortran flags and .cpp files
+# Modified July 7 2009 to update compiler flags for V2.100 release 
+# Created Jan 7 2008 by tamiller@lanl.gov
 #
 ##########################################################################
 # user defined variables 
 # if LIBDIR or OBJDIR do not exist, they are created
 # platform and compile mode are used to form lib name and object directories
-# uname -s and uname -p are used to detect machine
-# Note: assumes path to sh is defined on system, otherwise define here
-# shell = /bin/sh
 # ------------------------------------------------------------------
 #
 MAKEFILE  = Makefile
@@ -67,55 +62,70 @@ ROOTDIR= $(shell pwd)
 # assumes current directory is lagrit/src
 LIBDIR= $(subst lagrit/src,lagrit/lib, $(ROOTDIR)) 
 BINDIR= $(subst lagrit/src,lagrit/bin, $(ROOTDIR)) 
+COMPILER = ABSOFT
+COMPILER = GFORTRAN
 #
 ##########################################################################
 #  auto variables (May also be set at command line, environment, or script) 
 # ------------------------------------------------------------------
 #
-COMPILER = ABSOFT
-COMPILER = GFORTRAN
 OPSYS = UNKNOWN 
 OPSYS_FULL = $(shell uname -a )
 OPSYS = $(shell uname -s )
 DATETAG = $(shell date '+_%y%m%d')
 NPROC = $(shell uname -p )
 NREL = $(shell uname -r )
-
-# init to relevant info
-FC   = notset
-FC90 = notset
-CC   = notset
-CXX  = notset
 SUFF  = ""
 SUFFC = ""
-#
-# Linux OS ------------------------------
-# Linux rainier 2.6.9-55.0.2.ELlargesmp #1 SMP 2007
-# x86_64
-#
-ifeq ($(OPSYS), Linux)
 
-OSTAG = _lin32
-CFLAGS = -m32 -Dlin
-FFLAGS = -fcray-pointer -m32 
-FF90FLAGS = -fcray-pointer -m32 
+# init to relevant info
+ifneq ($(MOPT), 32)
+MOPT = 64
+endif
 
-
+ifeq ($(COMPILER),GFORTRAN)
 FC = gfortran
 FC90 = gfortran 
 CC= gcc 
 CXX = g++
+GCCV = $(shell gcc -dumpversion )
+SUFFC = _gf$(GCCV)
+endif
 
-ifeq ($(MOPT), 64)
-OSTAG = _lin64
-OBJDIR = lin_objects_m64
+ifeq ($(COMPILER),ABSOFT)
+FC = f77
+FC90 = f90
+CC = gcc
+CXX = g++
+SUFFC = _absoft
+endif
+
+#
+# Linux OS ------------------------------
+# RedHat RHEL or Ubuntu
+# x86_64
+#
+ifeq ($(OPSYS), Linux)
+
+OSTYP = $(shell lsb_release -si)
+OSVER = $(shell lsb_release -sr)
+
+ifeq ($(OSTYP), Ubuntu)
+OSTAG = _ulin64
+else
+OSTAG = _rlin64
+endif
+
 FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64
 FF90FLAGS = -fcray-pointer -fdefault-integer-8  -m64 -Dlinx64
 CFLAGS = -m64 -Dlinx64
-endif
 
-# compile gfortran on linux redhat
-SUFFC = _gf4.5
+ifeq ($(MOPT), 32)
+OSTAG = _lin32
+CFLAGS = -m32 -Dlin
+FFLAGS = -fcray-pointer -m32 
+FF90FLAGS = -fcray-pointer -m32 
+endif
 
 # end linux options
 endif
@@ -143,13 +153,11 @@ CFLAGS = -m32 -arch i386
 # MAC OS Darwin 10.x Snow L. 32 bit  
 ifeq ($(NPROC), i386)
 OSTAG = _maci32
-OBJDIR = objects_maci/
 endif
 
 # MAC OS Darwin 10.x Snow L. 64 bit  
 ifeq ($(MOPT), 64)
 OSTAG = _maci64
-OBJDIR = lin_objects_maci64/
 FFLAGS = -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64 
 FF90FLAGS = -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64 
 CFLAGS = -m64 -Dmacx64
@@ -206,7 +214,6 @@ endif
 
 # finish name extentsions with 
 # SUFF _g or _o
-# SUFFC compiler ie, _GCC4.8
 
 #
 ifndef COPT
@@ -309,27 +316,27 @@ help:;  @echo " "
 list:;  
 	@echo
 	@echo $(ROOTDIR)
-	@echo "F77 SOURCE FILES (F77_OBJS):"
+	@echo "List F77 SOURCE FILES (F77_OBJS):"
 	@echo $(F77_OBJS)
-	@echo "F77 C SOURCE FILES (F77C_OBJS):"
+	@echo "List F77 C SOURCE FILES (F77C_OBJS):"
 	@echo $(F77C_OBJS)
-	@echo "C SOURCE FILES (C_OBJS):"
+	@echo "List C SOURCE FILES (C_OBJS):"
 	@echo $(C_OBJS)
-	@echo "C++ SOURCE FILES (CXX_OBJS):"
+	@echo "List C++ SOURCE FILES (CXX_OBJS):"
 	@echo $(CXX_OBJS)
-	@echo "F90 SOURCE FILES (F90_OBJS):"
+	@echo "List F90 SOURCE FILES (F90_OBJS):"
 	@echo $(F90_OBJS)
-	@echo "LIB: $(LIB) " 
-	@echo "ROOTDIR: $(ROOTDIR)" 
-	@echo "BINDIR: $(BINDIR)" 
-	@echo "LIBDIR: $(LIBDIR)" 
-	@echo "OBJDIR: $(OBJDIR)" 
-	@echo "MODDIR: $(MODDIR)" 
-	@echo "FC Compilers: $(FC)"
-	@echo "FC90 Compilers: $(FC90)"
-	@echo "C  Compilers: $(CC)"
-	@echo "CFlags: $(FFLAGS) $(COPT),  $(FF90FLAGS) $(COPT), $(CFLAGS) $(COPT)"
-	@echo "OS: $(OPSYS) OS TAG: $(OSTAG) NAME SUFFIX $(SUFF)$(SUFFC)"
+	@echo "List LIB: $(LIB) " 
+	@echo "List ROOTDIR: $(ROOTDIR)" 
+	@echo "List BINDIR: $(BINDIR)" 
+	@echo "List LIBDIR: $(LIBDIR)" 
+	@echo "List OBJDIR: $(OBJDIR)" 
+	@echo "List MODDIR: $(MODDIR)" 
+	@echo "List FC Compilers: $(FC)"
+	@echo "List FC90 Compilers: $(FC90)"
+	@echo "List C  Compilers: $(CC)"
+	@echo "List CFlags: $(FFLAGS) $(COPT),  $(FF90FLAGS) $(COPT), $(CFLAGS) $(COPT)"
+	@echo "List OS: $(OPSYS) OS TAG: $(OSTAG) NAME SUFFIX $(SUFF)$(SUFFC)"
 	cat lagrit$(OSTAG).h 
 	@echo " "
 #
