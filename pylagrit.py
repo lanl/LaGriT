@@ -826,6 +826,125 @@ class MO(object):
         Returns: MO object
         '''
         return self.subset(geom='rtp', **minus_self(locals()))
+
+    def grid2grid(self, ioption, name=None):
+        '''
+        Convert a mesh with one element type to a mesh with another
+        
+        :arg ioption: type of conversion:
+            quadtotri2   quad to 2 triangles, no new points. 
+            prismtotet3   prism to 3 tets, no new points. 
+            quadtotri4   quad to 4 triangles, with one new point. 
+            pyrtotet4   pyramid to 4 tets, with one new point. 
+            hextotet5   hex to 5 tets, no new points. 
+            hextotet6   hex to 6 tets, no new points. 
+            prismtotet14   prism to 14 tets, four new points (1 + 3 faces). 
+            prismtotet18   prism to 18 tets, six new points (1 + 5 faces). 
+            hextotet24   hex to 24 tets, seven new points (1 + 6 faces). 
+            tree_to_fe   quadtree or octree grid to grid with no parent-type elements. 
+        :type option: str
+        :arg name: Internal Lagrit name of new mesh object, automatically created if None
+        :type name: str
+
+        Returns MO object
+        '''
+        if name is None: name = make_name('mo',self._parent.mo.keys())
+        cmd = '/'.join(['grid2grid',ioption,name,self.name])
+        self.sendline(cmd)
+        self._parent.mo[name] = MO(name,self._parent)
+        return self._parent.mo[name]
+    def grid2grid_tree_to_fe(self, name=None):
+        '''
+        Quadtree or octree grid to grid with no parent-type elements. 
+        :arg name: Internal Lagrit name of new mesh object, automatically created if None
+        :type name: str
+
+        Returns MO object
+        '''        
+        return self.grid2grid(ioption='tree_to_fe', **minus_self(locals()))
+    def grid2grid_quadtotri2(self, name=None):
+        '''
+        Quad to 2 triangles, no new points. 
+        :arg name: Internal Lagrit name of new mesh object, automatically created if None
+        :type name: str
+
+        Returns MO object
+        '''        
+        return self.grid2grid(ioption='quadtotri2', **minus_self(locals()))
+    def grid2grid_prismtotet3(self, name=None):
+        '''
+        Quad to 2 triangles, no new points. 
+        Prism to 3 tets, no new points. 
+        :arg name: Internal Lagrit name of new mesh object, automatically created if None
+        :type name: str
+
+        Returns MO object
+        '''        
+        return self.grid2grid(ioption='quadtotri3', **minus_self(locals()))
+    def grid2grid_quadtotri4(self, name=None):
+        '''
+        Quad to 4 triangles, with one new point
+        :arg name: Internal Lagrit name of new mesh object, automatically created if None
+        :type name: str
+
+        Returns MO object
+        '''        
+        return self.grid2grid(ioption='quadtotri4', **minus_self(locals()))
+    def grid2grid_pyrtotet4(self, name=None):
+        '''
+        Pyramid to 4 tets, with one new point
+        :arg name: Internal Lagrit name of new mesh object, automatically created if None
+        :type name: str
+
+        Returns MO object
+        '''        
+        return self.grid2grid(ioption='pyrtotet4', **minus_self(locals()))
+    def grid2grid_hextotet5(self, name=None):
+        '''
+        Hex to 5 tets, no new points
+        :arg name: Internal Lagrit name of new mesh object, automatically created if None
+        :type name: str
+
+        Returns MO object
+        '''        
+        return self.grid2grid(ioption='hextotet5', **minus_self(locals()))
+    def grid2grid_hextotet6(self, name=None):
+        '''
+        Hex to 6 tets, no new points
+        :arg name: Internal Lagrit name of new mesh object, automatically created if None
+        :type name: str
+
+        Returns MO object
+        '''        
+        return self.grid2grid(ioption='hextotet6', **minus_self(locals()))
+    def grid2grid_prismtotet14(self, name=None):
+        '''
+        Prism to 14 tets, four new points (1 + 3 faces)
+        :arg name: Internal Lagrit name of new mesh object, automatically created if None
+        :type name: str
+
+        Returns MO object
+        '''        
+        return self.grid2grid(ioption='prismtotet14', **minus_self(locals()))
+    def grid2grid_prismtotet18(self, name=None):
+        '''
+        Prism to 18 tets, four new points (1 + 3 faces)
+        :arg name: Internal Lagrit name of new mesh object, automatically created if None
+        :type name: str
+
+        Returns MO object
+        '''        
+        return self.grid2grid(ioption='prismtotet18', **minus_self(locals()))
+    def grid2grid_hextotet24(self, name=None):
+        '''
+        Hex to 24 tets, seven new points (1 + 6 faces)
+        :arg name: Internal Lagrit name of new mesh object, automatically created if None
+        :type name: str
+
+        Returns MO object
+        '''        
+        return self.grid2grid(ioption='hextotet24', **minus_self(locals()))
+
         
 
 class Surface(object):
