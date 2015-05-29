@@ -855,6 +855,16 @@ class PSet(object):
         self._parent.printatt(attname=attname,stride=stride,pset=self.name,type='minmax')
     def list(self,attname=None,stride=[1,0,0]):
         self._parent.printatt(attname=attname,stride=stride,pset=self.name,type='list')
+    def setatt(self,attname,value,stride=[1,0,0]):
+        cmd = '/'.join(['cmo/setatt',self._parent.name,attname,'pset get '+self.name,str(value)])
+        self._parent.sendline(cmd)
+    def refine(self,refine_option,refine_type,interpolation=' ',prange=[-1,0,0],field=' ',inclusive_flag='exclusive',prd_choice=None):
+        prange = [str(v) for v in prange]
+        if prd_choice is None:
+            cmd = '/'.join(['refine',refine_option,field,interpolation,refine_type,'pset get '+self.name,','.join(prange),inclusive_flag])
+        else:
+            cmd = '/'.join(['refine',refine_option,field,interpolation,refine_type,'pset get '+self.name,','.join(prange),inclusive_flag,'amr '+str(prd_choice)])
+        self._parent.sendline(cmd)
 
 class EltSet(object):
     ''' EltSet class'''
