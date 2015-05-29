@@ -639,6 +639,7 @@ class MO(object):
             elif format is 'exo': filename = self.name+'.exo'
         cmd = '/'.join(['dump',format,filename,self.name])
         for arg in args: cmd = '/'.join(cmd,arg)
+        print cmd
         self.sendline(cmd)
     def dump_exo(self,filename,psets=False,eltsets=False,facesets=[]):
         cmd = '/'.join(['dump/exo',filename,self.name])
@@ -944,9 +945,46 @@ class MO(object):
         Returns MO object
         '''        
         return self.grid2grid(ioption='hextotet24', **minus_self(locals()))
-
+    def connect(self, option1, option2=None, stride=None, big_tet_coords=[]):
+        '''
+        Connect the nodes into a Delaunay tetrahedral or triangle grid.
         
-
+        :arg option1: type of connect: delaunay, noadd, or check_interface
+        :type option: str
+        :arg option2: type of connect: noadd, or check_interface
+        :type option: str
+        :arg stride: tuple of (first, last, stride) of points
+        :type stride: tuple(int)
+        '''
+        cmd = ['connect',option1]
+        if stride is not None and option is 'delaunay': 
+            stride = [str(v) for v in stride]
+            cmd += [','.join(stride)]
+            for b in big_tet_coords:
+                bs = [str(v) for v in b]
+                cmd += [','.join(bs)]
+        if option2 is not None:
+                cmd += [option2]
+        cmd = '/'.join(cmd)
+        self.sendline(cmd)
+    def connect_delaunay(self, option2=None, stride=None, big_tet_coords=[]):
+        '''
+        Connect the nodes into a Delaunay tetrahedral or triangle grid without adding nodes.
+        '''
+        return self.connect(option1='delaunay', **minus_self(locals()))
+    def connect_noadd(self):
+        '''
+        Connect the nodes into a Delaunay tetrahedral or triangle grid without adding nodes.
+        '''
+        return self.connect(option1='noadd')
+    def connect_check_interface(self):
+        '''
+        Connect the nodes into a Delaunay tetrahedral or triangle grid
+        exhaustively checking that no edges of the mesh cross a material
+        boundary.
+        '''
+        return self.connect(option1='check_interface')
+ 
 class Surface(object):
     ''' Surface class'''
     def __init__(self, name, parent):
