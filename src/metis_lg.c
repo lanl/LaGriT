@@ -4,27 +4,22 @@ metis 4.0
 http://glaros.dtc.umn.edu/gkhome/views/metis
 
 Non-commercial applications
-    METIS can be freely distributed provided that:
-
-        * A reference to the following paper is included: “A Fast and Highly Quality Multilevel Scheme
-          for Partitioning Irregular Graphs”. George Karypis and Vipin Kumar. SIAM Journal on Scientific
-          Computing, Vol. 20, No. 1, pp. 359-392, 1999.
-        * The original documentation (PDF file of the manual) and copyright notice is included.
-
+METIS can be freely distributed provided that:
+reference to the following paper is included: A Fast and Highly Quality Multilevel Scheme
+for Partitioning Irregular Graphs. George Karypis and Vipin Kumar. SIAM Journal on Scientific
+Computing, Vol. 20, No. 1, pp. 359-392, 1999.
+The original documentation (PDF file of the manual) and copyright notice is included.
 Permission to include METIS in LaGriT granted by George Karypis
 
-Subject: RE: permission to distribute ?
+Subject: RE: permission to distribute 
 Date: Thu, 6 Nov 2008 08:12:49 -0600
 From: George Karypis <karypis@cs.umn.edu>
 To: <gable@lanl.gov>
 References: <4912FA91.4050804@lanl.gov>
 
 Carl,
-
 You have my permission.
-
 regards,
-
 george
 
 -----Original Message-----
@@ -53,7 +48,6 @@ been wanting to do bandwidth reduction via reordering. LaGriT is free.
 http://lagrit.lanl.gov/licensing.shtml
 
 Can I get permission to include METIS in LaGriT executables?
-
 If so:
 How would you like me to meet:
          * Proper references are included.
@@ -64,20 +58,6 @@ Carl Gable
 http://lagrit.lanl.gov
 http://meshing.lanl.gov
 
--- 
-
-\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-Dr. Carl W. Gable, Staff Scientist
-EES-16, MS T003
-Los Alamos National Laboratory
-Los Alamos NM 87545
-
-gable@lanl.gov     Voice 505-665-3533     Fax   505-665-8737
-http://www.ees.lanl.gov/staff/gable     http://lagrit.lanl.gov
-
-Focus: Geophysics, Hydrology, Mesh Generation, Computational Geometry
-Correspondence / TSPA
-/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
 
 All metis routines are concatenated below.
 
