@@ -3,38 +3,18 @@
 #### new ubuntu with modules ###  USING BASH instead of TCSH ######
 # GNU Fortran (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 # ExodusII 5.22a is not available so update code to current ExodusII 6.09
-# syntax differs
-# lagrit_ulin64_g_gf4.8.a(exo_init_ext.o): In function `exo_lg_ini_':
+# 
+
+module load exodusii/6.09/gcc-4.8.2-serial
+module list
+
 
 rm *.o
 rm *.mod
 make COPT=-g lib
 
-susfty-brine:src$ gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gf4.8.a /n/swdev/LAGRIT/VERS_3.103_015_MAR/lg_util/src/util_ulin64_g_gf4.8.a  -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+### leave off static for .so shared libraries:
+gfortran -g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gf4.8.a /n/swdev/LAGRIT/VERS_3.103_015_MAR/lg_util/src/util_ulin64_g_gf4.8.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
 
+ll mylagrit
 
-#### new ubuntu no exodus ####
-# this compiles without exodus libs and runs without problems
-rm *.o
-rm *.mod
-
-make COPT=-g lib
-
-gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
-gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
-
-cp dumpexodusII.f dumpexodusII.f.withexo
-cp dumpexodusII.f.withnoexo dumpexodusII.f
-gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gf4.8.a /n/swdev/LAGRIT/VERS_3.103_015_MAR/lg_util/src/util_ulin64_g_gf4.8.a -L -lm -lstdc++
-
-cp mylagrit lagrit_ulin64_noexo_g
-exit
-
-#### old redhat no exodus ####
-rm *.o
-gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
-gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
-
-gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o  lagrit_rlin64_g_gf4.5.1.a /n/swdev/LAGRIT/VERS_3.103_015_MAR/lg_util/src/util_rlin64_g_gf4.5.1.a -L -lm -lstdc++ 
-
-cp mylagrit lagrit_rlin64_noexo_g
