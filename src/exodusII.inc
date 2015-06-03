@@ -1,7 +1,7 @@
                                 ! -*- mode: fortran -*-
 !
 ! Copyright 1994 Sandia Corporation. Under the terms of Contract
-! DE-AC04-94AL85000 with Sandia Corporation, the U.S. Governement
+! DE-AC04-94AL85000 with Sandia Corporation, the U.S. Government
 ! retains certain rights in this software.
 !
 ! See the COPYRIGHT file for copying and redistribution conditions.
@@ -31,9 +31,9 @@
         integer EX_MAPS_INT64_API
         integer EX_IDS_INT64_API,EX_BULK_INT64_API,EX_ALL_INT64_API
 
-        parameter (EXREAD =     0)   !       EXREAD - File open for read
         parameter (EXWRIT =     1)   !       EXWRIT - File open for write
         parameter (EXWRT  =     1)   !       EXWRT  - File open for write (alternate to EXWRIT)
+        parameter (EXREAD =     2)   !       EXREAD - File open for read
 
         parameter (EXNOCL =     4)   !       EXNOCL - File create with no overwrite (no clobber), default
         parameter (EXCLOB =     8)   !       EXCLOB - File create with overwrite (clobber)
@@ -192,32 +192,39 @@
       parameter (EXPMSG = -1000)   ! EXPMSG - message print code - no error implied
       parameter (EXLMSG = -1001)   ! EXLMSG - print last error message msg code
 
-!
-!     Define values for type
-!
+C added by tamiller from older version to help with update from 5 to 6 syntax 
+C these are found in C file include exodusII.h, but are not in fortran exodusII.inc
+C
+C     Define values for type
+C
+C
+C      integer EX_NODAL, EX_NODE_BLOCK, EX_NODE_SET, EX_EDGE_BLOCK
+C      integer EX_EDGE_SET, EX_FACE_BLOCK, EX_FACE_SET, EX_ELEM_BLOCK
+C      integer EX_ELEM_SET, EX_SIDE_SET, EX_ELEM_MAP, EX_NODE_MAP
+C      integer EX_EDGE_MAP, EX_FACE_MAP, EX_GLOBAL, EX_COORDINATE
+C      integer EX_INVALID
+C    
+C      parameter (EX_NODAL       = 14)	   !   /**< nodal "block" for variables*/
+C      parameter (EX_NODE_BLOCK  = 14)      !    /**< alias for EX_NODAL         */
+C      parameter (EX_NODE_SET    =  2)      !    /**< node set property code     */
+C      parameter (EX_EDGE_BLOCK  =  6)      !    /**< edge block property code   */
+C      parameter (EX_EDGE_SET    =  7)      !    /**< edge set property code     */
+C      parameter (EX_FACE_BLOCK  =  8)      !    /**< face block property code   */
+C      parameter (EX_FACE_SET    =  9)      !    /**< face set property code     */
+C      parameter (EX_ELEM_BLOCK  =  1)      !    /**< element block property code*/
+C
+C      included here because this value is not found defined in this include file
+       integer EX_ELEM_SET
+       parameter (EX_ELEM_SET    = 10)      !    /**< element set property code  */
 
-      integer EX_NODAL, EX_NODE_BLOCK, EX_NODE_SET, EX_EDGE_BLOCK
-      integer EX_EDGE_SET, EX_FACE_BLOCK, EX_FACE_SET, EX_ELEM_BLOCK
-      integer EX_ELEM_SET, EX_SIDE_SET, EX_ELEM_MAP, EX_NODE_MAP
-      integer EX_EDGE_MAP, EX_FACE_MAP, EX_GLOBAL, EX_COORDINATE
-      integer EX_INVALID
-    
-      parameter (EX_NODAL       = 14)	   !   /**< nodal "block" for variables*/
-      parameter (EX_NODE_BLOCK  = 14)      !    /**< alias for EX_NODAL         */
-      parameter (EX_NODE_SET    =  2)      !    /**< node set property code     */
-      parameter (EX_EDGE_BLOCK  =  6)      !    /**< edge block property code   */
-      parameter (EX_EDGE_SET    =  7)      !    /**< edge set property code     */
-      parameter (EX_FACE_BLOCK  =  8)      !    /**< face block property code   */
-      parameter (EX_FACE_SET    =  9)      !    /**< face set property code     */
-      parameter (EX_ELEM_BLOCK  =  1)      !    /**< element block property code*/
-      parameter (EX_ELEM_SET    = 10)      !    /**< face set property code     */
-      parameter (EX_SIDE_SET    =  3)      !    /**< side set property code     */
-    
-      parameter (EX_ELEM_MAP    =  4)      !    /**< element map property code  */
-      parameter (EX_NODE_MAP    =  5)      !    /**< node map property code     */
-      parameter (EX_EDGE_MAP    = 11)      !    /**< edge map property code     */
-      parameter (EX_FACE_MAP    = 12)      !    /**< face map property code     */
-    
-      parameter (EX_GLOBAL      = 13)      !    /**< global "block" for variables*/
-      parameter (EX_COORDINATE  = 15)      !    /**< kluge so some internal wrapper functions work */
-      parameter (EX_INVALID     = -1)
+C      parameter (EX_SIDE_SET    =  3)      !    /**< side set property code     */
+C    
+C      parameter (EX_ELEM_MAP    =  4)      !    /**< element map property code  */
+C      parameter (EX_NODE_MAP    =  5)      !    /**< node map property code     */
+C      parameter (EX_EDGE_MAP    = 11)      !    /**< edge map property code     */
+C      parameter (EX_FACE_MAP    = 12)      !    /**< face map property code     */
+C    
+C      parameter (EX_GLOBAL      = 13)      !    /**< global "block" for variables*/
+C      parameter (EX_COORDINATE  = 15)      !    /**< kluge so some internal wrapper functions work */
+C      parameter (EX_INVALID     = -1)
+
