@@ -425,6 +425,47 @@ class MO(object):
                     return
                 cmd = '/'.join(['cmo/printatt',self.name,attname,type,','.join(['eltset','get',setname])])
         self.sendline(cmd)
+    def delatt(self,attnames,force=True):
+        '''
+        Delete a list of attributes
+
+        :arg attnames: Attribute names to delete
+        :type attnames: str or lst(str)
+        :arg force: If true, delete even if the attribute permanent persistance
+        :type force: bool
+
+        '''
+        # If single attribute as string, make list
+        if isinstance(attnames,str): attnames = [attnames]
+        for att in attnames:
+            if force:
+                cmd = '/'.join(['cmo/DELATT',self.name,att])
+            else:
+                cmd = '/'.join(['cmo/delatt',self.name,att])
+            self.sendline(cmd)
+    def addatt(self,attname,keyword=None,type='',rank='',length='',interpolate='',persistence='',ioflag='',value=''):
+        '''
+        Add a list of attributes
+
+        :arg attnames: Attribute name to add
+        :type attnames: str
+        :arg keyword: Keyword used by lagrit for specific attributes
+        :type name: str
+
+        '''
+        if keyword is not None:
+            cmd = '/'.join(['cmo/addatt',self.name,keyword,attname])
+        else:
+            cmd = '/'.join(['cmo/addatt',self.name,attname,rank,length,interpolate,persistence,ioflag,value])
+        self.sendline(cmd)
+    def addatt_voronoi_volume(self,name='voronoi_volume'):
+        '''
+        Add voronoi volume attribute to mesh object
+
+        :arg name: name of attribute in LaGriT
+        :type name: str
+        '''
+        self.addatt(name,keyword='voronoi_volume')
     def minmax(self,attname=None,stride=[1,0,0],pset=None):
         self.printatt(attname=attname,stride=stride,pset=None,type='minmax')
     def list(self,attname=None,stride=[1,0,0],pset=None):
@@ -448,7 +489,7 @@ class MO(object):
                      xyz (Cartesian):   (x1, y1, z1); 
                      rtz (Cylindrical): (radius1, theta1, z1);
                      rtp (Spherical):   (radius1, theta1, phi1);
-        :typep mins: tuple(int, int, int)
+        :type mins: tuple(int, int, int)
         
         :arg  maxs: Coordinate of one of the shape's defining points.
                      xyz (Cartesian):   (x2, y2, z2); 
@@ -638,9 +679,24 @@ class MO(object):
             elif format is 'lagrit': filename = self.name+'.lg'
             elif format is 'exo': filename = self.name+'.exo'
         cmd = '/'.join(['dump',format,filename,self.name])
-        for arg in args: cmd = '/'.join(cmd,arg)
-        print cmd
+        for arg in args: cmd = '/'.join([cmd,str(arg)])
         self.sendline(cmd)
+    def dump_avs2(self,filename=None,points=True,elements=True,node_attr=True,element_attr=True):
+        '''
+        Dump avs file
+
+        :arg filename: Name of avs file
+        :type filename: str
+        :arg points: Output point coordinates
+        :type points: bool
+        :arg elements: Output connectivity
+        :type elements: bool
+        :arg node_attr: Output node attributes
+        :type node_attr: bool
+        :arg element_attr: Output element attributes
+        :type element_attr: bool
+        '''
+        self.dump('avs2',filename,int(points),int(elements),int(node_attr),int(element_attr))
     def dump_exo(self,filename,psets=False,eltsets=False,facesets=[]):
         cmd = '/'.join(['dump/exo',filename,self.name])
         if psets: cmd = '/'.join([cmd,'psets'])
