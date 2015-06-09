@@ -32,7 +32,12 @@ class PyLaGriT(spawn):
     def run_batch(self):
         self.fh.write('finish\n')
         self.fh.close()
-        call(self.lagrit_exe+' <'+self.batchfile, shell=True, stdout=PIPE)
+        if self.verbose:
+            call(self.lagrit_exe+' < '+self.batchfile, shell=True)
+        else:
+            fout=open('pylagrit.stdout','w')
+            call(self.lagrit_exe+' < '+self.batchfile, shell=True, stdout=fout)
+            fout.close()
     def expect(self, expectstr='Enter a command'):
         if self.batch:
             print "expect disabled during batch mode"
