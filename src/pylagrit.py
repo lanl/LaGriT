@@ -620,6 +620,28 @@ class MO(object):
         '''
         return self.pset_geom(geom='rtp', **minus_self(locals()))
         
+    def pset_attribute(self, attribute,value,comparison='eq',stride=(1,0,0), name=None):
+        '''
+        Define PSet by attribute 
+        
+        :kwarg stride: Nodes defined by ifirst, ilast, and istride.
+        :type  stride: list[int, int, int]
+        
+        :kwarg name: The name to be assigned to the PSet created.
+        :type  name: str
+        
+        Returns: PSet object
+        '''
+        if name is None:
+            name = make_name('p',self.pset.keys())
+            
+        stride = [str(v) for v in stride]
+        
+        cmd = '/'.join(['pset', name, 'attribute', attribute, ','.join(stride),
+                        str(value),comparison])
+        self.sendline(cmd)
+        self.pset[name] = PSet(name, self)
+
     def eltset_region(self,region,name=None):
         if name is None:
             name = make_name('e',self.pset.keys())
