@@ -680,6 +680,9 @@ class MO(object):
         self.eltset[name] = EltSet(name,self)
         return self.eltset[name]
     def rmpoint_pset(self,pset,itype='exclusive',compress=True,resetpts_itp=True):
+        '''
+        Remove points baes
+        '''
         if isinstance(pset,PSet): name = pset.name
         elif isinstance(pset,str): name = pset
         else:
