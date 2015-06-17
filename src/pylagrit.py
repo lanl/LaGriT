@@ -624,6 +624,15 @@ class MO(object):
         '''
         Define PSet by attribute 
         
+        :kwarg attribute: Nodes defined by attribute ID.
+        :type  attribute: str
+        
+        :kwarg value: attribute ID value.
+        :type  value: integer
+        
+        :kwarg comparison: attribute comparison, default is eq.
+        :type  comparison: can use default without specifiy anything, or list[lt|le|gt|ge|eq|ne] 
+        
         :kwarg stride: Nodes defined by ifirst, ilast, and istride.
         :type  stride: list[int, int, int]
         
@@ -641,6 +650,15 @@ class MO(object):
                         str(value),comparison])
         self.sendline(cmd)
         self.pset[name] = PSet(name, self)
+
+        return self.pset[name]
+
+    def resetpts_itp(self):
+        '''
+        set node type from connectivity of mesh 
+        
+        '''
+        self.sendline('resetpts/itp')
 
     def eltset_region(self,region,name=None):
         if name is None:
@@ -661,7 +679,7 @@ class MO(object):
         self.sendline(cmd)
         self.eltset[name] = EltSet(name,self)
         return self.eltset[name]
-    def rmpoint_pset(self,pset,itype='exclusive'):
+    def rmpoint_pset(self,pset,itype='exclusive',compress=True,resetpts_itp=True):
         if isinstance(pset,PSet): name = pset.name
         elif isinstance(pset,str): name = pset
         else:
@@ -669,7 +687,8 @@ class MO(object):
             return
         cmd = 'rmpoint/pset,get,'+name+'/'+itype
         self.sendline(cmd)
-    def rmpoint_eltset(self,eltset):
+        if compress: self.rmpoint_compress(resetpts_itp=resetpts_itp)
+    def rmpoint_eltset(self,eltset,compress=True,resetpts_itp=True):
         if isinstance(eltset,EltSet): name = eltset.name
         elif isinstance(eltset,str): name = eltset
         else:
@@ -677,8 +696,18 @@ class MO(object):
             return
         cmd = 'rmpoint/element/eltset,get,'+name
         self.sendline(cmd)
-    def rmpoint_compress(self):
+        if compress: self.rmpoint_compress(resetpts_itp=resetpts_itp)
+    def rmpoint_compress(self,resetpts_itp=True):
+        '''
+        remove all marked nodes and correct the itet array 
+
+        :param resetpts_itp: set node type from connectivity of mesh
+        :type resetpts_itp: bool
+
+        '''
+
         self.sendline('rmpoint/compress')
+        if resetpts_itp: self.resetpts_itp()
     def reorder_nodes(self, order='ascending',cycle='zic yic xic'):
         self.sendline('resetpts itp')
         self.sendline('/'.join(['sort',self.name,'index',order,'ikey',cycle]))
@@ -735,6 +764,8 @@ class MO(object):
             for fc in facesets: 
                 cmd += ' &\n'+fc.filename
         self.sendline(cmd)
+    def dump_gmv(self,filename,format='binary'):
+        self.dump('gmv',filename,format)
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
     
