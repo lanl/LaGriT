@@ -11,8 +11,8 @@ mo.dump_gmv('test.gmv')
 mo.dump_avs2('test.avs')
 mo.dump_lg('test.lg')
 
-mo1 = lg.read('test.gmv',binary=True)
+mo1 = lg.read('test.gmv')
 mo2 = lg.read('test.avs')
-mo3 = lg.read('test.lg',name='test',binary=True)
+mo3 = lg.read('test.lg',name='test')
 
 

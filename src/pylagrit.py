@@ -66,22 +66,17 @@ class PyLaGriT(spawn):
         if brief: cmd += '/brief'
         self.sendline(cmd)
     def read(self,filename,filetype=None,name=None,binary=False):
-        if filetype is None:
-            fend = filename.split('.')[-1]
-            if fend in ['inp','avs']: filetype = 'avs'
-            elif fend == 'gmv': filetype = 'gmv'
-            elif fend in ['lg','lagrit','LaGriT']: filetype = 'lagrit'
-            elif fend == 'ts': filetype = 'gocad'
-            else:
-                print 'Error: file type not recognized by name, use filetype option to specify'
-                return
         # If filetype is lagrit, name is irrelevant
+        if filetype is not None:
+            cmd = '/'.join(['read',filetype])
+        else:
+            cmd = 'read'
         if filetype != 'lagrit':
             if name is None:
                 name = make_name('mo',self.mo.keys())
-            cmd = '/'.join(['read',filetype,filename,name])
+            cmd = '/'.join([cmd,filename,name])
         else:
-            cmd = '/'.join(['read',filetype,filename,'dum'])
+            cmd = '/'.join([cmd,filename,'dum'])
         if binary: cmd = '/'.join([cmd,'binary'])
         self.sendline(cmd)
         # If format lagrit, cmo read in will not be set to name
