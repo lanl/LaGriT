@@ -727,18 +727,26 @@ class MO(object):
         if exe is not None: self._parent.paraview_exe = exe
         self.sendline('dump/avs/'+filename+'/'+self.name)
         os.system(self._parent.paraview_exe+' '+filename)
-    def dump(self,format,filename=None,*args):
-        if filename: 
+    def dump(self,filename=None,format=None,*args):
+        if filename is None and format is None:
+            print "Error: At least one of either filename or format option is required"
+            return
+        if format is not None: cmd = '/'.join(['dump',format])
+        else: cmd = 'dump'
+        if filename and format: 
             if format in ['fehm','zone_outside','zone_outside_minmax']: filename = filename.split('.')[0]
             if format is 'stor' and len(args)==0: filename = filename.split('.')[0]
-        else: 
+            cmd = '/'.join([cmd,format,filename,self.name])
+        elif format: 
             if format in ['avs','avs2']: filename = self.name+'.inp'
             elif format is 'fehm': filename = self.name
             elif format is 'gmv': filename = self.name+'.gmv'
             elif format is 'tecplot': filename = self.name+'.plt'
             elif format is 'lagrit': filename = self.name+'.lg'
             elif format is 'exo': filename = self.name+'.exo'
-        cmd = '/'.join(['dump',format,filename,self.name])
+            cmd = '/'.join([cmd,format,filename,self.name])
+        else:
+            cmd = '/'.join([cmd,filename,self.name])
         for arg in args: cmd = '/'.join([cmd,str(arg)])
         self.sendline(cmd)
     def dump_avs2(self,filename=None,points=True,elements=True,node_attr=True,element_attr=True):
@@ -756,7 +764,7 @@ class MO(object):
         :arg element_attr: Output element attributes
         :type element_attr: bool
         '''
-        self.dump('avs2',filename,int(points),int(elements),int(node_attr),int(element_attr))
+        self.dump(filename,'avs2',int(points),int(elements),int(node_attr),int(element_attr))
     def dump_exo(self,filename,psets=False,eltsets=False,facesets=[]):
         cmd = '/'.join(['dump/exo',filename,self.name])
         if psets: cmd = '/'.join([cmd,'psets'])
@@ -769,9 +777,9 @@ class MO(object):
                 cmd += ' &\n'+fc.filename
         self.sendline(cmd)
     def dump_gmv(self,filename,format='binary'):
-        self.dump('gmv',filename,format)
+        self.dump(filename,'gmv',format)
     def dump_lg(self,filename,format='binary'):
-        self.dump('lagrit',filename,format)
+        self.dump(filename,'lagrit',format)
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
     
