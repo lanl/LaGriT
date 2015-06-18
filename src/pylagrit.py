@@ -65,14 +65,23 @@ class PyLaGriT(spawn):
         if cmo: cmd += '/'+cmo 
         if brief: cmd += '/brief'
         self.sendline(cmd)
-    def read(self,format,filename,name=None,binary=False):
-        # If format is lagrit, name is irrelevant
-        if format != 'lagrit':
+    def read(self,filename,filetype=None,name=None,binary=False):
+        if filetype is None:
+            fend = filename.split('.')[-1]
+            if fend in ['inp','avs']: filetype = 'avs'
+            elif fend == 'gmv': filetype = 'gmv'
+            elif fend in ['lg','lagrit','LaGriT']: filetype = 'lagrit'
+            elif fend == 'ts': filetype = 'gocad'
+            else:
+                print 'Error: file type not recognized by name, use filetype option to specify'
+                return
+        # If filetype is lagrit, name is irrelevant
+        if filetype != 'lagrit':
             if name is None:
                 name = make_name('mo',self.mo.keys())
-            cmd = '/'.join(['read',format,filename,name])
+            cmd = '/'.join(['read',filetype,filename,name])
         else:
-            cmd = '/'.join(['read',format,filename,'dum'])
+            cmd = '/'.join(['read',filetype,filename,'dum'])
         if binary: cmd = '/'.join([cmd,'binary'])
         self.sendline(cmd)
         # If format lagrit, cmo read in will not be set to name
@@ -766,6 +775,8 @@ class MO(object):
         self.sendline(cmd)
     def dump_gmv(self,filename,format='binary'):
         self.dump('gmv',filename,format)
+    def dump_lg(self,filename,format='binary'):
+        self.dump('lagrit',filename,format)
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
     
