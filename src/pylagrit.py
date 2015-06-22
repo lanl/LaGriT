@@ -731,12 +731,12 @@ class MO(object):
         if filename is None and format is None:
             print "Error: At least one of either filename or format option is required"
             return
-        if format is not None: cmd = '/'.join(['dump',format])
-        else: cmd = 'dump'
+        #if format is not None: cmd = '/'.join(['dump',format])
+        #else: cmd = 'dump'
         if filename and format: 
             if format in ['fehm','zone_outside','zone_outside_minmax']: filename = filename.split('.')[0]
             if format is 'stor' and len(args)==0: filename = filename.split('.')[0]
-            cmd = '/'.join([cmd,format,filename,self.name])
+            cmd = '/'.join(['dump',format,filename,self.name])
         elif format: 
             if format in ['avs','avs2']: filename = self.name+'.inp'
             elif format is 'fehm': filename = self.name
@@ -744,12 +744,12 @@ class MO(object):
             elif format is 'tecplot': filename = self.name+'.plt'
             elif format is 'lagrit': filename = self.name+'.lg'
             elif format is 'exo': filename = self.name+'.exo'
-            cmd = '/'.join([cmd,format,filename,self.name])
+            cmd = '/'.join(['dump',format,filename,self.name])
         else:
-            cmd = '/'.join([cmd,filename,self.name])
+            cmd = '/'.join(['dump',filename,self.name])
         for arg in args: cmd = '/'.join([cmd,str(arg)])
         self.sendline(cmd)
-    def dump_avs2(self,filename=None,points=True,elements=True,node_attr=True,element_attr=True):
+    def dump_avs2(self,filename,points=True,elements=True,node_attr=True,element_attr=True):
         '''
         Dump avs file
 
