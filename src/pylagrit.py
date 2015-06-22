@@ -778,6 +778,8 @@ class MO(object):
         self.sendline(cmd)
     def dump_gmv(self,filename,format='binary'):
         self.dump(filename,'gmv',format)
+    def dump_fehm(self,filename):
+        self.dump(filename,'fehm')
     def dump_lg(self,filename,format='binary'):
         self.dump(filename,'lagrit',format)
     def delete(self):
