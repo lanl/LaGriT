@@ -564,7 +564,7 @@ c
 c        note that we can either accumulate the vector areas
 c        associated with each node as vector components or we
 c        can sum the signed areas associated with each node.
-c        either way is equivalent.
+c        either way is equivalent only if planar.
 c
          volic (i1)=volic (i1) + area1
          volic (i2)=volic (i2) + area2
@@ -662,7 +662,11 @@ c     below is being done as a check.
 c
       do i=1,npoints
          volic_check = volic(i)
-         volic(i) = 0.5*sqrt(volicx(i)**2+volicy(i)**2+volicz(i)**2)
+
+C removed cwg - overwriting correct result from above
+C method works for planar mesh, but not correct for DFN type mesh
+C        volic(i) = 0.5*sqrt(volicx(i)**2+volicy(i)**2+volicz(i)**2)
+
          volic_diff = volic_check - volic(i)
          if(volic_diff .gt. 1.e-9*abs(volic(i)))then
 C***       print *, "MATBLD2D: ERROR in calculation of volic(i)"
@@ -727,7 +731,7 @@ c
      1  "Total   Voronoi area        = ",voltotal_vor
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,'(a,1pe15.7)')
-     1  "Total   Triangle area       = ",voltotal_vor
+     1  "Total   Triangle area       = ",voltotal_tri
       call writloga('default',0,logmess,0,ierrw)
  
 CCCCC setup to WRITE files
