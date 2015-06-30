@@ -1,4 +1,5 @@
-#! /n/local_linux/epd/bin/python2.7
+#
+# ! /n/local_linux/epd/bin/python2.7
 #
 # /usr/local/bin/python -> python3.2  
 # NOTE: this uses python before vers 3

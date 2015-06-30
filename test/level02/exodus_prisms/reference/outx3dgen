@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/16  RH gf4.5       *                 
-*               *    Run Time: 2013/Apr 23  14:50:33          *                 
+*               *    Program:  LaGriT V3.103   Linux m64      *                 
+*               *    date_compile: 2015/03/15  RH gf4.5       *                 
+*               *    Run Time: 2015/Jun  2  08:40:23          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -26,6 +26,7 @@ Output log file: outx3dgen
 Command log file: logx3dgen                                                     
  
 # test stack into prism and write exodus files                                  
+# include method to create facesets for multi material                          
 define/Z1/0.1                                                                   
 define/Z2/0.2                                                                   
 ###################################                                             
@@ -1540,7 +1541,6 @@ finish
 resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
-# quality                                                                       
 dump/gmv/prism_two_layer_perturb_z.gmv/moprism                                  
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -1591,25 +1591,413 @@ finish
  
 ExodusII: Done writing to file: prism_two_layer_perturb_z.exo using cmo: moprism
  
-rmmat 2 element                                                                 
- RMMAT DUDDED          0 POINTS: FLAGGED        200 ELEMENTS                    
-rmpoint/compress                                                                
-       121 points removed and        200 elements removed.                      
-   The new point count is       242.                                            
-   The new element count is       200.                                          
+#                                                                               
+# Create a one layer versino of stacked mesh                                    
+# rmmat 2 element                                                               
+# rmpoint / compress                                                            
+# resetpts / itp                                                                
+# dump / gmv / prism_one_layer_perturb_z.gmv / moprism                          
+# dump / avs / prism_one_layer_perturb_z.inp / moprism                          
+# dump / exo / prism_one_layer_perturb_z.exo / moprism                          
+cmo/delete/mo1                                                                  
+     Released Mesh Object: mo1                                                  
+cmo/delete/mostack                                                              
+     Released Mesh Object: mostack                                              
+###################################                                             
+# Create facesets for each of 6 mesh directions                                 
+cmo/select/moprism                                                              
+cmo/printatt/moprism/-all- minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00       363  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                         363              363               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                      400              400               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                6                6               0         1  
+ edges_per_element                9                9               0         1  
+ faces_per_element                5                5               0         1  
+ isetwd                           0                0               0       363  
+ ialias                           0              242             242       363  
+ imt1                             1                2               1       363  
+ itp1                             2               12              10       363  
+ icr1                             0                0               0       363  
+ isn1                             0                0               0       363  
+ xic                0.000000000E+00  1.000000000E+00 1.000000000E+00       363  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00       363  
+ zic                0.000000000E+00  2.000000000E-01 2.000000000E-01       363  
+ xtetwd                           0                0               0       400  
+ itetclr                          1                2               1       400  
+ itettyp                          7                7               0       400  
+ itetoff                          0             2394            2394       400  
+ jtetoff                          0             1995            1995       400  
+ itet                             1              363             362       400x6
+ jtet                             4         16001996        16001992       400x5
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilona           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilonv           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                        363              363               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ ymin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ zmin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ zmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ layertyp                        -2                0               2       363  
+ nlayers                          3                3               0         1  
+ nnperlayer                     121              121               0         1  
+ neperlayer                     200              200               0         1  
+ ikey_utr                         1              400             399       400  
+ 
+# Extract outside faces of mesh, these will have tri on the                     
+# top and bottom and quads on the sides                                         
+# Attributes are created during extract including                               
+# idelem1 and idface1 which are written to faceset files                        
+extract/surfmesh/1 0 0/mo_surf/moprism/external                                 
+cmo/addatt/mo_surf/itetclr0/vint/scalar/nelements////0                          
+finish                                                                          
+cmo/addatt/mo_surf/itetclr1/vint/scalar/nelements////0                          
+finish                                                                          
+cmo/addatt/mo_surf/idnode0/vint/scalar/nnodes////0                              
+finish                                                                          
+cmo/addatt/mo_surf/idelem0/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/idelem1/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/facecol/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/idface0/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/idface1/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/layertyp/VINT/scalar/nnodes/linear/permanent/agfx            
+finish                                                                          
+cmo/addatt/mo_surf/ncon50/int/scalar/scalar/constant/permanent/x/0              
+finish                                                                          
+cmo/addatt/mo_surf/nconbnd/int/scalar/scalar/constant/permanent/x/0             
+finish                                                                          
+cmo/addatt/mo_surf/icontab/vint/scalar/ncon50/constant/permanent/x/0            
+finish                                                                          
 resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
-dump/gmv/prism_one_layer_perturb_z.gmv/moprism                                  
-cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
-dump/avs/prism_one_layer_perturb_z.inp/moprism                                  
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/exo/prism_one_layer_perturb_z.exo/moprism                                  
+# Set surface elements to direction they face based on normals                  
+cmo/addatt/mo_surf/id_side/vint/scalar/nelements                                
+cmo/select mo_surf                                                              
+settets/normal                                                                  
+assign_color_normal epsilon for zero:   1.0000000E-15                           
+       280 out of        480 element colors changed.                            
  
-ExodusII: Start writing to file: prism_one_layer_perturb_z.exo using cmo: mopris
-                                                                               m
+cmo/copyatt/mo_surf mo_surf/id_side itetclr                                     
+       480 copied from mo_surf itetclr to -> mo_surf id_side                    
+ 
+dump gmv prism_outside_faces.gmv mo_surf                                        
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump avs2 prism_outside_faces.inp mo_surf                                       
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# Remove all attributes except idelem1 and idface1                              
+cmo/printatt/mo_surf/-all-/minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00       282  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                         282              282               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                      480              480               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 2                2               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element               10               10               0         1  
+ edges_per_element               12               12               0         1  
+ faces_per_element               10               10               0         1  
+ isetwd                           0                0               0       282  
+ ialias                           0                0               0       282  
+ imt1                             1                1               0       282  
+ itp1                             0                2               2       282  
+ icr1                             0                0               0       282  
+ isn1                             0                0               0       282  
+ xic                0.000000000E+00  1.000000000E+00 1.000000000E+00       282  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00       282  
+ zic                0.000000000E+00  2.000000000E-01 2.000000000E-01       282  
+ xtetwd                           0                0               0       480  
+ itetclr                          1                6               5       480  
+ itettyp                          3                4               1       480  
+ itetoff                          0             1517            1517       480  
+ jtetoff                          0             1517            1517       480  
+ itet                             0              282             282       480x*
+ jtet                             0             4793            4793       480x*
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilona           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilonv           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                        282              282               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ ymin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ zmin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ zmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ itetclr0                         0                0               0       480  
+ itetclr1                         1                2               1       480  
+ idnode0                          1              363             362       282  
+ idelem0                          0                0               0       480  
+ idelem1                          1              400             399       480  
+ facecol                          1                2               1       480  
+ idface0                          0                0               0       480  
+ idface1                          1                5               4       480  
+ layertyp                        -2                0               2       282  
+ ncon50                           0                0               0         1  
+ nconbnd                          0                0               0         1  
+ 0 length attribute: icontab                                                    
+ id_side                          1                6               5       480  
+ 
+cmo/DELATT/mo_surf/itetclr0                                                     
+cmo/DELATT/mo_surf/itetclr1                                                     
+cmo/DELATT/mo_surf/idnode0                                                      
+cmo/DELATT/mo_surf/idelem0                                                      
+cmo/DELATT/mo_surf/facecol                                                      
+cmo/DELATT/mo_surf/idface0                                                      
+cmo/DELATT/mo_surf/layertyp                                                     
+# foreach direction create cell set and write file                              
+# use defines in case directions are permuted for user                          
+define NUM_BOT 1                                                                
+define FILE_FS_1 fs_1_bottom.faceset                                            
+define FILE_GMV_1 fs_1_bottom.gmv                                               
+define NUM_TOP 2                                                                
+define FILE_FS_2 fs_2_top.faceset                                               
+define FILE_GMV_2 fs_2_top.gmv                                                  
+define NUM_RIGHT 3                                                              
+define FILE_FS_3 fs_3_right.faceset                                             
+define FILE_GMV_3 fs_3_right.gmv                                                
+define NUM_BACK 4                                                               
+define FILE_FS_4 fs_4_back.faceset                                              
+define FILE_GMV_4 fs_4_back.gmv                                                 
+define NUM_LEFT 5                                                               
+define FILE_FS_5 fs_5_left.faceset                                              
+define FILE_GMV_5 fs_5_left.gmv                                                 
+define NUM_FRONT 6                                                              
+define FILE_FS_6 fs_6_front.faceset                                             
+define FILE_GMV_6 fs_6_front.gmv                                                
+# give relevant eltset names so sets are reported                               
+# with recognizable set names for checking                                      
+# Note with stacked layers,                                                     
+# top and bottom have equal number of elements                                  
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_bottom/id_side/eq/NUM_BOT                                              
+ 
+ THE ELTSET e_bottom                         HAS        200 ELEMENTS            
+eltset/e_delete/not/e_bottom                                                    
+ 
+ THE ELTSET e_delete                         HAS        280 ELEMENTS            
+rmpoint/element/eltset get e_delete                                             
+ Dudded       161 points plus parents, and        280 elements removed.         
+rmpoint/compress                                                                
+       161 points removed and          0 elements removed.                      
+   The new point count is       121.                                            
+   The new element count is       200.                                          
+cmo/DELATT/mo_tmp/id_side                                                       
+dump/avs2/FILE_FS_1/mo_tmp/0 0 0 2                                              
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    0                                       
+WARNING: dump/avs  iopt_values_elem=    2                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/gmv/FILE_GMV_1/mo_tmp                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/delete/mo_tmp                                                               
+     Released Mesh Object: mo_tmp                                               
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_top/id_side/eq/NUM_TOP                                                 
+ 
+ THE ELTSET e_top                            HAS        200 ELEMENTS            
+eltset/e_delete/not/e_top                                                       
+ 
+ THE ELTSET e_delete                         HAS        280 ELEMENTS            
+rmpoint/element/eltset get e_delete                                             
+ Dudded       161 points plus parents, and        280 elements removed.         
+rmpoint/compress                                                                
+       161 points removed and          0 elements removed.                      
+   The new point count is       121.                                            
+   The new element count is       200.                                          
+cmo/DELATT/mo_tmp/id_side                                                       
+dump/avs2/FILE_FS_2/mo_tmp/0 0 0 2                                              
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    0                                       
+WARNING: dump/avs  iopt_values_elem=    2                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/gmv/FILE_GMV_2/mo_tmp                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/delete/mo_tmp                                                               
+     Released Mesh Object: mo_tmp                                               
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_right/id_side/eq/NUM_RIGHT                                             
+ 
+ THE ELTSET e_right                          HAS         20 ELEMENTS            
+eltset/e_delete/not/e_right                                                     
+ 
+ THE ELTSET e_delete                         HAS        460 ELEMENTS            
+rmpoint/element/eltset get e_delete                                             
+ Dudded       249 points plus parents, and        460 elements removed.         
+rmpoint/compress                                                                
+       249 points removed and          0 elements removed.                      
+   The new point count is        33.                                            
+   The new element count is        20.                                          
+cmo/DELATT/mo_tmp/id_side                                                       
+dump/avs2/FILE_FS_3/mo_tmp/0 0 0 2                                              
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    0                                       
+WARNING: dump/avs  iopt_values_elem=    2                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/gmv/FILE_GMV_3/mo_tmp                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/delete/mo_tmp                                                               
+     Released Mesh Object: mo_tmp                                               
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_back/id_side/eq/NUM_BACK                                               
+ 
+ THE ELTSET e_back                           HAS         20 ELEMENTS            
+eltset/e_delete/not/e_back                                                      
+ 
+ THE ELTSET e_delete                         HAS        460 ELEMENTS            
+rmpoint/element/eltset get e_delete                                             
+ Dudded       249 points plus parents, and        460 elements removed.         
+rmpoint/compress                                                                
+       249 points removed and          0 elements removed.                      
+   The new point count is        33.                                            
+   The new element count is        20.                                          
+cmo/DELATT/mo_tmp/id_side                                                       
+dump/avs2/FILE_FS_4/mo_tmp/0 0 0 2                                              
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    0                                       
+WARNING: dump/avs  iopt_values_elem=    2                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/gmv/FILE_GMV_4/mo_tmp                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/delete/mo_tmp                                                               
+     Released Mesh Object: mo_tmp                                               
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_left/id_side/eq/NUM_LEFT                                               
+ 
+ THE ELTSET e_left                           HAS         20 ELEMENTS            
+eltset/e_delete/not/e_left                                                      
+ 
+ THE ELTSET e_delete                         HAS        460 ELEMENTS            
+rmpoint/element/eltset get e_delete                                             
+ Dudded       249 points plus parents, and        460 elements removed.         
+rmpoint/compress                                                                
+       249 points removed and          0 elements removed.                      
+   The new point count is        33.                                            
+   The new element count is        20.                                          
+cmo/DELATT/mo_tmp/id_side                                                       
+dump/avs2/FILE_FS_5/mo_tmp/0 0 0 2                                              
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    0                                       
+WARNING: dump/avs  iopt_values_elem=    2                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/gmv/FILE_GMV_5/mo_tmp                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/delete/mo_tmp                                                               
+     Released Mesh Object: mo_tmp                                               
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_front/id_side/eq/NUM_FRONT                                             
+ 
+ THE ELTSET e_front                          HAS         20 ELEMENTS            
+eltset/e_delete/not/e_front                                                     
+ 
+ THE ELTSET e_delete                         HAS        460 ELEMENTS            
+rmpoint/element/eltset get e_delete                                             
+ Dudded       249 points plus parents, and        460 elements removed.         
+rmpoint/compress                                                                
+       249 points removed and          0 elements removed.                      
+   The new point count is        33.                                            
+   The new element count is        20.                                          
+cmo/DELATT/mo_tmp/id_side                                                       
+dump/avs2/FILE_FS_6/mo_tmp/0 0 0 2                                              
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    0                                       
+WARNING: dump/avs  iopt_values_elem=    2                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/gmv/FILE_GMV_6/mo_tmp                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/delete/mo_tmp                                                               
+     Released Mesh Object: mo_tmp                                               
+# After faceset files have been written, write the final files                  
+# Note the file order will detirmine integer value of set in exo                
+# so have set 1 first, set 2 second, ...                                        
+dump/exo/mesh_fsets.exo/moprism///facesets FILE_FS_1 FILE_FS_2 FILE_FS_3 FILE_FS
+_4 FILE_FS_5 FILE_FS_6                                                          
+ 
+ExodusII: Start writing to file: mesh_fsets.exo using cmo: moprism              
  
 cmo/set_id/moprism/element/e_num_temp                                           
 cmo/addatt/moprism e_num_temp/VINT/scalar/nelements/linear/permanent//0         
@@ -1631,16 +2019,16 @@ finish
 INITIALIZE exodus                                                               
 Title: LAGRIT TO EXODUS                                                         
 number of dimension:               3                                            
-number of nodes:                 242                                            
-number of elements:              200                                            
+number of nodes:                 363                                            
+number of elements:              400                                            
 number of edges:                   0                                            
 number of edge blocks:             0                                            
-number of element blocks:          1                                            
+number of element blocks:          2                                            
 number of face blocks:             0                                            
 number of node sets:               0                                            
 number of edge sets:               3                                            
 number of element sets:            0                                            
-number of side sets:               0                                            
+number of side sets:               6                                            
 number of face sets:               0                                            
 number of node maps:               0                                            
 number of edge maps:               0                                            
@@ -1650,13 +2038,77 @@ number of element maps:            0
 cmo/modatt/moprism/itetclr/ioflag/l                                             
 finish                                                                          
  
-ExodusII: Done writing to file: prism_one_layer_perturb_z.exo using cmo: moprism
+ExodusII: Done writing to file: mesh_fsets.exo using cmo: moprism               
  
-cmo/delete/mo1                                                                  
-     Released Mesh Object: mo1                                                  
-cmo/delete/mostack                                                              
-     Released Mesh Object: mostack                                              
-cmo/delete/moprism                                                              
-     Released Mesh Object: moprism                                              
+dump/avs2/mesh_fsets.inp/moprism                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/gmv/mesh_fsets.gmv/moprism                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# Convert binary mesh_fsets.exo with ncdump executable:                         
+# ncdump mesh_fsets.exo > mesh_fsets_ascii.exo                                  
+# Creat single material mesh                                                    
+cmo setatt moprism itetclr 1                                                    
+       400 values reset for attribute itetclr                                   
+ 
+cmo setatt moprism imt 1                                                        
+       363 values reset for attribute imt1                                      
+ 
+resetpts itp                                                                    
+geniee                                                                          
+finish                                                                          
+dump/exo/mesh_fsets_single_mat.exo/moprism///facesets FILE_FS_1 FILE_FS_2 FILE_F
+S_3 FILE_FS_4 FILE_FS_5 FILE_FS_6                                               
+ 
+ExodusII: Start writing to file: mesh_fsets_single_mat.exo using cmo: moprism   
+ 
+cmo/set_id/moprism/element/e_num_temp                                           
+cmo/addatt/moprism e_num_temp/VINT/scalar/nelements/linear/permanent//0         
+finish                                                                          
+finish                                                                          
+sort/moprism/index/ascending/ikey_utr/itetclr/e_num_temp                        
+cmo/DELATT/moprism/ikey_utr                                                     
+finish                                                                          
+cmo/addatt/moprism/ikey_utr/vint/scalar/nelements///gax/0                       
+finish                                                                          
+ SORT: order key written to attribute: ikey_utr                                 
+ 
+finish                                                                          
+cmo/DELATT/moprism/e_num_temp                                                   
+finish                                                                          
+cmo/modatt/moprism/itetclr/ioflag/lga                                           
+finish                                                                          
+ 
+INITIALIZE exodus                                                               
+Title: LAGRIT TO EXODUS                                                         
+number of dimension:               3                                            
+number of nodes:                 363                                            
+number of elements:              400                                            
+number of edges:                   0                                            
+number of edge blocks:             0                                            
+number of element blocks:          1                                            
+number of face blocks:             0                                            
+number of node sets:               0                                            
+number of edge sets:               3                                            
+number of element sets:            0                                            
+number of side sets:               6                                            
+number of face sets:               0                                            
+number of node maps:               0                                            
+number of edge maps:               0                                            
+number of face maps:               0                                            
+number of element maps:            0                                            
+ 
+cmo/modatt/moprism/itetclr/ioflag/l                                             
+finish                                                                          
+ 
+ExodusII: Done writing to file: mesh_fsets_single_mat.exo using cmo: moprism    
+ 
+dump/avs2/mesh_fsets_single_mat.inp/moprism                                     
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/gmv/mesh_fsets_single_mat.gmv/moprism                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
 finish                                                                          
 LaGriT successfully completed                                                   

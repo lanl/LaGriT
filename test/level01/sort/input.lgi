@@ -9,6 +9,9 @@
 #   test*.gmv       GMV version of corresponding AVS file
 #   test*s.inp      ------------- Sorted ----------------
 #   test*s.gmv      -------------- Files ----------------
+#
+# See reference for visual reference
+#
 ##########################################
 # SORT POINTS (not connected)
 cmo / create / moquad / / / quad

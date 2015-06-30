@@ -1,5 +1,8 @@
 /scratch/nts/gable/grid_gen/ascem/test_prism
 
+on bash, convert to ascii
+  for f in *.exo ; do echo $f; ncdump $f > $f.ascii; done
+
 See included images
 
 prism_one - One Prism 
