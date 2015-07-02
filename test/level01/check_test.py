@@ -28,6 +28,8 @@
 
 import fileinput, array, string, os, difflib, sys, datetime, time, copy
 
+__all__ = ["fail", "rstrip", "diff_chunk", "Check"]
+
 #------------------------------------------------------------------------------
 def fail(msg):
    out = sys.stderr.write
@@ -45,7 +47,7 @@ def rstrip(line, JUNK='\n \t '):
 #------------------------------------------------------------------------------
 # compare using additional checks to diff
 
-def diff_chunk(rlines,tlines,rcnt,tcnt) :
+def diff_chunk(rlines,tlines,rcnt,tcnt, wfile) :
 
 # need large epsilon to compare numbers  1.73469E+02 to 1.734693909E+02
   epsval = 0.001 
@@ -195,8 +197,8 @@ def diff_chunk(rlines,tlines,rcnt,tcnt) :
 # MAIN begin
 #
 #------------------------------------------------------------------------------
-
-if __name__ == "__main__":
+# if __name__ == "__main__":
+def Check(**args):
 
   debug = 0
   JUNK='\n \t'
@@ -211,6 +213,7 @@ if __name__ == "__main__":
   nfail=0
   ndirs=0
   result_dir = 0
+  target=args['target']
 
 # get platform
   osname="unknown"
@@ -242,11 +245,19 @@ if __name__ == "__main__":
 # for each test directory
 # main loop
 
-  if len(sys.argv) > 1 :
+  """if len(sys.argv) > 1 :
     dirnames = sys.argv[1:]
     fout=dtop_path+"/diffout"+ostag+"_select.txt"
   else :
-    dirnames = os.listdir(dtop)
+    dirnames = os.listdir(dtop)"""
+
+  print target
+  print dtop
+  if target == dtop:
+  	dirnames = os.listdir(dtop)
+  else:
+  	dirnames = [target]
+  	fout = dtop_path + "/diffout" + ostag + "_select.txt"
 
   wfile = open(fout,'w')
   wfile.write(buff+"\n")
@@ -359,7 +370,7 @@ if __name__ == "__main__":
                   if debug : print "Compare chunk ==============================================="
                   print chdr 
                   wfile.write(chdr+"\n")
-                  ifa, ico, iju = diff_chunk(rlines,tlines,rcnt,tcnt)
+                  ifa, ico, iju = diff_chunk(rlines,tlines,rcnt,tcnt, wfile)
                   ifail = ifail + ifa
                   icomment = icomment + ico
                   ijunk = ijunk + iju

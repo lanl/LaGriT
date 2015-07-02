@@ -1,5 +1,4 @@
-#
-# ! /n/local_linux/epd/bin/python2.7
+#! /n/local_linux/epd/bin/python2.7
 #
 # /usr/local/bin/python -> python3.2  
 # NOTE: this uses python before vers 3
@@ -18,6 +17,7 @@
 #------------------------------------------------------------------------------
 
 import fileinput, string, os, sys, datetime, time
+__all__ = ["directoryList", "RunTest"]
 
 ##############################################################################
 # Routines listed here, main at bottom
@@ -43,7 +43,8 @@ def directoryList( unused, dirName, fileList ):
 #
 #------------------------------------------------------------------------------
 
-if __name__ == "__main__":
+# executes the tests in directories
+def RunTest(**args):
 
   dirList = []
   errList = []
@@ -53,12 +54,10 @@ if __name__ == "__main__":
   osname="unknown"
   ostag=""
   result_dir = 0
+  # target=args['target']
 
 # define executable
-  xlagrit="lagrit"
-  xlagrit="/home/tam/src/build_lagrit/lin64/lagrit_lin64"
-  xlagrit="/home/tam/src/build_lagrit/mac64/lagrit_maci64"
-  xlagrit="/n/swdev/LAGRIT/work/lagrit/src/mylagrit"
+  xlagrit="/n/swdev/LAGRIT/bin/lagrit_ulin_g_gf_V3.107.so"
 
 # get platform
   print "======="
@@ -209,4 +208,3 @@ if __name__ == "__main__":
       
 # end Main 
 #------------------------------------------------------------------------------
-
