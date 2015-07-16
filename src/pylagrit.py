@@ -1101,19 +1101,35 @@ class MO(object):
         '''
         Connect the nodes into a Delaunay tetrahedral or triangle grid without adding nodes.
         '''
-        return self.connect(option1='delaunay', **minus_self(locals()))
+        mo_tmp = self.copypts()
+        mo_tmp.connect(option1='delaunay', option2=option2,stride=stride,big_tet_coords=big_tet_coords)
+        self.sendline('/'.join(['cmo','delete',self.name]))
+        self.sendline('/'.join(['cmo','move',self.name,mo_tmp.name]))
+        mo_tmp.delete()
+        #self.connect(option1='delaunay', **minus_self(locals()))
     def connect_noadd(self):
         '''
         Connect the nodes into a Delaunay tetrahedral or triangle grid without adding nodes.
         '''
-        return self.connect(option1='noadd')
+        self.connect(option1='noadd')
     def connect_check_interface(self):
         '''
         Connect the nodes into a Delaunay tetrahedral or triangle grid
         exhaustively checking that no edges of the mesh cross a material
         boundary.
         '''
-        return self.connect(option1='check_interface')
+        self.connect(option1='check_interface')
+    def copypts(self, name=None):
+        '''
+        Copy points from mesh object to new mesh object
+
+        :arg name: Name to use within lagrit for the created mesh object
+        :type name: str
+        '''
+        if name is None: name = make_name('mo',self._parent.mo.keys())
+        mo_new = self._parent.create_tet()
+        self.sendline('/'.join(['copypts',mo_new.name,self.name]))
+        return mo_new
  
 class Surface(object):
     ''' Surface class'''
