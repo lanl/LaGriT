@@ -373,9 +373,12 @@ class PyLaGriT(spawn):
         '''Create a hybrid mesh object.'''
         return self.create(mesh='hyb', **minus_self(locals()))
         
-    def create_lin(self, name=None, npoints=0, nelements=0):
+    def create_line(self, npoints=0, mins=[], maxs=[], rz_switch=(0,0,0), name=None):
         '''Create a line mesh object.'''
-        return self.create(mesh='lin', **minus_self(locals()))
+        mo_new = self.create(mesh='lin', name=name, npoints=npoints)
+        if len(mins) == 3 and len(maxs) == 3:
+            mo_new.createpts_line(npoints,mins,maxs,rz_switch)
+        return mo_new
         
     def create_triplane(self, name=None, npoints=0, nelements=0):
         '''Create a triplane mesh object.'''
@@ -785,6 +788,27 @@ class MO(object):
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
     
+    def createpts_line(self, npts, mins, maxs, rz_switch=(0,0,0)):
+        '''
+        Create and Connect Points in a line
+        
+        :arg  npts: The number of points to create in line
+        :type npts: int
+        :arg  mins: The starting value for each dimension.
+        :type mins: tuple(int, int, int)
+        :arg  maxs: The ending value for each dimension.
+        :type maxs: tuple(int, int, int)
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :type  rz_switch: tuple(int, int, int)
+        
+        '''
+        
+        mins = [str(v) for v in mins]
+        maxs = [str(v) for v in maxs]
+        rz_switch = [str(v) for v in rz_switch]
+
+        cmd = '/'.join(['createpts','line',str(npts),' ',' ',','.join(mins+maxs),','.join(rz_switch)])
+        self.sendline(cmd)
     def createpts_brick(
             self, crd, npts, mins, maxs,  
             ctr=(1,1,1), rz_switch=(0,0,0), rz_vls=(1,1,1)
@@ -1125,11 +1149,43 @@ class MO(object):
 
         :arg name: Name to use within lagrit for the created mesh object
         :type name: str
+        :returns: mesh object
         '''
         if name is None: name = make_name('mo',self._parent.mo.keys())
         mo_new = self._parent.create_tet()
         self.sendline('/'.join(['copypts',mo_new.name,self.name]))
         return mo_new
+    def extrude(self, offset, offset_type='const', return_type='volume', direction=[], name=None):
+        '''
+        Extrude mesh object to new mesh object
+        This command takes the current mesh object (topologically 1d or 2d mesh (a line, a set of line 
+        segments, or a planar or non-planar surface)) and extrudes it into three 
+        dimensions along either the normal to the curve or surface (default), 
+        along a user defined vector, or to a set of points that the user has specified.
+        If the extrusion was along the normal of the surface or along a user 
+        defined vector, the command can optionally find the external surface of 
+        the volume created and return that to the user.
+        Refer to http://lagrit.lanl.gov/docs/commands/extrude.html for more details on arguments.
+
+
+        :arg name: Name to use within lagrit for the created mesh object
+        :type name: str
+        :arg offset: Distance to extrude
+        :type offset: float
+        :arg offset_type: either const or min (interp will be handled in the PSET class in the future)         
+        :type offset_type: str
+        :arg return_type: either volume for entire mesh or bubble for just the external surface
+        :type return_type: str
+        :arg direction: Direction to extrude in, defaults to normal of the object
+        :type direction: lst[float,float,float]
+        :returns: mesh object
+        '''
+        if name is None: name = make_name('mo',self._parent.mo.keys())
+        cmd = ['extrude',name,self.name,offset_type,str(offset),return_type]
+        if len(direction) == 3: cmd.append(','.join([str(v) for v in direction]))
+        self.sendline('/'.join(cmd))
+        self._parent.mo[name] = MO(name, self._parent)
+        return self._parent.mo[name]
  
 class Surface(object):
     ''' Surface class'''
