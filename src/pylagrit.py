@@ -722,7 +722,7 @@ class MO(object):
         cmd = 'rmpoint/element/eltset,get,'+name
         self.sendline(cmd)
         if compress: self.rmpoint_compress(resetpts_itp=resetpts_itp)
-    def rmpoint_compress(self,resetpts_itp=True):
+    def rmpoint_compress(self,filter_bool=False,resetpts_itp=True):
         '''
         remove all marked nodes and correct the itet array 
 
@@ -731,6 +731,7 @@ class MO(object):
 
         '''
 
+        if filter_bool: self.sendline('filter/1,0,0')
         self.sendline('rmpoint/compress')
         if resetpts_itp: self.resetpts_itp()
     def reorder_nodes(self, order='ascending',cycle='zic yic xic'):
@@ -1144,6 +1145,9 @@ class MO(object):
         Connect the nodes into a Delaunay tetrahedral or triangle grid without adding nodes.
         '''
         mo_tmp = self.copypts()
+        mo_tmp.setatt('imt',1)
+        mo_tmp.setatt('itp',0)
+        mo_tmp.rmpoint_compress(filter_bool=True)
         mo_tmp.connect(option1='delaunay', option2=option2,stride=stride,big_tet_coords=big_tet_coords)
         self.sendline('/'.join(['cmo','delete',self.name]))
         self.sendline('/'.join(['cmo','move',self.name,mo_tmp.name]))
@@ -1204,12 +1208,16 @@ class MO(object):
         self.sendline('/'.join(cmd))
         self._parent.mo[name] = MO(name, self._parent)
         return self._parent.mo[name]
-    def refine_object(self, mo, level=1):
+    def refine_to_object(self, mo, level=1, imt=None):
         '''
         Refine mesh at locations that intersect another mesh object
 
         :arg mo: Mesh object to intersect with current mesh object to determine where to refine
         :type mo: PyLaGriT mesh object
+        :arg level: max level of refinement
+        :type level: int
+        :arg imt: Value to assign to imt (LaGriT material type attribute)
+        :type imt: int
         '''
 
         for i in range(level):
@@ -1221,6 +1229,12 @@ class MO(object):
             e_level.delete()
             e_refine.refine()
             e_refine.delete()
+        if imt is not None: 
+            attr_name = self.intersect_elements(mo)
+            e_attr = self.eltset_attribute(attr_name,0,boolstr='gt')
+            p = e_attr.pset()
+            p.setatt('imt',13)
+            p.delete()
         
 
     def intersect_elements(self, mo, attr_name='attr00'):
@@ -1267,7 +1281,7 @@ class PSet(object):
         self._parent.printatt(attname=attname,stride=stride,pset=self.name,type='minmax')
     def list(self,attname=None,stride=[1,0,0]):
         self._parent.printatt(attname=attname,stride=stride,pset=self.name,type='list')
-    def setatt(self,attname,value,stride=[1,0,0]):
+    def setatt(self,attname,value):
         cmd = '/'.join(['cmo/setatt',self._parent.name,attname,'pset get '+self.name,str(value)])
         self._parent.sendline(cmd)
     def refine(self,refine_option,refine_type,interpolation=' ',prange=[-1,0,0],field=' ',inclusive_flag='exclusive',prd_choice=None):
@@ -1277,6 +1291,32 @@ class PSet(object):
         else:
             cmd = '/'.join(['refine',refine_option,field,interpolation,refine_type,'pset get '+self.name,','.join(prange),inclusive_flag,'amr '+str(prd_choice)])
         self._parent.sendline(cmd)
+    def eltset(self,membership='inclusive',name=None):
+        '''
+        Create eltset from pset
+
+        :arg membership: type of element membership, one of [inclusive,exclusive,face]
+        :type membership: str
+        :arg name: Name of element set to be used within LaGriT
+        :type name: str
+        :returns: PyLaGriT EltSet object
+        '''
+        if name is None: name = make_name('e',self._parent.eltset.keys())
+        cmd = ['eltset',name,membership,'pset','get',self.name]
+        self._parent.sendline('/'.join(cmd))
+        self._parent.eltset[name] = EltSet(name,self._parent)
+        return self._parent.eltset[name]
+    def expand(self,membership='inclusive'):
+        '''
+        Add points surrounding pset to pset
+
+        :arg membership: type of element membership, one of [inclusive,exclusive,face]
+        :type membership: str
+        '''
+        e = self.eltset(membership=membership)
+        self._parent.sendline('pset/'+self.name+'/delete')
+        self = e.pset(name=self.name)
+
 
 class EltSet(object):
     ''' EltSet class'''
@@ -1312,10 +1352,25 @@ class EltSet(object):
         self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='minmax')
     def list(self,attname=None,stride=[1,0,0]):
         self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='list')
-    def refine(self):
+    def refine(self,prd_choice=None):
         cmd = '/'.join(['refine','eltset','eltset,get,'+self.name])
+        if prd_choice is not None: cmd += '/amr '+str(prd_choice)
         self._parent.sendline(cmd)
-
+    def pset(self,name=None):
+        '''
+        Create a pset from the points in an element set
+        :arg name: Name of point set to be used within LaGriT
+        :type name: str
+        :returns: PyLaGriT PSet object
+        '''
+        if name is None: name = make_name('p',self._parent.pset.keys())
+        cmd = '/'.join(['pset',name,'eltset',self.name])
+        self._parent.sendline(cmd)
+        self._parent.pset[name] = PSet(name, self._parent)
+        return self._parent.pset[name]
+    def setatt(self,attname,value):
+        cmd = '/'.join(['cmo/setatt',self._parent.name,attname,'eltset, get,'+self.name,str(value)])
+        self._parent.sendline(cmd)
 
 class Region(object):
     ''' Region class'''
