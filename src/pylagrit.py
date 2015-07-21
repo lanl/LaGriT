@@ -667,9 +667,27 @@ class MO(object):
         '''
         self.sendline('resetpts/itp')
 
+    def eltset_bool(self, eset_list, boolstr='union', name=None):
+        '''
+        Create element set from boolean operation of set of element sets
+
+        :arg eset_list: List of elements to perform boolean operation on
+        :type eset_list: lst(PyLaGriT element set)
+        :arg boolstr: type of boolean operation to perform on element sets, one of [union,inter,not]
+        :type boolstr: str
+        :arg name: The name to be assigned to the EltSet within LaGriT
+        :type name: str
+        :returns: PyLaGriT element set object
+        '''
+        if name is None:
+            name = make_name('e',self.eltset.keys())
+        cmd = ['eltset',name,boolstr,' '.join([e.name for e in eset_list])]
+        self.sendline('/'.join(cmd))
+        self.eltset[name] = EltSet(name,self)
+        return self.eltset[name]
     def eltset_region(self,region,name=None):
         if name is None:
-            name = make_name('e',self.pset.keys())
+            name = make_name('e',self.eltset.keys())
         if isinstance(region,Region): region_name = region.name
         elif isinstance(region,str): region_name = region
         else:
@@ -681,7 +699,7 @@ class MO(object):
         return self.eltset[name]
     def eltset_attribute(self,attribute_name,attribute_value,boolstr='eq',name=None):
         if name is None:
-            name = make_name('e',self.pset.keys())
+            name = make_name('e',self.eltset.keys())
         cmd = '/'.join(['eltset',name,attribute_name,boolstr,str(attribute_value)])
         self.sendline(cmd)
         self.eltset[name] = EltSet(name,self)
@@ -1186,6 +1204,41 @@ class MO(object):
         self.sendline('/'.join(cmd))
         self._parent.mo[name] = MO(name, self._parent)
         return self._parent.mo[name]
+    def refine_object(self, mo, level=1):
+        '''
+        Refine mesh at locations that intersect another mesh object
+
+        :arg mo: Mesh object to intersect with current mesh object to determine where to refine
+        :type mo: PyLaGriT mesh object
+        '''
+
+        for i in range(level):
+            attr_name = self.intersect_elements(mo)
+            e_attr = self.eltset_attribute(attr_name,0,boolstr='gt')
+            e_level = self.eltset_attribute('itetlev',level,boolstr='lt')
+            e_refine = self.eltset_bool( [e_attr,e_level], boolstr='inter' )
+            e_attr.delete()
+            e_level.delete()
+            e_refine.refine()
+            e_refine.delete()
+        
+
+    def intersect_elements(self, mo, attr_name='attr00'):
+        '''
+        This command takes two meshes and creates an element-based attribute in mesh1 
+        that contains the number of elements in mesh2 that intersected the respective 
+        element in mesh1. We define intersection as two elements sharing any common point.
+        
+        :arg mo: Mesh object to intersect with current mesh object to determine where to refine
+        :type mo: PyLaGriT mesh object
+        :arg attr_name: Name to give created attribute 
+        :type attr_name: str
+        :returns: attr_name
+        '''
+        self.sendline('/'.join(['intersect_elements',self.name,mo.name,attr_name]))
+        return attr_name
+
+
  
 class Surface(object):
     ''' Surface class'''
@@ -1259,6 +1312,10 @@ class EltSet(object):
         self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='minmax')
     def list(self,attname=None,stride=[1,0,0]):
         self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='list')
+    def refine(self):
+        cmd = '/'.join(['refine','eltset','eltset,get,'+self.name])
+        self._parent.sendline(cmd)
+
 
 class Region(object):
     ''' Region class'''
