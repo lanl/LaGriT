@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.103   Linux m64      *                 
-*               *    date_compile: 2015/03/15  RH gf4.5       *                 
-*               *    Run Time: 2015/Jun  2  09:01:48          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  14:58:15          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -72,9 +72,9 @@ eltset//list
 pset//list                                                                      
 PSET: THERE ARE  3 PSETS DEFINED                                                
   p1                p2                p3                                        
-dump/exo/test3D_hex_pset_eltset.exo/mohex/psets/eltsets/                        
+dump/exo/out_3D_hex_pset_eltset.exo/mohex/psets/eltsets/                        
  
-ExodusII: Start writing to file: test3D_hex_pset_eltset.exo using cmo: mohex    
+ExodusII: Start writing to file: out_3D_hex_pset_eltset.exo using cmo: mohex    
  
 cmo/set_id/mohex/element/e_num_temp                                             
 cmo/addatt/mohex e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -124,11 +124,12 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
 cmo/modatt/mohex/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test3D_hex_pset_eltset.exo using cmo: mohex     
+ExodusII: Done writing to ExodusII file: out_3D_hex_pset_eltset.exo using cmo: m
+                                                                            ohex
  
-dump/exo/test3D_hex_pset.exo/mohex/psets//                                      
+dump/exo/out_3D_hex_pset.exo/mohex/psets//                                      
  
-ExodusII: Start writing to file: test3D_hex_pset.exo using cmo: mohex           
+ExodusII: Start writing to file: out_3D_hex_pset.exo using cmo: mohex           
  
 cmo/set_id/mohex/element/e_num_temp                                             
 cmo/addatt/mohex e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -174,11 +175,11 @@ WRITING EXODUS NODE SETS:         3 sets in total
 cmo/modatt/mohex/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test3D_hex_pset.exo using cmo: mohex            
+ExodusII: Done writing to ExodusII file: out_3D_hex_pset.exo using cmo: mohex   
  
-dump/exo/test3D_hex_eltset.exo/mohex//eltsets/                                  
+dump/exo/out_3D_hex_eltset.exo/mohex//eltsets/                                  
  
-ExodusII: Start writing to file: test3D_hex_eltset.exo using cmo: mohex         
+ExodusII: Start writing to file: out_3D_hex_eltset.exo using cmo: mohex         
  
 cmo/set_id/mohex/element/e_num_temp                                             
 cmo/addatt/mohex e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -225,7 +226,7 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
 cmo/modatt/mohex/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test3D_hex_eltset.exo using cmo: mohex          
+ExodusII: Done writing to ExodusII file: out_3D_hex_eltset.exo using cmo: mohex 
  
 grid2grid/hextotet5/motet/mohex                                                 
 hextotet/5/motet/mohex                                                          
@@ -298,9 +299,9 @@ eltset//list
 pset//list                                                                      
 PSET: THERE ARE  3 PSETS DEFINED                                                
   p1                p2                p3                                        
-dump/exo/test3D_tet_pset_eltset.exo/motet/psets/eltsets/                        
+dump/exo/out_3D_tet_pset_eltset.exo/motet/psets/eltsets/                        
  
-ExodusII: Start writing to file: test3D_tet_pset_eltset.exo using cmo: motet    
+ExodusII: Start writing to file: out_3D_tet_pset_eltset.exo using cmo: motet    
  
 cmo/set_id/motet/element/e_num_temp                                             
 cmo/addatt/motet e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -352,11 +353,12 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
 cmo/modatt/motet/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test3D_tet_pset_eltset.exo using cmo: motet     
+ExodusII: Done writing to ExodusII file: out_3D_tet_pset_eltset.exo using cmo: m
+                                                                            otet
  
-dump/exo/test3D_tet_pset.exo/motet/psets//                                      
+dump/exo/out_3D_tet_pset.exo/motet/psets//                                      
  
-ExodusII: Start writing to file: test3D_tet_pset.exo using cmo: motet           
+ExodusII: Start writing to file: out_3D_tet_pset.exo using cmo: motet           
  
 cmo/set_id/motet/element/e_num_temp                                             
 cmo/addatt/motet e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -402,11 +404,11 @@ WRITING EXODUS NODE SETS:         3 sets in total
 cmo/modatt/motet/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test3D_tet_pset.exo using cmo: motet            
+ExodusII: Done writing to ExodusII file: out_3D_tet_pset.exo using cmo: motet   
  
-dump/exo/test3D_tet_eltset.exo/motet//eltsets/                                  
+dump/exo/out_3D_tet_eltset.exo/motet//eltsets/                                  
  
-ExodusII: Start writing to file: test3D_tet_eltset.exo using cmo: motet         
+ExodusII: Start writing to file: out_3D_tet_eltset.exo using cmo: motet         
  
 cmo/set_id/motet/element/e_num_temp                                             
 cmo/addatt/motet e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -453,7 +455,7 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
 cmo/modatt/motet/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test3D_tet_eltset.exo using cmo: motet          
+ExodusII: Done writing to ExodusII file: out_3D_tet_eltset.exo using cmo: motet 
  
 cmo/delete/motet                                                                
      Released Mesh Object: motet                                                
@@ -542,9 +544,9 @@ eltset//list
 pset//list                                                                      
 PSET: THERE ARE  3 PSETS DEFINED                                                
   p1                p2                p3                                        
-dump/exo/test2D_tri_pset_eltset.exo/motri/psets/eltsets/                        
+dump/exo/out_2D_tri_pset_eltset.exo/motri/psets/eltsets/                        
  
-ExodusII: Start writing to file: test2D_tri_pset_eltset.exo using cmo: motri    
+ExodusII: Start writing to file: out_2D_tri_pset_eltset.exo using cmo: motri    
  
 cmo/set_id/motri/element/e_num_temp                                             
 cmo/addatt/motri e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -594,11 +596,12 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
 cmo/modatt/motri/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test2D_tri_pset_eltset.exo using cmo: motri     
+ExodusII: Done writing to ExodusII file: out_2D_tri_pset_eltset.exo using cmo: m
+                                                                            otri
  
-dump/exo/test2D_tri_pset.exo/motri/psets//                                      
+dump/exo/out_2D_tri_pset.exo/motri/psets//                                      
  
-ExodusII: Start writing to file: test2D_tri_pset.exo using cmo: motri           
+ExodusII: Start writing to file: out_2D_tri_pset.exo using cmo: motri           
  
 cmo/set_id/motri/element/e_num_temp                                             
 cmo/addatt/motri e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -644,11 +647,11 @@ WRITING EXODUS NODE SETS:         3 sets in total
 cmo/modatt/motri/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test2D_tri_pset.exo using cmo: motri            
+ExodusII: Done writing to ExodusII file: out_2D_tri_pset.exo using cmo: motri   
  
-dump/exo/test2D_tri_eltset.exo/motri//eltsets/                                  
+dump/exo/out_2D_tri_eltset.exo/motri//eltsets/                                  
  
-ExodusII: Start writing to file: test2D_tri_eltset.exo using cmo: motri         
+ExodusII: Start writing to file: out_2D_tri_eltset.exo using cmo: motri         
  
 cmo/set_id/motri/element/e_num_temp                                             
 cmo/addatt/motri e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -695,7 +698,7 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
 cmo/modatt/motri/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test2D_tri_eltset.exo using cmo: motri          
+ExodusII: Done writing to ExodusII file: out_2D_tri_eltset.exo using cmo: motri 
  
 finish                                                                          
 LaGriT successfully completed                                                   

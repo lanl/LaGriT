@@ -11,7 +11,7 @@ eltset/e3/itetclr/eq/3
 pset/p1/eltset/e1                                                               
 pset/p2/eltset/e2                                                               
 pset/p3/eltset/e3                                                               
-dump/exo/test3D_hex.exo/mohex/psets/eltsets/                                    
+dump/exo/out_3D_hex.exo/mohex/psets/eltsets/                                    
 grid2grid/hextotet5/motet/mohex                                                 
 cmo/setatt/motet/imt/1 0 0/1                                                    
 resetpts/itp                                                                    
@@ -24,7 +24,7 @@ eltset/e3/itetclr/eq/3
 pset/p1/eltset/e1                                                               
 pset/p2/eltset/e2                                                               
 pset/p3/eltset/e3                                                               
-dump/exo/test3D_tet.exo/mohex/psets/eltsets/                                    
+dump/exo/out_3D_tet.exo/mohex/psets/eltsets/                                    
 cmo/create/motri///triplane                                                     
 createpts/xyz/4 4 1/0. 0. 0./1. 1. 0./1 1 1                                     
 cmo/setatt/mohex/imt/1 0 0/1                                                    
@@ -39,5 +39,5 @@ eltset/e3/itetclr/eq/3
 pset/p1/eltset/e1                                                               
 pset/p2/eltset/e2                                                               
 pset/p3/eltset/e3                                                               
-dump/exo/test3D_tri.exo/motri/psets/eltsets/                                    
+dump/exo/out_3D_tri.exo/motri/psets/eltsets/                                    
 finish                                                                          

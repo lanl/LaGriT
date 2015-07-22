@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/25  RH gf4.5       *                 
-*               *    Run Time: 2013/May  6  13:54:07          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  14:21:26          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -356,7 +356,7 @@ number of element maps:            0
 cmo/modatt/mohex/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: output_hex_final.exo using cmo: mohex           
+ExodusII: Done writing to ExodusII file: output_hex_final.exo using cmo: mohex  
  
 dump/avs/output_hex_final.inp/mohex                                             
 cmo/modatt/-def-/-def-/ioflag/x                                                 

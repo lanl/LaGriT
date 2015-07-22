@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.103   Linux m64      *                 
-*               *    date_compile: 2015/03/15  RH gf4.5       *                 
-*               *    Run Time: 2015/Jun  2  08:54:42          *                 
+*               *    Program:  LaGriT V3.107   Linux m64      *                 
+*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
+*               *    Run Time: 2015/Jul 21  14:38:58          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -64,9 +64,9 @@ pset/p2/eltset/e2
 pset/p3/eltset/e3                                                               
  
  THE PSET  p3  HAS         24 POINTS                                            
-dump/exo/test3D_hex.exo/mohex/psets/eltsets/                                    
+dump/exo/out_3D_hex.exo/mohex/psets/eltsets/                                    
  
-ExodusII: Start writing to file: test3D_hex.exo using cmo: mohex                
+ExodusII: Start writing to file: out_3D_hex.exo using cmo: mohex                
  
 cmo/set_id/mohex/element/e_num_temp                                             
 cmo/addatt/mohex e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -116,7 +116,7 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
 cmo/modatt/mohex/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test3D_hex.exo using cmo: mohex                 
+ExodusII: Done writing to ExodusII file: out_3D_hex.exo using cmo: mohex        
  
 grid2grid/hextotet5/motet/mohex                                                 
 hextotet/5/motet/mohex                                                          
@@ -179,9 +179,9 @@ pset/p2/eltset/e2
 pset/p3/eltset/e3                                                               
  
  THE PSET  p3  HAS         10 POINTS                                            
-dump/exo/test3D_tet.exo/mohex/psets/eltsets/                                    
+dump/exo/out_3D_tet.exo/mohex/psets/eltsets/                                    
  
-ExodusII: Start writing to file: test3D_tet.exo using cmo: mohex                
+ExodusII: Start writing to file: out_3D_tet.exo using cmo: mohex                
  
 cmo/set_id/mohex/element/e_num_temp                                             
 cmo/addatt/mohex e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -233,7 +233,7 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
 cmo/modatt/mohex/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test3D_tet.exo using cmo: mohex                 
+ExodusII: Done writing to ExodusII file: out_3D_tet.exo using cmo: mohex        
  
 cmo/create/motri///triplane                                                     
 createpts/xyz/4 4 1/0. 0. 0./1. 1. 0./1 1 1                                     
@@ -311,9 +311,9 @@ pset/p2/eltset/e2
 pset/p3/eltset/e3                                                               
  
  THE PSET  p3  HAS         11 POINTS                                            
-dump/exo/test3D_tri.exo/motri/psets/eltsets/                                    
+dump/exo/out_3D_tri.exo/motri/psets/eltsets/                                    
  
-ExodusII: Start writing to file: test3D_tri.exo using cmo: motri                
+ExodusII: Start writing to file: out_3D_tri.exo using cmo: motri                
  
 cmo/set_id/motri/element/e_num_temp                                             
 cmo/addatt/motri e_num_temp/VINT/scalar/nelements/linear/permanent//0           
@@ -363,7 +363,7 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
 cmo/modatt/motri/itetclr/ioflag/l                                               
 finish                                                                          
  
-ExodusII: Done writing to file: test3D_tri.exo using cmo: motri                 
+ExodusII: Done writing to ExodusII file: out_3D_tri.exo using cmo: motri        
  
 finish                                                                          
 LaGriT successfully completed                                                   

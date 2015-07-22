@@ -267,7 +267,7 @@ def Check(**args):
     dwork = os.path.join(dtop, name)
 
 #---skip results directory until end 
-    if (dwork == "./result_files") : 
+    if (dwork == "./test_results") : 
         result_dir = 1 
 
 #---check output for each directory and reference 
