@@ -1,4 +1,4 @@
-Start in directory: /scratch/sft/yanki/lagrit/test/level01 at Thu Jul  2 11:46:26 2015
+Start in directory: /scratch/sft/yanki/lagrit/test/level01 at Mon Jul  6 10:54:15 2015
 
 Diff Summary ===================================================================
 
@@ -10,7 +10,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:20          *
-+*               *    Run Time: 2015/Jul  2  11:45:51          *
++*               *    Run Time: 2015/Jul  6  10:53:43          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -23,14 +23,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./eltset/reference/outx3dgen	Tue Jun 30 10:09:49 2015
-+++ ./eltset/outx3dgen	Thu Jul  2 11:46:13 2015
++++ ./eltset/outx3dgen	Mon Jul  6 10:54:10 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:20          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:51          *                 
++*               *    Run Time: 2015/Jul  6  10:53:43          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -46,7 +46,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:10          *
-+*               *    Run Time: 2015/Jul  2  11:45:52          *
++*               *    Run Time: 2015/Jul  6  10:53:43          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -59,14 +59,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./refine_octree/reference/outx3dgen	Tue Jun 30 10:09:49 2015
-+++ ./refine_octree/outx3dgen	Thu Jul  2 11:46:14 2015
++++ ./refine_octree/outx3dgen	Mon Jul  6 10:54:12 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:10          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:52          *                 
++*               *    Run Time: 2015/Jul  6  10:53:43          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -82,7 +82,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:10          *
-+*               *    Run Time: 2015/Jul  2  11:45:53          *
++*               *    Run Time: 2015/Jul  6  10:53:44          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -95,14 +95,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./refine_octree_prd/reference/outx3dgen	Tue Jun 30 10:09:49 2015
-+++ ./refine_octree_prd/outx3dgen	Thu Jul  2 11:46:15 2015
++++ ./refine_octree_prd/outx3dgen	Mon Jul  6 10:54:12 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:10          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:53          *                 
++*               *    Run Time: 2015/Jul  6  10:53:44          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -118,7 +118,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2013/11/12  RH gf4.5       *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2015/Mar 18  12:16:07          *
-+*               *    Run Time: 2015/Jul  2  11:45:54          *
++*               *    Run Time: 2015/Jul  6  10:53:45          *
 Lines Essentially the Same: 3 out of 3
 3 comment lines.
 No lines differ.
@@ -128,14 +128,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./hybrid_volume/reference/outx3dgen	Tue Jun 30 10:09:49 2015
-+++ ./hybrid_volume/outx3dgen	Thu Jul  2 11:46:16 2015
++++ ./hybrid_volume/outx3dgen	Mon Jul  6 10:54:14 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.102   Linux m64      *                 
 -*               *    date_compile: 2013/11/12  RH gf4.5       *                 
 -*               *    Run Time: 2015/Mar 18  12:16:07          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:54          *                 
++*               *    Run Time: 2015/Jul  6  10:53:45          *                 
 
 End Report from diff =========================================================
 
@@ -149,7 +149,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2012/07/19  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2012/Jul 19  16:53:09          *
-+*               *    Run Time: 2015/Jul  2  11:45:55          *
++*               *    Run Time: 2015/Jul  6  10:53:46          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -168,22 +168,22 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./refine_recon_quality/reference/outx3dgen	Tue Jun 30 10:09:49 2015
-+++ ./refine_recon_quality/outx3dgen	Thu Jul  2 11:46:17 2015
++++ ./refine_recon_quality/outx3dgen	Mon Jul  6 10:54:14 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.006   Linux m64      *                 
 -*               *    date_compile: 2012/07/19  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul 19  16:53:09          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:55          *                 
++*               *    Run Time: 2015/Jul  6  10:53:46          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 @@ -196 +197 @@
 -   recon2 -        384        52         0         0         0#  0.000E+00      
-+   recon2 -        384        52         0         0         0#  3.958-312      
++   recon2 -        384        52         0         0         0#  3.947-312      
 @@ -261 +262 @@
 -   recon2 -        384        52         0         0         0#  0.000E+00      
-+   recon2 -        384        52         0         0         0#  3.958-312      
++   recon2 -        384        52         0         0         0#  3.947-312      
 
 End Report from diff =========================================================
 
@@ -197,7 +197,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:11          *
-+*               *    Run Time: 2015/Jul  2  11:45:55          *
++*               *    Run Time: 2015/Jul  6  10:53:46          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -210,14 +210,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./rmpoint/reference/outx3dgen	Tue Jun 30 10:09:50 2015
-+++ ./rmpoint/outx3dgen	Thu Jul  2 11:46:17 2015
++++ ./rmpoint/outx3dgen	Mon Jul  6 10:54:14 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:11          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:55          *                 
++*               *    Run Time: 2015/Jul  6  10:53:46          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -233,7 +233,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  12:10:26          *
-+*               *    Run Time: 2015/Jul  2  11:45:56          *
++*               *    Run Time: 2015/Jul  6  10:53:47          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -246,14 +246,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./rotateln/reference/outx3dgen	Tue Jun 30 10:09:50 2015
-+++ ./rotateln/outx3dgen	Thu Jul  2 11:46:17 2015
++++ ./rotateln/outx3dgen	Mon Jul  6 10:54:14 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  12:10:26          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:56          *                 
++*               *    Run Time: 2015/Jul  6  10:53:47          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -269,7 +269,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:12          *
-+*               *    Run Time: 2015/Jul  2  11:45:56          *
++*               *    Run Time: 2015/Jul  6  10:53:47          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -282,14 +282,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./setpts/reference/outx3dgen	Tue Jun 30 10:09:51 2015
-+++ ./setpts/outx3dgen	Thu Jul  2 11:46:17 2015
++++ ./setpts/outx3dgen	Mon Jul  6 10:54:14 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:12          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:56          *                 
++*               *    Run Time: 2015/Jul  6  10:53:47          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -305,7 +305,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2012/07/19  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2012/Jul 19  16:53:10          *
-+*               *    Run Time: 2015/Jul  2  11:45:56          *
++*               *    Run Time: 2015/Jul  6  10:53:47          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -318,14 +318,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./smooth/reference/outx3dgen	Tue Jun 30 10:09:51 2015
-+++ ./smooth/outx3dgen	Thu Jul  2 11:46:20 2015
++++ ./smooth/outx3dgen	Mon Jul  6 10:54:17 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.006   Linux m64      *                 
 -*               *    date_compile: 2012/07/19  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul 19  16:53:10          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:56          *                 
++*               *    Run Time: 2015/Jul  6  10:53:47          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -341,7 +341,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2013/04/16  RH gf4.5       *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2013/Apr 19  12:07:38          *
-+*               *    Run Time: 2015/Jul  2  11:45:59          *
++*               *    Run Time: 2015/Jul  6  10:53:50          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 3 diffs at line 39 >>
@@ -402,14 +402,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./sort/reference/outx3dgen	Tue Jun 30 10:09:52 2015
-+++ ./sort/outx3dgen	Thu Jul  2 11:46:20 2015
++++ ./sort/outx3dgen	Mon Jul  6 10:54:18 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.101   Linux m64      *                 
 -*               *    date_compile: 2013/04/16  RH gf4.5       *                 
 -*               *    Run Time: 2013/Apr 19  12:07:38          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:59          *                 
++*               *    Run Time: 2015/Jul  6  10:53:50          *                 
 @@ -38,0 +39,3 @@
 +#                                                                               
 +# See reference for visual reference                                            
@@ -462,7 +462,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:14          *
-+*               *    Run Time: 2015/Jul  2  11:45:59          *
++*               *    Run Time: 2015/Jul  6  10:53:50          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -475,14 +475,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./surface/reference/outx3dgen	Tue Jun 30 10:09:52 2015
-+++ ./surface/outx3dgen	Thu Jul  2 11:46:20 2015
++++ ./surface/outx3dgen	Mon Jul  6 10:54:18 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:14          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:59          *                 
++*               *    Run Time: 2015/Jul  6  10:53:50          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -498,7 +498,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2012/06/15  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2012/Jun 26  16:13:47          *
-+*               *    Run Time: 2015/Jul  2  11:45:59          *
++*               *    Run Time: 2015/Jul  6  10:53:50          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -514,14 +514,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./zone_outside/reference/outx3dgen	Tue Jun 30 10:09:54 2015
-+++ ./zone_outside/outx3dgen	Thu Jul  2 11:46:22 2015
++++ ./zone_outside/outx3dgen	Mon Jul  6 10:54:19 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/15  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jun 26  16:13:47          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:45:59          *                 
++*               *    Run Time: 2015/Jul  6  10:53:50          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 @@ -106 +107 @@
@@ -540,7 +540,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2012/06/29  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2012/Jul  9  08:00:35          *
-+*               *    Run Time: 2015/Jul  2  11:46:01          *
++*               *    Run Time: 2015/Jul  6  10:53:52          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -553,14 +553,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./zone_outside_minmax/reference/outx3dgen	Tue Jun 30 10:09:56 2015
-+++ ./zone_outside_minmax/outx3dgen	Thu Jul  2 11:46:28 2015
++++ ./zone_outside_minmax/outx3dgen	Mon Jul  6 10:54:26 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/29  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul  9  08:00:35          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:01          *                 
++*               *    Run Time: 2015/Jul  6  10:53:52          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -576,7 +576,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2012/07/19  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2012/Jul 19  16:52:39          *
-+*               *    Run Time: 2015/Jul  2  11:46:07          *
++*               *    Run Time: 2015/Jul  6  10:53:58          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -589,14 +589,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./addmesh_add/reference/outx3dgen	Tue Jun 30 10:09:57 2015
-+++ ./addmesh_add/outx3dgen	Thu Jul  2 11:46:32 2015
++++ ./addmesh_add/outx3dgen	Mon Jul  6 10:54:30 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.006   Linux m64      *                 
 -*               *    date_compile: 2012/07/19  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul 19  16:52:39          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:07          *                 
++*               *    Run Time: 2015/Jul  6  10:53:58          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -612,7 +612,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:02          *
-+*               *    Run Time: 2015/Jul  2  11:46:11          *
++*               *    Run Time: 2015/Jul  6  10:54:02          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -637,14 +637,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./addmesh_append/reference/outx3dgen	Tue Jun 30 10:09:57 2015
-+++ ./addmesh_append/outx3dgen	Thu Jul  2 11:46:32 2015
++++ ./addmesh_append/outx3dgen	Mon Jul  6 10:54:30 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:02          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:11          *                 
++*               *    Run Time: 2015/Jul  6  10:54:02          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 @@ -92 +92,0 @@
@@ -668,7 +668,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:02          *
-+*               *    Run Time: 2015/Jul  2  11:46:11          *
++*               *    Run Time: 2015/Jul  6  10:54:03          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -681,14 +681,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./addmesh_doublemesh/reference/outx3dgen	Tue Jun 30 10:09:58 2015
-+++ ./addmesh_doublemesh/outx3dgen	Thu Jul  2 11:46:33 2015
++++ ./addmesh_doublemesh/outx3dgen	Mon Jul  6 10:54:31 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:02          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:11          *                 
++*               *    Run Time: 2015/Jul  6  10:54:03          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -704,7 +704,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:03          *
-+*               *    Run Time: 2015/Jul  2  11:46:12          *
++*               *    Run Time: 2015/Jul  6  10:54:03          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -717,14 +717,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./interp_continuous/reference/outx3dgen	Tue Jun 30 10:09:58 2015
-+++ ./interp_continuous/outx3dgen	Thu Jul  2 11:46:34 2015
++++ ./interp_continuous/outx3dgen	Mon Jul  6 10:54:31 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:03          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:12          *                 
++*               *    Run Time: 2015/Jul  6  10:54:03          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -740,7 +740,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:04          *
-+*               *    Run Time: 2015/Jul  2  11:46:12          *
++*               *    Run Time: 2015/Jul  6  10:54:04          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -753,14 +753,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./interp_map/reference/outx3dgen	Tue Jun 30 10:09:59 2015
-+++ ./interp_map/outx3dgen	Thu Jul  2 11:46:35 2015
++++ ./interp_map/outx3dgen	Mon Jul  6 10:54:32 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:04          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:12          *                 
++*               *    Run Time: 2015/Jul  6  10:54:04          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -776,7 +776,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2013/04/16  RH gf4.5       *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2013/Apr 19  11:32:32          *
-+*               *    Run Time: 2015/Jul  2  11:46:14          *
++*               *    Run Time: 2015/Jul  6  10:54:05          *
 Lines Essentially the Same: 3 out of 3
 3 comment lines.
 No lines differ.
@@ -786,14 +786,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./addmesh_merge/reference/outx3dgen	Tue Jun 30 10:09:58 2015
-+++ ./addmesh_merge/outx3dgen	Thu Jul  2 11:46:35 2015
++++ ./addmesh_merge/outx3dgen	Mon Jul  6 10:54:32 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.101   Linux m64      *                 
 -*               *    date_compile: 2013/04/16  RH gf4.5       *                 
 -*               *    Run Time: 2013/Apr 19  11:32:32          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:14          *                 
++*               *    Run Time: 2015/Jul  6  10:54:05          *                 
 
 End Report from diff =========================================================
 
@@ -807,7 +807,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2013/04/16  RH gf4.5       *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2013/Apr 18  10:26:05          *
-+*               *    Run Time: 2015/Jul  2  11:46:14          *
++*               *    Run Time: 2015/Jul  6  10:54:05          *
 Lines Essentially the Same: 3 out of 3
 3 comment lines.
 No lines differ.
@@ -817,14 +817,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./cmo_addatt_normals/reference/outx3dgen	Tue Jun 30 10:09:58 2015
-+++ ./cmo_addatt_normals/outx3dgen	Thu Jul  2 11:46:36 2015
++++ ./cmo_addatt_normals/outx3dgen	Mon Jul  6 10:54:33 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.101   Linux m64      *                 
 -*               *    date_compile: 2013/04/16  RH gf4.5       *                 
 -*               *    Run Time: 2013/Apr 18  10:26:05          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:14          *                 
++*               *    Run Time: 2015/Jul  6  10:54:05          *                 
 
 End Report from diff =========================================================
 
@@ -838,7 +838,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2012/06/29  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2012/Jul  9  07:58:22          *
-+*               *    Run Time: 2015/Jul  2  11:46:15          *
++*               *    Run Time: 2015/Jul  6  10:54:06          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -851,14 +851,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./cmo_readatt/reference/outx3dgen	Tue Jun 30 10:09:59 2015
-+++ ./cmo_readatt/outx3dgen	Thu Jul  2 11:46:37 2015
++++ ./cmo_readatt/outx3dgen	Mon Jul  6 10:54:34 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/29  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul  9  07:58:22          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:15          *                 
++*               *    Run Time: 2015/Jul  6  10:54:06          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -874,7 +874,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:05          *
-+*               *    Run Time: 2015/Jul  2  11:46:16          *
++*               *    Run Time: 2015/Jul  6  10:54:07          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -887,14 +887,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./interp_voronoi/reference/outx3dgen	Tue Jun 30 10:10:01 2015
-+++ ./interp_voronoi/outx3dgen	Thu Jul  2 11:46:40 2015
++++ ./interp_voronoi/outx3dgen	Mon Jul  6 10:54:36 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:05          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:16          *                 
++*               *    Run Time: 2015/Jul  6  10:54:07          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -910,7 +910,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:02          *
-+*               *    Run Time: 2015/Jul  2  11:46:19          *
++*               *    Run Time: 2015/Jul  6  10:54:09          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -923,14 +923,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./connect_cube/reference/outx3dgen	Tue Jun 30 10:09:59 2015
-+++ ./connect_cube/outx3dgen	Thu Jul  2 11:46:41 2015
++++ ./connect_cube/outx3dgen	Mon Jul  6 10:54:37 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:02          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:19          *                 
++*               *    Run Time: 2015/Jul  6  10:54:09          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -946,7 +946,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2013/11/12  RH gf4.5       *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2015/Mar 18  12:16:06          *
-+*               *    Run Time: 2015/Jul  2  11:46:20          *
++*               *    Run Time: 2015/Jul  6  10:54:10          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 364 >>
@@ -959,14 +959,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./connect_errors/reference/outx3dgen	Tue Jun 30 10:09:59 2015
-+++ ./connect_errors/outx3dgen	Thu Jul  2 11:46:41 2015
++++ ./connect_errors/outx3dgen	Mon Jul  6 10:54:37 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.102   Linux m64      *                 
 -*               *    date_compile: 2013/11/12  RH gf4.5       *                 
 -*               *    Run Time: 2015/Mar 18  12:16:06          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:20          *                 
++*               *    Run Time: 2015/Jul  6  10:54:10          *                 
 @@ -364 +364 @@
 -ndimensions_topo=*** ndimensions_geom=  3 not consistent - connect will not work
 +ndimensions_topo=*** ndimensions_geom=*** not consistent - connect will not work
@@ -983,7 +983,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/08/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Aug 31  10:58:03          *
-+*               *    Run Time: 2015/Jul  2  11:46:20          *
++*               *    Run Time: 2015/Jul  6  10:54:10          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -996,14 +996,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./createpts/reference/outx3dgen	Tue Jun 30 10:09:59 2015
-+++ ./createpts/outx3dgen	Thu Jul  2 11:46:42 2015
++++ ./createpts/outx3dgen	Mon Jul  6 10:54:37 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:03          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:20          *                 
++*               *    Run Time: 2015/Jul  6  10:54:10          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -1019,7 +1019,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2012/06/29  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2012/Jul  9  08:00:16          *
-+*               *    Run Time: 2015/Jul  2  11:46:20          *
++*               *    Run Time: 2015/Jul  6  10:54:10          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -1032,14 +1032,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./intersect/reference/outx3dgen	Tue Jun 30 10:10:01 2015
-+++ ./intersect/outx3dgen	Thu Jul  2 11:46:42 2015
++++ ./intersect/outx3dgen	Mon Jul  6 10:54:38 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/29  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul  9  08:00:16          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:20          *                 
++*               *    Run Time: 2015/Jul  6  10:54:10          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -1055,7 +1055,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2013/04/25  RH gf4.5-g     *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2015/Mar 17  17:02:02          *
-+*               *    Run Time: 2015/Jul  2  11:46:21          *
++*               *    Run Time: 2015/Jul  6  10:54:10          *
 Lines Essentially the Same: 3 out of 3
 3 comment lines.
 No lines differ.
@@ -1065,14 +1065,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./intrp_2D_sizes/reference/outx3dgen	Tue Jun 30 10:10:03 2015
-+++ ./intrp_2D_sizes/outx3dgen	Thu Jul  2 11:46:45 2015
++++ ./intrp_2D_sizes/outx3dgen	Mon Jul  6 10:54:40 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.101   Linux m64      *                 
 -*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
 -*               *    Run Time: 2015/Mar 17  17:02:02          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:21          *                 
++*               *    Run Time: 2015/Jul  6  10:54:10          *                 
 
 End Report from diff =========================================================
 
@@ -1086,7 +1086,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2013/11/12  RH gf4.5       *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2015/Mar 18  12:16:16          *
-+*               *    Run Time: 2015/Jul  2  11:46:24          *
++*               *    Run Time: 2015/Jul  6  10:54:13          *
 Lines Essentially the Same: 3 out of 3
 3 comment lines.
 No lines differ.
@@ -1096,14 +1096,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./io_agf_simple/reference/outx3dgen	Tue Jun 30 10:10:03 2015
-+++ ./io_agf_simple/outx3dgen	Thu Jul  2 11:46:45 2015
++++ ./io_agf_simple/outx3dgen	Mon Jul  6 10:54:41 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.102   Linux m64      *                 
 -*               *    date_compile: 2013/11/12  RH gf4.5       *                 
 -*               *    Run Time: 2015/Mar 18  12:16:16          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:24          *                 
++*               *    Run Time: 2015/Jul  6  10:54:13          *                 
 
 End Report from diff =========================================================
 
@@ -1117,7 +1117,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2011/05/01  gfort 4.5      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2011/Jul 29  08:45:49          *
-+*               *    Run Time: 2015/Jul  2  11:46:24          *
++*               *    Run Time: 2015/Jul  6  10:54:13          *
 Lines Essentially the Same: 3 out of 3
 
 Test has 0 diffs at line 13 >>
@@ -1130,14 +1130,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./pset/reference/outx3dgen	Tue Jun 30 10:10:03 2015
-+++ ./pset/outx3dgen	Thu Jul  2 11:46:46 2015
++++ ./pset/outx3dgen	Mon Jul  6 10:54:41 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/05/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Jul 29  08:45:49          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:24          *                 
++*               *    Run Time: 2015/Jul  6  10:54:13          *                 
 @@ -12,0 +13 @@
 +                           LaGriT V3 LACC-2012-084                              
 
@@ -1153,7 +1153,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2013/04/16  RH gf4.5       *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2013/Apr 18  16:03:26          *
-+*               *    Run Time: 2015/Jul  2  11:46:24          *
++*               *    Run Time: 2015/Jul  6  10:54:14          *
 Lines Essentially the Same: 3 out of 3
 3 comment lines.
 No lines differ.
@@ -1163,14 +1163,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./quad_quality/reference/outx3dgen	Tue Jun 30 10:10:04 2015
-+++ ./quad_quality/outx3dgen	Thu Jul  2 11:46:46 2015
++++ ./quad_quality/outx3dgen	Mon Jul  6 10:54:41 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.101   Linux m64      *                 
 -*               *    date_compile: 2013/04/16  RH gf4.5       *                 
 -*               *    Run Time: 2013/Apr 18  16:03:26          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:24          *                 
++*               *    Run Time: 2015/Jul  6  10:54:14          *                 
 
 End Report from diff =========================================================
 
@@ -1184,7 +1184,7 @@ Test has 3 diffs at line 5 >>
 -*               *    date_compile: 2012/10/31   dev vers      *
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *
 -*               *    Run Time: 2012/Nov 16  08:10:05          *
-+*               *    Run Time: 2015/Jul  2  11:46:25          *
++*               *    Run Time: 2015/Jul  6  10:54:14          *
 Lines Essentially the Same: 3 out of 3
 3 comment lines.
 No lines differ.
@@ -1194,14 +1194,14 @@ Check done.
 Full Report from diff =========================================================
 
 --- ./recon1/reference/outx3dgen	Tue Jun 30 10:10:04 2015
-+++ ./recon1/outx3dgen	Thu Jul  2 11:46:47 2015
++++ ./recon1/outx3dgen	Mon Jul  6 10:54:42 2015
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.100   Linux m64      *                 
 -*               *    date_compile: 2012/10/31   dev vers      *                 
 -*               *    Run Time: 2012/Nov 16  08:10:05          *                 
 +*               *    Program:  LaGriT V3.107   Linux m64      *                 
 +*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-+*               *    Run Time: 2015/Jul  2  11:46:25          *                 
++*               *    Run Time: 2015/Jul  6  10:54:14          *                 
 
 End Report from diff =========================================================
 All checks complete, 1 directories failed out of 31

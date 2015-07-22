@@ -1,14 +1,16 @@
-OS: linux2
-USING: /n/swdev/LAGRIT/bin/lagrit_ulin_g_gf_V3.107.so
-Top directory: /scratch/sft/yanki/lagrit/test/level01 at Thu Jul  2 11:45:51 2015
- 1  Test Directory ./eltset -----------------------
+Operating System:	linux2
+Executable:		/scratch/sft/yanki/lagrit/src/mylagrit
+Top directory:		/scratch/sft/yanki/lagrit/test/level01
+Out file:		stdout_linux2.txt
+	On Tue Jul 21 12:11:57 2015
+ 1  Test Directory eltset -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:51          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:11:57          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -212,14 +214,14 @@ ELTSET: OUTPUT -all-    1 ELTSETS TO FILE
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 2  Test Directory ./refine_octree -----------------------
+ 2  Test Directory refine_octree -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:52          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:11:57          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -698,14 +700,14 @@ min volume =   3.2552083E-07  max volume =   1.6666667E-04
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 3  Test Directory ./refine_octree_prd -----------------------
+ 3  Test Directory refine_octree_prd -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:53          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:11:58          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -2075,7 +2077,7 @@ finish
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 4  Test Directory ./hybrid_volume -----------------------
+ 4  Test Directory hybrid_volume -----------------------
 
 SparseMatrix initialize epsilon to 1.000000e-08
 SparseMatrix using Epsilon 1.000000e-08
@@ -2083,9 +2085,9 @@ SparseMatrix using Epsilon 1.000000e-08
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:54          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:11:59          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -2644,14 +2646,14 @@ ascii STOR file written with name test07.stor
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 5  Test Directory ./refine_recon_quality -----------------------
+ 5  Test Directory refine_recon_quality -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:55          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:00          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -2869,7 +2871,7 @@ n44i:          0
 n20r:          0                                                                
 n20b:          0                                                                
 n10:          0                                                                 
-   recon2 -        384        52         0         0         0#  3.958-312      
+   recon2 -        384        52         0         0         0#  0.000E+00      
  recon2: ntets=      384 nface=       52 nflips=        0                       
  niter=        0 negvol=        0 nbface=       48                              
  recon2 set new node and element total:            175           384            
@@ -2942,7 +2944,7 @@ n44i:          0
 n20r:          0                                                                
 n20b:          0                                                                
 n10:          0                                                                 
-   recon2 -        384        52         0         0         0#  3.958-312      
+   recon2 -        384        52         0         0         0#  0.000E+00      
  recon2: ntets=      384 nface=       52 nflips=        0                       
  niter=        0 negvol=        0 nbface=       48                              
  recon2 set new node and element total:            175           384            
@@ -3194,14 +3196,14 @@ Attribute: j_index
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 6  Test Directory ./rmpoint -----------------------
+ 6  Test Directory rmpoint -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:55          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:00          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -4824,14 +4826,14 @@ quality
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 7  Test Directory ./rotateln -----------------------
+ 7  Test Directory rotateln -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:56          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:00          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -4890,14 +4892,14 @@ finish
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 8  Test Directory ./setpts -----------------------
+ 8  Test Directory setpts -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:56          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:00          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -5231,14 +5233,14 @@ min volume =   1.6666667E-04  max volume =   3.3333333E-04
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 9  Test Directory ./smooth -----------------------
+ 9  Test Directory smooth -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:56          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:01          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -5685,14 +5687,14 @@ finish
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 10  Test Directory ./sort -----------------------
+ 10  Test Directory sort -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:59          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:04          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6338,14 +6340,14 @@ finish
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 11  Test Directory ./surface -----------------------
+ 11  Test Directory surface -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:59          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:04          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6454,14 +6456,14 @@ All elements have volume  2.5000000E+04
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 12  Test Directory ./zone_outside -----------------------
+ 12  Test Directory zone_outside -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:45:59          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:04          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6588,14 +6590,14 @@ finish
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 13  Test Directory ./zone_outside_minmax -----------------------
+ 13  Test Directory zone_outside_minmax -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:01          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:06          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6904,14 +6906,14 @@ cmo delete cmo1
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 14  Test Directory ./addmesh_add -----------------------
+ 14  Test Directory addmesh_add -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:07          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:12          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7531,14 +7533,14 @@ min volume =   2.2704697E-06  max volume =   4.5724737E-04
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 15  Test Directory ./addmesh_append -----------------------
+ 15  Test Directory addmesh_append -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:11          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:17          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7944,14 +7946,14 @@ finish
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 16  Test Directory ./addmesh_doublemesh -----------------------
+ 16  Test Directory addmesh_doublemesh -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:11          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:17          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -8442,14 +8444,14 @@ min volume =  -1.7152778E-03  max volume =   1.7152778E-03
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 17  Test Directory ./interp_continuous -----------------------
+ 17  Test Directory interp_continuous -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:12          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:18          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -10112,14 +10114,14 @@ pset/pout/attribute numreal 1,0,0 12.5 gt
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 18  Test Directory ./interp_map -----------------------
+ 18  Test Directory interp_map -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:12          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:19          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -14172,14 +14174,14 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 19  Test Directory ./addmesh_merge -----------------------
+ 19  Test Directory addmesh_merge -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:14          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:20          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -14720,14 +14722,14 @@ All elements have volume  2.0833333E-02
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 20  Test Directory ./cmo_addatt_normals -----------------------
+ 20  Test Directory cmo_addatt_normals -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:14          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:21          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -16650,14 +16652,14 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 21  Test Directory ./cmo_readatt -----------------------
+ 21  Test Directory cmo_readatt -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:15          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:21          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18457,14 +18459,14 @@ Attribute: x27
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 22  Test Directory ./interp_voronoi -----------------------
+ 22  Test Directory interp_voronoi -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:16          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -22534,14 +22536,14 @@ cmo delete cmo_sink
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 23  Test Directory ./connect_cube -----------------------
+ 23  Test Directory connect_cube -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:19          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -22788,14 +22790,14 @@ min volume =   2.4298975E-05  max volume =   4.8597949E-05
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 24  Test Directory ./connect_errors -----------------------
+ 24  Test Directory connect_errors -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:20          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -23222,14 +23224,14 @@ LaGriT WARNING: connect returned error:     1
  Enter a command
 finish                                                                          
 LaGriT successfully completed                                                   
- 25  Test Directory ./createpts -----------------------
+ 25  Test Directory createpts -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:20          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -23653,14 +23655,14 @@ All elements have volume  2.5000000E+01
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 26  Test Directory ./intersect -----------------------
+ 26  Test Directory intersect -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:20          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:26          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24348,14 +24350,14 @@ finish
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 27  Test Directory ./intrp_2D_sizes -----------------------
+ 27  Test Directory intrp_2D_sizes -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:21          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:26          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -25367,14 +25369,14 @@ finish
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 28  Test Directory ./io_agf_simple -----------------------
+ 28  Test Directory io_agf_simple -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:24          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:28          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -26057,14 +26059,14 @@ finish
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 29  Test Directory ./pset -----------------------
+ 29  Test Directory pset -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:24          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:29          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -26233,14 +26235,14 @@ PSET: OUTPUT -all-    1 PSETS TO FILE
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 30  Test Directory ./quad_quality -----------------------
+ 30  Test Directory quad_quality -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:24          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:29          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -26565,14 +26567,14 @@ finish
                                                                                 
 finish                                                                          
 LaGriT successfully completed                                                   
- 31  Test Directory ./recon1 -----------------------
+ 31  Test Directory recon1 -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.107   Linux m64      *                 
-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
-*               *    Run Time: 2015/Jul  2  11:46:25          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Jul 21  12:12:29          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 

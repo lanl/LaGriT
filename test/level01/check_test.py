@@ -472,13 +472,13 @@ def Check(**args):
   wfile.write("\n")
   wfile.close()
   if result_dir :
-    b = os.system('cp -p '+fout+' ./result_files')
+    b = os.system('cp -p '+fout+' ./test_results')
     print "Check done."+"\n"+"Full result written to: "+"\n"
     print fout+"\n"
-    print "and copied to ./result_files "+"\n"
+    print "and copied to ./test_results "+"\n"
 
-#    fromfile = "./result_files/diffout"+ostag+".txt" 
-#    tofile="./result_files/reference/diffout"+ostag+".txt" 
+#    fromfile = "./test_results/diffout"+ostag+".txt" 
+#    tofile="./test_results/reference/diffout"+ostag+".txt" 
 #    print  "Compare "+fromfile+" to "+tofile 
 #    fromlines = open(fromfile, 'U').readlines()
 #    tolines = open(tofile, 'U').readlines()
