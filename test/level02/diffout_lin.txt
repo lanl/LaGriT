@@ -1,0 +1,274 @@
+Start in directory: /scratch/sft/yanki/lagrit/test/level02 at Tue Jul 21 14:22:49 2015
+
+Diff Summary ===================================================================
+
+1 Check Directory ./exodus_cube --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V3.101   Linux m64      *
++*               *    Program:  LaGriT V3.200   Linux m64      *
+-*               *    date_compile: 2013/04/25  RH gf4.5       *
++*               *    date_compile: 2015/07/14  Ubu gf         *
+-*               *    Run Time: 2013/May  6  13:54:07          *
++*               *    Run Time: 2015/Jul 21  14:21:26          *
+Lines Essentially the Same: 3 out of 3
+
+Test has 0 diffs at line 359 >>
+Lines Essentially the Same: 0 out of 0
+3 comment lines.
+No lines differ.
+1 Done with Directory ./exodus_cube -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./exodus_cube/reference/outx3dgen	Tue Jun 30 10:09:57 2015
++++ ./exodus_cube/outx3dgen	Tue Jul 21 14:21:23 2015
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.101   Linux m64      *                 
+-*               *    date_compile: 2013/04/25  RH gf4.5       *                 
+-*               *    Run Time: 2013/May  6  13:54:07          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2015/07/14  Ubu gf         *                 
++*               *    Run Time: 2015/Jul 21  14:21:26          *                 
+@@ -359 +359 @@
+-ExodusII: Done writing to file: output_hex_final.exo using cmo: mohex           
++ExodusII: Done writing to ExodusII file: output_hex_final.exo using cmo: mohex  
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+2 Check Directory ./exodus_prisms --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V3.103   Linux m64      *
++*               *    Program:  LaGriT V3.200   Linux m64      *
+-*               *    date_compile: 2015/03/15  RH gf4.5       *
++*               *    date_compile: 2015/07/14  Ubu gf         *
+-*               *    Run Time: 2015/Jun  2  08:40:23          *
++*               *    Run Time: 2015/Jul 21  14:21:27          *
+Lines Essentially the Same: 3 out of 3
+
+Test has 0 diffs at line 271 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 804 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 1197 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 1592 >>
+Test has 2 extra lines in this chunk.
+-ExodusII: Done writing to file: prism_two_layer_perturb_z.exo using cmo: moprism
++ExodusII: Done writing to ExodusII file: prism_two_layer_perturb_z.exo using cmo
+Lines Essentially the Same: 0 out of 2
+
+Test has 0 diffs at line 2042 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 2106 >>
+Test has 2 extra lines in this chunk.
+-ExodusII: Done writing to file: mesh_fsets_single_mat.exo using cmo: moprism
++ExodusII: Done writing to ExodusII file: mesh_fsets_single_mat.exo using cmo: mo
+Lines Essentially the Same: 0 out of 2
+3 comment lines.
+6 lines failed.
+2 Done with Directory ./exodus_prisms -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./exodus_prisms/reference/outx3dgen	Tue Jun 30 11:06:57 2015
++++ ./exodus_prisms/outx3dgen	Tue Jul 21 14:21:24 2015
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.103   Linux m64      *                 
+-*               *    date_compile: 2015/03/15  RH gf4.5       *                 
+-*               *    Run Time: 2015/Jun  2  08:40:23          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2015/07/14  Ubu gf         *                 
++*               *    Run Time: 2015/Jul 21  14:21:27          *                 
+@@ -271 +271 @@
+-ExodusII: Done writing to file: prism_one.exo using cmo: moprism                
++ExodusII: Done writing to ExodusII file: prism_one.exo using cmo: moprism       
+@@ -804 +804 @@
+-ExodusII: Done writing to file: prism_one_layer.exo using cmo: moprism          
++ExodusII: Done writing to ExodusII file: prism_one_layer.exo using cmo: moprism 
+@@ -1197 +1197 @@
+-ExodusII: Done writing to file: prism_two_layer.exo using cmo: moprism          
++ExodusII: Done writing to ExodusII file: prism_two_layer.exo using cmo: moprism 
+@@ -1592 +1592,2 @@
+-ExodusII: Done writing to file: prism_two_layer_perturb_z.exo using cmo: moprism
++ExodusII: Done writing to ExodusII file: prism_two_layer_perturb_z.exo using cmo
++                                                                       : moprism
+@@ -2041 +2042 @@
+-ExodusII: Done writing to file: mesh_fsets.exo using cmo: moprism               
++ExodusII: Done writing to ExodusII file: mesh_fsets.exo using cmo: moprism      
+@@ -2105 +2106,2 @@
+-ExodusII: Done writing to file: mesh_fsets_single_mat.exo using cmo: moprism    
++ExodusII: Done writing to ExodusII file: mesh_fsets_single_mat.exo using cmo: mo
++                                                                           prism
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+3 Check Directory ./exo_eltset --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V3.103   Linux m64      *
++*               *    Program:  LaGriT V3.200   Linux m64      *
+-*               *    date_compile: 2015/03/15  RH gf4.5       *
++*               *    date_compile: 2015/07/14  Ubu gf         *
+-*               *    Run Time: 2015/Jun  2  08:54:42          *
++*               *    Run Time: 2015/Jul 21  14:21:28          *
+Lines Essentially the Same: 3 out of 3
+
+Test has 0 diffs at line 119 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 236 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 366 >>
+Lines Essentially the Same: 0 out of 0
+3 comment lines.
+No lines differ.
+3 Done with Directory ./exo_eltset -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./exo_eltset/reference/outx3dgen	Tue Jun 30 11:06:56 2015
++++ ./exo_eltset/outx3dgen	Tue Jul 21 14:21:24 2015
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.103   Linux m64      *                 
+-*               *    date_compile: 2015/03/15  RH gf4.5       *                 
+-*               *    Run Time: 2015/Jun  2  08:54:42          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2015/07/14  Ubu gf         *                 
++*               *    Run Time: 2015/Jul 21  14:21:28          *                 
+@@ -119 +119 @@
+-ExodusII: Done writing to file: test3D_hex.exo using cmo: mohex                 
++ExodusII: Done writing to ExodusII file: test3D_hex.exo using cmo: mohex        
+@@ -236 +236 @@
+-ExodusII: Done writing to file: test3D_tet.exo using cmo: mohex                 
++ExodusII: Done writing to ExodusII file: test3D_tet.exo using cmo: mohex        
+@@ -366 +366 @@
+-ExodusII: Done writing to file: test3D_tri.exo using cmo: motri                 
++ExodusII: Done writing to ExodusII file: test3D_tri.exo using cmo: motri        
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+4 Check Directory ./exo_pset_eltset --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V3.103   Linux m64      *
++*               *    Program:  LaGriT V3.200   Linux m64      *
+-*               *    date_compile: 2015/03/15  RH gf4.5       *
++*               *    date_compile: 2015/07/14  Ubu gf         *
+-*               *    Run Time: 2015/Jun  2  09:01:48          *
++*               *    Run Time: 2015/Jul 21  14:21:29          *
+Lines Essentially the Same: 3 out of 3
+
+Test has 2 diffs at line 127 >>
+Test has 2 extra lines in this chunk.
+-ExodusII: Done writing to file: test3D_hex_pset_eltset.exo using cmo: mohex
++ExodusII: Done writing to ExodusII file: test3D_hex_pset_eltset.exo using cmo: m
+Lines Essentially the Same: 0 out of 2
+
+Test has 0 diffs at line 178 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 229 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 356 >>
+Test has 2 extra lines in this chunk.
+-ExodusII: Done writing to file: test3D_tet_pset_eltset.exo using cmo: motet
++ExodusII: Done writing to ExodusII file: test3D_tet_pset_eltset.exo using cmo: m
+Lines Essentially the Same: 0 out of 2
+
+Test has 0 diffs at line 407 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 458 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 599 >>
+Test has 2 extra lines in this chunk.
+-ExodusII: Done writing to file: test2D_tri_pset_eltset.exo using cmo: motri
++ExodusII: Done writing to ExodusII file: test2D_tri_pset_eltset.exo using cmo: m
+Lines Essentially the Same: 0 out of 2
+
+Test has 0 diffs at line 650 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 701 >>
+Lines Essentially the Same: 0 out of 0
+3 comment lines.
+9 lines failed.
+4 Done with Directory ./exo_pset_eltset -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./exo_pset_eltset/reference/outx3dgen	Tue Jun 30 11:06:56 2015
++++ ./exo_pset_eltset/outx3dgen	Tue Jul 21 14:21:24 2015
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.103   Linux m64      *                 
+-*               *    date_compile: 2015/03/15  RH gf4.5       *                 
+-*               *    Run Time: 2015/Jun  2  09:01:48          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2015/07/14  Ubu gf         *                 
++*               *    Run Time: 2015/Jul 21  14:21:29          *                 
+@@ -127 +127,2 @@
+-ExodusII: Done writing to file: test3D_hex_pset_eltset.exo using cmo: mohex     
++ExodusII: Done writing to ExodusII file: test3D_hex_pset_eltset.exo using cmo: m
++                                                                            ohex
+@@ -177 +178 @@
+-ExodusII: Done writing to file: test3D_hex_pset.exo using cmo: mohex            
++ExodusII: Done writing to ExodusII file: test3D_hex_pset.exo using cmo: mohex   
+@@ -228 +229 @@
+-ExodusII: Done writing to file: test3D_hex_eltset.exo using cmo: mohex          
++ExodusII: Done writing to ExodusII file: test3D_hex_eltset.exo using cmo: mohex 
+@@ -355 +356,2 @@
+-ExodusII: Done writing to file: test3D_tet_pset_eltset.exo using cmo: motet     
++ExodusII: Done writing to ExodusII file: test3D_tet_pset_eltset.exo using cmo: m
++                                                                            otet
+@@ -405 +407 @@
+-ExodusII: Done writing to file: test3D_tet_pset.exo using cmo: motet            
++ExodusII: Done writing to ExodusII file: test3D_tet_pset.exo using cmo: motet   
+@@ -456 +458 @@
+-ExodusII: Done writing to file: test3D_tet_eltset.exo using cmo: motet          
++ExodusII: Done writing to ExodusII file: test3D_tet_eltset.exo using cmo: motet 
+@@ -597 +599,2 @@
+-ExodusII: Done writing to file: test2D_tri_pset_eltset.exo using cmo: motri     
++ExodusII: Done writing to ExodusII file: test2D_tri_pset_eltset.exo using cmo: m
++                                                                            otri
+@@ -647 +650 @@
+-ExodusII: Done writing to file: test2D_tri_pset.exo using cmo: motri            
++ExodusII: Done writing to ExodusII file: test2D_tri_pset.exo using cmo: motri   
+@@ -698 +701 @@
+-ExodusII: Done writing to file: test2D_tri_eltset.exo using cmo: motri          
++ExodusII: Done writing to ExodusII file: test2D_tri_eltset.exo using cmo: motri 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+5 Check Directory ./tmp --------------------------
+Check done.
+
+Full Report from diff =========================================================
+
+
+End Report from diff =========================================================
+All checks complete, 3 directories failed out of 5
+  ./exodus_prisms Error: 6 lines failed.
+  ./exo_pset_eltset Error: 9 lines failed.
+  ./tmp Error: Missing LaGriT outx3dgen file.
+
