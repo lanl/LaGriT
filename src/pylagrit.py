@@ -1208,7 +1208,7 @@ class MO(object):
         self.sendline('/'.join(cmd))
         self._parent.mo[name] = MO(name, self._parent)
         return self._parent.mo[name]
-    def refine_to_object(self, mo, level=1, imt=None):
+    def refine_to_object(self, mo, level=None, imt=None, prd_choice=None):
         '''
         Refine mesh at locations that intersect another mesh object
 
@@ -1218,16 +1218,27 @@ class MO(object):
         :type level: int
         :arg imt: Value to assign to imt (LaGriT material type attribute)
         :type imt: int
+        :arg prd_choice: directions of refinement
+        :type prd_choice: int
         '''
 
+        if level is None: level = 1; itetlevbool = False
         for i in range(level):
             attr_name = self.intersect_elements(mo)
-            e_attr = self.eltset_attribute(attr_name,0,boolstr='gt')
-            e_level = self.eltset_attribute('itetlev',level,boolstr='lt')
-            e_refine = self.eltset_bool( [e_attr,e_level], boolstr='inter' )
-            e_attr.delete()
-            e_level.delete()
-            e_refine.refine()
+            if itetlevbool:
+                e_attr = self.eltset_attribute(attr_name,0,boolstr='gt')
+                e_level = self.eltset_attribute('itetlev',level,boolstr='lt')
+                e_refine = self.eltset_bool( [e_attr,e_level], boolstr='inter' )
+                e_attr.delete()
+                e_level.delete()
+            else:
+                e_refine = self.eltset_attribute(attr_name,0,boolstr='gt')
+            if prd_choice is not None:
+                p_refine = e_refine.pset()
+                p_refine.refine(prd_choice=prd_choice)
+                p_refine.delete()
+            else:
+                e_refine.refine()
             e_refine.delete()
         if imt is not None: 
             attr_name = self.intersect_elements(mo)
@@ -1284,7 +1295,7 @@ class PSet(object):
     def setatt(self,attname,value):
         cmd = '/'.join(['cmo/setatt',self._parent.name,attname,'pset get '+self.name,str(value)])
         self._parent.sendline(cmd)
-    def refine(self,refine_option,refine_type,interpolation=' ',prange=[-1,0,0],field=' ',inclusive_flag='exclusive',prd_choice=None):
+    def refine(self,refine_type='element',refine_option='constant',interpolation=' ',prange=[-1,0,0],field=' ',inclusive_flag='exclusive',prd_choice=None):
         prange = [str(v) for v in prange]
         if prd_choice is None:
             cmd = '/'.join(['refine',refine_option,field,interpolation,refine_type,'pset get '+self.name,','.join(prange),inclusive_flag])
@@ -1352,9 +1363,8 @@ class EltSet(object):
         self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='minmax')
     def list(self,attname=None,stride=[1,0,0]):
         self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='list')
-    def refine(self,prd_choice=None):
+    def refine(self):
         cmd = '/'.join(['refine','eltset','eltset,get,'+self.name])
-        if prd_choice is not None: cmd += '/amr '+str(prd_choice)
         self._parent.sendline(cmd)
     def pset(self,name=None):
         '''
