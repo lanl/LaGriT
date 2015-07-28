@@ -1,3 +1,6 @@
+NOTES:
+	Windows doesn't automatically see .py files as python, so unless .py files are associated with the correct executable the shell command should be "python <target-script>"
+
 Directory to hold unit testing files.
 
 Level01 tests are required for QA projects and test basic and required functionality.
