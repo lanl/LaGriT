@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V3.200   Linux m64      *                 
 *               *    date_compile: 2015/07/14  Ubu gf         *                 
-*               *    Run Time: 2015/Jul 21  15:52:20          *                 
+*               *    Run Time: 2015/Jul 30  17:08:09          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -31,7 +31,7 @@ define/Z1/0.1
 define/Z2/0.2                                                                   
 ###################################                                             
 # One Prism                                                                     
-read/avs/out_one_tri.inp/mo1                                                    
+read/avs/input_one_tri.inp/mo1                                                  
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -49,17 +49,17 @@ finish
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
          3 values reset for attribute zic                                       
  
-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
          3 values reset for attribute zic                                       
  
-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/create/mostack///tri                                                        
-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp                        
+stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp                        
  
 Layers to create:          2                                                    
 Max material number:          2                                                 
@@ -67,8 +67,8 @@ Max material number:          2
 Reading     2 surface files...                                                  
 cmo/addatt/mostack/layertyp/VINT/scalar/nnodes//permanent/agfx                  
 finish                                                                          
-Read first surface: out_one_tri_z0.inp                                          
-read/avs/out_one_tri_z0.inp/def1                                                
+Read first surface: tmp_one_tri_z0.inp                                          
+read/avs/tmp_one_tri_z0.inp/def1                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -96,8 +96,8 @@ The current-mesh-object(CMO) is: def1
  
 finish                                                                          
 finish                                                                          
-Read surface: out_one_tri_z1.inp                                                
-read/avs/out_one_tri_z1.inp/def2                                                
+Read surface: tmp_one_tri_z1.inp                                                
+read/avs/tmp_one_tri_z1.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -140,7 +140,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
+Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -156,8 +156,8 @@ finish
 ................................................................                
  
          surface name  layer color type llcorner  zic                           
-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
-   out_one_tri_z1.inp     2    2   -2         4)   1.000000E-01                 
+   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+   tmp_one_tri_z1.inp     2    2   -2         4)   1.000000E-01                 
  
 Elements per layer:          1  stacked total:              2                   
 Nodes    per layer:          3  stacked total:              6                   
@@ -382,17 +382,17 @@ LaGriT FINISH: connect
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
        121 values reset for attribute zic                                       
  
-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
        121 values reset for attribute zic                                       
  
-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/create/mostack///tri                                                        
-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp                        
+stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp                        
  
 Layers to create:          2                                                    
 Max material number:          2                                                 
@@ -400,8 +400,8 @@ Max material number:          2
 Reading     2 surface files...                                                  
 cmo/addatt/mostack/layertyp/VINT/scalar/nnodes//permanent/agfx                  
 finish                                                                          
-Read first surface: out_one_tri_z0.inp                                          
-read/avs/out_one_tri_z0.inp/def1                                                
+Read first surface: tmp_one_tri_z0.inp                                          
+read/avs/tmp_one_tri_z0.inp/def1                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -429,8 +429,8 @@ The current-mesh-object(CMO) is: def1
  
 finish                                                                          
 finish                                                                          
-Read surface: out_one_tri_z1.inp                                                
-read/avs/out_one_tri_z1.inp/def2                                                
+Read surface: tmp_one_tri_z1.inp                                                
+read/avs/tmp_one_tri_z1.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -473,7 +473,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
+Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -489,8 +489,8 @@ finish
 ................................................................                
  
          surface name  layer color type llcorner  zic                           
-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
-   out_one_tri_z1.inp     2    2   -2       122)   1.000000E-01                 
+   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+   tmp_one_tri_z1.inp     2    2   -2       122)   1.000000E-01                 
  
 Elements per layer:        200  stacked total:            400                   
 Nodes    per layer:        121  stacked total:            242                   
@@ -920,7 +920,7 @@ cmo/setatt/mo1/zic/1 0 0/Z2
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/out_one_tri_z2.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z2.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
@@ -929,7 +929,7 @@ cmo/setatt/mo1/zic/1 0 0/Z1
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
@@ -938,11 +938,11 @@ cmo/setatt/mo1/zic/1 0 0/0.0
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/create/mostack///tri                                                        
-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp 2 out_one_tri_z2.inp   
+stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp 2 tmp_one_tri_z2.inp   
  
 Layers to create:          3                                                    
 Max material number:          3                                                 
@@ -950,8 +950,8 @@ Max material number:          3
 Reading     3 surface files...                                                  
 cmo/addatt/mostack/layertyp/VINT/scalar/nnodes//permanent/agfx                  
 finish                                                                          
-Read first surface: out_one_tri_z0.inp                                          
-read/avs/out_one_tri_z0.inp/def1                                                
+Read first surface: tmp_one_tri_z0.inp                                          
+read/avs/tmp_one_tri_z0.inp/def1                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -979,8 +979,8 @@ The current-mesh-object(CMO) is: def1
  
 finish                                                                          
 finish                                                                          
-Read surface: out_one_tri_z1.inp                                                
-read/avs/out_one_tri_z1.inp/def2                                                
+Read surface: tmp_one_tri_z1.inp                                                
+read/avs/tmp_one_tri_z1.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -1023,7 +1023,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
+Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -1039,8 +1039,8 @@ finish
 cmo/delete/cmonxt/                                                              
      Released Mesh Object: cmonxt                                               
 finish                                                                          
-Read surface: out_one_tri_z2.inp                                                
-read/avs/out_one_tri_z2.inp/def2                                                
+Read surface: tmp_one_tri_z2.inp                                                
+read/avs/tmp_one_tri_z2.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -1083,7 +1083,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: out_one_tri_z1.inp and out_one_tri_z2.inp                      
+Layers compared: tmp_one_tri_z1.inp and tmp_one_tri_z2.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -1104,9 +1104,9 @@ finish
 ................................................................                
  
          surface name  layer color type llcorner  zic                           
-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
-   out_one_tri_z1.inp     2    2    0       122)   1.000000E-01                 
-   out_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
+   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+   tmp_one_tri_z1.inp     2    2    0       122)   1.000000E-01                 
+   tmp_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
  
 Elements per layer:        200  stacked total:            600                   
 Nodes    per layer:        121  stacked total:            363                   
@@ -1312,7 +1312,7 @@ cmo/setatt/mo1/zic/1 0 0/Z2
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/out_one_tri_z2.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z2.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
@@ -1325,7 +1325,7 @@ nodes in indexed point set  =        121
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
@@ -1334,11 +1334,11 @@ cmo/setatt/mo1/zic/1 0 0/0.0
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/create/mostack///tri                                                        
-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp 2 out_one_tri_z2.inp   
+stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp 2 tmp_one_tri_z2.inp   
  
 Layers to create:          3                                                    
 Max material number:          3                                                 
@@ -1346,8 +1346,8 @@ Max material number:          3
 Reading     3 surface files...                                                  
 cmo/addatt/mostack/layertyp/VINT/scalar/nnodes//permanent/agfx                  
 finish                                                                          
-Read first surface: out_one_tri_z0.inp                                          
-read/avs/out_one_tri_z0.inp/def1                                                
+Read first surface: tmp_one_tri_z0.inp                                          
+read/avs/tmp_one_tri_z0.inp/def1                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -1375,8 +1375,8 @@ The current-mesh-object(CMO) is: def1
  
 finish                                                                          
 finish                                                                          
-Read surface: out_one_tri_z1.inp                                                
-read/avs/out_one_tri_z1.inp/def2                                                
+Read surface: tmp_one_tri_z1.inp                                                
+read/avs/tmp_one_tri_z1.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -1419,7 +1419,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
+Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -1435,8 +1435,8 @@ finish
 cmo/delete/cmonxt/                                                              
      Released Mesh Object: cmonxt                                               
 finish                                                                          
-Read surface: out_one_tri_z2.inp                                                
-read/avs/out_one_tri_z2.inp/def2                                                
+Read surface: tmp_one_tri_z2.inp                                                
+read/avs/tmp_one_tri_z2.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -1479,7 +1479,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: out_one_tri_z1.inp and out_one_tri_z2.inp                      
+Layers compared: tmp_one_tri_z1.inp and tmp_one_tri_z2.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -1500,9 +1500,9 @@ finish
 ................................................................                
  
          surface name  layer color type llcorner  zic                           
-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
-   out_one_tri_z1.inp     2    2    0       122)   7.319133E-02                 
-   out_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
+   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+   tmp_one_tri_z1.inp     2    2    0       122)   7.319133E-02                 
+   tmp_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
  
 Elements per layer:        200  stacked total:            600                   
 Nodes    per layer:        121  stacked total:            363                   

@@ -54,6 +54,10 @@ class readable_dir(argparse.Action):
 
 def main(argv=None):
 
+	# xlagrit = "Y:/yanki/lagrit/src/mylagrit"
+	xlagrit = "Y:/yanki/lagrit-mingw/lagrit_pnnl_win64/lagrit_pnnl_win64"
+	# xlagrit = "/scratch/sft/yanki/lagrit/src/mylagrit"
+
 	if argv is None:
 			 argv = sys.argv
 
@@ -67,12 +71,13 @@ def main(argv=None):
 	parser.add_argument("-c", "--check", help = "Checks output files of tests; option for specific directory name [checkdir]", action = "store_true")
 	parser.add_argument("checkdir", help = "Target dir for check function; default - recurse through current dir", action = readable_dir, 
 											default = os.curdir, nargs = "?")
+	parser.add_argument("-exe", "--executable", help = "Path to executable for testing", action = "store", type = str, default = xlagrit)
 	args = parser.parse_args()
 
 	if not (args.full or args.clean or args.test or args.check):
 		args = parser.parse_args("--help".split())
 		sys.exit(2)
-		
+	
 	if args.full == True and  1 in args.level:
 		os.chdir('level01')
 		OneFull(args)

@@ -64,7 +64,8 @@ def RunTest(**args):
   # define executable
   #xlagrit = "/n/swdev/LAGRIT/bin/lagrit_ulin_g_gf_V3.107.so"
   # xlagrit = "/scratch/sft/yanki/lagrit/src/mylagrit"
-  xlagrit = "Y:/yanki/lagrit/src/mylagri"
+  # xlagrit = "Y:/yanki/lagrit/src/mylagrit"
+  xlagrit = args["executable"]
 
   print("=======")
 

@@ -1,12 +1,12 @@
 define/Z1/0.1                                                                   
 define/Z2/0.2                                                                   
-read/avs/out_one_tri.inp/mo1                                                    
+read/avs/input_one_tri.inp/mo1                                                  
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/create/mostack///tri                                                        
-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp                        
+stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp                        
 stack/fill/moprism/mostack                                                      
 resetpts/itp                                                                    
 quality                                                                         
@@ -20,11 +20,11 @@ cmo/create/mo1///triplane
 createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1                                   
 connect                                                                         
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/create/mostack///tri                                                        
-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp                        
+stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp                        
 stack/fill/moprism/mostack                                                      
 resetpts/itp                                                                    
 quality                                                                         
@@ -39,15 +39,15 @@ createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1
 connect                                                                         
 cmo/setatt/mo1/zic/1 0 0/Z2                                                     
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/out_one_tri_z2.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z2.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/create/mostack///tri                                                        
-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp 2 out_one_tri_z2.inp   
+stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp 2 tmp_one_tri_z2.inp   
 stack/fill/moprism/mostack                                                      
 resetpts/itp                                                                    
 dump/gmv/out_prism_two_layer.gmv/moprism                                        
@@ -61,16 +61,16 @@ createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1
 connect                                                                         
 cmo/setatt/mo1/zic/1 0 0/Z2                                                     
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/out_one_tri_z2.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z2.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
 perturb/1 0 0/0. 0. 0.03                                                        
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/create/mostack///tri                                                        
-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp 2 out_one_tri_z2.inp   
+stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp 2 tmp_one_tri_z2.inp   
 stack/fill/moprism/mostack                                                      
 resetpts/itp                                                                    
 dump/gmv/out_prism_two_layer_perturb_z.gmv/moprism                              

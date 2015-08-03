@@ -10,14 +10,14 @@ def ExecSuiteOne(args):
 	if args.clean == True:
 		Clean(tag = args.testfile)
 	if args.test == True:
-		RunTest(tag = args.testfile)
+		RunTest(tag = args.testfile, executable = args.executable)
 	if args.check == True:
 		Check(target = args.checkdir)
 
 			
 def OneFull(args):
 	Clean(tag = args.testfile)
-	RunTest(tag = args.testfile)
+	RunTest(tag = args.testfile, executable = args.executable)
 	Check(target = args.checkdir)
 
 
@@ -43,8 +43,10 @@ def Clean(**args):
 					print("\tClean.")
 			elif os.path.isfile(directory) and not directory.endswith(".old.txt"):
 				if directory.startswith("stdout_" + tag):
+					print "FOUND STDOUT"
 					os.rename(directory, directory[:-4] + ".old" + directory[-4:])
 				elif directory.startswith("diffout_" + tag):
+					print "FOUND DIFFOUT_"
 					os.rename(directory, directory[:-4] + ".old" + directory[-4:])
 		except Exception, e:
 			print e

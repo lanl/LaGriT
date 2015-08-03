@@ -10,14 +10,14 @@ def ExecSuiteTwo(args):
 	if args.clean == True:
 		Clean(tag = args.testfile)
 	if args.test == True:
-		RunTest(tag = args.testfile)
+		RunTest(tag = args.testfile, executable = args.executable)
 	if args.check == True:
 		Check(target = args.checkdir)
 
 			
 def TwoFull(args):
 	Clean(tag = args.testfile)
-	RunTest(tag = args.testfile)
+	RunTest(tag = args.testfile, executable = args.executable)
 	Check(target = args.checkdir)
 
 
@@ -36,7 +36,8 @@ def Clean(**args):
 					for the_file in os.listdir(directory):
 						file_path = os.path.join(directory, the_file)
 						try:
-							if os.path.isfile(file_path) and (the_file.startswith("out") or the_file.endswith("gmvF") or the_file.endswith("x3dgen")):
+							if os.path.isfile(file_path) and (the_file.startswith("out") or the_file.endswith("gmvF") 
+								or the_file.startswith("tmp_") or the_file.endswith("x3dgen")):
 								os.remove(file_path)
 						except Exception, e:
 							print e
