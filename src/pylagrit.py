@@ -667,6 +667,16 @@ class MO(object):
         '''
         self.sendline('resetpts/itp')
 
+    def eltset_object(self, mo, name=None):
+        '''
+        Create element set from the intersecting elements with another mesh object
+        '''
+        if name is None:
+            name = make_name('e',self.eltset.keys())
+        attr_name = self.intersect_elements(mo)
+        e_attr = self.eltset_attribute(attr_name,0,boolstr='gt')
+        self.eltset[name] = EltSet(name,self)
+        return self.eltset[name]
     def eltset_bool(self, eset_list, boolstr='union', name=None):
         '''
         Create element set from boolean operation of set of element sets
@@ -1262,6 +1272,9 @@ class MO(object):
         '''
         self.sendline('/'.join(['intersect_elements',self.name,mo.name,attr_name]))
         return attr_name
+    def extract_surfmesh(self,name=None,stride=[1,0,0],reorder=False):
+        return self._parent.extract_surfmesh( cmo_in=self )
+
 
 
  
