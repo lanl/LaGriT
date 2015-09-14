@@ -455,6 +455,22 @@ class MO(object):
             else:
                 cmd = '/'.join(['cmo/delatt',self.name,att])
             self.sendline(cmd)
+    def copyatt(self,attname_src,attname_sink=None,mo_src=None):
+        '''
+        Add a list of attributes
+
+        :arg attname_src: Name of attribute to copy
+        :type attname_src: str
+        :arg attname_sink: Name of sink attribute
+        :type attname_sink: str
+        :arg mo_src: Name of source mesh object
+        :type mo_src: PyLaGriT Mesh Object
+
+        '''
+        if attname_sink is None: attname_sink = attname_src
+        if mo_src is None: mo_src = self
+        cmd = '/'.join(['cmo/copyatt',self.name,mo_src.name,attname_sink,attname_src])
+        self.sendline(cmd)
     def addatt(self,attname,keyword=None,type='',rank='',length='',interpolate='',persistence='',ioflag='',value=''):
         '''
         Add a list of attributes
@@ -468,7 +484,7 @@ class MO(object):
         if keyword is not None:
             cmd = '/'.join(['cmo/addatt',self.name,keyword,attname])
         else:
-            cmd = '/'.join(['cmo/addatt',self.name,attname,rank,length,interpolate,persistence,ioflag,value])
+            cmd = '/'.join(['cmo/addatt',self.name,attname,type,rank,length,interpolate,persistence,ioflag,value])
         self.sendline(cmd)
     def addatt_voronoi_volume(self,name='voronoi_volume'):
         '''
@@ -478,8 +494,11 @@ class MO(object):
         :type name: str
         '''
         self.addatt(name,keyword='voronoi_volume')
-    def minmax(self,attname=None,stride=[1,0,0],pset=None):
-        self.printatt(attname=attname,stride=stride,pset=None,type='minmax')
+    def minmax(self,attname=None,stride=[1,0,0]):
+        self.printatt(attname=attname,stride=stride,type='minmax')
+    def minmax_xyz(self,stride=[1,0,0]):
+        cmd = '/'.join(['cmo/printatt',self.name,'-xyz-','minmax'])
+        self.sendline(cmd)
     def list(self,attname=None,stride=[1,0,0],pset=None):
         self.printatt(attname=attname,stride=stride,pset=pset,type='list')
     def setatt(self,attname,value,stride=[1,0,0]):
@@ -817,6 +836,43 @@ class MO(object):
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
     
+    def createpts(self, crd, npts, mins, maxs, rz_switch=(0,0,0), rz_value=(1,1,1), connect=False):
+        '''
+        Create and Connect Points in a line
+        
+        :arg crd: Coordinate type of either 'xyz' (cartesian coordinates), 
+                    'rtz' (cylindrical coordinates), or 
+                    'rtp' (spherical coordinates).
+        :type  crd: str
+        :arg  npts: The number of points to create in line
+        :type npts: tuple(int)
+        :arg  mins: The starting value for each dimension.
+        :type mins: tuple(int, int, int)
+        :arg  maxs: The ending value for each dimension.
+        :type maxs: tuple(int, int, int)
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :type  rz_switch: tuple(int, int, int)
+        
+        '''
+        
+        npts = [str(v) for v in npts]
+        mins = [str(v) for v in mins]
+        maxs = [str(v) for v in maxs]
+        rz_switch = [str(v) for v in rz_switch]
+        rz_value = [str(v) for v in rz_value]
+
+        cmd = '/'.join(['createpts',crd,','.join(npts),','.join(mins),','.join(maxs),','.join(rz_switch),','.join(rz_value)])
+        self.sendline(cmd)
+        if connect:
+            cmd = '/'.join(['createpts','brick',','.join(npts),'1,0,0','connect'])
+            self.sendline(cmd)
+
+    def createpts_xyz(self, npts, mins, maxs, rz_switch=(0,0,0), rz_value=(1,1,1), connect=True):
+        self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
+    def createpts_rtz(self, npts, mins, maxs, rz_switch=(0,0,0), rz_value=(1,1,1), connect=True):
+        self.createpts('rtz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
+    def createpts_rtp(self, npts, mins, maxs, rz_switch=(0,0,0), rz_value=(1,1,1), connect=True):
+        self.createpts('rtp',npts,mins,maxs,rz_switch,rz_value,connect=connect)
     def createpts_line(self, npts, mins, maxs, rz_switch=(0,0,0)):
         '''
         Create and Connect Points in a line
@@ -895,7 +951,7 @@ class MO(object):
             ctr=(1,1,1), rz_switch=(0,0,0), rz_vls=(1,1,1)):
         '''Create and connect Cartesian coordinate points.'''
         self.createpts_brick('xyz', **minus_self(locals()))
-        
+
     def createpts_brick_rtz(
             self, npts, mins, maxs, 
             ctr=(1,1,1), rz_switch=(0,0,0), rz_vls=(1,1,1)):
