@@ -864,7 +864,7 @@ class MO(object):
         cmd = '/'.join(['createpts',crd,','.join(npts),','.join(mins),','.join(maxs),','.join(rz_switch),','.join(rz_value)])
         self.sendline(cmd)
         if connect:
-            cmd = '/'.join(['createpts','brick',','.join(npts),'1,0,0','connect'])
+            cmd = '/'.join(['createpts','brick',crd,','.join(npts),'1,0,0','connect'])
             self.sendline(cmd)
 
     def createpts_xyz(self, npts, mins, maxs, rz_switch=(0,0,0), rz_value=(1,1,1), connect=True):
@@ -1330,6 +1330,36 @@ class MO(object):
         return attr_name
     def extract_surfmesh(self,name=None,stride=[1,0,0],reorder=False):
         return self._parent.extract_surfmesh( cmo_in=self )
+    def interpolate(self,method,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
+                    flag_option='plus1',keep_option='delatt',interp_function=None):
+        '''
+        Interpolate values from attribute attsrc from mesh object cmosrc to current mesh object
+        '''
+        stride = [str(v) for v in stride]
+        cmd = ['interpolate',method,self.name,attsink,','.join(stride),cmosrc.name,attsrc,tieoption,
+               flag_option,keep_option]
+        if interp_function is not None: cmd.append(interp_function)
+        self.sendline('/'.join(cmd))
+    def interpolate_voronoi(self,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
+                    flag_option='plus1',keep_option='delatt',interp_function=None):
+        self.interpolate('voronoi',**minus_self(locals()))
+    def interpolate_map(self,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
+                    flag_option='plus1',keep_option='delatt',interp_function=None):
+        self.interpolate('map',**minus_self(locals()))
+    def interpolate_continuous(self,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
+                    flag_option='plus1',keep_option='delatt',interp_function=None):
+        self.interpolate('continuous',**minus_self(locals()))
+    def interpolate_default(self,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
+                    flag_option='plus1',keep_option='delatt',interp_function=None):
+        self.interpolate('default',**minus_self(locals()))
+    def copy(self,name=None):
+        '''
+        Copy mesh object
+        '''
+        if name is None: name = make_name('mo',self._parent.mo.keys())
+        self.sendline('/'.join(['cmo/copy',name,self.name]))
+        self._parent.mo[name] = MO(name,self)
+        return self._parent.mo[name]
 
 
 
