@@ -3,6 +3,7 @@ from subprocess import call, PIPE
 import os
 import glob
 import re
+from collections import  OrderedDict
 
 class PyLaGriT(spawn):
     ''' Python lagrit class'''
@@ -209,13 +210,14 @@ class PyLaGriT(spawn):
                     print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
             else:
                 print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
-    def extract_surfmesh(self,name=None,cmo_in=None,stride=[1,0,0],reorder=False):
+    def extract_surfmesh(self,name=None,cmo_in=None,stride=[1,0,0],reorder=True,resetpts_itp=True,external=False):
         if name is None:
             name = make_name('mo',self.mo.keys())
         if cmo_in is not None:
             if not isinstance( cmo_in, MO):
                 print "ERROR: MO object or name of mesh object as a string expected for cmo_in"
                 return
+        if resetpts_itp: cmo_in.resetpts_itp()
         if reorder:
             cmo_in.sendline('createpts/median')
             self.sendline('/'.join(['sort',cmo_in.name,'index/ascending/ikey/itetclr zmed ymed zmed']))
@@ -225,7 +227,9 @@ class PyLaGriT(spawn):
             self.sendline('/'.join(['cmo/DELATT',cmo_in.name,'zmed']))
             self.sendline('/'.join(['cmo/DELATT',cmo_in.name,'ikey']))
         stride = [str(v) for v in stride]
-        self.sendline( '/'.join(['extract/surfmesh',','.join(stride),name,cmo_in.name]))
+        cmd = ['extract/surfmesh',','.join(stride),name,cmo_in.name]
+        if external: cmd.append('external')
+        self.sendline( '/'.join(cmd))
         self.mo[name] = MO(name,self)
         return self.mo[name] 
               
@@ -400,7 +404,7 @@ class PyLaGriT(spawn):
         self.mo[name] = MO(name, self)
         
         return self.mo[name]
-    
+   
 class MO(object):
     ''' Mesh object class'''
     def __init__(self, name, parent):
@@ -410,9 +414,9 @@ class MO(object):
         self.eltset = {}
     def __repr__(self):
         return self.name
-    def sendline(self,cmd):
+    def sendline(self,cmd, expectstr='Enter a command'):
         self._parent.sendline('cmo select '+self.name)
-        self._parent.sendline(cmd)
+        self._parent.sendline(cmd,expectstr=expectstr)
     def status(self,brief=False):
         print self.name
         self._parent.cmo_status(self.name,brief=brief)
@@ -835,7 +839,45 @@ class MO(object):
         self.dump(filename,'lagrit',format)
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
-    
+    def create_boundary_facesets(self,stacked_layers=False,base_name=None):
+        '''
+        Creates facesets for each boundary and writes associated avs faceset file
+        :arg base_name: base name of faceset files
+        :type base_name: str
+        :arg stacked_layers: if mesh is created by stack_layers, user layertyp attr to determine top and bottom
+        :type stacked_layers: bool
+        :arg reorder_on_meds: reorder nodes on cell medians, usually needed for exodus file
+        :type reorder_on_meds: bool
+        :returns: Dictionary of facesets
+        '''
+        if base_name is None: base_name = 'faceset_'+self.name
+        mo_surf = self.extract_surfmesh(reorder=True)
+        mo_surf.addatt('id_side',type='vint',rank='scalar',length='nelements')
+        mo_surf.settets_normal()
+        mo_surf.copyatt('itetclr','id_side')
+        mo_surf.delatt('id_side')
+        fs = OrderedDict()
+        if stacked_layers:
+            pbot = mo_surf.pset_attribute('layertyp',-1)
+            ebot = pbot.eltset( membership='exclusive' )
+        else:
+            ebot = mo_surf.eltset_attribute('itetclr',1)
+        fs['bottom'] = ebot.create_faceset(base_name+'_bottom.avs')
+        if stacked_layers:
+            ptop = mo_surf.pset_attribute('layertyp',-2)
+            etop = ptop.eltset( membership='exclusive' )
+        else:
+            etop = mo_surf.eltset_attribute('itetclr',2)
+        fs['top'] =  etop.create_faceset(base_name+'_top.avs')
+        er = mo_surf.eltset_attribute('itetclr',3)
+        fs['right'] = er.create_faceset(base_name+'_right.avs')
+        eback = mo_surf.eltset_attribute('itetclr',4)
+        fs['back'] = eback.create_faceset(base_name+'_back.avs')
+        el = mo_surf.eltset_attribute('itetclr',5)
+        fs['left'] = el.create_faceset(base_name+'_left.avs')
+        ef = mo_surf.eltset_attribute('itetclr',6)
+        fs['front'] = ef.create_faceset(base_name+'_front.avs')
+        return fs
     def createpts(self, crd, npts, mins, maxs, rz_switch=(0,0,0), rz_value=(1,1,1), connect=False):
         '''
         Create and Connect Points in a line
@@ -964,6 +1006,8 @@ class MO(object):
         '''Create and connect spherical coordinates.'''
         self.createpts_brick(ntps, **minus_self(locals()))
         
+    def createpts_median(self):
+        self.sendline('createpts/median')
     def pset_not(self, ps, name=None):
         '''
         Return PSet from Logical Not
@@ -1328,27 +1372,28 @@ class MO(object):
         '''
         self.sendline('/'.join(['intersect_elements',self.name,mo.name,attr_name]))
         return attr_name
-    def extract_surfmesh(self,name=None,stride=[1,0,0],reorder=False):
-        return self._parent.extract_surfmesh( cmo_in=self )
-    def interpolate(self,method,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
-                    flag_option='plus1',keep_option='delatt',interp_function=None):
+    def extract_surfmesh(self,name=None,stride=[1,0,0],reorder=False,resetpts_itp=True,external=False):
+        return self._parent.extract_surfmesh( name=name,cmo_in=self,stride=stride,reorder=reorder,resetpts_itp=resetpts_itp,external=external )
+    def interpolate(self,method,attsink,cmosrc,attsrc,stride=[1,0,0],interp_function=None):
         '''
         Interpolate values from attribute attsrc from mesh object cmosrc to current mesh object
         '''
         stride = [str(v) for v in stride]
-        cmd = ['interpolate',method,self.name,attsink,','.join(stride),cmosrc.name,attsrc,tieoption,
-               flag_option,keep_option]
+        cmd = ['interpolate',method,self.name,attsink,','.join(stride),cmosrc.name,attsrc]
         if interp_function is not None: cmd.append(interp_function)
+        print '/'.join(cmd)
         self.sendline('/'.join(cmd))
-    def interpolate_voronoi(self,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
-                    flag_option='plus1',keep_option='delatt',interp_function=None):
+    def interpolate_voronoi(self,attsink,cmosrc,attsrc,stride=[1,0,0],interp_function=None):
         self.interpolate('voronoi',**minus_self(locals()))
     def interpolate_map(self,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
                     flag_option='plus1',keep_option='delatt',interp_function=None):
         self.interpolate('map',**minus_self(locals()))
-    def interpolate_continuous(self,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
-                    flag_option='plus1',keep_option='delatt',interp_function=None):
-        self.interpolate('continuous',**minus_self(locals()))
+    def interpolate_continuous(self,attsink,cmosrc,attsrc,stride=[1,0,0],interp_function=None):
+        stride = [str(v) for v in stride]
+        cmd = ['intrp','continuous',self.name+' '+attsink,','.join(stride),cmosrc.name+' '+attsrc]
+        if interp_function is not None: cmd.append(interp_function)
+        print '/'.join(cmd)
+        self.sendline('/'.join(cmd))
     def interpolate_default(self,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
                     flag_option='plus1',keep_option='delatt',interp_function=None):
         self.interpolate('default',**minus_self(locals()))
@@ -1358,8 +1403,51 @@ class MO(object):
         '''
         if name is None: name = make_name('mo',self._parent.mo.keys())
         self.sendline('/'.join(['cmo/copy',name,self.name]))
-        self._parent.mo[name] = MO(name,self)
+        self._parent.mo[name] = MO(name,self._parent)
         return self._parent.mo[name]
+    def stack_layers(self,file_type,filelist,xy_subset=None,buffer_opt=None,truncate_opt=None,pinchout_opt=None,
+                     flip_opt=False,fill=False):
+        cmd = ['stack/layers',file_type]
+        if xy_subset is not None: cmd.append(xy_subset)
+        cmd.append(' &')
+        self.sendline('/'.join(cmd),expectstr='\r\n')
+        for f in filelist[0:-1]: self._parent.sendline(f+' &',expectstr='\r\n')
+        cmd = [filelist[-1]]
+        if flip_opt is True: cmd.append('flip')
+        if buffer_opt is not None: cmd.append('buffer '+buffer_opt)
+        if truncate_opt is not None: cmd.append('trun '+truncate_opt)
+        if pinchout_opt is not None: cmd.append('pinch '+pinchout_opt)
+        if not len(cmd) == 0: 
+            self._parent.sendline('/'.join(cmd))
+    def stack_fill(self,name=None):
+        if name is None: name = make_name('mo', self._parent.mo.keys())
+        self.sendline('/'.join(['stack/fill',name,self.name]))
+        self._parent.mo[name] = MO(name, self._parent)
+        return self._parent.mo[name]
+    def math(self,operation,value,attsink,stride=[1,0,0],cmosrc=None,attsrc=None):
+        stride = [str(v) for v in stride]
+        if cmosrc is None: cmosrc = self
+        if attsrc is None: attsrc = attsink
+        cmd = ['math',operation,self.name,attsink,','.join(stride),cmosrc.name,attsrc,str(value)]
+        self.sendline('/'.join(cmd))
+    def settets(self,method=None):
+        if method is None:
+            self.sendline('settets')
+        else:
+            self.sendline('settets/'+method)
+    def settets_parents(self):
+        self.settets('parents')
+    def settets_geometry(self):
+        self.settets('geometry')
+    def settets_color_tets(self):
+        self.settets('color_tets')
+    def settets_color_points(self):
+        self.settets('color_points')
+    def settets_newtets(self):
+        self.settets('newtets')
+    def settets_normal(self):
+        self.settets('normal')
+
 
 
 
@@ -1440,9 +1528,8 @@ class EltSet(object):
         cmd = 'eltset/'+self.name+'/delete'
         self._parent.sendline(cmd)
         del self._parent.eltset[self.name]
-    def create_faceset(self,filename=None,reorder=True):
-        if filename is None:
-            filename = make_name( 'faceset', self.facesets.keys() )
+    def create_faceset(self,filename=None):
+        if filename is None: filename = 'faceset_'+self.name+'.avs'
         motmpnm = make_name( 'mo_tmp',self._parent._parent.mo.keys() )
         self._parent._parent.sendline('/'.join(['cmo/copy',motmpnm,self._parent.name]))
         self._parent._parent.sendline('/'.join(['cmo/DELATT',motmpnm,'itetclr0']))
