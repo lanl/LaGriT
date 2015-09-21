@@ -220,7 +220,7 @@ class PyLaGriT(spawn):
         if resetpts_itp: cmo_in.resetpts_itp()
         if reorder:
             cmo_in.sendline('createpts/median')
-            self.sendline('/'.join(['sort',cmo_in.name,'index/ascending/ikey/itetclr zmed ymed zmed']))
+            self.sendline('/'.join(['sort',cmo_in.name,'index/ascending/ikey/itetclr zmed ymed xmed']))
             self.sendline('/'.join(['reorder',cmo_in.name,'ikey']))
             self.sendline('/'.join(['cmo/DELATT',cmo_in.name,'xmed']))
             self.sendline('/'.join(['cmo/DELATT',cmo_in.name,'ymed']))
