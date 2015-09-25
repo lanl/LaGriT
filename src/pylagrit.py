@@ -899,7 +899,7 @@ class MO(object):
             ET.SubElement(lsurf[-1],'Parameter',{'name':'Label','type':'string','value':str(k)})
             ET.SubElement(lsurf[-1],'Parameter',{'name':'File','type':'string','value':meshfilename})
             ET.SubElement(lsurf[-1],'Parameter',{'name':'Format','type':'string','value':'Exodus II'})
-            ET.SubElement(lsurf[-1],'Parameter',{'name':'Entity','type':'string','value':'Cell'})
+            ET.SubElement(lsurf[-1],'Parameter',{'name':'Entity','type':'string','value':'Face'})
 
         m_str = ET.tostring(main)
         m_reparsed = minidom.parseString(m_str)
