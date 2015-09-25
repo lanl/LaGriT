@@ -4,6 +4,11 @@ import os
 import glob
 import re
 from collections import  OrderedDict
+try:
+    import xml.etree.cElementTree as ET
+except ImportError:
+    import xml.etree.ElementTree as ET
+from xml.dom import minidom
 
 class PyLaGriT(spawn):
     ''' Python lagrit class'''
@@ -837,6 +842,70 @@ class MO(object):
         self.dump(filename,'fehm')
     def dump_lg(self,filename,format='binary'):
         self.dump(filename,'lagrit',format)
+    def dump_ats_xml(self,filename,meshfilename,matnames={},facenames={}):
+        '''
+        Write ats style xml file with regions
+        :param filename: Name of xml to write
+        :type filename: string
+        :param meshfilename: Name of exodus file to use in xml
+        :type meshfilename: string
+        :param matnames: Dictionary of region names keyed by exodus material number
+        :type matnames: dict
+        :param facenames: Dictionary of faceset names keyed by exodus faceset number
+        :type facenames: dict
+        '''
+        main = ET.Element('ParameterList',{'name':'Main','type':'ParameterList'})
+
+        ET.SubElement(main,'Parameter',{'name':'Native Unstructured Input','type':'bool','value':'true'})
+        ET.SubElement(main,'Parameter',{'name':'grid_option','type':'string','value':'Unstructured'})
+
+        mesh = ET.SubElement(main,'ParameterList',{'name':'Mesh','type':'ParameterList'})
+        ET.SubElement(mesh,'Parameter',{'isUsed':'true','name':'Framework','type':'string','value':'MSTK'})
+
+        mesh1 = ET.SubElement(mesh,'ParameterList',{'name':'Read Mesh File','type':'ParameterList'})
+        ET.SubElement(mesh1,'Parameter',{'name':'File','type':'string','value':meshfilename})
+        ET.SubElement(mesh1,'Parameter',{'name':'Format','type':'string','value':'Exodus II'})
+
+        mesh2 = ET.SubElement(mesh,'ParameterList',{'name':'Surface Mesh','type':'ParameterList'})
+        ET.SubElement(mesh2,'Parameter',{'name':'surface sideset name','type':'string','value':'surface'})
+        mesh2a = ET.SubElement(mesh2,'ParameterList',{'name':'Expert','type':'ParameterList'})
+        ET.SubElement(mesh2a,'Parameter',{'name':'Verify Mesh','type':'bool','value':'false'})
+
+        r = ET.SubElement(main,'ParameterList',{'name':'Regions','type':'ParameterList'})
+
+        r1 = ET.SubElement(r,'ParameterList',{'name':'computational domain','type':'ParameterList'})
+        ET.SubElement(r1,'Parameter',{'name':'Low Coordinate','type':'Array(double)','value':'{-1.e20,-1.e20,-1.e20}'})
+        ET.SubElement(r1,'Parameter',{'name':'High Coordinate','type':'Array(double)','value':'{1.e20,1.e20,1.e20}'})
+
+        r2 = ET.SubElement(r,'ParameterList',{'name':'surface domain','type':'ParameterList'})
+        ET.SubElement(r2,'Parameter',{'name':'Low Coordinate','type':'Array(double)','value':'{-1.e20,-1.e20}'})
+        ET.SubElement(r2,'Parameter',{'name':'High Coordinate','type':'Array(double)','value':'{1.e20,1.e20}'})
+
+        rmat = []
+        lmat = []
+        for k,v in matnames.iteritems():
+            rmat.append(ET.SubElement(r,'ParameterList',{'name':str(v),'type':'ParameterList'}))
+            lmat.append(ET.SubElement(rmat[-1],'ParameterList',{'name':'Region: Labeled Set','type':'ParameterList'}))
+            ET.SubElement(lmat[-1],'Parameter',{'name':'Label','type':'string','value':str(k)})
+            ET.SubElement(lmat[-1],'Parameter',{'name':'File','type':'string','value':meshfilename})
+            ET.SubElement(lmat[-1],'Parameter',{'name':'Format','type':'string','value':'Exodus II'})
+            ET.SubElement(lmat[-1],'Parameter',{'name':'Entity','type':'string','value':'Cell'})
+
+        rsurf = []
+        lsurf = []
+        for k,v in facenames.iteritems():
+            rsurf.append(ET.SubElement(r,'ParameterList',{'name':str(v),'type':'ParameterList'}))
+            lsurf.append(ET.SubElement(rsurf[-1],'ParameterList',{'name':'Region: Labeled Set','type':'ParameterList'}))
+            ET.SubElement(lsurf[-1],'Parameter',{'name':'Label','type':'string','value':str(k)})
+            ET.SubElement(lsurf[-1],'Parameter',{'name':'File','type':'string','value':meshfilename})
+            ET.SubElement(lsurf[-1],'Parameter',{'name':'Format','type':'string','value':'Exodus II'})
+            ET.SubElement(lsurf[-1],'Parameter',{'name':'Entity','type':'string','value':'Cell'})
+
+        m_str = ET.tostring(main)
+        m_reparsed = minidom.parseString(m_str)
+        with open(filename, "w") as f:
+                f.write(m_reparsed.toprettyxml(indent="  "))
+
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
     def create_boundary_facesets(self,stacked_layers=False,base_name=None):
