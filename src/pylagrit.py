@@ -874,12 +874,14 @@ class MO(object):
         r = ET.SubElement(main,'ParameterList',{'name':'Regions','type':'ParameterList'})
 
         r1 = ET.SubElement(r,'ParameterList',{'name':'computational domain','type':'ParameterList'})
-        ET.SubElement(r1,'Parameter',{'name':'Low Coordinate','type':'Array(double)','value':'{-1.e20,-1.e20,-1.e20}'})
-        ET.SubElement(r1,'Parameter',{'name':'High Coordinate','type':'Array(double)','value':'{1.e20,1.e20,1.e20}'})
+        l1 = ET.SubElement(r1,'ParameterList',{'name':'Region: Box','type':'ParameterList'})
+        ET.SubElement(l1,'Parameter',{'name':'Low Coordinate','type':'Array(double)','value':'{-1.e20,-1.e20,-1.e20}'})
+        ET.SubElement(l1,'Parameter',{'name':'High Coordinate','type':'Array(double)','value':'{1.e20,1.e20,1.e20}'})
 
         r2 = ET.SubElement(r,'ParameterList',{'name':'surface domain','type':'ParameterList'})
-        ET.SubElement(r2,'Parameter',{'name':'Low Coordinate','type':'Array(double)','value':'{-1.e20,-1.e20}'})
-        ET.SubElement(r2,'Parameter',{'name':'High Coordinate','type':'Array(double)','value':'{1.e20,1.e20}'})
+        l2 = ET.SubElement(r2,'ParameterList',{'name':'Region: Box','type':'ParameterList'})
+        ET.SubElement(l2,'Parameter',{'name':'Low Coordinate','type':'Array(double)','value':'{-1.e20,-1.e20}'})
+        ET.SubElement(l2,'Parameter',{'name':'High Coordinate','type':'Array(double)','value':'{1.e20,1.e20}'})
 
         rmat = []
         lmat = []
