@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from pylagrit import PyLaGriT
 
 # Get data in and take a look
-d = numpy.genfromtxt("dem1m.dat",skip_header=6)
+d = numpy.flipud(numpy.genfromtxt("dem1m.dat",skip_header=6))
 #plt.matshow(d)
 
 # Create mesh based on ncols and nrows in file, could automatically read
@@ -44,26 +44,27 @@ m.setatt('zic',0.)
 # Create connected quad mesh surface
 m2 = lg.create()
 m2.createpts_xyz((80,16,1),[0.,0.,0.],[80,16,0],rz_switch=[1,1,1],connect=True)
+m3 = m2.grid2grid_quadtotri2()
 # Create temporary z value attribute
-m2.addatt('z_save',type='vdouble',rank='scalar')
+m3.addatt('z_save',type='vdouble',rank='scalar')
 # Interpolate elevations to z_save
-m2.interpolate_voronoi('z_save',m,'z_save')
+m3.interpolate_voronoi('z_save',m,'z_save')
 
 # Find nodes associated with nodata
-pdel = m2.pset_attribute('z_save',-9999)
+pdel = m3.pset_attribute('z_save',-9999)
 # Create element set from these nodes and remove elements
 edel = pdel.eltset()
-m2.rmpoint_eltset(edel)
+m3.rmpoint_eltset(edel)
 # Copy temp z values over to actual a values
-m2.copyatt('z_save','zic')
+m3.copyatt('z_save','zic')
 # Take a look to make sure everything is ok
 #m2.paraview(exe='paraview')
 
 # Create top surface avs
-m2.dump('top.inp')
+m3.dump('top.inp')
 # Subtract 1 from z values of top and dump into bottom surface avs
-m2.math('sub',1,'zic',cmosrc=m2)
-m2.dump('bot.inp')
+m3.math('sub',1,'zic',cmosrc=m3)
+m3.dump('bot.inp')
 
 # Stack the layers in a new mesh object
 stack = lg.create()
@@ -91,11 +92,6 @@ stack_hex.dump_ats_xml('ideas.xml','ideas.exo',matnames=matnames,facenames=facen
 
 # Take a look
 stack_hex.paraview(exe='paraview')
-
-
-
-
-
 
 
 
