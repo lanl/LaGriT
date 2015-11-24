@@ -2,6 +2,7 @@ import optparse
 import shutil, distutils.dir_util, os, sys, glob
 
 import numpy
+import math
 import matplotlib.pyplot as plt
 from pylagrit import PyLaGriT
 
@@ -101,10 +102,40 @@ m.setatt('zic',0.)
 
 # Create connected quad mesh surface
 m2 = lg.create()
-m2.createpts_xyz((nx,ny,1),[xx.min(),yy.min(),0.],[xx.max(),yy.max(),0],rz_switch=[1,1,1],connect=True)
+#m2.createpts_xyz((nx,ny,1),[xx.min(),yy.min(),0.],[xx.max(),yy.max(),0],rz_switch=[1,1,1],connect=True)
+m2.createpts_xyz((nx,ny,1),[xx.min(),yy.min(),0.],[xx.max(),yy.max(),0],rz_switch=[1,1,1])
+# Create temporary z value attribute
+m2.addatt('z_save',type='vdouble',rank='scalar')
+# Interpolate elevations to z_save
+m2.interpolate_voronoi('z_save',m,'z_save')
+# Find nodes associated with nodata
+pdel = m2.pset_attribute('z_save',-9999)
+# Create element set from these nodes and remove elements
+edel = pdel.eltset()
+m2.rmpoint_eltset(edel)
+# Copy temp z values over to actual a values
+#m2.copyatt('z_save','zic')
+# Take a look to make sure everything is ok
+#m2.paraview(exe='paraview')
+
+
+
+m3 = m2.copypts(mesh_type='triplane')
+m3.connect()
+# To lazy to add to pylagrit now, and don't know how to make it intuitive
+# Creates edge_max element attribute containing max edge length
+m3.sendline('quality/edge_max/y')
+# Query created attribute
+#m3.printatt('edgemax')
+m3.minmax('edgemax')
+# Figure out max desired edge length
+max_edge = numpy.sqrt(dx**2+dy**2)
+# Identify elements with longer edges
+edel = m3.eltset_attribute('edgemax',max_edge*2.05,'gt')
+m3.rmpoint_eltset(edel)
 
 #m3 = m2.grid2grid_quadtotri2()
-m3=m2
+#m3=m2
 # Create temporary z value attribute
 m3.addatt('z_save',type='vdouble',rank='scalar')
 # Interpolate elevations to z_save
@@ -133,12 +164,14 @@ stack = lg.create()
 stack.stack_layers('avs',['bot.inp 1','mid.inp 1,3','top.inp 1,0'],flip_opt=True)
 stack_hex = stack.stack_fill()
 # Automatically create face sets based on normal vectors and layer id
-fs = stack_hex.create_boundary_facesets(base_name='faceset_bounds',stacked_layers=True)
+#fs = stack_hex.create_boundary_facesets(base_name='faceset_bounds',stacked_layers=True)
+#fs = stack_hex.create_boundary_facesets(base_name='faceset_bounds',stacked_layers=False)
 # Diagnostic
 #stack_hex.sendline('quality volume itetclr')
 
 # Write exo file with boundary facesets
-stack_hex.dump_exo(exo_file_fullname,facesets=fs.values())
+#stack_hex.dump_exo(exo_file_fullname,facesets=fs.values())
+stack_hex.dump_exo(exo_file_fullname)
 
 # Write region and faceset identifier file for ats_xml
 matnames = {10000:'computational domain peat'}
@@ -150,6 +183,7 @@ facenames = {1:'bottom face',
              6:'left'}
 
 # Dump ats style xml for mesh, can provide options for other schemas easily also
+#stack_hex.dump_ats_xml(xml_file_fullname,exo_file_fullname,matnames=matnames,facenames=facenames)
 stack_hex.dump_ats_xml(xml_file_fullname,exo_file_fullname,matnames=matnames,facenames=facenames)
 
 # Take a look

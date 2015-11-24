@@ -1299,7 +1299,7 @@ class MO(object):
         Returns MO object
         '''        
         return self.grid2grid(ioption='hextotet24', **minus_self(locals()))
-    def connect(self, option1, option2=None, stride=None, big_tet_coords=[]):
+    def connect(self, option1='delaunay', option2=None, stride=None, big_tet_coords=[]):
         '''
         Connect the nodes into a Delaunay tetrahedral or triangle grid.
         
@@ -1346,16 +1346,18 @@ class MO(object):
         boundary.
         '''
         self.connect(option1='check_interface')
-    def copypts(self, name=None):
+    def copypts(self, mesh_type='tet', name=None):
         '''
         Copy points from mesh object to new mesh object
 
         :arg name: Name to use within lagrit for the created mesh object
         :type name: str
+        :arg type: Mesh type for new mesh
+        :type type: str
         :returns: mesh object
         '''
         if name is None: name = make_name('mo',self._parent.mo.keys())
-        mo_new = self._parent.create_tet()
+        mo_new = self._parent.create(mesh=mesh_type)
         self.sendline('/'.join(['copypts',mo_new.name,self.name]))
         return mo_new
     def extrude(self, offset, offset_type='const', return_type='volume', direction=[], name=None):
