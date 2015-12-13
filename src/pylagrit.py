@@ -826,6 +826,18 @@ class MO(object):
         '''
         self.dump(filename,'avs2',int(points),int(elements),int(node_attr),int(element_attr))
     def dump_exo(self,filename,psets=False,eltsets=False,facesets=[]):
+        '''
+        Dump exo file
+
+        :arg filename: Name of exo file
+        :type filename: str
+        :arg psets: Boolean indicating that exodus will only include psets
+        :type psets: bool
+        :arg eltsets: Boolean indicating that exodus will only include element sets
+        :type eltsets: bool
+        :arg facesets:  Array of FaceSet objects
+        :type facesets: lst(FaceSet)
+        '''
         cmd = '/'.join(['dump/exo',filename,self.name])
         if psets: cmd = '/'.join([cmd,'psets'])
         else: cmd = '/'.join([cmd,' '])
