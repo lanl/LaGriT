@@ -1473,9 +1473,10 @@ class MO(object):
     def interpolate_map(self,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
                     flag_option='plus1',keep_option='delatt',interp_function=None):
         self.interpolate('map',**minus_self(locals()))
-    def interpolate_continuous(self,attsink,cmosrc,attsrc,stride=[1,0,0],interp_function=None):
+    def interpolate_continuous(self,attsink,cmosrc,attsrc,stride=[1,0,0],interp_function=None,nearest=None):
         stride = [str(v) for v in stride]
         cmd = ['intrp','continuous',self.name+' '+attsink,','.join(stride),cmosrc.name+' '+attsrc]
+        if nearest is not None: cmd += ['nearest',nearest]
         if interp_function is not None: cmd.append(interp_function)
         print '/'.join(cmd)
         self.sendline('/'.join(cmd))
