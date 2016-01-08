@@ -4,6 +4,7 @@ import os
 import glob
 import re
 from collections import  OrderedDict
+import numpy
 try:
     import xml.etree.cElementTree as ET
 except ImportError:
@@ -409,6 +410,50 @@ class PyLaGriT(spawn):
         self.mo[name] = MO(name, self)
         
         return self.mo[name]
+    def tri_mo_from_polyline(self,coords,order='clockwise',filename='polyline.inp',name=None):
+        '''
+        Create polygon tri mesh object from points
+        Points are expected to be defined clockwise by default
+
+        :param coords: x,y,z coordinates defined in npoints by 3 array, points expected to be ordered clockwise by default
+        :type coords: lst(floats) or ndarray(floats)
+        :param order: ordering of points, clockwise by default
+        :type order: string
+        :param filename: Name of avs polyline file to create 
+        :type filename: string
+        :param name: Internal lagrit name for mesh object
+        :type name: string
+        :returns: PyLaGriT Mesh Object
+
+        example:
+            from pylagrit import PyLaGriT
+            lg = PyLaGriT()
+            mo = lg.tri_mo_from_polyline([[0.,0.],[0.,1.],[1.,1.],[1.,0.]])
+        '''
+        coords = numpy.array(coords)
+        mstr = str(coords.shape[0])+' '+str(coords.shape[0])+' 0 0 0\n'
+        for i,p in enumerate(coords):
+            mstr += ' '.join([str(i+1),str(p[0]),str(p[1]),str(0.)])
+            mstr += '\n'
+        es1 = numpy.arange(coords.shape[0])+1
+        es2 = numpy.roll(es1,coords.shape[0]-1)
+        for e1,e2 in zip(es1,es2):
+            mstr += ' '.join([str(e1),'1 line ',str(e1),str(e2)])
+            mstr += '\n'
+        with open(filename,'w') as fh: fh.write(mstr)
+        #Check if name was specified, if not just generate one.
+        if type(name) is type(None):
+            name = make_name('mo', self.mo.keys())
+        motmp = self.read(filename)
+        motri = motmp.copypts(mesh_type='tri')
+        motmp.delete()
+        self.mo[name] = motri
+        return self.mo[name]
+ 
+
+
+
+
    
 class MO(object):
     ''' Mesh object class'''
@@ -1579,15 +1624,19 @@ class MO(object):
             print 'Error: Both boolean and attribute must be specified together'
             return
         self.sendline('/'.join(cmd))
-    def clean(self):
+    def tri_mesh_output_prep(self):
         '''
-        Vanilla version of combined lagrit commands
+        Prepare tri mesh for output, remove dudded points,
+        ensure delaunay volumes, etc.
+        Combination of lagrit commands:
         filter/1 0 0
         rmpoint/compress
+        recon/1
         resetpts/itp
         '''
         self.filter()
         self.rmpoint_compress()
+        self.recon(1)
         self.resetpts_itp()
  
 class Surface(object):

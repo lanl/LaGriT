@@ -1,31 +1,18 @@
 from pylagrit import PyLaGriT
 
-# Create polyline avs file of outline of mesh
-# Probably should create a pylagrit function/method to do this...
-mstr = '''\
-4 4 0 0 0
-1 0. 0. 0.
-2 2200. 0. 0.
-3 2200. 200. 0.
-4 0. 1000. 0.
-1 1 line 1 2
-2 1 line 2 3
-3 1 line 3 4
-4 1 line 4 1
-
-'''
-with open('polyline.inp','w') as fh: fh.write(mstr)
-
 # Create pylagrit object
 lg = PyLaGriT()
 
-# Read in polyline and create tri mesh
-mop = lg.read('polyline.inp')
-motri = mop.copypts(mesh_type='tri')
-mop.delete()
+# Define polygon points in clockwise direction
+# and create tri mesh object
+coords = [[0.0, 0.0, 0.0], 
+          [0.0, 1000.0, 0.0], 
+          [2200.0, 200.0, 0.0], 
+          [2200.0, 0.0, 0.0]]
+motri = lg.tri_mo_from_polyline(coords)
 
 # Triangulate polygon
-motri.triangulate(order='counterclockwise')
+motri.triangulate()
 motri.setatt('imt',1)
 motri.setatt('itetclr',1)
 
@@ -43,9 +30,7 @@ for i in range(5):
     motri.recon(0)
 
 # create delaunay mesh and clean up
-motri.clean()
-motri.recon(1)
-motri.clean()
+motri.tri_mesh_output_prep()
 
 # dump fehm files
 motri.dump_fehm('nk_mesh00')
