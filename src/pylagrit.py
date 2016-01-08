@@ -1466,7 +1466,6 @@ class MO(object):
         stride = [str(v) for v in stride]
         cmd = ['interpolate',method,self.name,attsink,','.join(stride),cmosrc.name,attsrc]
         if interp_function is not None: cmd.append(interp_function)
-        print '/'.join(cmd)
         self.sendline('/'.join(cmd))
     def interpolate_voronoi(self,attsink,cmosrc,attsrc,stride=[1,0,0],interp_function=None):
         self.interpolate('voronoi',**minus_self(locals()))
@@ -1533,10 +1532,63 @@ class MO(object):
         self.settets('newtets')
     def settets_normal(self):
         self.settets('normal')
+    def triangulate(self,order='clockwise'):
+        '''
+        triangulate will take an ordered set of nodes in the current 2d mesh object that define a perimeter of a polygon and create a trangulation of the polygon.  The nodes are assumed to lie in the xy plane; the z coordinate is ignored.  No checks are performed to verify that the nodes define a legal perimeter (i.e. that segments of the perimeter do not cross).  The code will connect the last node to the first node to complete the perimeter. 
 
+        This code support triangulation of self-intersecting polygons (polygon with holes), assuming that the order of the nodes are correct. Moreover the connectivity of the polyline must also be defined correctly. No checks are made. 
 
+        One disadvantage of the algorithm for triangulating self-intersecting polygons is that it does not always work. For example, if the holes have complicated shapes, with many concave vertices, the code might fail. In this case, the user may try to rotate the order of the nodes: 
+            NODE_ID: 
+                1 -> 2 
+                2 -> 3 
+                ... 
+                N -> 1 
 
+            :param order: direction of point ordering
+            :type order: string
 
+        '''
+        self.sendline('triangulate/'+order)
+    def refine(self,refine_option='constant',field=' ',interpolation=' ',refine_type='element',stride=[1,0,0],values=[1.],inclusive_flag='exclusive',prd_choice=None):
+        stride = [str(v) for v in stride]
+        values = [str(v) for v in values]
+        if prd_choice is None:
+            cmd = '/'.join(['refine',refine_option,field,interpolation,refine_type,' '.join(stride),'/'.join(values),inclusive_flag])
+        else:
+            cmd = '/'.join(['refine',refine_option,field,interpolation,refine_type,' '.join(stride),'/'.join(values),inclusive_flag,'amr '+str(prd_choice)])
+        self._parent.sendline(cmd)
+    def smooth(self,*args,**kwargs):
+        if 'algorithm' not in kwargs: self.sendline('smooth')
+        else:
+            cmd = ['smooth','position',kwargs['algorithm']]
+            for a in args: cmd.append(a)
+            self.sendline('/'.join(cmd))
+    def recon(self,option='',damage='',checkaxy=False):
+        cmd = ['recon',str(option),str(damage)]
+        if checkaxy: cmd.append('checkaxy')
+        self.sendline('/'.join(cmd))
+    def filter(self,stride=[1,0,0],tolerance=None,boolean=None,attribute=None):
+        stride = [str(v) for v in stride]
+        cmd = ['filter',' '.join(stride)]
+        if tolerance is not None: cmd.append(tolerance)
+        if boolean is not None and attribute is not None:
+            cmd.append(boolean)
+            cmd.append(attribute)
+        elif (boolean is None and attribute is not None) or (boolean is not None and attribute is None):
+            print 'Error: Both boolean and attribute must be specified together'
+            return
+        self.sendline('/'.join(cmd))
+    def clean(self):
+        '''
+        Vanilla version of combined lagrit commands
+        filter/1 0 0
+        rmpoint/compress
+        resetpts/itp
+        '''
+        self.filter()
+        self.rmpoint_compress()
+        self.resetpts_itp()
  
 class Surface(object):
     ''' Surface class'''
