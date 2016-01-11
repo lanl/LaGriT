@@ -525,7 +525,7 @@ class MO(object):
         if mo_src is None: mo_src = self
         cmd = '/'.join(['cmo/copyatt',self.name,mo_src.name,attname_sink,attname_src])
         self.sendline(cmd)
-    def addatt(self,attname,keyword=None,type='',rank='',length='',interpolate='',persistence='',ioflag='',value=''):
+    def addatt(self,attname,keyword=None,type='VDOUBLE',rank='scalar',length='nnodes',interpolate='linear',persistence='permanent',ioflag='',value=0.0):
         '''
         Add a list of attributes
 
@@ -538,7 +538,7 @@ class MO(object):
         if keyword is not None:
             cmd = '/'.join(['cmo/addatt',self.name,keyword,attname])
         else:
-            cmd = '/'.join(['cmo/addatt',self.name,attname,type,rank,length,interpolate,persistence,ioflag,value])
+            cmd = '/'.join(['cmo/addatt',self.name,attname,type,rank,length,interpolate,persistence,ioflag,str(value)])
         self.sendline(cmd)
     def addatt_voronoi_volume(self,name='voronoi_volume'):
         '''
@@ -1701,7 +1701,24 @@ class PSet(object):
         e = self.eltset(membership=membership)
         self._parent.sendline('pset/'+self.name+'/delete')
         self = e.pset(name=self.name)
-
+    def interpolate(self,method,attsink,cmosrc,attsrc,interp_function=None):
+        '''
+        Interpolate values from attribute attsrc from mesh object cmosrc to current mesh object
+        '''
+        self._parent.interpolate(method=method,attsink=attsink,stride=['pset','get',self.name],cmosrc=cmosrc,attsrc=attsrc,interp_function=interp_function)
+    def interpolate_voronoi(self,attsink,cmosrc,attsrc,interp_function=None):
+        self.interpolate('voronoi',**minus_self(locals()))
+    def interpolate_map(self,attsink,cmosrc,attsrc,tieoption='tiemax',
+                    flag_option='plus1',keep_option='delatt',interp_function=None):
+        self.interpolate('map',**minus_self(locals()))
+    def interpolate_continuous(self,attsink,cmosrc,attsrc,interp_function=None,nearest=None):
+        cmd = ['intrp','continuous',self.name+' '+attsink,','.join(['pset','get',self.name]),cmosrc.name+' '+attsrc]
+        if nearest is not None: cmd += ['nearest',nearest]
+        if interp_function is not None: cmd.append(interp_function)
+        self._parent.sendline('/'.join(cmd))
+    def interpolate_default(self,attsink,cmosrc,attsrc,tieoption='tiemax',
+                    flag_option='plus1',keep_option='delatt',interp_function=None):
+        self.interpolate('default',**minus_self(locals()))
 
 class EltSet(object):
     ''' EltSet class'''
