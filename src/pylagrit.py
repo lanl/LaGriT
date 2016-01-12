@@ -967,6 +967,7 @@ class MO(object):
 
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
+        del self._parent.mo[self.name]
     def create_boundary_facesets(self,stacked_layers=False,base_name=None):
         '''
         Creates facesets for each boundary and writes associated avs faceset file
