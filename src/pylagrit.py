@@ -181,6 +181,16 @@ class PyLaGriT(spawn):
         self.sendline(cmd)
         self.surface[name] = Surface(name,self)
         return self.surface[name]
+    def surface_plane(self,coord1,coord2,coord3,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self.surface.keys())
+        coord1 = [str(v) for v in coord1]
+        coord2 = [str(v) for v in coord2]
+        coord3 = [str(v) for v in coord3]
+        cmd = '/'.join(['surface',name,ibtype,'plane',' &\n'+','.join(coord1),' &\n'+','.join(coord2),' &\n'+','.join(coord3)])
+        self.sendline(cmd)
+        self.surface[name] = Surface(name,self)
+        return self.surface[name]
     def region_bool(self,bool,name=None): 
         if name is None:
             name = make_name('r',self.region.keys())
@@ -733,6 +743,32 @@ class MO(object):
 
         return self.pset[name]
 
+    def pset_region(self, region, stride=(1,0,0), name=None):
+        '''
+        Define PSet by region
+        
+        :kwarg region: region to create pset
+        :type  value: PyLaGriT Region object
+        
+        :kwarg stride: Nodes defined by ifirst, ilast, and istride.
+        :type  stride: list[int, int, int]
+        
+        :kwarg name: The name to be assigned to the PSet created.
+        :type  name: str
+        
+        Returns: PSet object
+        '''
+        if name is None:
+            name = make_name('p',self.pset.keys())
+            
+        stride = [str(v) for v in stride]
+        
+        cmd = '/'.join(['pset', name, 'region',region.name, ','.join(stride)])
+        self.sendline(cmd)
+        self.pset[name] = PSet(name, self)
+
+        return self.pset[name]
+
     def resetpts_itp(self):
         '''
         set node type from connectivity of mesh 
@@ -899,6 +935,9 @@ class MO(object):
         self.dump(filename,'fehm')
     def dump_lg(self,filename,format='binary'):
         self.dump(filename,'lagrit',format)
+    def dump_zone_imt(self,filename,imt_value):
+        cmd = ['dump','zone_imt',filename,self.name,str(imt_value)]
+        self.sendline('/'.join(cmd))
     def dump_ats_xml(self,filename,meshfilename,matnames={},facenames={}):
         '''
         Write ats style xml file with regions
