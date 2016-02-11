@@ -460,11 +460,6 @@ class PyLaGriT(spawn):
         self.mo[name] = motri
         return self.mo[name]
  
-
-
-
-
-   
 class MO(object):
     ''' Mesh object class'''
     def __init__(self, name, parent):
@@ -477,6 +472,76 @@ class MO(object):
     def sendline(self,cmd, expectstr='Enter a command'):
         self._parent.sendline('cmo select '+self.name)
         self._parent.sendline(cmd,expectstr=expectstr)
+    @property
+    def xmin(self):
+        self.minmax_xyz()
+        strarr = self._parent.before.splitlines()
+        return float(strarr[4].split()[1])
+    @property
+    def xmax(self):
+        self.minmax_xyz()
+        strarr = self._parent.before.splitlines()
+        return float(strarr[4].split()[2])
+    @property
+    def xlength(self):
+        self.minmax_xyz()
+        strarr = self._parent.before.splitlines()
+        return int(strarr[4].split()[4])
+    @property
+    def ymin(self):
+        self.minmax_xyz()
+        strarr = self._parent.before.splitlines()
+        return float(strarr[5].split()[1])
+    @property
+    def ymax(self):
+        self.minmax_xyz()
+        strarr = self._parent.before.splitlines()
+        return float(strarr[5].split()[2])
+    @property
+    def ylength(self):
+        self.minmax_xyz()
+        strarr = self._parent.before.splitlines()
+        return int(strarr[5].split()[4])
+    @property
+    def zmin(self):
+        self.minmax_xyz()
+        strarr = self._parent.before.splitlines()
+        return float(strarr[6].split()[1])
+    @property
+    def zmax(self):
+        self.minmax_xyz()
+        strarr = self._parent.before.splitlines()
+        return float(strarr[6].split()[2])
+    @property
+    def zlength(self):
+        self.minmax_xyz()
+        strarr = self._parent.before.splitlines()
+        return int(strarr[6].split()[4])
+    @property
+    def nnodes(self):
+        self.status(1)
+        strarr = self._parent.before.splitlines()
+        return int(strarr[7].split()[4])
+    @property
+    def nelems(self):
+        self.status(1)
+        strarr = self._parent.before.splitlines()
+        return int(strarr[7].split()[-1])
+    @property
+    def element_type(self):
+        self.status(1)
+        strarr = self._parent.before.splitlines()
+        return strarr[8].split()[-1]
+    @property
+    def ndim_geo(self):
+        self.status(1)
+        strarr = self._parent.before.splitlines()
+        return int(strarr[8].split()[3])
+    @property
+    def ndim_topo(self):
+        self.status(1)
+        strarr = self._parent.before.splitlines()
+        return int(strarr[9].split()[3])
     def status(self,brief=False):
         print self.name
         self._parent.cmo_status(self.name,brief=brief)
@@ -569,7 +634,6 @@ class MO(object):
         stride = [str(v) for v in stride]
         cmd = '/'.join(['cmo/setatt',self.name,attname,','.join(stride),str(value)])
         self.sendline(cmd)
-        
     def pset_geom(
             self, mins, maxs, 
             ctr=(0,0,0), geom='xyz', stride=(1,0,0), name=None
@@ -858,6 +922,158 @@ class MO(object):
         self.sendline('/'.join(['sort',self.name,'index',order,'ikey',cycle]))
         self.sendline('reorder / '+self.name+' / ikey')
         self.sendline('cmo / DELATT / '+self.name+' / ikey')
+    def trans(self, xold, xnew, stride=(1,0,0)):
+        xold = [str(v) for v in xold]
+        xnew = [str(v) for v in xnew]
+        stride = [str(v) for v in stride]
+        cmd = '/'.join(['trans',','.join(stride),','.join(xold),','.join(xnew)])
+        self.sendline(cmd)
+    def upscale(self, method, attsink, cmosrc, attsrc=None, stride=(1,0,0), boundary_choice=None, keepatt=False,
+                set_id=False):
+        '''
+        The upscale command is used to interpolate attribute values from nodes of a fine source mesh to node
+        attributes of a coarse sink mesh. The subroutine finds nodes of the fine source mesh within the Voronoi
+        cell of every node in the coarser sink mesh. Nodes on cell boundaries are assigned to two or more sink
+        nodes. Then the attributes of all the source nodes within a source node's cell are upscaled into a
+        single value based on the chosen method. Mesh elements and connectivity are ignored and only node
+        values are used to upscale values on to the sink mesh nodes. 
+
+        :param method: Type of upscaling: sum, min, max, and averages ariave, harave, geoave
+        :type method: str
+        :param attsink: attribute sink
+        :type attsink: str
+        :param cmosrc: PyLaGriT mesh object source
+        :type cmosrc: PyLaGriT Mesh Object
+        :param attsrc: attribute src, defaults to name of attsink
+        :type attsrc: str
+        :param stride: tuple of (first, last, stride) of points
+        :type stride: tuple(int)
+        :param boundary_choice: method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple
+        :type boundary_choice: str
+        '''
+        stride = [str(v) for v in stride]
+        if attsrc is None: attsrc = attsink
+        cmd = ['upscale',method,self.name,attsink,','.join(stride),cmosrc.name,attsrc]
+        opts = []
+        if boundary_choice is not None: opts.append(boundary_choice)
+        if keepatt: opts.append('keepatt')
+        if set_id: opts.append('set_id')
+        if len(opts) > 0: cmd.append(' '.join(opts))
+        self.sendline('/'.join(cmd))
+
+    def upscale_ariave(self, attsink, cmosrc, attsrc=None, stride=(1,0,0), boundary_choice=None, keepatt=False,
+                set_id=False):
+        '''
+        Upscale using arithmetic average of cmosrc points within Voronoi volumes of current mesh
+
+        :param attsink: attribute sink
+        :type attsink: str
+        :param cmosrc: PyLaGriT mesh object source
+        :type cmosrc: PyLaGriT Mesh Object
+        :param attsrc: attribute src
+        :type attsrc: str
+        :param stride: tuple of (first, last, stride) of points
+        :type stride: tuple(int)
+        :param boundary_choice: method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple
+        :type boundary_choice: str
+        '''
+        self.upscale('ariave',attsink,cmosrc,attsrc,stride,boundary_choice,keepatt,set_id)
+
+    def upscale_geoave(self, attsink, cmosrc, attsrc=None, stride=(1,0,0), boundary_choice=None, keepatt=False,
+                set_id=False):
+        '''
+        Upscale using geometric average of cmosrc points within Voronoi volumes of current mesh
+
+        :param attsink: attribute sink
+        :type attsink: str
+        :param cmosrc: PyLaGriT mesh object source
+        :type cmosrc: PyLaGriT Mesh Object
+        :param attsrc: attribute src
+        :type attsrc: str
+        :param stride: tuple of (first, last, stride) of points
+        :type stride: tuple(int)
+        :param boundary_choice: method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple
+        :type boundary_choice: str
+        '''
+        self.upscale('geoave',attsink,cmosrc,attsrc,stride,boundary_choice,keepatt,set_id)
+
+    def upscale_harave(self, attsink, cmosrc, attsrc=None, stride=(1,0,0), boundary_choice=None, keepatt=False,
+                set_id=False):
+        '''
+        Upscale using harmonic average of cmosrc points within Voronoi volumes of current mesh
+
+        :param attsink: attribute sink
+        :type attsink: str
+        :param cmosrc: PyLaGriT mesh object source
+        :type cmosrc: PyLaGriT Mesh Object
+        :param attsrc: attribute src
+        :type attsrc: str
+        :param stride: tuple of (first, last, stride) of points
+        :type stride: tuple(int)
+        :param boundary_choice: method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple
+        :type boundary_choice: str
+        '''
+        self.upscale('harave',attsink,cmosrc,attsrc,stride,boundary_choice,keepatt,set_id)
+
+    def upscale_min(self, attsink, cmosrc, attsrc=None, stride=(1,0,0), boundary_choice=None, keepatt=False,
+                set_id=False):
+        '''
+        Upscale using minimum of cmosrc points within Voronoi volumes of current mesh
+
+        :param attsink: attribute sink
+        :type attsink: str
+        :param cmosrc: PyLaGriT mesh object source
+        :type cmosrc: PyLaGriT Mesh Object
+        :param attsrc: attribute src
+        :type attsrc: str
+        :param stride: tuple of (first, last, stride) of points
+        :type stride: tuple(int)
+        :param boundary_choice: method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple
+        :type boundary_choice: str
+        '''
+        self.upscale('min',attsink,cmosrc,attsrc,stride,boundary_choice,keepatt,set_id)
+
+    def upscale_max(self, attsink, cmosrc, attsrc=None, stride=(1,0,0), boundary_choice=None, keepatt=False,
+                set_id=False):
+        '''
+        Upscale using maximum of cmosrc points within Voronoi volumes of current mesh
+
+        :param attsink: attribute sink
+        :type attsink: str
+        :param cmosrc: PyLaGriT mesh object source
+        :type cmosrc: PyLaGriT Mesh Object
+        :param attsrc: attribute src
+        :type attsrc: str
+        :param stride: tuple of (first, last, stride) of points
+        :type stride: tuple(int)
+        :param boundary_choice: method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple
+        :type boundary_choice: str
+        '''
+        self.upscale('max',attsink,cmosrc,attsrc,stride,boundary_choice,keepatt,set_id)
+
+    def upscale_sum(self, attsink, cmosrc, attsrc=None, stride=(1,0,0), boundary_choice=None, keepatt=False,
+                set_id=False):
+        '''
+        Upscale using sum of cmosrc points within Voronoi volumes of current mesh
+
+        :param attsink: attribute sink
+        :type attsink: str
+        :param cmosrc: PyLaGriT mesh object source
+        :type cmosrc: PyLaGriT Mesh Object
+        :param attsrc: attribute src
+        :type attsrc: str
+        :param stride: tuple of (first, last, stride) of points
+        :type stride: tuple(int)
+        :param boundary_choice: method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple
+        :type boundary_choice: str
+        '''
+        self.upscale('sum',attsink,cmosrc,attsrc,stride,boundary_choice,keepatt,set_id)
+
+    def intersect_elements(self,mo2,attname=''):
+        '''
+        create attribute in mesh object of number of elements in mo2 that intersect element in current mesh object
+        '''
+        self.sendline('/'.join(['intersect_elements',self.name,mo2.name,attname]))
     def gmv(self,exe=None,filename=None):
         if filename is None: filename = self.name+'.gmv'
         if exe is not None: self._parent.gmv_exe = exe
@@ -1449,8 +1665,8 @@ class MO(object):
 
         :arg name: Name to use within lagrit for the created mesh object
         :type name: str
-        :arg type: Mesh type for new mesh
-        :type type: str
+        :arg mesh_type: Mesh type for new mesh
+        :type mesh_type: str
         :returns: mesh object
         '''
         if name is None: name = make_name('mo',self._parent.mo.keys())
@@ -1793,8 +2009,8 @@ class EltSet(object):
         self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='minmax')
     def list(self,attname=None,stride=[1,0,0]):
         self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='list')
-    def refine(self):
-        cmd = '/'.join(['refine','eltset','eltset,get,'+self.name])
+    def refine(self,amr=''):
+        cmd = '/'.join(['refine','eltset','eltset,get,'+self.name,'amr '+str(amr)])
         self._parent.sendline(cmd)
     def pset(self,name=None):
         '''
