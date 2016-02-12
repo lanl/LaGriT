@@ -45,11 +45,11 @@ class PyLaGriT(spawn):
             fout=open('pylagrit.stdout','w')
             call(self.lagrit_exe+' < '+self.batchfile, shell=True, stdout=fout)
             fout.close()
-    def expect(self, expectstr='Enter a command'):
+    def expect(self, expectstr='Enter a command',timeout=8640000.):
         if self.batch:
             print "expect disabled during batch mode"
         else:
-            super(PyLaGriT, self).expect(expectstr) 
+            super(PyLaGriT, self).expect(expectstr,timeout=timeout) 
     def sendline(self, cmd, verbose=True, expectstr='Enter a command'):
         if self.batch:
             self.fh.write(cmd+'\n')
