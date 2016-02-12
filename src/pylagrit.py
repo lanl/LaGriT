@@ -393,7 +393,7 @@ class PyLaGriT(spawn):
         '''Create a hybrid mesh object.'''
         return self.create(mesh='hyb', **minus_self(locals()))
         
-    def create_line(self, npoints=0, mins=[], maxs=[], rz_switch=(0,0,0), name=None):
+    def create_line(self, npoints=0, mins=[], maxs=[], rz_switch=(1,1,1), name=None):
         '''Create a line mesh object.'''
         mo_new = self.create(mesh='lin', name=name, npoints=npoints)
         if len(mins) == 3 and len(maxs) == 3:
@@ -1262,7 +1262,7 @@ class MO(object):
         ef = mo_surf.eltset_attribute('itetclr',6)
         fs['front'] = ef.create_faceset(base_name+'_front.avs')
         return fs
-    def createpts(self, crd, npts, mins, maxs, rz_switch=(0,0,0), rz_value=(1,1,1), connect=False):
+    def createpts(self, crd, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=False):
         '''
         Create and Connect Points in a line
         
@@ -1293,13 +1293,13 @@ class MO(object):
             cmd = '/'.join(['createpts','brick',crd,','.join(npts),'1,0,0','connect'])
             self.sendline(cmd)
 
-    def createpts_xyz(self, npts, mins, maxs, rz_switch=(0,0,0), rz_value=(1,1,1), connect=True):
+    def createpts_xyz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
-    def createpts_rtz(self, npts, mins, maxs, rz_switch=(0,0,0), rz_value=(1,1,1), connect=True):
+    def createpts_rtz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         self.createpts('rtz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
-    def createpts_rtp(self, npts, mins, maxs, rz_switch=(0,0,0), rz_value=(1,1,1), connect=True):
+    def createpts_rtp(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         self.createpts('rtp',npts,mins,maxs,rz_switch,rz_value,connect=connect)
-    def createpts_line(self, npts, mins, maxs, rz_switch=(0,0,0)):
+    def createpts_line(self, npts, mins, maxs, rz_switch=(1,1,1)):
         '''
         Create and Connect Points in a line
         
@@ -1322,7 +1322,7 @@ class MO(object):
         self.sendline(cmd)
     def createpts_brick(
             self, crd, npts, mins, maxs,  
-            ctr=(1,1,1), rz_switch=(0,0,0), rz_vls=(1,1,1)
+            ctr=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)
         ):
         '''
         Create and Connect Points
@@ -1374,19 +1374,19 @@ class MO(object):
 
     def createpts_brick_xyz(
             self, npts, mins, maxs, 
-            ctr=(1,1,1), rz_switch=(0,0,0), rz_vls=(1,1,1)):
+            ctr=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
         '''Create and connect Cartesian coordinate points.'''
         self.createpts_brick('xyz', **minus_self(locals()))
 
     def createpts_brick_rtz(
             self, npts, mins, maxs, 
-            ctr=(1,1,1), rz_switch=(0,0,0), rz_vls=(1,1,1)):
+            ctr=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
         '''Create and connect cylindrical coordinate points.'''
         self.createpts_brick('rtz', **minus_self(locals()))
         
     def createpts_brick_rtp(
             self, npts, mins, maxs, 
-            ctr=(1,1,1), rz_switch=(0,0,0), rz_vls=(1,1,1)):
+            ctr=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
         '''Create and connect spherical coordinates.'''
         self.createpts_brick(ntps, **minus_self(locals()))
         
