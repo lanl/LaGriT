@@ -1290,7 +1290,7 @@ class MO(object):
         return fs
     def createpts(self, crd, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=False):
         '''
-        Create and Connect Points in a line
+        Create and Connect Points
         
         :arg crd: Coordinate type of either 'xyz' (cartesian coordinates), 
                     'rtz' (cylindrical coordinates), or 
@@ -1320,6 +1320,34 @@ class MO(object):
             self.sendline(cmd)
 
     def createpts_xyz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+        self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
+    def createpts_dxyz(self, dxyz, mins, maxs, bound='under', rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+        '''
+        Create and Connect Points based on spacing between points and mins and maxs.
+        mins will be adhered to, while maxs will be modified based on bound option to 
+        be truncated at the nearest value 'under' (default) or 'over' the max value.
+        
+        :arg  dxyz: The spacing between points in x, y, and z directions
+        :type dxyz: tuple(float,float,float)
+        :arg  mins: The starting value for each dimension.
+        :type mins: tuple(float,float,float)
+        :arg  maxs: The ending value for each dimension.
+        :type maxs: tuple(float,float,float)
+        :kwarg  bound: How to handle maxs if maxs/dxyz does not divide evenly, either clip 'under' or 'over' maxs
+        :type bound: string
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :type  rz_switch: tuple(int, int, int)
+        :kwarg connect: Whether or not to connect points
+        :type  connect: boolean
+        
+        '''
+        dxyz = numpy.array(dxyz)
+        mins = numpy.array(mins)
+        maxs = numpy.array(maxs)
+        if bound == 'under': npts = numpy.floor((maxs-mins)/dxyz).astype('int')
+        if bound == 'over': npts = numpy.ceil((maxs-mins)/dxyz).astype('int')
+        maxs = mins + npts*dxyz
+        npts += 1
         self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
     def createpts_rtz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         self.createpts('rtz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
