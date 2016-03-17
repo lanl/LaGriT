@@ -833,6 +833,32 @@ class MO(object):
 
         return self.pset[name]
 
+    def pset_surface(self, surface, stride=(1,0,0), name=None):
+        '''
+        Define PSet by surface
+        
+        :kwarg surface: surface to create pset
+        :type  value: PyLaGriT Surface object
+        
+        :kwarg stride: Nodes defined by ifirst, ilast, and istride.
+        :type  stride: list[int, int, int]
+        
+        :kwarg name: The name to be assigned to the PSet created.
+        :type  name: str
+        
+        Returns: PSet object
+        '''
+        if name is None:
+            name = make_name('p',self.pset.keys())
+            
+        stride = [str(v) for v in stride]
+        
+        cmd = '/'.join(['pset', name, 'surface',surface.name, ','.join(stride)])
+        self.sendline(cmd)
+        self.pset[name] = PSet(name, self)
+
+        return self.pset[name]
+
     def resetpts_itp(self):
         '''
         set node type from connectivity of mesh 
@@ -1760,18 +1786,21 @@ class MO(object):
         return attr_name
     def extract_surfmesh(self,name=None,stride=[1,0,0],reorder=False,resetpts_itp=True,external=False):
         return self._parent.extract_surfmesh( name=name,cmo_in=self,stride=stride,reorder=reorder,resetpts_itp=resetpts_itp,external=external )
-    def interpolate(self,method,attsink,cmosrc,attsrc,stride=[1,0,0],interp_function=None):
+    def interpolate(self,method,attsink,cmosrc,attsrc,stride=[1,0,0],tie_option=None,flag_option=None,keep_option=None,interp_function=None):
         '''
         Interpolate values from attribute attsrc from mesh object cmosrc to current mesh object
         '''
         stride = [str(v) for v in stride]
         cmd = ['interpolate',method,self.name,attsink,','.join(stride),cmosrc.name,attsrc]
+        if tie_option is not None: cmd += [tie_option]
+        if flag_option is not None: cmd += [flag_option]
+        if keep_option is not None: cmd += [keep_option]
         if interp_function is not None: cmd.append(interp_function)
         self.sendline('/'.join(cmd))
     def interpolate_voronoi(self,attsink,cmosrc,attsrc,stride=[1,0,0],interp_function=None):
         self.interpolate('voronoi',**minus_self(locals()))
-    def interpolate_map(self,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
-                    flag_option='plus1',keep_option='delatt',interp_function=None):
+    def interpolate_map(self,attsink,cmosrc,attsrc,stride=[1,0,0],tie_option=None,
+                    flag_option=None,keep_option=None,interp_function=None):
         self.interpolate('map',**minus_self(locals()))
     def interpolate_continuous(self,attsink,cmosrc,attsrc,stride=[1,0,0],interp_function=None,nearest=None):
         stride = [str(v) for v in stride]
@@ -1780,7 +1809,7 @@ class MO(object):
         if interp_function is not None: cmd.append(interp_function)
         print '/'.join(cmd)
         self.sendline('/'.join(cmd))
-    def interpolate_default(self,attsink,cmosrc,attsrc,stride=[1,0,0],tieoption='tiemax',
+    def interpolate_default(self,attsink,cmosrc,attsrc,stride=[1,0,0],tie_option='tiemax',
                     flag_option='plus1',keep_option='delatt',interp_function=None):
         self.interpolate('default',**minus_self(locals()))
     def copy(self,name=None):
@@ -1964,7 +1993,7 @@ class PSet(object):
         self._parent.interpolate(method=method,attsink=attsink,stride=['pset','get',self.name],cmosrc=cmosrc,attsrc=attsrc,interp_function=interp_function)
     def interpolate_voronoi(self,attsink,cmosrc,attsrc,interp_function=None):
         self.interpolate('voronoi',**minus_self(locals()))
-    def interpolate_map(self,attsink,cmosrc,attsrc,tieoption='tiemax',
+    def interpolate_map(self,attsink,cmosrc,attsrc,tie_option='tiemax',
                     flag_option='plus1',keep_option='delatt',interp_function=None):
         self.interpolate('map',**minus_self(locals()))
     def interpolate_continuous(self,attsink,cmosrc,attsrc,interp_function=None,nearest=None):
@@ -1972,7 +2001,7 @@ class PSet(object):
         if nearest is not None: cmd += ['nearest',nearest]
         if interp_function is not None: cmd.append(interp_function)
         self._parent.sendline('/'.join(cmd))
-    def interpolate_default(self,attsink,cmosrc,attsrc,tieoption='tiemax',
+    def interpolate_default(self,attsink,cmosrc,attsrc,tie_option='tiemax',
                     flag_option='plus1',keep_option='delatt',interp_function=None):
         self.interpolate('default',**minus_self(locals()))
 
