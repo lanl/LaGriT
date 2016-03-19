@@ -67,11 +67,11 @@ class PyLaGriT(spawn):
             print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
             print self.after
             super(PyLaGriT, self).interact(escape_character=escape_character) 
-    def cmo_status(self, cmo=None, brief=False):
+    def cmo_status(self, cmo=None, brief=False, verbose=True):
         cmd = 'cmo/status'
         if cmo: cmd += '/'+cmo 
         if brief: cmd += '/brief'
-        self.sendline(cmd)
+        self.sendline(cmd, verbose=verbose)
     def read(self,filename,filetype=None,name=None,binary=False):
         # If filetype is lagrit, name is irrelevant
         if filetype is not None:
@@ -469,82 +469,82 @@ class MO(object):
         self.eltset = {}
     def __repr__(self):
         return self.name
-    def sendline(self,cmd, expectstr='Enter a command'):
-        self._parent.sendline('cmo select '+self.name)
-        self._parent.sendline(cmd,expectstr=expectstr)
+    def sendline(self,cmd, verbose=True, expectstr='Enter a command'):
+        self._parent.sendline('cmo select '+self.name,verbose=verbose)
+        self._parent.sendline(cmd,verbose=verbose,expectstr=expectstr)
     @property
     def xmin(self):
-        self.minmax_xyz()
+        self.minmax_xyz(verbose=False)
         strarr = self._parent.before.splitlines()
         return float(strarr[4].split()[1])
     @property
     def xmax(self):
-        self.minmax_xyz()
+        self.minmax_xyz(verbose=False)
         strarr = self._parent.before.splitlines()
         return float(strarr[4].split()[2])
     @property
     def xlength(self):
-        self.minmax_xyz()
+        self.minmax_xyz(verbose=False)
         strarr = self._parent.before.splitlines()
         return int(strarr[4].split()[4])
     @property
     def ymin(self):
-        self.minmax_xyz()
+        self.minmax_xyz(verbose=False)
         strarr = self._parent.before.splitlines()
         return float(strarr[5].split()[1])
     @property
     def ymax(self):
-        self.minmax_xyz()
+        self.minmax_xyz(verbose=False)
         strarr = self._parent.before.splitlines()
         return float(strarr[5].split()[2])
     @property
     def ylength(self):
-        self.minmax_xyz()
+        self.minmax_xyz(verbose=False)
         strarr = self._parent.before.splitlines()
         return int(strarr[5].split()[4])
     @property
     def zmin(self):
-        self.minmax_xyz()
+        self.minmax_xyz(verbose=False)
         strarr = self._parent.before.splitlines()
         return float(strarr[6].split()[1])
     @property
     def zmax(self):
-        self.minmax_xyz()
+        self.minmax_xyz(verbose=False)
         strarr = self._parent.before.splitlines()
         return float(strarr[6].split()[2])
     @property
     def zlength(self):
-        self.minmax_xyz()
+        self.minmax_xyz(verbose=False)
         strarr = self._parent.before.splitlines()
         return int(strarr[6].split()[4])
     @property
     def nnodes(self):
-        self.status(1)
+        self.status(1,verbose=False)
         strarr = self._parent.before.splitlines()
         return int(strarr[7].split()[4])
     @property
     def nelems(self):
-        self.status(1)
+        self.status(1,verbose=False)
         strarr = self._parent.before.splitlines()
         return int(strarr[7].split()[-1])
     @property
     def element_type(self):
-        self.status(1)
+        self.status(1,verbose=False)
         strarr = self._parent.before.splitlines()
         return strarr[8].split()[-1]
     @property
     def ndim_geo(self):
-        self.status(1)
+        self.status(1,verbose=False)
         strarr = self._parent.before.splitlines()
         return int(strarr[8].split()[3])
     @property
     def ndim_topo(self):
-        self.status(1)
+        self.status(1,verbose=False)
         strarr = self._parent.before.splitlines()
         return int(strarr[9].split()[3])
-    def status(self,brief=False):
+    def status(self,brief=False,verbose=True):
         print self.name
-        self._parent.cmo_status(self.name,brief=brief)
+        self._parent.cmo_status(self.name,brief=brief,verbose=verbose)
     def printatt(self,attname=None,stride=[1,0,0],pset=None,eltset=None,type='value'):
         stride = [str(v) for v in stride]
         if attname is None: attname = '-all-'
@@ -625,9 +625,9 @@ class MO(object):
         self.addatt(name,keyword='voronoi_volume')
     def minmax(self,attname=None,stride=[1,0,0]):
         self.printatt(attname=attname,stride=stride,type='minmax')
-    def minmax_xyz(self,stride=[1,0,0]):
+    def minmax_xyz(self,stride=[1,0,0],verbose=True):
         cmd = '/'.join(['cmo/printatt',self.name,'-xyz-','minmax'])
-        self.sendline(cmd)
+        self.sendline(cmd,verbose=verbose)
     def list(self,attname=None,stride=[1,0,0],pset=None):
         self.printatt(attname=attname,stride=stride,pset=pset,type='list')
     def setatt(self,attname,value,stride=[1,0,0]):
@@ -1975,6 +1975,54 @@ class PSet(object):
         cmd = 'pset/'+self.name+'/delete'
         self._parent.sendline(cmd)
         del self._parent.pset[self.name]
+    @property
+    def xmin(self):
+        self.minmax_xyz(verbose=False)
+        strarr = self._parent._parent.before.splitlines()
+        return float(strarr[4].split()[1])
+    @property
+    def xmax(self):
+        self.minmax_xyz(verbose=False)
+        strarr = self._parent._parent.before.splitlines()
+        return float(strarr[4].split()[2])
+    @property
+    def xlength(self):
+        self.minmax_xyz(verbose=False)
+        strarr = self._parent._parent.before.splitlines()
+        return int(strarr[4].split()[4])
+    @property
+    def ymin(self):
+        self.minmax_xyz(verbose=False)
+        strarr = self._parent._parent.before.splitlines()
+        return float(strarr[5].split()[1])
+    @property
+    def ymax(self):
+        self.minmax_xyz(verbose=False)
+        strarr = self._parent._parent.before.splitlines()
+        return float(strarr[5].split()[2])
+    @property
+    def ylength(self):
+        self.minmax_xyz(verbose=False)
+        strarr = self._parent._parent.before.splitlines()
+        return int(strarr[5].split()[4])
+    @property
+    def zmin(self):
+        self.minmax_xyz(verbose=False)
+        strarr = self._parent._parent.before.splitlines()
+        return float(strarr[6].split()[1])
+    @property
+    def zmax(self):
+        self.minmax_xyz(verbose=False)
+        strarr = self._parent._parent.before.splitlines()
+        return float(strarr[6].split()[2])
+    @property
+    def zlength(self):
+        self.minmax_xyz(verbose=False)
+        strarr = self._parent._parent.before.splitlines()
+        return int(strarr[6].split()[4])
+    def minmax_xyz(self,stride=[1,0,0],verbose=True):
+        cmd = '/'.join(['cmo/printatt',self._parent.name,'-xyz-','minmax','pset,get,'+self.name])
+        self._parent.sendline(cmd,verbose=verbose)
     def minmax(self,attname=None,stride=[1,0,0]):
         self._parent.printatt(attname=attname,stride=stride,pset=self.name,type='minmax')
     def list(self,attname=None,stride=[1,0,0]):
