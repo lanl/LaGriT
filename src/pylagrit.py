@@ -714,9 +714,9 @@ class MO(object):
 
     def pset_geom_rtz(self, mins, maxs, ctr=(0,0,0), stride=(1,0,0), name=None):
         '''
-        Define PSet by Cylydrical Geometry
-        
-        Selects points from a Tetrahedral region.
+        Forms a pset of nodes within the cylinder or cylindrical shell section 
+        given by radius1 to radius2, and angles theta1 to theta2 and height z1 to z2.
+        Refer to http://lagrit.lanl.gov/docs/conventions.html for an explanation of angles
         
         :arg  mins: Defines radius1, theta1, and z1. 
         :type mins: tuple(int, int, int)
@@ -745,9 +745,10 @@ class MO(object):
         
     def pset_geom_rtp(self, mins, maxs, ctr=(0,0,0), stride=(1,0,0), name=None):
         '''
-        Define PSet by Cylydrical Geometry
-        
-        Selects points from a Tetrahedral region.
+        Forms a pset of nodes within the sphere, sperical shell or sperical section 
+        given by radius1 to radius2, and angles theta1 to theta2 (0 - 180) and angles 
+        phi1 to phi2 (0 - 360).
+        Refer to http://lagrit.lanl.gov/docs/conventions.html for an explanation of angles
         
         :arg  mins: Defines radius1, theta1, and phi1. 
         :type mins: tuple(int, int, int)
