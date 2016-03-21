@@ -1229,6 +1229,15 @@ class MO(object):
     def dump_zone_imt(self,filename,imt_value):
         cmd = ['dump','zone_imt',filename,self.name,str(imt_value)]
         self.sendline('/'.join(cmd))
+    def dump_zone_outside(self,filename,keepatt=False,keepatt_median=False,keepatt_voronoi=False):
+        cmd = ['dump','zone_outside',filename,self.name]
+        if keepatt: cmd.append('keepatt')
+        if keepatt_median and keepatt_voronoi:
+            print "Error: keepatt_median and keepatt_voronoi cannot both be True"
+            return
+        elif keepatt_median: cmd.append('keepatt_median')
+        elif keepatt_voronoi: cmd.append('keepatt_voronoi')
+        self.sendline('/'.join(cmd))
     def dump_ats_xml(self,filename,meshfilename,matnames={},facenames={}):
         '''
         Write ats style xml file with regions
