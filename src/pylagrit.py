@@ -860,6 +860,48 @@ class MO(object):
 
         return self.pset[name]
 
+    #def pset_not(self, ps, name=None):
+    #    '''
+    #    Return PSet from Logical Not
+    #    
+    #    Defines and returns a PSet from points that are not inside the PSet, ps.
+    #    '''
+    #    
+    #    #Generated a name if one is not specified.
+    #    if name is None:
+    #        name = make_name('p',self.pset.keys())
+    #    
+    #    #Create the new PSET in lagrit and the pylagrit object.
+    #    cmd = 'pset/%s/not/%s'%(name, str(ps))
+    #    self.sendline(cmd)
+    #    self.pset[name] = PSet(name, self)
+    #    
+    #    return self.pset[name]
+
+    def pset_bool(self, pset_list, boolean='union', name=None):
+        '''
+        Return PSet from boolean operation on list of psets
+        
+        Defines and returns a PSet from points that are not inside the PSet, ps.
+        '''
+        #Generated a name if one is not specified.
+        if name is None:
+            name = make_name('p',self.pset.keys())
+        
+        #Create the new PSET in lagrit and the pylagrit object.
+        cmd = ['pset',name,boolean]
+        if isinstance(pset_list,PSet): cmd.append(pset_list.name)
+        elif isinstance(pset_list,list):
+            cmd.append(','.join([p.name for p in pset_list]))
+        self.sendline('/'.join(cmd))
+        self.pset[name] = PSet(name, self)
+        return self.pset[name]
+    def pset_union(self, pset_list, name=None):
+        return self.pset_bool(pset_list,boolean='union',name=name)
+    def pset_inter(self, pset_list, name=None):
+        return self.pset_bool(pset_list,boolean='inter',name=name)
+    def pset_not(self, pset_list, name=None):
+        return self.pset_bool(pset_list,boolean='not',name=name)
     def resetpts_itp(self):
         '''
         set node type from connectivity of mesh 
@@ -895,6 +937,12 @@ class MO(object):
         self.sendline('/'.join(cmd))
         self.eltset[name] = EltSet(name,self)
         return self.eltset[name]
+    def eltset_union(self, eset_list, name=None):
+        return self.eltset_bool(eset_list,'union',name=name)
+    def eltset_inter(self, eset_list, name=None):
+        return self.eltset_bool(eset_list,'inter',name=name)
+    def eltset_not(self, eset_list, name=None):
+        return self.eltset_bool(eset_list,'not',name=name)
     def eltset_region(self,region,name=None):
         if name is None:
             name = make_name('e',self.eltset.keys())
@@ -1447,24 +1495,6 @@ class MO(object):
         
     def createpts_median(self):
         self.sendline('createpts/median')
-    def pset_not(self, ps, name=None):
-        '''
-        Return PSet from Logical Not
-        
-        Defines and returns a PSet from points that are not inside the PSet, ps.
-        '''
-        
-        #Generated a name if one is not specified.
-        if name is None:
-            name = make_name('p',self.pset.keys())
-        
-        #Create the new PSET in lagrit and the pylagrit object.
-        cmd = 'pset/%s/not/%s'%(name, str(ps))
-        self.sendline(cmd)
-        self.pset[name] = PSet(name, self)
-        
-        return self.pset[name]
-        
     def subset(self, mins, maxs, geom='xyz'):
         '''
         Return Mesh Object Subset
