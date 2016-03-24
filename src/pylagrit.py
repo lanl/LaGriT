@@ -459,6 +459,84 @@ class PyLaGriT(spawn):
         motmp.delete()
         self.mo[name] = motri
         return self.mo[name]
+    def createpts(self, crd, npts, mins, maxs, mesh='tet',rz_switch=(1,1,1), rz_value=(1,1,1), connect=False, name=None):
+        '''
+        Create and Connect Points
+        
+        :arg crd: Coordinate type of either 'xyz' (cartesian coordinates), 
+                    'rtz' (cylindrical coordinates), or 
+                    'rtp' (spherical coordinates).
+        :type  crd: str
+        :arg  npts: The number of points to create in line
+        :type npts: tuple(int)
+        :arg  mins: The starting value for each dimension.
+        :type mins: tuple(int, int, int)
+        :arg  maxs: The ending value for each dimension.
+        :type maxs: tuple(int, int, int)
+        :kwarg mesh: The type of mesh object to create.
+        :type  mesh: str
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :type  rz_switch: tuple(int, int, int)
+        :returns: MO
+        
+        '''
+        mo = self.create(name=name,mesh=mesh)
+        mo.createpts(crd, npts, mins, maxs, rz_switch=rz_switch, rz_value=rz_value, connect=connect)
+        return mo
+    def createpts_xyz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
+        return self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect,name=name)
+    def createpts_dxyz(self, dxyz, mins, maxs, mesh='tet', clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
+        '''
+        Create and Connect Points to create an orthogonal hexahedral mesh. The
+        vertex spacing is based on dxyz and the mins and maxs specified. mins
+        (default, see hard_bound option) or maxs will be adhered to, while maxs
+        (default) or mins will be modified based on the clip option to be
+        truncated at the nearest value 'under' (default) or 'over' the range
+        maxs-mins. clip and hard_bound options can be mixed by specifying tuples
+        (see description below).
+
+        :arg  dxyz: The spacing between points in x, y, and z directions
+        :type dxyz: tuple(float,float,float)
+        :arg  mins: The starting value for each dimension.
+        :type mins: tuple(float,float,float)
+        :arg  maxs: The ending value for each dimension.
+        :type maxs: tuple(float,float,float)
+        :kwarg mesh: The type of mesh object to create.
+        :type  mesh: str
+        :kwarg clip: How to handle bounds if range does not divide by dxyz, either clip 'under' or 'over' range
+        :type clip: string or tuple(string,string,string)
+        :kwarg hard_bound: Whether to use the "min" or "max" as the hard constraint on dimension
+        :type hard_bound: string or tuple(string,string,string)
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :type  rz_switch: tuple(int, int, int)
+        :kwarg connect: Whether or not to connect points
+        :type  connect: boolean
+        
+        '''
+        mo = self.create(name=name,mesh=mesh)
+        mo.createpts_dxyz(dxyz, mins, maxs, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True)
+        return mo
+    def createpts_rtz(self, npts, mins, maxs, mesh='tet', rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+        return self.createpts('rtz',npts,mins,maxs,mesh,rz_switch,rz_value,connect=connect)
+    def createpts_rtp(self, npts, mins, maxs, mesh='tet', rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+        return self.createpts('rtp',npts,mins,maxs,mesh, rz_switch,rz_value,connect=connect)
+    def createpts_line(self, npts, mins, maxs, mesh='line', rz_switch=(1,1,1),name=None):
+        '''
+        Create and Connect Points in a line
+        
+        :arg  npts: The number of points to create in line
+        :type npts: int
+        :arg  mins: The starting value for each dimension.
+        :type mins: tuple(int, int, int)
+        :arg  maxs: The ending value for each dimension.
+        :type maxs: tuple(int, int, int)
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :type  rz_switch: tuple(int, int, int)
+        
+        '''
+        mo = self.create(name=name,mesh=mesh)
+        mo.createpts_line( npts, mins, maxs, rz_switch=rz_switch)
+        return mo
  
 class MO(object):
     ''' Mesh object class'''
