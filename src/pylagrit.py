@@ -1,6 +1,6 @@
 from pexpect import spawn
 from subprocess import call, PIPE
-import os
+import os,sys
 import glob
 import re
 from collections import  OrderedDict
@@ -998,6 +998,15 @@ class MO(object):
         self.sendline('reorder / '+self.name+' / ikey')
         self.sendline('cmo / DELATT / '+self.name+' / ikey')
     def trans(self, xold, xnew, stride=(1,0,0)):
+        ''' Translate mesh according to old coordinates "xold" to new coordinates "xnew"
+
+        :param xold: old position
+        :type xold: tuple(float,float,float)
+        :param xnew: new position
+        :type xnew: tuple(float,float,float)
+        :param stride: tuple of (first, last, stride) of points
+        :type stride: tuple(int,int,int)
+        '''
         xold = [str(v) for v in xold]
         xnew = [str(v) for v in xnew]
         stride = [str(v) for v in stride]
@@ -1379,7 +1388,7 @@ class MO(object):
 
     def createpts_xyz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
-    def createpts_dxyz(self, dxyz, mins, maxs, bound='under', rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+    def createpts_dxyz(self, dxyz, mins, maxs, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         '''
         Create and Connect Points based on spacing between points and mins and maxs.
         mins will be adhered to, while maxs will be modified based on bound option to 
@@ -1391,21 +1400,37 @@ class MO(object):
         :type mins: tuple(float,float,float)
         :arg  maxs: The ending value for each dimension.
         :type maxs: tuple(float,float,float)
-        :kwarg  bound: How to handle maxs if maxs/dxyz does not divide evenly, either clip 'under' or 'over' maxs
-        :type bound: string
+        :kwarg clip: How to handle bounds if range does not divide by dxyz, either clip 'under' or 'over' range
+        :type clip: string or tuple(string,string,string)
+        :kwarg hard_bound: Whether to use the "min" or "max" as the hard constraint on dimension
+        :type hard_bound: string or tuple(string,string,string)
         :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
         :type  rz_switch: tuple(int, int, int)
         :kwarg connect: Whether or not to connect points
         :type  connect: boolean
         
         '''
+        if isinstance(hard_bound,str): hard_bound = numpy.array([hard_bound,hard_bound,hard_bound])
+        if isinstance(clip,str): clip = numpy.array([clip,clip,clip])
         dxyz = numpy.array(dxyz)
         mins = numpy.array(mins)
         maxs = numpy.array(maxs)
-        if bound == 'under': npts = numpy.floor((maxs-mins)/dxyz).astype('int')
-        if bound == 'over': npts = numpy.ceil((maxs-mins)/dxyz).astype('int')
-        maxs = mins + npts*dxyz
+        dxyz[dxyz==0]=1
+        npts = numpy.zeros_like(dxyz).astype('int')
+        for i,cl in enumerate(clip):
+            if cl == 'under': npts[i] = int(numpy.floor((maxs[i]-mins[i])/dxyz[i]))
+            elif cl == 'over': npts[i] = int(numpy.ceil((maxs[i]-mins[i])/dxyz[i]))
+            else:
+                print "Error: unrecognized clip option"
+                return
+        for i,bnd in enumerate(hard_bound):
+            if bnd == 'min': maxs[i] = mins[i] + npts[i]*dxyz[i]
+            elif bnd == 'max': mins[i] = maxs[i] - npts[i]*dxyz[i]
+            else:
+                print "Error: unrecognized hard_bound option"
+                return
         npts += 1
+        npts.astype('int')
         self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
     def createpts_rtz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         self.createpts('rtz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
