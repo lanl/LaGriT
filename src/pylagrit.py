@@ -1390,10 +1390,14 @@ class MO(object):
         self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
     def createpts_dxyz(self, dxyz, mins, maxs, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         '''
-        Create and Connect Points based on spacing between points and mins and maxs.
-        mins will be adhered to, while maxs will be modified based on bound option to 
-        be truncated at the nearest value 'under' (default) or 'over' the max value.
-        
+        Create and Connect Points to create an orthogonal hexahedral mesh. The
+        vertex spacing is based on dxyz and the mins and maxs specified. mins
+        (default, see hard_bound option) or maxs will be adhered to, while maxs
+        (default) or mins will be modified based on the clip option to be
+        truncated at the nearest value 'under' (default) or 'over' the range
+        maxs-mins. clip and hard_bound options can be mixed by specifying tuples
+        (see description below).
+
         :arg  dxyz: The spacing between points in x, y, and z directions
         :type dxyz: tuple(float,float,float)
         :arg  mins: The starting value for each dimension.
@@ -1432,6 +1436,8 @@ class MO(object):
         npts += 1
         npts.astype('int')
         self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
+        if self._parent.verbose:
+            self.minmax_xyz()
     def createpts_rtz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         self.createpts('rtz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
     def createpts_rtp(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
