@@ -459,7 +459,7 @@ class PyLaGriT(spawn):
         motmp.delete()
         self.mo[name] = motri
         return self.mo[name]
-    def createpts(self, crd, npts, mins, maxs, mesh='tet',rz_switch=(1,1,1), rz_value=(1,1,1), connect=False, name=None):
+    def createpts(self, crd, npts, mins, maxs, mesh=None,rz_switch=(1,1,1), rz_value=(1,1,1), connect=False, name=None):
         '''
         Create and Connect Points
         
@@ -473,19 +473,23 @@ class PyLaGriT(spawn):
         :type mins: tuple(int, int, int)
         :arg  maxs: The ending value for each dimension.
         :type maxs: tuple(int, int, int)
-        :kwarg mesh: The type of mesh object to create.
+        :kwarg mesh: The type of mesh object to create, automatically set to 'triplane' if 2d or 'tet' if 3d.
         :type  mesh: str
         :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
         :type  rz_switch: tuple(int, int, int)
         :returns: MO
         
         '''
+        # Check if 2d mesh
+        if mesh is None:
+            if numpy.any(npts)>=1 or numpy.any(maxs-mins)==0: mesh='triplane'
+            else: mesh = 'tet'
         mo = self.create(name=name,mesh=mesh)
         mo.createpts(crd, npts, mins, maxs, rz_switch=rz_switch, rz_value=rz_value, connect=connect)
         return mo
-    def createpts_xyz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
-        return self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect,name=name)
-    def createpts_dxyz(self, dxyz, mins, maxs, mesh='tet', clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
+    def createpts_xyz(self, npts, mins, maxs, mesh=None,rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
+        return self.createpts('xyz',npts,mins,maxs,mesh,rz_switch,rz_value,connect=connect,name=name)
+    def createpts_dxyz(self, dxyz, mins, maxs, mesh=None, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
         '''
         Create and Connect Points to create an orthogonal hexahedral mesh. The
         vertex spacing is based on dxyz and the mins and maxs specified. mins
@@ -501,7 +505,7 @@ class PyLaGriT(spawn):
         :type mins: tuple(float,float,float)
         :arg  maxs: The ending value for each dimension.
         :type maxs: tuple(float,float,float)
-        :kwarg mesh: The type of mesh object to create.
+        :kwarg mesh: The type of mesh object to create, automatically set to 'triplane' if 2d or 'tet' if 3d.
         :type  mesh: str
         :kwarg clip: How to handle bounds if range does not divide by dxyz, either clip 'under' or 'over' range
         :type clip: string or tuple(string,string,string)
@@ -513,12 +517,16 @@ class PyLaGriT(spawn):
         :type  connect: boolean
         
         '''
+        # Check if 2d mesh
+        if mesh is None:
+            if numpy.any(dxyz)>=0 or numpy.any(maxs-mins)==0: mesh='triplane'
+            else: mesh = 'tet'
         mo = self.create(name=name,mesh=mesh)
         mo.createpts_dxyz(dxyz, mins, maxs, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True)
         return mo
-    def createpts_rtz(self, npts, mins, maxs, mesh='tet', rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+    def createpts_rtz(self, npts, mins, maxs, mesh=None, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         return self.createpts('rtz',npts,mins,maxs,mesh,rz_switch,rz_value,connect=connect)
-    def createpts_rtp(self, npts, mins, maxs, mesh='tet', rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+    def createpts_rtp(self, npts, mins, maxs, mesh=None, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         return self.createpts('rtp',npts,mins,maxs,mesh, rz_switch,rz_value,connect=connect)
     def createpts_line(self, npts, mins, maxs, mesh='line', rz_switch=(1,1,1),name=None):
         '''
