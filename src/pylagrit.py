@@ -13,7 +13,7 @@ from xml.dom import minidom
 
 class PyLaGriT(spawn):
     ''' Python lagrit class'''
-    def __init__(self, lagrit_exe=None, verbose=True, batch=False, batchfile='pylagrit.lgi', gmv_exe=None, paraview_exe=None, *args, **kwargs):
+    def __init__(self, lagrit_exe=None, verbose=True, batch=False, batchfile='pylagrit.lgi', gmv_exe=None, paraview_exe=None, timeout=300, *args, **kwargs):
         self.verbose = verbose
         self.mo = {}
         self.surface = {}
@@ -33,7 +33,7 @@ class PyLaGriT(spawn):
                 self.batchfile = batchfile
                 self.fh.write('# PyLaGriT generated LaGriT script\n')
         else:
-            super(PyLaGriT, self).__init__(self.lagrit_exe, timeout=300, *args, **kwargs) 
+            super(PyLaGriT, self).__init__(self.lagrit_exe,timeout=timeout,*args, **kwargs) 
             self.expect()
             if verbose: print self.before
     def run_batch(self):
