@@ -337,7 +337,7 @@ class PyLaGriT(spawn):
         else:
             raise ValueError('Must provide at least two objects to merge.')
             
-    def create(self, name=None, mesh='tet', npoints=0, nelements=0):
+    def create(self, name=None, elem_type='tet', npoints=0, nelements=0):
         '''
         Create a Mesh Object
         
@@ -361,48 +361,48 @@ class PyLaGriT(spawn):
                         
         if type(name) is type(None):
             name = make_name('mo', self.mo.keys())     
-        self.sendline('cmo/create/%s/%i/%i/%s'%(name, npoints, nelements, mesh))
+        self.sendline('cmo/create/%s/%i/%i/%s'%(name, npoints, nelements, elem_type))
         self.mo[name] = MO(name, self)
         return self.mo[name]
         
     def create_tet(self, name=None, npoints=0, nelements=0):
         '''Create a tetrahedron mesh object.'''
-        return self.create(mesh='tet', **minus_self(locals()))
+        return self.create(elem_type='tet', **minus_self(locals()))
         
     def create_hex(self, name=None, npoints=0, nelements=0):
         '''Create a hexagon mesh object.'''
-        return self.create(mesh='hex', **minus_self(locals()))
+        return self.create(elem_type='hex', **minus_self(locals()))
         
     def create_pri(self, name=None, npoints=0, nelements=0):
         '''Create a prism mesh object.'''
-        return self.create(mesh='pri', **minus_self(locals()))  
+        return self.create(elem_type='pri', **minus_self(locals()))  
             
     def create_pyr(self, name=None, npoints=0, nelements=0):
         '''Create a pyramid mesh object.'''
-        return self.create(mesh='pyr', **minus_self(locals()))
+        return self.create(elem_type='pyr', **minus_self(locals()))
         
     def create_tri(self, name=None, npoints=0, nelements=0):
         '''Create a triangle mesh object.'''
-        return self.create(mesh='tri', **minus_self(locals()))
+        return self.create(elem_type='tri', **minus_self(locals()))
         
     def create_qua(self, name=None, npoints=0, nelements=0):
         '''Create a quadrilateral mesh object.'''
-        return self.create(mesh='qua', **minus_self(locals())) 
+        return self.create(elem_type='qua', **minus_self(locals())) 
              
     def create_hyb(self, name=None, npoints=0, nelements=0):
         '''Create a hybrid mesh object.'''
-        return self.create(mesh='hyb', **minus_self(locals()))
+        return self.create(elem_type='hyb', **minus_self(locals()))
         
     def create_line(self, npoints=0, mins=[], maxs=[], rz_switch=(1,1,1), name=None):
         '''Create a line mesh object.'''
-        mo_new = self.create(mesh='lin', name=name, npoints=npoints)
+        mo_new = self.create(elem_type='lin', name=name, npoints=npoints)
         if len(mins) == 3 and len(maxs) == 3:
             mo_new.createpts_line(npoints,mins,maxs,rz_switch)
         return mo_new
         
     def create_triplane(self, name=None, npoints=0, nelements=0):
         '''Create a triplane mesh object.'''
-        return self.create(mesh='triplane', **minus_self(locals()))
+        return self.create(elem_type='triplane', **minus_self(locals()))
         
     def copy(self, mo, name=None):
         '''
@@ -455,11 +455,11 @@ class PyLaGriT(spawn):
         if type(name) is type(None):
             name = make_name('mo', self.mo.keys())
         motmp = self.read(filename)
-        motri = motmp.copypts(mesh_type='tri')
+        motri = motmp.copypts(elem_type='tri')
         motmp.delete()
         self.mo[name] = motri
         return self.mo[name]
-    def createpts(self, crd, npts, mins, maxs, mesh=None,rz_switch=(1,1,1), rz_value=(1,1,1), connect=False, name=None):
+    def createpts(self, crd, npts, mins, maxs, elem_type=None,rz_switch=(1,1,1), rz_value=(1,1,1), connect=False, name=None):
         '''
         Create and Connect Points
         
@@ -481,15 +481,27 @@ class PyLaGriT(spawn):
         
         '''
         # Check if 2d mesh
-        if mesh is None:
-            if numpy.any(npts)>=1 or numpy.any(maxs-mins)==0: mesh='triplane'
-            else: mesh = 'tet'
-        mo = self.create(name=name,mesh=mesh)
+        if elem_type is None:
+            #if numpy.where(numpy.array(npts)<=1)[0].shape[0]==1 or numpy.where((numpy.array(maxs)-numpy.array(mins))==0)[0][0]==1: elem_type='triplane'
+            #elif numpy.where(numpy.array(npts)>1)[0].shape[0]==3 and numpy.where((numpy.array(maxs)-numpy.array(mins))==0)[0][0]==3: elem_type='tet'
+            # Decided to only evaluate npts to determine triplane or tet mesh
+            if numpy.where(numpy.array(npts)<=1)[0].shape[0]==1: elem_type='triplane'
+            elif numpy.where(numpy.array(npts)>1)[0].shape[0]==3: elem_type='tet'
+            else:
+                print "Error: npts and mins and maxs do not appear to be consistent"
+                return
+        if elem_type in ['triplane','tri','quad','qua','triangle']:
+            assert numpy.where(numpy.array(npts)<=1)[0].shape[0]==1, "%r elem_type requires one (1) in npts" % elem_type
+            assert numpy.where((numpy.array(maxs)-numpy.array(mins))==0)[0][0]==1, "%r elem_type requires one zero range (max-min)" % elem_type
+        if elem_type in ['tet','prism','pri','pyramid','pyr']:
+            assert numpy.where(numpy.array(npts)<=1)[0].shape[0]==1, "%r elem_type requires all npts greater than 1" % elem_type
+            assert numpy.where((numpy.array(maxs)-numpy.array(mins))==0)[0][0]==1, "%r elem_type requires all ranges (max-min) greater than 0" % elem_type
+        mo = self.create(name=name,elem_type=elem_type)
         mo.createpts(crd, npts, mins, maxs, rz_switch=rz_switch, rz_value=rz_value, connect=connect)
         return mo
-    def createpts_xyz(self, npts, mins, maxs, mesh=None,rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
+    def createpts_xyz(self, npts, mins, maxs, elem_type=None,rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
         return self.createpts('xyz',npts,mins,maxs,mesh,rz_switch,rz_value,connect=connect,name=name)
-    def createpts_dxyz(self, dxyz, mins, maxs, mesh=None, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
+    def createpts_dxyz(self, dxyz, mins, maxs, elem_type=None, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
         '''
         Create and Connect Points to create an orthogonal hexahedral mesh. The
         vertex spacing is based on dxyz and the mins and maxs specified. mins
@@ -518,17 +530,17 @@ class PyLaGriT(spawn):
         
         '''
         # Check if 2d mesh
-        if mesh is None:
-            if numpy.any(dxyz)>=0 or numpy.any(maxs-mins)==0: mesh='triplane'
-            else: mesh = 'tet'
-        mo = self.create(name=name,mesh=mesh)
+        if elem_type is None:
+            if numpy.any(dxyz)>=0 or numpy.any(maxs-mins)==0: elem_type='triplane'
+            else: elem_type = 'tet'
+        mo = self.create(name=name,elem_type=elem_type)
         mo.createpts_dxyz(dxyz, mins, maxs, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True)
         return mo
-    def createpts_rtz(self, npts, mins, maxs, mesh=None, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+    def createpts_rtz(self, npts, mins, maxs, elem_type=None, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         return self.createpts('rtz',npts,mins,maxs,mesh,rz_switch,rz_value,connect=connect)
-    def createpts_rtp(self, npts, mins, maxs, mesh=None, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+    def createpts_rtp(self, npts, mins, maxs, elem_type=None, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         return self.createpts('rtp',npts,mins,maxs,mesh, rz_switch,rz_value,connect=connect)
-    def createpts_line(self, npts, mins, maxs, mesh='line', rz_switch=(1,1,1),name=None):
+    def createpts_line(self, npts, mins, maxs, elem_type='line', rz_switch=(1,1,1),name=None):
         '''
         Create and Connect Points in a line
         
@@ -542,7 +554,7 @@ class PyLaGriT(spawn):
         :type  rz_switch: tuple(int, int, int)
         
         '''
-        mo = self.create(name=name,mesh=mesh)
+        mo = self.create(name=name,elem_type=elem_type)
         mo.createpts_line( npts, mins, maxs, rz_switch=rz_switch)
         return mo
  
@@ -628,6 +640,11 @@ class MO(object):
         self.status(1,verbose=False)
         strarr = self._parent.before.splitlines()
         return int(strarr[9].split()[3])
+    @property
+    def elem_type(self):
+        self.status(1,verbose=False)
+        strarr = self._parent.before.splitlines()
+        return strarr[8].split()[7]
     def status(self,brief=False,verbose=True):
         print self.name
         self._parent.cmo_status(self.name,brief=brief,verbose=verbose)
@@ -1469,7 +1486,10 @@ class MO(object):
         cmd = '/'.join(['createpts',crd,','.join(npts),','.join(mins),','.join(maxs),','.join(rz_switch),','.join(rz_value)])
         self.sendline(cmd)
         if connect:
-            cmd = '/'.join(['createpts','brick',crd,','.join(npts),'1,0,0','connect'])
+            if self.elem_type in ['triplane','tri']:
+                cmd = '/'.join(['connect','noadd'])
+            else:
+                cmd = '/'.join(['createpts','brick',crd,','.join(npts),'1,0,0','connect'])
             self.sendline(cmd)
 
     def createpts_xyz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
@@ -1870,7 +1890,7 @@ class MO(object):
         boundary.
         '''
         self.connect(option1='check_interface')
-    def copypts(self, mesh_type='tet', name=None):
+    def copypts(self, elem_type='tet', name=None):
         '''
         Copy points from mesh object to new mesh object
 
@@ -1881,7 +1901,7 @@ class MO(object):
         :returns: mesh object
         '''
         if name is None: name = make_name('mo',self._parent.mo.keys())
-        mo_new = self._parent.create(mesh=mesh_type)
+        mo_new = self._parent.create(elem_type=elem_type)
         self.sendline('/'.join(['copypts',mo_new.name,self.name]))
         return mo_new
     def extrude(self, offset, offset_type='const', return_type='volume', direction=[], name=None):

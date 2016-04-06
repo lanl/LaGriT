@@ -120,7 +120,7 @@ m2.rmpoint_eltset(edel)
 
 
 
-m3 = m2.copypts(mesh_type='triplane')
+m3 = m2.copypts(elem_type='triplane')
 m3.connect()
 # To lazy to add to pylagrit now, and don't know how to make it intuitive
 # Creates edge_max element attribute containing max edge length
