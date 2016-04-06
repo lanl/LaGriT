@@ -1486,7 +1486,7 @@ class MO(object):
         cmd = '/'.join(['createpts',crd,','.join(npts),','.join(mins),','.join(maxs),','.join(rz_switch),','.join(rz_value)])
         self.sendline(cmd)
         if connect:
-            if self.elem_type in ['triplane','tri']:
+            if self.elem_type in ['triplane','tri','tet']:
                 cmd = '/'.join(['connect','noadd'])
             else:
                 cmd = '/'.join(['createpts','brick',crd,','.join(npts),'1,0,0','connect'])
