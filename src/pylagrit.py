@@ -494,8 +494,8 @@ class PyLaGriT(spawn):
             assert numpy.where(numpy.array(npts)<=1)[0].shape[0]==1, "%r elem_type requires one (1) in npts" % elem_type
             assert numpy.where((numpy.array(maxs)-numpy.array(mins))==0)[0][0]==1, "%r elem_type requires one zero range (max-min)" % elem_type
         if elem_type in ['tet','prism','pri','pyramid','pyr']:
-            assert numpy.where(numpy.array(npts)<=1)[0].shape[0]==1, "%r elem_type requires all npts greater than 1" % elem_type
-            assert numpy.where((numpy.array(maxs)-numpy.array(mins))==0)[0][0]==1, "%r elem_type requires all ranges (max-min) greater than 0" % elem_type
+            assert numpy.all(numpy.array(npts)>1), "%r elem_type requires all npts greater than 1" % elem_type
+            assert numpy.all((numpy.array(maxs)-numpy.array(mins))>0), "%r elem_type requires all ranges (max-min) greater than 0" % elem_type
         mo = self.create(name=name,elem_type=elem_type)
         mo.createpts(crd, npts, mins, maxs, rz_switch=rz_switch, rz_value=rz_value, connect=connect)
         return mo
