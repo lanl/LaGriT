@@ -337,7 +337,7 @@ class PyLaGriT(spawn):
         else:
             raise ValueError('Must provide at least two objects to merge.')
             
-    def create(self, name=None, elem_type='tet', npoints=0, nelements=0):
+    def create(self, elem_type='tet', name=None, npoints=0, nelements=0):
         '''
         Create a Mesh Object
         
@@ -459,7 +459,7 @@ class PyLaGriT(spawn):
         motmp.delete()
         self.mo[name] = motri
         return self.mo[name]
-    def createpts(self, crd, npts, mins, maxs, elem_type=None,rz_switch=(1,1,1), rz_value=(1,1,1), connect=False, name=None):
+    def createpts(self, crd, npts, mins, maxs, elem_type,rz_switch=(1,1,1), rz_value=(1,1,1), connect=False, name=None):
         '''
         Create and Connect Points
         
@@ -473,35 +473,25 @@ class PyLaGriT(spawn):
         :type mins: tuple(int, int, int)
         :arg  maxs: The ending value for each dimension.
         :type maxs: tuple(int, int, int)
-        :kwarg mesh: The type of mesh object to create, automatically set to 'triplane' if 2d or 'tet' if 3d.
-        :type  mesh: str
+        :kwarg elem_type: The type of mesh object to create
+        :type  elem_type: str
         :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
         :type  rz_switch: tuple(int, int, int)
         :returns: MO
         
         '''
-        # Check if 2d mesh
-        if elem_type is None:
-            #if numpy.where(numpy.array(npts)<=1)[0].shape[0]==1 or numpy.where((numpy.array(maxs)-numpy.array(mins))==0)[0][0]==1: elem_type='triplane'
-            #elif numpy.where(numpy.array(npts)>1)[0].shape[0]==3 and numpy.where((numpy.array(maxs)-numpy.array(mins))==0)[0][0]==3: elem_type='tet'
-            # Decided to only evaluate npts to determine triplane or tet mesh
-            if numpy.where(numpy.array(npts)<=1)[0].shape[0]==1: elem_type='triplane'
-            elif numpy.where(numpy.array(npts)>1)[0].shape[0]==3: elem_type='tet'
-            else:
-                print "Error: npts and mins and maxs do not appear to be consistent"
-                return
         if elem_type in ['triplane','tri','quad','qua','triangle']:
             assert numpy.where(numpy.array(npts)<=1)[0].shape[0]==1, "%r elem_type requires one (1) in npts" % elem_type
             assert numpy.where((numpy.array(maxs)-numpy.array(mins))==0)[0][0]==1, "%r elem_type requires one zero range (max-min)" % elem_type
         if elem_type in ['tet','prism','pri','pyramid','pyr']:
             assert numpy.all(numpy.array(npts)>1), "%r elem_type requires all npts greater than 1" % elem_type
             assert numpy.all((numpy.array(maxs)-numpy.array(mins))>0), "%r elem_type requires all ranges (max-min) greater than 0" % elem_type
-        mo = self.create(name=name,elem_type=elem_type)
+        mo = self.create(elem_type=elem_type,name=name)
         mo.createpts(crd, npts, mins, maxs, rz_switch=rz_switch, rz_value=rz_value, connect=connect)
         return mo
-    def createpts_xyz(self, npts, mins, maxs, elem_type=None,rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
+    def createpts_xyz(self, npts, mins, maxs, elem_type,rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
         return self.createpts('xyz',npts,mins,maxs,mesh,rz_switch,rz_value,connect=connect,name=name)
-    def createpts_dxyz(self, dxyz, mins, maxs, elem_type=None, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
+    def createpts_dxyz(self, dxyz, mins, maxs, elem_type, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
         '''
         Create and Connect Points to create an orthogonal hexahedral mesh. The
         vertex spacing is based on dxyz and the mins and maxs specified. mins
@@ -529,17 +519,13 @@ class PyLaGriT(spawn):
         :type  connect: boolean
         
         '''
-        # Check if 2d mesh
-        if elem_type is None:
-            if numpy.any(dxyz)>=0 or numpy.any(maxs-mins)==0: elem_type='triplane'
-            else: elem_type = 'tet'
-        mo = self.create(name=name,elem_type=elem_type)
+        mo = self.create(elem_type=elem_type,name=name)
         mo.createpts_dxyz(dxyz, mins, maxs, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True)
         return mo
-    def createpts_rtz(self, npts, mins, maxs, elem_type=None, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
-        return self.createpts('rtz',npts,mins,maxs,mesh,rz_switch,rz_value,connect=connect)
-    def createpts_rtp(self, npts, mins, maxs, elem_type=None, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
-        return self.createpts('rtp',npts,mins,maxs,mesh, rz_switch,rz_value,connect=connect)
+    def createpts_rtz(self, npts, mins, maxs, elem_type, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+        return self.createpts('rtz',npts,mins,maxs,elem_type,rz_switch,rz_value,connect=connect)
+    def createpts_rtp(self, npts, mins, maxs, elem_type, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+        return self.createpts('rtp',npts,mins,maxs,elem_type, rz_switch,rz_value,connect=connect)
     def createpts_line(self, npts, mins, maxs, elem_type='line', rz_switch=(1,1,1),name=None):
         '''
         Create and Connect Points in a line
@@ -554,7 +540,7 @@ class PyLaGriT(spawn):
         :type  rz_switch: tuple(int, int, int)
         
         '''
-        mo = self.create(name=name,elem_type=elem_type)
+        mo = self.create(elem_type,name=name)
         mo.createpts_line( npts, mins, maxs, rz_switch=rz_switch)
         return mo
  
@@ -626,11 +612,6 @@ class MO(object):
         strarr = self._parent.before.splitlines()
         return int(strarr[7].split()[-1])
     @property
-    def element_type(self):
-        self.status(1,verbose=False)
-        strarr = self._parent.before.splitlines()
-        return strarr[8].split()[-1]
-    @property
     def ndim_geo(self):
         self.status(1,verbose=False)
         strarr = self._parent.before.splitlines()
@@ -644,7 +625,10 @@ class MO(object):
     def elem_type(self):
         self.status(1,verbose=False)
         strarr = self._parent.before.splitlines()
-        return strarr[8].split()[7]
+        etype = strarr[8].split()[7]
+        if etype == 'tri':
+            if self.ndim_geo == 2: etype = 'triplane'
+        return etype
     def status(self,brief=False,verbose=True):
         print self.name
         self._parent.cmo_status(self.name,brief=brief,verbose=verbose)
