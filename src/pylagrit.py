@@ -480,10 +480,10 @@ class PyLaGriT(spawn):
         :returns: MO
         
         '''
-        if elem_type in ['triplane','tri','quad','qua','triangle']:
+        if elem_type.startswith('triplane','qua'):
             assert numpy.where(numpy.array(npts)<=1)[0].shape[0]==1, "%r elem_type requires one (1) in npts" % elem_type
             assert numpy.where((numpy.array(maxs)-numpy.array(mins))==0)[0][0]==1, "%r elem_type requires one zero range (max-min)" % elem_type
-        if elem_type in ['tet','prism','pri','pyramid','pyr']:
+        if elem_type.startswith('tet','pri','pyr','hex'):
             assert numpy.all(numpy.array(npts)>1), "%r elem_type requires all npts greater than 1" % elem_type
             assert numpy.all((numpy.array(maxs)-numpy.array(mins))>0), "%r elem_type requires all ranges (max-min) greater than 0" % elem_type
         mo = self.create(elem_type=elem_type,name=name)
@@ -1470,7 +1470,7 @@ class MO(object):
         cmd = '/'.join(['createpts',crd,','.join(npts),','.join(mins),','.join(maxs),','.join(rz_switch),','.join(rz_value)])
         self.sendline(cmd)
         if connect:
-            if self.elem_type in ['triplane','tri','tet']:
+            if self.elem_type.startswith('tri','tet'):
                 cmd = '/'.join(['connect','noadd'])
             else:
                 cmd = '/'.join(['createpts','brick',crd,','.join(npts),'1,0,0','connect'])
