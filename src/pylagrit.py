@@ -319,7 +319,7 @@ class PyLaGriT(spawn):
             self.sendline('cmo/release/temp_cmo')
             os.unlink('old_format')
             
-    def merge(self, *mesh_objs):
+    def merge(self, mesh_objs):
         '''
         Merge Mesh Objects
         
@@ -333,7 +333,11 @@ class PyLaGriT(spawn):
         ''' 
         
         if len(mesh_objs) > 1:
-            return reduce(self.addmesh_merge, mesh_objs)
+            mo_merge = mesh_objs[0].copy()
+            for mo in mesh_objs[1:]:
+                mo_merge = self.addmesh_merge(mo_merge,mo)
+            return mo_merge
+            #return reduce(self.addmesh_merge, mesh_objs)
         else:
             raise ValueError('Must provide at least two objects to merge.')
             
@@ -480,10 +484,10 @@ class PyLaGriT(spawn):
         :returns: MO
         
         '''
-        if elem_type.startswith('triplane','qua'):
+        if elem_type.startswith(('triplane','qua')):
             assert numpy.where(numpy.array(npts)<=1)[0].shape[0]==1, "%r elem_type requires one (1) in npts" % elem_type
             assert numpy.where((numpy.array(maxs)-numpy.array(mins))==0)[0][0]==1, "%r elem_type requires one zero range (max-min)" % elem_type
-        if elem_type.startswith('tet','pri','pyr','hex'):
+        if elem_type.startswith(('tet','pri','pyr','hex')):
             assert numpy.all(numpy.array(npts)>1), "%r elem_type requires all npts greater than 1" % elem_type
             assert numpy.all((numpy.array(maxs)-numpy.array(mins))>0), "%r elem_type requires all ranges (max-min) greater than 0" % elem_type
         mo = self.create(elem_type=elem_type,name=name)
@@ -556,6 +560,12 @@ class MO(object):
     def sendline(self,cmd, verbose=True, expectstr='Enter a command'):
         self._parent.sendline('cmo select '+self.name,verbose=verbose)
         self._parent.sendline(cmd,verbose=verbose,expectstr=expectstr)
+    @property
+    def mins(self):
+        return numpy.array([self.xmin,self.ymin,self.zmin])
+    @property
+    def maxs(self):
+        return numpy.array([self.xmax,self.ymax,self.zmax])
     @property
     def xmin(self):
         self.minmax_xyz(verbose=False)
@@ -1470,7 +1480,7 @@ class MO(object):
         cmd = '/'.join(['createpts',crd,','.join(npts),','.join(mins),','.join(maxs),','.join(rz_switch),','.join(rz_value)])
         self.sendline(cmd)
         if connect:
-            if self.elem_type.startswith('tri','tet'):
+            if self.elem_type.startswith(('tri','tet')):
                 cmd = '/'.join(['connect','noadd'])
             else:
                 cmd = '/'.join(['createpts','brick',crd,','.join(npts),'1,0,0','connect'])
