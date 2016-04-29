@@ -1,10 +1,11 @@
 from pylagrit import PyLaGriT
 import numpy
+import sys
 
 df = 0.0005 # Fault half aperture
 lr = 7 # Levels of refinement
 nx = 4 # Number of base mesh blocks in x direction
-nz = 80 # Number of base mesh blocks in z direction
+nz = 20 # Number of base mesh blocks in z direction
 d_base = df*2**(lr+1) # Calculated dimension of base block
 w = d_base*nx # Calculated width of model
 d = d_base*nz # Calculated depth of model
@@ -26,6 +27,10 @@ for i in range(lr):
 
 mtri = mqua.copypts('triplane')
 mtri.connect()
+# Make sure that not nodes are lost during connect
+if 'The mesh is complete but could not include all points.' in lg.before:
+    print "Error: Lost some points during connect, not completing mesh and exiting workflow!\n"
+    sys.exit()
 mtri.tri_mesh_output_prep()
 mtri.reorder_nodes(cycle='xic yic zic')
 pfault = mtri.pset_geom_xyz(mins-0.1,(0.0001,0.1,0))
