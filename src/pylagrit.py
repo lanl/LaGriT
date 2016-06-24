@@ -5,6 +5,7 @@ import glob
 import re
 from collections import  OrderedDict
 import numpy
+from itertools import product
 try:
     import xml.etree.cElementTree as ET
 except ImportError:
@@ -547,6 +548,39 @@ class PyLaGriT(spawn):
         mo = self.create(elem_type,name=name)
         mo.createpts_line( npts, mins, maxs, rz_switch=rz_switch)
         return mo
+    def gridder(self,x=None,y=None,z=None,connect=False,elem_type='tet',filename='gridder.inp'):
+        """Generate an orthogonal mesh corresponding to vectors of nodal positions.
+        """
+        if (x is None and y is None) or (x is None and z is None) or (y is None and z is None):
+            print "ERROR: must define at least two of x, y, z arrays"
+            return
+        if x is None or len(x) == 0: x = [0]
+        if y is None or len(y) == 0: y = [0]
+        if z is None or len(z) == 0: z = [0]
+        x = list(numpy.unique(x))
+        y = list(numpy.unique(y))
+        z = list(numpy.unique(z))
+        nodelist = numpy.array(list(product(*[z,y,x])))
+        nodelist = numpy.fliplr(nodelist)
+
+        outfile = open(filename,'w')
+        outfile.write('   '+str(len(nodelist))+' 0 0 0 0\n')
+        for i,nd in enumerate(nodelist):
+            outfile.write('%11d' % i +'        ')
+            outfile.write('%14.8f' % nd[0]+'        ')
+            outfile.write('%14.8f' % nd[1]+'        ')
+            outfile.write('%14.8f' % nd[2])
+            outfile.write('\n')
+        outfile.write('\n')
+        outfile.close()
+        m = self.create(elem_type)
+        m.read(filename)
+        if elem_type is 'quad' and connect:
+            cmd = ['createpts','brick','xyz',' '.join([str(len(x)),str(len(y)),str(len(z))]),'1 0 0','connect'] 
+            m.sendline('/'.join(cmd))
+        elif connect:
+            m.connect()
+        return m
  
 class MO(object):
     ''' Mesh object class'''
@@ -642,6 +676,19 @@ class MO(object):
     def status(self,brief=False,verbose=True):
         print self.name
         self._parent.cmo_status(self.name,brief=brief,verbose=verbose)
+    def read(self,filename,filetype=None):
+        # If filetype is lagrit, name is irrelevant
+        if filetype is not None:
+            cmd = '/'.join(['read',filetype])
+        else:
+            cmd = 'read'
+        if filetype != 'lagrit':
+            cmd = '/'.join([cmd,filename,self.name])
+        else:
+            print "Error: Can't read in lagrit type file into existing mesh object"
+            return
+        self.sendline(cmd)
+
     def printatt(self,attname=None,stride=[1,0,0],pset=None,eltset=None,type='value'):
         stride = [str(v) for v in stride]
         if attname is None: attname = '-all-'
