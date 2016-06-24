@@ -549,8 +549,23 @@ class PyLaGriT(spawn):
         mo.createpts_line( npts, mins, maxs, rz_switch=rz_switch)
         return mo
     def gridder(self,x=None,y=None,z=None,connect=False,elem_type='tet',filename='gridder.inp'):
-        """Generate an orthogonal mesh corresponding to vectors of nodal positions.
-        """
+        '''
+        Generate an orthogonal mesh corresponding to vectors of nodal positions.
+
+        :arg x: x node locations
+        :type x: array(floats)
+        :arg y: y node locations
+        :type y: array(floats)
+        :arg z: z node locations
+        :type z: array(floats)
+        :arg connect: Should the points be connected
+        :type connect: bool
+        :arg elem_type: Type of element for created mesh object
+        :type elem_type: string
+        :arg filename: Name of avs file created with nodal coordinates
+        :type filename: string
+        :returns: MO
+        '''
         if (x is None and y is None) or (x is None and z is None) or (y is None and z is None):
             print "ERROR: must define at least two of x, y, z arrays"
             return
