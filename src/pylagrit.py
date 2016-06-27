@@ -550,7 +550,7 @@ class PyLaGriT(spawn):
         return mo
     def gridder(self,x=None,y=None,z=None,connect=False,elem_type='tet',filename='gridder.inp'):
         '''
-        Generate an orthogonal mesh corresponding to vectors of nodal positions.
+        Generate a logically rectangular orthogonal mesh corresponding to vectors of nodal positions.
 
         :arg x: x node locations
         :type x: array(floats)
