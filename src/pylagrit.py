@@ -566,8 +566,24 @@ class PyLaGriT(spawn):
         :type filename: string
         :returns: MO
         '''
-        if (x is None and y is None) or (x is None and z is None) or (y is None and z is None):
-            print "ERROR: must define at least two of x, y, z arrays"
+        dim = 0
+        if x is not None: 
+            if len(x) > 0: dim += 1 
+        if y is not None: 
+            if len(y) > 0: dim += 1 
+        if z is not None: 
+            if len(z) > 0: dim += 1 
+        if dim == 0:
+            print "ERROR: must define at least one of x, y, z arrays"
+            return
+        if elem_type in ['line'] and dim != 1:
+            print "Error: Only 1 coordinate array (x,y,z) required for elem_type 'line'"
+            return
+        if elem_type in ['tri','quad'] and dim != 2:
+            print "Error: Only 2 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'"
+            return
+        if elem_type in ['tet','hex'] and dim != 3:
+            print "Error: 3 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'"
             return
         if x is None or len(x) == 0: x = [0]
         if y is None or len(y) == 0: y = [0]
