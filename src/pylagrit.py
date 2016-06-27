@@ -606,7 +606,7 @@ class PyLaGriT(spawn):
         outfile.close()
         m = self.create(elem_type)
         m.read(filename)
-        if elem_type is 'quad' and connect:
+        if elem_type in ['quad','hex'] and connect:
             cmd = ['createpts','brick','xyz',' '.join([str(len(x)),str(len(y)),str(len(z))]),'1 0 0','connect'] 
             m.sendline('/'.join(cmd))
         elif connect:
@@ -1187,6 +1187,28 @@ class MO(object):
         stride = [str(v) for v in stride]
         cmd = '/'.join(['trans',','.join(stride),','.join(xold),','.join(xnew)])
         self.sendline(cmd)
+    def rotateln(self,coord1,coord2,theta,center=[0,0,0],copy=False,stride=(1,0,0)):
+        ''' 
+        Rotates a point distribution (specified by ifirst,ilast,istride) about a line. 
+        The copy option allows the user to make a copy of the original points as well 
+        as the rotated points, while copy=False just keeps the rotated points themselves. 
+        The line of rotation defined by coord1 and coord2 needs to be defined such that 
+        the endpoints extend beyond the point distribution being rotated. theta (in degrees) 
+        is the angle of rotation whose positive direction is determined by the right-hand-rule, 
+        that is, if the thumb of your right hand points in the direction of the line 
+        (1 to 2), then your fingers will curl in the direction of rotation. center is the point 
+        where the line can be shifted to before rotation takes place. 
+        If the copy option is chosen, the new points will have only coordinate values 
+        (xic, yic, zic); no values will be set for any other mesh object attribute for these points.
+        Note:  The end points of the  line segment must extend well beyond the point set being rotated.
+        '''
+        stride = [str(v) for v in stride]
+        coord1 = [str(v) for v in coord1]
+        coord2 = [str(v) for v in coord2]
+        center = [str(v) for v in center]
+        if copy: copystr = 'copy'
+        else: copystr = 'nocopy'
+        self.sendline('/'.join(['rotateln',','.join(stride),copystr,','.join(coord1),','.join(coord2),str(theta),','.join(center)]))
     def upscale(self, method, attsink, cmosrc, attsrc=None, stride=(1,0,0), boundary_choice=None, keepatt=False,
                 set_id=False):
         '''
