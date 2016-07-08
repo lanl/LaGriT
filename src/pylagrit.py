@@ -1509,6 +1509,11 @@ class MO(object):
         m_reparsed = minidom.parseString(m_str)
         with open(filename, "w") as f:
                 f.write(m_reparsed.toprettyxml(indent="  "))
+    def dump_psets(self,filerootname,zonetype='zone'):
+        cmd = ['pset','-all-',zonetype,filerootname,'ascii']
+        print '/'.join(cmd)
+        self.sendline('/'.join(cmd))
+	
 
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
