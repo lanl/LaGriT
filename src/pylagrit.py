@@ -1509,12 +1509,23 @@ class MO(object):
         m_reparsed = minidom.parseString(m_str)
         with open(filename, "w") as f:
                 f.write(m_reparsed.toprettyxml(indent="  "))
-    def dump_psets(self,filerootname,zonetype='zone'):
-        cmd = ['pset','-all-',zonetype,filerootname,'ascii']
-        print '/'.join(cmd)
-        self.sendline('/'.join(cmd))
-	
-
+    def dump_pset(self,filerootname,pset=[],zonetype='zone'):
+        '''
+        Dump zone file of psets
+        :arg filerootname: rootname of files to create, pset name will be added to name
+        :type filerootname: string
+        :arg pset: list of psets to dump, all psets dumped if empty list
+        :type pset: list[strings]
+        :arg zonetype: Type of zone file to dump, 'zone' or 'zonn'
+        :tpye zonetype: string
+        '''
+        if len(pset)==0:
+            cmd = ['pset','-all-',zonetype,filerootname,'ascii']
+            self.sendline('/'.join(cmd))
+        else:
+            for p in pset:
+                cmd = ['pset',p.name,zonetype,filerootname+'_'+p.name,'ascii']
+                self.sendline('/'.join(cmd))
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
         del self._parent.mo[self.name]
@@ -2356,6 +2367,16 @@ class PSet(object):
     def interpolate_default(self,attsink,cmosrc,attsrc,tie_option='tiemax',
                     flag_option='plus1',keep_option='delatt',interp_function=None):
         self.interpolate('default',**minus_self(locals()))
+    def dump(self,filerootname,zonetype='zone'):
+        '''
+        Dump zone file of pset nodes
+        :arg filerootname: rootname of files to create, pset name will be added to name
+        :type filerootname: string
+        :arg zonetype: Type of zone file to dump, 'zone' or 'zonn'
+        :tpye zonetype: string
+        '''
+        cmd = ['pset',self.name,zonetype,filerootname+'_'+self.name,'ascii']
+        self._parent.sendline('/'.join(cmd))
 
 class EltSet(object):
     ''' EltSet class'''
