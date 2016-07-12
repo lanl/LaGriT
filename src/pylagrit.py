@@ -1514,10 +1514,10 @@ class MO(object):
         Dump zone file of psets
         :arg filerootname: rootname of files to create, pset name will be added to name
         :type filerootname: string
+        :arg zonetype: Type of zone file to dump, 'zone' or 'zonn'
+        :type zonetype: string
         :arg pset: list of psets to dump, all psets dumped if empty list
         :type pset: list[strings]
-        :arg zonetype: Type of zone file to dump, 'zone' or 'zonn'
-        :tpye zonetype: string
         '''
         if len(pset)==0:
             cmd = ['pset','-all-',zonetype,filerootname,'ascii']
