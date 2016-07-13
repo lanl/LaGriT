@@ -96,7 +96,6 @@ class PyLaGriT(spawn):
                     nm = line.split(':')[1].strip()
                     self.mo[nm] = MO(nm,self)
                     mos.append(self.mo[nm])
-            print mos
             if len(mos) == 1:
                 if name is not None and name != mos[0].name: 
                     self.sendline('cmo/copy/'+name+'/'+mos[0].name)
