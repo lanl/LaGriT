@@ -75,30 +75,40 @@ class PyLaGriT(spawn):
         self.sendline(cmd, verbose=verbose)
     def read(self,filename,filetype=None,name=None,binary=False):
         # If filetype is lagrit, name is irrelevant
-        if filetype is not None:
-            cmd = '/'.join(['read',filetype])
+        if filetype == 'lagrit' or filename.split('.')[-1] in ['lg','lagrit','LaGriT']: islg=True
+        cmd = ['read',filename]
+        if filetype is not None: cmd.append(filetype)
+        if islg:
+            cmd.append('dum')
         else:
-            cmd = 'read'
-        if filetype != 'lagrit':
             if name is None:
                 name = make_name('mo',self.mo.keys())
-            cmd = '/'.join([cmd,filename,name])
-        else:
-            cmd = '/'.join([cmd,filename,'dum'])
-        if binary: cmd = '/'.join([cmd,'binary'])
-        self.sendline(cmd)
+            cmd.append(name)
+        if binary: cmd.append('binary')
+        self.sendline('/'.join(cmd))
         # If format lagrit, cmo read in will not be set to name
-        if format == 'lagrit' and not self.batch:
+        if islg and not self.batch:
             self.sendline('cmo/status/brief', verbose=False)
-            for line in self.before.split('\r\n'):
-                if 'current-mesh-object' in line:
-                    tmp_name = line.split(':')[1].strip()
-                    if name is None: name = tmp_name
-                    elif name != tmp_name: 
-                        self.sendline('cmo/copy/'+name+'/'+tmp_name)
-                        self.sendline('cmo/release/'+tmp_name)
-        self.mo[name] = MO(name,self)
-        return self.mo[name]
+            # dump lagrit doesn't seem to ever dump multiple mos now???
+            mos = []
+            for line in self.before.splitlines():
+                if 'Mesh Object name:' in line: 
+                    nm = line.split(':')[1].strip()
+                    self.mo[nm] = MO(nm,self)
+                    mos.append(self.mo[nm])
+            print mos
+            if len(mos) == 1:
+                if name is not None and name != mos[0].name: 
+                    self.sendline('cmo/copy/'+name+'/'+mos[0].name)
+                    self.sendline('cmo/release/'+mos[0].name)
+                return mos[0]
+            elif len(mos) > 1:
+                if name is not None:
+                    print "Multiple mesh objects exist, 'name' option will be ignored"
+                return mos
+        else:
+            self.mo[name] = MO(name,self)
+            return self.mo[name]
     def addmesh(self, mo1, mo2, style='add', name=None, *args):
         if isinstance(mo1,MO): mo1name = mo1.name
         elif isinstance(mo1,str): mo1name = mo1
@@ -425,6 +435,22 @@ class PyLaGriT(spawn):
         self.mo[name] = MO(name, self)
         
         return self.mo[name]
+    def dump(self, filename, mos=[], filetype='binary'):
+        '''
+        Dump lagrit binary file
+        :arg filename: name of lagrit binary file to create
+        :type filename: string
+        :arg mos: List of mesh objects to include, default is all
+        :type mos: list(MO)
+        :arg filetype: Filetype to dump, 'binary' or 'ascii'
+        :type mos: string
+        '''
+        cmd = ['dump','lagrit',filename]
+        if len(mos) == 0: cmd.append('-all-')
+        else:
+            cmd += ','.join([mo.name for mo in mos])
+        if filetype == 'ascii': cmd.append('ascii')
+        self.sendline('/'.join(cmd))
     def tri_mo_from_polyline(self,coords,order='clockwise',filename='polyline.inp',name=None):
         '''
         Create polygon tri mesh object from points
