@@ -247,9 +247,10 @@ C     ******************************************************************
 C
 
       if (coption(1:9).ne.'zone_elem') then
+
         call cmo_get_info('nnodes',cmoname,nnodes,ilen,itp,ierr)
-        if (ierr.ne.0 .or. nlength.le.0) then
-          write(logmess,"(a)")
+        if (ierr.ne.0 .or. nnodes.le.0) then
+          write(logmess,"(a,a)")
      1    'ERROR: Mesh Object has 0 nodes: ',
      2    cmoname(1:icharlnf(cmoname))
           call writloga('default',1,logmess,0,ierr)
@@ -265,8 +266,8 @@ C
       else
 
         call cmo_get_info('nelements',cmoname,nelements,ilen,itp,ierr)
-        if (ierr.ne.0 .or. nlength.le.0) then
-          write(logmess,"(a)")
+        if (ierr.ne.0 .or. nelements.le.0) then
+          write(logmess,"(a,a)")
      1    'ERROR: Mesh Object has 0 elements: ',
      2    cmoname(1:icharlnf(cmoname))
           call writloga('default',1,logmess,0,ierr)
