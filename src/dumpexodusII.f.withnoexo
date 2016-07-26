@@ -1,0 +1,40 @@
+
+c     **************************************************************
+c     code substitution when not using ExodusII libraries
+c     replace dumpexodusII.f with this file dumpexodusII.f.withnoexo 
+
+      subroutine dumpexodusII(
+     >               imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
+
+C     dump/exo/ ifile / cmoname
+C               default: single argument for output filename
+C
+C     dump/exo/ ifile / cmoname / facesets / files / file1, file2, ...filen
+C               output filename
+C               import facesets from files with tag based on order 1 to n
+C     
+c
+c     **************************************************************
+      implicit none
+c
+c      include 'exodusII.inc'
+
+      include 'lagrit.h'
+
+      integer nwds
+      integer ierror, ierr
+      integer imsgin(nwds), msgtype(nwds)
+      real*8 xmsgin(nwds)
+      character*(*) cmsgin(nwds)
+
+      character*132 logmess
+
+      write(logmess,'(a)')'ExodusII exiting: '
+      call writloga('default',1,logmess,0,ierr)
+      write(logmess,'(a)')'Not available in this version.'
+      call writloga('default',0,logmess,2,ierr)
+      
+
+      return
+      end
+
