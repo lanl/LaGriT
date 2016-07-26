@@ -11,7 +11,7 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=3)
-      parameter      (v_minor=107)
+      parameter      (v_minor=200)
 
 c     1.06 updates ExodusII 5 to 6 syntax 
 c
@@ -26,7 +26,7 @@ c     data os_name      /'Linux32 '/
       data os_name      /'Linux64 '/
 
 c     data date_compile /'2011/09/01  Absoft 11 '/
-      data date_compile /'2015/06/24  Ubu gf.so '/
+      data date_compile /'2015/07/14  Ubu gf '/
 c
       integer         NCall
       save            NCall

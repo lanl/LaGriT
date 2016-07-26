@@ -1,0 +1,53 @@
+#!/bin/csh
+# C shell script
+#
+# Usage: clean_testdirs 
+#
+# Remove any  out* *gmvF and *x3dgen files in each of the test directories.
+# Do not Remove stdout*txt and diff*txt from top directory. 
+# Skip directory result_files
+#
+#######    Begin script:  ################
+#
+#
+set top_dir = ${cwd}
+set dirs = (*)
+#
+# remove previous log files 
+  'rm' -f outx3dgen logx3dgen
+   mv  stdout_sun.txt stdout_sun.old.txt
+   mv  stdout_lin.txt stdout_lin.old.txt
+   mv  stdout_mac.txt stdout_mac.old.txt
+   mv  stdout_maci.txt stdout_maci.old.txt
+   mv  diffout_sun.txt diffout_sun.old.txt
+   mv  diffout_lin.txt diffout_lin.old.txt
+   mv  diffout_mac.txt diffout_mac.old.txt
+   mv  diffout_maci.txt diffout_maci.old.txt
+#
+# loop through test directories
+#
+  foreach dir ($dirs)
+# If $dir is actually a directory (and not a file) then process
+    if( -d $dir )then
+      if ($dir == "result_files") then
+        echo "Skip Directory: " $dir
+        echo " "
+      else
+        echo "Directory: " $dir
+        cd $dir
+#       remove all output files
+        'rm' -f out* *x3dgen *gmvF 
+        echo " "
+      endif
+#
+# Return to test_dir to process next directory
+      cd $top_dir
+    endif
+    continue # to next $dir if the last was not a directory
+
+  end   # foreach dir
+
+echo "Done. All output files removed from directories."
+echo " "
+exit 0
+

@@ -13,9 +13,9 @@ pset/p2/eltset/e2
 pset/p3/eltset/e3                                                               
 eltset//list                                                                    
 pset//list                                                                      
-dump/exo/test3D_hex_pset_eltset.exo/mohex/psets/eltsets/                        
-dump/exo/test3D_hex_pset.exo/mohex/psets//                                      
-dump/exo/test3D_hex_eltset.exo/mohex//eltsets/                                  
+dump/exo/out_3D_hex_pset_eltset.exo/mohex/psets/eltsets/                        
+dump/exo/out_3D_hex_pset.exo/mohex/psets//                                      
+dump/exo/out_3D_hex_eltset.exo/mohex//eltsets/                                  
 grid2grid/hextotet5/motet/mohex                                                 
 cmo/delete/mohex                                                                
 cmo/setatt/motet/imt/1 0 0/1                                                    
@@ -31,9 +31,9 @@ pset/p2/eltset/e2
 pset/p3/eltset/e3                                                               
 eltset//list                                                                    
 pset//list                                                                      
-dump/exo/test3D_tet_pset_eltset.exo/motet/psets/eltsets/                        
-dump/exo/test3D_tet_pset.exo/motet/psets//                                      
-dump/exo/test3D_tet_eltset.exo/motet//eltsets/                                  
+dump/exo/out_3D_tet_pset_eltset.exo/motet/psets/eltsets/                        
+dump/exo/out_3D_tet_pset.exo/motet/psets//                                      
+dump/exo/out_3D_tet_eltset.exo/motet//eltsets/                                  
 cmo/delete/motet                                                                
 cmo/create/motri///triplane                                                     
 createpts/xyz/4 4 1/0. 0. 0./1. 1. 0./1 1 1                                     
@@ -51,7 +51,7 @@ pset/p2/eltset/e2
 pset/p3/eltset/e3                                                               
 eltset//list                                                                    
 pset//list                                                                      
-dump/exo/test2D_tri_pset_eltset.exo/motri/psets/eltsets/                        
-dump/exo/test2D_tri_pset.exo/motri/psets//                                      
-dump/exo/test2D_tri_eltset.exo/motri//eltsets/                                  
+dump/exo/out_2D_tri_pset_eltset.exo/motri/psets/eltsets/                        
+dump/exo/out_2D_tri_pset.exo/motri/psets//                                      
+dump/exo/out_2D_tri_eltset.exo/motri//eltsets/                                  
 finish                                                                          

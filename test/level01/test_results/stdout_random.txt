@@ -1,0 +1,2079 @@
+Operating System:	linux2
+Executable:		/n/swdev/LAGRIT/bin/lagrit_ulin_g_gf_V3.107.so
+Top directory:		/scratch/sft/yanki/lagrit/test/level01
+Out file:		stdout_random.txt
+	On Mon Jul  6 13:56:09 2015
+ 1  Test Directory eltset -----------------------
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.107   Linux m64      *                 
+*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
+*               *    Run Time: 2015/Jul  6  13:56:09          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+ Enter a command
+# Create a new mesh along with some point sets.                                 
+ Enter a command
+cmo/create/mo///hex                                                             
+ Enter a command
+createpts/brick/xyz/11,11,11/0,0,0/10,10,10/1,1,1                               
+          Number of nodes:        1331                                          
+          Number of elements:        1000                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.100000000000E+04                                  
+ Enter a command
+pset/pset1/geom/rtp/1 0 0/0,0,0/5,360,180/                                      
+ 
+ THE PSET  pset1  HAS         99 POINTS                                         
+ Enter a command
+pset/pset2/geom/xyz/1 0 0/7,7,7/10,10,10/                                       
+ 
+ THE PSET  pset2  HAS         64 POINTS                                         
+ Enter a command
+                                                                                
+eltset/eset1/inclusive/pset get pset1/                                          
+ 
+ THE ELTSET eset1                            HAS         99 ELEMENTS            
+ Enter a command
+eltset//list                                                                    
+ 
+ THERE ARE  1 ELTSETS DEFINED                                                   
+  eset1                                                                         
+ Enter a command
+                                                                                
+# Assign colors to the points and elements so that we can see them in GMV.      
+ Enter a command
+eltset/eset2/inclusive/pset get pset2/                                          
+ 
+ THE ELTSET eset2                            HAS         64 ELEMENTS            
+ Enter a command
+cmo/setatt/mo/imt/1 0 0/1                                                       
+      1331 values reset for attribute imt1                                      
+ 
+ Enter a command
+cmo/setatt/mo/imt/pset get pset1/2                                              
+        99 values reset for attribute imt1                                      
+ 
+ Enter a command
+cmo/setatt/mo/imt/pset get pset2/3                                              
+        64 values reset for attribute imt1                                      
+ 
+ Enter a command
+cmo/setatt/mo/itetclr/1 0 0/1                                                   
+      1000 values reset for attribute itetclr                                   
+ 
+ Enter a command
+cmo/setatt/mo/itetclr/eltset get eset1/2                                        
+        99 values reset for attribute itetclr                                   
+ 
+ Enter a command
+cmo/setatt/mo/itetclr/eltset get eset2/3                                        
+        64 values reset for attribute itetclr                                   
+ 
+ Enter a command
+                                                                                
+dump/gmv/test01.gmv/mo                                                          
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+ Enter a command
+                                                                                
+# Test the list command.                                                        
+ Enter a command
+eltset//list                                                                    
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ Enter a command
+eltset/0/list                                                                   
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ Enter a command
+eltset/-def-/list                                                               
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ Enter a command
+                                                                                
+# Verify that eltset only appends '.cellset' if it is not already present.      
+ Enter a command
+eltset/eset1/write/eset01                                                       
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+                    5                    0 ioflag                          
+ Enter a command
+eltset/eset2/write/eset02.cellset                                               
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: OUTPUT eset2    1 ELTSETS TO FILE                                       
+                    5                    0 ioflag                          
+ Enter a command
+                                                                                
+# Test various incantations of the [ascii|binary] option.                       
+ Enter a command
+eltset/eset1/write/eset03/ascii                                                 
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+                    5                    3 ascii                           
+ Enter a command
+eltset/eset1/write/eset04/binary                                                
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+                    5                    3 binary                          
+ Enter a command
+eltset/eset1/write/eset05/                                                      
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+                    5                    0 binary                          
+ Enter a command
+eltset/eset1/write/eset06/-def-                                                 
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+                    5                    3 -def-                           
+ Enter a command
+eltset/eset1/write/eset07                                                       
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT eset1    1 ELTSETS TO FILE                                       
+                    5                    0 -def-                           
+ Enter a command
+                                                                                
+# Verify that -def-, -all-, and <blank> work properly as eltset names.          
+ Enter a command
+eltset/-def-/write/eset08                                                       
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+                    5                    0 -def-                           
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+                    5                    0 -def-                           
+ Enter a command
+eltset/-all-/write/eset09                                                       
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+                    5                    0 -def-                           
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+                    5                    0 -def-                           
+ Enter a command
+eltset//write/eset10                                                            
+ 
+ THERE ARE  2 ELTSETS DEFINED                                                   
+  eset1                             eset2                                       
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+                    5                    0 -def-                           
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT -all-    1 ELTSETS TO FILE                                       
+                    5                    0 -def-                           
+ Enter a command
+                                                                                
+finish                                                                          
+LaGriT successfully completed                                                   
+ 2  Test Directory refine_octree -----------------------
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.107   Linux m64      *                 
+*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
+*               *    Run Time: 2015/Jul  6  13:56:09          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+ Enter a command
+**************************************************                              
+ Enter a command
+* Test refine octree                                                            
+ Enter a command
+* use amr to create an octree refined hex mesh                                  
+ Enter a command
+* put a coarse hex grid over the space                                          
+ Enter a command
+**************************************************                              
+ Enter a command
+                                                                                
+* create a brick shape with hex elements 5 wide and 2 high                      
+ Enter a command
+cmo/create/cmo_hex///hex                                                        
+ Enter a command
+createpts/brick/xyz/6,6,3/0.,0.,0./.5,.5,.2/1,1,1                               
+          Number of nodes:         108                                          
+          Number of elements:          50                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.500000000000E-01                                  
+ Enter a command
+                                                                                
+* identify nodes inside a spherical shell and refine those elements             
+ Enter a command
+cmo/setatt/cmo_hex/imt/1,0,0/1                                                  
+       108 values reset for attribute imt1                                      
+ 
+ Enter a command
+pset/psphere/geom/rtp/1,0,0/.45,0,0/.5,360.,360./.5,.5,0.                       
+ 
+ THE PSET  psphere  HAS         11 POINTS                                       
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,psphere/2                                       
+        11 values reset for attribute imt1                                      
+ 
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,psphere/-1.,0.,0./inclusive/       
+refine elements:                                                                
+refine hex     :         27                                                     
+cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+Element iteration:          1        27                                         
+Octree refined elems: old=        50 new=       266                             
+ 
+ Dudding    204 duplicate points.                                               
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-12                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+ Enter a command
+                                                                                
+* do it again                                                                   
+ Enter a command
+pset/psphere/release                                                            
+ 
+ PSET psphere  DELETED                                                          
+ 
+ Enter a command
+pset/psphere/geom/rtp/1,0,0/.45,0,0/.5,360.,360./.5,.5,0.                       
+ 
+ THE PSET  psphere  HAS         86 POINTS                                       
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,psphere/2                                       
+        86 values reset for attribute imt1                                      
+ 
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,psphere/-1.,0.,0./inclusive/       
+refine elements:                                                                
+refine hex     :        175                                                     
+Element iteration:          1       148                                         
+Octree refined elems: old=       266 new=      1450                             
+ 
+ Dudding   1371 duplicate points.                                               
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-12                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+Element iteration:          1         7                                         
+Octree refined elems: old=      1450 new=      1506                             
+ 
+ Dudding     71 duplicate points.                                               
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-12                       
+ 
+FILTER:Dudding      7 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+ Enter a command
+                                                                                
+* do it again                                                                   
+ Enter a command
+pset/psphere/release                                                            
+ 
+ PSET psphere  DELETED                                                          
+ 
+ Enter a command
+pset/psphere/geom/rtp/1,0,0/.45,0,0/.5,360.,360./.5,.5,0.                       
+ 
+ THE PSET  psphere  HAS        560 POINTS                                       
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,psphere/2                                       
+       560 values reset for attribute imt1                                      
+ 
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,psphere/-1.,0.,0./inclusive/       
+refine elements:                                                                
+refine hex     :        995                                                     
+Element iteration:          1       820                                         
+Octree refined elems: old=      1506 new=      8066                             
+ 
+ Dudding   8394 duplicate points.                                               
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-12                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+Element iteration:          1        32                                         
+Octree refined elems: old=      8066 new=      8322                             
+ 
+ Dudding    330 duplicate points.                                               
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-12                       
+ 
+FILTER:Dudding     36 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+ Enter a command
+                                                                                
+* set colors                                                                    
+ Enter a command
+cmo/setatt/cmo_hex/imt/1,0,0/1                                                  
+      9341 values reset for attribute imt1                                      
+ 
+ Enter a command
+pset/psphere/release                                                            
+ 
+ PSET psphere  DELETED                                                          
+ 
+ Enter a command
+pset/psphere/geom/rtp/1,0,0/.45,0,0/.5,360.,360./.5,.5,0.                       
+ 
+ THE PSET  psphere  HAS       4128 POINTS                                       
+ Enter a command
+pset/psphere1/geom/rtp/1,0,0/0,0,0/.45,360.,360./.5,.5,0.                       
+ 
+ THE PSET  psphere1  HAS       2587 POINTS                                      
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,psphere1/2                                      
+      2587 values reset for attribute imt1                                      
+ 
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,psphere/3                                       
+      4128 values reset for attribute imt1                                      
+ 
+ Enter a command
+                                                                                
+* set element colors                                                            
+ Enter a command
+cmo/setatt/cmo_hex/itetclr/1,0,0/1                                              
+      8322 values reset for attribute itetclr                                   
+ 
+ Enter a command
+eltset/esphere1/inclusive/pset,get,psphere1                                     
+ 
+ THE ELTSET esphere1                         HAS       2881 ELEMENTS            
+ Enter a command
+cmo/setatt/cmo_hex/itetclr/eltset,get,esphere1/2                                
+      2881 values reset for attribute itetclr                                   
+ 
+ Enter a command
+eltset/esphere/inclusive/pset,get,psphere                                       
+ 
+ THE ELTSET esphere                          HAS       6187 ELEMENTS            
+ Enter a command
+cmo/setatt/cmo_hex/itetclr/eltset,get,esphere/3                                 
+      6187 values reset for attribute itetclr                                   
+ 
+ Enter a command
+dump/gmv/output_refine_amr.gmv                                                  
+ 
+Second argument is not a filename. Trying to use default mesh object.           
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+ Enter a command
+                                                                                
+* begin compare hex octree                                                      
+ Enter a command
+cmo/status/cmo_hex                                                              
+ 
+The current-mesh-object(CMO) is: cmo_hex                                        
+ 
+  1 Mesh Object name: cmo_hex                                                   
+    number of nodes =         19754        number of elements =         8322    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  1.975E+04  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  8.322E+03  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  8.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  1.200E+01  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.632E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.199E-13  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.110E-14  
+ 37         ipointi  INT     scalar          scalar const perma   l  3.567E+03  
+ 38         ipointj  INT     scalar          scalar const perma   l  1.975E+04  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  5.000E-01  
+ 55            ymax REAL     scalar          scalar const perma   l  5.000E-01  
+ 56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  2.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66         itetpar VINT     scalar       nelements linea perma agl  0.000E+00  
+ 67         itetkid VINT     scalar       nelements linea perma agl  0.000E+00  
+ 68         itetlev VINT     scalar       nelements linea perma agl  0.000E+00  
+ Enter a command
+cmo/printatt/cmo_hex/-xyz-/minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  5.000000000E-01 5.000000000E-01     19754  
+ yic                0.000000000E+00  5.000000000E-01 5.000000000E-01     19754  
+ zic                0.000000000E+00  2.000000000E-01 2.000000000E-01     19754  
+ 
+ Enter a command
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   1.6316879E-13  4.3442151E-39                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :       8322                          
+min aspect ratio =  0.1000E+01  max aspect ratio =  0.1000E+01                  
+ 
+epsilonvol:   1.1102230E-14                                                     
+---------------------------------------                                         
+element volumes b/w  0.1953E-05 and  0.6801E-05:      6560                      
+element volumes b/w  0.6801E-05 and  0.2368E-04:      1440                      
+element volumes b/w  0.2368E-04 and  0.8247E-04:         0                      
+element volumes b/w  0.8247E-04 and  0.2872E-03:       272                      
+element volumes b/w  0.2872E-03 and  0.1000E-02:        50                      
+min volume =   1.9531250E-06  max volume =   1.0000000E-03                      
+-----------------------------------------------------------                     
+      8322 total elements evaluated.                                            
+ 
+ Enter a command
+* end compare hex octree                                                        
+ Enter a command
+                                                                                
+* create tet version of hex grid                                                
+ Enter a command
+hextotet/6/cmo_tet/cmo_hex                                                      
+ set idebug
+ iremove_vol=   0 iremove_dup=   0 icheckpt=   1                                
+Input Mesh type hex using option    6                                           
+Element Material ID, min/max/range:          1         3         2              
+Epsilon-dist, distmax, distmin:  -1.0000000E-07  1.0000000E-02  1.5625000E-04   
+Epsilon-volume, volmax:   1.0000000E-09  1.0000000E-03                          
+cmo/addatt/cmo_tet/iign/vint/scalar/nnodes/-def-/-def-/gx/-def-                 
+finish                                                                          
+  WARNING: Volumes le zero not removed, nelements=      49932                   
+No duplicate points                                                             
+  WARNING: Duplicate points not removed, nnodes =      19754                    
+ Enter a command
+                                                                                
+* begin compare tet octree                                                      
+ Enter a command
+cmo/status/cmo_tet                                                              
+ 
+The current-mesh-object(CMO) is: cmo_tet                                        
+ 
+  2 Mesh Object name: cmo_tet                                                   
+    number of nodes =         19754        number of elements =        49932    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  1.975E+04  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  4.993E+04  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.632E-13  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.199E-13  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.110E-14  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  1.975E+04  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  5.000E-01  
+ 55            ymax REAL     scalar          scalar const perma   l  5.000E-01  
+ 56            zmax REAL     scalar          scalar const perma   l  2.000E-01  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  2.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66         itetpar VINT     scalar       nelements linea perma agl  0.000E+00  
+ 67         itetkid VINT     scalar       nelements linea perma agl  0.000E+00  
+ 68         itetlev VINT     scalar       nelements linea perma agl  0.000E+00  
+ 69            iign VINT     scalar          nnodes linea tempo  gx  0.000E+00  
+ Enter a command
+cmo/printatt/cmo_tet/-xyz-/minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  5.000000000E-01 5.000000000E-01     19754  
+ yic                0.000000000E+00  5.000000000E-01 5.000000000E-01     19754  
+ zic                0.000000000E+00  2.000000000E-01 2.000000000E-01     19754  
+ 
+ Enter a command
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   1.6316879E-13  4.3442151E-39                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :      49932                          
+min aspect ratio =  0.7174E+00  max aspect ratio =  0.7174E+00                  
+ 
+epsilonvol:   1.1102230E-14                                                     
+---------------------------------------                                         
+element volumes b/w  0.3255E-06 and  0.1134E-05:     39360                      
+element volumes b/w  0.1134E-05 and  0.3947E-05:      8640                      
+element volumes b/w  0.3947E-05 and  0.1374E-04:         0                      
+element volumes b/w  0.1374E-04 and  0.4786E-04:      1632                      
+element volumes b/w  0.4786E-04 and  0.1667E-03:       300                      
+min volume =   3.2552083E-07  max volume =   1.6666667E-04                      
+-----------------------------------------------------------                     
+     49932 total elements evaluated.                                            
+ 
+ Enter a command
+* end compare tet octree                                                        
+ Enter a command
+                                                                                
+                                                                                
+*END                                                                            
+ Enter a command
+finish                                                                          
+LaGriT successfully completed                                                   
+ 3  Test Directory refine_octree_prd -----------------------
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.107   Linux m64      *                 
+*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
+*               *    Run Time: 2015/Jul  6  13:56:10          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+ Enter a command
+**************************************************************                  
+ Enter a command
+* Test AMR refinement levels using principal refine direction (prd)             
+ Enter a command
+* Refine to 2 levels in xyz, refine to 7 levels in xy                           
+ Enter a command
+* Use the refine command with amr keyword followed by iprd                      
+ Enter a command
+* iprd - integer indicating the principal refinement direction.                 
+ Enter a command
+*       123 = x,y,z                                                             
+ Enter a command
+*       1 = x, 2 = y, 3 = z                                                     
+ Enter a command
+*       12 = xy, 23 = yz,  13 = xz                                              
+ Enter a command
+* no amr flag reverts to the original octree without prd option                 
+ Enter a command
+*                                                                               
+ Enter a command
+**************************************************************                  
+ Enter a command
+                                                                                
+* create a box with hex elements                                                
+ Enter a command
+cmo/create/cmo_hex///hex                                                        
+ Enter a command
+createpts/brick/xyz/3,3,2/0.,0.,0./50.,50.,20./1,1,1                            
+          Number of nodes:          18                                          
+          Number of elements:           4                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.500000000000E+05                                  
+ Enter a command
+cmo/setatt/cmo_hex/imt/1,0,0/1                                                  
+        18 values reset for attribute imt1                                      
+ 
+ Enter a command
+cmo/setatt/cmo_hex/idebug/3                                                     
+         1 values reset for attribute idebug                                    
+ 
+ Enter a command
+cmo/set_id/cmo_hex/element/itetclr                                              
+ Enter a command
+                                                                                
+* select a subset group of the hex elements to refine                           
+ Enter a command
+pset/p1/geom/xyz/1,0,0/0.,0.,0./1. 1. 50.                                       
+ 
+ THE PSET  p1  HAS          2 POINTS                                            
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,p1/2                                            
+         2 values reset for attribute imt1                                      
+ 
+ Enter a command
+                                                                                
+* refine the selected set of elements in all directions                         
+ Enter a command
+* begin compare here                                                            
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,p1/-1.,0.,0./inclusive/amr 123     
+refine elements:                                                                
+refine hex     :          1                                                     
+ 
+REFINE Running in debug mode:     3                                             
+ 
+Refine PRD:     4                                                               
+cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
+finish                                                                          
+Element iteration:          1         1                                         
+Octree(PRD) refined elems: old=         4 new=        12                        
+nlist =              1 sink nnodes =             37 mmgetlen =           1018   
+nlist =              6 sink nnodes =             37 mmgetlen =           1018   
+nlist =             12 sink nnodes =             37 mmgetlen =           1018   
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                1               1        12  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0                1               1        12  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0                5               5        12  
+ 
+finish                                                                          
+cmo/DELATT/cmo_hex/xradavg                                                      
+finish                                                                          
+ Enter a command
+cmo status cmo_hex brief                                                        
+ 
+The current-mesh-object(CMO) is: cmo_hex                                        
+ 
+  1 Mesh Object name: cmo_hex                                                   
+    number of nodes =            37        number of elements =           12    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+ Enter a command
+* end compare here                                                              
+ Enter a command
+rmpoint compress                                                                
+ final                     0                    0
+         0 points removed and          0 elements removed.                      
+   The new point count is        37.                                            
+   The new element count is        12.                                          
+ Enter a command
+                                                                                
+* refine again                                                                  
+ Enter a command
+pset/p1/release                                                                 
+ 
+ PSET p1       DELETED                                                          
+ 
+ Enter a command
+cmo/setatt/cmo_hex/imt/1,0,0/1                                                  
+        37 values reset for attribute imt1                                      
+ 
+ Enter a command
+pset/p1/geom/xyz/1,0,0/0.,0.,0./1. 1. 50.                                       
+ 
+ THE PSET  p1  HAS          3 POINTS                                            
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,p1/2                                            
+         3 values reset for attribute imt1                                      
+ 
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,p1/-1.,0.,0./inclusive/amr 123     
+refine elements:                                                                
+refine hex     :          3                                                     
+ 
+REFINE Running in debug mode:     3                                             
+ 
+Refine PRD:     4                                                               
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
+finish                                                                          
+Element iteration:          1         2                                         
+Octree(PRD) refined elems: old=        12 new=        28                        
+nlist =              2 sink nnodes =             75 mmgetlen =           1037   
+nlist =             12 sink nnodes =             75 mmgetlen =           1037   
+nlist =             24 sink nnodes =             75 mmgetlen =           1037   
+ 
+ Dudding      5 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                2               2        28  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0                9               9        28  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               21              21        28  
+ 
+finish                                                                          
+cmo/DELATT/cmo_hex/xradavg                                                      
+finish                                                                          
+ Enter a command
+rmpoint compress                                                                
+ final                     5                    0
+         5 points removed and          0 elements removed.                      
+   The new point count is        70.                                            
+   The new element count is        28.                                          
+ Enter a command
+                                                                                
+* refine again in the x and y directions                                        
+ Enter a command
+pset/p1/release                                                                 
+ 
+ PSET p1       DELETED                                                          
+ 
+ Enter a command
+cmo/setatt/cmo_hex/imt/1,0,0/1                                                  
+        70 values reset for attribute imt1                                      
+ 
+ Enter a command
+pset/p1/geom/xyz/1,0,0/0.,0.,0./1. 1. 50.                                       
+ 
+ THE PSET  p1  HAS          5 POINTS                                            
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,p1/2                                            
+         5 values reset for attribute imt1                                      
+ 
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,p1/-1.,0.,0./inclusive/amr 12      
+refine elements:                                                                
+refine hex     :          7                                                     
+ 
+REFINE Running in debug mode:     3                                             
+ 
+Refine PRD:    12                                                               
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
+finish                                                                          
+Element iteration:          1         4                                         
+Octree(PRD) refined elems: old=        28 new=        44                        
+nlist =              8 sink nnodes =            110 mmgetlen =           1070   
+nlist =             32 sink nnodes =            110 mmgetlen =           1070   
+ 
+ Dudding     15 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                3               3        44  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               25              25        44  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               41              41        44  
+ 
+finish                                                                          
+cmo/DELATT/cmo_hex/xradavg                                                      
+finish                                                                          
+ Enter a command
+rmpoint compress                                                                
+ final                    15                    0
+        15 points removed and          0 elements removed.                      
+   The new point count is        95.                                            
+   The new element count is        44.                                          
+ Enter a command
+                                                                                
+* refine again                                                                  
+ Enter a command
+pset/p1/release                                                                 
+ 
+ PSET p1       DELETED                                                          
+ 
+ Enter a command
+cmo/setatt/cmo_hex/imt/1,0,0/1                                                  
+        95 values reset for attribute imt1                                      
+ 
+ Enter a command
+pset/p1/geom/xyz/1,0,0/0.,0.,0./1. 1. 50.                                       
+ 
+ THE PSET  p1  HAS          5 POINTS                                            
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,p1/2                                            
+         5 values reset for attribute imt1                                      
+ 
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,p1/-1.,0.,0./inclusive/amr 12      
+refine elements:                                                                
+refine hex     :         11                                                     
+ 
+REFINE Running in debug mode:     3                                             
+ 
+Refine PRD:    12                                                               
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
+finish                                                                          
+Element iteration:          1         4                                         
+Octree(PRD) refined elems: old=        44 new=        60                        
+nlist =              8 sink nnodes =            135 mmgetlen =           1095   
+nlist =             32 sink nnodes =            135 mmgetlen =           1095   
+ 
+ Dudding     15 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                4               4        60  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               41              41        60  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               57              57        60  
+ 
+finish                                                                          
+cmo/DELATT/cmo_hex/xradavg                                                      
+finish                                                                          
+ Enter a command
+rmpoint compress                                                                
+ final                    15                    0
+        15 points removed and          0 elements removed.                      
+   The new point count is       120.                                            
+   The new element count is        60.                                          
+ Enter a command
+                                                                                
+* refine again                                                                  
+ Enter a command
+pset/p1/release                                                                 
+ 
+ PSET p1       DELETED                                                          
+ 
+ Enter a command
+cmo/setatt/cmo_hex/imt/1,0,0/1                                                  
+       120 values reset for attribute imt1                                      
+ 
+ Enter a command
+pset/p1/geom/xyz/1,0,0/0.,0.,0./1. 1. 50.                                       
+ 
+ THE PSET  p1  HAS          5 POINTS                                            
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,p1/2                                            
+         5 values reset for attribute imt1                                      
+ 
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,p1/-1.,0.,0./inclusive/amr 12      
+refine elements:                                                                
+refine hex     :         15                                                     
+ 
+REFINE Running in debug mode:     3                                             
+ 
+Refine PRD:    12                                                               
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
+finish                                                                          
+Element iteration:          1         4                                         
+Octree(PRD) refined elems: old=        60 new=        76                        
+nlist =              8 sink nnodes =            160 mmgetlen =           1120   
+nlist =             32 sink nnodes =            160 mmgetlen =           1120   
+ 
+ Dudding     15 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                5               5        76  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               57              57        76  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               73              73        76  
+ 
+finish                                                                          
+cmo/DELATT/cmo_hex/xradavg                                                      
+finish                                                                          
+ Enter a command
+rmpoint compress                                                                
+ final                    15                    0
+        15 points removed and          0 elements removed.                      
+   The new point count is       145.                                            
+   The new element count is        76.                                          
+ Enter a command
+                                                                                
+* refine again                                                                  
+ Enter a command
+pset/p1/release                                                                 
+ 
+ PSET p1       DELETED                                                          
+ 
+ Enter a command
+cmo/setatt/cmo_hex/imt/1,0,0/1                                                  
+       145 values reset for attribute imt1                                      
+ 
+ Enter a command
+pset/p1/geom/xyz/1,0,0/0.,0.,0./1. 1. 50.                                       
+ 
+ THE PSET  p1  HAS         20 POINTS                                            
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,p1/2                                            
+        20 values reset for attribute imt1                                      
+ 
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,p1/-1.,0.,0./inclusive/amr 12      
+refine elements:                                                                
+refine hex     :         31                                                     
+ 
+REFINE Running in debug mode:     3                                             
+ 
+Refine PRD:    12                                                               
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
+finish                                                                          
+Element iteration:          1        16                                         
+Octree(PRD) refined elems: old=        76 new=       140                        
+nlist =             32 sink nnodes =            305 mmgetlen =           1145   
+nlist =            128 sink nnodes =            305 mmgetlen =           1145   
+ 
+ Dudding     80 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+Element iteration:          1         8                                         
+Octree(PRD) refined elems: old=       140 new=       172                        
+nlist =             16 sink nnodes =            385 mmgetlen =           1305   
+nlist =             64 sink nnodes =            385 mmgetlen =           1305   
+ 
+ Dudding     40 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+Element iteration:          1         8                                         
+Octree(PRD) refined elems: old=       172 new=       204                        
+nlist =             16 sink nnodes =            465 mmgetlen =           1385   
+nlist =             64 sink nnodes =            465 mmgetlen =           1385   
+ 
+ Dudding     40 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+Element iteration:          1         8                                         
+Octree(PRD) refined elems: old=       204 new=       236                        
+nlist =             16 sink nnodes =            545 mmgetlen =           1465   
+nlist =             64 sink nnodes =            545 mmgetlen =           1465   
+ 
+ Dudding     40 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+Element iteration:          1         4                                         
+Octree(PRD) refined elems: old=       236 new=       252                        
+nlist =              8 sink nnodes =            585 mmgetlen =           1545   
+nlist =             32 sink nnodes =            585 mmgetlen =           1545   
+ 
+ Dudding     16 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+Element iteration:          1         2                                         
+Octree(PRD) refined elems: old=       252 new=       260                        
+nlist =              4 sink nnodes =            605 mmgetlen =           1585   
+nlist =             16 sink nnodes =            605 mmgetlen =           1585   
+ 
+ Dudding      4 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                6               6       260  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               76              76       260  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0              257             257       260  
+ 
+finish                                                                          
+cmo/DELATT/cmo_hex/xradavg                                                      
+finish                                                                          
+ Enter a command
+rmpoint compress                                                                
+ final                   220                    0
+       220 points removed and          0 elements removed.                      
+   The new point count is       385.                                            
+   The new element count is       260.                                          
+ Enter a command
+                                                                                
+* refine again                                                                  
+ Enter a command
+pset/p1/release                                                                 
+ 
+ PSET p1       DELETED                                                          
+ 
+ Enter a command
+cmo/setatt/cmo_hex/imt/1,0,0/1                                                  
+       385 values reset for attribute imt1                                      
+ 
+ Enter a command
+pset/p1/geom/xyz/1,0,0/0.,0.,0./1. 1. 50.                                       
+ 
+ THE PSET  p1  HAS         45 POINTS                                            
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,p1/2                                            
+        45 values reset for attribute imt1                                      
+ 
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,p1/-1.,0.,0./inclusive/amr 12      
+refine elements:                                                                
+refine hex     :         67                                                     
+ 
+REFINE Running in debug mode:     3                                             
+ 
+Refine PRD:    12                                                               
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
+finish                                                                          
+Element iteration:          1        36                                         
+Octree(PRD) refined elems: old=       260 new=       404                        
+nlist =             72 sink nnodes =            745 mmgetlen =           1385   
+nlist =            288 sink nnodes =            745 mmgetlen =           1385   
+ 
+ Dudding    195 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                7               7       404  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0              137             137       404  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0              401             401       404  
+ 
+finish                                                                          
+cmo/DELATT/cmo_hex/xradavg                                                      
+finish                                                                          
+ Enter a command
+rmpoint compress                                                                
+ final                   195                    0
+       195 points removed and          0 elements removed.                      
+   The new point count is       550.                                            
+   The new element count is       404.                                          
+ Enter a command
+                                                                                
+* refine again                                                                  
+ Enter a command
+pset/p1/release                                                                 
+ 
+ PSET p1       DELETED                                                          
+ 
+ Enter a command
+cmo/setatt/cmo_hex/imt/1,0,0/1                                                  
+       550 values reset for attribute imt1                                      
+ 
+ Enter a command
+pset/p1/geom/xyz/1,0,0/0.,0.,0./1. 1. 50.                                       
+ 
+ THE PSET  p1  HAS        180 POINTS                                            
+ Enter a command
+cmo/setatt/cmo_hex/imt/pset,get,p1/2                                            
+       180 values reset for attribute imt1                                      
+ 
+ Enter a command
+                                                                                
+* begin compare here                                                            
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,p1/-1.,0.,0./inclusive/amr 123     
+refine elements:                                                                
+refine hex     :        211                                                     
+ 
+REFINE Running in debug mode:     3                                             
+ 
+Refine PRD:     4                                                               
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
+finish                                                                          
+Element iteration:          1       144                                         
+Octree(PRD) refined elems: old=       404 new=      1556                        
+nlist =            144 sink nnodes =           3286 mmgetlen =           3526   
+nlist =            864 sink nnodes =           3286 mmgetlen =           3526   
+nlist =           1728 sink nnodes =           3286 mmgetlen =           3526   
+ 
+ Dudding   1460 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+Element iteration:          1        24                                         
+Octree(PRD) refined elems: old=      1556 new=      1748                        
+nlist =             24 sink nnodes =           3742 mmgetlen =           4286   
+nlist =            144 sink nnodes =           3742 mmgetlen =           4286   
+nlist =            288 sink nnodes =           3742 mmgetlen =           4286   
+ 
+ Dudding    244 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+Element iteration:          1        16                                         
+Octree(PRD) refined elems: old=      1748 new=      1876                        
+nlist =             16 sink nnodes =           4046 mmgetlen =           4742   
+nlist =             96 sink nnodes =           4046 mmgetlen =           4742   
+nlist =            192 sink nnodes =           4046 mmgetlen =           4742   
+ 
+ Dudding    150 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+Element iteration:          1         4                                         
+Octree(PRD) refined elems: old=      1876 new=      1908                        
+nlist =              4 sink nnodes =           4122 mmgetlen =           5046   
+nlist =             24 sink nnodes =           4122 mmgetlen =           5046   
+nlist =             48 sink nnodes =           4122 mmgetlen =           5046   
+ 
+ Dudding     37 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.163168794661E-10                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                8               8      1908  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0              404             404      1908  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0             1901            1901      1908  
+ 
+finish                                                                          
+cmo/DELATT/cmo_hex/xradavg                                                      
+finish                                                                          
+ Enter a command
+rmpoint compress                                                                
+ final                  1891                    0
+      1891 points removed and          0 elements removed.                      
+   The new point count is      2231.                                            
+   The new element count is      1908.                                          
+ Enter a command
+cmo status cmo_hex brief                                                        
+ 
+The current-mesh-object(CMO) is: cmo_hex                                        
+ 
+  1 Mesh Object name: cmo_hex                                                   
+    number of nodes =          2231        number of elements =         1908    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+ Enter a command
+cmo printatt cmo_hex -all- minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00      2231  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                        2231             2231               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                     1908             1908               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                8                8               0         1  
+ edges_per_element               12               12               0         1  
+ faces_per_element                6                6               0         1  
+ isetwd                           0                1               1      2231  
+ ialias                           0             4122            4122      2231  
+ imt1                             1                2               1      2231  
+ itp1                             0                0               0      2231  
+ icr1                             0                0               0      2231  
+ isn1                             0                0               0      2231  
+ xic                0.000000000E+00  5.000000000E+01 5.000000000E+01      2231  
+ yic                0.000000000E+00  5.000000000E+01 5.000000000E+01      2231  
+ zic                0.000000000E+00  2.000000000E+01 2.000000000E+01      2231  
+ xtetwd                           0                0               0      1908  
+ itetclr                          1                4               3      1908  
+ itettyp                          8                8               0      1908  
+ itetoff                          0            15256           15256      1908  
+ jtetoff                          0            11442           11442      1908  
+ itet                             1             2231            2230      1908x8
+ jtet                            26         16000024        15999998      1908x6
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           1.631687947E-11  1.631687947E-11 0.000000000E+00         1  
+ epsilona           1.199040867E-09  1.199040867E-09 0.000000000E+00         1  
+ epsilonv           1.110223025E-08  1.110223025E-08 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                       2231             2231               0         1  
+ idebug                           3                3               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               5.000000000E+01  5.000000000E+01 0.000000000E+00         1  
+ ymax               5.000000000E+01  5.000000000E+01 0.000000000E+00         1  
+ zmax               2.000000000E+01  2.000000000E+01 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  1                1               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ itetpar                          0              404             404      1908  
+ itetkid                          0             1901            1901      1908  
+ itetlev                          0                8               8      1908  
+ 
+ Enter a command
+* end compare here                                                              
+ Enter a command
+*dump gmv output20_prd_L8.gmv                                                   
+ Enter a command
+                                                                                
+cmo delete cmo_hex                                                              
+     Released Mesh Object: cmo_hex                                              
+ Enter a command
+                                                                                
+* Element set 3D                                                                
+ Enter a command
+* one level xyz, second z                                                       
+ Enter a command
+read avs input_hex.inp cmo_hex                                                  
+                    4                    0
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmo_hex                                        
+ 
+  1 Mesh Object name: cmo_hex                                                   
+    number of nodes =            18        number of elements =            4    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+ Enter a command
+eltset/elm2/itetclr/eq 2                                                        
+ 
+ THE ELTSET elm2                             HAS          1 ELEMENTS            
+ Enter a command
+pset/pelm2/eltset elm2                                                          
+ 
+ THE PSET  pelm2  HAS          8 POINTS                                         
+ Enter a command
+cmo setatt cmo_hex idebug 6                                                     
+         1 values reset for attribute idebug                                    
+ 
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,pelm2/-1.,0.,0./inclusive/amr 123  
+refine elements:                                                                
+refine hex     :          4                                                     
+ 
+REFINE Running in debug mode:     6                                             
+ 
+Refine PRD:     4                                                               
+cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
+finish                                                                          
+Element iteration:          1         4                                         
+Octree(PRD) refined elems: old=         4 new=        36                        
+nlist =              4 sink nnodes =             94 mmgetlen =           1018   
+nlist =             24 sink nnodes =             94 mmgetlen =           1018   
+nlist =             48 sink nnodes =             94 mmgetlen =           1018   
+ 
+ Dudding     19 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.104148151432E-11                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                1               1        36  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0                4               4        36  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               29              29        36  
+ 
+finish                                                                          
+ Enter a command
+rmpoint compress                                                                
+ final                    19                    0
+        19 points removed and          0 elements removed.                      
+   The new point count is        75.                                            
+   The new element count is        36.                                          
+ Enter a command
+                                                                                
+eltset/elm2/itetclr/eq 2                                                        
+ 
+ THE ELTSET elm2                             HAS          9 ELEMENTS            
+ Enter a command
+pset/pelm2/eltset elm2                                                          
+ 
+ THE PSET  pelm2  HAS         27 POINTS                                         
+ Enter a command
+cmo setatt cmo_hex idebug 6                                                     
+         1 values reset for attribute idebug                                    
+ 
+ Enter a command
+*begin compare here                                                             
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,pelm2/-1.,0.,0./inclusive/amr 12   
+refine elements:                                                                
+refine hex     :         22                                                     
+ 
+REFINE Running in debug mode:     6                                             
+ 
+Refine PRD:    12                                                               
+Element iteration:          1        18                                         
+Octree(PRD) refined elems: old=        36 new=       108                        
+nlist =             36 sink nnodes =            255 mmgetlen =           1075   
+nlist =            144 sink nnodes =            255 mmgetlen =           1075   
+ 
+ Dudding     88 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.104148151432E-11                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                2               2       108  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               32              32       108  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0              105             105       108  
+ 
+finish                                                                          
+ Enter a command
+*end compare here                                                               
+ Enter a command
+*dump gmv output21_L2x.gmv                                                      
+ Enter a command
+                                                                                
+cmo delete cmo_hex                                                              
+     Released Mesh Object: cmo_hex                                              
+ Enter a command
+                                                                                
+* Element set 2D                                                                
+ Enter a command
+* one level xy, second x                                                        
+ Enter a command
+read avs input_quad.inp cmo_hex                                                 
+                    4                    0
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmo_hex                                        
+ 
+  1 Mesh Object name: cmo_hex                                                   
+    number of nodes =            15        number of elements =            8    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+ Enter a command
+cmo setatt cmo_hex idebug 6                                                     
+         1 values reset for attribute idebug                                    
+ 
+ Enter a command
+cmo setatt cmo_hex imt1 1                                                       
+        15 values reset for attribute imt1                                      
+ 
+ Enter a command
+resetpts itp                                                                    
+geniee                                                                          
+finish                                                                          
+ Enter a command
+                                                                                
+eltset/elm2/itetclr/ge 7                                                        
+ 
+ THE ELTSET elm2                             HAS          2 ELEMENTS            
+ Enter a command
+pset/pelm2/eltset elm2                                                          
+ 
+ THE PSET  pelm2  HAS          6 POINTS                                         
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,pelm2/-1.,0.,0./inclusive/amr 12   
+refine elements:                                                                
+refine quad    :          6                                                     
+ 
+REFINE Running in debug mode:     6                                             
+ 
+Refine PRD:    12                                                               
+cmo/addatt/cmo_hex/itetpar/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+cmo/addatt/cmo_hex/itetkid/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent//0.0          
+finish                                                                          
+cmo/addatt/cmo_hex/xradavg/VDOUBLE/scalar/nnodes/linear/temporary//0.0          
+finish                                                                          
+Element iteration:          1         6                                         
+Octree(PRD) refined elems: old=         8 new=        32                        
+nlist =              6 sink nnodes =             45 mmgetlen =           1015   
+nlist =             24 sink nnodes =             45 mmgetlen =           1015   
+ 
+ Dudding      7 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.157009245868E-11                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                1               1        32  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0                8               8        32  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               29              29        32  
+ 
+finish                                                                          
+ Enter a command
+* begin compare here                                                            
+ Enter a command
+cmo printatt cmo_hex itetclr                                                    
+Attribute: itetclr                                                              
+         1          1                                                           
+         2          2                                                           
+         3          3                                                           
+         4          4                                                           
+         5          5                                                           
+         6          6                                                           
+         7          7                                                           
+         8          8                                                           
+         9          2                                                           
+        10          2                                                           
+        11          2                                                           
+        12          2                                                           
+        13          3                                                           
+        14          3                                                           
+        15          3                                                           
+        16          3                                                           
+        17          4                                                           
+        18          4                                                           
+        19          4                                                           
+        20          4                                                           
+        21          6                                                           
+        22          6                                                           
+        23          6                                                           
+        24          6                                                           
+        25          7                                                           
+        26          7                                                           
+        27          7                                                           
+        28          7                                                           
+        29          8                                                           
+        30          8                                                           
+        31          8                                                           
+        32          8                                                           
+ 
+ Enter a command
+cmo printatt cmo_hex itetlev                                                    
+Attribute: itetlev                                                              
+         1          0                                                           
+         2          0                                                           
+         3          0                                                           
+         4          0                                                           
+         5          0                                                           
+         6          0                                                           
+         7          0                                                           
+         8          0                                                           
+         9          1                                                           
+        10          1                                                           
+        11          1                                                           
+        12          1                                                           
+        13          1                                                           
+        14          1                                                           
+        15          1                                                           
+        16          1                                                           
+        17          1                                                           
+        18          1                                                           
+        19          1                                                           
+        20          1                                                           
+        21          1                                                           
+        22          1                                                           
+        23          1                                                           
+        24          1                                                           
+        25          1                                                           
+        26          1                                                           
+        27          1                                                           
+        28          1                                                           
+        29          1                                                           
+        30          1                                                           
+        31          1                                                           
+        32          1                                                           
+ 
+ Enter a command
+cmo printatt cmo_hex itetkid                                                    
+Attribute: itetkid                                                              
+         1          0                                                           
+         2          9                                                           
+         3         13                                                           
+         4         17                                                           
+         5          0                                                           
+         6         21                                                           
+         7         25                                                           
+         8         29                                                           
+         9          0                                                           
+        10          0                                                           
+        11          0                                                           
+        12          0                                                           
+        13          0                                                           
+        14          0                                                           
+        15          0                                                           
+        16          0                                                           
+        17          0                                                           
+        18          0                                                           
+        19          0                                                           
+        20          0                                                           
+        21          0                                                           
+        22          0                                                           
+        23          0                                                           
+        24          0                                                           
+        25          0                                                           
+        26          0                                                           
+        27          0                                                           
+        28          0                                                           
+        29          0                                                           
+        30          0                                                           
+        31          0                                                           
+        32          0                                                           
+ 
+ Enter a command
+cmo printatt cmo_hex itetpar                                                    
+Attribute: itetpar                                                              
+         1          0                                                           
+         2          0                                                           
+         3          0                                                           
+         4          0                                                           
+         5          0                                                           
+         6          0                                                           
+         7          0                                                           
+         8          0                                                           
+         9          2                                                           
+        10          2                                                           
+        11          2                                                           
+        12          2                                                           
+        13          3                                                           
+        14          3                                                           
+        15          3                                                           
+        16          3                                                           
+        17          4                                                           
+        18          4                                                           
+        19          4                                                           
+        20          4                                                           
+        21          6                                                           
+        22          6                                                           
+        23          6                                                           
+        24          6                                                           
+        25          7                                                           
+        26          7                                                           
+        27          7                                                           
+        28          7                                                           
+        29          8                                                           
+        30          8                                                           
+        31          8                                                           
+        32          8                                                           
+ 
+ Enter a command
+* end compare here                                                              
+ Enter a command
+*dump gmv output22_2d_L1xy.gmv cmo_hex ascii                                    
+ Enter a command
+                                                                                
+eltset elm2 delete                                                              
+ 
+ ELTSET elm2                             DELETED                                
+ 
+ Enter a command
+pset pelm2 delete                                                               
+ 
+ PSET pelm2    DELETED                                                          
+ 
+ Enter a command
+                                                                                
+eltset/elm2/itetclr/le 2                                                        
+ 
+ THE ELTSET elm2                             HAS          6 ELEMENTS            
+ Enter a command
+pset/pelm2/eltset elm2                                                          
+ 
+ THE PSET  pelm2  HAS         11 POINTS                                         
+ Enter a command
+* begin compare here                                                            
+ Enter a command
+refine/constant/imt1/linear/element/pset,get,pelm2/-1.,0.,0./inclusive/amr 1    
+refine elements:                                                                
+refine quad    :         15                                                     
+ 
+REFINE Running in debug mode:     6                                             
+ 
+Refine PRD:     1                                                               
+Element iteration:          1        11                                         
+Octree(PRD) refined elems: old=        32 new=        54                        
+nlist =             22 sink nnodes =             67 mmgetlen =           1045   
+ 
+ Dudding      7 duplicate points.                                               
+ ELMTESTD WARNING:                     0  faces are part of jtet loops          
+ ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
+                                                                        of nodes
+         or diff repeated nodes, jtet_reduce_nnd=                    0          
+ ELMTESTD WARNING: mesh has                     0  degenerate elements          
+         and                     0  self-degenerate elements                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.157009245868E-11                       
+ 
+FILTER:Dudding      0 duplicate points.                                         
+geniee                                                                          
+ geniee: mesh has                    11  jtet loops, max cycle length=          
+                                                                               4
+finish                                                                          
+cmo/printatt/cmo_hex/itetlev minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetlev                          0                2               2        54  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetpar minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetpar                          0               25              25        54  
+ 
+finish                                                                          
+cmo/printatt/cmo_hex/itetkid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetkid                          0               53              53        54  
+ 
+finish                                                                          
+ Enter a command
+* end compare here                                                              
+ Enter a command
+*dump gmv output23_2d_L2xyz.gmv                                                 
+ Enter a command
+                                                                                
+                                                                                
+* STOP                                                                          
+ Enter a command
+finish                                                                          
+LaGriT successfully completed                                                   

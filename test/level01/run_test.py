@@ -1,5 +1,4 @@
-#
-# ! /n/local_linux/epd/bin/python2.7
+#! /n/local_linux/epd/bin/python2.7
 #
 # /usr/local/bin/python -> python3.2  
 # NOTE: this uses python before vers 3
@@ -17,7 +16,8 @@
 #
 #------------------------------------------------------------------------------
 
-import fileinput, string, os, sys, datetime, time
+import fileinput, string, os, sys, datetime, time, shutil
+__all__ = ["directoryList", "RunTest"]
 
 ##############################################################################
 # Routines listed here, main at bottom
@@ -43,135 +43,121 @@ def directoryList( unused, dirName, fileList ):
 #
 #------------------------------------------------------------------------------
 
-if __name__ == "__main__":
+# executes the tests in directories
+def RunTest(**args):
 
-  dirList = []
+  # dirList = []
   errList = []
   errmess = []
+  errors = {'general': []} # USE THIS EVENTUALLY
   ierr = 0
   itest = 0
   osname="unknown"
-  ostag=""
+  # ostag=""
   result_dir = 0
+  tag = args['tag'] # output file name tag
+  dtop = os.curdir # getting top level directory
+  dtop_path = os.getcwd() # getting filepath to top directory
+  osname = sys.platform # getting platform
+  directories = os.listdir(dtop)
 
-# define executable
-  xlagrit="lagrit"
-  xlagrit="/home/tam/src/build_lagrit/lin64/lagrit_lin64"
-  xlagrit="/home/tam/src/build_lagrit/mac64/lagrit_maci64"
-  xlagrit="/n/swdev/LAGRIT/work/lagrit/src/mylagrit"
+  # define executable
+  #xlagrit = "/n/swdev/LAGRIT/bin/lagrit_ulin_g_gf_V3.107.so"
+  # xlagrit = "/scratch/sft/yanki/lagrit/src/mylagrit"
+  # xlagrit = "Y:/yanki/lagrit/src/mylagrit"
+  xlagrit = args["executable"]
 
-# get platform
-  print "======="
-  osname= string.lower(sys.platform)
-  print osname
-  print "======="
-  if osname.find("linux") >= 0 :
-     ostag="lin"
-     ostag="lin64"
-  elif osname.find("sun")>=0 or osname.find("sol")>=0 :
-     ostag="sun"
-  elif osname.find("darwin")>= 0 :
-#    for intel compile
-     ostag="mac"
-     ostag="maci"
-  elif osname.find("IRIX")>= 0 :
-     ostag="sgi"
-  elif osname.find("irix")>= 0 :
-     ostag="sgi"
-  else :
-     ostag="def" 
+  print("=======")
 
-# for each test directory
-# main loop
-  dtop = os.curdir
-  for name in os.listdir(dtop) :
-    dwork = os.path.join(dtop, name)
-
-#---go into each directory and do some work
-    if os.path.isdir(dwork) : 
+  for name in directories:
+    # if directory exists, add to dict of errors
+    if os.path.isdir(name) : 
         errmess.append("empty")
-  print osname, ostag
+        errors[name] = []
 
 # define top directory as current directory
-  dtop = os.curdir
-  dtop_path = os.getcwd()
-  fscreen = dtop_path+"/stdout_"+ostag+".txt"
+  fscreen = dtop_path + "/stdout_" + tag + ".txt"
+  outfile = "stdout_" + tag + ".txt"
   date = time.ctime()
-  wfile = open(fscreen,'w')
-  line= "OS: "+osname+"\n"+"USING: "+xlagrit
-  print line
-  wfile.write(line+"\n")
-  line= "Top directory: "+dtop_path+" at "+date
-  print line
-  wfile.write(line+"\n")
+  # wfile = open(fscreen, 'w')
+  wfile = open(outfile, 'w')
+  line = ("Operating System:\t" + osname + "\n" +
+        "Executable:\t\t" + xlagrit + "\n" +
+        "Top directory:\t\t" + dtop_path + "\n" +
+        "Out file:\t\tstdout_" + tag + ".txt\n\tOn " + date)
+  print(line)
+  print("=======")
+  wfile.write(line + "\n")
   wfile.close()
 
 # for each test directory
 # main loop
-  for name in os.listdir(dtop) :
+  # for index, name in enumerate(os.listdir(dtop)):
+  for name in directories:
+    # if index > 2:
+    #     result_dir = 1
+    #     continue
     dwork = os.path.join(dtop, name)
 
 #---skip results directory until end
-    if (dwork == "./result_files") :
+    if name == "test_results":
         result_dir = 1
-
 #---go into each directory and do some work
-    elif os.path.isdir(dwork) : 
+    elif os.path.isdir(name):
 
         errmess.append("empty")
-        os.chdir(dwork)
+        os.chdir(name)
 
-        itest=itest+1
-        line= " "+repr(itest)+"  Test Directory "+dwork+" -----------------------" 
+        # itest = itest + 1
+        itest += 1
+        line = (" " + str(itest) + "  Test Directory " + name + " -----------------------")
         print line
-        wfile = open(fscreen,'a')
-        wfile.write(line+"\n")
+        wfile = open(fscreen, 'a')
+        wfile.write(line + "\n")
         wfile.close()
 
-        if (os.path.exists("outx3dgen")) :
-          cmd = "cp -p outx3dgen prev_outx3dgen"
-          fo1 = os.system(cmd)
-          cmd = "rm out*"
-          fo1 = os.system(cmd)
-
+        if os.path.exists("outx3dgen"):
+            shutil.copyfile("outx3dgen", "prev_outx3dgen")
+            # for f in [ f for f in os.listdir('.') if f.startswith("out")]:
+            #     os.remove(f)
+            os.remove("outx3dgen")
 
         if (os.path.exists("input.lgi")) : 
-          cmd = xlagrit+" < input.lgi >> "+fscreen
+          cmd = xlagrit + " < input.lgi >> " + fscreen
           print cmd
           fo1 = os.system(cmd)
-          print "System exit: "+repr(fo1)
-          if (fo1 == 0) :
-            dirList.append(repr(itest)+" "+dwork)
-          else :
-            errList.append(repr(itest)+" "+dwork)
-            errmess[ierr]="Exit code: "+repr(fo1)
-            ierr = ierr+1
-
-        else :
-          print "File missing: input.lgi" 
-          errList.append(repr(itest)+" "+dwork)
-          errmess[ierr]="Missing LaGriT input file."
-          ierr = ierr+1
+          if fo1 != 0:
+            print("System exit: %s" % fo1)
+            errList.append(repr(itest) + " " + dwork)
+            errmess[ierr] = "Exit code: " + repr(fo1)
+            ierr = ierr + 1
+            errors[name].append(str(itest) + " ERROR: Cannot execute input.\nExit code: " + str(fo1))
+        else:
+          print("ERROR: File missing: input.lgi") 
+          errList.append(repr(itest) + " " + dwork)
+          errmess[ierr] = "Missing LaGriT input file."
+          ierr = ierr + 1
+          errors[name].append(str(itest) + " ERROR: input.lgi file does not exist.")
         
         os.chdir(dtop_path)
 #---done with work in lower directory
            
 # end main loop
   wfile.close()
-  print "Testing Done. "
+  print("Testing Done.")
 
 # search outx3dgen files for key start and end phrases
-  progstr="Program header not found. "
-  sustr="Program not completed. "
-  nfind=0
-  rfile=open(fscreen,'r')
-  outx3dgen=rfile.readlines()
-  for line in outx3dgen :
+  progstr = "Program header not found. "
+  sustr = "Program not completed. "
+  nfind = 0
+  rfile = open(fscreen,'r')
+  # outx3dgen = rfile.readlines()
+  for line in rfile.readlines():
       
       dirno = line.find("Test Directory")
-      progno=line.find("Program")
-      suno=line.find("successfully")
-
+      progno = line.find("Program")
+      suno = line.find("successfully")
+      # print dirno, progno, suno
       if dirno >= 0:
           dirstr="Check outx3dgen "+line[:50]
       if progno >= 0 :
@@ -180,7 +166,7 @@ if __name__ == "__main__":
           sustr=line[:29] 
           print dirstr
           print progstr + " : " + sustr
-          nfind=nfind+1
+          nfind = nfind+1
   rfile.close()
 
 # attempt to pass error conditions if found
@@ -195,18 +181,15 @@ if __name__ == "__main__":
       fo1 = os.system(cmd)
       print "--------------------------------------"
       print " "
-      i=i+1
+      i = i + 1
 
-  print "\n"+"Found "+repr(nfind)+" completed outx3dgen files out of "+repr(itest)+" test directories."
-  if result_dir :
-    b = os.system('cp -p '+fscreen+' ./result_files')
-    print "Check done."+"\n"+"Screen output written to: "+"\n"
-    print fscreen+"\n"
-    print "and copied to ./result_files "+"\n"
-  
-  else :
-    print "LaGriT outx3dgen and screen output written to "+fscreen+"\n"
+  print("\nSummary:\t\t%s completed outx3dgen files out of %s test directories" % (repr(nfind), repr(itest)))
+  if result_dir:
+    shutil.copyfile(outfile, "./test_results/" + outfile)
+    print("Output written to:\t%s\nAnd moved to:\t\t./test_results\n" % outfile)
+  else:
+    errors['general'].append("Warning: No test_results directory.")
+    print("LaGriT outx3dgen and screen output written to: %s\n" % outfile)
       
 # end Main 
 #------------------------------------------------------------------------------
-

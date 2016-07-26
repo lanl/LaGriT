@@ -19,6 +19,46 @@ cmo / printatt / moprism / -all- minmax
 
 ## IDENTIFY FACESETS for top (and other 5 directions) ####
 
+## IMPORTANT ###################
+The cells MUST be pre-sorted by itetclr material values
+Exodus will reorder elements internally, we do not want the
+cells to be re-ordered. If they are, faceset correlation to
+the cell numbers will no longer be correct.
+Check that facesets are correct by reading the exo file into GMV
+and selecting Surfaces under Display.
+
+In dump exodus (internal to lagrit):
+dump/exo/prism_one.exo/moprism
+
+ExodusII: Start writing to file: prism_one.exo using cmo: moprism
+
+cmo/set_id/moprism/element/e_num_temp
+cmo/addatt/moprism e_num_temp/VINT/scalar/nelements/linear/permanent//0
+sort/moprism/index/ascending/ikey_utr/itetclr/e_num_temp
+cmo/addatt/moprism/ikey_utr/vint/scalar/nelements///gax/0
+ SORT: order key written to attribute: ikey_utr
+
+
+#--------- BEFORE EXTRACT --------------------------------------
+# sort based on itetclr values and cell location
+# secondary sort conventions are up to user
+# xmed, ymed, zmed will arrange into columns (after itetclr sort)
+
+createpts / median
+sort / mohex / index / ascending / ikey / itetclr xmed ymed zmed
+reorder / mohex / ikey
+  dump / gmv / out_tmp_sort1.gmv / mohex
+  cmo / DELATT / mohex / ikey
+
+# sort nodes based on mesh convention z, y, then x
+sort / mohex / index / ascending / ikey / zic yic xic
+reorder / mohex / ikey
+#----------------------------------------------------------------
+
+(Note in this example sort was not used, but itetclr is ordered correctly
+during the stack process, so facesets are correct)
+
+
 # Extract the outside surface of the 3D mesh                                             
   For a prism mesh, the extracted surface will have quads on the sides
   and triangles on the top and bottom. 

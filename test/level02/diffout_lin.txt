@@ -1,0 +1,415 @@
+Start in directory: /scratch/sft/yanki/lagrit/test/level02 at Thu Jul 30 17:08:28 2015
+
+Diff Summary ===================================================================
+
+1 Check Directory ./exodus_cube --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V3.101   Linux m64      *
++*               *    Program:  LaGriT V3.200   Linux m64      *
+-*               *    date_compile: 2013/04/25  RH gf4.5       *
++*               *    date_compile: 2015/07/14  Ubu gf         *
+-*               *    Run Time: 2013/May  6  13:54:07          *
++*               *    Run Time: 2015/Jul 30  17:08:09          *
+Lines Essentially the Same: 3 out of 3
+
+Test has 0 diffs at line 359 >>
+Lines Essentially the Same: 0 out of 0
+3 comment lines.
+No lines differ.
+1 Done with Directory ./exodus_cube -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./exodus_cube/reference/outx3dgen	Wed Jul 22 17:46:01 2015
++++ ./exodus_cube/outx3dgen	Thu Jul 30 17:07:32 2015
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.101   Linux m64      *                 
+-*               *    date_compile: 2013/04/25  RH gf4.5       *                 
+-*               *    Run Time: 2013/May  6  13:54:07          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2015/07/14  Ubu gf         *                 
++*               *    Run Time: 2015/Jul 30  17:08:09          *                 
+@@ -359 +359 @@
+-ExodusII: Done writing to file: output_hex_final.exo using cmo: mohex           
++ExodusII: Done writing to ExodusII file: output_hex_final.exo using cmo: mohex  
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+2 Check Directory ./exodus_prisms --------------------------
+
+Test has 0 diffs at line 7 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 34 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 52 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 58 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 62 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 70 >>
+-Read first surface: out_one_tri_z0.inp
++Read first surface: tmp_one_tri_z0.inp
+-read/avs/out_one_tri_z0.inp/def1
++read/avs/tmp_one_tri_z0.inp/def1
+Lines Essentially the Same: 1 out of 2
+
+Test has 2 diffs at line 99 >>
+-Read surface: out_one_tri_z1.inp
++Read surface: tmp_one_tri_z1.inp
+-read/avs/out_one_tri_z1.inp/def2
++read/avs/tmp_one_tri_z1.inp/def2
+Lines Essentially the Same: 1 out of 2
+
+Test has 0 diffs at line 143 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 159 >>
+-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00
++   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00
+-   out_one_tri_z1.inp     2    2   -2         4)   1.000000E-01
++   tmp_one_tri_z1.inp     2    2   -2         4)   1.000000E-01
+Lines Essentially the Same: 0 out of 2
+
+Test has 0 diffs at line 385 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 391 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 395 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 403 >>
+-Read first surface: out_one_tri_z0.inp
++Read first surface: tmp_one_tri_z0.inp
+-read/avs/out_one_tri_z0.inp/def1
++read/avs/tmp_one_tri_z0.inp/def1
+Lines Essentially the Same: 1 out of 2
+
+Test has 2 diffs at line 432 >>
+-Read surface: out_one_tri_z1.inp
++Read surface: tmp_one_tri_z1.inp
+-read/avs/out_one_tri_z1.inp/def2
++read/avs/tmp_one_tri_z1.inp/def2
+Lines Essentially the Same: 1 out of 2
+
+Test has 0 diffs at line 476 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 492 >>
+-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00
++   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00
+-   out_one_tri_z1.inp     2    2   -2       122)   1.000000E-01
++   tmp_one_tri_z1.inp     2    2   -2       122)   1.000000E-01
+Lines Essentially the Same: 0 out of 2
+
+Test has 0 diffs at line 923 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 932 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 941 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 945 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 953 >>
+-Read first surface: out_one_tri_z0.inp
++Read first surface: tmp_one_tri_z0.inp
+-read/avs/out_one_tri_z0.inp/def1
++read/avs/tmp_one_tri_z0.inp/def1
+Lines Essentially the Same: 1 out of 2
+
+Test has 2 diffs at line 982 >>
+-Read surface: out_one_tri_z1.inp
++Read surface: tmp_one_tri_z1.inp
+-read/avs/out_one_tri_z1.inp/def2
++read/avs/tmp_one_tri_z1.inp/def2
+Lines Essentially the Same: 1 out of 2
+
+Test has 0 diffs at line 1026 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 1042 >>
+-Read surface: out_one_tri_z2.inp
++Read surface: tmp_one_tri_z2.inp
+-read/avs/out_one_tri_z2.inp/def2
++read/avs/tmp_one_tri_z2.inp/def2
+Lines Essentially the Same: 1 out of 2
+
+Test has 0 diffs at line 1086 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 3 diffs at line 1107 >>
+-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00
++   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00
+-   out_one_tri_z1.inp     2    2    0       122)   1.000000E-01
++   tmp_one_tri_z1.inp     2    2    0       122)   1.000000E-01
+-   out_one_tri_z2.inp     3    3   -2       243)   2.000000E-01
++   tmp_one_tri_z2.inp     3    3   -2       243)   2.000000E-01
+Lines Essentially the Same: 0 out of 3
+
+Test has 0 diffs at line 1315 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 1328 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 1337 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 1341 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 1349 >>
+-Read first surface: out_one_tri_z0.inp
++Read first surface: tmp_one_tri_z0.inp
+-read/avs/out_one_tri_z0.inp/def1
++read/avs/tmp_one_tri_z0.inp/def1
+Lines Essentially the Same: 1 out of 2
+
+Test has 2 diffs at line 1378 >>
+-Read surface: out_one_tri_z1.inp
++Read surface: tmp_one_tri_z1.inp
+-read/avs/out_one_tri_z1.inp/def2
++read/avs/tmp_one_tri_z1.inp/def2
+Lines Essentially the Same: 1 out of 2
+
+Test has 0 diffs at line 1422 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 2 diffs at line 1438 >>
+-Read surface: out_one_tri_z2.inp
++Read surface: tmp_one_tri_z2.inp
+-read/avs/out_one_tri_z2.inp/def2
++read/avs/tmp_one_tri_z2.inp/def2
+Lines Essentially the Same: 1 out of 2
+
+Test has 0 diffs at line 1482 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 3 diffs at line 1503 >>
+-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00
++   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00
+-   out_one_tri_z1.inp     2    2    0       122)   7.319133E-02
++   tmp_one_tri_z1.inp     2    2    0       122)   7.319133E-02
+-   out_one_tri_z2.inp     3    3   -2       243)   2.000000E-01
++   tmp_one_tri_z2.inp     3    3   -2       243)   2.000000E-01
+Lines Essentially the Same: 0 out of 3
+10 junk lines.
+20 lines failed.
+2 Done with Directory ./exodus_prisms -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./exodus_prisms/reference/outx3dgen	Thu Jul 23 10:09:05 2015
++++ ./exodus_prisms/outx3dgen	Thu Jul 30 17:07:34 2015
+@@ -7 +7 @@
+-*               *    Run Time: 2015/Jul 21  15:52:20          *                 
++*               *    Run Time: 2015/Jul 30  17:08:09          *                 
+@@ -34 +34 @@
+-read/avs/out_one_tri.inp/mo1                                                    
++read/avs/input_one_tri.inp/mo1                                                  
+@@ -52 +52 @@
+-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
++dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+@@ -58 +58 @@
+-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
++dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+@@ -62 +62 @@
+-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp                        
++stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp                        
+@@ -70,2 +70,2 @@
+-Read first surface: out_one_tri_z0.inp                                          
+-read/avs/out_one_tri_z0.inp/def1                                                
++Read first surface: tmp_one_tri_z0.inp                                          
++read/avs/tmp_one_tri_z0.inp/def1                                                
+@@ -99,2 +99,2 @@
+-Read surface: out_one_tri_z1.inp                                                
+-read/avs/out_one_tri_z1.inp/def2                                                
++Read surface: tmp_one_tri_z1.inp                                                
++read/avs/tmp_one_tri_z1.inp/def2                                                
+@@ -143 +143 @@
+-Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
++Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
+@@ -159,2 +159,2 @@
+-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+-   out_one_tri_z1.inp     2    2   -2         4)   1.000000E-01                 
++   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
++   tmp_one_tri_z1.inp     2    2   -2         4)   1.000000E-01                 
+@@ -385 +385 @@
+-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
++dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+@@ -391 +391 @@
+-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
++dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+@@ -395 +395 @@
+-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp                        
++stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp                        
+@@ -403,2 +403,2 @@
+-Read first surface: out_one_tri_z0.inp                                          
+-read/avs/out_one_tri_z0.inp/def1                                                
++Read first surface: tmp_one_tri_z0.inp                                          
++read/avs/tmp_one_tri_z0.inp/def1                                                
+@@ -432,2 +432,2 @@
+-Read surface: out_one_tri_z1.inp                                                
+-read/avs/out_one_tri_z1.inp/def2                                                
++Read surface: tmp_one_tri_z1.inp                                                
++read/avs/tmp_one_tri_z1.inp/def2                                                
+@@ -476 +476 @@
+-Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
++Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
+@@ -492,2 +492,2 @@
+-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+-   out_one_tri_z1.inp     2    2   -2       122)   1.000000E-01                 
++   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
++   tmp_one_tri_z1.inp     2    2   -2       122)   1.000000E-01                 
+@@ -923 +923 @@
+-dump/avs/out_one_tri_z2.inp/mo1/1 1 0 0                                         
++dump/avs/tmp_one_tri_z2.inp/mo1/1 1 0 0                                         
+@@ -932 +932 @@
+-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
++dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+@@ -941 +941 @@
+-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
++dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+@@ -945 +945 @@
+-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp 2 out_one_tri_z2.inp   
++stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp 2 tmp_one_tri_z2.inp   
+@@ -953,2 +953,2 @@
+-Read first surface: out_one_tri_z0.inp                                          
+-read/avs/out_one_tri_z0.inp/def1                                                
++Read first surface: tmp_one_tri_z0.inp                                          
++read/avs/tmp_one_tri_z0.inp/def1                                                
+@@ -982,2 +982,2 @@
+-Read surface: out_one_tri_z1.inp                                                
+-read/avs/out_one_tri_z1.inp/def2                                                
++Read surface: tmp_one_tri_z1.inp                                                
++read/avs/tmp_one_tri_z1.inp/def2                                                
+@@ -1026 +1026 @@
+-Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
++Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
+@@ -1042,2 +1042,2 @@
+-Read surface: out_one_tri_z2.inp                                                
+-read/avs/out_one_tri_z2.inp/def2                                                
++Read surface: tmp_one_tri_z2.inp                                                
++read/avs/tmp_one_tri_z2.inp/def2                                                
+@@ -1086 +1086 @@
+-Layers compared: out_one_tri_z1.inp and out_one_tri_z2.inp                      
++Layers compared: tmp_one_tri_z1.inp and tmp_one_tri_z2.inp                      
+@@ -1107,3 +1107,3 @@
+-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+-   out_one_tri_z1.inp     2    2    0       122)   1.000000E-01                 
+-   out_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
++   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
++   tmp_one_tri_z1.inp     2    2    0       122)   1.000000E-01                 
++   tmp_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
+@@ -1315 +1315 @@
+-dump/avs/out_one_tri_z2.inp/mo1/1 1 0 0                                         
++dump/avs/tmp_one_tri_z2.inp/mo1/1 1 0 0                                         
+@@ -1328 +1328 @@
+-dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
++dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+@@ -1337 +1337 @@
+-dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
++dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+@@ -1341 +1341 @@
+-stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp 2 out_one_tri_z2.inp   
++stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp 2 tmp_one_tri_z2.inp   
+@@ -1349,2 +1349,2 @@
+-Read first surface: out_one_tri_z0.inp                                          
+-read/avs/out_one_tri_z0.inp/def1                                                
++Read first surface: tmp_one_tri_z0.inp                                          
++read/avs/tmp_one_tri_z0.inp/def1                                                
+@@ -1378,2 +1378,2 @@
+-Read surface: out_one_tri_z1.inp                                                
+-read/avs/out_one_tri_z1.inp/def2                                                
++Read surface: tmp_one_tri_z1.inp                                                
++read/avs/tmp_one_tri_z1.inp/def2                                                
+@@ -1422 +1422 @@
+-Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
++Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
+@@ -1438,2 +1438,2 @@
+-Read surface: out_one_tri_z2.inp                                                
+-read/avs/out_one_tri_z2.inp/def2                                                
++Read surface: tmp_one_tri_z2.inp                                                
++read/avs/tmp_one_tri_z2.inp/def2                                                
+@@ -1482 +1482 @@
+-Layers compared: out_one_tri_z1.inp and out_one_tri_z2.inp                      
++Layers compared: tmp_one_tri_z1.inp and tmp_one_tri_z2.inp                      
+@@ -1503,3 +1503,3 @@
+-   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+-   out_one_tri_z1.inp     2    2    0       122)   7.319133E-02                 
+-   out_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
++   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
++   tmp_one_tri_z1.inp     2    2    0       122)   7.319133E-02                 
++   tmp_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+3 Check Directory ./exo_eltset --------------------------
+
+Test has 3 diffs at line 5 >>
+-*               *    Program:  LaGriT V3.107   Linux m64      *
++*               *    Program:  LaGriT V3.200   Linux m64      *
+-*               *    date_compile: 2015/06/24  Ubu gf.so      *
++*               *    date_compile: 2015/07/14  Ubu gf         *
+-*               *    Run Time: 2015/Jul 21  14:38:58          *
++*               *    Run Time: 2015/Jul 30  17:08:11          *
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
+No lines differ.
+3 Done with Directory ./exo_eltset -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./exo_eltset/reference/outx3dgen	Wed Jul 22 17:52:10 2015
++++ ./exo_eltset/outx3dgen	Thu Jul 30 17:07:34 2015
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.107   Linux m64      *                 
+-*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
+-*               *    Run Time: 2015/Jul 21  14:38:58          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2015/07/14  Ubu gf         *                 
++*               *    Run Time: 2015/Jul 30  17:08:11          *                 
+
+End Report from diff =========================================================
+
+Diff Summary ===================================================================
+
+4 Check Directory ./exo_pset_eltset --------------------------
+
+Test has 0 diffs at line 7 >>
+Lines Essentially the Same: 0 out of 0
+No lines differ.
+4 Done with Directory ./exo_pset_eltset -----------------------
+Check done.
+
+Full Report from diff =========================================================
+
+--- ./exo_pset_eltset/reference/outx3dgen	Wed Jul 22 17:54:13 2015
++++ ./exo_pset_eltset/outx3dgen	Thu Jul 30 17:07:34 2015
+@@ -7 +7 @@
+-*               *    Run Time: 2015/Jul 21  14:58:15          *                 
++*               *    Run Time: 2015/Jul 30  17:08:11          *                 
+
+End Report from diff =========================================================
+All checks complete, 1 directories failed out of 4
+  ./exodus_prisms Error: 20 lines failed.
+
