@@ -76,6 +76,7 @@ class PyLaGriT(spawn):
     def read(self,filename,filetype=None,name=None,binary=False):
         # If filetype is lagrit, name is irrelevant
         if filetype == 'lagrit' or filename.split('.')[-1] in ['lg','lagrit','LaGriT']: islg=True
+        else: islg=False
         cmd = ['read',filename]
         if filetype is not None: cmd.append(filetype)
         if islg:
