@@ -1,0 +1,80 @@
+
+This library includes general memory management, algorithm, and io routines used by LaGriT.  
+See mm2000.F for a list of the memory routines.
+
+These files are seldom changed and compile into the lib_util_$OS.a library.
+See Versions.txt for changes before LaGriT open source. 
+
+Makefile
+##########################################################################
+# GNU Make version 3.79.1 or later
+# USAGE (use make, gmake, or gnumake according to setup): 
+# make list  (no action, write to screen only)
+#    will write files and names used for this session and OS
+#
+# make OR make lib 
+#    creates optimized for platform LIB_o.a and  OBJDIR_o 
+# make COPT=-g lib 
+#    creates debug 32 bit for platform LIB_g.a and OBJDIR_g 
+# make MOPT=64 lib 
+#    sets 64 bit LIB64_o.a and OBJDIR64_o for platform 
+# make MOPT=64 COPT=-g lib 
+#    sets 64 bit LIB64_g.a and OBJDIR64_g for platform 
+#    NOTE: make sure new mm2000.h is created from mm2000_header.F
+#    This sets sizeof_int correctly to 8
+#
+# set compiler options
+# COMPILER=ABSOFT or COMPILER=GFORTRAN
+#
+# For SUNOS, only the following is supported
+# SUNOS 8 or newer use % source /n/env/local.sunwspro.12
+#
+# OBJDIR and LIB are formed by system query from make
+# other compile flags are passed in from command line:
+#
+# make install 
+#    creates or updates *.o in OBJDIR 
+#    creates LIB_o.a in current directory 
+#    creates LIB_o_DATETAG.a
+#    copies both libs.a to LIBDIR
+#    moves LIB_o_DATETAG.a OBJDIR
+# make clean
+#    removes *.o in OBJDIR (recommended before install)
+# make clobber
+#    removes all OBJDIRs and .a files 
+# make help
+#    list of targets and defined variables 
+# make list
+#    list of object files and variables 
+# make options include:
+#    -d (debug) -p (print rules and variables) -v (version)
+#
+# platform is detected by uname -s
+# platform and compile mode are used to form lib name and object directories
+# if LIBDIR or OBJDIR do not exist, they are created
+#
+# Note: assumes Makefile and Makefile.depends
+# Note: compatible with gmake which is suggested for Solaris
+# Note: assumes path to sh is defined on system, otherwise define here
+# shell = /bin/sh
+#
+# Created Jan 7 2008 by tamiller@lanl.gov
+# Modified Nov 2010 by tamiller@lanl.gov to use gfortran as default
+#
+
+
+====================================================
+CAUTION: the preprocessor for mm2000.h is not working
+on the mac platforms correctly.
+Workaround ... just copy mm2000_m64.h to mm2000.h
+
+Sample compile
+
+rm -f mm2000.h
+gcc -E -m64 -Dlinx64 mm2000_header.F -o mm2000.h
+
+[ or cp mm2000_m64.h to mm2000.h]
+
+make MOPT=64 COPT=-g lib
+====================================================
+

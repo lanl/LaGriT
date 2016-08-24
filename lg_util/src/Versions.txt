@@ -1,0 +1,377 @@
+
+=======================================================================
+LaGriT V3.108 from https://ancho.lanl.gov/lagrit/hg/lg_util 
+
+changeset:   30:3a8d87bbf9fd
+tag:         tip
+user:        Terry Miller <tamiller@lanl.gov>
+date:        Tue Jul 26 12:34:33 2016 -0600
+summary:     Added tag Release V3.108 for changeset 0c592f39efb9
+
+Change from Mercurial open distribution to open source on github
+
+=======================================================================
+Bring current with LaGriT V3.001 changes for 64 bit gfortran on linux
+that incorporate Andrew's work for ASCEM and Adam Cozzette summer work
+
+changeset:   17:d6eab37df1c3
+user:        Terry Miller <tamiller@lanl.gov>
+date:        Tue Aug 30 16:30:05 2011 -0600
+summary:     Added tag Release V3.001 for changeset 9c405aed1985
+
+
+Bugfix: added #else clause (lines 625-633) necessary for writing u,v,w
+sundog% diff gmvwrite.c /home/tam/src/lg_util/src
+625,633c625
+< #else
+<     {
+<       for(count = 0; count < npts; count++)
+<        {
+<         tempu[count] = u[count];
+<         tempv[count] = v[count];
+<         tempw[count] = w[count];
+<        }
+<      }
+---
+>  
+
+added missing line in Makefile
+sundog% diff Makefile /home/tam/src/clone/lg_util/src
+100a101
+> FF90FLAGS = $FFLAGS 
+108,109d108
+< FF90FLAGS = $FFLAGS 
+< 
+
+=======================================================================
+Bring current with LaGriT V2.202 changes for 64 bit gfortran on linux
+
+Changes that allow 64 bit fortran to work with 64 bit util .c codes 
+the fortran codes are compiled with 8bit integer
+but the .c codes use int which is 4 bit and must be
+changed to long for 64 bit, and stay int for 32 bit
+
+This is done with the pre-process definition for int_ptrsize
+Issues occur where this is or is not used with calls from fortran
+
+Version changes:
+
+M src/Makefile
+M src/gmvwrite.c
+M src/gmvwritef.c
+M src/hassign.f
+M src/io.c
+M src/mm2000.F
+M src/mm2000.h
+M src/mm2000_header.F
+M src/mmsc.c
+M src/opsys.h
+
+Added gridder/gridder.c
+
+Makefile - hard wire 64 option and compiler to gfortran 4.5
+< ifeq ($(MOPT), 64)
+< OBJDIR = lin_objects_m64/
+< FFLAGS = -fcray-pointer -fdefault-integer-8 -Dlinx64
+< CFLAGS = -m64 -Dlinx64
+< endif
+< SUFF2 = _gfort4.5
+
+hassign.f - major issues how this gets used.
+for now, works best if allow arguments to be fortran integer
+and copy into 4 bit integer for open and close 
+ADDED return error that is now checked in lagrit calls
+because a bad iunit number causes seg faults we want to avoid
+
+mm2000_header.F
+<       real*8 RMAX_ALLOCATE
+<       parameter (RMAX_ALLOCATE = MAX_UINT)
+
+opsys.h
+< #define MAX_UINT 18446744073709551615.00 
+< #ifndef MAX_UINT
+< #define MAX_UINT 4294967295.00 
+
+mm2000.F mmsc.c
+Added lots of debug checking and messages to avoid seg faults
+when numbers are passed to malloc that are nonsense
+checks that 32 bit allocation is not larger than unsigned int size 
+
+io.c gmvwrite.c gmvwritef.c
+changed int32_t to int
+changed some int to int_ptrsize and vice versa
+added information on error returns
+
+Compile notes:
+mm2000.h must be correct 32 or 64 bit version (made from mm2000_header.F)
+
+
+aquifer.lanl.gov% make lib
+Remove and re-make mm2000.h from mm2000_header.F
+rm -f mm2000.h
+gcc -E -m32 -Dlin mm2000_header.F -o mm2000.h 
+cp -p mm2000.h objects_lin_g_gfort4.5/
+gfortran -g -fcray-pointer -m32   -c mm2000.F -o objects_lin_g_gfort4.5/mm2000.o  
+
+      real*8 RMAX_ALLOCATE
+      parameter (RMAX_ALLOCATE = 4294967295.00)
+
+      integer BYTES_PER_INT, BYTES_PER_REAL
+      parameter (BYTES_PER_INT = 4, BYTES_PER_REAL = 8)
+
+
+aquifer.lanl.gov% make MOPT=64 COPT=-g lib 
+Remove and re-make mm2000.h from mm2000_header.F
+rm -f mm2000.h
+gcc -E -m64 -Dlinx64 mm2000_header.F -o mm2000.h 
+cp -p mm2000.h objects_lin64_g_gfort4.5/
+gfortran -g -fcray-pointer -fdefault-integer-8 -Dlinx64  -c mm2000.F -o objects_lin64_g_gfort4.5/mm2000.o  
+
+      real*8 RMAX_ALLOCATE
+      parameter (RMAX_ALLOCATE = 18446744073709551615.00)
+
+      integer BYTES_PER_INT, BYTES_PER_REAL
+      parameter (BYTES_PER_INT = 8, BYTES_PER_REAL = 8)
+
+checked in Jan 12 2011
+changeset a2749dd4f774 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lg_util
+details: https://ancho.lanl.gov/lagrit/hg/lg_util?cmd=changeset;node=a2749dd4f774
+summary: Added gridder.c in lg_util/gridder directory
+
+changeset 7ad6b9b52c68 in /nh/packages/www/svn/repos.ancho/lagrit/hg/lg_util
+details: https://ancho.lanl.gov/lagrit/hg/lg_util?cmd=changeset;node=7ad6b9b52c68
+summary: added error messages and checks for bad values
+
+diffstat:
+
+gridder/gridder.c   |  1552 +++++++++++++++++++++++++++++++++++++++++++++++++++
+src/Makefile        |    11 +
+src/gmvwrite.c      |   151 +++-
+src/gmvwritef.c     |    84 +-
+src/hassign.f       |    54 +-
+src/io.c            |    56 +-
+src/mm2000.F        |    84 ++-
+src/mm2000_header.F |     3 +
+src/mmsc.c          |    82 +-
+src/opsys.h         |     7 +
+10 files changed, 1912 insertions(+), 172 deletions(-)
+
+
+
+
+=======================================================================
+Bring current with LaGriT V2.201 which adds compile for gfortran
+
+
+past 64 builds with gfortran used (glbuild64 and llbuild):
+/usr/bin/x86_64-redhat-linux-gcc -g -m64 -Dlinx64 -c -o mmsc.o mmsc.c
+gcc -E -Dlinx64 mm2000_header.F -o mm2000.h
+gfortran -g -fcray-pointer -fdefault-integer-8 -Dlinx64  -c -o mm2000.o mm2000.F
+gfortran -g  -fcray-pointer -fdefault-integer-8 -Dlinx64  -c -o test_main.o test_main.f
+gfortran -g  -fcray-pointer -fdefault-integer-8 -o gltest64 test_main.o icharlnf.o hpsortim.o mm2000.o mmsc.o -lm
+
+
+
+Rao has compiled using the following in his Makefile
+< INCLUDES = -I/home/rao/packages/ACCESS/libraries/exodusii/forbind/include
+< FC = gfortran
+< FC90 = gfortran
+---
+< FFLAGS = -fcray-pointer -fno-align-commons -m32
+< FF90FLAGS = -fcray-pointer -fno-align-commons -m32
+< CFLAGS =  -m32
+---
+< 	$(FC) $(COPT) $(FFLAGS) $(INCLUDES)  -c -o $@ $<
+---
+< 	$(CC) $(COPT) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+---
+
+-fcray-pointer
+Enables the Cray pointer extension, which provides a C-like pointer
+
+-falign-commons (will try to reorder commons so this is not needed)
+By default, gfortran enforces proper alignment of all variables in a COMMON block by padding them as needed. On certain platforms this is mandatory, on others it increases performance. If a COMMON block is not declared with consistent data types everywhere, this padding can cause trouble, and -fno-align-commons can be used to disable automatic alignment. The same form of this option should be used for all files that share a COMMON block. To avoid potential alignment issues in COMMON blocks, it is recommended to order objects from largests to smallest.
+
+
+
+======================================================================
+
+
+Compile to latest src (minor changes)
+
+SUN Solaris Forte 7 (source /n/env/local.forte.7)  
+-rw-r-----  1 tam radiusd 262656 Aug 10 15:39 util_sun_o.a
+-rw-r-----  1 tam radiusd 664864 Aug 10 15:39 util_sun_g.a
+
+Linux Absoft 10.2
+-rw-r--r--  1 tam radiusd 403272 Aug 10 15:12 util_lin_g.a
+-rw-r--r--  1 tam radiusd 225964 Aug 10 15:19 util_lin_o.a
+
+Mac intel Absoft 10.2
+-rw-r--r--  1 tam radiusd 201560 Aug 10 15:21 util_maci_o.a
+-rw-r--r--  1 tam radiusd 411184 Aug 10 15:22 util_maci_g.a
+
+Mac powerpc Absoft 9.5 (no release 10 at this time)
+-rw-r--r--  1 tam radiusd 515672 Aug 10 15:22 util_mac_g.a
+-rw-r--r--  1 tam radiusd 203864 Aug 10 15:22 util_mac_o.a
+
+SUN Solaris Studio 12 (source /n/env/local.sunwspro.12)
+Warning, does not run without source command and
+ may not be compatible with older libraries
+Sun Studio 12 requires at least Solaris 9. It will not run on Solaris 8.
+-rw-r--r--   1 tam        263516 Aug  6 13:29 lib/util_sun_s12_o.a
+-rw-r--r--   1 tam        619852 Aug  6 13:45 lib/util_sun_s12_g.a
+
+
+More changes for V2.1 based on sunwspro 12 compiles
+
+mm2000.F old sun sw7 does not recognize en format, change to g
+
+cc does not seem to create the mm2000.h file, but does write to screen....
+/n/local_SunOS/studio12/SUNWspro/bin/cc -E -Dsun mm2000_header.F -o mm2000.h
+use gcc for this.
+gcc -E /n/local_SunOS/studio12/SUNWspro/bin/cc -E -Dsun mm2000_header.F -o mm2000.h
+
+
+Major changes
+New lg_util library can compile -m32 or -m64
+This version uses lg_util compiled with -m32
+
+*               *                                             *
+*               *    Program:  LaGriT V2.100   Linux m32      *
+*               *    date_compile: 2009/05/28                 *
+
+
+
+Version 2.100 changes to Version 2.005
+
+New  Makefile 
+uses -m32 -Dlin on compile line 
+updated compile flags for Absoft updates 
+
+
+CHANGED mm2000.f to mm2000.F
+ADDED mm2000_header.F which compiles into mm2000.h
+
+REMOVED rdwrt.h and mm2000.h 
+ADDED opsys.h for pre-process definitions
+
+mmsc.c 
+ADDED opsys.h
+pre-process for define int_ptrsize long or int
+change integer declarations to int_ptrsize
+added error reporting
+New wrappers for memory allocation:
+ void* util_malloc(int_ptrsize* nwords)
+ void* util_realloc(void** iptr, int_ptrsize* nwords)
+ int_ptrsize util_free(void** iptr)
+ int_ptrsize util_sum_addr(int_ptrsize* a, int_ptrsize* b)
+New routines useful for checking platform dependent sizes
+ int util_check_ptrsize(void)
+ void util_print_sizes(void)
+ int util_test_malloc(void)
+
+io.c
+ADDED opsys.h
+pre-process for define int_ptrsize long or int
+change integer declarations to int_ptrsize
+added error reporting
+
+gmvwrite.c 
+gmvwritef.c 
+ADDED: opsys.h 
+pre-process for define int_ptrsize long or int
+change integer declarations to int_ptrsize
+change integer declarations to int32_t
+gmv restricted to use of real*4
+added error checks for malloc
+added routine gmv_print_sizes(void)
+
+
+chklun.f
+close.f
+fexist.f
+added I/O declaration integer*4 instead of rdwrt.h
+
+getcmds.f
+hassign.f
+lunget.f
+nextlun.f
+added I/O declarations integer*4
+
+
+
+IN GENERAL >>>>>>
+
+/*  LaGriT assumes that the size of an integer is the same size as a
+ *  pointer.  Use the preprocessor and configure settings to select
+ *  the integer type so that it matches the size of a pointer.
+ */
+#if SIZEOF_INT == SIZEOF_VOIDP
+#define int_ptrsize int
+#elif SIZEOF_LONG == SIZEOF_VOIDP
+#define int_ptrsize long
+#else
+#error "Unknown case for size of pointer."
+#endif
+
+gmvwrite.c:#include "opsys.h"
+gmvwritef.c:#include "opsys.h"
+io.c:#include "opsys.h"
+mm2000.h:# 137 "opsys.h"
+mm2000_header.F:#include "opsys.h"
+mmsc.c:#include "opsys.h"
+
+I/O arguments need integer*4 declarations
+
+------------------
+
+Updates for 64 bit work
+foreach? diff --brief $f /home/tam/src/work_util/lib64/$f
+Files chklun.f and /home/tam/src/work_util/lib64/chklun.f differ
+Files close.f and /home/tam/src/work_util/lib64/close.f differ
+Files fexist.f and /home/tam/src/work_util/lib64/fexist.f differ
+Files getcmds.f and /home/tam/src/work_util/lib64/getcmds.f differ
+Files gmvwrite.c and /home/tam/src/work_util/lib64/gmvwrite.c differ
+Files gmvwritef.c and /home/tam/src/work_util/lib64/gmvwritef.c differ
+Files hassign.f and /home/tam/src/work_util/lib64/hassign.f differ
+Files io.c and /home/tam/src/work_util/lib64/io.c differ
+Files lunget.f and /home/tam/src/work_util/lib64/lunget.f differ
+Files mm2000.F and /home/tam/src/work_util/lib64/mm2000.F differ
+Files mm2000.h and /home/tam/src/work_util/lib64/mm2000.h differ
+Files mmsc.c and /home/tam/src/work_util/lib64/mmsc.c differ
+Files nextlun.f and /home/tam/src/work_util/lib64/nextlun.f differ
+Files opsys.h and /home/tam/src/work_util/lib64/opsys.h differ
+
+------- Makefile.depends ----------
+2,3c2,4
+< $(OBJDIR)close.o: rdwrt.h
+< $(OBJDIR)mm2000.o: mm2000.h
+---
+> $(OBJDIR)parse_string.o: commands_lg.h
+> $(OBJDIR)io.o: opsys.h
+> $(OBJDIR)mmsc.o: opsys.h
+6c7,9
+<
+---
+> $(OBJDIR)mm2000_header.F: opsys.h
+> $(OBJDIR)mm2000.h: mm2000_header.F
+> $(OBJDIR)mm2000.o: mm2000.h
+
+------------------
+
+Revision 2.00  2007/11/03 00:49:12  spchu
+Import to CVS for mercurial repository
+
+File changes before V2.00 are listed in each file with CPVCS header.
+
+------------------
+
+Rev 1.0   03/17/95 19:33:42   het (Harold Trease)
+Original version converted from the CRAY
+
+Rev 1.0   11/10/94 12:42:44   pvcs
+Original version.
+
+------------------
+

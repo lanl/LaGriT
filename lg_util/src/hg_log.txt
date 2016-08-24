@@ -1,0 +1,216 @@
+commit d6daec53b8af1772c1ce3594d17a8f1dd11dd720
+Author: [Terry Miller] <[tamiller@lanl.gov]>
+Date:   Wed Aug 24 12:48:18 2016 -0600
+
+    Clean directories and remove gridder for open source release with LaGriT
+
+commit 6ace4ac09c6d5577aef78e9a08f56cb77751ee10
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Tue Jul 26 12:34:33 2016 -0600
+
+    Added tag Release V3.108 for changeset 0c592f39efb9
+
+commit 6592d4bf9a2f230c7ff22e0baddfaeb6a196d330
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Tue Jul 26 12:21:02 2016 -0600
+
+    These are the V3.103 libs used with lagrit builds for V3.107
+
+commit 9342354578006b2fd5a86c9e6e760ee41de8f847
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Tue Jul 26 12:14:41 2016 -0600
+
+    Only change has been to update Makefile
+
+commit 0cd5c4397ad07cc943ba495182cb3ef770d23937
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Tue Jul 26 12:05:48 2016 -0600
+
+    Version 3.103 modified default compile for 64 bit instead of 32 bit
+    added comments and usage
+
+commit 291a59ea8eee02cb83f2901dc61d95d2935a9516
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Tue Jul 26 11:34:17 2016 -0600
+
+    For release V3.107 lagrit, the only changes are mac libs and Makefile
+
+commit c3801aee6862e6dac3af608a9f7598b63eb61b7e
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Tue Jul 26 11:22:02 2016 -0600
+
+    Add OSX Lion and Mountain Lion
+
+commit c07a962fa8132e53800a871f026f6af392e1e2a8
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Wed Aug 1 16:59:38 2012 -0600
+
+    Added tag Release V3.006 for changeset c4f6390736e7
+
+commit 6f70322b4f6f7726c1a4e9fd4f2cce6ba6ad715b
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Wed Aug 1 16:58:47 2012 -0600
+
+    Version 3.006 compiles for mac and linux 32 bit and 64 bit
+
+commit 2f75c700de836f1254c19507bdff65d2cc8eeac4
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Thu Jun 28 15:01:47 2012 -0600
+
+    commit for V3.005 June 28 2012
+
+commit 3d2126ff3428f70e8b5b9d9b8bfb8f68f3ac3c58
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Thu Jun 28 15:00:41 2012 -0600
+
+    Updates to code based on updates in parse_string.f used by FEHM that
+    allow tabs achar(9) to be recognized as white space
+
+commit 5bb2d6f275199bf9b68a66745ea71e4cde2335b8
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Thu Jun 28 14:57:13 2012 -0600
+
+    remove SIZEOF statements, they are already defined in opsys.h
+
+commit b2d6afdd1b1b2a07aef70e786387bb8b1f1a0cd5
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Thu Jun 28 13:55:56 2012 -0600
+
+    Added compiler options for mac with gfortran
+
+commit 78bace27abbd443f16d7288a4a4ffc09acce5f10
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Tue Aug 30 16:32:55 2011 -0600
+
+    Version V3.001 - added Versions.txt verbose descriptions
+
+commit e4aa745a6f95c11bab244259780d8db3fe9f6142
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Tue Aug 30 16:30:05 2011 -0600
+
+    Added tag Release V3.001 for changeset 9c405aed1985
+
+commit 758598c75a79fc6b5c05bf0172b0a7db5f53fed6
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Tue Aug 30 16:28:57 2011 -0600
+
+    Version 3.001 - kuprat correction to gmvwrite.c
+    compile lib versions for linux 64 bit
+
+commit 82aa64fb8c053192263427064bef0179e4a59615
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Wed Apr 13 11:32:34 2011 -0600
+
+    Added latest version of gridder which is used with java UI
+    increased precision of formats
+    changed Flotran format to Vectors format since Flotran no longer supported
+
+commit 619fb51502c1e198b8d887884a89070c10db3f96
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Thu Jan 13 13:47:11 2011 -0700
+
+    added Zora's implementation to write option 4 fehm file
+
+commit 85db06a51fc7552d35a8760ae46a3f036645c132
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Wed Jan 12 10:15:42 2011 -0700
+
+    added error messages and checks for bad values
+    being passed to malloc and causing seg faults
+    changed some int to int_ptrsize and vice versa
+    all for compatibility with gfortran 64 bit lagrit
+    where fortran integer is 8 bytes and c int is 4 bytes
+
+commit d95bdca49d14d476f56840cab0addc1dc8d51089
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Wed Jan 12 10:12:15 2011 -0700
+
+    Added gridder.c in lg_util/gridder directory
+    this is version with fixed hex for avs connectivity
+
+commit 688a1cd734b5357061459433fe3ea8b43207c158
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Tue Dec 7 13:58:08 2010 -0700
+
+    small changes for compile with gfortran 4.1.2
+
+commit 74be4f5ff3e3ac284a33a8e91052dc2cecafdcf5
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Mon Aug 31 10:50:16 2009 -0600
+
+    Finish work for Release V2.100
+    added number of bytes to malloc failure error messege
+
+commit b6386bcbf0c3d5e2a0233d9f3a300f38b92d0840
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Tue Jul 7 08:25:14 2009 -0600
+
+    Added tag Release V2.100 for changeset d8e40631b140
+
+commit daa85fd847e12e7eef6694ceba1609a158ab85a5
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Mon Jul 6 15:12:35 2009 -0600
+
+    Tested V2.100 library
+    clarified report from mmprint
+
+commit 39e2149ea1c1516697f26afeedcd729446735730
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Mon Jul 6 08:38:40 2009 -0600
+
+    This work closes #55 and #56 for 64 bit capabilities
+    Files changed to use C pre-processor to set malloc pointer size
+    to the size of integer based on machine and compile flags
+    these include defines for int_ptrsize and int32_t
+    Makefile now recognizes and uses -m32, -m64, -Dlin
+    Removed rdwrt.h and declare IO args as integer*4 in code.
+    Added opsys.h as a way to define for pre-processor based on machine.
+    Changed mm2000.f to mm2000.F for pre-process defines.
+    mm2000_header.F is compiled into mm2000.h using pre-processor.
+    gmv routines must use real*4 and are declared explicitly.
+    malloc routines now have wrapper with util_ name added.
+    malloc is now checked for return on null pointer and
+    routines now report error to avoid segmentation faults.
+
+commit 58cbd2c258b3ce95b92176ee37de67920b5953a6
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Thu Jul 2 15:05:03 2009 -0600
+
+    Added tag Release V2.005 for changeset dab0d5edcfa4
+
+commit ad14921adfa00349b6830a7661fbd43f15158a2f
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Fri May 16 07:45:14 2008 -0600
+
+    Version V.2.003 with SGI -32
+
+commit 2b92cd4a6364437d0de7e7b7da8cb8c433f3ab01
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Thu Jan 10 10:50:59 2008 -0700
+
+    Compiled util libraries for LaGriT using new Makefile
+
+commit 412979c1ea5675c8792cc5a5e0ebe6934abe5cbd
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Thu Jan 10 10:45:22 2008 -0700
+
+    makefiles to detect platform and build util library
+
+commit 36ec2df119f4241c039b615115d2ebecb6db92aa
+Author: Terry Miller <tamiller@lanl.gov>
+Date:   Thu Jan 10 10:44:14 2008 -0700
+
+    removed executable definition from all source files
+
+commit d96a9efd99e40991fd984c86bc06659d89bf52e9
+Author: spchu <spchu@voronoi.lanl.gov>
+Date:   Wed Nov 14 10:23:41 2007 -0700
+
+    Clean up PVCS history log
+    add pvcs history log format $Log: $ to files without it
+
+commit 9ebe9466cbbcd8604e7fe15ccdf76aa20705cc5e
+Author: spchu <spchu@voronoi.lanl.gov>
+Date:   Wed Nov 14 09:57:53 2007 -0700
+
+    Files from PVCS

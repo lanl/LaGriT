@@ -1,0 +1,9 @@
+# DO NOT DELETE THIS LINE - makedepend depends upon it.
+$(OBJDIR)parse_string.o: commands_lg.h
+$(OBJDIR)io.o: opsys.h
+$(OBJDIR)mmsc.o: opsys.h
+$(OBJDIR)parse_string.o: commands_lg.h
+$(OBJDIR)gmvwritef.o: gmvwrite.c
+$(OBJDIR)mm2000_header.F: opsys.h 
+$(OBJDIR)mm2000.h: mm2000_header.F 
+$(OBJDIR)mm2000.o: mm2000.h 
