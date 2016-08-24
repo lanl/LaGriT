@@ -1,0 +1,148 @@
+.. _rzv:
+
+&nbsp_place_holder;
+
+> **_RZV_**
+
+> > This routine is used to ratio zone the region of space spanned by the
+input number ni of copies of the input vector vij away from the initial point
+v0j using the desired coordinate system. No attempt is made to insure that the
+3 vectors are independent.
+
+For ratio_method = component (default), the j-th component of the i-th vector
+vij is reduced by&nbsp_place_holder; rij&nbsp_place_holder; after the ki -th
+
+step in the i-th direction away from the initial point.&nbsp_place_holder; For
+this ratio_method the ratio flags fi are not used.&nbsp_place_holder; In this
+case an initial step of 1 for the j-th component of the i-th direction would
+become, for rij&nbsp_place_holder; =&nbsp_place_holder; 1/2, a step of the
+j-th component of the i-th direction of 1/2 at ki =&nbsp_place_holder; 1, 1/4
+at&nbsp_place_holder; ki =&nbsp_place_holder; 2, 1/8 at&nbsp_place_holder; ki
+=&nbsp_place_holder; 3, 1/16 at ki =&nbsp_place_holder; 4,etc.
+
+For ratio_method = vector and fj =1 (the default), the j-th vecor is reduced
+by rij&nbsp_place_holder; after the ki -th step in the i-th
+direction.&nbsp_place_holder; In this case an initial step of 1 in the j-th
+direction would become, for&nbsp_place_holder; rij&nbsp_place_holder;
+=&nbsp_place_holder; 1/2, a setp in the j-th direction of 1/2 at ki
+=&nbsp_place_holder; 1, 1/4 at&nbsp_place_holder; ki =&nbsp_place_holder; 2,
+1/8 at&nbsp_place_holder; ki =&nbsp_place_holder; 3, 1/16 at ki
+=&nbsp_place_holder; 4,etc.
+
+For ratio_method = vector and fj =0, the j-th vecor is reduced by [1 -
+(1-rij&nbsp_place_holder; )*2/(ki +&nbsp_place_holder; 1)] after the ki -th
+step in the i-th direction.&nbsp_place_holder; In this case an initial step of
+1 in the j-th direction would become, for&nbsp_place_holder;
+rij&nbsp_place_holder; =&nbsp_place_holder; 1/2, a step in the j-th direction
+of 1/2 at ki =&nbsp_place_holder; 1, 1/3 at&nbsp_place_holder; ki
+=&nbsp_place_holder; 2, 1/4 at&nbsp_place_holder; ki =&nbsp_place_holder; 3,
+1/5 at ki =&nbsp_place_holder; 4,etc.
+
+>
+
+> FORMAT:
+
+**rzv/xyz**|**rtz**|**rtp** /   
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder; [ n1,n2,n3
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+/v11,v12,v13/v21,v22,v23/v31,v32,v33
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder; /v01,v02,v03
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+/r11,r12,r13/r21,r22,r23/r31,r32,r33
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+/**component**|**vector**
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+/f1,f2,f3]
+
+default = **xyz**
+
+default = 0:&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder; ni, vi, v0j
+
+default = 1:&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder; rij
+
+default = **component** EXAMPLES: spiral of points
+**rzv/rtz**/n1,0,0/.1,10.,1/ , , / , , / , , /1.1,1,.9/ sc (simple cubic)
+point distribution **rzv/xyz**/n1,n2,n3/1,0,0/0,1,0/0,0,1/ &nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder; same as
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+**rz/xyz/**n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1
+
+bcc (body centered cubic) point distribution
+**rzv/xyz/**n1,n2,n3/.5,.5,.5/.5,.5,-.5/.5,-.5,-.5/
+
+compare the two command sequence (different bounding box)
+**rz/xyz/**n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1
+
+**rz/xyz/**n1&nbsp_place_holder; ,n2&nbsp_place_holder; ,n3&nbsp_place_holder; /0,0,0/n1,n2,n3/0,0,0 fcc (face centered cubic) point distribution **rzv/xyz**/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/   
+compare the four command sequence (different bounding box)
+**rz/xyz/**n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1
+
+**rz/xyz**/n1&nbsp_place_holder; ,n2&nbsp_place_holder; ,n3+1/0,0,0/n1,n2,n3/0,0,1   
+**rz/xyz/n**1&nbsp_place_holder; ,n2+1,n3&nbsp_place_holder; /0,0,0/n1,n2,n3/0,1,0   
+**rz/xyz**/n1+1,n2&nbsp_place_holder; ,n3&nbsp_place_holder; /0,0,0/n1,n2,n3/1,0,0 hexagonal lattice of points in x,y plane, repeated in z direction **rzv/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/ diamond point distribution (two command sequence) **rzv/xyz**/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/ &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; **rzv/xyz**/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/.25,.25,.25 compare the eight command sequence (different bounding box) **rz/xyz**/n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1 &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;** rz/xyz/**n1&nbsp_place_holder; ,n2&nbsp_place_holder; ,n3+1/0,0,0/n1,n2,n3/0,0,1   
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder; **rz/xyz**/n1&nbsp_place_holder; ,n2+1,n3&nbsp_place_holder;
+/0,0,0/n1,n2,n3/0,1,0
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder; **rz/xyz**/n1+1,n2&nbsp_place_holder; ,n3&nbsp_place_holder;
+/0,0,0/n1,n2,n3/1,0,0
+**rz/xyz**/n1+1,n2+1,n3+1/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/1,1,1
+
+**rz/xyz**/n1&nbsp_place_holder; ,n2&nbsp_place_holder; ,n3+1/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/0,0,1   
+**rz/xyz/**n1&nbsp_place_holder; ,n2+1,n3&nbsp_place_holder; /0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/0,1,0   
+**rz/xyz**/n1+1,n2&nbsp_place_holder; ,n3&nbsp_place_holder; /0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/1,0,0 &nbsp_place_holder;hcp (hexagonal close pack) point distribution&nbsp_place_holder; (two command sequence) **rzv/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/   
+**rzv/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/.5,0.289,.5/ nice 2-d distribution of points in a circle of radius 1 **rzv/xyz/**10,60,0/0.1,0,0/0,60,0/0,0,1/0,0,0/1,0.5,1/1,1,1/1,1,1/**vector**/0,0,0
+
+  
+&nbsp_place_holder;&nbsp_place_holder; CAVEATS -
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder; * filter should be used afterwards to remove possibly
+duplicate points
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder; * this can create some really bizzare point distributions
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder; * mistyped input after "rzv/[cgeom]" always returns
+successful point addition,
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder; but may be very different than desired
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder; * ratio_flag might better be a scalar or a matix, and its
+use might want to be extended to ratio_method=component.
+

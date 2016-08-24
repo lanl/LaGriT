@@ -1,0 +1,72 @@
+.. _grid2grid:
+
+&nbsp_place_holder;
+
+## GRID2GRID
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; The **grid2grid**
+command converts a mesh with one element type to a mesh with another. The
+conversion type is determined by the second argument.
+
+  
+  
+FORMAT:
+
+> **grid2grid **/ ioption / [cmo_sink] / [cmo_source]
+
+  
+ioption: is a character string that determines the element type of the source
+and sink meshes. There is no 'default' option - this argument must be
+specified.
+
+> **quadtotri2**&nbsp_place_holder;&nbsp_place_holder; quad to 2 triangles, no
+new points.
+
+**prismtotet3**&nbsp_place_holder;&nbsp_place_holder; prism to 3 tets, no new points.   
+**quattotri4**&nbsp_place_holder;&nbsp_place_holder; quad to 4 triangles, with one new point.   
+**pyrtotet4**&nbsp_place_holder;&nbsp_place_holder; pyramid to 4 tets, with one new point.   
+**hextotet5**&nbsp_place_holder;&nbsp_place_holder; hex to 5 tets, no new points.   
+**hextotet6**&nbsp_place_holder;&nbsp_place_holder; hex to 6 tets, no new points.   
+**prismtotet14**&nbsp_place_holder;&nbsp_place_holder; prism to 14 tets, four new points (1 + 3 faces).   
+**prismtotet18**&nbsp_place_holder;&nbsp_place_holder; prism to 18 tets, six new points (1 + 5 faces).   
+**hextotet24**&nbsp_place_holder;&nbsp_place_holder; hex to 24 tets, seven new points (1 + 6 faces).   
+tree_to_fe &nbsp_place_holder; quadtree or octree grid to grid with no parent-
+type elements.
+
+  
+[ cmo_snk / cmo_src ] : are the mesh_object names. cmo_src is the original
+grid. cmo_snk
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; is the name for the
+new tet or triangle grid. These may be the same grid, if so desired. If both
+are left blank,
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; the current mesh
+object will be used. If only one mesh name is given, it will be used at the
+sink mesh, and the
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; current mesh object
+will be used as the source.
+
+  
+****EXAMPLES: 
+
+> **grid2grid / hextotet****24&nbsp_place_holder; **/&nbsp_place_holder;
+cmo_tet / cmo_hex Convert each hex element in cmo_hex to 24 tets and name the
+new grid cmo_tet.
+
+**grid2grid / quadtotri4 **/&nbsp_place_holder; new_mesh No source mesh is given, so the current mesh object (which is a quad mesh) will have every quad converted into 4 triangles, and saved as new_mesh.    
+**grid2grid / tree_to_fe**** **/ new_mesh /&nbsp_place_holder; octree_mesh**** Every element in octree_mesh will be scanned to see if it is a parent element. If it is, it will be removed, so only the leaf elements remain. The result will be stored in new_mesh.  
+
+  
+  
+  
+

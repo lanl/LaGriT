@@ -1,0 +1,63 @@
+.. _rmmat :
+
+> **_RMMAT_**
+
+>
+
+>> This routine is used to remove points that are of a specified material
+type.&nbsp_place_holder; Elements with the specified material types are
+flagged by setting the element material type negative.&nbsp_place_holder;
+After using **rmmat**, **[rmpoints/](RMPOINT.html)**compress will delete
+elements whose material type is negative and the dudded nodes.
+
+>
+
+> &nbsp_place_holder;** FORMAT**
+
+>
+
+>> **rmmat**/material number/[**all|node|element**]/[**exclusive**]
+
+default is: **rmmat**/material number or **rmmat**/material number/**all**
+
+removes nodes with imt = material number and removes elements with itetclr=
+material number
+
+>>
+
+>> other options are:
+
+>>
+
+>> **rmmat**/material number/**node**
+
+removes nodes&nbsp_place_holder; with imt = material number
+
+>>
+
+>> **rmmat**/material number/**element**
+
+removes elements with itetclr= material number
+
+>>
+
+>> **rmmat**/material number//**exclusive or rmmat**/material
+number/**all/exclusive**
+
+removes everything except nodes with imt =material and removes everything
+except elements with itetclr= material
+
+&nbsp_place_holder;
+
+&nbsp_place_holder;
+
+&nbsp_place_holder;
+
+>
+
+> [Click here for demos](../demos/rmmat/test/html/main_rmmat.html)
+
+>
+
+>> &nbsp_place_holder;
+

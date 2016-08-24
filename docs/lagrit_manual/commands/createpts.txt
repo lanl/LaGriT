@@ -1,0 +1,39 @@
+.. _createpts :
+
+> &nbsp_place_holder;
+
+>
+
+> **_CREATEPTS_**
+
+>
+
+>> This command adds points to the mesh. For some special cases, it will also
+produce element connectivity.
+
+  
+Createpts is a wrapper for all the 'rz' type commands found elsewhere in the
+documentation.
+
+  
+** [ createpts/](createpts/CRTPTSRZ.html)xyz|rtz|rtp|line**   
+** [ createpts/brick](createpts/CRTPTBRICK.html)**   
+**[createpts/interp](createpts/createpts_interp.html)**   
+** [ createpts/sphere](createpts/cresphere.html)**   
+** [ createpts/random](createpts/CRTPTRZRAN.html)**   
+** [ createpts/vector](createpts/CRTPTRZV_LG.html)**   
+**_ [ createpts/voronoi](createpts/createpts_voronoi.html)_**   
+**_ [ createpts/median](createpts/createpts_median.html)_**   
+** [ createpts/amr](createpts/CREATEPTSAMR.html)**
+>
+
+>
+
+&nbsp_place_holder;
+
+>
+
+> [Click here for demos](../demos/createpts/test/html/main_createpts.html)
+
+  
+

@@ -1,0 +1,20 @@
+.. _finish :
+
+****&nbsp_place_holder;
+
+> **_FINISH_**
+
+>
+
+>> Terminate processing this command stream and return to the driver routine.
+
+> FORMAT:
+
+>
+
+>> finish
+
+&nbsp_place_holder;
+
+&nbsp_place_holder;
+

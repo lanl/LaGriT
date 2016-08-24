@@ -1,0 +1,84 @@
+.. _mode:
+
+&nbsp_place_holder;
+
+> **_MODE_**
+
+>
+
+>> The MODE Command&nbsp_place_holder; sets up several optimization options
+
+Currently implemented are:
+
+(1) discrete optimization:
+
+**mode/discrete**/surface_cmo/tolldamage
+>>
+
+>>> if this mode is set, **refine,** **smooth**, **merge** will require any
+operation that involves nodes on the specified surface to result in a mesh
+whose surface nodes are also members of the surface_cmo.
+
+A mesh object attribute associated with the 3d mesh named discrete_optimize
+will be created and its value will be the name of the surface mesh object.
+
+>>
+
+>> (2) error_adaption
+
+**mode**/**adaption_field**/field_name
+>>
+
+>>> if this mode is set, optimization operations will be based on reducing
+error.&nbsp_place_holder; A mesh object attribute associated with the 3d mesh
+named 'adaption_field' will be created and it's value will be the name of the
+field.
+
+>>
+
+>> (3) reconnection
+
+**mode/recon**/**geom**   
+**mode/recon**/**delaunay**   
+**mode/recon**/**adaption**
+>>
+
+>>> Setting this mode will determine the criterion used to
+[reconnect](RECON.html) the mesh.&nbsp_place_holder; The default mode is
+**delaunay** and setting mode to **delaunay** will cause recon to attempt to
+create a [delaunay mesh](CONNECT1.html).&nbsp_place_holder; Setting mode to
+**geom** will reconnect to increase inscribed radii of
+elements.&nbsp_place_holder; Setting mode to adaption will reconnect to reduce
+solution error.&nbsp_place_holder; Field_name must be set with the
+**mode**/**adaption_field **command.
+
+>
+
+> FORMAT:
+
+>
+
+>> **mode/discrete**/surface_cmo/tolldamage
+
+**mode**/**adaption_field**/field_name   
+**mode/recon**/**geom**|**delaunay**|**adaptio**n   
+&nbsp_place_holder;
+
+>
+
+> EXAMPLES:
+
+>
+
+>> **mode**/**adaption_field**/solution
+
+**mode**/**recon**/**adaption******
+>>
+
+>> All optimization including **[massage](MASSAGE.html) **commands that follow
+will be performed to reduce error in the user defined field solution.
+
+>
+
+>> &nbsp_place_holder;
+

@@ -1,0 +1,40 @@
+.. _geometry:
+
+> **_GEOMETRY_**
+
+>
+
+>> **geometry/create **/geom_name
+
+>>
+
+>> Initialize a geometry called geom_name. Change the name of the current
+geometry to geom_name. Save all values associated with the previous
+geometry.&nbsp_place_holder; To associate this geometry with a mesh object use
+the [cmo/geometry](cmo/cmo_geom.html) command.&nbsp_place_holder; See III.E
+for a discussion of geometry.
+
+>>
+
+>> **geometry/release **/geom_name
+
+>>
+
+>> Release all data structures related to geometry, geom_name and remove
+geom_name from the list of geometries.
+
+>
+
+> EXAMPLES:
+
+>
+
+>> **geometry/create/**new_geom/
+
+**geometry/releas**e/old_geom/   
+&nbsp_place_holder;
+
+> > &nbsp_place_holder;
+
+&nbsp_place_holder;
+

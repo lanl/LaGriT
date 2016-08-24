@@ -1,0 +1,236 @@
+.. _cmo:
+
+&nbsp_place_holder;
+
+> **_CMO_**
+
+>
+
+>> The **cmo** command operates on the Mesh Object(MO). There can be many Mesh
+Objects in the code for a given problem. Only one of these Mesh Objects may by
+the Current Mesh Object. There is also one Default Mesh Object which is used
+as the template for generating new Mesh Objects.
+
+> FORMAT:
+
+Add a user defined attribute to a Mesh Object
+
+[**cmo**/**addatt**](cmo/cmo_addatt.html) /mo_name/att_name/type/rank/
+length/interpolate/persistence/ioflag/value
+
+[**cmo**/**addatt**](cmo/cmo_addatt.html) /mo_name /keyword /
+keyword_parameters
+
+Give the sink mesh the same set of attributes as the source mesh (with
+unitialized values)
+
+**[cmo/attribute_derive](cmo/cmo_att_derive.html)**/sink_mo/[src_mo]
+
+Change two meshes so they both share the same set of attributes (taking the
+union of their sets of attributes)
+
+**[cmo/attribute_union](cmo/cmo_att_derive.html)**/mo_name_1/mo_name_2
+
+Shorten all memory managed arrays associated with mo_name to their actual
+lengths
+
+**[cmo/compress](cmo/cmo_compress.html)**/mo_name/
+
+Associate the surface constraint information of the mesh object cmo_src with
+cmo_sink:
+
+[**cmo/constraint**/](cmo/cmo_constraint.html)cmo_sink/cmo_src
+
+Copy master_mo to mo_name:
+
+**[cmo/copy](cmo/cmo_copy.html)**/mo_name/master_mo/
+
+Copy a mesh object attribute:
+
+**[cmo/copyatt](cmo/cmo_copyatt.html)**/cmosink/cmo_src/att_nam_sink/att_nam_src
+
+Create a new mesh object:
+
+**[cmo/create](cmo/cmo_create.html)/**mo_name/[npoints/nelements/mesh-type]
+
+Delete an existing mesh object:
+
+**[cmo/delatt](cmo/cmo_delatt.html)/**mo_name/att_name/
+
+Delete an existing mesh object even it has 'permanent' persistance:
+
+**[cmo/DELATT](cmo/cmo_delatt.html)/**mo_name/att_name/
+
+Copy the structure of master_mo to mo_name, but copy no data:
+
+**[cmo/derive](cmo/cmo_derive.html)**/mo_name/master_mo/
+
+Associate the geometry named geometry_name with the mesh object mo_name:
+
+**[cmo/geometry](cmo/cmo_geom.html)/**mo_name/geometry_name
+
+Print the memory length of attribute att_name for Mesh Object, mo_name:
+
+**[cmo/length](cmo/cmo_length.html)**/mo_name/att_name/
+
+List all mesh objects:
+
+**[cmo/list](cmo/cmo_list.html)**
+
+Adjust the memory manages arrays associated with mo_name to the
+
+lengths required by number_nodes and number_elements:
+
+[**cmo/memory**/ ](cmo/cmo_memory.html)mo_name/number_nodes/number_elements /
+
+Modify an attribute parameter value:
+
+[**cmo**/**modatt**/](cmo/cmo_modatt.html)mo_name/att_name/field_name/new_fiel
+d/
+
+Change the name of a mesh object:
+
+**[cmo/move](cmo/cmo_move.html)**/mo_name /master_mo /
+
+Adjust the memory length of mo_name based on the values of nnodes and
+
+nelements:
+
+**[cmo/newlen](cmo/cmo_newlen.html)**/mo_name/
+
+Print the value of an attribute:
+
+**[cmo/printatt](cmo/cmo_printatt.html)**/mo_name/att_name|-**all-**|**-xyz-**|**nod **/ [**minmax**|**list**|**value**]** **/[ifirst,ilast,istride]
+
+Read values for an attribute from a file:
+
+**[cmo/readatt](cmo/cmo_readatt.html)**/mo_name/att_name/[...]/operation/file_name
+
+Release a mesh object (same as delete):
+
+**[cmo/release](cmo/cmo_release.html)**/mo_name/
+
+Make mo_name the active mesh object:
+
+**[cmo/select](cmo/cmo_select.html)**/mo_name/
+
+Set the value of an attribute:
+
+**[cmo/setatt](cmo/cmo_setatt.html)**/mo_name/att_name/ifirst,ilast,istride/value
+
+Create an integer attribute that contains the node or element number:
+
+**[cmo/set_id/](cmo/cmo_setid.html)**mo_name/**node** |**element** |**both**/[att_nam1]/[att_nam2]
+
+Print the mesh object status (all attributes and values of scalars)
+
+[**cmo/status**/](cmo/cmo_status.html)mo_name/[**brief**]
+
+Verifie that memory allocation of Mesh Object mo_name is consistent:
+
+**[cmo/verify](cmo/cmo_verify.html)**/mo_name/   
+&nbsp_place_holder;
+
+CONVENTION: As a result of any command that generates a new mesh object, the
+newly generated mesh object becomes active. As a result of any command the
+changes a mesh
+
+object (e.g. copyatt) the changed mesh object becomes
+active.&nbsp_place_holder; Use cmo/select to explicitly
+
+specify the active mesh object.
+
+RESERVED NAMES: The following names are reserved and may not be used for Mesh
+Objectnames:
+
+**-cmo-&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; **the Current Mesh Object   
+**-default-&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; **the Default Mesh Object   
+**-all-&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; **all Mesh Objects or Attributes TYPES, DEFAULTS and POSSIBLE VALUES:
+
+mo_name&nbsp_place_holder;
+
+is type character
+
+att_name
+
+is type character
+
+mesh_type
+
+is type character
+
+  
+
+&nbsp_place_holder;(**tet,hex,pri,pyr,tri,qua,hyb,line,point**)
+
+type
+
+&nbsp_place_holder;is type character, default is **VDOUBLE**
+
+  
+
+&nbsp_place_holder;(**VDOUBLE, VINT, VCHAR, INT, REAL, CHARACTER)**
+
+  
+
+**VDOUBLE **real array
+
+  
+
+**VINT **integer array   
+**VCHAR **array of character*32
+
+  
+
+**INT** a single integer variable (length =1 rank =1 by definition)   
+**REAL** a single real variable (length =1 rank =1 by definition)   
+**CHARACTER **a single character*32 variable (length =1 rank =1 by definition)
+
+rank
+
+is type character, default is **scalar**
+
+  
+
+(**scalar,vector,tensor**)
+
+  
+
+**scalar **one entry per array element
+
+  
+
+**vector **3 entries per array element
+
+  
+
+**tensor **9 entries per array element
+
+  
+
+any previously defined **INT** attribute including user defined attributes may
+be used as rank
+
+length
+
+is type character, default is **nnodes**
+
+(**nnodes, nelements**)
+
+any previously defined **INT** attribute including user defined attributes may
+be used as length&nbsp_place_holder;
+
+interpolate
+
+is type character, default is **linear**
+
+  
+
+(**copy, sequence, linear, log, asinh, max,**
+
+**min, user,and,or,incmax**)
+
+ioflag
+
+(**a, g, f, l, no **-- for avs,gmv,fehms,LaGriT)
+

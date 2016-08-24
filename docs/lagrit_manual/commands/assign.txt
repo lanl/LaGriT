@@ -1,0 +1,33 @@
+.. _assign:
+
+&nbsp_place_holder;
+
+> **_ASSIGN_**
+
+>
+
+>> Assign a value to a global variable.&nbsp_place_holder; The set of global
+variables includes; incycle, time, monitor, hextotet_remove_volume,
+hextotet_check_imt, hextotet_radavg,
+hextotet_remove_duplicates.&nbsp_place_holder; The default values of these
+variables are; 0,&nbsp_place_holder; 0, no, yes, no, no. use **cmo/setatt **to
+assign values to mesh object **attributes****.**
+
+>
+
+> FORMAT:
+
+>
+
+>> **assign**/category_name/column/variable_name/value.
+
+>
+
+> EXAMPLES:
+
+>
+
+>> **assign**/**time**/3.2
+
+**assign/hextotet_remove_duplicates/**yes
+

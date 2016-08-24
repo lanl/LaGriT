@@ -1,0 +1,20 @@
+.. _rmsurf :
+
+****&nbsp_place_holder;
+
+> **_RMSURF_**
+
+>
+
+>> Removes points that lie in, on or in and on the specified surface. ioper
+can be one of the following:
+
+>>
+
+>>> **lt** - only points in the surface are removed
+
+**eq** - only points on the surface are removed   
+**le** - all points in or on the surface are removed
+
+FORMAT: **rmsurf**/surface_name/ioper
+

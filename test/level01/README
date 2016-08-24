@@ -1,6 +1,6 @@
 level01 test directory
+
 These directories represent a mininum set of tests for LaGriT
-Scripts and tests are first version 2008
 Contact: Terry Miller LANL EES tamiller@lanl.gov
 
 each directory contains input and output files
@@ -10,7 +10,8 @@ scripts are in top directory of level01
   check_test.py
   clean_testdirs.scr
 
-Foreach platform OS(mac,sun,lin):
+Foreach platform OS(mac,sun,lin,ulin...):
+
 Step 1) 
 run_test.py
         foreach dir run lagrit, create output files
@@ -259,6 +260,20 @@ lines  -483,7 +483,4  differ >>
 
 Note in this case executable can not read a binary gmv file it has written.
 This will remain in the test suite in hopes that it will be fixed.
+
+EXAMPLE RUNS ==========================================================
+
+cd level01
+
+clean_testdirs.scr; run_test.py; check_test.py
+
+see screen output and files diff*.txt
+
+additional checks
+  valgrind --leak-check=yes --track-origins=yes  --log-file=memcheck.txt mylagrit < input.lgi
+  mkdir valgrind
+  cp memcheck.txt valgrind
+
 
 
 

@@ -1,0 +1,37 @@
+.. _reorder:
+
+&nbsp_place_holder;
+
+> **_REORDER_**
+
+>
+
+>> This command will reorder a MO according to a designated permutation
+vector.&nbsp_place_holder; The permutation vector can be any integer vector
+nnodes or nelements long with min value = 1, max value = nnodes/nelements and
+no repeated entries.&nbsp_place_holder;&nbsp_place_holder; sort_key is the
+permutation vector - i.e. an integer node/element based mesh object attribute.
+
+>>
+
+>> Reorder command will decide to reorder nodes or elements based on the
+length of the permutaion vector. When elements are reordered all element
+attributes are also reordered. itet and jtet arrays are also updated. When
+nodes are reordered, all node based attributes are also reordered. Arrays such
+as isn are also updated.
+
+> FORMAT:
+
+>
+
+>> **reorder/**cmo_name/sort_key/
+
+**reorder/ -def- **/sort_key/
+>
+
+> EXAMPLE:
+
+>
+
+>> &nbsp_place_holder;
+

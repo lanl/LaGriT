@@ -1,0 +1,23 @@
+.. _rotatept :
+
+&nbsp_place_holder;
+
+> **_ROTATEPT_**
+
+>
+
+>> Rotates a point distribution (defined by** **ifirst,ilast,istride) about a
+point xcen,ycen,zcen. phi (in degrees) is the angle of rotation of the XY
+plane around the Z-axis, where positive phi is measured from the positive
+x-axis toward the positive y-axis. theta (in degrees) is the angle of rotation
+toward the negative z-axis. The (**no**) **copy** options are as described in
+the **rotateln** command.
+
+FORMAT: **rotatept** /ifirst,ilast,istride/ [**no**] **copy** /
+xcen,ycen,zcen/theta/phi
+
+&nbsp_place_holder;
+
+&nbsp_place_holder; [Click here for
+demos](../demos/rotatept/test/html/main_rotatept.html)
+

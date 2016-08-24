@@ -1,0 +1,125 @@
+.. _connect :
+
+&nbsp_place_holder;
+
+&nbsp_place_holder;
+
+> **_CONNECT_**
+
+&nbsp_place_holder;
+
+>
+
+>> Connect the nodes into a Delaunay tetrahedral or triangle grid. The
+Delaunay criterion requires that the circumsphere (circumcircle) defined by
+each tetrahedron (triangle) contains no mesh nodes in its interior. At present
+only the **delaunay** option is implemented; this option will be the default.
+The delaunay algorithm used requires that a "big tet" be constructed that
+contains all nodes in its interior. The user has the option of providing the
+coordinates of this "big tet". The user also has the option of selecting a
+subset of nodes to connect.&nbsp_place_holder;&nbsp_place_holder; Connect will
+by default detect material interfaces and will look for edges that intersect
+the interfaces.&nbsp_place_holder; Nodes will be added to the mesh at these
+intersections to create a conforming mesh.&nbsp_place_holder; This activity
+may be turned off by using the **noadd** option.
+
+  
+The **check_interface** option is more expensive but does a more exhaustive
+job of making sure there are no edges of the mesh that cross a material
+boundary.
+
+  
+**Connect** may refuse to add nodes that will result in near zero-volume tetahedra. The volume tests are based on the mesh object epsilons. To ensure that these epsilons are based on the geometry, issue a **[setsize ](http://lagrit.lanl.gov/new_html/SETSIZE.html)**command before **[setpts](http://lagrit.lanl.gov/new_html/SETPTS.html)**.&nbsp_place_holder; Expert users may adjust the epsilons with the&nbsp_place_holder; [cmo/setatt](http://lagrit.lanl.gov/new_html/cmo_setatt.html)&nbsp_place_holder; command.&nbsp_place_holder; **Connect** will generate a 2D triangular mesh if both [**ndimensions_geom** and **ndimenions_topo**](http://lagrit.lanl.gov/new_html/meshobject.html) are 2.&nbsp_place_holder; In this case all nodes must lie in a plane.   
+[Click here for more details on the connect
+algorithm](http://lagrit.lanl.gov/new_html/connect_notes.html).
+
+>>
+
+>> The following instructions are for connecting points on a planar
+surface.&nbsp_place_holder; The mesh must have **ndimensions_topo**=2 and
+**ndimensions_geom**=2.
+
+>>
+
+>> **cmo**/**create/**trimesh///**tri**
+
+**cmo**/**modatt**//**ndimensions_geom**/**default**/2   
+...
+
+**connect**
+>>
+
+>> an alternate way to achieve this is:
+
+**cmo**/**create**/trimesh///**triplane**   
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; ...
+
+**connect**   
+&nbsp_place_holder;
+
+>
+
+> FORMAT:
+
+>
+
+>> **connect**/[**delaunay**]/ifirst,ilast,istride/big_tet_coordinates
+
+**connect**/**noadd****  
+connect**/**check_interface**
+
+>
+
+> EXAMPLES:
+
+>
+
+>> **connect**
+
+Create the Delaunay tetrahedral connectivity of all nodes in the mesh. Add
+nodes to break multi-material connections.
+
+**  
+connect**/**delaunay**/
+
+Create the Delaunay tetrahedral connectivity of all nodes in the mesh. Add
+nodes to break multi-material connections.
+
+**  
+connect/delaunay**/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./
+
+**connect/**1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd  
+**connect/delaunay**/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd  
+**connect/delaunay**/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./check_interface  
+Create the Delaunay tetrahedral connectivity of all nodes in the mesh and
+specify explicitly the coordinates of the enclosing tetrahedron
+
+**  
+**connect/pset get points  
+****Create the Delaunay tetrahedral connectivity of a subset of nodes.****  
+  
+******connect/noadd**  
+Create the Delaunay tetrahedral connectivity of&nbsp_place_holder; all nodes
+in the mesh and disregard material interfaces.
+
+**  
+connect/**check_interface****
+
+Create the Delaunay tetrahedral connectivity of&nbsp_place_holder; all nodes
+in the mesh with added checking of edges that have both nodes tagged as
+itp='intrface' to be sure that the edge does not cross a material interface.
+This option is more expensive but may fix situations where multi-material
+edges do not get refined because they connect an 'intrface' node to an
+'intrface' node.
+
+>
+
+> [Click here for 2D
+demos](../../new_html/demos/2d_connect/test/html/main_2d_connect.html)
+
+[Click here for 3D
+demos](../../new_html/demos/connect/test/html/main_connect.html)
+
+  
+&nbsp_place_holder;
+

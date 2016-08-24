@@ -1,0 +1,26 @@
+.. _perturb :
+
+&nbsp_place_holder;
+
+> **_PERTURB_**
+
+This command moves node coordinates in the following manner.
+
+Three pairs random numbers between 0 and 1 are obtained. These pairs refer to
+the x, y and z coordinates of the nodes respectively. The first random number
+of each pair is multiplied by the factor given in thecommand. The second
+random number is used to determine if the calculated offset is to be added or
+subtracted from the coordinate. No checking is done to see if elements are
+inverted by this perturbation.&nbsp_place_holder; It is assumed that the mesh
+is not yet connected.
+
+&nbsp_place_holder; FORMAT:
+**perturb/pset,get,psetnam**e/xfactor,yfactor,zfactor
+
+&nbsp_place_holder; EXAMPLES
+**perturb/**1,0,0/0.5,0,0&nbsp_place_holder;&nbsp_place_holder; add offsets to
+only the xcoordinates of all nodes
+
+**perturb/pset,get,mypset**/0.001,0.001,0.001&nbsp_place_holder; add small offsets to all coordinates of the nodes in the **pset** named **mypset.**   
+&nbsp_place_holder; [](../new_html/demos/pset/test/html/main_pset.html)
+

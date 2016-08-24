@@ -1,0 +1,46 @@
+.. _triangulate :
+
+> **_TRIANGULATE_**
+
+**triangulate** will take an ordered set of nodes in the current 2d mesh object that define a perimeter of a polygon and create a trangulation of the polygon.&nbsp_place_holder; The nodes are assumed to lie in the xy plane; the z coordinate is ignored.&nbsp_place_holder; No checks are performed to verify that the nodes define a legal perimeter (i.e. that segments of the perimeter do not cross).&nbsp_place_holder; The code will connect the last node to the first node to complete the perimeter.   
+  
+This code support triangulation of self-intersecting polygons (polygon with
+holes), assuming that the order of the nodes are correct. Moreover the
+connectivity of the polyline must also be defined correctly. No checks are
+made.
+
+  
+One disadvantage of the algorithm for triangulating self-intersecting polygons
+is that it does not always work. For example, if the holes have complicated
+shapes, with many concave vertices, the code might fail. In this case, the
+user may try to rotate the order of the nodes:
+
+NODE_ID:
+
+1 -> 2
+
+2 -> 3
+
+...
+
+N -> 1
+
+FORMAT: **triangulate **[/**clockwise** | **counterclockwise**]
+
+clockwise is the default.&nbsp_place_holder; Orientation is defined with the
+viewer above the xy plane. &nbsp_place_holder; EXAMPLES: **triangulate**
+
+**triangulate/counterclockwise**
+
+**cmo/create**/2dmesh///**tri**
+
+**read**/**avs**/2dfile.avs
+
+**triangulate**   
+****&nbsp_place_holder; ****
+
+  
+[Click here for demos](../demos/triangulate/html/main_tri.html)
+
+[](../demos/triangulate/test/test/html/main_tri.html)&nbsp_place_holder;
+

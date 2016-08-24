@@ -1,0 +1,38 @@
+.. _elmtest :
+
+&nbsp_place_holder;
+
+> **_ELMTEST_**
+
+>
+
+>> This command test a mesh for valid jtet connectivity.&nbsp_place_holder; If
+the mesh is a network it allows for jtet loops; in this case the jtet
+relationship is not reflexive but, for example if the loop has length 3.
+
+>>
+
+>> Normally degenerate faces may not have neighbors with a different number of
+nodes; however, if&nbsp_place_holder; a scalar mesh attribute
+'jtet_reduce_nnd' is defined and has the value 1, faces will match if the node
+numbers are the same even if a node number appears more that once.
+
+>
+
+> FORMAT:
+
+>
+
+>> **elmtest** /[/nwrite] where nwrite is the number of warning messages to
+print.&nbsp_place_holder; The default for nwrite is 20.
+
+>
+
+> EXAMPLES:
+
+>
+
+>> **elmtest**
+
+**elmtest**//100
+

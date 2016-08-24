@@ -1,0 +1,70 @@
+.. _offsetsurf :
+
+&nbsp_place_holder;
+
+> **_OFFSETSURF_**
+
+>
+
+>> Offsets triangulated surfaces in the direction of the surface outward
+normal, i.e., normal surface motion. For each node a 'synthetic' unit outward
+normal **N** is computed based on the weighted average angle of the normals of
+the triangles shared by that node. old_cmo is the surface to be used in
+generating the offset surface. new_cmo is the name of the new surface.
+
+> > To add the nodes in the new surface to the main mesh object use the
+**copypts** command. To add the new surface to the main mesh object use a
+**surface** command with new_cmo as the sheet name (e.g.
+**surface**/s2d/bndy_typedist is given in user coordinates (i.e. whatever
+units the old_cmo mesh object was defined in.) The new node coordinates,
+R_new, are computed using the formula:
+
+>>
+
+>>> R_new = R_old + dist * N_node
+
+>>
+
+>> Various keywords control the behavior of the command:
+
+>>
+
+>>> The following keywords can appear in the 5th, 6th, 7th or 8th argument
+position.**
+
+keepatt****, keep_angle** - &nbsp_place_holder;Compute node angle weighted
+normals and keep the vector components in three scalar attributes x_n_norm,
+y_n_norm, z_n_norm
+
+**keep_area** - Compute node area weighted normals and keep the vector components in three scalar attributes, x_n_norm, y_n_norm, z_n_norm**  
+xzero**&nbsp_place_holder; - Compute the full offset direction vector but set
+x component to zero
+
+**yzero**&nbsp_place_holder; - Compute the full offset direction vector but set x component to zero  
+**zzero**&nbsp_place_holder; - Compute the full offset direction vector but set x component to zero  
+  
+The following keywords can appear in the 5th argument position.
+
+**xy, xz, yx yz zx zy** - these keywords constrain the offset to be parallel to the specified plane. These arguments can be used with a line type mesh object to constrain the offset to a particular plane.   
+
+>
+
+>> FORMAT:
+
+&nbsp_place_holder; **offsetsurf**/new_cmo/old_cmo/dist/keyword
+
+&nbsp_place_holder;
+
+&nbsp_place_holder; EXAMPLES: **offsetsurf/**cmo_out/cmo_in/d
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder; offset a triangulated surface a distance d using angle
+weighted normals
+
+offsetsurf/cmo_out / cmo_in / d / keep_area &nbsp_place_holder; - offset using
+area weithted normals **offsetsurf/**cmo_out/cmo_in/d/[xy,xz,yx,yz,zx,zy]
+offset a line cmo a distance d in a direction parallel to the specified plane.
+**offsetsurf/**cmo_out/cmo_in/d/x y z offset a line cmo a distance d in the
+direction specified by the vector (x,y,z)
+

@@ -1,0 +1,98 @@
+.. _massage2:
+
+&nbsp_place_holder;
+
+> **_MASSAGE2_**
+
+>
+
+> **MASSAGE2** iteratively calls MASSAGE to refine adaptively according to a
+gradient field. Thus, the **bisection_length** option must be a field.
+
+>
+
+> FORMAT:
+
+>
+
+> **massage2** / file_name / min_scale / bisection_length / merge_length /
+toldamage / [tolroughness] / [ifirst,ilast,istride]/
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; [**nosmooth**]/[**no
+recon**][**strictmergelength**]/[**ignoremats**]/[**lite]**/[**checkaxy**]/[**
+semiexclusive**]/**[exclusive**]
+
+>
+
+>
+
+  
+**file_name** is a file which contains a set of LaGriT commands that calculates the gradient field based on the distance field. In other words, the gradient field is a function of the distance field. It is necessary to have this file when using this routine, as the field must be updated after each refinement iteration.  
+  
+**_Creating user function file for MASSAGE2 routine_**
+>
+
+> This file contains a set of LaGriT commands which calculate the gradient
+field for refinement based on the distance field.
+
+>
+
+> A file could be written like this:
+
+>
+
+> #user_function.mlgi
+
+#An example of calculating the gradient field **F** as a linear function of
+the distance field **D**
+
+#Define some coefficients for the function
+
+define / COEF_A /
+
+define / COEF_B /
+
+  
+#Formula **F** = COEF_A * **D** + COEF_B
+
+#First remove any distance field that exists and recompute the distance field
+
+cmo / DELATT / mo_sink / dfield
+
+compute / distance_field / mo_sink / mo_src / dfield
+
+  
+#Calculate **F**
+
+math / multiply / mo_sink / ref_field / 1,0,0 / mo_sink / dfield / COEF_A
+
+math / add / mo_sink / ref_field / 1,0,0 / mo_sink / ref_field / COEF_B
+
+  
+finish  The user does not have to put a floor value for the gradient field in
+this case (unlike in MASSAGE), as MASSAGE2 will calculate the floor value
+automatically. However, the minimum length scale 'min_scale' must be
+specified.
+
+  
+The user must also create a node-based attribute for the gradient field before
+calling MASSAGE2. In the example above, attribute 'ref_field' must already
+exist in the mesh object. The name of the field must also match the
+'field_name' argument in the MASSAGE2 command.
+
+  
+**min_scale** is the minimum length scale of the mesh (the minimum desired edge length).   
+  
+See [**MASSAGE**](MASSAGE.html) for other arguments.
+
+>
+
+> EXAMPLE:
+
+>
+
+> **massage2** / user_function.mlgi / 0.1 / ref_field / 1.e-5 / 1.e-5 /
+strictmergelength
+
+  
+

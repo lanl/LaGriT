@@ -1,0 +1,82 @@
+.. _loop:
+
+&nbsp_place_holder;
+
+##  loop
+
+&nbsp_place_holder;
+
+> The **loop** command repeatedly executes any LaGriT command with either a do
+loop type or foreach type variable argument control.
+
+**loop** supports loops up to 10 deep with a maximum of 250 tokens in the /foreach/ list.
+
+  
+&nbsp_place_holder;
+
+FORMAT:
+
+> **loop**/ **do** / variable / loop_start / loop_stop / loop_stride /
+**loop_end** / LaGriT_command
+
+> **loop**/ **foreach** / variable / list_var1 list_var2 ... list_varN /
+**loop_end** / LaGriT_command
+
+> **do** or **foreach** : are keywords that determine the type of loop
+operation.
+
+>
+
+> variable : is a character string that can be used in the LaGriT_command. The
+variable values are controled by the loop range or given in a variable list.
+
+>
+
+> loop range: loop_start / loop_stop / loop_stride : Integers that specify the
+initial, limit, and increment of variable.
+
+>
+
+> variable_list: list_var1 list_var2 ... list_varN : Integers, reals or
+characters that are substituted into variable prior to each execution of the
+LaGriT_command.
+
+>
+
+> **loop_end**: Required keyword string to terminate a foreach list. It is
+also REQUIRED after loop_stride.
+
+>
+
+> LaGriT_command: Any valid LaGriT command including another **loop** command.
+
+&nbsp_place_holder;
+
+&nbsp_place_holder;
+
+EXAMPLES:
+
+> **loop / foreach** / MO / cmo1 cmo2 cmo3 / **loop_end **/ **cmo** /
+**delete** / MO &nbsp_place_holder;
+
+Delete a list of mesh objects. **loop** / **foreach** / FILE / file1 file2
+file3 / **loop_end** & **loop** / **foreach** / MO / cmo1 cmo2 cmo3 /
+**loop_end** & **infile** LaGriT.input_control_file &nbsp_place_holder;
+
+Execute a set of commands in a LaGriT control file that utilize the variables
+FILE and MO.
+
+>
+
+>
+
+**loop** / **do** / NX 2 3 1 / **loop_end** & **loop** / **do** / NY 4 5 1 / **loop_end** & **loop** / **do** / NZ 6 7 1 / **loop_end** & **loop** / **foreach** / X0 0 5.5 10.2345678 / **loop_end **& **createpts**/**xyz**/NX,NY,NZ/X0 0. 0. / 100. 100. 100. &nbsp_place_holder;   
+Execute a set of commands in a LaGriT control file that utilize the variables
+NX,NY,NZ,X0. **loop** / **foreach** / MO cmo1 cmo2 cmo3 / **loop_end** &
+**loop** / **foreach** / ATTRIBUTE / icr isn itp / **loop_end **&
+**cmo**/**modatt**/MO/ATTRIBUTE/**ioflag**/l &nbsp_place_holder;
+
+Modify IO flags of three attributes in three different mesh objects.
+
+[](../demos/trans/test/html/main_trans.html)
+

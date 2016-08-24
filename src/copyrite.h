@@ -13,6 +13,13 @@ C     The copyright notice is written to screen and file at run time
 C     from the routine writinit.f
 C
 C ######################################################################
+C Copyright Disclosure: CODE-2015-151, LaGriT, Version 3.x (OSS) 
+C CODE Title: LaGriT, Version 3.x (OSS)
+C Primary Author:  Carl Gable
+C LACC #:  LA-CC-15-069
+C Copyright Number Assigned: C15097
+C
+C ######################################################################
 C LaGriT Version 3 LACC-2012-084 
 C
 C Copyright Notice: This program was prepared by Los Alamos National

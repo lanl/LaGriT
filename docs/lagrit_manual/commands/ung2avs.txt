@@ -1,0 +1,558 @@
+.. _ung2avs :
+
+> **_UNG2AVS_**
+
+>
+
+>> This rountine is used to convert files in UNGenerate FORMAT to AVS format.
+
+UNGenerate files are produced by ARCINFO.
+
+> FORMAT:
+
+>
+
+>> **ung2av/**avs_file_out/ung_file_in/[constant]/ & [xy, xz, yx, zx, yz, zy]
+
+>
+
+> default is:
+
+>
+
+>> **ung2avs**/avs_file_out/ung_file_in
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+converts ung_file_in to avs_file_out with a constant default z value of 0.0
+
+>>
+
+>> &nbsp_place_holder; or
+
+>>
+
+>> **ung2avs**/avs_file_out/ung_file_in/7.0
+
+converts ung_file_in to avs_file_out with a constant default z value of 7.0 in
+xy order
+
+>>
+
+>> &nbsp_place_holder; or
+
+>>
+
+>> **ung2avs**/avs_file_out/ung_file_in/15.0/xz
+
+converts ung_file_in to avs_file_out with a constant y value of 15.0 in xz
+order
+
+&nbsp_place_holder;
+
+>
+
+> UNG file format:
+
+>
+
+>> The UNG format contains a file of xy values, in groups of sequentially
+numbered sets, of connected line segments, each ending with END. The format
+for connected lines that form polygons or that do not form polygons is very
+similar. To make sets of connected lines that are polygons the first xy pair
+for each set of lines must be on the same line as the set number. Closed
+polygons will be formed by connecting the last point of a point set to the
+first point of the&nbsp_place_holder; point set. The set number is on a line
+by itself for non-polygons. Spacing on a line must not contain tabs.
+
+>
+
+> &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; FORMAT for
+connected lines that do not form polygons:
+
+>
+
+>> &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder; 1
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder; ...
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; END
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; 2
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; Y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+>
+
+>> &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder; ...
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; END
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder; ...
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; n
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder; ...
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; END
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; END
+
+>>
+
+>> &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; FORMAT for
+polygons:
+
+>>
+
+>> &nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder; 1
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder; ...
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; END
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; 2 x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder; ...
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; END
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder; ...
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; n x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+x&nbsp_place_holder;&nbsp_place_holder; y
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder; ...
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; END
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder; END
+
+>>
+
+>> SAMPLE of connected, non-polygon, lines:
+
+>>
+
+>>> &nbsp_place_holder;
+
+>>>
+
+>>> UNG file
+
+>>> &nbsp_place_holder;AVS file
+
+>>>
+
+>>> 1
+
+>>> 10&nbsp_place_holder; 7 0 0 0
+
+>>>
+
+>>> 10.00&nbsp_place_holder; 15.00
+
+>>> 1&nbsp_place_holder;&nbsp_place_holder; 10.0000 15.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> &nbsp_place_holder;10.50&nbsp_place_holder; 15.50
+
+>>> 2&nbsp_place_holder;&nbsp_place_holder; 10.5000 15.5000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> 11.00&nbsp_place_holder; 16.00
+
+>>> 3&nbsp_place_holder;&nbsp_place_holder; 11.0000 16.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> &nbsp_place_holder;END&nbsp_place_holder;
+
+>>> 4&nbsp_place_holder;&nbsp_place_holder; 20.0000 25.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> 2&nbsp_place_holder;
+
+>>> 5&nbsp_place_holder;&nbsp_place_holder; 20.5000 25.5000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> 20.00&nbsp_place_holder; 25.00&nbsp_place_holder;
+
+>>> 6&nbsp_place_holder;&nbsp_place_holder; 21.0000 26.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> 20.50&nbsp_place_holder; 25.50&nbsp_place_holder;
+
+>>> 7&nbsp_place_holder;&nbsp_place_holder; 22.0000 27.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> 21.00&nbsp_place_holder; 26.00&nbsp_place_holder;
+
+>>> 8&nbsp_place_holder;&nbsp_place_holder; 30.0000 35.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> 22.00&nbsp_place_holder; 27.00&nbsp_place_holder;
+
+>>> 9&nbsp_place_holder;&nbsp_place_holder; 30.5000 35.5000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> &nbsp_place_holder;END&nbsp_place_holder;
+
+>>> 10&nbsp_place_holder;&nbsp_place_holder; 31.0000
+36.0000&nbsp_place_holder; 0.0000
+
+>>>
+
+>>> &nbsp_place_holder;3&nbsp_place_holder;
+
+>>> 1&nbsp_place_holder; 1
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+1&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 2
+
+>>>
+
+>>> 30.00&nbsp_place_holder; 35.00
+
+>>> 2&nbsp_place_holder; 1
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+2&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 3
+
+>>>
+
+>>> 30.50&nbsp_place_holder; 35.50&nbsp_place_holder;
+
+>>> 3&nbsp_place_holder; 2
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+4&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 5
+
+>>>
+
+>>> 31.00&nbsp_place_holder; 36.00&nbsp_place_holder;
+
+>>> 4&nbsp_place_holder; 2
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+5&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 6
+
+>>>
+
+>>> &nbsp_place_holder;END&nbsp_place_holder;
+
+>>> 5&nbsp_place_holder; 2
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+6&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 7
+
+>>>
+
+>>> &nbsp_place_holder;END&nbsp_place_holder;
+
+>>> 6&nbsp_place_holder; 3
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+8&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 9
+
+>>>
+
+>>> 7&nbsp_place_holder; 3
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+9&nbsp_place_holder;&nbsp_place_holder; 10
+
+>>
+
+>> &nbsp_place_holder;SAMPLE of polygons:
+
+>>
+
+>>> &nbsp_place_holder;
+
+>>>
+
+>>> UNG file
+
+>>> &nbsp_place_holder;AVS file
+
+>>>
+
+>>>
+1&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+11.00&nbsp_place_holder; 16.00
+
+>>> 10&nbsp_place_holder; 10&nbsp_place_holder; 0 0 0
+
+>>>
+
+>>> 10.00&nbsp_place_holder; 15.00
+
+>>> 1&nbsp_place_holder;&nbsp_place_holder; 10.0000 15.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> &nbsp_place_holder;10.50&nbsp_place_holder; 15.50
+
+>>> 2&nbsp_place_holder;&nbsp_place_holder; 10.5000 15.5000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> 11.00&nbsp_place_holder; 16.00
+
+>>> 3&nbsp_place_holder;&nbsp_place_holder; 11.0000 16.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> &nbsp_place_holder;END&nbsp_place_holder;
+
+>>> 4&nbsp_place_holder;&nbsp_place_holder; 20.0000 25.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> &nbsp_place_holder;2&nbsp_place_holder;&nbsp_place_holder;
+22.00&nbsp_place_holder; 27.00
+
+>>> 5&nbsp_place_holder;&nbsp_place_holder; 20.5000 25.5000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> 20.00&nbsp_place_holder; 25.00&nbsp_place_holder;
+
+>>> 6&nbsp_place_holder;&nbsp_place_holder; 21.0000 26.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> 20.50&nbsp_place_holder; 25.50&nbsp_place_holder;
+
+>>> 7&nbsp_place_holder;&nbsp_place_holder; 22.0000 27.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> 21.00&nbsp_place_holder; 26.00&nbsp_place_holder;
+
+>>> 8&nbsp_place_holder;&nbsp_place_holder; 30.0000 35.0000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> 22.00&nbsp_place_holder; 27.00&nbsp_place_holder;
+
+>>> 9&nbsp_place_holder;&nbsp_place_holder; 30.5000 35.5000&nbsp_place_holder;
+0.0000
+
+>>>
+
+>>> &nbsp_place_holder;END&nbsp_place_holder;
+
+>>> 10&nbsp_place_holder;&nbsp_place_holder; 31.0000
+36.0000&nbsp_place_holder; 0.0000
+
+>>>
+
+>>>
+&nbsp_place_holder;3&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+31.00&nbsp_place_holder; 36.00&nbsp_place_holder;
+
+>>> 1&nbsp_place_holder;&nbsp_place_holder; 1
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+1&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 2
+
+>>>
+
+>>> 30.00&nbsp_place_holder; 35.00
+
+>>> 2&nbsp_place_holder;&nbsp_place_holder; 1
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+2&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 3
+
+>>>
+
+>>> 30.50&nbsp_place_holder; 35.50&nbsp_place_holder;
+
+>>> 3&nbsp_place_holder;&nbsp_place_holder; 1
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+3&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 1
+
+>>>
+
+>>> 31.00&nbsp_place_holder; 36.00&nbsp_place_holder;
+
+>>> 4&nbsp_place_holder;&nbsp_place_holder; 2
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+4&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 5
+
+>>>
+
+>>> &nbsp_place_holder;END&nbsp_place_holder;
+
+>>> 5&nbsp_place_holder;&nbsp_place_holder; 2
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+5&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 6
+
+>>>
+
+>>> &nbsp_place_holder;END&nbsp_place_holder;
+
+>>> 6&nbsp_place_holder;&nbsp_place_holder; 2
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+6&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 7
+
+>>>
+
+>>> 7&nbsp_place_holder;&nbsp_place_holder; 2
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+7&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 4
+
+>>>
+
+>>> 8&nbsp_place_holder;&nbsp_place_holder; 3
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+8&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 9
+
+>>>
+
+>>> 9&nbsp_place_holder;&nbsp_place_holder; 3
+line&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+9&nbsp_place_holder;&nbsp_place_holder; 10
+
+>>>
+
+>>> 10&nbsp_place_holder; 3 line&nbsp_place_holder;&nbsp_place_holder;
+10&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 8
+
+>
+
+>> &nbsp_place_holder;
+

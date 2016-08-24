@@ -1,0 +1,12 @@
+.. _rmregion :
+
+****&nbsp_place_holder;
+
+> **_RMREGION_**
+
+>
+
+>> Removes points that lie within the specified region.
+
+**FORMAT:** **rmregion/**region_name/
+

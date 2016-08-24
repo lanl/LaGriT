@@ -1,0 +1,56 @@
+.. _rmpoint :
+
+&nbsp_place_holder;
+
+> **_RMPOINT_**
+
+>
+
+>> Removes nodes or marks nodes for removal points or removes elements from a
+mesh.&nbsp_place_holder;&nbsp_place_holder; The first option sets the node
+type flag&nbsp_place_holder; [itp=**ifitpdud** (21)] to indicate that the set
+of nodes are treated as invisible, but does not actually remove the
+nodes.&nbsp_place_holder; Elements will also be removed.&nbsp_place_holder;
+If&nbsp_place_holder; **inclusive **is specified, any element containing a
+marked node will be removed.&nbsp_place_holder; If&nbsp_place_holder;
+**exclusive **is specified (default), any element containing a retained node
+is retained.&nbsp_place_holder; The second option, **compress**, removes the
+invisible nodes (i.e. those nodes whose itp1 value is 21) from the data
+structure and material-wise resequences all remaining
+nodes.&nbsp_place_holder; The third option, **zero_volume**, will remove
+elements whose volumes are less than or equal to the specified
+threshold.&nbsp_place_holder; The fourth option,** element, **will remove all
+marked elements from the mesh.&nbsp_place_holder; Marked elements have a
+negative value for the first entry in the itet vertex list.&nbsp_place_holder;
+The fifth option will remove a specified list of elements from the
+mesh.&nbsp_place_holder; The sixth option will remove elements that are
+specified in a named element set from the mesh. The seventh option, **womesh
+**will delete stray nodes that are not connected to any element and that are
+not parent nodes.
+
+FORMAT: **rmpoint**/ifirst,ilast,istride/[**exclusive**|**inclusive **]
+
+**rmpoint**/**compress**/   
+**rmpoint/zero_volume**/threshold   
+**rmpoint/element**   
+**rmpoint/element**/tet list   
+**rmpoint/element/eltset,**get,esetname   
+**rmpoint/womesh** EXAMPLES:   
+&nbsp_place_holder; **rmpoint/pset, **get, pset1
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; mark all the nodes
+in pset1 for removal.&nbsp_place_holder; Remove elements all of whose vertices
+are members of pset1.
+
+**rmpoint/compress**   
+**&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; **remove all marked nodes and correct the itet array   
+**rmpoint/zero_volume/**1.e-16   
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+remove all elements with volumes less than 1.e-16
+
+**rmpoint/element/**27 259 1009   
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+remove the three specified elements
+
+**rmpoint/element/eltset, **get, myeset
+

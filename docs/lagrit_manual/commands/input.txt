@@ -1,0 +1,20 @@
+.. _input :
+
+&nbsp_place_holder;
+
+> **_INPUT OR INFILE_**
+
+>
+
+>> These commands instruct LaGriT to begin processing commands from a file.
+The **infile** commands may be nested. Each&nbsp_place_holder; set of commands
+should be terminated with a **finish **command.
+
+> **FORMAT:**
+
+>
+
+>> **infile/**file_name
+
+**input/**file_name
+

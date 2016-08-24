@@ -1,0 +1,143 @@
+LaGriT executable is built using lagrit and lg_util libraries, and the external Exodus II libraries.
+
+LaGriT has been compiled and run on Linux RHEL, Linux Ubuntu, and Mac Mavericks, Mtn Lion
+See instructions to compile the lg_util library in lg_util/src
+See instructions to compile the lagrit library in lagrit/src
+Build the exectuable with instructions here and also in lagrit/src
+
+A WIN7 version is available with next release.
+
+---------------------------------------------
+BUILD EXECUTABLE:
+LaGriT V3.106 on Ubuntu with ExodusII Modules (shared libraries, not static):
+
+
+#### ubuntu with modules ###  USING BASH instead of TCSH ######
+# GNU Fortran (Ubuntu 4.8.2-19ubuntu1) 4.8.2
+# using ExodusII 6.09 shared libraries
+
+# load modules
+module load exodusii/6.09/gcc-4.8.2-serial
+module list
+rm *.o
+rm *.mod
+make COPT=-g lib
+
+### link code and libraries to build executable
+# leave off -static option for the .so shared libraries:
+gfortran -g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gf4.8.a /n/swdev/LAGRIT/VERS_3.103_015_MAR/lg_util/src/util_ulin64_g_gf4.8.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+
+# BUILD DONE
+
+-------------------------------------------------------------------------
+Exodus II Notes:
+
+The ExodusII library source code is available on Sourceforge at
+http://sourceforge.net/projects/exodusii
+
+For bug reports, documentation errors, and enhancement suggestions, contact:
+- Gregory D. Sjaardema
+- PHONE: (505) 844-2701
+- EMAIL: gdsjaar@sandia.gov
+
+ExodusII 6.09
+  1) zlib/1.2.5/gcc-4.8.2              
+  2) hdf5/1.8.6/gcc-4.8.2-serial       
+  3) netcdf/4.3.3.1/gcc-4.8.2-serial
+  4) exodusii/6.09/gcc-4.8.2-serial
+
+/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib
+  libexodus.so  libexoIIv2for.so 
+  (static libs should be libexodus.a  libexoIIv2for.a) 
+  copy include files to src (or add -I to the link command)
+    exodusII.h (for C calls)  
+    exodusII.inc (for Fortran calls) 
+    exodusII_int.h  exodusII_int.inc
+
+The include file exodusII.inc is incomplete (Greg will fix for future)
+   Add these lines if it does not exist:
+       integer EX_ELEM_SET
+       parameter (EX_ELEM_SET  = 10)    
+
+Use fortran API as described in exodus.pdf for 6.09
+
+Old property code added because new property code not found in include file. 
+The exodus.pdf document describes EXNSET for nodes, but nothing for element sets.
+   integer EX_ELEM_SET
+   parameter (EX_ELEM_SET = 10) !  /**< element set property code     */
+
+code reference to EX_NODE_SET changed to EXNSET (defined in exodusII.inc)
+
+-------------------------------------------------------------------------
+Running LaGriT
+
+Run on command line in directory where files will be read and written.
+Run interactive or redirect with input command file.
+See manual in lagrit.lanl.gov
+
+bsh% lagrit
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.107   Linux m64      *                 
+*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
+*               *    Run Time: 2016/Aug 24  12:05:49          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+                           LaGriT V3 LACC-2012-084                              
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+ Enter a command
+memory print
+memory print                                                                    
+--------
+
+MEMORY SIZES : 
+ Sizeof char    (type 3) =  1 bytes      Sizeof long        =   8 bytes
+ Sizeof real*8  (type 2) =  8 bytes      Sizeof pointer     =   8 bytes
+ Sizeof integer (type 1) =  4 bytes      Sizeof INT_PTRSIZE =   8 bytes
+
+
+INDEX         LENGTH    TYPE     ADDRESS     NAME                           PARTITION
+   2                10   1       428217712 global_type                      global_lg                       
+   3                10   1       428217904 global_index                     global_lg                       
+   1                10   3       428219696 global_name                      global_lg                       
+   4                20   1       428280176 global_integer                   global_lg                       
+   5                20   2       428280448 global_real                      global_lg                       
+   6                20   3       428280720 global_character                 global_lg                       
+   7                10   3       428281472 geom_names                       geom_lg                         
+   8                80   1       428281904 geom_info                        geom_lg                         
+   9                 8   3       428282656 defcmo_attparam_names            define_cmo_lg                   
+  10                10   3       428283024 cmo_names                        define_cmo_lg                   
+  11                10   1       428283456 cmo_natts                        define_cmo_lg                   
+  12               455   3       428283648 cmo_attlist                      default_cmo_lg                  
+  13                65   3       428298320 cmo_attparam_cdefault            default_cmo_lg                  
+  14                65   1       428300512 cmo_attparam_idefault            default_cmo_lg                  
+  15                65   2       428301136 cmo_attparam_rdefault            default_cmo_lg                  
+  16              2560   1       428301760 cmd_stack                        initlagrit                      
+  17              1280   1       428322352 definition                       initlagrit                      
+
+Total BYTES =                51456   Total MEGABYTES =   51.456E-03
+--------
+ 
+ Enter a command
+finish
+finish                                                                          
+LaGriT successfully completed       
+
+

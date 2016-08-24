@@ -1,0 +1,185 @@
+.. _rzran :
+
+****&nbsp_place_holder;
+
+> **_RZRAN_**
+
+>
+
+>> This routine is used to add random points with a given target spacing to
+the region of space defined by the input minimum and maximum coordinate values
+using the specified geometry (xyz, rtz, or rtp), and the given local origin
+(specified in xyz coordinates). Within the bounding geometry, the points are
+distributed uniformly in space, with the average separation targeted at the
+input value of the spacing.&nbsp_place_holder; Near the boundaries of the
+geometry, the uniform distribution is modified slightly in order to create a
+well defined outer boundary.&nbsp_place_holder; Points are added separately on
+the corners, edges, and surfaces of the bounding geometry, uniformly randomly
+distributed with the same target spacing on each of these boundary objects.
+Points in the interior are offset by the sepcified edge protection distance
+from the exterior.&nbsp_place_holder; This separation helps LaGriT's connect
+algorithm avoid creating artificial "pits" in the interface surfaces.
+
+&nbsp_place_holder;
+
+> FORMAT
+
+> > **rzran** / **cgeom **/ **spacing** / rmin1,rmin2,rmin3 /
+rmax1,rmax2,rmax3&nbsp_place_holder; & [/ xoff,yoff,zoff / edgedist /
+ranseed1,ranseed2 ]
+
+>>
+
+>> while only **rzran** is required (will result in a single point at the
+origin), it is recommended that you use as the minimal command:** rzran** /
+**cgeom **/ spacing /&nbsp_place_holder; rmin1,rmin2,rmin3 / rmax1,rmax2,rmax3
+
+>>
+
+>> **cgeom**
+
+&nbsp_place_holder;&nbsp_place_holder; geometry label (same convention as for
+rz)
+
+&nbsp_place_holder;&nbsp_place_holder; allowed values: xyz|rtp|rtz
+
+&nbsp_place_holder;&nbsp_place_holder; default: _xyz _if not present, error
+return if not allowed
+
+>>
+
+>> **spacing**
+
+&nbsp_place_holder;&nbsp_place_holder; target separation between the random
+points
+
+&nbsp_place_holder;&nbsp_place_holder; allowed values: spacing>0
+
+&nbsp_place_holder;&nbsp_place_holder; default: spacing=1
+
+>>
+
+>> rmin1,rmin2,rmin3 / rmax1,rmax2,rmax3
+
+&nbsp_place_holder;&nbsp_place_holder; minimum and maximum coordinate values
+
+&nbsp_place_holder;&nbsp_place_holder; allowed values:
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder; all geometries: rmax.ge.rmin
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder; **rtz:** rmin1.ge.0, rmax2-rmin2.le.360
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder; **rtp**: rmin1.ge.0, rmin2.ge.0, rmax2.le.180,
+rmax3-rmin3.le.360
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; defaults: rmin=0,
+rmax=rmin
+
+>>
+
+>> xoff,yoff,zoff (specified in xyz coordinate system)
+
+&nbsp_place_holder;&nbsp_place_holder; local origin shift
+
+&nbsp_place_holder;&nbsp_place_holder; defaults: 0
+
+>>
+
+>> edgedist
+
+&nbsp_place_holder;&nbsp_place_holder; edge protection distance aka interior-
+exterior offset
+
+&nbsp_place_holder;&nbsp_place_holder; default: spacing/2
+
+&nbsp_place_holder;&nbsp_place_holder; recommended value: spacing/2
+
+>>
+
+>> ranseed1,ranseed2
+
+&nbsp_place_holder;&nbsp_place_holder; seeds for the random number generator
+
+&nbsp_place_holder;&nbsp_place_holder; defaults: -1 (do not re-seed,
+recommended)
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder; if either seed is .le. zero, the seeds are ignored
+
+&nbsp_place_holder;&nbsp_place_holder; recommended values if reseed:
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder; large-ish integers, ranseed1>ranseed2>0, ranseed2 odd.
+
+&nbsp_place_holder;&nbsp_place_holder; No initial seeds are needed, and
+repeating the command
+
+&nbsp_place_holder;&nbsp_place_holder; with the identical parameters and seeds
+should result
+
+&nbsp_place_holder;&nbsp_place_holder; in the identical point distribution.
+Repeating the
+
+&nbsp_place_holder;&nbsp_place_holder; command with no seeds specified should
+result in
+
+&nbsp_place_holder;&nbsp_place_holder; different point locations with the same
+distribution.
+
+&nbsp_place_holder;
+
+> EXAMPLES
+
+>
+
+>> **rzran** / **xyz** / .1 / 0 0 0 / 1 1 1 /
+
+&nbsp_place_holder;&nbsp_place_holder; random points with target spacing 0.1
+in a 1x1x1 box
+
+>>
+
+>> **rzran**/** rtz** / .1 /&nbsp_place_holder; 0,0,0 / 1,180,360 / 2,3,4 /
+0.2
+
+&nbsp_place_holder;&nbsp_place_holder; random points with target spacing 0.1
+in a cylinder
+
+&nbsp_place_holder;&nbsp_place_holder; of radius 1 centered at xyz=(2,3,4) and
+with an
+
+&nbsp_place_holder;&nbsp_place_holder; edge protection distance of 0.2
+
+>>
+
+>> **rzran/ rtp** / .5 /&nbsp_place_holder; 5,0,0 / 5,180,360
+/&nbsp_place_holder; , ,&nbsp_place_holder; /&nbsp_place_holder; / 98765 4321/
+
+&nbsp_place_holder;&nbsp_place_holder; random points with target spacing 0.5
+on the surface
+
+&nbsp_place_holder;&nbsp_place_holder; of a sphere of radius 5 centered at the
+origin
+
+&nbsp_place_holder;&nbsp_place_holder; with new random seeds
+
+>
+
+> CAVEATS
+
+>
+
+>> Filter should be used afterwards to remove possibly duplicate points. The
+algorithm to insure the points are uniformly distributed in space is not
+clever about handling values outside the allowed range for** rtz** and **rtp
+**geometries and so it simply truncates them to the allowed range if possible
+or aborts. Most importantly, angles are in degrees and theta for the rtp
+geometry runs from 0 to 180 degrees, with 0 degrees being the +z axis. It does
+know about the angular periodicity and there should be only the "corner" point
+artifacts of, eg, the +x axis being the origin of phi (rtp) or theta (rtz) if
+a full 360 degrees for these two variables in their respective coordinate
+systems is used.
+

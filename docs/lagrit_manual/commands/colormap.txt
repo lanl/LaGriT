@@ -1,0 +1,39 @@
+.. _colormap:
+
+> **_COLORMAP_**
+
+> > This command builds the colormap.&nbsp_place_holder; In reality it only
+builds the material adjacency graph, from with the colormap can be quickly
+generated when needed.&nbsp_place_holder; Three actions are possible:
+
+>
+
+> FORMAT:
+
+>
+
+>> **colormap**/**[add]|create|delete]**/[cmo_name]
+
+>>
+
+>> **add** -- The material adjacency characteristics of the specified mesh
+object is added to the existing material adjacency graph, which is created if
+it didn't exist.&nbsp_place_holder; This is the default action.
+
+**create** -- The existing material adjacency graph is deleted and a new one created from the specified mesh object.   
+**delete** -- The material adjacency graph is deleted if it exists.&nbsp_place_holder; Any specified mesh object is ignored.   
+&nbsp_place_holder;
+
+>
+
+> EXAMPLES:
+
+>
+
+>> **colormap/create/**mesh1
+
+**colormap**//mesh2   
+**colormap**/**delete**
+
+> &nbsp_place_holder;
+

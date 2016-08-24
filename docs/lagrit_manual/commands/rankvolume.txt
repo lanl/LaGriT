@@ -1,0 +1,88 @@
+.. _rankvolume:
+
+> **_RANKVOLUME_**
+
+&nbsp_place_holder;
+
+&nbsp_place_holder;
+
+>
+
+>> RANKVOLUME prints out the lowest volume elements from a mesh, ranked in
+increasing order.&nbsp_place_holder; The default is to print out the 100
+lowest volume elements, but this number can be changed by specifying it as an
+optional second argument to the command. Also printed are the number of
+exterior boundary faces and number of interfaces faces for each of these
+elements.
+
+&nbsp_place_holder; FORMAT: **rankvolume**/[number_of_elements_to_rank]
+EXAMPLE: &nbsp_place_holder;
+
+rankvolume/10
+
+elt. no.&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;&nbsp_place_holder; volume&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder; #ext.bound.faces
+#int.bound.faces
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+343660&nbsp_place_holder; 0.105844E-05&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 1
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+567342&nbsp_place_holder; 0.105844E-05&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+567266&nbsp_place_holder; 0.105844E-05&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 1
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+283659&nbsp_place_holder; 0.105844E-05&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+687334&nbsp_place_holder; 0.105844E-05&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+450784&nbsp_place_holder; 0.105844E-05&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+730990&nbsp_place_holder; 0.105844E-05&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+146725&nbsp_place_holder; 0.105844E-05&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+785111&nbsp_place_holder; 0.105844E-05&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+450711&nbsp_place_holder; 0.105844E-05&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 0&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+0&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+

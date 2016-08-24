@@ -1,0 +1,12 @@
+.. _rmsphere:
+
+****&nbsp_place_holder;
+
+> **_RMSPHERE_**
+
+>
+
+>> Removes a sphere of points from a point distribution.
+
+**FORMAT:** **rmsphere/**inner_radius/outer_radius/xcen,ycen,zcen/
+

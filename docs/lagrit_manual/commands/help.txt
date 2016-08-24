@@ -1,0 +1,28 @@
+.. _help :
+
+&nbsp_place_holder;
+
+> **_HELP_**
+
+>
+
+>> **help**/code_variable will return the variable definition and the correct
+value of the variable.
+
+> FORMAT:
+
+>
+
+>> **help**/variable_name
+
+>
+
+> EXAMPLES:
+
+>
+
+>> **help**/**ipointi**
+
+  
+&nbsp_place_holder;
+

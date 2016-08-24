@@ -1,0 +1,47 @@
+.. _edit:
+
+****&nbsp_place_holder;
+
+> **_EDIT_**
+
+>
+
+>> Prints an edit of various quantities based on the value of the option
+argument, the point limits, and/or a material specification. iopt specifies
+what to print as follows:
+
+>>
+
+>>> no value for iopt --edit of sums, averages, and extrema of position
+coordinates (x,y,z), and of mesh object attribute fields
+
+**two**--gives same information as the default, but only for the two points specified.   
+**parts**--gives a list of materials types, their names, count and sequence.   
+**points**--lists up to 4 cell-center array values for a set of points. Possible array values are: xic,yic,zic,or mesh object attribute name
+
+> FORMAT:
+
+>
+
+>> **edit** / iopt / ifirst,ilast,istride / material_#_or_name/
+
+**edit**/ **angular**/ifirst,ilast,istride /material_#_or_name/xcen,**edit**/ **radial** /ifirst,ilast,istride /material_#_or_name/xcen,**edit****/ points /**ifirst,ilast,istride /material_#_or_name/array1,array3,array4/   
+&nbsp_place_holder;
+
+>
+
+> EXAMPLES:
+
+&nbsp_place_holder;
+
+>
+
+>> **edit**/ **parts**/
+
+**edit**/
+>>
+
+>> **edit**/**points**/**pset**,**get**,some+points/
+
+&nbsp_place_holder;
+

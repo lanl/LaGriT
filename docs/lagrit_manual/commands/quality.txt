@@ -1,0 +1,139 @@
+.. _quality:
+
+&nbsp_place_holder;
+
+> **_QUALITY_**
+
+>
+
+>> quality provides a collection of mesh quality measures
+
+&nbsp_place_holder;
+
+&nbsp_place_holder;FORMAT: **quality /**[quality_type] / [quality_type
+options]
+
+Where quality-type can be **aspect**, **pcc**,** volume**, **angle**,
+**quad**, or** taylor. **Quality-type options depend on the quality-type.
+
+**quality **(no arguments)   
+writes to screen and outx3dgen logfile giving volume and aspect ratio
+distribution information. Aspect ratios and element volumes are binned into 5
+bins then totaled, min and max values are also reported.
+
+**quality/aspect**/[**y**]   
+displays a count of the number of elements whose aspect ratio falls in each of
+7 bins .&nbsp_place_holder; If **y **is specified create an attribute named
+**aratio** that will contain the value of the aspect ratio of each element.
+
+**quality/edge_ratio/[y]**  
+displays a count of the edge length minimum/edge length maximum in each of 7
+bins. If y is specified create an attribute named **eratio** that will contain
+the value of the min/max edge ratio of each element.
+
+**quality/edge_min/[y]**  
+displays a count of the minimum edge length in each of 7 bins. If y is
+specified create an attribute named **edgemin** that will contain the value of
+the min edge length of each element.
+
+**quality/edge_max/[y]**  
+displays a count of the maximum edge length in each of 7 bins. If y is
+specified create an attribute named **edgemax** that will contain the value of
+the max edge length of each element.
+
+**quality**/**angle**/**gt**|**lt**/value]/   
+displays a count of the number of elements with a dihedral angle that is
+greater than or less than the supplied value. See also [ cmo/addatt/mo/ang_*
+](cmo/cmo_addatt.html) commands for dihedral angle and solid angle
+calculations.
+
+**quality**/**pcc**   
+creates an element based attribute called 'neg_coup_coeff' which is a
+"negative coupling coefficient" indicator.&nbsp_place_holder; A value of 1
+means the coupling coefficient is OK.&nbsp_place_holder; Anything less than 1
+means it is negative.&nbsp_place_holder; This is&nbsp_place_holder;
+**element** attribute and is useful when viewing a mesh with GMV to find the
+negative coupling coefficients.
+
+**quality**/**quad** generates some quality measures for quads and displays them after binning them into seven bins. Please see [`cmo / addatt // quad_quality`](cmo/cmo_addatt.html#quad) for details on the quality measures used.  
+**quality**/**taylor**/fieldname/value/   
+displays a count of the number of element-edge pairs with a taylor error
+estimate value whose absolute value is greater than the supplied value.
+
+**quality/volume**   
+quality/volume can appear with or without any of the following options:
+
+**quality**/**volume **/** **number_of_bins   
+number_of_bins is an integer value controlling the number of bins in which to
+distribute the volume values for display. if number_of_bins is 0, then binning
+of distributed volumes is skipped, and only min and max volumes are reported.
+number_of_bins must be the 2nd argument to **quality** if used.
+
+**quality/volume**/**itetclr**   
+&nbsp_place_holder;output element volume distributions with 5 bins. loop
+through** itetclr** values and report total volume for each material
+
+**quality**/**volume**/number_of_bins/**itetclr**   
+**itetclr** is a keyword that will give volume information according to the values in the itetclr attribute. Number_of_bins applies to each tetclr value.&nbsp_place_holder; For each itetclr value, the volume of elements will be totaled.   
+**quality/volume**/**lt**|**gt**|**eq**|**ne**/xvalue   
+will report volumes based on compare operator and given xvalue, for instance
+quality/volume/**lt** 0.0/ will report total number of elements with volumes
+less than 0.0 It may be used in combination of other volume options. if used
+with itetclr keyword, values will be reported by itetclr value
+
+**quality/volume**/**eltset**,**get**,ename   
+eltset,get,ename will report volumes on elements in defined eltset can be used
+in combination with previous options with operations done only on the chosen
+eltset. itetclr will still report for each of the values in itetclr .
+
+Any combination of quality_type options may occur with the **volume**
+quality_type, for example:
+
+**quality**/**volume**/number_of_bins/**itetclr**/**lt**| **gt** | **eq **| **ne** | xvalue/**eltset**,**get**,ename.   
+&nbsp_place_holder;
+
+EXAMPLES:
+
+**quality**/&nbsp_place_holder;
+display volume and aspect ratio
+
+**quality**/**aspect**/&nbsp_place_holder;
+display aspect ratiodistribution in 7 bins
+
+**quality**/**aspect**/**y**/&nbsp_place_holder;
+display aspect ratio distribution and add attribute named aratio
+
+**quality**/**angle**/**gt**/179/&nbsp_place_holder;
+return count of elements with a dihedral angle > 179.
+
+**quality**/**taylor**/boron/1.e-10/
+run taylor error estimate and return count of element edge pairs with absolute
+error greater than value
+
+**quality**/**volume**
+output element volume distribution with 5 bins
+
+**quality**/**volume** / 2
+output element volume distribution with 2 bins
+
+**quality**/**volume**/**itetclr**
+loop through** itetclr** values and report total volume for each material
+
+**quality**/**volume**/**lt .03**
+count and report element volumes lt .03
+
+**quality**/**volume** /**itetclr**/**lt .03**
+count and report element volumes lt .03 by **itetclr** value
+
+**quality**/**volume**/**eltset**,**get**,e2
+report on element volumes only for those in the set e2
+
+**quality**/**volume**/**itetclr**/**eltset,get,e2**
+report on element volumes only for those in the set e2, loop through each of
+the **itetclr** values, report total volume by material for elements in set e2
+
+[Detect and characterize tetrahedra as type : sliver, cap, needle,
+wedge](../QUALITY_sliver_cap_needle_wedge.html)
+
+  
+

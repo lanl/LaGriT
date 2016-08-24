@@ -1,0 +1,606 @@
+.. _filter:
+
+&nbsp_place_holder;
+
+> **_FILTER_**
+
+>
+
+>> **FORMAT**:
+
+>>
+
+>>> **filter**/ifirst,ilast,istride/[tolerance/min|max/attribute]
+
+  
+**filter**/element/[search_range]/[**nodelete** | delete]  
+
+>>
+
+>>> **Filter **is used in either node or element mode.&nbsp_place_holder; In
+'node' mode it is used to mark for deletion nodes that lie within a distance,
+epsilon, of one another.&nbsp_place_holder; In 'element' mode it either marks
+or deletes elements which have the exact same set of nodes. The test is on
+node numbers, not the geometric position of nodes so for this to work one
+should filter the nodes first.
+
+**  
+Node Mode:**
+
+Used to filter (mark for deletion) points that are geometricly close, (mesh
+object epsilon value), or if the tolerance parameter is given, closer than the
+tolerance specified by the user. This command changes the node type of the
+deleted points to type 'dudded' (itp=21) but does not remove them from the
+point list. Note that at least one point must be specified in the point range
+(ifirst,ilast,istride) in order for this command to work properly. Dudded
+points (itp=21) can be removed from the mesh object by calling
+[rmpoint/compress](RMPOINT.html).
+
+>>>
+
+>>> When the min|max / attribute option is used, nodes for deletion are
+detected based on the standard geometric criteria however, the choice about
+which node is retained is determined based on comparison of the attribute
+values and the node with either the min or max value is retained.
+
+>>>
+
+>>>
+
+**Element Mode:**  
+Search a mesh object for duplicate elements. A duplicate element is defined as
+having the exact same set of nodes in the element connectivity list (itet).
+The order of the nodes in the connectivity does not matter. The element with
+the larger itetclr value (master) will be kept. The duplicate element will
+have its material color (itetclr) changed to max(itetclr) + 1. Two new element
+attributes (iclr1, iclr2) are added to the mesh object to keep track of the
+correspondence of master(retained)/duplicate(removed) elements and their
+original material id (itetclr).&nbsp_place_holder;
+
+>
+
+> For all elements the values of iclr1 are set their original itetclr values.
+
+For any element that is neither master nor duplicate, the value of icr2 is set
+to its itetclr value.
+
+For an element that is a master, icrl2 is set to the original itetclr value of
+its duplicate.
+
+For an element that is a duplicate, icrl2 is set to the original itetclr value
+of its master.
+
+>
+
+>> > For example, consider the 4 element mesh, where element 2 and 3 are
+duplicates and:
+
+>>>
+
+>>> Element 1,2 itetclr = 1
+
+Element 3,4 itetclr = 2
+
+then after:
+
+filter/element/10/nodelete&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hol
+der;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holde
+r;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;
+
+  
+Maximum material id max(itetclr)&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder; =&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 2&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+
+Duplicate Elements will be set to itetclr =&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 3&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+
+search_range&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hol
+der;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holde
+r;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder; =&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder; 10&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+nelements searched&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; =&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hol
+der; 4&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hol
+der;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holde
+r;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;
+
+Number of duplicate element found&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder; =&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder; 1&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hol
+der;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holde
+r;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+
+  
+cmo/printatt/cmohex1/itetclr/1 0 0&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;
+
+Attribute: itetclr&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hol
+der;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holde
+r;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 1&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 1&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 2&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 3&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 3&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 2&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 4&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 2&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+  
+cmo/printatt/cmohex1/iclr1/1 0 0&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+
+Attribute: iclr1&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hol
+der;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holde
+r;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 1&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 1&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 2&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 1&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 3&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 2&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 4&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 2&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+  
+cmo/printatt/cmohex1/iclr2/1 0 0&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+
+Attribute: iclr2&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hol
+der;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holde
+r;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 1&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 1&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 2&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 2&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 3&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 1&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; 4&n
+bsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbs
+p_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder; 2&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_
+place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pl
+ace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_plac
+e_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_
+holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_ho
+lder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_hold
+er;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder
+;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&
+nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nb
+sp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp
+_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_p
+lace_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_pla
+ce_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place
+_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_h
+older;&nbsp_place_holder;
+
+>>>
+
+>>>
+
+All elements are tested. The search for each element's duplicate does not
+occur over the entire element list. The default for search_range is 10 and
+results in looking at the 10 elements in the element list sequentially above
+and 10 elements sequentially below the test element.&nbsp_place_holder; In the
+example given below the elements are sorted so that elements that are
+physically close to each other will be close to each other in the element
+list.
+
+  
+The&nbsp_place_holder;search_range can be set by the user. Setting
+search_range to a number larger than the number of elements will cause all
+elements to be searched.
+
+  
+The algorithm will only detect one duplicate element per element. If there are
+more than two elements with the same connectivity, they can be found by
+calling **filter/element** multiple times.
+
+  
+The default behavior is to not delete the duplicate
+elements.&nbsp_place_holder; However the duplicate elements will be deleted
+from the mesh if the parameter delete is specified.
+
+  
+In general if you are merging together two meshes and then want to delete
+duplicate elements the commands might be:
+
+  
+* Merge two mesh objects  
+** addmesh / ** merge / cmohex / cmohex1 / cmohex2  
+* Create an attribute with the median x,y,z coordinate of each element  
+createpts / median
+
+* Sort and reorder the elements based on the median points. This will insure that elements that occupy the  
+* same location will have element numbers near one another.  
+sort / -def- / index / ascending / ikey / xmed ymed zmed
+
+reorder/ -def- /ikey
+
+* Filter and remove duplicate nodes.  
+filter / 1 0 0
+
+rmpoint / compress
+
+* Filter and remove duplicate elements.  
+filter / element / / delete
+
+  
+
+>
+
+> &nbsp_place_holder;EXAMPLES:
+
+>
+
+>> **filter**
+
+Filter all nodes and delete duplicates with epsilon tolerance is set
+automaticly.
+
+  
+**filter** / 1 0 0 / 1.e-3  
+Filter all nodes and delete duplicates where epsilon tolerance is set by user
+to 1.e-3.
+
+  
+**filter** / pset get point_set  
+Filter a subset of the nodes and delete duplicates with epsilon tolerance set
+automaticly.
+
+  
+**filter** / 1 0 0 / / min / imt   
+Filter all nodes and delete duplicates with epsilon tolerance set automaticly.
+When duplicate nodes are detected the imt attribute is examined and the node
+with minimum imt value is retained.
+
+  
+**filter** / element  
+Filter all elements and set itetclr of duplicates to max(itetclr) + 1. Assign
+values to iclr1 and iclr2 arrays.
+
+  
+**filter** / element / / nodelete  
+Filter elements and set itetclr of duplicates to max(itetclr) + 1. Assign
+values to iclr1 and iclr2 arrays.
+
+  
+**filter** / element / / delete  
+Filter elements and delete duplicate elements. Assign values to iclr1 and
+iclr2 arrays.
+
+  
+**filter** / element / 1e20 / delete  
+Filter all elements (assuming there are less than 1e20)&nbsp_place_holder;
+with an exhaustive search and delete duplicate elements. Assign values to
+iclr1 and iclr2 arrays.
+
+&nbsp_place_holder;
+
+  
+

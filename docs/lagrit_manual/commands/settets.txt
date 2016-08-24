@@ -1,0 +1,41 @@
+.. _settets :
+
+&nbsp_place_holder;
+
+> **_SETTETS_**
+
+Set element color** (**itetclr) and create child points at interior
+interfaces. This command can also be used to set the node color from the
+element color.
+
+If there are no options **settets** and **settets/color_tets** sets the color
+of all elements using the following tests. If the element contains a non-
+interface point, the element color is set to this value. If the element is
+comprised entirely of interface points, the centroid of the element is
+calculated and the material region containing this point is determined; the
+element color is set to this material. If the centroid of the element is not
+in any material region, the centroid must be on an interface surface. In this
+case all vertices of the element are examined and the material common to all
+vertices is selected as the element color.
+
+**settets**/ **parents** has exactly the same behavior as **settets **except that existing values of itetclr are used for elements containing non-interface nodes.
+
+**geometry**&nbsp_place_holder; sets the&nbsp_place_holder; element color&nbsp_place_holder; based on the material region containing the centroid of the element for all elements; existing values of itetclr are ignored.
+
+**color_points**&nbsp_place_holder; sets the node material (imt1) from the element color (itetclr); existing values of itetclr are not changed.
+
+**settets/newtets **has the same behavior** **as** settets **except that existing positive values of itetclr are not changed.
+
+**settets/normal** assigns the itetclr array of a triangle mesh to an integer value depending on the normal vector direction.&nbsp_place_holder; There are 26 possible direction that correspond to the 6 faces, 12 edges and 8 corners of a cube.&nbsp_place_holder; In general most triangles will be assigned one of 6 values which correspond to the 6 sectors which are within 45 degrees of the 6 unit vectors: 1 0 0 , 0 1 0 , 0 0 1, -1 0 0, 0 -1 0, 0 0 -1   
+NOTE:&nbsp_place_holder; Valid only for triangle mesh.
+
+&nbsp_place_holder;
+
+&nbsp_place_holder; FORMAT: **settets**
+
+**settets**/**parents**   
+**settets**/**geometry**   
+**settets**/**color_tets**   
+**settets**/**color_points**   
+**settets/normal**
+

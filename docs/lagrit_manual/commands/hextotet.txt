@@ -1,0 +1,76 @@
+.. _hextotet:
+
+&nbsp_place_holder;
+
+## HEXTOTET
+
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder;
+&nbsp_place_holder;&nbsp_place_holder;&nbsp_place_holder; IMPORTANT NOTE: This
+command, while still recognized, is officially unsupported. Please see
+[grid2grid](GRID2GRID.html) instead.
+
+  
+
+> The **hextotet** command creates a tetrahedral grid from 3D grids. In 2D the
+elements are converted to triangles. The first parameter ioption determines
+how the conversion is performed.
+
+  
+  
+  
+FORMAT:
+
+> **hextotet**/ [ ioption ] / cmo_snk / cmo_src  / [**rmvolume**]
+
+  
+ioption: is a numerical number indicating the number of tets or triangles to
+break each element into. If this parameter is missing then default settings
+are used. The defaults are underlined and will be detirmined by reading the
+mesh_type of the mesh_object. If mesh_type is quad, **2** is used. If
+mesh_type is prism, **3** is used. If mesh_type is hex, **6** is used.
+Otherwise **24** is the default value for ioption.
+
+The selections include:
+
+> **_2_**&nbsp_place_holder;&nbsp_place_holder; quad to 2 triangles, no new
+points.
+
+**_3_**&nbsp_place_holder;&nbsp_place_holder; prism to 3 tets, no new points.   
+**4**&nbsp_place_holder;&nbsp_place_holder; quad to 4 triangles, with one new point.   
+**4**&nbsp_place_holder;&nbsp_place_holder; pyramid to 4 tets, with one new point.   
+**5**&nbsp_place_holder;&nbsp_place_holder; hex to 5 tets, no new points.   
+**_6_**&nbsp_place_holder;&nbsp_place_holder; hex to 6 tets, no new points.   
+**14**&nbsp_place_holder;&nbsp_place_holder; prism to 14 tets, four new points (1 + 3 faces).   
+**18**&nbsp_place_holder;&nbsp_place_holder; prism to 18 tets, six new points (1 + 5 faces).   
+**_24_**&nbsp_place_holder;&nbsp_place_holder; hex to 24 tets, seven new points (1 + 6 faces).   
+
+  
+cmo_snk / cmo_src : are the mesh_object names. cmo_src is the original grid.
+cmo_snk is the name for the new tet or triangle grid.
+
+  
+**rmvolume **: keyword is optional and will assign hextotet_remove_volume and hextotet_remove_duplicates to 'yes'. This will enable hextotet to use its own algorithm for removing elements with zero volume and duplicate points. It may be prone to epsilon errors for grids over large areas. By default, zero volumes and duplicate points are not removed from the new mesh object cmo_snk.   
+  
+  
+  
+  
+EXAMPLES:
+
+> **hextotet** /** 24 **/ cmo_tet / cmo_hex Convert each hex element in
+cmo_hex to 24 tets and name the new grid cmo_tet.
+
+**hextotet** / / cmo_tri / cmo_quad No value is given for ioption, so the default settings are used. The mesh_type of cmo_quad is quad, so each element is converted to two triangles. The new mesh_object is named cmo_tri.    
+**hextotet** /** 3 **/ cmo_tet / cmo_pri / **rmvolume** Each prism element in cmo_pri is converted to three tet elements. Zero volume elements and duplicate points are removed. The new tet mesh object is called cmo_tet.    
+
+  
+  
+LINKS:
+
+> [Click here for demos](../demos/hextotet/test/html/main_hextet.html)
+
+  
+  
+  
+  
+

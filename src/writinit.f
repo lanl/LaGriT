@@ -366,6 +366,8 @@ C
 
 C     *****************************************************************
 C     WRITE COPYRITE TEXT 
+C     Changed from LACC-2012-084 open distribution 
+C     to LACC-15-069 open source
 C
 
       write(interfil,'(a)')
@@ -373,7 +375,7 @@ C
       call writloga('default',1,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * '                           LaGriT V3 LACC-2012-084' 
+     * '                          LaGriT V3 LA-CC-15-069' 
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
