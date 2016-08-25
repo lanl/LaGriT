@@ -2,15 +2,15 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.102   Linux m64      *                 
-*               *    date_compile: 2013/11/12  RH gf4.5       *                 
-*               *    Run Time: 2015/Mar 18  12:16:06          *                 
+*               *    Program:  LaGriT V3.108   Linux m64      *                 
+*               *    date_compile: 2016/08/22  Ubu gf         *                 
+*               *    Run Time: 2016/Aug 25  11:43:13          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-                           LaGriT V3 LACC-2012-084                              
+                          LaGriT V3 LA-CC-15-069                                
 LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
 at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
 with the U.S. Department of Energy (DOE). All rights in the program are reserved
@@ -359,10 +359,12 @@ cmo delete mo
 connect                                                                         
 CMO_GET_INFO: Mesh Object does not exist: -notset-                              
 CMO_GET_INFO: Mesh Object does not exist: -notset-                              
-LaGriT ABORT: connect                                                           
+Error: connect     > can not get cmo name.                                      
  
-ndimensions_topo=*** ndimensions_geom=  3 not consistent - connect will not work
-LaGriT ABORT: connect                                                           
+connect > ending with ierr1 flag:         1                                     
+ERROR END COUNT:     1 for connect                                              
+ 
+LaGriT WARNING: connect returned error:     1                                   
  
 # CHECK empty cmo                                                               
 cmo create mo                                                                   

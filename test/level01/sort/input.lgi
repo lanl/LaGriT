@@ -6,64 +6,64 @@
 #
 # Output files:
 #
-#   test*.gmv       GMV version of corresponding AVS file
-#   test*s.inp      ------------- Sorted ----------------
-#   test*s.gmv      -------------- Files ----------------
+#   output*.gmv       GMV version of corresponding AVS file
+#   output*s.inp      ------------- Sorted ----------------
+#   output*s.gmv      -------------- Files ----------------
 #
 # See reference for visual reference
 #
 ##########################################
-# SORT POINTS (not connected)
+
+# SORT POINTS using INDEX 
 cmo / create / moquad / / / quad
 createpts / xyz / 3 3 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+
+# SHOW INPUT node x and y
 cmo / printatt / moquad / xic
 cmo / printatt / moquad / yic
+dump gmv input_points.gmv moquad
+
 sort / moquad / index / ascending / ikey / xic yic
 reorder / moquad / ikey
+
+# SHOW SORTED node x and y
 cmo / printatt / moquad / xic
 cmo / printatt / moquad / yic
-rzbrick/xyz/3,3,1/1,0,0/connect
+dump gmv output_points.gmv moquad
+
+cmo delete moquad
+cmo / create / moquad / / / quad
+createpts / xyz / 4 4 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+rzbrick/xyz/4,4,1/1,0,0/connect
+cmo/set_id/ moquad/element cell_id
+
+# SHOW INPUT cell numbers 
+cmo / printatt / moquad / cell_id
+dump gmv input_quad.gmv moquad
+
+# SORT CELLS using INDEX 
+sort/moquad/index/ descending / ikey / cell_id 
+reorder / moquad / ikey
+
+# SHOW SORTED cell numbers reversed 
+cmo / printatt / moquad / cell_id
+dump gmv output_cells.gmv moquad
 cmo / delete / moquad
 
-###### EXTRACT and LINE SORT #############
-read avs test_surf.inp cmo                                                      
-extract/surfmesh/1,0,0/cmol/cmo/external                                        
-cmo status cmol
-
-# make nelem and nnode unequal
-# 8 elements and 9 nodes
-cmo select cmol                                                                 
-rmpoint 1,1,0 inclusive                                                         
-rmpoint compress                                                                
-resetpts itp                                                                    
-
-### sort 8 elements
-sort/cmol/line_graph/ascending/el_key                                           
-cmo printatt cmol nelements
-cmo printatt cmol el_key                                                        
-
-### sort 9 nodes
-sort/cmol/line_graph/ascending/n_key/nodes       
-cmo printatt cmol nnodes
-cmo printatt cmol n_key        
-
-cmo delete cmo
-cmo delete cmol
-
-###### POLY SORT #############
+###### POLY SORT with LINE_GRAPH #############
 # simply poly line sort for simple case with elem and nodes
 read avs input_poly_no_sort.inp mol_poly
 cmo status mol_poly
 cmo copy mol_poly2 mol_poly
 
-# SORT ELEMENT ##############
+# SORT ELEMENT with LINE_GRAPH ##############
 cmo select mol_poly
 sort/mol_poly/line_graph/ascending/ekey/element
 cmo printatt mol_poly ekey
 reorder mol_poly ekey
 dump gmv output_poly_elem.gmv mol_poly ascii
 
-# SORT NODE ################
+# SORT NODE with LINE_GRAPH ################
 cmo select mol_poly2
 sort/mol_poly2/line_graph/ascending/nkey/node
 cmo printatt mol_poly2 nkey
@@ -72,6 +72,8 @@ dump gmv output_poly_node.gmv mol_poly2 ascii
 
 cmo delete mol_poly
 cmo delete mol_poly2
+
+# The following checks for graceful failures.  #
 
 ########### ERROR CAPTURE FOR NO MESH OBJECT ########
 # This should stop gracefully with an error (no mesh object).
@@ -95,7 +97,40 @@ sort / mo01 / line_graph / ascending / key / extra_arg
 sort / mo01 / line_graph / ascending
 
 finish
-This test needs evaluation based on platform.
+#---------------------------------------------------#
+# STOP HERE
+
+# These tests not included as result differs based on 
+# platform and tie-breaker results.
+# Use these for further testing and human evaluation.
+
+###### EXTRACT and LINE SORT #############
+cmo delete cmo
+read avs test_surf.inp cmo
+extract/surfmesh/1,0,0/cmol/cmo/external
+cmo status cmol
+
+# make nelem and nnode unequal
+# 8 elements and 9 nodes
+cmo select cmol
+rmpoint 1,1,0 inclusive
+rmpoint compress
+resetpts itp
+
+### sort 8 elements, check sort key
+sort/cmol/line_graph/ascending/el_key
+cmo printatt cmol nelements
+cmo printatt cmol el_key
+
+### sort 9 nodes, check sort key
+sort/cmol/line_graph/ascending/n_key/nodes
+cmo printatt cmol nnodes
+cmo printatt cmol n_key
+
+dump gmv output_extract_sort.gmv cmol
+cmo delete cmo
+cmo delete cmol
+
 
 ########### SORT EXAMPLES USING ELEMENTS #####
 # create key attribute and reorder

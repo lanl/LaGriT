@@ -1,5 +1,6 @@
-#! /n/local_linux/epd/bin/python2.7
+#! /n/local_linux/epd/bin/python2.7  
 #
+# /n/local_linux/epd/bin/python2.7
 # /usr/local/bin/python -> python3.2  
 # NOTE: this uses python before vers 3
 #        newer versions use print as function not statement
@@ -55,8 +56,10 @@ class readable_dir(argparse.Action):
 def main(argv=None):
 
 	# xlagrit = "Y:/yanki/lagrit/src/mylagrit"
-	xlagrit = "Y:/yanki/lagrit-mingw/lagrit_pnnl_win64/lagrit_pnnl_win64"
-	# xlagrit = "/scratch/sft/yanki/lagrit/src/mylagrit"
+	# xlagrit = "Y:/yanki/lagrit-mingw/lagrit_pnnl_win64/lagrit_pnnl_win64"
+	xlagrit = "/n/swdev/LAGRIT/VERS_3.108_016_AUG/lagrit/src/mylagrit"
+
+        dtop = os.getcwd() 
 
 	if argv is None:
 			 argv = sys.argv
@@ -78,27 +81,44 @@ def main(argv=None):
 		args = parser.parse_args("--help".split())
 		sys.exit(2)
 	
-	if args.full == True and  1 in args.level:
-		os.chdir('level01')
-		OneFull(args)
-	elif args.full == True and 2 in args.level:
-		os.chdir('level02')
-		TwoFull(args)
-	elif args.full == True and 0 in args.level:
-		os.chdir('level01')
-		OneFull(args)
-		os.chdir('level02')
-		TwoFull(args)
-	else:
-		if 1 in args.level:
-			os.chdir('level01')
-			ExecSuiteOne(args)
-		elif 2 in args.level:
-			os.chdir('level02')
-			ExecSuiteTwo(args)
-		else:
-			args = parser.parse_args("--help".split())
-	sys.exit(2)
+
+# TAM - this was working under WIN7 but not working for Linux 
+# replace with hard wire choice -f running both levels
+#
+#	if args.full == True and  args.level == 1:
+#		os.chdir('level01')
+#		OneFull(args)
+#	elif args.full == True and args.level == 2:
+#		os.chdir('level02')
+#		TwoFull(args)
+#	elif args.full == True and args.level == 0:
+#		os.chdir('level01')
+#		OneFull(args)
+#		os.chdir('level02')
+# 		TwoFull(args)
+#	else:
+#		if args.level == 1:
+#			os.chdir('level01')
+#			ExecSuiteOne(args)
+#		elif args.level == 2:
+#			os.chdir('level02')
+#			ExecSuiteTwo(args)
+#		else:
+#			args = parser.parse_args("--help".split())
+#	sys.exit(2)
+
+        if args.full == True :
+                print "TEST LEVEL 1"
+                os.chdir(dtop)
+                os.chdir('level01')
+                OneFull(args)
+
+                print "TEST LEVEL 2"
+                os.chdir(dtop)
+                os.chdir('level02')
+                TwoFull(args)
+
+ 	sys.exit(2)
 			
 # end Main 
 #------------------------------------------------------------------------------
