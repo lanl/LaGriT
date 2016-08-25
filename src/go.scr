@@ -1,32 +1,26 @@
+
+# Under development
 #### new ubuntu with modules ###  USING BASH instead of TCSH ######
 # GNU Fortran (Ubuntu 4.8.2-19ubuntu1) 4.8.2
-# ExodusII 6.09
 # 
-# include files from modules: exodusII.h exodusII.inc netcdf.h
-# not used but possibly useful internal definitions: exodusII_int.h
-# not used: exodusII_cfg.h exodusII_test.h netcdf_f.h
-# not used: parallel-aware API include files: exodusII_par.h netcdf_par.h
-
-cp /n/swdev/packages/src/exodusii/exodus-6.09/exodus/forbind/include/exodusII.* .
 
 module load exodusii/6.09/gcc-4.8.2-serial
 module list
 
 rm *.o
 rm *.mod
-make MOPT=64 COPT=-g lib
+make MOPT=64 lib
 
 # compiler should do these 2 steps... but just in case do them here.
-cp -f lagrit_ulin64.h lagrit.h
-cp -f  machine_m64.h machine.h
+cp lagrit_ulin64.h lagrit.h
+cp  machine_m64.h machine.h
 
 gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
 gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
 
 ### leave off static for .so shared libraries:
-gfortran -g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gf4.8.a /n/swdev/LAGRIT/VERS_3.103_015_MAR/lg_util/src/util_ulin64_g_gf4.8.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+gfortran -g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gf4.8.a /n/swdev/LAGRIT/VERS_3.108_016_AUG/lagrit/lg_util/src/util_ulin64_o_gf4.8.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
 
-ll mylagrit
 
 exit
 
@@ -44,7 +38,6 @@ cp dumpexodusII.f dumpexodusII.f.withexo
 cp dumpexodusII.f.withnoexo dumpexodusII.f
 gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit_noexo lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gf4.8.a /n/swdev/LAGRIT/VERS_3.103_015_MAR/lg_util/src/util_ulin64_g_gf4.8.a -L -lm -lstdc++
 
-ll mylagrit_noexo
 exit
 
 
