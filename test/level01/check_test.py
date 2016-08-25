@@ -59,7 +59,7 @@ def diff_chunk(rlines,tlines,rcnt,tcnt, wfile) :
   ico = 0
   iju = 0
   count = 0
-  debug = 1
+  debug = 0
 
 #-Loop over each pair of lines 0 to tcnt
   count = max(tcnt,rcnt)
