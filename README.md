@@ -1,5 +1,4 @@
-# lagrit
-
+# LaGriT
 
 LaGriT V3 (OSS) LA-CC-15-069
 
@@ -7,4 +6,8 @@ Los Alamos Grid Toolbox (LaGriT) is a library of user callable tools that provid
 
 
 LaGriT Description and Manual at http://lagrit.lanl.gov
+
+LaGriT Mesh Images at  https://meshing.lanl.gov/proj/screenshots/GRID_GALLERY.html
+
+![alt tag](screenshots/refine_samples_TN1000.png)
 

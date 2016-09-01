@@ -1,16 +1,16 @@
 LaGriT executable is built using lagrit and lg_util libraries, and the external Exodus II libraries.
 
-LaGriT has been compiled and run on Linux RHEL, Linux Ubuntu, and Mac Mavericks, Mtn Lion
-See instructions to compile the lg_util library in lg_util/src
-See instructions to compile the lagrit library in lagrit/src
-Build the exectuable with instructions here and also in lagrit/src
+Previous to this open source version, LaGriT has been compiled and run 
+on local machines including Linux RHEL, Linux Ubuntu, and Mac Mavericks, Mtn Lion
 
-A WIN7 version is available with next release.
+LaGriT uses Exodus II 6 libraries, lg_util library and lagrit library.
+
+See Makefile for lg_util library in lg_util/src
+See Makefile for lagrit library in lagrit/src
+See build scripts and README in lagrit/src
 
 ---------------------------------------------
-BUILD EXECUTABLE:
-LaGriT V3.106 on Ubuntu with ExodusII Modules (shared libraries, not static):
-
+BUILD the BINARY:
 
 #### ubuntu with modules ###  USING BASH instead of TCSH ######
 # GNU Fortran (Ubuntu 4.8.2-19ubuntu1) 4.8.2
@@ -26,8 +26,6 @@ make COPT=-g lib
 ### link code and libraries to build executable
 # leave off -static option for the .so shared libraries:
 gfortran -g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gf4.8.a /n/swdev/LAGRIT/VERS_3.103_015_MAR/lg_util/src/util_ulin64_g_gf4.8.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
-
-# BUILD DONE
 
 -------------------------------------------------------------------------
 Exodus II Notes:
@@ -139,5 +137,4 @@ Total BYTES =                51456   Total MEGABYTES =   51.456E-03
 finish
 finish                                                                          
 LaGriT successfully completed       
-
 
