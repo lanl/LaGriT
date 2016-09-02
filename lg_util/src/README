@@ -1,9 +1,26 @@
+lg_util library
 
 This library includes general memory management, algorithm, and io routines used by LaGriT.  
 See mm2000.F for a list of the memory routines.
 
 These files are seldom changed and compile into the lib_util_$OS.a library.
-See Versions.txt for changes before LaGriT open source. 
+Versions.txt for summary of changes and dates. 
+
+====================================================
+Sample compile
+
+  make MOPT=64 COPT=-g lib
+
+CAUTION: the preprocessor for mm2000.h is not working
+on the mac platforms correctly.
+Workaround ... just copy mm2000_m64.h to mm2000.h
+
+  rm -f mm2000.h
+  gcc -E -m64 -Dlinx64 mm2000_header.F -o mm2000.h
+
+  [ or cp mm2000_m64.h to mm2000.h]
+====================================================
+
 
 Makefile
 ##########################################################################
@@ -61,20 +78,3 @@ Makefile
 # Created Jan 7 2008 by tamiller@lanl.gov
 # Modified Nov 2010 by tamiller@lanl.gov to use gfortran as default
 #
-
-
-====================================================
-CAUTION: the preprocessor for mm2000.h is not working
-on the mac platforms correctly.
-Workaround ... just copy mm2000_m64.h to mm2000.h
-
-Sample compile
-
-rm -f mm2000.h
-gcc -E -m64 -Dlinx64 mm2000_header.F -o mm2000.h
-
-[ or cp mm2000_m64.h to mm2000.h]
-
-make MOPT=64 COPT=-g lib
-====================================================
-

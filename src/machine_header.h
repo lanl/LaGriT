@@ -66,6 +66,13 @@ C Default name mangle scheme
 #endif
 
 /**** win ****/
+#ifdef win64
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 8
+#define SIZEOF_VOIDP 8
+#endif
+
 /**** sgi ****/
 
 /**** default 32 bit ****/

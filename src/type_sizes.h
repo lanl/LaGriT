@@ -44,6 +44,13 @@
 #define SIZEOF_VOIDP 8
 #endif
 
+ /****** Cygwin ******
+#ifdef __CYGWIN__
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 4
+#define SIZEOF_VOIDP 8
+#endif ***/
 
 #if SIZEOF_INT == SIZEOF_VOIDP
 #define int_ptrsize int

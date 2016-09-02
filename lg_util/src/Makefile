@@ -45,6 +45,7 @@
 #
 # Note: assumes Makefile and Makefile.depends
 #
+# Modified Aug 2016 by tamiller@lanl.gov to add mikita cygwin work
 # Modified Mar 2015 by tamiller@lanl.gov to use 64bit as default
 # Modified Mar 2015 by tamiller@lanl.gov to include Ubuntu 
 # Modified Nov 2010 by tamiller@lanl.gov to use gfortran as default
@@ -110,6 +111,21 @@ endif
 FF90FLAGS = $FFLAGS 
 endif
 
+# Cygwin -------------------------------
+ifeq ($(COMPILER), cygwin)
+# SUFFC = _cygwin
+FC = /bin/gfortran
+CC = /bin/gcc
+CXX = /bin/c++
+FC90 = /bin/gfortran
+
+OSTAG = _cygwin
+
+FFLAGS = -g -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
+FF90FLAGS = -g -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
+CFLAGS = -g -m64 -Dwin64 -I/cygdrive/c/Users/304285/dev/cygwin/usr/include
+endif
+
 #
 # Mac OSX ------------------------------
 # Absoft9.5+ should not need flags
@@ -159,7 +175,6 @@ COPT = -O
 endif
 #
 # form the name suffix based on platform and flags
-# default optimized 32 bit
 SUFF = $(OSTAG)_o
 ifeq ($(MOPT), 64)
 SUFF = $(OSTAG)64_o
@@ -177,6 +192,9 @@ SUFFC = _gf$(GCCV)
 endif
 ifeq ($(COMPILER),ABSOFT)
 SUFFC = _absoft
+endif
+ifeq ($(COMPILER),cygwin)
+SUFF2 = _cygwin
 endif
 # 
 OBJDIR = objects$(SUFF)$(SUFFC)/

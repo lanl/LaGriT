@@ -154,6 +154,14 @@
 #endif
 
 /**** win ****/
+#ifdef win64
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 8
+#define SIZEOF_VOIDP 8
+#define MAX_UINT 18446744073709551615.00
+#endif
+
 /**** sgi ****/
 
 /**** default 32 bit ****/
@@ -173,10 +181,16 @@
 #if SIZEOF_INT == SIZEOF_VOIDP
 #define int_ptrsize int
 #elif SIZEOF_LONG == SIZEOF_VOIDP
+#ifdef win64
+#define int_ptrsize long long
+#else
 #define int_ptrsize long
+#endif
 #else
 #error "Unknown case for size of pointer."
 #endif
+
+
 
 /* end file opsys.h */
 

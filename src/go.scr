@@ -19,7 +19,7 @@ gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main
 gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
 
 ### leave off static for .so shared libraries:
-gfortran -g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gf4.8.a /n/swdev/LAGRIT/VERS_3.108_016_AUG/lagrit/lg_util/src/util_ulin64_o_gf4.8.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+gfortran -g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gf4.8.a ../lg_util/src/util_ulin64_o_gf4.8.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
 
 
 exit
@@ -36,7 +36,7 @@ gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdat
 
 cp dumpexodusII.f dumpexodusII.f.withexo
 cp dumpexodusII.f.withnoexo dumpexodusII.f
-gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit_noexo lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gf4.8.a /n/swdev/LAGRIT/VERS_3.103_015_MAR/lg_util/src/util_ulin64_g_gf4.8.a -L -lm -lstdc++
+gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit_noexo lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gf4.8.a ../lg_util/src/util_ulin64_g_gf4.8.a -L -lm -lstdc++
 
 exit
 

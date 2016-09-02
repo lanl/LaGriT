@@ -20,7 +20,7 @@ C LACC #:  LA-CC-15-069
 C Copyright Number Assigned: C15097
 C
 C ######################################################################
-C LaGriT Version 3 LACC-2012-084 
+C LaGriT Version 3 LACC-2012-084 for open distribution 
 C
 C Copyright Notice: This program was prepared by Los Alamos National
 C Security, LLC at Los Alamos National Laboratory (LANL) under contract 
@@ -33,7 +33,7 @@ C warranty, express or implied, or assumes any liability or responsibility
 C for the use of this software.
 C
 C ######################################################################
-C 2007 LaGriT Version 2.0 LA-CC number: 07-038
+C 2007 LaGriT Version 2.0 LA-CC number: 07-038 for open distribution
 C
 C Copyright Notice: This program was prepared by Los Alamos National 
 C Security, LLC at Los Alamos National Laboratory (LANL) under contract 

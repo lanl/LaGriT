@@ -1,5 +1,13 @@
 
 =======================================================================
+LaGriT V3.2 for open source
+
+Sep 1 2016
+Add changes from Mikita Yanki summer student compile on WIN7 with cygwin
+local /n/swdev/LAGRIT/lucia/mikita_windows_backup/304285_bak2/dev/libs/lg_util/src
+Makefile and opsys.h updated to cygwin option
+
+=======================================================================
 LaGriT V3.108 from https://ancho.lanl.gov/lagrit/hg/lg_util 
 
 changeset:   30:3a8d87bbf9fd

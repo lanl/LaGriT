@@ -92,6 +92,21 @@ GCCV = $(shell gcc -dumpversion )
 SUFFC = _gf$(GCCV)
 endif
 
+ifeq ($(COMPILER), cygwin)
+SUFFC = _cygwin
+FC = /bin/gfortran
+CC = /bin/gcc
+CXX = /bin/c++
+FC90 = /bin/gfortran
+
+OSTAG = _cygwin
+
+FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
+FF90FLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
+CFLAGS = -m64 -Dwin64
+# -I/usr/include
+endif
+
 ifeq ($(COMPILER),ABSOFT)
 FC = f77
 FC90 = f90
@@ -280,7 +295,8 @@ install: lagrit.h $(OBJDIR) $(F90_OBJS) $(F77_OBJS) $(F77C_OBJS) $(C_OBJS) $(CXX
 	head -3 lagrit.h
 	@echo "Done $@ $(LIB) $(LIBDIR)"
 #
-clean:;   @rm -f $(OBJDIR)*.o  $(OBJDIR)*.mod
+clean:;	rm -f $(OBJDIR)*.o  $(OBJDIR)*.mod
+	rm -f *.o *.mod
 #
 clobber:;  -rm -fr objects_* *.a 
 #
@@ -367,8 +383,8 @@ $(OBJDIR)%.o : %.f
 #	cp lagrit$(OSTAG).h lagrit.h
 #	cat lagrit.h
 
-.SUFFIXES: .f90
-$(F90_OBJS): $(OBJDIR)%.o: %.f90
+.SUFFIXES: .f90 .mod
+$(F90_OBJS): $(OBJDIR)%.o: %.f90 ColoredGraphModule.mod GraphModule.mod LowPassFilterModule.mod
 	$(FC90) $(COPT) $(FF90FLAGS) -c $< -o $@
 
 $(OBJDIR)%.o : %.c
@@ -376,6 +392,10 @@ $(OBJDIR)%.o : %.c
 
 $(OBJDIR)%.o : %.cpp
 	$(CXX) $(COPT) $(CFLAGS) -c -o $@ $<
+
+%.mod : %.f90
+	$(FC) $(COPT) $(FFLAGS) -c $< -o $(OBJDIR)$@
+
 
 # this is commented out due to platform issues
 # cp machine_m64.h machine.h or machine_m32.h 

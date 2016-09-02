@@ -1,5 +1,6 @@
-This directory contains LaGriT source .f, .f90, and .c files
-There are include files .h, .csh, and lagrit*.h files for OS and date tags.
+This directory contains LaGriT source fortran and C files. 
+The include file lagrit.h sets OS and date tags for the banner.
+The lagrit*.h files are OS versions that are copied to lagrit.h
 
 To build, use Makefile, Makefile.depends 
 type 'make help' to see a listing of make options
@@ -18,11 +19,10 @@ Build scripts for compiler flags and names include:
 buildbin.scr - SunOS, Linux, and Darwin (mac)
 go.scr - single set of commands to compile for Ubuntu linux
 
-Note: lagrit.h has tags that can be used to set program OS and DATE tags.
-This directory contains lagrit_lin.h, lagrit_mac.h, lagrit_sun.h 
-which are used at compile time to update these tags. The file
-lagrit.template.h preserves the template for these files. Modify
-lagrit.h to define your own tags for the LaGriT runtime banner.
+==============================================================
+V3.2 includes recent updates for WINDOWS with cygwin
+See general instructions in /docs/build* and cmake*
+and local README and scripts in this directory.
 
 ==============================================================
 LIBRARIES: lg_util (included) and ExodusII (external)

@@ -1,9 +1,20 @@
-LaGriT executable is built using lagrit and lg_util libraries, and the external Exodus II libraries.
+LaGriT uses Exodus II libraries, lg_util library and lagrit library.
 
-Previous to this open source version, LaGriT has been compiled and run 
-on local machines including Linux RHEL, Linux Ubuntu, and Mac Mavericks, Mtn Lion
+####################################################################
+Platform WIN7 with cygwin 
+####################################################################
 
-LaGriT uses Exodus II 6 libraries, lg_util library and lagrit library.
+See build_win.txt and cmake-script in this directory.
+May need development.
+
+
+####################################################################
+Platforms Linux RHEL, Linux Ubuntu, and Mac OSX
+####################################################################
+
+These platforms have been compiled locally on Ubuntu.
+Other platforms have not been compiled on newer OS.
+May need development.
 
 See Makefile for lg_util library in lg_util/src
 See Makefile for lagrit library in lagrit/src
@@ -12,7 +23,6 @@ See build scripts and README in lagrit/src
 ---------------------------------------------
 BUILD the BINARY:
 
-#### ubuntu with modules ###  USING BASH instead of TCSH ######
 # GNU Fortran (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 # using ExodusII 6.09 shared libraries
 
@@ -66,7 +76,7 @@ The exodus.pdf document describes EXNSET for nodes, but nothing for element sets
 
 code reference to EX_NODE_SET changed to EXNSET (defined in exodusII.inc)
 
--------------------------------------------------------------------------
+####################################################################
 Running LaGriT
 
 Run on command line in directory where files will be read and written.
