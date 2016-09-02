@@ -1,9 +1,9 @@
 c
 c----------------------------------------------------------------
-c lagrit.h for Linux 64 bit
+c lagrit.h for Linux 64 bit on Ubuntu
 C
 c This is a template for the lagrit program banner
-c Substitute the TAG strings with Date and Linux, Darwin, SunOS, or IRIX
+c Substitute the TAG strings with Date and Linux, OSX, SunOS
 c Compile library with updated lagrit.h used in writinit()
 c This template is preserved in lagrit.template.h
 c
@@ -11,9 +11,8 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=3)
-      parameter      (v_minor=107)
+      parameter      (v_minor=200)
 
-c     1.06 updates ExodusII 5 to 6 syntax 
 c
       character*22   date_compile
       character*8    os_name
@@ -21,13 +20,10 @@ c
 c
       data my_name      /'lagritgen'/
 
-c     data os_name      /'Linux   '/
 c     data os_name      /'Linux32 '/
       data os_name      /'Linux64 '/
 
-c     data date_compile /'2011/09/01  Absoft 11 '/
-      data date_compile /'2015/06/24  Ubu gf.so '/
-
+      data date_compile /'2016/08/30  Ubu gf '/
 c
       integer         NCall
       save            NCall
