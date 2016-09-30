@@ -211,12 +211,13 @@ class PyLaGriT(spawn):
         return self.region[name]
     def _check_rc(self):
         # check if pyfehmrc file exists
-        rc_wd1 = os.sep.join(os.getcwd())+os.sep+'.pylagritrc'
-        rc_wd2 = os.sep.join(os.getcwd())+os.sep+'pylagritrc'
+        rc_wd1 = os.getcwd()+os.sep+'.pylagritrc'
+        rc_wd2 = os.getcwd()+os.sep+'pylagritrc'
         rc_home1 = os.path.expanduser('~')+os.sep+'.pylagritrc'
         rc_home2 = os.path.expanduser('~')+os.sep+'pylagritrc'
-        if os.path.isfile(rc_wd1): fp = open(rc_lib1)
-        elif os.path.isfile(rc_wd2): fp = open(rc_lib2)
+        print 'hi',rc_wd1
+        if os.path.isfile(rc_wd1): fp = open(rc_wd1)
+        elif os.path.isfile(rc_wd2): fp = open(rc_wd2)
         elif os.path.isfile(rc_home1): fp = open(rc_home1)
         elif os.path.isfile(rc_home2): fp = open(rc_home2)
         else: return
