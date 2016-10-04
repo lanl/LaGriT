@@ -7,8 +7,8 @@ Los Alamos Grid Toolbox (LaGriT) is a library of user callable tools that provid
 The Python module PyLaGriT allows LaGriT to be accessed interactively and in batch mode from Python. Examples of PyLaGriT usage are in the PyLaGriT/examples folder. To install PyLaGriT on your system, change to the PyLaGriT directory and run `python setup.py install`. Alternatively, the PyLaGriT folder can be added to your `PYTHONPATH` environment variable. Due to the use of the pexpect Python module, PyLaGriT does not work on Windows. It has been tested on Mac and Linux operating systems. 
 
 
-LaGriT Description and Manual at http://lagrit.lanl.gov
-PyLaGriT Description and Manual at https://losalamos.github.io/LaGriT/
+|LaGriT Description and Manual at http://lagrit.lanl.gov
+|PyLaGriT Description and Manual at https://losalamos.github.io/LaGriT/
 
 ![alt tag](screenshots/refine_samples_TN1000.png)
 
