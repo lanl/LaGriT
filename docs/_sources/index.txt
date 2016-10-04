@@ -8,10 +8,10 @@ PyLaGriT, Python interface for LaGriT
 
 .. include:: ../../README
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
+
+   Getting Started <gettingstarted.rst>    
 
    Class Documentation <autodoc.rst>
 

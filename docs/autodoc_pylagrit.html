@@ -51,6 +51,23 @@
 <dt id="pylagrit.PyLaGriT">
 <em class="property">class </em><code class="descclassname">pylagrit.</code><code class="descname">PyLaGriT</code><span class="sig-paren">(</span><em>lagrit_exe=None</em>, <em>verbose=True</em>, <em>batch=False</em>, <em>batchfile='pylagrit.lgi'</em>, <em>gmv_exe=None</em>, <em>paraview_exe=None</em>, <em>timeout=300</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Python lagrit class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lagrit_exe</strong> (<em>str</em>) &#8211; Path to LaGriT executable</li>
+<li><strong>verbose</strong> (<em>bool</em>) &#8211; If True, LaGriT terminal output will be displayed</li>
+<li><strong>batch</strong> (<em>bool</em>) &#8211; If True, PyLaGriT will be run in batch mode, collecting LaGriT commands until the run_batch method is called.</li>
+<li><strong>batchfile</strong> (<em>str</em>) &#8211; Name of batch file to use if batch is True</li>
+<li><strong>gmv_exe</strong> (<em>str</em>) &#8211; Path to GMV executable</li>
+<li><strong>paraview_exe</strong> (<em>str</em>) &#8211; Path to ParaView executable</li>
+<li><strong>timeout</strong> &#8211; Number of seconds to wait for response from LaGriT</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="pylagrit.PyLaGriT.convert">
 <code class="descname">convert</code><span class="sig-paren">(</span><em>pattern</em>, <em>new_ft</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.convert" title="Permalink to this definition">¶</a></dt>
