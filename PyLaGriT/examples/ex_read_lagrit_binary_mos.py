@@ -1,7 +1,3 @@
-################################################################################
-# This example shows how to merge multiple mesh objects together.              #
-################################################################################
-
 #To use pylagrit, import the module.
 import pylagrit
 import numpy
