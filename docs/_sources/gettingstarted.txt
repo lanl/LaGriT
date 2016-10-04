@@ -1,6 +1,9 @@
 Getting Started
 ===============
 
+Installation
+------------
+
 The Python module PyLaGriT allows LaGriT to be accessed interactively and in batch mode from Python. 
 Examples of PyLaGriT usage are in the PyLaGriT/examples folder. 
 To install PyLaGriT on your system, change to the PyLaGriT directory and run `python setup.py install`. 
