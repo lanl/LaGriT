@@ -8,8 +8,8 @@ The Python module PyLaGriT allows LaGriT to be accessed interactively and in bat
 
 
 LaGriT Description and Manual at http://lagrit.lanl.gov
-
-LaGriT Mesh Images at  https://meshing.lanl.gov/proj/screenshots/GRID_GALLERY.html
+PyLaGriT Description and Manual at https://losalamos.github.io/LaGriT/
 
 ![alt tag](screenshots/refine_samples_TN1000.png)
 
+LaGriT Mesh Images at  https://meshing.lanl.gov/proj/screenshots/GRID_GALLERY.html
