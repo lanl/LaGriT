@@ -1,4 +1,6 @@
-# This is an example pylagritrc file. To use, change its name to pylagritrc or .pylagritrc, uncomment and modify attributes and move to your working directory or your home directory. The rc file in the working directory will take precedence over the one in your home directory. 
+# This is an example pylagritrc file. 
+# To use, change its name to pylagritrc or .pylagritrc, uncomment and modify attributes and move to your working directory or your home directory. 
+# The rc file in the working directory will take precedence over the one in your home directory. 
 
 #lagrit_exe : '/lagrit/executable/location/lagrit' 
 #gmv_exe : '/gmv/executable/location/gmv' 

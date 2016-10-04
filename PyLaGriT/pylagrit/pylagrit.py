@@ -13,7 +13,24 @@ except ImportError:
 from xml.dom import minidom
 
 class PyLaGriT(spawn):
-    ''' Python lagrit class'''
+    ''' 
+    Python lagrit class
+    
+    :param lagrit_exe: Path to LaGriT executable
+    :type lagrit_exe: str
+    :param verbose: If True, LaGriT terminal output will be displayed
+    :type verbose: bool
+    :param batch: If True, PyLaGriT will be run in batch mode, collecting LaGriT commands until the run_batch method is called.
+    :type batch: bool
+    :param batchfile: Name of batch file to use if batch is True
+    :type batchfile: str
+    :param gmv_exe: Path to GMV executable
+    :type gmv_exe: str
+    :param paraview_exe: Path to ParaView executable
+    :type paraview_exe: str
+    :param timeout: Number of seconds to wait for response from LaGriT
+    '''
+
     def __init__(self, lagrit_exe=None, verbose=True, batch=False, batchfile='pylagrit.lgi', gmv_exe=None, paraview_exe=None, timeout=300, *args, **kwargs):
         self.verbose = verbose
         self.mo = {}
