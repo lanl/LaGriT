@@ -1,3 +1,5 @@
+.. _class_docs:
+
 Class Documentation
 -------------------
 

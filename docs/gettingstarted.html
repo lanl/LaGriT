@@ -49,14 +49,13 @@
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>The Python module PyLaGriT allows LaGriT to be accessed interactively and in batch mode from Python.
-Examples of PyLaGriT usage are in the PyLaGriT/examples folder.
-To install PyLaGriT on your system, change to the PyLaGriT directory and run <cite>python setup.py install</cite>.
-Alternatively, the PyLaGriT folder can be added to your <cite>PYTHONPATH</cite> environment variable.
+To install PyLaGriT on your system, change to the PyLaGriT directory and run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>.
+Alternatively, the PyLaGriT folder can be added to your <strong>PYTHONPATH</strong> environment variable.
 Due to the use of the pexpect Python module, PyLaGriT does not work on Windows.
 It has been tested on Mac and Linux operating systems.</p>
 <p>Since PyLaGriT is simply a frontend for LaGriT, you will need a lagrit executable to use PyLaGriT.
 To use the paraview and gmv methods, you will need ParaView (<a class="reference external" href="http://www.paraview.org">http://www.paraview.org</a>) and GMV (<a class="reference external" href="http://www.generalmeshviewer.com">http://www.generalmeshviewer.com</a>) installed, respectively.</p>
-<p>To avoid specifying the LaGriT, ParaView, and GMV executable locations, copy the <em>pylagritrc_example</em> file:</p>
+<p>To avoid specifying the LaGriT, ParaView, and GMV executable locations, copy the <strong>pylagritrc_example</strong> file:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># This is an example pylagritrc file. </span>
 <span class="c1"># To use, change its name to pylagritrc or .pylagritrc, uncomment and modify attributes and move to your working directory or your home directory. </span>
 <span class="c1"># The rc file in the working directory will take precedence over the one in your home directory. </span>
@@ -66,11 +65,11 @@ To use the paraview and gmv methods, you will need ParaView (<a class="reference
 <span class="c1">#paraview_exe : &#39;/paraview/executable/location/paraview&#39; </span>
 </pre></div>
 </div>
-<p>in the PyLaGriT folder to your home directory or working directory changing its name to either <em>pylagritrc</em> or <em>.pylagritrc</em> and uncomment and change the path locations.</p>
+<p>in the PyLaGriT folder to your home directory or working directory changing its name to either <strong>pylagritrc</strong> or <strong>.pylagritrc</strong> and uncomment and change the path locations.</p>
 </div>
 <div class="section" id="simple-example">
 <h2>Simple example<a class="headerlink" href="#simple-example" title="Permalink to this headline">¶</a></h2>
-<p>The following is an example of creating a simple cube shaped mesh.</p>
+<p>The following is a PyLaGriT script for creating a simple cube shaped mesh using the <a class="reference internal" href="autodoc_pylagrit.html#pylagrit.PyLaGriT.gridder" title="pylagrit.PyLaGriT.gridder"><code class="xref py py-func docutils literal"><span class="pre">gridder</span></code></a> and <cite>connect &lt;pylagrit.PyLaGriT.connect&gt;</cite> methods:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Import PyLaGriT class from pylagrit module</span>
 <span class="kn">from</span> <span class="nn">pylagrit</span> <span class="kn">import</span> <span class="n">PyLaGriT</span>
 
@@ -94,8 +93,24 @@ To use the paraview and gmv methods, you will need ParaView (<a class="reference
 <span class="n">m</span><span class="o">.</span><span class="n">paraview</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>The script can be pasted line by line into a Python or IPython terminal, or saved in a file (e.g., <code class="docutils literal"><span class="pre">script.py</span></code>) and run on the command line as <code class="docutils literal"><span class="pre">python</span> <span class="pre">script.py</span></code>.</p>
 <p>This will open up ParaView with the mesh loaded:</p>
 <img alt="_images/cube.png" src="_images/cube.png" />
+</div>
+<div class="section" id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>Additional example PyLaGriT scripts are provided in the PyLaGriT/examples folder and in the <a class="reference internal" href="autodoc.html#class-docs"><span class="std std-ref">Class Documentation</span></a>.</p>
+<div class="section" id="combining-lagrit-and-python-functionality">
+<h3>Combining LaGriT and Python functionality<a class="headerlink" href="#combining-lagrit-and-python-functionality" title="Permalink to this headline">¶</a></h3>
+<p>An example of using PyLaGriT to facilitate looping over LaGriT functionality is described in the <a class="reference internal" href="autodoc_pylagrit.html#pylagrit.PyLaGriT.merge" title="pylagrit.PyLaGriT.merge"><code class="xref py py-func docutils literal"><span class="pre">merge</span> <span class="pre">method</span></code></a> documentation, where a mesh is successively copied, translated and merged into a larger mesh.
+Other examples of usage are provided for other methods and more will be added in the future.</p>
+</div>
+<div class="section" id="user-defined-error-checking">
+<h3>User defined error checking<a class="headerlink" href="#user-defined-error-checking" title="Permalink to this headline">¶</a></h3>
+<p>Since PyLaGriT stores the LaGriT terminal output from each command in the PyLaGriT object attribute <code class="docutils literal"><span class="pre">before</span></code>, user-defined error checking can be easily implemented.
+The example provided with the <a class="reference internal" href="autodoc_eltset.html#pylagrit.EltSet.refine" title="pylagrit.EltSet.refine"><code class="xref py py-func docutils literal"><span class="pre">refine</span> <span class="pre">method</span></code></a> demonstrates this by checking for the string <cite>The mesh is complete but could not include all points.</cite> in the LaGriT output using <code class="docutils literal"><span class="pre">lg.before</span></code>.
+In this example, an error message is printed to the screen and the script is aborted.</p>
+</div>
 </div>
 </div>
 
@@ -110,6 +125,11 @@ To use the paraview and gmv methods, you will need ParaView (<a class="reference
 <li><a class="reference internal" href="#">Getting Started</a><ul>
 <li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#simple-example">Simple example</a></li>
+<li><a class="reference internal" href="#next-steps">Next steps</a><ul>
+<li><a class="reference internal" href="#combining-lagrit-and-python-functionality">Combining LaGriT and Python functionality</a></li>
+<li><a class="reference internal" href="#user-defined-error-checking">User defined error checking</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
