@@ -13,7 +13,24 @@ except ImportError:
 from xml.dom import minidom
 
 class PyLaGriT(spawn):
-    ''' Python lagrit class'''
+    ''' 
+    Python lagrit class
+    
+    :param lagrit_exe: Path to LaGriT executable
+    :type lagrit_exe: str
+    :param verbose: If True, LaGriT terminal output will be displayed
+    :type verbose: bool
+    :param batch: If True, PyLaGriT will be run in batch mode, collecting LaGriT commands until the run_batch method is called.
+    :type batch: bool
+    :param batchfile: Name of batch file to use if batch is True
+    :type batchfile: str
+    :param gmv_exe: Path to GMV executable
+    :type gmv_exe: str
+    :param paraview_exe: Path to ParaView executable
+    :type paraview_exe: str
+    :param timeout: Number of seconds to wait for response from LaGriT
+    '''
+
     def __init__(self, lagrit_exe=None, verbose=True, batch=False, batchfile='pylagrit.lgi', gmv_exe=None, paraview_exe=None, timeout=300, *args, **kwargs):
         self.verbose = verbose
         self.mo = {}
@@ -1687,8 +1704,8 @@ class MO(object):
         self.sendline(cmd)
     def dump_gmv(self,filename,format='binary'):
         self.dump(filename,'gmv',format)
-    def dump_fehm(self,filename):
-        self.dump(filename,'fehm')
+    def dump_fehm(self,filename,*args):
+        self.dump(filename,'fehm',*args)
     def dump_lg(self,filename,format='binary'):
         self.dump(filename,'lagrit',format)
     def dump_zone_imt(self,filename,imt_value):
@@ -2719,8 +2736,57 @@ class EltSet(object):
     def list(self,attname=None,stride=[1,0,0]):
         self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='list')
     def refine(self,amr=''):
+        '''
+        Refine elements in the element set
+
+        Example:
+            >>> from pylagrit import PyLaGriT
+            >>> import numpy
+            >>> import sys
+            >>> 
+            >>> df = 0.0005 # Fault half aperture
+            >>> lr = 7 # Levels of refinement
+            >>> nx = 4 # Number of base mesh blocks in x direction
+            >>> nz = 20 # Number of base mesh blocks in z direction
+            >>> d_base = df*2**(lr+1) # Calculated dimension of base block
+            >>> w = d_base*nx # Calculated width of model
+            >>> d = d_base*nz # Calculated depth of model
+            >>> 
+            >>> lg = PyLaGriT()
+            >>> 
+            >>> # Create discrete fracture mesh
+            >>> dxyz = numpy.array([d_base,d_base,0.])
+            >>> mins = numpy.array([0.,-d,0.])
+            >>> maxs = numpy.array([w,0,0])
+            >>> mqua = lg.createpts_dxyz(dxyz,mins,maxs,'quad',hard_bound=('min','max','min'),connect=True)
+            >>> 
+            >>> for i in range(lr):
+            >>>     prefine = mqua.pset_geom_xyz(mins-0.1,(0.0001,0.1,0))
+            >>>     erefine = prefine.eltset()
+            >>>     erefine.refine()
+            >>>     prefine.delete()
+            >>>     erefine.delete()
+            >>> 
+            >>> mtri = mqua.copypts('triplane')
+            >>> mtri.connect()
+            >>> # Make sure that not nodes are lost during connect
+            >>> if 'The mesh is complete but could not include all points.' in lg.before:
+            >>>     print 'Error: Lost some points during connect, not completing mesh and exiting workflow!'
+            >>>     print ''
+            >>>     sys.exit()
+            >>> mtri.tri_mesh_output_prep()
+            >>> mtri.reorder_nodes(cycle='xic yic zic')
+            >>> pfault = mtri.pset_geom_xyz(mins-0.1,(0.0001,0.1,0))
+            >>> psource = mtri.pset_geom_xyz(mins-0.1,mins+0.0001)
+            >>> mtri.setatt('imt',1)
+            >>> pfault.setatt('imt',10)
+            >>> psource.setatt('imt',20)
+            >>> 
+            >>> mtri.paraview(filename='discrete_fracture.inp')
+        '''
         cmd = '/'.join(['refine','eltset','eltset,get,'+self.name,'amr '+str(amr)])
         self._parent.sendline(cmd)
+
     def pset(self,name=None):
         '''
         Create a pset from the points in an element set
