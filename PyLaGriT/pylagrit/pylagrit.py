@@ -1704,8 +1704,8 @@ class MO(object):
         self.sendline(cmd)
     def dump_gmv(self,filename,format='binary'):
         self.dump(filename,'gmv',format)
-    def dump_fehm(self,filename):
-        self.dump(filename,'fehm')
+    def dump_fehm(self,filename,*args):
+        self.dump(filename,'fehm',*args)
     def dump_lg(self,filename,format='binary'):
         self.dump(filename,'lagrit',format)
     def dump_zone_imt(self,filename,imt_value):
