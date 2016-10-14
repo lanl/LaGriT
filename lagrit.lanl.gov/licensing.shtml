@@ -34,12 +34,92 @@
     </tr>
     <tr>
       <td colspan="2" valign="top" class="col2-420"><a name="content"></a> <!-- InstanceBeginEditable name="ContentArea" -->
-        <h2>LaGriT Registration</h2>
-        <p>Supported  platforms are <strong>Mac OSX, Solaris, Linux</strong>. LaGriT does not run on <strong>Windows</strong> or <strong>DOS</strong>. An exacutible is distributed that does not require compiling or building. If one wishes to write their own user modules, it is suggested that you use the Absoft (C, F77, F90) compiler. If you use another compiler and have problems, we will not be able to help.</p>
-        <p> To obtain LaGriT fill out a the web form (link below) and instructions for downloading LaGriT will be emailed to you. </p>
-        <p><a href="reg/form.php">Click here to enter registration information. Note: The username for the site is &quot;lagrit&quot; and the password is &quot;register&quot;. </a></p>
-        <p>If you have questions  email  lagrit-reg-at-lanl-dot-gov.(substitute @ for -at-, . for -dot-) </p>
-        <p><strong>Copyright Notice:</strong><em>This program was prepared by Los Alamos National Security, LLC at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396 with the U.S. Department of Energy (DOE). All rights in the program are reserved by the DOE and Los Alamos National Security, LLC.  Permission is granted to the public to copy and use this software without charge, provided that this Notice and any statement of authorship are reproduced on all copies.  Neither the U.S. Government nor LANS makes any warranty, express or implied, or assumes any liability or responsibility for the use of this software.</em></p>
+
+<br>
+        <h2>LaGriT Registration and Download</h2>
+        <p>LaGriT binaries are available for download. Supported  platforms are primarily Linux, other platforms such as Mac OSX and WINDOWS are available but may not be current with latest release. 
+The most current version of LaGriT is on open-source (see below). 
+  </p>
+
+
+<p> For a LaGriT binary, fill out a the web form (link below) and instructions for downloading LaGriT will be emailed to you. </p>
+        <p><a href="https://lagrit.lanl.gov/reg/form.php">Click here to enter registration information.
+<br><i> Note: The username for the site is &quot;lagrit&quot; and the password is &quot;register&quot;. </i> </a></p>
+
+
+        <p>For Questions contact LaGriT registration at lagrit-reg @ lanl.gov</p>
+
+
+
+        <hr>
+<h2>LaGriT Open Source</h2>
+
+<p>LaGriT V3 LA-CC-15-069 is distributed as open-source software under a BSD 3-Clause License (See below).
+The github repository includes source code, compile instructions, and tests for both LaGriT and PyLaGriT.
+It also includes a snapshot of this site, lagrit.lanl.gov.
+<ul>
+<li>
+git clone <a href="https://github.com/losalamos/LaGriT">https://github.com/losalamos/LaGriT </a>
+</li>
+</ul>
+</p>
+
+<p>
+The following external Exodus II libraries are used with the LaGriT build.
+For Questions regarding these libraries, contact Greg Sjaardema at Sandia National Laboratories (gdsjaar @ sandia.gov).
+<ul>
+<li>
+    ExodusII 6 - from http://sourceforge.net/projects/exodusii/files/
+<br>
+                 See also https://github.com/gsjaardema/seacas#exodus
+</li>
+<li>
+    HDF5 - from https://www.hdfgroup.org/downloads/index.html
+</li>
+<li>
+    NetCDF-4.3 - from http://www.unidata.ucar.edu/downloads/netcdf/index.jsp
+</li>
+<li>
+    zlib-1.2.8 - from http://www.zlib.net/
+</li>
+</ul>
+<br>
+
+</p>
+
+
+<hr>
+<h2>LICENSE</h2>
+<br>
+
+<p>
+Copyright 2015.  Los Alamos National Security, LLC. This software was produced under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National Laboratory (LANL), which is operated by Los Alamos National Security, LLC for the U.S. Department of Energy. The U.S. Government has rights to use, reproduce, and distribute this software.  NEITHER THE GOVERNMENT NOR LOS ALAMOS NATIONAL SECURITY, LLC MAKES ANY WARRANTY, EXPRESS OR IMPLIED, OR ASSUMES ANY LIABILITY FOR THE USE OF THIS SOFTWARE.  If software is modified to produce derivative works, such modified software should be clearly marked, so as not to confuse it with the version available from LANL.
+</p>
+
+<p>
+Additionally, redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+<ul>
+<li>
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+</li>
+<li>
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+</li>
+<li>
+3. Neither the name of Los Alamos National Security, LLC, Los Alamos National Laboratory, LANL, the U.S. Government, nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. 
+</li>
+</ul>
+<br>
+
+THIS SOFTWARE IS PROVIDED BY LOS ALAMOS NATIONAL SECURITY, LLC AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL LOS ALAMOS NATIONAL SECURITY, LLC OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</p>
+<br>
+<br>
+
+
+
+
+
         <!-- InstanceEndEditable --></td>
     </tr>
   </table>

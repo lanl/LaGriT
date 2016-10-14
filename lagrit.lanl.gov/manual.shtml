@@ -30,13 +30,13 @@
         <!--#include virtual="/source/orgs/ees/includes/resources.inc" --> 
         <!--#include virtual="includes/related_links.inc" --></td>
       <td class="col2-420"><a name="content"></a> <!-- InstanceBeginEditable name="ContentArea" -->
+
         <h1>Online Manual </h1>
-        <p>(For an offline manual, you may download a snapshot (~200Mb) all
-          manual pages: &nbsp;<a href="./manual_090422.tar.gz">manual_090422.tar.gz</a> )</p>
+<br>
         <h3><b>I.&nbsp; INTRODUCTION</b> </h3>
         <ul>
-          <li>A. <a href="docs/lagrit.html">LaGriT</a> </li>
-          <li>B.&nbsp;<a href="docs/Tutoria1.html">Tutorial</a> </li>
+          <li>A. <a href="docs/lagrit.html">LaGriT and PyLaGriT</a> </li>
+          <li>B.&nbsp;<a href="docs/Tutorial.shtml">Tutorial</a> </li>
           <li>C. <a href="docs/demos/index.html">Examples and Simple Demos</a></li>
         </ul>
         <h3> II.&nbsp; LaGriT COMMANDS</h3>
@@ -70,10 +70,19 @@
           <li>B.&nbsp; <a href="docs/errors.html#memory">Out of memory errors.</a> </li>
           <li>C.&nbsp; <a href="docs/errors.html#panic">Fatal memory management errors</a> (PANIC!) </li>
         </ul>
-        <h3><a href="docs/References.html">LaGriT REFERENCES</a></h3>
+<br>
+<br>
+<h3> &nbsp;<a href="docs/References.html"><b>LaGriT REFERENCES</b></a> </h3>
+<br>
+<h3> &nbsp;<a href="https://github.com/losalamos/LaGriT"><b>Download lagrit.lanl.gov Manual from Github</b></a> </h3>
+<br>
+<br>
+<br>
+
         <!-- InstanceEndEditable --> <img alt="" class="strut" height="1" width="420" src="http://www.lanl.gov/images/transparent.gif" /></td>
     </tr>
   </table>
+
 </div>
 
 <!-- OPEN include for footer area --> 
