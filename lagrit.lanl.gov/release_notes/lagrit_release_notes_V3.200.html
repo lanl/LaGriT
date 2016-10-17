@@ -1,0 +1,1056 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>LaGriT Release Notes V3.2</title>
+</head>
+<body>
+
+<!---------------------------------------->
+<h1>LaGriT Release Notes</h1>
+<ul>
+<li type="1">
+<a href="#Release_V3.200"><b>LaGriT V3.200 September 2016 open-source</b></a>
+<br>
+<br>
+</li>
+<li type="1">
+<a href="#Release_V3.108"><b>LaGriT V3.108 July 2016 Release</b></a>
+<br>
+<br>
+</li>
+<li type="1">
+<a href="#Release_V3.106"><b>LaGriT V3.106 August 2015 </b></a>
+<br>
+<br>
+</li>
+<li type="1">
+<a href="#Release_V3.100"><b>LaGriT V3.100 November 2012</b></a>
+<br>
+<br>
+</li>
+<li type="1">
+<a href="#Release_V3.001"><b>LaGriT V3.001 August 2011 Release</b></a>
+<br>
+<br>
+</li>
+<li type="1">
+<a href="#Release_V2.200"><b>LaGriT V2.200 November 2010 Release</b></a>
+<br>
+<br>
+</li>
+<li type="1">
+<a href="#Release_V2.106"><b>LaGriT V2.106 June 2010</b></a>
+<br>
+<br>
+</li>
+<li type="1">
+<a href="#Release_V2.100"><b>LaGriT V2.100 August 2009 Release</b></a>
+<br>
+<br>
+</li>
+</ul>
+
+<br>
+<!---------------------------------------->
+<hr>
+<a name="Release_V3.200">
+<h2>LaGriT V3.200 September 2016 </h2>
+
+<p>
+LaGriT V3 LACC-15-069 is now distributed as open-source software under a BSD 3-Clause License.
+See https://lagrit.lanl.gov/licensing.shtml
+<br>
+<br>
+For latest updates and issues see the open-source repository at https://github.com/losalamos/LaGriT
+</p>
+
+<br>
+<!---------------------------------------->
+<hr>
+<a name="Release_V3.108">
+<h2>LaGriT V3.108 July 2016 </h2>
+
+<p>Last version under open distribution license:
+<pre>
+2012 LaGriT Version 3 LACC-2012-084
+Copyright Notice: This program was prepared by Los Alamos National
+Security, LLC at Los Alamos National Laboratory (LANL) under contract 
+No. DE-AC52-06NA25396 with the U.S. Department of Energy (DOE). All rights 
+in the program are reserved by the DOE and Los Alamos National Security, LLC. 
+Permission is granted to the public to copy and use this software without 
+charge, provided that this Notice and any statement of authorship are 
+reproduced on all copies. Neither the U.S. Government nor LANS makes any 
+warranty, express or implied, or assumes any liability or responsibility 
+for the use of this software.
+</pre>
+</p>
+<p>
+Change from Mercurial open distribution to open source on github.
+Tag this version Release V3.108 and use clone for V3.2 for start of open-source repository.
+
+<pre>
+LaGriT V3.108 from https://ancho.lanl.gov/lagrit/hg/lagrit
+tag:         Release V3.108
+parent:      349:8524530343c2
+parent:      346:a5f6fb10ecce
+user:        Terry Miller <tamiller@lanl.gov>
+date:        Tue Jul 26 09:48:53 2016 -0600
+</pre>
+
+</p>
+
+<p>This merges student Mikita V3.106 WIN development with master.
+<br>Mikita comments and updates to mercurial/trac repository include:</p>
+<ul>
+<li>
+<b>test</b>
+<br>
+Added top level python control suite, and standarized level02 output files.
+</li>
+<br>
+<li>
+<b>build windows</b>
+<br>
+The windows version of LaGrit is compiled using cygwin by Mikita.
+See files instructions.txt (copied to build_win.txt), and cmake-script. 
+</li>
+<br>
+<li>
+<b>build static</b>
+<br>
+The static version of LaGrit is compiled on Ubuntu by Mikita.
+Instructions Ubuntu are not written,
+however the instructions written for Windows static compilation using Cygwin are     
+almost exactly as they are for Ubuntu.
+</li>
+<br>
+<li>
+<b>lg_util library</b>
+<br>
+changed both opsys.h and type_sizes.h to account for win64 and changed define for SIZEOF_LONG
+<pre>
+opsys.h
+157,165d156
+< #ifdef win64
+< #define FCV_UNDERSCORE
+< #define SIZEOF_INT 4
+< #define SIZEOF_LONG 8
+< #define SIZEOF_VOIDP 8
+< #define MAX_UINT 18446744073709551615.00 
+< #endif
+< 
+< 
+185,187d175
+< #ifdef win64
+< #define int_ptrsize long long
+< #else
+189d176
+< #endif
+
+type_sizes.h
+46a47,54
+>  /****** Cygwin ******
+> #ifdef __CYGWIN__
+> #define FCV_UNDERSCORE
+> #define SIZEOF_INT 4
+> #define SIZEOF_LONG 4
+> #define SIZEOF_VOIDP 8
+> #endif ***/
+
+machine_header.h
+68a69,74
+> #ifdef win64
+> #define FCV_UNDERSCORE
+> #define SIZEOF_INT 4
+> #define SIZEOF_LONG 8
+> #define SIZEOF_VOIDP 8
+> #endif
+
+Makefile
+94a95,109
+> ifeq ($(COMPILER), cygwin)
+> SUFFC = _cygwin
+> FC = /bin/gfortran
+> CC = /bin/gcc
+> CXX = /bin/c++
+> FC90 = /bin/gfortran
+> 
+> OSTAG = _cygwin
+> 
+> FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
+> FF90FLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
+> CFLAGS = -m64 -Dwin64 
+> # -I/usr/include
+> endif
+> 
+
+
+</pre>
+
+<br>
+</li>
+</ul>
+
+
+
+<br>
+<!---------------------------------------->
+<hr>
+<a name="Release_V3.106">
+<h2>LaGriT V3.106 August 2015 </h2>
+
+<p>Major update to write PFLOTRAN type option stor file and new syntax using Exodus II 6.9 libraries.
+<br>
+This version is used for code development by summer student Mikita Yanki that includes changes and scripts
+to build LaGriT on windows with Exodus II V6 libraries. This is a branch that does not include
+some of the V3.107 updates. Mikita's version is merged and contained in the V3.2 release.
+</p>
+<p><i>Note: The LaGriT run-time banner shows V3.2 with compile date  Aug 2015, even though it is actually a branch from V3.106.</i></p>
+
+<p>Major updates include:</p>
+<ul>
+<li>
+<b>dump / pflotran</b>
+<br>
+Writes .uge file for pflotran and is used by the DFN suite of scripts.
+The first block are the list of ids of cells and the coordinates of cell centroids and the volumes of the cells.
+The second block consists of a list of ids of the connecting cells (id_up, id_dn), coordinates of the face centroid between the two connected cells and areas of the faces.
+<br>
+Test directory is in /n/swdev/LAGRIT/work/pflotran/test along with upper directory with dev work.
+<br>
+The routines are called from matbld 2D and 3D and use the same syntax as dump/stor and look like:
+<pre>
+    dump / pflotran / root_name / cmo_name
+    dump / pflotran / root_name / cmo_name / nofilter_zero
+</pre>
+</li><li>
+<b>dump / exo</b> 
+<br>New code syntax using ExodusII 6.09, LaGriT commands remain the same.
+<pre>
+   http://sourceforge.net/projects/exodusii/files/
+   Exodus II 6.09
+   HDF5 version 1.8.6
+   netcdf-4.1.3
+</pre>
+</li><li>
+<b>exo block id</b> modified to single digit.
+<br>
+All exodus files are same as Exodus II 5, except for the block id. Tests have been updated resulting in the following differences:
+<pre>
+Exodus 6.09:
+<               :api_version = 6.09f ;
+<               :version = 6.09f ;
+---
+<  eb_prop1 = 1, 2, 3 ;
+
+Exodus 5.22a:
+>               :api_version = 5.22f ;
+>               :version = 5.22f ;
+---
+>  eb_prop1 = 10000, 20000, 30000 ;
+</pre>
+</li>
+
+</ul>
+
+<p>Minor updates to master version include:</p>
+<ul>
+<li>
+<b>attribute compress_eps</b>
+<br>
+new attribute for stor file allowing user to extend range of ccoef values by
+             setting mesh attribute compress_eps (from default 1e-8).
+             This will keep connection regardless of coefficient value.
+Changing value of compress_epsilon seemed to help loss of coeffs with large aspect ratios.
+</li><li>
+<b>dump / stor (2D)</b>
+<br>
+Corrected bug that overwrites volic with incorrect value if grid is non-planer.
+</li><li>
+<b>dump / fehm </b>
+<br>
+add space between ns and nelements, increase to i12
+</li><li>
+<b>read / fehm</b>
+<br>
+Fixed seg fault for 0 elem report message by using a,a instead of a format.
+</li><li>
+<b>build exodus libs</b>
+<br>
+The following is a list of issues when dealing with building static libraries for exodus and its compilation.
+<pre>
+Library inclusion order in the following places:
+1. /n/swdev/src/exodusii/exodus-6.09/exodus/cbind/CMakeList.txt 
+    Line 284
+2. /n/swdev/src/exodusoo/exodus-6.09/exodus/forbind/CMakeList.txt
+    Line 62
+Solution was to switch ${HDF5_LIBRARY} with ${HDF5HL_LIBRARY}
+</pre>
+</li>
+</ul> 
+<br>
+<!---------------------------------------->
+<hr>
+<a name="Release_V3.101">
+<h2>LaGriT V3.101 November 2013 </h2>
+
+<p>
+This version does NOT have the PFLOTRAN file output used by DFN workflow.
+</p>
+<p>There are no major enhancements, code is compiled and tested for release.
+This is in preparation for major update to Exodus 6 which changes routine calls and syntax.
+
+<pre>
+V3.103 is last version lagrit code using Exodus 5 libs
+V3.104 is new  version lagrit code using Exodus 6 libs
+
+- Build/test V3.103 old RHEL RedHat 5 on aquifer with Exodus 5
+- Build/test V3.103 new RHEL RedHat 6.5 on darcy or talik with Exodus 5
+- Build/test V3.103 Ubuntu-14.04-x86_64 with Exodus 5
+- Build/test V3.104 Ubuntu-14.04-x86_64 with Exodus 6
+
+- Build/test V3.104 WIN7 with Exodus 6
+- Build/test V3.104 MacOS with Exodus 6
+- Build/test V3.104 RHEL 6.5 with Exodus 6
+
+Current Stable Linux version:
+  LaGriT V3.101 Linux m64
+  date_compile: 2013/04/25  RH gf4.5
+
+These are the external libs used with LaGriT V3.1 As of November 2012
+   http://sourceforge.net/projects/exodusii/files/
+     Exodus II 5.22a
+     HDF5 version 1.8.6
+     netcdf-4.1.3
+
+Linux RHEL Exodus 5 libraries were built in
+ /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus
+
+Build executable for linux:
+gfortran -O -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_o_gf4.5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/lg_util/lib/util_lin64_o_gfort4.5.a -L /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/lin64/lib -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+</pre>
+
+</p>
+
+<p>This release include the following enhancements:</p>
+<ul>
+<br><li><b>read / zone|zone_element / </b>
+<div>
+Added option zone_element which 
+allows reading of node or element list in FEHM zone or zonn format.
+Each node or element number found in the list has attribute tagged.
+</div>
+</li>
+</ul>
+
+<p>This release include the following fixes:</p>
+<ul>
+<br><li><b>#105: addatt/ mo_tri / unit_area_normal </b> 
+<div>
+Fixed incorrect zero result and 
+fixed attribute handling so vector array is formed using irank = 3.
+</div>
+</li>
+
+<br><li><b>#108: cmo/addatt/mo/area_normal/xyz/att_v_area  </b>
+<div>
+Result is off by factor of 2,
+  fixed area normal to assign half the cross product (for triangles).
+</div>
+</li>
+
+<br><li><b>#132: synth_norm </b> 
+<div>
+Fixed handling of attributes.
+  The synthetic normals were creating a dummy attribute not used because
+  offsetsurf is creating x_n_norm y_n_norm z_n_norm on the input cmo.
+  Attribute names are ignored on the command line, added better reporting
+  for this.
+</div>
+</li>
+</ul>
+
+<br>
+<!---------------------------------------->
+<hr>
+<a name="Release_V3.100">
+<h2>LaGriT V3.100 November 2012 </h2>
+
+<p>
+Major changes to most parts of the code to enable 64 bit compilation and
+added external Exodus II 5 libraries to write Exodus basic mesh files.
+These are the external libs used with this release:
+
+<ul> 
+<pre>
+http://sourceforge.net/projects/exodusii/files/
+    Exodus II 5.22a
+    HDF5 version 1.8.6
+    netcdf-4.1.3
+
+Code Files:
+    exo_put_sets.c dumpexodusII.f derefine.f
+</pre>
+</ul>
+</p>
+<p>
+A few minor changes/fixes include: cmo/copyatt fix copy from node attribute
+             to elem attribute of equal length. cmo/readatt fix to allow char in first position.
+Memory and bug fixes related to 64 bit code changes.
+Improved error catching for common routines.
+</p>
+
+<h3>Command Enhancements</h3>
+
+<ul>
+
+<br><li><b>dump / exo</b>
+<div>
+Now includes netcdf and exodus libs for writing exodus mesh 
+files and reading and writing facesets.
+<pre>
+Syntax:
+  dump / exo / ifile / cmoname
+
+  Dump exodus files with/without facesets, fast/slow options:
+  dump / exo / ifile / cmoname / facesets / on
+  dump / exo / ifile / cmoname / facesets / off
+  dump / exo / ifile / cmoname / facesets / on file1,file2,...filen
+  dump / exo / ifile / cmoname / facesets / off file1,file2,...filen
+
+  write exo pset and eltsets:
+  dump / exo / filenam.exo / cmoname / psets / eltsets /
+  dump/exo/mesh_07.exo/mo7//eltsets/ &
+     facesets bc01.faceset &
+     bc02.faceset bc03.faceset bc04.faceset &
+     bc05.faceset bc08.faceset bc09.faceset
+  dump/exo/mesh_06.exo/mo6/psets// &
+     facesets bc01.faceset &
+     bc02.faceset bc03.faceset bc04.faceset &
+     bc05.faceset bc08.faceset bc09.faceset
+</pre>
+</div>
+</li>
+
+<br><li><b>dump </b> (short version)
+<div>
+3 token short syntax for dump (avs,gmv,lg,lagrit,ts,exo)
+</div>
+</li>
+
+<br><li><b>extract/surfmesh</b>
+<div>
+Now creates attributes to hold element local face numbers of 3D input
+mesh that occur on either side of output mesh face, idface0 and idface1.
+Now copies user-created node-based attributes from source.
+</div>
+</li>
+
+<br><li><b>interpolate</b>
+<div>
+Changed interpolate to "find" more points on edges
+this will permit nodes to find a nearest edge or point and be
+"inside" the triangle for extreme small or large numbers where
+epsilon values are difficult to evaluate correctly.
+</div>
+</li>
+
+<br><li><b>massage </b>
+<div>
+Added option for massage to refine based on an attribute field. 
+<pre>
+Syntax:
+  massage / [bisection length/field name] / merge_length / toldamage / ...
+</pre>
+</div>
+</li>
+
+<br><li><b>massage2 </b>
+<div>
+Under development massage2 syntax for incremental refinement strategies.
+<pre>
+Syntax:
+  massage2/ [file name] / [Target Length Scale]/[field name]/ &
+     merge_length/toldamage/[tolroughness]/[ifirst,ilast,istride]/ ...
+</pre>
+</div>
+</li>
+
+<br><li><b>math </b>
+<div>
+add modulo and mod options
+</div>
+</li>
+
+<br><li><b>recon </b>
+<div>
+Code improvements related to recon 0 and recon 1 will 
+result in slightly different but better connectivity results.
+</div>
+</li>
+
+<br><li><b>sort </b>
+<div>
+Added line sort by nodes or elements for creating valid polygons 
+that can be read and used by other routines. 
+<pre>
+Syntax:
+  sort / line_graph / cmo / ascending | descending / [key] / [nodes/elements]
+</pre>
+</div>
+</li>
+</ul>
+<br>
+
+<!---------------------------------------->
+<hr>
+<a name="Release_V3.001">
+<h2>LaGriT V3.001 August 2011 </h2>
+<p>Major changes incoporating work from Andrew Kuprat (64bit work) and summer student Adam Cozzette to add more capability.
+Changes to make 64bit code more consistent and easier to modify for various platforms. 
+The code for stack routines are combined into stack_options.f from temptam.f and read_trilayers.f.
+The beads algorithm and routines are now all in their
+own file beads_ona_ring.f
+<br>
+<br>
+LaGriT assumes that the size of an integer is the same size as a
+pointer.  Use the preprocessor and configure settings to select
+the integer type so that it matches the size of a pointer.
+<pre>
+#if SIZEOF_INT == SIZEOF_VOIDP
+#define int_ptrsize int
+#elif SIZEOF_LONG == SIZEOF_VOIDP
+#define int_ptrsize long
+
+Makefile changes for 64 bit compile:
+  -fcray-pointer
+Enables the Cray pointer extension, which provides a C-like pointer
+
+-falign-commons (will try to reorder commons so this is not needed)
+By default, gfortran enforces proper alignment of all variables in a COMMON block by padding them as needed. On certain platforms this is mandatory, on others it increases performance. If a COMMON block is not declared with consistent data types everywhere, this padding can cause trouble, and -fno-align-commons can be used to disable automatic alignment. The same form of this option should be used for all files that share a COMMON block. To avoid potential alignment issues in COMMON blocks, it is recommended to order objects from largests to smallest.
+
+</pre>
+
+
+</pre>
+
+</p>
+
+<p>Andrew Kuprat changes:
+<ul>
+<pre>
+filterkd.f - new filter command (called with 'filterkd') uses kd-tree for filter.
+msgtty.f - added command 'filterkd'
+reverseform.f - necessary for filterkd.f
+readgmv_binary.f - Changed gmv routines so read/write gmv works on 64-bit
+dumpgmv_hybrid.f - Changed gmv routines so read/write gmv works on 64-bit
+Makefile.depends - updated for filterkd, reverseform
+</pre>
+
+</ul>
+<br>
+
+<p>Adam Cozzette changes:
+</p>
+<ul>
+<li>
+anothermatbld3d.c
+<pre>
+    - added several functions for computing the hybrid point of a control volume:
+      tetisOnBoundary, intersectSegmentWithFace, getHybridPoint
+    - added helper functions for computing dot products and distances.
+    - changed the areaOf3dTriangle function to compute a vector area rather than a scalar.
+    - a change computes a unit vector in the direction of an edge between
+      two points in the tetrahedral mesh. We dot this with the facet of the Voronoi
+      cell in order to consider just the component of the area that is in the
+      direction of the edge.
+    - changed the parameter list for initialize3ddiffusionmat_ so that the
+      function also takes arrays for jtet, pmbndry, ifhybrid, and hybridfactor.
+      ifhybrid indicates whether to use hybrid volumes and hybrid_factor is an
+      attribute that the function will fill in order to indicate the extent to which
+      each cell is hybridized
+    - added function prototypes so that gcc can perform type checking
+    - added #if to match format string to size of integers being used
+</pre>
+
+</li><li>
+anothermatbld3d_wrapper.f
+<pre>
+    - changed subroutine call to add hybrid_factor
+             subroutine anothermatbld3d_wrapper
+-     x           (ifile,io_type,num_area_coef,ifcompress)
++     x           (ifile,io_type,num_area_coef,ifcompress, ifhybrid)
+</pre>
+
+</li><li>
+cmo_addatt.f
+<pre>
+    - added the hybrid_volume to the cmo // addatt command
+    - added a metric for quad quality  cmo // addatt / quad_quality
+</pre>
+
+</li><li>
+connect2d_lg.f
+<pre>
+    - fix bug in 2D delaunay connect where the code
+      doubled the coordinates of the first Voronoi point
+</pre>
+
+</li><li>
+cr_copy.f
+<pre>
+    - fixed an off-by-one error by making an array one element longer
+      in a call to mmgetblk with length + 1
+      this was causing segfault errors
+</pre>
+
+</li><li>
+dumpfehm.f
+<pre>
+    - changed subroutine call to add hybrid_factor
+       subroutine dumpfehm(ifile,ifileini,ioption,iomode,
+-     *       area_coef_option,compress_opt,attrib_option,area_option)
++     *       area_coef_option,compress_opt,attrib_option,area_option,
++     *       hybrid_option)
+</pre>
+
+</li><li>
+eset.f
+<pre>
+    - Added support for writing element sets out to a file based on pset logic
+      changed the behavior so that eltset // write will write each element set
+      to a separate file if it is given the -all- option
+      filenames now end with .cellset
+    - fixed a bug where attempting to redefine an element set, the set is now
+      zeroed out and written afresh
+</pre>
+
+</li><li>
+geniee.f
+<pre>
+    - changed loop to check condition before starting, this avoids
+      writing to memory is invalid
+</pre>
+
+</li><li>
+intersect_cmo.f
+<pre>
+    - added sort // line_graph after performing the intersection
+    - fixed loop that was looping wrong number of times
+      changed 1,npointsa to 1,npoint
+</pre>
+
+</li><li>
+pcc_test.f
+<pre>
+    - fixed Warning so it is given once instead of once for every element
+</pre>
+
+</li><li>
+pset.F
+<pre>
+    - changed pset to verify a point before writing to file
+    - added the -all- option that writes each pset to seperate files
+      with the new file extension .vertexset
+</pre>
+
+</li><li>
+quality.f
+<pre>
+    - Added support for quad metrics in quality / quad
+</pre>
+
+</li><li>
+reorder.f
+<pre>
+    - fixed reorder so that it doesn't rely on the numerical values
+      to determine whether to sort nodes or elements
+    - added messages to indicate possible WARNINGS for reorder
+</pre>
+
+</li><li>
+rotatelo.f
+<pre>
+    - Fixed a bug whereby rotateln would rotate some points in one
+      direction and some points in the opposite direction.
+</pre>
+
+</li><li>
+sortbins.f
+<pre>
+    - Added support for sort // line_graph. line_graph_sort.cpp does most of the
+      real work. I also had to fix this subroutine to create the sort keys correctly.
+      Previously it used an integer length to decide whether to use 'nnodes' or
+      'nelements', but now it is careful to choose based on whether it is actually
+      sorting nodes or elements.
+</pre>
+
+</li><li>
+sparseMatrix.c
+<pre>
+    - removed unused variables in order to get rid of compiler warnings
+    - added #if for printf to use string according to integer size
+</pre>
+
+</li><li>
+writedump.f
+<pre>
+    - changes to facilitate the 'hybrid' option and Rao's new dump / exo code
+</pre>
+</li>
+</ul>
+<br>
+</ul>
+<br>
+
+<!---------------------------------------->
+<hr>
+<a name="Release_V2.200">
+<h2>LaGriT V2.200 November 2010 </h2>
+Banner when LaGriT is started (eg Linux):<br>
+<pre wrap="">*               *    Program:  LaGriT V2.200   Linux m32      *                 <br>*               *    date_compile: 2010/11/22                 *     </pre>
+<br>
+<table style="text-align: left; width: 650px;" border="0"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">The next release, expected in
+early 2011, will have 64 bit memory pointers. This will allow access to
+much more real and virtual memory so that the present limitations on
+memory and mesh size that can be built and manipulated will be greatly
+expanded.<br>
+      <h3>Modifications and New Capabilities Index:<br>
+      </h3>
+      <ul>
+        <li><a href="#dump__zone_outside__..."><b>dump / zone_outside
+/ ...</b></a></li>
+        <li><a href="#cmo__addatt__voronoi_varea__..."><b>cmo /
+addatt / voronoi_varea / ...</b></a></li>
+        <li><a href="#extract__surfmesh__..."><b>extract / surfmesh /
+...</b></a></li>
+        <li><b><a href="#addmesh__excavate__...">addmesh / excavate /
+...</a><br>
+          </b></li>
+        <li><a href="#interpolate__..."><b>interpolate / ...</b></a></li>
+        <li><a href="#read_..."><b>read /...</b></a></li>
+        <li><b><a href="#dump_...">dump / ...</a><br>
+          </b></li>
+        <li><a href="#cmo__attribute_union__..."><b>cmo /
+attribute_union / ...</b></a></li>
+        <li><a href="#compute__linear_extrapolate__..."><b>compute /
+linear_extrapolate / ...</b></a></li>
+        <li><a href="#grid2grid_..."><b>grid2grid /...</b></a></li>
+        <li><a href="#dump__stor__..."><b>dump / stor / ...</b></a></li>
+        <li><a href="#pset_..."><b>pset /...</b></a></li>
+        <li><b><a href="#memory__...">memory / ...</a></b><span
+ style="font-weight: bold;"></span></li>
+      </ul>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="dump__zone_outside__..."></a><b><b>dump / zone_outside / ...<br>
+      </b></b></h4>
+Changed FEHM outside area calculation to default to Voronoi area
+associated with nodes of a 3D tetrahedral mesh instead of computing
+Median area. FEHM file file_root_outside.area changed to
+file_root_outside_vor.area For dump/zone, added keywords keepatt_area
+or keepatt_voronoi which will compute and keep voronoi vector areas
+xn_varea, yn_varea, zn_varea and keepatt_median will compute area/num
+nodes on face and keep attributes xn_area, yn_area, zn_area The written
+file file_root_outside_vor.area or file_name_outside_med.area is a list
+of 2D area vectors (Ax_i,Ay_i,Az_i) associated with each node. <a
+ href="https://lagrit.lanl.gov/docs/DUMP3.html%20dump/zone_outside">https://lagrit.lanl.gov/docs/DUMP3.html
+dump/zone_outside</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="cmo__addatt__voronoi_varea__..."></a><b><b>cmo / addatt /
+voronoi_varea / ...<br>
+      </b></b></h4>
+This module will do the same voronoi calculation on triangles as is
+done with the outside area for a 3D tetrahderal mesh. The call will
+create vector components for each node and fill the node attributes
+xn_varea, yn_varea, zn_varea. <a
+ href="https://lagrit.lanl.gov/docs/cmo_addatt.html">https://lagrit.lanl.gov/docs/cmo_addatt.html
+
+      </a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="extract__surfmesh__..."></a><b><b>extract / surfmesh / ...<br>
+      </b></b></h4>
+Now creates attributes to hold element local face numbers of 3D input
+mesh that occur on either side of output mesh face, idface0 and
+idface1. Now copies user-created node-based attributes from source mesh
+into extracted sink mesh. <a
+ href="https://lagrit.lanl.gov/docs/EXTRACT1.html">https://lagrit.lanl.gov/docs/EXTRACT1.html</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="addmesh__excavate__..."></a><b><b>addmesh / excavate / ...</b></b></h4>
+excavate - remove nodes and elements if they fall with the circumsphere
+of triangles on the input mesh.<br>
+      <br>
+mesh1 must be a 3D mesh (of any geometry) and mesh2 must be a 2D
+triangular mesh. This command then excavates a volume in mesh1 around
+mesh2, such that the surface could then be inserted into the 3D mesh
+(such as to insert a fault into a background terrain mesh). The
+background mesh, minus the excavated/removed nodes, is put into mesh3.
+If the optional [bfs] argument is given, the routine will use a
+breadth-first search algorithm to find nodes to remove, as opposed to
+the default KD-tree algorithm. If the optional [connect] argument is
+given, the program will, after excavation, execute an addmesh/append,
+and then a connect, to produce a fully connected mesh with the surface
+(mesh2) inserted into the background (mesh1). <a
+ href="https://lagrit.lanl.gov/docs/ADDMESH.html">https://lagrit.lanl.gov/docs/ADDMESH.html<br>
+      </a>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="interpolate__..."></a><b><b>interpolate / ...<br>
+      </b></b></h4>
+Changed interpolate to "find" more points on edges this will permit
+nodes to find a nearest edge or point and be "inside" the triangle for
+extreme small or large numbers where epsilon values are difficult to
+evaluate correctly. Note, this changed test results for interpolate,
+test/level01 results were updated for these improvements. <a
+ href="https://lagrit.lanl.gov/docs/main_interpolate.html">https://lagrit.lanl.gov/docs/main_interpolate.html</a><br>
+      <br>
+intrp_gtg.f<br>
+A bug was fixed in interpolation that would sometimes save
+a node id in pt_gtg or el_gtg attributes that was not related
+to the found candidate and value. This could occur where there are
+multiple candidates for the source and if epsilon values are near
+machine limits. The test in level01/intrp_2D_sizes
+was changed to capture and evaluate these issues.<br>
+      <br>
+intrp_gtg.f, inside_lg.f<br>
+There are changes to interpolate using tests for finding points
+that are inside or on edges or vertices of an element. The epsilon
+tests have been relaxed to allow points that are "near" to be
+found on edge - if within the chosen epsilon. The interpolation
+has been changed to evaluate candidate points based on the
+confidence of being inside the associated triangle. A result
+indicating the point is inside will "win" over a candidate result
+that is on edge or vertice. If idebug attribute is set to a
+number of 5 or greater, there will be many more statements
+written that are related to the inside triangle and epsilon
+tests.<br>
+      <br>
+Substantial changes and additions to DUMP2.html which describes
+all the dump file_types and include more descriptions of FEHM files.
+DUMP3.html for dump/fehm now includes descriptions of FEHM files.
+https://lagrit.lanl.gov/docs/DUMP2.html
+https://lagrit.lanl.gov/docs/DUMP3.html<br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="read_..."></a><b><b>read /...</b></b></h4>
+Three token read implemented. Files are recognized based on their
+suffix (AVS, GMV, ...) rather than requiring that the second token
+specify the file type.<br>
+      <a href="https://lagrit.lanl.gov/docs/READ.html">https://lagrit.lanl.gov/docs/READ.html</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="dump_..."></a><b><b>dump</b></b><b><b> /...</b></b></h4>
+Two and three token dump implemented. Files types (AVS, GMV, ...) are
+recognized based on their
+suffix rather than requiring that the second token specify the file
+type. Two token write does not require a MO name. The default MO is
+used.<br>
+      <a href="https://lagrit.lanl.gov/docs/DUMP2.html">https://lagrit.lanl.gov/docs/DUMP2.html</a>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="cmo__attribute_union__..."></a><b><b>cmo / attribute_union /
+...<br>
+      </b></b></h4>
+Change two meshes so they both share the same set of attributes (taking
+the union of their sets of attributes) <br>
+      <a href="https://lagrit.lanl.gov/docs/cmo_att_derive.html">https://lagrit.lanl.gov/docs/cmo_att_derive.html
+
+      </a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="compute__linear_extrapolate__..."></a><b><b>compute /
+linear_extrapolate / ...<br>
+      </b></b></h4>
+linear_extrapolate - keyword for an extrapolation from an attribute
+value in a surface onto every node of a 3D mesh. Given a 3D mesh and a
+2D surface, this command will extrapolate a scalar value from that
+surface onto every point of the mesh. This can be used to (for example):<br>
+&nbsp;&nbsp;&nbsp; * Propogate head values from a surface onto all
+nodes of a mesh.<br>
+&nbsp;&nbsp;&nbsp; * Expand a mesh to fit a surface, by propogating the
+appropriate spatial coordinate.<br>
+&nbsp;&nbsp;&nbsp; * Compute the depth relative to a topographic
+surface to each node of a mesh. <a
+ href="https://lagrit.lanl.gov/docs/COMPUTE.html">https://lagrit.lanl.gov/docs/COMPUTE.html</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="grid2grid_..."></a><b><b>grid2grid /...</b></b></h4>
+grid2grid wrapper for hextotet. Use to convert:<br>
+      <ul style="font-family: monospace;">
+        <li>quadtotri2&nbsp;&nbsp;&nbsp; quad to 2 triangles, no new
+points.</li>
+        <li>prismtotet3&nbsp;&nbsp; prism to 3 tets, no new points.</li>
+        <li>quattotri4&nbsp;&nbsp;&nbsp; quad to 4 triangles, with one
+new point.</li>
+        <li>pyrtotet4&nbsp;&nbsp;&nbsp;&nbsp; pyramid to 4 tets, with
+one new point.</li>
+        <li>hextotet5&nbsp;&nbsp;&nbsp;&nbsp; hex to 5 tets, no new
+points.</li>
+        <li>hextotet6&nbsp;&nbsp;&nbsp;&nbsp; hex to 6 tets, no new
+points.</li>
+        <li>prismtotet14&nbsp; prism to 14 tets, four new points (1 + 3
+faces).</li>
+        <li>prismtotet18&nbsp; prism to 18 tets, six new points (1 + 5
+faces).</li>
+        <li>hextotet24&nbsp;&nbsp;&nbsp; hex to 24 tets, seven new
+points (1 + 6 faces).</li>
+        <li>tree_to_fe&nbsp;&nbsp;&nbsp; quadtree or octree grid to
+grid with no parent-type elements. </li>
+      </ul>
+      <a href="https://lagrit.lanl.gov/docs/GRID2GRID.html">https://lagrit.lanl.gov/docs/GRID2GRID.html</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="dump__stor__..."></a><b><b>dump / stor / ...<br>
+      </b></b></h4>
+anothermatbld3d_wrapper.f<br>
+Create two new node vectors, ccoef, ij_ccoef
+Put the negative ij coefficient value into the two nodes connected to
+the ij edge.
+The vector ij_coef will assign the j index value to node i so that one
+can determine which edge is associated with the neative coefficient
+that is assigned to nodes. <a
+ href="https://lagrit.lanl.gov/docs/DUMP2.html">https://lagrit.lanl.gov/docs/DUMP2.html</a><br>
+      <br>
+      <a href="https://lagrit.lanl.gov/docs/DUMP3.html">https://lagrit.lanl.gov/docs/DUMP3.html</a><br>
+      <br>
+Changes to include TranslateTetToZero for geometric calculations
+(not sure it is really helping with some of our neg ccoef issues)<br>
+      <br>
+anothermatbld3d_wrapper.f<br>
+Extensive chages to error handling and messages, but not to the logic
+of program
+This code has same logic as matbld3d - but uses linked lists instead of
+mmgetblk calls
+Use io_type to toggle creation of attribute for voronoi volumes or to
+write to stor file
+added extensive error checking to eliminate segmentation faults
+added error check and message for every mmgetblk and mmrelblk
+added calls to mmprint when mm calls fail
+cleaned up variable declarations and added comments
+added istatus to check for errors and completion of matrix
+changed all routine messages to start with AMatbld3d_stor to
+distinguish from matrix built with Matbld3d_stor
+added idebug options
+added status report at end of routine<br>
+      <br>
+matbld3d_stor.f<br>
+Extensive chages to error handling and messages, but not to the logic
+of program
+This code uses many mmgetblk calls and about 40 percent more memory
+than linked list version
+added extensive error checking to eliminate segmentation faults
+added error check and message for every mmgetblk and mmrelblk
+added calls to mmprint when mm calls fail
+cleaned up variable declarations and added comments
+added istatus to check for errors and completion of matrix
+added idebug options
+added status report at end of routine<br>
+matbld3d_stor.f<br>
+add warning for newlen call with uncertain effect <br>
+      <br>
+sparseMatrix.c <br>
+initialize list pointers to null
+assign null to pointers after free
+add warning messages for failure to free <br>
+      <br>
+dumpfehm.f<br>
+Add compress_opt to dumpfehm arguments
+add comments and error checking to clarify code logic
+check options and set for 2D or 3D calls to matbld
+use matbld3d_stor for compress options none and coefs
+use anothermatbld3d_wrapper for compress options all and graph
+Note anothermatbld3d_wrapper can write only scalar coef values<br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><a
+ name="pset_..."></a><b><b>pset /...</b></b></h4>
+Add option to pset/ / zone for user specified zone id number.<br>
+      <a href="https://lagrit.lanl.gov/docs/PSET.html">https://lagrit.lanl.gov/docs/PSET.html</a><br>
+      <h4 style="font-family: Courier New,Courier,monospace;"><b><b>dump
+/
+      </b></b></h4>
+writedump.f<br>
+declare implicit none and initialize variables
+add comments to clarify the case switches
+add more error checking and messages
+change syntax for dump/ fehm and dump/ stor
+old keywords not needed include alternate_scalar, binaryc, asciic
+compression keywords are now none, coefs, graph, or all old syntax
+still works, but now code checks
+for keywords after filename and cmo and sets
+options for the fehm and stor routine calls The man pages are updated
+and corrected. <a href="https://lagrit.lanl.gov/docs/DUMP2.html">https://lagrit.lanl.gov/docs/DUMP2.html</a><br>
+      <h4 style="font-family: monospace;"><b style="font-family: Courier New,Courier,monospace;"><a
+ style="font-family: Courier New,Courier,monospace;" name="memory__..."></a><b>memory
+/
+...</b></b></b><br>
+      </h4>
+New options to print and check memory manager and report memory usage.
+This superseeds old utilities mmprint, mmcheck, etc. <a
+ href="https://lagrit.lanl.gov/docs/memory.html">https://lagrit.lanl.gov/docs/memory.html<br>
+      </a>
+
+<h3>Test Cases Modified:</h3>
+test/level01<br>
+Change reference files to results from Linux
+Updated zone_outside and zone_outside_minmax to current voronoi version<br>
+      <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<!---------------------------------------->
+<hr>
+<a name="Release_V2.106">
+<h2>LaGriT V2.106 June 2010 </h2>
+<p>
+This includes a minor changes and added error checking.  The following are new syntax that are code wrappers for common command calls.
+</p>
+
+<ul>
+<li>
+cmo/attribute_union
+</li>
+<li>
+compute / linear_extrapolate
+</li>
+<li>
+grid2grid/ tree_to_fe 
+<br>
+grid2grid/ quadtotri4 
+</li>
+</ul>
+<br>
+<!---------------------------------------->
+<hr>
+<a name="Release_V2.100">
+<h2>LaGriT V2.100 August 2009 </h2>
+<p>
+This is a major update to LaGriT and the lg_util library. 
+Major changes have been made in the core memory management routines to allow 
+development for a 64 bit release.  These changes will be invisible to most users 
+but allows better reporting of errors and memory usage for useful diagnostic information.
+<br>
+Other changes include: 
+</p>
+<li>
+Executable build for Mac with Intel chip
+</li><li>
+New capability in compute module to compute signed distance fields
+</li><li>
+Incorporate METIS source code for graph partition and reorder package with LaGriT.<br>
+ For details of METIS algorithms and descriptions of the third command line argument see: 
+http://glaros.dtc.umn.edu/gkhome/views/metis 
+</li><li>
+Add option to create node attribute that is the Voronoi volume associated with each node of a Delaunay mesh
+</li><li>
+Module addmesh modified to handle errors so that it can be used in a loop without needing to have first call be different
+</li><li>
+Updates stor file commands so default uses newest version of code to build sparse matrix. This uses less memory and takes less time to build. 
+<br>New syntax options for stor file compression include all (default), graph, coefs, or none.
+</li><li>
+Update manual and web pages
+</li><li>
+Bug fix, various modules
+</li>
+<br>
+<br>
+</body>
+</html>

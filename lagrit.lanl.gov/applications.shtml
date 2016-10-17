@@ -34,28 +34,88 @@
     </tr>
     <tr>
       <td colspan="2" valign="top" class="col2-420"><a name="content"></a> <!-- InstanceBeginEditable name="ContentArea" -->
-        <h2>LaGriT Applications</h2>
-        <ul>
-          <li><a href="http://meshing.lanl.gov/proj/index.shtml">Grid Generation
-            for Geological Applications: Porous Flow, Hydrology, Crustal Deformation,
-            Hydrothermal Systems</a></li>
-          <li><a href="http://t1web.lanl.gov/grain3d/index.html">Grain Growth
-            in Materials Microstructure Evolution</a></li>
-          <li><a href="http://laws.lanl.gov/XCM/gmv/GMVHome.html">GMV General
-            Mesh Viewer</a> (A 3-D visualization tool designed to view simulation data
-            from any type of structured or unstructured mesh). </li>
-          <li><a href="mstkla/index.html">MSTKLA - Mesh ToolKit interface to LaGriT</a></li>
-          <li><a href="lasetup.shtml">LASETUP (A GUI for generating geometries,
-            i.e. surface, region and mregion commands)</a></li>
-        </ul>
-        <p>These pages are maintained by LaGriT at <a
- href="mailto:LaGriT-reg@lanl.gov">LaGriT-reg@lanl.gov</a><br>
+
+<h2>LaGriT Applications</h2>
+<br>
+<p>Visit <a href="http://meshing.lanl.gov/proj/index.shtml">
+           meshing.lanl.gov </a> for exmaples of Mesh applications
+            in Geological Applications: Porous Flow, Hydrology, CO2, oil and gas, Crustal Deformation,
+            Hydrothermal Systems, and more.
+The following are graphics and software output formats used with LaGriT and may be obtained from their respective sources.</p>
+<br>
+<br>
+<h3>Mesh and Simulation Visualization Software</h3>
+<ul>
+
+<li><a href='http://www.avs.com'>AVS</a> (commercial) </li>
+
+<li><a href="http://www.paraview.org"> ParaView (free)</a> </li>
+
+<li><a href="http://www.generalmeshviewer.com/GMVHome.html"> GMV (General Mesh Viewer) </a> 
+<br>
+<pre>
+    Linux 64-bit:      https://www.dropbox.com/s/14wla0obgwwe47y/GMV_linux64.tar.gz
+    Mac OSX Intel x86: https://www.dropbox.com/s/py4x8sint6jdgzq/GMV_mac_OSX_intel.tar.gz
+    Mac OSX PowerPC:   https://www.dropbox.com/s/6fecavyrc2dix5f/GMV_mac_OSX_powerpc.tar.gz
+</pre>
+</li>
+<li><a href='http://www.tecplot.com'>Tecplot</a> (commercial)</li>
+<li><a href='https://computing.llnl.gov/vis/visit.shtml'>VISIT</a> (free)</li>
+
+</ul>
+<br>
+<br>
+<h3>Mesh Tools</h3>
+<ul>
+<li><a href="https://meshing.lanl.gov/gridder/gridder.html">
+            GRIDDER - a simple grid generation tool for creating orthogonal quadralateral and hexahedral grids. </a>
+<br>
+<pre>
+    GRIDDER open source LA-CC-15-082
+    https://github.com/losalamos/gridder
+</pre>
+<br>
+          </li>
+
+
+          <li><a href="mstkla/index.html">MSTKLA - Mesh ToolKit using the functionality of LaGriT</a>
+<br>
+<pre>
+    MSTK open source LA-CC-04-010
+    https://github.com/MeshToolkit/MSTK
+</pre>
+</li>
+
+          <li><a href="lasetup.shtml">LASETUP - interface for generating and viewing LaGriT geometries.
+            </a>
+<br>
+</li>
+
+
+</ul>
+<br>
+<br>
+<h3>Modeling Software Used with LaGriT generated files</h3>
+<br>
+<ul>
+<li><a href='http://fehm.lanl.gov'>FEHM</a> (Subsurface Flow and Transport)</li>
+<li><a href='http://ees.lanl.gov/pflotran/'>PFLOTRAN</a> (Parallel Reactive Flow and Transport)</li>
+<li><a href='http://www.openchannelsoftware.com/projects/GeoFEST'>GEOFEST</a> (Geophysical Finite Element Simulation Tool)</li>
+
+
+</ul>
+<br>
+<br>
+<br>
+
+        <p><i>These pages are maintained by LaGriT at <a
+ href="mailto:LaGriT-reg@lanl.gov">LaGriT-reg@lanl.gov</a>
           LaGriT Trademark is owned by the University of California <br>
-          </p>
-        <p>NOTICE: Information from this server resides on a computer system funded
+       <br> 
+        NOTICE: Information from this server resides on a computer system funded
           by the U.S.Department of Energy. Anyone using this system consents to monitoring
-          of this use by system or security personnel. See <a
- href="http://www.lanl.gov/copyright.shtml"> conditions of use .</a> </p>
+          of this use by system or security personnel. 
+See <a href="http://www.lanl.gov/copyright.shtml"> conditions of use.</a></i> </p>
         <!-- InstanceEndEditable --></td>
     </tr>
   </table>

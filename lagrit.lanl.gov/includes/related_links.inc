@@ -5,12 +5,11 @@
 <li><a href="index.shtml">LaGriT Home Page</a></li>
  <li><a href="manual.shtml"><strong>On Line Manual</strong></a></li>
  <li><a href="features.shtml">Features</a></li>
- <li><a href="http://laws.lanl.gov/XCM/gmv/GMVHome.html">General Mesh Viewer (GMV)</a></li>
   <li><a href="applications.shtml">LaGriT Applications</a></li>
   <li><a href="development.shtml">LaGriT Code Development Team</a></li>
  <li><a href="pdfs/lagrit.pdf">LaGriT Facts (pdf)</a></li>
  <li><a href="graphics.shtml">LaGriT Graphics Examples</a></li>
-  <li><a href="licensing.shtml">LaGriT Licensing</a></li>
+  <li><a href="licensing.shtml">LaGriT Licensing and Downloads</a></li>
   <li><a href="publications.shtml">LaGriT Publications</a></li>
 <li><a href="release.shtml">Release Notes</a></li>
 
