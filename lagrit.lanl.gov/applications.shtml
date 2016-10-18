@@ -53,11 +53,11 @@ The following are graphics and software output formats used with LaGriT and may 
 
 <li><a href="http://www.generalmeshviewer.com/GMVHome.html"> GMV (General Mesh Viewer) </a> 
 <br>
-<pre>
-    Linux 64-bit:      https://www.dropbox.com/s/14wla0obgwwe47y/GMV_linux64.tar.gz
-    Mac OSX Intel x86: https://www.dropbox.com/s/py4x8sint6jdgzq/GMV_mac_OSX_intel.tar.gz
-    Mac OSX PowerPC:   https://www.dropbox.com/s/6fecavyrc2dix5f/GMV_mac_OSX_powerpc.tar.gz
-</pre>
+<ul>
+ GMV is distributed by CPFD Software and is protected under a GPL v3 license, and is copyright of Los Alamos National Laboratory.  The software is provided "AS IS", without warranty of any kind by CPFD Software. Fill 
+the form to request source or executable of GMV:
+<a href="http://gmv-cpfd.com/downloads/gmv-request-for-info.pdf"> <u>GMV request form</u> </a>
+</ul>
 </li>
 <li><a href='http://www.tecplot.com'>Tecplot</a> (commercial)</li>
 <li><a href='https://computing.llnl.gov/vis/visit.shtml'>VISIT</a> (free)</li>
