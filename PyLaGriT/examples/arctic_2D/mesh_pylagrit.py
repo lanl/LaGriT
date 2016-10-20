@@ -9,7 +9,7 @@ distance = 12.34364319 # distance in x direction
 l = PyLaGriT()
 
 # Create base layer
-layer = l.create()
+layer = l.create_qua()
 layer.createpts_xyz((nx,2,1),[0.,0.,0.],[distance,dy,0.],rz_switch=[1,1,1],connect=True)
 layer.setatt('itetclr',12)
 layer.minmax_xyz()
