@@ -1805,7 +1805,7 @@ class MO(object):
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
         del self._parent.mo[self.name]
-    def create_boundary_facesets(self,stacked_layers=False,base_name=None):
+    def create_boundary_facesets(self,stacked_layers=False,base_name=None,reorder=False,external=True):
         '''
         Creates facesets for each boundary and writes associated avs faceset file
         :arg base_name: base name of faceset files
@@ -1817,7 +1817,7 @@ class MO(object):
         :returns: Dictionary of facesets
         '''
         if base_name is None: base_name = 'faceset_'+self.name
-        mo_surf = self.extract_surfmesh(reorder=True)
+        mo_surf = self.extract_surfmesh(reorder=reorder,external=external)
         mo_surf.addatt('id_side',type='vint',rank='scalar',length='nelements')
         mo_surf.settets_normal()
         mo_surf.copyatt('itetclr','id_side')
