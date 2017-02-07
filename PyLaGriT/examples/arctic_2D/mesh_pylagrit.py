@@ -87,7 +87,7 @@ stack.stack_layers('avs',stack_files,flip_opt=True)
 stack_hex = stack.stack_fill()
 
 # Create boundary facesets, dictionary of PyLaGriT faceset objects is returned
-fs = stack_hex.create_boundary_facesets(base_name='faceset_bounds',stacked_layers=True)
+fs = stack_hex.create_boundary_facesets(base_name='faceset_bounds',stacked_layers=True,reorder=True)
 
 # Should add this to PyLaGriT, but I'm feeling lazy ;-)
 stack_hex.sendline('quality volume itetclr')
