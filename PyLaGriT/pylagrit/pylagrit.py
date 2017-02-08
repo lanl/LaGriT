@@ -2591,6 +2591,14 @@ class MO(object):
         self.rmpoint_compress()
         self.recon(1)
         self.resetpts_itp()
+    def surface(self,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self._parent.surface.keys())
+        cmd = '/'.join(['surface',name,ibtype,'sheet',self.name])
+        self.sendline(cmd)
+        self._parent.surface[name] = Surface(name,self._parent)
+        return self._parent.surface[name]
+
  
 class Surface(object):
     ''' Surface class'''
