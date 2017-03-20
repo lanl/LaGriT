@@ -1147,6 +1147,8 @@ C
 C       The following char strings are passed into dumpfehm
 C         ifile 
 C         ioption2 is ifileini name for dump_fehm_geom
+C                  I think this reads a fehm .ini file??
+C                  and is not used if string is empty
 C         ioption is fehm or stor
 C         iomode is writing mode (default ascii) 
 C
@@ -1235,6 +1237,7 @@ C          dump / stor / file_name_as / cmo / asciic / / alternate_scalar
             endif
            enddo
 
+C          dumpfehm writes FEHM files including dump_fehm_geom
 
            call dumpfehm(ifile(1:icharlnf(ifile)),
      *          ioption2(1:icharlnf(ioption2)),
@@ -1245,14 +1248,23 @@ C          dump / stor / file_name_as / cmo / asciic / / alternate_scalar
          endif
 
 C     DUMP / coord (for fehm)
-      elseif(ioption(1:leno).eq.'coord') then
-c
 c     Output only the FEHM COORD and ELEM macro information
+c     Avoid calling dumpfehm which writes all FEHM files
+c     ioption2 is expected to be an empty string for this call
+
+      elseif(ioption(1:leno).eq.'coord') then
+
          if(if_cmo_exist.eq.0) then
-            len=icharlnf(cmo)
-            call dump_fehm_geom(ifile(1:lenfile),
-     *          ioption2(1:icharlnf(ioption2)),iomode,ioption3)
+
+            ioption2 = ' '
+            lenfile=icharlnf(ifile)
+            write(logmess,'(a,a)')
+     *    'Writing FEHM coord/geom file: ',ifile(1:lenfile)//'.fehm' 
+            call writloga('default',0,logmess,0,ierror)
+
+            call dump_fehm_geom(ifile(1:lenfile),ioption2)
             ierror_return = 0
+
          endif
 
 C     DUMP / zone_imt (for fehm)

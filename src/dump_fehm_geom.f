@@ -10,6 +10,9 @@ C
 C     INPUT ARGUMENTS -
 C
 C        Character string for naming output file
+C        ifile - root output file name
+C        ifileini - ini file name skipped if empty
+C                   ?? Not sure this is ever used ?? TAM
 C
 C     OUTPUT ARGUMENTS -
 C
@@ -210,8 +213,13 @@ C
       dthydro=0.0
 C
       isubname='dump_geom_list'
+
 C
       if(ifileini(1:1).eq.' '.or.icharlnf(ifileini).le.0) then
+
+C         this is usually skipped
+C         print*,'Skipping ifileini ',ifileini
+
       else
          ifilename=ifileini(1:icharlnf(ifileini))
          iread=-1
@@ -327,6 +335,8 @@ C
          endif
       endif
 C
+C     Write .fehm coord and elem ascii file
+
       ifilename=ifile(1:icharlnf(ifile)) // '.fehmn'
       iunit=-1
       call hassign(iunit,ifilename,ierror)
@@ -336,6 +346,7 @@ C
       endif
 
 C
+C   
       write(iunit,'(a4)') 'coor'
       write(iunit,'(i8)') nnodes
       do i=1,nnodes

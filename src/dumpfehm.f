@@ -236,6 +236,7 @@ C     Check and set options
 C     any combination of options are allowed to pass into this routine
 C     check here and warn for those that do not apply, set to defaults
 C         dump/fehm option ifileini is used by dump_fehm_geom
+C              read ifileini.ini and skipped if ifileini is empty ??
 C         dump/fehm option attrib_option default is delatt 
 C         dump/fehm option area_option default is -notset- 
 C         ifile is the file or attribute name
