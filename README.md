@@ -10,7 +10,7 @@ PyLaGriT allows interactive and automated querying of mesh properties, enhanced 
 
 LaGriT Description and Manual at http://lagrit.lanl.gov
 
-PyLaGriT Description and Manual at https://losalamos.github.io/LaGriT/
+PyLaGriT Description and Manual at https://lanl.github.io/LaGriT/
 
 ![alt tag](screenshots/refine_samples_TN1000.png)
 

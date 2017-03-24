@@ -176,6 +176,35 @@ class PyLaGriT(spawn):
         else:
             self.mo[name] = MO(name,self)
             return self.mo[name]
+    def read_fehm(self,filename,avs_filename='temp.inp',elem_type=None):
+        with open(filename,'r') as fh:
+            ln = fh.readline()
+            nn = int(fh.readline().strip())
+            while not 'elem' in ln:
+                ln = fh.readline()
+            vs = fh.readline().strip().split()
+        elem_int = int(vs[0])
+        ne = int(vs[1])
+        crds = numpy.genfromtxt(filename,skip_header=2,max_rows=nn)
+        conns = numpy.genfromtxt(filename,skip_header=2+nn+3,max_rows=ne)
+        with open(avs_filename,'w') as fh:
+            fh.write('    %d    %d    0    0    0\n'%(nn,ne))
+            numpy.savetxt(fh,crds,fmt='%d %f %f %f')
+            if elem_type is None:
+                if elem_int == 8: elem_type = 'hex'
+                elif elem_int == 3: elem_type = 'tri'
+                elif elem_int == 4:
+                    if numpy.all(numpy.diff(crds[:,1])) == 0 or numpy.all(numpy.diff(crds[:,2])) == 0 or numpy.all(numpy.diff(crds[:,3])) == 0:
+                        elem_type = 'quad'
+                    else:
+                        elem_type = 'tet'
+            for conn in conns:
+                fh.write('%d 0 %s'%(conn[0],elem_type))
+                for i in range(elem_int):
+                    fh.write(' %d'%conn[i+1])
+                fh.write('\n')
+        return self.read(avs_filename)
+            
     def addmesh(self, mo1, mo2, style='add', name=None, *args):
         if isinstance(mo1,MO): mo1name = mo1.name
         elif isinstance(mo1,str): mo1name = mo1
@@ -1805,7 +1834,7 @@ class MO(object):
     def delete(self):
         self.sendline('cmo/delete/'+self.name)
         del self._parent.mo[self.name]
-    def create_boundary_facesets(self,stacked_layers=False,base_name=None):
+    def create_boundary_facesets(self,stacked_layers=False,base_name=None,reorder=False,external=True):
         '''
         Creates facesets for each boundary and writes associated avs faceset file
         :arg base_name: base name of faceset files
@@ -1817,7 +1846,7 @@ class MO(object):
         :returns: Dictionary of facesets
         '''
         if base_name is None: base_name = 'faceset_'+self.name
-        mo_surf = self.extract_surfmesh(reorder=True)
+        mo_surf = self.extract_surfmesh(reorder=reorder,external=external)
         mo_surf.addatt('id_side',type='vint',rank='scalar',length='nelements')
         mo_surf.settets_normal()
         mo_surf.copyatt('itetclr','id_side')
@@ -2562,6 +2591,14 @@ class MO(object):
         self.rmpoint_compress()
         self.recon(1)
         self.resetpts_itp()
+    def surface(self,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self._parent.surface.keys())
+        cmd = '/'.join(['surface',name,ibtype,'sheet',self.name])
+        self.sendline(cmd)
+        self._parent.surface[name] = Surface(name,self._parent)
+        return self._parent.surface[name]
+
  
 class Surface(object):
     ''' Surface class'''
