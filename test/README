@@ -1,15 +1,13 @@
 
 Directory to hold unit testing files.
 
-level01 tests are required for QA projects and test basic and required functionality.
-level02 tests are for certain select algorithms and advanced applications
-level03 tests are created by student or guest users
-
-run_test.py writes 2 summary files: diffout_$OS.txt and stdout_$OS.txt
-
 TO RUN AND CHECK ALL LEVEL01 AND LEVEL02: 
      edit suite.py to assign xlagrit to executable
      ./suite.py -f
+     grep successful */diffout*txt
+
+       level01/diffout_lin.txt:All 31 successful!
+       level02/diffout_lin.txt:All 4 successful!
  
 TO RUN AND CHECK LEVEL01 OR LEVEL02:   
      cd [level01 or level02]
@@ -22,6 +20,12 @@ TO RUN AND CHECK SINGLE TEST:
     lagrit < input.lgi
     diff outx3dgen reference/outx3dgen
 
+run_test.py writes 2 summary files: diffout_$OS.txt and stdout_$OS.txt
+
+level01 tests are required for QA projects and test basic and required functionality.
+level02 tests are for certain select algorithms and advanced applications
+level03 tests are created by student or guest users
 
 NOTES:
-	Windows doesn't automatically see .py files as python, so unless .py files are associated with the correct executable the shell command should be "python <target-script>"
+  Windows doesn't automatically see .py files as python, so unless .py files are associated 
+  with the correct executable the shell command should be "python <target-script>"

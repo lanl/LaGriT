@@ -6,6 +6,10 @@ See mm2000.F for a list of the memory routines.
 These files are seldom changed and compile into the lib_util_$OS.a library.
 Versions.txt for summary of changes and dates. 
 
+This Makefile checks for defined environment variables.
+List the variable definitions with command:
+   make list
+
 ====================================================
 Sample compile
 

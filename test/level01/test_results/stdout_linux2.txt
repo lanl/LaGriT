@@ -1,16 +1,16 @@
 Operating System:	linux2
-Executable:		/n/swdev/LAGRIT/VERS_3.108_016_AUG/lagrit/src/mylagrit
-Top directory:		/n/swdev/LAGRIT/VERS_3.108_016_AUG/lagrit/test/level01
+Executable:		/n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64-gcc4.8.4/lagrit
+Top directory:		/n/swdev/mesh_tools/lagrit/repos/LaGriT/test/level01
 Out file:		stdout_linux2.txt
-	On Thu Aug 25 12:59:15 2016
+	On Mon Oct 31 08:08:19 2016
  1  Test Directory addmesh_add -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:15          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:20          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -635,9 +635,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:18          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:21          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1048,9 +1048,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:18          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1546,9 +1546,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:19          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -2094,9 +2094,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:19          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:23          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -4024,9 +4024,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:20          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -5831,9 +5831,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:21          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6085,9 +6085,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:22          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6521,9 +6521,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:22          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -6952,9 +6952,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:22          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7166,9 +7166,9 @@ SparseMatrix using Epsilon 1.000000e-08
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:22          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:26          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -7732,9 +7732,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:23          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:27          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -9402,9 +9402,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:24          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:28          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -13462,9 +13462,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:26          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:29          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -17539,9 +17539,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:29          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:31          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -18234,9 +18234,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:29          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:31          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -19253,9 +19253,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:32          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:34          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -19943,9 +19943,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:33          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:34          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -20119,9 +20119,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:33          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:34          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -20451,9 +20451,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:33          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:35          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -22393,9 +22393,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:34          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:35          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -22879,9 +22879,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:35          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24256,9 +24256,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:36          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -24806,9 +24806,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:36          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -26436,9 +26436,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:36          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -26502,9 +26502,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:37          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -26843,9 +26843,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:37          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -27297,9 +27297,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:40          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -27802,9 +27802,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:40          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -27918,9 +27918,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:40          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -28052,9 +28052,9 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  12:59:43          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:39          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
