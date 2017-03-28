@@ -759,7 +759,7 @@ C
      *               nlstptl)
       if(nlstptl.ne.0) then
          write(logmess,9930) nlstptl
- 9930     format(' Dudding',i7,
+ 9930     format(' Dudding',i10,
      $             ' points that have no associated tetrahedra.')
          call writloga(cdefault,1,logmess,0,ierr)
          if(idebug.ge.6) then
@@ -776,7 +776,7 @@ C
             if(idebug.ge.6)
      *         write(iunit,*) i,xic(k),yic(k),zic(k),k,imt1(k)
             write(logmess,9940) xic(k),yic(k),zic(k),k,imt1(k)
- 9940          format(3e15.7,x,2i7)
+ 9940          format(3e15.7,x,2i10)
             if(i.le.30)then
                call writloga(cdefault,0,logmess,0,ierr)
                call writloga('bat',0,logmess,0,ierr)

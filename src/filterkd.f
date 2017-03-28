@@ -519,7 +519,7 @@ c ELTS FOR NODE I GET REMOVED
       enddo
 C     
  9900 write(logmess,9930) icount
- 9930    format('FILTERKD:Dudding', i7, ' duplicate points.')
+ 9930    format('FILTERKD:Dudding duplicate points: ',1x,i10)
          call writloga('default',1,logmess,0,ierrw)
 C
 C     ******************************************************************

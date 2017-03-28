@@ -549,7 +549,7 @@ C
       endif
 
          write(logmess,9930) icount
- 9930    format('FILTER:Dudding', i7, ' duplicate points.')
+ 9930    format('FILTER:Dudding duplicate points: ',1x,i10)
          call writloga('default',1,logmess,0,ierrw)
 C
 C     ******************************************************************
@@ -1154,7 +1154,7 @@ C
 C
       if(icount.gt.0) then
          write(logmess,9930) icount
- 9930    format(' Dudding', i7, ' duplicate points.')
+ 9930    format(' Dudding duplicate points: ',1x,i10)
          call writloga('default',1,logmess,0,ierrw)
       endif
 C
