@@ -2,23 +2,24 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.102   Linux m64      *                 
-*               *    date_compile: 2013/11/12  RH gf4.5       *                 
-*               *    Run Time: 2015/Mar 18  12:16:16          *                 
+*               *    Program:  LaGriT V3.201   Linux m64      *                 
+*               *    date_compile: 2017/03/27  Ubu 14         *                 
+*               *    Run Time: 2017/Mar 28  10:21:28          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-                           LaGriT V3 LACC-2012-084                              
-LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
-at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
-with the U.S. Department of Energy (DOE). All rights in the program are reserved
-by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
-public to copy and use this software without charge, provided that this Notice  
-and any statement of authorship are reproduced on all copies. Neither the       
-U.S. Government nor LANS makes any warranty, express or implied, or assumes     
-any liability or responsibility for the use of this software.                   
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
+under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
+Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
+for the U.S. Department of Energy. The U.S. Government has rights to use,       
+reproduce, and distribute this software. Neither the  government nor Los Alamos 
+National Security, LLC makes any warranty, express or  implied, or assumes any  
+liability for the use of this software. If software is modified to produce      
+derivative works, such modified software should be  clearly marked, so as not   
+to confuse it with the version available from LANL.                             
                                -----oOo-----                                    
  
  
@@ -45,6 +46,64 @@ The current-mesh-object(CMO) is: cmo
  
 finish                                                                          
 * begin compare fehm                                                            
+* write coordinate file only                                                    
+dump/coord/output_coord/cmo                                                     
+Writing FEHM coord/geom file: output_coord.fehm                                 
+* write material zone file only                                                 
+dump/zone_imt/output_imt/cmo                                                    
+*********dump_material_lists********                                            
+Minimum material ID value =      1                                              
+Maximum material ID value =      1                                              
+Total possible materials  =      1                                              
+Material           1 has         8 nodes. #nodes/nnodes is    1.00000000000     
+* write outside zone file only                                                  
+dump/zone_outside/output_out/cmo                                                
+*********dump_outside_list********                                              
+Voronoi Areas used for outside faces.                                           
+ 
+assign_quadrant_id epsilon for zero:   1.0000000E-15                            
+cmo/addatt/cmo/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/               
+finish                                                                          
+Face top           1 has         4 nodes.                                       
+top        Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
+cmo/addatt/cmo/bottom/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
+finish                                                                          
+Face bottom        2 has         4 nodes.                                       
+bottom     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
+cmo/addatt/cmo/left_w/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
+finish                                                                          
+Face left_w        3 has         4 nodes.                                       
+left_w     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
+cmo/addatt/cmo/right_e/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
+finish                                                                          
+Face right_e       5 has         4 nodes.                                       
+right_e    Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
+cmo/addatt/cmo/back_n/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
+finish                                                                          
+Face back_n        6 has         4 nodes.                                       
+back_n     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
+cmo/addatt/cmo/front_s/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
+finish                                                                          
+Face front_s       4 has         4 nodes.                                       
+front_s    Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
+cmo/DELATT//top                                                                 
+finish                                                                          
+cmo/DELATT//bottom                                                              
+finish                                                                          
+cmo/DELATT//left_w                                                              
+finish                                                                          
+cmo/DELATT//right_e                                                             
+finish                                                                          
+cmo/DELATT//back_n                                                              
+finish                                                                          
+cmo/DELATT//front_s                                                             
+finish                                                                          
 * dump FEHM files                                                               
 dump/fehm/outbin/cmo/binary//scalar                                             
 *** Write FEHMN GEOM AND ZONE FILES ***                                         

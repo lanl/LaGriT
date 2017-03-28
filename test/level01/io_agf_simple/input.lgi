@@ -6,6 +6,16 @@
 read / avs / input_unit_tet.inp / cmo
 
 * begin compare fehm
+
+* write coordinate file only
+dump / coord / output_coord / cmo 
+
+* write material zone file only
+dump / zone_imt / output_imt / cmo 
+
+* write outside zone file only
+dump / zone_outside / output_out / cmo 
+
 * dump FEHM files
 dump / fehm / outbin / cmo / binary / / scalar
 dump / fehm / outascii / cmo / ascii / / scalar
