@@ -2,22 +2,24 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  10:58:10          *                 
+*               *    Program:  LaGriT V3.201   Linux m64      *                 
+*               *    date_compile: 2017/03/27  Ubu 14         *                 
+*               *    Run Time: 2017/Mar 28  10:33:53          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
-at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
-with the U.S. Department of Energy (DOE). All rights in the program are reserved
-by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
-public to copy and use this software without charge, provided that this Notice  
-and any statement of authorship are reproduced on all copies. Neither the       
-U.S. Government nor LANS makes any warranty, express or implied, or assumes     
-any liability or responsibility for the use of this software.                   
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
+under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
+Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
+for the U.S. Department of Energy. The U.S. Government has rights to use,       
+reproduce, and distribute this software. Neither the  government nor Los Alamos 
+National Security, LLC makes any warranty, express or  implied, or assumes any  
+liability for the use of this software. If software is modified to produce      
+derivative works, such modified software should be  clearly marked, so as not   
+to confuse it with the version available from LANL.                             
                                -----oOo-----                                    
  
  
@@ -58,12 +60,12 @@ finish
 Element iteration:          1        27                                         
 Octree refined elems: old=        50 new=       266                             
  
- Dudding    204 duplicate points.                                               
+ Dudding duplicate points:         204                                          
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 * do it again                                                                   
@@ -83,23 +85,23 @@ refine hex     :        175
 Element iteration:          1       148                                         
 Octree refined elems: old=       266 new=      1450                             
  
- Dudding   1371 duplicate points.                                               
+ Dudding duplicate points:        1371                                          
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         7                                         
 Octree refined elems: old=      1450 new=      1506                             
  
- Dudding     71 duplicate points.                                               
+ Dudding duplicate points:          71                                          
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding      7 duplicate points.                                         
+FILTER:Dudding duplicate points:           7                                    
 geniee                                                                          
 finish                                                                          
 * do it again                                                                   
@@ -119,23 +121,23 @@ refine hex     :        995
 Element iteration:          1       820                                         
 Octree refined elems: old=      1506 new=      8066                             
  
- Dudding   8394 duplicate points.                                               
+ Dudding duplicate points:        8394                                          
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1        32                                         
 Octree refined elems: old=      8066 new=      8322                             
  
- Dudding    330 duplicate points.                                               
+ Dudding duplicate points:         330                                          
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding     36 duplicate points.                                         
+FILTER:Dudding duplicate points:          36                                    
 geniee                                                                          
 finish                                                                          
 * set colors                                                                    

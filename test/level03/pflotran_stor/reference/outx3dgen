@@ -2,23 +2,24 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.101   Linux m64      *                 
-*               *    date_compile: 2013/04/16  RH gf4.5       *                 
-*               *    Run Time: 2013/Apr 19  11:45:09          *                 
+*               *    Program:  LaGriT V3.201   Linux m64      *                 
+*               *    date_compile: 2017/03/27  Ubu 14         *                 
+*               *    Run Time: 2017/Mar 28  11:53:28          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-                           LaGriT V3 LACC-2012-084                              
-LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
-at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
-with the U.S. Department of Energy (DOE). All rights in the program are reserved
-by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
-public to copy and use this software without charge, provided that this Notice  
-and any statement of authorship are reproduced on all copies. Neither the       
-U.S. Government nor LANS makes any warranty, express or implied, or assumes     
-any liability or responsibility for the use of this software.                   
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
+under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
+Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
+for the U.S. Department of Energy. The U.S. Government has rights to use,       
+reproduce, and distribute this software. Neither the  government nor Los Alamos 
+National Security, LLC makes any warranty, express or  implied, or assumes any  
+liability for the use of this software. If software is modified to produce      
+derivative works, such modified software should be  clearly marked, so as not   
+to confuse it with the version available from LANL.                             
                                -----oOo-----                                    
  
  
@@ -516,8 +517,11 @@ dump/stor/hex_1x1m/mohex
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         0                 
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
 AMatbld3d_stor: npoints =        8  ncoefs =         32                         
 AMatbld3d_stor: Number of unique coefs =         2                              
 AMatbld3d_stor: Maximum num. connections to a node =          4                 
@@ -541,8 +545,11 @@ dump/pflotran/hex_1x1m/mohex
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         0                 
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
 AMatbld3d_stor: npoints =        8  ncoefs =         32                         
 AMatbld3d_stor: Number of unique coefs =         2                              
 AMatbld3d_stor: Maximum num. connections to a node =          4                 
@@ -577,8 +584,11 @@ dump/pflotran/hex_1x1m/mohex/nofilter_zero
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         0                 
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
 AMatbld3d_stor: npoints =        8  ncoefs =         32                         
 AMatbld3d_stor: Number of unique coefs =         2                              
 AMatbld3d_stor: Maximum num. connections to a node =          4                 
@@ -667,8 +677,11 @@ dump/stor/hex_3x4_pts/mohex
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         2                 
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         2               
 AMatbld3d_stor: npoints =       24  ncoefs =        120                         
 AMatbld3d_stor: Number of unique coefs =         8                              
 AMatbld3d_stor: Maximum num. connections to a node =          7                 
@@ -692,8 +705,11 @@ dump/pflotran/hex_3x4_pts/mohex
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         2                 
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         2               
 AMatbld3d_stor: npoints =       24  ncoefs =        120                         
 AMatbld3d_stor: Number of unique coefs =         8                              
 AMatbld3d_stor: Maximum num. connections to a node =          7                 
@@ -730,8 +746,11 @@ dump/pflotran/hex_3x4_pts/mohex/nofilter_zero
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         2                 
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         2               
 AMatbld3d_stor: npoints =       24  ncoefs =        120                         
 AMatbld3d_stor: Number of unique coefs =         8                              
 AMatbld3d_stor: Maximum num. connections to a node =          7                 
@@ -839,8 +858,11 @@ dump pflotran sample_tet motet
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
 AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         0                 
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
 AMatbld3d_stor: npoints =       60  ncoefs =        570                         
 AMatbld3d_stor: Number of unique coefs =       163                              
 AMatbld3d_stor: Maximum num. connections to a node =         15                 

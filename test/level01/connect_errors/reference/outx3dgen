@@ -2,23 +2,24 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.108   Linux m64      *                 
-*               *    date_compile: 2016/08/22  Ubu gf         *                 
-*               *    Run Time: 2016/Aug 25  11:43:13          *                 
+*               *    Program:  LaGriT V3.201   Linux m64      *                 
+*               *    date_compile: 2017/03/27  Ubu 14         *                 
+*               *    Run Time: 2017/Mar 28  10:33:42          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-                          LaGriT V3 LA-CC-15-069                                
-LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
-at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
-with the U.S. Department of Energy (DOE). All rights in the program are reserved
-by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
-public to copy and use this software without charge, provided that this Notice  
-and any statement of authorship are reproduced on all copies. Neither the       
-U.S. Government nor LANS makes any warranty, express or implied, or assumes     
-any liability or responsibility for the use of this software.                   
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
+under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
+Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
+for the U.S. Department of Energy. The U.S. Government has rights to use,       
+reproduce, and distribute this software. Neither the  government nor Los Alamos 
+National Security, LLC makes any warranty, express or  implied, or assumes any  
+liability for the use of this software. If software is modified to produce      
+derivative works, such modified software should be  clearly marked, so as not   
+to confuse it with the version available from LANL.                             
                                -----oOo-----                                    
  
  
@@ -153,15 +154,15 @@ ERROR END: delaunay2d
  
              Warning from: connect2d                         set info 0 elements
  
- Dudding      4 points that have no associated tetrahedra.                      
-  0.1000000E+04  0.0000000E+00  0.0000000E+00       1      1                    
-  0.1000000E+04  0.0000000E+00  0.0000000E+00       1      1                    
-  0.1001000E+04  0.0000000E+00  0.0000000E+00       2      1                    
-  0.1001000E+04  0.0000000E+00  0.0000000E+00       2      1                    
-  0.1000000E+04  0.1000000E+01  0.0000000E+00       3      1                    
-  0.1000000E+04  0.1000000E+01  0.0000000E+00       3      1                    
-  0.1001000E+04  0.1000000E+01  0.0000000E+00       4      1                    
-  0.1001000E+04  0.1000000E+01  0.0000000E+00       4      1                    
+ Dudding         4 points that have no associated tetrahedra.                   
+  0.1000000E+04  0.0000000E+00  0.0000000E+00          1         1              
+  0.1000000E+04  0.0000000E+00  0.0000000E+00          1         1              
+  0.1001000E+04  0.0000000E+00  0.0000000E+00          2         1              
+  0.1001000E+04  0.0000000E+00  0.0000000E+00          2         1              
+  0.1000000E+04  0.1000000E+01  0.0000000E+00          3         1              
+  0.1000000E+04  0.1000000E+01  0.0000000E+00          3         1              
+  0.1001000E+04  0.1000000E+01  0.0000000E+00          4         1              
+  0.1001000E+04  0.1000000E+01  0.0000000E+00          4         1              
  
  The mesh is complete but could not include all points.                         
  Number of points that could not be connected:          4                       
@@ -326,23 +327,23 @@ ERROR END: delaunay
  
              Warning from: connect                           set info 0 elements
  
- Dudding      8 points that have no associated tetrahedra.                      
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       1      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       1      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       2      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       2      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       3      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       3      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       4      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       4      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       5      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       5      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       6      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       6      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       7      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       7      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       8      1                    
-  0.0000000E+00  0.0000000E+00  0.0000000E+00       8      1                    
+ Dudding         8 points that have no associated tetrahedra.                   
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          1         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          1         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          2         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          2         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          3         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          3         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          4         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          4         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          5         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          5         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          6         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          6         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          7         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          7         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          8         1              
+  0.0000000E+00  0.0000000E+00  0.0000000E+00          8         1              
  
  The mesh is complete but could not include all points.                         
  Number of points that could not be connected:          8                       

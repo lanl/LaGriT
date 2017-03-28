@@ -2,22 +2,24 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.005   Linux m64      *                 
-*               *    date_compile: 2012/06/15  gfort 4.5      *                 
-*               *    Run Time: 2012/Jul  2  11:59:27          *                 
+*               *    Program:  LaGriT V3.201   Linux m64      *                 
+*               *    date_compile: 2017/03/27  Ubu 14         *                 
+*               *    Run Time: 2017/Mar 28  11:52:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
-at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
-with the U.S. Department of Energy (DOE). All rights in the program are reserved
-by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
-public to copy and use this software without charge, provided that this Notice  
-and any statement of authorship are reproduced on all copies. Neither the       
-U.S. Government nor LANS makes any warranty, express or implied, or assumes     
-any liability or responsibility for the use of this software.                   
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
+under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
+Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
+for the U.S. Department of Energy. The U.S. Government has rights to use,       
+reproduce, and distribute this software. Neither the  government nor Los Alamos 
+National Security, LLC makes any warranty, express or  implied, or assumes any  
+liability for the use of this software. If software is modified to produce      
+derivative works, such modified software should be  clearly marked, so as not   
+to confuse it with the version available from LANL.                             
                                -----oOo-----                                    
  
  
@@ -79,7 +81,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -125,7 +127,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -171,7 +173,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -217,7 +219,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -263,7 +265,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -309,7 +311,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -812,7 +814,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -852,7 +854,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -892,7 +894,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -932,7 +934,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -972,7 +974,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -1012,7 +1014,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 finish                                                                          
@@ -1157,7 +1159,7 @@ element volumes b/w  0.1289E-02 and  0.6801E-02:         3
 element volumes b/w  0.6801E-02 and  0.3590E-01:         3                      
 element volumes b/w  0.3590E-01 and  0.1895E+00:         3                      
 element volumes b/w  0.1895E+00 and  0.1000E+01:         6                      
-min volume =   2.4414063E-04  max volume =   1.0000000E+00                      
+min volume =   2.4414062E-04  max volume =   1.0000000E+00                      
 -----------------------------------------------------------                     
         22 total elements evaluated.                                            
  
@@ -1381,7 +1383,7 @@ element volumes b/w  0.1289E-02 and  0.6801E-02:         3
 element volumes b/w  0.6801E-02 and  0.3590E-01:         3                      
 element volumes b/w  0.3590E-01 and  0.1895E+00:         3                      
 element volumes b/w  0.1895E+00 and  0.1000E+01:         6                      
-min volume =   2.4414063E-04  max volume =   1.0000000E+00                      
+min volume =   2.4414062E-04  max volume =   1.0000000E+00                      
 -----------------------------------------------------------                     
         22 total elements evaluated.                                            
  
@@ -1508,12 +1510,12 @@ finish
 Element iteration:          1        27                                         
 Octree refined elems: old=        50 new=       266                             
  
- Dudding    204 duplicate points.                                               
+ Dudding duplicate points:         204                                          
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 * do it again                                                                   
@@ -1533,23 +1535,23 @@ refine hex     :        175
 Element iteration:          1       148                                         
 Octree refined elems: old=       266 new=      1450                             
  
- Dudding   1371 duplicate points.                                               
+ Dudding duplicate points:        1371                                          
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         7                                         
 Octree refined elems: old=      1450 new=      1506                             
  
- Dudding     71 duplicate points.                                               
+ Dudding duplicate points:          71                                          
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding      7 duplicate points.                                         
+FILTER:Dudding duplicate points:           7                                    
 geniee                                                                          
 finish                                                                          
 * do it again                                                                   
@@ -1569,23 +1571,23 @@ refine hex     :        995
 Element iteration:          1       820                                         
 Octree refined elems: old=      1506 new=      8066                             
  
- Dudding   8394 duplicate points.                                               
+ Dudding duplicate points:        8394                                          
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1        32                                         
 Octree refined elems: old=      8066 new=      8322                             
  
- Dudding    330 duplicate points.                                               
+ Dudding duplicate points:         330                                          
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding     36 duplicate points.                                         
+FILTER:Dudding duplicate points:          36                                    
 geniee                                                                          
 finish                                                                          
 * set colors                                                                    
@@ -1923,23 +1925,5 @@ error in command : grid2grid/tree_to_fe/a/b/c
 grid2grid/tree_to_fe/1                                                          
 ERROR tree_to_fe: Argument 3 must be of type character.                         
 error in command : grid2grid/tree_to_fe/1                                       
-grid2grid/quadtotri4/tetplane/quadplane                                         
-hextotet/4/tetplane/quadplane                                                   
- iremove_vol=   0 iremove_dup=   0 icheckpt=   1                                
-Input Mesh type qua using option    4                                           
-Element Material ID, min/max/range:          1         1         0              
-Epsilon-dist, distmax, distmin:  -1.0000000E-06  1.0000000E+00  2.4414063E-04   
-Epsilon-volume, volmax:   1.0000000E-06  1.0000000E+00                          
-cmo/addatt/tetplane/iign/vint/scalar/nnodes/-def-/-def-/gx/-def-                
-finish                                                                          
-  WARNING: Volumes le zero not removed, nelements=         88                   
-No duplicate points                                                             
-  WARNING: Duplicate points not removed, nnodes =         61                    
-finish                                                                          
-cmo/DELATT/tetplane/itetkid                                                     
-cmo/DELATT/tetplane/itetlev                                                     
-grid2grid/tree_to_fe/tetplane2/tetplane                                         
-ERROR tree_to_fe: mesh object is not a quad/octree                              
-error in command : grid2grid/tree_to_fe/tetplane2/tetplane                      
 finish                                                                          
 LaGriT successfully completed                                                   

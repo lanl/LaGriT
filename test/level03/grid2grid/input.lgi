@@ -50,6 +50,10 @@ grid2grid / tree_to_fe / cmo_hex_flat / cmo_hex
 * Test the error cases
 grid2grid / tree_to_fe / a / b / c
 grid2grid / tree_to_fe / 1
+
+finish
+
+* these errors are ill-defined
 grid2grid / quadtotri4 / tetplane / quadplane
 cmo / DELATT / tetplane / itetkid
 cmo / DELATT / tetplane / itetlev

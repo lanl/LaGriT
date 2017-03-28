@@ -2,22 +2,24 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.001   Linux m64      *                 
-*               *    date_compile: 2011/08/01  gfort 4.5      *                 
-*               *    Run Time: 2011/Aug 31  10:58:10          *                 
+*               *    Program:  LaGriT V3.201   Linux m64      *                 
+*               *    date_compile: 2017/03/27  Ubu 14         *                 
+*               *    Run Time: 2017/Mar 28  10:33:54          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
-at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
-with the U.S. Department of Energy (DOE). All rights in the program are reserved
-by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
-public to copy and use this software without charge, provided that this Notice  
-and any statement of authorship are reproduced on all copies. Neither the       
-U.S. Government nor LANS makes any warranty, express or implied, or assumes     
-any liability or responsibility for the use of this software.                   
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
+under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
+Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
+for the U.S. Department of Energy. The U.S. Government has rights to use,       
+reproduce, and distribute this software. Neither the  government nor Los Alamos 
+National Security, LLC makes any warranty, express or  implied, or assumes any  
+liability for the use of this software. If software is modified to produce      
+derivative works, such modified software should be  clearly marked, so as not   
+to confuse it with the version available from LANL.                             
                                -----oOo-----                                    
  
  
@@ -89,7 +91,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -155,7 +157,7 @@ nlist =              2 sink nnodes =             75 mmgetlen =           1037
 nlist =             12 sink nnodes =             75 mmgetlen =           1037   
 nlist =             24 sink nnodes =             75 mmgetlen =           1037   
  
- Dudding      5 duplicate points.                                               
+ Dudding duplicate points:           5                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -166,7 +168,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -219,7 +221,7 @@ Octree(PRD) refined elems: old=        28 new=        44
 nlist =              8 sink nnodes =            110 mmgetlen =           1070   
 nlist =             32 sink nnodes =            110 mmgetlen =           1070   
  
- Dudding     15 duplicate points.                                               
+ Dudding duplicate points:          15                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -230,7 +232,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -283,7 +285,7 @@ Octree(PRD) refined elems: old=        44 new=        60
 nlist =              8 sink nnodes =            135 mmgetlen =           1095   
 nlist =             32 sink nnodes =            135 mmgetlen =           1095   
  
- Dudding     15 duplicate points.                                               
+ Dudding duplicate points:          15                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -294,7 +296,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -347,7 +349,7 @@ Octree(PRD) refined elems: old=        60 new=        76
 nlist =              8 sink nnodes =            160 mmgetlen =           1120   
 nlist =             32 sink nnodes =            160 mmgetlen =           1120   
  
- Dudding     15 duplicate points.                                               
+ Dudding duplicate points:          15                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -358,7 +360,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -413,7 +415,7 @@ Octree(PRD) refined elems: old=        76 new=       140
 nlist =             32 sink nnodes =            305 mmgetlen =           1145   
 nlist =            128 sink nnodes =            305 mmgetlen =           1145   
  
- Dudding     80 duplicate points.                                               
+ Dudding duplicate points:          80                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -424,7 +426,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         8                                         
@@ -432,7 +434,7 @@ Octree(PRD) refined elems: old=       140 new=       172
 nlist =             16 sink nnodes =            385 mmgetlen =           1305   
 nlist =             64 sink nnodes =            385 mmgetlen =           1305   
  
- Dudding     40 duplicate points.                                               
+ Dudding duplicate points:          40                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -443,7 +445,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         8                                         
@@ -451,7 +453,7 @@ Octree(PRD) refined elems: old=       172 new=       204
 nlist =             16 sink nnodes =            465 mmgetlen =           1385   
 nlist =             64 sink nnodes =            465 mmgetlen =           1385   
  
- Dudding     40 duplicate points.                                               
+ Dudding duplicate points:          40                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -462,7 +464,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         8                                         
@@ -470,7 +472,7 @@ Octree(PRD) refined elems: old=       204 new=       236
 nlist =             16 sink nnodes =            545 mmgetlen =           1465   
 nlist =             64 sink nnodes =            545 mmgetlen =           1465   
  
- Dudding     40 duplicate points.                                               
+ Dudding duplicate points:          40                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -481,7 +483,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         4                                         
@@ -489,7 +491,7 @@ Octree(PRD) refined elems: old=       236 new=       252
 nlist =              8 sink nnodes =            585 mmgetlen =           1545   
 nlist =             32 sink nnodes =            585 mmgetlen =           1545   
  
- Dudding     16 duplicate points.                                               
+ Dudding duplicate points:          16                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -500,7 +502,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         2                                         
@@ -508,7 +510,7 @@ Octree(PRD) refined elems: old=       252 new=       260
 nlist =              4 sink nnodes =            605 mmgetlen =           1585   
 nlist =             16 sink nnodes =            605 mmgetlen =           1585   
  
- Dudding      4 duplicate points.                                               
+ Dudding duplicate points:           4                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -519,7 +521,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -577,7 +579,7 @@ Octree(PRD) refined elems: old=       260 new=       404
 nlist =             72 sink nnodes =            745 mmgetlen =           1385   
 nlist =            288 sink nnodes =            745 mmgetlen =           1385   
  
- Dudding    195 duplicate points.                                               
+ Dudding duplicate points:         195                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -588,7 +590,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -665,7 +667,7 @@ nlist =            144 sink nnodes =           3286 mmgetlen =           3526
 nlist =            864 sink nnodes =           3286 mmgetlen =           3526   
 nlist =           1728 sink nnodes =           3286 mmgetlen =           3526   
  
- Dudding   1460 duplicate points.                                               
+ Dudding duplicate points:        1460                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -676,7 +678,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1        24                                         
@@ -685,7 +687,7 @@ nlist =             24 sink nnodes =           3742 mmgetlen =           4286
 nlist =            144 sink nnodes =           3742 mmgetlen =           4286   
 nlist =            288 sink nnodes =           3742 mmgetlen =           4286   
  
- Dudding    244 duplicate points.                                               
+ Dudding duplicate points:         244                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -696,7 +698,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1        16                                         
@@ -705,7 +707,7 @@ nlist =             16 sink nnodes =           4046 mmgetlen =           4742
 nlist =             96 sink nnodes =           4046 mmgetlen =           4742   
 nlist =            192 sink nnodes =           4046 mmgetlen =           4742   
  
- Dudding    150 duplicate points.                                               
+ Dudding duplicate points:         150                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -716,7 +718,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         4                                         
@@ -725,7 +727,7 @@ nlist =              4 sink nnodes =           4122 mmgetlen =           5046
 nlist =             24 sink nnodes =           4122 mmgetlen =           5046   
 nlist =             48 sink nnodes =           4122 mmgetlen =           5046   
  
- Dudding     37 duplicate points.                                               
+ Dudding duplicate points:          37                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -736,7 +738,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -881,7 +883,7 @@ nlist =              4 sink nnodes =             94 mmgetlen =           1018
 nlist =             24 sink nnodes =             94 mmgetlen =           1018   
 nlist =             48 sink nnodes =             94 mmgetlen =           1018   
  
- Dudding     19 duplicate points.                                               
+ Dudding duplicate points:          19                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -892,7 +894,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.104148151432E-11                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -942,7 +944,7 @@ Octree(PRD) refined elems: old=        36 new=       108
 nlist =             36 sink nnodes =            255 mmgetlen =           1075   
 nlist =            144 sink nnodes =            255 mmgetlen =           1075   
  
- Dudding     88 duplicate points.                                               
+ Dudding duplicate points:          88                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -953,7 +955,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.104148151432E-11                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -1029,7 +1031,7 @@ Octree(PRD) refined elems: old=         8 new=        32
 nlist =              6 sink nnodes =             45 mmgetlen =           1015   
 nlist =             24 sink nnodes =             45 mmgetlen =           1015   
  
- Dudding      7 duplicate points.                                               
+ Dudding duplicate points:           7                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -1040,7 +1042,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.157009245868E-11                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -1230,7 +1232,7 @@ Element iteration:          1        11
 Octree(PRD) refined elems: old=        32 new=        54                        
 nlist =             22 sink nnodes =             67 mmgetlen =           1045   
  
- Dudding      7 duplicate points.                                               
+ Dudding duplicate points:           7                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -1241,7 +1243,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.157009245868E-11                       
  
-FILTER:Dudding      0 duplicate points.                                         
+FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
  geniee: mesh has                    11  jtet loops, max cycle length=          
                                                                                4

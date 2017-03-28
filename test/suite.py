@@ -57,7 +57,7 @@ def main(argv=None):
 
 	# xlagrit = "Y:/yanki/lagrit/src/mylagrit"
 	# xlagrit = "Y:/yanki/lagrit-mingw/lagrit_pnnl_win64/lagrit_pnnl_win64"
-	xlagrit = "/n/swdev/LAGRIT/VERS_3.108_016_AUG/lagrit/src/mylagrit"
+	xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64/3.2.0/dev/gcc-4.8.4/lagrit"
 
         dtop = os.getcwd() 
 
