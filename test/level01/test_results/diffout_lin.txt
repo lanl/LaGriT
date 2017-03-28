@@ -1,4 +1,4 @@
-Start in directory: /n/swdev/LAGRIT/VERS_3.108_016_AUG/lagrit/test/level01 at Thu Aug 25 12:59:49 2016
+Start in directory: /n/swdev/mesh_tools/lagrit/repos/LaGriT/test/level01 at Mon Oct 31 08:08:44 2016
 
 Diff Summary ===================================================================
 
@@ -16,15 +16,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./addmesh_add/reference/outx3dgen	Wed Aug 24 13:21:03 2016
-+++ ./addmesh_add/outx3dgen	Thu Aug 25 12:56:20 2016
+--- ./addmesh_add/reference/outx3dgen	Mon Oct 24 15:40:48 2016
++++ ./addmesh_add/outx3dgen	Mon Oct 31 08:19:38 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.006   Linux m64      *                 
 -*               *    date_compile: 2012/07/19  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul 19  16:52:39          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:15          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:20          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -58,15 +58,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./addmesh_append/reference/outx3dgen	Wed Aug 24 13:21:03 2016
-+++ ./addmesh_append/outx3dgen	Thu Aug 25 12:56:20 2016
+--- ./addmesh_append/reference/outx3dgen	Mon Oct 24 15:40:48 2016
++++ ./addmesh_append/outx3dgen	Mon Oct 31 08:19:39 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:02          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:18          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:21          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 @@ -92 +92,0 @@
@@ -96,15 +96,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./addmesh_doublemesh/reference/outx3dgen	Wed Aug 24 13:21:04 2016
-+++ ./addmesh_doublemesh/outx3dgen	Thu Aug 25 12:56:21 2016
+--- ./addmesh_doublemesh/reference/outx3dgen	Mon Oct 24 15:40:48 2016
++++ ./addmesh_doublemesh/outx3dgen	Mon Oct 31 08:19:39 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:02          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:18          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:22          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -126,15 +126,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./addmesh_merge/reference/outx3dgen	Wed Aug 24 13:21:04 2016
-+++ ./addmesh_merge/outx3dgen	Thu Aug 25 12:56:21 2016
+--- ./addmesh_merge/reference/outx3dgen	Mon Oct 24 15:40:48 2016
++++ ./addmesh_merge/outx3dgen	Mon Oct 31 08:19:40 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.101   Linux m64      *                 
 -*               *    date_compile: 2013/04/16  RH gf4.5       *                 
 -*               *    Run Time: 2013/Apr 19  11:32:32          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:19          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:22          *                 
 @@ -13 +13 @@
 -                           LaGriT V3 LACC-2012-084                              
 +                          LaGriT V3 LA-CC-15-069                                
@@ -157,15 +157,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./cmo_addatt_normals/reference/outx3dgen	Wed Aug 24 13:21:05 2016
-+++ ./cmo_addatt_normals/outx3dgen	Thu Aug 25 12:56:22 2016
+--- ./cmo_addatt_normals/reference/outx3dgen	Mon Oct 24 15:40:48 2016
++++ ./cmo_addatt_normals/outx3dgen	Mon Oct 31 08:19:41 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.101   Linux m64      *                 
 -*               *    date_compile: 2013/04/16  RH gf4.5       *                 
 -*               *    Run Time: 2013/Apr 18  10:26:05          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:19          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:23          *                 
 @@ -13 +13 @@
 -                           LaGriT V3 LACC-2012-084                              
 +                          LaGriT V3 LA-CC-15-069                                
@@ -188,15 +188,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./cmo_readatt/reference/outx3dgen	Wed Aug 24 13:21:05 2016
-+++ ./cmo_readatt/outx3dgen	Thu Aug 25 12:56:23 2016
+--- ./cmo_readatt/reference/outx3dgen	Mon Oct 24 15:40:48 2016
++++ ./cmo_readatt/outx3dgen	Mon Oct 31 08:19:41 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/29  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul  9  07:58:22          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:20          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:24          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -218,15 +218,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./connect_cube/reference/outx3dgen	Wed Aug 24 13:21:06 2016
-+++ ./connect_cube/outx3dgen	Thu Aug 25 12:56:23 2016
+--- ./connect_cube/reference/outx3dgen	Mon Oct 24 15:40:48 2016
++++ ./connect_cube/outx3dgen	Mon Oct 31 08:19:42 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:02          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:21          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:24          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -236,19 +236,24 @@ Diff Summary ===================================================================
 
 8 Check Directory ./connect_errors --------------------------
 
-Test has 0 diffs at line 7 >>
-Lines Essentially the Same: 0 out of 0
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 8 Done with Directory ./connect_errors -----------------------
 Check done.
 
 Full Report from diff =========================================================
 
---- ./connect_errors/reference/outx3dgen	Thu Aug 25 11:54:28 2016
-+++ ./connect_errors/outx3dgen	Thu Aug 25 12:56:23 2016
-@@ -7 +7 @@
+--- ./connect_errors/reference/outx3dgen	Mon Oct 24 15:40:48 2016
++++ ./connect_errors/outx3dgen	Mon Oct 31 08:19:42 2016
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.108   Linux m64      *                 
+-*               *    date_compile: 2016/08/22  Ubu gf         *                 
 -*               *    Run Time: 2016/Aug 25  11:43:13          *                 
-+*               *    Run Time: 2016/Aug 25  12:59:22          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:25          *                 
 
 End Report from diff =========================================================
 
@@ -268,15 +273,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./createpts/reference/outx3dgen	Wed Aug 24 13:21:06 2016
-+++ ./createpts/outx3dgen	Thu Aug 25 12:56:23 2016
+--- ./createpts/reference/outx3dgen	Mon Oct 24 15:40:48 2016
++++ ./createpts/outx3dgen	Mon Oct 31 08:19:42 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:03          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:22          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:25          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -298,15 +303,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./eltset/reference/outx3dgen	Wed Aug 24 13:21:07 2016
-+++ ./eltset/outx3dgen	Thu Aug 25 12:56:24 2016
+--- ./eltset/reference/outx3dgen	Mon Oct 24 15:40:48 2016
++++ ./eltset/outx3dgen	Mon Oct 31 08:19:43 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:20          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:22          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:25          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -328,15 +333,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./hybrid_volume/reference/outx3dgen	Wed Aug 24 13:21:07 2016
-+++ ./hybrid_volume/outx3dgen	Thu Aug 25 12:56:25 2016
+--- ./hybrid_volume/reference/outx3dgen	Mon Oct 24 15:40:49 2016
++++ ./hybrid_volume/outx3dgen	Mon Oct 31 08:19:44 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.102   Linux m64      *                 
 -*               *    date_compile: 2013/11/12  RH gf4.5       *                 
 -*               *    Run Time: 2015/Mar 18  12:16:07          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:22          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:26          *                 
 @@ -13 +13 @@
 -                           LaGriT V3 LACC-2012-084                              
 +                          LaGriT V3 LA-CC-15-069                                
@@ -359,15 +364,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./interp_continuous/reference/outx3dgen	Wed Aug 24 13:21:12 2016
-+++ ./interp_continuous/outx3dgen	Thu Aug 25 12:56:26 2016
+--- ./interp_continuous/reference/outx3dgen	Mon Oct 24 15:40:53 2016
++++ ./interp_continuous/outx3dgen	Mon Oct 31 08:19:45 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:03          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:23          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:27          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -389,15 +394,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./interp_map/reference/outx3dgen	Wed Aug 24 13:21:13 2016
-+++ ./interp_map/outx3dgen	Thu Aug 25 12:56:27 2016
+--- ./interp_map/reference/outx3dgen	Mon Oct 24 15:40:53 2016
++++ ./interp_map/outx3dgen	Mon Oct 31 08:19:46 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:04          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:24          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:28          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -419,15 +424,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./interp_voronoi/reference/outx3dgen	Wed Aug 24 13:21:14 2016
-+++ ./interp_voronoi/outx3dgen	Thu Aug 25 12:56:30 2016
+--- ./interp_voronoi/reference/outx3dgen	Mon Oct 24 15:40:53 2016
++++ ./interp_voronoi/outx3dgen	Mon Oct 31 08:19:48 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:05          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:26          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:29          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -449,15 +454,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./intersect/reference/outx3dgen	Wed Aug 24 13:21:14 2016
-+++ ./intersect/outx3dgen	Thu Aug 25 12:56:31 2016
+--- ./intersect/reference/outx3dgen	Mon Oct 24 15:40:53 2016
++++ ./intersect/outx3dgen	Mon Oct 31 08:19:48 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/29  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul  9  08:00:16          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:29          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:31          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -479,15 +484,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./intrp_2D_sizes/reference/outx3dgen	Wed Aug 24 13:21:16 2016
-+++ ./intrp_2D_sizes/outx3dgen	Thu Aug 25 12:56:34 2016
+--- ./intrp_2D_sizes/reference/outx3dgen	Mon Oct 24 15:40:54 2016
++++ ./intrp_2D_sizes/outx3dgen	Mon Oct 31 08:19:51 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.101   Linux m64      *                 
 -*               *    date_compile: 2013/04/25  RH gf4.5-g     *                 
 -*               *    Run Time: 2015/Mar 17  17:02:02          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:29          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:31          *                 
 @@ -13 +13 @@
 -                           LaGriT V3 LACC-2012-084                              
 +                          LaGriT V3 LA-CC-15-069                                
@@ -510,15 +515,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./io_agf_simple/reference/outx3dgen	Wed Aug 24 13:21:16 2016
-+++ ./io_agf_simple/outx3dgen	Thu Aug 25 12:56:34 2016
+--- ./io_agf_simple/reference/outx3dgen	Mon Oct 24 15:40:54 2016
++++ ./io_agf_simple/outx3dgen	Mon Oct 31 08:19:51 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.102   Linux m64      *                 
 -*               *    date_compile: 2013/11/12  RH gf4.5       *                 
 -*               *    Run Time: 2015/Mar 18  12:16:16          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:32          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:34          *                 
 @@ -13 +13 @@
 -                           LaGriT V3 LACC-2012-084                              
 +                          LaGriT V3 LA-CC-15-069                                
@@ -541,15 +546,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./pset/reference/outx3dgen	Wed Aug 24 13:21:16 2016
-+++ ./pset/outx3dgen	Thu Aug 25 12:56:35 2016
+--- ./pset/reference/outx3dgen	Mon Oct 24 15:40:54 2016
++++ ./pset/outx3dgen	Mon Oct 31 08:19:51 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/05/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Jul 29  08:45:49          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:33          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:34          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -571,15 +576,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./quad_quality/reference/outx3dgen	Wed Aug 24 13:21:17 2016
-+++ ./quad_quality/outx3dgen	Thu Aug 25 12:56:35 2016
+--- ./quad_quality/reference/outx3dgen	Mon Oct 24 15:40:54 2016
++++ ./quad_quality/outx3dgen	Mon Oct 31 08:19:52 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.101   Linux m64      *                 
 -*               *    date_compile: 2013/04/16  RH gf4.5       *                 
 -*               *    Run Time: 2013/Apr 18  16:03:26          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:33          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:34          *                 
 @@ -13 +13 @@
 -                           LaGriT V3 LACC-2012-084                              
 +                          LaGriT V3 LA-CC-15-069                                
@@ -602,15 +607,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./recon1/reference/outx3dgen	Wed Aug 24 13:21:18 2016
-+++ ./recon1/outx3dgen	Thu Aug 25 12:56:36 2016
+--- ./recon1/reference/outx3dgen	Mon Oct 24 15:40:54 2016
++++ ./recon1/outx3dgen	Mon Oct 31 08:19:52 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.100   Linux m64      *                 
 -*               *    date_compile: 2012/10/31   dev vers      *                 
 -*               *    Run Time: 2012/Nov 16  08:10:05          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:33          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:35          *                 
 @@ -13 +13 @@
 -                           LaGriT V3 LACC-2012-084                              
 +                          LaGriT V3 LA-CC-15-069                                
@@ -633,15 +638,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./refine_octree/reference/outx3dgen	Wed Aug 24 13:21:18 2016
-+++ ./refine_octree/outx3dgen	Thu Aug 25 12:56:37 2016
+--- ./refine_octree/reference/outx3dgen	Mon Oct 24 15:40:55 2016
++++ ./refine_octree/outx3dgen	Mon Oct 31 08:19:52 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:10          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:34          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:35          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -663,15 +668,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./refine_octree_prd/reference/outx3dgen	Wed Aug 24 13:21:18 2016
-+++ ./refine_octree_prd/outx3dgen	Thu Aug 25 12:56:38 2016
+--- ./refine_octree_prd/reference/outx3dgen	Mon Oct 24 15:40:55 2016
++++ ./refine_octree_prd/outx3dgen	Mon Oct 31 08:19:53 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:10          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:35          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -693,15 +698,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./refine_recon_quality/reference/outx3dgen	Wed Aug 24 13:21:18 2016
-+++ ./refine_recon_quality/outx3dgen	Thu Aug 25 12:56:38 2016
+--- ./refine_recon_quality/reference/outx3dgen	Mon Oct 24 15:40:55 2016
++++ ./refine_recon_quality/outx3dgen	Mon Oct 31 08:19:53 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.006   Linux m64      *                 
 -*               *    date_compile: 2012/07/19  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul 19  16:53:09          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:36          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -723,15 +728,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./rmpoint/reference/outx3dgen	Wed Aug 24 13:21:18 2016
-+++ ./rmpoint/outx3dgen	Thu Aug 25 12:56:38 2016
+--- ./rmpoint/reference/outx3dgen	Mon Oct 24 15:40:55 2016
++++ ./rmpoint/outx3dgen	Mon Oct 31 08:19:53 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:11          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:36          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -753,15 +758,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./rotateln/reference/outx3dgen	Wed Aug 24 13:21:18 2016
-+++ ./rotateln/outx3dgen	Thu Aug 25 12:56:38 2016
+--- ./rotateln/reference/outx3dgen	Mon Oct 24 15:40:55 2016
++++ ./rotateln/outx3dgen	Mon Oct 31 08:19:53 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  12:10:26          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:36          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -783,15 +788,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./setpts/reference/outx3dgen	Wed Aug 24 13:21:18 2016
-+++ ./setpts/outx3dgen	Thu Aug 25 12:56:38 2016
+--- ./setpts/reference/outx3dgen	Mon Oct 24 15:40:55 2016
++++ ./setpts/outx3dgen	Mon Oct 31 08:19:53 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:12          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:37          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -813,15 +818,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./smooth/reference/outx3dgen	Wed Aug 24 13:21:18 2016
-+++ ./smooth/outx3dgen	Thu Aug 25 12:56:41 2016
+--- ./smooth/reference/outx3dgen	Mon Oct 24 15:40:55 2016
++++ ./smooth/outx3dgen	Mon Oct 31 08:19:55 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.006   Linux m64      *                 
 -*               *    date_compile: 2012/07/19  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul 19  16:53:10          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:37          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -843,15 +848,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./sort/reference/outx3dgen	Thu Aug 25 11:37:08 2016
-+++ ./sort/outx3dgen	Thu Aug 25 12:56:41 2016
+--- ./sort/reference/outx3dgen	Mon Oct 24 15:40:55 2016
++++ ./sort/outx3dgen	Mon Oct 31 08:19:55 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.107   Linux m64      *                 
 -*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
 -*               *    Run Time: 2016/Aug 25  11:38:27          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:40          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:38          *                 
 @@ -13 +13 @@
 -                           LaGriT V3 LACC-2012-084                              
 +                          LaGriT V3 LA-CC-15-069                                
@@ -874,15 +879,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./surface/reference/outx3dgen	Wed Aug 24 13:21:19 2016
-+++ ./surface/outx3dgen	Thu Aug 25 12:56:42 2016
+--- ./surface/reference/outx3dgen	Mon Oct 24 15:40:55 2016
++++ ./surface/outx3dgen	Mon Oct 31 08:19:55 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.001   Linux m64      *                 
 -*               *    date_compile: 2011/08/01  gfort 4.5      *                 
 -*               *    Run Time: 2011/Aug 31  10:58:14          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:40          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:38          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 
@@ -907,15 +912,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./zone_outside/reference/outx3dgen	Wed Aug 24 13:21:20 2016
-+++ ./zone_outside/outx3dgen	Thu Aug 25 12:56:45 2016
+--- ./zone_outside/reference/outx3dgen	Mon Oct 24 15:40:56 2016
++++ ./zone_outside/outx3dgen	Mon Oct 31 08:19:56 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/15  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jun 26  16:13:47          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:40          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:38          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 @@ -106 +107 @@
@@ -940,15 +945,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./zone_outside_minmax/reference/outx3dgen	Wed Aug 24 13:21:21 2016
-+++ ./zone_outside_minmax/outx3dgen	Thu Aug 25 12:56:51 2016
+--- ./zone_outside_minmax/reference/outx3dgen	Mon Oct 24 15:40:57 2016
++++ ./zone_outside_minmax/outx3dgen	Mon Oct 31 08:20:01 2016
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.005   Linux m64      *                 
 -*               *    date_compile: 2012/06/29  gfort 4.5      *                 
 -*               *    Run Time: 2012/Jul  9  08:00:35          *                 
-+*               *    Program:  LaGriT V3.108   Linux m64      *                 
-+*               *    date_compile: 2016/08/22  Ubu gf         *                 
-+*               *    Run Time: 2016/Aug 25  12:59:43          *                 
++*               *    Program:  LaGriT V3.200   Linux m64      *                 
++*               *    date_compile: 2016/10/25  Ubu gf         *                 
++*               *    Run Time: 2016/Oct 31  08:08:39          *                 
 @@ -12,0 +13 @@
 +                          LaGriT V3 LA-CC-15-069                                
 

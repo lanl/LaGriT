@@ -1,31 +1,30 @@
 Operating System:	linux2
-Executable:		/n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64/3.2.0/dev/gcc-4.8.4/lagrit
-Top directory:		/n/swdev/LAGRIT/github/repo/LaGriT/test/level01
+Executable:		/n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64-gcc4.8.4/lagrit
+Top directory:		/n/swdev/mesh_tools/lagrit/repos/LaGriT/test/level01
 Out file:		stdout_linux2.txt
-	On Tue Mar 28 10:33:36 2017
+	On Mon Oct 31 08:08:19 2016
  1  Test Directory addmesh_add -----------------------
  
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:36          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:20          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -636,24 +635,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:39          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:21          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -1050,24 +1048,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:39          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -1549,24 +1546,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:39          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -2098,24 +2094,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:40          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:23          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -3295,7 +3290,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.673036940234E-12                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
  Enter a command
 rmpoint/compress                                                                
  final                     0                    0
@@ -4029,24 +4024,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:41          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -5837,24 +5831,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:41          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:24          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -6092,24 +6085,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:42          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -6274,11 +6266,11 @@ ERROR END: delaunay2d
  
              Warning from: connect2d                         set info 0 elements
  
- Dudding         4 points that have no associated tetrahedra.                   
-  0.1000000E+04  0.0000000E+00  0.0000000E+00          1         1              
-  0.1001000E+04  0.0000000E+00  0.0000000E+00          2         1              
-  0.1000000E+04  0.1000000E+01  0.0000000E+00          3         1              
-  0.1001000E+04  0.1000000E+01  0.0000000E+00          4         1              
+ Dudding      4 points that have no associated tetrahedra.                      
+  0.1000000E+04  0.0000000E+00  0.0000000E+00       1      1                    
+  0.1001000E+04  0.0000000E+00  0.0000000E+00       2      1                    
+  0.1000000E+04  0.1000000E+01  0.0000000E+00       3      1                    
+  0.1001000E+04  0.1000000E+01  0.0000000E+00       4      1                    
  
  The mesh is complete but could not include all points.                         
  Number of points that could not be connected:          4                       
@@ -6464,15 +6456,15 @@ ERROR END: delaunay
  
              Warning from: connect                           set info 0 elements
  
- Dudding         8 points that have no associated tetrahedra.                   
-  0.0000000E+00  0.0000000E+00  0.0000000E+00          1         1              
-  0.0000000E+00  0.0000000E+00  0.0000000E+00          2         1              
-  0.0000000E+00  0.0000000E+00  0.0000000E+00          3         1              
-  0.0000000E+00  0.0000000E+00  0.0000000E+00          4         1              
-  0.0000000E+00  0.0000000E+00  0.0000000E+00          5         1              
-  0.0000000E+00  0.0000000E+00  0.0000000E+00          6         1              
-  0.0000000E+00  0.0000000E+00  0.0000000E+00          7         1              
-  0.0000000E+00  0.0000000E+00  0.0000000E+00          8         1              
+ Dudding      8 points that have no associated tetrahedra.                      
+  0.0000000E+00  0.0000000E+00  0.0000000E+00       1      1                    
+  0.0000000E+00  0.0000000E+00  0.0000000E+00       2      1                    
+  0.0000000E+00  0.0000000E+00  0.0000000E+00       3      1                    
+  0.0000000E+00  0.0000000E+00  0.0000000E+00       4      1                    
+  0.0000000E+00  0.0000000E+00  0.0000000E+00       5      1                    
+  0.0000000E+00  0.0000000E+00  0.0000000E+00       6      1                    
+  0.0000000E+00  0.0000000E+00  0.0000000E+00       7      1                    
+  0.0000000E+00  0.0000000E+00  0.0000000E+00       8      1                    
  
  The mesh is complete but could not include all points.                         
  Number of points that could not be connected:          8                       
@@ -6529,24 +6521,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:43          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -6961,24 +6952,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:43          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:25          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -7176,24 +7166,23 @@ SparseMatrix using Epsilon 1.000000e-08
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:43          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:26          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -7307,13 +7296,13 @@ AMatbld3d_stor: abs(Aij/xij) min =   4.9065389E-18
 AMatbld3d_stor: abs(Aij/xij) max =   1.0000000E+00                              
 AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18                                 
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
-
-SparseMatrix initialize epsilon to 1.000000e-08
-SparseMatrix using Epsilon 1.000000e-08
-
-SparseMatrix initialize epsilon to 1.000000e-08
-SparseMatrix using Epsilon 1.000000e-08
 AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+
+SparseMatrix initialize epsilon to 1.000000e-08
+SparseMatrix using Epsilon 1.000000e-08
+
+SparseMatrix initialize epsilon to 1.000000e-08
+SparseMatrix using Epsilon 1.000000e-08
 AMatbld3d_stor Matrix compression used for graph and coefficient values         
 ascii STOR file written with name test01.stor                                   
  
@@ -7575,10 +7564,10 @@ dump/stor/test04/mo4/hybrid
  io_type =                     2
 ------------                                                                    
 Matbldtri                                                                       
+Number of Nodes             =         41                                        
 
 SparseMatrix initialize epsilon to 1.000000e-08
 SparseMatrix using Epsilon 1.000000e-08
-Number of Nodes             =         41                                        
 Max. Connection to a Node   =          9                                        
 Number of Area Coefficients =        249                                        
 Minimum Voronoi area        =   7.8125000E-03                                   
@@ -7743,24 +7732,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:44          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:27          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -9414,24 +9402,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:45          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:28          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -13475,24 +13462,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:46          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:29          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -17553,24 +17539,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:49          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:31          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -18249,24 +18234,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:49          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:31          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -19269,24 +19253,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:52          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:34          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -19323,78 +19306,6 @@ finish
                                                                                 
 * begin compare fehm                                                            
  Enter a command
-                                                                                
-* write coordinate file only                                                    
- Enter a command
-dump/coord/output_coord/cmo                                                     
-Writing FEHM coord/geom file: output_coord.fehm                                 
- Enter a command
-                                                                                
-* write material zone file only                                                 
- Enter a command
-dump/zone_imt/output_imt/cmo                                                    
-*********dump_material_lists********                                            
-Minimum material ID value =      1                                              
-Maximum material ID value =      1                                              
-Total possible materials  =      1                                              
-Material           1 has         8 nodes. #nodes/nnodes is    1.00000000000     
- Enter a command
-                                                                                
-* write outside zone file only                                                  
- Enter a command
-dump/zone_outside/output_out/cmo                                                
-*********dump_outside_list********                                              
-Voronoi Areas used for outside faces.                                           
- 
-assign_quadrant_id epsilon for zero:   1.0000000E-15                            
-            12 Voronoi vectors computed.
-cmo/addatt/cmo/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/               
-finish                                                                          
-Face top           1 has         4 nodes.                                       
-top        Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/addatt/cmo/bottom/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
-finish                                                                          
-Face bottom        2 has         4 nodes.                                       
-bottom     Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/addatt/cmo/left_w/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
-finish                                                                          
-Face left_w        3 has         4 nodes.                                       
-left_w     Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/addatt/cmo/right_e/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
-finish                                                                          
-Face right_e       5 has         4 nodes.                                       
-right_e    Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/addatt/cmo/back_n/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
-finish                                                                          
-Face back_n        6 has         4 nodes.                                       
-back_n     Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/addatt/cmo/front_s/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
-finish                                                                          
-Face front_s       4 has         4 nodes.                                       
-front_s    Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/DELATT//top                                                                 
-finish                                                                          
-cmo/DELATT//bottom                                                              
-finish                                                                          
-cmo/DELATT//left_w                                                              
-finish                                                                          
-cmo/DELATT//right_e                                                             
-finish                                                                          
-cmo/DELATT//back_n                                                              
-
-SparseMatrix initialize epsilon to 1.000000e-08
-SparseMatrix using Epsilon 1.000000e-08
-finish                                                                          
-cmo/DELATT//front_s                                                             
-finish                                                                          
- Enter a command
-                                                                                
 * dump FEHM files                                                               
  Enter a command
 dump/fehm/outbin/cmo/binary//scalar                                             
@@ -19457,6 +19368,12 @@ cmo/DELATT//front_s
 finish                                                                          
 log/tty/on                                                                      
 finish                                                                          
+
+SparseMatrix initialize epsilon to 1.000000e-08
+SparseMatrix using Epsilon 1.000000e-08
+
+SparseMatrix initialize epsilon to 1.000000e-08
+SparseMatrix using Epsilon 1.000000e-08
 *********dump_parent_list********                                               
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
@@ -19501,9 +19418,6 @@ Voronoi Areas used for outside faces.
  
 assign_quadrant_id epsilon for zero:   1.0000000E-15                            
             12 Voronoi vectors computed.
-
-SparseMatrix initialize epsilon to 1.000000e-08
-SparseMatrix using Epsilon 1.000000e-08
 cmo/addatt/cmo/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/               
 finish                                                                          
 Face top           1 has         4 nodes.                                       
@@ -20029,24 +19943,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:52          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:34          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -20206,24 +20119,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:52          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:34          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -20539,24 +20451,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:52          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:35          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -22482,24 +22393,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:53          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:35          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -22555,12 +22465,12 @@ finish
 Element iteration:          1        27                                         
 Octree refined elems: old=        50 new=       266                             
  
- Dudding duplicate points:         204                                          
+ Dudding    204 duplicate points.                                               
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
  Enter a command
@@ -22586,23 +22496,23 @@ refine hex     :        175
 Element iteration:          1       148                                         
 Octree refined elems: old=       266 new=      1450                             
  
- Dudding duplicate points:        1371                                          
+ Dudding   1371 duplicate points.                                               
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         7                                         
 Octree refined elems: old=      1450 new=      1506                             
  
- Dudding duplicate points:          71                                          
+ Dudding     71 duplicate points.                                               
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding duplicate points:           7                                    
+FILTER:Dudding      7 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
  Enter a command
@@ -22628,23 +22538,23 @@ refine hex     :        995
 Element iteration:          1       820                                         
 Octree refined elems: old=      1506 new=      8066                             
  
- Dudding duplicate points:        8394                                          
+ Dudding   8394 duplicate points.                                               
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 Element iteration:          1        32                                         
 Octree refined elems: old=      8066 new=      8322                             
  
- Dudding duplicate points:         330                                          
+ Dudding    330 duplicate points.                                               
 filter/1,0,0                                                                    
  
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
  
-FILTER:Dudding duplicate points:          36                                    
+FILTER:Dudding     36 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
  Enter a command
@@ -22969,24 +22879,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:54          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -23083,7 +22992,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -23159,7 +23068,7 @@ nlist =              2 sink nnodes =             75 mmgetlen =           1037
 nlist =             12 sink nnodes =             75 mmgetlen =           1037   
 nlist =             24 sink nnodes =             75 mmgetlen =           1037   
  
- Dudding duplicate points:           5                                          
+ Dudding      5 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23170,7 +23079,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -23231,7 +23140,7 @@ Octree(PRD) refined elems: old=        28 new=        44
 nlist =              8 sink nnodes =            110 mmgetlen =           1070   
 nlist =             32 sink nnodes =            110 mmgetlen =           1070   
  
- Dudding duplicate points:          15                                          
+ Dudding     15 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23242,7 +23151,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -23303,7 +23212,7 @@ Octree(PRD) refined elems: old=        44 new=        60
 nlist =              8 sink nnodes =            135 mmgetlen =           1095   
 nlist =             32 sink nnodes =            135 mmgetlen =           1095   
  
- Dudding duplicate points:          15                                          
+ Dudding     15 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23314,7 +23223,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -23375,7 +23284,7 @@ Octree(PRD) refined elems: old=        60 new=        76
 nlist =              8 sink nnodes =            160 mmgetlen =           1120   
 nlist =             32 sink nnodes =            160 mmgetlen =           1120   
  
- Dudding duplicate points:          15                                          
+ Dudding     15 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23386,7 +23295,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -23447,7 +23356,7 @@ Octree(PRD) refined elems: old=        76 new=       140
 nlist =             32 sink nnodes =            305 mmgetlen =           1145   
 nlist =            128 sink nnodes =            305 mmgetlen =           1145   
  
- Dudding duplicate points:          80                                          
+ Dudding     80 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23458,7 +23367,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         8                                         
@@ -23466,7 +23375,7 @@ Octree(PRD) refined elems: old=       140 new=       172
 nlist =             16 sink nnodes =            385 mmgetlen =           1305   
 nlist =             64 sink nnodes =            385 mmgetlen =           1305   
  
- Dudding duplicate points:          40                                          
+ Dudding     40 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23477,7 +23386,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         8                                         
@@ -23485,7 +23394,7 @@ Octree(PRD) refined elems: old=       172 new=       204
 nlist =             16 sink nnodes =            465 mmgetlen =           1385   
 nlist =             64 sink nnodes =            465 mmgetlen =           1385   
  
- Dudding duplicate points:          40                                          
+ Dudding     40 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23496,7 +23405,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         8                                         
@@ -23504,7 +23413,7 @@ Octree(PRD) refined elems: old=       204 new=       236
 nlist =             16 sink nnodes =            545 mmgetlen =           1465   
 nlist =             64 sink nnodes =            545 mmgetlen =           1465   
  
- Dudding duplicate points:          40                                          
+ Dudding     40 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23515,7 +23424,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         4                                         
@@ -23523,7 +23432,7 @@ Octree(PRD) refined elems: old=       236 new=       252
 nlist =              8 sink nnodes =            585 mmgetlen =           1545   
 nlist =             32 sink nnodes =            585 mmgetlen =           1545   
  
- Dudding duplicate points:          16                                          
+ Dudding     16 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23534,7 +23443,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         2                                         
@@ -23542,7 +23451,7 @@ Octree(PRD) refined elems: old=       252 new=       260
 nlist =              4 sink nnodes =            605 mmgetlen =           1585   
 nlist =             16 sink nnodes =            605 mmgetlen =           1585   
  
- Dudding duplicate points:           4                                          
+ Dudding      4 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23553,7 +23462,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -23614,7 +23523,7 @@ Octree(PRD) refined elems: old=       260 new=       404
 nlist =             72 sink nnodes =            745 mmgetlen =           1385   
 nlist =            288 sink nnodes =            745 mmgetlen =           1385   
  
- Dudding duplicate points:         195                                          
+ Dudding    195 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23625,7 +23534,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -23690,7 +23599,7 @@ nlist =            144 sink nnodes =           3286 mmgetlen =           3526
 nlist =            864 sink nnodes =           3286 mmgetlen =           3526   
 nlist =           1728 sink nnodes =           3286 mmgetlen =           3526   
  
- Dudding duplicate points:        1460                                          
+ Dudding   1460 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23701,7 +23610,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 Element iteration:          1        24                                         
@@ -23710,7 +23619,7 @@ nlist =             24 sink nnodes =           3742 mmgetlen =           4286
 nlist =            144 sink nnodes =           3742 mmgetlen =           4286   
 nlist =            288 sink nnodes =           3742 mmgetlen =           4286   
  
- Dudding duplicate points:         244                                          
+ Dudding    244 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23721,7 +23630,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 Element iteration:          1        16                                         
@@ -23730,7 +23639,7 @@ nlist =             16 sink nnodes =           4046 mmgetlen =           4742
 nlist =             96 sink nnodes =           4046 mmgetlen =           4742   
 nlist =            192 sink nnodes =           4046 mmgetlen =           4742   
  
- Dudding duplicate points:         150                                          
+ Dudding    150 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23741,7 +23650,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         4                                         
@@ -23750,7 +23659,7 @@ nlist =              4 sink nnodes =           4122 mmgetlen =           5046
 nlist =             24 sink nnodes =           4122 mmgetlen =           5046   
 nlist =             48 sink nnodes =           4122 mmgetlen =           5046   
  
- Dudding duplicate points:          37                                          
+ Dudding     37 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23761,7 +23670,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -23923,7 +23832,7 @@ nlist =              4 sink nnodes =             94 mmgetlen =           1018
 nlist =             24 sink nnodes =             94 mmgetlen =           1018   
 nlist =             48 sink nnodes =             94 mmgetlen =           1018   
  
- Dudding duplicate points:          19                                          
+ Dudding     19 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23934,7 +23843,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.104148151432E-11                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -23986,7 +23895,7 @@ Octree(PRD) refined elems: old=        36 new=       108
 nlist =             36 sink nnodes =            255 mmgetlen =           1075   
 nlist =            144 sink nnodes =            255 mmgetlen =           1075   
  
- Dudding duplicate points:          88                                          
+ Dudding     88 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -23997,7 +23906,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.104148151432E-11                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -24087,7 +23996,7 @@ Octree(PRD) refined elems: old=         8 new=        32
 nlist =              6 sink nnodes =             45 mmgetlen =           1015   
 nlist =             24 sink nnodes =             45 mmgetlen =           1015   
  
- Dudding duplicate points:           7                                          
+ Dudding      7 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -24098,7 +24007,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.157009245868E-11                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
 finish                                                                          
 cmo/printatt/cmo_hex/itetlev minmax                                             
@@ -24300,7 +24209,7 @@ Element iteration:          1        11
 Octree(PRD) refined elems: old=        32 new=        54                        
 nlist =             22 sink nnodes =             67 mmgetlen =           1045   
  
- Dudding duplicate points:           7                                          
+ Dudding      7 duplicate points.                                               
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -24311,7 +24220,7 @@ filter/1,0,0
  
 FILTER:Use internal epsilonl value =   0.157009245868E-11                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
 geniee                                                                          
  geniee: mesh has                    11  jtet loops, max cycle length=          
                                                                                4
@@ -24347,24 +24256,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:55          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -24898,24 +24806,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:55          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -25052,7 +24959,7 @@ filter/1 0 0
  
 FILTER:Use internal epsilonl value =   0.317143130803E-12                       
  
-FILTER:Dudding duplicate points:           0                                    
+FILTER:Dudding      0 duplicate points.                                         
  Enter a command
 rmpoint/compress                                                                
  final                     0                    0
@@ -26529,24 +26436,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:55          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -26596,24 +26502,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:56          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -26938,24 +26843,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:56          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:36          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -27067,7 +26971,7 @@ filter/1,0,0/
  
 FILTER:Use internal epsilonl value =   0.106303492263E-11                       
  
-FILTER:Dudding duplicate points:         160                                    
+FILTER:Dudding    160 duplicate points.                                         
  Enter a command
 setpts                                                                          
  FOR icr   1 TYPE surface    1   0   0 THERE ARE     1364 POINTS                
@@ -27393,24 +27297,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:58          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -27899,24 +27802,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:58          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -28016,24 +27918,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:58          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
@@ -28151,24 +28052,23 @@ LaGriT successfully completed
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:34:00          *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2016/Oct 31  08:08:39          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+                          LaGriT V3 LA-CC-15-069                                
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396   
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the  
+public to copy and use this software without charge, provided that this Notice  
+and any statement of authorship are reproduced on all copies. Neither the       
+U.S. Government nor LANS makes any warranty, express or implied, or assumes     
+any liability or responsibility for the use of this software.                   
                                -----oOo-----                                    
  
  
