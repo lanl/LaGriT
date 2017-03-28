@@ -14,10 +14,22 @@ C     from the routine writinit.f
 C
 C ######################################################################
 C Copyright Disclosure: CODE-2015-151, LaGriT, Version 3.x (OSS) 
-C CODE Title: LaGriT, Version 3.x (OSS)
+C CODE Title: LaGriT, Version 3.x (Open Source)
 C Primary Author:  Carl Gable
 C LACC #:  LA-CC-15-069
 C Copyright Number Assigned: C15097
+C
+C LaGriT V3 LA-CC-15-069 for Open Source https://github.com/lanl/LaGriT/
+C
+C Copyright 2015. Los Alamos National Security, LLC. This software was produced 
+C under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National 
+C Laboratory (LANL), which is operated by Los Alamos National Security, LLC 
+C for the U.S. Department of Energy. The U.S. Government has rights to use, 
+C reproduce, and distribute this software. Neither the government nor Los Alamos 
+C National Security, LLC makes any warranty, express or implied, or assumes any 
+C liability for the use of this software. If software is modified to produce 
+C derivative works, such modified software should be clearly marked, so as not 
+C to confuse it with the version available from LANL.
 C
 C ######################################################################
 C LaGriT Version 3 LACC-2012-084 for open distribution 

@@ -375,48 +375,55 @@ C
       call writloga('default',1,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * '                          LaGriT V3 LA-CC-15-069' 
+     * '             LaGriT V3 LA-CC-15-069 ' 
+     * //' https://github.com/lanl/LaGriT'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'LaGriT Copyright: This program was prepared by' 
-     * //' Los Alamos National Security, LLC'
+     * 'Copyright 2015. Los Alamos National Security, LLC. ' 
+     * //' This software was produced'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'at Los Alamos National Laboratory (LANL) under '
-     * //'contract No. DE-AC52-06NA25396'
+     * 'under U.S. Government contract DE-AC52-06NA25396 '
+     * //'for Los Alamos National'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'with the U.S. Department of Energy (DOE). All rights'
-     * //' in the program are reserved'
+     * 'Laboratory (LANL), which is operated by Los Alamos '
+     * //'National Security, LLC'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'by the DOE and Los Alamos National Security, LLC.'
-     * // ' Permission is granted to the'
+     * 'for the U.S. Department of Energy. The U.S. Government'
+     * // ' has rights to use,'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'public to copy and use this software without charge,'
-     * // ' provided that this Notice' 
+     * 'reproduce, and distribute this software. Neither the '
+     * // ' government nor Los Alamos' 
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'and any statement of authorship are reproduced'
-     * // ' on all copies. Neither the'
+     * 'National Security, LLC makes any warranty, express or '
+     * // ' implied, or assumes any'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'U.S. Government nor LANS makes any warranty, '
-     * // 'express or implied, or assumes'
+     * 'liability for the use of this software. If software '
+     * // 'is modified to produce'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     *  'any liability or '
-     * // 'responsibility for the use of this software.'
+     *  'derivative works, such modified software should be  '
+     * // 'clearly marked, so as not'
       call writloga('default',0,interfil,0,ierrdum)
+
+      write(interfil,'(a)')
+     *  'to confuse it with the version available '
+     * // 'from LANL.'
+      call writloga('default',0,interfil,0,ierrdum)
+
 
       write(interfil,'(a)')
      * '                               -----oOo-----    '
