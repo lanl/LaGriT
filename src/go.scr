@@ -1,29 +1,53 @@
 
-# Under development
+# Workflow for Ubuntu 14 in personal repo
+# working on build scripts and naming conventions consistent with other modules
+# test/suite.py should be part of the auto-build
+
+## be aware of naming conventions being changed for ubuntu module system from gf4.8 to gcc
+
 #### new ubuntu with modules ###  USING BASH instead of TCSH ######
 # GNU Fortran (Ubuntu 4.8.2-19ubuntu1) 4.8.2
-# 
-
+ 
 module load exodusii/6.09/gcc-4.8.2-serial
 module list
 
 rm *.o
 rm *.mod
-make MOPT=64 lib
 
 # compiler should do these 2 steps... but just in case do them here.
+edit lagrit_ulin64.h to new version and date
 cp lagrit_ulin64.h lagrit.h
 cp  machine_m64.h machine.h
 
+
+#---------------------
+# debug with shared libs 
 gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
 gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
 
-### leave off static for .so shared libraries:
+make MOPT=64 -g lib
+
+gfortran -0 -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gf4.8.a /n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64/3.2.0/debug/gcc-4.8.4/lib/util_ulin64_g_gcc.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+#---------------------
+
+
+#---------------------
+# release with shared libs
+gfortran  -O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
+gfortran  -O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
+
+make MOPT=64 lib
+
+gfortran -O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gf4.8.a /n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64/3.2.0/release/gcc-4.8.4/lib/util_ulin64_o_gcc.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+
+# for dev version
+cp mylagrit /n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64/3.2.0/dev/gcc-4.8.4/lagrit
+chgrp ees-pkg /n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64/3.2.0/dev/gcc-4.8.4/lagrit
+#---------------------
+
+
+##old# leave off static for .so shared libraries:
 gfortran -g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gf4.8.a ../lg_util/src/util_ulin64_o_gf4.8.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
-
-gfortran -g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gf4.8.a /n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64/3.2.0/release/gcc-4.8.4/lib/util_ulin64_o_gcc.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
-
-exit
 
 ############################## new ubuntu NO EXODUS ################################
 # this compiles without exodus libs 
@@ -41,8 +65,23 @@ gfortran -g -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -
 
 exit
 
-Use modules in 
+############################## ubuntu 14 modules ################################
+For Ubuntu 14 servers Use  /n/swdev/mesh_tools/modulefiles/Ubuntu-14.04-x86_64
 
+Original executable before adding module directories:
+lagrit/gcc-4.8.4(default)      
+
+These have been created as possible setup for auto-build for Ubuntu modules:
+lagrit/3.2.0/release/gcc-4.8.4
+lagrit/3.2.0/debug/gcc-4.8.4   
+
+This is used for new executables built outside of modules and in my own repo:
+lagrit/3.2.0/dev/gcc-4.8.4
+
+For Ubuntu pull and build from https://github.com/lanl/LaGriT:
+/n/swdev/mesh_tools/lagrit/repos/LaGriT
+
+libs installed at 
 /n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64/3.2.0/release/gcc-4.8.4/lib:
 total 42912
 -rw-rw-r-- 1 tamiller ees-pkg   248280 Nov  1 14:05 util_ulin64_o_gf4.8.a
