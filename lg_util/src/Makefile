@@ -13,9 +13,11 @@
 #    sets 64 bit LIB64_o.a and OBJDIR64_o for platform 
 # make MOPT=64 COPT=-g lib 
 #    sets 64 bit LIB64_g.a and OBJDIR64_g for platform 
-#    NOTE: make sure new mm2000.h is created from mm2000_header.F
-#    This sets sizeof_int correctly to 8
-#    copy mm2000_m64.h to mm2000.h to be explicit
+#
+#    NOTE: mm2000.h sets machine dependent sizes
+#    compile with make mm2000.h 
+#    This sets sizeof_int correctly to 8 for 64bit
+#    or just copy mm2000_m64.h to mm2000.h 
 #
 # OBJDIR and LIB are formed by system query from make
 # other compile flags are passed in from command line:
@@ -26,8 +28,9 @@
 #    creates LIB_o_DATETAG.a
 #    copies both libs.a to LIBDIR
 #    moves LIB_o_DATETAG.a OBJDIR
+#
 # make clean
-#    removes *.o in OBJDIR (recommended before install)
+#    removes objects and mm2000.h (recommended before install)
 # make clobber
 #    removes all OBJDIRs and .a files 
 # make help
@@ -53,12 +56,18 @@
 #
 ##########################################################################
 # user defined variables
+# create lib path LIBDIR= $(subst lg_util/src,lg_util/lib, $(ROOTDIR)) 
 # ------------------------------------------------------------------
 #
 MAKEFILE  = Makefile
 PROJ  = util
 ROOTDIR= $(shell pwd)
-LIBDIR= $(subst lg_util/src,lg_util/lib, $(ROOTDIR)) 
+# check for environment variables
+ifndef LAGRIT_LIBS 
+LIBDIR= $(shell pwd)
+else
+LIBDIR = $(LAGRIT_LIBS)
+endif
 #
 ##########################################################################
 #  auto variables (May also be set at command line, environment, or script) 
@@ -189,6 +198,7 @@ SUFFC =""
 ifeq ($(COMPILER),GFORTRAN)
 GCCV = $(shell gcc -dumpversion )
 SUFFC = _gf$(GCCV)
+SUFFC = _gcc
 endif
 ifeq ($(COMPILER),ABSOFT)
 SUFFC = _absoft
@@ -237,8 +247,10 @@ install: $(OBJDIR) ${F77_OBJS} $(C_OBJS) $(F77C_OBJS) $(LIBDIR)
 	@echo "Done $@ $(LIB) $(LIBDIR)"
 #
 clean:;   @rm -f $(OBJDIR)*.o mm2000.h
+	rm -f *.o *.mod
 #
 clobber:;  -rm -fr objects_* *.a 
+	rm -f *.o *.mod
 #
 ##########################################################################
 # targets for information reporting 
@@ -277,13 +289,18 @@ list:;
 	@echo $(C_OBJS)
 	@echo "List LIB: $(LIB) " 
 	@echo "List ROOTDIR: $(ROOTDIR)" 
-	@echo "List LIBDIR: $(LIBDIR)" 
 	@echo "List OBJDIR: $(OBJDIR)" 
 	@echo "List FC Compilers: $(FC)"
 	@echo "List C  Compilers: $(CC)"
 	@echo "List F Flags: "$(FFLAGS) 
 	@echo "List C Flags: "$(CFLAGS)
+ifndef LAGRIT_LIBS
+	@echo "LAGRIT_LIBS undefined, install in: "$(LIBDIR)
+else
+	@echo "LAGRIT_LIBS defined, install in: "$(LIBDIR)
+endif
 	@echo " "
+
 #
 ##########################################################################
 # Dependencies

@@ -30,95 +30,13 @@ CPVCS
 CPVCS       Rev 1.0   Thu Apr 06 10:50:48 2000   nnc
 CPVCS    Initial revision.
 !!
-
 !!    define SIZEOF_VOIDP for operating system
 
 # 1 "opsys.h" 1
 
 # 71 "opsys.h"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # 163 "opsys.h"
-
-
 
 # 32 "mm2000_header.F" 2
 

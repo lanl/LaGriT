@@ -5,10 +5,11 @@
 #
 # make [help or list] will print information without calling compiler
 #
-# NOTE: make sure machine.h has compiled from machine_header.F
-#       correctly so that NBYTES_INT = 8
+# NOTE: you can compile machine.h from machine_header.F
+#       make mm2000.h
+#       check that NBYTES_INT = 8 for 64bit
 #       remove machine_header.F so it is not picked up in wildcards
-#       or copy machine_m64.h to machine.h 
+#       or simply copy machine_m64.h to machine.h 
 # 
 # make OR make lib 
 #    default creates or updates optimized *.o in OBJDIR_o 
@@ -20,7 +21,6 @@
 #    creates or updates *.o in OBJDIR 
 #    creates LIB_o.a in current directory 
 #    creates LIB_o_DATETAG.a
-#    copies both libs.a to LIBDIR
 #    moves LIB_o_DATETAG.a OBJDIR
 # make clean
 #    removes *.o in OBJDIR (recommended before install)
@@ -39,12 +39,9 @@
 #
 # Modified Mar 2015 for Ubuntu and defaults to 64 bit
 # Modified Oct 2013 to include Mac 10.6, 10.7, 10.8 with GCC gfortran 
-# Modified Nov 2012 to work with new exodus libraries (see dump/exo):
+# Modified Nov 2012 to work with Exodus II libraries (see dump/exo):
 #   http://sourceforge.net/projects/exodusii/files/
-#     Exodus II 5.22b
-#     HDF5 version 1.8.6
-#     netcdf-4.1.3
-#     Contact: Greg Sjaardema, Sandia National Laboratories, gdsjaar@sandia.gov
+#   Contact: Greg Sjaardema, Sandia National Laboratories, gdsjaar@sandia.gov
 # Modified Aug 8 2011 to include work from Adam Cozzette and .cpp files 
 # Modified Jan 1 2011 to include gfortran flags and .cpp files
 # Modified July 7 2009 to update compiler flags for V2.100 release 
@@ -59,11 +56,15 @@
 MAKEFILE  = Makefile
 PROJ  = lagrit
 ROOTDIR= $(shell pwd)
-# assumes current directory is lagrit/src
-LIBDIR= $(subst lagrit/src,lagrit/lib, $(ROOTDIR)) 
-BINDIR= $(subst lagrit/src,lagrit/bin, $(ROOTDIR)) 
 COMPILER = ABSOFT
 COMPILER = GFORTRAN
+#
+# Use Enviornment variables if they exist 
+ifndef LAGRIT_LIBS 
+LIBDIR= $(shell pwd)
+else
+LIBDIR = $(LAGRIT_LIBS)
+endif
 #
 ##########################################################################
 #  auto variables (May also be set at command line, environment, or script) 
@@ -90,6 +91,7 @@ CC= gcc
 CXX = g++
 GCCV = $(shell gcc -dumpversion )
 SUFFC = _gf$(GCCV)
+SUFFC = _gcc
 endif
 
 ifeq ($(COMPILER), cygwin)
@@ -181,7 +183,7 @@ endif
 # MAC OS Darwin 11.x Lion 64 bit  
 ifneq (, $(findstring 11. , $(NREL)) ) 
 OSTAG = _macOS11
-SUFFC = _GCC4.7
+SUFFC = _gcc
 
 FC = /usr/gcc-4.7/bin/gfortran 
 FC90 = /usr/gcc-4.7/bin/gfortran
@@ -198,9 +200,7 @@ else ifneq (, $(findstring 12. , $(NREL)) )
 OSTAG = _macOS12
 
 SUFF = $(OSTAG)_g
-SUFFC = _gfort4.6
-SUFFC = _gfort4.8
-SUFFC = _GCC4.8
+SUFFC = _gcc
 
 FC = gfortran
 FC = /usr/local/gfortran/bin/gfortran
@@ -268,8 +268,6 @@ F90_OBJS := $(patsubst %.f90,$(OBJDIR)%.o,$(wildcard *.f90))
 ##########################################################################
 # action targets
 # the first target in the file will run if make is not given a target
-# Note OBJDIR and LIBDIR are dependencies that will be created if needed
-# Improve make by having it recognize a MODDIR instead of current dir
 # ------------------------------------------------------------------
 #
 .PHONY: lib install clean clobber help list
@@ -344,10 +342,13 @@ list:;
 	@echo $(F90_OBJS)
 	@echo "List LIB: $(LIB) " 
 	@echo "List ROOTDIR: $(ROOTDIR)" 
-	@echo "List BINDIR: $(BINDIR)" 
-	@echo "List LIBDIR: $(LIBDIR)" 
 	@echo "List OBJDIR: $(OBJDIR)" 
 	@echo "List MODDIR: $(MODDIR)" 
+ifndef LAGRIT_LIBS
+	@echo "LAGRIT_LIBS undefined, install in: "$(LIBDIR)
+else
+	@echo "LAGRIT_LIBS defined, install in: "$(LIBDIR)
+endif
 	@echo "List FC Compilers: $(FC)"
 	@echo "List FC90 Compilers: $(FC90)"
 	@echo "List C  Compilers: $(CC)"
