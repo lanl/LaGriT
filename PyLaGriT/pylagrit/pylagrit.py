@@ -783,11 +783,11 @@ class PyLaGriT(spawn):
         '''
         Generate a logically rectangular orthogonal mesh corresponding to vectors of nodal positions.
 
-        :arg x: x node locations
+        :arg x: x discretization locations
         :type x: array(floats)
-        :arg y: y node locations
+        :arg y: y discretization locations
         :type y: array(floats)
-        :arg z: z node locations
+        :arg z: z discretization locations
         :type z: array(floats)
         :arg connect: Should the points be connected
         :type connect: bool
@@ -827,6 +827,7 @@ class PyLaGriT(spawn):
             return
         if elem_type in ['tet','hex'] and dim != 3:
             print "Error: 3 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'"
+            print "Set elem_type to a 2D format like 'quad' or 'triplane'"
             return
         if x is None or len(x) == 0: x = [0]
         if y is None or len(y) == 0: y = [0]
@@ -836,6 +837,91 @@ class PyLaGriT(spawn):
         z = list(numpy.unique(z))
         nodelist = numpy.array(list(product(*[z,y,x])))
         nodelist = numpy.fliplr(nodelist)
+
+        outfile = open(filename,'w')
+        outfile.write('   '+str(len(nodelist))+' 0 0 0 0\n')
+        for i,nd in enumerate(nodelist):
+            outfile.write('%11d' % i +'        ')
+            outfile.write('%14.8f' % nd[0]+'        ')
+            outfile.write('%14.8f' % nd[1]+'        ')
+            outfile.write('%14.8f' % nd[2])
+            outfile.write('\n')
+        outfile.write('\n')
+        outfile.close()
+        m = self.create(elem_type)
+        m.read(filename)
+        if elem_type in ['quad','hex'] and connect:
+            cmd = ['createpts','brick','xyz',' '.join([str(len(x)),str(len(y)),str(len(z))]),'1 0 0','connect'] 
+            m.sendline('/'.join(cmd))
+        elif connect:
+            m.connect()
+        return m
+    def points(self,x=None,y=None,z=None,connect=False,elem_type='tet',filename='points.inp'):
+        '''
+        Generate a mesh object of points defined by x, y, z vectors.
+
+        :arg x: x node locations
+        :type x: array(floats)
+        :arg y: y node locations
+        :type y: array(floats)
+        :arg z: z node locations
+        :type z: array(floats)
+        :arg connect: Should the points be connected
+        :type connect: bool
+        :arg elem_type: Type of element for created mesh object
+        :type elem_type: string
+        :arg filename: Name of avs file created with nodal coordinates
+        :type filename: string
+        :returns: MO
+
+        Example:
+            >>> from pylagrit import PyLaGriT
+            >>> import numpy
+            >>> lg = PyLaGriT()
+            >>> x0 = -numpy.logspace(1,2,15,endpoint=True)
+            >>> x1 = numpy.arange(-10,10,1)
+            >>> x2 = -x0
+            >>> x = numpy.concatenate([x0,x1,x2])
+            >>> y = x
+            >>> mqua = lg.gridder(x,y,elem_type='quad',connect=True)
+            >>> mqua.paraview()
+        '''
+        dim = 0
+        length = None
+        if x is not None and len(x) > 0: 
+            dim += 1 
+            length = len(x)
+        if y is not None and len(y) > 0: 
+            dim += 1 
+            if length is None:
+                length = len(y)
+            elif not len(y) == length:
+                print "Error: x and y vectors must be the same length"
+                return
+        if z is not None and len(z) > 0: 
+            dim += 1 
+            if length is None:
+                length = len(z)
+            elif not len(z) == length:
+                print "Error: x, y and z vectors must be the same length"
+                return
+        if dim == 0:
+            print "ERROR: must define at least one of x, y, z arrays"
+            return
+        if elem_type in ['line'] and dim != 1:
+            print "Error: Only 1 coordinate array (x,y,z) required for elem_type 'line'"
+            return
+        if elem_type in ['tri','quad'] and dim != 2:
+            print "Error: Only 2 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'"
+            return
+        if elem_type in ['tet','hex'] and dim != 3:
+            print "Error: 3 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'"
+            print "Set elem_type to a 2D format like 'quad' or 'triplane'"
+            return
+        if x is None or len(x) == 0: x = [0]*length
+        if y is None or len(y) == 0: y = [0]*length
+        if z is None or len(z) == 0: z = [0]*length
+        nodelist = numpy.array(numpy.column_stack([x,y,z]))
 
         outfile = open(filename,'w')
         outfile.write('   '+str(len(nodelist))+' 0 0 0 0\n')
@@ -2455,14 +2541,20 @@ class MO(object):
         self.sendline('/'.join(['cmo/copy',name,self.name]))
         self._parent.mo[name] = MO(name,self._parent)
         return self._parent.mo[name]
-    def stack_layers(self,file_type,filelist,xy_subset=None,buffer_opt=None,truncate_opt=None,pinchout_opt=None,
-                     flip_opt=False,fill=False):
+    def stack_layers(self,filelist,file_type='avs',nlayers=None,matids=None,xy_subset=None,
+                     buffer_opt=None,truncate_opt=None,
+                     pinchout_opt=None,flip_opt=False,fill=False):
+        if nlayers is None: nlayers = ['']*len(filelist-1)
+        if matids is None: matids = [1]*len(filelist)
         cmd = ['stack/layers',file_type]
         if xy_subset is not None: cmd.append(xy_subset)
         cmd.append(' &')
+        print cmd
         self.sendline('/'.join(cmd),expectstr='\r\n')
-        for f in filelist[0:-1]: self._parent.sendline(f+' &',expectstr='\r\n')
-        cmd = [filelist[-1]]
+        self._parent.sendline(' '.join([filelist[0],str(matids[0]),'/ &']),expectstr='\r\n')
+        for f,nl,md in zip(filelist[1:-1],nlayers[0:-1],matids[1:-1]): 
+            self._parent.sendline(' '.join([f,str(md),str(nl),'/ &']),expectstr='\r\n')
+        cmd = [' '.join([filelist[-1],str(matids[-1]),str(nlayers[-1])])]
         if flip_opt is True: cmd.append('flip')
         if buffer_opt is not None: cmd.append('buffer '+buffer_opt)
         if truncate_opt is not None: cmd.append('trun '+truncate_opt)
