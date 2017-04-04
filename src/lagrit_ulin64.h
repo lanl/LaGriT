@@ -23,7 +23,7 @@ c
 c     data os_name      /'Linux32 '/
       data os_name      /'Linux64 '/
 
-      data date_compile /'2017/03/27  Ubu 14 '/
+      data date_compile /'2017/03/27 static '/
 c
       integer         NCall
       save            NCall

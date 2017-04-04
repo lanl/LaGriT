@@ -1,4 +1,88 @@
 =======================================================================
+
+Latest code in github is the dev version in Ubuntu 14 modules:
+module unload lagrit
+module load lagrit/3.2.0/dev/gcc-4.8.4
+/n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64/3.2.0/dev/gcc-4.8.4/lagrit
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.201   Linux m64      *                 
+*               *    date_compile: 2017/03/27  Ubu 14         *                 
+*               *    Run Time: 2017/Apr  3  14:53:13          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *       
+
+commit 2353632dd3421baf39ec9aef0d4d2d992496a1bf
+Author: [Terry Miller] <[tamiller@lanl.gov]>
+Date:   Tue Mar 28 12:26:34 2017 -0600
+
+    Update to banner changed copyright, update all reference/outx3dgen files
+    removed some extra files in some test directories that are in reference
+
+commit 2167c2b580e6ff80594421ce3d0da8e3df860532
+Author: [Terry Miller] <[tamiller@lanl.gov]>
+Date:   Tue Mar 28 10:30:22 2017 -0600
+
+    Modified test io_agf_simple to call fehm individual files including coord
+
+commit 0c36614a6e1d078babb210993d1203de16cc83d5
+Author: [Terry Miller] <[tamiller@lanl.gov]>
+Date:   Tue Mar 28 08:55:00 2017 -0600
+
+    New compile data and V3.201
+
+commit ddf289b7165d66e7c131933f18e137f035609ba0
+Author: [Terry Miller] <[tamiller@lanl.gov]>
+Date:   Tue Mar 28 08:54:19 2017 -0600
+
+    Update copyright text to open source version
+
+commit 479e7e748cdd9b5ed5fdfc088618c3e1301c5809
+Author: [Terry Miller] <[tamiller@lanl.gov]>
+Date:   Tue Mar 28 08:52:03 2017 -0600
+
+    format fix to allow large number in reporting number for Dudding points
+
+commit 479e7e748cdd9b5ed5fdfc088618c3e1301c5809
+Author: [Terry Miller] <[tamiller@lanl.gov]>
+Date:   Tue Mar 28 08:52:03 2017 -0600
+
+    format fix to allow large number in reporting number for Dudding points
+
+commit 627a5f141411f5927fa692be5d1a99c230c70f96
+Author: [Terry Miller] <[tamiller@lanl.gov]>
+Date:   Fri Mar 24 13:41:59 2017 -0600
+
+    Update to new version 3.201
+    Merge branch 'master' of https://github.com/lanl/LaGriT
+    Updates from Ubuntu build
+
+commit db0c4e91d72d5ed5d890cad41297a1803cf38e03
+Author: [Terry Miller] <[tamiller@lanl.gov]>
+Date:   Fri Sep 2 10:59:01 2016 -0600
+
+    Merge with Mikita cygwin version for WIN7 for V3.200
+    Add docs/ cmake-script and build_win.txt instructions that may apply to other platforms
+    Change version number for lagrit banner to V3.200
+
+
+=======================================================================
+
+Latest release and default version in Ubuntu 14 modules:
+/n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64-gcc4.8.4/lagrit
+
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2016/10/25  Ubu gf         *                 
+*               *    Run Time: 2017/Apr  3  14:49:44          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *   
+
+
+=======================================================================
 LaGriT V3.108 from https://ancho.lanl.gov/lagrit/hg/lagrit
 
 tag:         Release V3.108
@@ -10,8 +94,24 @@ date:        Tue Jul 26 09:48:53 2016 -0600
 Change from Mercurial open distribution to open source on github
 
 =======================================================================
-LaGriT V3.107
+LaGriT V3.107 (and static V3.200)
 This version includes the PFLOTRAN file output used by DFN workflow.
+
+The last version compiled and available on lagrit.lanl.gov/downloads
+V3.2 Summer work by Mikita Yanki for Ubuntu and WIN7 with Exodus 6.9
+NOTE: This is V3.107 in github, Mikita used new banner on older code.
+So the date is the relevant info in this banner.
+Pre-github are older than July 2016
+
+https://lagrit.lanl.gov/downloads/index.html and local /n/swdev/LAGRIT/bin/lagrit_ulin3.2
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.200   Linux m64      *                 
+*               *    date_compile: 2015/07/14  Ubu gf         *                 
+*               *    Run Time: 2015/Nov 12  12:12:45          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *   
 
 changeset:   335:7d23ca25f647
 user:        Terry Miller <tamiller@lanl.gov>
