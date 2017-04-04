@@ -1,7 +1,7 @@
 
 # Workflow for Ubuntu 14 in personal repo
 # working on build scripts and naming conventions consistent with other modules
-# test/suite.py should be part of the auto-build
+# these notes may be helpful for developers trying to compile lagrit
 
 ## be aware of naming conventions being changed for ubuntu module system from gf4.8 to gcc
 
