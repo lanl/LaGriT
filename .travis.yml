@@ -1,0 +1,18 @@
+language: c
+sudo: required
+before_install:
+  - sudo apt-get install gfortran
+
+script:
+  - make clean
+  - make OPT=64 lib
+  - gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
+  - gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
+  - cd ../lg_util/src
+  - make clean
+  - make MOPT=64 lib
+  - cd ../src
+  - gfortran -O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a /n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64/3.2.0/release/gcc-4.8.4/lib/util_ulin64_o_gcc.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+
+after_success:
+  - echo LaGriT successfully compiled
