@@ -4,18 +4,9 @@ sudo: required
 before_install:
   - sudo apt-get install gfortran
 
-before_script:
-  - git clone https://github.com/gsjaardema/seacas.git
-  - ls
-  - cd seacas && export ACCESS=`pwd`
-  - cd $ACCESS
-  - mkdir build
-  - cd build
-  - ../cmake-config
-  - make && sudo make install
-
 script:
   - cd src
+  - cp dumpexodusII.f.withnoexo dumpexodusII.f
   - make clean
   - make OPT=64 lib
   - gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
