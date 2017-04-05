@@ -6,7 +6,8 @@ before_install:
 
 before_script:
   - git clone https://github.com/gsjaardema/seacas.git
-  - cd seacas-master && export ACCESS=`pwd`
+  - ls
+  - cd seacas && export ACCESS=`pwd`
   - cd $ACCESS
   - mkdir build
   - cd build
