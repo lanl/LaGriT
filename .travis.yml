@@ -1,7 +1,17 @@
 language: c
 sudo: required
+
 before_install:
   - sudo apt-get install gfortran
+
+before_script:
+  - git clone https://github.com/gsjaardema/seacas.git
+  - cd seacas-master && export ACCESS=`pwd`
+  - cd $ACCESS
+  - mkdir build
+  - cd build
+  - ../cmake-config
+  - make && sudo make install
 
 script:
   - cd src
