@@ -4,8 +4,8 @@ before_install:
   - sudo apt-get install gfortran
 
 script:
-  - make clean
-  - make OPT=64 lib
+  - make -f src/Makefile clean
+  - make OPT=64 src/Makefile lib
   - gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
   - gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
   - cd ../lg_util/src
