@@ -7,6 +7,8 @@ before_install:
 script:
   - cd src
   - cp dumpexodusII.f.withnoexo dumpexodusII.f
+  - echo "" > exo_init_ext.c
+  - echo "" > exo_put_sets.c
   - make clean
   - make OPT=64 lib
   - gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
