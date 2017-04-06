@@ -4,13 +4,13 @@ LaGriT requires the following packages installed:
 
 | Library | Source |
 | ------ | ------ |
-| ExodusII 6.09 | [https://github.com/gsjaardema/seacas] |
-| netCDF | [http://www.unidata.ucar.edu/software/netcdf/docs/getting_and_building_netcdf.html] |
-| zlib | [https://github.com/madler/zlib] |
-| HDF5 | [https://support.hdfgroup.org/HDF5/] |
+| ExodusII 6.09 | (https://github.com/gsjaardema/seacas) |
+| netCDF | (http://www.unidata.ucar.edu/software/netcdf/docs/getting_and_building_netcdf.html) |
+| zlib | (https://github.com/madler/zlib) |
+| HDF5 | (https://support.hdfgroup.org/HDF5/) |
 
 
-For instructions on installing these dependencies, [visit here](DEPENDENCIES.md). LaGriT supports the ExodusII file format as output (which sits atop netCDF). If you have no need for this format, you may continue building LaGriT by skipping the ExodusII installation and following the directions in [Manging Exodus](#2.1-managing-exodus). 
+For instructions on installing these dependencies, [visit here](DEPENDENCIES.md). LaGriT supports the ExodusII file format as output (which sits atop netCDF). If you have no need for this format, you may continue building LaGriT by skipping the ExodusII installation and following the directions in [Manging Exodus](#21-managing-exodus). 
 
 ---
 
