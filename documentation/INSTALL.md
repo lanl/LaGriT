@@ -10,7 +10,7 @@ LaGriT requires the following packages installed:
 | HDF5 | [https://support.hdfgroup.org/HDF5/] |
 
 
-For instructions on installing these dependencies, [visit here](DEPENDENCIES.md). LaGriT supports the ExodusII file format as output (which sits atop netCDF). If you have no need for this format, you may continue building LaGriT by skipping the ExodusII installation and following the directions in [Manging Exodus](#managing-exodus). 
+For instructions on installing these dependencies, [visit here](DEPENDENCIES.md). LaGriT supports the ExodusII file format as output (which sits atop netCDF). If you have no need for this format, you may continue building LaGriT by skipping the ExodusII installation and following the directions in [Manging Exodus](#2.1-managing-exodus). 
 
 ---
 
@@ -22,10 +22,7 @@ $ git clone https://github.com/lanl/LaGriT.git
 $ cd LaGriT/src/
 ```
 
-```sh
-$ module load exodusii/6.09/gcc-4.8.2-serial
-$ module list
-```
+After cloning LaGriT to the directory you want it installed, navigate to the `src/` folder within that directory.
 
 #### 2.1 Managing Exodus
 
@@ -38,6 +35,15 @@ $ echo "" > exo_put_sets.c
 ```
 
 These three files make calls to `exodusII.h`. The first line replaces `dumpexodusII.f` with a file that does not make this call, while the second two lines empty out ExodusII-centric C files.
+
+**If instead you are using Exodus,** make sure it is built in such a way that `exodusII.h` can be read at buildtime. On a modularized Ubuntu configuration, this would require running
+
+```sh
+$ module load exodusii/6.09/gcc-4.8.2-serial
+$ module list
+```
+
+where `exodusii/6.09/gcc-4.8.2-serial` may need to be changed to match your particular configuration.
 
 #### 2.2 Building the LaGriT library
 
@@ -102,6 +108,6 @@ and welcome to the wonderful world of mesh generation!
 
 Visit the [offical LANL hompage of LaGriT](http://lagrit.lanl.gov), view the [LaGriT commands](http://lagrit.lanl.gov/commands.shtml), take a look at [what LaGriT](http://lagrit.lanl.gov/graphics.shtml) can do, or view [publications supported in part by LaGriT](http://lagrit.lanl.gov/publications.shtml).
 
-**If you run into errors building LaGriT or have suggestions on how to improve this documentation, please email Terry Miller (tamiller@lanl.gov) or Daniel Livingston (livingston@lanl.gov).**
+**If you run into errors building LaGriT or have suggestions on how to improve this documentation, please email Terry Miller (tamiller@lanl.gov), Dylan Harp (dharp@lanl.gov), or Daniel Livingston (livingston@lanl.gov).**
 
 

@@ -18,7 +18,7 @@
 
 *LaGriT V3 (OSS) LA-CC-15-069*
 
-[![Build Status](https://travis-ci.org/lanl/LaGriT.svg?branch=master)](https://travis-ci.org/lanl/LaGriT) [![Latest Version](https://img.shields.io/github/release/lanl/lagrit.svg?style=flat-square)](https://github.com/lanl/lagrit/releases) [![PyPI](https://img.shields.io/pypi/l/Django.svg)]()
+[![Build Status](https://travis-ci.org/lanl/LaGriT.svg?branch=master)](https://travis-ci.org/lanl/LaGriT) [![Latest Version](https://img.shields.io/github/release/lanl/lagrit.svg?style=flat-square)](https://github.com/lanl/lagrit/releases) [![PyPI](https://img.shields.io/pypi/l/Django.svg)](https://github.com/lanl/LaGriT/blob/doc-test/LICENSE.md)
 
 Los Alamos Grid Toolbox (**LaGriT**) is a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions. LaGriT is used for a variety of geology and geophysics modeling applications including porous flow and transport model construction, finite element modeling of stress/strain in crustal fault systems, seismology, discrete fracture networks, asteroids and hydrothermal systems.
 
@@ -37,6 +37,7 @@ PyLaGriT allows interactive and automated querying of mesh properties, enhanced 
 * [LaGriT commands](http://lagrit.lanl.gov/commands.shtml)
 * [PyLaGriT documentation](https://lanl.github.io/LaGriT/)
 * [Contributions](documentation/CONTRIBUTE.md)
-* [License](LICENSE)
+* [License](LICENSE.md)
+
 
 ##### LaGriT Mesh Images at https://meshing.lanl.gov/proj/screenshots/GRID_GALLERY.html
