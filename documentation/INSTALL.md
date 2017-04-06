@@ -10,7 +10,7 @@ LaGriT requires the following packages installed:
 | HDF5 | [https://support.hdfgroup.org/HDF5/] |
 
 
-For instructions on installing these dependencies, [visit here](documentation/DEPENDENCIES.md). LaGriT supports the ExodusII file format as output (which sits atop netCDF). If you have no need for this format, you may continue building LaGriT by skipping the ExodusII installation and following the directions in [Manging Exodus](#managing-exodus). 
+For instructions on installing these dependencies, [visit here](DEPENDENCIES.md). LaGriT supports the ExodusII file format as output (which sits atop netCDF). If you have no need for this format, you may continue building LaGriT by skipping the ExodusII installation and following the directions in [Manging Exodus](#managing-exodus). 
 
 ---
 
