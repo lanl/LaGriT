@@ -1,4 +1,4 @@
-ontributing to LaGriT
+# Contributing to LaGriT
 
 Contributions are more than welcome to the development of LaGriT. However, LaGriT is the property of Los Alamos National Laboratory (BSD-3 licensed) and by submitting any contributions you are implicitly agreeing to the *Software Grant and Individual Contributor License Agreement*, printed below. Please read this agreement fully before making any contributions.
 
