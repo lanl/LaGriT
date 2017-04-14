@@ -55,7 +55,7 @@ LaGriT has three modes of use, 1) command line 2) batch driven via a control fil
 used interactively and in batch mode.
 It combines the meshing capabilities of LaGriT with the numeric and scientific functionality of Python including the quering of mesh properties, enhanced looping functionality, and user defined error checking.
 PyLaGriT has been developed to easily generate meshes by extrusion, dimensional reduction, coarsening and refinement of synthetic and realistic data. PyLaGriT enhances the workflow, enabling rapid iterations for use in simulations incorporating uncertainty in system geometry and automatic mesh generation. 
-See Description and Manual at <a href="https://losalamos.github.io/LaGriT/" target="new">losalamos.github.io/LaGriT/ </a> 
+See Description and Manual at <a href="https://lanl.github.io/LaGriT/" target="new">lanl.github.io/LaGriT </a> 
 <br>
 <br>
 <p>LaGriT and PyLaGriT are now distributed as open-source software under a BSD 3-Clause License (See <a href="https://lagrit.lanl.gov/licensing.shtml"> License </a>). 
