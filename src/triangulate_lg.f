@@ -45,22 +45,47 @@ C #####################################################################
 c      implicit none
 C
       include 'local_element.h'
+
+c  arguments
+      integer nwds, imsgin(nwds), msgtype(nwds)
+      real*8 xmsgin(nwds)
+      character*(*) cmsgin(nwds)
       integer ierror
+
+c variables
+
+      pointer (ipimt1, imt1)
+      pointer (ipitetoff, itetoff)
+      pointer (ipitettyp, itettyp)
+      pointer (ipitet, itet)
+      pointer (ipjtet,jtet)
+      pointer (ipjtetoff,jtetoff)
+
+      integer imt1(*)
+      integer itetoff(*)
+      integer itettyp(*)
+      integer itet(3,*)
+      integer jtet(*)
+      integer jtetoff(*)
+
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      real*8 xic(*)
+      real*8 yic(*)
+      real*8 zic(*)
+
+      integer nnodes,length,icmotype,icscode,nsd_topo,
+     *   ifirstpt,nelts,nelements,it,nlast
+
+      logical isccw
+
       character*132 logmess
       character*32 cmo,isubname
-      pointer (ipxic,xic), (ipyic,yic), (ipitet,itet)
-      real*8 xic(*),yic(*),xmsgin(*)
-      integer itet(3,*)
-      pointer (ipitettyp,itettyp), (ipitetoff,itetoff),
-     *   (ipjtetoff,jtetoff)
-      integer itettyp(*),itetoff(*),jtetoff(*)
-      integer nnodes,length,icmotype,icscode,nsd_topo,nwds,
-     *   ifirstpt,nelts,nelements,it,imsgin(*),msgtype(*),
-     *   nlast
-      logical isccw
-      character*32 cmsgin(*)
       character*132 cmd
 c
+c begin
+
 c  Get orientation of nodes
 c 
       isccw=.false.
@@ -186,15 +211,34 @@ c   is the index of the last existing triangle.  nelts on
 c   exit is the index of the last created triangle.
 c 
       implicit none
-      pointer (ipipts,ipts)
-      integer npts,j,i,nptsave,iv1,iv2,iv3,ipts(*),nelts,
-     *  ielts(3,*),ifirstpt,ilastpt,ip1,ip2,ip3,icscode,ierror
+
+c  arguments
+      integer ifirstpt,ilastpt,nelts,ierror
+      integer ielts(3,*) 
       real*8 x(*),y(*)
+      logical isccw
+
+c variables
+      integer npts,j,i,nptsave,iv1,iv2,iv3,inelts
+      integer ip1,ip2,ip3,icscode
+
       real*8 local_eps
-      logical isinteriordiagonal_lg,isccw,iscolinear_lg,found
+
+      logical isinteriordiagonal_lg,iscolinear_lg,found
+
       character*32 isubname
       character*128 logmess
-c 
+
+      pointer (ipipts,ipts)
+      integer ipts(*)
+
+c ------------------------------------------------------- 
+c begin
+
+c     print*,"maketriangles_lg ------------------------"
+c     print*,"ifirstpt,lastpt: ",ifirstpt,ilastpt
+c     print*,"nelts,isccw,ierror: ",nelts,isccw,ierror
+
       ierror=0
       isubname='maketriangles'
       found=.false.
@@ -236,6 +280,7 @@ c            call writloga('default',0,logmess,0,icscode)
       endif
       if(iscolinear_lg(x(iv1),y(iv1),x(iv2),y(iv2),x(iv3),
      *  y(iv3),local_eps)) go to 10
+
       if(isinteriordiagonal_lg(ip1,ip3,npts,x,y,ipts,isccw,local_eps))
      *    then
         found=.true.
@@ -272,17 +317,20 @@ c check for orientation
       call mmrelprt(isubname,icscode)
       return
       end
-c
-      function area_tri(x1,y1,x2,y2,x3,y3)
+
+c  function area_tri
 c  compute signed area of the triangle
 c  positive if points 1,2,3 are oriented counter clockwise
+      function area_tri(x1,y1,x2,y2,x3,y3)
       implicit none
       real*8 x1,y1,x2,y2,x3,y3,area_tri
       area_tri=x1*y2-y1*x2+y1*x3-x1*y3+x2*y3-x3*y2
       return
       end
-      function isleft_lg(x1,y1,x2,y2,x3,y3)
+
+c  function isleft_lg
 c  true if point 1 is to the left of line segment 2to3
+      function isleft_lg(x1,y1,x2,y2,x3,y3)
       implicit none
       logical isleft_lg
       real*8 x1,y1,x2,y2,x3,y3,area_tri
@@ -290,12 +338,20 @@ c  true if point 1 is to the left of line segment 2to3
       if (area_tri(x2,y2,x3,y3,x1,y1).gt.0.0 ) isleft_lg=.true.
       return
       end
-      function isleftoron_lg(x1,y1,x2,y2,x3,y3,isccw,local_eps)
+
+c  function isleftoron_lg
 c  true if point 1 is to the left of or on line segment 2to3
+
+      function isleftoron_lg(x1,y1,x2,y2,x3,y3,isccw,local_eps)
       implicit none
       logical isleftoron_lg,isccw
       real*8 x1,y1,x2,y2,x3,y3,area_tri,local_eps
+
       isleftoron_lg =.false.
+c      print*,"isleftoron_lg: ------------------"
+c      print*,"isccw: ",isccw
+c      print*,"local_eps: ",local_eps
+
       if(isccw) then
         if (area_tri(x1,y1,x2,y2,x3,y3).gt.-local_eps )
      *    isleftoron_lg=.true.
@@ -305,9 +361,10 @@ c  true if point 1 is to the left of or on line segment 2to3
       endif
       return
       end
-c
-      function iscolinear_lg(x1,y1,x2,y2,x3,y3,local_eps)
+
+c function iscolinear_lg
 c  return true if points 1,2,3 are iscolinear
+      function iscolinear_lg(x1,y1,x2,y2,x3,y3,local_eps)
       implicit none
       logical iscolinear_lg
       real*8 x1,y1,x2,y2,x3,y3,area_tri,local_eps
@@ -316,8 +373,10 @@ c  return true if points 1,2,3 are iscolinear
      *    iscolinear_lg=.true.
       return
       end
-      function isintersect_lg(x1,y1,x2,y2,x3,y3,x4,y4,local_eps)
+
+c function isintersect_lg
 c  return true if line segment 1 to 2 intersects line segment 3 to 4
+      function isintersect_lg(x1,y1,x2,y2,x3,y3,x4,y4,local_eps)
       implicit none
       logical isintersect_lg,iscolinear_lg,isleft_lg
       real*8 x1,y1,x2,y2,x3,y3,x4,y4,local_eps
@@ -334,25 +393,27 @@ c  return true if line segment 1 to 2 intersects line segment 3 to 4
      *   isintersect_lg=.true.
       return
       end
-c
-      function isbetween_lg(x1,y1,x2,y2,x3,y3,local_eps)
+
+c function isbetween_lg
 c  return true if point 1 lies on the line between 2 and 3
+      function isbetween_lg(x1,y1,x2,y2,x3,y3,local_eps)
       implicit none
       logical isbetween_lg,iscolinear_lg
       real*8 x1,y1,x2,y2,x3,y3,local_eps
       isbetween_lg=.false.
       if (iscolinear_lg(x1,y1,x2,y2,x3,y3,local_eps)) then
-         if ((x1.ge.min(x2,x3)-local_eps.and.x1.le.max(x2,x3)+local_eps)
-     *       .and.
-     *      (y1.ge.min(y2,y3)-local_eps.and.y1.le.max(y2,y3)+local_eps))
-     *       isbetween_lg=.true.
+        if ((x1.ge.min(x2,x3)-local_eps.and.x1.le.max(x2,x3)+local_eps)
+     *     .and.
+     *     (y1.ge.min(y2,y3)-local_eps.and.y1.le.max(y2,y3)+local_eps))
+     *  isbetween_lg=.true.
       endif
       return
       end
-c
-      function isintersectortee_lg(x1,y1,x2,y2,x3,y3,x4,y4,local_eps)
+
+c function isintersectortee_lg
 c  return true is line 1to2 intersect 3to4 or if the endpoint
 c  of one line is on the other line
+      function isintersectortee_lg(x1,y1,x2,y2,x3,y3,x4,y4,local_eps)
       implicit none
       logical isintersectortee_lg,isbetween_lg,isintersect_lg
       logical p13,p14,p23,p24,issamepoint_lg
@@ -381,14 +442,19 @@ c        isintersectortee_lg=.true.
       endif
       return
       end
-c 
-      function isinpoly_lg(i,j,npts,x,y,ipts,isccw,local_eps)
+
+c function isinpoly_lg
 c  return true if the diagonal from node i to node j is inside
 c  the polygon
+      function isinpoly_lg(i,j,npts,x,y,ipts,isccw,local_eps)
       implicit none
-      integer i,j,npts,ipts(*),ipi,ipj,ipp1,ipm1
-      real*8 x(*),y(*),local_eps
+      integer i,j,npts,ipi,ipj,ipp1,ipm1
+      integer ipts(*)
+      real*8 x(*),y(*)
+      real*8  local_eps
       logical isinpoly_lg,isleftoron_lg,isccw
+
+c begin
       isinpoly_lg=.false.
       ipi=ipts(i)
       ipj=ipts(j)
@@ -409,39 +475,45 @@ c  vertex i+1 must be to the left of diagonal ji
       if(isleftoron_lg(x(ipp1),y(ipp1),x(ipm1),y(ipm1),x(ipi),y(ipi)
      *      ,isccw,local_eps))
      *    then
-        if((isleftoron_lg(x(ipp1),y(ipp1),x(ipj),y(ipj),x(ipi),y(ipi)
+       if((isleftoron_lg(x(ipp1),y(ipp1),x(ipj),y(ipj),x(ipi),y(ipi)
      *      ,isccw,local_eps))
      *    .and.
-     *    (isleftoron_lg(x(ipm1),y(ipm1),x(ipi),y(ipi),x(ipj),y(ipj)
+     *  (isleftoron_lg(x(ipm1),y(ipm1),x(ipi),y(ipi),x(ipj),y(ipj)
      *      ,isccw,local_eps)))
      *    isinpoly_lg=.true.
       else
+
 c  reflex case
 c  diagonal must not be in the convex region -- therefore
 c  it must be not true that vertex i-1 is left of ij and
 c  vertex i+1 left of ji
          if(.not.
      *    (
-     *     (isleftoron_lg(x(ipm1),y(ipm1),x(ipj),y(ipj),x(ipi),y(ipi)
+     *    (isleftoron_lg(x(ipm1),y(ipm1),x(ipj),y(ipj),x(ipi),y(ipi)
      *      ,isccw,local_eps))
      *     .and.
-     *     (isleftoron_lg(x(ipp1),y(ipp1),x(ipi),y(ipi),x(ipj),y(ipj)
+     *    (isleftoron_lg(x(ipp1),y(ipp1),x(ipi),y(ipi),x(ipj),y(ipj)
      *      ,isccw,local_eps))
-     *     )
+     *    )
      *      )
-     *     isinpoly_lg=.true.
+     *    isinpoly_lg=.true.
       endif
       return
       end
-c
-      function isinteriordiagonal_lg(i,j,npts,x,y,ipts,isccw,local_eps)
+
+c function isinteriordiagonal_lg
 c  return true if diagonal ij is an interior diagonal of the polygon
+      function isinteriordiagonal_lg(i,j,npts,x,y,ipts,isccw,local_eps)
       implicit none
-      integer i,j,npts,ipts(*),it
-      real*8 x(*),y(*),local_eps,x1,y1,x2,y2,x3,y3,x_leaf,y_leaf
+      integer i,j,npts,it
+      integer ipts(*)
+      real*8  local_eps,x1,y1,x2,y2,x3,y3,x_leaf,y_leaf
+      real*8 x(*),y(*)
+
       logical isinteriordiagonal_lg,isdiagonal_lg,isinpoly_lg,isccw,
      *   dup_point, point_on_same_side, t_lf, isleftoron_lg,
-     *   issamepoint_lg
+     *   issamepoint_lg, isresult
+
       isinteriordiagonal_lg=.false.
       if (isinpoly_lg(i,j,npts,x,y,ipts,isccw,local_eps)) then
          x1 = x(ipts(i))
@@ -449,7 +521,9 @@ c  return true if diagonal ij is an interior diagonal of the polygon
          x_leaf = x(ipts(i+1))
          y_leaf = y(ipts(i+1))
          t_lf = isleftoron_lg(x_leaf,y_leaf,x1,y1,x2,y2,isccw,local_eps)
+
 c        print*, 'Leaf point on the left: ', t_lf
+
          x2 = x(ipts(j))
          y2 = y(ipts(j))
          dup_point = .false.
@@ -459,9 +533,10 @@ c        print*, 'Leaf point on the left: ', t_lf
            y3 = y(ipts(it))
            dup_point = dup_point.or.
      *        issamepoint_lg(x2,y2,x3,y3,local_eps)
+
            if(.not.dup_point) then
-              point_on_same_side = point_on_same_side.and.
-     *           isleftoron_lg(x3,y3,x1,y1,x2,y2)
+              isresult=isleftoron_lg(x3,y3,x1,y1,x2,y2,isccw,local_eps)
+              point_on_same_side = point_on_same_side.and.isresult
            endif
          enddo
          if(dup_point.and.(.not.point_on_same_side)) return
@@ -470,16 +545,17 @@ c        print*, 'Leaf point on the left: ', t_lf
       endif
       return
       end
-c 
 
-      function isdiagonal_lg(i,j,npts,x,y,ipts,local_eps)
+c function isdiagonal_lg
 c  return true if the line from node i to node j is a diagonal
 c  of the polygon.
+      function isdiagonal_lg(i,j,npts,x,y,ipts,local_eps)
       implicit none
       logical isdiagonal_lg,isintersectortee_lg,issamepoint_lg
       logical test_pts1,test_pts2,test_pts3,test_pts4,cond
       integer i,j,npts,iv1,iv2,ipts(*),ipi,ipj,l
       real*8 x(*),y(*),local_eps
+
       ipi=ipts(i)
       ipj=ipts(j)
       isdiagonal_lg=.false.
@@ -501,10 +577,10 @@ c  and see if the diagonal ij intersects the edge
       isdiagonal_lg=.true.
       return
       end
-c 
 
-      function issamepoint_lg(x1,y1,x2,y2,local_eps)
+c function issamepoint_lg
 c     check whether two points are the same
+      function issamepoint_lg(x1,y1,x2,y2,local_eps)
       implicit none
       real*8 x1,x2,y1,y2,local_eps
       logical issamepoint_lg
