@@ -68,24 +68,25 @@ $ rm *.mod
 $ make MOPT=64 lib
 ```
 
-Lorem ipsum solom dolor
+When LaGriT launches, it displays a banner indicating date of compile and the type of system it was built on. Work is in progress to autopopulate this information, but in the meantime it is necessary to change this values yourself. If you want an updated banner, edit `lagrit_ulin64.h` to match your environment and then run
 
 ```sh
 $ cp lagrit_ulin64.h lagrit.h
 $ cp  machine_m64.h machine.h
 ```
 
-Next, link the Fortran libraries using
+Next, link the Fortran libraries and make:
 ```sh
-$ gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
-$ gfortran  -g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
+$  gfortran  -O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
+$  gfortran  -O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
+make MOPT=64 lib
 ```
 
 
 One more command and we are done:
 
 ```sh
-$ gfortran -g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a ../lg_util/src/util_ulin64_o_gcc.a -L/n/swdev/packages/Ubuntu-14.04-x86_64/exodusii/6.09/gcc-4.8.2-serial/lib -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+$ gfortran -O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_SRC_DIR/util_ulin64_o_gcc.a -L/n/swdev/packages/Ubuntu-16.04-x86_64/exodusii/seacas-2.0/gcc-5.4.0-serial/lib -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
 ```
 
 Before running this command, note a few things about it:
@@ -100,6 +101,7 @@ $ ./mylagrit
 ```
 
 and welcome to the wonderful world of mesh generation!
+
 
 ---
 
