@@ -1,0 +1,142 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.202   Linux m64      *                 
+*               *    date_compile: 2017/04/20 mtools          *                 
+*               *    Run Time: 2017/Apr 26  18:40:16          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
+under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
+Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
+for the U.S. Department of Energy. The U.S. Government has rights to use,       
+reproduce, and distribute this software. Neither the  government nor Los Alamos 
+National Security, LLC makes any warranty, express or  implied, or assumes any  
+liability for the use of this software. If software is modified to produce      
+derivative works, such modified software should be  clearly marked, so as not   
+to confuse it with the version available from LANL.                             
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+* Special-case test that caused crashing on                                     
+* Version 3.2.2 of LaGriT.                                                      
+* Reported by T. Miller and C. Gable.                                           
+define/SIZE/0.01                                                                
+define/EPS1/0.01                                                                
+define/EPS2/0.02                                                                
+define/EPS3/0.03                                                                
+define/EPS4/0.04                                                                
+cmo/create/mo1                                                                  
+createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//1                                     
+  RANPTS GENERATED POINTS           1 TO     1045670                            
+createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//2                                     
+  RANPTS GENERATED POINTS     1045671 TO     2091340                            
+createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//3                                     
+  RANPTS GENERATED POINTS     2091341 TO     3137010                            
+filter/1 0 0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.384592537277E-12                       
+ 
+FILTER:Dudding duplicate points:          16                                    
+rmpoint/compress                                                                
+        16 points removed and          0 elements removed.                      
+   The new point count is   3136994.                                            
+   The new element count is         0.                                          
+filter/1 0 0/EPS1                                                               
+ 
+FILTER:User specified value =    0.100000000000E-01                             
+ 
+FILTER:Dudding duplicate points:     2171048                                    
+rmpoint/compress                                                                
+   2171048 points removed and          0 elements removed.                      
+   The new point count is    965946.                                            
+   The new element count is         0.                                          
+filter/1 0 0/EPS2                                                               
+ 
+FILTER:User specified value =    0.200000000000E-01                             
+ 
+FILTER:Dudding duplicate points:      390370                                    
+rmpoint/compress                                                                
+    390370 points removed and          0 elements removed.                      
+   The new point count is    575576.                                            
+   The new element count is         0.                                          
+filter/1 0 0/EPS3                                                               
+ 
+FILTER:User specified value =    0.300000000000E-01                             
+ 
+FILTER:Dudding duplicate points:      267817                                    
+rmpoint/compress                                                                
+    267817 points removed and          0 elements removed.                      
+   The new point count is    307759.                                            
+   The new element count is         0.                                          
+filter/1 0 0/EPS4                                                               
+ 
+FILTER:User specified value =    0.400000000000E-01                             
+ 
+FILTER:Dudding duplicate points:      153230                                    
+rmpoint/compress                                                                
+    153230 points removed and          0 elements removed.                      
+   The new point count is    154529.                                            
+   The new element count is         0.                                          
+cmo/create/mo2                                                                  
+createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//1                                     
+  RANPTS GENERATED POINTS           1 TO     1045670                            
+createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//2                                     
+  RANPTS GENERATED POINTS     1045671 TO     2091340                            
+createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//3                                     
+  RANPTS GENERATED POINTS     2091341 TO     3137010                            
+filterkd/1 0 0                                                                  
+ 
+FILTERKD:Use internal epsilonl value =   0.384592537277E-12                     
+ 
+FILTERKD:Dudding duplicate points:          16                                  
+rmpoint/compress                                                                
+        16 points removed and          0 elements removed.                      
+   The new point count is   3136994.                                            
+   The new element count is         0.                                          
+filterkd/1 0 0/EPS1                                                             
+ 
+FILTERKD:User specified value =    0.100000000000E-01                           
+ 
+FILTERKD:Dudding duplicate points:     2671806                                  
+rmpoint/compress                                                                
+   2671806 points removed and          0 elements removed.                      
+   The new point count is    465188.                                            
+   The new element count is         0.                                          
+filterkd/1 0 0/EPS2                                                             
+ 
+FILTERKD:User specified value =    0.200000000000E-01                           
+ 
+FILTERKD:Dudding duplicate points:      400390                                  
+rmpoint/compress                                                                
+    400390 points removed and          0 elements removed.                      
+   The new point count is     64798.                                            
+   The new element count is         0.                                          
+filterkd/1 0 0/EPS3                                                             
+ 
+FILTERKD:User specified value =    0.300000000000E-01                           
+ 
+FILTERKD:Dudding duplicate points:       47498                                  
+rmpoint/compress                                                                
+     47498 points removed and          0 elements removed.                      
+   The new point count is     17300.                                            
+   The new element count is         0.                                          
+filterkd/1 0 0/EPS4                                                             
+ 
+FILTERKD:User specified value =    0.400000000000E-01                           
+ 
+FILTERKD:Dudding duplicate points:       10177                                  
+rmpoint/compress                                                                
+     10177 points removed and          0 elements removed.                      
+   The new point count is      7123.                                            
+   The new element count is         0.                                          
+finish                                                                          
+LaGriT successfully completed                                                   

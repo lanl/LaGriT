@@ -1,0 +1,71 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.202   Linux m64      *                 
+*               *    date_compile: 2017/04/20 mtools          *                 
+*               *    Run Time: 2017/Apr 26  18:43:31          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
+under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
+Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
+for the U.S. Department of Energy. The U.S. Government has rights to use,       
+reproduce, and distribute this software. Neither the  government nor Los Alamos 
+National Security, LLC makes any warranty, express or  implied, or assumes any  
+liability for the use of this software. If software is modified to produce      
+derivative works, such modified software should be  clearly marked, so as not   
+to confuse it with the version available from LANL.                             
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+* Special-case test that caused crashing                                        
+* on Version 3.2.2 of LaGriT.                                                   
+* Reported by C. Gable.                                                         
+read/input_polygon.inp/mo_poly_work                                             
+read/avs/input_polygon.inp/mo_poly_work                                         
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo_poly_work                                   
+ 
+  1 Mesh Object name: mo_poly_work                                              
+    number of nodes =             4        number of elements =            3    
+    dimensions geometry =         3        element type =                lin    
+    dimensions topology =         1        2 nodes      2 faces      1 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+cmo/create/mo_pts///triplane                                                    
+copypts/mo_pts/mo_poly_work                                                     
+copypts added nodes          1 to          4                                    
+cmo/select/mo_pts                                                               
+triangulate/counterclockwise                                                    
+filter/1,0,0                                                                    
+ 
+FILTER:Use internal epsilonl value =   0.116934898923E-10                       
+ 
+FILTER:Dudding duplicate points:           0                                    
+finish                                                                          
+rmpoint/compress                                                                
+         0 points removed and          0 elements removed.                      
+   The new point count is         4.                                            
+   The new element count is         2.                                          
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+finish                                                                          
+unexpected eof-command ignored                                                  
+finish                                                                          
+LaGriT successfully completed                                                   
