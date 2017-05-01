@@ -1305,7 +1305,7 @@ C
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,"('number of node sets:      ',i10)") npsets
       call writloga('default',0,logmess,0,ierrw)
-      write(logmess,"('number of edge sets:      ',i10)") nsdgeom
+      write(logmess,"('number of edge sets:      ',i10)") 0
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,"('number of element sets:   ',i10)") neltsets
       call writloga('default',0,logmess,0,ierrw)
