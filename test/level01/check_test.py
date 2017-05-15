@@ -167,7 +167,11 @@ def diff_chunk(rlines,tlines,rcnt,tcnt, wfile) :
 #          Done Loop through word by word
 
 #    for lines with different number of words, assume difference 
-     else :
+     elif (tcount != rcount and tcount > 0):
+        if (twords[0].find("*") > -1 or twords[0].find("#"):
+           ico=ico+1
+           if debug : print "Comment lines differs in length"
+     else:
         if debug : print "Lines differ in length" 
         ibad = 1
 
