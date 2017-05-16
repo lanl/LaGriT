@@ -18,9 +18,6 @@ pset/po2/seq/0,0,0/
 cmo/setatt/mo2/imt/pset,get,po2/2  
 perturb/pset,get,po2/XP,XP,XP/ 
 
-#compute/distance_field/mo1/mo2/dfield
-#cmo/printatt/mo1/dfield/minmax
-
 addmesh/merge/mfilter/mo1/mo2
 cmo/copy/mfilterkd/mfilter
 
@@ -30,8 +27,6 @@ filter/1 0 0/EPS1
 cmo/select/mfilterkd
 filterkd/1 0 0/EPS1 
 
-cmo/status
-mmprint
 cmo/printatt/mfilter/imt/minmax 
 cmo/printatt/mfilter/-xyz-/minmax 
 cmo/printatt/mfilterkd/imt/minmax 
@@ -43,8 +38,6 @@ rmpoint/compress
 cmo/select/mfilterkd
 rmpoint/compress
 
-cmo/status
-cmo/status/brief
 cmo/printatt/mfilter/imt/minmax
 cmo/printatt/mfilter/-xyz-/minmax
 cmo/printatt/mfilterkd/imt/minmax

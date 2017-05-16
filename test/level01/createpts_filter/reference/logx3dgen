@@ -16,8 +16,6 @@ cmo/select/mfilter
 filter/1 0 0/EPS1                                                               
 cmo/select/mfilterkd                                                            
 filterkd/1 0 0/EPS1                                                             
-cmo/status                                                                      
-mmprint                                                                         
 cmo/printatt/mfilter/imt/minmax                                                 
 cmo/printatt/mfilter/-xyz-/minmax                                               
 cmo/printatt/mfilterkd/imt/minmax                                               
@@ -26,8 +24,6 @@ cmo/select/mfilter
 rmpoint/compress                                                                
 cmo/select/mfilterkd                                                            
 rmpoint/compress                                                                
-cmo/status                                                                      
-cmo/status/brief                                                                
 cmo/printatt/mfilter/imt/minmax                                                 
 cmo/printatt/mfilter/-xyz-/minmax                                               
 cmo/printatt/mfilterkd/imt/minmax                                               
