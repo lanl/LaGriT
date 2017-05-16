@@ -63,7 +63,8 @@ class readable_dir(argparse.Action):
 def main(argv=None):
 
         # xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64-gcc4.8.4/lagrit"
-	xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-16.04-x86_64-gcc5.4.0/lagrit"
+	# xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-16.04-x86_64-gcc5.4.0/lagrit"
+	xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-16.04-x86_64-gcc5.4.0/bin/lagrit"
 
         dtop = os.getcwd() 
 

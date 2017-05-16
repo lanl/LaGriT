@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V3.202   Linux m64      *                 
 *               *    date_compile: 2017/04/20 mtools          *                 
-*               *    Run Time: 2017/Apr 26  18:43:31          *                 
+*               *    Run Time: 2017/May 15  19:39:04          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -66,6 +66,5 @@ resetpts/itp
 geniee                                                                          
 finish                                                                          
 finish                                                                          
-unexpected eof-command ignored                                                  
 finish                                                                          
 LaGriT successfully completed                                                   

@@ -1,34 +1,35 @@
-define/SIZE/0.01                                                                
-define/EPS1/0.01                                                                
-define/EPS2/0.02                                                                
-define/EPS3/0.03                                                                
-define/EPS4/0.04                                                                
+define/XP/0.0001                                                                
+define/EPS1/0.00018                                                             
+define/PTS/101                                                                  
 cmo/create/mo1                                                                  
-createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//1                                     
-createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//2                                     
-createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//3                                     
-filter/1 0 0                                                                    
-rmpoint/compress                                                                
-filter/1 0 0/EPS1                                                               
-rmpoint/compress                                                                
-filter/1 0 0/EPS2                                                               
-rmpoint/compress                                                                
-filter/1 0 0/EPS3                                                               
-rmpoint/compress                                                                
-filter/1 0 0/EPS4                                                               
-rmpoint/compress                                                                
+createpts/xyz/PTS,PTS,PTS/0.,0.,0./1.,1.,1./1,1,1/                              
+pset/po1/seq/0,0,0/                                                             
+cmo/setatt/mo1/imt/pset,get,po1/1                                               
 cmo/create/mo2                                                                  
-createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//1                                     
-createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//2                                     
-createpts/random/xyz/SIZE/0 0 0/1 1 1/,,//3                                     
-filterkd/1 0 0                                                                  
-rmpoint/compress                                                                
+createpts/xyz/PTS,PTS,PTS/0.,0.,0./1.,1.,1./1,1,1/                              
+pset/po2/seq/0,0,0/                                                             
+cmo/setatt/mo2/imt/pset,get,po2/2                                               
+perturb/pset,get,po2/XP,XP,XP/                                                  
+addmesh/merge/mfilter/mo1/mo2                                                   
+cmo/copy/mfilterkd/mfilter                                                      
+cmo/select/mfilter                                                              
+filter/1 0 0/EPS1                                                               
+cmo/select/mfilterkd                                                            
 filterkd/1 0 0/EPS1                                                             
+cmo/status                                                                      
+mmprint                                                                         
+cmo/printatt/mfilter/imt/minmax                                                 
+cmo/printatt/mfilter/-xyz-/minmax                                               
+cmo/printatt/mfilterkd/imt/minmax                                               
+cmo/printatt/mfilterkd/-xyz-/minmax                                             
+cmo/select/mfilter                                                              
 rmpoint/compress                                                                
-filterkd/1 0 0/EPS2                                                             
+cmo/select/mfilterkd                                                            
 rmpoint/compress                                                                
-filterkd/1 0 0/EPS3                                                             
-rmpoint/compress                                                                
-filterkd/1 0 0/EPS4                                                             
-rmpoint/compress                                                                
+cmo/status                                                                      
+cmo/status/brief                                                                
+cmo/printatt/mfilter/imt/minmax                                                 
+cmo/printatt/mfilter/-xyz-/minmax                                               
+cmo/printatt/mfilterkd/imt/minmax                                               
+cmo/printatt/mfilterkd/-xyz-/minmax                                             
 finish                                                                          

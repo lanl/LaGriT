@@ -6,4 +6,7 @@ read / input_polygon.inp / mo_poly_work
 cmo / create / mo_pts / / / triplane 
 copypts / mo_pts / mo_poly_work 
 cmo / select / mo_pts 
-triangulate / counterclockwise 
+triangulate / counterclockwise
+
+finish
+ 
