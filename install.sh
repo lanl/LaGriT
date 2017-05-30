@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 #-------------------------------------------------------------------------------------------
 # This script will download packages for, configure, and build LaGriT cross-platform.
@@ -208,8 +208,9 @@ parse_ld_lib()
 build_exodus()
 {
 	mkdir $EXODUS_ROOT_DIR; cd $EXODUS_ROOT_DIR
-	wget https://github.com/gsjaardema/seacas/archive/exodus.zip
-	unzip exodus.zip; rm exodus.zip
+	wget https://github.com/gsjaardema/seacas/archive/exodus.zip || exit 1
+	unzip exodus.zip || exit 1
+	rm exodus.zip
 	cd seacas-exodus && export ACCESS=`pwd`
 	
 	# If you run into problems building HDF5,
@@ -222,22 +223,24 @@ build_exodus()
 	cd TPL && export TPL=`pwd`
 	cd hdf5
 	echo "Downloading and unpacking HDF5..."
-	wget -O hdf5-1.10.1.gzip https://www.hdfgroup.org/package/gzip/?wpdmdl=4301
-	tar zxf hdf5-1.10.1.gzip; rm hdf5-1.10.1.gzip 
+	wget -O hdf5-1.10.1.gzip https://www.hdfgroup.org/package/gzip/?wpdmdl=4301 || exit 1
+	tar zxf hdf5-1.10.1.gzip || exit 1
+	rm hdf5-1.10.1.gzip 
 	sed -i -e 's/--enable-debug=no/--enable-build-mode=debug/g' runconfigure.sh
 	sed -i -e 's/--enable-production/--enable-build-mode=production/g' runconfigure.sh
 	cd hdf5-1.10.1
 	echo "   Done."
 	
 	sh ../runconfigure.sh
-	make && make install
+	make && make install || exit 1
 
 	cd ../../netcdf
 
 	echo "Downloading and unpacking netCDF..."
-	wget https://raw.githubusercontent.com/gsjaardema/seacas/master/TPL/netcdf/runcmake.sh
-	wget -O netcdf-4.4.1.1.tar.gz ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.1.1.tar.gz
-	tar zxf netcdf-4.4.1.1.tar.gz; rm netcdf-4.4.1.1.tar.gz
+	wget https://raw.githubusercontent.com/gsjaardema/seacas/master/TPL/netcdf/runcmake.sh || exit 1
+	wget -O netcdf-4.4.1.1.tar.gz ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.1.1.tar.gz || exit 1
+	tar zxf netcdf-4.4.1.1.tar.gz || exit 1
+	rm netcdf-4.4.1.1.tar.gz
 	echo "   Done."
 
 	cd netcdf-4.4.1.1/include
@@ -252,7 +255,7 @@ build_exodus()
 	mkdir build/
 	cd build/
 	sh ../../runcmake.sh
-	make && make install
+	make && make install || exit 1
 
 	cd $ACCESS
 	mkdir build
@@ -260,7 +263,7 @@ build_exodus()
 
 	echo "Building Exodus..."
 	../cmake-exodus
-	make && make install
+	make && make install || exit 1
 	echo "   Exodus build complete."
 }
 
@@ -285,20 +288,20 @@ build_lagrit()
 		echo "Configuring static build..."
 		#edit lagrit_ulin64.h to say static in banner
 		
-		LINKERFLAGS='-O -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o'
-		BUILDFLAGS='-g -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o'
-		BUILDLIBS="lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a"
-		BUILDSUFFIX="-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++"
+		LINKERFLAGS=(-O -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
+		BUILDFLAGS=(-g -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
+		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
+		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
 		MAKEFLAG='MOPT=64'
 	fi
 	
 	# Debug with shared libs
 	if [ $BUILD_DEBUG -eq 1 ] ; then
 		echo "Configuring debug build..."
-		LINKERFLAGS='-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o'
-		BUILDFLAGS='-O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o'
-		BUILDLIBS="lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a"
-		BUILDSUFFIX="-L$ACCESS -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++"
+		LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
+		BUILDFLAGS=(-O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
+		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
+		BUILDSUFFIX=(-L$ACCESS -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++)
 		#MAKEFLAG='MOPT=64 -g'
 		MAKEFLAG='MOPT=64'
 	fi
@@ -306,10 +309,10 @@ build_lagrit()
 	# Build without Exodus
 	if [ $BUILD_EXODUS -eq 0 ] ; then
 		echo "Configuring release build without Exodus..."
-		LINKERFLAGS='-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o'
-		BUILDFLAGS='-g -Dlinx64 -static-libgfortran -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o'
-		BUILDLIBS="lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a"
-		BUILDSUFFIX='-lm -lstdc++'
+		LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
+		BUILDFLAGS=(-g -Dlinx64 -static-libgfortran -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
+		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
+		BUILDSUFFIX=(-lm -lstdc++)
 		MAKEFLAG='COPT=-g'
 		
 		cd "$LAGRIT_ROOT_DIR/src/"
@@ -323,11 +326,13 @@ build_lagrit()
 	# Release with shared libs
 	if [ $BUILD_RELEASE -eq 1 ] ; then
 		echo "Configuring release build..."
-		LINKERFLAGS='-O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o'
-		BUILDFLAGS='-O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o'
-		BUILDLIBS="lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a"
-		BUILDSUFFIX="-L$ACCESS -lexodus -lexoIIv2for -lnetcdf -lm -lstdc++"
+		LINKERFLAGS=(-O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
+		BUILDFLAGS=(-O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
+		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
+		BUILDSUFFIX=(-L$ACCESS -lexodus -lexoIIv2for -lnetcdf -lm -lstdc++)
 		MAKEFLAG='MOPT=64'
+		
+		
 	fi
 
 	echo "   Done."
@@ -335,7 +340,7 @@ build_lagrit()
 
 	cd lg_util/src/
 	make clean
-	make MOPT=64 lib
+	make MOPT=64 lib || exit 1
 
 	echo "   Done."
 	echo "Cleaning LaGriT source directory..."
@@ -352,11 +357,9 @@ build_lagrit()
 	
 	echo "   Done."
 	echo "Linking LaGriT..."
-	echo "$FORTRAN_COMPILER $LINKERFLAGS lagrit_main.o lagrit_main.f"
-	echo "$FORTRAN_COMPILER $LINKERFLAGS lagrit_fdate.o lagrit_fdate.f"
 	
-	$FORTRAN_COMPILER $LINKERFLAGS lagrit_main.o lagrit_main.f
-	$FORTRAN_COMPILER $LINKERFLAGS lagrit_fdate.o lagrit_fdate.f
+	$FORTRAN_COMPILER ${LINKERFLAGS[*]} lagrit_main.o lagrit_main.f || exit 1
+	$FORTRAN_COMPILER ${LINKERFLAGS[*]} lagrit_fdate.o lagrit_fdate.f || exit 1
 	
 	echo "   Done."
 	echo "Making LaGriT..."
@@ -365,7 +368,7 @@ build_lagrit()
 	echo "   Done."
 	echo "Compiling LaGriT..."
 	
-	$FORTRAN_COMPILER $BUILDFLAGS $LAGRIT_NAME $BUILDLIBS $BUILDSUFFIX
+	$FORTRAN_COMPILER ${BUILDFLAGS[*]} $LAGRIT_NAME ${BUILDLIBS[*]} ${BUILDSUFFIX[*]} || exit 1
 	echo "   Done."
 	
 }
