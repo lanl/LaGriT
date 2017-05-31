@@ -308,13 +308,17 @@ build_lagrit()
 	# Static build
 	if [ $BUILD_STATIC -eq 1 ] ; then
 		echo "Configuring static build..."
-		#edit lagrit_ulin64.h to say static in banner
-		
 		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
 		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
 		MAKEFLAG='MOPT=64'
+
+		# Default gcc/gfortran compiler on Mac behaves different for static flag
+		if [ "$(uname)" == "Darwin" ]; then
+			LINKERFLAGS=(-O -Bstatic  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
+			BUILDFLAGS=(-g -Bstatic -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
+		fi
 	fi
 	
 	# Debug with shared libs
@@ -389,7 +393,7 @@ build_lagrit()
 	echo "   Done."
 	
 	if [ "$(uname)" == "Darwin" ]; then
-		if [  $BUILD_EXODUS -eq 1 ]; then
+		if [ $BUILD_EXODUS -eq 1 ] && [ $BUILD_STATIC -eq 0 ]; then
 			export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$ACCESS
 			echo ""
 			echo "-------------------------------------------------------------------------"
