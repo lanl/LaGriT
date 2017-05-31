@@ -2,10 +2,10 @@
 
 #-------------------------------------------------------------------------------------------
 # This script will download packages for, configure, and build LaGriT cross-platform.
-# 
+# For bug reporting or suggestions on improvement, email livingston@lanl.gov
 #-------------------------------------------------------------------------------------------
 
-SCRIPT_VERSION="v0.2"
+SCRIPT_VERSION="v0.5"
 
 echo "========================================================"
 echo "=================== Building LaGriT ===================="
@@ -19,7 +19,7 @@ export EXODUS_ROOT_DIR=$LAGRIT_ROOT_DIR/TPL
 
 # ----- Build variables -----------------
 #  Edit these to match your configuration
-#  Build flags can be edited under line 186
+#  Build flags can be edited under line 276
 FORTRAN_COMPILER='gfortran'
 FORTRAN90_COMPILER='gfortran'
 LAGRIT_NAME='lagrit' # Final executable name
@@ -103,35 +103,35 @@ fi
 for i in "$@"
 do
 case $i in
-    -h|--help)
+	-h|--help)
 	helpme
-    shift 
-    ;;
-    -s|--static)
-    BUILD_STATIC=1
+	shift 
+	;;
+	-s|--static)
+	BUILD_STATIC=1
 
 	BUILD_EXODUS=1 # Needs to be optimized to remove this
 	BUILD_DEBUG=0 # Needs to be optimized to remove this
 	BUILD_RELEASE=0 # Needs to be optimized to remove this
-    shift 
-    ;;
-    -d|--debug)
+	shift 
+	;;
+	-d|--debug)
 	BUILD_DEBUG=1
 
 	BUILD_STATIC=0 # Needs to be optimized to remove this
 	BUILD_EXODUS=1 # Needs to be optimized to remove this
 	BUILD_RELEASE=0 # Needs to be optimized to remove this
-    shift
-    ;;
-    -se|--skipexodus)
-    BUILD_EXODUS=0
+	shift
+	;;
+	-se|--skipexodus)
+	BUILD_EXODUS=0
 	SKIPALL=0 # Assumes it has been set to 1 in dependency check
 
 	BUILD_STATIC=0 # Needs to be optimized to remove this
 	BUILD_DEBUG=0 # Needs to be optimized to remove this
 	BUILD_RELEASE=0 # Needs to be optimized to remove this
-    shift 
-    ;;
+	shift 
+	;;
 	-r|--release)
 	BUILD_RELEASE=1
 
@@ -141,12 +141,12 @@ case $i in
 	shift 
 	;;
 	-e=*|--exodus=*)
-    ACCESS="${i#*=}"
+	ACCESS="${i#*=}"
 	BUILD_EXODUS=0
-    shift # past argument=value
-    ;;
-    *)
-    helpme # unknown option
+	shift # past argument=value
+	;;
+	*)
+	helpme # unknown option
 	
     ;;
 esac
@@ -332,8 +332,6 @@ build_lagrit()
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
 		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
 		MAKEFLAG='MOPT=64'
-		
-		
 	fi
 
 	echo "   Done."
@@ -346,11 +344,8 @@ build_lagrit()
 	echo "   Done."
 	echo "Cleaning LaGriT source directory..."
 
-	pwd
 	cd ../../src/
-	pwd
 	rm *.o; rm *.mod # make clean
-	#make $MAKEFLAG lib
 	
 	cp exo_files/exodusII.h exodusII.h
 	cp exo_files/exodusII.inc exodusII.inc
