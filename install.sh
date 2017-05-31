@@ -310,10 +310,10 @@ build_lagrit()
 		echo "Configuring static build..."
 		#edit lagrit_ulin64.h to say static in banner
 		
-		LINKERFLAGS=(-O -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
-		BUILDFLAGS=(-g -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
+		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
+		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
-		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
+		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
 		MAKEFLAG='MOPT=64'
 	fi
 	
