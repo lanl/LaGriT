@@ -125,6 +125,7 @@ case $i in
     ;;
     -se|--skipexodus)
     BUILD_EXODUS=0
+	SKIPALL=0 # Assumes it has been set to 1 in dependency check
 
 	BUILD_STATIC=0 # Needs to be optimized to remove this
 	BUILD_DEBUG=0 # Needs to be optimized to remove this
@@ -301,7 +302,7 @@ build_lagrit()
 		LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
 		BUILDFLAGS=(-O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
-		BUILDSUFFIX=(-L$ACCESS -lexodus -lexoIIv2for -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++)
+		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++)
 		#MAKEFLAG='MOPT=64 -g'
 		MAKEFLAG='MOPT=64'
 	fi
@@ -329,7 +330,7 @@ build_lagrit()
 		LINKERFLAGS=(-O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
 		BUILDFLAGS=(-O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
-		BUILDSUFFIX=(-L$ACCESS -lexodus -lexoIIv2for -lnetcdf -lm -lstdc++)
+		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
 		MAKEFLAG='MOPT=64'
 		
 		
@@ -370,6 +371,24 @@ build_lagrit()
 	
 	$FORTRAN_COMPILER ${BUILDFLAGS[*]} $LAGRIT_NAME ${BUILDLIBS[*]} ${BUILDSUFFIX[*]} || exit 1
 	echo "   Done."
+	
+	if [ "$(uname)" == "Darwin" ]; then
+		if [  $BUILD_EXODUS -eq 1 ]; then
+			export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$ACCESS
+			echo ""
+			echo "-------------------------------------------------------------------------"
+			echo "IMPORTANT NOTICE: For macOS to correctly find Exodus libraries,"
+			echo "  the following line must be appended to your ~./bashrc or ~./bash_profile:"
+			echo 'export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:'"$ACCESS"
+			echo ""
+			echo "Otherwise, once this current terminal session ends, DYLD_LIBRARY_PATH"
+			echo "  will revert back to its default state and you will have to manually"
+			echo "  export the Exodus lib path each time you wish to run LaGriT in a new"
+			echo "  Terminal session. This is a macOS-specific issue, since OS X Tiger."
+			echo "-------------------------------------------------------------------------"
+			read -n 1 -s -p "Press any key to continue "
+		fi
+	fi
 	
 }
 
