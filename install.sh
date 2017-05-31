@@ -232,6 +232,12 @@ build_exodus()
 	cd hdf5-1.10.1
 	echo "   Done."
 	
+	if [ $BUILD_STATIC -eq 1 ] ; then
+		cd ../
+		sed -i -e 's/--enable-shared/--enable-static/g' runconfigure.sh
+		cd hdf5-1.10.1
+	fi
+	
 	sh ../runconfigure.sh
 	make && make install || exit 1
 
@@ -255,12 +261,26 @@ build_exodus()
 	cd ../
 	mkdir build/
 	cd build/
+	
+	if [ $BUILD_STATIC -eq 1 ] ; then
+		tmp_dir=`pwd`
+		cd ../..
+		sed -i -e 's/-DBUILD_SHARED_LIBS:BOOL=ON/-DBUILD_SHARED_LIBS:BOOL=OFF/g' runcmake.sh
+		cd $tmp_dir
+	fi
+	
 	sh ../../runcmake.sh
 	make && make install || exit 1
 
 	cd $ACCESS
 	mkdir build
 	cd build
+
+	if [ $BUILD_STATIC -eq 1 ] ; then
+		cd ..
+		sed -i -e 's/BUILD_SHARED_LIBS:BOOL=ON/BUILD_SHARED_LIBS:BOOL=OFF/g' cmake-exodus
+		cd build
+	fi
 
 	echo "Building Exodus..."
 	../cmake-exodus
@@ -283,7 +303,8 @@ build_lagrit()
 	export LAGRIT_UTIL_DIR=`pwd`/lg_util/src
 	
 	echo "Setting environment variables..."
-	
+	echo $ACCESS	
+
 	# Static build
 	if [ $BUILD_STATIC -eq 1 ] ; then
 		echo "Configuring static build..."
