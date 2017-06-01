@@ -39,11 +39,9 @@ Then `cd LaGriT/` and run:
 
     ./install.sh --release
     
-Or `--help` to see other build configurations. The build script will check if Exodus is installed; if not, download and building of Exodus from the [Seacas repo](https://github.com/gsjaardema/seacas) will automatically begin. If you do not need Exodus, pass the argument `--skip-exodus`.
+Or `--help` to see other build configurations. The build script will check if Exodus is installed; if not, download and building of Exodus from the [Seacas repo](https://github.com/gsjaardema/seacas) will automatically begin. If you do not need Exodus, pass the argument `--skipexodus`.
 
-![alt tag](screenshots/refine_samples_TN1000.png)
-
-### Quick Links ###
+### Supporting Documentation ###
 ---
 * [Manual Installation](documentation/INSTALL.md)
 * [LaGriT Description and Manual](http://lagrit.lanl.gov)
@@ -52,5 +50,6 @@ Or `--help` to see other build configurations. The build script will check if Ex
 * [Contributions for External Collaborators](CONTRIBUTING.md)
 * [License](LICENSE.md)
 
+![Refine Samples](screenshots/refine_samples_TN1000.png)
 
 ##### LaGriT Mesh Images at https://meshing.lanl.gov/proj/screenshots/GRID_GALLERY.html
