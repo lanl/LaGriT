@@ -4,6 +4,14 @@
 # This script will download packages for, configure, and build LaGriT cross-platform.
 # For bug reporting or suggestions on improvement, email livingston@lanl.gov
 #-------------------------------------------------------------------------------------------
+# TODO: (1) Fix --static build for macOS
+#           (1.1) Current version returns: dyld: Library not found: path/to/exodus/lib/libhdf5_hl.100.dylib
+#       (2) Fix build process for Windows (Cygwin / MinGW)
+#       (3) Test on other shells
+#           Verified on:
+#             - macOS Sierra
+#             - Ubuntu 14.04
+#             - Ubuntu 16.04
 
 SCRIPT_VERSION="v0.5"
 
