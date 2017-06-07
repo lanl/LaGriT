@@ -35,7 +35,7 @@ Download the repo by running:
 
     git clone https://github.com/lanl/LaGriT.git
 
-Then `cd LaGriT/` and run:
+Then `cd LaGriT/` and:
 
     ./install.sh --release
     
@@ -43,7 +43,7 @@ Or `--help` to see other build configurations. The build script will check if Ex
 
 ### Supporting Documentation ###
 ---
-* [Manual Installation](documentation/INSTALL.md)
+* [Installation](documentation/INSTALL.md)
 * [LaGriT Description and Manual](http://lagrit.lanl.gov)
 * [LaGriT commands](http://lagrit.lanl.gov/commands.shtml)
 * [PyLaGriT documentation](https://lanl.github.io/LaGriT/)
