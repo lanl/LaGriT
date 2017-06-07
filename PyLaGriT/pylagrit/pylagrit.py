@@ -199,7 +199,7 @@ class PyLaGriT(spawn):
                     else:
                         elem_type = 'tet'
             for conn in conns:
-                fh.write('%d 0 %s'%(conn[0],elem_type))
+                fh.write('%d 1 %s'%(conn[0],elem_type))
                 for i in range(elem_int):
                     fh.write(' %d'%conn[i+1])
                 fh.write('\n')
