@@ -336,8 +336,12 @@ build_lagrit()
 			done
 			cd $tmp
 			
-			LINKERFLAGS=(-O -Bstatic  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
-			BUILDFLAGS=(-g -Bstatic -static-libgfortran -lgfortran -lgcc -lSystem -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
+			# Change /usr/local/lib/libquadmath.a to match yours - should be identical
+			# May not work - physically change the extension of libquadmath.*.dylib to .hidden,
+			#    run script, and change back to force static .a
+			LINKERFLAGS=(-g -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o)
+			BUILDFLAGS=(-g -static-libgfortran -static-libgcc -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -fno-sign-zero -o)
+			BUILDSUFFIX=(-L$ACCESS /usr/local/lib/libquadmath.a -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
 		fi
 	fi
 	
