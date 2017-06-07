@@ -294,6 +294,7 @@ build_exodus()
 	../cmake-exodus
 	make && make install || exit 1
 	echo "   Exodus build complete."
+
 }
 
 
@@ -324,8 +325,17 @@ build_lagrit()
 
 		# Default gcc/gfortran compiler on Mac behaves different for static flag
 		if [ "$(uname)" == "Darwin" ]; then
+			tmp=`pwd`
+			cd $ACCESS
+			
+			# Hide dynamic libs so compiler will force-use static
+			for file in *.dylib; do
+				mv "$file" "`basename "$file" .dylib`.hidden"
+			done
+			cd $tmp
+			
 			LINKERFLAGS=(-O -Bstatic  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
-			BUILDFLAGS=(-g -Bstatic -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
+			BUILDFLAGS=(-g -Bstatic -static-libgfortran -lgfortran -lgcc -lSystem -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 		fi
 	fi
 	
@@ -415,6 +425,16 @@ build_lagrit()
 			echo "  Terminal session. This is a macOS-specific issue, since OS X Tiger."
 			echo "-------------------------------------------------------------------------"
 			read -n 1 -s -p "Press any key to continue "
+		fi
+		
+		# For static build, reshow hidden shared libs
+		if [ $BUILD_EXODUS -eq 1 ] && [ $BUILD_STATIC -eq 1 ]; then
+			tmp=`pwd`
+			cd $ACCESS
+			for file in *.hidden; do
+				mv "$file" "`basename "$file" .hidden`.dylib"
+			done
+			cd $tmp
 		fi
 	fi
 	
