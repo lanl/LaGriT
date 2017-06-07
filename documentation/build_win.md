@@ -1,13 +1,12 @@
 # Building LaGriT on Windows
 ## 1. Installing Cygwin
 
-  Get the latest version of Cygwin for your operating system
-  Download link: https://cygwin.com/install.html
+  Get the latest version of Cygwin for your operating system: https://cygwin.com/install.html
 
-  This guide is for the x86_64 setup file since its for 64 bit OS.
-
-  The installation procedure with the setup file is straightforward. 
-  My installation and download path: C:/Users/304285/dev/cygwin
+  This guide is for the x86_64 setup file since its for 64 bit OS. The installation procedure with the setup file is straightforward. 
+  
+  My installation and download path: `C:/Users/304285/dev/cygwin`
+  
   Find the best mirror here: https://cygwin.com/mirrors.html
 
   Necessary libraries to install:
@@ -39,7 +38,7 @@
 
   Extra Resources:
 
-    GitHub
+  GitHub
 
       1) zlib-1.2.8 - https://github.com/madler/zlib
       2) HDF5-1.9.227 - https://github.com/live-clones/hdf5
@@ -75,7 +74,7 @@
 
   2. Compile for Cygwin:
 
-        ./configure --static --prefix=$HOME --64
+     `./configure --static --prefix=$HOME --64`
 
   3. Type in `make` and then make sure there is no errors with 'make check'
 
@@ -89,7 +88,7 @@
 *************************
   1. Unpack the tar source file, in it you should find a folder named release_docs, which contains installation instructions in file called INSTALL_Cygwin.txt I will follow these, while giving the actual commands I used.
 
-  **NOTE:** When you run the configure script, it might complain about new line characters. If this happens stop the script with Ctrl+C, and run 'dos2unix -f targetfile' on the file where it throws an error. Use 'make clean' afterwards to clean up your build.
+  **NOTE:** When you run the configure script, it might complain about new line characters. If this happens stop the script with Ctrl+C, and run `dos2unix -f targetfile` on the file where it throws an error. Use `make clean` afterwards to clean up your build.
 
   2. In Hdf5 directory use the following command to configure the build script
 
@@ -125,31 +124,31 @@
 
 ## 3. Compiling Exodus
 
-  1. Now before we start installing ExodusII, we need to make some slight modifications to NetCDF in `$NETCDF_HOME/include/netcdf.h` by changing the following variables as stated in exodus README file:
+1. Now before we start installing ExodusII, we need to make some slight modifications to NetCDF in `$NETCDF_HOME/include/netcdf.h` by changing the following variables as stated in exodus README file:
 
           #define NC_MAX_DIMS  65536 
           #define NC_MAX_VARS 524288 
           #define NC_MAX_VAR_DIMS 8
 
-  2. Unpack Exodus and navigate to the exodus directory
+2. Unpack Exodus and navigate to the exodus directory
 
-  3. Here we have two options for compiling ExodusII as described in the README, 1st is with Makefile.standalone, and 2nd is with cmake
+3. Here we have two options for compiling ExodusII as described in the README, 1st is with Makefile.standalone, and 2nd is with cmake
 
-    3.1. Using Makefile.standalone (INCOMPLETE: Might need to add additional arguments):
+  3.1. Using Makefile.standalone (INCOMPLETE: Might need to add additional arguments):
     
-    Use the following make command:
+   Use the following make command:
 
-          make -f Makefile.standalone NETCDF=$HOME ARFLAGS=-rcv CFLAGS="-m64" FCFLAGS="-m64" CXXFLAGS="-m64"
+        make -f Makefile.standalone NETCDF=$HOME ARFLAGS=-rcv CFLAGS="-m64" FCFLAGS="-m64" CXXFLAGS="-m64"
 
-    Copy the Exodus libararies to our local libraries
+   Copy the Exodus libararies to our local libraries
         
-          cp libexodus.a libexoIIv2for.a $HOME/lib
+        cp libexodus.a libexoIIv2for.a $HOME/lib
 
-    3.2 Using cmake (Harder difficulty since requires manipulation of additional libs but completed):
+  3.2 Using cmake (Harder difficulty since requires manipulation of additional libs but completed):
 
-    **NOTE:** To be able to use cmake on my Cygwin installation I had to copy over my cmake executable from `/bin/cmake` to `/home/304285/bin/cmake`, and my cmake root files from `/usr/share/cmake-3.1.2` to `/home/304285/share/cmake-3.1.2`. My PATH variable was set up to read my /home/304285/bin directory last and it overwrote the cmake I had in /bin/cmake. (Otherwise it throws `could not find CMAKE_ROOT/Module directory not found/Error executing cmake::LoadCache()`)
+**NOTE:** To be able to use cmake on my Cygwin installation I had to copy over my cmake executable from `/bin/cmake` to `/home/304285/bin/cmake`, and my cmake root files from `/usr/share/cmake-3.1.2` to `/home/304285/share/cmake-3.1.2`. My PATH variable was set up to read my /home/304285/bin directory last and it overwrote the cmake I had in /bin/cmake. (Otherwise it throws `could not find CMAKE_ROOT/Module directory not found/Error executing cmake::LoadCache()`)
 
-    Run 'sh cmake-script' once you make appropriate changes to you cmake-script file, this was mine:
+  Run `sh cmake-script` once you make appropriate changes to you cmake-script file, this was mine:
 
         EXTRA_ARGS=$@
 
@@ -197,14 +196,14 @@
         -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
         $EXTRA_ARGS
 
-     There is a bug when it makes tests with static libraries, the following 2 files need to be changed for 'make' to work:
+   There is a bug when it makes tests with static libraries, the following 2 files need to be changed for `make` to work:
 
         1) ../exodus-6.09/exodus/forbind/CMakeLists change line 56 and have ${HDF5HL_LIBRARY} come before ${HDF5_LIBRARY}
         2) ../exodus-6.09/exodus/cbind/CMakeLists change line 284 with the same library ordering
 
-     Now run 'make'
+  Now run `make`
 
-    **NOTE:** When compiling with static linker flags, make throws a truncating error, to fix this I have attempted many options in the cmake-script that are listed here, however in the end I just ended up not using "-static" as a linker flag:
+  **NOTE:** When compiling with static linker flags, make throws a truncating error, to fix this I have attempted many options in the cmake-script that are listed here, however in the end I just ended up not using "-static" as a linker flag:
 
           # -DCMAKE_GENERATOR:STRING="Unix Makefiles" \
           # -DCMAKE_LEGACY_CYGWIN_WIN32=1 \
@@ -215,11 +214,11 @@
           # -DCYGWIN:BOOL=TRUE \
           # -DCMAKE_LEGACY_CYGWIN_WIN32=1 \
 
-     To test your build use `make check`
+  To test your build use `make check`
 
-     **NOTE:** After testing the build it throws a message about truncating to 32 bit. What causes this is probably the fact that floats on Windows 64 bit are 4 bit, while on Cygwin they are 8 bit since Cygwin emulated a Linux system.
+  **NOTE:** After testing the build it throws a message about truncating to 32 bit. What causes this is probably the fact that floats on Windows 64 bit are 4 bit, while on Cygwin they are 8 bit since Cygwin emulated a Linux system.
 
-     Then, `make install`
+  Then, `make install`
 
 ## 4. Compiling lg_util
 
@@ -227,24 +226,24 @@
 
   2. Remove the previous header file and recreate it for your machine:
 
-          rm -f mm2000.h
-          $CC -E -m64 -Dwin64 mm2000_header.f -o mm2000.h
-          mkdir objects_cygwin64_g_cygwin
-          cp -p mm2000.h objects_cygwin64_g_cygwin/
+        rm -f mm2000.h
+        $CC -E -m64 -Dwin64 mm2000_header.f -o mm2000.h
+        mkdir objects_cygwin64_g_cygwin
+        cp -p mm2000.h objects_cygwin64_g_cygwin/
 
   3. Build and install the library
 
-          make install MOPT=64 COPT=-g LIBDIR=$HOME/lib COMPILER=cygwin
+        make install MOPT=64 COPT=-g LIBDIR=$HOME/lib COMPILER=cygwin
 
-    **NOTE:** In the Makefile, there is an `ifeq(COMPILER=cygwin)`, in it CFLAGS are linked to my include folder in cygwin, readjust this as necessary.
+  **NOTE:** In the Makefile, there is an `ifeq(COMPILER=cygwin)`, in it CFLAGS are linked to my include folder in cygwin, readjust this as necessary.
 
   4. Run ranlib on the lg_util libraries to fix archives (it appears to grab the wrong version from the path)
 
-          $RANLIB $HOME/lib/util_*
+       $RANLIB $HOME/lib/util_*
 
   **NOTE:** Use the following clean command to when rebuilding:
 
-          make clean COMPILER=cygwin COPT=-g MOPT=64 LIBDIR=$HOME/lib
+       make clean COMPILER=cygwin COPT=-g MOPT=64 LIBDIR=$HOME/lib
 
 ## 5. Compiling LaGriT
 
@@ -270,4 +269,4 @@
 
   **NOTE:** Use the following clean command to when rebuilding:
 
-        make clean COMPILER=cygwin COPT=-g MOPT=64 LIBDIR=$HOME/lib
+      make clean COMPILER=cygwin COPT=-g MOPT=64 LIBDIR=$HOME/lib
