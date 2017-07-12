@@ -204,7 +204,208 @@ class PyLaGriT(spawn):
                     fh.write(' %d'%conn[i+1])
                 fh.write('\n')
         return self.read(avs_filename)
+    
+    def read_sheetij(self,name,filename,NXY,minXY,DXY,connect=True,file_type='ascii',flip='none',skip_lines=0,data_type='float'):
+        '''
+        Creates a quad mesh from an elevation file. Note the input file is read as Z(i,j) into the cmo attribute 'zic'
+        
+        :param name: name of mesh object
+        :type name: string
+        :param filename: Elevation filename
+        :type filename: string
+        :param NXY: [nx, ny] - [columns in x-direction, rows in y-direction]
+        :type NXY: list
+        :param minXY: [minX, minY] - location of lower left corner
+        :type minXY: list
+        :param DXY: [Dx, Dy] - cell size in x and y directions
+        :type DXY: list
+        :param connect: True will create a quad grid, otherwise keeps data as points
+        :type connect: bool
+        :param file_type: May be either ascii or binary
+        :type file_type: string
+        :param flip: May be 'x', 'y' to reflect across those axes, or 'none' to keep static
+        :type flip: string
+        :param skip_lines: skip n number of header lines
+        :type skip_lines: integer
+        :param data_type: read in elevation data as either float or double
+        :type data_type: string
+        :returns: MO
+        
+        Example 1 - Building a surface mesh from Modflow elevation file:
+            >>> #To use pylagrit, import the module.
+            >>> from pylagrit import PyLaGriT
+            >>> import numpy as np
+            >>> 
+            >>> # Instantiate PyLaGriT
+            >>> l = PyLaGriT()
+            >>> 
+            >>> # Elevation files are typically headerless unwrapped vectors
+            >>> # Define parameters to pack these elements into a matrix
+            >>> ncols = 276
+            >>> nrows = 313
+            >>> DXY = [100,100]
+            >>> 
+            >>> elev_surface = l.read_sheetij('surfacemesh', 'example.mod', [ncols, nrows], [0, 0], DXY, flip='y')
+            >>> elev_surface.paraview()
+        
+        '''
+        
+        NXY = [str(v) for v in NXY]
+        minXY = [str(v) for v in minXY]
+        DXY = [str(v) for v in DXY]
+        
+        connect_str = 'connect' if connect==True else 'points'
+        skip_str = 'skip {}'.format(skip_lines)
+        
+        data_type = data_type.lower()
+        file_type = file_type.lower()
+        
+        if data_type not in ['float', 'double']:
+            print("ERROR: data_type must be float or double")
+            return
+        
+        if file_type not in ['ascii', 'binary']:
+            print("ERROR: file_type must be ascii or binary")
+            return
+        
+        flip_str = flip.lower()
+        
+        if flip_str in ['x', 'y', 'none']:
+            if flip_str == 'x': flip_str = 'xflip'
+            if flip_str == 'y': flip_str = 'yflip'
             
+            if flip_str != 'none':
+                '/'.join([flip_str, file_type])
+        
+        # Create new mesh object with given name
+        self.sendline('cmo/create/{}'.format(name))
+        self.sendline('cmo/select/{}'.format(name))
+        
+        # Read in elevation file and append to mesh
+        cmd = ['read','sheetij',filename,','.join(NXY),','.join(minXY),','.join(DXY),skip_str,connect_str,file_type,data_type]
+        self.sendline('/'.join(cmd))
+        
+        self.mo[name] = MO(name,self)
+        return self.mo[name]
+        
+    def read_modflow(self, filename, nrows, ncols, name=None, DXY = [100,100], height=7.75, materials_file=None, materials_keys=None):
+        '''
+        Reads in a Modflow elevation file (and, optionally, an HDF5/txt file containing node materials) and generates and returns hexagonal mesh.
+        
+        :param filename: Filename of Modflow elevation data file
+        :type filename: str
+        :param nrows: Number of rows in elevation file
+        :type nrows: int
+        :param ncols: Number of columns in elevation file
+        :type ncols: int
+        :param name: Name of returned mesh (optional)
+        :type name: str
+        :param DXY: Spacing in x/y directions
+        :type DXY: list (number)
+        :param height: The 'thickness' in the Z-direction of the returned hex mesh
+        :type height: float
+        :param materials_file: A text or HDF5 binary file containing materials properties for an elevation mesh
+        :type materials_file: str
+        :param materials_keys: A list containing the keys to the materials array, ordered sequentially. If set, it is assumed materials_file is an HDF5 file.
+        :type materials_keys: list (str)
+        :returns: MO
+        '''
+    
+    
+        if name is None:
+            name = make_name('mo',self.mo.keys())
+    
+        x = numpy.arange(0,ncols,1)
+        y = numpy.arange(0,nrows,1)
+        z = numpy.arange(0,2*height,height) # x2 because of half-open interval: [start, stop)
+    
+        # Generate hexmesh
+        # Alternately, just extrude elev_surface
+        hexmesh = self.gridder(x,y,z,elem_type='hex',connect=True,name=name)
+    
+        # Capture hexmesh points as pset
+        hexset = hexmesh.pset_geom((0,0,0),(max(x), max(y), max(z)), ctr=(0,0,0), stride=(0,0,0), geom='xyz', name='hexset')
+
+        # Scale hexmesh to match length of surface (optimize later)
+        hexset.scale('relative','xyz',[DXY[0],DXY[1],1],[0,0,0])
+    
+        # Load modflow elevation map into surface
+        elev_surface = self.read_sheetij('motmp', filename, [ncols, nrows], [0, 0], DXY, flip='y')
+        
+        # Copy elevation to new attribute and set all surface point height to 0
+        elev_surface.addatt('z_elev')
+        elev_surface.copyatt('zic','z_elev',elev_surface)
+        elev_surface.setatt('zic', 0.)
+    
+        # Translate such that 50% of mesh is above z=0 and 50% is under
+        hexset.trans((0,0,0),(0,0,-height/2))
+    
+        # Capture points < 0
+        hex_bottom = hexmesh.pset_attribute('zic', 0, comparison='lt', stride=(0,0,0), name='pbot')
+    
+        # Set hex mesh z-coord to 0
+        hexmesh.setatt('zic', 0.)
+    
+        if materials_file != None:
+            tmp_file = ""
+            
+            if materials_keys == None:
+                 # Assumes text file
+                 # No further operations on file are needed
+                tmp_file == materials_file
+            else:
+                # Assumes HDF5 file
+                # Parse HDF5 file for value from keys, and write to temp file
+                from h5py import File as FileH5
+                # Open HDF5 file for writing
+                h5file = FileH5(materials_file, mode='r')
+
+                # Join keys into path and get data
+                h5datapath = '/'.join(materials_keys)
+                h5data = h5file[h5datapath]
+                
+                # Write out to hidden materials file
+                tmp_file = "._tmp_materials.txt"
+                tmp_materials = open(tmp_file,"w")
+                
+                ncols = len(h5data)
+                nrows = len(h5data[0])
+
+                # Unpack matrix into vector and write
+                for i in range(0, nrows):
+                    for j in range(0, ncols):
+                        h5value = int(h5data[j][i])
+                        tmp_materials.write("{}\n".format(h5value))
+    
+                # Close write file
+                h5file.close()
+                tmp_materials.close()
+            
+            mtrl_surface = self.read_sheetij('materials', tmp_file, [ncols, nrows], [0,0], DXY, flip='y')
+        
+            mtrl_surface.pset_attribute('zic', 1, comparison='lt', stride=(0,0,0), name='p0')
+            mtrl_surface.pset_attribute('zic', 0, comparison='gt', stride=(0,0,0), name='p1')
+
+            mtrl_surface.setatt('imt', 2, stride=['pset','get','p0'])
+            mtrl_surface.setatt('imt', 1, stride=['pset','get','p1'])
+            mtrl_surface.setatt('zic', 0.)
+            
+            hexmesh.addatt('newimt')
+            hexmesh.interpolate('continuous','newimt',mtrl_surface,'imt')
+            hexmesh.copyatt('newimt','imt') # Probably unnecessary
+            hexmesh.delatt('newimt')
+    
+
+        # Interpolate elevation onto z_new, copy z_new to Z, translate the bottom half of pts to fill out mesh
+        hexmesh.addatt('z_new')
+        hexmesh.interpolate('continuous','z_new',elev_surface,'z_elev')
+        hexmesh.copyatt('z_new','zic')
+        hexmesh.math('add',-height,'zic',stride=['pset','get',hex_bottom.name],attsrc='z_new')
+        hexmesh.delatt('z_new')
+
+        self.mo[name] = MO(name,self)
+        return self.mo[name]
+    
     def addmesh(self, mo1, mo2, style='add', name=None, *args):
         if isinstance(mo1,MO): mo1name = mo1.name
         elif isinstance(mo1,str): mo1name = mo1
@@ -779,7 +980,7 @@ class PyLaGriT(spawn):
         mo = self.create(elem_type,name=name)
         mo.createpts_line( npts, mins, maxs, rz_switch=rz_switch)
         return mo
-    def gridder(self,x=None,y=None,z=None,connect=False,elem_type='tet',filename='gridder.inp'):
+    def gridder(self,x=None,y=None,z=None,connect=False,elem_type='tet',name=None,filename='gridder.inp'):
         '''
         Generate a logically rectangular orthogonal mesh corresponding to vectors of nodal positions.
 
@@ -848,8 +1049,10 @@ class PyLaGriT(spawn):
             outfile.write('\n')
         outfile.write('\n')
         outfile.close()
-        m = self.create(elem_type)
+        
+        m = self.create(elem_type) if name == None else self.create(elem_type, name=name)
         m.read(filename)
+            
         if elem_type in ['quad','hex'] and connect:
             cmd = ['createpts','brick','xyz',' '.join([str(len(x)),str(len(y)),str(len(z))]),'1 0 0','connect'] 
             m.sendline('/'.join(cmd))
@@ -1138,6 +1341,7 @@ class MO(object):
         stride = [str(v) for v in stride]
         cmd = '/'.join(['cmo/setatt',self.name,attname,','.join(stride),str(value)])
         self.sendline(cmd)
+        
     def pset_geom(
             self, mins, maxs, 
             ctr=(0,0,0), geom='xyz', stride=(1,0,0), name=None
@@ -2829,6 +3033,52 @@ class PSet(object):
         :tpye zonetype: string
         '''
         cmd = ['pset',self.name,zonetype,filerootname+'_'+self.name,'ascii']
+        self._parent.sendline('/'.join(cmd))
+
+    def scale(self,scale_type='relative',scale_geom='xyz',scale_factor=[1,1,1],scale_center=[0,0,0]):
+        '''
+        Scale pset nodes by a relative or absolute amount
+        :arg scale_type: Scaling type may be 'relative' or 'absolute'
+        :type scale_type: string
+        :arg scale_geom: May be one of the geometry types 'xyz' (Cartesian), 'rtz' (cylindrical), or 'rtp' (spherical)
+        :type scale_geom: string
+        :arg scale_factor: If scale_factor is relative, scaling factors are unitless multipliers. If absolute, scaling factors are constants added to existing coordinates.
+        :type scale_factor: list
+        :arg scale_center: Geometric center to scale from
+        :type scale_center: list
+        '''
+        
+        scale_type = scale_type.lower()
+        scale_geom = scale_geom.lower()
+        
+        if scale_geom not in ['xyz', 'rtz', 'rtp']:
+            print("ERROR: 'scale_geom' must be one of 'xyz', 'rtz', or 'rtp'")
+            return
+        
+        if scale_type not in ['relative', 'absolute']:
+            print("ERROR: 'scale_type' must be one of 'relative' or 'absolute'")
+            return
+        
+        scale_factor = [str(v) for v in scale_factor]
+        scale_center = [str(v) for v in scale_center]
+        
+        cmd = ['scale',','.join(['pset','get',self.name]),scale_type,scale_geom,','.join(scale_factor),','.join(scale_center)]
+        self._parent.sendline('/'.join(cmd))
+    
+    def trans(self, xold, xnew):
+        '''
+        Translate points within a pset by the linear translation from (xold, yold, zold) to (xnew, ynew, znew)
+        
+        :arg xold: Tuple containing point (xold, yold, zold) to translate from
+        :type xold: tuple
+        :arg xnew: Tuple containing point (xnew, ynew, znew) to translate to
+        :type xnew: tuple
+        '''
+        
+        xold = [str(v) for v in xold]
+        xnew = [str(v) for v in xnew]
+        
+        cmd = ['trans',','.join(['pset','get',self.name]),','.join(xold),','.join(xnew)]
         self._parent.sendline('/'.join(cmd))
 
 class EltSet(object):
