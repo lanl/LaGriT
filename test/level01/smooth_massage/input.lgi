@@ -1,0 +1,179 @@
+# LaGriT Test 2D smooth and massage 
+
+# read the line polygon and triangulate
+# mesh object must be planar
+
+read avs input_polygon.inp moin                                                         
+cmo / printatt/ moin / -xyz- / minmax
+cmo create cmotri///triplane                                                    
+  copypts cmotri moin                                                               
+  cmo /delete/ moin
+  cmo select cmotri                                                               
+
+# RUN 00 triangulate
+# triangulate inside the polygon 
+triangulate/clockwise                                                    
+  cmo setatt cmotri imt 1     
+  cmo setatt cmotri itetclr 1     
+  resetpts/ itp
+
+# CHECK 00 coarse triangulation 
+quality
+quality edge_max y
+dump gmv out_tri00.gmv cmotri
+
+# RUN 01 refine edge 1000
+# break into triangles of nicer sizes
+define EDGELEN 1000.
+refine rivara///edge/1,0,0/EDGELEN///inclusive
+
+# CHECK 01 refine edge 1000
+quality
+quality edge_max y
+cmo printatt cmotri edgemax minmax
+dump gmv out_tri01a.gmv cmotri
+
+# RUN 01b smooth
+# smooth to make nice distribution
+cmo select cmotri                                                               
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+smooth/position/esug/1 0 0                                                      
+recon 0                         
+filter/1,0,0
+rmpoint compress
+resetpts / itp
+dump gmv out_tri01b.gmv cmotri
+
+# CHECK 01b smooth esug
+quality
+quality edge_max y
+cmo printatt cmotri edgemax minmax
+
+# RUN 02 massage 200
+define MAXEDGE 300.
+define MINEDGE 100.
+define DAMAGE  .01
+massage/MAXEDGE MINEDGE DAMAGE /1,0,0/                                               
+rmpoint compress                                                                
+
+# CHECK 02 massage 200 
+quality                                                                         
+quality edge_max y
+cmo printatt cmotri edgemax minmax
+dump gmv out_tri02a.gmv cmotri                                                        
+
+# RUN 02b smooth 200
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+
+# CHECK 02b smooth after massage 
+quality
+quality edge_max y
+cmo printatt cmotri edgemax minmax
+dump gmv out_tri02b.gmv cmotri
+
+rmpoint compress
+resetpts itp
+pset/pedge/attribute itp/1,0,0/ ge 10 
+cmo create cmotmp; copypts/cmotmp/cmotri/0 0/pset,get,pedge
+compute/distance_field/cmotri/ cmotmp/ dfield
+cmo / delete/ cmotmp
+cmo select cmotri
+
+# RUN 03 massage de-refine 600
+# select nodes inside mesh to massage
+define MAXEDGE 1200.
+define MINEDGE 600.
+define DAMAGE  .01
+pset/pmass/attribute dfield/1,0,0/ gt 800.
+massage /MAXEDGE MINEDGE DAMAGE /pset,get,pmass/ nosmooth
+rmpoint compress
+
+# CHECK 03 massage de-refine
+quality
+quality edge_max y
+cmo printatt cmotri edgemax minmax
+dump gmv out_tri03a.gmv cmotri
+
+# RUN 03b smooth after de-refine
+cmo select cmotri
+smooth/position/esug/1 0 0
+recon 0
+smooth/position/esug/1 0 0
+recon 0
+
+# CHECK 03b smooth after de-refine
+quality
+quality edge_max y
+quality aspect y
+cmo/addatt/ cmotri / ang_mind / ang_mind
+cmo printatt cmotri edgemax minmax
+cmo printatt cmotri aratio minmax
+cmo printatt cmotri ang_mind minmax
+dump gmv out_tri03b.gmv cmotri
+
+# RUN 04 massage merge small edges
+define MAXEDGE 1.e+20 
+define MINEDGE .1 
+define DAMAGE  .1
+massage /MAXEDGE MINEDGE DAMAGE /1,0,0/ 
+rmpoint compress
+resetpts itp
+
+# CHECK 04 massage merge small edges 
+quality
+quality edge_max y
+quality aspect y
+cmo/addatt/ cmotri / ang_mind / ang_mind
+cmo printatt cmotri edgemax minmax
+cmo printatt cmotri aratio minmax
+cmo printatt cmotri ang_mind minmax
+dump gmv out_tri04a.gmv cmotri
+
+# RUN 04b smooth after massage merge
+cmo select cmotri
+smooth/position/esug/1 0 0
+recon 0
+smooth/position/esug/1 0 0
+recon 0
+filter/1,0,0
+rmpoint compress
+resetpts / itp
+
+# CHECK 04b smooth after massage merge 
+quality
+quality edge_max y
+quality aspect y
+cmo/addatt/ cmotri / ang_mind / ang_mind
+cmo printatt cmotri edgemax minmax
+cmo printatt cmotri aratio minmax
+cmo printatt cmotri ang_mind minmax
+
+cmo printatt cmotri edgemax minmax
+dump gmv out_tri04b.gmv cmotri
+
+# RUN FINAL reconnect delaunay
+recon/ 1 /
+
+# CHECK FINAL triangulation
+quality
+quality edge_max y
+quality aspect y
+cmo/addatt/ cmotri / ang_mind / ang_mind
+cmo printatt cmotri edgemax minmax
+cmo printatt cmotri aratio minmax
+cmo printatt cmotri ang_mind minmax
+
+dump avs out_final.inp cmotri 
+dump gmv out_final.gmv cmotri
+
+cmo printatt cmotri -all- minmax
+
+finish                                       
