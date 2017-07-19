@@ -1,0 +1,133 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.202   Linux m64      *                 
+*               *    date_compile: 2017/04/20 mtools          *                 
+*               *    Run Time: 2017/May 15  20:22:58          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
+under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
+Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
+for the U.S. Department of Energy. The U.S. Government has rights to use,       
+reproduce, and distribute this software. Neither the  government nor Los Alamos 
+National Security, LLC makes any warranty, express or  implied, or assumes any  
+liability for the use of this software. If software is modified to produce      
+derivative works, such modified software should be  clearly marked, so as not   
+to confuse it with the version available from LANL.                             
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# For a unit cell divided into PTS**3 sub-cells,                                
+# delta-x = 0.01 = distance between sub-cell centers                            
+# x_p = delta-x / 100 = 0.0001 = 1% perturbations                               
+# eps_1 = sqrt(3*x_p) = 0.000173 = max dist. from origin                        
+define/XP/0.0001                                                                
+define/EPS1/0.00018                                                             
+define/PTS/101                                                                  
+cmo/create/mo1                                                                  
+createpts/xyz/PTS,PTS,PTS/0.,0.,0./1.,1.,1./1,1,1/                              
+  RZ GENERATED POINTS                    1 TO              1030301              
+pset/po1/seq/0,0,0/                                                             
+ 
+ THE PSET  po1  HAS    1030301 POINTS                                           
+cmo/setatt/mo1/imt/pset,get,po1/1                                               
+Warning: nelements = 0                                                          
+   1030301 values reset for attribute imt1                                      
+ 
+cmo/create/mo2                                                                  
+createpts/xyz/PTS,PTS,PTS/0.,0.,0./1.,1.,1./1,1,1/                              
+  RZ GENERATED POINTS                    1 TO              1030301              
+pset/po2/seq/0,0,0/                                                             
+ 
+ THE PSET  po2  HAS    1030301 POINTS                                           
+cmo/setatt/mo2/imt/pset,get,po2/2                                               
+Warning: nelements = 0                                                          
+   1030301 values reset for attribute imt1                                      
+ 
+perturb/pset,get,po2/XP,XP,XP/                                                  
+perturb mo2                                                                     
+nodes in indexed point set  =    1030301                                        
+ 
+addmesh/merge/mfilter/mo1/mo2                                                   
+cmo/copy/mfilterkd/mfilter                                                      
+cmo/select/mfilter                                                              
+filter/1 0 0/EPS1                                                               
+ 
+FILTER:User specified value =    0.180000000000E-03                             
+ 
+FILTER:Dudding duplicate points:     1000817                                    
+cmo/select/mfilterkd                                                            
+filterkd/1 0 0/EPS1                                                             
+ 
+FILTERKD:User specified value =    0.180000000000E-03                           
+ 
+FILTERKD:Dudding duplicate points:     1030301                                  
+cmo/printatt/mfilter/imt/minmax                                                 
+Warning: nelements = 0                                                          
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                2               1   2060602  
+ 
+cmo/printatt/mfilter/-xyz-/minmax                                               
+Warning: nelements = 0                                                          
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic               -9.997697333E-05  1.000099994E+00 1.000199971E+00   2060602  
+ yic               -9.998714873E-05  1.000099990E+00 1.000199977E+00   2060602  
+ zic               -9.999705213E-05  1.000099992E+00 1.000199989E+00   2060602  
+ 
+cmo/printatt/mfilterkd/imt/minmax                                               
+Warning: nelements = 0                                                          
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                1               0   2060602  
+ 
+cmo/printatt/mfilterkd/-xyz-/minmax                                             
+Warning: nelements = 0                                                          
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+00 1.000000000E+00   2060602  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00   2060602  
+ zic                0.000000000E+00  1.000000000E+00 1.000000000E+00   2060602  
+ 
+cmo/select/mfilter                                                              
+rmpoint/compress                                                                
+   1000817 points removed and          0 elements removed.                      
+   The new point count is   1059785.                                            
+   The new element count is         0.                                          
+cmo/select/mfilterkd                                                            
+rmpoint/compress                                                                
+   1030301 points removed and          0 elements removed.                      
+   The new point count is   1030301.                                            
+   The new element count is         0.                                          
+cmo/printatt/mfilter/imt/minmax                                                 
+Warning: nelements = 0                                                          
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                2               1   1059785  
+ 
+cmo/printatt/mfilter/-xyz-/minmax                                               
+Warning: nelements = 0                                                          
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic               -9.997697333E-05  1.000099994E+00 1.000199971E+00   1059785  
+ yic               -9.998714873E-05  1.000099990E+00 1.000199977E+00   1059785  
+ zic               -9.999705213E-05  1.000099992E+00 1.000199989E+00   1059785  
+ 
+cmo/printatt/mfilterkd/imt/minmax                                               
+Warning: nelements = 0                                                          
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                1               0   1030301  
+ 
+cmo/printatt/mfilterkd/-xyz-/minmax                                             
+Warning: nelements = 0                                                          
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+00 1.000000000E+00   1030301  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00   1030301  
+ zic                0.000000000E+00  1.000000000E+00 1.000000000E+00   1030301  
+ 
+finish                                                                          
+LaGriT successfully completed                                                   

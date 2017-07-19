@@ -1,6 +1,6 @@
 c
 c----------------------------------------------------------------
-c lagrit.h for mac OSX powerpc 32 bit 
+c lagrit.h for mac OS 11.x Lion  arch x86_64 
 c
 c This is a template for the lagrit program banner
 c Substitute the TAG strings with Date and Linux, Darwin, SunOS, or IRIX
@@ -11,18 +11,20 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=3)
-      parameter      (v_minor=200)
+      parameter      (v_minor=202)
 c
       character*22   date_compile
       character*8    os_name
       character*16   my_name
 c
       data my_name      /'lagritgen'/
-c     data os_name      /'Darwin  '/
-c     data os_name      /'Mac64   '/
-      data os_name      /'Mac32   '/
-c     data date_compile /'2013/05/20            '/
-      data date_compile /'2013/05/20  ppc gf4.7 '/
+
+c     os_name is used to find and write OS related files
+c     make sure it is a version recognized in Makefile
+c     and writinit.f for forming header info
+      data os_name      /'MacOS11 '/
+c
+      data date_compile /'2017/05/31 release    '/
 c
       integer         NCall
       save            NCall

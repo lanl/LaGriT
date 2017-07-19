@@ -3,7 +3,7 @@ from check_test import *
 from run_test import *
 
 
-__all__ = ['ExecSuiteTwo', 'TwoFull']
+__all__ = ['ExecSuiteTwo', 'TwoFull', 'CheckTwo', 'RunTestTwo']
 
 
 def ExecSuiteTwo(args):
@@ -13,12 +13,24 @@ def ExecSuiteTwo(args):
 		RunTest(tag = args.testfile, executable = args.executable)
 	if args.check == True:
 		Check(target = args.checkdir)
+	if not (args.clean or args.test or args.check):
+		print("\nTest error (level02):")
+		print("   [-l, --level] must be run with additional flags to specify exact behavior")
+		print("   Please run again with [-cl, --clean], [-t, --test], and/or [-c, --check]\n")
 
 			
 def TwoFull(args):
 	Clean(tag = args.testfile)
 	RunTest(tag = args.testfile, executable = args.executable)
 	Check(target = args.checkdir)
+
+
+def CheckTwo(args):
+	Check(target = args.checkdir)
+
+
+def RunTestTwo(args):
+	RunTest(tag = args.testfile, executable = args.executable)
 
 
 def Clean(**args):

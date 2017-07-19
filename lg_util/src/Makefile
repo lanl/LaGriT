@@ -208,7 +208,15 @@ SUFF2 = _cygwin
 endif
 # 
 OBJDIR = objects$(SUFF)$(SUFFC)/
-LIB   = $(PROJ)$(SUFF)$(SUFFC).a
+#LIB   = $(PROJ)$(SUFF)$(SUFFC).a
+
+# Hardcoded in for build consistency
+LIB   = util_ulin64_o_gcc.a
+
+ifeq ($(COPT), -g)
+LIB   = util_ulin64_g_gcc.a
+endif
+
 PROG  = $(PROJ)$(SUFF)$(SUFFC)
 LIBDATE   = $(PROJ)$(SUFF)$(DATETAG)$(SUFFC).a
 PROGDATE  = $(PROJ)$(SUFF)$(DATETAG)$(SUFFC)

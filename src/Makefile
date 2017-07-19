@@ -101,7 +101,7 @@ CC = /bin/gcc
 CXX = /bin/c++
 FC90 = /bin/gfortran
 
-OSTAG = _cygwin
+OSTAG = _win
 
 FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
 FF90FLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
@@ -127,18 +127,19 @@ ifeq ($(OPSYS), Linux)
 OSTYP = $(shell lsb_release -si)
 OSVER = $(shell lsb_release -sr)
 
-ifeq ($(OSTYP), Ubuntu)
-OSTAG = _ulin64
-else
-OSTAG = _rlin64
-endif
+OSTAG = _linux
+#ifeq ($(OSTYP), Ubuntu)
+#OSTAG = _ulin64
+#else
+#OSTAG = _rlin64
+#endif
 
 FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64
 FF90FLAGS = -fcray-pointer -fdefault-integer-8  -m64 -Dlinx64
 CFLAGS = -m64 -Dlinx64
 
 ifeq ($(MOPT), 32)
-OSTAG = _lin32
+#OSTAG = _lin32
 CFLAGS = -m32 -Dlin
 FFLAGS = -fcray-pointer -m32 
 FF90FLAGS = -fcray-pointer -m32 
@@ -159,6 +160,9 @@ endif
 #
 ifeq ($(OPSYS), Darwin)
 
+$(info Detected - Darwin)
+
+OSTAG = _mac
 FC = gfortran
 FC90 = gfortran
 CC  = gcc 
@@ -169,12 +173,14 @@ CFLAGS = -m32 -arch i386
 
 # MAC OS Darwin 10.x Snow L. 32 bit  
 ifeq ($(NPROC), i386)
-OSTAG = _maci32
+$(info Detected - 32-bit architecture)
+#OSTAG = _maci32
 endif
 
 # MAC OS Darwin 10.x Snow L. 64 bit  
 ifeq ($(MOPT), 64)
-OSTAG = _maci64
+$(info Detected - 64-bit architecture)
+#OSTAG = _maci64
 FFLAGS = -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64 
 FF90FLAGS = -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64 
 CFLAGS = -m64 -Dmacx64
@@ -182,13 +188,18 @@ endif
 
 # MAC OS Darwin 11.x Lion 64 bit  
 ifneq (, $(findstring 11. , $(NREL)) ) 
-OSTAG = _macOS11
+$(info Detected - macOS 11)
+#OSTAG = _macOS11
 SUFFC = _gcc
 
-FC = /usr/gcc-4.7/bin/gfortran 
-FC90 = /usr/gcc-4.7/bin/gfortran
-CC= /usr/gcc-4.7/bin/gcc
-CXX = /usr/gcc-4.7/bin/g++
+FC = gfortran
+FC90 = gfortran
+CC = gcc
+CXX = g++
+#FC = /usr/gcc-4.7/bin/gfortran 
+#FC90 = /usr/gcc-4.7/bin/gfortran
+#CC= /usr/gcc-4.7/bin/gcc
+#CXX = /usr/gcc-4.7/bin/g++
 
 FFLAGS = -arch x86_64 -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64
 FF90FLAGS = -arch x86_64 -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64
@@ -197,26 +208,27 @@ CFLAGS = -arch x86_64 -m64 -Dmacx64
 # end OS 11
 # MAC OS Darwin 12.x Mountain Lion 64 bit  
 else ifneq (, $(findstring 12. , $(NREL)) ) 
-OSTAG = _macOS12
+$(info Detected - macOS 12)
+#OSTAG = _macOS12
 
 SUFF = $(OSTAG)_g
 SUFFC = _gcc
 
 FC = gfortran
-FC = /usr/local/gfortran/bin/gfortran
-FC = /usr/gcc-4.8.1/bin/gfortran
+#FC = /usr/local/gfortran/bin/gfortran
+#FC = /usr/gcc-4.8.1/bin/gfortran
 
 FC90 = gfortran
-FC90 = /usr/local/gfortran/bin/gfortran
-FC90 = /usr/gcc-4.8.1/bin/gfortran
+#FC90 = /usr/local/gfortran/bin/gfortran
+#FC90 = /usr/gcc-4.8.1/bin/gfortran
 
 CC= gcc
-CC= /usr/local/bin/gcc
-CC= /usr/gcc-4.8.1/bin/gcc
+#CC= /usr/local/bin/gcc
+#CC= /usr/gcc-4.8.1/bin/gcc
 
 CXX = g++
-CXX = /usr/local/bin/g++
-CXX = /usr/gcc-4.8.1/bin/g++
+#CXX = /usr/local/bin/g++
+#CXX = /usr/gcc-4.8.1/bin/g++
 
 FFLAGS = -arch x86_64 -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64
 FF90FLAGS = -arch x86_64 -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64
@@ -239,12 +251,17 @@ endif
 # default optimized 32 bit
 SUFF = $(OSTAG)_o
 
+# LIB is hardwired in for the sake of uniformity in the build process
+# The gfortran command called after Make explicitly calls for this file
+LIB   =  lagrit_ulin64_o_gcc.a
+
 ifeq ($(COPT), -g)
 SUFF = $(OSTAG)_g
+LIB   =  lagrit_ulin64_g_gcc.a
 endif
 # 
 OBJDIR = objects$(SUFF)$(SUFFC)/
-LIB   = $(PROJ)$(SUFF)$(SUFFC).a
+#LIB   = $(PROJ)$(SUFF)$(SUFFC).a
 PROG  = $(PROJ)$(SUFF)$(SUFFC)
 LIBDATE   = $(PROJ)$(SUFF)$(DATETAG)$(SUFFC).a
 PROGDATE  = $(PROJ)$(SUFF)$(DATETAG)$(SUFFC)

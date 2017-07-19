@@ -1,4 +1,4 @@
-Start in directory: /n/swdev/mesh_tools/lagrit/repos/LaGriT/test/level02 at Mon Oct 31 08:08:46 2016
+Start in directory: /n/swdev/LAGRIT/github/repo/LaGriT/test/level02 at Tue Jul 11 09:28:36 2017
 
 Diff Summary ===================================================================
 
@@ -6,9 +6,6 @@ Diff Summary ===================================================================
 
 Test has 3 diffs at line 5 >>
 Lines Essentially the Same: 3 out of 3
-
-Test has 0 diffs at line 13 >>
-Lines Essentially the Same: 0 out of 0
 3 comment lines.
 No lines differ.
 1 Done with Directory ./exo_eltset -----------------------
@@ -16,18 +13,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./exo_eltset/reference/outx3dgen	Mon Oct 24 15:40:57 2016
-+++ ./exo_eltset/outx3dgen	Mon Oct 31 08:20:02 2016
+--- ./exo_eltset/reference/outx3dgen	Tue Mar 28 11:44:24 2017
++++ ./exo_eltset/outx3dgen	Tue Jul 11 09:28:46 2017
 @@ -5,3 +5,3 @@
--*               *    Program:  LaGriT V3.107   Linux m64      *                 
--*               *    date_compile: 2015/06/24  Ubu gf.so      *                 
--*               *    Run Time: 2015/Jul 21  14:38:58          *                 
-+*               *    Program:  LaGriT V3.200   Linux m64      *                 
-+*               *    date_compile: 2016/10/25  Ubu gf         *                 
-+*               *    Run Time: 2016/Oct 31  08:08:44          *                 
-@@ -13 +13 @@
--                           LaGriT V3 LACC-2012-084                              
-+                          LaGriT V3 LA-CC-15-069                                
+-*               *    Program:  LaGriT V3.201   Linux m64      *                 
+-*               *    date_compile: 2017/03/27  Ubu 14         *                 
+-*               *    Run Time: 2017/Mar 28  11:42:52          *                 
++*               *    Program:  LaGriT V3.202   Linux m64      *                 
++*               *    date_compile: 2017/07/10 -O tam          *                 
++*               *    Run Time: 2017/Jul 11  09:28:35          *                 
 
 End Report from diff =========================================================
 
@@ -35,28 +29,386 @@ Diff Summary ===================================================================
 
 2 Check Directory ./exo_pset_eltset --------------------------
 
-Test has 2 diffs at line 6 >>
-Lines Essentially the Same: 2 out of 2
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
 
-Test has 0 diffs at line 13 >>
+Test has 0 diffs at line 303 >>
 Lines Essentially the Same: 0 out of 0
-2 comment lines.
-No lines differ.
+
+Test has 57 diffs at line 461 >>
+Test has 57 extra lines in this chunk.
+-
++
+-
++dump/exo/out_3D_tet_pset_eltset.exo/motet/psets/eltsets/facesets
+-
++
+-
++ExodusII: Start writing to file: out_3D_tet_pset_eltset.exo using cmo: motet
+-
++
+-
++cmo/set_id/motet/element/e_num_temp
+-
++cmo/addatt/motet e_num_temp/VINT/scalar/nelements/linear/permanent//0
+-
++finish
+-
++finish
+-
++sort/motet/index/ascending/ikey_utr/itetclr/e_num_temp
+-
++cmo/DELATT/motet/ikey_utr
+-
++finish
+-
++cmo/addatt/motet/ikey_utr/vint/scalar/nelements///gax/0
+-
++finish
+-
++ SORT: order key written to attribute: ikey_utr
+-
++
+-
++finish
+-
++cmo/DELATT/motet/e_num_temp
+-
++finish
+-
++cmo/modatt/motet/itetclr/ioflag/lga
+-
++finish
+-
++
+-
++INITIALIZE exodus
+-
++Title: LAGRIT TO EXODUS
+-
++number of dimension:               3
+-
++number of nodes:                  64
+-
++number of elements:              135
+-
++number of edges:                   0
+-
++number of edge blocks:             0
+-
++number of element blocks:          3
+-
++number of face blocks:             0
+-
++number of node sets:               3
+-
++number of edge sets:               3
+-
++number of element sets:            3
+-
++number of side sets:              19
+-
++number of face sets:               0
+-
++number of node maps:               0
+-
++number of edge maps:               0
+-
++number of face maps:               0
+-
++number of element maps:            0
+-
++
+-
++WRITING EXODUS NODE SETS:         3 sets in total
+-
++                   Nodeset Names              Set ID           # nodes in set
+-
++                              p1                   1                       62
+-
++                              p2                   2                        7
+-
++                              p3                   3                       10
+-
++
+-
++WRITING EXODUS ELEMENT SETS:         3 sets in total
+-
++                   Elemset Names              Set ID        # elements in set
+-
++                              e1                   1                      126
+-
++                              e2                   2                        3
+-
++                              e3                   3                        6
+-
++cmo/modatt/motet/itetclr/ioflag/l
+-
++finish
+-
++
+-
++ExodusII: Done writing to ExodusII file: out_3D_tet_pset_eltset.exo using cmo: m
+-
++                                                                            otet
+Lines Essentially the Same: 0 out of 57
+
+Test has 0 diffs at line 606 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 57 diffs at line 763 >>
+Test has 57 extra lines in this chunk.
+-
++dump/exo/out_2D_tet_pset_eltset.exo/motri/psets/eltsets/facesets
+-
++
+-
++ExodusII: Start writing to file: out_2D_tet_pset_eltset.exo using cmo: motri
+-
++
+-
++cmo/set_id/motri/element/e_num_temp
+-
++cmo/addatt/motri e_num_temp/VINT/scalar/nelements/linear/permanent//0
+-
++finish
+-
++finish
+-
++sort/motri/index/ascending/ikey_utr/itetclr/e_num_temp
+-
++cmo/DELATT/motri/ikey_utr
+-
++finish
+-
++cmo/addatt/motri/ikey_utr/vint/scalar/nelements///gax/0
+-
++finish
+-
++ SORT: order key written to attribute: ikey_utr
+-
++
+-
++finish
+-
++cmo/DELATT/motri/e_num_temp
+-
++finish
+-
++cmo/modatt/motri/itetclr/ioflag/lga
+-
++finish
+-
++
+-
++INITIALIZE exodus
+-
++Title: LAGRIT TO EXODUS
+-
++number of dimension:               2
+-
++number of nodes:                  16
+-
++number of elements:               18
+-
++number of edges:                   0
+-
++number of edge blocks:             0
+-
++number of element blocks:          3
+-
++number of face blocks:             0
+-
++number of node sets:               3
+-
++number of edge sets:               2
+-
++number of element sets:            3
+-
++number of side sets:              11
+-
++number of face sets:               0
+-
++number of node maps:               0
+-
++number of edge maps:               0
+-
++number of face maps:               0
+-
++number of element maps:            0
+-
++
+-
++WRITING EXODUS NODE SETS:         3 sets in total
+-
++                   Nodeset Names              Set ID           # nodes in set
+-
++                              p1                   1                       13
+-
++                              p2                   2                        7
+-
++                              p3                   3                       11
+-
++
+-
++WRITING EXODUS ELEMENT SETS:         3 sets in total
+-
++                   Elemset Names              Set ID        # elements in set
+-
++                              e1                   1                        9
+-
++                              e2                   2                        3
+-
++                              e3                   3                        6
+-
++cmo/modatt/motri/itetclr/ioflag/l
+-
++finish
+-
++
+-
++ExodusII: Done writing to ExodusII file: out_2D_tet_pset_eltset.exo using cmo: m
+-
++                                                                            otri
+-
++
+Lines Essentially the Same: 0 out of 57
+3 comment lines.
+228 lines failed.
 2 Done with Directory ./exo_pset_eltset -----------------------
 Check done.
 
 Full Report from diff =========================================================
 
---- ./exo_pset_eltset/reference/outx3dgen	Mon Oct 24 15:40:57 2016
-+++ ./exo_pset_eltset/outx3dgen	Mon Oct 31 08:20:02 2016
-@@ -6,2 +6,2 @@
--*               *    date_compile: 2015/07/14  Ubu gf         *                 
--*               *    Run Time: 2015/Jul 21  14:58:15          *                 
-+*               *    date_compile: 2016/10/25  Ubu gf         *                 
-+*               *    Run Time: 2016/Oct 31  08:08:45          *                 
-@@ -13 +13 @@
--                           LaGriT V3 LACC-2012-084                              
-+                          LaGriT V3 LA-CC-15-069                                
+--- ./exo_pset_eltset/reference/outx3dgen	Tue Mar 28 11:42:35 2017
++++ ./exo_pset_eltset/outx3dgen	Tue Jul 11 09:28:47 2017
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.201   Linux m64      *                 
+-*               *    date_compile: 2017/03/27  Ubu 14         *                 
+-*               *    Run Time: 2017/Mar 28  11:40:55          *                 
++*               *    Program:  LaGriT V3.202   Linux m64      *                 
++*               *    date_compile: 2017/07/10 -O tam          *                 
++*               *    Run Time: 2017/Jul 11  09:28:35          *                 
+@@ -302,0 +303 @@
++# write all 3D                                                                  
+@@ -459,0 +461,57 @@
++ 
++dump/exo/out_3D_tet_pset_eltset.exo/motet/psets/eltsets/facesets                
++ 
++ExodusII: Start writing to file: out_3D_tet_pset_eltset.exo using cmo: motet    
++ 
++cmo/set_id/motet/element/e_num_temp                                             
++cmo/addatt/motet e_num_temp/VINT/scalar/nelements/linear/permanent//0           
++finish                                                                          
++finish                                                                          
++sort/motet/index/ascending/ikey_utr/itetclr/e_num_temp                          
++cmo/DELATT/motet/ikey_utr                                                       
++finish                                                                          
++cmo/addatt/motet/ikey_utr/vint/scalar/nelements///gax/0                         
++finish                                                                          
++ SORT: order key written to attribute: ikey_utr                                 
++ 
++finish                                                                          
++cmo/DELATT/motet/e_num_temp                                                     
++finish                                                                          
++cmo/modatt/motet/itetclr/ioflag/lga                                             
++finish                                                                          
++ 
++INITIALIZE exodus                                                               
++Title: LAGRIT TO EXODUS                                                         
++number of dimension:               3                                            
++number of nodes:                  64                                            
++number of elements:              135                                            
++number of edges:                   0                                            
++number of edge blocks:             0                                            
++number of element blocks:          3                                            
++number of face blocks:             0                                            
++number of node sets:               3                                            
++number of edge sets:               3                                            
++number of element sets:            3                                            
++number of side sets:              19                                            
++number of face sets:               0                                            
++number of node maps:               0                                            
++number of edge maps:               0                                            
++number of face maps:               0                                            
++number of element maps:            0                                            
++ 
++WRITING EXODUS NODE SETS:         3 sets in total                               
++                   Nodeset Names              Set ID           # nodes in set   
++                              p1                   1                       62   
++                              p2                   2                        7   
++                              p3                   3                       10   
++ 
++WRITING EXODUS ELEMENT SETS:         3 sets in total                            
++                   Elemset Names              Set ID        # elements in set   
++                              e1                   1                      126   
++                              e2                   2                        3   
++                              e3                   3                        6   
++cmo/modatt/motet/itetclr/ioflag/l                                               
++finish                                                                          
++ 
++ExodusII: Done writing to ExodusII file: out_3D_tet_pset_eltset.exo using cmo: m
++                                                                            otet
+@@ -547,0 +606 @@
++# write all 2D                                                                  
+@@ -703,0 +763,57 @@
++dump/exo/out_2D_tet_pset_eltset.exo/motri/psets/eltsets/facesets                
++ 
++ExodusII: Start writing to file: out_2D_tet_pset_eltset.exo using cmo: motri    
++ 
++cmo/set_id/motri/element/e_num_temp                                             
++cmo/addatt/motri e_num_temp/VINT/scalar/nelements/linear/permanent//0           
++finish                                                                          
++finish                                                                          
++sort/motri/index/ascending/ikey_utr/itetclr/e_num_temp                          
++cmo/DELATT/motri/ikey_utr                                                       
++finish                                                                          
++cmo/addatt/motri/ikey_utr/vint/scalar/nelements///gax/0                         
++finish                                                                          
++ SORT: order key written to attribute: ikey_utr                                 
++ 
++finish                                                                          
++cmo/DELATT/motri/e_num_temp                                                     
++finish                                                                          
++cmo/modatt/motri/itetclr/ioflag/lga                                             
++finish                                                                          
++ 
++INITIALIZE exodus                                                               
++Title: LAGRIT TO EXODUS                                                         
++number of dimension:               2                                            
++number of nodes:                  16                                            
++number of elements:               18                                            
++number of edges:                   0                                            
++number of edge blocks:             0                                            
++number of element blocks:          3                                            
++number of face blocks:             0                                            
++number of node sets:               3                                            
++number of edge sets:               2                                            
++number of element sets:            3                                            
++number of side sets:              11                                            
++number of face sets:               0                                            
++number of node maps:               0                                            
++number of edge maps:               0                                            
++number of face maps:               0                                            
++number of element maps:            0                                            
++ 
++WRITING EXODUS NODE SETS:         3 sets in total                               
++                   Nodeset Names              Set ID           # nodes in set   
++                              p1                   1                       13   
++                              p2                   2                        7   
++                              p3                   3                       11   
++ 
++WRITING EXODUS ELEMENT SETS:         3 sets in total                            
++                   Elemset Names              Set ID        # elements in set   
++                              e1                   1                        9   
++                              e2                   2                        3   
++                              e3                   3                        6   
++cmo/modatt/motri/itetclr/ioflag/l                                               
++finish                                                                          
++ 
++ExodusII: Done writing to ExodusII file: out_2D_tet_pset_eltset.exo using cmo: m
++                                                                            otri
++ 
 
 End Report from diff =========================================================
 
@@ -66,12 +418,6 @@ Diff Summary ===================================================================
 
 Test has 3 diffs at line 5 >>
 Lines Essentially the Same: 3 out of 3
-
-Test has 0 diffs at line 13 >>
-Lines Essentially the Same: 0 out of 0
-
-Test has 0 diffs at line 359 >>
-Lines Essentially the Same: 0 out of 0
 3 comment lines.
 No lines differ.
 3 Done with Directory ./exodus_cube -----------------------
@@ -79,21 +425,15 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./exodus_cube/reference/outx3dgen	Mon Oct 24 15:40:57 2016
-+++ ./exodus_cube/outx3dgen	Mon Oct 31 08:20:02 2016
+--- ./exodus_cube/reference/outx3dgen	Tue Mar 28 11:43:31 2017
++++ ./exodus_cube/outx3dgen	Tue Jul 11 09:28:47 2017
 @@ -5,3 +5,3 @@
--*               *    Program:  LaGriT V3.101   Linux m64      *                 
--*               *    date_compile: 2013/04/25  RH gf4.5       *                 
--*               *    Run Time: 2013/May  6  13:54:07          *                 
-+*               *    Program:  LaGriT V3.200   Linux m64      *                 
-+*               *    date_compile: 2016/10/25  Ubu gf         *                 
-+*               *    Run Time: 2016/Oct 31  08:08:45          *                 
-@@ -13 +13 @@
--                           LaGriT V3 LACC-2012-084                              
-+                          LaGriT V3 LA-CC-15-069                                
-@@ -359 +359 @@
--ExodusII: Done writing to file: output_hex_final.exo using cmo: mohex           
-+ExodusII: Done writing to ExodusII file: output_hex_final.exo using cmo: mohex  
+-*               *    Program:  LaGriT V3.201   Linux m64      *                 
+-*               *    date_compile: 2017/03/27  Ubu 14         *                 
+-*               *    Run Time: 2017/Mar 28  11:41:49          *                 
++*               *    Program:  LaGriT V3.202   Linux m64      *                 
++*               *    date_compile: 2017/07/10 -O tam          *                 
++*               *    Run Time: 2017/Jul 11  09:28:35          *                 
 
 End Report from diff =========================================================
 
@@ -101,29 +441,27 @@ Diff Summary ===================================================================
 
 4 Check Directory ./exodus_prisms --------------------------
 
-Test has 2 diffs at line 6 >>
-Lines Essentially the Same: 2 out of 2
-
-Test has 0 diffs at line 13 >>
-Lines Essentially the Same: 0 out of 0
-2 comment lines.
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+3 comment lines.
 No lines differ.
 4 Done with Directory ./exodus_prisms -----------------------
 Check done.
 
 Full Report from diff =========================================================
 
---- ./exodus_prisms/reference/outx3dgen	Mon Oct 24 15:40:57 2016
-+++ ./exodus_prisms/outx3dgen	Mon Oct 31 08:20:03 2016
-@@ -6,2 +6,2 @@
--*               *    date_compile: 2015/07/14  Ubu gf         *                 
--*               *    Run Time: 2015/Jul 30  17:08:09          *                 
-+*               *    date_compile: 2016/10/25  Ubu gf         *                 
-+*               *    Run Time: 2016/Oct 31  08:08:45          *                 
-@@ -13 +13 @@
--                           LaGriT V3 LACC-2012-084                              
-+                          LaGriT V3 LA-CC-15-069                                
+--- ./exodus_prisms/reference/outx3dgen	Tue Mar 28 11:43:58 2017
++++ ./exodus_prisms/outx3dgen	Tue Jul 11 09:28:48 2017
+@@ -5,3 +5,3 @@
+-*               *    Program:  LaGriT V3.201   Linux m64      *                 
+-*               *    date_compile: 2017/03/27  Ubu 14         *                 
+-*               *    Run Time: 2017/Mar 28  11:42:24          *                 
++*               *    Program:  LaGriT V3.202   Linux m64      *                 
++*               *    date_compile: 2017/07/10 -O tam          *                 
++*               *    Run Time: 2017/Jul 11  09:28:35          *                 
 
 End Report from diff =========================================================
-All 4 successful!
 
+Diff Summary ===================================================================
+
+5 Check Directory ./work --------------------------

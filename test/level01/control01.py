@@ -3,7 +3,7 @@ from check_test import *
 from run_test import *
 
 
-__all__ = ['ExecSuiteOne', 'OneFull']
+__all__ = ['ExecSuiteOne', 'OneFull', 'CheckOne', 'RunTestOne']
 
 
 def ExecSuiteOne(args):
@@ -13,11 +13,23 @@ def ExecSuiteOne(args):
 		RunTest(tag = args.testfile, executable = args.executable)
 	if args.check == True:
 		Check(target = args.checkdir)
+	if not (args.clean or args.test or args.check):
+		print("\nTest error (level01):")
+		print("   [-l, --level] must be run with additional flags to specify exact behavior")
+		print("   Please run again with [-cl, --clean], [-t, --test], and/or [-c, --check]\n")
 
 			
 def OneFull(args):
 	Clean(tag = args.testfile)
 	RunTest(tag = args.testfile, executable = args.executable)
+	Check(target = args.checkdir)
+
+
+def RunTestOne(args):
+	RunTest(tag = args.testfile, executable = args.executable)
+
+
+def CheckOne(args):
 	Check(target = args.checkdir)
 
 
