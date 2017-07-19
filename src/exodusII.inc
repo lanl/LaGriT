@@ -31,6 +31,13 @@
         integer EX_MAPS_INT64_API
         integer EX_IDS_INT64_API,EX_BULK_INT64_API,EX_ALL_INT64_API
 
+        integer EX_OPT_MAX_NAME_LENGTH
+        integer EX_OPT_COMPRESSION_TYPE
+        integer EX_OPT_COMPRESSION_LEVEL
+        integer EX_OPT_COMPRESSION_SHUFFLE
+        integer EX_OPT_INTEGER_SIZE_API
+        integer EX_OPT_INTEGER_SIZE_DB
+
         parameter (EXWRIT =     1)   !       EXWRIT - File open for write
         parameter (EXWRT  =     1)   !       EXWRT  - File open for write (alternate to EXWRIT)
         parameter (EXREAD =     2)   !       EXREAD - File open for read
@@ -70,6 +77,14 @@
         parameter (EX_BULK_INT64_API=  32768) ! All integer bulk data (local indices, counts, maps); not ids
         parameter (EX_ALL_INT64_API =  8192+16384+32768) ! All of the above...
 
+!
+!  -- For EXSETOPT Calls
+        parameter (EX_OPT_MAX_NAME_LENGTH = 1)
+        parameter (EX_OPT_COMPRESSION_TYPE = 2)    !Currently not used. GZip by default
+        parameter (EX_OPT_COMPRESSION_LEVEL = 3)   ! 0 (disabled/fastest) ... 9 (best/slowest)
+        parameter (EX_OPT_COMPRESSION_SHUFFLE = 4) ! 0 (disabled); 1 (enabled)
+        parameter (EX_OPT_INTEGER_SIZE_API = 5)    ! See *_INT64_* values above
+        parameter (EX_OPT_INTEGER_SIZE_DB  = 6)    ! (query only)
 !
 !  --INQUIRE FLAGS
       integer EXTYPE, EXVERS, EXDBVR, EXTITL, EXDIM, EXNODE
@@ -183,6 +198,11 @@
       integer EXMEMF, EXBFMD, EXBFID, EXBTID, EXBPRM, EXNULL
       integer EXPMSG, EXLMSG
 
+C     included here because this value is not found defined in this include file
+      integer EX_ELEM_SET
+      parameter (EX_ELEM_SET    = 10)      !    /**< element set property code  */
+
+
       parameter (EXMEMF =  1000)   ! EXMEMF - memory allocation failure flag def
       parameter (EXBFMD =  1001)   ! EXBFMD - wrong file mode
       parameter (EXBFID =  1002)   ! EXBFID - bad file id def
@@ -191,40 +211,3 @@
       parameter (EXNULL = -1006)   ! EXNULL - null entity found
       parameter (EXPMSG = -1000)   ! EXPMSG - message print code - no error implied
       parameter (EXLMSG = -1001)   ! EXLMSG - print last error message msg code
-
-C added by tamiller from older version to help with update from 5 to 6 syntax 
-C these are found in C file include exodusII.h, but are not in fortran exodusII.inc
-C
-C     Define values for type
-C
-C
-C      integer EX_NODAL, EX_NODE_BLOCK, EX_NODE_SET, EX_EDGE_BLOCK
-C      integer EX_EDGE_SET, EX_FACE_BLOCK, EX_FACE_SET, EX_ELEM_BLOCK
-C      integer EX_ELEM_SET, EX_SIDE_SET, EX_ELEM_MAP, EX_NODE_MAP
-C      integer EX_EDGE_MAP, EX_FACE_MAP, EX_GLOBAL, EX_COORDINATE
-C      integer EX_INVALID
-C    
-C      parameter (EX_NODAL       = 14)	   !   /**< nodal "block" for variables*/
-C      parameter (EX_NODE_BLOCK  = 14)      !    /**< alias for EX_NODAL         */
-C      parameter (EX_NODE_SET    =  2)      !    /**< node set property code     */
-C      parameter (EX_EDGE_BLOCK  =  6)      !    /**< edge block property code   */
-C      parameter (EX_EDGE_SET    =  7)      !    /**< edge set property code     */
-C      parameter (EX_FACE_BLOCK  =  8)      !    /**< face block property code   */
-C      parameter (EX_FACE_SET    =  9)      !    /**< face set property code     */
-C      parameter (EX_ELEM_BLOCK  =  1)      !    /**< element block property code*/
-C
-C      included here because this value is not found defined in this include file
-       integer EX_ELEM_SET
-       parameter (EX_ELEM_SET    = 10)      !    /**< element set property code  */
-
-C      parameter (EX_SIDE_SET    =  3)      !    /**< side set property code     */
-C    
-C      parameter (EX_ELEM_MAP    =  4)      !    /**< element map property code  */
-C      parameter (EX_NODE_MAP    =  5)      !    /**< node map property code     */
-C      parameter (EX_EDGE_MAP    = 11)      !    /**< edge map property code     */
-C      parameter (EX_FACE_MAP    = 12)      !    /**< face map property code     */
-C    
-C      parameter (EX_GLOBAL      = 13)      !    /**< global "block" for variables*/
-C      parameter (EX_COORDINATE  = 15)      !    /**< kluge so some internal wrapper functions work */
-C      parameter (EX_INVALID     = -1)
-
