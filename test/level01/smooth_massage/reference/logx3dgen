@@ -1,0 +1,126 @@
+read avs input_polygon.inp moin                                                 
+cmo/printatt/moin/-xyz-/minmax                                                  
+cmo create cmotri///triplane                                                    
+copypts cmotri moin                                                             
+cmo/delete/moin                                                                 
+cmo select cmotri                                                               
+triangulate/clockwise                                                           
+cmo setatt cmotri imt 1                                                         
+cmo setatt cmotri itetclr 1                                                     
+resetpts/itp                                                                    
+quality                                                                         
+quality edge_max y                                                              
+dump gmv out_tri00.gmv cmotri                                                   
+define EDGELEN 1000.                                                            
+refine rivara///edge/1,0,0/EDGELEN///inclusive                                  
+quality                                                                         
+quality edge_max y                                                              
+cmo printatt cmotri edgemax minmax                                              
+dump gmv out_tri01a.gmv cmotri                                                  
+cmo select cmotri                                                               
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+filter/1,0,0                                                                    
+rmpoint compress                                                                
+resetpts/itp                                                                    
+dump gmv out_tri01b.gmv cmotri                                                  
+quality                                                                         
+quality edge_max y                                                              
+cmo printatt cmotri edgemax minmax                                              
+define MAXEDGE 300.                                                             
+define MINEDGE 100.                                                             
+define DAMAGE .01                                                               
+massage/MAXEDGE MINEDGE DAMAGE/1,0,0/                                           
+rmpoint compress                                                                
+quality                                                                         
+quality edge_max y                                                              
+cmo printatt cmotri edgemax minmax                                              
+dump gmv out_tri02a.gmv cmotri                                                  
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+quality                                                                         
+quality edge_max y                                                              
+cmo printatt cmotri edgemax minmax                                              
+dump gmv out_tri02b.gmv cmotri                                                  
+rmpoint compress                                                                
+resetpts itp                                                                    
+pset/pedge/attribute itp/1,0,0/ge 10                                            
+cmo create cmotmp                                                               
+copypts/cmotmp/cmotri/0 0/pset,get,pedge                                        
+compute/distance_field/cmotri/cmotmp/dfield                                     
+cmo/delete/cmotmp                                                               
+cmo select cmotri                                                               
+define MAXEDGE 1200.                                                            
+define MINEDGE 600.                                                             
+define DAMAGE .01                                                               
+pset/pmass/attribute dfield/1,0,0/gt 800.                                       
+massage/MAXEDGE MINEDGE DAMAGE/pset,get,pmass/nosmooth                          
+rmpoint compress                                                                
+quality                                                                         
+quality edge_max y                                                              
+cmo printatt cmotri edgemax minmax                                              
+dump gmv out_tri03a.gmv cmotri                                                  
+cmo select cmotri                                                               
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+quality                                                                         
+quality edge_max y                                                              
+quality aspect y                                                                
+cmo/addatt/cmotri/ang_mind/ang_mind                                             
+cmo printatt cmotri edgemax minmax                                              
+cmo printatt cmotri aratio minmax                                               
+cmo printatt cmotri ang_mind minmax                                             
+dump gmv out_tri03b.gmv cmotri                                                  
+define MAXEDGE 1.e+20                                                           
+define MINEDGE .1                                                               
+define DAMAGE .1                                                                
+massage/MAXEDGE MINEDGE DAMAGE/1,0,0/                                           
+rmpoint compress                                                                
+resetpts itp                                                                    
+quality                                                                         
+quality edge_max y                                                              
+quality aspect y                                                                
+cmo/addatt/cmotri/ang_mind/ang_mind                                             
+cmo printatt cmotri edgemax minmax                                              
+cmo printatt cmotri aratio minmax                                               
+cmo printatt cmotri ang_mind minmax                                             
+dump gmv out_tri04a.gmv cmotri                                                  
+cmo select cmotri                                                               
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+smooth/position/esug/1 0 0                                                      
+recon 0                                                                         
+filter/1,0,0                                                                    
+rmpoint compress                                                                
+resetpts/itp                                                                    
+quality                                                                         
+quality edge_max y                                                              
+quality aspect y                                                                
+cmo/addatt/cmotri/ang_mind/ang_mind                                             
+cmo printatt cmotri edgemax minmax                                              
+cmo printatt cmotri aratio minmax                                               
+cmo printatt cmotri ang_mind minmax                                             
+cmo printatt cmotri edgemax minmax                                              
+dump gmv out_tri04b.gmv cmotri                                                  
+recon/1/                                                                        
+quality                                                                         
+quality edge_max y                                                              
+quality aspect y                                                                
+cmo/addatt/cmotri/ang_mind/ang_mind                                             
+cmo printatt cmotri edgemax minmax                                              
+cmo printatt cmotri aratio minmax                                               
+cmo printatt cmotri ang_mind minmax                                             
+dump avs out_final.inp cmotri                                                   
+dump gmv out_final.gmv cmotri                                                   
+cmo printatt cmotri -all- minmax                                                
+finish                                                                          
