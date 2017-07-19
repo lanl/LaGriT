@@ -33,7 +33,7 @@ export EXODUS_ROOT_DIR=$LAGRIT_ROOT_DIR/TPL
 #  Build flags can be edited under line 276
 FORTRAN_COMPILER='gfortran'
 FORTRAN90_COMPILER='gfortran'
-LAGRIT_NAME='lagritg' # Final executable name
+LAGRIT_NAME='lagrit' # Final executable name
 
 # ------ Internal variables -------------
 BUILD_EXODUS=1 # Enabled by default
