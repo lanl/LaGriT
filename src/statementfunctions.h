@@ -1,5 +1,4 @@
-*dk,statementfunctions
-C
+C statementfunctions.h
 C
 C #####################################################################
 C

@@ -74,8 +74,8 @@ C
       pointer (ipmpary,mpary)
       integer mpary(lenptr)
 C
-      character*32 ich1,ich2,ich3,cmo,isubname,blkmpary,submpary
-     &   ,psetname
+      character*32 ich1,ich2,ich3,cmo
+      character*32 isubname,blkmpary,submpary,psetname
       integer length,icmotype,icscode,mpno,ipt1,ipt2,ipt3,nnodes,
      &   inc,len_mpary,ipointi,ipointj
  
