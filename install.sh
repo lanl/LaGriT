@@ -1,4 +1,5 @@
 #!/bin/bash
+# append -v for verbose output during this script
 
 #-------------------------------------------------------------------------------------------
 # This script will download packages for, configure, and build LaGriT cross-platform.
@@ -32,7 +33,7 @@ export EXODUS_ROOT_DIR=$LAGRIT_ROOT_DIR/TPL
 #  Build flags can be edited under line 276
 FORTRAN_COMPILER='gfortran'
 FORTRAN90_COMPILER='gfortran'
-LAGRIT_NAME='lagrit' # Final executable name
+LAGRIT_NAME='lagritg' # Final executable name
 
 # ------ Internal variables -------------
 BUILD_EXODUS=1 # Enabled by default
@@ -46,7 +47,7 @@ BUILD_RELEASE=0 # Used by argument parser
 SKIPALL=0 # Used by --help flag & dependencies to skip build process
 SKIP_BUILD_EXODUS=0
 
-export ACCESS=$EXODUS_ROOT_DIR/seacas-exodus/lib/
+export ACCESS=$EXODUS_ROOT_DIR/seacas-exodus/lib
 
 #----------- CHECK THAT REQUIRED PACKAGES ARE INSTALLED -----------#
 # Building Exodus requires a number of terminal packages.
@@ -320,7 +321,7 @@ build_lagrit()
 	if [ $BUILD_STATIC -eq 1 ] ; then
 		echo "Configuring static build..."
 		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
-		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
+		BUILDFLAGS=(-O -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
 		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
 		MAKEFLAG='MOPT=64'
@@ -349,11 +350,10 @@ build_lagrit()
 	if [ $BUILD_DEBUG -eq 1 ] ; then
 		echo "Configuring debug build..."
 		LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
-		BUILDFLAGS=(-O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
+		BUILDFLAGS=(-g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
-		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++)
-		#MAKEFLAG='MOPT=64 -g'
-		MAKEFLAG='MOPT=64'
+		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
+		MAKEFLAG='COPT=-g'
 	fi
 	
 	# Build without Exodus
@@ -384,37 +384,41 @@ build_lagrit()
 	fi
 
 	echo "   Done."
-	echo "Building lg_util..."
+	echo "Building Library lg_util..."
 
 	cd lg_util/src/
 	make clean
-	make MOPT=64 lib || exit 1
+	make $MAKEFLAG || exit 1
 
 	echo "   Done."
-	echo "Cleaning LaGriT source directory..."
+	echo "Preparing LaGriT source directory..."
 
 	cd ../../src/
 	rm *.o; rm *.mod # make clean
 	
-	cp exo_files/exodusII.h exodusII.h
-	cp exo_files/exodusII.inc exodusII.inc
-	cp exo_files/netcdf.h netcdf.h
-	
-	echo "   Done."
-	echo "Linking LaGriT..."
+	# Get exodusII.h and exodusII.inc from current version of ExodusII 
+	cp $EXODUSII_HOME/include/exodusII.h . 
+	cp $EXODUSII_HOME/include/exodusII.inc . 
+	if [ ! -f "exodusII.inc" ] ;  then 
+		echo "The file src/exodusII.inc not found, can not complete build." 
+		echo "Not found in EXODUSII_HOME set as $EXODUSII_HOME" 
+		echo " " 
+                exit
+	fi
 	
 	$FORTRAN_COMPILER ${LINKERFLAGS[*]} lagrit_main.o lagrit_main.f || exit 1
 	$FORTRAN_COMPILER ${LINKERFLAGS[*]} lagrit_fdate.o lagrit_fdate.f || exit 1
 	
 	echo "   Done."
-	echo "Making LaGriT..."
+	echo "Building Library lagrit..."
 	make $MAKEFLAG lib
 	
 	echo "   Done."
-	echo "Compiling LaGriT..."
+	echo "Building LaGriT executable..."
 	
+ 	echo "$FORTRAN_COMPILER ${BUILDFLAGS[*]} $LAGRIT_NAME ${BUILDLIBS[*]} ${BUILDSUFFIX[*]}"
 	$FORTRAN_COMPILER ${BUILDFLAGS[*]} $LAGRIT_NAME ${BUILDLIBS[*]} ${BUILDSUFFIX[*]} || exit 1
-	echo "   Done."
+	echo "$LAGRIT_NAME   Done."
 	
 	if [ "$(uname)" == "Darwin" ]; then
 		if [ $BUILD_EXODUS -eq 1 ] && [ $BUILD_STATIC -eq 0 ]; then
@@ -453,11 +457,14 @@ build_lagrit()
 test_lagrit()
 {
 	cd $LAGRIT_ROOT_DIR/test
-	echo "Testing LaGriT build..."
+	echo "Testing LaGriT Build..."
 	python suite.py -f -l 1 -exe=$LAGRIT_ROOT_DIR'/src/'$LAGRIT_NAME
 	echo "   Testing complete."
+	echo "   See test/suite.py to run other test options."
+	echo "  "
 	
-	echo "   LaGrit executable was created as: $LAGRIT_ROOT_DIR/src/$LAGRIT_NAME"
+	echo "   LaGrit executable created and tested: $LAGRIT_ROOT_DIR/src/$LAGRIT_NAME"
+	echo "  "
 }
 
 
