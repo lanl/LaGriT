@@ -17,7 +17,7 @@ The standard method used by recon is to flip connections based on the in-sphere
 test (the circumsphere of a tetrahedral element should contain no other
 nodes). Additional flipping criteria are available. The Minimum Error Gradient
 Adaption (<a href="RADAPT.html">mega</a>) can be invoked by changing the
-value of the code variable <a href="meshobject.html">ivoronoi</a> (<b>cmo/setatt</b>//ivoronoi/-2).
+value of the code variable <a href="../meshobject.html">ivoronoi</a> (<b>cmo/setatt</b>//ivoronoi/-2).
 The effect of this option is to generate well shaped elements; however
 the grid will not be Delaunay. If the user has a function to used for adaptive
 reconnection this option is available by setting the code variable <font face="Courier">ivoronoi</font><font face="Times New Roman,Times">
@@ -41,7 +41,7 @@ as <b>massage</b>.&nbsp; To disable recon set </font><font face="Courier New,Cou
 </font><font face="Times">to 5 (<b>cmo/setatt</b>//</font><font face="Courier">ivoronoi</font><font face="Times">/5).</font><font face="Times"></font>
 <p><font face="Times"><b>recon</b> will by default reconnect across interface
 edges.&nbsp; To restrict reconnection to interior faces and exterior boundary
-faces, set </font><font face="Courier New,Courier"><a href="meshobject.html">iopt2to2</a></font><font face="Times">
+faces, set </font><font face="Courier New,Courier"><a href="../meshobject.html">iopt2to2</a></font><font face="Times">
 to 0 (<b>cmo/setatt</b>//</font><font face="Courier New,Courier">iopt2to2</font><font face="Times">/0)</font></blockquote>
 <font face="Times">FORMAT:</font>
 <blockquote><font face="Times"><b>recon</b>/[<b>1</b>|<b>0</b>]/[damage]/[<b>checkaxy</b>]</font></blockquote>
@@ -63,7 +63,7 @@ and preventing creation of any negatively oriented or small triangles
 (with respect to the xy-plane).
 <br>&nbsp;
 <br>&nbsp;</blockquote>
-<font face="Times"><a href="demos/2d_recon/test/html/main_2d_recon.html">Click
+<font face="Times"><a href="../demos/2d_recon/test/html/main_2d_recon.html">Click
 here for demos</a></font>
 <blockquote>&nbsp;</blockquote>
 </blockquote>

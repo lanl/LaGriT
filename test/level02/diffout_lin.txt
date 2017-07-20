@@ -1,4 +1,4 @@
-Start in directory: /n/swdev/LAGRIT/github/repo/LaGriT/test/level02 at Tue Jul 11 09:28:36 2017
+Start in directory: /n/swdev/LAGRIT/github/LaGriT/test/level02 at Wed Jul 19 11:44:05 2017
 
 Diff Summary ===================================================================
 
@@ -6,6 +6,15 @@ Diff Summary ===================================================================
 
 Test has 3 diffs at line 5 >>
 Lines Essentially the Same: 3 out of 3
+
+Test has 0 diffs at line 97 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 214 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 344 >>
+Lines Essentially the Same: 0 out of 0
 3 comment lines.
 No lines differ.
 1 Done with Directory ./exo_eltset -----------------------
@@ -13,15 +22,24 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./exo_eltset/reference/outx3dgen	Tue Mar 28 11:44:24 2017
-+++ ./exo_eltset/outx3dgen	Tue Jul 11 09:28:46 2017
+--- ./exo_eltset/reference/outx3dgen	Wed Jul 19 10:44:14 2017
++++ ./exo_eltset/outx3dgen	Wed Jul 19 11:44:15 2017
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.201   Linux m64      *                 
 -*               *    date_compile: 2017/03/27  Ubu 14         *                 
 -*               *    Run Time: 2017/Mar 28  11:42:52          *                 
-+*               *    Program:  LaGriT V3.202   Linux m64      *                 
-+*               *    date_compile: 2017/07/10 -O tam          *                 
-+*               *    Run Time: 2017/Jul 11  09:28:35          *                 
++*               *    Program:  LaGriT V3.203   Linux m64      *                 
++*               *    date_compile: 2017/07/19 linked          *                 
++*               *    Run Time: 2017/Jul 19  11:44:02          *                 
+@@ -97 +97 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
+@@ -214 +214 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
+@@ -344 +344 @@
+-number of edge sets:               2                                            
++number of edge sets:               0                                            
 
 End Report from diff =========================================================
 
@@ -32,7 +50,25 @@ Diff Summary ===================================================================
 Test has 3 diffs at line 5 >>
 Lines Essentially the Same: 3 out of 3
 
+Test has 0 diffs at line 105 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 162 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 212 >>
+Lines Essentially the Same: 0 out of 0
+
 Test has 0 diffs at line 303 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 335 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 392 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 442 >>
 Lines Essentially the Same: 0 out of 0
 
 Test has 57 diffs at line 461 >>
@@ -102,7 +138,7 @@ Test has 57 extra lines in this chunk.
 -
 +number of node sets:               3
 -
-+number of edge sets:               3
++number of edge sets:               0
 -
 +number of element sets:            3
 -
@@ -156,10 +192,17 @@ Lines Essentially the Same: 0 out of 57
 Test has 0 diffs at line 606 >>
 Lines Essentially the Same: 0 out of 0
 
+Test has 0 diffs at line 636 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 693 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 743 >>
+Lines Essentially the Same: 0 out of 0
+
 Test has 57 diffs at line 763 >>
 Test has 57 extra lines in this chunk.
--
-+dump/exo/out_2D_tet_pset_eltset.exo/motri/psets/eltsets/facesets
 -
 +
 -
@@ -221,7 +264,7 @@ Test has 57 extra lines in this chunk.
 -
 +number of node sets:               3
 -
-+number of edge sets:               2
++number of edge sets:               0
 -
 +number of element sets:            3
 -
@@ -272,25 +315,43 @@ Test has 57 extra lines in this chunk.
 +                                                                            otri
 -
 +
-Lines Essentially the Same: 0 out of 57
+Lines Essentially the Same: 1 out of 57
 3 comment lines.
-228 lines failed.
+227 lines failed.
 2 Done with Directory ./exo_pset_eltset -----------------------
 Check done.
 
 Full Report from diff =========================================================
 
---- ./exo_pset_eltset/reference/outx3dgen	Tue Mar 28 11:42:35 2017
-+++ ./exo_pset_eltset/outx3dgen	Tue Jul 11 09:28:47 2017
+--- ./exo_pset_eltset/reference/outx3dgen	Wed Jul 19 10:44:14 2017
++++ ./exo_pset_eltset/outx3dgen	Wed Jul 19 11:44:16 2017
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.201   Linux m64      *                 
 -*               *    date_compile: 2017/03/27  Ubu 14         *                 
 -*               *    Run Time: 2017/Mar 28  11:40:55          *                 
-+*               *    Program:  LaGriT V3.202   Linux m64      *                 
-+*               *    date_compile: 2017/07/10 -O tam          *                 
-+*               *    Run Time: 2017/Jul 11  09:28:35          *                 
++*               *    Program:  LaGriT V3.203   Linux m64      *                 
++*               *    date_compile: 2017/07/19 linked          *                 
++*               *    Run Time: 2017/Jul 19  11:44:02          *                 
+@@ -105 +105 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
+@@ -162 +162 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
+@@ -212 +212 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
 @@ -302,0 +303 @@
 +# write all 3D                                                                  
+@@ -334 +335 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
+@@ -391 +392 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
+@@ -441 +442 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
 @@ -459,0 +461,57 @@
 + 
 +dump/exo/out_3D_tet_pset_eltset.exo/motet/psets/eltsets/facesets                
@@ -324,7 +385,7 @@ Full Report from diff =========================================================
 +number of element blocks:          3                                            
 +number of face blocks:             0                                            
 +number of node sets:               3                                            
-+number of edge sets:               3                                            
++number of edge sets:               0                                            
 +number of element sets:            3                                            
 +number of side sets:              19                                            
 +number of face sets:               0                                            
@@ -351,6 +412,15 @@ Full Report from diff =========================================================
 +                                                                            otet
 @@ -547,0 +606 @@
 +# write all 2D                                                                  
+@@ -577 +636 @@
+-number of edge sets:               2                                            
++number of edge sets:               0                                            
+@@ -634 +693 @@
+-number of edge sets:               2                                            
++number of edge sets:               0                                            
+@@ -684 +743 @@
+-number of edge sets:               2                                            
++number of edge sets:               0                                            
 @@ -703,0 +763,57 @@
 +dump/exo/out_2D_tet_pset_eltset.exo/motri/psets/eltsets/facesets                
 + 
@@ -383,7 +453,7 @@ Full Report from diff =========================================================
 +number of element blocks:          3                                            
 +number of face blocks:             0                                            
 +number of node sets:               3                                            
-+number of edge sets:               2                                            
++number of edge sets:               0                                            
 +number of element sets:            3                                            
 +number of side sets:              11                                            
 +number of face sets:               0                                            
@@ -418,6 +488,9 @@ Diff Summary ===================================================================
 
 Test has 3 diffs at line 5 >>
 Lines Essentially the Same: 3 out of 3
+
+Test has 0 diffs at line 348 >>
+Lines Essentially the Same: 0 out of 0
 3 comment lines.
 No lines differ.
 3 Done with Directory ./exodus_cube -----------------------
@@ -425,15 +498,18 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./exodus_cube/reference/outx3dgen	Tue Mar 28 11:43:31 2017
-+++ ./exodus_cube/outx3dgen	Tue Jul 11 09:28:47 2017
+--- ./exodus_cube/reference/outx3dgen	Wed Jul 19 10:44:15 2017
++++ ./exodus_cube/outx3dgen	Wed Jul 19 11:44:16 2017
 @@ -5,3 +5,3 @@
--*               *    Program:  LaGriT V3.201   Linux m64      *                 
--*               *    date_compile: 2017/03/27  Ubu 14         *                 
--*               *    Run Time: 2017/Mar 28  11:41:49          *                 
-+*               *    Program:  LaGriT V3.202   Linux m64      *                 
-+*               *    date_compile: 2017/07/10 -O tam          *                 
-+*               *    Run Time: 2017/Jul 11  09:28:35          *                 
+-*               *    Program:  LaGriT V3.202   Linux m64      *                 
+-*               *    date_compile: 2017/04/20 mtools          *                 
+-*               *    Run Time: 2017/Jul 11  11:03:15          *                 
++*               *    Program:  LaGriT V3.203   Linux m64      *                 
++*               *    date_compile: 2017/07/19 linked          *                 
++*               *    Run Time: 2017/Jul 19  11:44:03          *                 
+@@ -348 +348 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
 
 End Report from diff =========================================================
 
@@ -443,6 +519,24 @@ Diff Summary ===================================================================
 
 Test has 3 diffs at line 5 >>
 Lines Essentially the Same: 3 out of 3
+
+Test has 0 diffs at line 260 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 793 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 1187 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 1583 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 2033 >>
+Lines Essentially the Same: 0 out of 0
+
+Test has 0 diffs at line 2098 >>
+Lines Essentially the Same: 0 out of 0
 3 comment lines.
 No lines differ.
 4 Done with Directory ./exodus_prisms -----------------------
@@ -450,18 +544,35 @@ Check done.
 
 Full Report from diff =========================================================
 
---- ./exodus_prisms/reference/outx3dgen	Tue Mar 28 11:43:58 2017
-+++ ./exodus_prisms/outx3dgen	Tue Jul 11 09:28:48 2017
+--- ./exodus_prisms/reference/outx3dgen	Wed Jul 19 10:44:15 2017
++++ ./exodus_prisms/outx3dgen	Wed Jul 19 11:44:18 2017
 @@ -5,3 +5,3 @@
 -*               *    Program:  LaGriT V3.201   Linux m64      *                 
 -*               *    date_compile: 2017/03/27  Ubu 14         *                 
 -*               *    Run Time: 2017/Mar 28  11:42:24          *                 
-+*               *    Program:  LaGriT V3.202   Linux m64      *                 
-+*               *    date_compile: 2017/07/10 -O tam          *                 
-+*               *    Run Time: 2017/Jul 11  09:28:35          *                 
++*               *    Program:  LaGriT V3.203   Linux m64      *                 
++*               *    date_compile: 2017/07/19 linked          *                 
++*               *    Run Time: 2017/Jul 19  11:44:03          *                 
+@@ -260 +260 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
+@@ -793 +793 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
+@@ -1187 +1187 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
+@@ -1583 +1583 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
+@@ -2033 +2033 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
+@@ -2098 +2098 @@
+-number of edge sets:               3                                            
++number of edge sets:               0                                            
 
 End Report from diff =========================================================
+All checks complete, 1 directories failed out of 4
+  ./exo_pset_eltset Error: 227 lines failed.
 
-Diff Summary ===================================================================
-
-5 Check Directory ./work --------------------------

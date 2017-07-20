@@ -6,7 +6,7 @@
   <meta name="LaGriT command DUMP output format"
  content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information.">
   <meta name="Keywords" content=" ">
-  <link media="all" title="LANLScreenStyle" href="styles/site.css"
+  <link media="all" title="LANLScreenStyle" href="../styles/site.css"
  type="text/css" rel="stylesheet">
   <link media="print" href="http://www.lanl.gov/styles/xprint.css"
  type="text/css" rel="stylesheet">
@@ -55,9 +55,9 @@ zone, zone_imt,
 </font><font face="Times">.
 <br>
 The file_type is followed
-by a string to be used as whole or part of file name as described below. 
+by a string to be used as whole or part of file name as described below. </font>
 </dir>
-</font></dir>
+</dir>
 <br>
 <font face="Times">SHORT SYNTAX:<br>
 </font>
@@ -145,7 +145,7 @@ there are integers in the node or element attributes.
 <dir><font face="Times"><font face="Times">Will output a single file
 with node list x,y,z values
 and element connectivity list in FEHM format.
-Files are written in FEHM format and are described <a href="DUMP3.html">by
+Files are written in FEHM format and are described <a href="dump/DUMP3.html">by
 clicking here for details.</a>
 <br>
 The <b> coord </b> file is one of a set of files written when the <b>fehm</b> file type is called.
@@ -196,21 +196,20 @@ node_number number_of_adjacent_elem e1 e2 ... en &nbsp;
 </font></font></dir>
 <br>
 
-<!--- exodusII --->
+<!--- exodus -->
+<br>
 <font style="font-family: monospace;" face="Times" size="+1">
-<b> dump / exo</b> / file_name/ mo_name <br>
-<b> dump / exo</b> / file_name/ mo_name / psets / eltsets / facesets <br>
-<b> dump / exo</b> / file_name/ mo_name / psets / eltsets / facesets file1 file2 ... filen<br>
-<b> dump / exodusii </b> / file_name/ mo_name <br>
-<b> dump / exodusII </b> / file_name/ mo_name</font>
+<b> dump / exo | exodusii</b> / file_name/ mo_name [ <b>psets</b> ] / [ <b>eltsets</b>] / [ <b>facesets</b> file1 file2 ... filen ] 
 <br>
 <br>
 <dir><font face="Times">
-Write a mesh object to a file in the Exodus II format.
+Write a mesh object to a file in the Exodus II format. The keyword psets as token 5 will cause all psets (lists of vertex numbers) associated with the mesh object to be written to the ExodusII output file. The keyword eltsets as token 6 will cause all eltsets (lists of cell numbers) associated with the mesh object to be written to the ExodusII output file.  If face set information is being provided from files (file1 file2 ... filen) the format of the file is written in AVS UCD cell attribute format. The first column is the global cell number, the second column is the local face number.
+<br>
+<a href="EXODUS.html">Click here for more details on options and files that are written.</a>
 <br>
 </font></dir>
 <br>
-
+<br>
 
 <!----->
 <!--fehm --->
@@ -240,8 +239,9 @@ delete the outside node attributes and will not add attributes for the
 outside voronoi or median areas. <br>
 The stor file will be written in ASCII format with scalar coefficient
 values with compression of area coefficient list and indices.
+
 <font face="Times"><font face="Times"><br>
-<a href="DUMP3.html">Click here for more details on the files and
+<a href="dump/DUMP3.html">Click here for more details on the files and
 options.</a>&nbsp; <br>
 <br>
 The file_name is used to form the names of the following 7 files:
@@ -325,7 +325,7 @@ written to GMV files.
 <br>
 <dir><font face="Times"><font face="Times"><font face="Times">
 Write a gocad TSURF file. See
-<a href="http://gocad.ensg.inpl-nancy.fr/IMG/papers/Fileform.fm.html"> GOCAD TSURF</a>.&nbsp; 
+<a href="http://www.connectflow.com/geovisage/User/Formats/GocadTsurf.html"> GOCAD TSURF</a>.&nbsp; 
 
 <br>
 </font></font></font></dir>
@@ -406,9 +406,9 @@ algorithm and will result in larger files and may take longer to run.<br>
 The <b> stor </b> file is one of a set of files written when the <b>fehm</b> file type is called.
 <br>
 <br>
-<a href="DUMP3.html">Click here for further explanation of options.</a>
+<a href="dump/DUMP3.html">Click here for further explanation of options.</a>
 <br>
-<a href="./STOR_Form.html">Click here for the STOR file format.</a> <br>
+<a href="../STOR_Form.html">Click here for the STOR file format.</a> <br>
 <br>
 </font></font></font></font></dir>
 <br>
@@ -453,7 +453,7 @@ options (see zone_outside).
  <br> Files are
 written in FEHM format and are described in the <span
  style="font-weight: bold;">dump/fehm</span> command <a
- href="DUMP3.html">by clicking here for details.</a>
+ href="dump/DUMP3.html">by clicking here for details.</a>
 <br>
 <br>
 The file_name is used to create names for the following 5 files:<br>
@@ -490,7 +490,7 @@ material interfaces, 0 length file if mesh is single material <br>
 <dir><font face="Times"><font face="Times"><font face="Times">Will
 output only one file with name <span style="font-style: italic;">file_name</span>_material.zone.
  It is written in FEHM zone format and are described
-<a href="DUMP3.html">by clicking here for details.</a> </font>
+<a href="dump/DUMP3.html">by clicking here for details.</a> </font>
  <br>
 <font face="Times">file_name_<b>material</b>.<b>zone</b> is node list
 for each integer material (imt) value.</font> If the optional fifth
@@ -566,14 +566,14 @@ vectors computed with the median strategy.</font><br>
 <font face="Times">The option <b>zone_outside_minmax</b> is used to
 find the
 min and max external node along each row and column of the regular
-grid. <a href="../images/zone_outside.png" target="_blank">Click here
+grid. <a href="../../images/zone_outside.png" target="_blank">Click here
 for image </a>
 showing difference between the default and the minmax options for
 outside nodes.
 <br>
 <br>
 These <b>zone_outside</b> files are part of a set of files written when the <b>zone</b> or <b>fehm</b> file type is called. 
-The fehm zone format and descriptions are&nbsp; <a href="DUMP3.html">in
+The fehm zone format and descriptions are&nbsp; <a href="dump/DUMP3.html">in
 the <b>dump/fehm</b> command details.</a>
 <br>
 </font></dir>
@@ -647,7 +647,7 @@ Write exodus output with all psets, element sets, and face sets. The face sets a
 <br>
 
 <p><font face="Times"><font face="Times"><br>
-<font face="Times New Roman,Times"><a href="main_dump.html">Click here
+<font face="Times New Roman,Times"><a href="../main_dump.html">Click here
 for demos</a></font></font></font></p>
 <font face="Times"><font face="Times"><br>
 </font></font></dir>
