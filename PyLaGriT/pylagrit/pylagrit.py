@@ -288,7 +288,7 @@ class PyLaGriT(spawn):
         self.mo[name] = MO(name,self)
         return self.mo[name]
         
-    def read_modflow(self, filename, nrows, ncols, name=None, DXY = [100,100], height=7.75, materials_file=None, materials_keys=None):
+    def read_modflow(self, materials_file, nrows, ncols, name=None, DXY = [100,100], height=7.75, filename=None):
         '''
         Reads in a Modflow elevation file (and, optionally, an HDF5/txt file containing node materials) and generates and returns hexagonal mesh.
         
@@ -329,14 +329,6 @@ class PyLaGriT(spawn):
         # Scale hexmesh to match length of surface (optimize later)
         hexset.scale('relative','xyz',[DXY[0],DXY[1],1],[0,0,0])
     
-        # Load modflow elevation map into surface
-        elev_surface = self.read_sheetij('motmp', filename, [ncols, nrows], [0, 0], DXY, flip='y')
-        
-        # Copy elevation to new attribute and set all surface point height to 0
-        elev_surface.addatt('z_elev')
-        elev_surface.copyatt('zic','z_elev',elev_surface)
-        elev_surface.setatt('zic', 0.)
-    
         # Translate such that 50% of mesh is above z=0 and 50% is under
         hexset.trans((0,0,0),(0,0,-height/2))
     
@@ -345,63 +337,75 @@ class PyLaGriT(spawn):
     
         # Set hex mesh z-coord to 0
         hexmesh.setatt('zic', 0.)
-    
-        if materials_file != None:
-            tmp_file = ""
-            
-            if materials_keys == None:
-                 # Assumes text file
-                 # No further operations on file are needed
-                tmp_file == materials_file
-            else:
-                # Assumes HDF5 file
-                # Parse HDF5 file for value from keys, and write to temp file
-                from h5py import File as FileH5
-                # Open HDF5 file for writing
-                h5file = FileH5(materials_file, mode='r')
-
-                # Join keys into path and get data
-                h5datapath = '/'.join(materials_keys)
-                h5data = h5file[h5datapath]
-                
-                # Write out to hidden materials file
-                tmp_file = "._tmp_materials.txt"
-                tmp_materials = open(tmp_file,"w")
-                
-                ncols = len(h5data)
-                nrows = len(h5data[0])
-
-                # Unpack matrix into vector and write
-                for i in range(0, nrows):
-                    for j in range(0, ncols):
-                        h5value = int(h5data[j][i])
-                        tmp_materials.write("{}\n".format(h5value))
-    
-                # Close write file
-                h5file.close()
-                tmp_materials.close()
-            
-            mtrl_surface = self.read_sheetij('materials', tmp_file, [ncols, nrows], [0,0], DXY, flip='y')
         
-            mtrl_surface.pset_attribute('zic', 1, comparison='lt', stride=(0,0,0), name='p0')
-            mtrl_surface.pset_attribute('zic', 0, comparison='gt', stride=(0,0,0), name='p1')
+        try:
+            imt_data = numpy.loadtxt(materials_file)
+        except:
+            print("ERROR: materials file {} not found!")
+            exit(1)
+        
+        # Write out to hidden materials file
+        tmp_file = "._tmp_materials.txt"
+        tmp_materials = open(tmp_file,"w")
+        
+        imt_dims = numpy.shape(imt_data)
+        nrows = imt_dims[0]
+        ncols = imt_dims[1]
 
-            mtrl_surface.setatt('imt', 2, stride=['pset','get','p0'])
-            mtrl_surface.setatt('imt', 1, stride=['pset','get','p1'])
-            mtrl_surface.setatt('zic', 0.)
-            
-            hexmesh.addatt('newimt')
-            hexmesh.interpolate('continuous','newimt',mtrl_surface,'imt')
-            hexmesh.copyatt('newimt','imt') # Probably unnecessary
-            hexmesh.delatt('newimt')
+        imt_types = numpy.unique(imt_data).tolist()
+
+        # Ensure that imt values are greater than 0
+        imt_min = min(imt_types)
+        correction = 0
+        
+        if imt_min < 0:
+            imt_types = [int(i + 1 + abs(imt_min)) for i in imt_types]
+            correction = 1 + abs(imt_min)
+        elif imt_min == 0:
+            imt_types = [int(i + 1) for i in imt_types]
+            correction = 1
+
+        # Unpack matrix into vector and write
+        for i in range(0, nrows):
+            for j in range(0, ncols):
+                imt_value = int(imt_data[i][j]) + correction
+                tmp_materials.write("{}\n".format(imt_value))
+
+        # Close write file
+        tmp_materials.close()
     
+        # Project materials onto surface
+        mtrl_surface = self.read_sheetij('materials', tmp_file, [ncols, nrows], [0,0], DXY, flip='y')
+        
+        # Create psets based on imt values, assign global imt from psets
+        for i in range(0,len(imt_types)):
+            mtrl_surface.pset_attribute('zic', imt_types[i], comparison='eq', stride=(0,0,0), name='p{}'.format(i))
+            mtrl_surface.setatt('imt', imt_types[i], stride=['pset','get','p{}'.format(i)])
 
-        # Interpolate elevation onto z_new, copy z_new to Z, translate the bottom half of pts to fill out mesh
-        hexmesh.addatt('z_new')
-        hexmesh.interpolate('continuous','z_new',elev_surface,'z_elev')
-        hexmesh.copyatt('z_new','zic')
-        hexmesh.math('add',-height,'zic',stride=['pset','get',hex_bottom.name],attsrc='z_new')
-        hexmesh.delatt('z_new')
+        mtrl_surface.setatt('zic', 0.)
+    
+        hexmesh.addatt('newimt')
+        hexmesh.interpolate('continuous','newimt',mtrl_surface,'imt')
+        hexmesh.copyatt('newimt','imt') # Probably unnecessary
+        hexmesh.delatt('newimt')
+    
+        if filename != None:
+            # Load modflow elevation map into surface
+            elev_surface = self.read_sheetij('motmp', filename, [ncols, nrows], [0, 0], DXY, flip='y')
+    
+            # Copy elevation to new attribute and set all surface point height to 0
+            elev_surface.addatt('z_elev')
+            elev_surface.copyatt('zic','z_elev',elev_surface)
+            elev_surface.setatt('zic', 0.)
+
+            # Interpolate elevation onto z_new, copy z_new to Z, translate the bottom half of pts to fill out mesh
+            hexmesh.addatt('z_new')
+            hexmesh.interpolate('continuous','z_new',elev_surface,'z_elev')
+            hexmesh.copyatt('z_new','zic')
+            hexmesh.math('add',-height,'zic',stride=['pset','get',hex_bottom.name],attsrc='z_new')
+            hexmesh.delatt('z_new')
+        else:
+            hexmesh.math('add',-height,'zic',stride=['pset','get',hex_bottom.name],attsrc='zic')
 
         self.mo[name] = MO(name,self)
         return self.mo[name]
