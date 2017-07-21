@@ -6,7 +6,7 @@
   <meta name="LaGriT command cmo/addatt"
  content="Description metadata should be 25-30 words and written from the specific to the general. Put your top keywords first but don't repeat title information.">
   <meta name="Keywords" content=" ">
-  <link media="all" title="LANLScreenStyle" href="styles/site.css"
+  <link media="all" title="LANLScreenStyle" href="../../styles/site.css"
  type="text/css" rel="stylesheet">
   <link media="print" href="http://www.lanl.gov/styles/xprint.css"
  type="text/css" rel="stylesheet">
@@ -129,13 +129,13 @@ For     <b>volume</b> keyword the <font face="Courier">att_name</font> attribute
  face="Courier New,Courier">nnodes</font> in length and type VDOUBLE.
  Currently implemented for a tetrahedral mesh by calling the build stor function
  to form the Voronoi bounding area for each node. (See more in <a
-     href="DUMP3.html">dump/stor</a>.) </p>
+     href="../dump/DUMP3.html">dump/stor</a>.) </p>
 
  <p><b>hybrid_volume</b>: creates a node attribute <code>nnodes</code> in
  length and of type <code>VDOUBLE</code> which contains the volume of each
  hybrid median-Voronoi control volume. This is currently implemented for a
  tetrahedral mesh by calling the build stor function with the
- <code>hybrid</code> option. See <a href="DUMP3.html">dump/stor</a> for details
+ <code>hybrid</code> option. See <a href="../dump/DUMP3.html">dump/stor</a> for details
  on what hybrid median-Voronoi volumes are. Currently this option is only
  available for 3D tetrahedral meshes.</p>
 
@@ -180,7 +180,7 @@ it with  the maximum solid angle (radian) of the element<br>
     <p>Note: Dihedral angle calculations is supported for tri, quad, tet,
  pyrimide, prism, hex.<br>
   Note: Solid angle calculation is only supported for tet elements.<br>
-  See also the command <b><a href="./QUALITY.html">quality</a></b> for adding
+  See also the command <b><a href="../QUALITY.html">quality</a></b> for adding
  attributes such as element aspect ratio(quality/aratio) and edge length
 ratio (quality/edge_ratio), minimum edge length (quality/ edge_min) and maximum
 edge length (quality/edge_max).</p>
@@ -196,7 +196,7 @@ fill them with the area weighted normal of each node.<br>
 <strong>synth_normal_angle</strong>
 :  create a node attributes, <span class="style1">x_n_norm, y_n_norm, z_n_norm</span>, and fill
 them with  the angle weighted normal of each node. <br>
-    The synthetic node normal calculations are only supported for mesh objects of type line, tri and quad. If one wants to compute the normals to, for example, the outside nodes of a hex or tet mesh, one must first <a href="EXTRACT1.html">extract</a> a surface mesh and then compute the normals to the surface mesh. The synthetic normal is computed by computing the normal to all elements incident upon a node and then taking the weighted average of all the normals. The weight factor is based on area or incident angle depending upon which option is selected. </p>
+    The synthetic node normal calculations are only supported for mesh objects of type line, tri and quad. If one wants to compute the normals to, for example, the outside nodes of a hex or tet mesh, one must first <a href="../EXTRACT1.html">extract</a> a surface mesh and then compute the normals to the surface mesh. The synthetic normal is computed by computing the normal to all elements incident upon a node and then taking the weighted average of all the normals. The weight factor is based on area or incident angle depending upon which option is selected. </p>
 
 <p><strong>sumnode</strong> : create an element attribute <span class="style1">att_name_elem</span> and fill it with the sum of the elements' node attribute, <span class="style1">att_name_node</span>.<br>
 <strong>avgnode</strong> :  create an element attribute <span class="style1">att_name_elem</span> and fill it with the average of the elements' node attribute, <span class="style1">att_name_node</span>.<br>
@@ -209,34 +209,34 @@ attributes <tt>att_name_quality</tt>, <tt>att_name_regularity</tt>, and
 each quadrilateral in a quad mesh. </p>
 </p> The first attribute represents the measure
 <div class="equation">
-<img src="quad_quality_equation.png"/>
+<img src="../../quad_quality_equation.png"/>
 </div>
-where <span class="equation"><img src="alpha.png"/></span> is a normalization
-constant and <span class="equation"><img src="h_max.png"/></span> is the longest
+where <span class="equation"><img src="../../alpha.png"/></span> is a normalization
+constant and <span class="equation"><img src="../../h_max.png"/></span> is the longest
 length among the four edges and the two diagonals. <span class="equation">
-<img src="h_s.png"> </span> is defined as
+<img src="../../h_s.png"> </span> is defined as
 <div class="equation">
-    <img src="h_s_eq.png"/>,
+    <img src="../../h_s_eq.png"/>,
 </div>
-where <span class="equation"><img src="l_i.png"/></span> is the length of edge
-<i>i</i>. <span class="equation"><img src="s_min.png"/></span> is the minimum
+where <span class="equation"><img src="../../l_i.png"/></span> is the length of edge
+<i>i</i>. <span class="equation"><img src="../../s_min.png"/></span> is the minimum
 area of the four triangles that can be constructed by adding one or the other
 diagonal to the quad. This metric ranges from zero for poor quality quads to one
 for high quality quads.
-<img src="quad_quality.jpg"/>
+<img src="../../quad_quality.jpg"/>
 </p><p>
 The second attribute represents the <i>regularity</i> of each quad ABCD, defined
 as
 <div class="equation">
-    <img src="regularity.png"/>
+    <img src="../../regularity.png"/>
 </div>
 where
 <div class="equation">
-    <img src="p_ac.png"/>
+    <img src="../../p_ac.png"/>
 </div>
 and
 <div class="equation">
-    <img src="p_bd.png"/>
+    <img src="../../p_bd.png"/>
 </div>
 This is a measure of the extent to which the quad is planar, which cannot be
 detected by the previous metric alone. A perfectly planar quad will have a score

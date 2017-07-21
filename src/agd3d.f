@@ -1,7 +1,12 @@
-*dk,agd3d
-      subroutine agd3d(cmo,toldamage,tollength,mpary_in,mpno_in
+C agd3d
+C also includes subroutine polyir
+
+c #####################################################################
+
+         subroutine agd3d(cmo,toldamage,tollength,mpary_in,mpno_in
      &   ,lstrictmergelength,lignoremats,lcheckaxy,lcheckroughness
      &   ,tol_roughness_in,ierror)
+
 c
 c #####################################################################
 c
@@ -185,69 +190,74 @@ CPVCS       Rev 1.6   Fri Apr 10 16:53:16 1998   kuprat
 CPVCS    No change.
 c
 c #####################################################################
+C input parameters cmo,toldamage,tollength,mpary_in,mpno_in
+C      ,lstrictmergelength,lignoremats,lcheckaxy,lcheckroughness
+C      ,tol_roughness_in,ierror
  
       implicit none
+C
       include 'consts.h'
       include 'local_element.h'
       include 'chydro.h'
       include 'massage.h'
- 
-      integer lenptr
-      parameter (lenptr=1000000)
- 
+
+C     arguments
+      character*32 cmo
+      integer mpno_in, ierror
+      integer mpary_in(*)
+      logical lstrictmergelength,lignoremats,lcheckaxy,lcheckroughness
+      real*8 toldamage,tollength,tol_roughness_in
+
+C     variables
       character*132 logmess,cbuf
       pointer (ipimt1, imt1),(ipitp1, itp1),(ipisn1, isn1)
       pointer (ipicr1, icr1)
       pointer (ipxic, xic),(ipyic, yic),(ipzic, zic)
       pointer (ipitetclr, itetclr)
-      integer itetclr(lenptr)
+      integer itetclr(*)
       pointer (ipitet, itet)
       pointer (ipitetoff, itetoff),(ipitettyp, itettyp)
-      integer imt1(lenptr)
+      integer imt1(*)
       pointer (ipicontab, icontab)
-      integer icontab(50,lenptr), itp1(lenptr),isn1(lenptr)
-      integer icr1(lenptr)
-      real*8 xic(lenptr),yic(lenptr),zic(lenptr)
-      integer itet(lenptr),itetoff(lenptr),itettyp(lenptr)
+      integer icontab(50,*), itp1(*),isn1(*)
+      integer icr1(*)
+      real*8 xic(*),yic(*),zic(*)
+      integer itet(*),itetoff(*),itettyp(*)
       pointer (ipjtet,jtet),(ipjtetoff,jtetoff)
-      integer jtet(lenptr),jtetoff(lenptr)
+      integer jtet(*),jtetoff(*)
       pointer (iphxx,hxx),(iphxy,hxy),(iphxz,hxz),(iphyy,hyy),
      &  (iphyz,hyz ),(iphzz,hzz)
       real*8 hxx(*),hxy(*),hxz(*),hyy(*),hyz(*),hzz(*)
  
       pointer (ipnodhyb,nodhyb),(ipnodhyboff,nodhyboff)
-      integer nodhyb(lenptr),nodhyboff(lenptr)
+      integer nodhyb(*),nodhyboff(*)
       pointer (ipieltary,ieltary)
-      integer ieltary(lenptr)
+      integer ieltary(*)
       pointer (ipireal1,ireal1),(ipinvmpary,invmpary),
      &   (ipichildary,ichildary),(ipinvchildary,invchildary),
      &   (ipiparent,iparent),(ipmpary,mpary),(ipirealold,irealold)
-      integer invmpary(lenptr),ichildary(lenptr),invchildary(lenptr),
-     &   ireal1(lenptr),iparent(lenptr),mpary(lenptr),irealold(lenptr)
+      integer invmpary(*),ichildary(*),invchildary(*),
+     &   ireal1(*),iparent(*),mpary(*),irealold(*)
       pointer (ipelts,elts),(ipedges,edges)
-      integer elts(lenptr),edges(lenptr)
+      integer elts(*),edges(*)
       pointer (ipmcr,mcr),(ipmat,mat),
      &   (ipnodelist,nodelist),
      &   (ipnearestnbr,nearestnbr),(ipworst_length,worst_length),
      &   (iplockout,lockout),(ipinvneibr,invneibr),(ipneibr,neibr),
      &   (ipdnbr,dnbr),(ipnbrlist,nbrlist),(ipimerge,imerge),
      &   (ipdnbrproj,dnbrproj),(ipielts,ielts),(iplstale,lstale)
-      integer mcr(lenptr),mat(lenptr),nodelist(lenptr),
-     &   nearestnbr(lenptr),neibr(lenptr),nbrlist(lenptr),
-     &   imerge(2,lenptr),ielts(lenptr)
-      real*8 worst_length(lenptr),areak,dnbr(lenptr),
-     &   dnbrproj(lenptr)
-      logical lockout(lenptr),lstale(lenptr)
-      integer invneibr(lenptr)
+      integer mcr(*),mat(*),nodelist(*),
+     &   nearestnbr(*),neibr(*),nbrlist(*),
+     &   imerge(2,*),ielts(*)
+      real*8 worst_length(*),areak,dnbr(*),
+     &   dnbrproj(*)
+      integer invneibr(*)
  
-      integer maxlenstr
-      parameter (maxlenstr=4095)
- 
-      character*8  cdefault
-      character*32 cmo,isubname,cdata
- 
-      integer mpary_in(lenptr),mpno_in,
-     &   ierror,nnodes,length,icmotype,nelements,mbndry,icscode,
+      pointer (ipgsynth,gsynth)
+      real*8 gsynth(3,*)
+      integer len_gsynth
+
+      integer nnodes,length,icmotype,nelements,mbndry,icscode,
      &   ieltno,i,j,node,nod1,icr,nmat,ii,lochybnod,ihyb,
      &   ityp,k,locnbr,nbr,nnbr,ioff,ie1,ie2,nelts,
      &   nearnbr,k1,i2,i3,i4,minmat,maxmat,j1,kk,
@@ -258,28 +268,37 @@ c #####################################################################
      &   nmrg,nodek1,nnbrk,nnbrk1,nnbr1,ip1,ip2,
      &   nef_cmo,ioppnod,len_ielts,ifromitp,ifromicr,ntrip,mtrip,idata
  
-      real*8 toldamage,tollength,dnearnbr,frac,damage,xproj,
-     &   yproj,zproj,a1x,a1y,a1z,ax,ay,az,atot,avec,alg_epsilon,
+      real*8 dnearnbr,frac,damage,xproj,
+     &   yproj,zproj,a1x,a1y,a1z,ax,ay,az,atot,avec,
      &   projmin,projmax,proj,ascend,
-     &   eps,vtol,projdamage,damage_est_2,
+     &   vtol,projdamage,damage_est_2,
      &   xk1,yk1,zk1,elen,
      &   xk2,yk2,zk2,xk3,yk3,zk3,
      &   dprojnearnbr,xk4,yk4,zk4,dir,dirtol,worstir,
-     &   synthx,synthy,synthz,toldamageused,dltol,tolroughness
-     &   ,tol_roughness_in,epsilonv_save,epsilona,toldamage_in
-      parameter (alg_epsilon=1.d-10)
-      logical lsame,lvalidface,lwontinvert,ltripedge,lsomereversed,
-     &   lstrictmergelength,lignoremats,lcheckaxy,lcheckroughness
+     &   synthx,synthy,synthz,toldamageused,dltol,tolroughness,
+     &   epsln,epsilonv_save,epsilona,toldamage_in
+
+      logical lsame,lvalidface,lwontinvert,ltripedge,lsomereversed
+      logical lockout(*),lstale(*)
  
+      character*8  cdefault
+      character*32 isubname,cdata
+
+      integer  maxlenstr
+      parameter (maxlenstr=4095)
+
       real*8 tolcutfactor,tolimprovefactor_up,tolimprovefactor_down
-      parameter (tolcutfactor=0.25,tolimprovefactor_up=1.000001
-     &   ,tolimprovefactor_down=0.5)
- 
-      pointer (ipgsynth,gsynth)
-      real*8 gsynth(3,*)
-      integer len_gsynth
- 
+      real*8 alg_epsilon
+      parameter (tolcutfactor=0.25)
+      parameter (tolimprovefactor_up=1.000001)
+      parameter (tolimprovefactor_down=0.5)
+      parameter (alg_epsilon=1.d-10)
+
       include 'statementfunctions.h'
+
+C ####################################################################
+C Begin
+ 
  
       isubname='agd3d'
  
@@ -289,10 +308,13 @@ c #####################################################################
       toldamage_in=toldamage
  
       tolroughness=0.8*tol_roughness_in
- 
+
       call get_epsilon('epsilonl',dltol)
       call get_epsilon('epsilonv',epsilonv_save)
       call get_epsilon('epsilona',epsilona)
+
+C TAM change unitialised eps to epsln value
+      epsln=dltol
       vtol=-1.d99
       call cmo_set_attinfo('epsilonv',cmo,idata,vtol,cdata,2,icscode)
  
@@ -618,8 +640,11 @@ c.... synthetic normals at the endpoints.  For efficiency
 c.... of computation, we keep and do not update the synthetic
 c.... normal values inside of a single sweep.
  
+c TAM
+c change uninitialized eps to epsln
+
          if ((nsdtopo.eq.2).and.lcheckroughness) then
-            call getgsynth(eps,isubname,ieltary,ieltno,iparent,itet
+            call getgsynth(epsln,isubname,ieltary,ieltno,iparent,itet
      &         ,itetoff,invmpary,mpno,xic,yic,zic,ipgsynth,len_gsynth)
          endif
  
@@ -637,7 +662,9 @@ c.... annihilation list.
          do 10 i0=1,mpno
             call primestep(mpno,i)
             node=mpary(i)
-            if (lockout(node)) goto 10
+            if (lockout(node)) then
+               goto 10
+            endif 
             nelt=nodhyboff(i+1)-nodhyboff(i)
  
 c... Get the materials and constraints that NODE participates in.
@@ -672,11 +699,15 @@ c.... incident upon NODE.
                ihyb=ieltary(ii)
                ielts(j-nodhyboff(i))=ihyb
             enddo
+
  
             if (nsdtopo.eq.2) then
-               call synthnormal(node,nelt,ielts,iparent,itet,
-     &            itetoff,xic,yic,zic,eps,synthx,synthy,synthz
-     &            ,lsomereversed)
+
+C TAM change uninitialised eps to epsln
+
+              call synthnormal(node,nelt,ielts,iparent,itet,
+     &        itetoff,xic,yic,zic,epsln,synthx,synthy,synthz
+     &        ,lsomereversed)
             endif
  
             call polyir(nelt,ielts,itet,itetoff,xic,yic,
@@ -814,6 +845,7 @@ c
                                       invneibr(nbr)=0
                                    enddo
                                    go to 10
+                                   
                                  endif
                                  dnbr(nnbr)=sqrt((
      &                             xic(nbr)-xic(node))**2+
@@ -1056,7 +1088,7 @@ c
                                      dnbr(nnbr)=sqrt((
      &                                 xic(nbr)-xic(node))**2+
      &                                (yic(nbr)-yic(node))**2+
-     &                                (zic(nbr)-zic(node))**2+elen**2)
+     &                              (zic(nbr)-zic(node))**2+elen**2)
                                      go to 39
                                    endif
                                  enddo
@@ -1259,9 +1291,9 @@ c.... We now sort the neighbors in increasing order
 c.... using WORST_LENGTH as a key.  Thus, we will try to merge
 c.... NODE to the nearest feasible neighbor.
  
-c$$$               do j=1,nnbr
-c$$$                  print*,' dproj(',j,')=',dnbrproj(j)
-c$$$               enddo
+c                  do j=1,nnbr
+c                     print*,' dproj(',j,')=',dnbrproj(j)
+c                  enddo
  
                do j=1,nnbr
                   nbrlist(j)=j
@@ -1281,7 +1313,7 @@ c$$$               enddo
                      if (lwontinvert(i,node,invmpary,nearnbr
      &                  ,nodhyb(nodhyboff(i)+1),ieltary,nelt,itettyp
      &                  ,iparent,itet,itetoff,xic,yic,zic,vtol,synthx
-     &                  ,synthy,synthz,lsomereversed,lcheckaxy,epsilona
+     &                ,synthy,synthz,lsomereversed,lcheckaxy,epsilona
      &                  ,lcheckroughness,tolroughness,gsynth,dirtol))
      &                  then
                         if (damage.le.toldamageused) then
@@ -1422,8 +1454,8 @@ c
                             dnbr(nnbr)=sqrt((xic(nodek)-xic(node))**2+
      &                        (yic(nodek)-yic(node))**2+
      &                        (zic(nodek)-zic(node))**2)
-c$$$                                    print*,'node=',node,';mcr=',mcr(i),
-c$$$     &                                 'init d(',nnbr,')=',dnbr(nnbr)
+c                                  print*,'node=',node,';mcr=',mcr(i),
+c     &                                 'init d(',nnbr,')=',dnbr(nnbr)
                            endif
  59                        dnbrproj(nnbr)=1.d99
                         endif
@@ -1438,9 +1470,9 @@ c.... using WORST_LENGTH as a key.  Thus, we will try to annihilate
 c.... at first nodes that will produce the shortest edges in the wake
 c.... of their annihilation.
  
-c$$$               do j=1,nnbr
-c$$$                  print*,'dproj(',j,')=',dnbrproj(j)
-c$$$               enddo
+c               do j=1,nnbr
+c                  print*,'dproj(',j,')=',dnbrproj(j)
+c               enddo
  
                do j=1,nnbr
                   nbrlist(j)=j
@@ -1459,7 +1491,7 @@ c$$$               enddo
                      if (lwontinvert(i,node,invmpary,nearnbr
      &                  ,nodhyb(nodhyboff(i)+1),ieltary,nelt,itettyp
      &                  ,iparent,itet,itetoff,xic,yic,zic,vtol,synthx
-     &                  ,synthy,synthz,lsomereversed,lcheckaxy,epsilona
+     &                ,synthy,synthz,lsomereversed,lcheckaxy,epsilona
      &                  ,lcheckroughness,tolroughness,gsynth,dirtol))
      &                  then
                         nanni=nanni+1
@@ -1500,7 +1532,9 @@ c.... If MCR>2, we don't try to annihilate the node.
  
  10      continue
  
-         if (nanni.eq.0) goto 9999
+         if (nanni.eq.0) then
+            goto 9999
+         endif
  
          nmrg=0
  
@@ -1519,6 +1553,7 @@ c.... must find representative children for the parents.
                   merge_dies=node
                endif
                ntrip=1
+
                do while (((itp1(node).eq.ifitpcup).and.(ntrip.lt.10000)
      &            .and.(merge_dies.ne.node)).or.
      &            ((itp1(node).ne.ifitpcup).and.(ntrip.eq.1)))
@@ -1549,17 +1584,19 @@ c.... must find representative children for the parents.
                   merge_dies=isn1(merge_dies)
                   ntrip=ntrip+1
                enddo
+
  
                write(logmess,'(2a)')
      &            'Stern Warning:  merge_lives doesn''t contain ',
      &            'material of merge_dies'
                call writloga('default',0,logmess,0,ierrw)
+
  
  600        continue
  
             do i=1,nnodes
                if (invneibr(i).ne.0) then
-                  print*,'error!!!'
+                  print*,'ag3d error!!!'
                   print*,'i=',i
                   call termcode()
                endif
@@ -1574,7 +1611,7 @@ c.... node to merge and we exit.
  
             if (nmrg.gt.0) then
                call mergepts_simplex(imerge,nmrg,cmo,ierr)
-               write(logmess,'(a,i8,a)')'Merged ',nmrg,' nodes.'
+               write(logmess,'(a,i14,a)')'Merged ',nmrg,' nodes.'
                call writloga(cdefault,0,logmess,0,ierr)
                goto 8000
             else
@@ -1590,10 +1627,21 @@ c.... node to merge and we exit.
  
       call cmo_set_attinfo('epsilonv',cmo,idata,epsilonv_save,cdata
      &   ,2,icscode)
- 
+
+      if (ierror.ne.0) then
+        write(logmess,'(a,i5)') 'AGD3D exiting with ierror: ',ierror
+        call writloga('default',0,logmess,0,ierrw)
+      endif
+
       return
       end
- 
+
+C end subroutine ad3d 
+
+C ####################################################### 
+C     subroutine polyir
+C ####################################################### 
+
       subroutine polyir(nelt,ielts,itet,itetoff,xic,yic,
      &         zic,nsdtopo,lcheckaxy,worstir)
  
@@ -1601,14 +1649,22 @@ c.... node to merge and we exit.
  
       include 'consts.h'
  
+c     arguments
+      integer nelt,nsdtopo
+      integer ielts(*),itet(*),itetoff(*)
       logical lcheckaxy
-      integer nelt,ielts(*),itet(*),itetoff(*),nsdtopo
-      real*8 xic(*),yic(*),zic(*),worstir
+      real*8 xic(*),yic(*),zic(*)
+      real*8 worstir
  
+c     variables
+
       integer i,i1,i2,i3,i4
       real*8 dir,epsilonaspect
  
       include 'statementfunctions.h'
+
+C -----------------------------------------------------
+C begin
  
       worstir=1.d99
  
@@ -1617,8 +1673,8 @@ c.... node to merge and we exit.
             i1=itet(1+itetoff(ielts(i)))
             i2=itet(2+itetoff(ielts(i)))
             i3=itet(3+itetoff(ielts(i)))
-c$$$            call aratio_tri(xic(i1),yic(i1),zic(i1),xic(i2),yic(i2)
-c$$$     &         ,zic(i2),xic(i3),yic(i3),zic(i3),dar)
+c---            call aratio_tri(xic(i1),yic(i1),zic(i1),xic(i2),yic(i2)
+c---     &         ,zic(i2),xic(i3),yic(i3),zic(i3),dar)
             if (lcheckaxy) then
                dir=dirtri(xic(i1),yic(i1),zic(i1),xic(i2),yic(i2)
      &            ,zic(i2),xic(i3),yic(i3),zic(i3))
@@ -1636,14 +1692,15 @@ c$$$     &         ,zic(i2),xic(i3),yic(i3),zic(i3),dar)
             i2=itet(2+itetoff(ielts(i)))
             i3=itet(3+itetoff(ielts(i)))
             i4=itet(4+itetoff(ielts(i)))
-c$$$            call aratio_tet(xic(i1),yic(i1),zic(i1),xic(i2),yic(i2)
-c$$$     &         ,zic(i2),xic(i3),yic(i3),zic(i3),xic(i4),yic(i4),zic(i4)
-c$$$     &         ,dar,epsilonaspect)
+c---            call aratio_tet(xic(i1),yic(i1),zic(i1),xic(i2),yic(i2)
+c---     &         ,zic(i2),xic(i3),yic(i3),zic(i3),xic(i4),yic(i4),zic(i4)
+c---     &         ,dar,epsilonaspect)
             dir=dirtet(xic(i1),yic(i1),zic(i1),xic(i2),yic(i2)
      &         ,zic(i2),xic(i3),yic(i3),zic(i3),xic(i4),yic(i4),zic(i4))
             worstir=min(worstir,dir)
          enddo
       endif
+
       return
       end
- 
+C end subroutine polyir 

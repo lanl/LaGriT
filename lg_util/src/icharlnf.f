@@ -1,4 +1,4 @@
-*dk,icharlnf
+c
       integer function icharlnf(iword)
 C
 C

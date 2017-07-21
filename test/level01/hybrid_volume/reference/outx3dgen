@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:43          *                 
+*               *    Program:  LaGriT V3.202   Linux m64      *                 
+*               *    date_compile: 2017/04/20 mtools          *                 
+*               *    Run Time: 2017/Jul 19  11:20:04          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -30,23 +30,23 @@ Command log file: logx3dgen
 # These tests verify the hybrid and nohybrid options of dump / fehm and dump /  
 # stor. They also test cmo / addatt / / hybrid_volume, which is closely related.
 # Input files:                                                                  
-#   test03.inp                                                                  
-#   test04.inp                                                                  
-#   test08.gmv                                                                  
-#   test09.inp                                                                  
+#   input03.inp                                                                 
+#   input04.inp                                                                 
+#   input08.gmv                                                                 
+#   input09.inp                                                                 
 # Output files:                                                                 
-#   test01.{gmv,stor}                                                           
-#   test02.gmv                                                                  
-#   test03.gmv                                                                  
-#   test04.{gmv,stor}                                                           
-#   test05.stor                                                                 
-#   test06.stor                                                                 
-#   test07.stor                                                                 
-#   test08.stor                                                                 
-#   test09.gmv                                                                  
-#   test09_{hybrid,nohybrid}.stor                                               
-#   test11.{gmv,stor}                                                           
-#   test11_h.stor                                                               
+#   out_01.{gmv,stor}                                                           
+#   out_02.gmv                                                                  
+#   out_03.gmv                                                                  
+#   out_04.{gmv,stor}                                                           
+#   out_05.stor                                                                 
+#   out_06.stor                                                                 
+#   out_07.stor                                                                 
+#   out_08.stor                                                                 
+#   out_09.gmv                                                                  
+#   out_09_{hybrid,nohybrid}.stor                                               
+#   out_11.{gmv,stor}                                                           
+#   out_11_h.stor                                                               
 # Verify that the sum of the Voronoi volumes, the sum of the hybrid volumes, and
 # the sum of the element volumes are all the same.                              
 cmo/create/mo1///tet                                                            
@@ -67,12 +67,12 @@ connect
  
 LaGriT FINISH: connect                                                          
  
-dump/test01.gmv/mo1                                                             
-dump/gmv/test01.gmv/mo1                                                         
+dump/out_01.gmv/mo1                                                             
+dump/gmv/out_01.gmv/mo1                                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
-dump/stor/test01/mo1/hybrid                                                     
+dump/stor/out_01/mo1/hybrid                                                     
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
@@ -103,11 +103,11 @@ AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
 AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
 AMatbld3d_stor Matrix compression used for graph and coefficient values         
-ascii STOR file written with name test01.stor                                   
+ascii STOR file written with name out_01.stor                                   
  
 *** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
  
-3D Matrix Coefficient file written with name test01.stor                        
+3D Matrix Coefficient file written with name out_01.stor                        
  
 cmo/addatt/mo1/hybrid_volume/hybrid                                             
 ADDATT/hybrid_volume: creating new attribute: hybrid                            
@@ -204,12 +204,12 @@ createpts/brick/xyz/11,11,11/0,0,0/10,10,10/1,1,1
           Number of elements:        1000                                       
           Number of negative volume elements:           0                       
           Total volume:     0.100000000000E+04                                  
-dump/test02.gmv/mo2                                                             
-dump/gmv/test02.gmv/mo2                                                         
+dump/out_02.gmv/mo2                                                             
+dump/gmv/out_02.gmv/mo2                                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
-dump/stor/test02/mo2/hybrid                                                     
+dump/stor/out_02/mo2/hybrid                                                     
  
 *** DUMP/STOR  Mesh object does not qualify for sparse matrix. ***              
  
@@ -230,8 +230,8 @@ finish
 *** DUMP/STOR Finished early, no stor file written! ***                         
  
 # Check that it gives an error message if it gets a hybrid tet and hex mesh.    
-read/test03.inp/mo3                                                             
-read/avs/test03.inp/mo3                                                         
+read/input03.inp/mo3                                                            
+read/avs/input03.inp/mo3                                                        
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -259,12 +259,12 @@ The current-mesh-object(CMO) is: mo3
  
 finish                                                                          
 finish                                                                          
-dump/test03.gmv/mo3                                                             
-dump/gmv/test03.gmv/mo3                                                         
+dump/out_03.gmv/mo3                                                             
+dump/gmv/out_03.gmv/mo3                                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
-dump/stor/test03/mo3/hybrid                                                     
+dump/stor/out_03/mo3/hybrid                                                     
  
 *** DUMP/STOR  Mesh object does not qualify for sparse matrix. ***              
  
@@ -289,8 +289,8 @@ finish
 # superfluous arguments passed to it, including "hybrid" and "nohybrid". Ideally
 # it should check the arguments and complain about the ones that don't make     
 # sense.                                                                        
-read/test04.inp/mo4                                                             
-read/avs/test04.inp/mo4                                                         
+read/input04.inp/mo4                                                            
+read/avs/input04.inp/mo4                                                        
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -324,12 +324,12 @@ The current-mesh-object(CMO) is: mo4
  
 finish                                                                          
 finish                                                                          
-dump/test04.gmv/mo4                                                             
-dump/gmv/test04.gmv/mo4                                                         
+dump/out_04.gmv/mo4                                                             
+dump/gmv/out_04.gmv/mo4                                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
-dump/stor/test04/mo4/hybrid                                                     
+dump/stor/out_04/mo4/hybrid                                                     
 ***Construct Regular Sparse Matrix:2D***                                        
 ------------                                                                    
 Matbldtri                                                                       
@@ -347,9 +347,9 @@ Matbldtri  writing FEHM stor format.
  
 *** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
  
-2D Matrix Coefficient file written with name test04.stor                        
+2D Matrix Coefficient file written with name out_04.stor                        
  
-dump/stor/test04/mo4/nohybrid                                                   
+dump/stor/out_04/mo4/nohybrid                                                   
 ***Construct Regular Sparse Matrix:2D***                                        
 ------------                                                                    
 Matbldtri                                                                       
@@ -367,11 +367,11 @@ Matbldtri  writing FEHM stor format.
  
 *** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
  
-2D Matrix Coefficient file written with name test04.stor                        
+2D Matrix Coefficient file written with name out_04.stor                        
  
 # Check that it gives an error message if it is asked to do the hybrid option   
 # along with the "none" or "coefs" compression options.                         
-dump/stor/test05/mo1/none/hybrid                                                
+dump/stor/out_05/mo1/none/hybrid                                                
  
 Warning: ignoring hybrid option because it is not supported in combination with 
                                                        the other chosen options.
@@ -398,11 +398,11 @@ Total suspect coeffs:          0
  
 Compression used for for none                                                   
 The area coefficient values were written as scalar area/distance                
-ascii STOR file written with name test05.stor                                   
+ascii STOR file written with name out_05.stor                                   
  
 *** SPARSE COEFFICIENT MATRIX _nstor SUCCESSFUL ***                             
  
-dump/stor/test06/mo1/coefs/hybrid                                               
+dump/stor/out_06/mo1/coefs/hybrid                                               
  
 Warning: ignoring hybrid option because it is not supported in combination with 
                                                        the other chosen options.
@@ -430,7 +430,7 @@ Total suspect coeffs:          0
  
 Compression used for for coefficient values                                     
 The area coefficient values were written as scalar area/distance                
-ascii STOR file written with name test06.stor                                   
+ascii STOR file written with name out_06.stor                                   
  
 *** SPARSE COEFFICIENT MATRIX _cstor SUCCESSFUL ***                             
  
@@ -443,7 +443,7 @@ ascii STOR file written with name test06.stor
 # from previous versions of LaGriT. Actually there should be slight numerical   
 # differences because the new code calculates area coefficients in a slightly   
 # different way.                                                                
-dump/stor/test07/mo1                                                            
+dump/stor/out_07/mo1                                                            
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
@@ -466,11 +466,11 @@ AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
 AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
 AMatbld3d_stor Matrix compression used for graph and coefficient values         
-ascii STOR file written with name test07.stor                                   
+ascii STOR file written with name out_07.stor                                   
  
 *** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
  
-3D Matrix Coefficient file written with name test07.stor                        
+3D Matrix Coefficient file written with name out_07.stor                        
  
 finish                                                                          
 LaGriT successfully completed                                                   

@@ -11,7 +11,7 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=3)
-      parameter      (v_minor=201)
+      parameter      (v_minor=203)
 
 c
       character*22   date_compile
@@ -20,10 +20,9 @@ c
 c
       data my_name      /'lagritgen'/
 
-c     data os_name      /'Linux32 '/
       data os_name      /'Linux64 '/
 
-      data date_compile /'2017/03/27 static '/
+      data date_compile /'2017/07/19 linked '/
 c
       integer         NCall
       save            NCall

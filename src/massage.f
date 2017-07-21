@@ -403,8 +403,13 @@ C
       comend=' ; finish'
       isubname = 'massage'
 C
-      field_option = 0
       ierror=0
+      field_option = 0
+
+C TAM this has no initial value, compiler makes it 0 so use 0 
+      msmoothed=0
+
+C set defaults for optional arguments
       lnosmooth=.false.
       lstrictmergelength=.false.
       lignoremats=.false.
@@ -413,13 +418,14 @@ C
       lexclusive=.false.
       lsemiexclusive=.false.
       lrecon=.true.
-C
-C  Check that user has specified a valid mesh object.
- 
-      call cmo_get_name(cmo,ierror)
+      tolroughness=0.
+
       call get_epsilon('epsilonl',epsilonl)
+ 
+C  Check that user has specified a valid mesh object.
+      call cmo_get_name(cmo,ierror)
       if(ierror.ne.0) then
-         write(logmess,'(a)')
+         write(logmess,'(a,a,a)')
      *      'MASSAGE: ',cmo,' not a valid mesh object'
          call writloga('default',0,logmess,0,ierrw)
          goto 9999
@@ -627,7 +633,6 @@ c.... AGD3D does not want to annihilate nodes even after
 c.... a reconnection.
  
       tolar=0.05
- 
       do i=1,maxagditer
  
 c.... AGD3D attempts to annihilate nodes whose annihilation would
@@ -636,10 +641,19 @@ c.... MERGE_LENGTH of a suitable merge candidate.
  
          call getmpary(imsginsave,xmsginsave,cmsginsave,msgtypesave,
      &      ipmpary,mpno,psetname,ierror)
+
+         if(ierror.ne.0) then
+            write(logmess,'(a,a)')
+     *         'MASSAGE: mpary error on pset: ',psetname
+            call writloga('default',0,logmess,0,ierrw)
+            goto 9999
+         endif
+
          call agd3d(cmo,toldamage,merge_length,mpary,mpno
-     &      ,lstrictmergelength,lignoremats,lcheckaxy,lcheckroughness
-     &      ,tolroughness,ierror)
- 
+     &      ,lstrictmergelength, lignoremats, lcheckaxy
+     &      ,lcheckroughness, tolroughness, ierror)
+
+
          if (lrecon)then
          if (lcheckaxy) then
             write(cbuf,'(a,e16.8,a)')'recon/0/',toldamage

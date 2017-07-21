@@ -9,18 +9,125 @@
 <body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
 &nbsp;
 <blockquote><b><u><font face="Times">QUADXY</font></u></b>
-<blockquote>Define an arbitrary, logical quad of points in 2D(xy) space.<font face="Courier">nx</font><font face="Times">
-and </font><font face="Courier">ny
-</font><font face="Times">specify the
-number of points in the x and y directions. The four corners of the quad
-are then listed in counter clockwise order ( the normal to the quad points
-is defined using the right hand rule and the order of the points).</font></blockquote>
+<blockquote>
+<font face="Times">
+Define an arbitrary, logical quad of points in 3D space with NDIM1 x NDIM2 number of nodes.
+<br>
+</font><font face="Times">
+The four corners of the quad surface
+are defined in counter clockwise order ( the normal to the quad points
+is defined using the right hand rule and the order of the points).
+<br>
+The nodes can be connected using the <b>createpts/brick/xyz</b> command.
+
+</font>
+
+</blockquote>
 </blockquote>
 
 <dir><font face="Times">FORMAT:</font>
-<dir><font face="Times"><b>quadxy</b>/</font><font face="Courier">nx</font><font face="Times">
-,</font><font face="Courier">ny</font><font face="Times"> /</font><font face="Courier">x1</font><font face="Times">,</font><font face="Courier">y1,z1/x2,y2,z2/x3,y3,z3/x4,y4,z4/</font></dir>
+
+<dir>
+<font face="Times"><b>quadxy</b>/</font><font face="Courier">ndim1,
+ ndim2 /x1,y1,z1/x2,y2,z2/x3,y3,z3/x4,y4,z4/</font>
 </dir>
+</dir>
+
+<blockquote>
+<dir>&nbsp;</dir>
+<font face="Times">EXAMPLES:</font>
+<dir>
+
+<!----------->
+<b><font face="Times">quadxy</font></b><font face="Courier">
+/ 3 5 /0. 0. 0./10. 0. 0./10. 20. 0./0. 20. 0.
+</font>
+<br>
+<b><font face="Times">createpts/brick/xyz/</font></b><font face="Courier">
+3 5 1 <font face="Times"><b>/1,0,0/connect </font></b>
+</font>
+<br>
+<font face="Times New Roman,Times">&nbsp;
+Create a XY quad surface with 3 nodes in x direction and 5 nodes in y direction. See Example 1 image. </font>
+<br>
+<br>
+<!----------->
+<font face="Courier">
+define X1 1.0
+<br>
+define Y1 2.0
+<br>
+define Z1 0.
+<br>
+define X2 15.0
+<br>
+define Y2 5.0
+<br>
+define Z2 0.
+<br>
+define X3 15.0
+<br>
+define Y3 5.
+<br>
+define Z3 25.
+<br>
+define X4 1.0
+<br>
+define Y4 2.
+<br>
+define Z4 25.
+<br>
+
+define / NX / 4
+<br>
+define / NY / 1
+<br>
+define / NZ / 10
+<br>
+
+</font>
+<b><font face="Times">quadxy /</font></b>
+<font face="Courier">
+NX NZ/ X1 Y1 Z1 / X2 Y2 Z2 /X3 Y3 Z3 / X4 Y4 Z4
+</font>
+<br>
+<b><font face="Times">createpts/brick/xyz/</font></b><font face="Courier">
+NX NY NZ <font face="Times"><b>/1,0,0/connect </font></b>
+</font>
+<br>
+<font face="Times New Roman,Times">&nbsp;
+Create a XZ quad surface with 4 nodes in x direction and 10 nodes in Z direction. See Example 2 image. </font>
+<!----------->
+<br>
+<br>
+</dir>
+</dir>
+</blockquote>
+
+<table COLS=3 title="LaGriT Finite Element Mesh Images" > 
+<! row 1 > 
+<tr> 
+<td>
+<br>
+<a href="quadxy_ex.txt">LaGriT command file for these Examples.</a><br> 
+<br>
+</td>
+<tr>
+<td> 
+<a href="quadxy_example1.png">quadxy_example1</a><br> 
+<a href="quadxy_example1.png"><img src="quadxy_example1_TN.PNG" width="300" alt="LaGriT Finite Element Mesh"></a> 
+</td> 
+<td> 
+<a href="quadxy_example2.png">quadxy_example2</a><br> 
+<a href="quadxy_example2.png"><img src="quadxy_example2_TN.PNG" width="300" alt="LaGriT Finite Element Mesh"></a> 
+</td> 
+<td> 
+<a href="quadxy_example3.png">quadxy_example3</a><br> 
+<a href="quadxy_example3.png"><img src="quadxy_example3_TN.PNG" width="300" alt="LaGriT Finite Element Mesh"></a> 
+</td> 
+</table> 
+<! End table of images > 
+
 
 </body>
 </html>

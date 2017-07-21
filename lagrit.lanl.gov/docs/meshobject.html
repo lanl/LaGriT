@@ -37,7 +37,7 @@ and maintained by the user)</font>
 <br><a NAME="mbndry"></a><font face="Times New Roman,Times"><b>mbndry</b>
 (integer -- value signifying that if the node number is greater that mbndry
 then the node is a boundary node) -- (default 16000000) (must be greater
-than 48*nnodes and may be reset by <b><a href="CONNECT1.html">connect</a></b>)
+than 48*nnodes and may be reset by <b><a href="commands/CONNECT1.html">connect</a></b>)
 (for an example of usage see <a href="meshobjcon.html#mbndry">Section III.d</a>)</font>
 <br><a NAME="ndimensions_topo"></a><font face="Times New Roman,Times"><b>ndimensions_topo</b>
 (integer -- topological dimensionality,1, 2 or 3, i.e. a non-planar surface
@@ -56,7 +56,7 @@ always 2, for 2D use the number of edges of the element, for 3D use the
 number of faces of the element.--( value dependent on type of mesh; e.g.
 for tetrahedral mesh the value will be 4))</font>
 <br><a NAME="isetwd"></a><font face="Times New Roman,Times"><b>isetwd</b>
-(integer array containing pset membership information, see <b><a href="PSET.html">pset</a></b>
+(integer array containing pset membership information, see <b><a href="commands/PSET.html">pset</a></b>
 command definition)</font>
 <br><font face="Times New Roman,Times"><b>ialias</b> (integer array of
 alternate node numbers, i.e. for merged points)</font>
@@ -377,20 +377,20 @@ connectivity)&nbsp; (for an example of usage see <a href="meshobjcon.html#jtet">
 III.d</a>)</font>
 <br><font face="Times New Roman,Times"><b>ipolydat</b> (character default
 <b>yes</b>)
-flag to <b><a href="DUMP2.html">dump/gmv </a></b>to output polygon data</font>
+flag to <b><a href="commands/DUMP2.html">dump/gmv </a></b>to output polygon data</font>
 <br><font face="Times New Roman,Times"><b>vor2d&nbsp;</b> (character default
 <b>yes</b>)
-flag to <b><a href="DUMP2.html">dump/gmv</a> </b>to output voronoi cells
+flag to <b><a href="commands/DUMP2.html">dump/gmv</a> </b>to output voronoi cells
 and median mesh cells for 2D meshes.</font>
 <br><font face="Times New Roman,Times"><b>vor3d&nbsp;</b> (character default
 <b>no</b>)
-flag to <b><a href="DUMP2.html">dump/gmv</a> </b>to output voronoi cells
+flag to <b><a href="commands/DUMP2.html">dump/gmv</a> </b>to output voronoi cells
 and median mesh cells for 3D meshes.</font>
 <br><font face="Times New Roman,Times"><b>epsilon </b>(real) value of machine
 epsilon which will be calculated by the code.</font>
 <br><font face="Times New Roman,Times"><b>epsilonl </b>(real) value of
 smallest edge that the code can distinguish will be set internally by the
-code (see <a href="SETSIZE.html">setsize</a>).</font>
+code (see <a href="commands/SETSIZE.html">setsize</a>).</font>
 <br><font face="Times New Roman,Times"><b>epsilona </b>(real) value of
 smallest area that the code can distinguish will be set internally by the
 code.</font>
@@ -399,21 +399,21 @@ smallest volume that the code can distinguish will be set internally by
 the code.</font>
 <br><font face="Times New Roman,Times"><b>ipointi </b>(integer) node number
 of the first node of the last set of nodes generated, used by&nbsp; the
-0,0,0 <b><a href="PSET.html">pset</a> </b>syntax</font>
+0,0,0 <b><a href="commands/PSET.html">pset</a> </b>syntax</font>
 <br><font face="Times New Roman,Times"><b>ipointj</b>(integer) node number
 of the last node of the last set of nodes generated, used by&nbsp; the
-0,0,0 <b><a href="PSET.html">pset</a> </b>syntax</font>
+0,0,0 <b><a href="commands/PSET.html">pset</a> </b>syntax</font>
 <br><font face="Times New Roman,Times"><b>idebug </b>(integer) debug flag
 values greater than 0 produce increasing levels of output.</font>
 <br><font face="Times New Roman,Times"><b>itypconv_sm</b> (integer)</font>
 <br><font face="Times New Roman,Times"><b>maxiter_sm </b>(integer default
-25) number of smoothing iterations in the <a href="SMOOTH.html">smooth
+25) number of smoothing iterations in the <a href="commands/SMOOTH.html">smooth
 </a>and
-<a href="RADAPT.html">radapt</a>
+<a href="commands/RADAPT.html">radapt</a>
 routines.</font>
 <br><font face="Times New Roman,Times"><b>tolconv_sm </b>(real)</font>
 <br><font face="Times New Roman,Times"><b>nnfreq</b> (integer default 1)
-flag to control reconnection after <a href="REFINE.html">refine</a> - set
+flag to control reconnection after <a href="commands/REFINE.html">refine</a> - set
 to zero to turn off reconnection.</font>
 <br><font face="Times New Roman,Times"><b>ivoronoi</b> (integer default
 1) flag to control reconnection criterion :</font>
@@ -421,10 +421,10 @@ to zero to turn off reconnection.</font>
 <br><font face="Times New Roman,Times">-2 means improve geometric quality
 of the elements</font>
 <br><font face="Times New Roman,Times">+2 means adaptive reconnection with
-user supplied routine (see <a href="RECON.html">recon)</a></font>
+user supplied routine (see <a href="commands/RECON.html">recon)</a></font>
 <br><font face="Times New Roman,Times">+5 means disable all reconnection</font></dir>
 <font face="Times New Roman,Times"><b>iopt2to2 </b>(integer default 2)
-flag to contol boundary flips during reconnection (see <a href="RECON.html">recon)</a>:</font>
+flag to contol boundary flips during reconnection (see <a href="commands/RECON.html">recon)</a>:</font>
 <dir><font face="Times New Roman,Times">0=exterior boundaries</font>
 <br><font face="Times New Roman,Times">1=interfaces</font>
 <br><font face="Times New Roman,Times">2=exterior boundaries and interfaces</font>
@@ -440,29 +440,29 @@ pic) Name of pressure attribute.</font>
 <br><font face="Times New Roman,Times"><b>enername</b> (character default
 eic) Name of energy attribute.</font>
 <br><font face="Times New Roman,Times"><b>xmin</b> (real default 1) minimum
-x coordinate of nodes in mesh set by <a href="SETSIZE.html">setsize</a>)</font>
+x coordinate of nodes in mesh set by <a href="commands/SETSIZE.html">setsize</a>)</font>
 <br><font face="Times New Roman,Times"><b>xmax</b> (real default 1) maximum
-x coordinate of nodes in mesh set by <a href="SETSIZE.html">setsize</a>)</font>
+x coordinate of nodes in mesh set by <a href="commands/SETSIZE.html">setsize</a>)</font>
 <br><font face="Times New Roman,Times"><b>ymin</b> (real default 1) minimum
-y coordinate of nodes in mesh set by<a href="SETSIZE.html"> setsize</a>)</font>
+y coordinate of nodes in mesh set by<a href="commands/SETSIZE.html"> setsize</a>)</font>
 <br><font face="Times New Roman,Times"><b>ymax </b>(real default 1) maximum
-y coordinate of nodes in mesh set by <a href="SETSIZE.html">setsize</a>)</font>
+y coordinate of nodes in mesh set by <a href="commands/SETSIZE.html">setsize</a>)</font>
 <br><font face="Times New Roman,Times"><b>zmin</b> (real default 1) minimum
-z coordinate of nodes in mesh set by <a href="SETSIZE.html">setsize</a>)</font>
+z coordinate of nodes in mesh set by <a href="commands/SETSIZE.html">setsize</a>)</font>
 <br><font face="Times New Roman,Times"><b>zmax</b> (real default 1) maximum
-z coordinate of nodes in mesh set by <a href="SETSIZE.html">setsize</a>)</font>
+z coordinate of nodes in mesh set by <a href="commands/SETSIZE.html">setsize</a>)</font>
 <br><font face="Times New Roman,Times"><b>kdtree_level </b>(integer default
-0) resolution level of<a href="kdtree.html"> kdtree </a>-- 0 means terminal
+0) resolution level of<a href="commands/kdtree.html"> kdtree </a>-- 0 means terminal
 nodes contain 1 member.</font>
 <br><font face="Times New Roman,Times"><b>max_number_of_sets</b> (integer
-default 32) number of<a href="PSET.html"> pset </a>and <a href="ELTSET2.html">eltsets</a>
+default 32) number of<a href="commands/PSET.html"> pset </a>and <a href="commands/ELTSET2.html">eltsets</a>
 allowed - currently restricted to 32.</font>
 <br><font face="Times New Roman,Times"><b>number_of_psets </b>(integer)
 number of defined psets in the mesh.</font>
 <br><font face="Times New Roman,Times"><b>number_of_eltsets </b>(integer)
 number of defined eltsets in the mesh.</font>
 <br><font face="Times New Roman,Times"><b>geom_name </b>(character default
--defaultgeom-) name of geometry associated with this mesh.&nbsp; (see <a href="cmo_geom.html">geom)</a></font></dir>
+-defaultgeom-) name of geometry associated with this mesh.&nbsp; (see <a href="commands/cmo/cmo_geom.html">geom)</a></font></dir>
 </dir>
 </dir>
 
@@ -471,14 +471,14 @@ number of defined eltsets in the mesh.</font>
 <dir>&nbsp;</dir>
 </dir>
 <font face="Times New Roman,Times">The current state of a mesh object can
-be displayed by the <a href="cmo_status.html"><b>cmo/status</b> </a>command</font>
+be displayed by the <a href="commands/cmo/cmo_status.html"><b>cmo/status</b> </a>command</font>
 <br><font face="Times New Roman,Times">Note: Many commands and the cmo_get_info
 subroutine accept <b>itp </b>as equivalent to <b>itp1; icr</b> to <b>icr1,
 isn </b>to <b>isn1</b>; <b>imt</b> to <b>imt</b>1. The user should never
 add an attribute whose name is<b> itp,imt,icr,isn.</b></font>
 <br>&nbsp;
 <dir><font face="Times New Roman,Times">The default Mesh Object can be
-expanded by adding user defined attributes (see <a href="cmo_addatt.html"><b>cmo</b>/<b>addatt</b></a>).</font>
+expanded by adding user defined attributes (see <a href="commands/cmo/cmo_addatt.html"><b>cmo</b>/<b>addatt</b></a>).</font>
 <dir>
 <dir>
 <dir>
@@ -502,7 +502,7 @@ expanded by adding user defined attributes (see <a href="cmo_addatt.html"><b>cmo
 </dir>
 <font face="Times New Roman,Times">The value of parameters can be changed
 by the cmo/setatt command.</font>
-<br><font face="Times New Roman,Times">(e.g. <b><a href="cmo_setatt.html">cmo/setatt/</a></b>/epsilonl/1.d-9)</font>
+<br><font face="Times New Roman,Times">(e.g. <b><a href="commands/cmo/cmo_setatt.html">cmo/setatt/</a></b>/epsilonl/1.d-9)</font>
 <p><a NAME="icontab"></a><font face="Times New Roman,Times">LaGriT will
 add attributes to the mesh object in certain instances. For example, if
 there are any constrained surfaces, reflect, virtual or intrcons types,

@@ -1,19 +1,24 @@
 #!/bin/bash
+# append -v for verbose output during this script
 
 #-------------------------------------------------------------------------------------------
 # This script will download packages for, configure, and build LaGriT cross-platform.
 # For bug reporting or suggestions on improvement, email livingston@lanl.gov
 #-------------------------------------------------------------------------------------------
-#           Verified on:
+# Verified Architecture:
+#           Verified OS':
 #             - macOS Sierra
 #             - Ubuntu 14.04
 #             - Ubuntu 16.04
 #             - Windows 10 with Linux shell
+#
+#           Verified Shells:
+#             - Bash
+#             - Cygwin
+#
+#           Verified Compilers:
+#             - gcc/g++/gfortran
 #-------------------------------------------------------------------------------------------
-# TODO: (1) Fix --static build for macOS
-#           (1.1) Current version returns: dyld: Library not found: path/to/exodus/lib/libhdf5_hl.100.dylib
-#       (2) Fix build process for Windows (Cygwin / MinGW)
-#       (3) Test on other shells
 
 SCRIPT_VERSION="v0.5"
 
@@ -30,6 +35,8 @@ export EXODUS_ROOT_DIR=$LAGRIT_ROOT_DIR/TPL
 # ----- Build variables -----------------
 #  Edit these to match your configuration
 #  Build flags can be edited under line 276
+CC_COMPILER_LG='gcc'
+CPP_COMPILER_LG='g++'
 FORTRAN_COMPILER='gfortran'
 FORTRAN90_COMPILER='gfortran'
 LAGRIT_NAME='lagrit' # Final executable name
@@ -46,7 +53,7 @@ BUILD_RELEASE=0 # Used by argument parser
 SKIPALL=0 # Used by --help flag & dependencies to skip build process
 SKIP_BUILD_EXODUS=0
 
-export ACCESS=$EXODUS_ROOT_DIR/seacas-exodus/lib/
+export ACCESS=$EXODUS_ROOT_DIR/seacas/lib
 
 #----------- CHECK THAT REQUIRED PACKAGES ARE INSTALLED -----------#
 # Building Exodus requires a number of terminal packages.
@@ -219,10 +226,8 @@ parse_ld_lib()
 build_exodus()
 {
 	mkdir $EXODUS_ROOT_DIR; cd $EXODUS_ROOT_DIR
-	wget https://github.com/gsjaardema/seacas/archive/exodus.zip || exit 1
-	unzip exodus.zip || exit 1
-	rm exodus.zip
-	cd seacas-exodus && export ACCESS=`pwd`
+	git clone https://github.com/gsjaardema/seacas.git
+	cd seacas && export ACCESS=`pwd`
 	
 	# If you run into problems building HDF5,
 	#  try uncommenting the below line:
@@ -254,7 +259,6 @@ build_exodus()
 	cd ../../netcdf
 
 	echo "Downloading and unpacking netCDF..."
-	wget https://raw.githubusercontent.com/gsjaardema/seacas/master/TPL/netcdf/runcmake.sh || exit 1
 	wget -O netcdf-4.4.1.1.tar.gz ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.1.1.tar.gz || exit 1
 	tar zxf netcdf-4.4.1.1.tar.gz || exit 1
 	rm netcdf-4.4.1.1.tar.gz
@@ -283,6 +287,14 @@ build_exodus()
 	make && make install || exit 1
 
 	cd $ACCESS
+	
+	# Disable Matio, CGNS, X11
+	# Enable if you want the specific functionality offered
+	# Visit the Seacas repo to learn more
+	sed -i -e 's/HAVE_MATIO=ON/HAVE_MATIO=OFF/g' cmake-config
+	sed -i -e 's/HAVE_CGNS=ON/HAVE_CGNS=OFF/g' cmake-config
+	sed -i -e 's/HAVE_X11=ON/HAVE_X11=OFF/g' cmake-config
+	
 	mkdir build
 	cd build
 
@@ -293,8 +305,20 @@ build_exodus()
 	fi
 
 	echo "Building Exodus..."
-	../cmake-exodus
+	../cmake-config -DCMAKE_C_COMPILER="$CC_COMPILER_LG" -DCMAKE_CXX_COMPILER="$CPP_COMPILER_LG" -DCMAKE_Fortran_COMPILER="$FORTRAN_COMPILER"
 	make && make install || exit 1
+	
+	# Verify correct header files got generated; if not, copy
+	if [[ ! -f "../include/exodusII.h" ]]; then 
+		echo "BUILD WARNING: exodusII.h not correctly generated"
+		cp ../packages/seacas/libraries/exodus/include/exodusII.h ../include/exodusII.h
+	fi
+	
+	if [[ ! -f "../include/exodusII.inc" ]]; then 
+		echo "BUILD WARNING: exodusII.inc not correctly generated"
+		cp ../packages/seacas/libraries/exodus_for/include/exodusII.inc ../include/exodusII.inc
+	fi
+	
 	echo "   Exodus build complete."
 
 }
@@ -320,7 +344,7 @@ build_lagrit()
 	if [ $BUILD_STATIC -eq 1 ] ; then
 		echo "Configuring static build..."
 		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
-		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
+		BUILDFLAGS=(-O -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
 		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
 		MAKEFLAG='MOPT=64'
@@ -349,11 +373,10 @@ build_lagrit()
 	if [ $BUILD_DEBUG -eq 1 ] ; then
 		echo "Configuring debug build..."
 		LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
-		BUILDFLAGS=(-O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
+		BUILDFLAGS=(-g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
-		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++)
-		#MAKEFLAG='MOPT=64 -g'
-		MAKEFLAG='MOPT=64'
+		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
+		MAKEFLAG='COPT=-g'
 	fi
 	
 	# Build without Exodus
@@ -384,37 +407,41 @@ build_lagrit()
 	fi
 
 	echo "   Done."
-	echo "Building lg_util..."
+	echo "Building Library lg_util..."
 
 	cd lg_util/src/
 	make clean
-	make MOPT=64 lib || exit 1
+	make $MAKEFLAG || exit 1
 
 	echo "   Done."
-	echo "Cleaning LaGriT source directory..."
+	echo "Preparing LaGriT source directory..."
 
 	cd ../../src/
 	rm *.o; rm *.mod # make clean
 	
-	cp exo_files/exodusII.h exodusII.h
-	cp exo_files/exodusII.inc exodusII.inc
-	cp exo_files/netcdf.h netcdf.h
-	
-	echo "   Done."
-	echo "Linking LaGriT..."
+	# Get exodusII.h and exodusII.inc from current version of ExodusII 
+	cp $EXODUSII_HOME/include/exodusII.h . 
+	cp $EXODUSII_HOME/include/exodusII.inc . 
+	if [ ! -f "exodusII.inc" ] ;  then 
+		echo "The file src/exodusII.inc not found, can not complete build." 
+		echo "Not found in EXODUSII_HOME set as $EXODUSII_HOME" 
+		echo " " 
+                exit
+	fi
 	
 	$FORTRAN_COMPILER ${LINKERFLAGS[*]} lagrit_main.o lagrit_main.f || exit 1
 	$FORTRAN_COMPILER ${LINKERFLAGS[*]} lagrit_fdate.o lagrit_fdate.f || exit 1
 	
 	echo "   Done."
-	echo "Making LaGriT..."
+	echo "Building Library lagrit..."
 	make $MAKEFLAG lib
 	
 	echo "   Done."
-	echo "Compiling LaGriT..."
+	echo "Building LaGriT executable..."
 	
+ 	echo "$FORTRAN_COMPILER ${BUILDFLAGS[*]} $LAGRIT_NAME ${BUILDLIBS[*]} ${BUILDSUFFIX[*]}"
 	$FORTRAN_COMPILER ${BUILDFLAGS[*]} $LAGRIT_NAME ${BUILDLIBS[*]} ${BUILDSUFFIX[*]} || exit 1
-	echo "   Done."
+	echo "$LAGRIT_NAME   Done."
 	
 	if [ "$(uname)" == "Darwin" ]; then
 		if [ $BUILD_EXODUS -eq 1 ] && [ $BUILD_STATIC -eq 0 ]; then
@@ -453,11 +480,14 @@ build_lagrit()
 test_lagrit()
 {
 	cd $LAGRIT_ROOT_DIR/test
-	echo "Testing LaGriT build..."
+	echo "Testing LaGriT Build..."
 	python suite.py -f -l 1 -exe=$LAGRIT_ROOT_DIR'/src/'$LAGRIT_NAME
 	echo "   Testing complete."
+	echo "   See test/suite.py to run other test options."
+	echo "  "
 	
-	echo "   LaGrit executable was created as: $LAGRIT_ROOT_DIR/src/$LAGRIT_NAME"
+	echo "   LaGrit executable created and tested: $LAGRIT_ROOT_DIR/src/$LAGRIT_NAME"
+	echo "  "
 }
 
 

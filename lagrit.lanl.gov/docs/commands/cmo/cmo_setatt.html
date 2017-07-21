@@ -1,0 +1,43 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Jan Wills">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]">
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000EE" vlink="#551A8B" alink="#FF0000">
+ 
+<dir>
+<dir>&nbsp;</dir>
+<font face="Times"><b>setatt</b>/</font><font face="Courier">mo_name</font><font face="Times">/</font><font face="Courier">attribute_name</font><font face="Times">/</font><font face="Courier">ifirst,ilast,istride/value</font>
+<dir><font face="Times
+<DIR><FONT FACE=">mo_name</font><font face="Times">
+is type character, required.</font>
+<br><font face="Courier">attribute_name</font><font face="Times"> is type
+character.&nbsp; If blank, the active mesh object will be used.</font>
+<br><font face="Courier">ifirst,ilast,istride</font>
+<dir><font face="Times">for attributes with length = 'nnodes', pset can
+be supplied</font>
+<br><font face="Times">for attributes with length = 'nelements', eltset
+can be supplied</font>
+<br><font face="Times">for other attributes </font><font face="Courier">ifirst,ilast,istride</font><font face="Times">
+must be numbers; if blank then all members of the attribute will be modified.</font></dir>
+<font face="Courier">value </font><font face="Times">is type integer or
+real depending on the type of the attribute.</font>
+<dir><font face="Times">Sets the value of the specified attribute in the
+given range to the supplied value.</font></dir>
+<font face="Times">Note:&nbsp; This command requires that the mesh contains
+one or more nodes.</font></dir>
+<font face="Times">EXAMPLES:</font></dir>
+ 
+<dir><b><font face="Times">cmo/setatt/</font></b><font face="Courier New,Courier">cmo/itp1/1,0,0/0</font>
+<br><font face="Times"><b>cmo/setatt</b>/
+</font><font face="Courier">3dmesh/<b>itetclr</b>/</font><font face="Times"><b>eltset</b>,<b>get</b>,blue/3</font>
+<br><font face="Times">Will set all elements in the element set 'blue'
+to have the value of itetclr to 3.</font>
+<br><font face="Times"><b>cmo/setatt</b>//<b>ndimensions_geom</b>////2</font>
+<br><font face="Times">Will reset the ndimensions geometry attribute of
+the active mesh object to 2.</font></dir>
+ 
+</body>
+</html>
