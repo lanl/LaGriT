@@ -5,16 +5,20 @@
 # This script will download packages for, configure, and build LaGriT cross-platform.
 # For bug reporting or suggestions on improvement, email livingston@lanl.gov
 #-------------------------------------------------------------------------------------------
-#           Verified on:
+# Verified Architecture:
+#           Verified OS':
 #             - macOS Sierra
 #             - Ubuntu 14.04
 #             - Ubuntu 16.04
 #             - Windows 10 with Linux shell
+#
+#           Verified Shells:
+#             - Bash
+#             - Cygwin
+#
+#           Verified Compilers:
+#             - gcc/g++/gfortran
 #-------------------------------------------------------------------------------------------
-# TODO: (1) Fix --static build for macOS
-#           (1.1) Current version returns: dyld: Library not found: path/to/exodus/lib/libhdf5_hl.100.dylib
-#       (2) Fix build process for Windows (Cygwin / MinGW)
-#       (3) Test on other shells
 
 SCRIPT_VERSION="v0.5"
 
@@ -31,6 +35,8 @@ export EXODUS_ROOT_DIR=$LAGRIT_ROOT_DIR/TPL
 # ----- Build variables -----------------
 #  Edit these to match your configuration
 #  Build flags can be edited under line 276
+CC_COMPILER_LG='gcc'
+CPP_COMPILER_LG='g++'
 FORTRAN_COMPILER='gfortran'
 FORTRAN90_COMPILER='gfortran'
 LAGRIT_NAME='lagrit' # Final executable name
@@ -47,7 +53,7 @@ BUILD_RELEASE=0 # Used by argument parser
 SKIPALL=0 # Used by --help flag & dependencies to skip build process
 SKIP_BUILD_EXODUS=0
 
-export ACCESS=$EXODUS_ROOT_DIR/seacas-exodus/lib
+export ACCESS=$EXODUS_ROOT_DIR/seacas/lib
 
 #----------- CHECK THAT REQUIRED PACKAGES ARE INSTALLED -----------#
 # Building Exodus requires a number of terminal packages.
@@ -220,10 +226,8 @@ parse_ld_lib()
 build_exodus()
 {
 	mkdir $EXODUS_ROOT_DIR; cd $EXODUS_ROOT_DIR
-	wget https://github.com/gsjaardema/seacas/archive/exodus.zip || exit 1
-	unzip exodus.zip || exit 1
-	rm exodus.zip
-	cd seacas-exodus && export ACCESS=`pwd`
+	git clone https://github.com/gsjaardema/seacas.git
+	cd seacas && export ACCESS=`pwd`
 	
 	# If you run into problems building HDF5,
 	#  try uncommenting the below line:
@@ -255,7 +259,6 @@ build_exodus()
 	cd ../../netcdf
 
 	echo "Downloading and unpacking netCDF..."
-	wget https://raw.githubusercontent.com/gsjaardema/seacas/master/TPL/netcdf/runcmake.sh || exit 1
 	wget -O netcdf-4.4.1.1.tar.gz ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.1.1.tar.gz || exit 1
 	tar zxf netcdf-4.4.1.1.tar.gz || exit 1
 	rm netcdf-4.4.1.1.tar.gz
@@ -284,6 +287,14 @@ build_exodus()
 	make && make install || exit 1
 
 	cd $ACCESS
+	
+	# Disable Matio, CGNS, X11
+	# Enable if you want the specific functionality offered
+	# Visit the Seacas repo to learn more
+	sed -i -e 's/HAVE_MATIO=ON/HAVE_MATIO=OFF/g' cmake-config
+	sed -i -e 's/HAVE_CGNS=ON/HAVE_CGNS=OFF/g' cmake-config
+	sed -i -e 's/HAVE_X11=ON/HAVE_X11=OFF/g' cmake-config
+	
 	mkdir build
 	cd build
 
@@ -294,8 +305,20 @@ build_exodus()
 	fi
 
 	echo "Building Exodus..."
-	../cmake-exodus
+	../cmake-config -DCMAKE_C_COMPILER="$CC_COMPILER_LG" -DCMAKE_CXX_COMPILER="$CPP_COMPILER_LG" -DCMAKE_Fortran_COMPILER="$FORTRAN_COMPILER"
 	make && make install || exit 1
+	
+	# Verify correct header files got generated; if not, copy
+	if [[ ! -f "../include/exodusII.h" ]]; then 
+		echo "BUILD WARNING: exodusII.h not correctly generated"
+		cp ../packages/seacas/libraries/exodus/include/exodusII.h ../include/exodusII.h
+	fi
+	
+	if [[ ! -f "../include/exodusII.inc" ]]; then 
+		echo "BUILD WARNING: exodusII.inc not correctly generated"
+		cp ../packages/seacas/libraries/exodus_for/include/exodusII.inc ../include/exodusII.inc
+	fi
+	
 	echo "   Exodus build complete."
 
 }
