@@ -341,7 +341,7 @@ class PyLaGriT(spawn):
         try:
             imt_data = numpy.loadtxt(materials_file)
         except:
-            print("ERROR: materials file {} not found!")
+            print("ERROR: materials file {} not found!".format(materials_file))
             exit(1)
         
         # Write out to hidden materials file

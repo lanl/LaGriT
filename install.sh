@@ -449,7 +449,7 @@ build_lagrit()
 			echo ""
 			echo "-------------------------------------------------------------------------"
 			echo "IMPORTANT NOTICE: For macOS to correctly find Exodus libraries,"
-			echo "  the following line must be appended to your ~./bashrc or ~./bash_profile:"
+			echo "  the following line must be appended to your ~/.bashrc or ~/.bash_profile:"
 			echo 'export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:'"$ACCESS"
 			echo ""
 			echo "Otherwise, once this current terminal session ends, DYLD_LIBRARY_PATH"
