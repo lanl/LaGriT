@@ -19,6 +19,9 @@
 #           Verified Compilers:
 #             - gcc/g++/gfortran
 #-------------------------------------------------------------------------------------------
+# Notes:
+#           It is recommended that those running Red Hat compile with static
+#-------------------------------------------------------------------------------------------
 
 SCRIPT_VERSION="v0.5"
 
@@ -419,16 +422,19 @@ build_lagrit()
 	cd ../../src/
 	rm *.o; rm *.mod # make clean
 	
-	# Get exodusII.h and exodusII.inc from current version of ExodusII 
-	cp $EXODUSII_HOME/include/exodusII.h . 
-	cp $EXODUSII_HOME/include/exodusII.inc . 
-	if [ ! -f "exodusII.inc" ] ;  then 
-		echo "The file src/exodusII.inc not found, can not complete build." 
-		echo "Not found in EXODUSII_HOME set as $EXODUSII_HOME" 
-		echo " " 
-                exit
+	# Copy Exodus headers to LaGriT src/
+	if [ $BUILD_EXODUS -eq 1 ] ; then
+		# Get exodusII.h and exodusII.inc from current version of ExodusII 
+		cp $EXODUSII_HOME/include/exodusII.h . 
+		cp $EXODUSII_HOME/include/exodusII.inc . 
+		if [ ! -f "exodusII.inc" ] ;  then 
+			echo "The file src/exodusII.inc not found, can not complete build." 
+			echo "Not found in EXODUSII_HOME set as $EXODUSII_HOME" 
+			echo " " 
+                	exit
+		fi
 	fi
-	
+
 	$FORTRAN_COMPILER ${LINKERFLAGS[*]} lagrit_main.o lagrit_main.f || exit 1
 	$FORTRAN_COMPILER ${LINKERFLAGS[*]} lagrit_fdate.o lagrit_fdate.f || exit 1
 	
