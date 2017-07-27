@@ -389,7 +389,7 @@ build_lagrit()
 		BUILDFLAGS=(-O -Dlinx64 -static-libgfortran -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
 		BUILDSUFFIX=(-lm -lstdc++)
-		MAKEFLAG='COPT=-g'
+		MAKEFLAG='MOPT=64'
 		
 		cd "$LAGRIT_ROOT_DIR/src/"
 		cp dumpexodusII.f dumpexodusII.f.withexo
