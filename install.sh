@@ -120,6 +120,11 @@ if [ -z "$@" ] ; then
 	helpme
 fi
 
+BUILD_EXODUS=1
+BUILD_STATIC=0
+BUILD_RELEASE=0
+BUILD_DEBUG=0
+
 for i in "$@"
 do
 case $i in
@@ -129,35 +134,19 @@ case $i in
 	;;
 	-s|--static)
 	BUILD_STATIC=1
-
-	BUILD_EXODUS=1 # Needs to be optimized to remove this
-	BUILD_DEBUG=0 # Needs to be optimized to remove this
-	BUILD_RELEASE=0 # Needs to be optimized to remove this
 	shift 
 	;;
 	-d|--debug)
 	BUILD_DEBUG=1
-
-	BUILD_STATIC=0 # Needs to be optimized to remove this
-	BUILD_EXODUS=1 # Needs to be optimized to remove this
-	BUILD_RELEASE=0 # Needs to be optimized to remove this
 	shift
 	;;
 	-se|--skipexodus)
 	BUILD_EXODUS=0
 	SKIPALL=0 # Assumes it has been set to 1 in dependency check
-
-	BUILD_STATIC=0 # Needs to be optimized to remove this
-	BUILD_DEBUG=0 # Needs to be optimized to remove this
-	BUILD_RELEASE=0 # Needs to be optimized to remove this
 	shift 
 	;;
 	-r|--release)
 	BUILD_RELEASE=1
-
-	BUILD_STATIC=0 # Needs to be optimized to remove this
-	BUILD_DEBUG=0 # Needs to be optimized to remove this
-	BUILD_EXODUS=1 # Needs to be optimized to remove this
 	shift 
 	;;
 	-e=*|--exodus=*)
@@ -171,7 +160,6 @@ case $i in
     ;;
 esac
 done
-
 
 #--------------------- TEST IF EXODUS IS BUILT --------------------#
 # The default location for building Exodus is in the LaGriT
@@ -343,54 +331,108 @@ build_lagrit()
 	echo "Setting environment variables..."
 	echo $ACCESS	
 
-	# Static build
+	# Below, we run through the different permutations of configurations.
+	# In order, they are as follows:
+	# Static:   debug, no Exodus
+	#           release, no Exodus
+	#           debug, with Exodus
+	#           release, with Exodus
+	# Shared:   debug, no Exodus
+	#           debug, with Exodus
+	#           release, no Exodus
+	#           release, with Exodus
 	if [ $BUILD_STATIC -eq 1 ] ; then
-		echo "Configuring static build..."
-		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
-		BUILDFLAGS=(-O -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
-		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
-		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
-		MAKEFLAG='MOPT=64'
+	    if [ $BUILD_EXODUS -eq 0 ] ; then
+	        if [ $BUILD_DEBUG -eq 1 ] ; then
+	    		echo "Building LaGriT as: debug, no exodus, static libraries"
+	    		LINKERFLAGS=(-g -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
+	    		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
+	    		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
+	           	BUILDSUFFIX=(-lm -lz -ldl -lstdc++)
+	    		MAKEFLAG='MOPT=64'
 
-		# Default gcc/gfortran compiler on Mac behaves different for static flag
-		if [ "$(uname)" == "Darwin" ]; then
-			tmp=`pwd`
-			cd $ACCESS
-			
-			# Hide dynamic libs so compiler will force-use static
-			for file in *.dylib; do
-				mv "$file" "`basename "$file" .dylib`.hidden"
-			done
-			cd $tmp
-			
-			# Change /usr/local/lib/libquadmath.a to match yours - should be identical
-			# May not work - physically change the extension of libquadmath.*.dylib to .hidden,
-			#    run script, and change back to force static .a
-			LINKERFLAGS=(-g -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o)
-			BUILDFLAGS=(-g -static-libgfortran -static-libgcc -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -fno-sign-zero -o)
-			BUILDSUFFIX=(-L$ACCESS /usr/local/lib/libquadmath.a -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
-		fi
-	fi
-	
-	# Debug with shared libs
-	if [ $BUILD_DEBUG -eq 1 ] ; then
-		echo "Configuring debug build..."
-		LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
-		BUILDFLAGS=(-g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
-		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
-		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
-		MAKEFLAG='COPT=-g'
-	fi
-	
-	# Build without Exodus
-	if [ $BUILD_EXODUS -eq 0 ] ; then
-		echo "Configuring release build without Exodus..."
+	    		if [ "$(uname)" == "Darwin" ]; then
+	    			LINKERFLAGS=(-g -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o)
+	    			BUILDFLAGS=(-g -static-libgfortran -static-libgcc -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -fno-sign-zero -o)
+	                	BUILDSUFFIX=(/usr/local/lib/libquadmath.a -lm -lz -ldl -lstdc++)
+	    		fi
+	        else
+	    		echo "Building LaGriT as: release, no Exodus, static libraries"
+	    		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
+	    		BUILDFLAGS=(-O -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
+	    		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
+	            	BUILDSUFFIX=(-lm -lz -ldl -lstdc++)
+	    		MAKEFLAG='MOPT=64'
+
+	    		if [ "$(uname)" == "Darwin" ]; then
+	    			LINKERFLAGS=(-O -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o)
+	    			BUILDFLAGS=(-O -static-libgfortran -static-libgcc -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -fno-sign-zero -o)
+	    			BUILDSUFFIX=(/usr/local/lib/libquadmath.a -lm -lz -ldl -lstdc++)
+	    		fi
+	        fi
+	    else
+	        if [ $BUILD_DEBUG -eq 1 ] ; then
+	    		echo "Building LaGriT as: debug with static libraries"
+	    		LINKERFLAGS=(-g -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
+	    		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
+	    		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
+	    		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
+	    		MAKEFLAG='MOPT=64'
+
+	    		if [ "$(uname)" == "Darwin" ]; then
+	    			LINKERFLAGS=(-g -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o)
+	    			BUILDFLAGS=(-g -static-libgfortran -static-libgcc -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -fno-sign-zero -o)
+	    			BUILDSUFFIX=(-L$ACCESS /usr/local/lib/libquadmath.a -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
+	    		fi
+	        else
+	    		echo "Building LaGriT as: release with static libraries"
+	    		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
+	    		BUILDFLAGS=(-O -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
+	    		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
+	    		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
+	    		MAKEFLAG='MOPT=64'
+
+	    		if [ "$(uname)" == "Darwin" ]; then
+	    			LINKERFLAGS=(-O -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o)
+	    			BUILDFLAGS=(-O -static-libgfortran -static-libgcc -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -fno-sign-zero -o)
+	    			BUILDSUFFIX=(-L$ACCESS /usr/local/lib/libquadmath.a -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
+	    		fi
+	        fi
+	    fi
+	elif [ $BUILD_DEBUG -eq 1 ] ; then
+	    if [ $BUILD_EXODUS -eq 0 ] ; then
+	        	echo "Building LaGriT as: debug, no Exodus, shared libraries"
+			LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
+			BUILDFLAGS=(-g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
+			BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
+			BUILDSUFFIX=(-lm -lstdc++)
+			MAKEFLAG='COPT=-g'
+	    else
+	        	echo "Building LaGriT as: debug with shared libraries"
+			LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
+			BUILDFLAGS=(-g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
+			BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
+			BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
+			MAKEFLAG='COPT=-g'
+	    fi
+	elif [ $BUILD_EXODUS -eq 0 ] ; then
+	    	echo "Building LaGriT as: release, no Exodus, shared libraries"
 		LINKERFLAGS=(-O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
 		BUILDFLAGS=(-O -Dlinx64 -static-libgfortran -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
 		BUILDSUFFIX=(-lm -lstdc++)
 		MAKEFLAG='MOPT=64'
-		
+	else
+	    	echo "Building LaGriT as: release with shared libraries"
+		LINKERFLAGS=(-O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
+		BUILDFLAGS=(-O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
+		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
+		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
+		MAKEFLAG='MOPT=64'
+	fi
+
+	# 'Clear' Exodus calls from relevant LaGriT functions
+	if [ $BUILD_EXODUS -eq 0 ] ; then
 		cd "$LAGRIT_ROOT_DIR/src/"
 		cp dumpexodusII.f dumpexodusII.f.withexo
 		cp dumpexodusII.f.withnoexo dumpexodusII.f
@@ -398,15 +440,20 @@ build_lagrit()
 		echo "" > exo_put_sets.c
 		cd $LAGRIT_ROOT_DIR
 	fi
+
+	# If running static and macOS, temporarily hide shared libs
+	# to force the compiler to include static
+	if [ $BUILD_STATIC -eq 1 ] ; then
+		if [ "$(uname)" == "Darwin" ]; then
+			tmp=`pwd`
+			cd $ACCESS
 	
-	# Release with shared libs
-	if [ $BUILD_RELEASE -eq 1 ] ; then
-		echo "Configuring release build..."
-		LINKERFLAGS=(-O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
-		BUILDFLAGS=(-O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
-		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
-		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
-		MAKEFLAG='MOPT=64'
+			# Hide dynamic libs so compiler will force-use static
+			for file in *.dylib; do
+				mv "$file" "`basename "$file" .dylib`.hidden"
+			done
+			cd $tmp
+		fi
 	fi
 
 	echo "   Done."
