@@ -23,11 +23,13 @@
 #           It is recommended that those running Red Hat compile with static
 #-------------------------------------------------------------------------------------------
 
-SCRIPT_VERSION="v0.5"
+# LaGriT release version - 3.203
+major_version=3
+minor_version=203
 
 echo "========================================================"
 echo "=================== Building LaGriT ===================="
-echo "========================= $SCRIPT_VERSION ========================="
+echo "======================== V$major_version.$minor_version ========================"
 echo ""
 
 # Change from pwd if not running inside LaGriT/
@@ -314,6 +316,85 @@ build_exodus()
 
 }
 
+#--------------------------- WRITE HEADER -------------------------#
+# This function writes the lagrit.h file, used by LaGriT to display
+# the start-up banner.
+# This function takes in one parameter, the flag as an integer to
+# set the build_type variable
+write_lagrit_header() {
+	echo "Writing compile specific LaGriT header..."
+	
+	OS_name="$(uname)"
+	build_date=`date +%Y/%m/%d`
+
+	case "$1" in
+		1)
+			build_type="Release"
+			;;
+		2)
+			build_type="Debug"
+			;;
+		3)
+			build_type="Static"
+			;;
+		4)
+			build_type="Release (no-exo)"
+			;;
+		5)
+			build_type="Static debug"
+			;;
+		6)
+			build_type="Static (no-exo)"
+			;;
+		7)
+			build_type="Static -g (no-exo)"
+			;;
+		8)
+			build_type="Debug (no-exo)"
+			;;
+		*)
+			build_type="unknown"
+	esac
+
+	# Indentation flushed-left is important for EOL to work
+cat >src/lagrit.h <<EOL
+c
+c----------------------------------------------------------------
+c Bash auto-generated LaGriT program banner
+c
+c Substitute the TAG strings with Date and Linux, Darwin, WIN, etc.
+c Compile library with updated lagrit.h used in writinit()
+c This template is preserved in lagrit.template.h
+c----------------------------------------------------------------
+c
+      integer        v_major, v_minor
+      parameter      (v_major=${major_version})
+      parameter      (v_minor=${minor_version})
+c
+      character*22   date_compile
+      character*8    os_name
+      character*16   my_name
+c
+      data my_name      /'lagritgen'/
+
+c     os_name is used to find and write OS related files
+c     make sure it is a version recognized in Makefile
+c     and writinit.f for forming header info
+      data os_name      /'${OS_name}'/
+c
+      data date_compile /'${build_date} ${build_type} '/
+c
+      integer         NCall
+      save            NCall
+      character*8     Version
+      save            Version
+c
+c----------------------------------------------------------------
+c
+EOL
+
+	echo "Done"
+}
 
 #--------------------------- BUILD LAGRIT -------------------------#
 # This function builds LaGriT based on arguments passed to the script
@@ -345,6 +426,9 @@ build_lagrit()
 	    if [ $BUILD_EXODUS -eq 0 ] ; then
 	        if [ $BUILD_DEBUG -eq 1 ] ; then
 	    		echo "Building LaGriT as: debug, no exodus, static libraries"
+				
+				write_lagrit_header 7
+				
 	    		LINKERFLAGS=(-g -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 	    		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
@@ -358,10 +442,13 @@ build_lagrit()
 	    		fi
 	        else
 	    		echo "Building LaGriT as: release, no Exodus, static libraries"
+				
+				write_lagrit_header 6
+				
 	    		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-O -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 	    		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
-	            	BUILDSUFFIX=(-lm -lz -ldl -lstdc++)
+	            BUILDSUFFIX=(-lm -lz -ldl -lstdc++)
 	    		MAKEFLAG='MOPT=64'
 
 	    		if [ "$(uname)" == "Darwin" ]; then
@@ -373,6 +460,9 @@ build_lagrit()
 	    else
 	        if [ $BUILD_DEBUG -eq 1 ] ; then
 	    		echo "Building LaGriT as: debug with static libraries"
+				
+				write_lagrit_header 5
+				
 	    		LINKERFLAGS=(-g -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 	    		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
@@ -386,6 +476,9 @@ build_lagrit()
 	    		fi
 	        else
 	    		echo "Building LaGriT as: release with static libraries"
+				
+				write_lagrit_header 3
+				
 	    		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-O -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 	    		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
@@ -401,14 +494,20 @@ build_lagrit()
 	    fi
 	elif [ $BUILD_DEBUG -eq 1 ] ; then
 	    if [ $BUILD_EXODUS -eq 0 ] ; then
-	        	echo "Building LaGriT as: debug, no Exodus, shared libraries"
+	        echo "Building LaGriT as: debug, no Exodus, shared libraries"
+			
+			write_lagrit_header 8
+			
 			LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
 			BUILDFLAGS=(-g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
 			BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
 			BUILDSUFFIX=(-lm -lstdc++)
 			MAKEFLAG='COPT=-g'
 	    else
-	        	echo "Building LaGriT as: debug with shared libraries"
+	        echo "Building LaGriT as: debug with shared libraries"
+			
+			write_lagrit_header 2
+			
 			LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
 			BUILDFLAGS=(-g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
 			BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
@@ -416,14 +515,20 @@ build_lagrit()
 			MAKEFLAG='COPT=-g'
 	    fi
 	elif [ $BUILD_EXODUS -eq 0 ] ; then
-	    	echo "Building LaGriT as: release, no Exodus, shared libraries"
+	    echo "Building LaGriT as: release, no Exodus, shared libraries"
+		
+		write_lagrit_header 4
+		
 		LINKERFLAGS=(-O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
 		BUILDFLAGS=(-O -Dlinx64 -static-libgfortran -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
 		BUILDSUFFIX=(-lm -lstdc++)
 		MAKEFLAG='MOPT=64'
 	else
-	    	echo "Building LaGriT as: release with shared libraries"
+	    echo "Building LaGriT as: release with shared libraries"
+		
+		write_lagrit_header 1
+		
 		LINKERFLAGS=(-O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
 		BUILDFLAGS=(-O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
 		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
