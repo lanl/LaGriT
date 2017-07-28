@@ -349,7 +349,7 @@ build_lagrit()
 	    		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 	    		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
 	           	BUILDSUFFIX=(-lm -lz -ldl -lstdc++)
-	    		MAKEFLAG='MOPT=64'
+	    		MAKEFLAG='COPT=-g'
 
 	    		if [ "$(uname)" == "Darwin" ]; then
 	    			LINKERFLAGS=(-g -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o)
@@ -377,7 +377,7 @@ build_lagrit()
 	    		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 	    		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
 	    		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lm -lz -ldl -lstdc++)
-	    		MAKEFLAG='MOPT=64'
+	    		MAKEFLAG='COPT=-g'
 
 	    		if [ "$(uname)" == "Darwin" ]; then
 	    			LINKERFLAGS=(-g -fcray-pointer -fdefault-integer-8 -m64 -Dmacx64 -c -o)
