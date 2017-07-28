@@ -19,6 +19,9 @@
 #           Verified Compilers:
 #             - gcc/g++/gfortran
 #-------------------------------------------------------------------------------------------
+# Notes:
+#           It is recommended that those running Red Hat compile with static
+#-------------------------------------------------------------------------------------------
 
 SCRIPT_VERSION="v0.5"
 
@@ -382,11 +385,11 @@ build_lagrit()
 	# Build without Exodus
 	if [ $BUILD_EXODUS -eq 0 ] ; then
 		echo "Configuring release build without Exodus..."
-		LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
-		BUILDFLAGS=(-g -Dlinx64 -static-libgfortran -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
-		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
+		LINKERFLAGS=(-O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
+		BUILDFLAGS=(-O -Dlinx64 -static-libgfortran -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
+		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
 		BUILDSUFFIX=(-lm -lstdc++)
-		MAKEFLAG='COPT=-g'
+		MAKEFLAG='MOPT=64'
 		
 		cd "$LAGRIT_ROOT_DIR/src/"
 		cp dumpexodusII.f dumpexodusII.f.withexo
@@ -419,16 +422,19 @@ build_lagrit()
 	cd ../../src/
 	rm *.o; rm *.mod # make clean
 	
-	# Get exodusII.h and exodusII.inc from current version of ExodusII 
-	cp $EXODUSII_HOME/include/exodusII.h . 
-	cp $EXODUSII_HOME/include/exodusII.inc . 
-	if [ ! -f "exodusII.inc" ] ;  then 
-		echo "The file src/exodusII.inc not found, can not complete build." 
-		echo "Not found in EXODUSII_HOME set as $EXODUSII_HOME" 
-		echo " " 
-                exit
+	# Copy Exodus headers to LaGriT src/
+	if [ $BUILD_EXODUS -eq 1 ] ; then
+		# Get exodusII.h and exodusII.inc from current version of ExodusII 
+		cp $EXODUSII_HOME/include/exodusII.h . 
+		cp $EXODUSII_HOME/include/exodusII.inc . 
+		if [ ! -f "exodusII.inc" ] ;  then 
+			echo "The file src/exodusII.inc not found, can not complete build." 
+			echo "Not found in EXODUSII_HOME set as $EXODUSII_HOME" 
+			echo " " 
+                	exit
+		fi
 	fi
-	
+
 	$FORTRAN_COMPILER ${LINKERFLAGS[*]} lagrit_main.o lagrit_main.f || exit 1
 	$FORTRAN_COMPILER ${LINKERFLAGS[*]} lagrit_fdate.o lagrit_fdate.f || exit 1
 	
