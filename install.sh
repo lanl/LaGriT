@@ -429,7 +429,7 @@ build_lagrit()
 	        if [ $BUILD_DEBUG -eq 1 ] ; then
 	    		echo "Building LaGriT as: debug, no exodus, static libraries"
 				
-				write_lagrit_header 7
+			write_lagrit_header 7
 				
 	    		LINKERFLAGS=(-g -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
@@ -445,12 +445,12 @@ build_lagrit()
 	        else
 	    		echo "Building LaGriT as: release, no Exodus, static libraries"
 				
-				write_lagrit_header 6
+			write_lagrit_header 6
 				
 	    		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-O -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
 	    		BUILDLIBS=(lagrit_main.o lagrit_fdate.o  lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_o_gcc.a)
-	            BUILDSUFFIX=(-lm -lz -ldl -lstdc++)
+	            	BUILDSUFFIX=(-lm -lz -ldl -lstdc++)
 	    		MAKEFLAG='MOPT=64'
 
 	    		if [ "$(uname)" == "Darwin" ]; then
@@ -463,7 +463,7 @@ build_lagrit()
 	        if [ $BUILD_DEBUG -eq 1 ] ; then
 	    		echo "Building LaGriT as: debug with static libraries"
 				
-				write_lagrit_header 5
+			write_lagrit_header 5
 				
 	    		LINKERFLAGS=(-g -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
@@ -479,7 +479,7 @@ build_lagrit()
 	        else
 	    		echo "Building LaGriT as: release with static libraries"
 				
-				write_lagrit_header 3
+			write_lagrit_header 3
 				
 	    		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-O -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
@@ -498,26 +498,26 @@ build_lagrit()
 	    if [ $BUILD_EXODUS -eq 0 ] ; then
 	        echo "Building LaGriT as: debug, no Exodus, shared libraries"
 			
-			write_lagrit_header 8
+		write_lagrit_header 8
 			
-			LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
-			BUILDFLAGS=(-g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
-			BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
-			BUILDSUFFIX=(-lm -lstdc++)
-			MAKEFLAG='COPT=-g'
+		LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
+		BUILDFLAGS=(-g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
+		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
+		BUILDSUFFIX=(-lm -lstdc++)
+		MAKEFLAG='COPT=-g'
 	    else
 	        echo "Building LaGriT as: debug with shared libraries"
 			
-			write_lagrit_header 2
+		write_lagrit_header 2
 			
-			LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
-			BUILDFLAGS=(-g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
-			BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
-			BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
-			MAKEFLAG='COPT=-g'
+		LINKERFLAGS=(-g  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o)
+		BUILDFLAGS=(-g -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o)
+		BUILDLIBS=(lagrit_main.o lagrit_fdate.o lagrit_ulin64_g_gcc.a $LAGRIT_UTIL_DIR/util_ulin64_g_gcc.a)
+		BUILDSUFFIX=(-L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++)
+		MAKEFLAG='COPT=-g'
 	    fi
 	elif [ $BUILD_EXODUS -eq 0 ] ; then
-	    echo "Building LaGriT as: release, no Exodus, shared libraries"
+	   	echo "Building LaGriT as: release, no Exodus, shared libraries"
 		
 		write_lagrit_header 4
 		
@@ -527,7 +527,7 @@ build_lagrit()
 		BUILDSUFFIX=(-lm -lstdc++)
 		MAKEFLAG='MOPT=64'
 	else
-	    echo "Building LaGriT as: release with shared libraries"
+	    	echo "Building LaGriT as: release with shared libraries"
 		
 		write_lagrit_header 1
 		
