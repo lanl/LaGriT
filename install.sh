@@ -168,9 +168,9 @@ done
 #  directory. This scans that dir for Exodus.
 test_exodus_exists()
 {
-	if [ -d "$EXODUS_ROOT_DIR/seacas-exodus/lib/" ] ; then
+	if [ -d "$EXODUS_ROOT_DIR/seacas/lib/" ] ; then
 		echo "Exodus appears to have been already built."
-		echo "  => $EXODUS_ROOT_DIR/seacas-exodus/lib/"
+		echo "  => $EXODUS_ROOT_DIR/seacas/lib/"
 		
 		while true; do
 		    read -p "  Would you like to rebuild? [y/n] " yn
@@ -313,6 +313,8 @@ build_exodus()
 	fi
 	
 	echo "   Exodus build complete."
+	cd $ACCESS/lib
+	export ACCESS=`pwd`
 
 }
 
@@ -338,19 +340,19 @@ write_lagrit_header() {
 			build_type="Static"
 			;;
 		4)
-			build_type="Release (no-exo)"
+			build_type="Release NE"
 			;;
 		5)
-			build_type="Static debug"
+			build_type="Static DB"
 			;;
 		6)
-			build_type="Static (no-exo)"
+			build_type="Static NE"
 			;;
 		7)
-			build_type="Static -g (no-exo)"
+			build_type="Static gNE"
 			;;
 		8)
-			build_type="Debug (no-exo)"
+			build_type="Debug NE"
 			;;
 		*)
 			build_type="unknown"
@@ -577,11 +579,12 @@ build_lagrit()
 	# Copy Exodus headers to LaGriT src/
 	if [ $BUILD_EXODUS -eq 1 ] ; then
 		# Get exodusII.h and exodusII.inc from current version of ExodusII 
-		cp $EXODUSII_HOME/include/exodusII.h . 
-		cp $EXODUSII_HOME/include/exodusII.inc . 
-		if [ ! -f "exodusII.inc" ] ;  then 
+		#cp $ACCESS/../include/exodusII.h .
+		#cp $ACCESS/../include/exodusII.inc .
+		export CPATH=/scratch/sft/livingston/LG_Builds/macOS/LaGriT/TPL/seacas/include
+		if [ ! -f "$ACCESS/../include/exodusII.inc" ] ;  then 
 			echo "The file src/exodusII.inc not found, can not complete build." 
-			echo "Not found in EXODUSII_HOME set as $EXODUSII_HOME" 
+			echo "Not found in $ACCESS/../include/" 
 			echo " " 
                 	exit
 		fi
