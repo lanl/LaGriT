@@ -581,7 +581,7 @@ build_lagrit()
 		# Get exodusII.h and exodusII.inc from current version of ExodusII 
 		#cp $ACCESS/../include/exodusII.h .
 		#cp $ACCESS/../include/exodusII.inc .
-		export CPATH=/scratch/sft/livingston/LG_Builds/macOS/LaGriT/TPL/seacas/include
+		export CPATH=$ACCESS/../include/
 		if [ ! -f "$ACCESS/../include/exodusII.inc" ] ;  then 
 			echo "The file src/exodusII.inc not found, can not complete build." 
 			echo "Not found in $ACCESS/../include/" 
