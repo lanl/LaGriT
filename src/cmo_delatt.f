@@ -231,6 +231,7 @@ C begin cmo_delatt_all_lg used for DELATT option
 
         ierror=0
         ierr_report=0
+        local_debug=0
 
         lcmo=icharlnf(cmsgin(3))
         if (lcmo.gt.32) lcmo=32

@@ -30,7 +30,7 @@ and place the
 result in the node based floating point attribute,<br>
     <font face="Courier New, Courier, monospace">distance_field_attribute</font>
 in mo_sink. The
-computation is accelerated by using the <a href="./kdtree.html"
+computation is accelerated by using the <a href="kdtree.html"
  title="KDTREE search algorighm">kdtree</a> search<br>
 algorithm.<br>
     <br>
@@ -46,7 +46,7 @@ point
 attribute, <font face="Courier New, Courier, monospace">distance_field_attribute</font>
 in mo_sink. The computation is accelerated by using the&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; <br>
-    <a href="./kdtree.html" title="KDTREE search algorighm">kdtree</a>
+    <a href="kdtree.html" title="KDTREE search algorighm">kdtree</a>
 search algorithm. Using
 this option
 the mo_source MUST be either a triangle or quad surface
@@ -60,7 +60,7 @@ surface. If the surface is not a closed &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; <br>
 volume, then
 the assumptions described
-in the <a href="./SURFACE.html">surface</a> command are used to
+in the <a href="SURFACE.html">surface</a> command are used to
 determine
 what is above &nbsp;&nbsp;&nbsp; <br>
 and what is below the surface.<br>
@@ -117,15 +117,15 @@ each node.) The attribute chosen
 must already exist in both the surface and main meshes.<br>
     </p>
     <p>Other places to look for modules that compute some standard mesh
-attributes include, <a href="./QUALITY.html" title="Mesh Quality">quality</a>,
+attributes include, <a href="QUALITY.html" title="Mesh Quality">quality</a>,
 which
 will
     <br>
-compute aspect ratio and volume, <a href="./cmo_addatt.html"
+compute aspect ratio and volume, <a href="cmo/cmo_addatt.html"
  title="Add Attribute">cmo/addatt</a>, which will compute normal
 vectors, dihedral angles, solid <br>
 angles, meadian points, Voronoi points
-and more. User functions can be computed with the <a href="./MATH.html"
+and more. User functions can be computed with the <a href="MATH.html"
  title="Math Functions">math</a> module. </p>
   </blockquote>
   <strong>FORMAT</strong>: <font face="Courier New, Courier, monospace"><br>
@@ -157,7 +157,7 @@ linear_transform / mo_sink / mo_surf / zpos / water_head_value<br>
     <caption> <strong> Example: distance_field </strong> </caption> <tbody>
       <tr>
         <td width="677">
-        <div align="left"><img src="distance_field_01.png"
+        <div align="left"><img src="../distance_field_01.png"
  alt="Example: distance_field" height="300" width="300"> </div>
         </td>
       </tr>
@@ -175,7 +175,7 @@ linear_transform / mo_sink / mo_surf / zpos / water_head_value<br>
     <caption> <strong> Example: signed_distance_field </strong> </caption>
     <tbody>
       <tr>
-        <td width="677"><img src="../images/distance_field_02.png"
+        <td width="677"><img src="../../images/distance_field_02.png"
  alt="signed distance field" height="300" width="300"> <br>
         </td>
         <td>
@@ -191,19 +191,19 @@ Example: linear_transform </strong> </caption> <tbody>
       <tr>
         <td style="width: 677px;"><img
  style="width: 500px; height: 389px;" alt="Example: lin_extp_before"
- src="../images/lin_extp_before.jpg"><br>
+ src="../../images/lin_extp_before.jpg"><br>
         </td>
       </tr>
       <tr>
         <td>
         <pre><font face="Courier New, Courier, monospace">infile <a
- href="buildsurf.lgi">buildsurf.lgi</a><br><br>* Expand the cubical mesh such that its top (positive z-axis) looks like the sinusoidal<br>* surface denoted by zhigh<br>compute / linear_transform / cube / zhigh<br><br>finish<br><br></font></pre>
+ href="../buildsurf.lgi">buildsurf.lgi</a><br><br>* Expand the cubical mesh such that its top (positive z-axis) looks like the sinusoidal<br>* surface denoted by zhigh<br>compute / linear_transform / cube / zhigh<br><br>finish<br><br></font></pre>
         </td>
       </tr>
       <tr>
         <td style="vertical-align: top;"><img
  style="width: 500px; height: 389px;" alt="Example: lin_extp_after"
- src="../images/lin_extp_after.jpg"></td>
+ src="../../images/lin_extp_after.jpg"></td>
       </tr>
     </tbody>
   </table>

@@ -42,7 +42,7 @@ CPVCS
 CPVCS       Rev 1.0   Wed Jan 06 15:08:04 1999   dcg
 CPVCS    Initial revision.
 C #####################################################################
-c      implicit none
+      implicit none
 C
       include 'local_element.h'
 

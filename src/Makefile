@@ -392,7 +392,7 @@ endif
 #      cp machine_m64.h machine.h
 # ------------------------------------------------------------------
 $(OBJDIR)%.o : %.f 
-	cp lagrit$(OSTAG).h lagrit.h
+	#cp lagrit$(OSTAG).h lagrit.h
 	$(FC) $(COPT) $(FFLAGS)  -c -o $@ $<
 
 #lagrit.h : 
@@ -427,7 +427,7 @@ $(OBJDIR)%.o : %.cpp
 #	@echo "--------------------------------------------------"
 
 $(OBJDIR)%.o : %.F 
-	cp lagrit$(OSTAG).h lagrit.h
+	#cp lagrit$(OSTAG).h lagrit.h
 	$(FC) $(COPT) $(FFLAGS)  -c -o $@ $<
 
 $(LIBDIR) :; mkdir $(LIBDIR)

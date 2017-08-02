@@ -21,6 +21,8 @@ use Dreamweaver Find and Replace tool to replace all instances to the colors abo
 	
 p {color: #333; }
 
+Box { margin:5px 0px; padding: 0px;}
+
 h1 { color: #1657A2; } /*primary color*/ 
 h2 { color: #CC6600;} /*complementary color */
 h2 .home { color: #BB5A0C;} /*primary color */
@@ -33,7 +35,9 @@ h6 {color: #49407B; } /*complementary color */
 .menu_right  a:visited  {  color: #49407B; text-decoration: none; }/*complementary color */
 .menu_right a:hover {color: #D9541A; text-decoration: none; }/*primary color*/ 
 
-#mid-section1 { background: #FFF url(/*place a path to your background image here*/) top right no-repeat; }
+#mid-section1 { 
+	background: #FFF url(/*place a path to your background image here*/) top right no-repeat; 
+}
 
 /* sitebar color specifications /////////////////////////////////////////////////////*/
 
@@ -62,9 +66,11 @@ h6 {color: #49407B; } /*complementary color */
 
 /* MENU background colors /////////////////////////////////////////////////////////*/
 
-.col1, .col2-420, .col2-620, .col3-180 { color: #333;}
+.col1, .col2-420, .col2-620, .col3-180 { color: #333; margin:0 2px 0 5px;}
 
-.col2-420 { background: transparent; } /*or complementary color tint*/
+.col2-420 { 
+	background: transparent;
+	margin-left:20px; } /*or complementary color tint*/
 
 .col2-620 { background: transparent;} /*or complementary color tint*/
 
@@ -89,4 +95,27 @@ h6 {color: #49407B; } /*complementary color */
 #groups ul, #groups li {display: inline; list-style: none; white-space: nowrap;}
 
 #groups li a { padding: 0px;}
+
+/* Tables ////////////////////////////////////// */
+table .wide_tbl tr p {
+	padding:0;
+	margin-top: 1px;
+	margin-right: 2px;
+	margin-bottom: 1px;
+	margin-left: 10px;
+}
 	
+
+table .wide_tbl tr th p {
+	padding:0;
+	margin-top: 1px;
+	margin-right: 1px;
+	margin-bottom: 1px;
+	margin-left: 1px;
+	font-weight:bold;
+}
+
+div.wide_tbl {
+	margin: 0;
+	padding: 0 0 0 15px;
+}

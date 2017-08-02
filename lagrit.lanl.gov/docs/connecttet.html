@@ -18,31 +18,31 @@ set of command to connect the points into a tetrahedral mesh:</font>
 <dir><font face="Times New Roman,Times">* eliminate coincident or nearly
 coincident points</font>
 <br><font face="Times New Roman,Times">* 1,0,0 means consider all points</font>
-<br><b><font face="Times New Roman,Times"><a href="FILTER.html">filter</a>/1,0,0/</font></b>
+<br><b><font face="Times New Roman,Times"><a href="commands/FILTER.html">filter</a>/1,0,0/</font></b>
 <br><font face="Times New Roman,Times">* rayend points are set to invisible
 (21 is the code for invisible)</font>
 <br><font face="Times New Roman,Times">* they were used as end points of
 the rays in the regnpts command</font>
-<br><b><font face="Times New Roman,Times"><a href="cmo_setatt.html">cmo</a>/setatt//itp/pset,get,rayend/21/</font></b>
+<br><b><font face="Times New Roman,Times"><a href="commands/cmo/cmo_setatt.html">cmo</a>/setatt//itp/pset,get,rayend/21/</font></b>
 <br><font face="Times New Roman,Times">* assign material colors to the
 points</font>
 <br><font face="Times New Roman,Times">* identify points that are on material
 interfaces</font>
 <br><font face="Times New Roman,Times">* identify constrained points</font>
-<br><b><font face="Times New Roman,Times"><a href="SETPTS.html">setpts</a></font></b>
+<br><b><font face="Times New Roman,Times"><a href="commands/SETPTS.html">setpts</a></font></b>
 <br><font face="Times New Roman,Times">* connect the points into a Delaunay
 tetrahedral mesh</font>
 <br><font face="Times New Roman,Times">* do not connect across material
 interfaces - add points if necessary to resolve material interfaces</font>
-<br><b><font face="Times New Roman,Times"><a href="CONNECT1.html">connect</a></font></b>
+<br><b><font face="Times New Roman,Times"><a href="commands/CONNECT1.html">connect</a></font></b>
 <br><font face="Times New Roman,Times">* set element (tetrahedral) color</font>
 <br><font face="Times New Roman,Times">* spawn child points at material
 interfaces</font>
-<br><b><font face="Times New Roman,Times"><a href="SETTETS.html">settets</a></font></b>
+<br><b><font face="Times New Roman,Times"><a href="commands/SETTETS.html">settets</a></font></b>
 <br><font face="Times New Roman,Times">* dump mesh to some output form</font>
 <br><font face="Times New Roman,Times"><b>dump</b>/<b>gmv</b>/filename</font>
 <br><font face="Times New Roman,Times">* terminate processing</font>
-<br><b><font face="Times New Roman,Times"><a href="FINISH.html">finish</a></font></b></dir>
+<br><b><font face="Times New Roman,Times"><a href="commands/FINISH.html">finish</a></font></b></dir>
 <img SRC="new_html/Image229.gif" height=411 width=452>
 <p><font face="Times New Roman,Times">The complete input for the tutorial
 is:</font>

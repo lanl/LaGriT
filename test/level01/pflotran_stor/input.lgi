@@ -1,0 +1,121 @@
+# LaGriT V3.2+ 
+# Test pflotran option for writing geometric coef matrix
+#
+******* 2D ****************************************
+* 1 meter width
+cmo / create / motri / / / triplane
+createpts / xyz / 2 2 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+cmo / setatt / motri / imt / 1 0 0 / 1
+connect
+rmpoint compress
+resetpts / itp
+dump avs tmp_tri_1x1m.inp motri 1 1 0 0
+
+quality
+*****************
+dump / stor / out_tri_1x1m / motri
+******************
+dump / pflotran / out_tri_1x1m / motri
+*****************
+dump / pflotran / out_tri_1x1m_0 / motri / nofilter_zero
+*****************
+
+* 2 meter width
+cmo delete motri
+cmo / create / motri / / / triplane
+createpts / xyz / 2 2 1 / 0. 0. 0. / 2. 2. 0. / 1 1 1
+cmo / setatt / motri / imt / 1 0 0 / 1
+connect
+rmpoint compress
+resetpts / itp
+dump avs tmp_tri_2x2m.inp motri 1 1 0 0
+
+quality
+*****************
+dump / stor / out_tri_2x2m / motri
+*****************
+dump / pflotran / out_tri_2x2m / motri
+*****************
+dump / pflotran / out_tri_2x2m_0 / motri / nofilter_zero
+*****************
+
+* 3 x 4 nodes
+cmo delete motri
+cmo / create / motri / / / triplane
+createpts / xyz / 3 4 1 / 0. 0. 0. / 2. 2. 0. / 1 1 1
+cmo / setatt / motri / imt / 1 0 0 / 1
+connect
+rmpoint compress
+resetpts / itp
+dump avs tmp_tri_3x4_pts.inp motri 1 1 0 0
+
+quality
+*****************
+dump / stor / out_tri_3x4 / motri
+*****************
+dump / pflotran / out_tri_3x4 / motri
+*****************
+dump / pflotran / out_tri_3x4_0 / motri / nofilter_zero
+
+
+******* 3D ****************************************
+* NOTE these hex meshes are connected into tets
+* LaGriT does not write stor files for hex elements
+
+* 1 meter width single
+cmo delete mohex
+cmo / create / mohex 
+createpts / xyz / 2 2 2 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+cmo / setatt / mohex / imt / 1 0 0 / 1
+connect
+rmpoint compress
+resetpts / itp
+dump avs tmp_hex_1x1m.inp mohex 1 1 0 0
+
+quality
+*****************
+dump / stor / out_hex_1x1m / mohex
+*****************
+dump / pflotran / out_hex_1x1m / mohex
+*****************
+dump / pflotran / out_hex_1x1m_0 / mohex / nofilter_zero
+*****************
+
+* 3x4 node  
+cmo delete mohex
+cmo / create / mohex
+createpts / xyz / 3 4 2 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+cmo / setatt / mohex / imt / 1 0 0 / 1
+connect
+rmpoint compress
+resetpts / itp
+dump avs tmp_hex_1x1m.inp mohex 1 1 0 0
+
+quality
+*****************
+dump / stor / out_hex_3x4 / mohex
+*****************
+dump / pflotran / out_hex_3x4 / mohex
+*****************
+dump / pflotran / out_hex_3x4_0 / mohex / nofilter_zero
+*****************
+
+
+****************
+* Sample slanted box mesh from Satish for testing 
+* Note differences for voronoi Aij on boundaries
+* matbld voronoi volumes do not go beyond the mesh boundary
+* so an edge node can have half a voronoi volume
+
+read input_sample_tet.inp motet
+
+*****************
+dump / stor / out_sample_tet / motet
+*****************
+dump pflotran out_sample_tet motet
+*****************
+
+cmo/printatt/motet/-all- minmax
+
+
+finish
