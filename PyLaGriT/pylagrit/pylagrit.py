@@ -315,8 +315,8 @@ class PyLaGriT(spawn):
         if name is None:
             name = make_name('mo',self.mo.keys())
     
-        x = numpy.arange(0,ncols,1)
-        y = numpy.arange(0,nrows,1)
+        x = numpy.arange(0,ncols+1,1)
+        y = numpy.arange(0,nrows+1,1)
         z = numpy.arange(0,2*height,height) # x2 because of half-open interval: [start, stop)
     
         # Generate hexmesh
@@ -341,8 +341,8 @@ class PyLaGriT(spawn):
         try:
             imt_data = numpy.loadtxt(materials_file)
         except:
-            print("ERROR: materials file {} not found!")
-            exit(1)
+            print("ERROR: materials file {} not found!".format(materials_file))
+            return
         
         # Write out to hidden materials file
         tmp_file = "._tmp_materials.txt"
@@ -358,36 +358,45 @@ class PyLaGriT(spawn):
         imt_min = min(imt_types)
         correction = 0
         
-        if imt_min < 0:
-            imt_types = [int(i + 1 + abs(imt_min)) for i in imt_types]
-            correction = 1 + abs(imt_min)
-        elif imt_min == 0:
-            imt_types = [int(i + 1) for i in imt_types]
-            correction = 1
+        #if imt_min < 0:
+        #    imt_types = [int(i + 1 + abs(imt_min)) for i in imt_types]
+        #    correction = 1 + abs(imt_min)
+        #elif imt_min == 0:
+        #    imt_types = [int(i + 1) for i in imt_types]
+        #    correction = 1
 
         # Unpack matrix into vector and write
         for i in range(0, nrows):
             for j in range(0, ncols):
-                imt_value = int(imt_data[i][j]) + correction
+                imt_value = int(imt_data[(nrows-1)-i][j]) + correction
                 tmp_materials.write("{}\n".format(imt_value))
 
         # Close write file
         tmp_materials.close()
     
         # Project materials onto surface
-        mtrl_surface = self.read_sheetij('materials', tmp_file, [ncols, nrows], [0,0], DXY, flip='y')
+        mtrl_surface = self.read_sheetij('mo_mat', tmp_file, [ncols, nrows], [0,0], DXY)
         
         # Create psets based on imt values, assign global imt from psets
-        for i in range(0,len(imt_types)):
-            mtrl_surface.pset_attribute('zic', imt_types[i], comparison='eq', stride=(0,0,0), name='p{}'.format(i))
-            mtrl_surface.setatt('imt', imt_types[i], stride=['pset','get','p{}'.format(i)])
+        #for i in range(0,len(imt_types)):
+        #    mtrl_surface.pset_attribute('zic', imt_types[i], comparison='eq', stride=(0,0,0), name='p{}'.format(i))
+        #    mtrl_surface.setatt('imt', imt_types[i], stride=['pset','get','p{}'.format(i)])
 
-        mtrl_surface.setatt('zic', 0.)
+        #mtrl_surface.setatt('zic', 0.)
     
-        hexmesh.addatt('newimt')
-        hexmesh.interpolate('continuous','newimt',mtrl_surface,'imt')
-        hexmesh.copyatt('newimt','imt') # Probably unnecessary
-        hexmesh.delatt('newimt')
+        hexmesh.addatt('mod_bnds',type='VINT',rank='scalar',length='nelements')
+        hexmesh.copyatt('zic',attname_sink='mod_bnds',mo_src=mtrl_surface)
+        self.sendline('cmo/printatt/{}/mod_bnds/minmax'.format(hexmesh.name))
+        self.sendline('cmo/printatt/{}/zic/minmax'.format(mtrl_surface.name))
+    
+        hexmesh.addatt('pts_topbot')
+        hexmesh.setatt('pts_topbot',1.)
+        hexmesh.setatt('pts_topbot',2.,stride=['pset','get',hex_bottom.name])
+        
+        #hexmesh.addatt('newimt')
+        #hexmesh.interpolate('continuous','newimt',mtrl_surface,'imt')
+        #hexmesh.copyatt('newimt','imt') # Probably unnecessary
+        #hexmesh.delatt('newimt')
     
         if filename != None:
             # Load modflow elevation map into surface
@@ -405,7 +414,7 @@ class PyLaGriT(spawn):
             hexmesh.math('add',-height,'zic',stride=['pset','get',hex_bottom.name],attsrc='z_new')
             hexmesh.delatt('z_new')
         else:
-            hexmesh.math('add',-height,'zic',stride=['pset','get',hex_bottom.name],attsrc='zic')
+            hexmesh.math('add',height,'zic',stride=['pset','get',hex_bottom.name],attsrc='zic')
 
         self.mo[name] = MO(name,self)
         return self.mo[name]
@@ -1062,6 +1071,8 @@ class PyLaGriT(spawn):
             m.sendline('/'.join(cmd))
         elif connect:
             m.connect()
+            
+        self.sendline('cmo/printatt/{}/-xyz- minmax'.format(m.name))
         return m
     def points(self,x=None,y=None,z=None,connect=False,elem_type='tet',filename='points.inp'):
         '''
