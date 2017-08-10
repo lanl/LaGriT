@@ -1116,7 +1116,7 @@ class PyLaGriT(spawn):
         m = self.create(elem_type)
         m.read(filename)
         if elem_type in ['quad','hex'] and connect:
-            cmd = ['createpts','brick','xyz',' '.join([str(len(x)),str(len(y)),str(len(z))]),'1 0 0','connect'] 
+            cmd = ['createpts','brick','xyz',' '.join([str(len(coords)),str(len(coords)),str(len(coords))]),'1 0 0','connect'] 
             m.sendline('/'.join(cmd))
         elif connect:
             m.connect()
