@@ -1086,13 +1086,12 @@ class PyLaGriT(spawn):
         '''
         dim = 0
         coords = numpy.array(coords)
-        ix = numpy.all(numpy.diff(coords[:,0]))
+        ix = numpy.all(numpy.diff(coords[:,0])==0)
         if not ix: dim += 1
-        iy = numpy.all(numpy.diff(coords[:,1]))
+        iy = numpy.all(numpy.diff(coords[:,1])==0)
         if not iy: dim += 1
-        iz = numpy.all(numpy.diff(coords[:,2]))
+        iz = numpy.all(numpy.diff(coords[:,2])==0)
         if not iz: dim += 1
-        length = None
         if elem_type in ['line'] and dim != 1:
             print "Error: Coordinates must form line for elem_type 'line'"
             return
