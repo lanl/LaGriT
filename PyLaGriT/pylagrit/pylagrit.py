@@ -384,7 +384,7 @@ class PyLaGriT(spawn):
 
         #mtrl_surface.setatt('zic', 0.)
     
-        hexmesh.addatt('mod_bnds',type='VINT',rank='scalar',length='nelements')
+        hexmesh.addatt('mod_bnds',vtype='VINT',rank='scalar',length='nelements')
         hexmesh.copyatt('zic',attname_sink='mod_bnds',mo_src=mtrl_surface)
         self.sendline('cmo/printatt/{}/mod_bnds/minmax'.format(hexmesh.name))
         self.sendline('cmo/printatt/{}/zic/minmax'.format(mtrl_surface.name))
@@ -418,6 +418,29 @@ class PyLaGriT(spawn):
 
         self.mo[name] = MO(name,self)
         return self.mo[name]
+    
+    def boundary_components(self, style='node',material_id_number=None,reset=None):
+        '''
+        Calculates the number of connected components of a mesh for diagnostic purposes.
+
+        :param style: May be element or node
+        :type style: string
+        :param material_id_number: Only examines nodes with imt = mat. id number
+        :type material_id_number: int
+        :param reset: May be either True, False, or None
+        :type reset: bool
+        '''
+        
+        cmd = ['boundary_components',style]
+        
+        if material_id_number: cmd.append(str(material_id_number))
+        if reset is not None:
+            if reset == True:
+                cmd.append('reset')
+            elif reset == False:
+                cmd.append('noreset')
+        
+        self.sendline('/'.join(cmd))
     
     def addmesh(self, mo1, mo2, style='add', name=None, *args):
         if isinstance(mo1,MO): mo1name = mo1.name
@@ -591,7 +614,7 @@ class PyLaGriT(spawn):
                     print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
             else:
                 print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
-    def extract_surfmesh(self,name=None,cmo_in=None,stride=[1,0,0],reorder=True,resetpts_itp=True,external=False):
+    def extract_surfmesh(self,name=None,cmo_in=None,stride=[1,0,0],reorder=True,resetpts_itp=True,external=False,append=None):
         if name is None:
             name = make_name('mo',self.mo.keys())
         if cmo_in is not None:
@@ -610,6 +633,7 @@ class PyLaGriT(spawn):
         stride = [str(v) for v in stride]
         cmd = ['extract/surfmesh',','.join(stride),name,cmo_in.name]
         if external: cmd.append('external')
+        if append: cmd.append(append)
         self.sendline( '/'.join(cmd))
         self.mo[name] = MO(name,self)
         return self.mo[name] 
