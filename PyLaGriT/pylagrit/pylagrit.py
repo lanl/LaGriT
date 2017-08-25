@@ -1074,16 +1074,12 @@ class PyLaGriT(spawn):
             
         self.sendline('cmo/printatt/{}/-xyz- minmax'.format(m.name))
         return m
-    def points(self,x=None,y=None,z=None,connect=False,elem_type='tet',filename='points.inp'):
+    def points(self,coords,connect=False,elem_type='tet',filename='points.inp'):
         '''
         Generate a mesh object of points defined by x, y, z vectors.
 
-        :arg x: x node locations
-        :type x: array(floats)
-        :arg y: y node locations
-        :type y: array(floats)
-        :arg z: z node locations
-        :type z: array(floats)
+        :arg coords: list of 3-tuples containing (x,y,z) coorinates
+        :type x: array(3-tuples), npoints by 3 array
         :arg connect: Should the points be connected
         :type connect: bool
         :arg elem_type: Type of element for created mesh object
@@ -1094,56 +1090,33 @@ class PyLaGriT(spawn):
 
         Example:
             >>> from pylagrit import PyLaGriT
-            >>> import numpy
             >>> lg = PyLaGriT()
-            >>> x0 = -numpy.logspace(1,2,15,endpoint=True)
-            >>> x1 = numpy.arange(-10,10,1)
-            >>> x2 = -x0
-            >>> x = numpy.concatenate([x0,x1,x2])
-            >>> y = x
-            >>> mqua = lg.gridder(x,y,elem_type='quad',connect=True)
-            >>> mqua.paraview()
+            >>> coords = [[0,0,0],[1,0,0],[1,1,0],[0,1,1],[0,0,1],[0,1,0],[1,1,1],[1,0,1]]
+            >>> m = lg.points(coords,elem_type='tet',connect=True)
+            >>> m.paraview()
         '''
         dim = 0
-        length = None
-        if x is not None and len(x) > 0: 
-            dim += 1 
-            length = len(x)
-        if y is not None and len(y) > 0: 
-            dim += 1 
-            if length is None:
-                length = len(y)
-            elif not len(y) == length:
-                print "Error: x and y vectors must be the same length"
-                return
-        if z is not None and len(z) > 0: 
-            dim += 1 
-            if length is None:
-                length = len(z)
-            elif not len(z) == length:
-                print "Error: x, y and z vectors must be the same length"
-                return
-        if dim == 0:
-            print "ERROR: must define at least one of x, y, z arrays"
-            return
+        coords = numpy.array(coords)
+        ix = numpy.all(numpy.diff(coords[:,0])==0)
+        if not ix: dim += 1
+        iy = numpy.all(numpy.diff(coords[:,1])==0)
+        if not iy: dim += 1
+        iz = numpy.all(numpy.diff(coords[:,2])==0)
+        if not iz: dim += 1
         if elem_type in ['line'] and dim != 1:
-            print "Error: Only 1 coordinate array (x,y,z) required for elem_type 'line'"
+            print "Error: Coordinates must form line for elem_type 'line'"
             return
         if elem_type in ['tri','quad'] and dim != 2:
-            print "Error: Only 2 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'"
+            print "Error: Coordinates must form plane for elem_type '"+str(elem_type)+"'"
             return
         if elem_type in ['tet','hex'] and dim != 3:
-            print "Error: 3 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'"
+            print "Error: 3D coordinates required for elem_type '"+str(elem_type)+"'"
             print "Set elem_type to a 2D format like 'quad' or 'triplane'"
             return
-        if x is None or len(x) == 0: x = [0]*length
-        if y is None or len(y) == 0: y = [0]*length
-        if z is None or len(z) == 0: z = [0]*length
-        nodelist = numpy.array(numpy.column_stack([x,y,z]))
 
         outfile = open(filename,'w')
-        outfile.write('   '+str(len(nodelist))+' 0 0 0 0\n')
-        for i,nd in enumerate(nodelist):
+        outfile.write('   '+str(len(coords))+' 0 0 0 0\n')
+        for i,nd in enumerate(coords):
             outfile.write('%11d' % i +'        ')
             outfile.write('%14.8f' % nd[0]+'        ')
             outfile.write('%14.8f' % nd[1]+'        ')
@@ -1154,7 +1127,7 @@ class PyLaGriT(spawn):
         m = self.create(elem_type)
         m.read(filename)
         if elem_type in ['quad','hex'] and connect:
-            cmd = ['createpts','brick','xyz',' '.join([str(len(x)),str(len(y)),str(len(z))]),'1 0 0','connect'] 
+            cmd = ['createpts','brick','xyz',' '.join([str(len(coords)),str(len(coords)),str(len(coords))]),'1 0 0','connect'] 
             m.sendline('/'.join(cmd))
         elif connect:
             m.connect()
