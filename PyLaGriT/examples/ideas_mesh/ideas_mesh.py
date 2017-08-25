@@ -95,7 +95,7 @@ m = lg.read(dem_file_base+'.avs')
 #m.paraview(exe='paraview')
 
 # Copy z values over to attribute
-m.addatt('z_save',type='vdouble',rank='scalar')
+m.addatt('z_save',vtype='vdouble',rank='scalar')
 m.copyatt('zic','z_save')
 # Not sure why this has to be done, but not data elements don't get removed otherwise
 m.setatt('zic',0.)
@@ -105,7 +105,7 @@ m2 = lg.create()
 #m2.createpts_xyz((nx,ny,1),[xx.min(),yy.min(),0.],[xx.max(),yy.max(),0],rz_switch=[1,1,1],connect=True)
 m2.createpts_xyz((nx,ny,1),[xx.min(),yy.min(),0.],[xx.max(),yy.max(),0],rz_switch=[1,1,1])
 # Create temporary z value attribute
-m2.addatt('z_save',type='vdouble',rank='scalar')
+m2.addatt('z_save',vtype='vdouble',rank='scalar')
 # Interpolate elevations to z_save
 m2.interpolate_voronoi('z_save',m,'z_save')
 # Find nodes associated with nodata
@@ -137,7 +137,7 @@ m3.rmpoint_eltset(edel)
 #m3 = m2.grid2grid_quadtotri2()
 #m3=m2
 # Create temporary z value attribute
-m3.addatt('z_save',type='vdouble',rank='scalar')
+m3.addatt('z_save',vtype='vdouble',rank='scalar')
 # Interpolate elevations to z_save
 m3.interpolate_voronoi('z_save',m,'z_save')
 

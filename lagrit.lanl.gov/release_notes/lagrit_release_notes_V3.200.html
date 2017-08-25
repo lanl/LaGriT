@@ -11,7 +11,12 @@
 <h1>LaGriT Release Notes</h1>
 <ul>
 <li type="1">
-<a href="#Release_V3.200"><b>LaGriT V3.200 September 2016 open-source</b></a>
+<a href="#Release_V3.203"><b>LaGriT V3.203 July 2017 Release </b></a>
+<br>
+<br>
+</li>
+<li type="1">
+<a href="#Release_V3.200"><b>LaGriT V3.200 September 2016 open-source Release</b></a>
 <br>
 <br>
 </li>
@@ -55,15 +60,104 @@
 <br>
 <!---------------------------------------->
 <hr>
+<a name="Release_V3.203">
+<h2>LaGriT V3.203 July 2017 </h2>
+
+<p>
+Major upgrade to LaGriT build and test scripts.
+<br>
+Added install.h and improved documentation for building LaGriT on Linux and Mac machines.
+<br>
+Update ExodusII to 7.01 using git clone https://github.com/gsjaardema/seacas.git
+<br>
+Removed exodus include files from src directory and changed build to use $EXODUSII_HOME/include
+<br>
+Updates to lagrit.lanl.gov web pages and documents, added text regarding open source and github
+<br>
+<br>
+These issues were fixed: 
+<blockquote>
+segmentation fault during triangulate 
+<br>
+massage command failing to de-refine and no error is reported
+<br>
+ExodusII output for 2D Planar incorrectly written as 3 Dimensions
+<br>
+second call to addmesh/excavate command causing memory error or segmentation fault
+<br>
+large numbers running out of space when written for reporting dudded nodes
+</blockquote>
+<br>
+Additional tests and improvements to suite.py for running and reporting the test suite.
+New tests include:
+<blockquote>
+level01/createpts_filter - illustrates the difference between filter and the more accurate filterkd commands.
+<br>
+level01/smooth_massage - use massage with smooth to refine and de-refine a triangulation
+<br>
+level01/write_exo - write 3D and 2D Exodus files with psets, eltsets, and facesets
+<br>
+level01/pflotran_stor - write pflotran style stor files
+</blockquote>
+<br>
+PyLaGriT new features:
+<blockquote>
+read_sheetij - creates a quad mesh from an elevation file reading Z(i,j) into mesh zic attribute.
+<br>
+read_modflow - creates a modflow rectilinear mesh using modflow files using elev_top.mod and init_bnds.inf
+<br>
+read_fehm - read FEHM format mesh file with geometry and connectivity (LaGriT does not have this option) 
+<br>
+examples/arctic_w_ice_wedges - example Mesh for 2D polygon with ice wedges by Chuck Abolt
+<br>
+examples/julia - Example of using PyLaGriT within a Julia script. Requires that the Julia package PyCall is installed. 
+</blockquote>
+<br>
+Known Issues:
+<blockquote>
+Builds with compiler gfortran v5 or greater can generate run-time signal exceptions such as IEEE_DNORMAL.
+Most exceptions have been tracked down and fixed according to picky compiler suggestions. 
+These exceptions have not changed the behavior of the code. Exceptions will continue to be fixed as they show up.
+<br>
+<br>
+During testing it was found that the filter command may find and remove fewer nodes than the command filterkd.
+The command filterkd is recommended where precision might be an issue. Documentation will be changed to reflect this.
+See test/level01/createpts_filter
+<br>
+<br>
+Paraview has trouble displaying ExodusII facesets for 2D grids in 3 Dimensions, but is fine with 2D planar where Z values are ignored. 
+When viewing these same ExodusII files with GMV, the facesets look correct. Checking files by converting to ASCII with ncdump, the files look correct. We do not know if this is a LaGriT, ExodusII, or Paraview issue.
+See test/level01/write_exo/reference for ExodusII example files.
+
+</blockquote>
+
+
+
+
+
+</p>
+<br>
+<!---------------------------------------->
+<hr>
 <a name="Release_V3.200">
 <h2>LaGriT V3.200 September 2016 </h2>
 
 <p>
 LaGriT V3 LACC-15-069 is now distributed as open-source software under a BSD 3-Clause License.
-See https://lagrit.lanl.gov/licensing.shtml
 <br>
+This version moves the entire LaGriT repo from a local mercurial version control to github
+and now includes the python driven version PyLaGriT.
+
 <br>
-For latest updates and issues see the open-source repository at https://github.com/lanl/LaGriT
+For most current versions of source and documentation use the open-source repository at 
+<br>
+<blockquote>
+https://github.com/lanl/LaGriT
+</blockquote>
+<br>
+<i>Compiled executable versions of LaGriT will continue to available through https://lagrit.lanl.gov/licensing.shtml 
+</i>
+<br>
 </p>
 
 <br>

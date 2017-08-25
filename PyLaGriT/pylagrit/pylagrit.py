@@ -1167,6 +1167,7 @@ class MO(object):
         self._parent = parent
         self.pset = {}
         self.eltset = {}
+        self.region = {}
     def __repr__(self):
         return self.name
     def sendline(self,cmd, verbose=True, expectstr='Enter a command'):
@@ -1267,11 +1268,11 @@ class MO(object):
             return
         self.sendline(cmd)
 
-    def printatt(self,attname=None,stride=[1,0,0],pset=None,eltset=None,type='value'):
+    def printatt(self,attname=None,stride=[1,0,0],pset=None,eltset=None,ptype='value'):
         stride = [str(v) for v in stride]
         if attname is None: attname = '-all-'
         if pset is None and eltset is None:
-            cmd = '/'.join(['cmo/printatt',self.name,attname,type,','.join(stride)])
+            cmd = '/'.join(['cmo/printatt',self.name,attname,ptype,','.join(stride)])
         else:
             if pset is not None:
                 if isinstance(pset,PSet): setname = pset.name
@@ -1279,14 +1280,14 @@ class MO(object):
                 else:
                     print "ERROR: PSet object or name of PSet object as a string expected for pset"
                     return
-                cmd = '/'.join(['cmo/printatt',self.name,attname,type,','.join(['pset','get',setname])])
+                cmd = '/'.join(['cmo/printatt',self.name,attname,ptype,','.join(['pset','get',setname])])
             if eltset is not None:
                 if isinstance(eltset,EltSet): setname = eltset.name
                 elif isinstance(eltset,str): setname = eltset
                 else:
                     print "ERROR: EltSet object or name of EltSet object as a string expected for eltset"
                     return
-                cmd = '/'.join(['cmo/printatt',self.name,attname,type,','.join(['eltset','get',setname])])
+                cmd = '/'.join(['cmo/printatt',self.name,attname,ptype,','.join(['eltset','get',setname])])
         self.sendline(cmd)
     def delatt(self,attnames,force=True):
         '''
@@ -1322,7 +1323,7 @@ class MO(object):
         if mo_src is None: mo_src = self
         cmd = '/'.join(['cmo/copyatt',self.name,mo_src.name,attname_sink,attname_src])
         self.sendline(cmd)
-    def addatt(self,attname,keyword=None,type='VDOUBLE',rank='scalar',length='nnodes',interpolate='linear',persistence='permanent',ioflag='',value=0.0):
+    def addatt(self,attname,keyword=None,vtype='VDOUBLE',rank='scalar',length='nnodes',interpolate='linear',persistence='permanent',ioflag='',value=0.0):
         '''
         Add a list of attributes
 
@@ -1330,12 +1331,14 @@ class MO(object):
         :type attnames: str
         :arg keyword: Keyword used by lagrit for specific attributes
         :type name: str
+        :arg vtype: Type of variable {'VDOUBLE','VINT',...}
+        :type name: str
 
         '''
         if keyword is not None:
             cmd = '/'.join(['cmo/addatt',self.name,keyword,attname])
         else:
-            cmd = '/'.join(['cmo/addatt',self.name,attname,type,rank,length,interpolate,persistence,ioflag,str(value)])
+            cmd = '/'.join(['cmo/addatt',self.name,attname,vtype,rank,length,interpolate,persistence,ioflag,str(value)])
         self.sendline(cmd)
     def addatt_voronoi_volume(self,name='voronoi_volume'):
         '''
@@ -1346,12 +1349,12 @@ class MO(object):
         '''
         self.addatt(name,keyword='voronoi_volume')
     def minmax(self,attname=None,stride=[1,0,0]):
-        self.printatt(attname=attname,stride=stride,type='minmax')
+        self.printatt(attname=attname,stride=stride,ptype='minmax')
     def minmax_xyz(self,stride=[1,0,0],verbose=True):
         cmd = '/'.join(['cmo/printatt',self.name,'-xyz-','minmax'])
         self.sendline(cmd,verbose=verbose)
     def list(self,attname=None,stride=[1,0,0],pset=None):
-        self.printatt(attname=attname,stride=stride,pset=pset,type='list')
+        self.printatt(attname=attname,stride=stride,pset=pset,ptype='list')
     def setatt(self,attname,value,stride=[1,0,0]):
         stride = [str(v) for v in stride]
         cmd = '/'.join(['cmo/setatt',self.name,attname,','.join(stride),str(value)])
@@ -2152,7 +2155,7 @@ class MO(object):
         '''
         if base_name is None: base_name = 'faceset_'+self.name
         mo_surf = self.extract_surfmesh(reorder=reorder,external=external)
-        mo_surf.addatt('id_side',type='vint',rank='scalar',length='nelements')
+        mo_surf.addatt('id_side',vtype='vint',rank='scalar',length='nelements')
         mo_surf.settets_normal()
         mo_surf.copyatt('itetclr','id_side')
         mo_surf.delatt('id_side')
@@ -2514,7 +2517,7 @@ class MO(object):
 
         Returns MO object
         '''        
-        return self.grid2grid(ioption='quadtotri3', **minus_self(locals()))
+        return self.grid2grid(ioption='prismtotet3', **minus_self(locals()))
     def grid2grid_quadtotri4(self, name=None):
         '''
         Quad to 4 triangles, with one new point
@@ -2909,6 +2912,57 @@ class MO(object):
         self.sendline(cmd)
         self._parent.surface[name] = Surface(name,self._parent)
         return self._parent.surface[name]
+    def region_bool(self,bool,name=None): 
+        '''
+        Create region using boolean string
+
+        :param bool: String of boolean operations
+        :type bool: str
+        :param name: Internal lagrit name for mesh object
+        :type name: string
+        :returns: Region
+
+        Example:
+            >>> from pylagrit import PyLaGriT
+            >>> import numpy
+            >>> lg = PyLaGriT()
+            >>> # Read in mesh
+            >>> motet = lg.read('tet_matclr.inp')
+            >>> # fault coordinates in feet
+            >>> cs = [[498000.,381946.,0.],
+            >>>       [497197.,381946.,0.],
+            >>>       [494019.,384890.,0.],
+            >>>       [490326.,386959.,0.],
+            >>>       [487822.,388599.,0.],
+            >>>       [486337.,390755.,0.],
+            >>>       [486337.,392000.,0.]]
+            >>> # Convert to meters
+            >>> cs = numpy.array(cs)/3.28
+            >>> # Create surfaces of fault
+            >>> ss = []
+            >>> for p1,p2 in zip(cs[:-1],cs[1:]):
+            >>>     p3 = p1.copy()
+            >>>     p3[2] = -4000.
+            >>>     ss.append(lg.surface_plane(p1,p2,p3))
+            >>> # Create region by boolean operations of fault surfaces
+            >>> boolstr = ''
+            >>> for i,s in enumerate(ss):
+            >>>     if not i == 0: boolstr += ' and '
+            >>>     boolstr += 'le '+s.name
+            >>> r = motet.region_bool(boolstr)
+            >>> # Create pset from region
+            >>> p = motet.pset_region(r)
+            >>> # Change imt value for pset
+            >>> p.setatt('imt',21)
+            >>> motet.dump_zone_imt('tet_nefault',21)
+
+        '''
+        if name is None:
+            name = make_name('r',self.region.keys())
+        cmd = '/'.join(['region',name,bool])
+        self.sendline(cmd)
+        self.region[name] = Region(name,self)
+        return self.region[name]
 
  
 class Surface(object):
@@ -2983,9 +3037,9 @@ class PSet(object):
         cmd = '/'.join(['cmo/printatt',self._parent.name,'-xyz-','minmax','pset,get,'+self.name])
         self._parent.sendline(cmd,verbose=verbose)
     def minmax(self,attname=None,stride=[1,0,0]):
-        self._parent.printatt(attname=attname,stride=stride,pset=self.name,type='minmax')
+        self._parent.printatt(attname=attname,stride=stride,pset=self.name,ptype='minmax')
     def list(self,attname=None,stride=[1,0,0]):
-        self._parent.printatt(attname=attname,stride=stride,pset=self.name,type='list')
+        self._parent.printatt(attname=attname,stride=stride,pset=self.name,ptype='list')
     def setatt(self,attname,value):
         cmd = '/'.join(['cmo/setatt',self._parent.name,attname,'pset get '+self.name,str(value)])
         self._parent.sendline(cmd)
@@ -3126,9 +3180,9 @@ class EltSet(object):
         self.faceset = FaceSet(filename,self)
         return self.faceset
     def minmax(self,attname=None,stride=[1,0,0]):
-        self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='minmax')
+        self._parent.printatt(attname=attname,stride=stride,eltset=self.name,ptype='minmax')
     def list(self,attname=None,stride=[1,0,0]):
-        self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='list')
+        self._parent.printatt(attname=attname,stride=stride,eltset=self.name,ptype='list')
     def refine(self,amr=''):
         '''
         Refine elements in the element set

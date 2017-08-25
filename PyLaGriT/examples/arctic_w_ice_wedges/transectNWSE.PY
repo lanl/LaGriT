@@ -10,19 +10,19 @@ top = lg.gridder(x,y,elem_type='quad',connect=True)
 
 # Create top of mesh
 # Collapse y values
-top.addatt('y_save',type='vdouble',rank='scalar')
+top.addatt('y_save',vtype='vdouble',rank='scalar')
 top.copyatt('yic','y_save')
 top.setatt('yic',0.)
 
 # Read in top elevations
 d = np.genfromtxt("transectNWSE.csv", delimiter=",", names=True)
 surf_pts = lg.points(x=d['s'],z=d['z'],elem_type='quad')
-surf_pts.addatt('z_save',type='vdouble',rank='scalar')
+surf_pts.addatt('z_save',vtype='vdouble',rank='scalar')
 surf_pts.copyatt('zic','z_save')
 surf_pts.setatt('zic',0.)
 
 # Interpolate surface elevations to top
-top.addatt('z_val',type='vdouble',rank='scalar')
+top.addatt('z_val',vtype='vdouble',rank='scalar')
 top.interpolate_voronoi('z_val',surf_pts,'z_save')
 top.copyatt('y_save','yic')
 top.copyatt('z_val','zic')
