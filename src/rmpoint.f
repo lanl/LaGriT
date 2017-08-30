@@ -199,7 +199,7 @@ C
 C
 C#######################################################################
 C
-      integer nwds, imsgin(nwds), msgtype(nwds)
+      integer nwds, ierr1, imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
 C
@@ -267,31 +267,34 @@ C#######################################################################
 C
       real*8 xicvol(maxnen), yicvol(maxnen), zicvol(maxnen)
 C
-C#######################################################################
 C
       logical linclusive
       integer ilen,ityp,icscode,mpno,it,i,j,nremtet,nnodes,nmelts,
      *  nelements,mbndry,jtetset,ipointi,ipointj,nremove,l,
-     *  irank,nlen,iatt,ier,itout,lout,natt,imatno,nsave,imtmax,ierr1,
+     *  irank,nlen,iatt,ier,itout,lout,natt,imatno,nsave,imtmax,
      *  lenxhold,iflag,ichain,mpnt2,mpnt1,iseqno,isum,ipass,i1,ii,
      *  npoints,imaxi1,mpnt,mbndry_set,nnlevels,ipt1,ipt2,ipt3,ics,
      *  ipointf,mpnttmp,length,ierrw,mbndry_old,mbndry_new,index,
      *  itp1_boundary,ierror,npoints2,itremove,mpntnxt,ierror_return
+
       real*8 xtetvol,smalvolc,smalvol,zmaxl,ymaxl,xmaxl,
      *  xminl,yminl,zminl,epsilonl
 c
       integer icharlnf,iimax,ismax,icharln,ismin,local_debug, if_reorder
       real*8 cvmgt
-C
-C     ******************************************************************
-C
+
+C#######################################################################
+C     Begin
+C     
 C     Define the memory-management partition.
 C
       isubname='rmpoint'
       nremtet=0
       npoints2=0 
       local_debug=0
-      if (local_debug.gt.0) call mmverify()
+      ierror=0
+      ierr1=0
+      ierror_return=0
 C
 C
 C     ******************************************************************
@@ -313,6 +316,8 @@ C
          call writloga('default',0,logmess,0,icscode)
          return
       endif
+
+      if (local_debug.gt.0) call mmverify()
 
       call cmo_get_info('mbndry',cmo,mbndry,ilen,ityp,icscode)
       if (icscode.ne.0) mbndry=0
@@ -350,9 +355,7 @@ C
 C
 C
 C
-C     ******************************************************************
 C     GET THE SEARCH RANGE.
-C
       call get_epsilon('epsilonl', epsilonl)
 C
 C
@@ -367,8 +370,11 @@ C
       if(cmsgin(1)(1:7).eq.'element') then
  
          if(nelements.gt.0) then
+
             call mmgetblk('iremtet',isubname,
      *                    ipiremtet,nelements,1,icscode)
+            if(icscode.ne.0) call x3d_error(isubname,'mmgetblk iremtet')
+
             nremtet=0
             do it=1,nelements
                iremtet(it)=0
@@ -381,7 +387,6 @@ C  either tets are given specifically in which case nwds > 1
 C  or we look for tets that have been marked with negative
 C  itet values in itet(1,?)
  
-c        RMPOINT/ELEMENT/ELTSET,GET,ename
          if(nwds.gt.2 .and. msgtype(2).eq.3) then
  
             cpt1='eset'
@@ -420,14 +425,17 @@ C           RMPOINT/ELEMENT
                endif
             enddo
          endif
+
+
 C
 C
+C        
 C        Set the first value of ITET to negative for elements to be
 C        removed.
 C
          mbndry_old=mbndry
          mbndry_new=mbndry
-         itp1_boundary=ifitprfl
+     
          call addmesh_delete(cmo,
      *                       mbndry_old,
      *                       mbndry_new,
@@ -445,41 +453,34 @@ C        Points were dudded in addmesh_delete, count them for output
              npoints2=npoints2+1
            endif
          enddo
- 
 C
 C        ...............................................................
 C        Write message giving element removal information.
 
          if(nelements.gt.0) then
            write(logmess,2110) npoints2,nremtet
- 2110      format(' Dudded',i10,
-     $          ' points plus parents, and',i11,
-     $          ' elements removed.')
+ 2110      format(' Dudded',1x,i10,1x,
+     $          'points plus parents, and',1x,i11,1x,
+     $          'elements removed.')
            call writloga('default',0,logmess,0,ierrw)
          else
            write(logmess,2111) npoints2
- 2111      format(' Dudded',i10,
-     $       ' points plus parents, there are no elements in mesh.') 
+ 2111      format(' Dudded',i10,1x,
+     $       'points plus parents, there are no elements in mesh.') 
            call writloga('default',0,logmess,0,ierrw)
          endif 
 C
          call cmo_set_info('nelements',cmo,nelements,1,1,icscode)
          if (icscode .ne. 0) call x3d_error(isubname,'cmo_set_info')
 C
-C        ...............................................................
 C
-C
-C        _______________________________________________________________
-C
- 
-C     RMPOINT/COMPRESS
+C     ******************************************************************
+C     RMPOINT NOT ELEMENT
+C     RMPOINT NOT COMPRESS
       elseif(cmsgin(1)(1:8).ne.'compress') then
-C
-C        _______________________________________________________________
 C
 C        The points are to be dudded and their corresponding elements
 C        removed.
-C
 C
 C        ...............................................................
 C        Get temporary memory from the memory manager.
@@ -489,8 +490,10 @@ C
          call mmgetblk('mpary1'  ,isubname,ipmpary1,length,1,icscode)
          call mmgetblk('mpary2'  ,isubname,ipmpary2,length,1,icscode)
          if(nelements.gt.0) then
+
             call mmgetblk('iremtet',isubname,
      *                    ipiremtet,nelements,1,icscode)
+            if(icscode.ne.0) call x3d_error(isubname,'mmgetblk iremtet')
             nremtet=0
             do it=1,nelements
                iremtet(it)=0
@@ -505,6 +508,7 @@ C
             ipt2=nnodes
             ipt3=1
  
+C     ******************************************************************
 C        RMPOINT/ifirst,ilast,istride
 C        RMPOINT/ZERO_VOLUME
 C        RMPOINT/WOMESH
@@ -599,6 +603,7 @@ C
          if(cmsgin(1)(1:11).eq.'zero_volume') then
             npoints=0
  
+C     ******************************************************************
 C        RMPOINT/WOMESH cont.
          elseif(cmsgin(1)(1:6).eq.'womesh') then
             do i=1,nnodes
@@ -621,8 +626,8 @@ C        RMPOINT/WOMESH cont.
             endif
          endif
 C
-C        ...............................................................
  
+C     ******************************************************************
 C        RMPOINT/ifirst,ilast,istride
 C        Set up two modified mass-point arrays, such that they contain
 C        zeros for mass points that will not be dudded.  Eventually one
@@ -757,6 +762,7 @@ C
             mbndry_old=mbndry
             mbndry_new=jtetset
             itp1_boundary=ifitpfre
+
             call addmesh_delete(cmo,
      *                       mbndry_old,
      *                       mbndry_new,
@@ -824,7 +830,7 @@ C*****                  ric(mpnttmp)=1.0
                   enddo
                   write(logmess,1300) mpnt
  1300             format(' Parent-child discrepancies for point',i10,
-     $                   '.')
+     *                   '.')
                   call termcode()
  1400             continue
                   isn1(mpntnxt)=mpnt1
@@ -837,28 +843,25 @@ C        Write message giving point dudding information.
 C
          if (nremtet .gt. 0) then
            write(logmess,2100) npoints2,nremtet
- 2100      format(' Dudded',i10,
-     $       ' points plus parents, plus',i11,
-     $       ' elements removed.')
+ 2100      format(' Dudded',1x,i10,1x,
+     *       'points plus parents, plus',1x,i11,1x,
+     *       'elements removed.')
            call writloga('default',0,logmess,0,ierrw)
          else
            write(logmess,2101) npoints2
- 2101      format(' Dudded',i10,
-     $     ' points plus parents, there are no elements in mesh.')
+ 2101      format(' Dudded',1x,i10,1x,
+     *     'points plus parents, there are no elements in mesh.')
            call writloga('default',0,logmess,0,ierrw)
          endif
 C
          call cmo_set_info('nelements',cmo,nelements,1,1,icscode)
          if (icscode .ne. 0) call x3d_error(isubname,'cmo_set_info')
 C
-C        ...............................................................
 C
-C
-C        _______________________________________________________________
-C
+C     ******************************************************************
+C     DEFAULT RMPOINT/COMPRESS
       else
-C
-C        _______________________________________________________________
+
 C
 C        The points are to be removed and the surviving points
 C        resequenced, and the ITET values of existing elements
@@ -870,14 +873,21 @@ C           element connectivity list by deleting these elements and
 C           compressing the element connectivity list.
 C
 C        First, sweep through the element list to find elements
-C           that are connected to a point that will be removed, then
+C           that are connected to a point that will be removed
 C           set the first value of ITET to negative for element to be
 C           removed.
 C
+C        Caution, filterkd may have set itet to negative values
+C        Recommend calling rmpoint/element before rmpoint/compress
+C
+C
+
          if (nelements.gt.0)
      *      call mmgetblk('iremtet',isubname,
      *                    ipiremtet,nelements,1,icscode)
+
          nremtet=0
+         ier = 0
          do it=1,nelements
             iremtet(it)=0
             if (itetclr(it).lt.0) then
@@ -886,7 +896,10 @@ C
             else
                iflag=0
                do i=1,nelmnen(itettyp(it))
+
+C                 Check here for negative ITET values 
                   i1=itet1(itetoff(it)+i)
+                  if (i1.lt.0) ier = ier+1 
                   if(itp1(i1).ge.ifitpst3.and.itp1(i1).le.ifitpen3) then
                      iflag=iflag+1
                   endif
@@ -897,6 +910,24 @@ C
                endif
             endif
          enddo
+
+C        If negative itet values on entry
+C        return to avoid memory error in addmesh_delete
+         if (ier.gt.0) then 
+            write(logmess,'(a,i10)') 
+     *      'Found irregular values for itet. Total negative: ',ier
+            call writloga('default',1,logmess,0,ierrw)
+            write(logmess,'(a)') 
+     *      'Recommend using rmpoint/element to fix itet values.'
+            call writloga('default',0,logmess,0,ierrw)
+            write(logmess,'(a)') 
+     *      'RMPOINT/ELEMENT: Early Exit.' 
+            call writloga('default',0,logmess,1,ierrw)
+            ierror_return = -1
+            goto 9999
+          endif
+          ier = 0
+
 C
          if(nremtet.gt.0) then
 C
@@ -905,6 +936,7 @@ C
             mbndry_old=mbndry
             mbndry_new=mbndry
             itp1_boundary=ifitprfl
+
             call addmesh_delete(cmo,
      *                          mbndry_old,
      *                          mbndry_new,
@@ -1115,15 +1147,14 @@ C
 C        ...............................................................
 C        Write message giving point removal information.
 C
-         print*,'final ',nremove,nremtet
          write(logmess,5800) nremove,nremtet
- 5800    format(i10,' points removed and ',i10,' elements removed.')
+ 5800 format(i10,1x,'points removed and',1x,i10,1x,'elements removed.')
          call writloga('default',0,logmess,0,ierrw)
          write(logmess,5810) ipointf
- 5810    format('   The new point count is',i10,'.')
+ 5810    format('RMPOINT: new point count is',3x,i10)
          call writloga('default',0,logmess,0,ierrw)
          write(logmess,5820) nelements
- 5820    format('   The new element count is',i10,'.')
+ 5820    format('RMPOINT: new element count is',1x,i10)
          call writloga('default',0,logmess,0,ierrw)
 C
 C        ...............................................................
@@ -1138,6 +1169,7 @@ C     ******************************************************************
 C
 C     Set the error flag to normal.
 C
+C     TAM - I can not see that this is being checked or used
       ierr1=0
 C
 C
@@ -1171,6 +1203,8 @@ C
 C
 C     ******************************************************************
 C
+      if (ierror_return .ne. 0) ierr1 = ierror_return
       if (local_debug.gt.0) call mmverify()
+
       return
       end

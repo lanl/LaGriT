@@ -1,7 +1,14 @@
       subroutine reverseform(m,irowptr,icol,n,icolptr,irow)
 C#######################################################################
 C
-C     PURPOSE -
+C     PURPOSE - used with filterkd to remove zero elements
+C
+C     m = nelements
+C     irowptr = ifirstitet
+C     icol = itet1
+C     n = nnodes
+C     icolptr = ifirst
+C     irow = nodelt
 C
 c     Assume we have two sets of integers ROW={1,...,m} and COL={1,...n},
 c     we say a relation between ROW and COL is a set of ordered pairs

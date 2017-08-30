@@ -69,7 +69,7 @@ c ........................................................................
       include 'local_element.h'
 
 C arguments
-      integer nwds, imsgin(nwds), msgtype(nwds)
+      integer nwds, ierr, imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
 
@@ -88,7 +88,7 @@ C variables
       integer itet_sum(*)
 
       integer k_id1(8), k_id2(8)
-      integer ierr,nelements,ilen,ityp,it,ioff,ityp2,ioff2
+      integer ierrw,nelements,ilen,ityp,it,ioff,ityp2,ioff2
       integer itetclr_max, itetclr_tag, k_id1_sum, it1, it2, j
       integer if_same, i_search_range, if_delete, number_found
 
@@ -140,18 +140,33 @@ C
 
       call cmo_get_name(cmo,ierr)
       if (ierr.ne.0) then
+         ierr = -1
          goto 9999
       endif
  
       call cmo_get_intinfo('nelements',cmo,nelements,ilen,ityp,ierr)
       if (ierr.ne.0.or.nelements.eq.0) then
+         write(logmess,3005)
+ 3005    format('WARNING: FILTER/ELEMENT Number of elements` = 0 ')
+         call writloga('default',0,logmess,0,ierr)
+ 3006    format('WARNING: FILTER/ELEMENT RETURN no action ')
+         call writloga('default',0,logmess,1,ierr)
+         ierr = -1
          goto 9999
       endif
+
+      write(logmess,9910) i_search_range
+ 9910 format('FILTER/ELEMENT: Use search range =',i10)
+      call writloga('default',1,logmess,0,ierrw)
  
       call cmo_get_info('itettyp',cmo,ipitettyp,ilen,ityp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname, 'get_info itettyp')
       call cmo_get_info('itetoff',cmo,ipitetoff,ilen,ityp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname, 'get_info itetoff')
       call cmo_get_info('itet',cmo,ipitet,ilen,ityp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname, 'get_info itet')
       call cmo_get_info('itetclr',cmo,ipitetclr,ilen,ityp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname, 'get_info itetclr')
 
 c
 c  add attributes if don't exist
@@ -233,10 +248,10 @@ c
        itetclr_tag =  itetclr_max + 1  
       write(logmess,550)itetclr_max
   550 format('Maximum material id max(itetclr)          = ',i10)
-      call writloga('default',0,logmess,0,ierr)
+      call writloga('default',0,logmess,0,ierrw)
       write(logmess,551)itetclr_tag
   551 format('Duplicate Elements will be set to itetclr = ',i10)
-      call writloga('default',0,logmess,0,ierr)
+      call writloga('default',0,logmess,0,ierrw)
 c
 c  done with setup
 c
@@ -323,15 +338,12 @@ c
        endif
        enddo
 
-      write(logmess,552)i_search_range
-  552 format('search_range                              = ',i10)
-      call writloga('default',0,logmess,0,ierr)
       write(logmess,553)nelements
-  553 format('nelements searched                        = ',i10)
-      call writloga('default',0,logmess,0,ierr)
+  553 format('FILTER/ELEMENT number elements searched  = ',i10)
+      call writloga('default',0,logmess,0,ierrw)
       write(logmess,554)number_found
-  554 format('Number of duplicate element found         = ',i10)
-      call writloga('default',0,logmess,0,ierr)
+  554 format('FILTER/ELEMENT number duplicates marked  = ',i10)
+      call writloga('default',0,logmess,1,ierrw)
 
       if(if_delete .eq. 1)then
         write(c_int,560)itetclr_tag
@@ -350,6 +362,10 @@ c
         cmdmess = 'cmo/DELATT/'//cmo//'/itet_sum '// '; finish'
         ierr = 0
         call dotask(cmdmess,ierr)
+
  9999 continue
+
+      if(ierr.ne.0) call x3d_error(isubname, 'Exit with error.')
+
       return
       end

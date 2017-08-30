@@ -1,5 +1,7 @@
-      subroutine filter(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
+C     File subroutines: filter, filter_points, filter_subset
+C     
 C
+      subroutine filter(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
 C
 C#######################################################################
 C
@@ -233,7 +235,7 @@ C
       integer len, itype, ierr, icscode, ierrw
       integer ilen_fld,ityp_fld,irank_fld, if_sort
       integer nelements,ierrdum,nptsmax,ipointi,ipointj,mpno,
-     *  length,i,i2,icount,it
+     *  length,i,i2,icount,ecount,it
  
       integer icharlnf
  
@@ -301,7 +303,7 @@ C
          call writloga('default',0,logmess,0,ierr)
          write(logmess,3006)
  3006    format('WARNING: FILTER RETURN no action ')
-         call writloga('default',0,logmess,0,ierr)
+         call writloga('default',0,logmess,1,ierr)
          go to 9999
        endif
 C
@@ -388,22 +390,22 @@ C
          dsmin=dsmin1
          write(logmess,9910) dsmin
  9910    format('FILTER:Use internal epsilonl value =',e21.12)
-         call writloga('default',1,logmess,0,ierrw)
+         call writloga('default',0,logmess,0,ierrw)
       else
          dsmin=xmsgin(5)
          write(logmess,9915) dsmin
  9915    format('FILTER:User specified value = ',e21.12)
-         call writloga('default',1,logmess,0,ierrw)
+         call writloga('default',0,logmess,0,ierrw)
       endif
       if(dsmin.lt.0.0) then
          write(logmess,9920)
  9920    format
      1   ('FILTER:INVALID INPUT, negative user value  ')
          dsmin=dsmin1
-         call writloga('default',1,logmess,0,ierrw)
+         call writloga('default',0,logmess,0,ierrw)
          write(logmess,9925) dsmin
  9925    format('FILTER:Use internal epsilonl value =',e21.12)
-         call writloga('default',1,logmess,0,ierrw)
+         call writloga('default',0,logmess,0,ierrw)
       endif
 C
 C     Optional min/max attribute option
@@ -423,7 +425,7 @@ C           Valid options are min/max
      1         (coption(1:icharlnf(coption)).ne.'max'))then
                write(logmess,9926) coption(1:icharlnf(coption))
  9926          format('FILTER:Invalid option: ',a)
-               call writloga('default',1,logmess,0,ierrw)
+               call writloga('default',0,logmess,0,ierrw)
                goto 9999
             elseif(coption(1:icharlnf(coption)).eq.'min')then
                sort_type = 'descending'
@@ -433,7 +435,7 @@ C           Valid options are min/max
          else
             write(logmess,9927)
  9927       format('FILTER:Invalid option. Valid keywords min|max.')
-            call writloga('default',1,logmess,0,ierrw)
+            call writloga('default',0,logmess,0,ierrw)
             goto 9999
          endif
        endif
@@ -445,14 +447,17 @@ C
       if(msgtype(7) .ne. 3) then
          write(logmess,9928)
  9928    format('FILTER:Invalid keyword. Attribute  must be character')
-         call writloga('default',1,logmess,0,ierrw)
+         call writloga('default',0,logmess,0,ierrw)
          goto 9999
       else
          if_sort = 1
          cattribute = cmsgin(7)(1:icharlnf(cmsgin(7)))
          call get_mo_attr(ipxfield,cmo,cattribute,
      *              ilen_fld,ityp_fld,irank_fld,ierr)
-         if (ierr .ne. 0) go to 9999
+         if (ierr .ne. 0) then
+           ierror = ierr
+           go to 9999
+         endif
 C
 C      min|max implementation is based on knowing that the standard filter
 C      command keeps the node with the larger node number and deletes nodes
@@ -480,13 +485,18 @@ C
       if(length .eq. 0)then
          write(logmess,9929)
  9929    format('FILTER:Point set is empty, no points to filter')
-         call writloga('default',1,logmess,0,ierrw)
+         call writloga('default',0,logmess,0,ierrw)
          go to 9999
       endif
       call mmgetblk('xicf',isubname,ipxicf,length,2,icscode)
+      if(icscode.ne.0) call x3d_error(isubname,'mmgetblk xicf')
       call mmgetblk('yicf',isubname,ipyicf,length,2,icscode)
+      if(icscode.ne.0) call x3d_error(isubname,'mmgetblk yicf')
       call mmgetblk('zicf',isubname,ipzicf,length,2,icscode)
+      if(icscode.ne.0) call x3d_error(isubname,'mmgetblk zicf')
       call mmgetblk('ialiasf',isubname,ipialiasf,length,1,icscode)
+      if(icscode.ne.0) call x3d_error(isubname,'mmgetblk ialiasf')
+
       do i=1,mpno
          i1=mpary(i)
          ialiasf(i)=i
@@ -501,6 +511,8 @@ c
       call filter_points(mpno,xicf,yicf,zicf,dsmin,ialiasf)
       length=nnodes
       call mmgetblk('ialiastmp',isubname,ipialias,length,1,icscode)
+      if(icscode.ne.0) call x3d_error(isubname,'mmgetblk ialiastmp')
+
       do i1=1,nnodes
          ialiastmp(i1)=i1
       enddo
@@ -511,7 +523,7 @@ c
       enddo
 C
 c  set duplicate nodes to point type 'dud'
-c
+
       icount=0
       do i2=1,nnodes
          i1=ialiastmp(i2)
@@ -527,10 +539,12 @@ c
 C
 c  fix up the itet array so that duplicate nodes have been replaced
 c
+      ecount = 0
       do it=1,nelements
          do i=1,nelmnen(itettyp(it))
             i1=itet1(itetoff(it)+i)
             itet1(itetoff(it)+i)=ialiastmp(i1)
+            if (ialiastmp(i1).lt.0) ecount = ecount+1
          enddo
       enddo
 C
@@ -548,21 +562,37 @@ C
          call dotask(cmdmess,ierr)
       endif
 
+
          write(logmess,9930) icount
  9930    format('FILTER:Dudding duplicate points: ',1x,i10)
-         call writloga('default',1,logmess,0,ierrw)
+         call writloga('default',0,logmess,0,ierrw)
+
+         if (ecount.gt.0) then
+           write(logmess,9931) ecount
+ 9931      format('FILTER:Marking elements with -1: ',1x,i10)
+           call writloga('default',0,logmess,1,ierrw)
+         endif
 C
+C
+ 9999 continue
+
+      if (ierror .ne. 0) then
+         write(logmess,'(a,i5)') 
+     *   'ERROR FILTER: exit with error: ',ierror
+          call writloga('default',0,logmess,1,ierrw)
+      endif
+ 
+
 C     ******************************************************************
 C     RELEASE TEMPORARY MEMORY.
-C
- 9999 call mmrelprt(isubname,icscode)
+
+      call mmrelprt(isubname,icscode)
       if(icscode.ne.0) call x3d_error(isubname,'mmrelprt')
-C
-C     ******************************************************************
-C
+
       return
       end
-c
+C end filter
+
       subroutine filter_points(nnodes,xic,yic,zic,dsmin,ialiastmp)
 C
 C
@@ -626,7 +656,7 @@ C
 C
 C#######################################################################
 C
-      integer icc
+      integer icc, iset
       icc(i,j,k)=i+(j-1+(k-1)*(ny-1))*(nx-1)
 C
       character*32 isubname
@@ -880,6 +910,7 @@ c
 c  look at all other nodes in this bin
 c  check distance and set ialiastmp if needed
 c
+         iset = 0
          do j=ncoord_off(ibin1)+1,
      *                  ncoord_off(ibin1)+ncoord_bin(ibin1)
             i2=ialias1(j)
@@ -889,6 +920,7 @@ c
      *                    (zic(i1)-zic(i2))**2
                if(distance.lt.dsminsq) then
                      ialiastmp(i1)=ialias1(j)
+                     iset = iset + 1
                endif
             endif
          enddo
@@ -903,8 +935,10 @@ C
 C
 C     ******************************************************************
 C
+
       return
       end
+C end filter_points
 
 
 *dk,filter_subset
@@ -1103,7 +1137,7 @@ C
       if (mpno .gt. nnodes) then
           write(logmess,9025) mpno,nnodes
  9025     format('ERROR filter_subset: mpno gt nnodes: ',i14,i14)
-          call writloga('default',1,logmess,1,ierr)
+          call writloga('default',0,logmess,1,ierr)
           ierror = 1
           go to 9999
       endif
@@ -1113,6 +1147,7 @@ C
       call mmgetblk('yicf',isubname,ipyicf,length,2,icscode)
       call mmgetblk('zicf',isubname,ipzicf,length,2,icscode)
       call mmgetblk('ialiasf',isubname,ipialiasf,length,1,icscode)
+
       do i=1,mpno
          i1=mpary(i)
          ialiasf(i)=i
@@ -1120,9 +1155,12 @@ C
          yicf(i)=yic(i1)
          zicf(i)=zic(i1)
       enddo
+
       call filter_points(mpno,xicf,yicf,zicf,dsmin,ialiasf)
       length=nnodes
       call mmgetblk('ialias',isubname,ipialias,length,1,icscode)
+      if(icscode.ne.0) call x3d_error(isubname,'mmgetblk ialias')
+
       do i1=1,nnodes
          ialias(i1)=i1
       enddo
@@ -1131,6 +1169,8 @@ C
          i2=mpary(ialiasf(i))
          ialias(i1)=i2
       enddo
+C   
+C  set duplicate nodes to point type 'dud'
 C
       icount=0
       do i2=1,nnodes
@@ -1145,6 +1185,8 @@ C
          endif
       enddo
 C
+c  fix up the itet array so that duplicate nodes have been replaced
+c
       do it=1,nelements
          do i=1,nelmnen(itettyp(it))
             i1=itet1(itetoff(it)+i)
@@ -1152,29 +1194,27 @@ C
          enddo
       enddo
 C
-      if(icount.gt.0) then
-         write(logmess,9930) icount
- 9930    format(' Dudding duplicate points: ',1x,i10)
-         call writloga('default',1,logmess,0,ierrw)
-      endif
+      write(logmess,9930) icount
+ 9930 format('FILTER_SUBSET:Dudding duplicate points: ',1x,i10)
+      call writloga('default',0,logmess,1,ierrw)
 C
       goto 9999
  9999 continue
+
       if (ierror .gt. 0) then
-         write(logmess,'(a)') 
-     *   'ERROR filter_subset: dudded nodes not marked.'
-          call writloga('default',1,logmess,1,ierrw)
+         write(logmess,'(a,i5)') 
+     *   'ERROR FILTER_SUBSET: exit with error: ',ierror
+          call writloga('default',0,logmess,1,ierrw)
       endif
 
-C
 C     ******************************************************************
 C     RELEASE TEMPORARY MEMORY.
 C
       call mmrelprt(isubname,icscode)
       if(icscode.ne.0) call x3d_error(isubname,'mmrelprt')
-C
-C     ******************************************************************
-C
+
       return
       end
+
+C end filter_subset
 

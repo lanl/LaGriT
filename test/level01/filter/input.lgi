@@ -1,0 +1,227 @@
+# TEST FILTERKD and FILTER INPUT OPTIONS 
+# with DUP POINTS, OVERLAP, ZERO VOLUME
+#   see test createpts_filter 
+#   for precision tests betweeen 
+#   filter and filterkd on points
+#
+# Note dump/gmv are commented out
+# uncomment to view dudded nodes before
+# and after they are removed from mesh object
+#----------------------------------------------
+
+# CREATE INPUT MESH OBJECT FOR ALL OPTIONS
+# Merge hex elements so they overlap
+# make a flat layer of elements
+
+cmo/create/mo1                                                           
+createpts/brick/xyz/5 3 4/0. 0. 0./10. 10. 6./1 1 1                                  
+rmpoint compress ; resetpts itp
+cmo setatt mo1 itetclr 1
+cmo setatt mo1 imt     1
+cmo/create/mo2
+createpts/brick/xyz/5 3 4/0. 0. 4./10. 10. 10./1 1 1                                   
+rmpoint compress ; resetpts itp
+cmo setatt mo2 itetclr 2
+cmo setatt mo2 imt     2
+addmesh/merge/mohex_all/ mo1 mo2
+cmo/select/mohex_all
+pset/pz/attribute zic/1,0,0/ eq 10.
+cmo/setatt/mohex_all/ zic pset,get,pz 8.
+# dump gmv input_all_options.gmv mohex_all
+
+# INPUT POINTS NO ELEMENTS
+cmo/create/mopts
+copypts/mopts/mohex_all
+# dump gmv input_noelems.gmv mopts
+
+# INPUT DUP POINTS, NO OVERLAP, NO ZERO
+cmo/copy/mohex_pts/ mo1
+copypts/mohex_pts/mo1/ 0,0 /1,0,0
+# dump gmv input_duppts.gmv mohex_pts
+
+cmo/delete mo1
+cmo/delete mo2
+
+# INPUT MESH OBJECTS
+cmo/status/ brief
+
+
+#########################################
+# TEST 1
+# NO ELEMENTS, 45 DUP POINTS 
+# 120 nodes  
+
+cmo /copy /mof_pts / mopts
+cmo / select / mof_pts
+*--------------------------*
+filter /1 0 0 
+#  dump out_fpts.gmv mof_pts
+rmpoint/compress
+#  dump out_fpts_rm.gmv mof_pts
+cmo /copy /mokd_pts / mopts
+cmo / select / mokd_pts
+*--------------------------*
+filterkd /1 0 0
+#  dump out_fpts.gmv mokd_pts
+rmpoint/compress
+#  dump out_fpts_rm.gmv mokd_pts
+
+#########################################
+# TEST 2
+# ELEMENTS, 8 OVERLAP, 8 ZERO, 45 DUP POINTS
+# 120 nodes  48 elements
+
+cmo /copy /mof_all / mohex_all
+cmo / select / mof_all
+*--------------------------*
+filter /1 0 0
+#  dump out_fall.gmv mof_all
+rmpoint/compress
+#  dump out_fall_rm.gmv mof_all
+
+cmo /copy /mokd_all / mohex_all
+cmo / select / mokd_all
+*--------------------------*
+filterkd /1 0 0/ 
+#  dump out_fkd_all.gmv mokd_all
+rmpoint/compress
+#  dump out_fkd_all_rm.gmv mokd_all
+
+cmo /copy /mokd_rm0 / mohex_all
+cmo / select / mokd_rm0
+*--------------------------*
+filterkd /1 0 0/ /zero_element
+#  dump out_fkd_rm0.gmv mokd_rm0
+rmpoint/compress
+#  dump out_fkd_rm0_rm.gmv mokd_rm0
+
+#########################################
+# TEST 3
+# ELEMENTS, NO OVERLAP NO ZERO, 30 DUP POINTS
+
+cmo /copy /mof_allp / mohex_pts
+cmo / select / mof_allp
+*--------------------------*
+filter /1 0 0
+#  dump out_fallp.gmv mof_allp
+rmpoint/compress
+#  dump out_fallp_rm.gmv mof_allp
+
+cmo /copy /mokd_allp / mohex_pts
+cmo / select / mokd_allp
+*--------------------------*
+filterkd /1 0 0/ /nocheck
+#  dump out_fkd_allp.gmv mokd_allp
+rmpoint/compress
+#  dump out_fkd_allp_rm.gmv mokd_allp
+
+cmo /copy /mokd_rm0p / mohex_pts
+cmo / select / mokd_rm0p
+*--------------------------*
+filterkd /1 0 0/ / zero_element
+#  dump out_fkd_rm0p.gmv mokd_rm0p
+rmpoint/compress
+#  dump out_fkd_rm0p_rm.gmv mokd_rm0p
+
+cmo/status/ brief
+#########################################
+# TEST PSET
+
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+pset/p1/attribute xic/1,0,0/ lt 3.
+filterkd/pset,get,p1 / / nocheck
+cmo/delete/motmp
+
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+pset/p1/attribute xic/1,0,0/ lt 3.
+filterkd/pset,get,p1/.0001 nocheck
+cmo/delete/motmp
+
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+pset/p1/attribute xic/1,0,0/ lt 3.
+filterkd/pset,get,p1/ nocheck
+cmo/delete/motmp
+
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+pset/p1/attribute xic/1,0,0/ lt 3.
+filterkd/pset,get,p1/ .0001 
+cmo/delete/motmp
+
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+pset/p1/attribute xic/1,0,0/ lt 3.
+filterkd/pset,get,p1 
+cmo/delete/motmp
+
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+pset/p1/attribute xic/1,0,0/ lt 3.
+filterkd/pset,get,p1/ .0001 zero_element 
+cmo/delete/motmp
+
+
+#########################################
+# TEST OPTIONS
+
+# nocheck, no zero_element
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+filterkd/1,0,0/ / nocheck
+cmo/delete/motmp
+
+# nocheck, no zero element
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+filterkd/1,0,0/ nocheck
+cmo/delete/motmp
+
+# no zero_element
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+filterkd/1,0,0/ 
+cmo/delete/motmp
+
+# zero_element
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+filterkd/1,0,0/ zero_element
+cmo/delete/motmp
+
+# zero_element with eps
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+filterkd/1,0,0/ .0001 zero_element
+cmo/delete/motmp
+
+# nocheck with eps
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+filterkd/1,0,0/ .0001 nocheck
+cmo/delete/motmp
+
+# eps with no zero_element
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+filterkd/1,0,0/ .0001 
+cmo/delete/motmp
+
+# min option not available 
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+filterkd/1,0,0/ .0001 min 
+cmo/delete/motmp
+
+# element not valid option
+cmo/copy/motmp/ mohex_all
+cmo/select/motmp
+filterkd/ element
+cmo/delete/motmp
+
+# DONE
+finish
+
+

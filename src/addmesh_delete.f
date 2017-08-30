@@ -99,16 +99,18 @@ C
 C ######################################################################
 C
       character*(*) cmoc
-      integer ierror,mbndry_old,idumpdel,
-     * itp1_boundary,mbndry_new
+      integer ierror,mbndry_old,mbndry_new,itp1_boundary
+
       pointer(ipitet_delete,itet_delete)
       integer itet_delete(*)
+
 C
 C ######################################################################
 C
-      character*32 isubname
-C
+      integer idumpdel
       data idumpdel / 1 /
+
+      character*32 isubname
 C
 C ######################################################################
 C
@@ -130,7 +132,7 @@ C
 C======================================================================
 C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C|C
 C======================================================================
-*dk,addmesh_delete_compress
+C addmesh_delete_compress
       subroutine addmesh_delete_compress(cmoc,
      *                                   mbndry_old,
      *                                   mbndry_new,
@@ -195,11 +197,17 @@ C
       include "local_element.h"
 C
 C ######################################################################
-C
-      integer nmulti
-      parameter (nmulti=100)
+C arguments
+C     subroutine addmesh_delete_compress(cmoc,
+C      mbndry_old, mbndry_new, itp1_boundary,
+C      ipitet_delete, ierror)
+
       character*(*) cmoc
-      integer ierror,ierror_return,index
+      integer ierror,mbndry_old,mbndry_new,itp1_boundary
+
+      pointer(ipitet_delete,itet_delete)
+      integer itet_delete(*)
+
 C
 C ######################################################################
 C
@@ -230,9 +238,6 @@ C
       integer itetclr2(*),itettyp2(*),itetoff2(*)
      &       ,jtetoff2(*),itet2(*),jtet2(*)
 C
-      pointer (ipitet_delete, itet_delete)
-      integer itet_delete(*)
-C
 C ######################################################################
 C
       pointer (ipipflag_before, ipflag_before)
@@ -240,36 +245,47 @@ C
       pointer (ipipflag_after, ipflag_after)
       integer ipflag_after(*)
 C
-      pointer (ipxcmo,xcmo)
       pointer (ipxcmo,icmo)
       integer icmo(*)
+
+      pointer (ipxcmo,xcmo)
       real*8 xcmo(*)
 C
-      character*32 ctype,crank,cattr_name,clength,cio,cpers,cinter
- 
-C
-      character*32 isubname
+      integer ierr, ierror_return,index
+
       integer npoints1,ilen,icmotp, mbndry,length,nsdtopo1,
      *  nef1,nen1,nsdgeom1,icscode,numtet1,ntetdel,ntet,itoff,jtoff,
      *  it,i,jt,jf,idel,numtet1_save,itout,itnew,ier,lout,i1,
      *  isave,isnext,ict,iatt,natt,iorphan,nlen,icmotype
      *  ,kf,lt,lf,kt,icycle,jtet_cycle_max,jtet_reduce_nnd
-      integer icharln,jtnew,mbndry_old,mbndry_new,itp1_boundary
-     *  ,min_mbndry_new,local_debug
+
+      integer jtnew, min_mbndry_new,local_debug
+      integer itetlen
+
+      integer icharln
+
+      character*32 isubname
+      character*32 ctype,crank,cattr_name,clength,cio,cpers,cinter
       character*132 logmess
+
+      integer nmulti
+      parameter (nmulti=100)
 C
 C ######################################################################
 C
 C
       isubname="addmesh_delete"
  
+
       local_debug=0
       if (local_debug.gt.0) call mmverify()
 C
 C
       call cmo_get_info('nnodes',cmoc,npoints1,ilen,icmotp,ierror)
       call cmo_get_info('nelements',cmoc,numtet1,ilen,icmotp,ierror)
+
       if (numtet1.lt.1.or.npoints1.lt.1) goto 9999
+
       call cmo_get_info('jtet_cycle_max',cmoc,jtet_cycle_max
      &                  ,ilen,icmotp,ierror)
       if (ierror.ne.0.or.jtet_cycle_max.lt.2) jtet_cycle_max=2
@@ -283,57 +299,107 @@ C
  
       call cmo_get_info('mbndry',cmoc,mbndry,ilen,icmotp,ierror)
       if (ierror.ne.0) goto 9999
-      call cmo_get_info('itp1',cmoc,ipitp1,ilen,icmotp,ierror)
-      call cmo_get_info('isn1',cmoc,ipisn1,ilen,icmotp,ierror)
+
+      call cmo_get_info('itp1',cmoc,ipitp1,ilen,icmotp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+      call cmo_get_info('isn1',cmoc,ipisn1,ilen,icmotp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
       call cmo_get_info('ndimensions_topo',cmoc,
-     *                  nsdtopo1,length,icmotype,ierror)
+     *                  nsdtopo1,length,icmotype,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
       call cmo_get_info('ndimensions_geom',cmoc,
-     *                  nsdgeom1,length,icmotype,ierror)
+     *                  nsdgeom1,length,icmotype,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
       call cmo_get_info('nodes_per_element',cmoc,
-     *                  nen1,length,icmotype,ierror)
+     *                  nen1,length,icmotype,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
       call cmo_get_info('faces_per_element',cmoc,
-     *                  nef1,length,icmotype,ierror)
+     *                  nef1,length,icmotype,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
       call cmo_get_info('itetclr',cmoc,
-     *                  ipitetclr1,ilen,icmotp,ierror)
+     *                  ipitetclr1,ilen,icmotp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
       call cmo_get_info('itettyp',cmoc,
-     *                  ipitettyp1,ilen,icmotp,ierror)
+     *                  ipitettyp1,ilen,icmotp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
       call cmo_get_info('itetoff',cmoc,
-     *                  ipitetoff1,ilen,icmotp,ierror)
+     *                  ipitetoff1,ilen,icmotp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
       call cmo_get_info('jtetoff',cmoc,
-     *                  ipjtetoff1,ilen,icmotp,ierror)
-      call cmo_get_info('itet',cmoc,ipitet1,ilen,icmotp,ierror)
-      call cmo_get_info('jtet',cmoc,ipjtet1,ilen,icmotp,ierror)
+     *                  ipjtetoff1,ilen,icmotp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+
+      call cmo_get_info('itet',cmoc,ipitet1,itetlen,icmotp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+
+      call cmo_get_info('jtet',cmoc,ipjtet1,ilen,icmotp,ierr)
+      if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
 C
       min_mbndry_new=nef1*numtet1
       if (mbndry.le.min_mbndry_new) goto 9999
 C
       length=numtet1
       call mmgetblk('italias',isubname,ipitalias,length,1,icscode)
+      if(icscode.ne.0) call x3d_error(isubname, 'mmgetblk')
       call mmgetblk('itetclr2',isubname,ipitetclr2,length,1,icscode)
+      if(icscode.ne.0) call x3d_error(isubname, 'mmgetblk')
       call mmgetblk('itettyp2',isubname,ipitettyp2,length,1,icscode)
+      if(icscode.ne.0) call x3d_error(isubname, 'mmgetblk')
       call mmgetblk('itetoff2',isubname,ipitetoff2,length,1,icscode)
+      if(icscode.ne.0) call x3d_error(isubname, 'mmgetblk')
       call mmgetblk('jtetoff2',isubname,ipjtetoff2,length,1,icscode)
+      if(icscode.ne.0) call x3d_error(isubname, 'mmgetblk')
+
       length=nelmnen(ifelmhyb)*numtet1
       call mmgetblk('itet2',isubname,ipitet2,length,1,icscode)
+      if(icscode.ne.0) call x3d_error(isubname, 'mmgetblk')
       length=nelmnef(ifelmhyb)*numtet1
       call mmgetblk('jtet2',isubname,ipjtet2,length,1,icscode)
+      if(icscode.ne.0) call x3d_error(isubname, 'mmgetblk')
 C
       length=npoints1
       call mmgetblk('ipflag_before',isubname,
      *              ipipflag_before,length,2,icscode)
+      if(icscode.ne.0) call x3d_error(isubname, 'mmgetblk')
       call mmgetblk('ipflag_after',isubname,
      *              ipipflag_after,length,2,icscode)
+      if(icscode.ne.0) call x3d_error(isubname, 'mmgetblk')
+
+C     DONE with memory allocation and setup
+
       do i=1,npoints1
          ipflag_before(i)=0
          ipflag_after(i)=0
       enddo
+      if (local_debug.gt.0) call mmverify()
+
+C     rmpoint command cautions against -1 values in itet
+C     check for negative values and exit
+C     would be better to accept and correctly deal with -1 here
+
       do it=1,numtet1
          do i=1,nelmnen(itettyp1(it))
             i1=itet1(itetoff1(it)+i)
-            if(itp1(i1).ne.ifitpmrg.and.itp1(i1).ne.ifitpdud)
-     *         ipflag_before(i1)=1
+
+            ierr=itetoff1(it)+i
+            if (i1.eq.-1) then
+               write(logmess,'(a)') 
+     *     "Error: element_delete found itet value -1."
+               call writloga('default',0,logmess,0,ier)
+               goto 9999
+            endif
+
+            if(itp1(i1).ne.ifitpmrg.and.itp1(i1).ne.ifitpdud) then
+               if (i1.gt.npoints1) then
+                 call x3d_error(isubname, 'error reading ipflag_before')
+                 goto 9999
+               else
+                 ipflag_before(i1)=1
+               endif
+            endif
          enddo
       enddo
+      if (local_debug.gt.0) call mmverify()
 C
 C
 C     ******************************************************************
@@ -343,11 +409,13 @@ C
       do it=1,numtet1
          if(itet_delete(it).gt.0) ntetdel=ntetdel+1
       enddo
+
       if(ntetdel.gt.0) then
          ntet=0
          itoff=0
          jtoff=0
          do it=1,numtet1
+
             italias(it)=0
             if(itet_delete(it).le.0) then
 C
@@ -438,6 +506,8 @@ C
 C
 C  for elements kept, set itet2 and jtet2
 C
+         if (local_debug.gt.0) call mmverify()
+
          do it=1,numtet1
             if(itet_delete(it).le.0) then
                itnew=italias(it)
@@ -624,6 +694,7 @@ C           above.
 C
   105    call cmo_get_info('number_of_attributes',cmoc,natt,
      *                   ilen,itout,ierror)
+
          do iatt=1,natt
             call cmo_get_attribute_name(cmoc,iatt,cattr_name,ier)
             nlen=icharln(cattr_name)

@@ -1002,8 +1002,12 @@ C
          call cmo_get_info('nnodes',cmob,npoints2,ilen,icmotp,ierror)
          call cmo_get_info('nelements',cmob,numtet2,ilen,icmotp,ierr)
          length=max(numtet1,numtet2)
+
          call mmgetblk('itet_delete',isubname,ipitet_delete,length,2,
      *              icscode)
+         if(icscode.ne.0) 
+     *      call x3d_error(isubname,'mmgetblk itet_delete')
+
          do it=1,numtet1
             itet_delete(it)=0
          enddo
@@ -1015,17 +1019,21 @@ C
             endif
          enddo
          mbndry_old=mbndry
+
+
 c following code commented out 1/99 istitch not defined don't know
 c original intent
 c        if(istitch.eq.1) then
 c           mbndry_new=-1
 c        else
+
             mbndry_new=mbndry
 c        endif
          itp1_boundary=ifitpini
 C
 	 call addmesh_delete(cmoc, mbndry_old, mbndry_new,
      *         itp1_boundary, ipitet_delete, ierror)
+         if(ierror.ne.0) call x3d_error(isubname,'addmesh_delete')
 C
       else
 C
