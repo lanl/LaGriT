@@ -85,24 +85,24 @@ ExodusII output for 2D Planar incorrectly written as 3 Dimensions
 <br>
 second call to addmesh/excavate command causing memory error or segmentation fault
 <br>
-large numbers running out of space when written for reporting dudded nodes
+output adjusted to make room for large numbers when reporting dudded nodes from filter command
 </blockquote>
 <br>
-Additional tests and improvements to suite.py for running and reporting the test suite.
+Additional tests and improvements to suite.py for running and reporting the test suite
 New tests include:
 <blockquote>
-level01/createpts_filter - illustrates the difference between filter and the more accurate filterkd commands.
+level01/createpts_filter - illustrates the difference between filter and the more accurate filterkd commands
 <br>
 level01/smooth_massage - use massage with smooth to refine and de-refine a triangulation
 <br>
 level01/write_exo - write 3D and 2D Exodus files with psets, eltsets, and facesets
 <br>
-level01/pflotran_stor - write pflotran style stor files
+level01/pflotran_stor - write pflotran style Voronoi geometric coefficient (volume, face area) files
 </blockquote>
 <br>
 PyLaGriT new features:
 <blockquote>
-read_sheetij - creates a quad mesh from an elevation file reading Z(i,j) into mesh zic attribute.
+read_sheetij - creates a quad mesh from an elevation file reading Z(i,j) into mesh zic attribute
 <br>
 read_modflow - creates a modflow rectilinear mesh using modflow files using elev_top.mod and init_bnds.inf
 <br>
@@ -118,8 +118,7 @@ Most exceptions have been tracked down and fixed according to picky compiler sug
 These exceptions have not changed the behavior of the code. Exceptions will continue to be fixed as they show up.
 <br>
 <br>
-During testing it was found that the filter command may find and remove fewer nodes than the command filterkd.
-The command filterkd is recommended where precision might be an issue. Documentation will be changed to reflect this.
+During testing it was found that the filter command may find and remove fewer nodes than the command filterkd. The command filterkd is recommended where precision might be an issue. Documentation will be changed to reflect this. It is expected that the filter command and algorithm will be deprecated and replaced by filterkd.
 See test/level01/createpts_filter
 <br>
 <br>
