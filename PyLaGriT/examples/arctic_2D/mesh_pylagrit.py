@@ -16,18 +16,18 @@ layer.minmax_xyz()
 
 # Create top of mesh
 # Collapse y values
-layer.addatt('y_save',type='vdouble',rank='scalar')
+layer.addatt('y_save',vtype='vdouble',rank='scalar')
 layer.copyatt('yic','y_save')
 layer.setatt('yic',0.)
 
 # Read in lidar top elevations
 peat_surf_pts = l.read('surface_coords2.avs')
-peat_surf_pts.addatt('z_save',type='vdouble',rank='scalar')
+peat_surf_pts.addatt('z_save',vtype='vdouble',rank='scalar')
 peat_surf_pts.copyatt('zic','z_save')
 peat_surf_pts.setatt('zic',0.)
 
 # Interpolate surface elevations to layer mo
-layer.addatt('z_val',type='vdouble',rank='scalar')
+layer.addatt('z_val',vtype='vdouble',rank='scalar')
 layer.interpolate_voronoi('z_val',peat_surf_pts,'z_save')
 layer.copyatt('y_save','yic')
 layer.copyatt('z_val','zic')
@@ -40,13 +40,13 @@ peat_surf_pts.delete()
 
 # Read in peat bottom elevations
 peat_bot_pts = l.read('bottom_peat2.avs')
-peat_bot_pts.addatt('z_save',type='vdouble',rank='scalar')
+peat_bot_pts.addatt('z_save',vtype='vdouble',rank='scalar')
 peat_bot_pts.copyatt('zic','z_save')
 peat_bot_pts.setatt('zic',0.)
 
 # Interpolate peat bottom elevations to layer mo
 layer.setatt('yic',0.)
-layer.addatt('z_val',type='vdouble',rank='scalar')
+layer.addatt('z_val',vtype='vdouble',rank='scalar')
 layer.interpolate_voronoi('z_val',peat_bot_pts,'z_save')
 layer.copyatt('y_save','yic')
 layer.delatt('y_save')

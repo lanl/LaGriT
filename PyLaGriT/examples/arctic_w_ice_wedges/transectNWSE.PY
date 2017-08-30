@@ -10,19 +10,20 @@ top = lg.gridder(x,y,elem_type='quad',connect=True)
 
 # Create top of mesh
 # Collapse y values
-top.addatt('y_save',type='vdouble',rank='scalar')
+top.addatt('y_save',vtype='vdouble',rank='scalar')
 top.copyatt('yic','y_save')
 top.setatt('yic',0.)
 
 # Read in top elevations
 d = np.genfromtxt("transectNWSE.csv", delimiter=",", names=True)
-surf_pts = lg.points(x=d['s'],z=d['z'],elem_type='quad')
-surf_pts.addatt('z_save',type='vdouble',rank='scalar')
+coords = np.column_stack([d['s'],np.zeros_like(d['s']),d['z']])
+surf_pts = lg.points(coords,elem_type='quad')
+surf_pts.addatt('z_save',vtype='vdouble',rank='scalar')
 surf_pts.copyatt('zic','z_save')
 surf_pts.setatt('zic',0.)
 
 # Interpolate surface elevations to top
-top.addatt('z_val',type='vdouble',rank='scalar')
+top.addatt('z_val',vtype='vdouble',rank='scalar')
 top.interpolate_voronoi('z_val',surf_pts,'z_save')
 top.copyatt('y_save','yic')
 top.copyatt('z_val','zic')
@@ -125,12 +126,12 @@ def iceWedgePoints( vtxL, vtxB, vtxR, dx, dz ):
     return iwx, iwy, iwz
 
 iw1x, iw1y, iw1z = iceWedgePoints( [3.25, 78.3], [3.875, 75.0], [4.5, 78.3], 0.125, 0.01 )
-iw1pts = lg.points(iw1x, iw1y, iw1z, connect=True)
+iw1pts = lg.points(np.column_stack([iw1x, iw1y, iw1z]), connect=True)
 iw1 = stack_hex.eltset_object(iw1pts)
 iw1.setatt('itetclr', 4)
 
 iw2x, iw2y, iw2z = iceWedgePoints( [18.5, 78.4], [19.125, 75.1], [19.75,78.4], 0.125, 0.01 )
-iw2pts = lg.points(iw2x, iw2y, iw2z, connect=True)
+iw2pts = lg.points(np.column_stack([iw2x, iw2y, iw2z]), connect=True)
 iw2 = stack_hex.eltset_object(iw2pts)
 iw2.setatt('itetclr', 4)
 

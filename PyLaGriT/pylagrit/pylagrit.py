@@ -315,8 +315,8 @@ class PyLaGriT(spawn):
         if name is None:
             name = make_name('mo',self.mo.keys())
     
-        x = numpy.arange(0,ncols,1)
-        y = numpy.arange(0,nrows,1)
+        x = numpy.arange(0,ncols+1,1)
+        y = numpy.arange(0,nrows+1,1)
         z = numpy.arange(0,2*height,height) # x2 because of half-open interval: [start, stop)
     
         # Generate hexmesh
@@ -342,7 +342,7 @@ class PyLaGriT(spawn):
             imt_data = numpy.loadtxt(materials_file)
         except:
             print("ERROR: materials file {} not found!".format(materials_file))
-            exit(1)
+            return
         
         # Write out to hidden materials file
         tmp_file = "._tmp_materials.txt"
@@ -358,36 +358,45 @@ class PyLaGriT(spawn):
         imt_min = min(imt_types)
         correction = 0
         
-        if imt_min < 0:
-            imt_types = [int(i + 1 + abs(imt_min)) for i in imt_types]
-            correction = 1 + abs(imt_min)
-        elif imt_min == 0:
-            imt_types = [int(i + 1) for i in imt_types]
-            correction = 1
+        #if imt_min < 0:
+        #    imt_types = [int(i + 1 + abs(imt_min)) for i in imt_types]
+        #    correction = 1 + abs(imt_min)
+        #elif imt_min == 0:
+        #    imt_types = [int(i + 1) for i in imt_types]
+        #    correction = 1
 
         # Unpack matrix into vector and write
         for i in range(0, nrows):
             for j in range(0, ncols):
-                imt_value = int(imt_data[i][j]) + correction
+                imt_value = int(imt_data[(nrows-1)-i][j]) + correction
                 tmp_materials.write("{}\n".format(imt_value))
 
         # Close write file
         tmp_materials.close()
     
         # Project materials onto surface
-        mtrl_surface = self.read_sheetij('materials', tmp_file, [ncols, nrows], [0,0], DXY, flip='y')
+        mtrl_surface = self.read_sheetij('mo_mat', tmp_file, [ncols, nrows], [0,0], DXY)
         
         # Create psets based on imt values, assign global imt from psets
-        for i in range(0,len(imt_types)):
-            mtrl_surface.pset_attribute('zic', imt_types[i], comparison='eq', stride=(0,0,0), name='p{}'.format(i))
-            mtrl_surface.setatt('imt', imt_types[i], stride=['pset','get','p{}'.format(i)])
+        #for i in range(0,len(imt_types)):
+        #    mtrl_surface.pset_attribute('zic', imt_types[i], comparison='eq', stride=(0,0,0), name='p{}'.format(i))
+        #    mtrl_surface.setatt('imt', imt_types[i], stride=['pset','get','p{}'.format(i)])
 
-        mtrl_surface.setatt('zic', 0.)
+        #mtrl_surface.setatt('zic', 0.)
     
-        hexmesh.addatt('newimt')
-        hexmesh.interpolate('continuous','newimt',mtrl_surface,'imt')
-        hexmesh.copyatt('newimt','imt') # Probably unnecessary
-        hexmesh.delatt('newimt')
+        hexmesh.addatt('mod_bnds',vtype='VINT',rank='scalar',length='nelements')
+        hexmesh.copyatt('zic',attname_sink='mod_bnds',mo_src=mtrl_surface)
+        self.sendline('cmo/printatt/{}/mod_bnds/minmax'.format(hexmesh.name))
+        self.sendline('cmo/printatt/{}/zic/minmax'.format(mtrl_surface.name))
+    
+        hexmesh.addatt('pts_topbot')
+        hexmesh.setatt('pts_topbot',1.)
+        hexmesh.setatt('pts_topbot',2.,stride=['pset','get',hex_bottom.name])
+        
+        #hexmesh.addatt('newimt')
+        #hexmesh.interpolate('continuous','newimt',mtrl_surface,'imt')
+        #hexmesh.copyatt('newimt','imt') # Probably unnecessary
+        #hexmesh.delatt('newimt')
     
         if filename != None:
             # Load modflow elevation map into surface
@@ -405,10 +414,33 @@ class PyLaGriT(spawn):
             hexmesh.math('add',-height,'zic',stride=['pset','get',hex_bottom.name],attsrc='z_new')
             hexmesh.delatt('z_new')
         else:
-            hexmesh.math('add',-height,'zic',stride=['pset','get',hex_bottom.name],attsrc='zic')
+            hexmesh.math('add',height,'zic',stride=['pset','get',hex_bottom.name],attsrc='zic')
 
         self.mo[name] = MO(name,self)
         return self.mo[name]
+    
+    def boundary_components(self, style='node',material_id_number=None,reset=None):
+        '''
+        Calculates the number of connected components of a mesh for diagnostic purposes.
+
+        :param style: May be element or node
+        :type style: string
+        :param material_id_number: Only examines nodes with imt = mat. id number
+        :type material_id_number: int
+        :param reset: May be either True, False, or None
+        :type reset: bool
+        '''
+        
+        cmd = ['boundary_components',style]
+        
+        if material_id_number: cmd.append(str(material_id_number))
+        if reset is not None:
+            if reset == True:
+                cmd.append('reset')
+            elif reset == False:
+                cmd.append('noreset')
+        
+        self.sendline('/'.join(cmd))
     
     def addmesh(self, mo1, mo2, style='add', name=None, *args):
         if isinstance(mo1,MO): mo1name = mo1.name
@@ -582,7 +614,7 @@ class PyLaGriT(spawn):
                     print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
             else:
                 print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
-    def extract_surfmesh(self,name=None,cmo_in=None,stride=[1,0,0],reorder=True,resetpts_itp=True,external=False):
+    def extract_surfmesh(self,name=None,cmo_in=None,stride=[1,0,0],reorder=True,resetpts_itp=True,external=False,append=None):
         if name is None:
             name = make_name('mo',self.mo.keys())
         if cmo_in is not None:
@@ -601,6 +633,7 @@ class PyLaGriT(spawn):
         stride = [str(v) for v in stride]
         cmd = ['extract/surfmesh',','.join(stride),name,cmo_in.name]
         if external: cmd.append('external')
+        if append: cmd.append(append)
         self.sendline( '/'.join(cmd))
         self.mo[name] = MO(name,self)
         return self.mo[name] 
@@ -1062,17 +1095,15 @@ class PyLaGriT(spawn):
             m.sendline('/'.join(cmd))
         elif connect:
             m.connect()
+            
+        self.sendline('cmo/printatt/{}/-xyz- minmax'.format(m.name))
         return m
-    def points(self,x=None,y=None,z=None,connect=False,elem_type='tet',filename='points.inp'):
+    def points(self,coords,connect=False,elem_type='tet',filename='points.inp'):
         '''
         Generate a mesh object of points defined by x, y, z vectors.
 
-        :arg x: x node locations
-        :type x: array(floats)
-        :arg y: y node locations
-        :type y: array(floats)
-        :arg z: z node locations
-        :type z: array(floats)
+        :arg coords: list of 3-tuples containing (x,y,z) coorinates
+        :type x: array(3-tuples), npoints by 3 array
         :arg connect: Should the points be connected
         :type connect: bool
         :arg elem_type: Type of element for created mesh object
@@ -1083,56 +1114,33 @@ class PyLaGriT(spawn):
 
         Example:
             >>> from pylagrit import PyLaGriT
-            >>> import numpy
             >>> lg = PyLaGriT()
-            >>> x0 = -numpy.logspace(1,2,15,endpoint=True)
-            >>> x1 = numpy.arange(-10,10,1)
-            >>> x2 = -x0
-            >>> x = numpy.concatenate([x0,x1,x2])
-            >>> y = x
-            >>> mqua = lg.gridder(x,y,elem_type='quad',connect=True)
-            >>> mqua.paraview()
+            >>> coords = [[0,0,0],[1,0,0],[1,1,0],[0,1,1],[0,0,1],[0,1,0],[1,1,1],[1,0,1]]
+            >>> m = lg.points(coords,elem_type='tet',connect=True)
+            >>> m.paraview()
         '''
         dim = 0
-        length = None
-        if x is not None and len(x) > 0: 
-            dim += 1 
-            length = len(x)
-        if y is not None and len(y) > 0: 
-            dim += 1 
-            if length is None:
-                length = len(y)
-            elif not len(y) == length:
-                print "Error: x and y vectors must be the same length"
-                return
-        if z is not None and len(z) > 0: 
-            dim += 1 
-            if length is None:
-                length = len(z)
-            elif not len(z) == length:
-                print "Error: x, y and z vectors must be the same length"
-                return
-        if dim == 0:
-            print "ERROR: must define at least one of x, y, z arrays"
-            return
+        coords = numpy.array(coords)
+        ix = numpy.all(numpy.diff(coords[:,0])==0)
+        if not ix: dim += 1
+        iy = numpy.all(numpy.diff(coords[:,1])==0)
+        if not iy: dim += 1
+        iz = numpy.all(numpy.diff(coords[:,2])==0)
+        if not iz: dim += 1
         if elem_type in ['line'] and dim != 1:
-            print "Error: Only 1 coordinate array (x,y,z) required for elem_type 'line'"
+            print "Error: Coordinates must form line for elem_type 'line'"
             return
         if elem_type in ['tri','quad'] and dim != 2:
-            print "Error: Only 2 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'"
+            print "Error: Coordinates must form plane for elem_type '"+str(elem_type)+"'"
             return
         if elem_type in ['tet','hex'] and dim != 3:
-            print "Error: 3 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'"
+            print "Error: 3D coordinates required for elem_type '"+str(elem_type)+"'"
             print "Set elem_type to a 2D format like 'quad' or 'triplane'"
             return
-        if x is None or len(x) == 0: x = [0]*length
-        if y is None or len(y) == 0: y = [0]*length
-        if z is None or len(z) == 0: z = [0]*length
-        nodelist = numpy.array(numpy.column_stack([x,y,z]))
 
         outfile = open(filename,'w')
-        outfile.write('   '+str(len(nodelist))+' 0 0 0 0\n')
-        for i,nd in enumerate(nodelist):
+        outfile.write('   '+str(len(coords))+' 0 0 0 0\n')
+        for i,nd in enumerate(coords):
             outfile.write('%11d' % i +'        ')
             outfile.write('%14.8f' % nd[0]+'        ')
             outfile.write('%14.8f' % nd[1]+'        ')
@@ -1143,7 +1151,7 @@ class PyLaGriT(spawn):
         m = self.create(elem_type)
         m.read(filename)
         if elem_type in ['quad','hex'] and connect:
-            cmd = ['createpts','brick','xyz',' '.join([str(len(x)),str(len(y)),str(len(z))]),'1 0 0','connect'] 
+            cmd = ['createpts','brick','xyz',' '.join([str(len(coords)),str(len(coords)),str(len(coords))]),'1 0 0','connect'] 
             m.sendline('/'.join(cmd))
         elif connect:
             m.connect()
@@ -1156,6 +1164,7 @@ class MO(object):
         self._parent = parent
         self.pset = {}
         self.eltset = {}
+        self.region = {}
     def __repr__(self):
         return self.name
     def sendline(self,cmd, verbose=True, expectstr='Enter a command'):
@@ -1256,11 +1265,11 @@ class MO(object):
             return
         self.sendline(cmd)
 
-    def printatt(self,attname=None,stride=[1,0,0],pset=None,eltset=None,type='value'):
+    def printatt(self,attname=None,stride=[1,0,0],pset=None,eltset=None,ptype='value'):
         stride = [str(v) for v in stride]
         if attname is None: attname = '-all-'
         if pset is None and eltset is None:
-            cmd = '/'.join(['cmo/printatt',self.name,attname,type,','.join(stride)])
+            cmd = '/'.join(['cmo/printatt',self.name,attname,ptype,','.join(stride)])
         else:
             if pset is not None:
                 if isinstance(pset,PSet): setname = pset.name
@@ -1268,14 +1277,14 @@ class MO(object):
                 else:
                     print "ERROR: PSet object or name of PSet object as a string expected for pset"
                     return
-                cmd = '/'.join(['cmo/printatt',self.name,attname,type,','.join(['pset','get',setname])])
+                cmd = '/'.join(['cmo/printatt',self.name,attname,ptype,','.join(['pset','get',setname])])
             if eltset is not None:
                 if isinstance(eltset,EltSet): setname = eltset.name
                 elif isinstance(eltset,str): setname = eltset
                 else:
                     print "ERROR: EltSet object or name of EltSet object as a string expected for eltset"
                     return
-                cmd = '/'.join(['cmo/printatt',self.name,attname,type,','.join(['eltset','get',setname])])
+                cmd = '/'.join(['cmo/printatt',self.name,attname,ptype,','.join(['eltset','get',setname])])
         self.sendline(cmd)
     def delatt(self,attnames,force=True):
         '''
@@ -1311,7 +1320,7 @@ class MO(object):
         if mo_src is None: mo_src = self
         cmd = '/'.join(['cmo/copyatt',self.name,mo_src.name,attname_sink,attname_src])
         self.sendline(cmd)
-    def addatt(self,attname,keyword=None,type='VDOUBLE',rank='scalar',length='nnodes',interpolate='linear',persistence='permanent',ioflag='',value=0.0):
+    def addatt(self,attname,keyword=None,vtype='VDOUBLE',rank='scalar',length='nnodes',interpolate='linear',persistence='permanent',ioflag='',value=0.0):
         '''
         Add a list of attributes
 
@@ -1319,12 +1328,14 @@ class MO(object):
         :type attnames: str
         :arg keyword: Keyword used by lagrit for specific attributes
         :type name: str
+        :arg vtype: Type of variable {'VDOUBLE','VINT',...}
+        :type name: str
 
         '''
         if keyword is not None:
             cmd = '/'.join(['cmo/addatt',self.name,keyword,attname])
         else:
-            cmd = '/'.join(['cmo/addatt',self.name,attname,type,rank,length,interpolate,persistence,ioflag,str(value)])
+            cmd = '/'.join(['cmo/addatt',self.name,attname,vtype,rank,length,interpolate,persistence,ioflag,str(value)])
         self.sendline(cmd)
     def addatt_voronoi_volume(self,name='voronoi_volume'):
         '''
@@ -1335,12 +1346,12 @@ class MO(object):
         '''
         self.addatt(name,keyword='voronoi_volume')
     def minmax(self,attname=None,stride=[1,0,0]):
-        self.printatt(attname=attname,stride=stride,type='minmax')
+        self.printatt(attname=attname,stride=stride,ptype='minmax')
     def minmax_xyz(self,stride=[1,0,0],verbose=True):
         cmd = '/'.join(['cmo/printatt',self.name,'-xyz-','minmax'])
         self.sendline(cmd,verbose=verbose)
     def list(self,attname=None,stride=[1,0,0],pset=None):
-        self.printatt(attname=attname,stride=stride,pset=pset,type='list')
+        self.printatt(attname=attname,stride=stride,pset=pset,ptype='list')
     def setatt(self,attname,value,stride=[1,0,0]):
         stride = [str(v) for v in stride]
         cmd = '/'.join(['cmo/setatt',self.name,attname,','.join(stride),str(value)])
@@ -2141,7 +2152,7 @@ class MO(object):
         '''
         if base_name is None: base_name = 'faceset_'+self.name
         mo_surf = self.extract_surfmesh(reorder=reorder,external=external)
-        mo_surf.addatt('id_side',type='vint',rank='scalar',length='nelements')
+        mo_surf.addatt('id_side',vtype='vint',rank='scalar',length='nelements')
         mo_surf.settets_normal()
         mo_surf.copyatt('itetclr','id_side')
         mo_surf.delatt('id_side')
@@ -2503,7 +2514,7 @@ class MO(object):
 
         Returns MO object
         '''        
-        return self.grid2grid(ioption='quadtotri3', **minus_self(locals()))
+        return self.grid2grid(ioption='prismtotet3', **minus_self(locals()))
     def grid2grid_quadtotri4(self, name=None):
         '''
         Quad to 4 triangles, with one new point
@@ -2898,6 +2909,57 @@ class MO(object):
         self.sendline(cmd)
         self._parent.surface[name] = Surface(name,self._parent)
         return self._parent.surface[name]
+    def region_bool(self,bool,name=None): 
+        '''
+        Create region using boolean string
+
+        :param bool: String of boolean operations
+        :type bool: str
+        :param name: Internal lagrit name for mesh object
+        :type name: string
+        :returns: Region
+
+        Example:
+            >>> from pylagrit import PyLaGriT
+            >>> import numpy
+            >>> lg = PyLaGriT()
+            >>> # Read in mesh
+            >>> motet = lg.read('tet_matclr.inp')
+            >>> # fault coordinates in feet
+            >>> cs = [[498000.,381946.,0.],
+            >>>       [497197.,381946.,0.],
+            >>>       [494019.,384890.,0.],
+            >>>       [490326.,386959.,0.],
+            >>>       [487822.,388599.,0.],
+            >>>       [486337.,390755.,0.],
+            >>>       [486337.,392000.,0.]]
+            >>> # Convert to meters
+            >>> cs = numpy.array(cs)/3.28
+            >>> # Create surfaces of fault
+            >>> ss = []
+            >>> for p1,p2 in zip(cs[:-1],cs[1:]):
+            >>>     p3 = p1.copy()
+            >>>     p3[2] = -4000.
+            >>>     ss.append(lg.surface_plane(p1,p2,p3))
+            >>> # Create region by boolean operations of fault surfaces
+            >>> boolstr = ''
+            >>> for i,s in enumerate(ss):
+            >>>     if not i == 0: boolstr += ' and '
+            >>>     boolstr += 'le '+s.name
+            >>> r = motet.region_bool(boolstr)
+            >>> # Create pset from region
+            >>> p = motet.pset_region(r)
+            >>> # Change imt value for pset
+            >>> p.setatt('imt',21)
+            >>> motet.dump_zone_imt('tet_nefault',21)
+
+        '''
+        if name is None:
+            name = make_name('r',self.region.keys())
+        cmd = '/'.join(['region',name,bool])
+        self.sendline(cmd)
+        self.region[name] = Region(name,self)
+        return self.region[name]
 
  
 class Surface(object):
@@ -2972,9 +3034,9 @@ class PSet(object):
         cmd = '/'.join(['cmo/printatt',self._parent.name,'-xyz-','minmax','pset,get,'+self.name])
         self._parent.sendline(cmd,verbose=verbose)
     def minmax(self,attname=None,stride=[1,0,0]):
-        self._parent.printatt(attname=attname,stride=stride,pset=self.name,type='minmax')
+        self._parent.printatt(attname=attname,stride=stride,pset=self.name,ptype='minmax')
     def list(self,attname=None,stride=[1,0,0]):
-        self._parent.printatt(attname=attname,stride=stride,pset=self.name,type='list')
+        self._parent.printatt(attname=attname,stride=stride,pset=self.name,ptype='list')
     def setatt(self,attname,value):
         cmd = '/'.join(['cmo/setatt',self._parent.name,attname,'pset get '+self.name,str(value)])
         self._parent.sendline(cmd)
@@ -3115,9 +3177,9 @@ class EltSet(object):
         self.faceset = FaceSet(filename,self)
         return self.faceset
     def minmax(self,attname=None,stride=[1,0,0]):
-        self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='minmax')
+        self._parent.printatt(attname=attname,stride=stride,eltset=self.name,ptype='minmax')
     def list(self,attname=None,stride=[1,0,0]):
-        self._parent.printatt(attname=attname,stride=stride,eltset=self.name,type='list')
+        self._parent.printatt(attname=attname,stride=stride,eltset=self.name,ptype='list')
     def refine(self,amr=''):
         '''
         Refine elements in the element set
