@@ -211,10 +211,10 @@ OBJDIR = objects$(SUFF)$(SUFFC)/
 #LIB   = $(PROJ)$(SUFF)$(SUFFC).a
 
 # Hardcoded in for build consistency
-LIB   = util_ulin64_o_gcc.a
+LIB   = lagrit_ulin64_o_gcc.a
 
 ifeq ($(COPT), -g)
-LIB   = util_ulin64_g_gcc.a
+LIB   = lagrit_ulin64_g_gcc.a
 endif
 
 PROG  = $(PROJ)$(SUFF)$(SUFFC)

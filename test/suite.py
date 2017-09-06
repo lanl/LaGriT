@@ -33,21 +33,24 @@ from control02 import Clean as CleanTwo
 
 
 class readable_dir(argparse.Action):
-	def __call__(self,parser, namespace, values, option_string=None):
-		try:
-			prospective_dir = values
-			if not os.path.isdir(prospective_dir):
-					msg = "\nInvalid Directory: {0} is not a valid path\n".format(prospective_dir)
-					raise argparse.ArgumentTypeError()
-			if os.access(prospective_dir, os.R_OK):
-					setattr(namespace,self.dest,prospective_dir)
-			else:
-					msg = "\nInvalid Directory: {0} is not a readable dir\n".format(prospective_dir)
-					raise argparse.ArgumentTypeError()
-		except argparse.ArgumentTypeError:
-			print >>sys.stderr, msg
-			print "/".join(os.listdir(os.curdir))
-			sys.exit(2)
+    def __call__(self,parser, namespace, values, option_string=None):
+        try:
+            prospective_dir = values
+            if not os.path.isdir(prospective_dir):
+                msg = "\nInvalid Directory: {0} is not a valid path\n".format(prospective_dir)
+                raise argparse.ArgumentTypeError()
+            if os.access(prospective_dir, os.R_OK):
+                setattr(namespace,self.dest,prospective_dir)
+            else:
+                msg = "\nInvalid Directory: {0} is not a readable dir\n".format(prospective_dir)
+                raise argparse.ArgumentTypeError()
+        except argparse.ArgumentTypeError:
+            
+            print("here!")
+            
+            print >>sys.stderr, msg
+            print("/".join(os.listdir(os.curdir)))
+            sys.exit(2)
 
 
 ##############################################################################
@@ -63,108 +66,108 @@ class readable_dir(argparse.Action):
 def main(argv=None):
 
         # xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64-gcc4.8.4/lagrit"
-	# xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-16.04-x86_64-gcc5.4.0/lagrit"
-	xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-16.04-x86_64-gcc5.4.0/bin/lagrit"
+    # xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-16.04-x86_64-gcc5.4.0/lagrit"
+    xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-16.04-x86_64-gcc5.4.0/bin/lagrit"
 
-        dtop = os.getcwd() 
+    dtop = os.getcwd() 
 
-	if argv is None:
-		argv = sys.argv
+    if argv is None:
+        argv = sys.argv
 
-	parser = argparse.ArgumentParser(description = "Perform LaGrit Tests", prog = "./suite.py", )
-	parser.add_argument("-f", "--full", help = "Runs the entire test suite, cancels other options", action = "store_true", default = False)
-	parser.add_argument("-l", "--level", help = "Designate level of testing", action = "store", type = int, nargs = 1, default = 0)
-	parser.add_argument("-cl", "--clean", help = "Clean directories of previous test results; cleans default output file unless testfile is specified", action = "store_true")
-	parser.add_argument("-t", "--test", help = "Runs tests on directories; option for out file tag - stdout_[testfile].txt", action = "store_true")
-	parser.add_argument("testfile", help = "Name <tag> for the test's out file stdout_<tag>.txt; default - <tag> = os name", 
-											nargs = "?", default = sys.platform)
-	parser.add_argument("-c", "--check", help = "Checks output files of tests; option for specific directory name [checkdir]", action = "store_true")
-	parser.add_argument("checkdir", help = "Target dir for check function; default - recurse through current dir", action = readable_dir, 
-											default = os.curdir, nargs = "?")
-	parser.add_argument("-exe", "--executable", help = "Path to executable for testing", action = "store", type = str, default = xlagrit)
-	args = parser.parse_args()
+    parser = argparse.ArgumentParser(description = "Perform LaGrit Tests", prog = "./suite.py", )
+    parser.add_argument("-f", "--full", help = "Runs the entire test suite, cancels other options", action = "store_true", default = False)
+    parser.add_argument("-l", "--level", help = "Designate level of testing", action = "store", type = int, nargs = 1, default = 0)
+    parser.add_argument("-cl", "--clean", help = "Clean directories of previous test results; cleans default output file unless testfile is specified", action = "store_true")
+    parser.add_argument("-t", "--test", help = "Runs tests on directories; option for out file tag - stdout_[testfile].txt", action = "store_true")
+    parser.add_argument("testfile", help = "Name <tag> for the test's out file stdout_<tag>.txt; default - <tag> = os name", 
+                                            nargs = "?", default = sys.platform)
+    parser.add_argument("-c", "--check", help = "Checks output files of tests; option for specific directory name [checkdir]", action = "store_true")
+    parser.add_argument("checkdir", help = "Target dir for check function; default - recurse through current dir", action = readable_dir, 
+                                            default = os.curdir, nargs = "?")
+    parser.add_argument("-exe", "--executable", help = "Path to executable for testing", action = "store", type = str, default = xlagrit)
+    args = parser.parse_args()
 
-	if not (args.level or args.full or args.clean or args.test or args.check):
-		args = parser.parse_args("--help".split())
-		sys.exit(2)
-	
+    if not (args.level or args.full or args.clean or args.test or args.check):
+        args = parser.parse_args("--help".split())
+        sys.exit(2)
+    
 
-	if args.full == True:
-		if args.level:
-			if args.level[0] == 1:
-				os.chdir(dtop)
-				os.chdir('level01')
-				OneFull(args)
+    if args.full == True:
+        if args.level:
+            if args.level[0] == 1:
+                os.chdir(dtop)
+                os.chdir('level01')
+                OneFull(args)
 
-			elif args.level[0] == 2:
-                	        os.chdir(dtop)
-                       		os.chdir('level02')
-                        	TwoFull(args)
-		
-		else:
-                	print "Running full tests on level01"                                                                                                                                            
-                	os.chdir(dtop)                                                                                                                                                                  
-                	os.chdir('level01')                                                                                                                                                             
-                	OneFull(args)                                                                                                                                                                   
+            elif args.level[0] == 2:
+                os.chdir(dtop)
+                os.chdir('level02')
+                TwoFull(args)
+        
+        else:
+            print("Running full tests on level01")
+            os.chdir(dtop)                                                                                                                                                                  
+            os.chdir('level01')                                                                                                                                                             
+            OneFull(args)                                                                                                                                                                   
                                                                                                                                                                                                 
-                	print "Running full tests on level02"                                                                                                                                                     
-                	os.chdir(dtop)                                                                                                                                                                  
-                	os.chdir('level02')                                                                                                                                                             
-                	TwoFull(args)  
+            print("Running full tests on level02")
+            os.chdir(dtop)                                                                                                                                                                  
+            os.chdir('level02')                                                                                                                                                             
+            TwoFull(args)  
 
-	else:
-		if args.level:
-			if args.level[0] == 1:
-				os.chdir(dtop)
-				os.chdir('level01')
-				ExecSuiteOne(args)
+    else:
+        if args.level:
+            if args.level[0] == 1:
+                os.chdir(dtop)
+                os.chdir('level01')
+                ExecSuiteOne(args)
 
-			elif args.level[0] == 2:
-				os.chdir(dtop)
-				os.chdir('level02')
-				ExecSuiteTwo(args)
+            elif args.level[0] == 2:
+                os.chdir(dtop)
+                os.chdir('level02')
+                ExecSuiteTwo(args)
 
-		else:
-			if args.clean == True:
-				print("Cleaning level01")
-				os.chdir(dtop)
-				os.chdir('level01')
-				CleanOne(tag=args.testfile)
+        else:
+            if args.clean == True:
+                print("Cleaning level01")
+                os.chdir(dtop)
+                os.chdir('level01')
+                CleanOne(tag=args.testfile)
 
-                        	print("Cleaning level02") 
-                        	os.chdir(dtop) 
-                        	os.chdir('level02')
-                        	CleanTwo(tag=args.testfile) 
+                print("Cleaning level02") 
+                os.chdir(dtop) 
+                os.chdir('level02')
+                CleanTwo(tag=args.testfile) 
 
-			if args.check == True:
-				print("Isolated checking not implemented yet")
-				#print("Checking level01")
-				#os.chdir(dtop)
-				#os.chdir('level01')
-				#CheckOne(args)
+            if args.check == True:
+                print("Isolated checking not implemented yet")
+                #print("Checking level01")
+                #os.chdir(dtop)
+                #os.chdir('level01')
+                #CheckOne(args)
 
-				#print("Checking level02")
-				#os.chdir(dtop)
-				#os.chdir('level02')
-				#CheckTwo(args)
+                #print("Checking level02")
+                #os.chdir(dtop)
+                #os.chdir('level02')
+                #CheckTwo(args)
 
-			if args.test == True:
-				print("Testing level01")
-				os.chdir(dtop)
-				os.chdir('level01')
-				RunTestOne(args)
-                        	
-				print("Testing level02")
-				os.chdir(dtop)
-				os.chdir('level02')
-				RunTestTwo(args)
+            if args.test == True:
+                print("Testing level01")
+                os.chdir(dtop)
+                os.chdir('level01')
+                RunTestOne(args)
+                            
+                print("Testing level02")
+                os.chdir(dtop)
+                os.chdir('level02')
+                RunTestTwo(args)
 
 
- 	sys.exit(2)
-			
+    sys.exit(2)
+            
 # end Main 
 #------------------------------------------------------------------------------
 
 
 if __name__ == "__main__":
-	sys.exit(main())
+    sys.exit(main())
