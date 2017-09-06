@@ -255,11 +255,11 @@ c     otherwise, old util lib is used
 
       if (os_name(1:7) .eq. 'Linux32') then
       write(interfil,8065) Version
- 8065 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux m32      *')
+ 8065 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux (32-bit) *')
 
       else if (os_name(1:7) .eq. 'Linux64') then
       write(interfil,8066) Version
- 8066 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux m64      *')
+ 8066 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux (64-bit) *')
 
       else if (os_name(1:5) .eq. 'Linux') then
       write(interfil,8067) Version
@@ -268,34 +268,34 @@ c     otherwise, old util lib is used
 c     change Darwin to Mac to stay under 8 characters 
       else if (os_name(1:6) .eq. 'Maci32') then
       write(interfil,8165) Version
- 8165 format('*',15x,'*    Program:  LaGriT V',a6,' Mac i386 m32    *')
+ 8165 format('*',15x,'*    Program:  LaGriT V',a6,'  Macintosh      *')
 
       else if (os_name(1:6) .eq. 'Maci64') then
       write(interfil,8166) Version
- 8166 format('*',15x,'*    Program:  LaGriT V',a6,' Mac i386 m64    *')
+ 8166 format('*',15x,'*    Program:  LaGriT V',a6,'  Macintosh      *')
 
       else if (os_name(1:7) .eq. 'MacOS11') then
       write(interfil,8111) Version
- 8111 format('*',15x,'*    Program:  LaGriT V',a6,' Mac OS11        *')
+ 8111 format('*',15x,'*    Program:  LaGriT V',a6,'  macOS 11       *')
 
       else if (os_name(1:7) .eq. 'MacOS12') then
       write(interfil,8112) Version
- 8112 format('*',15x,'*    Program:  LaGriT V',a6,' Mac OS12        *')
+ 8112 format('*',15x,'*    Program:  LaGriT V',a6,'  macOS 12       *')
 
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C older OS no longer supported but kept here just in case someone uses it
 
       else if (os_name(1:5) .eq. 'Mac64') then
       write(interfil,8176) Version
- 8176 format('*',15x,'*    Program:  LaGriT V',a6,' Mac ppc m64     *')
+ 8176 format('*',15x,'*    Program:  LaGriT V',a6,'  macOS          *')
 
       else if (os_name(1:7) .eq. 'Darwini') then
       write(interfil,8177) Version 
- 8177 format('*',15x,'*    Program:  LaGriT V',a6,' Mac intel       *')
+ 8177 format('*',15x,'*    Program:  LaGriT V',a6,'  macOS          *')
 
       else if (os_name(1:7) .eq. 'Darwin ') then
       write(interfil,8178) Version
- 8178 format('*',15x,'*    Program:  LaGriT V',a6,' Mac ppc         *')
+ 8178 format('*',15x,'*    Program:  LaGriT V',a6,'  macOS          *')
 
       else if (os_name(1:5) .eq. 'Sun32') then
       write(interfil,8288) Version

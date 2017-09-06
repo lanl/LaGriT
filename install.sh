@@ -163,6 +163,25 @@ case $i in
 esac
 done
 
+# Relay build config
+if [ $SKIPALL -eq 0 ] ; then
+	tmp="Build configuration: "
+	if [ $BUILD_RELEASE -eq 1 ] ; then
+		tmp="$tmp release"
+	fi
+	if [ $BUILD_STATIC -eq 1 ] ; then
+		tmp="$tmp static"
+	fi
+	if [ $BUILD_DEBUG -eq 1 ] ; then
+		tmp="$tmp debug"
+	fi
+	if [ $BUILD_EXODUS -eq 0 ] ; then
+		tmp="$tmp (no Exodus)"
+	fi
+	echo $tmp
+	echo ""
+fi
+
 #--------------------- TEST IF EXODUS IS BUILT --------------------#
 # The default location for building Exodus is in the LaGriT
 #  directory. This scans that dir for Exodus.
@@ -429,7 +448,7 @@ build_lagrit()
 	        if [ $BUILD_DEBUG -eq 1 ] ; then
 	    		echo "Building LaGriT as: debug, no exodus, static libraries"
 				
-			write_lagrit_header 7
+				write_lagrit_header 7
 				
 	    		LINKERFLAGS=(-g -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
@@ -445,7 +464,7 @@ build_lagrit()
 	        else
 	    		echo "Building LaGriT as: release, no Exodus, static libraries"
 				
-			write_lagrit_header 6
+				write_lagrit_header 6
 				
 	    		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-O -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
@@ -463,7 +482,7 @@ build_lagrit()
 	        if [ $BUILD_DEBUG -eq 1 ] ; then
 	    		echo "Building LaGriT as: debug with static libraries"
 				
-			write_lagrit_header 5
+				write_lagrit_header 5
 				
 	    		LINKERFLAGS=(-g -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-g -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
@@ -479,7 +498,7 @@ build_lagrit()
 	        else
 	    		echo "Building LaGriT as: release with static libraries"
 				
-			write_lagrit_header 3
+				write_lagrit_header 3
 				
 	    		LINKERFLAGS=(-O -static  -fcray-pointer -fdefault-integer-8  -Dlinx64 -c -o)
 	    		BUILDFLAGS=(-O -static -static-libgfortran -fcray-pointer -fdefault-integer-8 -Dlinx64 -o)
@@ -527,7 +546,7 @@ build_lagrit()
 		BUILDSUFFIX=(-lm -lstdc++)
 		MAKEFLAG='MOPT=64'
 	else
-	    	echo "Building LaGriT as: release with shared libraries"
+	    echo "Building LaGriT as: release with shared libraries"
 		
 		write_lagrit_header 1
 		
@@ -579,14 +598,14 @@ build_lagrit()
 	# Copy Exodus headers to LaGriT src/
 	if [ $BUILD_EXODUS -eq 1 ] ; then
 		# Get exodusII.h and exodusII.inc from current version of ExodusII 
-		#cp $ACCESS/../include/exodusII.h .
-		#cp $ACCESS/../include/exodusII.inc .
+		cp $ACCESS/../include/exodusII.h .
+		cp $ACCESS/../include/exodusII.inc .
 		export CPATH=$ACCESS/../include/
 		if [ ! -f "$ACCESS/../include/exodusII.inc" ] ;  then 
 			echo "The file src/exodusII.inc not found, can not complete build." 
 			echo "Not found in $ACCESS/../include/" 
 			echo " " 
-                	exit
+            exit
 		fi
 	fi
 
