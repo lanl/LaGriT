@@ -9,7 +9,7 @@
   The (**no**) opy** options are as described in the **rotateln**
   command.
 
-FORMAT:
+**FORMAT:**
 
 **rotatept** /ifirst,ilast,istride/ 
 [**no**

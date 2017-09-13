@@ -196,7 +196,7 @@ value of its master.
   [delete]
 
 
- EXAMPLES:
+ **EXAMPLES:**
 
 
  

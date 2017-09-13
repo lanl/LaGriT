@@ -16,7 +16,7 @@ title: READ
   whatever data might have been previously contained in the active
   Mesh Object.
 
- FORMAT:
+ **FORMAT:**
 
   avs, lagrit, and gmv formats are supported.  The other formats may
   be used, but no guarantees are made about their capabilities. GoCad

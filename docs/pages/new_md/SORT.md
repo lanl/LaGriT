@@ -92,21 +92,21 @@ in breaking ties. Note: all attributes are put into a real
 *8 work array
 before being sent to the sort routine.
 
-SINGLE KEY FORMAT:
+SINGLE KEY **FORMAT:**
 
  **sort** / cmo\_name / **bins** / 
 [ **ascending  decending** 
 ] /
  sort\_key\_name / sort\_attribute
 
-MULTI-KEY FORMAT:
+MULTI-KEY **FORMAT:**
 
  **sort**/ cmo\_name / **index  rank** / 
 [ **ascending  decending**
  
 ] / sort\_key\_name / in\_att1, in\_att2, in\_att3 ...
 
-EXAMPLES:
+**EXAMPLES:**
 
  **sort** / cmo / **index / ascending** / ikey / imt zic yic xic
 

@@ -24,7 +24,7 @@ It is assumed that the mesh is not yet connected.
 
  
 
-FORMAT:
+**FORMAT:**
 
 **perturb/pset,get,psetnam**e/xfactor,yfactor,zfactor
 

@@ -121,7 +121,7 @@ the weight argument controls the amount of movement (from 0. to 1.
 default is 1.).  Combining this type of smooth with volume smoothing
 will help to avoid element inversions.
 
-FORMAT:
+**FORMAT:**
 
 **smooth****/position****/esug****mega****geometry****elliptic****random**/
 
@@ -170,7 +170,7 @@ ignored.
 ]/
 [**check****nocheck**
 
-EXAMPLES:
+**EXAMPLES:**
 
  
 

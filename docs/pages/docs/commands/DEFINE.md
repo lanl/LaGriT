@@ -5,7 +5,7 @@
   number. The keyword *remove* in the third argument will remove a
   defined variable from the stack of defined variables.
   
-FORMAT:
+**FORMAT:**
 
 define / name / value_real
 

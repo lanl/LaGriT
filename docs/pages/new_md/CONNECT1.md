@@ -76,7 +76,7 @@ title: CONNECT
 
    
 
- FORMAT:
+ **FORMAT:**
 
   **connect**/
 [**delaunay**
@@ -86,7 +86,7 @@ title: CONNECT
 
   connect****/check\_interface**
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **connect**
 

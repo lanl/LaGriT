@@ -42,7 +42,7 @@ title: RM
 
  
 
- FORMAT:
+ **FORMAT:**
 
   **rm** / geometry
   /ifirst,ilast,istride/xmin,ymin,zmin/xmax,ymax,zmax/ xcen,ycen,zcen

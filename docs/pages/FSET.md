@@ -2,7 +2,7 @@ This command is used to define a set of element faces. Defining
 face sets can be useful for either defining boundary conditions,
 material interfaces, or surface subsets for further mesh processing.
 
- FORMAT:
+ **FORMAT:**
 
   fset / name / pset, get, pointsetname
   

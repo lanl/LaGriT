@@ -34,6 +34,6 @@ unitless multipliers with reference to some geometric center
 scaling factors are constants added on to the existing coordinates. 
 That is, absolute is really a translation rather than a rescale.
 
-**FORMAT:**
+****FORMAT:****
 
 **scale**/ifirst,ilast,istride**/absolute****relative**/xyz/rtzrtp/iscale,jscale,kscale/xcen,ycen,zcen

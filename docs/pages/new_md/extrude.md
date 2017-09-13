@@ -22,7 +22,7 @@ title: EXTRUDE
   defined vector, the command can optionally find the external surface
   of the volume created and return that to the user.
 
- FORMAT:
+ **FORMAT:**
 
   **extrude**/mesh1/mesh2**/constmin**/offset**/volumebubble**/
 [**norm**x1,y1,z1
@@ -92,7 +92,7 @@ title: EXTRUDE
  Otherwise, if a vector value is specified, the vector is normalized,
  and its direction used to extrude the initial mesh.
 
- NOTES:
+ **NOTES:**
 
   This code works on meshes containing lines, quads, triangles, or
   hybrid polygons. If there are lines in the initial mesh, they become
@@ -112,7 +112,7 @@ title: EXTRUDE
   point in **range2** in the final mesh object, etc. Other setups will
   result in a twisted, perhaps invalid mesh object.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **extrude**/cmo\_hex/cmo\_quad**/const**/5.0**/volume**
 

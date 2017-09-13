@@ -60,7 +60,7 @@
 
    
 
- FORMAT:
+ **FORMAT:**
 
   **connect**/
 [**delaunay**
@@ -70,7 +70,7 @@
 
   **connect****/heck\_interface**
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **connect**
 

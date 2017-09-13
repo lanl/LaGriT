@@ -22,7 +22,7 @@ cmo/attribute\_derive
  The command needs a target mesh to be designated. If no source mesh is
  given, it will use the current mesh object.
 
- FORMAT:
+ **FORMAT:**
 
   mo/attribute\_derive** / sink\_mo\_name /  
 [ src\_mo\_name 
@@ -30,7 +30,7 @@ cmo/attribute\_derive
 
  
 
- EXAMPLES:
+ **EXAMPLES:**
 
   [mo****/attribute\_derive**/cmo\_sink/cmo\_src]{.style1
   [mo****/attribute\_derive**/empty\_cmo]{.style1
@@ -53,14 +53,14 @@ cmo/attribute\_union
 
  The command needs both meshes to be designated.
 
- FORMAT:
+ **FORMAT:**
 
   mo/attribute\_union** / sink\_mo\_name /  src\_mo\_name
 
 
  
 
- EXAMPLES:
+ **EXAMPLES:**
 
   [mo****/attribute\_derive**/cmo2/cmo1]{.style1
   []{.style1

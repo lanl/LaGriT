@@ -20,7 +20,7 @@ GENERATOR: 'Mozilla/4.05C-SGI
 
  number\_elements required.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   mo/memory**/ mo\_tet2/1000/10000
 

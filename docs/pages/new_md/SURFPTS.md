@@ -21,7 +21,7 @@ title: SURFPTS
   a region is determined by iregpt and can be on the **inside**,
   **outside** or **both** surfaces.
 
- FORMAT:
+ **FORMAT:**
 
   **surfpts**/itype/iname/iregpt/ifirst,ilast,istride/geom/ray\_origin
 

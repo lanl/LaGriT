@@ -5,7 +5,7 @@
   is the output file called outx3dgen. Default is **on** for both
   files.
 
- FORMAT:
+ **FORMAT:**
 
   **log****/baty****/on**|**off**/
 

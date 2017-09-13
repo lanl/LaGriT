@@ -54,7 +54,7 @@ title: RZ
 
    
 
- FORMAT:
+ **FORMAT:**
 
  **rz****/xyz****rtz****rtp**ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
 
@@ -66,7 +66,7 @@ title: RZ
 
   
 
- EXAMPLES:
+ **EXAMPLES:**
 
  **rz****/xyz****/5,3,10****/0.,2.,0.****/5.,6.,2.****/1,1,1**/
 

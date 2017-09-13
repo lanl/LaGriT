@@ -131,7 +131,7 @@ title: FIELD
   At the time the lower\_d structures are created color table
   attributes: d0\_clrtab, d0\_nclrs, .. are also created.
 
- FORMAT:
+ **FORMAT:**
 
   **lower\_d** / **create**/ 
 [cmo\_name
@@ -163,6 +163,6 @@ title: FIELD
 
     these commands are advised for expert users only.
 
- EXAMPLES:
+ **EXAMPLES:**
 
  

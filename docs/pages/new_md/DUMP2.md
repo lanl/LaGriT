@@ -23,7 +23,7 @@ command.
 **cmo****/setatt**/**/ipolydat****/no** to prevent polygon data to be
 written to GMV files.
 
-FORMAT:
+**FORMAT:**
 
 **dump**/file\_type/file\_name/
 [cmo\_name

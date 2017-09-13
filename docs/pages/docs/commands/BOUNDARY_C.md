@@ -47,7 +47,7 @@
   are examined. Elements with itetclr ¹ material\_id\_number are
   assigned **numbnd\_e** = 0.
 
- FORMAT:
+ **FORMAT:**
 
   **boundary\_components**- (this syntax is the same as
   boundary\_components / node)

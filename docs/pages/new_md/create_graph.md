@@ -51,7 +51,7 @@ LIMITATIONS
  them with the LAGriT libraries. See instructions in documentation of
  the [metis](metis.md) command.
 
-FORMAT:
+**FORMAT:**
 
  create\_graph / metis / 
 [node  dual
@@ -61,7 +61,7 @@ FORMAT:
 [nadjncy
 ]
 
-EXAMPLES:
+**EXAMPLES:**
 
  create\_graph / metis / dual / -def- / -def-
 

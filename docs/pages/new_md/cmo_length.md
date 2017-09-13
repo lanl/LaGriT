@@ -18,7 +18,7 @@ att\_name **** is type character, default is **-all-**
 Returns the memory length of attribute att\_name for Mesh Object,
 mo\_name.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **cmo/length**/mo\_tet2/boron
 

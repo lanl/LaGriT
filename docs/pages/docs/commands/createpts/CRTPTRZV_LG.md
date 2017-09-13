@@ -19,7 +19,7 @@ title: RZS
   step in the i-th direction away from the initial point. No attempt
   is made to insure that the 3 vectors are independent.
 
- FORMAT:
+ **FORMAT:**
 
 reatepts/vector**/
 [ xyzrtzrtp /
@@ -40,7 +40,7 @@ default = 1:      r~ij~
 
  
 
-EXAMPLES:
+**EXAMPLES:**
 
 spiral of points
 

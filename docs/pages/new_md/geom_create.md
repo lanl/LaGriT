@@ -16,6 +16,6 @@ GENERATOR: 'Mozilla/4.7
   use the [cmo/geometry](cmo_geom.md) command.  See III.E for a
   discussion of geometry.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **geometry/create**/new\_geom/

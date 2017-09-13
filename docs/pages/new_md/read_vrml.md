@@ -11,6 +11,6 @@ GENERATOR: 'Mozilla/4.72
 
   read a 'vrml' file
 
- FORMAT:
+ **FORMAT:**
 
   **read****/vrml**/file-name

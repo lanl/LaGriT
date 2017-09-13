@@ -15,7 +15,7 @@ GENERATOR: 'Mozilla/4.05C-SGI
  distribution will be passed to **** connect to generate a tetrahedra
  mesh.
 
- FORMAT:
+ **FORMAT:**
 
   **rzamr**/region\_name/number\_of\_levels
 
@@ -32,7 +32,7 @@ GENERATOR: 'Mozilla/4.05C-SGI
 
    
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **rzamr**    refine the entire mesh
 

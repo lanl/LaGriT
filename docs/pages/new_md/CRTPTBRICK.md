@@ -42,7 +42,7 @@ name name of pset containing starting point number
 
 isym,jsym,ksym symmetry flags - not documented
 
-FORMAT:
+**FORMAT:**
 
 **createpts/brick****/xyz****rtz****rtp**/ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
 
@@ -58,7 +58,7 @@ Use this option with **quadxyz** to connect logically rectangular grids.
 
 
 
-EXAMPLES:
+**EXAMPLES:**
 
          **createpts/brick/xyz**/3,2,3/0.,0.,0./1.,1.,1./1,1,1
 

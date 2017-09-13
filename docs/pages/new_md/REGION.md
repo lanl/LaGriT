@@ -53,7 +53,7 @@ title: REGION
    [geometry](geometries.md)of the current mesh object.  Releasing
    the  region will remove this information.
 
- FORMAT:
+ **FORMAT:**
 
   **region**/region\_name/region definition
 
@@ -61,7 +61,7 @@ title: REGION
 
    
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **region**/reg1**/le** sphere1 **and** ( **lt** plane1 **or** **gt**
   plane2 )

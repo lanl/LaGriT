@@ -31,7 +31,7 @@ MATH
  stored in the sink\_attr. These functions are not implemented for
  attributes whose values are integers.
 
-FORMAT:
+**FORMAT:**
 
  **math** / operation / cmo\_sink/attr\_sink / range
  /cmo\_src/attr\_src / 
@@ -129,7 +129,7 @@ or can be a cmo attribute. The following are possible forms:
 
 
 
-EXAMPLES:
+**EXAMPLES:**
 
 **math****/multiply**/sink\_mo/sink\_attribute/50,60,3/src\_mo/src\_attribute/1.0
 

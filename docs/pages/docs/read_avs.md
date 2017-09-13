@@ -4,7 +4,7 @@ read in an AVS file.  This file format contains no geometry
 information.  This command requires either cmo-name to be given in
 the command or for a mesh object to have been created previously.
 
-SHORT FORMAT:
+SHORT **FORMAT:**
 
 **read**/filename.
 [inpavs
@@ -15,7 +15,7 @@ SHORT FORMAT:
 [Note that the filename is case-sensitive, though the extension
 itself is not.]
 
-LONG FORMAT:
+LONG **FORMAT:**
 
 **read****/avs**/filename/
 [cmo-name
@@ -31,7 +31,7 @@ node\_flag  |  (default=1) |  0 skip node data /  1 read node data
 element\_flag |    (default=1) |  0 skip element data / 1 read element data
 attribute\_flag |  (default=1) |  0 skip attribute data / 1 read attribute data
 
-EXAMPLES:
+**EXAMPLES:**
 
     **read****/avs**/file1/cmo1
 

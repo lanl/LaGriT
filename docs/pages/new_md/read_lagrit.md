@@ -11,7 +11,7 @@ GENERATOR: 'Mozilla/4.72
 
   read in a lagrit restart file
 
- FORMAT:
+ **FORMAT:**
 
   **read****/lagrit**/file\_name/
 [cmo-name
@@ -26,7 +26,7 @@ GENERATOR: 'Mozilla/4.72
       The default is **ascii**, but the code will determine file type
   if nessary.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **read****/lagrit**/file1        file1 will be read as ascii.  If
   the read fails to find the ascii check string, the file will be

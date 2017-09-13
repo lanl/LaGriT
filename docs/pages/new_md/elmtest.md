@@ -22,14 +22,14 @@ title: FIELD
   if the node numbers are the same even if a node number appears more
   that once.
 
- FORMAT:
+ **FORMAT:**
 
   **elmtest** /
 [/nwrite
 ] where nwrite is the number of warning
   messages to print.  The default for nwrite is 20.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **elmtest**
 

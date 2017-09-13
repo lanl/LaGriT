@@ -15,7 +15,7 @@ GENERATOR: 'Mozilla/4.05C-SGI
 
   Deletes the Mesh Object mo\_name.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **cmo/release**/mo\_tet2
 

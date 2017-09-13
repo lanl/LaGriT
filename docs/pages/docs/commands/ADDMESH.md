@@ -3,7 +3,7 @@
   This routine joins two meshes together at their common interface to
   produce a third mesh.
 
- FORMAT:
+ **FORMAT:**
 
   **addmesh / add** /mesh3 / mesh1 / mesh2 / [refine\_factor] / [tet **edge**]
 

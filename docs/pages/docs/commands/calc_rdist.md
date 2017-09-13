@@ -1,14 +1,3 @@
----
-GENERATOR: 'Mozilla/4.72 
-[en
-] (X11; U; Linux 2.2.14-5.0 i686) 
-[Netscape
-]'
-title: 'CALC\_RDIST'
----
-
-  
-
  **CALC\_RDIST**
 
   This command is a macro command that calculates the radial distance
@@ -22,13 +11,9 @@ title: 'CALC\_RDIST'
   named ictrpt, contains an index that specifies the center point that
   was used for this calculation.
 
- FORMAT:
+ **FORMAT:**
 
-  alc\_rdist**/x0,y0,z0/
-[radius\_index
-]/
-[**pset,get,**pset\_nameifirst,ilast,istride
-]
+  **calc\_rdist**/x0,y0,z0/ [radius\_index] / [**pset,get,** pset\_name, ifirst,ilast,istride]
  
   x0,y0,z0 are the coordinates of the center point used in the
   calculation.
@@ -41,24 +26,24 @@ title: 'CALC\_RDIST'
   non-value for this attribute is 0 (i.e., if there is no radius
   index, the value of ictrpt will be 0).
  
-  The last argument that alc\_rdist** takes specifies the range
+  The last argument that **calc\_rdist** takes specifies the range
   over which the command will be executed. If it is omitted, the whole
   grid is assumed.
 
- NOTES:
+ **NOTES:**
 
   This command is a macro command. It does not add any new
   functionality.
 
- EXAMPLES:
+ **EXAMPLES:**
 
-  alc\_rdist**/0,0,0
+  **calc\_rdist**/0,0,0
  
    This command would calculate the distance from the origin to all
    points in the mesh, and place the values in rdist. It would not
    modify ictrpt in any way.
  
-  alc\_rdist**/1,0.25,1/10/pset,get,big\_sphere
+  **calc\_rdist**/1,0.25,1/10/pset,get,big\_sphere
  
    This command would calculate the distance from the point 1,0.25,1
    to all the points within the pset big\_sphere. It would place

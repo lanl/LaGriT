@@ -120,7 +120,7 @@ The following memory keywords are recognized:
 
 
 
-EXAMPLES:
+**EXAMPLES:**
 
 
 

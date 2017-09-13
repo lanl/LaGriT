@@ -25,7 +25,7 @@ loop
 
  
 
-FORMAT:
+**FORMAT:**
 
  **loop**/ **do** / variable / loop\_start / loop\_stop / loop\_stride
  / **loop\_end** / LaGriT\_command
@@ -57,7 +57,7 @@ FORMAT:
 
   
 
-EXAMPLES:
+**EXAMPLES:**
 
  **loop / foreach** / MO / cmo1 cmo2 cmo3 / **loop\_end** / mo** /
  **delete** / MO

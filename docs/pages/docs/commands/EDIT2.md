@@ -18,7 +18,7 @@
    points. Possible array values are: xic,yic,zic,or mesh object
    attribute name
 
- FORMAT:
+ **FORMAT:**
 
   **edit** / iopt / ifirst,ilast,istride / material\_
 #\_or\_name/
@@ -35,7 +35,7 @@
 
    
 
- EXAMPLES:
+ **EXAMPLES:**
 
   
 

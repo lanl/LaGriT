@@ -2,6 +2,6 @@
 
   read a 'vrml' file
 
- FORMAT:
+ **FORMAT:**
 
   **read****/vrml**/file-name

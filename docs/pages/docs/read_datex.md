@@ -2,6 +2,6 @@
 
 read a 'datax' file
 
-FORMAT:
+**FORMAT:**
 
 **read****/datex**/file\_name

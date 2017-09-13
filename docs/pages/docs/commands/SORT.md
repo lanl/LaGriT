@@ -156,7 +156,7 @@ in breaking ties. Note: all attributes are put into a real
 *8 work array
 before being sent to the sort routine.
 
-SINGLE KEY bins FORMAT:
+SINGLE KEY bins **FORMAT:**
 
  **sort** / cmo\_name / **bins** / 
 [ **ascending  descending** 
@@ -165,14 +165,14 @@ SINGLE KEY bins FORMAT:
 [epsilon\_user
 ]
 
-MULTI-KEY FORMAT:
+MULTI-KEY **FORMAT:**
 
  **sort**/ cmo\_name / **index  rank** / 
 [ **ascending  descending**
  
 ] / sort\_key\_name / in\_att1, in\_att2, in\_att3 ...
 
-LINE GRAPH FORMAT:
+LINE GRAPH **FORMAT:**
 
  **sort** / cmo\_name / **line\_graph** / 
 [ **ascending  descending**
@@ -181,7 +181,7 @@ LINE GRAPH FORMAT:
 [**elements  nodes**
 ]
 
-EXAMPLES:
+**EXAMPLES:**
 
  **sort** / cmo / **index / ascending** / ikey / imt zic yic xic
 

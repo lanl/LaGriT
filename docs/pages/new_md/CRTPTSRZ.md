@@ -55,7 +55,7 @@ title: RZ
 
    
 
- FORMAT:
+ **FORMAT:**
 
   
 
@@ -67,7 +67,7 @@ title: RZ
 
  **createpts/line**/np///xmin,ymin,zmin,xmax,ymax,zmax/iiz,ijz,ikz/
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **createpts/xyz**/5,3,10/0.,2.,0./5.,6.,2./1,1,1/
 

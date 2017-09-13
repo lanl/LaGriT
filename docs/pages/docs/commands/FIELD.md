@@ -62,7 +62,7 @@
   However, again unlike the **median**. choice, it requires that the
   mesh be Delaunay, or incorrect results will occur.
 
- FORMAT:
+ **FORMAT:**
 
   **field****/compose**/composition
   function/ifirst,ilast,istride/field list/
@@ -75,6 +75,6 @@
   **field****/volavg**/averaging
   option/iterations/ifirst,ilast,istride/filed list/
 
- EXAMPLES:
+ **EXAMPLES:**
 
      field/compose/asinh/1,0,0/field/scale/normalize/4.field/volavg/voronoi/4/1

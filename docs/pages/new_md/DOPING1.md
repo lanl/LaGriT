@@ -108,7 +108,7 @@ title: DOPING
   unpredictable at interface boundaries because the value of parent
   nodes are unpredictable there.
  
-  FORMAT:
+  **FORMAT:**
  
    **doping****/constant**/field\_out**/setaddsub**/
    ifirst,ilast,istride/value

@@ -8,7 +8,7 @@ IMPORTANT NOTE: This command, while still recognized, is officially unsupported.
  2D the elements are converted to triangles. The first parameter
  ioption determines how the conversion is performed.
 
-FORMAT:
+**FORMAT:**
 
  **hextotet**/ 
 [ ioption 
@@ -67,7 +67,7 @@ are not removed from the new mesh object cmo\_snk.
 
 
 
-EXAMPLES:
+**EXAMPLES:**
 
  **hextotet** / **24** / cmo\_tet / cmo\_hex
  Convert each hex element in cmo\_hex to 24 tets and name the new grid

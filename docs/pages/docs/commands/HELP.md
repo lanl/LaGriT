@@ -3,10 +3,10 @@
   **help**/code\_variable will return the variable definition and the
   correct value of the variable.
 
- FORMAT:
+ **FORMAT:**
 
   **help**/variable\_name
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **help****/ipointi**

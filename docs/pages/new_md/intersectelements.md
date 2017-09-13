@@ -10,13 +10,13 @@ title: INTERSECTELEMENTS
 
  We define intersection as two elements sharing any common point.
 
-FORMAT:
+**FORMAT:**
 
  **intersect\_elements** / mesh1 / mesh2 / 
 [attrib\_name
 ]
 
-NOTES:
+**NOTES:**
 
  
 [attrib\_name
@@ -71,7 +71,7 @@ NOTES:
  improved by refining mesh2 such that its elements are of comparable
  size with those of mesh1.
 
-EXAMPLES:
+**EXAMPLES:**
 
  **intersect\_elements**/cmo\_grid/cmo\_sphere/
 

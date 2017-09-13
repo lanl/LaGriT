@@ -103,7 +103,7 @@ title: RADAPT
   r-adaption, **maxiter**\_**sm** should be reduced (e.g. less than
   4).
 
- FORMAT:
+ **FORMAT:**
 
   **radapt** **/
 [position**
@@ -131,7 +131,7 @@ title: RADAPT
 [**user**
 ]
 
- EXAMPLES:
+ **EXAMPLES:**
 
   Using **esug**, adapt all nodes in 2dmesh to the density field. Do
   not update data.

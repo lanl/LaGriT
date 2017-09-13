@@ -14,6 +14,6 @@ title: RMREGION
 
   Removes points that lie within the specified region.
 
-**FORMAT:**
+****FORMAT:****
 
 **rmregion**/region\_name/

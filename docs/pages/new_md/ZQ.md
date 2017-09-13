@@ -29,7 +29,7 @@ to this value.
 Attribute added with a **cmo/addatt** command may also be printed or
 changed.
 
-FORMAT:
+**FORMAT:**
 
 **zq**/iattribute/ifirst,ilast,istride/value
 

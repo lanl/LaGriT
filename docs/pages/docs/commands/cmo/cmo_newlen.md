@@ -16,7 +16,7 @@ GENERATOR: 'Mozilla/4.05C-SGI
      Changes the length of all memory managed arrays for Mesh Object
  mo\_name to the proper length.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   mo/newlen**/ mo\_tet2
 

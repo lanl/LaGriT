@@ -12,7 +12,7 @@ colormap is used to recolor the mesh object.  Three dump types are
 available:  "**gmv**", "**LaGriT**" and "**avs**". iomode can be
 **ascii** or **binary**; **binary** is the default.
 
-FORMAT:
+**FORMAT:**
 
  **dump\_recolor/ype/file/mo/
 [**restore

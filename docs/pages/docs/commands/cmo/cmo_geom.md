@@ -22,7 +22,7 @@ GENERATOR: 'Mozilla/4.7
   **[cmo/constraint](cmo_constraint.md)ommand might also be
   required.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **geometry/create**/blobgeom/
 

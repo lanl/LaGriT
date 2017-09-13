@@ -22,7 +22,7 @@ GENERATOR: 'Mozilla/4.7
   Release all data structures related to geometry, geom\_name and
   remove geom\_name from the list of geometries.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **geometry/create**/new\_geom/
 

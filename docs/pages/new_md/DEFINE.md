@@ -16,7 +16,7 @@ title: DEFINE
   the character string can be used in input decks in place of the 
   number.
 
-  FORMAT:
+  **FORMAT:**
 
   **define**/name/value
 

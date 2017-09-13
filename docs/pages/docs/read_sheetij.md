@@ -7,7 +7,7 @@
  attribute "zic". For node attribute values of f(i,j), use addatt and
  copyatt as shown in the examples below.
 
- FORMAT:
+ **FORMAT:**
 
  **read****/sheetij**/ file\_name /nx,ny/minx,miny/dx,dy 
 [options
@@ -50,7 +50,7 @@ Option | Description
 **xflip** or **yflip**    | reflect along x or y axis (default = no reflection) 
 --------------------------- ---------------------------------------------------------------
 
- EXAMPLES:
+ **EXAMPLES:**
 
   for data file with header - test\_hdr.dat,  showing nx, ny, min x, min y, dx, dy
 
@@ -97,7 +97,7 @@ Option | Description
              cmo / setatt / cmot / zic / 0.
 
 
-TEST EXAMPLES:
+TEST **EXAMPLES:**
 
 
 Test file for sheetij: [LaGriT\_input00](lagrit_input00)

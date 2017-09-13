@@ -31,7 +31,7 @@ title: ROTATELN
   Note:  The end points of the  line segment must extend well beyond
   the point set being rotated.
 
-FORMAT:
+**FORMAT:**
 
 **rotateln** /ifirst,ilast,istride/ 
 [**no**

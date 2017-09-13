@@ -23,7 +23,7 @@ title: READ
   updated. When nodes are reordered, all node based attributes are
   also reordered. Arrays such as isn are also updated.
 
- FORMAT:
+ **FORMAT:**
 
   **reorder**/cmo\_name/sort\_key/
 

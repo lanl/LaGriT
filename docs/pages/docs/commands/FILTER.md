@@ -98,7 +98,7 @@
    For more on **filter/element** see [filter/element
    details.](FILTER_element.md)
 
-  EXAMPLES:
+  **EXAMPLES:**
 
   **filterkd**/1,0,0
 

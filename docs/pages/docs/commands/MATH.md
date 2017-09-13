@@ -23,7 +23,7 @@ MATH
  and **ceiling** are not implemented for attributes whose values are
  integers.
 
-FORMAT:
+**FORMAT:**
 
  **math** / operation / cmo\_sink/attr\_sink / range
  /cmo\_src/attr\_src / 
@@ -126,7 +126,7 @@ or can be a cmo attribute. The following are possible forms:
 
  /constant/ is a numerical value
 
-EXAMPLES:
+**EXAMPLES:**
 
 **math/multiply**/sink\_mo/sink\_attribute/50,60,3/src\_mo/src\_attribute/1.0
 

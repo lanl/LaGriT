@@ -4,7 +4,7 @@
   whatever data might have been previously contained in the active
   Mesh Object.
 
- FORMAT:
+ **FORMAT:**
 
   avs, LaGriT, and gmv formats are supported.  The other formats may
   be used, but no guarantees are made about their capabilities. goCad
@@ -38,7 +38,7 @@
   Note: To read tabular data (spreadsheet style x,y,z nodes or
   attributes) see: [cmo/readatt/...](cmo/cmo_readatt.md)
 
- EXAMPLES:
+ **EXAMPLES:**
 
     read / gmv / myfile / mesh_object_name
     

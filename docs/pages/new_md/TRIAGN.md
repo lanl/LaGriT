@@ -18,7 +18,7 @@ define a legal perimeter (i.e. that segments of the perimeter do not
 cross).  The code will connect the last node to the first node to
 complete the perimeter.
 
-FORMAT:
+**FORMAT:**
 
 **triangulate** 
 [**/clockwise**  **counterclockwise**
@@ -29,7 +29,7 @@ the xy plane.
 
  
 
-EXAMPLES:
+**EXAMPLES:**
 
 **triangulate**
 

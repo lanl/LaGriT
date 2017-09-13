@@ -37,7 +37,7 @@ title: DEREFINE
   used to improve the mesh. **recon** may be used to return to a
   delaunay mesh after using the **derefine** command.
 
- FORMAT:
+ **FORMAT:**
 
   **derefine/minsize**/field/pointtype1
   pointtype2/refine\_type/first\_point/last\_point/stride/value

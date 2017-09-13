@@ -110,7 +110,7 @@ constraints.  The node's **icr** value is used as an index to the
 chapter III, A](../meshobject.md) for an explanation of the
 **icontab** entries.
 
-FORMAT:
+**FORMAT:**
 
 **pset**/pset name
 

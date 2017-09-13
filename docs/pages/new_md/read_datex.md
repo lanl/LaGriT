@@ -11,6 +11,6 @@ GENERATOR: 'Mozilla/4.72
 
   read a 'datax' file
 
- FORMAT:
+ **FORMAT:**
 
   **read****/datex**/file\_name

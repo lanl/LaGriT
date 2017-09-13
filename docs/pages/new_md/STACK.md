@@ -173,7 +173,7 @@ elements will be hex.
 
 
 
-FORMAT:
+**FORMAT:**
 
  **stack/layers**
 
@@ -227,7 +227,7 @@ FORMAT:
 
 
 
-EXAMPLES:
+**EXAMPLES:**
 
  cmo create cmo\_stack
 

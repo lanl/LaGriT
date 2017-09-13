@@ -21,7 +21,7 @@ GENERATOR: 'Mozilla/4.05C-SGI
 
   If mo\_name exists it is over written.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   mo/copy/mo\_tet2/mo\_tet1**
 

@@ -16,7 +16,7 @@ title: BUBBLE
  user.
  This operation will result in a closed surface.
 
-FORMAT:
+**FORMAT:**
 
  **bubble**/mesh1/mesh2**/constmin**/offset/
 [**norm**x1,y1,z1
@@ -54,7 +54,7 @@ computed, and the initial mesh is extruded in that direction. Otherwise,
 if a vector value is specified, the vector is normalized, and its
 direction used to extrude the initial mesh.
 
-NOTES:
+**NOTES:**
 
  This code works on meshes containing quads, triangles, or hybrid
  polygons.
@@ -72,7 +72,7 @@ NOTES:
  **bubble**'s functionality with **extrude** and to eliminate
  **bubble** from the commands recognized by LaGriT.
 
-EXAMPLES:
+**EXAMPLES:**
 
  **bubble**/cmo\_bigbox/cmo\_quad**/const**/5.0/
 

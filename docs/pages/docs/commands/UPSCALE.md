@@ -189,7 +189,7 @@ UPSCALE
    exists, but user is not sure the current sink mesh is the same as
    used to create the attribute.
  
-  FORMAT:
+  **FORMAT:**
  
    **upscale** / scale\_method / cmosink, attsink /1,0,0/ cmosrc,
    attsrc / &
@@ -197,7 +197,7 @@ UPSCALE
     [ **keepatt  delatt** ]  [ **set\_id** ]  [ **single 
    divide** ]
  
-  EXAMPLES:
+  **EXAMPLES:**
  
    upscale / sum / cmo_sink icount /1,0,0/ cmo_src ival
 

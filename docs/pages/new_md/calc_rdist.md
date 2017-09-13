@@ -22,7 +22,7 @@ title: 'CALC\_RDIST'
   named ictrpt, contains an index that specifies the center point that
   was used for this calculation.
 
- FORMAT:
+ **FORMAT:**
 
   **calc\_rdist**/x0,y0,z0/
 [radius\_index
@@ -45,12 +45,12 @@ title: 'CALC\_RDIST'
   over which the command will be executed. If it is omitted, the whole
   grid is assumed.
 
- NOTES:
+ **NOTES:**
 
   This command is a macro command. It does not add any new
   functionality.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **calc\_rdist**/0,0,0
  

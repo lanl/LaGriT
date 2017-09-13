@@ -25,7 +25,7 @@ value is type integer or real depending on the type of the attribute.
 Sets the value of the specified attribute in the given range to the
 supplied value.
 Note:  This command requires that the mesh contains one or more nodes.
-EXAMPLES:
+**EXAMPLES:**
 mo/setatt/mo/itp1/1,0,0/0
 
 mo/setatt**/ 3dmesh**/itetclr****/eltset**,**get**,blue/3

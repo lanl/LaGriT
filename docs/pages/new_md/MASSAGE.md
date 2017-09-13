@@ -195,7 +195,7 @@ title: MASSAGE
  Note: The user may wish to issue a "**RMPOINT/COMPRESS**" after
  **MASSAGE** operations that merge a significant number of nodes.
 
- FORMAT:
+ **FORMAT:**
 
  **massage**/bisection\_length/merge\_length/toldamage/
 [[tolroughness]{style="font-family: monospace;"
@@ -224,7 +224,7 @@ title: MASSAGE
 
  
 
- EXAMPLES:
+ **EXAMPLES:**
 
  **massage**/[0.3/0.1/0.01]{style="font-family: courier new,courier,monospace;"/
 

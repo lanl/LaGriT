@@ -5,6 +5,6 @@
   Thus, after calling **REFINE2D** once, a triangle will be
   tessellated into 4 triangles.
 
- FORMAT:
+ **FORMAT:**
 
   **refine2d**

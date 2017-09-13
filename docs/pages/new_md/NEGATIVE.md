@@ -45,7 +45,7 @@ The **rivara** option uses a rivara refinement method to add nodes on
 exterior boundary edges until all coupling coefficients are positive or
 until a maximum number of iterations has been exceeded.
 
-FORMAT:
+**FORMAT:**
 
 **negative\_aij**
 
@@ -57,7 +57,7 @@ FORMAT:
 
 **negative\_aij/rivara**
 
-EXAMPLES:
+**EXAMPLES:**
 
 **negative\_aij**
 

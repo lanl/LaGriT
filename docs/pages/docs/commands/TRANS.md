@@ -30,7 +30,7 @@ the x and y axes, the z values will not change.
 
  
 
-FORMAT:
+**FORMAT:**
 
 rans**/ifirst,ilast,istride/xold,yold,zold/xnew,ynew,znew
 

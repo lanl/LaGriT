@@ -18,7 +18,7 @@ delete an attribute with a persistence of 'permanent'.
 
 att\_name must be specified.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   mo/delatt**/ mo\_tet2/boron
 
@@ -38,6 +38,6 @@ att\_name must be specified.
 
   att\_name must be specified.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   mo/DELATT**/ mo\_tet2/xic

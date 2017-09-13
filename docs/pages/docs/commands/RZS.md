@@ -63,13 +63,13 @@ itype = diamond generates the points for one diamond of the icosahedron
 
  
 
-FORMAT:
+**FORMAT:**
 
 **rzs**/itype/nr,npt,xirad,xorad/xcen,ycen,zcen/iz/irat,rz/
 
  
 
-EXAMPLES:
+**EXAMPLES:**
 
 **rzs**/8/5/162/1.0,0.5/0.,0.,0./1,0,0.0/
 

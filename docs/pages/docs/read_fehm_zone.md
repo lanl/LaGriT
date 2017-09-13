@@ -30,7 +30,7 @@
 
   file\_name can be up to 32 characters.
 
- FORMAT:
+ **FORMAT:**
 
   **read / zone  zonn / file\_name / 
 [mo\_name  -def- 
@@ -53,7 +53,7 @@
       pset / p\_nodes / attribute / id\_nodes / 1 0 0 / 0 / ne
 
 
-  ZONE/ZONN FILE FORMAT:
+  ZONE/ZONN FILE **FORMAT:**
 
   The format of a zone file is specified in the FEHM Users Manual
   (<http://FEHM.lanl.gov). The general format is:

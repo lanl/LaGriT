@@ -16,7 +16,7 @@
 
    **restore** recall the last saved coordinate system
 
- FORMAT:
+ **FORMAT:**
 
   **coordsys**/iopt/x0,y0,z0/xx,xy,xz/zx,zy,zz
 

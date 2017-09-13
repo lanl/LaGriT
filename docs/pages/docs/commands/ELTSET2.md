@@ -27,7 +27,7 @@
   curved that the center will not lie in the same mregion or region as
   the vertices. Using itetclr will give the better result.
 
- FORMAT:
+ **FORMAT:**
 
   **eltset**/eset\_name/element\_attribute\_name**/eq**|**ne**|**lt**|**gt**|**le**|**ge**/value/
 
@@ -57,7 +57,7 @@
 [**ascii**|**binary**
 ]
 
- EXAMPLES:
+ **EXAMPLES:**
 
       eltset/element_set1/itetclr/eq/4 
       eltset/element_set2/face/pset/get/mypset

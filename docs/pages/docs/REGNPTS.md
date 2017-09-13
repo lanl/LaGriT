@@ -49,7 +49,7 @@ title: REGNPTS
   See the description of the command **surface** for a discussion of
   point distributions with respect to sheet surfaces.
 
- FORMAT:
+ **FORMAT:**
 
  **regnpts**/region name/ptdist/ifirst,ilast,istride/geom/
 

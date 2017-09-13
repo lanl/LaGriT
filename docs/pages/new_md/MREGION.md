@@ -60,11 +60,11 @@ material region will remove this information.
 
  
 
-FORMAT:
+**FORMAT:**
 
  **mregion**/material\_region\_name/region definition
 
-EXAMPLES:
+**EXAMPLES:**
 
 **mregion**/ material\_region\_name**/release**
 

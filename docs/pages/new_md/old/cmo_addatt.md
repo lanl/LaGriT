@@ -38,7 +38,7 @@ cmo/addatt
 
  
 
- GENERAL FORMAT:
+ GENERAL **FORMAT:**
 
   **cmo/addatt** / mo\_name / att\_name / 
 [ type / rank / length /
@@ -47,7 +47,7 @@ cmo/addatt
 
  
 
- KEYWORD FORMAT:
+ KEYWORD **FORMAT:**
 
   **cmo/addatt** / mo\_name / **area\_normal** / normal\_type /
   att\_v\_name
@@ -104,7 +104,7 @@ cmo/addatt
 
  
 
- EXAMPLES:
+ **EXAMPLES:**
 
 
   **cmo****/addatt**/cmo1/boron1**/VDOUBLE****/scalar****/nnodes****/asinh****/permanent**

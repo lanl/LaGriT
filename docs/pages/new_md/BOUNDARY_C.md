@@ -19,7 +19,7 @@ title: BOUNDARY
   boundary component.  The itp array may need to be updated first,
   this can be done with the command **resetpts/itp.**
 
- FORMAT:
+ **FORMAT:**
 
   **boundary\_components**
 

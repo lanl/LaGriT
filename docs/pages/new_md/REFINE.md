@@ -327,7 +327,7 @@ FORMATS:
 
  **refine/eltset / eltset,get**,esetname
 
-EXAMPLES:
+**EXAMPLES:**
 
  **refine****/maxsize**//**/edge****/pset,get,**something / .25
  will refine element where edge is longer than .25

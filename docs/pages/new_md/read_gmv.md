@@ -15,13 +15,13 @@ GENERATOR: 'Mozilla/4.72
   file may be either ascii or binary;  The code will determine the
   format.
 
- FORMAT:
+ **FORMAT:**
 
   **read/gmv**/file\_name/
 [cmo-name
 ]
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **read/gmv**/file.gmv/cmo1
 

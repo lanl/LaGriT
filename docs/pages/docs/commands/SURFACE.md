@@ -26,7 +26,7 @@ surface type in mind.
 isurname is the name of the surface and must be unique for each surface
 defined by **surface**.
 
-FORMAT:
+**FORMAT:**
 
 **surface**/isurname/ibtype/istype/surface-parameters
 
@@ -34,7 +34,7 @@ FORMAT:
 
 **surface**/isurname**/release**
 
-EXAMPLES:
+**EXAMPLES:**
 
 **surface**/s1**/release**
 

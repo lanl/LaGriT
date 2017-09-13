@@ -42,7 +42,7 @@ name name of pset containing starting point number
 
 isym,jsym,ksym symmetry flags - not documented
 
-FORMAT:
+**FORMAT:**
 
 reatepts/brick****/xyz****rtz****rtp**/ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
 
@@ -60,7 +60,7 @@ via another method..
 
 
 
-EXAMPLES:
+**EXAMPLES:**
 
 reatepts/brick/xyz**/3,2,3/0.,0.,0./1.,1.,1./1,1,1
 

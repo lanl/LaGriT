@@ -1,37 +1,25 @@
----
-GENERATOR: 'Mozilla/4.72 
-[en
-] (X11; U; Linux 2.2.14-5.0 i686) 
-[Netscape
-]'
-title: BUBBLE
----
-
 **BUBBLE**
 
  This command takes a topologically 2d mesh (a planar or non-planar
  surface), extrudes it into three dimensions along either the normal to
  the surface (default) or along a user defined vector, and then takes
  the external surface of the volume created and returns that to the
- user.
- This operation will result in a closed surface.
+ user. This operation will result in a closed surface.
 
-FORMAT:
+**FORMAT:**
 
- **bubble**/mesh1/mesh2/onstmin**/offset/
-[**norm**x1,y1,z1
-]
+ **bubble**/mesh1/mesh2/onstmin**/offset**/[norm\*\*x1,y1,z1]
 
 mesh1 is the name of the resulting mesh.
 
 mesh2 is the name of the initial mesh. This mesh must be either made up
-of ris, quads, or hybrids**.
+of ris, quads, or hybrids.
 
-onst** is a keyword that indicates that the distance from each of the
+**const** is a keyword that indicates that the distance from each of the
 points in the initial mesh along the extruding vector will be equal to
 offset.Therefore, if you wanted the closed surface mesh to have the same
 surface characteristics as the original mesh on both the initial and
-newly formed surface or edge, you would use onst**.
+newly formed surface or edge, you would use **const**.
 
 **min** is a keyword that indicates that the minimum distance along the
 extruding vector to a reference plane that is perpendicular to the
@@ -54,7 +42,7 @@ computed, and the initial mesh is extruded in that direction. Otherwise,
 if a vector value is specified, the vector is normalized, and its
 direction used to extrude the initial mesh.
 
-NOTES:
+**NOTES:**
 
  This code works on meshes containing quads, triangles, or hybrid
  polygons.
@@ -72,13 +60,13 @@ NOTES:
  **bubble**'s functionality with **extrude** and to eliminate
  **bubble** from the commands recognized by LaGriT.
 
-EXAMPLES:
+**EXAMPLES:**
 
- **bubble**/cmo\_bigbox/cmo\_quad/onst**/5.0/
+ **bubble**/cmo\_bigbox/cmo\_quad/ **const** /5.0/
 
  This would result in a surface surrounding an amalgamation of
  parallelopipeds created from the initial quad sheet. First, since
- onst** is used the quads will be extruded a constant amount from
+ **const** is used the quads will be extruded a constant amount from
  each point in the quad sheet. Second, since the extruding vector and
  **norm** are omitted, the extrusion will occur on the average normal
  to the plane. Therefore, this command will result in a mesh of tris

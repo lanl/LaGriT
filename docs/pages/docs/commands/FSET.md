@@ -6,7 +6,7 @@
  material interfaces, or surface subsets for further mesh processing.
 
 
- FORMAT:
+ **FORMAT:**
 
   [fset ] / name / pset, get, pointsetname
   

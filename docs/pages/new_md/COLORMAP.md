@@ -14,7 +14,7 @@ title: COLORMAP
   material adjacency graph, from with the colormap can be quickly
   generated when needed.  Three actions are possible:
 
- FORMAT:
+ **FORMAT:**
 
   **colormap****/
 [add
@@ -34,7 +34,7 @@ title: COLORMAP
 
    
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **colormap/create**/mesh1
 

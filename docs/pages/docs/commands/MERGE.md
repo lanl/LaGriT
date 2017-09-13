@@ -13,7 +13,7 @@
   The command [massage](MASSAGE.md) may be used to merge nodes
   together based on the edge distance separating the nodes.
 
- FORMAT:
+ **FORMAT:**
 
   **merge**/first\_point/second\_point
 

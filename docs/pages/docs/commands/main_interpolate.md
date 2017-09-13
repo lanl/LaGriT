@@ -307,7 +307,7 @@ INTERPOLATE
  
 
 
- FORMAT:
+ **FORMAT:**
 
   **interpolate** / intrp\_method / cmosink, attsink / 1,0,0 / cmosrc,
   attsrc / &
@@ -339,7 +339,7 @@ INTERPOLATE
 [ intrp\_function 
 ]
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **interpolate / map **/ cmo\_sink imt /1,0,0/ cmo\_src itetclr
 

@@ -23,7 +23,7 @@ HEXTOTET
 
 
 
-FORMAT:
+**FORMAT:**
 
  **hextotet**/ 
 [ ioption 
@@ -84,7 +84,7 @@ are not removed from the new mesh object cmo\_snk.
 
 
 
-EXAMPLES:
+**EXAMPLES:**
 
  **hextotet** / **24** / cmo\_tet / cmo\_hex
  Convert each hex element in cmo\_hex to 24 tets and name the new grid

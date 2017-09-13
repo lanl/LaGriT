@@ -16,4 +16,7 @@ def replace_in_dr(old, new, dr):
                     filter_file(os.path.join(root, fle), old, new)
 
 dr = '/home/nknapp/LaGriT/docs/pages/'
-replace_in_dr('<img src="/assets/images/', '<img src="https://lanl.github.io/LaGriT/assets/images/', dr)  
+
+replace_in_dr('FORMAT:', '**FORMAT:**', dr)
+replace_in_dr('NOTES:', '**NOTES:**', dr)
+replace_in_dr('EXAMPLES:', '**EXAMPLES:**', dr)

@@ -241,7 +241,7 @@ value of its master.
   
 
 
- FORMAT:
+ **FORMAT:**
 
   **filter** / ifirst,ilast,istride / 
 [tolerance
@@ -258,7 +258,7 @@ value of its master.
 ]
 
 
-  EXAMPLES:
+  **EXAMPLES:**
 
 
   **filter**

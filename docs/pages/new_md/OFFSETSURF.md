@@ -29,7 +29,7 @@ title: OFFSETSURF
    R\_new = R\_old + dist 
 * N\_node
 
-FORMAT:
+**FORMAT:**
 
  
 
@@ -39,7 +39,7 @@ FORMAT:
 
 **** 
 
-EXAMPLES:
+**EXAMPLES:**
 
 **offsetsurf**/cmo\_out/cmo\_in/d
 

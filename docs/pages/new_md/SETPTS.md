@@ -23,7 +23,7 @@ the surface(s) is.
 
 This command must be executed before **connect.**
 
-FORMAT:
+**FORMAT:**
 
 **setpts**
 

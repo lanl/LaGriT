@@ -42,7 +42,7 @@ allocated, but values are not entered for the mesh object attributes:
 **nnodes** and **nelements**
 
  
-EXAMPLES:
+**EXAMPLES:**
 **cmo/create**/mo\_tet2
 
 **cmo/create**/mo\_tet2/0/0**/hex**

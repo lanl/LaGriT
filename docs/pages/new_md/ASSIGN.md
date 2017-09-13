@@ -19,11 +19,11 @@ title: ASSIGN
   are; 0,  0, no, yes, no, no. use **cmo/setatt** to assign values to
   mesh object **attributes.**
 
- FORMAT:
+ **FORMAT:**
 
   **assign**/category\_name/column/variable\_name/value.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **assign****/time**/3.2
 

@@ -50,7 +50,7 @@ title: 'createpts/interp'
 
     ------------------------ --------------------------
  
- FORMAT:
+ **FORMAT:**
 
  **createpts****/interp/npoint/i1,i2,i3/j1,j2,j3/cmo\_new**
 
@@ -88,7 +88,7 @@ title: 'createpts/interp'
 
  
 
-   EXAMPLES:
+   **EXAMPLES:**
 
   Example 1
 

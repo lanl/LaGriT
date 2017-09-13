@@ -20,7 +20,7 @@ title: FILTER
   numbers (ifirst,ilast,istride) in order for this command to work
   properly.
 
- FORMAT:
+ **FORMAT:**
 
   **filter** / ifirst,ilast,istride / 
 [tolerance

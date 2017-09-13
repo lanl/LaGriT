@@ -25,7 +25,7 @@ Note:  If values are supplied for npoints and/or nelements space is
 allocated, but values are not entered for the mesh object attributes:
 **nnodes** and **nelements**
 
-EXAMPLES:
+**EXAMPLES:**
 
     cmo/create/mo_tet2
     cmo/create/mo_tet2/0/0/hex

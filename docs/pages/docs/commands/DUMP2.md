@@ -174,7 +174,7 @@ The option zone_outside_minmax is used to find the min and max external node alo
 These zone_outside files are part of a set of files written when the zone or fehm file type is called. The fehm zone format and descriptions are  in the dump/fehm command details. 
 
 
-EXAMPLES:
+**EXAMPLES:**
 
     dump / gmv /file_name.gmv/cmo_name/
     dump / gmv /file_name.gmv/cmo_name/ascii

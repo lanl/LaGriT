@@ -20,7 +20,7 @@ GENERATOR: 'Mozilla/4.05C-SGI
   mo\_name is the same as master\_mo nothing happens. If mo\_name
   exists it is over written.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   mo/move**/ mo\_tet2/mo\_tet1
 

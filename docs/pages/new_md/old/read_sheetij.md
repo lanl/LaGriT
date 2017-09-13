@@ -12,7 +12,7 @@ GENERATOR: 'Mozilla/4.7C-SGI
   ** **creates a quad mesh from an elevation file using syntax similar
   to avs type .fld header file.
 
- FORMAT:
+ **FORMAT:**
 
   **read****/sheetij**/file\_name/-header-/
 [options
@@ -48,7 +48,7 @@ GENERATOR: 'Mozilla/4.7C-SGI
     **xflip** or **yflip**      reflect along x or y axis (default = no reflection) 
     --------------------------- ---------------------------------------------------------------
  
- EXAMPLES:
+ **EXAMPLES:**
 
    for data file with header - test\_hdr.dat:
 

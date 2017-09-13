@@ -21,7 +21,7 @@ GENERATOR: 'Mozilla/4.7
 
 
 
-    EXAMPLES:
+    **EXAMPLES:**
 
  **cmo/create**/cmotet
 

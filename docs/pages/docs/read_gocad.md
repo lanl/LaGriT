@@ -7,7 +7,7 @@
   further details on GoCad.
 
 
- SHORT FORMAT:
+ SHORT **FORMAT:**
 
   **read**/filename.ts/cmo\_name
 
@@ -17,11 +17,11 @@
    Note that the filename is case-sensitive, though the extension
   itself is not.
 
- LONG FORMAT:
+ LONG **FORMAT:**
 
   **read/gocad**/file\_name/mesh\_object\_name
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **read/gocad**/file.ts/cmo1
 

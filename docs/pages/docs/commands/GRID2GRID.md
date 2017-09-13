@@ -5,7 +5,7 @@ The **grid2grid** command converts a mesh with one element
 type to a mesh with another. The conversion type is determined by the
 second argument.
 
-FORMAT:
+**FORMAT:**
 
  **grid2grid** / ioption / 
 [cmo\_sink

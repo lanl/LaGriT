@@ -22,7 +22,7 @@
 
    
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **colormap/create**/ mesh1
 

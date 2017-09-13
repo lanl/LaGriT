@@ -6,7 +6,7 @@
   must be specified in sequence in order for this command to work
   properly.
 
-FORMAT:
+**FORMAT:**
 
 **pstatus** (Returns current point status counters)
 

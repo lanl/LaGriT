@@ -14,7 +14,7 @@ mo\_name is type character, default is **'-all-'**
 Verifies that Mesh Object mo\_name is consistent.
 
  
-EXAMPLES:
+**EXAMPLES:**
 mo/verify**/ mo\_tet2
 
 mo/verify/-cmo-**

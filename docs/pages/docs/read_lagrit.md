@@ -2,7 +2,7 @@
 
 read in a LaGriT restart file
 
-SHORT FORMAT:
+SHORT **FORMAT:**
 
 **read**/filename.
 [lglagritLaGriT
@@ -14,7 +14,7 @@ SHORT FORMAT:
 itself is not. When using the short format, the file will be read in
 ascii mode.]
 
-LONG FORMAT:
+LONG **FORMAT:**
 
 **read****/LaGriT**/file\_name/
 [cmo-name
@@ -29,7 +29,7 @@ file
     The default is **ascii**, but the code will determine file type
 if nessary.
 
-EXAMPLES:
+**EXAMPLES:**
 
 **read**[/]**LaGriT**[/file1]
 file1 will be read as ascii.  If the read fails to find the ascii

@@ -34,7 +34,7 @@ title: RMPOINT
   option, **womesh** will delete stray nodes that are not connected to
   any element and that are not parent nodes.
 
-FORMAT:
+**FORMAT:**
 
 **rmpoint**/ifirst,ilast,istride/
 [**exclusive****inclusive** 
@@ -52,7 +52,7 @@ FORMAT:
 
 **rmpoint/womesh**
 
-EXAMPLES:
+**EXAMPLES:**
 
  
 

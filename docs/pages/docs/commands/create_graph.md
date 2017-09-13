@@ -56,11 +56,11 @@ METIS Interface to LaGriT
     and copyright notice is include
 -   METIS 4.0 Copyright 2001-06, Regents of the University of Minnesota
 
-FORMAT:
+**FORMAT:**
 
  `create_graph / metis / [node  dual] / [nxadj] / [nadjncy]`
 
-EXAMPLES:
+**EXAMPLES:**
 
  `create_graph / metis / dual / -def- / -def-  create_graph / metis / node / -def- / -def-  create_graph / metis / dual / ie1 / ieadj1  create_graph / metis / node / in1 / inadj1  create_graph / lagrit / dual / jtetoff / jtet`
 

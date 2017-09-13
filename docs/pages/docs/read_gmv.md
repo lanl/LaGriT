@@ -7,7 +7,7 @@
   file may be either ascii or binary;  The code will determine the
   format.
 
- SHORT FORMAT:
+ SHORT **FORMAT:**
 
   **read**/filename.gmv/cmo\_name
 
@@ -16,13 +16,13 @@
   [Note that the filename is case-sensitive, though the extension
   itself is not.]
 
- LONG FORMAT:
+ LONG **FORMAT:**
 
   **read/gmv**/file\_name/
 [cmo-name
 ]
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **read/gmv**/file.gmv/cmo1
 

@@ -9,12 +9,12 @@
 
   The nodes can be connected using the createpts/brick/xyz command.
 
-FORMAT:
+**FORMAT:**
 
 **quadxy**/ndim1, ndim2 /x1,y1,z1/x2,y2,z2/x3,y3,z3/x4,y4,z4
 
   
- EXAMPLES:
+ **EXAMPLES:**
  
  Create a XZ quad surface with 4 nodes in x direction and 10 nodes in
  Z direction. See Example 2 image.

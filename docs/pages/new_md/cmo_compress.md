@@ -18,7 +18,7 @@ GENERATOR: 'Mozilla/4.05C-SGI
 
  
 
-EXAMPLES:
+**EXAMPLES:**
 
 **cmo/compress**/mo\_tet2
 

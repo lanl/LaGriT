@@ -21,6 +21,6 @@ title: RMSURF
 
    **le** - all points in or on the surface are removed
 
-FORMAT:
+**FORMAT:**
 
 **rmsurf**/surface\_name/ioper

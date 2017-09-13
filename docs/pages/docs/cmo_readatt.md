@@ -22,7 +22,7 @@ GENERATOR: 'Mozilla/4.7
   filename is type character required and specifies the ASCII file to
   be read.
 
- **EXAMPLES:**
+ ****EXAMPLES:****
 
   **cmo/readatt **/mo\_tet2/xic,yic,zic**/add**///myfile
 

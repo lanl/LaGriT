@@ -3,7 +3,7 @@
   This rountine is used to convert files in UNGenerate FORMAT to AVS
   format. UNGenerate files are produced by ARCINFO.
 
- FORMAT:
+ **FORMAT:**
 
   ung2av/avs_file_out/ung_file_in/[constant]/ & [xy, xz,
   yx, zx, yz, zy]

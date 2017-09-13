@@ -44,7 +44,7 @@ title: RZS
   direction of 1/2 at k~i~ =  1, 1/3 at  k~i~ =  2, 1/4 at  k~i~ =  3,
   1/5 at k~i~ =  4,etc.
 
- FORMAT:
+ **FORMAT:**
 
 **rzv/xyz****rtz****rtp** /
 
@@ -70,7 +70,7 @@ default = 1:      r~ij~
 
 default = **component**
 
-EXAMPLES:
+**EXAMPLES:**
 
 spiral of points
 

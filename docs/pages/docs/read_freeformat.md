@@ -7,13 +7,13 @@
   read(unit,
 *)
 
- FORMAT:
+ **FORMAT:**
 
   **read**/gmvfreeformat/filename/
 [cmo-name
 ]
 
-  EXAMPLES:
+  **EXAMPLES:**
 
   **read**/gmvfreeformat/file.gmv/cmo1
 

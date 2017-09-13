@@ -45,7 +45,7 @@
    solution error.  Field\_name must be set with the
    **mode****/adaption\_field** command.
 
- FORMAT:
+ **FORMAT:**
 
   **mode/discrete**/surface\_cmo/tolldamage
 
@@ -55,7 +55,7 @@
 
    
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **mode****/adaption\_field**/solution
 

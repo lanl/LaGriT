@@ -21,7 +21,7 @@ mo/constraint**
 
 
 
-    EXAMPLES:
+    **EXAMPLES:**
 
  mo/create**/cmotet
 

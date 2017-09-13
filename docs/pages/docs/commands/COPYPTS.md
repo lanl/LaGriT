@@ -24,7 +24,7 @@
   that the first form of the command gives the arguments sink first
   then source whereas the second form gives the source then the sink.
 
- FORMAT:
+ **FORMAT:**
 
   
 
@@ -36,7 +36,7 @@
 
   **copypts** /1st\_point/last\_point/stride
 
- EXAMPLES:
+ **EXAMPLES:**
  
        copypts/3dmesh/2dmesh/
        

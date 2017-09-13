@@ -32,7 +32,7 @@ NODE\_ID:
 N -&gt; 1
 
 
-FORMAT:
+**FORMAT:**
 
 **triangulate** **/clockwise** | **counterclockwise** 
 
@@ -40,7 +40,7 @@ clockwise is the default.  Orientation is defined with the viewer above
 the xy plane.
 
  
-EXAMPLES:
+**EXAMPLES:**
 
 	triangulate
 	triangulate/counterclockwise

@@ -36,7 +36,7 @@ title: ELTSET
   curved that the center will not lie in the same mregion or region as
   the vertices. Using itetclr will give the better result.
 
- FORMAT:
+ **FORMAT:**
 
   **eltset**/eset\_name/element\_attribute\_name**/eq****ne****lt****gt****le****ge**/value/
 
@@ -52,7 +52,7 @@ title: ELTSET
 
   **aspect**/ **eqneltgtlege** /value
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **eltset**/element\_set1**/itetclr****/eq**/4
 

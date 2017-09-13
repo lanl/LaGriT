@@ -23,7 +23,7 @@ title: REORDER
   updated. When nodes are reordered, all node based attributes are
   also reordered. Arrays such as isn are also updated.
 
- FORMAT:
+ **FORMAT:**
 
   **reorder/mo\_name/sort\_key/
 

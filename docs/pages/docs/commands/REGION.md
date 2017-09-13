@@ -44,13 +44,13 @@ sheet opposite to the normal including the plane or sheet itself.
    [geometry](../geometries.md) of the current mesh object. 
    Releasing the  region will remove this information.
 
- FORMAT:
+ **FORMAT:**
 
   **region**/region\_name/region definition
   
    **region**/region\_name**/release**
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **region**/reg1**/le** sphere1 **and** ( **lt** plane1 **or** **gt**
   plane2 )

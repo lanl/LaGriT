@@ -63,10 +63,10 @@ itype = diamond generates the points for one diamond of the icosahedron
 
  
 
-FORMAT:
+**FORMAT:**
 
 **rzs**/itype/nr,npt,xirad,xorad/xcen,ycen,zcen/iz/irat,rz/
 
  
 
-[EXAMPLES:](/usr/people/janw/lagrit_test_case/createpts/test/md/example3.md)
+[**EXAMPLES:**](/usr/people/janw/lagrit_test_case/createpts/test/md/example3.md)

@@ -48,11 +48,11 @@ the [geometry](../geometries.md) of the current mesh object.  Releasing
 the material region will remove this information.
 
 
-FORMAT:
+**FORMAT:**
 
 **mregion**/ material_region\_name/region definition
 
-EXAMPLES:
+**EXAMPLES:**
 
 **mregion**/ material_region\_name**/release**
 

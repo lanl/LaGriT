@@ -17,5 +17,5 @@ does not exist a new Mesh Object will be created using the Default Mesh
 Object as the template.
 
  
-EXAMPLES:
+**EXAMPLES:**
 mo/select**/mo\_tet2

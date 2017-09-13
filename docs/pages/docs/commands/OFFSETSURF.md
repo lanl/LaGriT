@@ -49,14 +49,14 @@
    with a line type mesh object to constrain the offset to a
    particular plane.
 
-FORMAT:
+**FORMAT:**
  
 
 **offsetsurf**/new\_cmo/old\_cmo/dist/keyword
 
  
 
-EXAMPLES:
+**EXAMPLES:**
 
     offsetsurf/mo_out/cmo_in/d
     

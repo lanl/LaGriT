@@ -4,7 +4,7 @@
  to a gradient field. Thus, the **bisection\_length** option must be a
  field.
 
- FORMAT:
+ **FORMAT:**
 
  **massage2** / file\_name / min\_scale / bisection\_length / merge\_length / toldamage / [tolroughness] / [ifirst,ilast,istride]/
     

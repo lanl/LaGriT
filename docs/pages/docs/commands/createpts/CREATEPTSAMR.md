@@ -15,7 +15,7 @@ GENERATOR: 'Mozilla/4.7
  node distribution will be passed toconnect to generate a tetrahedra
  mesh.
 
- FORMAT:
+ **FORMAT:**
 
   reatepts/amr**/region\_name/number\_of\_levels
 
@@ -30,7 +30,7 @@ GENERATOR: 'Mozilla/4.7
   the new nodes are in the specified region and will refine the
   associated elements.  Default is 1.
 
- EXAMPLES:
+ **EXAMPLES:**
 
   reatepts/amr**    refine the entire mesh
 

@@ -96,7 +96,7 @@
   unpredictable at interface boundaries because the value of parent
   nodes are unpredictable there.
  
-  FORMAT:
+  **FORMAT:**
  
 doping/constant/field_out/set|add|sub/ ifirst,ilast,istride/value 
 doping/gaussian/field_out/set|add|sub/ ifirst,ilast,istride/ 

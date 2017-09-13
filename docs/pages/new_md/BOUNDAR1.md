@@ -18,7 +18,7 @@ title: BOUNDARY
   call the user supplied subroutine set\_user\_bounds [(see IV.
   e.8)](miscell.md)
 
- FORMAT:
+ **FORMAT:**
 
   **boundary/dirichlet**/attr\_name/
 [valueidentifier
@@ -59,7 +59,7 @@ title: BOUNDARY
 
  
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **boundary****/dirichlet**/vd\_v/7.0**/-all-**/
 

@@ -15,7 +15,7 @@ GENERATOR: 'Mozilla/4.7C-SGI
   attribute "zic". For node attribute values of f(i,j), use addatt and
   copyatt as shown in the examples below.
 
- FORMAT:
+ **FORMAT:**
 
   
 
@@ -60,7 +60,7 @@ GENERATOR: 'Mozilla/4.7C-SGI
     **xflip** or **yflip**      reflect along x or y axis (default = no reflection) 
     --------------------------- ---------------------------------------------------------------
  
- EXAMPLES:
+ **EXAMPLES:**
 
    for data file with header - test\_hdr.dat:          showing nx, ny,
   min x, min y, dx, dy
@@ -123,7 +123,7 @@ GENERATOR: 'Mozilla/4.7C-SGI
 
 
 
-TEST EXAMPLES:
+TEST **EXAMPLES:**
 
 
 

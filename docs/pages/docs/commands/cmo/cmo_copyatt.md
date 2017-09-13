@@ -22,7 +22,7 @@ cmo/copyatt
 
 
 
-FORMAT:
+**FORMAT:**
 
  mo/copyatt**/ cmo\_sink / cmo\_src / attnam\_sink / attnam\_src
 
@@ -47,7 +47,7 @@ done using commands mo/set\_id** and **settets**.
 
 
 
-EXAMPLES:
+**EXAMPLES:**
 
  mo/copyatt** cmo1/cmo2/ itetclr / itetclr
 

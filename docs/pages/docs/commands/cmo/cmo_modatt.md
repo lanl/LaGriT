@@ -102,7 +102,7 @@ GENERATOR: 'Mozilla/4.75
 
  
 
- ** **EXAMPLES:
+ ** ****EXAMPLES:**
 
   mo/modatt**/ mo\_tet2/boron**/length**
 

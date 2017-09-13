@@ -17,7 +17,7 @@ title: LOG
   is the output file called outx3dgen. Default is **on** for both
   files.
 
- FORMAT:
+ **FORMAT:**
 
   **log****/bat****tty****/on****off**/
 

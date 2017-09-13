@@ -13,7 +13,7 @@ GENERATOR: 'Mozilla/4.72
   information.  This command requires either cmo-name to be given in
   the command or for a mesh object to have been created previously.
 
- FORMAT:
+ **FORMAT:**
 
   **read****/avs**/filename/
 [cmo-name
@@ -31,7 +31,7 @@ GENERATOR: 'Mozilla/4.72
                                     1 read attribute data
     ----------------- ------------- -----------------------
  
-  EXAMPLES:
+  **EXAMPLES:**
 
   **read****/avs**/file1/cmo1
 

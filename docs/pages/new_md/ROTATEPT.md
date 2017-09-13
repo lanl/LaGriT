@@ -20,7 +20,7 @@ title: ROTATEPT
   The (**no**) **copy** options are as described in the **rotateln**
   command.
 
-FORMAT:
+**FORMAT:**
 
 **rotatept** /ifirst,ilast,istride/ 
 [**no**

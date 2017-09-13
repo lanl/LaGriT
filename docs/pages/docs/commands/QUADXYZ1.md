@@ -22,11 +22,11 @@ title: QUADXYZ
   opposite (point 5 is logically behind point 1, point 6 behind point
   2 and so on.)
 
-FORMAT:
+**FORMAT:**
 
 **quadxyz**/nx,ny,nz/x1
 
-EXAMPLES:
+**EXAMPLES:**
 
 quadxyz/5 25 7/ 0. 0. 0. /1. 0. 0. /1. .0 10. /0. .0 10. /0. 2.0 0. /1.
 2. 0. &

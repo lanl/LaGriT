@@ -69,7 +69,7 @@ title: GENIEE
   elements is done, only itet and jtet arrays are updated.
 
 
- FORMAT:
+ **FORMAT:**
 
   OPTION 1:
 

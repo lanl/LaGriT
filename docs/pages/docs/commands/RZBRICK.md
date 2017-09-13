@@ -59,7 +59,7 @@ for 2D this will work:
 
  
 
-FORMAT:
+**FORMAT:**
 
 **rzbrick****/xyz****rtz****rtp**/ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
 

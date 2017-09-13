@@ -47,7 +47,7 @@ title: RECON
   restrict reconnection to interior faces and exterior boundary faces,
   set [iopt2to2](meshobject.md) to 0 (**cmo/setatt**//iopt2to2/0)
 
- FORMAT:
+ **FORMAT:**
 
   **recon**/
 [**1****0**
@@ -57,7 +57,7 @@ title: RECON
 [**checkaxy**
 ]
 
- EXAMPLES:
+ **EXAMPLES:**
 
   **recon**   attempt to restore Delaunay
  

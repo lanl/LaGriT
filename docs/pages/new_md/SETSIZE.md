@@ -73,7 +73,7 @@ are not written to lagrit dumps and there is only one copy per run.
 
  
 
-FORMAT:
+**FORMAT:**
 
 **setsize**
 
