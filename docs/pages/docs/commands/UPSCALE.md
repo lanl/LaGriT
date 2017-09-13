@@ -444,17 +444,17 @@ Sink points colored by upscaled value.
          * Upscale using averages                                          
          * and write to attributes for nodes 1 and 2 only                  
                                                                            
-         ***** Arithmetic mean *****                                       
+         ** *** Arithmetic mean ** ***                                       
          upscale/ariave/COARSE_MO amean/1,2,0/ FINE_MO/xmean/              
                                                                            
-         ***** Geometric mean *****                                        
+         ** *** Geometric mean ** ***                                        
          upscale/geoave/COARSE_MO gmean/1,2,0/ FINE_MO/xmean/              
                                                                            
-         ***** Harmonic mean *****                                         
+         ** *** Harmonic mean ** ***                                         
          upscale/harave/COARSE_MO hmean/1,2,0/ FINE_MO/xmean/              
                                                                            
                                                                            
-         ***** SOURCE VALUES from FINE_MO ********                         
+         ** *** SOURCE VALUES from FINE_MO ** **** **                         
                                                                            
          cmo printatt FINE_MO xmean                                        
                                                                            
@@ -473,7 +473,7 @@ Sink points colored by upscaled value.
                   6  8.00000E+00                                           
                                                                            
                                                                            
-         ***** RESULT VALUES ********                                      
+         ** *** RESULT VALUES ** **** **                                      
                                                                            
                                                                            
          cmo printatt COARSE_MO amean                                      

@@ -16,7 +16,7 @@ enclosing volumes are:
 
 **Unit cube**:
 
-**surface**/cube**/reflect****/box**/0.0,0.0,0.0/1.0,1.0,1.0
+**surface**/cube**/reflect** **/box**/0.0,0.0,0.0/1.0,1.0,1.0
 
 <img height="300" width="300" src="/assets/images/Image219.gif">"237" "212"
 

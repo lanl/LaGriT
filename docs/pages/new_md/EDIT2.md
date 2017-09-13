@@ -4,7 +4,7 @@ Generator: Microsoft Word 98
 title: EDIT
 ---
 
-**** 
+** ** 
 
  **EDIT**
 
@@ -48,6 +48,6 @@ title: EDIT
   **edit**/ **parts**/
 
   **edit**/
-  **edit****/points****/pset**,**get**,some+points/
+  **edit** **/points** **/pset**,**get**,some+points/
 
  

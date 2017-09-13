@@ -64,6 +64,6 @@ title: DUMP
 
 EXAMPLE:
 
- **dump****/gmv**/gmv.out/3dmesh/
+ **dump** **/gmv**/gmv.out/3dmesh/
 
  **dump/lagrit**/LaGriT.out**/-all-**/binary

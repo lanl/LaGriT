@@ -7,7 +7,7 @@ title: SETPTS
  **SETPTS**
 
 Sets point types and material regions by calling **surfset** and
-**regset** routines. **** Generate constraint table. The material (imt1)
+**regset** routines. ** ** Generate constraint table. The material (imt1)
 attribute is set based on the ** mregion** commands. Interior and
 external boundary nodes should be assigned to exactly one ** mregion**;
 these nodes will be assigned an **imt1** value that corresponds to the
@@ -34,7 +34,7 @@ setting imt values of an rzbrick mesh in which interface points only
 occur due to the coincidental point very near the geometry defining
 surface.
 
-**setpts**/losed\_surfaces****/reflect**
+**setpts**/losed\_surfaces** **/reflect**
 
 The losed\_surfaces** option works with geometries in which all
 regions and mregions are defined by closed surfaces. The nodes that fall

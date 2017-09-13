@@ -9,7 +9,7 @@ title: 4
 
 The[**region**](REGION.md) command is used to divide the enclosing
 volume into regions. The directional operators **lt**, **le**, **gt**,
-**** and **ge** are applied to previously defined surfaces according to
+** ** and **ge** are applied to previously defined surfaces according to
 the following rules.
 
 **lt --** if the surface following is a volume then **lt** means inside
@@ -41,7 +41,7 @@ bisecting the unit cube:
 
 **region**/top/ **le** cube **and** **gt** cutplane /
 
-**region**/bottom **/ le** cube **and le** cutplane ****/
+**region**/bottom **/ le** cube **and le** cutplane ** **/
 
 The region *bottom* contains the interface *cutplane*; top contains none
 of the interface. Interior interfaces must be included in one and only

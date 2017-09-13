@@ -31,7 +31,7 @@ changed.
 
 EXAMPLE:
 
-**zq****/imt**/1,100,2/material1/
+**zq** **/imt**/1,100,2/material1/
 
 will set all odd numbered points between 1 and 100 to material type
 

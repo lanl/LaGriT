@@ -17,7 +17,7 @@ Current Mesh Object. If mo\_name is the same as master\_mo nothing
 happens. If mo\_name exists it is over written.
 
  
-** ****EXAMPLES:**
+** ** **EXAMPLES:**
 **cmo/derive**/mo\_tet2/mo\_tet1
 
 **cmo/derive/-cmo-**/mo\_tet1

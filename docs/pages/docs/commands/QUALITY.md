@@ -2,7 +2,7 @@
 
 quality provides a collection of mesh quality measures  
 
-****FORMAT:****
+** **FORMAT:** **
 
 quality /[quality_type] / [quality_type options] 
 

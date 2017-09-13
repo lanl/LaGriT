@@ -40,7 +40,7 @@ title: RZS
 
  **FORMAT:**
 
-**rzv/xyz****rtz****rtp** /
+**rzv/xyz** **rtz** **rtp** /
 
                 [ n1,n2,n3
 
@@ -50,7 +50,7 @@ title: RZS
 
                  /r11,r12,r13/r21,r22,r23/r31,r32,r33
 
-                 **/component****vector**
+                 **/component** **vector**
 
                  /f1,f2,f3]
 

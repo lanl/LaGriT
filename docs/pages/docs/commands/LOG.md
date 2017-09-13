@@ -7,7 +7,7 @@
 
  **FORMAT:**
 
-  **log****/baty****/on**|**off**/
+  **log** **/baty** **/on**|**off**/
 
  EXAMPLE:
 

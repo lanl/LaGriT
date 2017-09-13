@@ -11,7 +11,7 @@ GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
 
  **FORMAT:**
 
-  **read****/avs**/filename/[cmo-name]/[node\_flags/element\_flag/attribute\_flag]
+  **read** **/avs**/filename/[cmo-name]/[node\_flags/element\_flag/attribute\_flag]
 
    
     ----------------- ------------- -----------------------
@@ -25,7 +25,7 @@ GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
  
   **EXAMPLES:**
 
-  **read****/avs**/file1/cmo1
+  **read** **/avs**/file1/cmo1
 
   **read/avs**/file2//1/1/0    (skip attribute data)
 

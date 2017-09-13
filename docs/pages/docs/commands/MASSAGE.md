@@ -20,7 +20,7 @@
  grids, CER\_CHAIN will attempt to bisect edges that deviate from an
  averaged surface normal ("have a roughness of") greater than
  **tolroughness**. RECON will attempt to
- create 'nice' elements by using face swapping.  (The LaGriT command **MODE****/RECON**
+ create 'nice' elements by using face swapping.  (The LaGriT command **MODE** **/RECON**
  can alter the meaning of 'nice'.  The default is to reconnect to
  restore the delaunay criterion.  Calling
  **MODE** / **RECON/GEOM** prior to the **MASSAGE* call will create 'plumper' elements). 
@@ -244,7 +244,7 @@
  swapping causing damage less than
  [toldamage] is allowed
 
- **massage**[/1.e+20/1.e-9/1.e-9/1,0,0]**/nosmooth****/strictmergelength****/ignoremats**
+ **massage**[/1.e+20/1.e-9/1.e-9/1,0,0]**/nosmooth** **/strictmergelength** **/ignoremats**
 
  This set of arguments will remove degenerate elements from a mesh by
  merging nodes that have the same coordinate values ( within 1.e-9).

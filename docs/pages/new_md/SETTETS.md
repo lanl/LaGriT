@@ -34,7 +34,7 @@ of itetclr are ignored.
 **color\_points**  sets the node material (imt1) from the element color
 (itetclr); existing values of itetclr are not changed.
 
-**settets/newtets** has the same behavior **** as **settets** except
+**settets/newtets** has the same behavior ** ** as **settets** except
 that existing positive values of itetclr are not changed.
 
 **settets/normal** assigns the itetclr array of a triangle mesh to an
@@ -54,12 +54,12 @@ NOTE:  Valid only for triangle mesh.
 
 **settets**
 
-**settets****/parents**
+**settets** **/parents**
 
-**settets****/geometry**
+**settets** **/geometry**
 
-**settets****/color\_tets**
+**settets** **/color\_tets**
 
-**settets****/color\_points**
+**settets** **/color\_points**
 
 **settets/normal**

@@ -15,15 +15,15 @@ GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 
   
 
-  **read****/sheetij**/ file\_name /nx,ny/minx,miny/dx,dy [options]
+  **read** **/sheetij**/ file\_name /nx,ny/minx,miny/dx,dy [options]
 
-  **read****/sheetij**/ file\_name /nx,ny/minx,miny/dx,dy/ skip n /
+  **read** **/sheetij**/ file\_name /nx,ny/minx,miny/dx,dy/ skip n /
   [options]
 
-  **read****/sheetij**/ file\_name
+  **read** **/sheetij**/ file\_name
   /nx,ny/minx,miny/dx,dy/istart,jstart,istop,jstop/[options]
 
-  **read****/sheetij**/ file\_name/-header-/[options]
+  **read** **/sheetij**/ file\_name/-header-/[options]
 
    
     --------------------------- ------------------------------------------------------

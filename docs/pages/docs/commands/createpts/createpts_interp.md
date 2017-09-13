@@ -48,7 +48,7 @@ title: 'createpts/interp'
  
  **FORMAT:**
 
- reatepts****/interp/npoint/i1,i2,i3/j1,j2,j3/cmo\_new**
+ reatepts** **/interp/npoint/i1,i2,i3/j1,j2,j3/cmo\_new**
 
  
 

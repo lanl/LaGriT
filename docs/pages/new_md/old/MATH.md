@@ -125,14 +125,14 @@ or can be a cmo attribute. The following are possible forms:
 
 **EXAMPLES:**
 
-**math****/multiply**/sink\_mo/sink\_attribute/50,60,3/src\_mo/src\_attribute/1.0
+**math** **/multiply**/sink\_mo/sink\_attribute/50,60,3/src\_mo/src\_attribute/1.0
 
 **math/add**/mo/attribute/50,60,3/mo/attribute/100.0
 
 **math/sub**/sink\_mo/sink\_attribute/50,60,3/src\_mo1/src\_attribute1/
 src\_mo2/src\_attribute2/
 
-**math****/ln**/sink\_mo/sink\_attribute/1,0,0/src\_mo/src\_attribute/
+**math** **/ln**/sink\_mo/sink\_attribute/1,0,0/src\_mo/src\_attribute/
 
 **math/floor**/sink\_mo/sink\_attribute/1,0,0/src\_mo/src\_attribute/2.0/
 

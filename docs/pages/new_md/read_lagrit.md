@@ -9,7 +9,7 @@ GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
 
  **FORMAT:**
 
-  **read****/lagrit**/file\_name/[cmo-name]/[**ascii**
+  **read** **/lagrit**/file\_name/[cmo-name]/[**ascii**
   **binary**]
 
        cmo\_name    -    ignored all mesh objects are read from the
@@ -20,7 +20,7 @@ GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
 
  **EXAMPLES:**
 
-  **read****/lagrit**/file1        file1 will be read as ascii.  If
+  **read** **/lagrit**/file1        file1 will be read as ascii.  If
   the read fails to find the ascii check string, the file will be
   closed and reopened for a binary read.
-  **read****/lagrit**/file2/**/binary**
+  **read** **/lagrit**/file2/**/binary**

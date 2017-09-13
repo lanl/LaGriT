@@ -2,7 +2,7 @@
 
 The [**region**](commands/REGION.md) command is used to divide the
 enclosing volume into regions. The directional operators **lt**, **le**,
-**gt**, **** and **ge** are applied to previously defined surfaces
+**gt**, ** ** and **ge** are applied to previously defined surfaces
 according to the following rules.
 
 **lt --** if the surface following is a volume then **lt** means inside

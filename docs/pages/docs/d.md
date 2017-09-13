@@ -3,7 +3,7 @@ Generator: Microsoft Word 98
 title: d
 ---
 
-******
+** ****
 
 d
 . Mesh Object Connectivity
@@ -50,7 +50,7 @@ types.
 
 **itettyp(it)** gives the element type of element **it.**
 
-****
+** **
 
 itetoff(it) gives the offset to the first node in element **it.**
 
@@ -149,7 +149,7 @@ enddo
 
 enddo
 
-****
+** **
 
 jtet(itetoff(it)+j) gives the element number and local facet number of
 the neighbor to element **it**, facet j.
@@ -165,7 +165,7 @@ faces per element. Similarily, **jtet** (**jtetoff**(**jt**) + **jf**)=
 * (**it** -1) + **if**.) (**mbndry** is the value added to
 **jtet** if element **it** is on a boundary or interface; the **jtet**
 value of an element **it** with facet **j** on an exterior boundary will
-be exactly **mbndry**; **** the **jtet** value of an element **it** with
+be exactly **mbndry**; ** ** the **jtet** value of an element **it** with
 facet **j** on an interior interface will be **mbndry** + the **jtet**
 value calculated from the neighboring element number and neighbor
 element local\_facet number):
@@ -212,4 +212,4 @@ enddo
 
 enddo
 
-****
+** **

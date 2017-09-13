@@ -7,13 +7,13 @@ title: b
 **Issuing Commands from a user program.**
 Any LaGriT command can be issued by calling the subroutine dotask , for
 example:
-call dotask ('**cmo****/select**/3dmesh; **finish**', ier1)
+call dotask ('**cmo** **/select**/3dmesh; **finish**', ier1)
 will select the Mesh Object named 3dmesh*.*ier1 will be zero if the
 commands are executed with no error, non-zero otherwise. A sequence of
 commands can also be executed using dotask,  for example:
 
-           call dotask ('**cmo****/addatt**//mo;
-**cmo****/list**;**finish**',ier1)
+           call dotask ('**cmo** **/addatt**//mo;
+**cmo** **/list**;**finish**',ier1)
 
 will execute the two commands and then return to the next executable
 statement.  A **finish** command must always be the last command in the

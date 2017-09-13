@@ -23,7 +23,7 @@ title: PSET
 
   **delete** deletes a previously defined pset
 
-  **attribute ** forms a pset from all points in ****
+  **attribute ** forms a pset from all points in ** **
   ifirst,ilast,istride which have the specified value for a node based
   attribute. This option was previously named **zq.**
 
@@ -88,11 +88,11 @@ of the mregion is evaluated to determine membership.  Hence the result
 may vary from what would be returned if the 'imt1' value of the nodes
 had been queried using the **attribute** option
 
-**geom****/xyz**/ifirst,ilast,istride/xl,yl,zl/xu,yu,zu/xcen,ycen,zcen
+**geom** **/xyz**/ifirst,ilast,istride/xl,yl,zl/xu,yu,zu/xcen,ycen,zcen
 
-**geom****/rtz**/ifirst,ilast,istride/r1,t1,z1/r2,t2,z2/xcen,ycen,zcen
+**geom** **/rtz**/ifirst,ilast,istride/r1,t1,z1/r2,t2,z2/xcen,ycen,zcen
 
-**geom****/rtp**/ifirst,ilast,istride/r1,t1,p1/r2/t2/p2/xcen,ycen,zcen
+**geom** **/rtp**/ifirst,ilast,istride/r1,t1,p1/r2/t2/p2/xcen,ycen,zcen
 
 **surface**/surface\_name/[ifirst,ilast,istride]
 
@@ -145,7 +145,7 @@ belong to pset1
 
    list the names of all psets
 
-**pset**/apset**/attribute****/itp**/1,0,0/10**/ge**
+**pset**/apset**/attribute** **/itp**/1,0,0/10**/ge**
 
    associate the name apset with the points whose type field(**itp1**)
 has value greater than or equal to 10 (these would be boundary nodes).
@@ -154,7 +154,7 @@ has value greater than or equal to 10 (these would be boundary nodes).
 
    list the node numbers of the members of mypset
 
-**pset**/mypset**/geom****/xyz**/1,0,0/1.,1.,-5./10.,20.,10./
+**pset**/mypset**/geom** **/xyz**/1,0,0/1.,1.,-5./10.,20.,10./
 
    associate the name mypset with all nodes that fall with the box with
 corners at (1,1,-5) and (10,20,10)

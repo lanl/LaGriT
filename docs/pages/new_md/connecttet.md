@@ -60,7 +60,7 @@ to resolve material interfaces
 
 * dump mesh to some output form
 
-**dump****/gmv**/filename
+**dump** **/gmv**/filename
 
 
 * terminate processing
@@ -81,7 +81,7 @@ The complete input for the tutorial is:
 
 * unit cube
 
-**surface**/cube**/reflect****/box**/0.0,0.0,0.0/1.0,1.0,1.0/
+**surface**/cube**/reflect** **/box**/0.0,0.0,0.0/1.0,1.0,1.0/
 
 
 * define z=.5 plane as interface
@@ -91,7 +91,7 @@ The complete input for the tutorial is:
 
 *define geometric regions
 
-**region**/top**/ le** cube **and gt** cutplane **** /
+**region**/top**/ le** cube **and gt** cutplane ** ** /
 
 **region**/bottom**/ le** cube **and le** cutplane /
 
@@ -163,7 +163,7 @@ The complete input for the tutorial is:
 
 * they were used as end points of the rays in the regnpts command
 
-**cmo/setall//itp/pset,get,**rayend/21****/
+**cmo/setall//itp/pset,get,**rayend/21** **/
 
 
 * assign material colors to the points

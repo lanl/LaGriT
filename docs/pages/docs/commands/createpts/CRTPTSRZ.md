@@ -55,7 +55,7 @@ title: RZ
 
   
 
- reatepts****/xyz****rtz****rtp**ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
+ reatepts** **/xyz** **rtz** **rtp**ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
 
  iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/]
 

@@ -8,7 +8,7 @@ title: RZS
 
 Builds a sphere by generating coordinates of points and also modifies
 zoning by ratio-zoning point distributions. See the **rz** command for
-more details. The **** itype flag defines what type of sphere will be
+more details. The ** ** itype flag defines what type of sphere will be
 generated.
 
 itype=1 generates a sphere by gridding the faces of a cube and then

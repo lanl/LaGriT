@@ -55,25 +55,25 @@ title: BOUNDARY
 
  **EXAMPLES:**
 
-  **boundary****/dirichlet**/vd\_v/7.0**/-all-**/
+  **boundary** **/dirichlet**/vd\_v/7.0**/-all-**/
 
   sets the attribute vd\_v for all boundary nodes to be 7.0
 
-  **boundary****/dirichlet**/vi\_s/8.0/pbot/
+  **boundary** **/dirichlet**/vi\_s/8.0/pbot/
 
-  **boundary****/dirichlet**/vd\_v/9.0/pbot**/inclusive**/
+  **boundary** **/dirichlet**/vd\_v/9.0/pbot**/inclusive**/
 
   sets the attribute vd\_v for the nodes that are on the surface pbot
   to be 9.0
 
-  **boundary****/dirichlet**/vd\_s/13.0/pfrt
+  **boundary** **/dirichlet**/vd\_s/13.0/pfrt
 
   sets the attribute vd\_s for the nodes that are on the union of the
   surfaces pfrt and prgt to 13.0
 
-  **boundary****/dirichlet**/vi\_t/12.0/prgt/
+  **boundary** **/dirichlet**/vi\_t/12.0/prgt/
 
-  **boundary****/dirichlet**/bconds/top\_plane/s1,s2,s3/
+  **boundary** **/dirichlet**/bconds/top\_plane/s1,s2,s3/
 
   will pass the set of nodes on the intersection of surfaces s1,s2 and
   s3 along with the string top-plane to subroutine set\_user\_bounds.

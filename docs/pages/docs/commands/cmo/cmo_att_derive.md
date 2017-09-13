@@ -26,8 +26,8 @@ cmo/attribute\_derive
 
  **EXAMPLES:**
 
-  [mo****/attribute\_derive**/cmo\_sink/cmo\_src]{.style1
-  [mo****/attribute\_derive**/empty\_cmo]{.style1
+  [mo** **/attribute\_derive**/cmo\_sink/cmo\_src]{.style1
+  [mo** **/attribute\_derive**/empty\_cmo]{.style1
 
 
 cmo/attribute\_union
@@ -56,5 +56,5 @@ cmo/attribute\_union
 
  **EXAMPLES:**
 
-  [mo****/attribute\_derive**/cmo2/cmo1]{.style1
+  [mo** **/attribute\_derive**/cmo2/cmo1]{.style1
   []{.style1

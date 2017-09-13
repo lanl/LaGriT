@@ -206,7 +206,7 @@ title: MASSAGE
  Because **nosmooth** is specified, no smoothing will take place.  Face
  swapping causing damage less than toldamage is allowed
 
- **massage**/1.e+20/1.e-9/1.e-9/1,0,0**/nosmooth****/strictmergelength****/ignoremats**
+ **massage**/1.e+20/1.e-9/1.e-9/1,0,0**/nosmooth** **/strictmergelength** **/ignoremats**
 
  This set of arguments will remove degenerate elements from a mesh by
  merging nodes that have the same coordinate values ( within 1.e-9).

@@ -55,7 +55,7 @@ title: RZ
 
   
 
- **createpts****/xyz****rtz****rtp**ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
+ **createpts** **/xyz** **rtz** **rtp**ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
 
  iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/]
 

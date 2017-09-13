@@ -8,7 +8,7 @@ title: SCALE
 
  **SCALE**
 
-Scale a point distribution specified by **** ifirst,ilast,istride
+Scale a point distribution specified by ** ** ifirst,ilast,istride
 according to the scale factors iscale,jscale, and kscale.  One can
 substitute the syntax **pse**t get pset\_name  for the ifirst, ilast,
 istride variable to access a pset.  The letters i,j, and k in the scale
@@ -28,6 +28,6 @@ unitless multipliers with reference to some geometric center
 scaling factors are constants added on to the existing coordinates. 
 That is, absolute is really a translation rather than a rescale.
 
-****FORMAT:****
+** **FORMAT:** **
 
-**scale**/ifirst,ilast,istride**/absolute****relative**/xyz/rtzrtp/iscale,jscale,kscale/xcen,ycen,zcen
+**scale**/ifirst,ilast,istride**/absolute** **relative**/xyz/rtzrtp/iscale,jscale,kscale/xcen,ycen,zcen

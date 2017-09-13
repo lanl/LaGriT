@@ -5,7 +5,7 @@
 
 <img height="300" width="300" src="/assets/images/simple_tet.gif">
 
-`*******************************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** *****`
 
 `* Example 1`
 
@@ -15,7 +15,7 @@
 
 `* no buffers, no refinement, no truncation`
 
-`*******************************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** *****`
 
 `* STACK TRI LAYERS into cmo name cmo1`
 
@@ -45,7 +45,7 @@
 
 `* it is pinched out. If a layer crosses, the lower surface truncates.`
 
-`*********************************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** ***`
 
 **`cmo create cmo1`**
 
@@ -79,7 +79,7 @@
 
  
 
-`*********************************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** ***`
 
 `* STACK to PRISM to TET`
 
@@ -91,7 +91,7 @@
 
 `* hextotet will check cmo for mesh type then use hextotet/6`
 
-`*********************************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** ***`
 
 **`stack/fill/cmopri/cmo1/`**
 
@@ -156,7 +156,7 @@ stack/layers to hex to tet, with buffered interfaces
 <img height="300" width="300" src="/assets/images/hex_buffers.jpg">
 
 
-`********************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **`
 
 `* file: demo_quad_buffers.in`
 
@@ -164,7 +164,7 @@ stack/layers to hex to tet, with buffered interfaces
 
 `* buffers, truncation, no refinement`
 
-`********************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **`
 
 `* STACK QUAD LAYERS into cmo named cmo1`
 
@@ -273,7 +273,7 @@ stack/layers to hex to tet, with buffered interfaces
 <img height="300" width="300" src="/assets/images/tet_trunc_refine_exp.jpg">
 
 
-`********************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **`
 
 `* file: demo_tri_trunc.in`
 
@@ -281,7 +281,7 @@ stack/layers to hex to tet, with buffered interfaces
 
 `* slope truncation, refinement, no buffers`
 
-`********************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **`
 
 `* STACK TRI LAYERS into cmo named cmo1`
 

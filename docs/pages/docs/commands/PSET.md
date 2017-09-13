@@ -42,7 +42,7 @@
   psets. Specify a number value for a single zone file with the
   zone\_number option. **delete** deletes a previously defined pset
 
-  **attribute** forms a pset from all points in ****
+  **attribute** forms a pset from all points in ** **
   ifirst,ilast,istride which have the specified value for a node based
   attribute. This option was previously named **zq.**
 
@@ -120,11 +120,11 @@ chapter III, A](../meshobject.md) for an explanation of the
 
 **mregion**/mregion name/ifirst,ilast,istride
 
-**geom****/xyz**/ifirst,ilast,istride/xl,yl,zl/xu,yu,zu/xcen,ycen,zcen
+**geom** **/xyz**/ifirst,ilast,istride/xl,yl,zl/xu,yu,zu/xcen,ycen,zcen
 
-**geom****/rtz**/ifirst,ilast,istride/r1,t1,z1/r2,t2,z2/xcen,ycen,zcen
+**geom** **/rtz**/ifirst,ilast,istride/r1,t1,z1/r2,t2,z2/xcen,ycen,zcen
 
-**geom****/rtp**/ifirst,ilast,istride/r1,t1,p1/r2/t2/p2/xcen,ycen,zcen
+**geom** **/rtp**/ifirst,ilast,istride/r1,t1,p1/r2/t2/p2/xcen,ycen,zcen
 
 **surface**/surface\_name/[ifirst,ilast,istride]
 

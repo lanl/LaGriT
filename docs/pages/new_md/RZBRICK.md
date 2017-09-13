@@ -39,7 +39,7 @@ name name of pset containing starting point number
 isym,jsym,ksym symmetry flags - not documented
 
 Warning:  This command does not create a 2D grid, it has mem errors. 
-**rzbrick****/xyz**/5,10,1/0. 0. 0./10. 20. 0. /1,1,1
+**rzbrick** **/xyz**/5,10,1/0. 0. 0./10. 20. 0. /1,1,1
 
 for 2D this will work:
 
@@ -47,7 +47,7 @@ for 2D this will work:
 
   **quadxy** 5 5/ 0. 0. 0. / 20. 0. 0./20. 20. 0. / 0. 20. 0.
 
-  **rzbrick****/xyz**/5,5,1/1,0,0**/connect**
+  **rzbrick** **/xyz**/5,5,1/1,0,0**/connect**
 
   **dump gmv** quad5x5.gmv
 
@@ -57,7 +57,7 @@ for 2D this will work:
 
 **FORMAT:**
 
-**rzbrick****/xyz****rtz****rtp**/ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
+**rzbrick** **/xyz** **rtz** **rtp**/ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
 
 iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/isym,jsym,ksym]
 
@@ -81,5 +81,5 @@ creates a hex grid 2x1x2 cells in the unit cube
 
 **rzbrick/xyz**/5,7,5/1,0,0**/connect**
 
-creates a hex grid inside the **** hexahedral specified by the 8 corners
+creates a hex grid inside the ** ** hexahedral specified by the 8 corners
 passed to **quadxyz**

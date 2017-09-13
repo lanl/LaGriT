@@ -45,7 +45,7 @@ title: RECON
 
  **FORMAT:**
 
-  **recon**/[**1****0**]/[damage]/[**checkaxy**]
+  **recon**/[**1** **0**]/[damage]/[**checkaxy**]
 
  **EXAMPLES:**
 
@@ -55,7 +55,7 @@ title: RECON
  
   **recon **   attempt to improve geometric mesh quality
  
-  **recon****/1**  for 2d meshes add nodes on boundaries to guarantee
+  **recon** **/1**  for 2d meshes add nodes on boundaries to guarantee
   Delaunay
  
   **recon**//.001  reconnect limit interface and boundary damage to a

@@ -243,7 +243,7 @@ title: MASSAGE
  swapping causing damage less than
  [toldamage]{style="font-weight: bold;" is allowed
 
- **massage**[/1.e+20/1.e-9/1.e-9/1,0,0]{style="font-family: courier new,courier,monospace;"**/nosmooth****/strictmergelength****/ignoremats**
+ **massage**[/1.e+20/1.e-9/1.e-9/1,0,0]{style="font-family: courier new,courier,monospace;"**/nosmooth** **/strictmergelength** **/ignoremats**
 
  This set of arguments will remove degenerate elements from a mesh by
  merging nodes that have the same coordinate values ( within 1.e-9).

@@ -225,7 +225,7 @@ Mikita comments and updates to mercurial/trac repository include:
 
         type_sizes.h
         46a47,54
-          **/**** Cygwin ******
+          **/** ** Cygwin ** ****
          #ifdef __CYGWIN__
          #define FCV_UNDERSCORE
          #define SIZEOF_INT 4
@@ -755,9 +755,9 @@ Banner when LaGriT is started (eg Linux):
  -   [**pset /...**](#pset_...)                                        
  -   **[memory / ...](#memory__...)**[]{style="font-weight: bold;"    
 
- #### dump__zone_outside__...****dump / zone\_outside / ...
+ #### dump__zone_outside__...** **dump / zone\_outside / ...
       
- **** {#dump-zone_outside-... style="font-family: Courier New,Courier, 
+ ** ** {#dump-zone_outside-... style="font-family: Courier New,Courier, 
  monospace;"                                                          
 
  Changed FEHM outside area calculation to default to Voronoi area      
@@ -774,10 +774,10 @@ Banner when LaGriT is started (eg Linux):
  dump/zone\_outside](https://lagrit.lanl.gov/docs/DUMP3.md%20dump/zo 
  ne_outside)
                                                           
- #### cmo__addatt__voronoi_varea__...****cmo / addatt / voronoi\_ 
+ #### cmo__addatt__voronoi_varea__...** **cmo / addatt / voronoi\_ 
  varea / ...
                                                           
- **** {#cmo-addatt-voronoi_varea-... style="font-family: Courier New,C 
+ ** ** {#cmo-addatt-voronoi_varea-... style="font-family: Courier New,C 
  ourier,monospace;"                                                   
 
  This module will do the same voronoi calculation on triangles as is   
@@ -786,9 +786,9 @@ Banner when LaGriT is started (eg Linux):
  xn\_varea, yn\_varea, zn\_varea.                                      
  <https://lagrit.lanl.gov/docs/cmo_addatt.md
                        
- #### extract__surfmesh__...****extract / surfmesh / ...
+ #### extract__surfmesh__...** **extract / surfmesh / ...
          
- **** {#extract-surfmesh-... style="font-family: Courier New,Courier,m 
+ ** ** {#extract-surfmesh-... style="font-family: Courier New,Courier,m 
  onospace;"                                                           
 
  Now creates attributes to hold element local face numbers of 3D input 
@@ -797,7 +797,7 @@ Banner when LaGriT is started (eg Linux):
  mesh into extracted sink mesh.                                        
  <https://lagrit.lanl.gov/docs/EXTRACT1.md
                          
- #### addmesh__excavate__...****addmesh / excavate / ...**** {#ad 
+ #### addmesh__excavate__...** **addmesh / excavate / ...** ** {#ad 
  dmesh-excavate-... style="font-family: Courier New,Courier,monospace; 
  "                                                                    
 
@@ -820,9 +820,9 @@ Banner when LaGriT is started (eg Linux):
  [https://lagrit.lanl.gov/docs/ADDMESH.md
                            
  ](https://lagrit.lanl.gov/docs/ADDMESH.md)                          
- #### interpolate__...****interpolate / ...
+ #### interpolate__...** **interpolate / ...
                       
- **** {#interpolate-... style="font-family: Courier New,Courier,monosp 
+ ** ** {#interpolate-... style="font-family: Courier New,Courier,monosp 
  ace;"                                                                
 
  Changed interpolate to "find" more points on edges this will permit   
@@ -866,7 +866,7 @@ Banner when LaGriT is started (eg Linux):
  https://lagrit.lanl.gov/docs/DUMP2.md                               
  https://lagrit.lanl.gov/docs/DUMP3.md
                               
- #### read_...****read /...**** {#read-... style="font-family: Co 
+ #### read_...** **read /...** ** {#read-... style="font-family: Co 
  urier New,Courier,monospace;"                                        
 
  Three token read implemented. Files are recognized based on their     
@@ -875,7 +875,7 @@ Banner when LaGriT is started (eg Linux):
                                                
  <https://lagrit.lanl.gov/docs/READ.md
                              
- #### dump_...****dump**** ****/...**** {#dump-... style="font-fa 
+ #### dump_...** **dump** ** ** **/...** ** {#dump-... style="font-fa 
  mily: Courier New,Courier,monospace;"                                
 
  Two and three token dump implemented. Files types (AVS, GMV, ...) are 
@@ -884,9 +884,9 @@ Banner when LaGriT is started (eg Linux):
  a MO name. The default MO is used.
                                    
  <https://lagrit.lanl.gov/docs/DUMP2.md                             
- #### cmo__attribute_union__...****cmo / attribute\_union / ...
+ #### cmo__attribute_union__...** **cmo / attribute\_union / ...
   
- **** {#cmo-attribute_union-... style="font-family: Courier New,Courie 
+ ** ** {#cmo-attribute_union-... style="font-family: Courier New,Courie 
  r,monospace;"                                                        
 
  Change two meshes so they both share the same set of attributes       
@@ -894,10 +894,10 @@ Banner when LaGriT is started (eg Linux):
                        
  <https://lagrit.lanl.gov/docs/cmo_att_derive.md
                    
- #### compute__linear_extrapolate__...****compute / linear\_extra 
+ #### compute__linear_extrapolate__...** **compute / linear\_extra 
  polate / ...
                                                          
- **** {#compute-linear_extrapolate-... style="font-family: Courier New 
+ ** ** {#compute-linear_extrapolate-... style="font-family: Courier New 
  ,Courier,monospace;"                                                 
 
  linear\_extrapolate - keyword for an extrapolation from an attribute  
@@ -918,7 +918,7 @@ Banner when LaGriT is started (eg Linux):
 * Compute the depth relative to a topographic surface to each    
  node of a mesh. <https://lagrit.lanl.gov/docs/COMPUTE.md
           
- #### grid2grid_...****grid2grid /...**** {#grid2grid-... style=" 
+ #### grid2grid_...** **grid2grid /...** ** {#grid2grid-... style=" 
  font-family: Courier New,Courier,monospace;"                         
 
  grid2grid wrapper for hextotet. Use to convert:
@@ -937,9 +937,9 @@ Banner when LaGriT is started (eg Linux):
 
  <https://lagrit.lanl.gov/docs/GRID2GRID.md
                         
- #### dump__stor__...****dump / stor / ...
+ #### dump__stor__...** **dump / stor / ...
                        
- **** {#dump-stor-... style="font-family: Courier New,Courier,monospac 
+ ** ** {#dump-stor-... style="font-family: Courier New,Courier,monospac 
  e;"                                                                  
 
  anothermatbld3d\_wrapper.f
@@ -1009,14 +1009,14 @@ Banner when LaGriT is started (eg Linux):
  coefs use anothermatbld3d\_wrapper for compress options all and graph 
  Note anothermatbld3d\_wrapper can write only scalar coef values
       
- #### pset_...****pset /...**** {#pset-... style="font-family: Co 
+ #### pset_...** **pset /...** ** {#pset-... style="font-family: Co 
  urier New,Courier,monospace;"                                        
 
  Add option to pset/ / zone for user specified zone id number.
         
  <https://lagrit.lanl.gov/docs/PSET.md
                              
- #### ****dump **/** {#dump style="font-family: Courier New,Courier,mo 
+ #### ** **dump **/** {#dump style="font-family: Courier New,Courier,mo 
  nospace;"                                                            
 
  writedump.f
@@ -1030,7 +1030,7 @@ Banner when LaGriT is started (eg Linux):
  stor routine calls The man pages are updated and corrected.           
  <https://lagrit.lanl.gov/docs/DUMP2.md
                             
- #### **memory__...**memory / ...****
+ #### **memory__...**memory / ...** **
                             
   {#memory-... style="font-family: monospace;"                        
 

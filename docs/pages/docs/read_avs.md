@@ -14,7 +14,7 @@ itself is not.]
 
 LONG **FORMAT:**
 
-**read****/avs**/filename/[cmo-name]/[node\_flags/element\_flag/attribute\_flag]
+**read** **/avs**/filename/[cmo-name]/[node\_flags/element\_flag/attribute\_flag]
 
  
 
@@ -26,7 +26,7 @@ attribute\_flag |  (default=1) |  0 skip attribute data / 1 read attribute data
 
 **EXAMPLES:**
 
-    **read****/avs**/file1/cmo1
+    **read** **/avs**/file1/cmo1
 
     **read/avs**[/file2//1/1/0]
 

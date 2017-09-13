@@ -83,7 +83,7 @@ loop
 
  **loop** / **foreach** / X0 0 5.5 10.2345678 / **loop\_end** &
 
- **createpts****/xyz**/NX,NY,NZ/X0 0. 0. / 100. 100. 100.
+ **createpts** **/xyz**/NX,NY,NZ/X0 0. 0. / 100. 100. 100.
 
   
 
@@ -94,7 +94,7 @@ loop
 
  **loop** / **foreach** / ATTRIBUTE / icr isn itp / **loop\_end** &
 
- **cmo****/modatt**/MO/ATTRIBUTE**/ioflag**/l
+ **cmo** **/modatt**/MO/ATTRIBUTE**/ioflag**/l
 
   
 

@@ -45,9 +45,9 @@ until a maximum number of iterations has been exceeded.
 
 **negative\_aij**
 
-**negative\_aij****/refine**
+**negative\_aij** **/refine**
 
-**negative\_aij****/refine**/maxiter
+**negative\_aij** **/refine**/maxiter
 
 **negative\_aij/eltset**/eltset\_name
 
@@ -61,8 +61,8 @@ until a maximum number of iterations has been exceeded.
 
 **negative\_aij/refine/5** a maximum of 5 iterations will be performed
 
-**negative\_aij****/eltset**/bad\_tets an element set called bad\_tets
+**negative\_aij** **/eltset**/bad\_tets an element set called bad\_tets
 will be made no refinement will be performed/ **negative\_aij/rivara**
 
-**** 
+** ** 
 [Click here for demos](demos/refine_rivara/test/md/main_rivara.md)

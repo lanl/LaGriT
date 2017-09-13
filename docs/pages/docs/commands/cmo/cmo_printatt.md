@@ -54,11 +54,11 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 
  mo printatt/mo1/xic**/ minmax**/7,10,0
 
- mo printatt/mo1****/itp1**/minmax/pset,get**,psetr1
+ mo printatt/mo1** **/itp1**/minmax/pset,get**,psetr1
 
  attribute itp1 has length 'nnodes' hence the pset syntax is valid
 
- mo printatt/mo1****/itetclr**/minmax/eset,get**,smallets
+ mo printatt/mo1** **/itetclr**/minmax/eset,get**,smallets
 
  attribute itetclr has length 'nelements' hence the eset syntax is
  valid

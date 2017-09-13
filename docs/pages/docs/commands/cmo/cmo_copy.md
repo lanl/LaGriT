@@ -3,11 +3,11 @@ Author: Jan Wills
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 ---
 
-**** 
+** ** 
 
  opy**/ mo\_name/master\_mo/
 
-  mo\_name **** is type character, required.
+  mo\_name ** ** is type character, required.
 
   master\_mo is type character, default is '-cmo-'
 

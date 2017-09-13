@@ -30,7 +30,7 @@ GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 
  mo**/reate**/cmo1//**/hex**
 
- reatepts****/brick****/xyz**/11,11,11/0.,0.,0./1.,1.,1./1,1,1
+ reatepts** **/brick** **/xyz**/11,11,11/0.,0.,0./1.,1.,1./1,1,1
 
  mo/set\_id**
 
@@ -46,13 +46,13 @@ GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 
  mo/set\_id**/cmo1**/both**/id\_node1/id\_elem1
 
- **pset**/p\_xgthalf**/geom****/xyz**/1,0,0/.5,0,0/1,1,1
+ **pset**/p\_xgthalf**/geom** **/xyz**/1,0,0/.5,0,0/1,1,1
 
- **rmpoint****/pset,get,**p\_xgthalf**/inclusive**
+ **rmpoint** **/pset,get,**p\_xgthalf**/inclusive**
 
  **rmpoint**/ompress**
 
- **dump****/gmv**/set\_id.gmv/cmo1
+ **dump** **/gmv**/set\_id.gmv/cmo1
 
   
 

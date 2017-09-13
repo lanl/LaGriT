@@ -31,13 +31,13 @@ the xy plane.
 
 **cmo/create**/2dmesh//**/tri**
 
-**read****/avs**/2dfile.avs
+**read** **/avs**/2dfile.avs
 
 **triangulate**
 
-**** 
+** ** 
 
-****
+** **
 
 
 [Click here for demos](demos/triangulate/md/main_tri.md)

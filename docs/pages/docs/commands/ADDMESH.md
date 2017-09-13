@@ -96,7 +96,7 @@
  NOTE: Care must be taken when using these commands because nothing is
  done to clean up the point type (itp) array after the **addmesh**
  operation. The user must often execute a series of
- [**resetpts****/itp**](RESETPT.md) and **[filter](FILTER.md)**
+ [**resetpts** **/itp**](RESETPT.md) and **[filter](FILTER.md)**
  commands to get the final desired result.
 
  NOTE: Some operations may only work with tet meshes.

@@ -106,7 +106,7 @@ title: DOPING
  
   **FORMAT:**
  
-   **doping****/constant**/field\_out**/setaddsub**/
+   **doping** **/constant**/field\_out**/setaddsub**/
    ifirst,ilast,istride/value
 
    **doping/gaussian**/field\_out**/setaddsub**/
@@ -115,28 +115,28 @@ title: DOPING
    **xyz**/x1,y1,z1/x2,y2,z2/lateral\_diffusion/
    concentration/standard\_deviation/
 
-   **doping/table**/field\_out**/setaddsub**/cmo\_ref/attr\_ref/[**linearlog****asinh**]
+   **doping/table**/field\_out**/setaddsub**/cmo\_ref/attr\_ref/[**linearlog** **asinh**]
 
-   **doping/table**/field\_out**/setaddsub**/cmo\_ref/attr\_ref/[**linearlog****asinh**]/
+   **doping/table**/field\_out**/setaddsub**/cmo\_ref/attr\_ref/[**linearlog** **asinh**]/
    [geom\_out/geom\_ref]
 
-   **doping/integer1****/imt1****/set**/ifirst,ilast,istride/cmo\_ref
-   **/imt1****/min****max**
+   **doping/integer1** **/imt1** **/set**/ifirst,ilast,istride/cmo\_ref
+   **/imt1** **/min** **max**
 
    **doping/integer2**/field\_out2**/set**/ifirst,ilast,istride/cmo\_ref/attr\_ref/
 
-   **min****max****minp****maxp**/[**create****use**]
+   **min** **max** **minp** **maxp**/[**create** **use**]
  
   EXAMPLE:
  
-   **doping****/constant**/density**/set****/pset,get**,mypset/9.73
+   **doping** **/constant**/density**/set** **/pset,get**,mypset/9.73
 
    For the current mesh object, the value of the attribute density
    will be set to 9.73
 
    for all nodes in the point set mypset.
 
-   **doping/gaussian**/density**/add****/pset**,mypset**/xyz**/
+   **doping/gaussian**/density**/add** **/pset**,mypset**/xyz**/
 
    0.0,0.5,0.1/0.5,0.5,0.4/0.5/5.0e+18/0.225
 
@@ -147,15 +147,15 @@ title: DOPING
 
    the value of the distribution as defined above.
 
-   **doping****/table**/my\_field**/set**/1,0,0/cmo\_ref/attr\_ref**/log**
+   **doping** **/table**/my\_field**/set**/1,0,0/cmo\_ref/attr\_ref**/log**
 
    For the current mesh object, the value of the attribute my\_field
    will be set by
 
    interpolating from the reference mesh object and attribute.
 
-   **doping****/table**/Saturation
-   **/set**/1,0,0/cmo\_course/saturation\_course**/linear****/zx****/yx**/
+   **doping** **/table**/Saturation
+   **/set**/1,0,0/cmo\_course/saturation\_course**/linear** **/zx** **/yx**/
 
    In this case the yx plane from the reference cmo is interpolated
    onto the zx plane of the

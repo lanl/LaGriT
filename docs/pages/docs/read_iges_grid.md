@@ -5,7 +5,7 @@
 
  **FORMAT:**
 
-  **read****/iges\_grid**/file\_name/[iopt\_nurbs]/[iopt\_nurbl]/[iopt\_nurp]/[ksi]/[ksj]/[kli]
+  **read** **/iges\_grid**/file\_name/[iopt\_nurbs]/[iopt\_nurbl]/[iopt\_nurp]/[ksi]/[ksj]/[kli]
 
     
     Argument    | Default | Description

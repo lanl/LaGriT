@@ -79,7 +79,7 @@ cmo/addatt
 
  **EXAMPLES:**
 
-  **cmo****/addatt**/cmo1/boron1**/VDOUBLE****/scalar****/nnodes****/asinh****/permanent**
+  **cmo** **/addatt**/cmo1/boron1**/VDOUBLE** **/scalar** **/nnodes** **/asinh** **/permanent**
   Create node attribute named boron1 with interpolate method of asinh.
   **cmo/addatt**/-cmo-/boron2**/VDOUBLE/scalar/nnodes/asinh/permanent/gl**/2.0
   Create node attribute named boron2 and fill with value 2.0, write to

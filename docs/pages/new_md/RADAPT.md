@@ -77,10 +77,10 @@ title: RADAPT
   this case, the results of adaption of the grid to the field can be
   altered by using one or more **field** commands beforehand to modify
   the field. For example, by increasing the scale of a field using
-  **field****/scale**, the **esug** algorithm will produce grids with
+  **field** **/scale**, the **esug** algorithm will produce grids with
   increased numbers of nodes in the regions where the field
   experiences relatively large gradients. By volume averaging a field
-  using **field****/volavg**, **esug** will cause a more gentle form
+  using **field** **/volavg**, **esug** will cause a more gentle form
   of adaption with a better grading of elements. By composing the
   values of the field with **log** or **asinh** using **field**
   **/compose**, one can cause **esug** to shift nodes to where the
@@ -101,12 +101,12 @@ title: RADAPT
 
  **FORMAT:**
 
-  **radapt** **/[position**]/ ****
-  [**esug****mega**]/[ifirst,ilast,istride] /[field]/
+  **radapt** **/[position**]/ ** **
+  [**esug** **mega**]/[ifirst,ilast,istride] /[field]/
 
-  [**refresh****stale**]
+  [**refresh** **stale**]
 
-  **radapt** / [**position**]/ **** [**esug****mega** ]/
+  **radapt** / [**position**]/ ** ** [**esug** **mega** ]/
   [ifirst,ilast,istride] / [**user**]
 
  **EXAMPLES:**
@@ -194,7 +194,7 @@ title: RADAPT
   default, this variable is set to 25, but this can be changed by the
   user. For example,
 
-  **assign** / / / **maxiter\_sm** / **** 50
+  **assign** / / / **maxiter\_sm** / ** ** 50
 
   changes the maximum number of iterations to 50. If **radapt**
   detects a sufficient amount of convergence, it will terminate

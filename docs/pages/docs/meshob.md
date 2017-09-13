@@ -8,7 +8,7 @@ title: 2
 
  **cmo\_create**(cmo\_name,ierror)
 
-  Create a new mesh object called **** cmo\_name
+  Create a new mesh object called ** ** cmo\_name
     ----------- -------------------------------
     cmo\_name   name of new mesh object
     ierror      error return - 0 if no errors

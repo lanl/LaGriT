@@ -28,7 +28,7 @@ title: FIELD
   
 (2) error\_adaption
 
-  **mode****/adaption\_field**/field\_name
+  **mode** **/adaption\_field**/field\_name
  
    if this mode is set, optimization operations will be based on
    reducing error.  A mesh object attribute associated with the 3d
@@ -38,11 +38,11 @@ title: FIELD
   
 (3) reconnection
 
-  **mode/recon****/geom**
+  **mode/recon** **/geom**
 
-  **mode/recon****/delaunay**
+  **mode/recon** **/delaunay**
 
-  **mode/recon****/adaption**
+  **mode/recon** **/adaption**
  
    Setting this mode will determine the criterion used to
    [reconnect](RECON.md) the mesh.  The default mode is
@@ -51,23 +51,23 @@ title: FIELD
    to **geom** will reconnect to increase inscribed radii of
    elements.  Setting mode to adaption will reconnect to reduce
    solution error.  Field\_name must be set with the
-   **mode****/adaption\_field** command.
+   **mode** **/adaption\_field** command.
 
  **FORMAT:**
 
   **mode/discrete**/surface\_cmo/tolldamage
 
-  **mode****/adaption\_field**/field\_name
+  **mode** **/adaption\_field**/field\_name
 
-  **mode/recon****/geom****delaunay****adaptio**n
+  **mode/recon** **/geom** **delaunay** **adaptio**n
 
    
 
  **EXAMPLES:**
 
-  **mode****/adaption\_field**/solution
+  **mode** **/adaption\_field**/solution
 
-  **mode****/recon****/adaption**
+  **mode** **/recon** **/adaption**
   All optimization including **[massage](MASSAGE.md)** commands that
   follow will be performed to reduce error in the user defined field
   solution.

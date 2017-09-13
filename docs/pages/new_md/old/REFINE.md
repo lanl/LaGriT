@@ -238,14 +238,14 @@ FORMATS:
 
 **EXAMPLES:**
 
- **refine****/maxsize**//**/edge****/pset,get,**something / .25
+ **refine** **/maxsize**//**/edge** **/pset,get,**something / .25
  will refine element where edge is longer than .25
- **refine****/constant**/concentration**/log****/edge**/
+ **refine** **/constant**/concentration**/log** **/edge**/
  1,0,0/25.0//**/inclusive**
  will refine where concentration is greater than 25.
- **refine****/addpts**//**/tet****/pset,get,**newpoints/
+ **refine** **/addpts**//**/tet** **/pset,get,**newpoints/
  refine explicitly by adding the new nodes in the set newpoints
- **refine****/rivara**//**/edge/pset,get,**p1/.5//**/inclusive**
+ **refine** **/rivara**//**/edge/pset,get,**p1/.5//**/inclusive**
  refine all edges containing at least one node in pset p1 that are
  longer than .5. Using the 'rivera' algorithm may result in edges not
  containing nodes in the pset to be refined.

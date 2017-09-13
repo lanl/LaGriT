@@ -1,7 +1,7 @@
 
  **ROTATEPT**
 
-  Rotates a point distribution (defined by **** ifirst,ilast,istride)
+  Rotates a point distribution (defined by ** ** ifirst,ilast,istride)
   about a point xcen,ycen,zcen. phi (in degrees) is the angle of
   rotation of the XY plane around the Z-axis, where positive phi is
   measured from the positive x-axis toward the positive y-axis. theta

@@ -26,7 +26,7 @@ GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
   one, not a real or integer is ignored.
 
 
- ****EXAMPLES:****
+ ** **EXAMPLES:** **
 
   Read x,y,z coordinates and some attributes (node\_att1, node\_att2) 
   from a file of tabular data:

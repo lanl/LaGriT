@@ -20,9 +20,9 @@ title: CMO
  **FORMAT:**
 
 Add a user defined attribute to a Mesh Object
-[**cmo****/addatt**](cmo_addatt.md) /mo\_name/att\_name/type/rank/
+[**cmo** **/addatt**](cmo_addatt.md) /mo\_name/att\_name/type/rank/
 length/interpolate/persistence/ioflag/value
-[**cmo****/addatt**](cmo_addatt.md) /mo\_name /keyword /
+[**cmo** **/addatt**](cmo_addatt.md) /mo\_name /keyword /
 keyword\_parameters
 
 Shorten all memory managed arrays associated with mo\_name to their
@@ -79,7 +79,7 @@ lengths required by number\_nodes and number\_elements:
 
 
 Modify an attribute parameter value:
-[**cmo****/modatt**/](cmo_modatt.md)mo\_name/att\_name/field\_name/new\_field
+[**cmo** **/modatt**/](cmo_modatt.md)mo\_name/att\_name/field\_name/new\_field
 
 Change the name of a mesh object:
 
@@ -93,8 +93,8 @@ nelements:
 
 Print the value of an attribute:
 
-**[cmo/printatt](cmo_printatt.md)**/mo\_name/att\_name-**all-****-xyz-****nod**
-/ [**minmax****list****value**] **** /[ifirst,ilast,istride]
+**[cmo/printatt](cmo_printatt.md)**/mo\_name/att\_name-**all-** **-xyz-** **nod**
+/ [**minmax** **list** **value**] ** ** /[ifirst,ilast,istride]
 
 Read values for an attribute from a file:
 

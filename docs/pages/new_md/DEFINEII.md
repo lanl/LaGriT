@@ -18,7 +18,7 @@ determines a normal to the plane in the usual right-hand-rule sense
 determining regions. In order to divide the unit cube defined above in
 half vertically, define a plane by:
 
-**surface**/cutplane**/intrface****/plane**/0.,0.,.5/1.,0.,.5/1.,1.,.5
+**surface**/cutplane**/intrface** **/plane**/0.,0.,.5/1.,0.,.5/1.,1.,.5
 
 The normal to this plane points in the positive z direction.
 
@@ -29,7 +29,7 @@ example to embed a rectangle inside a cube, it is necessary to extend
 the ends of the rectangle beyond the cube to avoid coincident reflective
 and interface surfaces:
 
-**surface**/cube**/reflect****/box**/0.0,0.0,0.0/1.0,1.0,1.0
+**surface**/cube**/reflect** **/box**/0.0,0.0,0.0/1.0,1.0,1.0
 
 **surface**/rect **/intrface/box**/-0.1,0.5,0.2/1.1,0.6,0.5
 

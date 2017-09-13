@@ -21,7 +21,7 @@ title: FIELD
    field(i) = asinh(field(i)).
  
   
-*The **field****/mfedraw** command causes a binary dump of the
+*The **field** **/mfedraw** command causes a binary dump of the
   specified fields to two files in the **mfedraw** input format.
   **mfedraw** is a graphics package for visualizing moving piecewise
   linear functions of two variables, such as those originally
@@ -46,7 +46,7 @@ title: FIELD
   coordinates are unchanged.
  
   
-*The **field****/scale** option scales the field values of the
+*The **field** **/scale** option scales the field values of the
   specified points. scale option can take on the values **normalize**,
   **multiply**, and **divide**. If **normalize** is specified, we
   multiply all the field values by **factor**/(fieldmax-fieldmin),
@@ -59,7 +59,7 @@ title: FIELD
   set by **factor.**
  
   
-*The **field****/volavg** option, for all the members of the point
+*The **field** **/volavg** option, for all the members of the point
   set and for all specified fields, replaces the point field values
   with values that represent the average of the field(s) over the
   control volumes associated with the points. The averaging option
@@ -75,20 +75,20 @@ title: FIELD
 
  **FORMAT:**
 
-  **field****/compose**/composition
+  **field** **/compose**/composition
   function/ifirst,ilast,istride/field list/
 
-  **field****/mfedraw**/root file name/x1,y1,z1/x2,y2,z2/field list/
+  **field** **/mfedraw**/root file name/x1,y1,z1/x2,y2,z2/field list/
 
   **field/scale **/scale option/factor/ifirst,ilast,istride/ field
   list /
 
-  **field****/volavg**/averaging
+  **field** **/volavg**/averaging
   option/iterations/ifirst,ilast,istride/filed list/
 
  **EXAMPLES:**
 
-  **field****/compose****/asinh**/1,0,0**/field****/scale****/normalize**/4.**field****/volavg****/voronoi**/4/1,
+  **field** **/compose** **/asinh**/1,0,0**/field** **/scale** **/normalize**/4.**field** **/volavg** **/voronoi**/4/1,
 
   
 

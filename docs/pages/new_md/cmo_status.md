@@ -12,7 +12,7 @@ object.  After the header information, a table lists all variables
 associated with a mesh object and includes the variable's type, rank,
 length, interpolation mode, persistence, ioflag and default value.  If
 **brief** is specified only the header information is printed.
-** ****EXAMPLES:**
+** ** **EXAMPLES:**
 **cmo/status**/mo\_tet2
 
 **cmo/status/-cmo-**

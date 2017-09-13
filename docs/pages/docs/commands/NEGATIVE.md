@@ -37,9 +37,9 @@ until a maximum number of iterations has been exceeded.
 
 **negative\_aij**
 
-**negative\_aij****/refine**
+**negative\_aij** **/refine**
 
-**negative\_aij****/refine**/maxiter
+**negative\_aij** **/refine**/maxiter
 
 **negative\_aij/eltset**/eltset\_name
 

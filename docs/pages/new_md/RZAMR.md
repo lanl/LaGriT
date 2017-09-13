@@ -8,7 +8,7 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
  **RZAMR** uses an octree type refinement applied to an existing
  hexahedral mesh to all nodes in a specified region.  No additional
  elements are kept,  the intention is that the resulting node
- distribution will be passed to **** connect to generate a tetrahedra
+ distribution will be passed to ** ** connect to generate a tetrahedra
  mesh.
 
  **FORMAT:**

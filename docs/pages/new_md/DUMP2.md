@@ -12,11 +12,11 @@ command will restart the code at the state at which the dump command was
 issued.  The default file type is binary.  To create an ASCII formatted
 gmv dump precede the dump command with this command:
 
-**cmo****/setatt****/dumptype**=**ascii**/ or include '**ascii'** in the
+**cmo** **/setatt** **/dumptype**=**ascii**/ or include '**ascii'** in the
 command.
 
  NOTE:  For LaGriT versions dated after October 1999, use
-**cmo****/setatt**/**/ipolydat****/no** to prevent polygon data to be
+**cmo** **/setatt**/**/ipolydat** **/no** to prevent polygon data to be
 written to GMV files.
 
 **FORMAT:**
@@ -79,7 +79,7 @@ file\_name\_**material**.**zone** is node list for each material (imt)
 value.
 
 **dump** / **zone\_outside** / file\_name/[cmo\_name] /
-[**delatt****keepatt**]
+[**delatt** **keepatt**]
 
 Will output only two files:
 

@@ -30,7 +30,7 @@ GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 
 <img height="300" width="300" src="simple_tet.gif">"400" "300"
 
-`*******************************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** *****`
 
 `* Example 1`
 
@@ -40,7 +40,7 @@ GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 
 `* no buffers, no refinement, no truncation`
 
-`*******************************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** *****`
 
 `* STACK TRI LAYERS into cmo name cmo1`
 
@@ -70,7 +70,7 @@ GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 
 `* it is pinched out. If a layer crosses, the lower surface truncates.`
 
-`*********************************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** ***`
 
 **`cmo create cmo1`**
 
@@ -104,7 +104,7 @@ GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 
  
 
-`*********************************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** ***`
 
 `* STACK to PRISM to TET`
 
@@ -116,7 +116,7 @@ GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 
 `* hextotet will check cmo for mesh type then use hextotet/6`
 
-`*********************************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** ***`
 
 **`stack/fill/cmopri/cmo1/`**
 
@@ -227,7 +227,7 @@ stack/layers to hex to tet, with buffered interfaces
 
  
 
-`********************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **`
 
 `* file: demo_quad_buffers.in`
 
@@ -235,7 +235,7 @@ stack/layers to hex to tet, with buffered interfaces
 
 `* buffers, truncation, no refinement`
 
-`********************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **`
 
 `* STACK QUAD LAYERS into cmo named cmo1`
 
@@ -383,7 +383,7 @@ stack/layers to hex to tet, with buffered interfaces
 
  
 
-`********************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **`
 
 `* file: demo_tri_trunc.in`
 
@@ -391,7 +391,7 @@ stack/layers to hex to tet, with buffered interfaces
 
 `* slope truncation, refinement, no buffers`
 
-`********************************************************`
+`** **** **** **** **** **** **** **** **** **** **** **** **** **** **`
 
 `* STACK TRI LAYERS into cmo named cmo1`
 

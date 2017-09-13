@@ -15,7 +15,7 @@ and *matbot,* to the regions *top* and *bottom:*
 
  
 
-**mregion**/mattop**/ le** cube **and gt** cutplane ****/
+**mregion**/mattop**/ le** cube **and gt** cutplane ** **/
 
 **mregion**/matbot/ **le** cube **and lt** cutplan**e **/
 

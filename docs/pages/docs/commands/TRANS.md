@@ -30,13 +30,13 @@ the x and y axes, the z values will not change.
 
 rans**/ifirst,ilast,istride/xold,yold,zold/xnew,ynew,znew
 
-rans**/ifirst,ilast,istride/enter****zero****original**/[**xyz****rtp****rtz**]/
+rans**/ifirst,ilast,istride/enter** **zero** **original**/[**xyz** **rtp** **rtz**]/
 
 [xdim,ydim,zdim]
 
 EXAMPLE:
 
-rans****/pset,get,** mypoints/0.,0.,0./2.0,2.0,0./
+rans** **/pset,get,** mypoints/0.,0.,0./2.0,2.0,0./
 
 The points in the **pset** mypoints will be moved 2 in the positive x
 direction and 2 in the positive y direction.

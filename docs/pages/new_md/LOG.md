@@ -15,8 +15,8 @@ title: LOG
 
  **FORMAT:**
 
-  **log****/bat****tty****/on****off**/
+  **log** **/bat** **tty** **/on** **off**/
 
  EXAMPLE:
 
-  **log****/tty****/off**
+  **log** **/tty** **/off**

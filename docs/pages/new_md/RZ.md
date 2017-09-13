@@ -4,7 +4,7 @@ Generator: Microsoft Word 98
 title: RZ
 ---
 
-**** 
+** ** 
 
  **RZ**
 
@@ -52,7 +52,7 @@ title: RZ
 
  **FORMAT:**
 
- **rz****/xyz****rtz****rtp**ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
+ **rz** **/xyz** **rtz** **rtp**ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
 
  iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/]
 
@@ -62,12 +62,12 @@ title: RZ
 
  **EXAMPLES:**
 
- **rz****/xyz****/5,3,10****/0.,2.,0.****/5.,6.,2.****/1,1,1**/
+ **rz** **/xyz** **/5,3,10** **/0.,2.,0.** **/5.,6.,2.** **/1,1,1**/
 
  This results in a set of 150 points, five across from x=0. to x=5., 3
  deep from y=2. to y=6. and 10 high from z=0. to z=2.
 
- **rz/rtz/4,6,11****/0.,0.,0.****/3.,360.,10.****/1,0,1**/
+ **rz/rtz/4,6,11** **/0.,0.,0.** **/3.,360.,10.** **/1,0,1**/
 
  This results in 264 points arranged around the z- axis. There are 3
  rings of points at distances r=1., r=2. and r=3. from the z-axis.

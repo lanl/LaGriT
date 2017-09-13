@@ -38,13 +38,13 @@ title: DEREFINE
   **derefine/minsize**/field/pointtype1
   pointtype2/refine\_type/first\_point/last\_point/stride/value
 
-  **derefine****/merge**/first\_point/second\_point
+  **derefine** **/merge**/first\_point/second\_point
 
  EXAMPLE:
 
   **derefine/minsize**//0 0**/aspect**/ 1 0 0/1.e-3
 
-  **derefine/minsize**//0 2**/volume****/pset,get**,apset/5.
+  **derefine/minsize**//0 2**/volume** **/pset,get**,apset/5.
 
   **derefine/minsize**//10  10**/edge**/1 0 0/5.
 

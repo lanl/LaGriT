@@ -35,7 +35,7 @@ commands will place points in the unit cube.
 
 * place points on the boundaries in the x and y directions (1,1,0)
 
-**createpts****/xyz**/5,5,1/0.,0.,1.1/1.,1.,1.1/1,1,0
+**createpts** **/xyz**/5,5,1/0.,0.,1.1/1.,1.,1.1/1,1,0
 
 
 * give the points defined by the **createpts** command the name,

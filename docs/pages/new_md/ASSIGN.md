@@ -21,6 +21,6 @@ title: ASSIGN
 
  **EXAMPLES:**
 
-  **assign****/time**/3.2
+  **assign** **/time**/3.2
 
   **assign/hextotet\_remove\_duplicates**/yes

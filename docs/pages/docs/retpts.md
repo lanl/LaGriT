@@ -1,7 +1,7 @@
 **Retrieving Point Sets and Element Sets**
 
 **eltlimc** returns an array of element numbers where the elements
-belong to the **eltset** given in the argument list. **** Eltsets must
+belong to the **eltset** given in the argument list. ** ** Eltsets must
 be specified by name. On return the array pointed to by ipmpary will
 contain the mpno element numbers that belong to the eltset.
 

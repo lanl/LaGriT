@@ -119,9 +119,9 @@ which consists of the following steps:
  an attribute to the mesh object called **circumsphere\_factor** and
  setting this factor, e.g.:
 
- **cmo****/addatt**/**/circumsphere\_factor****/REAL****/scalar****/scalar**
+ **cmo** **/addatt**/**/circumsphere\_factor** **/REAL** **/scalar** **/scalar**
 
- **cmo****/setatt**/**/circumsphere\_factor**/1,0,0/.125
+ **cmo** **/setatt**/**/circumsphere\_factor**/1,0,0/.125
 
  This factor will only be required in extreme circumstances.  If a node
  distribution has an extremely high aspect ratio, the user might see

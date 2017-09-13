@@ -24,7 +24,7 @@ Note:  This command requires that the mesh contains one or more nodes.
 **EXAMPLES:**
 **cmo/setatt**/cmo/itp1/1,0,0/0
 
-**cmo/setatt**/ 3dmesh**/itetclr****/eltset**,**get**,blue/3
+**cmo/setatt**/ 3dmesh**/itetclr** **/eltset**,**get**,blue/3
 
 Will set all elements in the element set 'blue' to have the value of
 itetclr to 3.

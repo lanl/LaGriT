@@ -44,9 +44,9 @@
   surface.  The mesh must have **ndimensions\_topo**=2 and
   **ndimensions\_geom**=2.
  
-  **cmo****/create/trimesh/tri**
+  **cmo** **/create/trimesh/tri**
 
-  **cmo****/modatt**/**/ndimensions\_geom****/default**/2
+  **cmo** **/modatt**/**/ndimensions\_geom** **/default**/2
 
   ...
 
@@ -54,7 +54,7 @@
  
   an alternate way to achieve this is:
 
-  **cmo****/create**/trimesh/triplane
+  **cmo** **/create**/trimesh/triplane
 
   **connect**
 
@@ -64,9 +64,9 @@
 
   **connect**/[**delaunay**]/ifirst,ilast,istride/big\_tet\_coordinates
 
-  **connect****/noadd**
+  **connect** **/noadd**
 
-  **connect****/heck\_interface**
+  **connect** **/heck\_interface**
 
  **EXAMPLES:**
 
@@ -75,7 +75,7 @@
   Create the Delaunay tetrahedral connectivity of all nodes in the
   mesh. Add nodes to break multi-material connections.
 
-  **connect****/delaunay**/
+  **connect** **/delaunay**/
 
   Create the Delaunay tetrahedral connectivity of all nodes in the
   mesh. Add nodes to break multi-material connections.

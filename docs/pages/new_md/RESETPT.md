@@ -46,7 +46,7 @@ title: RESETPTS
       integer\_node\_color. In that case, the element loop goes from
       largest to smallest element number.
 
-   ****
+   ** **
 
  **FORMAT:**
 
@@ -76,7 +76,7 @@ title: RESETPTS
  
    
 
-   ****
+   ** **
 
   ** **
 

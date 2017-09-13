@@ -44,22 +44,22 @@
 
   
 
- **extract****/plane**/hreepts/x1,y1,z1/x2,y2,z2/x3,y3,z3/ifirst,ilast,istride/cmoout/cmoin
+ **extract** **/plane**/hreepts/x1,y1,z1/x2,y2,z2/x3,y3,z3/ifirst,ilast,istride/cmoout/cmoin
 
- **extract****/plane****/ptnorm**/x1,y1,z1/xn,yn,zn/
+ **extract** **/plane** **/ptnorm**/x1,y1,z1/xn,yn,zn/
  ifirst,ilast,istride/cmoout/cmoin
 
- **extract****/plane****/axes**/xv,yv,zv/ifirst,ilast,istride/cmoout/
+ **extract** **/plane** **/axes**/xv,yv,zv/ifirst,ilast,istride/cmoout/
 
- **extract****/plane****/abcd**/a,b,c,d/
+ **extract** **/plane** **/abcd**/a,b,c,d/
  ifirst,ilast,istride/cmoout/cmoin
 
- **extract****/isosurf**/attribute/value/
+ **extract** **/isosurf**/attribute/value/
  ifirst,ilast,istride/cmoout/cmoin
 
- **extract****/intrface**/region1/ifirst,ilast,istride/cmoout/cmoin
+ **extract** **/intrface**/region1/ifirst,ilast,istride/cmoout/cmoin
 
- **extract****/intrfac2**/region1/region2/ifirst,ilast,istride/cmoout/cmoin
+ **extract** **/intrfac2**/region1/region2/ifirst,ilast,istride/cmoout/cmoin
 
  **extract/network**/ifirst,ilast,istride/cmoout/cmoin
 

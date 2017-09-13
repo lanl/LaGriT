@@ -34,13 +34,13 @@ title: ELTSET
 
  **FORMAT:**
 
-  **eltset**/eset\_name/element\_attribute\_name**/eq****ne****lt****gt****le****ge**/value/
+  **eltset**/eset\_name/element\_attribute\_name**/eq** **ne** **lt** **gt** **le** **ge**/value/
 
   **eltset**/eset\_nam**e/unioninternotdelete**/eset\_list/
 
   **eltset**/eset\_name**/inclusiveexclusive/pset/get**/pset\_name/
 
-  **eltset**/eset\_name**/regionmregion**/region\_name****mregion\_name****/
+  **eltset**/eset\_name**/regionmregion**/region\_name** **mregion\_name** **/
 
   **eltset**/eset\_name **/volume/ eqneltgtlege** /value
 
@@ -50,10 +50,10 @@ title: ELTSET
 
  **EXAMPLES:**
 
-  **eltset**/element\_set1**/itetclr****/eq**/4
+  **eltset**/element\_set1**/itetclr** **/eq**/4
 
-  **eltset**/element\_set2**/inclusive****/pset****/get**/mypset
+  **eltset**/element\_set2**/inclusive** **/pset** **/get**/mypset
 
   **eltset**/element\_set3**/region**/upper
 
-  **eltset**/element\_set4**/volume****/lt**/3.0
+  **eltset**/element\_set4**/volume** **/lt**/3.0

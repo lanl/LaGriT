@@ -116,14 +116,14 @@ local facets are defined as follows:
    local facet number of the neighbor to element **it**, facet
    **j**.
 
-   To loop to find all face neighbors of elements **** ( **jt** is
+   To loop to find all face neighbors of elements ** ** ( **jt** is
    the neighbor element number**, jf** is the local facet of the
    neighboring element) if **jt** is a neighbor of element **it** and
    local face **if** of **it** is the shared face **jf** of **jt**
    then **jtet** (**jtetoff(it)** + **if**) = **nef\_cmo***
    (**jt-**1)+**jf,** where **nef\_cmo i**s the number of faces per
    element. Similarily, **jtet** (**jtetoff(jt)** + **jf**) =
-   **nef\_cmo*** (**it** -1) **** + **if mbndry** is
+   **nef\_cmo*** (**it** -1) ** ** + **if mbndry** is
    the value added to **jtet** if element **it** is on a boundary or
    interface; the **jtet** value of an element **it** with facet
    **j** on an exterior boundary will be exactly **mbndry;** the

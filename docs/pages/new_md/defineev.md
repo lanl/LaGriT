@@ -23,7 +23,7 @@ enclosing volumes are:
 
 * unit cube
 
-**surface**/cube**/reflect****/box**/0.0,0.0,0.0/1.0,1.0,1.0
+**surface**/cube**/reflect** **/box**/0.0,0.0,0.0/1.0,1.0,1.0
 
 <img height="300" width="300" src="Image219.gif">"237" "211"
 

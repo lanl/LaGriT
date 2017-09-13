@@ -13,7 +13,7 @@ ascii mode.]
 
 LONG **FORMAT:**
 
-**read****/LaGriT**/file\_name/[cmo-name]/[**ascii**
+**read** **/LaGriT**/file\_name/[cmo-name]/[**ascii**
 **binary**]
 
      cmo\_name    -    ignored all mesh objects are read from the
@@ -29,4 +29,4 @@ file1 will be read as ascii.  If the read fails to find the ascii
 check string, the file will be closed and reopened for a binary
 read.
 
-**read****/LaGriT**/file2/**/binary**
+**read** **/LaGriT**/file2/**/binary**

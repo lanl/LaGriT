@@ -54,9 +54,9 @@ title: CONNECT
   surface.  The mesh must have **ndimensions\_topo**=2 and
   **ndimensions\_geom**=2.
  
-  **cmo****/create**/trimesh//**/tri**
+  **cmo** **/create**/trimesh//**/tri**
 
-  **cmo****/modatt**/**/ndimensions\_geom****/default**/2
+  **cmo** **/modatt**/**/ndimensions\_geom** **/default**/2
 
   ...
 
@@ -64,7 +64,7 @@ title: CONNECT
  
   an alternate way to achieve this is:
 
-  **cmo****/create**/trimesh//**/triplane**
+  **cmo** **/create**/trimesh//**/triplane**
 
       ...
 
@@ -76,9 +76,9 @@ title: CONNECT
 
   **connect**/[**delaunay**]/ifirst,ilast,istride/big\_tet\_coordinates
 
-  **connect****/noadd
+  **connect** **/noadd
 
-  connect****/check\_interface**
+  connect** **/check\_interface**
 
  **EXAMPLES:**
 
@@ -89,7 +89,7 @@ title: CONNECT
 
   **
 
-  connect****/delaunay**/
+  connect** **/delaunay**/
 
   Create the Delaunay tetrahedral connectivity of all nodes in the
   mesh. Add nodes to break multi-material connections.
@@ -116,8 +116,8 @@ title: CONNECT
 
   **connect/pset get points
 
-  ****Create the Delaunay tetrahedral connectivity of a subset of
-  nodes.****
+  ** **Create the Delaunay tetrahedral connectivity of a subset of
+  nodes.** **
 
   
 
@@ -128,7 +128,7 @@ title: CONNECT
 
   **
 
-  connect**/check\_interface****
+  connect**/check\_interface** **
 
   Create the Delaunay tetrahedral connectivity of  all nodes in the
   mesh with added checking of edges that have both nodes tagged as

@@ -9,9 +9,9 @@
  **FORMAT:**
 
 Add a user defined attribute to a Mesh Object
-[**mo****/addatt**](cmo/cmo_addatt.md) /mo\_name/att\_name/type/rank/
+[**mo** **/addatt**](cmo/cmo_addatt.md) /mo\_name/att\_name/type/rank/
 length/interpolate/persistence/ioflag/value
-[**mo****/addatt**](cmo/cmo_addatt.md) /mo\_name /keyword /
+[**mo** **/addatt**](cmo/cmo_addatt.md) /mo\_name /keyword /
 keyword\_parameters
 
 
@@ -80,7 +80,7 @@ lengths required by number\_nodes and number\_elements:
 
 
 Modify an attribute parameter value:
-[**mo****/ modatt**/](cmo/cmo_modatt.md)mo\_name/att\_name/field\_name/new\_field
+[**mo** **/ modatt**/](cmo/cmo_modatt.md)mo\_name/att\_name/field\_name/new\_field
 
 Change the name of a mesh object:
 
@@ -94,7 +94,7 @@ nelements:
 
 Print the value of an attribute:
 
-**[cmo/printatt](cmo/cmo_printatt.md)**/mo\_name/att\_name-**all-****-xyz-****nod** / [**minmax** **list** **value** ]  / [ifirst,ilast,istride]
+**[cmo/printatt](cmo/cmo_printatt.md)**/mo\_name/att\_name-**all-** **-xyz-** **nod** / [**minmax** **list** **value** ]  / [ifirst,ilast,istride]
 
 Read values for an attribute from a file:
 

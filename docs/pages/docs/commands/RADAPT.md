@@ -68,10 +68,10 @@
   this case, the results of adaption of the grid to the field can be
   altered by using one or more **field** commands beforehand to modify
   the field. For example, by increasing the scale of a field using
-  **field****/scale**, the **esug** algorithm will produce grids with
+  **field** **/scale**, the **esug** algorithm will produce grids with
   increased numbers of nodes in the regions where the field
   experiences relatively large gradients. By volume averaging a field
-  using **field****/volavg**, **esug** will cause a more gentle form
+  using **field** **/volavg**, **esug** will cause a more gentle form
   of adaption with a better grading of elements. By composing the
   values of the field with **log** or **asinh** using **field**
   /ompose**, one can cause **esug** to shift nodes to where the

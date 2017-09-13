@@ -263,7 +263,7 @@ equivalent to **itp1; icr** to **icr1, isn** to **isn1**; **imt** to
  
 
 The default Mesh Object can be expanded by adding user defined
-attributes (see [**cmo****/addatt**](cmo_addatt.md)).
+attributes (see [**cmo** **/addatt**](cmo_addatt.md)).
 
  
 

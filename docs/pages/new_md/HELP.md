@@ -17,7 +17,7 @@ title: HELP
 
  **EXAMPLES:**
 
-  **help****/ipointi**
+  **help** **/ipointi**
 
 
 
