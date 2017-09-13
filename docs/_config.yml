@@ -9,7 +9,7 @@ highlighter: rouge
 # so be sure to set them if your theme uses them.
 #
 
-theme : minima
+theme : jekyll-theme-minimal
 
 title : LaGriT
 author :
