@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: MATH
 ---
@@ -36,9 +32,7 @@ MATH
 **FORMAT:**
 
  **math** / operation / cmo\_sink/attr\_sink / range
- /cmo\_src/attr\_src / 
-[ value 
-]
+ /cmo\_src/attr\_src / [ value ]
 
 
 

@@ -14,12 +14,8 @@ available:  "**gmv**", "**LaGriT**" and "**avs**". iomode can be
 
 **FORMAT:**
 
- **dump\_recolor/ype/file/mo/
-[**restore
- norestore**
-]/
-[reateexisting**
-] /imode
+ **dump\_recolor/ype/file/mo/[**restore
+ norestore**]/[reateexisting**] /imode
 
 EXAMPLE:
 

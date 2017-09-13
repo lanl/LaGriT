@@ -1,11 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP28) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20VERTEX:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
@@ -230,7 +225,6 @@ are returned.
 ------------------------------------------------------------------------
 
 
-
 []{#MV-Attribs*int* **MV\_GetAttVal**(*PMeshObj* mesh, *PMeshVert* v,
 *char 
 **attname, *int 
@@ -279,7 +273,6 @@ now.....
  
 
  
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20VERTEX:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"

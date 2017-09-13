@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: 'Microsoft Word 97/98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
@@ -22,21 +18,16 @@ Example 1: test using triangulate to create a 2d mesh.
  [lagrit\_input\_tri](../lagrit_input_tri)
 
 Images of GMV input and output
-
 [Concave point distribution with crude
 triangulation](image/triang1.gif">[<img height="300" width="300" src="/assets/images/triang1_tn.gif">"110"
 "86"](image/triang1.gif">
-
 [Refinement](image/triang2.gif">[<img height="300" width="300" src="/assets/images/triang2_tn.gif">"114"
 "89"](image/triang2.gif">
-
 [Smoothing and further
 refinement](image/triang3.gif">[<img height="300" width="300" src="/assets/images/triang3_tn.gif">"110"
 "86"](image/triang3.gif">
-
 [Smoothing and
 recon/0](image/picture4.gif">[<img height="300" width="300" src="/assets/images/triang4_tn.gif">"114"
 "89"](image/picture4.gif">
-
 [recon/1](image/picture5.gif">[<img height="300" width="300" src="/assets/images/triang5_tn.gif">"114"
 "89"](image/picture5.gif">

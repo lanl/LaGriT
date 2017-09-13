@@ -3,7 +3,6 @@ Description: test recon (reconnect)
 The objective is to use the **recon** command to reconnect an
 existing triangular mesh into a new triangular mesh that satisfies the
 Delaunay criterion and has improved element shapes.
-
 [Example](description_2drecon.md)
 
 

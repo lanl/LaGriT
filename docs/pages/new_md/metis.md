@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 ---
 
  METIS
@@ -76,20 +72,12 @@ FORMAT (partition):
 FORMAT (reorder):
 
  metis / reorder / metis\_edgend  metis\_nodend / node  dual /
- 
-[iperm
-] / 
-[invperm
-]
+ [iperm] / [invperm]
 
 FORMAT (reorder with weights):
 
- metis / reorder / mmetis\_nodewnd / node  dual / 
-[iperm
-] /
- 
-[invperm
-] / ivert\_weight
+ metis / reorder / mmetis\_nodewnd / node  dual / [iperm] /
+ [invperm] / ivert\_weight
 
 EXAMPLES (partition):
 

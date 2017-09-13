@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: FIELD
 ---
@@ -133,33 +129,21 @@ title: FIELD
 
  **FORMAT:**
 
-  **lower\_d** / **create**/ 
-[cmo\_name
-]
+  **lower\_d** / **create**/ [cmo\_name]
 
     create lower\_d structures in mesh object
 
-  **lower\_d** / **release**/ 
-[cmo\_name
-]
+  **lower\_d** / **release**/ [cmo\_name]
 
    release lower\_d structures
 
-  **lower\_d** / **extract**/ 
-[cmo\_name/cmo1/cmo2/cmo2
-]
+  **lower\_d** / **extract**/ [cmo\_name/cmo1/cmo2/cmo2]
 
    create lower\_d structures into named mesh objects cmo1, cmo2,
   cmo3.
 
-  **lower\_d** / **filter**/ 
-[cmo\_name
-] /
-[iclr1  itp  **imt** 
-  **clr** 
-] / value 
-[ **and**  **or**  **new** 
-]
+  **lower\_d** / **filter**/ [cmo\_name] /[iclr1  itp  **imt** 
+  **clr** ] / value [ **and**  **or**  **new** ]
 
     these commands are advised for expert users only.
 

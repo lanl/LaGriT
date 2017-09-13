@@ -1,10 +1,6 @@
 ---
 Author: Jan Wills
-GENERATOR: 'Mozilla/4.72 
-[en
-] (X11; U; Linux 2.2.14-5.0 i686) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
 ---
 
  **read/iges\_grid**
@@ -14,19 +10,7 @@ GENERATOR: 'Mozilla/4.72
 
  **FORMAT:**
 
-  **read****/iges\_grid**/file\_name/
-[iopt\_nurbs
-]/
-[iopt\_nurbl
-]/
-[iopt\_nurp
-]/
-[ksi
-]/
-[ksj
-]/
-[kli
-]
+  **read****/iges\_grid**/file\_name/[iopt\_nurbs]/[iopt\_nurbl]/[iopt\_nurp]/[ksi]/[ksj]/[kli]
 
    
     ------------ ----------- -----------------------------------

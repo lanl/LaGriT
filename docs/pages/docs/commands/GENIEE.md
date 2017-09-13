@@ -64,9 +64,7 @@
   
  
   **geniee** / **moname** / **2dnormal** /
-  **reference\_element\_number** / 
-[addatt
-]
+  **reference\_element\_number** / [addatt]
 
   
   **moname** - name of mesh object to operate on. Can be / / or /-def-/

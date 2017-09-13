@@ -1,11 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP28) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](mstkla.md#MESH%20VERTEX:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](MeshEdge.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
@@ -149,12 +144,10 @@ an
 
 attribute for a given element or use **MR\_SetAttVal** to set it.
 
-See attribute operators for[Mesh Vertices](MeshVertex.md#MV-Attribs),
-[Mesh Regions](MeshRegion.md#MR-Attribs) and [Mesh
+See attribute operators for[Mesh Vertices](MeshVertex.md#MV-Attribs),[Mesh Regions](MeshRegion.md#MR-Attribs) and [Mesh
 Faces](MeshFace.md#MF-Attribs)
 
  
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](mstkla.md#MESH%20VERTEX:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](MeshEdge.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"

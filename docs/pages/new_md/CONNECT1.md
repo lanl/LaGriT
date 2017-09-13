@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: CONNECT
 ---
@@ -78,9 +74,7 @@ title: CONNECT
 
  **FORMAT:**
 
-  **connect**/
-[**delaunay**
-]/ifirst,ilast,istride/big\_tet\_coordinates
+  **connect**/[**delaunay**]/ifirst,ilast,istride/big\_tet\_coordinates
 
   **connect****/noadd
 

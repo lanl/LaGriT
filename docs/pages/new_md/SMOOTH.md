@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI 
-[en
-] (X11; U; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: SMOOTH
 ---
@@ -124,51 +120,20 @@ will help to avoid element inversions.
 **FORMAT:**
 
 **smooth****/position****/esug****mega****geometry****elliptic****random**/
+[ifirst,ilast,istride ]/[control]
 
-[ifirst,ilast,istride 
-]/
-[control
-]
-
-**smooth****/position****/lpfilter**// 
-[ifirst,ilast,istride
-]
-/
-[filtdeg
-]/
-[k\_pb
-]**/network**
+**smooth****/position****/lpfilter**// [ifirst,ilast,istride]
+/[filtdeg]/[k\_pb]**/network**
 
 **network** smoothing applies to a network of curves in 2D or 3D, or to
 a network of surfaces in 3D.  The materiality of the cells (if any) is
 ignored.
 
-**smooth****/position****/aspect**//
-[ifirst,ilast,istride/toldamage
-]
+**smooth****/position****/aspect**//[ifirst,ilast,istride/toldamage]
 
-**smooth****/position/laplace**/
-[ifisrt,ilast,istride
-]/
-[rlxwt
-]/
-[ntimes
-]/
-[nwtty
-]/
-[useisn
-]/
-[extrnbr
-]
+**smooth****/position/laplace**/[ifisrt,ilast,istride]/[rlxwt]/[ntimes]/[nwtty]/[useisn]/[extrnbr]
 
-**smooth****/position/network**/
-[ifisrt,ilast,istride
-]/
-[niter
-]/
-[weight
-]/
-[**check****nocheck**
+**smooth****/position/network**/[ifisrt,ilast,istride]/[niter]/[weight]/[**check****nocheck**
 
 **EXAMPLES:**
 

@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.75 
-[en
-] (X11; U; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: RZS
 ---
@@ -35,10 +31,8 @@ title: RZS
   4,etc.
 
   For ratio\_method = vector and fj =0, the j-th vecor is reduced by
-  
-[1 - (1-r~ij ~ )
-*2/(k~i~ +  1)
-] after the k~i~ -th step in the
+  [1 - (1-r~ij ~ )
+*2/(k~i~ +  1)] after the k~i~ -th step in the
   i-th direction.  In this case an initial step of 1 in the j-th
   direction would become, for  r~ij ~ =  1/2, a step in the j-th
   direction of 1/2 at k~i~ =  1, 1/3 at  k~i~ =  2, 1/4 at  k~i~ =  3,
@@ -48,8 +42,7 @@ title: RZS
 
 **rzv/xyz****rtz****rtp** /
 
-                
-[ n1,n2,n3
+                [ n1,n2,n3
 
                  /v11,v12,v13/v21,v22,v23/v31,v32,v33
 
@@ -59,8 +52,7 @@ title: RZS
 
                  **/component****vector**
 
-                 /f1,f2,f3
-]
+                 /f1,f2,f3]
 
 default = **xyz**
 
@@ -158,9 +150,7 @@ points
 * this can create some really bizzare point distributions
 
       
-* mistyped input after "rzv/
-[cgeom
-]" always returns successful
+* mistyped input after "rzv/[cgeom]" always returns successful
 point addition,
 
       but may be very different than desired

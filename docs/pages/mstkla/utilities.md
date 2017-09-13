@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP28) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
 
  [<img height="300" width="300" src="../images/arrow2.gif">"30"
@@ -158,9 +154,7 @@ FUNCTIONS:**
 
 *int* **pntInTriangle2**(*double* 
 *pnt, *double* (
-*tri)
-[3
-], *double*
+*tri)[3], *double*
 tol, *int* flag, *int* 
 *mtype, *int* 
 *locID);
@@ -190,9 +184,7 @@ on
 
 *int* **pntInTet**(*double* 
 *pnt, *double* (
-*tet)
-[3
-], *double* tol,
+*tet)[3], *double* tol,
 *int* flag, *int* 
 *mtype, *int* 
 *locID);
@@ -219,9 +211,7 @@ on
 
 
 *void* **Tri\_CircumCen**(*double* (
-*xyz)
-[3
-], *double* 
+*xyz)[3], *double* 
 *cen);
 
 
@@ -230,9 +220,7 @@ on
 
 
 *double* **Tri\_Area**(*double* (
-*xyz)
-[3
-]);
+*xyz)[3]);
 
 
 ------------------------------------------------------------------------
@@ -240,9 +228,7 @@ on
 
 
 *void*   **Tri\_Normal**(*double* (
-*xyz)
-[3
-], *double* 
+*xyz)[3], *double* 
 *normal);
 
 
@@ -251,9 +237,7 @@ on
 
 
 *double* **Tet\_Volume**(*double* (
-*xyz)
-[3
-]);
+*xyz)[3]);
 
 
 ------------------------------------------------------------------------
@@ -261,9 +245,7 @@ on
 
 
 *void*   **Tet\_CircumCen**(*double* (
-*xyz)
-[3
-], *double* 
+*xyz)[3], *double* 
 *cen);
 
 

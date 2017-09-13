@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: FILTER
 ---
@@ -243,19 +239,13 @@ value of its master.
 
  **FORMAT:**
 
-  **filter** / ifirst,ilast,istride / 
-[tolerance
-]
+  **filter** / ifirst,ilast,istride / [tolerance]
 
   
 
   **filter** / [element]{style="font-weight: bold;" /
-  
-[[search\_range]{style="font-family: monospace;"[
-]]{style="font-family: courier new,courier,monospace;"
-  / 
-[ **nodelete**  [delete]{style="font-weight: bold;" 
-]
+  [[search\_range]{style="font-family: monospace;"[]]{style="font-family: courier new,courier,monospace;"
+  / [ **nodelete**  [delete]{style="font-weight: bold;" ]
 
 
   **EXAMPLES:**

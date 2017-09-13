@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: 'Microsoft Word 97/98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
@@ -21,17 +17,14 @@ Example 1: Check quality of various meshes
  the output log file.
 
 Input
-
 [lagrit\_input\_qual1<img height="300" width="300" src="/assets/images/qual1_tn.gif">"114"
 "89"](../lagrit_input_qual1)
 
    
-
 [lagrit\_input\_qual1skew<img height="300" width="300" src="/assets/images/qua11skew_tn.gif">"114"
 "89"](../lagrit_input_qual1skew)
 
    
-
 [lagrit\_input\_qual2<img height="300" width="300" src="/assets/images/qual2_tn.gif">"114"
 "89"](../lagrit_input_qual2)
 

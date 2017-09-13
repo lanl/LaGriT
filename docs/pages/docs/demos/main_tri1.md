@@ -2,7 +2,6 @@ Description: test triangulate
 
 The objective is to test the **triangulate** command.
 
-
 [Example 1](description_tri.md)
 
 

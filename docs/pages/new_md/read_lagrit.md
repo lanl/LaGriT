@@ -1,10 +1,6 @@
 ---
 Author: Jan Wills
-GENERATOR: 'Mozilla/4.72 
-[en
-] (X11; U; Linux 2.2.14-5.0 i686) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
 ---
 
  **read/lagrit**
@@ -13,12 +9,8 @@ GENERATOR: 'Mozilla/4.72
 
  **FORMAT:**
 
-  **read****/lagrit**/file\_name/
-[cmo-name
-]/
-[**ascii**
-  **binary**
-]
+  **read****/lagrit**/file\_name/[cmo-name]/[**ascii**
+  **binary**]
 
        cmo\_name    -    ignored all mesh objects are read from the
   file

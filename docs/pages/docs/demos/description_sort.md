@@ -11,7 +11,6 @@ Example 1: test using sort.
  [lagrit\_input\_sort](../lagrit_input_sort)
 
 Output Results:
-
 [Initial point
 distribution](image/sort.gif"[
 <img height="300" width="300" src="/assets/images/sort_tn.gif""110"

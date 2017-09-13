@@ -4,12 +4,7 @@
   material adjacency graph, from with the colormap can be quickly
   generated when needed.  Three actions are possible:
 
-  **colormap****/
-[add
-]createdelete
-]**/
-[cmo\_name
-]
+  **colormap****/[add]createdelete]**/[cmo\_name]
   **add** -- The material adjacency characteristics of the specified
   mesh object is added to the existing material adjacency graph, which
   is created if it didn't exist.  This is the default action.

@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: RMPOINT
 ---
@@ -14,9 +10,7 @@ title: RMPOINT
 
   Removes nodes or marks nodes for removal points or removes elements
   from a mesh.   The first option sets the node type flag 
-  
-[itp=**ifitpdud** (21)
-] to indicate that the set of nodes are
+  [itp=**ifitpdud** (21)] to indicate that the set of nodes are
   treated as invisible, but does not actually remove the nodes. 
   Elements will also be removed.  If  **inclusive** is specified, any
   element containing a marked node will be removed.  If  **exclusive**
@@ -36,9 +30,7 @@ title: RMPOINT
 
 **FORMAT:**
 
-**rmpoint**/ifirst,ilast,istride/
-[**exclusive****inclusive** 
-]
+**rmpoint**/ifirst,ilast,istride/[**exclusive****inclusive** ]
 
 **rmpoint****/compress**/
 

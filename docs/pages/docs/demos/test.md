@@ -10,7 +10,6 @@ mesh2.
 
 Input
 
-
 [lagrit\_input\_inter](../lagrit_input_inter)
  
 Images of GMV output

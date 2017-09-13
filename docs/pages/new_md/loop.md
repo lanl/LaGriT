@@ -1,10 +1,6 @@
 ---
 Author: Carl Gable
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 title: loop
 ---
 
@@ -103,5 +99,4 @@ loop
   
 
  Modify IO flags of three attributes in three different mesh objects.
-
 [](demos/trans/test/md/main_trans.md)

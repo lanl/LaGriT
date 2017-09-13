@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.72 
-[en
-] (X11; U; Linux 2.2.14-5.0 i686) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
 Generator: Microsoft Word 98
 title: BOUNDARY
 ---
@@ -20,9 +16,7 @@ title: BOUNDARY
 
  **FORMAT:**
 
-  **boundary/dirichlet**/attr\_name/
-[valueidentifier
-]/surface\_list
+  **boundary/dirichlet**/attr\_name/[valueidentifier]/surface\_list
 
   where:
 

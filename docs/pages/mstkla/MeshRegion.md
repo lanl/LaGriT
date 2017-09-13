@@ -1,11 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP28) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20REGION:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/Mesh.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
@@ -66,18 +61,10 @@ Return the vertices of the given tet w.r.t to the given edge. The
 
 vertices v1 and v2 are vertices of the edge (maybe (0,1) or (1,0)) -
 
-these are returned as rverts
-[0
-] and rverts
-[1
-]. The vertices
-rverts
-[2
-]
+these are returned as rverts[0] and rverts[1]. The vertices
+rverts[2]
 
-(call it k1) and rverts
-[3
-] (k2) are returned such that if the
+(call it k1) and rverts[3] (k2) are returned such that if the
 vertices
 
 are above the edge then looking from vertex 0 to vertex 1 of the edge
@@ -170,7 +157,6 @@ The local face numbering starts from 0 in C style.
 ------------------------------------------------------------------------
 
 
-
 []{#MR-Attribs*int* **MR\_GetAttVal**(*PMeshObj* mesh, *PMeshRegn* r,
 *char 
 **attname, *int 
@@ -223,7 +209,6 @@ now.....
 solid meshes
 
  
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20REGION:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/Mesh.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"

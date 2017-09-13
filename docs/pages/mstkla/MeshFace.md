@@ -1,11 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP28) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20FACE:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
@@ -198,21 +193,15 @@ faces return child edges.
 ------------------------------------------------------------------------
 
 *void* **MF\_Regions**(*PMeshObj* mesh, *PMeshFace* f, *PMeshRegn*
-fregions
-[2
-]);
+fregions[2]);
 
 Get the regions connected to an face. MESH\_BldUpAdj must be called
 
 before this operator can be called usefully. The regions will be
 
-returned such that the face 'f' as defined will point out fregions
-[0
-]
+returned such that the face 'f' as defined will point out fregions[0]
 
-(if it exists) and into fregions
-[1
-] (if it exists).
+(if it exists) and into fregions[1] (if it exists).
 
 A parent face will return both regions connected to it while a child
 
@@ -249,7 +238,6 @@ mesh face is made up of mesh edge or vertex in question.
 
 
 ------------------------------------------------------------------------
-
 
 
 []{#MF-Attribs*int* **MF\_GetAttVal**(*PMeshObj* mesh, *PMeshFace* f,
@@ -302,7 +290,6 @@ now.....
 
 <img height="300" width="300" src="../images/bullet12.gif">"27" "31" Will only work for
 surface meshes
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20FACE:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"

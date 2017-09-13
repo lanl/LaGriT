@@ -25,7 +25,6 @@ version of LaGriT is open-source (see below).
 
 For a LaGriT binary, fill out a the web form (link below) and
 instructions for downloading LaGriT will be emailed to you.
-
 [Click here to enter registration information](https://lagrit.lanl.gov/reg/form.php)
 
 *Note: The username for the site is "lagrit" and the password is

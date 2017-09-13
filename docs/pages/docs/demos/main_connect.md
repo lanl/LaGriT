@@ -1,7 +1,6 @@
 Description: test 3d connect
 
 The objective is to connect a set of nodes into a tetrahedral mesh that satisfies the Delaunay criterion using the **connect** command.
-
 [Example 1](description_connect.md)
 
 

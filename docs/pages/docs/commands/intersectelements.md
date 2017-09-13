@@ -12,15 +12,11 @@ title: INTERSECTELEMENTS
 
 **FORMAT:**
 
- **intersect\_elements** / mesh1 / mesh2 / 
-[attrib\_name
-]
+ **intersect\_elements** / mesh1 / mesh2 / [attrib\_name]
 
 **NOTES:**
 
- 
-[attrib\_name
-] specifies the name of the element based attribute in
+ [attrib\_name] specifies the name of the element based attribute in
  mesh1 that is created by this command. The default name for this
  attribute is in\_&lt;mesh2&gt;. For example, if the comand syntax was:
 

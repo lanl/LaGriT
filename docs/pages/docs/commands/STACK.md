@@ -40,18 +40,8 @@ STACK
 
  
 
- **stack/layers**/ file\_type / 
-[xy\_subset
-] / file\_list /
- 
-[buffer\_opt
-] 
-[truncate\_opt
-] 
-[pinchout\_opt
-] 
-[flip\_opt
-]
+ **stack/layers**/ file\_type / [xy\_subset] / file\_list /
+ [buffer\_opt] [truncate\_opt] [pinchout\_opt] [flip\_opt]
 
 
 
@@ -77,11 +67,7 @@ file\_list This is the list of files to read from bottom surface to top.
 Each surface can be followed by an integer value to indicate a material
 number, and an integer value to indicate the number of layers to add as
 refinement between input surfaces. The file list has this syntax: file1
-mat\_num, file2 mat\_num 
-[ref\_num
-], file3 mat\_num 
-[ref\_num
-] ...
+mat\_num, file2 mat\_num [ref\_num], file3 mat\_num [ref\_num] ...
 
  file1 thru filen can be quad or tri surface files.
 
@@ -163,47 +149,22 @@ elements will be hex.
 
  **stack/layers**
 
- **
-[avs  gmv 
-]**
+ **[avs  gmv ]**
 
- 
-[minx,miny, maxx,maxy
-]
+ [minx,miny, maxx,maxy]
 
- filename(1) 
-[matno
-] filename(i) 
-[matnum, addnum
-] filename(n)
- 
-[matnum, addnum
-] **
-[ flip 
-]**
+ filename(1) [matno] filename(i) [matnum, addnum] filename(n)
+ [matnum, addnum] **[ flip ]**
 
- **
-[ buffer** 
-[xdistance
-] 
-]
+ **[ buffer** [xdistance] ]
 
- **
-[ pinch** font face="Courier New,Courier"&gt;
-[xthick
-] 
-]
+ **[ pinch** font face="Courier New,Courier"&gt;[xthick] ]
 
- **
-[ t**trunc** 
-[ifile
-]
+ **[ t**trunc** [ifile]
 
- **
-[ dpinch** xvalue /
+ **[ dpinch** xvalue /
 
- **dmin** xvalue 
-]
+ **dmin** xvalue ]
 
   
 

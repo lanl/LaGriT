@@ -2,7 +2,6 @@ Description: test rmmat
 
 The objective is to test the **rmmat** command.
 
-
 [Example 1](description_rmmat.md)
 
 

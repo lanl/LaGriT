@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 ---
 
@@ -47,9 +43,7 @@ sensitive.
 In the command description that follows certain symbols have special
 meaning.
 
-
-[ 
-]          surround optional parameters
+[ ]          surround optional parameters
 
              signifies alternate choices
 

@@ -40,7 +40,6 @@ NCOEF+NEQ+1: is a value used to allocate memory in FEHM for the integer pointers
 NUM_AREA_COEF: Can be (1,3, or 4) number of area coefficients. The area/distance coefficients are the area of a Voronoi face divided by the Delaunay edge length. This coefficient is either written as a scalar (1), a vector area (3), or both vector and scalar areas are written (4). 
 
 NCON_MAX: is an optional parameter indicating the maximum number of connections to a single node in the entire mesh. This is used for memory allocation. If omitted, FEHM will default to a value that might cause problems in highly unstructured meshes. 
-
 [A note on delimiters: In the ASCII version of the .stor format, the first three lines are parsed for end of line characters. That is, the Title Line, Date Line, and Matrix Parameters Line must occur in the first three lines. Afterwards, data is delimited by whitespace and an occur in free form. Further, no attempt to find or report errors in .stor files is made in FEHM.] 
 
 3. Voronoi Volumes

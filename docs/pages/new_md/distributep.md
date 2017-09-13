@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 ---
 
@@ -22,8 +18,7 @@ coordinates. The rays are specified by defining a set of points and a
 plane. For each point in the set, a ray is constructed normal to the
 plane passing through the point. In general rays are constructed in
 sets, each set is specified by a single plane and a set of points. The
-**createpts** command is used to create the points. The
-[regnpts](REGNPTS.md) command is used to specify the plane, to specify
+**createpts** command is used to create the points. The[regnpts](REGNPTS.md) command is used to specify the plane, to specify
 the region, and to specify the number of points to be distributed along
 the rays. The points and the plane should lie outside the enclosing
 volume and on opposite sides. The normal to the plane should point

@@ -5,7 +5,6 @@ title: 'LaGriT V2.004 Release Notes, 10/21/2008'
 <div id="banner">
 
 <div id="header">
-
 [<img height="300" width="300" src="lagrit_release_notes_081021_files/lagrit-logo.jpg">](https://ancho.lanl.gov/lagrit/){#logo
 
 ------------------------------------------------------------------------
@@ -161,7 +160,6 @@ Files:
 
 06/11/08:
 ---------
-
 [[]{.time](https://ancho.lanl.gov/lagrit/trac/changeset/68%3Afb1f221839b1)
 
 Timestamp:
@@ -302,7 +300,6 @@ Files:
 
 04/30/08:
 ---------
-
 [[]{.time](https://ancho.lanl.gov/lagrit/trac/changeset/47%3Aded381465e6b)
 
 
@@ -556,7 +553,6 @@ Message:
 
 04/03/08:
 ---------
-
 [[]{.time](https://ancho.lanl.gov/lagrit/trac/changeset/29%3A16b0a7f6385a)
 
 Timestamp:
@@ -609,7 +605,6 @@ Message:
 
 01/30/08:
 ---------
-
 [[]{.time](https://ancho.lanl.gov/lagrit/trac/changeset/24%3A7ea4eb8824e0)
 
 Timestamp:
@@ -645,7 +640,6 @@ Message:
 
 01/25/08:
 ---------
-
 [[]{.time](https://ancho.lanl.gov/lagrit/trac/changeset/21%3A0acfc0ed75df)
 
 Timestamp:
@@ -680,7 +674,6 @@ Message:
 
 01/22/08:
 ---------
-
 [[]{.time](https://ancho.lanl.gov/lagrit/trac/changeset/20%3A1d3957a02d1f)
 Timestamp:
 01/22/08 14:45:22 (9 months ago)
@@ -728,7 +721,6 @@ Message:
 
 01/17/08:
 ---------
-
 [[]{.time](https://ancho.lanl.gov/lagrit/trac/changeset/18%3Aaed1a435b630)
 
 Timestamp:
@@ -780,7 +772,6 @@ Message:
 <div id="footer">
 
 ------------------------------------------------------------------------
-
 [![Trac
 Powered](lagrit_release_notes_081021_files/trac_logo_mini.png)"107"
 "30"](http://trac.edgewall.org/){#tracpowered

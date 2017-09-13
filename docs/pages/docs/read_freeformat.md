@@ -9,9 +9,7 @@
 
  **FORMAT:**
 
-  **read**/gmvfreeformat/filename/
-[cmo-name
-]
+  **read**/gmvfreeformat/filename/[cmo-name]
 
   **EXAMPLES:**
 

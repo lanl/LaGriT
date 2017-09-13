@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: RZ
 ---
@@ -58,9 +54,7 @@ title: RZ
 
  **rz****/xyz****rtz****rtp**ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
 
- iiz,ijz,ikz/
-[iirat,ijrat,ikrat/xrz,yrz,zrz/
-]
+ iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/]
 
  **rz/line**/np///xmin,ymin,zmin,xmax,ymax,zmax/iiz,ijz,ikz/
 

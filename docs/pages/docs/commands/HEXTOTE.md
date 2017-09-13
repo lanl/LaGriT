@@ -10,11 +10,7 @@ IMPORTANT NOTE: This command, while still recognized, is officially unsupported.
 
 **FORMAT:**
 
- **hextotet**/ 
-[ ioption 
-] / cmo\_snk / cmo\_src / 
-[**rmvolume**
-]
+ **hextotet**/ [ ioption ] / cmo\_snk / cmo\_src / [**rmvolume**]
 
 ioption: is a numerical number indicating the number of tets or
 triangles to break each element into. If this parameter is missing then

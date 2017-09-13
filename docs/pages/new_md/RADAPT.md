@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: RADAPT
 ---
@@ -105,31 +101,13 @@ title: RADAPT
 
  **FORMAT:**
 
-  **radapt** **/
-[position**
-]/ ****
-  
-[**esug****mega**
-]/
-[ifirst,ilast,istride
-] /
-[field
-]/
+  **radapt** **/[position**]/ ****
+  [**esug****mega**]/[ifirst,ilast,istride] /[field]/
 
-  
-[**refresh****stale**
-]
+  [**refresh****stale**]
 
-  **radapt** / 
-[**position**
-]/ **** 
-[**esug****mega** 
-]/
-  
-[ifirst,ilast,istride
-] / 
-[**user**
-]
+  **radapt** / [**position**]/ **** [**esug****mega** ]/
+  [ifirst,ilast,istride] / [**user**]
 
  **EXAMPLES:**
 

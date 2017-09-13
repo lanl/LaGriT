@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP28) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
 
  [<img height="300" width="300" src="../images/arrow2.gif">"30"
@@ -45,7 +41,6 @@ nodes are on  an interface. Parent faces and edges on an interface will
 return parent nodes and child faces and edges on an interface will
 return child nodes. *Lastly, if the entity is not on an interface, it is
 its own parent or its own child.*
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](mstkla.md#parent-child) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](mstkla.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"

@@ -1,17 +1,9 @@
 ---
 Author: Jan Wills
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 ---
 
-**status**/
-[mo\_name
-]/
-[**brief**
-]
+**status**/[mo\_name]/[**brief**]
 mo\_name is type character, default is '**-all-'**
 
 Prints the status of Mesh Objects.  This includes a header with

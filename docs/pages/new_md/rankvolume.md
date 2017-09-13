@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: SETSIZE
 ---
@@ -25,9 +21,7 @@ title: SETSIZE
 
 **FORMAT:**
 
-**rankvolume**/
-[number\_of\_elements\_to\_rank
-]
+**rankvolume**/[number\_of\_elements\_to\_rank]
 
 EXAMPLE:
 

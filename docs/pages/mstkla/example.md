@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP28) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
 
  [<img height="300" width="300" src="../images/arrow2.gif">"30"
@@ -188,18 +184,14 @@ GENERATOR: 'Mozilla/4.05C-SGI
 #include "gmtkla.h"
 
 int main(int argc, char 
-*argv
-[
-]) {
+*argv[]) {
 
   char 
 *meshname;
 
   PMeshObj mesh;
 
-  PMeshVert vert, rverts
-[8
-];
+  PMeshVert vert, rverts[8];
 
   PMeshRegn reg, oreg;
 
@@ -208,9 +200,7 @@ int main(int argc, char
   int nv, nf, nr, nrv, i, j, 
 *rfside, nrf, ngr, ngf;
 
-  double xyz
-[3
-];
+  double xyz[3];
 
   PGeomEntity gent;
 
@@ -242,11 +232,7 @@ file
 
   mesh = MESH\_Create();
 
-  MESH\_InitFromFile(mesh, argv
-[1
-], argv
-[2
-], 1, &meshname);
+  MESH\_InitFromFile(mesh, argv[1], argv[2], 1, &meshname);
 
  
 
@@ -306,9 +292,7 @@ n",(i+1));
 
  
 
-    GR\_Faces(grlist
-[i
-],&nrf,&rflist,&rfside);
+    GR\_Faces(grlist[i],&nrf,&rflist,&rfside);
 
  
 
@@ -322,13 +306,7 @@ n",nrf);
 
 n",
 
-       GF\_Number(rflist
-[j
-]),rfside
-[j
-],GF\_Type(rflist
-[j
-]));
+       GF\_Number(rflist[j]),rfside[j],GF\_Type(rflist[j]));
 
     
 
@@ -336,9 +314,7 @@ n",
 
   for (i = 0; i &lt; ngr; i++)
 
-    GR\_Delete(grlist
-[i
-]);
+    GR\_Delete(grlist[i]);
 
   free(grlist);
 
@@ -359,9 +335,7 @@ themselves***
 
   for (i = 0; i &lt; ngf; i++)
 
-    GF\_Delete(gflist
-[i
-]);
+    GF\_Delete(gflist[i]);
 
   free(gflist);
 
@@ -420,38 +394,24 @@ of***
 
     if (gent)
 
-      fprintf(stderr,"V%-d 
-[ G%-d (order %1d) ---  %lf %lf %lf
+      fprintf(stderr,"V%-d [ G%-d (order %1d) ---  %lf %lf %lf
 
 n",
 
        MV\_Number(mesh,vert),GEnt\_Number(gent), MV\_GMtype(mesh,vert),
 
-       xyz
-[0
-],xyz
-[1
-],xyz
-[2
-]);
+       xyz[0],xyz[1],xyz[2]);
 
     else
 
-      fprintf(stderr,"V%-d 
-[ G
+      fprintf(stderr,"V%-d [ G
 * (order %1d) ---  %lf %lf %lf
 
 n",
 
        MV\_Number(mesh,vert),MV\_GMtype(mesh,vert),
 
-       xyz
-[0
-],xyz
-[1
-],xyz
-[2
-]);
+       xyz[0],xyz[1],xyz[2]);
 
   
 
@@ -505,15 +465,12 @@ n");
 
  
 
-    fprintf(stderr,"R%-d 
-[ G%-d --- ", MR\_Number(mesh,reg),
+    fprintf(stderr,"R%-d [ G%-d --- ", MR\_Number(mesh,reg),
 GEnt\_Number(gent));
 
     for (j = 0; j &lt; nrv; j++)
 
-      fprintf(stderr,"%d  ", MV\_Number(mesh,rverts
-[j
-]));
+      fprintf(stderr,"%d  ", MV\_Number(mesh,rverts[j]));
 
     fprintf(stderr,"
 

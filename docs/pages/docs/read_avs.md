@@ -6,10 +6,7 @@ the command or for a mesh object to have been created previously.
 
 SHORT **FORMAT:**
 
-**read**/filename.
-[inpavs
-]/cmo\_name
-
+**read**/filename.[inpavs]/cmo\_name
 
 
 [Note that the filename is case-sensitive, though the extension
@@ -17,11 +14,7 @@ itself is not.]
 
 LONG **FORMAT:**
 
-**read****/avs**/filename/
-[cmo-name
-]/
-[node\_flags/element\_flag/attribute\_flag
-]
+**read****/avs**/filename/[cmo-name]/[node\_flags/element\_flag/attribute\_flag]
 
  
 

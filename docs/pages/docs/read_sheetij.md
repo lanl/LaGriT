@@ -9,23 +9,15 @@
 
  **FORMAT:**
 
- **read****/sheetij**/ file\_name /nx,ny/minx,miny/dx,dy 
-[options
-]
+ **read****/sheetij**/ file\_name /nx,ny/minx,miny/dx,dy [options]
 
  **read****/sheetij**/ file\_name /nx,ny/minx,miny/dx,dy/ skip n /
- 
-[options
-]
+ [options]
 
  **read****/sheetij**/ file\_name
- /nx,ny/minx,miny/dx,dy/istart,jstart,istop,jstop/
-[options
-]
+ /nx,ny/minx,miny/dx,dy/istart,jstart,istop,jstop/[options]
 
- **read****/sheetij**/ file\_name/-header-/
-[options
-]
+ **read****/sheetij**/ file\_name/-header-/[options]
 
  
 

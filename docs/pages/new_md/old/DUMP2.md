@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI 
-[en
-] (X11; U; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: DUMP
 ---
@@ -25,25 +21,17 @@ written to GMV files.
 
 **FORMAT:**
 
-**dump**/file\_type/file\_name/
-[cmo\_name
-]
+**dump**/file\_type/file\_name/[cmo\_name]
 
 valid file\_types are: **coord**, **zone**, **gmv**, **avs**, **chad**,
 **fehm**, **datex ,std, geom** and **lagrit**
 
-**dump** / **coord** /file\_name/
-[cmo\_name
-]
+**dump** / **coord** /file\_name/[cmo\_name]
 
 Will output a file with node list x,y,z values and element connectivity
 list in FEHM format.
 
-**dump** / **zone** /file\_name/
-[cmo\_name
-]/
-[**delattkeepatt**
-]
+**dump** / **zone** /file\_name/[cmo\_name]/[**delattkeepatt**]
 
 Will output a set of 4 files.
 
@@ -83,21 +71,15 @@ in each entry are separated by a comma.
 file\_name\_**outside**.**area** is a list of 2D areas associated with
 each node.
 
-**dump** / **zone\_imt** /file\_name/
-[cmo\_name
-]
+**dump** / **zone\_imt** /file\_name/[cmo\_name]
 
 Will output only one file:
 
 file\_name\_**material**.**zone** is node list for each material (imt)
 value.
 
-**dump** / **zone\_outside** / file\_name/
-[cmo\_name
-] /
-
-[**delatt****keepatt**
-]
+**dump** / **zone\_outside** / file\_name/[cmo\_name] /
+[**delatt****keepatt**]
 
 Will output only two files:
 
@@ -107,9 +89,7 @@ external boundaries.
 file\_name\_**outside**.**area** is a list of 2D areas associated with
 each node.
 
-**dump** / **avs** /file\_name/
-[cmo\_name
-] / iopt\_points /
+**dump** / **avs** /file\_name/[cmo\_name] / iopt\_points /
 iopt\_elements / iopt\_node\_attributes/iopt\_element\_attributes
 
 Output in AVS UCD (Unstructured Cell Data) format. One can turn on or
@@ -121,16 +101,7 @@ For file format specification see
 <http://help.avs.com/Express/doc/help/reference/dvmac/UCD_Form.htm
 
 **dump / avs2 **/
-file\_name/
-[cmo\_name
-]/
-[iopt\_points
-]/iopt\_elements
-]/
-[iopt\_node\_attributes
-]/
-[iopt\_element\_attributes
-]**
+file\_name/[cmo\_name]/[iopt\_points]/iopt\_elements]/[iopt\_node\_attributes]/[iopt\_element\_attributes]**
 
 **
 
@@ -139,9 +110,7 @@ converts integers to reals on output. The /avs/ option above outputs all
 attributes as real numbers. This option is slower but the files are
 smaller if there are integers in the node or element attributes.
 
-**dump** / **stl** /file\_name/
-[cmo\_name
-]
+**dump** / **stl** /file\_name/[cmo\_name]
 
 Output in STL, stereo lithography format. This is only valid for
 triangular sheets.
@@ -152,11 +121,7 @@ will write an ascii file containing the geometry information for the
 current run. This information includes the region and mregion
 definitions and surface, names, types and definitions.
 
-**dump/lagrit**/file\_name/
-[cmo\_name
-]/ 
-[**ascii**  **binary**
-]
+**dump/lagrit**/file\_name/[cmo\_name]/ [**ascii**  **binary**]
 
 will write an restart file that contains geometry and mesh object
 information.  cmo\_name can be '**-all-**' in which case all mesh
@@ -187,21 +152,11 @@ File format:
 
 elem\_number number\_of\_adjacent\_elem e1 e2 ... en  
 
-**dump/gmv**/file-name/
-[mesh-object
-]/
-[**ascii**  **binary**
-]
+**dump/gmv**/file-name/[mesh-object]/[**ascii**  **binary**]
 
 Write a file to be read by the graphics program GMV.  The defaults are
 binary and current mesh object.
-
-[**dump/fehm**/file\_name/
-[cmo\_name
-[**scalarvectorbotharea\_scalararea\_vectorarea\_both**
-]/
-[**delatt,keepatt**
-]](http://lagrit.lanl.gov/DUMP3.md)
+[**dump/fehm**/file\_name/[cmo\_name[**scalarvectorbotharea\_scalararea\_vectorarea\_both**]/[**delatt,keepatt**]](http://lagrit.lanl.gov/DUMP3.md)
 
 
 Write out a series of files for the FEHM flow and transport code. The
@@ -249,7 +204,6 @@ element connectivity and node attributes)
 
 **dump**/avs/file\_name.inp/cmo\_name/0 0 0 1 (output element
 attributes)
-
 
 
 

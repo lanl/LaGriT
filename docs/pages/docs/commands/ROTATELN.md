@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: ROTATELN
 ---
@@ -33,9 +29,7 @@ title: ROTATELN
 
 **FORMAT:**
 
-**rotateln** /ifirst,ilast,istride/ 
-[**no**
-] opy** /
+**rotateln** /ifirst,ilast,istride/ [**no**] opy** /
 x1,y1,z1/x2,y2,z2/theta/xcen,ycen,zcen/
 
  

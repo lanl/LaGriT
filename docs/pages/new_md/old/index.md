@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI 
-[en
-] (X11; U; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
 KEYWORDS: 
     LaGriT, Unstructured Grid Generation, Delaunay Grid, Voronoi
     Grid&gt;&lt;IMG SRC=

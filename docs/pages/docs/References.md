@@ -17,8 +17,7 @@ Workshop on Computational Electronics and Nanoelectronics, Urbana,
 Illinois, October 20-22, 1997.
 
 4.  Kuprat, Andrew; Cartwright David; Gammel J. Tinka; George Denise;
-Kendrick Brian; Kilcrease David; Trease Harold;  and Walker, Robert,
-["X3D, Moving Grid Methods for Semiconductor
+Kendrick Brian; Kilcrease David; Trease Harold;  and Walker, Robert,["X3D, Moving Grid Methods for Semiconductor
 Applications"<a href="https://lanl.github.io/LaGriT/assets/images/972891.pdf" download> </a> ,LA-UR-97-2891.
 
 5.  Kuprat, Andrew, "[Adaptive Smoothing Techniques for 3-D Unstructured

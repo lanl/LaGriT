@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.75 
-[en
-] (Win98; U) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.75 [en] (Win98; U) [Netscape]'
 Generator: Microsoft Word 98
 title: 'NEGATIVE\_AIJ'
 ---
@@ -69,5 +65,4 @@ until a maximum number of iterations has been exceeded.
 will be made no refinement will be performed/ **negative\_aij/rivara**
 
 **** 
-
 [Click here for demos](demos/refine_rivara/test/md/main_rivara.md)

@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.51C-SGI 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.51C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: DOPING
 ---
@@ -119,25 +115,17 @@ title: DOPING
    **xyz**/x1,y1,z1/x2,y2,z2/lateral\_diffusion/
    concentration/standard\_deviation/
 
-   **doping/table**/field\_out**/setaddsub**/cmo\_ref/attr\_ref/
-[**linearlog****asinh**
-]
+   **doping/table**/field\_out**/setaddsub**/cmo\_ref/attr\_ref/[**linearlog****asinh**]
 
-   **doping/table**/field\_out**/setaddsub**/cmo\_ref/attr\_ref/
-[**linearlog****asinh**
-]/
-   
-[geom\_out/geom\_ref
-]
+   **doping/table**/field\_out**/setaddsub**/cmo\_ref/attr\_ref/[**linearlog****asinh**]/
+   [geom\_out/geom\_ref]
 
    **doping/integer1****/imt1****/set**/ifirst,ilast,istride/cmo\_ref
    **/imt1****/min****max**
 
    **doping/integer2**/field\_out2**/set**/ifirst,ilast,istride/cmo\_ref/attr\_ref/
 
-   **min****max****minp****maxp**/
-[**create****use**
-]
+   **min****max****minp****maxp**/[**create****use**]
  
   EXAMPLE:
  

@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 ---
 
 Notes on connect algorithm:
@@ -60,8 +56,7 @@ which consists of the following steps:
   Since we are comparing distances squared the appropriate test is an
   area test.  We construct a variable called **smalarea** =
 
-  
-[ ((machine
+  [ ((machine
   precision)
 *10,000)
 *
@@ -69,8 +64,7 @@ which consists of the following steps:
 *boxsizey
 *boxsizez)
 *
-*(2.d0/3.d0)
-]
+*(2.d0/3.d0)]
 
   where boxsize is the (max coordinate value - min coordinate value)
   in each of the 3 directions,
@@ -111,23 +105,19 @@ which consists of the following steps:
  volume of each new tetrahedron is positive.  This test uses a volume
  epsilon that represents the smallest volume that can be handled
  computationally.  We use the mesh object attribute **epsilonv** which
- is set to 
-[ ((machine
+ is set to [ ((machine
  precision)
 *1000)
 *
 *(boxsizex
 *boxsizey
-*boxsizez)
-].  The second
+*boxsizez)].  The second
  test compares the sum of the volumes of the new tetrahedra to the sum
- of the volumes of the removed tetrahedra.  This test fails if: 
-[ 
+ of the volumes of the removed tetrahedra.  This test fails if: [ 
  (volnewt-vololdt)/vololdt  &gt; machine precision
 *10
 *
-*8
-].
+*8].
 
  The user can change the 'tightness' of the circumsphere test by adding
  an attribute to the mesh object called **circumsphere\_factor** and

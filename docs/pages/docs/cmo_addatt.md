@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI 
-[en
-] (X11; U; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
 title: 'cmo/addatt'
 ---
 
@@ -30,10 +26,8 @@ cmo/addatt
 
  GENERAL **FORMAT:**
 
-  **cmo/addatt** / mo\_name / att\_name / 
-[ type / rank / length /
-  interpolate / persistence / ioflag / value 
-]
+  **cmo/addatt** / mo\_name / att\_name / [ type / rank / length /
+  interpolate / persistence / ioflag / value ]
 
  
 

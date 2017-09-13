@@ -18,9 +18,7 @@
 
  LONG **FORMAT:**
 
-  **read/gmv**/file\_name/
-[cmo-name
-]
+  **read/gmv**/file\_name/[cmo-name]
 
  **EXAMPLES:**
 

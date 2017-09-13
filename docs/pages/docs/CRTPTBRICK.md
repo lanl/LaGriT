@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: RZBRICK
 ---
@@ -46,9 +42,7 @@ isym,jsym,ksym symmetry flags - not documented
 
 **createpts/brick****/xyz****rtz****rtp**/ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/
 
-iiz,ijz,ikz/
-[iirat,ijrat,ikrat/xrz,yrz,zrz/isym,jsym,ksym
-]
+iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/isym,jsym,ksym]
 
 or
 

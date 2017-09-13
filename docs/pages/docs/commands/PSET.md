@@ -18,42 +18,20 @@
 
   **write** write pset node list to a file
 
-  pset / 
-[name-all-
-] / write/ file\_name
-[.vertexset
-] /
-  
-[asciibinary
-]
+  pset / [name-all-] / write/ file\_name[.vertexset] /
+  [asciibinary]
 
   **zone** write pset node list to a file (FEHM Flow and Transport
   code zone file format)
 
-  pset / 
-[name-all-
-] / zone / file\_name
-[.zone
-] / 
-[ascii
-]
-  
-[zone\_number
-]
+  pset / [name-all-] / zone / file\_name[.zone] / [ascii]
+  [zone\_number]
 
   **zonn** write pset node list to a file (FEHM Flow and Transport
   code zonn file format)
 
-  pset / 
-[name-all-
-] / zonn / file\_name
-[.zonn
-] / 
-[ascii
-]
-  
-[zone\_number
-]
+  pset / [name-all-] / zonn / file\_name[.zonn] / [ascii]
+  [zone\_number]
 
   In writezonezonn mode the file name suffix .vertexset.zone.zonn
   is added if the string provided does not have the file name suffix.
@@ -116,53 +94,27 @@ chapter III, A](../meshobject.md) for an explanation of the
 
 **seq**/ifirst,ilast,istride
 
-**unioninternotdelete**/pset1
-[/pset2/.../psetn
-]
+**unioninternotdelete**/pset1[/pset2/.../psetn]
 
 **list**
 
-**write** / file\_name
-[.vertexset
-] / 
-[asciibinary
-]
+**write** / file\_name[.vertexset] / [asciibinary]
 
-**zone** / file\_name
-[.zone
-] / 
-[ascii
-] 
-[zone\_number
-]
+**zone** / file\_name[.zone] / [ascii] [zone\_number]
 
-**zonn** / file\_name
-[.zonn
-] / 
-[ascii
-] 
-[zone\_number
-]
+**zonn** / file\_name[.zonn] / [ascii] [zone\_number]
 
 **delete**
 
 **attribute**/attribute
-/ifirst,ilast,istride/value/
-[ltlegtgeeqne
-]
+/ifirst,ilast,istride/value/[ltlegtgeeqne]
 
 **attribute**/attribute
-/ifirst,ilast,istride/
-[ltlegtgeeqne
-]/value
+/ifirst,ilast,istride/[ltlegtgeeqne]/value
 
-**zq**/attribute /ifirst,ilast,istride/value/
-[ltlegtgeeqne
-]
+**zq**/attribute /ifirst,ilast,istride/value/[ltlegtgeeqne]
 
-**zq**/attribute /ifirst,ilast,istride/
-[ltlegtgeeqne
-]/value
+**zq**/attribute /ifirst,ilast,istride/[ltlegtgeeqne]/value
 
 **region**/region name/ifirst,ilast,istride
 
@@ -174,9 +126,7 @@ chapter III, A](../meshobject.md) for an explanation of the
 
 **geom****/rtp**/ifirst,ilast,istride/r1,t1,p1/r2/t2/p2/xcen,ycen,zcen
 
-**surface**/surface\_name/
-[ifirst,ilast,istride
-]
+**surface**/surface\_name/[ifirst,ilast,istride]
 
 **surface** will select nodes that are on the specified surface.  If
 **-interface-** is specified for the surface name, all interface  nodes 
@@ -255,5 +205,4 @@ associate the name spseta with the set of nodes that lie on the surface s2 and w
     pset/mypset/constraints/3
 
 associate the name mypset with the set of nodes that have 3 constraints ( normally the set of nodes that lie on 3  constrained surfaces -- surfaces of type reflect or intrcons)
-
 [Click here for demos](../demos/main_pset.md)

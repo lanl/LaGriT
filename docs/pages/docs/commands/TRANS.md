@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.75 
-[en
-] (Win98; U) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.75 [en] (Win98; U) [Netscape]'
 Generator: Microsoft Word 98
 title: TRANS
 ---
@@ -34,13 +30,9 @@ the x and y axes, the z values will not change.
 
 rans**/ifirst,ilast,istride/xold,yold,zold/xnew,ynew,znew
 
-rans**/ifirst,ilast,istride/enter****zero****original**/
-[**xyz****rtp****rtz**
-]/
+rans**/ifirst,ilast,istride/enter****zero****original**/[**xyz****rtp****rtz**]/
 
-
-[xdim,ydim,zdim
-]
+[xdim,ydim,zdim]
 
 EXAMPLE:
 
@@ -50,5 +42,4 @@ The points in the **pset** mypoints will be moved 2 in the positive x
 direction and 2 in the positive y direction.
 
  
-
 [Click here for demos](../demos/main_trans.md)

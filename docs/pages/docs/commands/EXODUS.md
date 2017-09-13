@@ -1,12 +1,6 @@
 
-**dump / exo  exodusii** / file\_name/ mo\_name 
-[ **psets** 
-] / 
-[
-**eltsets**
-] / 
-[ **facesets** file1 file2 ... filen 
-]
+**dump / exo  exodusii** / file\_name/ mo\_name [ **psets** ] / [
+**eltsets**] / [ **facesets** file1 file2 ... filen ]
 
 
 

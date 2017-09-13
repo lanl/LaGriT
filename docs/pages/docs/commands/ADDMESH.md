@@ -86,11 +86,9 @@
  around mesh2, such that the surface could then be inserted into the 3D
  mesh (such as to insert a fault into a background terrain mesh). The
  background mesh, minus the excavated/removed nodes, is put into mesh3.
- If the optional 
-[bfs] argument is given, the routine will use a
+ If the optional [bfs] argument is given, the routine will use a
  breadth-first search algorithm to find nodes to remove, as opposed to
- the default KD-tree algorithm. If the optional 
-[connect] argument is
+ the default KD-tree algorithm. If the optional [connect] argument is
  given, the program will, after excavation, execute an addmesh/append,
  and then a connect, to produce a fully connected mesh with the surface
  (mesh2) inserted into the background (mesh1).

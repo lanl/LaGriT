@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: 'Microsoft Word 97/98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
@@ -22,9 +18,7 @@ Input
  [lagrit\_input\_pset](../lagrit_input_pset)
 
 Images of GMV input and output
-
 [Output log file](../output_pset)
-
 [Input geometry 
 <img height="300" width="300" src="/assets/images/pset2_tn.gif""114"
 "89"](image/pset2.gif"

@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: 'DUMP/FEHM and DUMP/STOR'
 ---
@@ -22,13 +18,11 @@ the most common options and will write an ASCII compressed stor file
 with scalar area coefficients. If an option is not valid, the program
 will continue but use a valid default setting. Both
 **[dump/fehm]{style="font-family: Courier New,Courier,monospace;"** and
-**dump/stor** use the same set of optional settings after the required
-[file\_name]{style="font-family: Courier New,Courier,monospace;". 
+**dump/stor** use the same set of optional settings after the required[file\_name]{style="font-family: Courier New,Courier,monospace;". 
 
 
 
-Though the syntax for both are the same, with command
-[stor]{style="font-weight: bold;", only the stor file is written. With
+Though the syntax for both are the same, with command[stor]{style="font-weight: bold;", only the stor file is written. With
 command [fehm]{style="font-weight: bold;", the full set of 7 FEHM files
 are written. The full set of fehm files will look like the following,
 where "[file\_name]{style="font-style: italic; is the root of each
@@ -135,9 +129,7 @@ name:
 
 **FORMAT:**
 
- **dump / fehm  stor **/ file\_name / 
-[cmo\_name
-]
+ **dump / fehm  stor **/ file\_name / [cmo\_name]
 
  
 
@@ -159,26 +151,16 @@ name:
 
  
 
-  / 
-[ **ascii  binary** 
-]  
+  / [ **ascii  binary** ]  
 
-  / 
-[ **scalar  vector  both  area\_scalar  area\_vector 
- area\_both**
-]
+  / [ **scalar  vector  both  area\_scalar  area\_vector 
+ area\_both**]
 
-   / 
-[ **all  graph  coefs  none** 
-]
+   / [ **all  graph  coefs  none** ]
 
-  / 
-[ **delatt,  keepatt** 
-]
+  / [ **delatt,  keepatt** ]
 
- / 
-[ **hybrid, nohybrid** 
-]
+ / [ **hybrid, nohybrid** ]
  IO Mode Options for stor file
 
  Area Coefficient Options for writing stor file coefficient values

@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.8 
-[en
-] (X11; U; SunOS 5.8 sun4u) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.8 [en] (X11; U; SunOS 5.8 sun4u) [Netscape]'
 Generator: Microsoft Word 98
 Template: 
     Macintosh HD:Applications:Microsoft Office 98:Word Custom
@@ -197,30 +193,10 @@ title: MASSAGE
 
  **FORMAT:**
 
- **massage**/bisection\_length/merge\_length/toldamage/
-[[tolroughness]{style="font-family: monospace;"
-]/
-[ifirst,ilast,istride
-]/
+ **massage**/bisection\_length/merge\_length/toldamage/[[tolroughness]{style="font-family: monospace;"]/[ifirst,ilast,istride]/
 
     
- 
-[**nosmooth**
-]/
-[**norecon**
-]
-[**strictmergelength**
-]/
-[**ignoremats**
-]/
-[**lite
-]**/
-[**checkaxy**
-]/
-[**semiexclusive**
-]**/
-[exclusive**
-]
+ [**nosmooth**]/[**norecon**][**strictmergelength**]/[**ignoremats**]/[**lite]**/[**checkaxy**]/[**semiexclusive**]**/[exclusive**]
 
  
 

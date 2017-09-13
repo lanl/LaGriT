@@ -1,15 +1,9 @@
 ---
 Author: Jan Wills
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 ---
 
- **readatt**/mo\_name/attr\_name1/
-[attr\_name2..
-]operation/filename
+ **readatt**/mo\_name/attr\_name1/[attr\_name2..]operation/filename
 
   cmo\_name is type character, required
 

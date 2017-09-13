@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: REFINE
 ---
@@ -31,9 +27,7 @@ COMMAND ARGUMENTS:
  **refine** / refine\_option / field / interpolation / refine\_type /
  range / xvalue
 
- / 
-[ xvalue2 / xvalue3 / inclusive\_flag 
-]
+ / [ xvalue2 / xvalue3 / inclusive\_flag ]
 
 
 
@@ -132,9 +126,7 @@ range is the selection of points designated by node numbers for
 ifirst,ilast,istride or **pset,get**,pname. **/1,0,0**/ will select all
 nodes in the Mesh object.
 
-xvalue 
-[/xvalue2/xvalue3/
-] is the real number usually indicating a
+xvalue [/xvalue2/xvalue3/] is the real number usually indicating a
 size for the different refine options. Most of the refine options do not
 use the second and third values so their places will be empty **//**/.
 See examples.
@@ -310,11 +302,7 @@ The element attributes added to the Mesh object are:
 
 FORMATS:
 
- **refine**/refine\_option/ 
-[field
-]/ 
-[interpolation
-]/refine\_type
+ **refine**/refine\_option/ [field]/ [interpolation]/refine\_type
  /ifirst, ilast, istride/xrefine/yrefine/zrefine/inclusive\_flag/
 
  **refine/roughness///edge**/ifirst,ilast,istride/distance/surface\_name**/exclusiveinclusive**

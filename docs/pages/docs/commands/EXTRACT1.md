@@ -7,9 +7,7 @@
   space, or by the coefficients of the plane equation ax+by+cz=d. An
   isosurface is defined by the value of the surface and the mesh
   object attribute to test for this value. An interface is defined by
-  the material(s) bounding the interface. region1, 
-[region2
-]are the
+  the material(s) bounding the interface. region1, [region2]are the
   material numbers or the material region (mregion) names whose
   interface is to be extracted. Use **-all-** to extract from all
   interfaces. The **[pset](../conventions.md)** syntax can be used
@@ -65,9 +63,7 @@
 
  **extract/network**/ifirst,ilast,istride/cmoout/cmoin
 
- **extract/surfmesh**/1,0,0/cmoout/
-[cmoin
-]
+ **extract/surfmesh**/1,0,0/cmoout/[cmoin]
 
  EXAMPLE:
 

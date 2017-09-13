@@ -1,10 +1,6 @@
 ---
 Author: Jan Wills
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 ---
 
  **read/sheetij**
@@ -19,23 +15,15 @@ GENERATOR: 'Mozilla/4.7C-SGI
 
   
 
-  **read****/sheetij**/ file\_name /nx,ny/minx,miny/dx,dy 
-[options
-]
+  **read****/sheetij**/ file\_name /nx,ny/minx,miny/dx,dy [options]
 
   **read****/sheetij**/ file\_name /nx,ny/minx,miny/dx,dy/ skip n /
-  
-[options
-]
+  [options]
 
   **read****/sheetij**/ file\_name
-  /nx,ny/minx,miny/dx,dy/istart,jstart,istop,jstop/
-[options
-]
+  /nx,ny/minx,miny/dx,dy/istart,jstart,istop,jstop/[options]
 
-  **read****/sheetij**/ file\_name/-header-/
-[options
-]
+  **read****/sheetij**/ file\_name/-header-/[options]
 
    
     --------------------------- ------------------------------------------------------

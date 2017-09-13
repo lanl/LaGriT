@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.72 
-[en
-] (X11; U; Linux 2.2.14-5.0 i686) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
 title: 'CALC\_RDIST'
 ---
 
@@ -24,11 +20,7 @@ title: 'CALC\_RDIST'
 
  **FORMAT:**
 
-  **calc\_rdist**/x0,y0,z0/
-[radius\_index
-]/
-[**pset,get,**pset\_nameifirst,ilast,istride
-]
+  **calc\_rdist**/x0,y0,z0/[radius\_index]/[**pset,get,**pset\_nameifirst,ilast,istride]
  
   x0,y0,z0 are the coordinates of the center point used in the
   calculation.

@@ -7,11 +7,7 @@ second argument.
 
 **FORMAT:**
 
- **grid2grid** / ioption / 
-[cmo\_sink
-] / 
-[cmo\_source
-]
+ **grid2grid** / ioption / [cmo\_sink] / [cmo\_source]
 
 ioption: is a character string that determines the element type of the
 source and sink meshes. There is no 'default' option - this argument
@@ -37,9 +33,7 @@ must be specified.
 
  **tree\_to\_fe**   quadtree or octree grid to grid with no parent-type elements.
 
-**
-[ cmo\_snk / cmo\_src 
-]** . the mesh\_object names. cmo\_src is the
+**[ cmo\_snk / cmo\_src ]** . the mesh\_object names. cmo\_src is the
 original grid. cmo\_snk
 
             is the name for the new tet or triangle grid. These may be

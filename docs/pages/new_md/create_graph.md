@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 ---
 
 CREATE\_GRAPH
@@ -22,13 +18,7 @@ CREATE\_GRAPH
 
  The default name of the attributes that are created are different
  depending on which option (metis or lagrit) is used.
- create\_graph / metis / 
-[node  dual
-] / 
-[nxadj
-] / 
-[nadjncy
-]
+ create\_graph / metis / [node  dual] / [nxadj] / [nadjncy]
 
  create\_graph/ lagrit / dual / jtetoff / jtet
 
@@ -53,13 +43,7 @@ LIMITATIONS
 
 **FORMAT:**
 
- create\_graph / metis / 
-[node  dual
-] / 
-[nxadj
-] / 
-[nadjncy
-]
+ create\_graph / metis / [node  dual] / [nxadj] / [nadjncy]
 
 **EXAMPLES:**
 

@@ -62,9 +62,7 @@
 
  **FORMAT:**
 
-  **connect**/
-[**delaunay**
-]/ifirst,ilast,istride/big\_tet\_coordinates
+  **connect**/[**delaunay**]/ifirst,ilast,istride/big\_tet\_coordinates
 
   **connect****/noadd**
 

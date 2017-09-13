@@ -9,11 +9,7 @@
    **FORMAT**
 
   **rmmat**/material
-  number/
-[**allnodeelement**
-]/
-[**exclusive**
-]
+  number/[**allnodeelement**]/[**exclusive**]
 
   default is: **rmmat**/material number or **rmmat**/material
   number**/all**

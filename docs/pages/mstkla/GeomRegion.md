@@ -1,11 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP28) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](mstkla.md#MODEL%20REGION:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](GeomEntity.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
@@ -59,7 +54,6 @@ region (return value 1), both (return value 2) or none (return value
  
 
  
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](mstkla.md#MODEL%20REGION:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](GeomEntity.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"

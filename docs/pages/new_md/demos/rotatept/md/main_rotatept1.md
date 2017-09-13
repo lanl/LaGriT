@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 title: '
 *arguments:'
 ---
@@ -17,7 +13,6 @@ title: '
    [Example 1](description_rotatept.md)
    [<img height="300" width="300" src="/assets/images/rotatept1_tn.gif">"112"
    "87"](description_rotatept.md)
-
 
 
 

@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.76 
-[en
-] (X11; U; SunOS 5.7 sun4u) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.76 [en] (X11; U; SunOS 5.7 sun4u) [Netscape]'
 Generator: Microsoft Word 98
 title: INTERPOLATE
 ---
@@ -64,15 +60,7 @@ INTERPOLATE
  **interpolate** / intrp\_method / cmosink, attsink / 1,0,0 / cmosrc,
  attsrc /
 
- 
-[tie\_option
-] 
-[flag\_option
-] 
-[keep\_option
-] 
-[intrp\_function
-]
+ [tie\_option] [flag\_option] [keep\_option] [intrp\_function]
 
  Parameters appearing after the source cmo attribute name are
  optional.
@@ -322,32 +310,16 @@ INTERPOLATE
   **interpolate** / intrp\_method / cmosink, attsink / 1,0,0 / cmosrc,
   attsrc / &
 
-  
-[tie\_option
-] 
-[flag\_option
-] 
-[keep\_option
-]
-  
-[intrp\_function
-]
+  [tie\_option] [flag\_option] [keep\_option]
+  [intrp\_function]
   **interpolate  intrp**   /  **map  voronoi  continuous 
   default**  /  &
 
-  cmosink, attsink  /   1,0,0   /  cmosrc, attsrc  /  
-[ **tiemin 
-  tiemax** 
-]   &
+  cmosink, attsink  /   1,0,0   /  cmosrc, attsrc  /  [ **tiemin 
+  tiemax** ]   &
 
-  
-[ flag\_value    **plus1   nearest,** near\_attribute 
-]  
-[
-  **keepatt  delatt** 
-]  
-[ intrp\_function 
-]
+  [ flag\_value    **plus1   nearest,** near\_attribute ]  [
+  **keepatt  delatt** ]  [ intrp\_function ]
 
  **EXAMPLES:**
 

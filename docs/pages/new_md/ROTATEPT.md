@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: ROTATEPT
 ---
@@ -22,13 +18,10 @@ title: ROTATEPT
 
 **FORMAT:**
 
-**rotatept** /ifirst,ilast,istride/ 
-[**no**
-] **copy** /
+**rotatept** /ifirst,ilast,istride/ [**no**] **copy** /
 xcen,ycen,zcen/theta/phi
 
  
 
  
-
 [Click here for demos](demos/rotatept/test/md/main_rotatept.md)

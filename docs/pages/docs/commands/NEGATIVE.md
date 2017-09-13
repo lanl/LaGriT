@@ -62,6 +62,5 @@ a maximum of 5 iterations will be performed
 
 an element set called bad\_tets
 will be made no refinement will be performed/ **negative\_aij/rivara**
-
 [Click here for
 demos](../demos/main_rivara.md)

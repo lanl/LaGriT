@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 Template: 
     Macintosh HD:Applications:Microsoft Office 98:Word Custom
@@ -24,10 +20,8 @@ title: CMO
  **FORMAT:**
 
 Add a user defined attribute to a Mesh Object
-
 [**cmo****/addatt**](cmo_addatt.md) /mo\_name/att\_name/type/rank/
 length/interpolate/persistence/ioflag/value
-
 [**cmo****/addatt**](cmo_addatt.md) /mo\_name /keyword /
 keyword\_parameters
 
@@ -38,7 +32,6 @@ actual lengths
 
 Associate the surface constraint information of the mesh object cmo\_src
 with cmo\_sink:
-
 [**cmo/constraint**/](cmo_constraint.md)cmo\_sink/cmo\_src
 
 Copy master\_mo to mo\_name:
@@ -51,9 +44,7 @@ Copy a mesh object attribute:
 
 Create a new mesh object:
 
-**[cmo/create](cmo_create.md)**/mo\_name/
-[npoints/nelements/mesh-type
-]
+**[cmo/create](cmo_create.md)**/mo\_name/[npoints/nelements/mesh-type]
 
 Delete an existing mesh object:
 
@@ -84,12 +75,10 @@ List all mesh objects:
 Adjust the memory manages arrays associated with mo\_name to the
 
 lengths required by number\_nodes and number\_elements:
-
 [**cmo/memory**/](cmo_memory.md)mo\_name/number\_nodes/number\_elements
 
 
 Modify an attribute parameter value:
-
 [**cmo****/modatt**/](cmo_modatt.md)mo\_name/att\_name/field\_name/new\_field
 
 Change the name of a mesh object:
@@ -105,17 +94,11 @@ nelements:
 Print the value of an attribute:
 
 **[cmo/printatt](cmo_printatt.md)**/mo\_name/att\_name-**all-****-xyz-****nod**
-/ 
-[**minmax****list****value**
-] **** /
-[ifirst,ilast,istride
-]
+/ [**minmax****list****value**] **** /[ifirst,ilast,istride]
 
 Read values for an attribute from a file:
 
-**[cmo/readatt](cmo_readatt.md)**/mo\_name/att\_name/
-[...
-]/operation/file\_name
+**[cmo/readatt](cmo_readatt.md)**/mo\_name/att\_name/[...]/operation/file\_name
 
 Release a mesh object (same as delete):
 
@@ -132,17 +115,10 @@ Set the value of an attribute:
 Create an integer attribute that contains the node or element number:
 
 **[cmo/set\_id/](cmo_setid.md)**mo\_name**/node** **element**
-**both**/
-[att\_nam1
-]/
-[att\_nam2
-]
+**both**/[att\_nam1]/[att\_nam2]
 
 Print the mesh object status (all attributes and values of scalars)
-
-[**cmo/status**/](cmo_status.md)mo\_name/
-[**brief**
-]
+[**cmo/status**/](cmo_status.md)mo\_name/[**brief**]
 
 Verifie that memory allocation of Mesh Object mo\_name is consistent:
 

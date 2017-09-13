@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP28) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 title: MSTKLA Online Manual
 ---
 
@@ -19,27 +15,23 @@ title: MSTKLA Online Manual
 ------------------------------------------------------------------------
 
 **DIRECT LINKS**
-
 [<img height="300" width="300" src="../images/model.gif">"142"
 "24"](Geom.md) [<img height="300" width="300" src="../images/mesh.gif">"143"
 "26"](Mesh.md) [<img height="300" width="300" src="../images/utilities.gif">"143"
 "25"](utilities.md) [<img height="300" width="300" src="../images/attributes.gif">"145"
 "26"](MeshAttributes.md)
-
 [<img height="300" width="300" src="../images/modelenty.gif">"144"
 "24"](GeomEntity.md) [<img height="300" width="300" src="../images/modelregn.gif">"141"
 "25"](GeomRegion.md) [<img height="300" width="300" src="../images/modelface.gif">"143"
 "26"](GeomFace.md) [<img height="300" width="300" src="../images/modeledge.gif">"143"
 "25"](GeomEdge.md) [<img height="300" width="300" src="../images/modelvert.gif">"142"
 "24"](GeomVertex.md)
-
 [<img height="300" width="300" src="../images/genregn.gif">"145"
 "25"](GenRegion.md) [<img height="300" width="300" src="../images/meshregn.gif">"143"
 "25"](MeshRegion.md) [<img height="300" width="300" src="../images/meshface.gif">"143"
 "26"](MeshFace.md) [<img height="300" width="300" src="../images/meshedge.gif">"143"
 "25"](MeshEdge.md) [<img height="300" width="300" src="../images/meshvert.gif">"143"
 "25"](MeshVertex.md)
-
 [<img height="300" width="300" src="../images/trivia.gif">"144" "25"](trivia.md)
 
 ------------------------------------------------------------------------
@@ -135,7 +127,6 @@ I will try hard to maintain this API constant but cannot absolutely
 guarantee it.
 
  
-
 []{#parent-childAlso see **[Parent-Child Node (Vertex)
 Issues](http://www.ees.lanl.gov/staff/rao/mstkla/parent-child.md)**
 
@@ -145,13 +136,11 @@ Issues](http://www.ees.lanl.gov/staff/rao/mstkla/parent-child.md)**
 ------------------------------------------------------------------------
 
 
-
 []{#typedefs[TYPEDEFS](http://www.ees.lanl.gov/staff/rao/mstkla/prelim.md) 
 
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
-
 []{#MSTKLA_Init**MSTKLA Interface Operators**
 
 
@@ -209,7 +198,6 @@ QUERIES:](http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.md)
 ------------------------------------------------------------------------
 
 
-
 []{#GMTKLA_Init**GEOMETRIC MODEL INITIALIZATION:**
 
 *void* **GMTKLA\_Init**(*void*);
@@ -251,13 +239,11 @@ VERTEX](http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.md)
 ------------------------------------------------------------------------
 
 
-
 []{#UTILITIES:**[UTILITIES:](http://www.ees.lanl.gov/staff/rao/mstkla/utilities.md)**
 
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
-
 []{#EXAMPLE**[EXAMPLE OF PROGRAMMING WITH
 MSTKLA](http://www.ees.lanl.gov/staff/rao/mstkla/example.md)**
 
@@ -266,6 +252,5 @@ MSTKLA](http://www.ees.lanl.gov/staff/rao/mstkla/example.md)**
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
-
 []{#EXECUTABLE**[LIBRARIES, INCLUDE FILES AND CREATING AN
 EXECUTABLE](http://www.ees.lanl.gov/staff/rao/mstkla/linking.md)**

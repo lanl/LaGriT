@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI 
-[en
-] (X11; U; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: 'References:'
 ---
@@ -27,8 +23,7 @@ on Computational Electronics and Nanoelectronics, Urbana, Illinois,
 October 20-22, 1997.
 
 4.  Kuprat, Andrew; Cartwright David; Gammel J. Tinka; George Denise;
-Kendrick Brian; Kilcrease David; Trease Harold;  and Walker, Robert,
-["X3D, Moving Grid Methods for Semiconductor Applications"](../nasa.pdf" download> </a>
+Kendrick Brian; Kilcrease David; Trease Harold;  and Walker, Robert,["X3D, Moving Grid Methods for Semiconductor Applications"](../nasa.pdf" download> </a>
 ,LA-UR-97-2891.
 
 5.  Kuprat, Andrew, "[Adaptive Smoothing Techniques for 3-D Unstructured

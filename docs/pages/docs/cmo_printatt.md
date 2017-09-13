@@ -1,22 +1,14 @@
 ---
 Author: Jan Wills
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 ---
 
   
 
  **printatt**/cmo\_name/attribute\_name
 
- **printatt**/cmo\_name/attribute\_name/ 
-[print\_opt
-] /
- 
-[index\_set
-]
+ **printatt**/cmo\_name/attribute\_name/ [print\_opt] /
+ [index\_set]
 
   **attribute\_name -  ** name of valid cmo attribute or category of
   attributes

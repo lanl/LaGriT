@@ -36,9 +36,7 @@ sensitive.
   In the command description that follows certain symbols have special
   meaning.
 
-  
-[ 
-]          surround optional parameters
+  [ ]          surround optional parameters
 
                signifies alternate choices
 

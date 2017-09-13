@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.72 
-[en
-] (X11; U; Linux 2.2.14-5.0 i686) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
 title: BUBBLE
 ---
 
@@ -18,9 +14,7 @@ title: BUBBLE
 
 **FORMAT:**
 
- **bubble**/mesh1/mesh2**/constmin**/offset/
-[**norm**x1,y1,z1
-]
+ **bubble**/mesh1/mesh2**/constmin**/offset/[**norm**x1,y1,z1]
 
 mesh1 is the name of the resulting mesh.
 

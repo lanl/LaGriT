@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: OFFSETSURF
 ---
@@ -45,9 +41,7 @@ title: OFFSETSURF
 
           offset a triangulated surface a distance d
 
-**offsetsurf**/cmo\_out/cmo\_in/d/
-[xy,xz,yx,yz,zx,zy
-]
+**offsetsurf**/cmo\_out/cmo\_in/d/[xy,xz,yx,yz,zx,zy]
 
 offset a line cmo a distance d in a direction parallel to the specified
 plane.

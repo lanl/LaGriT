@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 Generator: 'Microsoft Word 97/98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
@@ -22,11 +18,9 @@ Example 1: test using sort.
  [lagrit\_input\_sort](../lagrit_input_sort)
 
 Output Results:
-
 [Initial point
 distribution](image/sort.gif">[<img height="300" width="300" src="/assets/images/sort_tn.gif">"110"
 "83"](image/sort.gif">
-
 [Output for **sort/bins**](sort_output2)
 
 The key **input** commands are shown in **red**, and the key **output**

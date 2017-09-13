@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: RZS
 ---
@@ -68,5 +64,4 @@ itype = diamond generates the points for one diamond of the icosahedron
 **rzs**/itype/nr,npt,xirad,xorad/xcen,ycen,zcen/iz/irat,rz/
 
  
-
 [**EXAMPLES:**](/usr/people/janw/lagrit_test_case/createpts/test/md/example3.md)

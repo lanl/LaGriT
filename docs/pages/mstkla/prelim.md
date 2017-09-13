@@ -1,11 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI 
-[en
-] (X11; I; IRIX64 6.5 IP28) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-
 [<img height="300" width="300" src="../images/arrow2.gif">"30"
 "30"](mstkla.md#typedefs) [<img height="300" width="300" src="../images/arrow3.gif">"30"
 "30"](parent-child.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
@@ -34,9 +29,7 @@ Mesh entity types are as follows:
 * Mesh Regions 
 */
 
- *PMeshRegn* reg1, oreg, regarr
-[50
-];
+ *PMeshRegn* reg1, oreg, regarr[50];
 
  
 
@@ -45,11 +38,7 @@ Mesh entity types are as follows:
 */
 
  *PMeshVert* vert, 
-*verts. vert
-[20
-]
-[30
-];
+*verts. vert[20][30];
 
  /
 * Mesh Face 
@@ -61,9 +50,7 @@ Mesh entity types are as follows:
 * Mesh Edge 
 */
 
- *PMeshEdge* face\_edges
-[4
-];
+ *PMeshEdge* face\_edges[4];
 
  /
 * Type of mesh region or element       
@@ -113,9 +100,7 @@ Geometric model entity types are:
 * Model face 
 */
 
- *PGeomFace* gfaces
-[20
-], 
+ *PGeomFace* gfaces[20], 
 *
 *gfaces2, interface;
 
@@ -123,9 +108,7 @@ Geometric model entity types are:
 * Model edge - not used at this point 
 */
 
- *PGeomEdge* geds
-[
-], 
+ *PGeomEdge* geds[], 
 *gfeds;
 
  /

@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: RZS
 ---
@@ -21,18 +17,15 @@ title: RZS
 
  **FORMAT:**
 
-**createpts/vector**/
-[ xyzrtzrtp /
+**createpts/vector**/[ xyzrtzrtp /
 
-                
-[ n1,n2,n3
+                [ n1,n2,n3
 
                  /v11,v12,v13/v21,v22,v23/v31,v32,v33
 
                   /v01,v02,v03
 
-                 /r11,r12,r13/r21,r22,r23/r31,r32,r33 
-]
+                 /r11,r12,r13/r21,r22,r23/r31,r32,r33 ]
 
 default = 0:      n~i~, v~i~, v~0j~
 
@@ -122,9 +115,7 @@ points
 * this can create some really bizzare point distributions
 
       
-* mistyped input after "rzv/
-[cgeom
-]" always returns successful
+* mistyped input after "rzv/[cgeom]" always returns successful
 point addition,
 
       but may be very different than desired

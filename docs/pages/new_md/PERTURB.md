@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.75 
-[en
-] (Win98; U) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.75 [en] (Win98; U) [Netscape]'
 Generator: Microsoft Word 98
 title: PSET
 ---
@@ -39,5 +35,4 @@ nodes
 coordinates of the nodes in the **pset** named **mypset.**
 
  
-
 [](demos/pset/test/md/main_pset.md)

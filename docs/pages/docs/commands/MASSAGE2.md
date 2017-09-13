@@ -8,23 +8,7 @@
 
  **massage2** / file\_name / min\_scale / bisection\_length / merge\_length / toldamage / [tolroughness] / [ifirst,ilast,istride]/
     
- 
-[**nosmooth**
-]/
-[**norecon**
-]
-[**strictmergelength**
-]/
-[**ignoremats**
-]/
-[**lite
-]**/
-[**heckaxy**
-]/
-[**semiexclusive**
-]**/
-[exclusive**
-]
+ [**nosmooth**]/[**norecon**][**strictmergelength**]/[**ignoremats**]/[**lite]**/[**heckaxy**]/[**semiexclusive**]**/[exclusive**]
 
 
  **file\_name** is a file which contains a set of LaGriT commands that

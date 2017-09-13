@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: 'Microsoft Word 97/98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
@@ -26,35 +22,30 @@ title: '
  Inidvidual Descriptions
 
  
-
 [Example 3](description3_rtp.md)
 
 **createpts/rtp**
 
 spherical[<img height="300" width="300" src="/assets/images/image3tn.gif">"159"
 "156"](description3_rtp.md)
-
 [Example 4](description4_brick.md)
 
 **createpts/brick/xyz**
 
 material interface[<img height="300" width="300" src="/assets/images/image4tn.gif">"168"
 "158"](description4_brick.md)
-
 [Example 2](description2_rtz.md)
 
 **createpts/rtz**
 
 (cylindrical)[<img height="300" width="300" src="/assets/images/image2tn.gif">"116"
 "138"](description2_rtz.md)
-
 [Example 1 ](description1_xyz.md)
 
 **createpts/xyz**
 
 (rectangular)[<img height="300" width="300" src="/assets/images/image1tn.gif">"112"
 "87"](description1_xyz.md)
-
 [Example 5](description5_sphere.md)
 
 **createpts/sphere/diamond**
@@ -62,7 +53,6 @@ material interface[<img height="300" width="300" src="/assets/images/image4tn.gi
 partial sphere using region
 boundaries[<img height="300" width="300" src="/assets/images/image5tn.gif">"141"
 "166"](description5_sphere.md)
-
 [Example 6](description6_sphereB.md)
 
 **createpts/sphere**
@@ -75,14 +65,12 @@ full sphere using region boundaries[<img height="300" width="300" src="/assets/i
  
 
  
-
 [Example 7](description7_brickB.md)
 
 **createpts/brick/xyz**
 
 brick mesh[<img height="300" width="300" src="/assets/images/image7tn.gif">"164"
 "167"](description7_brickB.md)
-
 [Example 8](description8_sphereC.md)
 
 **createpts/sphere**
@@ -90,7 +78,6 @@ brick mesh[<img height="300" width="300" src="/assets/images/image7tn.gif">"164"
 gridding a sphere, including
 materials[<img height="300" width="300" src="/assets/images/image8tn.gif">"156"
 "153"](description8_sphereC.md)
-
 [Example 9](description9_random.md)
 
 **createpts/random/xyz**

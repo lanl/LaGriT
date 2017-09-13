@@ -26,9 +26,7 @@ MATH
 **FORMAT:**
 
  **math** / operation / cmo\_sink/attr\_sink / range
- /cmo\_src/attr\_src / 
-[ value 
-]
+ /cmo\_src/attr\_src / [ value ]
 
 
 operation: The first parameter is one of the following keywords that

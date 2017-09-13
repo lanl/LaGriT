@@ -4,10 +4,7 @@ read in a LaGriT restart file
 
 SHORT **FORMAT:**
 
-**read**/filename.
-[lglagritLaGriT
-]/cmo\_name
-
+**read**/filename.[lglagritLaGriT]/cmo\_name
 
 
 [Note that the filename is case-sensitive, though the extension
@@ -16,12 +13,8 @@ ascii mode.]
 
 LONG **FORMAT:**
 
-**read****/LaGriT**/file\_name/
-[cmo-name
-]/
-[**ascii**
-**binary**
-]
+**read****/LaGriT**/file\_name/[cmo-name]/[**ascii**
+**binary**]
 
      cmo\_name    -    ignored all mesh objects are read from the
 file

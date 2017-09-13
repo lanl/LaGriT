@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.5 
-[en
-] (X11; I; IRIX 6.3 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.5 [en] (X11; I; IRIX 6.3 IP32) [Netscape]'
 Generator: Microsoft Word 98
 Template: 
     Macintosh HD:Applications:Microsoft Office 98:Word Custom
@@ -69,8 +65,4 @@ title: EXTRACT
       **FORMAT:**
 
        
- **extract/surfmesh**/1,0,0/cmo\_out/
-[cmo\_in
-]/
-[**external**
-]
+ **extract/surfmesh**/1,0,0/cmo\_out/[cmo\_in]/[**external**]

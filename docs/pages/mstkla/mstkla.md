@@ -10,27 +10,23 @@
 ------------------------------------------------------------------------
 
 **DIRECT LINKS**
-
 [<img height="300" width="300" src="../images/model.gif">"142"
 "24"](http://www.ees.lanl.gov/staff/rao/mstkla/Geom.md) [<img height="300" width="300" src="../images/mesh.gif">"143"
 "26"](http://www.ees.lanl.gov/staff/rao/mstkla/Mesh.md) [<img height="300" width="300" src="../images/utilities.gif">"143"
 "25"](http://www.ees.lanl.gov/staff/rao/mstkla/utilities.md) [<img height="300" width="300" src="../images/attributes.gif">"145"
 "26"](MeshAttributes.md)
-
 [<img height="300" width="300" src="../images/modelenty.gif">"144"
 "24"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomEntity.md) [<img height="300" width="300" src="../images/modelregn.gif">"141"
 "25"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomRegion.md) [<img height="300" width="300" src="../images/modelface.gif">"143"
 "26"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomFace.md) [<img height="300" width="300" src="../images/modeledge.gif">"143"
 "25"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomEdge.md) [<img height="300" width="300" src="../images/modelvert.gif">"142"
 "24"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.md)
-
 [<img height="300" width="300" src="../images/genregn.gif">"145"
 "25"](http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.md) [<img height="300" width="300" src="../images/meshregn.gif">"143"
 "25"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md) [<img height="300" width="300" src="../images/meshface.gif">"143"
 "26"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.md) [<img height="300" width="300" src="../images/meshedge.gif">"143"
 "25"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.md) [<img height="300" width="300" src="../images/meshvert.gif">"143"
 "25"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshVertex.md)
-
 [<img height="300" width="300" src="../images/trivia.gif">"144"
 "25"](http://www.ees.lanl.gov/staff/rao/mstkla/trivia.md)
 
@@ -127,7 +123,6 @@ I will try hard to maintain this API constant but cannot absolutely
 guarantee it.
 
  
-
 []{#parent-childAlso see **[Parent-Child Node (Vertex)
 Issues](http://www.ees.lanl.gov/staff/rao/mstkla/parent-child.md)**
 
@@ -137,13 +132,11 @@ Issues](http://www.ees.lanl.gov/staff/rao/mstkla/parent-child.md)**
 ------------------------------------------------------------------------
 
 
-
 []{#typedefs[TYPEDEFS](http://www.ees.lanl.gov/staff/rao/mstkla/prelim.md) 
 
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
-
 []{#MSTKLA_Init**MSTKLA Interface Operators**
 
 
@@ -201,7 +194,6 @@ QUERIES:](http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.md)
 ------------------------------------------------------------------------
 
 
-
 []{#GMTKLA_Init**GEOMETRIC MODEL INITIALIZATION:**
 
 *void* **GMTKLA\_Init**(*void*);
@@ -243,13 +235,11 @@ VERTEX](http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.md)
 ------------------------------------------------------------------------
 
 
-
 []{#UTILITIES:**[UTILITIES:](http://www.ees.lanl.gov/staff/rao/mstkla/utilities.md)**
 
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
-
 []{#EXAMPLE**[EXAMPLE OF PROGRAMMING WITH
 MSTKLA](http://www.ees.lanl.gov/staff/rao/mstkla/example.md)**
 
@@ -258,6 +248,5 @@ MSTKLA](http://www.ees.lanl.gov/staff/rao/mstkla/example.md)**
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
-
 []{#EXECUTABLE**[LIBRARIES, INCLUDE FILES AND CREATING AN
 EXECUTABLE](http://www.ees.lanl.gov/staff/rao/mstkla/linking.md)**

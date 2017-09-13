@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.75 
-[en
-] (X11; U; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: PSET
 ---
@@ -70,9 +66,7 @@ entries.
 
 **seq**/ifirst,ilast,istride
 
-**unioninternotdelete**/pset1
-[/pset2/.../psetn
-]
+**unioninternotdelete**/pset1[/pset2/.../psetn]
 
 **list**
 
@@ -80,14 +74,10 @@ entries.
 
 **attribute**/attribute /ifirst,ilast,istride/value/
 
-  
-[**le** **gt** **gt** **ne** **eq**
-]
+  [**le** **gt** **gt** **ne** **eq**]
 
-**zq**/attribute /ifirst,ilast,istride/value/
-[**le** **gt** **gt**
-**ne** **eq**
-]
+**zq**/attribute /ifirst,ilast,istride/value/[**le** **gt** **gt**
+**ne** **eq**]
 
 **region**/region name/ifirst,ilast,istride
 
@@ -104,9 +94,7 @@ had been queried using the **attribute** option
 
 **geom****/rtp**/ifirst,ilast,istride/r1,t1,p1/r2/t2/p2/xcen,ycen,zcen
 
-**surface**/surface\_name/
-[ifirst,ilast,istride
-]
+**surface**/surface\_name/[ifirst,ilast,istride]
 
 **surface** will select nodes that are on the specified surface.  If
 **-interface-** is specified for the surface name, all interface  nodes 
@@ -193,5 +181,4 @@ of surfaces s1 and s2 and give the name spseta to these nodes.
  associate the name mypset with the set of nodes that have 3 constraints
 ( normally the set of nodes that lie on 3  constrained surfaces --
 surfaces of type **reflect** or **intrcons**)
-
 [Click here for demos](../docs/demos/pset/md/main_pset.md)

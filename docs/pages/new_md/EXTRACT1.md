@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI 
-[en
-] (X11; U; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 Template: 
     Macintosh HD:Applications:Microsoft Office 98:Word Custom
@@ -22,9 +18,7 @@ title: EXTRACT
   space, or by the coefficients of the plane equation ax+by+cz=d. An
   isosurface is defined by the value of the surface and the mesh
   object attribute to test for this value. An interface is defined by
-  the material(s) bounding the interface. region1, 
-[region2
-]are the
+  the material(s) bounding the interface. region1, [region2]are the
   material numbers or the material region (mregion) names whose
   interface is to be extracted. Use **-all-** to extract from all
   interfaces. The **[pset](conventions.md)** syntax can be used to
@@ -80,9 +74,7 @@ title: EXTRACT
 
  **extract/network**/ifirst,ilast,istride/cmoout/cmoin
 
- **extract/surfmesh**/1,0,0/cmoout/
-[cmoin
-]
+ **extract/surfmesh**/1,0,0/cmoout/[cmoin]
 
  EXAMPLE:
 

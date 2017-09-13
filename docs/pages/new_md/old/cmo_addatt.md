@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.75 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.75 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 title: 'cmo/addatt'
 ---
 
@@ -40,10 +36,8 @@ cmo/addatt
 
  GENERAL **FORMAT:**
 
-  **cmo/addatt** / mo\_name / att\_name / 
-[ type / rank / length /
-  interpolate / persistence / ioflag / value 
-]
+  **cmo/addatt** / mo\_name / att\_name / [ type / rank / length /
+  interpolate / persistence / ioflag / value ]
 
  
 

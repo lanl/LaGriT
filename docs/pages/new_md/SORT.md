@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.79 
-[en
-] (X11; U; Linux 2.4.18-3 i686) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.79 [en] (X11; U; Linux 2.4.18-3 i686) [Netscape]'
 Generator: Microsoft Word 98
 title: sort
 ---
@@ -94,17 +90,13 @@ before being sent to the sort routine.
 
 SINGLE KEY **FORMAT:**
 
- **sort** / cmo\_name / **bins** / 
-[ **ascending  decending** 
-] /
+ **sort** / cmo\_name / **bins** / [ **ascending  decending** ] /
  sort\_key\_name / sort\_attribute
 
 MULTI-KEY **FORMAT:**
 
- **sort**/ cmo\_name / **index  rank** / 
-[ **ascending  decending**
- 
-] / sort\_key\_name / in\_att1, in\_att2, in\_att3 ...
+ **sort**/ cmo\_name / **index  rank** / [ **ascending  decending**
+ ] / sort\_key\_name / in\_att1, in\_att2, in\_att3 ...
 
 **EXAMPLES:**
 
@@ -147,9 +139,7 @@ LINKS:
 
 BEGIN OLD FORMAT - No longer supported but syntax will still work.
 
-Old Format - **sort / xyz / 
-[ index  bins  rank** 
-]
+Old Format - **sort / xyz / [ index  bins  rank** ]
 
  sort/xyz/index - sorts the x,y,z coordinate integer arrays i\_index,
  j\_index, k\_index such that xic(i\_index(i)) i=1,..nnodes lists the

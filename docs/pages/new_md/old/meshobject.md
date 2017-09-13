@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI 
-[en
-] (X11; U; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: a
 ---
@@ -193,8 +189,7 @@ the [smooth](SMOOTH.md)and [radapt](RADAPT.md) routines.
 
 **tolconv\_sm** (real)
 
-**nnfreq** (integer default 1) flag to control reconnection after
-[refine](REFINE.md) - set to zero to turn off reconnection.
+**nnfreq** (integer default 1) flag to control reconnection after[refine](REFINE.md) - set to zero to turn off reconnection.
 
 **ivoronoi** (integer default 1) flag to control reconnection criterion
 :
@@ -203,8 +198,7 @@ the [smooth](SMOOTH.md)and [radapt](RADAPT.md) routines.
 
 -2 means improve geometric quality of the elements
 
-+2 means adaptive reconnection with user supplied routine (see
-[recon)](RECON.md)
++2 means adaptive reconnection with user supplied routine (see[recon)](RECON.md)
 
 +5 means disable all reconnection
 
@@ -229,23 +223,18 @@ reconnection (see [recon)](RECON.md):
 
 **enername** (character default eic) Name of energy attribute.
 
-**xmin** (real default 1) minimum x coordinate of nodes in mesh set by
-[setsize](SETSIZE.md))
+**xmin** (real default 1) minimum x coordinate of nodes in mesh set by[setsize](SETSIZE.md))
 
-**xmax** (real default 1) maximum x coordinate of nodes in mesh set by
-[setsize](SETSIZE.md))
+**xmax** (real default 1) maximum x coordinate of nodes in mesh set by[setsize](SETSIZE.md))
 
 **ymin** (real default 1) minimum y coordinate of nodes in mesh set
 by[setsize](SETSIZE.md))
 
-**ymax** (real default 1) maximum y coordinate of nodes in mesh set by
-[setsize](SETSIZE.md))
+**ymax** (real default 1) maximum y coordinate of nodes in mesh set by[setsize](SETSIZE.md))
 
-**zmin** (real default 1) minimum z coordinate of nodes in mesh set by
-[setsize](SETSIZE.md))
+**zmin** (real default 1) minimum z coordinate of nodes in mesh set by[setsize](SETSIZE.md))
 
-**zmax** (real default 1) maximum z coordinate of nodes in mesh set by
-[setsize](SETSIZE.md))
+**zmax** (real default 1) maximum z coordinate of nodes in mesh set by[setsize](SETSIZE.md))
 
 **kdtree\_level** (integer default 0) resolution level
 of[kdtree](kdtree.md)-- 0 means terminal nodes contain 1 member.
@@ -264,8 +253,7 @@ associated with this mesh.  (see [geom)](cmo_geom.md)
 
  
 
-The current state of a mesh object can be displayed by the
-[**cmo/status**](cmo_status.md)command
+The current state of a mesh object can be displayed by the[**cmo/status**](cmo_status.md)command
 
 Note: Many commands and the cmo\_get\_info subroutine accept **itp** as
 equivalent to **itp1; icr** to **icr1, isn** to **isn1**; **imt** to

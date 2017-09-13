@@ -29,8 +29,7 @@ er is greater that mbndry then the node is a boundary node) --
 (default 16000000) (must be greater than 48
 *nnodes and may be reset by
 
-**[connect](commands/CONNECT1.md)**) (for an example of usage see
-[Section III.d](meshobjcon.md#mbndry))
+**[connect](commands/CONNECT1.md)**) (for an example of usage see[Section III.d](meshobjcon.md#mbndry))
 
 **ndimensions\_topo** (integer -- topological
 dimensionality,1, 2 or 3, i.e. a non-planar surface would have
@@ -107,8 +106,7 @@ is established by the **settets** command.
 
 **itetclr** (integer array of element material)
 
-**itettyp** (element shape)  (for an example of usage see
-[Section III.d](meshobjcon.md#itettyp))
+**itettyp** (element shape)  (for an example of usage see[Section III.d](meshobjcon.md#itettyp))
 
  
 
@@ -162,8 +160,7 @@ mesh cells for 3D meshes.
 the code.
 
 **epsilonl** (real) value of smallest edge that the code can distinguish
-will be set internally by the code (see
-[setsize](commands/SETSIZE.md)).
+will be set internally by the code (see[setsize](commands/SETSIZE.md)).
 
 **epsilona** (real) value of smallest area that the code can distinguish
 will be set internally by the code.
@@ -190,8 +187,7 @@ routines.
 
 **tolconv\_sm** (real)
 
-**nnfreq** (integer default 1) flag to control reconnection after
-[refine](commands/REFINE.md) - set to zero to turn off reconnection.
+**nnfreq** (integer default 1) flag to control reconnection after[refine](commands/REFINE.md) - set to zero to turn off reconnection.
 
 **ivoronoi** (integer default 1) flag to control reconnection criterion
 :
@@ -200,8 +196,7 @@ routines.
 
 -2 means improve geometric quality of the elements
 
-+2 means adaptive reconnection with user supplied routine (see
-[recon)](commands/RECON.md)
++2 means adaptive reconnection with user supplied routine (see[recon)](commands/RECON.md)
 
 +5 means disable all reconnection
 
@@ -228,23 +223,18 @@ reconnection (see [recon)](commands/RECON.md):
 
 **enername** (character default eic) Name of energy attribute.
 
-**xmin** (real default 1) minimum x coordinate of nodes in mesh set by
-[setsize](commands/SETSIZE.md))
+**xmin** (real default 1) minimum x coordinate of nodes in mesh set by[setsize](commands/SETSIZE.md))
 
-**xmax** (real default 1) maximum x coordinate of nodes in mesh set by
-[setsize](commands/SETSIZE.md))
+**xmax** (real default 1) maximum x coordinate of nodes in mesh set by[setsize](commands/SETSIZE.md))
 
 **ymin** (real default 1) minimum y coordinate of nodes in mesh set
 by[setsize](commands/SETSIZE.md))
 
-**ymax** (real default 1) maximum y coordinate of nodes in mesh set by
-[setsize](commands/SETSIZE.md))
+**ymax** (real default 1) maximum y coordinate of nodes in mesh set by[setsize](commands/SETSIZE.md))
 
-**zmin** (real default 1) minimum z coordinate of nodes in mesh set by
-[setsize](commands/SETSIZE.md))
+**zmin** (real default 1) minimum z coordinate of nodes in mesh set by[setsize](commands/SETSIZE.md))
 
-**zmax** (real default 1) maximum z coordinate of nodes in mesh set by
-[setsize](commands/SETSIZE.md))
+**zmax** (real default 1) maximum z coordinate of nodes in mesh set by[setsize](commands/SETSIZE.md))
 
 **kdtree\_level** (integer default 0) resolution level
 of[kdtree](commands/kdtree.md)-- 0 means terminal nodes contain 1
@@ -264,8 +254,7 @@ associated with this mesh.  (see [geom)](commands/cmo/cmo_geom.md)
 
  
 
-The current state of a mesh object can be displayed by the
-[**cmo/status**](commands/cmo/cmo_status.md)command
+The current state of a mesh object can be displayed by the[**cmo/status**](commands/cmo/cmo_status.md)command
 
 Note: Many commands and the cmo\_get\_info subroutine accept **itp** as
 equivalent to **itp1; icr** to **icr1, isn** to **isn1**; **imt** to

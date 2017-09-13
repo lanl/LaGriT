@@ -1,16 +1,10 @@
 LaGriT Examples                   
 ---------------                   
-
 [Geology](https://meshing.lanl.gov/)                                
-
 [Semiconductor](semiexamples.md)                                
-
 [Geometry](geometry.md)        
-
 [Hexahedral grids](hex.md)     
-
 [Hybrid](hybrid.md)            
-
 [Grain growth](grain.md)               
 
 Examples are:                     

@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI 
-[en
-] (X11; U; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: a
 ---
@@ -19,13 +15,9 @@ attributes:
 
 **name** (character
 *32 -- mesh object name)
-
 []{#scalar**scalar** (integer -- defined to have value 1)
-
 []{#vector**vector** (integer -- defined to have value 3)
-
 []{#nnodes**nnodes** (integer -- number of nodes in the mesh)
-
 []{#nelements**nelements** (integer -- number of elements in the mesh,
 e.g. triangles, tetrahedra)
 
@@ -35,18 +27,15 @@ or maintained by LaGriT; may be set and maintained by the user)
 
 **nedges** (integer -- number of unique edges in mesh) -- (not set or
 maintained by LaGriT; may be set and maintained by the user)
-
 []{#mbndry**mbndry** (integer -- value signifying that if the node
 number is greater that mbndry then the node is a boundary node) --
 (default 16000000) (must be greater than 48
 *nnodes and may be reset by
 **[connect](CONNECT1.md)**) (for an example of usage see [Section
 III.d](meshobjcon.md#mbndry))
-
 []{#ndimensions_topo**ndimensions\_topo** (integer -- topological
 dimensionality,1, 2 or 3, i.e. a non-planar surface would have
 ndimensions\_topo = 2 and ndimensions\_geom = 3.)
-
 []{#ndimensions_geom**ndimensions\_geom** (integer -- 1, 2 or 3 for
 dimension of geometry) (default 3)
 
@@ -61,15 +50,12 @@ element (i.e. in 1D this number is always 2, for 2D use the number of
 edges of the element, for 3D use the number of faces of the element.--(
 value dependent on type of mesh; e.g. for tetrahedral mesh the value
 will be 4))
-
 []{#isetwd**isetwd** (integer array containing pset membership
 information, see **[pset](PSET.md)** command definition)
 
 **ialias** (integer array of alternate node numbers, i.e. for merged
 points)
-
 []{#imt1**imt1** (integer array of node material)
-
 []{#itp1**itp1** (integer array of node type if type &gt; 20 node will
 be invisible)
 
@@ -98,11 +84,9 @@ be invisible)
   21           dud    Dudded node
   41           par    Parent node
   ------------ ------ ----------------------------------------------------------------
-
 []{#icr1**icr1** (integer array of constraint numbers for nodes; the
 value of this array is an index into the **[icontab](#icontab)** table
 of node constraints described later in this section)
-
 []{#isn1**isn1** (integer array of child, parent node correspondence)
 
 Points on material interfaces are given point type 41 (parent). One
@@ -114,13 +98,9 @@ contain the point number of the parent. The point types of the child
 points will be 2, 12, 13, 15 or 19 depending on whether the interface
 point is also on an exterior boundary. This parent, child relationship
 is established by the **settets** command.
-
 []{#xic**xic**, **yic**, **zic** (real arrays of node coordinates)
-
 []{#itetclr**itetclr** (integer array of element material)
-
-[]{#itettyp**itettyp** (element shape)  (for an example of usage see
-[Section III.d](meshobjcon.md#itettyp))
+[]{#itettyp**itettyp** (element shape)  (for an example of usage see[Section III.d](meshobjcon.md#itettyp))
 
  
 
@@ -193,8 +173,7 @@ the [smooth](SMOOTH.md)and [radapt](RADAPT.md) routines.
 
 **tolconv\_sm** (real)
 
-**nnfreq** (integer default 1) flag to control reconnection after
-[refine](REFINE.md) - set to zero to turn off reconnection.
+**nnfreq** (integer default 1) flag to control reconnection after[refine](REFINE.md) - set to zero to turn off reconnection.
 
 **ivoronoi** (integer default 1) flag to control reconnection criterion
 :
@@ -203,8 +182,7 @@ the [smooth](SMOOTH.md)and [radapt](RADAPT.md) routines.
 
 -2 means improve geometric quality of the elements
 
-+2 means adaptive reconnection with user supplied routine (see
-[recon)](RECON.md)
++2 means adaptive reconnection with user supplied routine (see[recon)](RECON.md)
 
 +5 means disable all reconnection
 
@@ -229,23 +207,18 @@ reconnection (see [recon)](RECON.md):
 
 **enername** (character default eic) Name of energy attribute.
 
-**xmin** (real default 1) minimum x coordinate of nodes in mesh set by
-[setsize](SETSIZE.md))
+**xmin** (real default 1) minimum x coordinate of nodes in mesh set by[setsize](SETSIZE.md))
 
-**xmax** (real default 1) maximum x coordinate of nodes in mesh set by
-[setsize](SETSIZE.md))
+**xmax** (real default 1) maximum x coordinate of nodes in mesh set by[setsize](SETSIZE.md))
 
 **ymin** (real default 1) minimum y coordinate of nodes in mesh set
 by[setsize](SETSIZE.md))
 
-**ymax** (real default 1) maximum y coordinate of nodes in mesh set by
-[setsize](SETSIZE.md))
+**ymax** (real default 1) maximum y coordinate of nodes in mesh set by[setsize](SETSIZE.md))
 
-**zmin** (real default 1) minimum z coordinate of nodes in mesh set by
-[setsize](SETSIZE.md))
+**zmin** (real default 1) minimum z coordinate of nodes in mesh set by[setsize](SETSIZE.md))
 
-**zmax** (real default 1) maximum z coordinate of nodes in mesh set by
-[setsize](SETSIZE.md))
+**zmax** (real default 1) maximum z coordinate of nodes in mesh set by[setsize](SETSIZE.md))
 
 **kdtree\_level** (integer default 0) resolution level
 of[kdtree](kdtree.md)-- 0 means terminal nodes contain 1 member.
@@ -264,8 +237,7 @@ associated with this mesh.  (see [geom)](cmo_geom.md)
 
  
 
-The current state of a mesh object can be displayed by the
-[**cmo/status**](cmo_status.md)command
+The current state of a mesh object can be displayed by the[**cmo/status**](cmo_status.md)command
 
 Note: Many commands and the cmo\_get\_info subroutine accept **itp** as
 equivalent to **itp1; icr** to **icr1, isn** to **isn1**; **imt** to
@@ -282,7 +254,6 @@ attributes (see [**cmo****/addatt**](cmo_addatt.md)).
 The value of parameters can be changed by the cmo/setatt command.
 
 (e.g. **[cmo/setatt/](cmo_setatt.md)**/epsilonl/1.d-9)
-
 []{#icontabLaGriT will add attributes to the mesh object in certain
 instances. For example, if there are any constrained surfaces, reflect,
 virtual or intrcons types, the following attributes are added to the

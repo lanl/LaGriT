@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI 
-[en
-] (X11; U; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: RECON
 ---
@@ -49,13 +45,7 @@ title: RECON
 
  **FORMAT:**
 
-  **recon**/
-[**1****0**
-]/
-[damage
-]/
-[**checkaxy**
-]
+  **recon**/[**1****0**]/[damage]/[**checkaxy**]
 
  **EXAMPLES:**
 

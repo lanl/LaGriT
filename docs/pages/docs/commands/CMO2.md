@@ -9,10 +9,8 @@
  **FORMAT:**
 
 Add a user defined attribute to a Mesh Object
-
 [**mo****/addatt**](cmo/cmo_addatt.md) /mo\_name/att\_name/type/rank/
 length/interpolate/persistence/ioflag/value
-
 [**mo****/addatt**](cmo/cmo_addatt.md) /mo\_name /keyword /
 keyword\_parameters
 
@@ -20,9 +18,7 @@ keyword\_parameters
 Give the sink mesh the same set of attributes as the source mesh (with
 unitialized values)
 
-**[cmo/attribute\_derive](cmo/cmo_att_derive.md)**/[sink\_mo/
-[src\_mo]
-
+**[cmo/attribute\_derive](cmo/cmo_att_derive.md)**/[sink\_mo/[src\_mo]
 
 [Change two meshes so they both share the same set of attributes (taking
 the union of their sets of
@@ -37,7 +33,6 @@ actual lengths
 
 Associate the surface constraint information of the mesh object cmo\_src
 with cmo\_sink:
-
 [**mo/constraint**/](cmo/cmo_constraint.md)cmo\_sink/cmo\_src
 
 Copy master\_mo to mo\_name:
@@ -50,9 +45,7 @@ Copy a mesh object attribute:
 
 Create a new mesh object:
 
-**[cmo/create](cmo/cmo_create.md)**/ mo\_name/
-[npoints/nelements/mesh-type
-]
+**[cmo/create](cmo/cmo_create.md)**/ mo\_name/[npoints/nelements/mesh-type]
 
 Delete an existing mesh object:
 
@@ -83,12 +76,10 @@ List all mesh objects:
 Adjust the memory manages arrays associated with mo\_name to the
 
 lengths required by number\_nodes and number\_elements:
-
 [mo**/memory**/](cmo/cmo_memory.md)mo\_name/number\_nodes/number\_elements
 
 
 Modify an attribute parameter value:
-
 [**mo****/ modatt**/](cmo/cmo_modatt.md)mo\_name/att\_name/field\_name/new\_field
 
 Change the name of a mesh object:
@@ -103,18 +94,11 @@ nelements:
 
 Print the value of an attribute:
 
-**[cmo/printatt](cmo/cmo_printatt.md)**/mo\_name/att\_name-**all-****-xyz-****nod**
-/ 
-[** minmax****list****value**
-] **** /
-[ifirst,ilast,istride
-]
+**[cmo/printatt](cmo/cmo_printatt.md)**/mo\_name/att\_name-**all-****-xyz-****nod** / [**minmax** **list** **value** ]  / [ifirst,ilast,istride]
 
 Read values for an attribute from a file:
 
-**[cmo/readatt](cmo/cmo_readatt.md)**/mo\_name/att\_name/
-[...
-]/operation/file\_name
+**[cmo/readatt](cmo/cmo_readatt.md)**/mo\_name/att\_name/ [...]/operation/file\_name
 
 Release a mesh object (same as delete):
 
@@ -130,24 +114,14 @@ Set the value of an attribute:
 
 Create an integer attribute that contains the node or element number:
 
-**[cmo/set\_id/](cmo/cmo_setid.md)** mo\_name**/node** **element**
-**both**/
-[att\_nam1
-]/
-[att\_nam2
-]
+**[cmo/set\_id/](cmo/cmo_setid.md)** mo\_name**/node** **element** **both**/ [att\_nam1]/ [att\_nam2]
 
 Print the mesh object status (all attributes and values of scalars)
-
-[mo/status**/](cmo/cmo_status.md)mo\_name/
-[**brief**
-]
+[mo/status**/](cmo/cmo_status.md)mo\_name/ [**brief**]
 
 Verifie that memory allocation of Mesh Object mo\_name is consistent:
 
 **[cmo/verify](cmo/cmo_verify.md)**/mo\_name/
-
- 
 
 CONVENTION: As a result of any command that generates a new mesh object,
 the newly generated mesh object becomes active. As a result of any
@@ -171,14 +145,11 @@ TYPES, DEFAULTS and POSSIBLE VALUES:
   
 Attribute | Type, Defaults | Possible Values
 ------------- |  --------- | -----------------------------------------------------------------------------------------
-mo\_name      | character |
+mo\_name     | character |
 att\_name     | character |
 mesh\_type    | character | **(tet,hex,pri,pyr,tri,qua,hyb,line,point)**
-type           | character, default **VDOUBLE** | **(VDOUBLE, VINT, VCHAR, INT, REAL, CHARACTER)** <br> **VDOUBLE** real array <br>  **VINT** integer array <br> **VCHAR** array of character
-*32 <br> **INT** a single integer variable (length =1 rank =1 by definition) <br> **REAL** a single real variable (length =1 rank =1 by definition) <br> **CHARACTER** a single character
-*32 variable (length =1 rank =1 by definition)
+type          | character, default **VDOUBLE** | **(VDOUBLE, VINT, VCHAR, INT, REAL, CHARACTER)** <br> **VDOUBLE** real array <br>  **VINT** integer array <br> **VCHAR** array of character*32 <br> **INT** a single integer variable (length =1 rank =1 by definition) <br> **REAL** a single real variable (length =1 rank =1 by definition) <br> **CHARACTER** a single character*32 variable (length =1 rank =1 by definition)
 rank          | character, default **scalar** | (**scalar,vector,tensor**) <br> **scalar** one entry per array element <br> **vector** 3 entries per array element <br> **tensor** 9 entries per array element <br> any previously defined **INT** attribute including user defined attributes may be used as rank
 length        | character, default is **nnodes** | (**nnodes, nelements**) <br> any previously defined **INT** attribute including user defined attributes may be used as length 
 interpolate   | character, default **linear** | (**copy, sequence, linear, log, asinh, max, min, user,and,or,incmax**)
 ioflag      | character | (**a, g, f, l, no** -- for avs,gmv,fehms,LaGriT)
-------------- ---------------------------------------------------------------------------------------------------

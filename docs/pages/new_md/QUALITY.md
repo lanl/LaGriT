@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI 
-[en
-] (X11; U; IRIX64 6.5 IP30) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
 Generator: Microsoft Word 98
 title: QUALITY
 ---
@@ -18,11 +14,7 @@ title: QUALITY
 
  **FORMAT:**
 
-**quality **/
-[quality\_type
-] / 
-[quality\_type options
-]
+**quality **/[quality\_type] / [quality\_type options]
 
 Where quality-type can be **aspect**, **pcc**, **volume**, **angle** or
 **taylor** Quality-type options depends on quality-type.
@@ -33,16 +25,13 @@ writes to screen and outx3dgen logfile giving volume and aspect ratio
 distribution information. Aspect ratios and element volumes are binned
 into 5 bins then totaled, min and max values are also reported.
 
-**quality/aspect**/
-[**y**
-]
+**quality/aspect**/[**y**]
 
 displays a count of the number of elements whose aspect ratio falls in
 each of 7 bins .  If **y** is specified create an attribute named aratio
 that will contain the value of the aspect ratio of each element.
 
-**quality****/angle****/gt****lt**/value
-]/
+**quality****/angle****/gt****lt**/value]/
 
 displays a count of the number of elements with a dihedral angle that is
 greater than or less than the supplied value.
@@ -127,5 +116,4 @@ quality\_type, for example:
  
 
  
-
 [Click here for demos](demos/quality_pcc/test/md/main_qual.md)

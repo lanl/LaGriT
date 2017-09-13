@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: RMMAT
 ---
@@ -19,11 +15,7 @@ title: RMMAT
    **FORMAT**
 
   **rmmat**/material
-  number/
-[**allnodeelement**
-]/
-[**exclusive**
-]
+  number/[**allnodeelement**]/[**exclusive**]
 
   default is: **rmmat**/material number or **rmmat**/material
   number**/all**

@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.72 
-[en
-] (X11; U; Linux 2.2.14-5.0 i686) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
 Generator: Microsoft Word 98
 title: ADDMESH
 ---
@@ -18,11 +14,7 @@ title: ADDMESH
  **FORMAT:**
 
   **addmesh / add **/mesh3 / mesh1 / mesh2
-  /
-[refine\_factor
-]/
-[**tet****edge**
-]
+  /[refine\_factor]/[**tet****edge**]
 
   **addmesh** / **amr** / mesh3 / mesh1 / mesh2 /
 

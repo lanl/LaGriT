@@ -44,18 +44,10 @@
   **eltset**/eset\_name **/list**
 
   **eltset**/eset\_name
-  **/write**/file\_name
-[.cellset
-]/
-[**ascii**|**binary**
-]
+  **/write**/file\_name[.cellset]/[**ascii**|**binary**]
 
   **eltset**/-all-
-  **/write**/file\_name
-[.cellset
-]/
-[**ascii**|**binary**
-]
+  **/write**/file\_name[.cellset]/[**ascii**|**binary**]
 
  **EXAMPLES:**
 

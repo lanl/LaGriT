@@ -51,5 +51,4 @@ the xy plane.
 
 	triangulate
 
-
 [Click here for demos](../demos/main_tri.md)

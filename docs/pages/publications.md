@@ -31,8 +31,7 @@ Harp, DH, Pawar, R, Gable, CW, Numerical modeling of cemented wellbore
 leakage from storage reservoirs with secondary capture due to thief
 zones, Greenhouse Gas Technology 12, Energy Procedia, Elsevier, 2014.
 
-Siegel, J, Person, M, Dugan, B, Cohen, D, Lizarralde, D, Gable, C,
-[Influence of Late Pleistocene Glaciations on the Hydrogeology of the
+Siegel, J, Person, M, Dugan, B, Cohen, D, Lizarralde, D, Gable, C,[Influence of Late Pleistocene Glaciations on the Hydrogeology of the
 Continental Shelf Offshore
 Massachusetts](http://onlinelibrary.wiley.com/doi/10.1002/2014GC005569/abstract),
 USA, Geochemistry, Geophysics, Geosystems, 2014,
@@ -100,14 +99,12 @@ hydrologic impacts of CO2 sequestration, Illinois
 basin](http://www.sciencedirect.com/science/article/pii/S1750583610000605),
 INTERNATIONAL JOURNAL OF GREENHOUSE GAS CONTROL (SEP 2010) Vol.4, iss.5,
 p.840-854.
-
 [Stepwise inversion of a groundwater flow model with multi-scale
 observation
 data.](http://link.springer.com/article/10.1007/s10040-009-0543-y) Dai,
 ZX; Keating, E; Gable, C, Levitt, D, Heikoop, J, Simmons, A,
 HYDROGEOLOGY JOURNAL Volume: 18 Issue: 3 Pages: 607-624 Published: 2010
 ([PDF](http://www.ees.lanl.gov/staff/gable/pdf_files/2010_HJ_Dai_Keating_Gable_Levitt_Heikoop_Simmons.pdf" download> </a>
-
 [Origin and Extent of Fresh Paleowaters on the Atlantic Continental
 Shelf,
 USA](http://onlinelibrary.wiley.com/doi/10.1111/j.1745-6584.2009.00627.x/full).

@@ -32,12 +32,8 @@
 
  **FORMAT:**
 
-  **read / zone  zonn / file\_name / 
-[mo\_name  -def- 
-] /
-  
-[att\_name  -def-
-]**
+  **read / zone  zonn / file\_name / [mo\_name  -def- ] /
+  [att\_name  -def-]**
 
 
   EXAMPLE:

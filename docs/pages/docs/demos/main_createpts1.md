@@ -10,7 +10,6 @@ point distribution within the geometry. The output consists of one
 gmv file for each example.
 
 Individual Descriptions
-
 [Example 3](description3_rtp.md)
 
 **createpts/rtp**
@@ -18,7 +17,6 @@ Individual Descriptions
 spherical
 
 <img height="300" width="300" src="/assets/images/image3tn.gif"
-
 [Example 4](description4_brick.md)
 
 **createpts/brick/xyz**
@@ -26,7 +24,6 @@ spherical
 material interface
 
 <img height="300" width="300" src="/assets/images/image4tn.gif"
-
 [Example 2](description2_rtz.md)
 
 **createpts/rtz**
@@ -34,7 +31,6 @@ material interface
 (cylindrical)
 
 <img height="300" width="300" src="/assets/images/image2tn.gif"
-
 [Example 1](description1_xyz.md)
 
 **createpts/xyz**
@@ -42,7 +38,6 @@ material interface
 (rectangular)
 
 <img height="300" width="300" src="/assets/images/image1tn.gif"
-
 [Example 5](description5_sphere.md)
 
 **createpts/sphere/diamond**
@@ -51,7 +46,6 @@ partial sphere using region
 boundaries
 
 <img height="300" width="300" src="/assets/images/image5tn.gif"
-
 [Example 6](description6_sphereB.md)
 
 **createpts/sphere**
@@ -60,7 +54,6 @@ full sphere using region boundaries
 
 <img height="300" width="300" src="/assets/images/image6tn.gif"
 
-
 [Example 7](description7_brickB.md)
 
 **createpts/brick/xyz**
@@ -68,7 +61,6 @@ full sphere using region boundaries
 brick mesh
 
 <img height="300" width="300" src="/assets/images/image7tn.gif"
-
 [Example 8](description8_sphereC.md)
 
 **createpts/sphere**
@@ -76,7 +68,6 @@ brick mesh
 gridding a sphere, including materials
 
 <img height="300" width="300" src="/assets/images/image8tn.gif"
-
 [Example 9](description9_random.md)
 
 **createpts/random/xyz**
@@ -84,5 +75,4 @@ gridding a sphere, including materials
 random points
 
 <img height="300" width="300" src="/assets/images/random_tn.gif"
-
 [Next Demo](main_hextet1.md)

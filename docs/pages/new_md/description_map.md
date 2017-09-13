@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.75 
-[en
-] (X11; U; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: 'interpolate / map'
 ---
@@ -58,17 +54,11 @@ Results from Example 2:
  The middle image shows the result of using default **tiemax** option.
 
  The right image shows the result of using the **tiemin** option.
-
 [source and sink grids](image/view_map01.gif">
-
 [<img height="300" width="300" src="/assets/images/view_map01_TN.GIF)](image/view_map01.gif">
-
 [tiebreaker tiemax](image/map01_max.gif">
-
 [<img height="300" width="300" src="/assets/images/map01_max_TN.GIF)](image/map01_max.gif">
-
 [tiebreaker tiemin](image/map01_min.gif">
-
 [<img height="300" width="300" src="/assets/images/map01_min_TN.GIF)](image/map01_min.gif">
 
  Demo 2 shows how the flag option is used for points outside the source
@@ -87,17 +77,11 @@ Results from Example 2:
  points are flagged with the **nearest** point imt1 value of the source
  grid. Note that the keyword **nearest** must be followed with a node
  attribute name of source values to be used for the flagged points.
-
 [source and sink grids](image/view_map02.gif">
-
 [<img height="300" width="300" src="/assets/images/view_map02_TN.GIF)](image/view_map02.gif">
-
 [flag with plus1](image/map02_plus1.gif">
-
 [<img height="300" width="300" src="/assets/images/map02_plus1_TN.GIF)](image/map02_plus1.gif">
-
 [flag with nearest](image/map02_nearest.gif">
-
 [<img height="300" width="300" src="/assets/images/map02_nearest_TN.GIF)](image/map02_nearest.gif">
 
  Demo 3 shows how to map values from source elements to sink elements
@@ -107,19 +91,12 @@ Results from Example 2:
  grid. If the sink attribute is element type, centroids for each
  element are calculated and used as the sink points. The sink image has
  the nine materials exploded for better viewing.
-
 [Source hex grid](image/map03_src.gif">
-
 [<img height="300" width="300" src="/assets/images/map03_src_TN.GIF)](image/map03_src.gif">
-
 [Sink and Source grids](image/map03_view.gif">
-
 [<img height="300" width="300" src="/assets/images/map03_view_TN.GIF)](image/map03_view.gif">
-
 [Sink tet grid](image/map03_sink.gif">
-
 [<img height="300" width="300" src="/assets/images/map03_sink_TN.GIF)](image/map03_sink.gif">
-
 
 
 

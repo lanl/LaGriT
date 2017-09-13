@@ -10,19 +10,12 @@ def filter_file(infile_name, no, yes):
 	os.system('mv ' + outfile_name + ' ' + infile_name)
 
 def replace_in_dr(old, new, dr):
-
     for root, drs, fles in os.walk(dr):
             for fle in fles:         
                     filter_file(os.path.join(root, fle), old, new)
 
 dr = '/home/nknapp/LaGriT/docs/pages/'
 
-replace_in_dr('{style="font-family: Courier;"[', '', dr)
-replace_in_dr(']]{style="font-family: Times;"', '', dr)
-replace_in_dr('style="font-family: Courier;"', '', dr)
-replace_in_dr('style="font-family: Courier;"', '', dr)
-replace_in_dr('style="font-family: Times;', '', dr)
-replace_in_dr('style="font-family: Times;', '', dr)
-replace_in_dr('{style="font-family: Courier;"', '', dr)
-replace_in_dr('{style="font-family: Courier;"', '', dr)
+replace_in_dr('\n[','[', dr)
+replace_in_dr('\n]', ']', dr)
 

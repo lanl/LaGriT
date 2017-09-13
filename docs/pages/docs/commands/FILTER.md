@@ -27,21 +27,13 @@
 
  **FORMAT**:
 
-  **filterkd**/ifirst,ilast,istride/
-[tolerance
-] / 
-[**nocheck** 
-  **zero\_element**
-]
+  **filterkd**/ifirst,ilast,istride/[tolerance] / [**nocheck** 
+  **zero\_element**]
 
   
 
-  **filter**/ifirst,ilast,istride/
-[tolerance
-] / 
-[**minmax**
-  /attribute
-]
+  **filter**/ifirst,ilast,istride/[tolerance] / [**minmax**
+  /attribute]
 
   *This version of filter is being replaced with the kd-tree search
   algorithm used in filterkd that more accurately identifies nodes
@@ -74,9 +66,7 @@
    retained is determined based on comparison of the attribute values
    and the node with either the ** min** or ** max** value is retained.
  
-  **filter**/[element]/
-[search\_range
-]/ [**nodelete** | **delete**]
+  **filter**/[element]/[search\_range]/ [**nodelete** | **delete**]
  
    [ Search a mesh object for duplicate elements. A duplicate element
    is defined as having the exact same set of nodes in the element

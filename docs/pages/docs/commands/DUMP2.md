@@ -227,5 +227,4 @@ Write exodus output with face sets only. The face sets are imported from file1, 
     dump/ exo / file_name / cmo_name / psets / eltsets / facesets file1,file2,...,filen
 
 Write exodus output with all psets, element sets, and face sets. The face sets are imported from file1, file2, ..., filen.
-
 [Click here for demos](../main_dump.md)

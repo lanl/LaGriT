@@ -26,7 +26,6 @@ LaGriT Release Notes
 
 
 ------------------------------------------------------------------------
-
 []{#Release_V3.001
 
 LaGriT V3.001 August 2011
@@ -182,7 +181,6 @@ Adam Cozzette changes:
 
 
 ------------------------------------------------------------------------
-
 []{#Release_V2.200
 
 LaGriT V2.200 November 2010
@@ -284,13 +282,9 @@ Banner when LaGriT is started (eg Linux):
  mesh2, such that the surface could then be inserted into the 3D mesh  
  (such as to insert a fault into a background terrain mesh). The       
  background mesh, minus the excavated/removed nodes, is put into       
- mesh3. If the optional 
-[bfs
-] argument is given, the routine will    
+ mesh3. If the optional [bfs] argument is given, the routine will    
  use a breadth-first search algorithm to find nodes to remove, as      
- opposed to the default KD-tree algorithm. If the optional 
-[connect
-] 
+ opposed to the default KD-tree algorithm. If the optional [connect] 
  argument is given, the program will, after excavation, execute an     
  addmesh/append, and then a connect, to produce a fully connected mesh 
  with the surface (mesh2) inserted into the background (mesh1).        
@@ -531,7 +525,6 @@ Banner when LaGriT is started (eg Linux):
 
 
 ------------------------------------------------------------------------
-
 []{#Release_V2.106
 
 LaGriT V2.106 June 2010
@@ -550,7 +543,6 @@ are new syntax that are code wrappers for common command calls.
 
 
 ------------------------------------------------------------------------
-
 []{#Release_V2.100
 
 LaGriT V2.100 August 2009

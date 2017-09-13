@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.75 
-[en
-] (X11; U; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: 'interpolate / continuous'
 ---
@@ -54,14 +50,10 @@ Results from Example 3:
 
  The image on the right is the sink hex element with the interpolated
  values written to node attribute called xval.
-
 [source and sink grids](../images/con01_src.gif">
-
 [<img height="300" width="300" src="../images/con01_src_TN.GIF)"97"
 "75"](../images/con01_src.gif">
-
 [sink hex element](../images/con01_sink.gif">
-
 [<img height="300" width="300" src="../images/con01_sink_TN.GIF)"45"
 "45"](../images/con01_sink.gif">
 
@@ -75,17 +67,12 @@ Results from Example 3:
  values at the quad nodes. As seen by this image, the sink grid does
  not extend as high as the source grid, and has nodes outside the
  source grid. These nodes are flagged with the dark red values.
-
 [Source triangle grid](../images/con02_src.gif">
-
 [<img height="300" width="300" src="../images/con02_src_TN.GIF)"97"
 "75"](../images/con02_src.gif">
-
 [Final sink quad grid](../images/con02_sink.gif">
-
 [<img height="300" width="300" src="../images/con02_sink_TN.GIF)"97"
 "75"](../images/con02_sink.gif">
-
 
 
 

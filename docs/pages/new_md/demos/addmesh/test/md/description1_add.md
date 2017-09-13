@@ -1,7 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.61 (Macintosh; I; PPC) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.61 (Macintosh; I; PPC) [Netscape]'
 title: '
 *arguments:'
 ---

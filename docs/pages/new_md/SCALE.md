@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 
-[en
-] (X11; I; IRIX 6.5 IP32) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 Generator: Microsoft Word 98
 title: SCALE
 ---
@@ -17,9 +13,7 @@ according to the scale factors iscale,jscale, and kscale.  One can
 substitute the syntax **pse**t get pset\_name  for the ifirst, ilast,
 istride variable to access a pset.  The letters i,j, and k in the scale
 factors correspond to coordinates specified by one of the geometry types
-
-[**xyz** (Cartesian), **rtz** (cylindrical), **rtp** (spherical)
-].  
+[**xyz** (Cartesian), **rtz** (cylindrical), **rtp** (spherical)].  
 For example,
 
 if geometry = **rtz** then iscale = radial coordinate, jscale = theta

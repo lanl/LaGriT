@@ -42,8 +42,7 @@
      define / NZ / 10
      quadxy/ NX NZ/ X1 Y1 Z1 / X2 Y2 Z2 /X3 Y3 Z3 / X4 Y4 Z4
      createpts/brick/xyz/NX NY NZ/1,0,0/connect
- 
-[LaGriT command file for these Examples.](quadxy_ex.txt)
+ [LaGriT command file for these Examples.](quadxy_ex.txt)
 
 **quadxy_example1**
 

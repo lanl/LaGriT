@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.72 
-[en
-] (X11; U; Linux 2.2.14-5.0 i686) 
-[Netscape
-]'
+GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
 Generator: Microsoft Word 98
 title: COLORMAP
 ---
@@ -16,12 +12,7 @@ title: COLORMAP
 
  **FORMAT:**
 
-  **colormap****/
-[add
-]createdelete
-]**/
-[cmo\_name
-]
+  **colormap****/[add]createdelete]**/[cmo\_name]
   **add** -- The material adjacency characteristics of the specified
   mesh object is added to the existing material adjacency graph, which
   is created if it didn't exist.  This is the default action.
