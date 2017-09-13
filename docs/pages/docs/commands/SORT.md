@@ -1,6 +1,4 @@
 ---
-GENERATOR: 'Mozilla/4.79 [en] (X11; U; Linux 2.4.18-3 i686) [Netscape]'
-Generator: Microsoft Word 98
 title: sort
 ---
 

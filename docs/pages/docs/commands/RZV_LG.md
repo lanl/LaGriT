@@ -1,10 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
-Generator: Microsoft Word 98
 title: RZS
 ---
-
- 
 
  **RZV**
 
@@ -42,17 +38,17 @@ title: RZS
 
 **rzv/xyz** **rtz** **rtp** /
 
-                [ n1,n2,n3
+[ n1,n2,n3
 
-                 /v11,v12,v13/v21,v22,v23/v31,v32,v33
+ /v11,v12,v13/v21,v22,v23/v31,v32,v33
 
-                  /v01,v02,v03
+ /v01,v02,v03
 
-                 /r11,r12,r13/r21,r22,r23/r31,r32,r33
+/r11,r12,r13/r21,r22,r23/r31,r32,r33
 
-                 /omponent** **vector**
+/component **vector**
 
-                 /f1,f2,f3]
+ /f1,f2,f3]
 
 default = **xyz**
 
@@ -60,7 +56,7 @@ default = 0:      n~i~, v~i~, v~0j~
 
 default = 1:      r~ij~
 
-default = omponent**
+default = component
 
 **EXAMPLES:**
 

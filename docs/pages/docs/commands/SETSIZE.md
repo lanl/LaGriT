@@ -1,7 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: Microsoft Word 98
-title: SETSIZE
+title: setsize
 ---
 
  **SETSIZE**
@@ -46,16 +44,15 @@ title: SETSIZE
     
      enddo
 
-     11 epsilonr=x2
-*2.
+     11 epsilonr=x2*2.
 
 where the values of 'one' and 'two' are obtained from the include file
 'consts.h'.
 
-The command**[cmo/printatt](cmo/cmo_printatt.md)an be used to view
+The command [cmo/printatt](cmo/cmo_printatt.md) can be used to view
 any of these cmo attributes:
 
-e.g. mo/printatt**/**/xmax**
+e.g. mo/printatt/xmax
 
 The programmer interface is the subroutine setsize (see Section e.7)
 
@@ -79,14 +76,9 @@ if epsilonv is very small epislonvis set to epsilona
 epsilon1 is set by a call to set\_epsilon
 
 epsilon1 is set to the square root of epsilona unless this number would
-be too small in which case epsilon1 is to (( xmax-xmin) + (ymax-ymin) +
-(zmax-zmin)) 
-* 1.e=8/3
+be too small in which case epsilon1 is to (( xmax-xmin) + (ymax-ymin) + (zmax-zmin)) * 1.e=8/3
 
 Many LaGriT algorithms use epsilon1; for example, if a node falls on a
-interface or boundary surface.  It uses epsilonv to determine if a node
-can be connected.  Errors from **setpts** and onnect** may result if
+interface or boundary surface. It uses epsilonv to determine if a node
+can be connected. Errors from **setpts** and **connect** may result if
 inconsistant or wrong values of epsilons are used.
-
- 
-

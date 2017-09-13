@@ -29,7 +29,7 @@ UPSCALE
 
  The **upscale** method options provide choices for the calculation of
  the associated set of source nodes on to the single sink node. The
- scale\_method parameter includes **sum**, ** min**, ** max**, and
+ scale\_method parameter includes **sum**, **min**, **max**, and
  averages **ariave**, **harave**, **geoave**. For all positive data
  sets containing at least one pair of nonequal values, the harmonic
  mean is always the least of the three means, while the arithmetic mean
@@ -155,7 +155,7 @@ UPSCALE
 
    **divide** not implemented.
 
-   ** multiple** uses all source nodes found in each sink Voronoi
+   **multiple** uses all source nodes found in each sink Voronoi
    volume.
 
  
@@ -235,13 +235,10 @@ UPSCALE
       **upscale / sum **/ cmo\_sink     **upscale / sum **/ cmo\_sink   
       icount /1,0,0/ cmo\_src ival
        icount /1,0,0/ cmo\_src ival/   
-      math/sum/cmo\_src/sumtot/1,0,0/   **single keepatt**
+      math/sum/cmo\_src/sumtot/1,0,0/   math/sum/cmo\_src/sumtot/1,0,0/
                
-     cmo\_src/ival
-                        math/sum/cmo\_src/sumtot/1,0,0/ 
-      
-                                  cmo\_src/ival
-                      
+      cmo\_src/ival                     cmo\_src/ival
+                         
       In this example, search will      
                                  
       find the sets of source nodes     This is the same as Example 1   
