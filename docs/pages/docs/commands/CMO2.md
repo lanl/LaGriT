@@ -21,8 +21,8 @@ Give the sink mesh the same set of attributes as the source mesh (with
 unitialized values)
 
 **[cmo/attribute\_derive](cmo/cmo_att_derive.md)**/[sink\_mo/
-[src\_mo]{style="font-family: Courier;"[
-]]{style="font-family: Times;"
+[src\_mo]
+
 
 [Change two meshes so they both share the same set of attributes (taking
 the union of their sets of

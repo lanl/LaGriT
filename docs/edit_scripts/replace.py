@@ -17,6 +17,12 @@ def replace_in_dr(old, new, dr):
 
 dr = '/home/nknapp/LaGriT/docs/pages/'
 
-replace_in_dr('FORMAT:', '**FORMAT:**', dr)
-replace_in_dr('NOTES:', '**NOTES:**', dr)
-replace_in_dr('EXAMPLES:', '**EXAMPLES:**', dr)
+replace_in_dr('{style="font-family: Courier;"[', '', dr)
+replace_in_dr(']]{style="font-family: Times;"', '', dr)
+replace_in_dr('style="font-family: Courier;"', '', dr)
+replace_in_dr('style="font-family: Courier;"', '', dr)
+replace_in_dr('style="font-family: Times;', '', dr)
+replace_in_dr('style="font-family: Times;', '', dr)
+replace_in_dr('{style="font-family: Courier;"', '', dr)
+replace_in_dr('{style="font-family: Courier;"', '', dr)
+
