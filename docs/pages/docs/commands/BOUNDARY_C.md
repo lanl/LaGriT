@@ -71,11 +71,11 @@
 
 Boundary component node
 
-<img src="/assets/images/boundary_component_node.png"> 
+<img src="https://lanl.github.io/LaGriT/assets/images/boundary_component_node.png"> 
 
 Boundary component element 
 
-<img src="/assets/images/boundary_component_element.png">
+<img src="https://lanl.github.io/LaGriT/assets/images/boundary_component_element.png">
 
 **boundary\_components / node** - note that the interior nodes have numbnd=0 and the nodes of the upper hole have the same value as the outside boundary since the upper hole can be reached by traversing an edge that is connected to the exterior.  
 

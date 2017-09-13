@@ -5,12 +5,7 @@
 
  FORMAT:
 
-  **addmesh / add **/mesh3 / mesh1 / mesh2
-  /
-[refine\_factor
-]/
-[et**edge**
-]
+  **addmesh / add** /mesh3 / mesh1 / mesh2 / [refine\_factor] / [tet **edge**]
 
   **addmesh** / **amr** / mesh3 / mesh1 / mesh2 /
 
@@ -48,7 +43,7 @@
  element on the boundary with the incoming mesh object is no bigger
  than 5 times the volume of the maximum volume element on the border of
  the incoming mesh. refine\_type is the type of refinement that is
- executed. If the string et** appears, then tetrahedral refinement
+ executed. If the string **tet** appears, then tetrahedral refinement
  is performed. Otherwise, **edge** based refinement is performed. After
  the above refine steps have been done, the intersection of mesh1 and
  mesh2 is found, elements that overlap are deleted from mesh1 and mesh2
@@ -106,7 +101,7 @@
  [**resetpts****/itp**](RESETPT.md) and **[filter](FILTER.md)**
  commands to get the final desired result.
 
- NOTE:  Some operations may only work with tet meshes.
+ NOTE: Some operations may only work with tet meshes.
 
  [Click here for demos](/pages/docs/demos/index.md)
 

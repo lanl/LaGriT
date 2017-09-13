@@ -144,5 +144,5 @@
       compute / distance_field / cmo_snk / cmo_src / dfield             
       finish           
   
-  <img src="/assets/images/distance_field_01.png">     
+  <img src="https://lanl.github.io/LaGriT/assets/images/distance_field_01.png">     
                                                                                                            

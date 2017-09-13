@@ -400,9 +400,9 @@ INTERPOLATE
  []{#DEMOS
 
    ------------------------------------------------------------------------------------------------------------ ---------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------
-   [![VORONOI from quad grid]<img src="/assets/images/vor_rand.gif">"97" "75"]<img src="/assets/images/vor_rand.gif">
-   [![MAP from element to element.]<img src="/assets/images/map03_view.gif">"97" "75"]<img src="/assets/images/map03_view.gif">
-   [![CONTINUOUS from triangles]<img src="/assets/images/con02_sink.gif">"97" "75"]<img src="/assets/images/con02_sink.gif">
+   [![VORONOI from quad grid]<img src="https://lanl.github.io/LaGriT/assets/images/vor_rand.gif">"97" "75"]<img src="https://lanl.github.io/LaGriT/assets/images/vor_rand.gif">
+   [![MAP from element to element.]<img src="https://lanl.github.io/LaGriT/assets/images/map03_view.gif">"97" "75"]<img src="https://lanl.github.io/LaGriT/assets/images/map03_view.gif">
+   [![CONTINUOUS from triangles]<img src="https://lanl.github.io/LaGriT/assets/images/con02_sink.gif">"97" "75"]<img src="https://lanl.github.io/LaGriT/assets/images/con02_sink.gif">
 
    [Example 1: interpolate / voronoi](../description_voronoi.md)
    [Example 2: interpolate / map](../description_map.md)

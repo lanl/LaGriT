@@ -416,15 +416,15 @@ Source points all equal to 1,
 
 Sink points colored by upscaled value. 
 
-<img src="/assets/images/upscale_ex2_imt.png">  
+<img src="https://lanl.github.io/LaGriT/assets/images/upscale_ex2_imt.png">  
 
 **Source points colored by associated sink node id, attribute pt\_gtg. cell boundaries, attribute dups\_gtg.**
 
-<img src="/assets/images/upscale_ex2_id.png"> 
+<img src="https://lanl.github.io/LaGriT/assets/images/upscale_ex2_id.png"> 
 
 **Source points colored by number of duplicates.**
 
-<img src="/assets/images/upscale_ex2_dups.png">
+<img src="https://lanl.github.io/LaGriT/assets/images/upscale_ex2_dups.png">
 
     Example 3:
 
@@ -554,7 +554,7 @@ Sink points colored by upscaled value.
                                                                              
                                                                          
    
-<img src="/assets/images/upscale_arithmetic.jpg">                              
+<img src="https://lanl.github.io/LaGriT/assets/images/upscale_arithmetic.jpg">                              
 
 
        **Image 2 shows Geometric mean result of 4.0**
@@ -593,7 +593,7 @@ Sink points colored by upscaled value.
        le times.                                                             
            UPSCALE/geoave/ from xmean to gmean Done.                         
                                                                              
-<img src="/assets/images/upscale_geometric.jpg">   
+<img src="https://lanl.github.io/LaGriT/assets/images/upscale_geometric.jpg">   
 
     +-----------------------------------------------------------------------+
      **Image 3 shows Harmonic mean result of 3.2**
@@ -633,7 +633,7 @@ Sink points colored by upscaled value.
          UPSCALE/harave/ from xmean to hmean Done.                         
                                                                          
    
-<img src="/assets/images/upscale_harmonic.jpg">                                
+<img src="https://lanl.github.io/LaGriT/assets/images/upscale_harmonic.jpg">                                
 
   
 

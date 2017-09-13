@@ -13,13 +13,12 @@
 
   where:
 
-   Argument | Description
-   --------------- | ---------------------------------------------------------------
-   **dirichlet** |  is currently unused but must be specified 
-   attr\_name   |   is the name of the attribute to be set 
-   value      |    is a constant, and is the value to which the attribute is set
-   identifier |    is a character string that will be passed to subroutine set\_user\_bounds 
-   --------------- ---------------------------------------------------------------
+Argument | Description
+--------------- | ---------------------------------------------------------------
+dirichlet |  is currently unused but must be specified
+attr\_name   |   is the name of the attribute to be set
+value      |    is a constant, and is the value to which the attribute is set
+identifier |    is a character string that will be passed to subroutine set\_user\_bounds
 
    surface\_list is one of:
   

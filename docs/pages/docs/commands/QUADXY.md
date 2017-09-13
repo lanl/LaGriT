@@ -47,9 +47,9 @@ FORMAT:
 
 **quadxy_example1**
 
-<img src="/assets/images/quadxyz1.gif">
+<img src="https://lanl.github.io/LaGriT/assets/images/quadxyz1.gif">
 
 **quadxy_example2**
 
-<img src="/assets/images/quadxyz2.gif">
+<img src="https://lanl.github.io/LaGriT/assets/images/quadxyz2.gif">
 

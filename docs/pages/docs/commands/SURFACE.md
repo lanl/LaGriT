@@ -182,10 +182,10 @@ p is on the triangle then p=q and p in on the triangle.
 <img height="10" width="10" src="/assets/images/Image256.gif">  = 0 and p is
 not on the triangle then p is outside.
 
-<img src="/assets/images/Image257.gif"> 
+<img src="https://lanl.github.io/LaGriT/assets/images/Image257.gif"> 
 
 One implication of this definition is that the concept of shadows cast
 by open sheets no longer is valid. Sheets may be considered to extend to
 the boundary of the geometry.
 
-<img src="/assets/images/Image259.gif"> 
+<img src="https://lanl.github.io/LaGriT/assets/images/Image259.gif"> 
