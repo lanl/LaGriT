@@ -1,0 +1,24 @@
+*
+* Simple Example to create a retangular grid that
+* captures the geometry of an interface in the 
+* stair steps of a regular grid.
+*
+* Carl Gable 3/12/98
+*
+* Create a cmo with hexahedral storage arrays
+cmo/create/cmo/ / / hex
+* Define the exterior and a plane
+surface/cube/reflect/box/0.0,0.0,0.0/1.0,1.0,1.0/
+surface/cutplane/intrface/plane/0.,0.,.1/1.,0.,.5/1.,1.,.8
+* Define the material regions
+mregion/mattop/le cube and gt cutplane/
+mregion/matbot/le cube and lt cutplane
+* Create a rectangular grid
+rzbrick/xyz/21,5,41/0.,0.,0./1.,1.,1./1 1 1
+* Color the nodes according to the mregions
+setpts
+* Color the elements according to the mregions
+settets
+* Output the final grid
+dump/gmv/box.gmv
+finish

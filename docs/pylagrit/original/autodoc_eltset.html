@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Mesh Object &#8212; PyLaGriT 0.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="PyLaGriT 0.0.0 documentation" href="index.html" />
+    <link rel="up" title="Class Documentation" href="autodoc.html" />
+    <link rel="next" title="Mesh Object" href="autodoc_faceset.html" />
+    <link rel="prev" title="Mesh Object" href="autodoc_pset.html" />
+   
+  <link rel="stylesheet" href="static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pylagrit">
+<span id="mesh-object"></span><h1>Mesh Object<a class="headerlink" href="#module-pylagrit" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pylagrit.EltSet">
+<em class="property">class </em><code class="descclassname">pylagrit.</code><code class="descname">EltSet</code><span class="sig-paren">(</span><em>name</em>, <em>parent</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.EltSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>EltSet class</p>
+<dl class="method">
+<dt id="pylagrit.EltSet.pset">
+<code class="descname">pset</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.EltSet.pset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a pset from the points in an element set
+:arg name: Name of point set to be used within LaGriT
+:type name: str
+:returns: PyLaGriT PSet object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.EltSet.refine">
+<code class="descname">refine</code><span class="sig-paren">(</span><em>amr=''</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.EltSet.refine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refine elements in the element set</p>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="mf">0.0005</span> <span class="c1"># Fault half aperture</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lr</span> <span class="o">=</span> <span class="mi">7</span> <span class="c1"># Levels of refinement</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nx</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># Number of base mesh blocks in x direction</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nz</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># Number of base mesh blocks in z direction</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_base</span> <span class="o">=</span> <span class="n">df</span><span class="o">*</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">lr</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Calculated dimension of base block</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">w</span> <span class="o">=</span> <span class="n">d_base</span><span class="o">*</span><span class="n">nx</span> <span class="c1"># Calculated width of model</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">d_base</span><span class="o">*</span><span class="n">nz</span> <span class="c1"># Calculated depth of model</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create discrete fracture mesh</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dxyz</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">d_base</span><span class="p">,</span><span class="n">d_base</span><span class="p">,</span><span class="mf">0.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mins</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="o">-</span><span class="n">d</span><span class="p">,</span><span class="mf">0.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maxs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">w</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">createpts_dxyz</span><span class="p">(</span><span class="n">dxyz</span><span class="p">,</span><span class="n">mins</span><span class="p">,</span><span class="n">maxs</span><span class="p">,</span><span class="s1">&#39;quad&#39;</span><span class="p">,</span><span class="n">hard_bound</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;min&#39;</span><span class="p">,</span><span class="s1">&#39;max&#39;</span><span class="p">,</span><span class="s1">&#39;min&#39;</span><span class="p">),</span><span class="n">connect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lr</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">prefine</span> <span class="o">=</span> <span class="n">mqua</span><span class="o">.</span><span class="n">pset_geom_xyz</span><span class="p">(</span><span class="n">mins</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,(</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">erefine</span> <span class="o">=</span> <span class="n">prefine</span><span class="o">.</span><span class="n">eltset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">erefine</span><span class="o">.</span><span class="n">refine</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">prefine</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">erefine</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtri</span> <span class="o">=</span> <span class="n">mqua</span><span class="o">.</span><span class="n">copypts</span><span class="p">(</span><span class="s1">&#39;triplane&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtri</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Make sure that not nodes are lost during connect</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="s1">&#39;The mesh is complete but could not include all points.&#39;</span> <span class="ow">in</span> <span class="n">lg</span><span class="o">.</span><span class="n">before</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span> <span class="s1">&#39;Error: Lost some points during connect, not completing mesh and exiting workflow!&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span> <span class="s1">&#39;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtri</span><span class="o">.</span><span class="n">tri_mesh_output_prep</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtri</span><span class="o">.</span><span class="n">reorder_nodes</span><span class="p">(</span><span class="n">cycle</span><span class="o">=</span><span class="s1">&#39;xic yic zic&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pfault</span> <span class="o">=</span> <span class="n">mtri</span><span class="o">.</span><span class="n">pset_geom_xyz</span><span class="p">(</span><span class="n">mins</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,(</span><span class="mf">0.0001</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psource</span> <span class="o">=</span> <span class="n">mtri</span><span class="o">.</span><span class="n">pset_geom_xyz</span><span class="p">(</span><span class="n">mins</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="n">mins</span><span class="o">+</span><span class="mf">0.0001</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtri</span><span class="o">.</span><span class="n">setatt</span><span class="p">(</span><span class="s1">&#39;imt&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pfault</span><span class="o">.</span><span class="n">setatt</span><span class="p">(</span><span class="s1">&#39;imt&#39;</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">psource</span><span class="o">.</span><span class="n">setatt</span><span class="p">(</span><span class="s1">&#39;imt&#39;</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtri</span><span class="o">.</span><span class="n">paraview</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;discrete_fracture.inp&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="autodoc.html">Class Documentation</a><ul>
+      <li>Previous: <a href="autodoc_pset.html" title="previous chapter">Mesh Object</a></li>
+      <li>Next: <a href="autodoc_faceset.html" title="next chapter">Mesh Object</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="sources/autodoc_eltset.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Dylan R. Harp.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="sources/autodoc_eltset.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

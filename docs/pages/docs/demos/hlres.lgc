@@ -1,0 +1,961 @@
+
+*** Create a hexagonal unit cell
+cmo/create/empty///tri
+cmo/modatt/empty/ndimensions_geom/default/2
+  define/X1/ 0.000000000000000E+00
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 0.000000000000000E+00
+  define/Y2/ 0.000000000000000E+00
+createpts/line/1///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 7.216878364870323E-02
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 3.608439182435162E-02
+  define/Y2/ 6.250000000000000E-02
+createpts/line/2///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 1.443375672974065E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 7.216878364870323E-02
+  define/Y2/ 1.250000000000000E-01
+createpts/line/3///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 2.165063509461097E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 1.082531754730549E-01
+  define/Y2/ 1.875000000000000E-01
+createpts/line/4///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 2.886751345948129E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 1.443375672974065E-01
+  define/Y2/ 2.500000000000000E-01
+createpts/line/5///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 3.608439182435161E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 1.804219591217581E-01
+  define/Y2/ 3.125000000000000E-01
+createpts/line/6///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 4.330127018922194E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 2.165063509461097E-01
+  define/Y2/ 3.750000000000001E-01
+createpts/line/7///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 5.051814855409226E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 2.525907427704613E-01
+  define/Y2/ 4.375000000000001E-01
+createpts/line/8///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 5.773502691896258E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 2.886751345948129E-01
+  define/Y2/ 5.000000000000000E-01
+createpts/line/9///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+pset/x/seq/1,0,0
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/-120
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/-60
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/0
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/60
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/120
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/180
+pset/x/release
+rotateln/1,0,0/nocopy/0,0,-1/0,0,1/30
+geometry/create/g
+cmo/geometry//g
+surface/b/reflect/box/-1.0,-1.0,-1.0/1.0,1.0,1.0/
+region/r/le b/
+mregion/m/le b/
+filter/1,0,0
+rmpoint/compress
+setpts
+connect
+settets
+region/r/release
+mregion/m/release
+cmo/geometry//-defaultgeom-
+geometry/release/g
+
+*** Create a hexagonal unit cell cap
+cmo/create/upper///tri
+cmo/modatt/upper/ndimensions_geom/default/2
+  define/X1/ 0.000000000000000E+00
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 0.000000000000000E+00
+  define/Y2/ 0.000000000000000E+00
+createpts/line/1///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 7.216878364870323E-02
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 3.608439182435162E-02
+  define/Y2/ 6.250000000000000E-02
+createpts/line/2///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 1.443375672974065E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 7.216878364870323E-02
+  define/Y2/ 1.250000000000000E-01
+createpts/line/3///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 2.165063509461097E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 1.082531754730549E-01
+  define/Y2/ 1.875000000000000E-01
+createpts/line/4///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 2.886751345948129E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 1.443375672974065E-01
+  define/Y2/ 2.500000000000000E-01
+createpts/line/5///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 3.608439182435161E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 1.804219591217581E-01
+  define/Y2/ 3.125000000000000E-01
+createpts/line/6///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 4.330127018922194E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 2.165063509461097E-01
+  define/Y2/ 3.750000000000001E-01
+createpts/line/7///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 5.051814855409226E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 2.525907427704613E-01
+  define/Y2/ 4.375000000000001E-01
+createpts/line/8///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+  define/X1/ 5.773502691896258E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 2.886751345948129E-01
+  define/Y2/ 5.000000000000000E-01
+createpts/line/9///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+pset/x/seq/1,0,0
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/-120
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/-60
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/0
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/60
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/120
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/180
+pset/x/release
+rotateln/1,0,0/nocopy/0,0,-1/0,0,1/30
+geometry/create/g
+cmo/geometry//g
+surface/b/reflect/box/-1.0,-1.0,-1.0/1.0,1.0,1.0/
+  define/Y/-2.886751345948129E-01
+surface/b2/reflect/plane/0,Y,1/0,Y,0/-1,Y,0/
+region/x/gt b2/
+rmregion/x
+region/x/release
+region/r/le b and le b2/
+mregion/m/le b and le b2/
+filter/1,0,0
+rmpoint/compress
+setpts
+connect
+settets
+recon/1
+rmpoint/compress
+region/r/release
+mregion/m/release
+cmo/geometry//-defaultgeom-
+geometry/release/g
+
+*** Create a hexagonal unit cell containing dielectric disk
+cmo/create/hole///tri
+cmo/modatt/hole/ndimensions_geom/default/2
+  define/R/ 0.000000000000000E+00
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 6.000000000000000E+01
+createpts/rtz/1,1,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 7.199999999999999E-02
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 6.000000000000000E+01
+createpts/rtz/1,2,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 1.440000000000000E-01
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 6.000000000000000E+01
+createpts/rtz/1,3,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 2.160000000000000E-01
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 6.000000000000000E+01
+createpts/rtz/1,4,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 2.880000000000000E-01
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 6.000000000000000E+01
+createpts/rtz/1,5,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 3.600000000000000E-01
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 6.000000000000000E+01
+createpts/rtz/1,6,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 4.295993569534317E-01
+  define/T/ 0.000000000000000E+00
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.178484325052499E-01
+  define/T/ 1.000000000000000E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.115199559155272E-01
+  define/T/ 2.000000000000000E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.095173994431103E-01
+  define/T/ 3.000000000000000E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.115199559155272E-01
+  define/T/ 4.000000000000000E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.178484325052499E-01
+  define/T/ 5.000000000000000E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.295993569534317E-01
+  define/T/ 6.000000000000000E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 5.020494466833070E-01
+  define/T/ 0.000000000000000E+00
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.782004201045582E-01
+  define/T/ 8.571428571428571E+00
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.638085626597601E-01
+  define/T/ 1.714285714285714E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.570154046642834E-01
+  define/T/ 2.571428571428572E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.570154046642834E-01
+  define/T/ 3.428571428571428E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.638085626597600E-01
+  define/T/ 4.285714285714285E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 4.782004201045582E-01
+  define/T/ 5.142857142857143E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/R/ 5.020494466833070E-01
+  define/T/ 6.000000000000000E+01
+createpts/rtz/1,1,1/R,T,0.0/R,T,0.0/0,0,0/
+  define/X1/ 5.773502691896258E-01
+  define/Y1/ 0.000000000000000E+00
+  define/X2/ 2.886751345948129E-01
+  define/Y2/ 5.000000000000000E-01
+createpts/line/9///X1,Y1,0.0/X2,Y2,0.0/1,1,1/
+pset/x/seq/1,0,0
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/-120
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/-60
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/0
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/60
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/120
+rotateln/pset,get,x/copy/0,0,-1/0,0,1/180
+pset/x/release
+filter/1,0,0
+rmpoint/compress
+rotateln/1,0,0/nocopy/0,0,-1/0,0,1/30
+geometry/create/g
+cmo/geometry//g
+surface/b/reflect/box/-1.0,-1.0,-1.0/1.0,1.0,1.0/
+  define/R/ 3.600000000000000E-01
+surface/p/intrface/cylinder/0.0,0.0,-1.0/0.0,0.0,1.0/R
+region/r1/le b and gt p/
+mregion/m1/le b and gt p/
+region/r2/le p/
+mregion/m2/lt p/
+setpts
+connect
+settets
+cmo/geometry//-defaultgeom-
+geometry/release/g
+
+*** Create the final mesh by gluing together the basic mesh units
+cmo/copy/2dmesh/empty
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/copy/row/hole
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/x/row
+cmo/copy/y/hole
+  define/X/ 1.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/hole
+  define/X/ 2.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/hole
+  define/X/ 3.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/hole
+  define/X/ 4.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/hole
+  define/X/ 5.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-6.000000000000000E+00
+  define/Y/-0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/ 1.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/row
+cmo/copy/y/hole
+  define/X/ 6.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-3.000000000000000E+00
+  define/Y/ 5.196152422706632E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-3.000000000000000E+00
+  define/Y/-5.196152422706632E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/row
+cmo/copy/y/hole
+  define/X/ 7.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-3.500000000000000E+00
+  define/Y/ 4.330127018922193E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-3.500000000000000E+00
+  define/Y/-4.330127018922193E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/row
+cmo/copy/y/hole
+  define/X/ 8.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-4.000000000000000E+00
+  define/Y/ 3.464101615137754E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-4.000000000000000E+00
+  define/Y/-3.464101615137754E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/row
+cmo/copy/y/hole
+  define/X/ 9.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-4.500000000000000E+00
+  define/Y/ 2.598076211353316E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-4.500000000000000E+00
+  define/Y/-2.598076211353316E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/row
+cmo/copy/y/hole
+  define/X/ 1.000000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-5.000000000000000E+00
+  define/Y/ 1.732050807568877E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-5.000000000000000E+00
+  define/Y/-1.732050807568877E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/row
+cmo/copy/y/hole
+  define/X/ 1.100000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-5.500000000000000E+00
+  define/Y/ 8.660254037844386E-01
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/move/x/2dmesh
+cmo/copy/y/row
+  define/X/-5.500000000000000E+00
+  define/Y/-8.660254037844386E-01
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/copy/row/empty
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/copy/fill/row
+  define/X/ 7.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 6.500000000000000E+00
+  define/Y/ 8.660254037844386E-01
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 6.500000000000000E+00
+  define/Y/-8.660254037844386E-01
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 1.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 6.000000000000000E+00
+  define/Y/ 1.732050807568877E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 6.000000000000000E+00
+  define/Y/-1.732050807568877E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 5.500000000000000E+00
+  define/Y/ 2.598076211353316E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 5.500000000000000E+00
+  define/Y/-2.598076211353316E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 2.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 5.000000000000000E+00
+  define/Y/ 3.464101615137754E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 5.000000000000000E+00
+  define/Y/-3.464101615137754E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 4.500000000000000E+00
+  define/Y/ 4.330127018922193E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 4.500000000000000E+00
+  define/Y/-4.330127018922193E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 3.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 4.000000000000000E+00
+  define/Y/ 5.196152422706632E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/row
+  define/X/ 4.000000000000000E+00
+  define/Y/-5.196152422706632E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/2dmesh
+cmo/copy/y/fill
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/select/fill
+rotateln/1,0,0/nocopy/0,0,-1/0,0,1/180
+cmo/move/x/2dmesh
+cmo/copy/y/fill
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/copy/row/empty
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 1.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 2.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 3.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 4.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 5.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 6.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 7.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 8.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 9.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 1.000000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 1.100000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 1.200000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 1.300000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/copy/fill/row
+  define/X/-6.500000000000000E+00
+  define/Y/ 6.062177826491070E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/x/row
+cmo/copy/y/empty
+  define/X/ 1.400000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/row/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/row
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/-7.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/-6.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/-5.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/-4.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/-3.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/-2.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/-1.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/ 0.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/ 1.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/ 2.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/ 3.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/ 4.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/ 5.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/ 6.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/fill
+cmo/copy/y/upper
+  define/X/ 7.000000000000000E+00
+  define/Y/ 6.928203230275509E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/fill/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/fill
+cmo/move/x/2dmesh
+cmo/copy/y/fill
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+cmo/select/fill
+rotateln/1,0,0/nocopy/0,0,-1/0,0,1/180
+cmo/move/x/2dmesh
+cmo/copy/y/fill
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+addmesh/glue/2dmesh/x/y
+cmo/release/x
+cmo/release/y
+cmo/select/2dmesh
+
+*** Clip away unwanted mesh on the left and right sides
+geometry/create/g
+cmo/geometry//g
+  define/XMIN/-7.000000000000000E+00
+  define/XMAX/ 7.000000000000000E+00
+surface/s1/reflect/plane/XMIN,0.0,1.0/XMIN,0.0,0.0/XMIN,1.0,0.0/
+surface/s2/reflect/plane/XMAX,0.0,1.0/XMAX,0.0,0.0/XMAX,1.0,0.0/
+region/trim/lt s1 or gt s2/
+rmregion/trim
+cmo/geometry//-defaultgeom-
+geometry/release/g
+
+*** Clean up mesh after all the gluing operations
+filter/1,0,0
+rmpoint/compress
+resetpts/itp
+
+*** That's all folks...
+finish

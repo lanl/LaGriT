@@ -1,0 +1,192 @@
+
+**********************************************************
+*TEST intrp/continuous (lagrit_input_continuous)
+*
+* Test grid-to-grid interpolation 
+* continous interpolation from source element vertices to sink point
+* 
+* This input deck starts with demo problems used for manual
+* Tests include various element to element types
+* and various interpolation settings for continuous method
+* Tests include the following sink <- source interpolations
+*
+* Demo 01 single HEX xval <- TET xval
+* Demo 02 QUAD numreal <- TRI numreal
+* 03  HEX xval <- HEX xval
+* 04  TRI imt <- TET imt, keep search attribute el_gtg
+* 05  TRI imt <- TET imt, reuse search attribute el_gtg
+*
+*
+* Terry Cherry 2/01/2001
+*
+**********************************************************
+
+
+**************************************************
+* Demo 01 single HEX xval <- TET xval
+* big tet on to small hex
+* 500. values at top nodes, 0. at bottom
+* includes a sink point inside a flat tet
+
+read avs input_tet3x3_flat.inp cmo_src
+  cmo addatt cmo_src xval
+  cmo copyatt cmo_src cmo_src xval zic
+
+read avs input_hex1_med.inp cmo_sink
+  cmo addatt cmo_sink xval
+  cmo setatt cmo_sink xval 99.
+
+* source is 3 high, the bottom set of tets are flat
+* bottom xval is 0. top xval is 500.
+* sink is a single hex with bottom nodes at bottom of source 
+* top nodes are less than half as tall as source
+* sink has xval with 0. on bottom and 150. at top nodes
+
+intrp/continuous/cmo_sink xval/1,0,0/cmo_src xval
+* dump sink grid and gmv file with both grids
+  dump gmv output_con01.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_con01.gmv cmov
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src xval minmax
+  cmo printatt cmo_sink xval minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+
+**************************************************
+* Demo 02 QUAD numreal <- TRI numreal
+
+* read source grid
+* assign node id to node attribute numreal
+read gmv input_random500_tri.gmv cmo_src
+  cmo copyatt cmo_src cmo_src numreal ialias
+
+* read the sink grid and create attribute numreal
+read gmv input_500_quad.gmv    cmo_sink
+  cmo addatt cmo_sink numreal
+  cmo setatt cmo_sink numreal 0.
+
+* source is irregular tri grid with 12 nodes, 12 vals
+* sink grid is square high res quad grid
+* sink numreal has 12 values to nearest nodes
+* sink nodes outside source have value 13
+
+intrp/continuous/cmo_sink numreal/1,0,0/cmo_src numreal
+  dump gmv output_con02.gmv
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_con02.gmv cmov
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src numreal minmax
+  cmo printatt cmo_sink numreal minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+**************************************************
+* 03  HEX xval <- HEX xval
+* hex not currently supported for source grid
+* source hex grid should result in error return
+
+read avs input_hex.inp cmo_src
+  cmo addatt cmo_src xval
+  cmo copyatt cmo_src cmo_src xval zic
+
+read avs input_hex1_med.inp cmo_sink
+  cmo addatt cmo_sink xval
+  cmo setatt cmo_sink xval 99.
+
+* Source is a hex grid which does not work for continuous
+* Should get error and exit with following messege
+* nodes in indexed point set  =  8
+* ERROR: continuous interpolation not valid for hex elements: cmo_src 
+* Use hextotet to convert hex elements to tetrahedra. 
+* FATAL ERROR: INTRP unable to begin. 
+
+intrp/continuous/cmo_sink xval/1,0,0/cmo_src xval
+
+* intrp should exit for source hex grids
+* begin compare here
+  cmo printatt cmo_src xval minmax
+  cmo printatt cmo_sink xval minmax
+* begin compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+
+**************************************************
+* test attributes created during kdtree searches
+* 04  TRI imt <- TET imt, keep search attribute el_gtg
+* kdtree search for source elements creates el_gtg
+
+* source grid cannot be hex, convert to tets
+read gmv input_3d_hex.gmv cmo_src
+  cmo setatt cmo_src itetclr 36,36,0 4
+  hextotet 24 cmotet cmo_src
+  cmo delete cmo_src
+
+read gmv input_2d_hires_trans.gmv    cmo_sink
+  cmo setatt cmo_sink imt1 5
+
+* source is the hex grid converted to tet24, imt 1-3
+* sink is high res tri grid
+* sink imt has values 1 and 2 with outside nodes flagged 4
+* these are reals converted to integer for imt attribute
+* sink imt has the el_gtg attribute with source elem id
+
+intrp/continuous/cmo_sink imt1/1,0,0/cmotet imt1 / keepatt 
+  dump gmv output_con04.gmv
+  addmesh merge cmov cmotet cmo_sink
+  dump gmv output_view_con04.gmv cmov
+  cmo delete cmov
+
+
+* begin compare here
+  cmo status cmo_sink
+  cmo status cmotet
+  cmo printatt cmotet imt1 minmax
+  cmo printatt cmo_sink imt1 minmax
+  cmo printatt cmo_sink el_gtg minmax
+* end compare here
+
+* 05  TRI imt <- TET imt, reuse search attribute el_gtg
+* reuse and delete attribute el_gtg in second call to intrp
+* set interpolation function for attribute imtreal to linear
+* sink has values from 2. to 4. where 4. is outside source
+
+cmo setatt cmo_sink imtreal 5.0
+
+intrp/continuous/cmo_sink imtreal/1,0,0/cmotet imtreal/ linear 
+  dump gmv output_con05.gmv
+  addmesh merge cmov cmotet cmo_sink
+  dump gmv output_view_con05.gmv cmov
+  cmo delete cmov
+
+* el_gtg attribute should have been removed
+* begin compare here
+  cmo status cmo_sink
+  cmo status cmotet
+  cmo printatt cmotet  imtreal minmax
+  cmo printatt cmo_sink imtreal minmax
+  cmo printatt cmo_sink el_gtg minmax
+* end compare here
+
+  cmo delete cmotet
+  cmo delete cmo_sink
+
+
+
+* end testing for intrp/continuous
+finish
