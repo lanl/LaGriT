@@ -9,7 +9,7 @@
 
 Characteristic    | Equilateral | Sliver | Cap | Needle | Wedge 
 --- | ---- | --- | ---- | --- | ---
-Picture | <img height="200" width="300" src="/assets/images/quality_tet_equilateral.png"> | <img height="200" width="300" src="/assets/images/quality_tet_sliver.png"> | <img height="200" width="300" src="/assets/images/quality_tet_cap.png"> | <img height="200" width="300" src="/assets/images/quality_tet_needle.png"> | <img height="200" width="300" src="/assets/images/quality_tet_wedge.png"> |
+Picture | <img height="200" width="300" src="https://lanl.github.io/docs/assets/images/quality_tet_equilateral.png"> | <img height="200" width="300" src="https://lanl.github.io/docs/assets/images/quality_tet_sliver.png"> | <img height="200" width="300" src="https://lanl.github.io/docs/assets/images/quality_tet_cap.png"> | <img height="200" width="300" src="https://lanl.github.io/docs/assets/images/quality_tet_needle.png"> | <img height="200" width="300" src="https://lanl.github.io/docs/assets/images/quality_tet_wedge.png"> |
 Coordinates | 0 0 0 <br> 0 1 1 <br> 1 0 1 <br> 1 1 0 | 1 0 0.1 <br> -1 0 0.1 <br> 0 1 -0.1 <br> 0 -1 -0.1 | 1 0 0 <br> 1 1 0 <br> 0 0 0 <br> 0.75 0.25 0.1 | .1 -.1 0 <br> .1 .1 0 <br> -.1 0 0 <br> 0 0 1 | 1 0 0 <br> -1 0 0 <br> 0 1 0.1 <br> 0 1 -0.1 
 Aspect Ratio | 1.0 | 0.2927 | 0.07448 | 0.3429 | 0.2617
 Min Dihedral Angle | 7.05288E+01 | 1.59424E+01 | 1.57932E+01 | 5.33585E+01 | 1.14212E+01

@@ -140,13 +140,13 @@ and the closest point, q, to p that lies on that triangle.
 
 
 * Construct the vector
-<img height="20" width="`20" src="/assets/images/Image255.gif">,
+<img height="20" width="`20" src="https://lanl.github.io/docs/assets/images/Image255.gif">,
 from q to p.
 
 
 * Construct the outward normal to the
 triangle, 
-<img height="10" width="10" src="/assets/images/Image256.gif">. The outward
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif">. The outward
 normal is constructed using the right hand rule and the order of the
 points in the sheet. Sheets may be specified as quad Mesh Object (i.e. a
 2 dimensional array of points containing the coordinates of the corners
@@ -158,28 +158,28 @@ all triangles created from the quad.
 
 
 * If 
-<img height="10" width="10" src="/assets/images/Image255.gif">
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image255.gif">
 
 * 
-<img height="10" width="10" src="/assets/images/Image256.gif"> &lt; 0 then
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif"> &lt; 0 then
 the point is inside. If 
-<img height="10" width="10" src="/assets/images/Image255.gif">
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image255.gif">
 
 * 
-<img height="10" width="10" src="/assets/images/Image256.gif"> &gt;0 the
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif"> &gt;0 the
 point is outside. If 
-<img height="10" width="10" src="/assets/images/Image255.gif">
-<img height="10" width="10" src="/assets/images/Image256.gif"> 
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image255.gif">
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif"> 
 * n = 0, and if
 p is on the triangle then p=q and p in on the triangle.
 
 
 * If 
-<img height="10" width="10" src="/assets/images/Image255.gif">
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image255.gif">
 
 *
 
-<img height="10" width="10" src="/assets/images/Image256.gif">  = 0 and p is
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif">  = 0 and p is
 not on the triangle then p is outside.
 
 <img src="https://lanl.github.io/LaGriT/assets/images/Image257.gif"> 

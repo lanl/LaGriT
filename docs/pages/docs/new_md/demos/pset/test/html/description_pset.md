@@ -19,7 +19,7 @@ Input
 
 Images of GMV input and output
 [Output log file](../output_pset)
-[Input geometry <img height="300" width="300" src="/assets/images/pset2_tn.gif">"114"
+[Input geometry <img height="300" width="300" src="https://lanl.github.io/docs/assets/images/pset2_tn.gif">"114"
 "89"](image/pset2.gif">
 
 <img height="300" width="300" src="transparent.gif">"4" 

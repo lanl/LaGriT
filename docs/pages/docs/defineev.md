@@ -18,7 +18,7 @@ enclosing volumes are:
 
 **surface**/cube**/reflect** **/box**/0.0,0.0,0.0/1.0,1.0,1.0
 
-<img height="300" width="300" src="/assets/images/Image219.gif">"237" "212"
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/Image219.gif">"237" "212"
 
 **Cylinder whose axis is the x axis with radius 1 and height 1**:
 
@@ -28,5 +28,5 @@ enclosing volumes are:
 
 **surface/end2/reflect/plane**/1.,0.,0./1.,0.,1./1.,1.,1.
 
-<img height="300" width="300" src="/assets/images/Image220.gif">
-<img height="300" width="300" src="/assets/images/Image221.gif">
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/Image220.gif">
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/Image221.gif">

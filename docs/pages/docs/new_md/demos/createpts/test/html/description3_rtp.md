@@ -24,6 +24,6 @@ title: '
 
  Images of GMV output
 
-  [<img height="300" width="300" src="/assets/images/image3tn.gif">"116"
+  [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/image3tn.gif">"116"
   "138"](./image/image3.gif"> [spherical
   geometry](image/image3.gif">

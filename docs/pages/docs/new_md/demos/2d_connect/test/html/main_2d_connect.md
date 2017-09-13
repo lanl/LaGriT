@@ -14,5 +14,5 @@ title: '
 
   [Example 1](description_2dconn.md)
 
-  [<img height="300" width="300" src="/assets/images/2d_connect2_tn.gif">"114"
+  [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/2d_connect2_tn.gif">"114"
   "89"](description_2dconn.md)

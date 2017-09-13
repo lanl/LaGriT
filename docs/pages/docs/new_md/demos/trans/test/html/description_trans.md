@@ -19,8 +19,8 @@ Example 1: test using trans to modify two point distributions.
 
 Images of GMV input and output
 [Initial point
-distribution](image/trans1.gif">[<img height="300" width="300" src="/assets/images/trans1_tn.gif">"114"
+distribution](image/trans1.gif">[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/trans1_tn.gif">"114"
 "89"](image/trans1.gif">
 [translation along
-z-axis](image/trans2.gif">[<img height="300" width="300" src="/assets/images/trans2_tn.gif">"114"
+z-axis](image/trans2.gif">[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/trans2_tn.gif">"114"
 "89"](image/trans2.gif">

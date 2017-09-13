@@ -6,4 +6,4 @@ Delaunay criterion and has improved element shapes.
 [Example](description_2drecon.md)
 
 
-<img height="300" width="300" src="/assets/images/image1_tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/image1_tn.gif"

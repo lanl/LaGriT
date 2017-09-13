@@ -19,7 +19,7 @@ title: '
 
  Image of GMV output
 
-  [<img height="300" width="300" src="/assets/images/image5tn.gif">"141"
+  [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/image5tn.gif">"141"
   "166"](image/image5.gif"> [View 1](image/image5.gif">
 
  

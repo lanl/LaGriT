@@ -11,4 +11,4 @@ assign two materials, *mattop* and *matbot,* to the regions *top* and
 
 **mregion**/ matbot/ **le** cube **and lt** cutplane /
 
-<img height="300" width="300" src="/assets/images/Image225.gif">
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/Image225.gif">

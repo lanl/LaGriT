@@ -30,6 +30,6 @@ title: '
 
  Images of GMV output
 
- [<img height="300" width="300" src="/assets/images/image1_tn.gif">"144"
+ [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/image1_tn.gif">"144"
  "144"](image/picture1.gif"> [input and output
  meshes](image/picture1.gif">

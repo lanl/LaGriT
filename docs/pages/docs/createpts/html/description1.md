@@ -23,5 +23,5 @@ title: '
 
  Images of GMV output
 
- [<img height="300" width="300" src="/assets/images/image1tn.gif">"112"
+ [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/image1tn.gif">"112"
  "87"](image/image1.gif">[image1.gif](image/image1.gif">

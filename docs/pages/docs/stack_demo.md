@@ -1,9 +1,9 @@
 **ROUTINE: stack / layers**
 ------------------------------------------------------------------------
 
-<img height="300" width="300" src="/assets/images/simple_stack.gif">d
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/simple_stack.gif">d
 
-<img height="300" width="300" src="/assets/images/simple_tet.gif">
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/simple_tet.gif">
 
 `** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** *****`
 
@@ -114,7 +114,7 @@
 **stack/layers  with material colors reversed**
 -----------------------------------------------
 
-<img height="300" width="300" src="/assets/images/simple_tet_clr2.gif">
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/simple_tet_clr2.gif">
 
 Material 1 (green) is now the top unit. Material 2 (purple) is middle
 and 1 (red) is bottom.
@@ -151,9 +151,9 @@ The unit value was changed from above example on the command line:
 stack/layers to hex to tet, with buffered interfaces
 ----------------------------------------------------
 
-<img height="300" width="300" src="/assets/images/hex_buffers.jpg">
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/hex_buffers.jpg">
 
-<img height="300" width="300" src="/assets/images/hex_buffers.jpg">
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/hex_buffers.jpg">
 
 
 `** **** **** **** **** **** **** **** **** **** **** **** **** **** **`
@@ -267,10 +267,10 @@ stack/layers to hex to tet, with buffered interfaces
 **trilayer to tet with truncating surface and unit refinement**
 ---------------------------------------------------------------
 
-<img height="300" width="300" src="/assets/images/tet_trunc_refine.jpg">
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/tet_trunc_refine.jpg">
 -------------------------------------------------------------
 
-<img height="300" width="300" src="/assets/images/tet_trunc_refine_exp.jpg">
+<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/tet_trunc_refine_exp.jpg">
 
 
 `** **** **** **** **** **** **** **** **** **** **** **** **** **** **`

@@ -11,5 +11,5 @@ title: '
     
 
    [Example 1](description_pset.md)
-   [<img height="300" width="300" src="/assets/images/pset2_tn.gif">"114"
+   [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/pset2_tn.gif">"114"
    "89"](description_pset.md)

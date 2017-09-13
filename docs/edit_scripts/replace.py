@@ -17,4 +17,6 @@ def replace_in_dr(old, new, dr):
 
 dr = '/home/nknapp/LaGriT/docs/pages/'
 
-replace_in_dr('****', '** **', dr)
+old = 'src="/assets/images/' 
+new = 'src="https://lanl.github.io/docs/assets/images/'
+replace_in_dr(old, new, dr)

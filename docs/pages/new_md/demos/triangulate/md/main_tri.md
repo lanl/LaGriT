@@ -11,5 +11,5 @@ title: '
     
 
    [Example 1](description_tri.md)
-   [<img height="300" width="300" src="/assets/images/triang4_tn.gif">"114"
+   [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/triang4_tn.gif">"114"
    "89"](description_tri.md)
