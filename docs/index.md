@@ -62,8 +62,12 @@ BSD 3-Clause License (See
 - [Licensing](pages/licensing.md)
 - [Publications](pages/publications.md)
 - [Release Notes](pages/release.md)
-- <a href="https://deknapp.github.io/assets/images/lagrit.pdf" download> LaGrit Facts (PDF)</a>
+- <a href="https://lanl.github.io/assets/images/lagrit.pdf" download> LaGrit Facts (PDF)</a>
 - Contact the LaGriT team through email to tamiller@lanl.gov
+
+**View Sitemap**
+
+<a href="https://lanl.github.io/pages/sitemap.html"> Site Map </a>
 
 *NOTICE: Information from this server resides on a computer system
 funded by the U.S.Department of Energy. Anyone using this system
