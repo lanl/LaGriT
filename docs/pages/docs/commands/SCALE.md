@@ -10,7 +10,7 @@ title: SCALE
 
 Scale a point distribution specified by ** ** ifirst,ilast,istride
 according to the scale factors iscale,jscale, and kscale.  One can
-substitute the syntax **pse get pset\_name  for the ifirst, ilast,
+substitute the syntax pse get pset\_name  for the ifirst, ilast,
 istride variable to access a pset.  The letters i,j, and k in the scale
 factors correspond to coordinates specified by one of the geometry types
 [**xyz** (Cartesian), **rtz** (cylindrical), **rtp** (spherical)].  
