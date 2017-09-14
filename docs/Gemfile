@@ -1,5 +1,7 @@
+# Skinny Bones Gemfile
+source "https://rubygems.org"
 
-source 'https://rubygems.org'
-
-gem 'github-pages'
-gem 'minima'
+gem "jekyll"
+gem "jekyll-sitemap"
+gem "jekyll-gist"
+gem "jekyll-feed"
