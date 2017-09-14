@@ -15,12 +15,7 @@ gems:
   - jekyll-sitemap
   - jekyll-gist
   - jekyll-feed
-
-# Site owner
-owner: LANL
-  name: Nathaniel Knapp 
-  email: nknapp@lanl.gov
-
+  
 include:
   - .htaccess
 exclude:
