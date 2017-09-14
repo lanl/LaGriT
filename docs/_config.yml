@@ -10,7 +10,7 @@ author :
 
 url: "http://lanl.github.io/LaGriT"
 baseurl: ""
-production_url : https://lanl.github.io/LaGriT
+production_url: "https://lanl.github.io/LaGriT"
 
 markdown: kramdown
 
