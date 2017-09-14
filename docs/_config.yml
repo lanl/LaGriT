@@ -1,11 +1,23 @@
-title: Starter Template
-author: Panoramedia
-email: panoramedia@gmail.com
-description: > # this means to ignore newlines until "baseurl:"
-  A Site Starter Materialize Templates for Jekyll
+permalink: /:categories/:year/:month/:day/:title
+exclude: [".rvmrc", ".rbenv-version", "ReadMe.md", "Rakefile", "changelog.md", "License.md"]
+highlighter: rouge
 
-twitter_username: macrod68
-github_username:  macrod68
+title : LaGriT
+author :
+  name : Nathaniel Knapp
+  email : nknapp@lanl.gov
+  github : deknapp
+
+production_url : https://lanl.github.io/LaGriT
+
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+  
+JB :
+  version : 0.3.0
 
 sass:
     style: compressed
