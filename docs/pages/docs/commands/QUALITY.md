@@ -2,7 +2,7 @@
 
 quality provides a collection of mesh quality measures  
 
-** **FORMAT:** **
+**FORMAT:**
 
 quality /[quality_type] / [quality_type options] 
 
@@ -28,7 +28,7 @@ quality/edge_max/[y]
 
 displays a count of the maximum edge length in each of 7 bins. If y is specified create an attribute named edgemax that will contain the value of the max edge length of each element.
 
-quality/angle/gt|lt/value]/ 
+quality/angle/gt OR lt/value]/ 
 
 displays a count of the number of elements with a dihedral angle that is greater than or less than the supplied value. See also cmo/addatt/mo/ang_* commands for dihedral angle and solid angle calculations.
 

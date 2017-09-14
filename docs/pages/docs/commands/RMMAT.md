@@ -1,12 +1,12 @@
  **RMMAT**
 
   This routine is used to remove points that are of a specified
-  material type.  Elements with the specified material types are
-  flagged by setting the element material type negative.  After using
-  **rmmat**, **[rmpoints/](RMPOINT.md)ompress will delete
+  material type. Elements with the specified material types are
+  flagged by setting the element material type negative. After using
+  **rmmat**, **[rmpoints/](RMPOINT.md)** compress will delete
   elements whose material type is negative and the dudded nodes.
 
-   **FORMAT**
+  **FORMAT**
 
   **rmmat**/material
   number/[**allnodeelement**]/[**exclusive**]
@@ -21,7 +21,7 @@
  
   **rmmat**/material number**/node**
 
-  removes nodes  with imt = material number
+  removes nodes with imt = material number
  
   **rmmat**/material number**/element**
 

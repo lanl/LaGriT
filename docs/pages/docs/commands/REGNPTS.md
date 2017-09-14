@@ -77,6 +77,4 @@
  Where the 2 point sets have the same length and rays are constructed
  between pairs of elements, one from each point set.
 
-  
-
  [Click here for demos](../demos/main_regnpts.md)

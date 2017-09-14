@@ -1,15 +1,11 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: Microsoft Word 98
 title: RMREGION
 ---
 
-** ** 
+**RMREGION**
 
- **RMREGION**
+Removes points that lie within the specified region.
 
-  Removes points that lie within the specified region.
-
-** **FORMAT:** **
+**FORMAT:**
 
 **rmregion**/region\_name/

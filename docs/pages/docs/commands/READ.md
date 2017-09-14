@@ -29,11 +29,9 @@
 
   **[read sheetij](../read_sheetij.md)**
 
-  **[read/gmvfreeformat](../read_freeformat.md)**
+  **[read/gmvfreeformat]**(../read_freeformat.md)
 
-  **[read/zonezonn
-
-  ](../read_fehm_zone.md)**
+  [read/zonezonn](../read_fehm_zone.md)**
  
   Note: To read tabular data (spreadsheet style x,y,z nodes or
   attributes) see: [cmo/readatt/...](cmo/cmo_readatt.md)

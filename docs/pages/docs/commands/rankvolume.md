@@ -1,14 +1,8 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
-Generator: Microsoft Word 98
 title: SETSIZE
 ---
 
  **RANKVOLUME**
-
-  
-
-  
 
   RANKVOLUME prints out the lowest volume elements from a mesh, ranked
   in increasing order.  The default is to print out the 100 lowest
@@ -17,15 +11,12 @@ title: SETSIZE
   number of exterior boundary faces and number of interfaces faces for
   each of these elements.
 
- 
-
 **FORMAT:**
 
 **rankvolume**/[number\_of\_elements\_to\_rank]
 
 EXAMPLE:
 
- 
 
 rankvolume/10
 

@@ -42,7 +42,7 @@
   psets. Specify a number value for a single zone file with the
   zone\_number option. **delete** deletes a previously defined pset
 
-  **attribute** forms a pset from all points in ** **
+  **attribute** forms a pset from all points in
   ifirst,ilast,istride which have the specified value for a node based
   attribute. This option was previously named **zq.**
 

@@ -1,6 +1,4 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
-Generator: Microsoft Word 98
 title: REFINE
 ---
 
@@ -12,8 +10,6 @@ REFINE
  chosen. The refine criteria used in these methods are defined in the
  [Grid Refinement](http://lagrit.lanl.gov/REFINE1.md)
  Section.
-
-
 
 
 COMMAND ARGUMENTS:
@@ -35,10 +31,10 @@ refine\_option: indicates the choice of refinement method. The choices
 for first parameter are:
 
  -   **junction** will refine object where field crosses xvalue
- -   onstant** will refine object where field &gt; xvalue
+ -   **constant** will refine object where field &gt; xvalue
  -   **delta** will refine object where delta(field) &gt; xvalue
  -   **lambda** will refine object where lambda(field) &lt; xvalue
- -   ** maxsize** will refine object where object &gt; xvalue. Size
+ -   **maxsize** will refine object where object &gt; xvalue. Size
      refers to volume for tets, area for face, and length for edges.
  -   **aspect** will refine where aspect ratio &lt; xvalue
  -   **addpts** will refine explicitly by adding a set of nodes
@@ -73,7 +69,7 @@ for first parameter are:
      set, it is possible that some element not in the original element
      set will have all of its nodes as members of the internally
      constructed points set and hence will be refined. 
-     Refinement\_method is onstant**; refine\_type is **element**;
+     Refinement\_method is **constant**; refine\_type is **element**;
      inclusion\_flag is **exclusive**.  The element range
      **eltset,get,**ename is the only argument after
      **element\_set**.  
@@ -148,7 +144,7 @@ QUADTREE and OCTREE REFINEMENT:
 Quad and hexahedral elements may be refined creating quad tree and
 octree meshes. Three new Mesh object attributes are added during this
 operation. The refine\_type must be **element**. The refine\_option must
-be onstant,** **junction** or ** maxsize**. The values for
+be **constant,** **junction** or **maxsize**. The values for
 /xvalue/xvalue2/xvalue3/ should be /-1.,0.,0./. For an element set, use
 the shortened syntax **refine/element\_set/eltset,get,**esetname.
 
@@ -319,7 +315,7 @@ FORMATS:
 
  **refine** **/ maxsize**//**/edge** **/pset,get,**something / .25
  will refine element where edge is longer than .25
- **refine**/onstant**/concentration**/log** **/edge**/
+ **refine**/**constant**/concentration**/log** **/edge**/
  1,0,0/25.0//**/inclusive**
  will refine where concentration is greater than 25.
  **refine** **/addpts**///et** **/pset,get,**newpoints/

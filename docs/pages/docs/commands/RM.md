@@ -1,10 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: Microsoft Word 98
 title: RM
 ---
-
-** ** 
 
  **RM**
 
@@ -16,9 +12,9 @@ title: RM
   theta is the angle with respect to the Z-axis and phi is the angle
   in the XY-plane with respect to the X-axis. In cylindrical
   coordinates the cylinder always lines up along the z axis; use the
-  oordsys** command before issuing the **rm** command if the points
+  **coordsys** command before issuing the **rm** command if the points
   to be removed are not aligned with the z-axis; then issue a final
-  oordsys** command to return to normal. Also note that the points
+  **coordsys** command to return to normal. Also note that the points
   that are removed become dudded out (point type set to 21) and are
   not removed from the data array.
  
@@ -36,7 +32,6 @@ title: RM
 
   xscale, yscale, zscale -- scaling factors for geometry limits
 
- 
 
  **FORMAT:**
 

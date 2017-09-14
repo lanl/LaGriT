@@ -1,10 +1,7 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
-Generator: Microsoft Word 98
 title: RMPOINT
 ---
 
- 
 
  **RMPOINT**
 
@@ -15,7 +12,7 @@ title: RMPOINT
   Elements will also be removed.  If  **inclusive** is specified, any
   element containing a marked node will be removed.  If  **exclusive**
   is specified (default), any element containing a retained node is
-  retained.  The second option, ompress**, removes the invisible
+  retained.  The second option, **compress**, removes the invisible
   nodes (i.e. those nodes whose itp1 value is 21) from the data
   structure and material-wise resequences all remaining nodes.  The
   third option, **zero\_volume**, will remove elements whose volumes
@@ -32,7 +29,7 @@ title: RMPOINT
 
 **rmpoint**/ifirst,ilast,istride/[**exclusive** **inclusive** ]
 
-**rmpoint**/ompress**/
+**rmpoint**/**compress**/
 
 **rmpoint/zero\_volume**/threshold
 

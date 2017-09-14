@@ -1,10 +1,7 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
-Generator: Microsoft Word 98
 title: RESETPTS
 ---
 
- 
 
  **RESETPTS**
 
@@ -20,7 +17,7 @@ title: RESETPTS
   Resetting itp would be used if nodes were removed (such as with
   **rmmat**) leaving new boundaries
  
-  If option is ell\_color** then node color (**imt**) is set based
+  If option is **ell\_color** then node color (**imt**) is set based
   on element color(**itetclr**).  There are three behaviors possible
   depending on whether 0, 1 or 3 arguments are specified.
  
@@ -46,38 +43,60 @@ title: RESETPTS
       integer\_node\_color. In that case, the element loop goes from
       largest to smallest element number.
 
-   ** **
-
  **FORMAT:**
 
-   
-    ------------------------------------------------ --------------------------------------------------------------------------------------------------------------------------------------
-    **resetpts**                                     remove child points
-    **resetpts/parent**                              remove child points
-    **resetpts/itp**                                 set node type (**itp**) from connectivity of mesh
-    **resetpts/cell\_color**/                        set all node colors (**imt**) from element colors(**itetclr**)
-    **resetpts/cell\_color**/istart,iend,istride     set all node colors (**imt**) from element colors(**itetclr**)
-    **resetpts/cell\_color**/ integer\_node\_color   reset node **imt** for nodes with **imt** currently = integer\_node\_color from the **itetclr** of an element that contains the node
-    ------------------------------------------------ --------------------------------------------------------------------------------------------------------------------------------------
- 
- **EXAMPLES:**
+**resetpts**   
 
-   
-    -------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    **resetpts/parent**                    remove child points
-    **resetpts/itp**                       set node type from connectivity of mesh
-    **resetpts/cell\_color**/1             replace node color for nodes that currently have **imt** value of 1 by the cell color of an element containing the node; this is done by looping through all the elements in cell color order, so that the value of **imt** will be the largest **itetclr** of the set of elements containing this node.
-    **resetpts/cell\_color**/              loop through all element colors and reset all node **imt** values
-    **resetpts/cell\_color**/-1            replace node color for nodes that currently have **imt** value of 1 by the cell color of an element containing the node; this is done by looping through all the elements in desending cell color order, so that the value of **imt** will be the smallest **itetclr** of the set of elements containing this node.
-    **resetpts/cell\_color**/1,0,0         loop through all element colors and reset all node **imt** values (same as previous example)
-    **resetpts/cell\_color**/1,3,1         loop through colors from **itetclr**=1 to **itetclr**=3
-    **resetpts/cell\_color**/3,1,-1** **   loop through colors from **itetclr**=3 to **itetclr**=1
-    -------------------------------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- 
-   
+remove child points
 
-   ** **
 
-  ** **
+**resetpts/parent**   
 
-  ** **
+remove child points
+
+**resetpts/itp**
+
+set node type (**itp**) from connectivity of mesh
+
+**resetpts/cell\_color**/
+
+set all node colors (**imt**) from element colors(**itetclr**)
+
+**resetpts/cell\_color**/istart,iend,istride     
+
+set all node colors (**imt**) from element colors(**itetclr**)
+
+**resetpts/cell\_color**/ integer\_node\_color   
+
+reset node **imt** for nodes with **imt** currently = integer\_node\_color from the **itetclr** of an element that contains the node
+
+
+**EXAMPLES:**
+
+**resetpts/itp**  
+
+             set node type from connectivity of mesh
+
+**resetpts/cell\_color**/1   
+
+          replace node color for nodes that currently have **imt** value of 1 by the cell color of an element containing the node; this is done by looping through all the elements in cell color order, so that the value of **imt** will be the largest **itetclr** of the set of elements containing this node.
+
+    **resetpts/cell\_color**/  
+
+            loop through all element colors and reset all node **imt** values
+    
+**resetpts/cell\_color**/-1  
+
+          replace node color for nodes that currently have **imt** value of 1 by the cell color of an element containing the node; this is done by looping through all the elements in desending cell color order, so that the value of **imt** will be the smallest **itetclr** of the set of elements containing this node.
+
+    **resetpts/cell\_color**/1,0,0   
+
+      loop through all element colors and reset all node **imt** values (same as previous example)
+
+    **resetpts/cell\_color**/1,3,1   
+
+      loop through colors from **itetclr**=1 to **itetclr**=3
+
+    **resetpts/cell\_color**/3,1,-1** ** 
+
+  loop through colors from **itetclr**=3 to **itetclr**=1
