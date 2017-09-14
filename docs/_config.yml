@@ -20,4 +20,5 @@ JB :
   version : 0.3.0
 
 sass:
+    sass_dir: _sass
     style: compressed
