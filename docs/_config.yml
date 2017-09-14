@@ -1,4 +1,4 @@
-ite wide configuration
+# Site wide configuration
 
 title: "My Site"
 description: "This is a description of my awesome site."
@@ -62,4 +62,3 @@ exclude:
   - package.json
   - spec
   - tmp
-
