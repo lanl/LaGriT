@@ -21,7 +21,7 @@ title: '
 
  Images of GMV output
 
-  [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/image6tn.gif">"171"
+  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image6tn.gif">"171"
   "161"](image/image6.gif"> [sphere-points](image/image6.gif">
 
  

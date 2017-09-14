@@ -25,9 +25,9 @@ title: '
 
  Images of GMV output
 
- [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/2d_connect1a_tn.gif">"114"
+ [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/2d_connect1a_tn.gif">"114"
  "89"](image/2d_connect1a.gif"> [input
  nodes](image/2d_connect1a.gif">     
- [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/2d_connect1b_tn.gif">"112"
+ [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/2d_connect1b_tn.gif">"112"
  "87"](image/2d_connect1b.gif"> [output
  mesh](image/2d_connect1b.gif">

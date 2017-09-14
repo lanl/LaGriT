@@ -24,9 +24,9 @@ title: '
  Images of GMV output
 
 +-----------------------+-----------------------+-----------------------+
- [mesh1<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/addme  <div align="left">     [mesh3<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/addme 
+ [mesh1<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addme  <div align="left">     [mesh3<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addme 
  sh_intersect/addmesh_                         sh_intersect/add_inte 
- mesh1_tn.gif">"  [mesh2<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/addme  r_tn.gif">"151" 
+ mesh1_tn.gif">"  [mesh2<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addme  r_tn.gif">"151" 
  "                   sh_intersect/addmesh_  "107"](image/ 
  "93"](image/a  mesh2_tn.gif">"  addmesh_intersect/add 
  ddmesh_intersect/addm  122"                   _inter.gif">           

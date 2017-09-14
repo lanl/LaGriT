@@ -11,5 +11,5 @@ title: '
     
 
    [Example 1](description_rotatept.md)
-   [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/rotatept1_tn.gif">"112"
+   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/rotatept1_tn.gif">"112"
    "87"](description_rotatept.md)

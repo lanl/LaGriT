@@ -21,8 +21,8 @@ title: '
 
  Images of GMV output
 
- [<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/image8tn.gif">"156" "153"](image/image8a.gif">
- [View A ](image/image8a.gif">[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/image8btn.gif">"170"
+ [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image8tn.gif">"156" "153"](image/image8a.gif">
+ [View A ](image/image8a.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image8btn.gif">"170"
  ](image/image8b.gif"> [View B](image/image8b.gif">
 
   

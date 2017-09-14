@@ -44,14 +44,14 @@ Results from Example 1:
  attribute. Image shows the imt colors of the coarse hex grid and the
  refined triangle sink grid.
 [source hex and sink tri grids](image/vor1.gif">
-[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/vor1_TN.GIF)](image/vor1.gif">
+[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/vor1_TN.GIF)](image/vor1.gif">
 
  The objective is to test the ability of **interpolate** to find the
  nearest node in a quad grid and copy imt values to sink quad grid.
  Image shows both the irregular quad grid and the refined quad sink
  grid.
 [source and sink quad grids](image/vor_rand.gif">
-[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/vor_rand_TN.GIF)](image/vor_rand.gif">
+[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/vor_rand_TN.GIF)](image/vor_rand.gif">
 
  The objective is to test the ability of **interpolate** to find the
  nearest node in a tet sphere and copy to a 2D triangle sphere surface.
@@ -60,9 +60,9 @@ Results from Example 1:
  surface with imt values copied from the 3D source sphere. The ends
  have been cutaway to show the surface elements.
 [Source 3D tet grid](image/vor_sphere_src.gif">
-[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/vor_sphere_src_TN.GIF)](image/vor_sphere_src.gif">
+[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/vor_sphere_src_TN.GIF)](image/vor_sphere_src.gif">
 [Sink 2D tri grid](image/vor_sphere_cut.gif">
-[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/vor_sphere_cut_TN.GIF)](image/vor_sphere_cut.gif">
+[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/vor_sphere_cut_TN.GIF)](image/vor_sphere_cut.gif">
 
 
 

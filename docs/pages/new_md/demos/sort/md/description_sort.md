@@ -19,7 +19,7 @@ Example 1: test using sort.
 
 Output Results:
 [Initial point
-distribution](image/sort.gif">[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/sort_tn.gif">"110"
+distribution](image/sort.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/sort_tn.gif">"110"
 "83"](image/sort.gif">
 [Output for **sort/bins**](sort_output2)
 

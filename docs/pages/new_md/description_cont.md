@@ -52,9 +52,9 @@ Results from Example 3:
  The image on the right is the sink hex element with the interpolated
  values written to node attribute called xval.
 [source and sink grids](image/con01_src.gif">
-[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/con01_src_TN.GIF)](image/con01_src.gif">
+[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/con01_src_TN.GIF)](image/con01_src.gif">
 [sink hex element](image/con01_sink.gif">
-[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/con01_sink_TN.GIF)](image/con01_sink.gif">
+[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/con01_sink_TN.GIF)](image/con01_sink.gif">
 
  The objective is use the **continuous** method to interpolate node
  values from a triangle grid to a high resolution quad grid.
@@ -67,9 +67,9 @@ Results from Example 3:
  not extend as high as the source grid, and has nodes outside the
  source grid. These nodes are flagged with the dark red values.
 [Source triangle grid](image/con02_src.gif">
-[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/con02_src_TN.GIF)](image/con02_src.gif">
+[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/con02_src_TN.GIF)](image/con02_src.gif">
 [Final sink quad grid](image/con02_sink.gif">
-[<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/con02_sink_TN.GIF)](image/con02_sink.gif">
+[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/con02_sink_TN.GIF)](image/con02_sink.gif">
 
 
 

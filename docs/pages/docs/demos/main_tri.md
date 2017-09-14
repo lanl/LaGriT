@@ -5,4 +5,4 @@ The objective is to test the **triangulate** command.
 [Example 1](description_tri.md)
    
 
-<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/triang2_tn.gif" 
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/triang2_tn.gif" 

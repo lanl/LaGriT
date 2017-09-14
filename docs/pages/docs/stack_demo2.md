@@ -11,7 +11,7 @@
     stack/layers/avs/ surf-12.inp 1/ surf-5.inp 2/ surf5.inp
     3/surf\_slope3.inp 4/ surf25.inp 4 / trunc 4 / pinch 0.
 
-<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/x5.jpg">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/x5.jpg">
 
 Read 5 surface files, truncate by 4th surface. 
 
@@ -48,7 +48,7 @@ cmo create cmo1
 stack/layers/avs/ surf-12.inp 1/ surf-5.inp 2/ surf5.inp 3/
 surf\_slope3.inp 4/ surf25.inp 4 / trunc 4 / buffer 1. pinch 0.
 
-<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/x5_buff.jpg">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/x5_buff.jpg">
 
 Read 5 surface files, truncate by 4th surface.
 
@@ -98,7 +98,7 @@ buffers at interfaces, no refinements.
     stack/layers/avs/surf-12.inp 1/surf-5.inp 2/surf5.inp 3/surf\_slope3.inp
     4/ trunc 4 / pinch 0.
 
-<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/x5top.jpg">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/x5top.jpg">
 
 Read 4 surface files, truncate by last surface.
 
@@ -133,7 +133,7 @@ No buffers at interfaces, no refinements.
     stack/layers/avs/surf-12.inp 1/surf-5.inp 2/surf5.inp 3/surf\_slope3.inp
     4/ trunc 4 / buffer 1. pinch 0.
 
-<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/x5top_buff.jpg">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/x5top_buff.jpg">
 
 Read 5 surface files, truncate by last surface.
 
@@ -195,7 +195,7 @@ Images are 250 high by 500 wide.
 bead0
 =====
 
-<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/bead.jpg"> 
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/bead.jpg"> 
 
 
     buffer 2.?| ?|  pinch 0.
@@ -218,7 +218,7 @@ bead0
 bead1
 =====
 
-<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/bead1.jpg">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/bead1.jpg">
     
     buffer 2.  / dpinch 0.0  dmin 1.
 
@@ -242,7 +242,7 @@ bead1
 bead3
 =====
 
-<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/bead3.jpg">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/bead3.jpg">
     
     buffer 2. /  dpinch .0   dmin 1.5   move 3
 
@@ -265,7 +265,7 @@ bead3
 bead4
 =====
 
-<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/bead4.jpg">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/bead4.jpg">
     
     buffer 2. / dpinch .0   dmin 1.5    move 2
 
@@ -285,7 +285,7 @@ bead4
 bead5
 =====
 
-<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/bead5.jpg">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/bead5.jpg">
     
     buffer 2. / dpinch .0   dmin 1.5   move 1
 
@@ -305,7 +305,7 @@ bead5
 bead2 - last image
 ==================
 
-<img height="300" width="300" src="https://lanl.github.io/docs/assets/images/bead2.jpg">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/bead2.jpg">
     
     buffer 2. / dpinch 1.0   dmin 2.0
 

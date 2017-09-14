@@ -16,7 +16,6 @@ def replace_in_dr(old, new, dr):
                         filter_file(os.path.join(root, fle), old, new)
 
 dr = '/home/nknapp/LaGriT/docs/pages/'
-
-old = 'src="/assets/images/' 
-new = 'src="https://lanl.github.io/docs/assets/images/'
+old = 'lanl.github.io/docs/'
+new = 'lanl.github.io/LaGriT/docs'
 replace_in_dr(old, new, dr)
