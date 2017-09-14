@@ -1,6 +1,4 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
-Generator: Microsoft Word 98
 title: SMOOTH
 ---
 
@@ -113,7 +111,7 @@ ignored.
 
 **smooth** **/position/laplace**/[ifisrt,ilast,istride]/[rlxwt]/[ntimes]/[nwtty]/[useisn]/[extrnbr]
 
-**smooth** **/position/network**/[ifisrt,ilast,istride]/[niter]/[weight]/[heck** **nocheck**
+**smooth** **/position/network**/[ifisrt,ilast,istride]/[niter]/[weight]/[**check** **nocheck**
 
 **EXAMPLES:**
 
@@ -134,10 +132,10 @@ ignored.
 
 **pset**/p2**/attribute**/itp1/1,0,0/0**/eq**
 
-**smooth** **/position** **/network**/1,0,0/3/1./heck**
+**smooth** **/position** **/network**/1,0,0/3/1./heck
 
 **smooth/position/geometry/pset,get,**p2
 
-**smooth** **/position** **/network**/1,0,0/3/1./heck**
+**smooth** **/position** **/network**/1,0,0/3/1./heck
 
 **smooth/position/geometry/pset,get,**p2

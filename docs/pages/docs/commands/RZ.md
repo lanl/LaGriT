@@ -1,10 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: Microsoft Word 98
 title: RZ
 ---
-
-** ** 
 
  **RZ**
 
@@ -21,7 +17,7 @@ title: RZ
   (xmin,ymin,zmin) to (xmax,ymax,zmaz)
 
   When using the rtz or rtp coordinate systems the center is at
-  **(**0,0,0). Use a rans** command to move the center. For the
+  (0,0,0). Use a **trans** command to move the center. For the
   **rtz** command, minimum and maximum coordinates are the triplets:
   radius from the cylinder's axis, angle in the xy-plane measured from
   the x-axis and height along the z-axis. For the **rtp** command

@@ -213,9 +213,9 @@ elements will be hex.
  surf5.inp  3  / surf2\_slope.inp  4/ surf25.inp  4 1 / runcate** 4
  / **pinch** 0.
 
- **stack/fill/mohex/cmo\_stack
+ stack/fill/mohex/cmo\_stack
 
- **hextotet//motet/cmohex
+ hextotet//motet/cmohex
 
  
 

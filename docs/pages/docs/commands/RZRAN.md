@@ -1,9 +1,6 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+title: RZRAN
 ---
-
-** ** 
 
  **RZRAN**
 
@@ -23,20 +20,19 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
   LaGriT's connect algorithm avoid creating artificial "pits" in the
   interface surfaces.
 
- 
 
  FORMAT
 
-  **rzran** / geom** / **spacing** / rmin1,rmin2,rmin3 /
+  **rzran** / **geom** / **spacing** / rmin1,rmin2,rmin3 /
   rmax1,rmax2,rmax3  & [/ xoff,yoff,zoff / edgedist /
   ranseed1,ranseed2 ]
  
   while only **rzran** is required (will result in a single point at
   the origin), it is recommended that you use as the minimal command:
-  **rzran** / geom** / spacing /  rmin1,rmin2,rmin3 /
+  **rzran** / **geom** / spacing /  rmin1,rmin2,rmin3 /
   rmax1,rmax2,rmax3
  
-  geom**
+  **geom**
 
      geometry label (same convention as for rz)
 
