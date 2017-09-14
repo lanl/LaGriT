@@ -4,8 +4,6 @@ Generator: Microsoft Word 98
 title: SMOOTH
 ---
 
- 
-
  **SMOOTH**
 
 The **smooth** command smooths 2D or 3D mesh objects. For adaptive
@@ -15,7 +13,7 @@ of the grid, in order to improve the aspect ratios and distribution of
 elements in the mesh.
 
 An optional control value between zero and one for options **esug**,
-** mega**, **geometry**, **elliptical** and **random** affects the amount
+**mega**, **geometry**, **elliptical** and **random** affects the amount
 of node movement. The default (control =0.) results in the standard
 smoothing scheme. Increasing control towards 1. causes the scheme to be
 progressively more controlled (moving the mesh less), until at control
@@ -27,7 +25,7 @@ the future for implementation of smoothing using node velocities.)
 
 There are nine smoothing algorithms available. **esug**, **elliptic**
 and **random**  are for 2D grids, **laplace**, **aspect** and
-**lpfilte**r  for 2D or 3D grids, ** mega, network** and **geometry** are
+**lpfilte**r  for 2D or 3D grids, **mega, network** and **geometry** are
 for 3D grids:
 
 1
@@ -46,36 +44,18 @@ position of its neighbors. 'Guards' keep the elements from inverting.
 
 4. **laplace** ---On a 3D tetahedral mesh moves a node to the average
 position of its neighbors where neighbor is defined as the set of nodes
-connected to the candidate node by an edge where the node types (itp1)
+connected to the candidate node by an edge where the node types (itp1) 
 and node constraints (icr1) are a 'subset' of the candidate node type
 and constraints.  A node will not be moved if the result is an inverted
 element. The following controls may be supplied:
 
- 
-
-
-  rlxwt default(0.5)                weight for underrelaxed         
-                                     Laplacian smothing              
-
-  ntimes default(5)                 number of smoothing iterations  
-
-  nwttry default(3)                 number of attempts to not       
-                                     tangle the mesh by halving the  
-                                     smoothing weight.               
-
-  useisn default(1)                 1 means interface nodes are     
-                                     smoothed based alonga           
-                                     multimaterial edge with all the 
-                                     same materials as the candidate 
-                                     node. 0 means interface nodes   
-                                     are smoothed based on all       
-                                     interface neighbors             
-
-  extrnbr default(**inclusive**)    **inclusive** means do not      
-                                     restrict neighbors 
-            
-                                     **exclusive** means restrict    
-                                     neighbors to nodes in pset      
+Command | Default | Description
+--- | --- | ---
+  rlxwt | 0.5 |                 weight for underrelaxed  Laplacian smothing              
+  ntimes | 5 |                  number of smoothing iterations  
+  nwttry | 3 |                 number of attempts to not tangle the mesh by halving the  smoothing weight.               
+  useisn | 1 |                 1 means interface nodes are smoothed based along a multimaterial edge with all the same materials as the candidate node. 0 means interface nodes are smoothed based on all interface neighbors             
+  extrnbr (**inclusive**) | |   **inclusive**means do not   restrict neighbors  **exclusive** means restrict    neighbors to nodes in pset      
 
 
  5. **aspect**---Adjusts node positions such that the aspect ratio of
@@ -93,15 +73,15 @@ of the coordinate data.
 smoothed grid which is adapted to the standard function with constant
 Hessian f(x,y,z)=x2+y2+z2. Can be used on hybrid 3D meshes and guards
 against mesh folding. Adaption to this function creates a uniform
-isotropic mesh.  The code variable ** maxiter\_sm** (default=25) controls
-the maximum number of ** mega** iterations.  The value of ** maxiter\_sm**
+isotropic mesh.  The code variable **maxiter\_sm** (default=25) controls
+the maximum number of **mega** iterations.  The value of **maxiter\_sm**
 may be changed using the **[assign](ASSIGN.md)** command
 (**assign**//**/ maxiter\_sm**/10).  (Ref.: Randolph E. Bank and R. Kent
 Smith, "Mesh Smoothing Using A Posteriori Error Estimates", SIAM J. Num.
 Anal. tol. 34, Issue 3, pp. 979-997 (1997).)
 
 8. **geometry** --- Geometry ("plump element") adaption. Default for 3D.
-Can be used on hybrid 3D meshes It uses the ** mega** algorithm but
+Can be used on hybrid 3D meshes It uses the **mega** algorithm but
 retains only the leading geometry term; the term containing the Hessian
 has been dropped. This algorithm guards against mesh folding.
 
@@ -119,7 +99,7 @@ will help to avoid element inversions.
 
 **FORMAT:**
 
-**smooth** **/position** **/esug** ** mega** **geometry** **elliptic** **random**/
+**smooth** **/position** **/esug** **mega** **geometry** **elliptic** **random**/
 [ifirst,ilast,istride ]/[control]
 
 **smooth** **/position** **/lpfilter**// [ifirst,ilast,istride]

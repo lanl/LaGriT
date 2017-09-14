@@ -19,7 +19,7 @@ features of a geometry.  The surface is defined by a set of
 surface-parameters.
 
 istype can be **plane**, **box,** **parallel**(piped), **sphere**,
-ylinder**, one**, **ellipse**(oid), abular** (rotated tabular
+ylinder**, one**, **ellipse**(oid), **tabular** (rotated tabular
 profile), or **sheet**. Surface-parameters are specified with the
 surface type in mind.
 
@@ -103,7 +103,7 @@ presented after the EXAMPLES section.
 **surface**/sphere1/ibtype**/sphere**/x\_center,y\_center,z\_center,radius
 
 
-**surface**/s3/ibtype/abular**/x1,y1,z1/x2,y2,z2/rzrt/&
+**surface**/s3/ibtype/tabular**/x1,y1,z1/x2,y2,z2/rzrt/&
 
 	r1,z1 &
 	r2,z2 &
@@ -140,13 +140,18 @@ and the closest point, q, to p that lies on that triangle.
 
 
 * Construct the vector
-<img height="20" width="`20" src="https://lanl.github.io/docs/assets/images/Image255.gif">,
-from q to p.
+
+<img height="20" width="`20" src="https://lanl.github.io/docs/assets/images/Image255.gif">
+
+, from q to p.
 
 
 * Construct the outward normal to the
-triangle, 
-<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif">. The outward
+triangle,
+
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif">
+
+The outward
 normal is constructed using the right hand rule and the order of the
 points in the sheet. Sheets may be specified as quad Mesh Object (i.e. a
 2 dimensional array of points containing the coordinates of the corners
@@ -157,29 +162,36 @@ points (i,j), (i+1,j), (i+1,j+1) gives the direction of the normal for
 all triangles created from the quad.
 
 
-* If 
+* If
+
 <img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image255.gif">
 
-* 
-<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif"> &lt; 0 then
-the point is inside. If 
-<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image255.gif">
-
-* 
-<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif"> &gt;0 the
-point is outside. If 
-<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image255.gif">
 <img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif"> 
+
+&lt; 0 then
+the point is inside. If 
+
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image255.gif">
+
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif"> 
+
+&gt;0 the
+point is outside. If
+
+
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image255.gif">
+
+<img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif"> 
+
 * n = 0, and if
 p is on the triangle then p=q and p in on the triangle.
 
+* If
 
-* If 
 <img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image255.gif">
 
-*
-
 <img height="10" width="10" src="https://lanl.github.io/docs/assets/images/Image256.gif">  = 0 and p is
+
 not on the triangle then p is outside.
 
 <img src="https://lanl.github.io/LaGriT/assets/images/Image257.gif"> 
