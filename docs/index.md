@@ -1,8 +1,3 @@
----
-layout: home
-title: LaGriT - Home
----
-
 **LaGriT (Los Alamos Grid Toolbox) LA-CC-15-069** is a library of user
 callable tools that provide mesh generation, mesh optimization and
 dynamic mesh maintenance in two and three dimensions. LaGriT is used for
