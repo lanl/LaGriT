@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
  
-<div class="grid" id="searchBar">
-      <div>
-          <div id="search">
-              <form role="search" method="get" action="{{ site.baseurl }}//search/">
-                  <input id="searchString" name="searchString"
-                         placeholder="Enter text here" type="text">
-                  <input id="searchButton" name="googleSearchName" type="button" value="Search">
-              </form>
-          </div>
-
-      </div>
-  </div>
 
   <head>
     <meta charset='utf-8'>
@@ -47,6 +35,18 @@
         <p class="copyright">{{ site.title | default: site.github.repository_name }} maintained by <a href="http://www.lanl.gov/orgs/ees/ees16/index.shtml"> EES-16 at LANL </a></p>
       <br>
 	   <a href="https://lanl.github.io/LaGriT/"> Return to LaGriT Home </a>
+		<div class="grid" id="searchBar">
+			  <div>
+				  <div id="search">
+					  <form role="search" method="get" action="{{ site.baseurl }}//_layouts/search">
+						  <input id="searchString" name="searchString"
+								 placeholder="Enter text here" type="text">
+						  <input id="searchButton" name="googleSearchName" type="button" value="Search">
+					  </form>
+				  </div>
+
+			  </div>
+		  </div>
 		</footer>
     </div>
 
