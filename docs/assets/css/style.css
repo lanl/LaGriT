@@ -1,5 +1,20 @@
 ---
 ---
+
+@import "{{ site.theme }}";
+
+
+p {
+    border-style: solid;
+    border-width: 15px;
+} 
+
+pre,
+code {
+    ...
+    background-color: #000000;
+}
+
 #searchBar {
        font-size: 80%;
        padding: 0.43em 0 0.57em;
@@ -17,7 +32,7 @@
          }
 
          #searchButton {
-           paddign: 0.3em 0.6em;
+           padding: 0.3em 0.6em;
            background-color: #0B5485;
            border: 1px solid #f6f5ea;
            margin-left: 0;
@@ -25,14 +40,6 @@
            -webkit-appearance: none;
            border-radius: 0;
          }
+   }
+}
 
-         #archives {
-           line-height: 2;
-           float: left;
-           color: $black;
-           text-wrap: avoid;
-         }
-       }
-     }
-
-@import "{{ site.theme }}";
