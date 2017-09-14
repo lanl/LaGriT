@@ -9,7 +9,7 @@ specified in a well-defined order; hence when one references the 'second
 facet' of an element, one references a pre-defined set of points.
 Consider a tetrahedral element, with nodes labeled as in the diagram:
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/Image232.jpg">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image232.jpg">
 
  The points are oriented so that the triple product  I1I2 . I2I3 x I2I4 
 is positive, and the volume of the tet is one-sixth of the triple

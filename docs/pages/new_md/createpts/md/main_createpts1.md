@@ -23,6 +23,6 @@ title: '
     [example 1](description4.md)  material interface
                       [example 2](description7.md)  brick mesh
 
-    [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image4tn.gif">"168" "158"](description4.md)   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image7tn.gif">"164" "167"](description7.md)
+    [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image4tn.gif">"168" "158"](description4.md)   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7tn.gif">"164" "167"](description7.md)
     ------------------------------------------------------------------------ ------------------------------------------------------------------------
  

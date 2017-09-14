@@ -23,5 +23,5 @@ title: '
 
  Output Image
 
- [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image2tn.gif">"116"
+ [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image2tn.gif">"116"
  "138"](image/image2.gif">[image2.gif](image/image2.gif">

@@ -17,9 +17,9 @@ Input
  [lagrit\_input\_hextotet](../lagrit_input_hextotet)
 
 Images of GMV input and output
-[Output geometry <img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/output_tet_tn.gif">"114"
+[Output geometry <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_tet_tn.gif">"114"
 "89"](image/output_tet.gif">
-[Input geometry <img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/input_hex_tn.gif">"114"
+[Input geometry <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/input_hex_tn.gif">"114"
 "89"](image/input_hex.gif">
 
 <img height="300" width="300" src="transparent.gif">"4" 

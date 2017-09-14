@@ -141,7 +141,7 @@ and the closest point, q, to p that lies on that triangle.
 
 * Construct the vector
 
-<img height="20" width="`20" src="https://lanl.github.io/LaGriT/docs/assets/images/Image255.gif">
+<img height="20" width="`20" src="https://lanl.github.io/LaGriT/assets/images/Image255.gif">
 
 , from q to p.
 
@@ -149,7 +149,7 @@ and the closest point, q, to p that lies on that triangle.
 * Construct the outward normal to the
 triangle,
 
-<img height="10" width="10" src="https://lanl.github.io/LaGriT/docs/assets/images/Image256.gif">
+<img height="10" width="10" src="https://lanl.github.io/LaGriT/assets/images/Image256.gif">
 
 The outward
 normal is constructed using the right hand rule and the order of the
@@ -164,33 +164,33 @@ all triangles created from the quad.
 
 * If
 
-<img height="10" width="10" src="https://lanl.github.io/LaGriT/docs/assets/images/Image255.gif">
+<img height="10" width="10" src="https://lanl.github.io/LaGriT/assets/images/Image255.gif">
 
-<img height="10" width="10" src="https://lanl.github.io/LaGriT/docs/assets/images/Image256.gif"> 
+<img height="10" width="10" src="https://lanl.github.io/LaGriT/assets/images/Image256.gif"> 
 
 &lt; 0 then
 the point is inside. If 
 
-<img height="10" width="10" src="https://lanl.github.io/LaGriT/docs/assets/images/Image255.gif">
+<img height="10" width="10" src="https://lanl.github.io/LaGriT/assets/images/Image255.gif">
 
-<img height="10" width="10" src="https://lanl.github.io/LaGriT/docs/assets/images/Image256.gif"> 
+<img height="10" width="10" src="https://lanl.github.io/LaGriT/assets/images/Image256.gif"> 
 
 &gt;0 the
 point is outside. If
 
 
-<img height="10" width="10" src="https://lanl.github.io/LaGriT/docs/assets/images/Image255.gif">
+<img height="10" width="10" src="https://lanl.github.io/LaGriT/assets/images/Image255.gif">
 
-<img height="10" width="10" src="https://lanl.github.io/LaGriT/docs/assets/images/Image256.gif"> 
+<img height="10" width="10" src="https://lanl.github.io/LaGriT/assets/images/Image256.gif"> 
 
 * n = 0, and if
 p is on the triangle then p=q and p in on the triangle.
 
 * If
 
-<img height="10" width="10" src="https://lanl.github.io/LaGriT/docs/assets/images/Image255.gif">
+<img height="10" width="10" src="https://lanl.github.io/LaGriT/assets/images/Image255.gif">
 
-<img height="10" width="10" src="https://lanl.github.io/LaGriT/docs/assets/images/Image256.gif">  = 0 and p is
+<img height="10" width="10" src="https://lanl.github.io/LaGriT/assets/images/Image256.gif">  = 0 and p is
 
 not on the triangle then p is outside.
 

@@ -44,7 +44,7 @@ o resolve material interfaces
 
 **[finish](commands/FINISH.md)**
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/Image229.gif">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image229.gif">
 
 The complete input for the tutorial is:
 

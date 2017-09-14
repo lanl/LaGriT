@@ -5,5 +5,5 @@
    
     [Example 1](description_rotatept.md)
    
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/rotatept1_tn.gif" 
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rotatept1_tn.gif" 
 [Next Demo](main_tri1.md)

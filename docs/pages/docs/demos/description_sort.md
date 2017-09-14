@@ -13,7 +13,7 @@ Example 1: test using sort.
 Output Results:
 [Initial point
 distribution](image/sort.gif"[
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/sort_tn.gif""110"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/sort_tn.gif""110"
 "83"](image/sort.gif"
 
 The key **input** commands are shown in **red**, and the key **output**

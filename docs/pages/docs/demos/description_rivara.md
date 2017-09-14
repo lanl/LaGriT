@@ -26,13 +26,13 @@ Images of GMV input and output
  The details of the coupling coefficient statistics can be found in the
  output log file.
 [Input geometry 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/rivara1_tn.gif""114"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rivara1_tn.gif""114"
 "89"](image/rivara1.gif"
 [Output geometry](image/rivara2.gif"
 [(view A)
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/rivara2_tn.gif""114"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rivara2_tn.gif""114"
 "89"](image/rivara2.gif"
 [Output geometry](image/rivara3.gif"
 [(view B)
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/rivara3_tn.gif""114"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rivara3_tn.gif""114"
 "89"](image/rivara3.gif"

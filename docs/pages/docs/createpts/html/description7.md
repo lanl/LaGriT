@@ -24,6 +24,6 @@ title: '
 
  Images of GMV output
 
-  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image7tn.gif">"164"
- "167"](image/image7a.gif">[imagea.gif](image/image7a.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image7btn.gif">"225"
+  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7tn.gif">"164"
+ "167"](image/image7a.gif">[imagea.gif](image/image7a.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7btn.gif">"225"
  "175"](image/image7b.gif">[imageb.gif](image/image7b.gif">
