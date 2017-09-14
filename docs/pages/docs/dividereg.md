@@ -45,4 +45,4 @@ defines the enclosing volume in region and mregion commands. For
 example, the regions *top* and *bottom* are enclosed by the surface
 *cube*
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/Image224.gif">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/Image224.gif">

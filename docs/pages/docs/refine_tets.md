@@ -3,7 +3,7 @@
 
 Each tetrahedron is tested separately for refinement or derefinement, where V is the volume of the tetrahedron. 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image4.jpg">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image4.jpg">
 
 Criteria:
 

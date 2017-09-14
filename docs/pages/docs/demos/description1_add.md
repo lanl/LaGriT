@@ -14,8 +14,8 @@
 
   Images of GMV output
  
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_mesh1.gif">  
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_mesh1.gif">  
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_mesh2.gif">  
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_mesh2.gif">  
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_mesh3.gif">  
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_mesh3.gif">  

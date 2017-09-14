@@ -11,5 +11,5 @@ title: '
     
 
    [Example 1](description_trans.md)
-   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/trans2_tn.gif">"114"
+   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/trans2_tn.gif">"114"
    "89"](description_trans.md)

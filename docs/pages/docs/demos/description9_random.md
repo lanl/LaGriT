@@ -24,6 +24,6 @@ title: '
  Images of GMV output
 
    [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/random_tn.gif""114"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/random_tn.gif""114"
  "89"](image/random.gif" [randomized points](image/random.gif"
 

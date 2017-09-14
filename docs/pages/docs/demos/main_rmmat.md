@@ -5,4 +5,4 @@ The objective is to test the **rmmat** command.
 [Example 1](description_rmmat.md)
 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/rmmat4_tn.gif" 
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/rmmat4_tn.gif" 

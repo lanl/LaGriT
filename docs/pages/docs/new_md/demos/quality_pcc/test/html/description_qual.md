@@ -17,15 +17,15 @@ Example 1: Check quality of various meshes
  the output log file.
 
 Input
-[lagrit\_input\_qual1<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/qual1_tn.gif">"114"
+[lagrit\_input\_qual1<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/qual1_tn.gif">"114"
 "89"](../lagrit_input_qual1)
 
    
-[lagrit\_input\_qual1skew<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/qua11skew_tn.gif">"114"
+[lagrit\_input\_qual1skew<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/qua11skew_tn.gif">"114"
 "89"](../lagrit_input_qual1skew)
 
    
-[lagrit\_input\_qual2<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/qual2_tn.gif">"114"
+[lagrit\_input\_qual2<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/qual2_tn.gif">"114"
 "89"](../lagrit_input_qual2)
 
    

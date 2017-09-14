@@ -16,28 +16,28 @@ Inidvidual Descriptions
 
 spherical 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image3tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image3tn.gif"
 [Example 4](description4_brick.md)
 
 **createpts/brick/xyz**
 
 material interface 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image4tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image4tn.gif"
 [Example 2](description2_rtz.md)
 
 **createpts/rtz**
 
 (cylindrical) 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image2tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image2tn.gif"
 [Example 1](description1_xyz.md)
 
 **createpts/xyz**
 
 (rectangular) 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image1tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image1tn.gif"
 [Example 5](description5_sphere.md) 
 
 **createpts/sphere/diamond**
@@ -45,24 +45,24 @@ material interface
 partial sphere using region boundaries
 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image5tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image5tn.gif"
 [Example 6](description6_sphereB.md)
 
 **createpts/sphere**
 
 full sphere using region boundaries 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image6tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image6tn.gif"
 [Example 7](description7_brickB.md)
 
 **createpts/brick/xyz**
 
 brick mesh 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image7tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image7tn.gif"
 [Example 8](description8_sphereC.md)
 
 **createpts/sphere**
 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/random_tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/random_tn.gif"

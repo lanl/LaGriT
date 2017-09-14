@@ -16,6 +16,6 @@ def replace_in_dr(old, new, dr):
                         filter_file(os.path.join(root, fle), old, new)
 
 dr = '/home/nknapp/LaGriT/docs/pages/'
-old = 'lanl.github.io/docs/'
-new = 'lanl.github.io/LaGriT/docs'
+old = 'docsassets'
+new = 'docs/assets'
 replace_in_dr(old, new, dr)

@@ -19,15 +19,15 @@ Example 1: test using triangulate to create a 2d mesh.
 
 Images of GMV input and output
 [Concave point distribution with crude
-triangulation](image/triang1.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/triang1_tn.gif">"110"
+triangulation](image/triang1.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/triang1_tn.gif">"110"
 "86"](image/triang1.gif">
-[Refinement](image/triang2.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/triang2_tn.gif">"114"
+[Refinement](image/triang2.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/triang2_tn.gif">"114"
 "89"](image/triang2.gif">
 [Smoothing and further
-refinement](image/triang3.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/triang3_tn.gif">"110"
+refinement](image/triang3.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/triang3_tn.gif">"110"
 "86"](image/triang3.gif">
 [Smoothing and
-recon/0](image/picture4.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/triang4_tn.gif">"114"
+recon/0](image/picture4.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/triang4_tn.gif">"114"
 "89"](image/picture4.gif">
-[recon/1](image/picture5.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/triang5_tn.gif">"114"
+[recon/1](image/picture5.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/triang5_tn.gif">"114"
 "89"](image/picture5.gif">

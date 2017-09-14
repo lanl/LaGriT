@@ -14,5 +14,5 @@ title: '
 
   [Example 1](description_connect.md)
 
-  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/output_connect_tn.gif">"114"
+  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/output_connect_tn.gif">"114"
   "89"](description_connect.md)

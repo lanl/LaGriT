@@ -20,5 +20,5 @@ title: '
 
   [Example 1](description_2drecon.md)   reconnect a mesh
 
-  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/image1_tn.gif">"144"
+  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/image1_tn.gif">"144"
   "144"](description_2drecon.md)

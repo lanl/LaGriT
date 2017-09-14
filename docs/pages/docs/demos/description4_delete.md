@@ -27,9 +27,9 @@ title: '
 
    -------------------------------------------------------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
    [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_delete/addmesh_mesh1_tn.gif""114" "89"](image/addmesh_delete/addmesh_mesh1.gif" [mesh1](image/addmesh_delete/addmesh_mesh1.gif"    [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_delete/addmesh_mesh2_tn.gif""114" "89"](image/addmesh_delete/addmesh_mesh2.gif" [mesh2](image/addmesh_delete/addmesh_mesh2.gif"   [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_delete/addmesh_delete_tn.gif""114" "89"](image/addmesh_delete/addmesh_delete.gif" [mesh2 deleted from mesh1](image/addmesh_delete/addmesh_delete.gif" 
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_delete/addmesh_mesh1_tn.gif""114" "89"](image/addmesh_delete/addmesh_mesh1.gif" [mesh1](image/addmesh_delete/addmesh_mesh1.gif"    [
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_delete/addmesh_mesh2_tn.gif""114" "89"](image/addmesh_delete/addmesh_mesh2.gif" [mesh2](image/addmesh_delete/addmesh_mesh2.gif"   [
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_delete/addmesh_delete_tn.gif""114" "89"](image/addmesh_delete/addmesh_delete.gif" [mesh2 deleted from mesh1](image/addmesh_delete/addmesh_delete.gif" 
    -------------------------------------------------------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
   

@@ -22,17 +22,17 @@ title: '
                                                           [Example 2](description2_amr.md)  **amr**
                                                             [Example 3](description3_append.md)  **append**
 
-    [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_add/addmesh_out2_tn.gif">"114" "89"](description1_add.md)           [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_amr/addmesh_amr4_tn.gif">"114" "89"](description2_amr.md)            [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_append/addmesh_append3_tn.gif">"114" "89"](description3_append.md)
+    [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_add/addmesh_out2_tn.gif">"114" "89"](description1_add.md)           [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_amr/addmesh_amr4_tn.gif">"114" "89"](description2_amr.md)            [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_append/addmesh_append3_tn.gif">"114" "89"](description3_append.md)
  
      [Example 4](description4_delete.md)  **delete**
                                                     [Example 5](description5_intersect.md)  **intersect**
                                                 [Example 6](description6_match.md)  **match**
 
-    [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_delete/addmesh_delete_tn.gif">"114" "89"](description4_delete.md)   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_intersect/add_inter_tn.gif">"114" "89"](description5_intersect.md)   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_match/addmesh_mesh3_tn.gif">"114" "89"](description6_match.md)
+    [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_delete/addmesh_delete_tn.gif">"114" "89"](description4_delete.md)   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_intersect/add_inter_tn.gif">"114" "89"](description5_intersect.md)   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_match/addmesh_mesh3_tn.gif">"114" "89"](description6_match.md)
  
     [Example 7](description7_merge.md)  **merge**
                                                                                                                                                                
-    [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/addmesh_merge/addmesh_mesh3_tn.gif">"114" "89"](description7_merge.md)                                                                                                              
+    [<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/addmesh_merge/addmesh_mesh3_tn.gif">"114" "89"](description7_merge.md)                                                                                                              
     ------------------------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------
  
   Examples of **addmesh glue** to make repetitive grids sample inputs

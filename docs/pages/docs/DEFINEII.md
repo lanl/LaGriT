@@ -15,7 +15,7 @@ half vertically, define a plane by:
 
 The normal to this plane points in the positive z direction.
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/Image222.gif">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/Image222.gif">
 
 Interfaces must not be coincident with reflective boundaries. For
 example to embed a rectangle inside a cube, it is necessary to extend
@@ -26,4 +26,4 @@ and interface surfaces:
 
 **surface**/rect **/intrface/box**/-0.1,0.5,0.2/1.1,0.6,0.5
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/Image223.gif">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/Image223.gif">

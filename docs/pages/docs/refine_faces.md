@@ -2,7 +2,7 @@
 
 Each face is tested separately for refinement or derefinement. For the tetrahedral face defined by nodes 1, 2, and 3, we have 
  
-<img height="111" width="154" src="https://lanl.github.io/LaGriT/docsassets/images/image1.jpg" >
+<img height="111" width="154" src="https://lanl.github.io/LaGriT/docs/assets/images/image1.jpg" >
 
 where A is the area of the face.
 

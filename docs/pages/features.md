@@ -10,7 +10,7 @@
  - Arbitrary Point Distribution
  - Unstructured tet/hex hybrid
 
-<img height="300" width="150" style="float: right;" src="https://lanl.github.io/LaGriT/docsassets/images/trench4-0.jpg">
+<img height="300" width="150" style="float: right;" src="https://lanl.github.io/LaGriT/docs/assets/images/trench4-0.jpg">
 
 **Adaption**
 
@@ -18,7 +18,7 @@
  - Smoothing/geometric/ field/function
  - Reconnection/Delaunay/geometric
 
-<img height="300" width="150" style="float: right;" src="https://lanl.github.io/LaGriT/docsassets/images/trench4-4.jpg">
+<img height="300" width="150" style="float: right;" src="https://lanl.github.io/LaGriT/docs/assets/images/trench4-4.jpg">
 
 **Interface**
  
@@ -27,7 +27,7 @@
  - User extensible grid Data Structures
  - Dynamic or Static Application
 
-<img height="300" width="150" style="float: right;" src="https://lanl.github.io/LaGriT/docsassets/images/trench4-8.jpg">
+<img height="300" width="150" style="float: right;" src="https://lanl.github.io/LaGriT/docs/assets/images/trench4-8.jpg">
 
 **Applications**
  

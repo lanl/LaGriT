@@ -4,4 +4,4 @@ The objective is to connect a set of nodes into a tetrahedral mesh that satisfie
 [Example 1](description_connect.md)
 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/docsassets/images/output_connect_tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/docs/assets/images/output_connect_tn.gif"
