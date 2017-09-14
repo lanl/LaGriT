@@ -5,9 +5,11 @@ highlighter: rouge
 title : LaGriT
 author :
   name : Nathaniel Knapp
-  email : nknapp@lanl.gov
+  email : nathaniel.knapp@gmail.com
   github : deknapp
 
+url: "http://lanl.github.io/LaGriT"
+baseurl: ""
 production_url : https://lanl.github.io/LaGriT
 
 markdown: kramdown
@@ -15,10 +17,17 @@ markdown: kramdown
 kramdown:
   input: GFM
   hard_wrap: false
-  
-JB :
-  version : 0.3.0
-
+ 
 sass:
     sass_dir: _sass
     style: compressed
+    
+title: Jekyll-materialize
+
+description: > # this means to ignore newlines until "baseurl:"
+    Write an awesome description for your new site here. You can edit this
+    line in _config.yml. It will appear in your document head meta (for
+    Google search results) and in your feed.xml site description.
+    
+
+
