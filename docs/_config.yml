@@ -1,16 +1,9 @@
 # Site wide configuration
 
-title: "My Site"
-description: "This is a description of my awesome site."
-logo: # 120x120 px default image used for Twitter summary card
-teaser: # 400x250 px default teaser image used in image archive grid
+title: "LaGriT"
+description: "Los Alamos Gridding Toolbox"
 locale: en
-url:
-feed:
-  path: atom.xml
-
 # Jekyll configuration
-
 sass:
   sass_dir: _sass
   style: compressed
@@ -23,19 +16,10 @@ gems:
   - jekyll-gist
   - jekyll-feed
 
-
 # Site owner
-owner:
-  name:
-  email:
-  twitter:
-  google:
-    ad-client:
-    ad-slot:
-  bio:
-  avatar: bio-photo.jpg # 160x160 px image for author byline
-  disqus-shortname:
-
+owner: LANL
+  name: Nathaniel Knapp 
+  email: nknapp@lanl.gov
 
 include:
   - .htaccess
