@@ -3,6 +3,9 @@
 
 @import "{{ site.theme }}";
 
+
+* { margin: 100; padding: 300; }
+
 #main_content_wrap {
 	
 	border-left: 300px;
