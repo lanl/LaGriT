@@ -1,7 +1,5 @@
 ---
-layout: page
-permalink: /
-title: "Applications"
+title: Applications
 ---
 
 LaGriT Applications
