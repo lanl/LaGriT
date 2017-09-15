@@ -3,6 +3,9 @@
 
 @import "{{ site.theme }}";
 
+main_content_wrap {
+	border-width: 100px;
+}
 
 body {
     border-width: 200px;
