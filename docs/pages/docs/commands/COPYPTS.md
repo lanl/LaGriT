@@ -1,6 +1,9 @@
-**COPYPTS**
+---
+title: COPYPTS
+tags: ok
+---
 
-  
+**COPYPTS**
 
   Copy a point distribution. There are two distinct forms of this
   command. The first format is designed to copy points from one mesh
@@ -15,6 +18,7 @@
   will be copied from the source mesh object to the sink mesh object.
   The user is warned that these values might not make sense in their
   new context.
+  
   The second form of this command is included for historic reasons: it
   duplicates points within a mesh object including all the attributes
   of the points. Also note that if no sink points or sink stride are

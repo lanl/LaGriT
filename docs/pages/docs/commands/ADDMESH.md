@@ -1,4 +1,9 @@
- **ADDMESH**
+---
+title: ADDMESH
+tags: ok
+--- 
+
+**ADDMESH**
 
   This routine joins two meshes together at their common interface to
   produce a third mesh.
@@ -100,5 +105,5 @@
 
  NOTE: Some operations may only work with tet meshes.
 
- [Click here for demos](/pages/docs/demos/index.md)
+ [Click here for demos](../demos/index.md)
 

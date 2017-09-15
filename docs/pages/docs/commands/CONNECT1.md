@@ -1,6 +1,9 @@
- **CONNECT**
+---
+title: CONNECT
+tags: ok
+--- 
 
-  
+**CONNECT**
 
   Connect the nodes into a Delaunay tetrahedral or triangle grid. The
   Delaunay criterion requires that the circumsphere (circumcircle)
@@ -16,13 +19,9 @@
   to create a conforming mesh.  This activity may be turned off by
   using the **noadd** option.
 
-  
-
   The **heck\_interface** option is more expensive but does a more
   exhaustive job of making sure there are no edges of the mesh that
   cross a material boundary.
-
-  
 
   **Connect** may refuse to add nodes that will result in near
   zero-volume tetahedra. The volume tests are based on the mesh object
@@ -58,8 +57,6 @@
 
   **connect**
 
-   
-
  **FORMAT:**
 
   **connect**/[**delaunay**]/ifirst,ilast,istride/big\_tet\_coordinates
@@ -88,17 +85,13 @@
 
   **connect/delaunay**/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./check\_interface
 
-  
   Create the Delaunay tetrahedral connectivity of all nodes in the
   mesh and specify explicitly the coordinates of the enclosing
   tetrahedron. 
 
   **connect** /pset get points
 
-  
   **Create the Delaunay tetrahedral connectivity of a subset of nodes.**
-
-  
 
   **connect/noadd**
 

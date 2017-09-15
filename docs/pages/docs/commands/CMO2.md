@@ -1,4 +1,9 @@
- **CMO**
+---
+title: CMO
+tags: ok
+---
+
+**CMO**
 
   The **mo** command operates on the Mesh Object(MO). There can be
   many Mesh Objects in the code for a given problem. Only one of these
@@ -9,8 +14,10 @@
  **FORMAT:**
 
 Add a user defined attribute to a Mesh Object
+
 [**mo** **/addatt**](cmo/cmo_addatt.md) /mo\_name/att\_name/type/rank/
 length/interpolate/persistence/ioflag/value
+
 [**mo** **/addatt**](cmo/cmo_addatt.md) /mo\_name /keyword /
 keyword\_parameters
 

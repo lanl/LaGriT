@@ -31,5 +31,9 @@
  -  A. [Errors in parsing or executing commands](docs/errors.md#parse).  
  -  B. [Out of memory errors.](docs/errors.md#memory)  
  -  C. [Fatal memory management errors](docs/errors.md#panic)    
-   [**LaGriT References**](docs/References.md)   
+
+
+[**LaGriT References**](docs/References.md)   
+
+
 [**Download lagrit.lanl.gov manual from Github**](https://git-hub.com/lanl/LaGriT)

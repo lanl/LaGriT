@@ -1,10 +1,16 @@
- **COLORMAP**
+---
+title: COLORMAP
+tags: ok
+---
+ 
+**COLORMAP**
 
   This command builds the colormap.  In reality it only builds the
   material adjacency graph, from with the colormap can be quickly
   generated when needed.  Three actions are possible:
 
-  **colormap** **/[add]createdelete]**/[cmo\_name]
+  **colormap** **/ [add] OR [create] OR [delete]**/[cmo\_name]
+  
   **add** -- The material adjacency characteristics of the specified
   mesh object is added to the existing material adjacency graph, which
   is created if it didn't exist.  This is the default action.

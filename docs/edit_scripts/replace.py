@@ -17,8 +17,8 @@ def replace_in_dr(old, new, dr):
 
 dr = '/Users/nknapp/Desktop/LaGriT/docs/pages/'
 
-no = '[image]('
-yes = 'Image <a href="https://lanl.github.io/LaGriT/assets/images/'
+no = 
+yes = '[Click here for demos](../demos/index.md)'
 
 replace_in_dr(no, yes, dr)
 
