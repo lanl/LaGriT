@@ -1,11 +1,8 @@
 ---
-CHANGED: '20000620;14051600'
-CREATED: '20000607;11524800'
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 title: EXTRUDE
+tags: ok
 ---
 
-  
  **EXTRUDE**
 
   This command takes a topologically 1d or 2d mesh (a line, a set of
@@ -20,25 +17,25 @@ title: EXTRUDE
 
  **FORMAT:**
 
-  **extrude**/mesh1/mesh2/onstmin**/offset**/volumebubble**/[**norm**x1,y1,z1]
+  **extrude**/mesh1/mesh2/**constmin**/offset**/volumebubble**/[**norm**x1,y1,z1]
 
   OR
 
   **extrude**/mesh1/mesh2**/interp**/layers**/range1/range2**
 
   where **range1** and **range2** are defined as
-  **[pset,get,**`pset_name`** **`ifirst,ilast,istride`**]**
+  **[pset,get,** pset_name ** ** ifirst,ilast,istride **]**
 
  mesh1 is the name of the resulting mesh.
 
  mesh2 is the name of the initial mesh. This mesh must be made up of
  **lines, tris, quads, or hybrids**.
 
- onst** is a keyword that indicates that the distance from each of
+ **const** is a keyword that indicates that the distance from each of
  the points in the initial mesh along the extruding vector will be
  equal to offset.Therefore, if you wanted the extruded mesh to have the
  same surface or edge characteristics as the original mesh on both the
- initial and newly formed surface or edge, you would use onst**.
+ initial and newly formed surface or edge, you would use **const**.
 
  ** min** is a keyword and indicates that the minimum distance along the
  extruding vector to a reference plane that is perpendicular to the
@@ -106,10 +103,10 @@ title: EXTRUDE
 
  **EXAMPLES:**
 
-  **extrude**/cmo\_hex/cmo\_quad/onst**/5.0**/volume**
+  **extrude**/cmo\_hex/cmo\_quad/**const**/5.0**/volume**
 
   This would result in hexes being created out of the initial quad
-  sheet. First, since onst** and **volume** are used, the quad
+  sheet. First, since **const** and **volume** are used, the quad
   sheet will be extruded a constant amount from each point. Second,
   since the extruding vector and **norm** are omitted, the extrusion
   will occur on the average normal to the plane. Therefore, this
@@ -126,11 +123,11 @@ title: EXTRUDE
   magnitude is not important, the vector is normalized to a unit
   vector), not in the direction of the average normal.
 
-  **extrude**/cmo\_bigbox/cmo\_quad/onst**/5.0**/bubble**/
+  **extrude**/cmo\_bigbox/cmo\_quad/**const**/5.0**/bubble**/
 
   This would result in a surface surrounding an amalgamation of
   parallelopipeds created from the initial quad sheet. First, since
-  onst** is used the quads will be extruded a constant amount from
+  **const** is used the quads will be extruded a constant amount from
   each point in the quad sheet. Second, since the extruding vector and
   **norm** are omitted, the extrusion will occur on the average normal
   to the plane. Therefore, this command will result in a mesh of tris

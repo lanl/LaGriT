@@ -1,3 +1,7 @@
+---
+title: EDIT
+tags: ok
+---
 
  **EDIT**
 
@@ -18,29 +22,30 @@
    points. Possible array values are: xic,yic,zic,or mesh object
    attribute name
 
- **FORMAT:**
+**FORMAT:**
 
-  **edit** / iopt / ifirst,ilast,istride / material\_
+**edit** / iopt / ifirst,ilast,istride / material\_
 #\_or\_name/
-
-  **edit**/ **angular**/ifirst,ilast,istride
+  
+**edit**/ **angular**/ifirst,ilast,istride
   /material\_
-#\_or\_name/xcen,**edit**/ **radial**
+#\_or\_name/xcen,
+
+**edit**/ **radial**
   /ifirst,ilast,istride /material\_
 #\_or\_name/xcen
-  **edit**/ points
+  
+**edit**/ points
   /ifirst,ilast,istride
   /material\_
 #\_or\_name/array1,array3,array4/
 
    
+**EXAMPLES:**
 
- **EXAMPLES:**
-
-  
-
-  **edit**/ **parts**/
-
-  **edit**/
-  **edit** **/points** **/pset**,**get**,some+points/
+**edit**/ **parts**/
+  
+**edit**/
+  
+**edit** **/points** **/pset**,**get**,some+points/
  

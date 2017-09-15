@@ -7,13 +7,13 @@
   
 **FORMAT:**
 
-define / name / value_real
+**define** / name / value_real
 
-define / name / value_integer
+**define** / name / value_integer
 
-define / name / value_character
+**define** / name / value_character
 
-define / name / remove
+**define** / name / remove
 
 EXAMPLE:
 

@@ -28,9 +28,7 @@
 
  **FORMAT:**
  
-  **derefine/minsize**/field/pointtype1 
-
-  pointtype2/refine\_type/first\_point/last\_point/stride/value
+  **derefine/minsize**/field/pointtype1 pointtype2/refine\_type/first\_point/last\_point/stride/value
 
   **derefine** **/merge**/first\_point/second\_point
 

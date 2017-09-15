@@ -1,3 +1,8 @@
+---
+title: DUMP_RECOLOR
+tags: ok
+---
+
 **DUMP\_RECOLOR**
 
 This command is similar to the regular [dump](DUMP2.md) command except
@@ -14,8 +19,8 @@ available:  "**gmv**", "**LaGriT**" and "**avs**". iomode can be
 
 **FORMAT:**
 
- **dump\_recolor/ype/file/mo/[**restore
- norestore**]/[reateexisting**] /imode
+ **dump\_recolor/type/file/mo/[**restore
+ norestore**]/[createexisting**] /imode
 
 EXAMPLE:
 

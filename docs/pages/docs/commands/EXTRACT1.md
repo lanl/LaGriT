@@ -42,8 +42,6 @@
 
  **FORMAT:**
 
-  
-
  **extract** **/plane**/hreepts/x1,y1,z1/x2,y2,z2/x3,y3,z3/ifirst,ilast,istride/cmoout/cmoin
 
  **extract** **/plane** **/ptnorm**/x1,y1,z1/xn,yn,zn/
@@ -67,128 +65,73 @@
 
  EXAMPLE:
 
-     cmo/create/3dmesh/
+		cmo/create/3dmesh/
 
-     
-* add an attribute to contain a field for refinement and extraction
+		* add an attribute to contain a field for refinement and extraction
+		cmo/addatt/3dmesh/boron
+		cmo/modatt/3dmesh/boron/ioflag/gx/
+		cmo/modatt/3dmesh/boron/interp/linear/
 
-     cmo/addatt/3dmesh/boron
+		*  simple unit cube divided into 2 region by a horizontal plane
+		surface/cube/reflect/box/.0,.0,.0/1.,1.,1./
+		surface/mid/intrface/plane/0.,0.,.5/1.,0.,.5/1.,1.,.5/
+		region/r1/ le cube and le mid /
+		mregion/m1/ le cube and lt mid /
+		region/r2/ le cube and gt mid /
+		mregion/m2/ le cube and gt mid /
 
-     cmo/modatt/3dmesh/boron/ioflag/gx/
+		* start out with just a few nodes
+		createpts/xyz/3,3,3/0.,0.,0./1.,1.,1./1,1,1/
+		setpts
+		search
+		settets
 
-     cmo/modatt/3dmesh/boron/interp/linear/
+		* put some values on the field
+		doping/gaussian/boron/set/1,0,0/xyz/0.0,0.0,0.0/1.,0.,0./0.5/ &
+		3.23e+20/0.063/
 
-     
-*  simple unit cube divided into 2 region by a horizontal plane
+		* use refine to add more detail - note only linear interpolation
+		* between the few original nodes - one would never really do this
+		without
 
-     surface/cube/reflect/box/.0,.0,.0/1.,1.,1./
+		* recalculating the field on the finer mesh
+		refine/maxsize///edge/1,0,0/0.01,0.0,0.0/
+		recon
+		refine/constant/boron/linear/edge/1,0,0/1.3+20/
+		recon
 
-     surface/mid/intrface/plane/0.,0.,.5/1.,0.,.5/1.,1.,.5/
+		* extract a plane
+		extract/plane/threepts/0.,0.,0./1.,0.,0./1.,0.,1./1,0,0/2dmesh/3dmesh
+		pset/p1/geom/xyz/0.,0.,0./.5,.5,.5/
 
-     region/r1/ le cube and le mid /
+		* extract a plane - note pset is ignored!
+		extract/plane/threepts/0.,0.,0./1.,0.,0./1.,0.,1./pset,get,p1/2dm1/3dmesh
+		dump/gmv/gmv.3dm/3dmesh/
+		dump/gmv/gmv.2dm/2dmesh/
+		dump/gmv/gmv.2d1m/2dm1/
+		cmo/select/3dmesh
 
-     mregion/m1/ le cube and lt mid /
+		* refine some more
+		refine/constant/boron/linear/edge/1,0,0/1.3+20/
+		recon
 
-     region/r2/ le cube and gt mid /
+		* now get an isosurface
+		extract/isosurf/boron/1.0e+20/1,0,0/2dm2/3dmesh
+		dump/gmv/gmv.2dm2/2dm2
 
-     mregion/m2/ le cube and gt mid /
+		* get the boundary of one region
+		extract/intrface/m1/1,0,0/2dm3/3dmesh
+		dump/gmv/gmv.2dm3/2dm3
 
-     
-* start out with just a few nodes
+		* get the interface between two regions
+		extract/intrfac2/m1/m2/1,0,0/2dm4/3dmesh
+		dump/gmv/gmv.2dm4/2dm4
 
-     createpts/xyz/3,3,3/0.,0.,0./1.,1.,1./1,1,1/
+		* try the network option
+		extract/network/1,0,0/2dm5/3dmesh
+		dump/gmv/gmv.2dm5/2dm5
 
-     setpts
-
-     search
-
-     settets
-
-     
-* put some values on the field
-
-     doping/gaussian/boron/set/1,0,0/xyz/0.0,0.0,0.0/1.,0.,0./0.5/ &
-
-      3.23e+20/0.063/
-
-     
-* use refine to add more detail - note only linear interpolation
-
-     
-* between the few original nodes - one would never really do this
-     without
-
-     
-* recalculating the field on the finer mesh
-
-     refine/maxsize///edge/1,0,0/0.01,0.0,0.0/
-
-     recon
-
-     refine/constant/boron/linear/edge/1,0,0/1.3+20/
-
-     recon
-
-     
-* extract a plane
-
-     extract/plane/threepts/0.,0.,0./1.,0.,0./1.,0.,1./1,0,0/2dmesh/3dmesh
-
-     pset/p1/geom/xyz/0.,0.,0./.5,.5,.5/
-
-     
-* extract a plane - note pset is ignored!
-
-     extract/plane/threepts/0.,0.,0./1.,0.,0./1.,0.,1./pset,get,p1/2dm1/3dmesh
-
-     dump/gmv/gmv.3dm/3dmesh/
-
-     dump/gmv/gmv.2dm/2dmesh/
-
-     dump/gmv/gmv.2d1m/2dm1/
-
-     cmo/select/3dmesh
-
-     
-* refine some more
-
-     refine/constant/boron/linear/edge/1,0,0/1.3+20/
-
-     recon
-
-     
-* now get an isosurface
-
-     extract/isosurf/boron/1.0e+20/1,0,0/2dm2/3dmesh
-
-     dump/gmv/gmv.2dm2/2dm2
-
-     
-* get the boundary of one region
-
-     extract/intrface/m1/1,0,0/2dm3/3dmesh
-
-     dump/gmv/gmv.2dm3/2dm3
-
-     
-* get the interface between two regions
-
-     extract/intrfac2/m1/m2/1,0,0/2dm4/3dmesh
-
-     dump/gmv/gmv.2dm4/2dm4
-
-     
-* try the network option
-
-     extract/network/1,0,0/2dm5/3dmesh
-
-     dump/gmv/gmv.2dm5/2dm5
-
-     
-* get the surface mesh - note interface plane is included
-
-     extract/surfmesh/1,0,0/2dm6/3dmesh
-
-     dump/gmv/gmv.2dm6/2dm6
-
-     finish
+		* get the surface mesh - note interface plane is included
+		extract/surfmesh/1,0,0/2dm6/3dmesh
+		dump/gmv/gmv.2dm6/2dm6
+		finish

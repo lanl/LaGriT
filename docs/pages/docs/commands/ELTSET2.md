@@ -1,3 +1,7 @@
+--
+title: ELTSET
+tags: ok
+---
 
  **ELTSET**
 
@@ -29,13 +33,13 @@
 
  **FORMAT:**
 
-  **eltset**/eset\_name/element\_attribute\_name**/eq**|**ne**|**lt**|**gt**|**le**|**ge**/value/
+  **eltset**/eset\_name/element\_attribute\_name**/eq** OR **ne** OR **lt** OR **gt** OR **le** OR **ge**/value/
 
   **eltset**/eset\_nam**e/unioninternotdelete**/eset\_list/
 
   **eltset**/eset\_name**/inclusiveexclusiveface/pset/get**/pset\_name/
 
-  **eltset**/eset\_name/regionmregion/region\_name|mregion\_name/
+  **eltset**/eset\_name/regionmregion/region\_name OR mregion\_name/
 
   **eltset**/eset\_name **/volume/ eqneltgtlege** /value
 
@@ -44,10 +48,10 @@
   **eltset**/eset\_name **/list**
 
   **eltset**/eset\_name
-  **/write**/file\_name[.cellset]/[**ascii**|**binary**]
+  **/write**/file\_name[.cellset]/[**ascii** OR **binary**]
 
   **eltset**/-all-
-  **/write**/file\_name[.cellset]/[**ascii**|**binary**]
+  **/write**/file\_name[.cellset]/[**ascii** OR **binary**]
 
  **EXAMPLES:**
 
