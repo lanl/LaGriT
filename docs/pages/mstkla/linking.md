@@ -1,8 +1,8 @@
 ---
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-[<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](mstkla.md#EXECUTABLE) [<img height="300" width="300" src="../images/arrow3.gif">"30"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](mstkla.md#EXECUTABLE) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
 "30"](example.md)
 
 ------------------------------------------------------------------------
@@ -138,6 +138,6 @@ $(UTIL\_LIBDIR) -lutil
 
  
 
- [<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](mstkla.md#EXECUTABLE) [<img height="300" width="300" src="../images/arrow3.gif">"30"
+ <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](mstkla.md#EXECUTABLE) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
 "30"](utilities.md)

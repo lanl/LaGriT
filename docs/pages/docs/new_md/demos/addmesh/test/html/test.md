@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -23,7 +23,7 @@ title: '
  Images of GMV output
 
   ------------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------------ ------------------------------------------------------------------------------------------
-  [mesh1](image/addmesh_intersect/addmesh_mesh1.gif">[<img height="300" width="300" src="addmesh_mesh1_tn.gif">   [mesh2](image/addmesh_intersect/addmesh_mesh2.gif">[<img height="300" width="300" src="addmesh_mesh2_tn.gif">"122"   [mesh3](image/addmesh_intersect/add_inter.gif">[<img height="300" width="300" src="add_inter_tn.gif">"151"
+  [mesh1](image/addmesh_intersect/addmesh_mesh1.gif"><img height="300" width="300" src="addmesh_mesh1_tn.gif">   [mesh2](image/addmesh_intersect/addmesh_mesh2.gif"><img height="300" width="300" src="addmesh_mesh2_tn.gif">"122"   [mesh3](image/addmesh_intersect/add_inter.gif"><img height="300" width="300" src="add_inter_tn.gif">"151"
   "93"](image/addmesh_intersect/addmesh_mesh1.gif">
                                   "102"](image/addmesh_intersect/addmesh_mesh2.gif">
                                  "107"](image/addmesh_intersect/add_inter.gif">

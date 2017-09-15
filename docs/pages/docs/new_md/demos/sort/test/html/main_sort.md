@@ -11,5 +11,5 @@ title: '
     
 
    [Example 1](description_sort.md)
-   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/sort_tn.gif">"110"
+   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/sort_tn.gif">"110"
    "86"](description_sort.md)

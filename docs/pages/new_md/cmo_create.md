@@ -1,6 +1,6 @@
 ---
 Author: Jan Wills
-GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
+GENERATOR: 'Mozilla/4. [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 ---
 
  

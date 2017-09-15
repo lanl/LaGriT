@@ -54,7 +54,7 @@ to resolve material interfaces
 
 **[finish](FINISH.md)**
 
-<img height="300" width="300" src="Image229.gif">"452" "411"
+<img height="300" width="300" src="Image229.gif">"2" "411"
 
 The complete input for the tutorial is:
 

@@ -41,7 +41,7 @@ that existing positive values of itetclr are not changed.
 integer value depending on the normal vector direction.  There are 26
 possible direction that correspond to the 6 faces, 12 edges and 8
 corners of a cube.  In general most triangles will be assigned one of 6
-values which correspond to the 6 sectors which are within 45 degrees of
+values which correspond to the 6 sectors which are within  degrees of
 the 6 unit vectors: 1 0 0 , 0 1 0 , 0 0 1, -1 0 0, 0 -1 0, 0 0 -1
 
 NOTE:  Valid only for triangle mesh.

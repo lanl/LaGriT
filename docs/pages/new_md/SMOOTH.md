@@ -96,7 +96,7 @@ the maximum number of **mega** iterations.  The value of **maxiter\_sm**
 may be changed using the **[assign](ASSIGN.md)** command
 (**assign**//**/maxiter\_sm**/10).  (Ref.: Randolph E. Bank and R. Kent
 Smith, "Mesh Smoothing Using A Posteriori Error Estimates", SIAM J. Num.
-Anal. tol. 34, Issue 3, pp. 979-997 (1997).)
+Anal. tol. 34, Issue 3, pp. 9-9 (19).)
 
 8. **geometry** --- Geometry ("plump element") adaption. Default for 3D.
 Can be used on hybrid 3D meshes It uses the **mega** algorithm but

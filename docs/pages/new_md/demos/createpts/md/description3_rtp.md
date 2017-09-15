@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -19,7 +19,7 @@ title: '
 
  Images of GMV output
 
-  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image3tn.gif">"116"
+  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image3tn.gif">"116"
   "138"](./image/image3.gif">[spherical
   geometry](image/image3.gif">
 
@@ -38,7 +38,7 @@ title: '
 
  mregion/mr3/ lt s3 /
 
- createpts/rtp/2,6,30/0,0,0/1,45,360/1,1,1
+ createpts/rtp/2,6,30/0,0,0/1,,360/1,1,1
 
  dump/gmv/output\_creatertp.gmv/
 

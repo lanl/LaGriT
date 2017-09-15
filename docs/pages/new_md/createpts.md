@@ -1,6 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+GENERATOR: 'Mozilla/4. [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
+Generator: 'Microsoft Word /98'
 title: createpts
 ---
 

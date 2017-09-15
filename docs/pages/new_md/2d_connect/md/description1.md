@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -25,9 +25,9 @@ title: '
 
  Images of GMV output
 
- [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1a_tn.gif">"114"
+ <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1a_tn.gif">"114"
  "89"](image/2d_connect1a.gif"> [input
  nodes](image/2d_connect1a.gif">     
- [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1b_tn.gif">"112"
+ <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1b_tn.gif">"112"
  "87"](image/2d_connect1b.gif"> [output
  mesh](image/2d_connect1b.gif">

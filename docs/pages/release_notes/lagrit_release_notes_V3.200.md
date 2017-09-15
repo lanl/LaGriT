@@ -162,7 +162,7 @@ open-source repository.
 
     LaGriT V3.108 from https://ancho.lanl.gov/lagrit/hg/lagrit
     tag:         Release V3.108
-    parent:      349:8524530343c2
+    parent:      349:85230343c2
     parent:      346:a5f6fb10ecce
     user:        Terry Miller 
     date:        Tue Jul 26 09:48:53 2016 -0600
@@ -202,7 +202,7 @@ Mikita comments and updates to mercurial/trac repository include:
         < #endif
         < 
         < 
-        185,187d175
+        185,187d1
         < #ifdef win64
         < #define int_ptrsize long long
         < #else

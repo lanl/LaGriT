@@ -21,7 +21,7 @@ title: '
   Images of GMV output
  
   +-----------------------+-----------------------+-----------------------+
-   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_ad  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_ad  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_ad 
+   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_ad  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_ad  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_ad 
    d/addmesh_mesh1_tn.gi  d/addmesh_mesh2_tn.gi  d/addmesh_out2_tn.gif 
    f)"112"         f)"114"         )"114"         
    "87"](image/a  "89"](image/a  "89"](image/a 

@@ -79,7 +79,7 @@ loop
 
  **loop** / **do** / NZ 6 7 1 / **loop\_end** &
 
- **loop** / **foreach** / X0 0 5.5 10.2345678 / **loop\_end** &
+ **loop** / **foreach** / X0 0 5.5 10.23678 / **loop\_end** &
 
  **createpts** **/xyz**/NX,NY,NZ/X0 0. 0. / 100. 100. 100.
 

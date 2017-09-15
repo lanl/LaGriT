@@ -1,9 +1,9 @@
 ---
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-[<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20FACE:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20FACE:) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.md)
 
 ------------------------------------------------------------------------
@@ -28,7 +28,7 @@ operator.
 
 *int* **MF\_Number**(*PMeshObj* mesh, *PMeshFace* f);
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"
 *
 * This will return 0
 for now since I haven't yet decided on a good
@@ -46,7 +46,7 @@ Free the data structure associated with this face created on the fly.
 
 make that a publicly available operator).
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31"
 *
 * IMPORTANT 
 *
@@ -78,7 +78,7 @@ The parents of all vertices of the face are obtained and a new
 *
 *fc);
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"
 *
 *
 * NOT YET
@@ -148,7 +148,7 @@ child vertices. If a vertex is not on an non-manifold boundary
 *
 *fverts);
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"
 *
 * NOT YET IMPLEMENTED
 
@@ -206,7 +206,7 @@ face will return a region only on its side of the interface. If a
 
 interface, both regions connected to it are returned.
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31"
 *
 * IMPORTANT 
 *
@@ -253,7 +253,7 @@ ival and real number in rval (I don't think lagrit supports character
 
 attributes)
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31" Will only work for
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31" Will only work for
 surface meshes
 
 ------------------------------------------------------------------------
@@ -278,9 +278,9 @@ now.....
 
  
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31" Will only work for
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31" Will only work for
 surface meshes
-[<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20FACE:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20FACE:) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.md)

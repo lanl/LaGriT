@@ -1,9 +1,9 @@
 ---
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-[<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20EDGE:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20EDGE:) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshVertex.md)
 
 ------------------------------------------------------------------------
@@ -44,7 +44,7 @@ Free the data structure associated with this edge created on the fly.
 
 make that a publicly available operator).
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31"
 *
 * IMPORTANT 
 *
@@ -77,7 +77,7 @@ edge is constructed from them.
 *
 *ec);
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"
 *
 *
 * NOT YET
@@ -140,7 +140,7 @@ If a vertex is not on an interface the vertex itself is returned.
 
 ------------------------------------------------------------------------
 
-<img height="300" width="300" src="../images/new1.gif">"31" "12"*PMeshVert*
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/new1.gif">"31" "12"*PMeshVert*
 **ME\_OtherVertex**(*PMeshObj* mesh, *PMeshEdge* e, *PMeshVert* v);
 
 Return the other vertex of the mesh edge (obviously the one that is not
@@ -185,7 +185,7 @@ The behavior of this operator for child and parent edges is similar to
 
 that of MV\_Regions.
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31"
 *
 * IMPORTANT 
 *
@@ -213,7 +213,7 @@ vertex one of the edges vertices.
  
 
  
-[<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20EDGE:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20EDGE:) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshVertex.md)

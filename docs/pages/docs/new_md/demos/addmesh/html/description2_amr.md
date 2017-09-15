@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -22,8 +22,8 @@ title: '
    
  
     ------------------------------------------------------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------- ----------------------------------------------------------------------------------------------------------------------------
-    [mesh 1](image/addmesh_amr/addmesh_amr1.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_amr/addmesh_amr1_tn.gif">"114" "89"](image/addmesh_amr/addmesh_amr1.gif">               [mesh 2](image/addmesh_amr/addmesh_amr2.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_amr/addmesh_amr2_tn.gif">"114" "89"](image/addmesh_amr/addmesh_amr2.gif">               [combined (view 1)](image/addmesh_amr/addmesh_amr3.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_amr/addmesh_amr3_tn.gif">"114" "89"
-    [combined (view 2) ](image/addmesh_amr/addmesh_amr4.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_amr/addmesh_amr4_tn.gif">"114" "89"](image/addmesh_amr/addmesh_amr4.gif">   [combined (view 3) ](image/addmesh_amr/addmesh_amr5.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_amr/addmesh_amr5_tn.gif">"114" "89"](image/addmesh_amr/addmesh_amr5.gif">   
+    [mesh 1](image/addmesh_amr/addmesh_amr1.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_amr/addmesh_amr1_tn.gif">"114" "89"](image/addmesh_amr/addmesh_amr1.gif">               [mesh 2](image/addmesh_amr/addmesh_amr2.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_amr/addmesh_amr2_tn.gif">"114" "89"](image/addmesh_amr/addmesh_amr2.gif">               [combined (view 1)](image/addmesh_amr/addmesh_amr3.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_amr/addmesh_amr3_tn.gif">"114" "89"
+    [combined (view 2) ](image/addmesh_amr/addmesh_amr4.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_amr/addmesh_amr4_tn.gif">"114" "89"](image/addmesh_amr/addmesh_amr4.gif">   [combined (view 3) ](image/addmesh_amr/addmesh_amr5.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_amr/addmesh_amr5_tn.gif">"114" "89"](image/addmesh_amr/addmesh_amr5.gif">   
     ------------------------------------------------------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------- ----------------------------------------------------------------------------------------------------------------------------
  
   

@@ -20,7 +20,7 @@ Examples of:   
 
           [picture]<a href="https://lanl.github.io/LaGriT/assets/images/../image/image1a.gif">
 
- createpts/rtz/4,6,11/0,0,0/3,45,10/1,0, 1/
+ createpts/rtz/4,6,11/0,0,0/3,,10/1,0, 1/
 
  Distribute points in the rtz cylindrical coordinate system.
 
@@ -30,7 +30,7 @@ Examples of:   
 
          [picture]<a href="https://lanl.github.io/LaGriT/assets/images/../image/image1b.gif">
 
- createpts/rtp/2,6,11/0,0,0/1,45,360/1,1,1
+ createpts/rtp/2,6,11/0,0,0/1,,360/1,1,1
 
  Distribute points in the rtp spherical coordinate system
 

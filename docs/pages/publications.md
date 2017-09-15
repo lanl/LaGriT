@@ -69,7 +69,7 @@ Colombia, AAPG BULLETIN Vol.96, iss.1, 23-41, 2012.
 Blessent, D, Therrien, R, Gable, C.W.,[Large-scale numerical simulation
 of groundwater flow and solute transport in discretely-fractured
 crystalline
-bedrock](http://www.sciencedirect.com/science/article/pii/S0309170811001758),
+bedrock](http://www.sciencedirect.com/science/article/pii/S03091708110018),
 Advances in Water Resources, 34, 1539-1552, 2011.
 
 Banerjee, A, Person, M, Hofstra, A, Sweetkind, D, Cohen, D, Sabin, A,
@@ -82,7 +82,7 @@ Vol.39, iss.3, p.195-198.
 Zhang, Y, Liu, B, Gable, C.W., [Homogenization of Hydraulic Conductivity
 for Hierarchical Sedimentary Deposits at Multiple Scales Transport in
 Porous
-Media,](http://link.springer.com/article/10.1007/s11242-010-9711-8)
+Media,](http://link.springer.com/article/10.1007/s11242-010-11-8)
 (2011) Vol.87, iss.3, p.717-737.
 
 **Year 2010:**
@@ -96,7 +96,7 @@ Hydrology](http://www.sciencedirect.com/science/article/pii/S0022169410002726)
 Person, M, Banerjee, A, Rupp, J, Medina, C, Lichtner, P, Gable, C,
 Pawar, R, Celia, M, McIntosh, J, Bense, V, [Assessment of basin-scale
 hydrologic impacts of CO2 sequestration, Illinois
-basin](http://www.sciencedirect.com/science/article/pii/S1750583610000605),
+basin](http://www.sciencedirect.com/science/article/pii/S10583610000605),
 INTERNATIONAL JOURNAL OF GREENHOUSE GAS CONTROL (SEP 2010) Vol.4, iss.5,
 p.840-854.
 [Stepwise inversion of a groundwater flow model with multi-scale
@@ -107,7 +107,7 @@ HYDROGEOLOGY JOURNAL Volume: 18 Issue: 3 Pages: 607-624 Published: 2010
 ([PDF](http://www.ees.lanl.gov/staff/gable/pdf_files/2010_HJ_Dai_Keating_Gable_Levitt_Heikoop_Simmons.pdf" download> </a>
 [Origin and Extent of Fresh Paleowaters on the Atlantic Continental
 Shelf,
-USA](http://onlinelibrary.wiley.com/doi/10.1111/j.1745-6584.2009.00627.x/full).
+USA](http://onlinelibrary.wiley.com/doi/10.1111/j.17-6584.2009.00627.x/full).
 Cohen, D; Person, M; Wang, P, et al. GROUND WATER Volume: 48 Issue: 1
 Pages: 143-158 Published: 2010
 ([PDF](http://www.ees.lanl.gov/staff/gable/pdf_files/2010_groundwater_cohen_reprint.pdf" download> </a>
@@ -129,7 +129,7 @@ Blessent, D; Therrien, R; MacQuarrie, K, [Coupling geological and
 numerical models to simulate groundwater flow and contaminant transport
 in fractured
 media](assets/images/2009_computers_and_geosciences_v35_iss9_blessent.pdf" download> </a>,
-COMPUTERS & GEOSCIENCES 35:9, 1897-1906, 2009
+COMPUTERS & GEOSCIENCES 35:9, 18-1906, 2009
 
 Stauffer, PH ; Vrugt, JA ; Turin, HJ ; Gable, CW ; Soll, WE, [Untangling
 Diffusion from Advection in Unsaturated Porous Media: Experimental Data,
@@ -139,7 +139,7 @@ VADOSE ZONE JOURNAL (MAY 2009) Vol.8, iss.2, p.510-522
 
 Kuprat, AP ; Einstein, DR [An anisotropic scale-invariant unstructured
 mesh generator suitable for volumetric imaging
-data<a href="https://lanl.github.io/LaGriT/assets/images/09060114541116977--journals--00219991--v228i0003--619_aasumgsfvid.pdf" download> </a>
+data<a href="https://lanl.github.io/LaGriT/assets/images/0906011411167--journals--00219991--v228i0003--619_aasumgsfvid.pdf" download> </a>
 JOURNAL OF COMPUTATIONAL PHYSICS (FEB 20 2009) Vol.228, iss.3, p.619-640
 
 **Year 2008:**
@@ -246,7 +246,7 @@ Physics, Vol 172, pp99-118 (2001).
 
 Kuprat, Andrew, "[Inspecting and Repairing Physical Topology in a Moving
 Grid Grain Growth Simulation](assets/images/correctedlaur2000.pdf" download> </a>,"
-LA-UR-00-3475, July 2000.
+LA-UR-00-34, July 2000.
 
 Kuprat, Andrew, "[Modeling Microstructure Evolution using
 Gradient-Weighted Moving Finite Elements](assets/images/siam222.pdf" download> </a>", SIAM J.
@@ -291,7 +291,7 @@ APS meeting, March 1999.
 
 Kuprat, Andrew and George, Denise, "[Maintaining Tetrahedral Mesh
 Quality in Response to Time-dependent Topological and Geometrical
-Deformation](assets/images/london98_pn.pdf" download> </a> " LA-UR-97-5187, Proceedings of the
+Deformation](assets/images/london98_pn.pdf" download> </a> " LA-UR--5187, Proceedings of the
 6th International Conference on  Numerical Grid Generation in
 Computational Field Simulations, M. Cross  (ed.), International Society
 of Grid Generation  (ISBN 0-9651627), pp. 589-598, May 1998.
@@ -305,11 +305,11 @@ Kuprat, Andrew and Khamayseh, Ahmed, "[Non-Parametric Volume Conserving
 Smoothin](../assets/images/volsmooth.pdf" download> </a>g, LA-UR-98-3381 (1998).
 
 Khamayseh, A., and Kuprat, A., "Surface Grid Generation Systems,"
-LA-UR-97-87, CRC Handbook ofGrid Generation, ed. Joe Thompson , CRC
+LA-UR--87, CRC Handbook ofGrid Generation, ed. Joe Thompson , CRC
 Press, (ISBN 0849326877), (1998).
 
 Khamayseh, A., Kuprat, A., and W. Mastin, "Boundary Orthogonality in
-Elliptic Grid Generation", LA-UR-97-3827,CRC Handbook of Grid
+Elliptic Grid Generation", LA-UR--3827,CRC Handbook of Grid
 Generation, ed.
 
 Gammel, J. Tinka and Kuprat, Andrew, "Modeling Metallic Microstructure
@@ -317,7 +317,7 @@ Using Moving Finite Elements", presented at the Computational and Theory
 Symposium Pacific Coast Meeting of the American Ceramic Society, IRvine,
 CA, Oct. 21-24, 1998.
 
-**Year 1997:**
+**Year 19:**
 
 Kuprat, Andrew, Denise George, Eldon Linnebur, Harold Trease , R. Kent
 Smith,  "[Moving Adaptive Unstructured 3-D Meshes in Semiconductor
@@ -325,14 +325,14 @@ Process Modelling Applications](assets/images/BORON.pdf" download> </a> " LA-UR-
 Design, Vol. 6(1-4),  (1998),   pp373-378.
 
 George, Denise, "[Unstructured Toolbox for Modeling and
-Simulation"](../assets/images/nasa.pdf" download> </a>, LA-UR-97-3052, presented at the 1997
+Simulation"](../assets/images/nasa.pdf" download> </a>, LA-UR--3052, presented at the 19
 Workshop on Computational Electronics and Nanoelectronics, Urbana,
-Illinois, October 20-22, 1997.
+Illinois, October 20-22, 19.
 
 George, Denise "[Unstructured 3D Grid Toolbox for Modeling and
-Simulation](assets/images/nasa.pdf" download> </a>" , LA-UR-97-3052, presented at the 1997 
+Simulation](assets/images/nasa.pdf" download> </a>" , LA-UR--3052, presented at the 19 
 Workshop on Computational Electronics and Nanoelectronics, Urbana,
-Illinois, October 20-22, 1997
+Illinois, October 20-22, 19
 
 **Year 1996:**
 
@@ -361,7 +361,7 @@ Modelers in Geological Modeling"
 Kuprat, Andrew; Cartwright David; Gammel J. Tinka; George Denise;
 Kendrick Brian; Kilcrease David; Trease Harold; Walker, Robert, "[X3D
 Moving Grid Methods for Semiconductor Applications](assets/images/notred.pdf" download> </a> ",
-LA-UR-97-2891.
+LA-UR--2891.
 
 Kuprat, Andrew,  "[Adaptive Smoothing Techniques for 3D Unstructured
 Meshes](assets/images/MSU96.pdf" download> </a> ",  LA-UR-96-1116 (1996).

@@ -6,19 +6,19 @@ LA-UR-98-4879, submitted to SIAM J. Sci. Comp. (1998).
 
 2.  Kuprat, Andrew and George, Denise, "[Maintaining Tetrahedral Mesh
 Quality in Response to Time-DependentTopological    and Geometrical
-Deformation<a href="https://lanl.github.io/LaGriT/assets/images/london98_pn.pdf" download> </a>", LA-UR-97-5187, Proceedings of
+Deformation<a href="https://lanl.github.io/LaGriT/assets/images/london98_pn.pdf" download> </a>", LA-UR--5187, Proceedings of
 the 6th International Conference on  Numerical Grid Generation in
 Computational Field Simulations, M. Cross (ed.), International Society
 of Grid Generation  (ISBN 0-9651627), pp. 589-598, May 1998.
 
 3.  George, Denise, "[Unstructured Toolbox for Modeling and
-Simulation"<a href="https://lanl.github.io/LaGriT/assets/images/nasa.pdf" download> </a>, LA-UR-97-3052, presented at the 1997
+Simulation"<a href="https://lanl.github.io/LaGriT/assets/images/nasa.pdf" download> </a>, LA-UR--3052, presented at the 19
 Workshop on Computational Electronics and Nanoelectronics, Urbana,
-Illinois, October 20-22, 1997.
+Illinois, October 20-22, 19.
 
 4.  Kuprat, Andrew; Cartwright David; Gammel J. Tinka; George Denise;
 Kendrick Brian; Kilcrease David; Trease Harold;  and Walker, Robert,["X3D, Moving Grid Methods for Semiconductor
-Applications"<a href="https://lanl.github.io/LaGriT/assets/images/972891.pdf" download> </a> ,LA-UR-97-2891.
+Applications"<a href="https://lanl.github.io/LaGriT/assets/images/2891.pdf" download> </a> ,LA-UR--2891.
 
 5.  Kuprat, Andrew, "[Adaptive Smoothing Techniques for 3-D Unstructured
 Meshes<a href="https://lanl.github.io/LaGriT/assets/images/MSU96.pdf" download> </a>", LA-UR-96-1116 (1996).
@@ -44,11 +44,11 @@ Engineering, Vol. 39, pp. 3163-3174 (1996).
 Location Algorithm for General Polyhedra",   LA-UR-95-4465 (1995).
 
 11.  Khamayseh, A., and Kuprat, A., "Surface Grid Generation Systems,"
-LA-UR-97-87, CRC Handbook ofGrid Generation,  ed. Joe Thompson , CRC
+LA-UR--87, CRC Handbook ofGrid Generation,  ed. Joe Thompson , CRC
 Press, (ISBN 0849326877), (1998).
 
 12.  Khamayseh, A., Kuprat, A., and W. Mastin, "Boundary Orthogonality
-in Elliptic Grid Generation", LA-UR-97-3827, CRC Handbook of Grid
+in Elliptic Grid Generation", LA-UR--3827, CRC Handbook of Grid
 Generation, ed.
 
 13.  Gammel, J. Tinka and Kuprat, Andrew, "Modeling Metallic

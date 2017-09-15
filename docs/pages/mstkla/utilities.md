@@ -2,12 +2,12 @@
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
 
- [<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#UTILITIES:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+ <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#UTILITIES:) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/example.md)
 
-<img height="300" width="300" src="../images/construction14.gif">"169" "131"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/construction14.gif">"169" "131"
 
 ------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ Report an error message. The severity may be specified as
 
 ------------------------------------------------------------------------
 
- <img height="300" width="300" src="../images/new1.gif">"31" "12" **VECTOR FUNCTIONS:**
+ <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/new1.gif">"31" "12" **VECTOR FUNCTIONS:**
 
 ------------------------------------------------------------------------
 
@@ -91,7 +91,7 @@ Report an error message. The severity may be specified as
 
 ------------------------------------------------------------------------
 
-  ** <img height="300" width="300" src="../images/new1.gif">"31" "12"REAL NUMBER
+  ** <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/new1.gif">"31" "12"REAL NUMBER
 COMPARISON FUNCTIONS:**
 
 ------------------------------------------------------------------------
@@ -116,7 +116,7 @@ COMPARISON FUNCTIONS:**
 
 ------------------------------------------------------------------------
 
- <img height="300" width="300" src="../images/new1.gif">"31" "12" **COMP GEOM
+ <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/new1.gif">"31" "12" **COMP GEOM
 FUNCTIONS:**
 
 ------------------------------------------------------------------------
@@ -211,7 +211,7 @@ on
 
  
 
- [<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#UTILITIES:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+ <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#UTILITIES:) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/example.md)

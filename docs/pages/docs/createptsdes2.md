@@ -1,6 +1,6 @@
 Description
 
-    createpts/rtz/4,6,11/0,0,0/3,45,10/1,0,1
+    createpts/rtz/4,6,11/0,0,0/3,,10/1,0,1
 
 Distribute points using the rtz cylindrical coordinate system.  This
 results in 264 points arranged around the z- axis. There are 3 rings
@@ -20,7 +20,7 @@ Argument | Description
 rtz |   specifies cylindrical coordinates
 4,6,11 | create 4 points in the r direction, create 6 points in the t direction, create 11 points in the z direction
 0,0,0 |   rmin = 0, tmin = 0, zmin = 0
-3,45,10 | radius from 0 to 3, angle in the xy-plane is 45, height along the z-axis is 10
+3,,10 | radius from 0 to 3, angle in the xy-plane is , height along the z-axis is 10
 1,0,1 |   rmins and rmaxs are used as cell vertices, tmins and tmaxs are used as cell centers, zmins and zmaxs are used as cell vertices
 
 Input deck:
@@ -33,7 +33,7 @@ Input deck:
 
     mregion/m1/ le outer /
 
-    createpts/rtz/4,6,11/0,0,0/3,45,10/1,0,1/
+    createpts/rtz/4,6,11/0,0,0/3,,10/1,0,1/
 
     dump/gmv/gmv2
 

@@ -1,5 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.75 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+GENERATOR: 'Mozilla/4. [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 title: 'cmo/addatt'
 ---
 

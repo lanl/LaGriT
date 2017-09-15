@@ -1,9 +1,9 @@
 ---
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-[<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](mstkla.md#GMTKLA_Init) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](GenRegion.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](mstkla.md#GMTKLA_Init) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](GenRegion.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](GeomEntity.md)
 
 ------------------------------------------------------------------------
@@ -83,7 +83,7 @@ Get all the model regions
 *gfaces);
 
 Get all the model faces
-[<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](mstkla.md#GMTKLA_Init) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](GenRegion.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](mstkla.md#GMTKLA_Init) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](GenRegion.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](GeomEntity.md)

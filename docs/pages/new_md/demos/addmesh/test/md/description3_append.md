@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -24,7 +24,7 @@ title: '
  Images of GMV output
 
    --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append1_tn.gif">"114" "89"](image/addmesh_append/addmesh_append1.gif"> [input mesh1](image/addmesh_append/addmesh_append1.gif">     [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append2_tn.gif">"114" "89"](image/addmesh_append/addmesh_append2.gif"> [input mesh2](image/addmesh_append/addmesh_append2.gif">
-   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append3_tn.gif">"114" "89"](image/addmesh_append/addmesh_append3.gif"> [combined mesh](image/addmesh_append/addmesh_append3.gif">   
+   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append1_tn.gif">"114" "89"](image/addmesh_append/addmesh_append1.gif"> [input mesh1](image/addmesh_append/addmesh_append1.gif">     <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append2_tn.gif">"114" "89"](image/addmesh_append/addmesh_append2.gif"> [input mesh2](image/addmesh_append/addmesh_append2.gif">
+   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append3_tn.gif">"114" "89"](image/addmesh_append/addmesh_append3.gif"> [combined mesh](image/addmesh_append/addmesh_append3.gif">   
    --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

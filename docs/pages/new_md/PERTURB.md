@@ -1,5 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.75 [en] (Win98; U) [Netscape]'
+GENERATOR: 'Mozilla/4. [en] (Win98; U) [Netscape]'
 Generator: Microsoft Word 98
 title: PSET
 ---

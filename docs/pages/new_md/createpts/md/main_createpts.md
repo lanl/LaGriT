@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -26,8 +26,8 @@ title: '
    
  
     ------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------
-    [example 1](description1.md)   rectangular[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image1tn.gif">"112" "87"](description1.md)   [example 2](description2.md)   cylindrical[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image2tn.gif">"116" "138"](description2.md)   [example 3](description3.md)  spherical
+    [example 1](description1.md)   rectangular<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image1tn.gif">"112" "87"](description1.md)   [example 2](description2.md)   cylindrical<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image2tn.gif">"116" "138"](description2.md)   [example 3](description3.md)  spherical
 
-                                                                                                                                                                                                                                             [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image3tn.gif">"159" "156"](description3.md)
+                                                                                                                                                                                                                                             <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image3tn.gif">"159" "156"](description3.md)
     ------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------- ------------------------------------------------------------------------
  

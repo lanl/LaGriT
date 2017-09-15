@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -20,5 +20,5 @@ title: '
 
   [Example 1](description_2drecon.md)   reconnect a mesh
 
-  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image1_tn.gif">"144"
+  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image1_tn.gif">"144"
   "144"](description_2drecon.md)

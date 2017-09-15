@@ -1,9 +1,9 @@
 ---
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-[<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MSTKLA_Init) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/prelim.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MSTKLA_Init) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/prelim.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md)
 
 ------------------------------------------------------------------------
@@ -71,7 +71,7 @@ mesh object is
 
 initialized from that.
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"This implies that
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"This implies that
 sometime in the middle of a LaGriT subroutine, one can call a C routine
 which initializes a mesh object and then uses the functionality of
 MSTKLA!! (Cool!)
@@ -88,7 +88,7 @@ Make a particular mesh object active
 
 Delete a particular mesh object.
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"
 *
 * NOT YET IMPLEMENTED
 
@@ -102,7 +102,7 @@ Delete a particular mesh object.
 
 *format, *int* iotype);
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"
 *
 * NOT YET IMPLEMENTED
 
@@ -115,7 +115,7 @@ Delete a particular mesh object.
 
 *PMeshObj* **MESH\_Duplicate**(*PMeshObj* mesh);
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"
 *
 * NOT YET IMPLEMENTED
 
@@ -128,7 +128,7 @@ Delete a particular mesh object.
 
 Number of vertices (nodes) in the mesh.
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31"
 *
 *
 * IMPORTANT
@@ -151,7 +151,7 @@ by checking if MV\_Type returns VIGNORE or VDELETED.
 
 Number of regions (elements) in the mesh.
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31"
 *
 *
 * IMPORTANT
@@ -214,7 +214,7 @@ information is not needed and call this routine automatically.
 
 Increment all the node lists.
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"(
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"(
 *
 * NOT FULLY TESTED
 
@@ -227,7 +227,7 @@ Increment all the node lists.
 
 Increment all the element lists.
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"(
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"(
 *
 * NOT FULLY TESTED
 
@@ -240,7 +240,7 @@ Increment all the element lists.
 
 Compress all the element lists.
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"
 *
 *
 * NOT YET
@@ -249,7 +249,7 @@ IMPLEMENTED
 *
 *
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31"
 *
 *
 * IMPORTANT !!!
@@ -280,7 +280,7 @@ Compress all the element lists. 
 *
 *
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31"
 *
 *
 * IMPORTANT !!!
@@ -302,7 +302,7 @@ elements you think they are.
  
 
  
-[<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MSTKLA_Init) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/prelim.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MSTKLA_Init) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/prelim.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md)

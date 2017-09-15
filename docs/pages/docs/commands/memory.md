@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
-Generator: Microsoft Word 97
+Generator: Microsoft Word 
 Keywords:  
 LaGriT command memory : 
     Description metadata should be 25-30 words and written from the specific

@@ -16,6 +16,20 @@ def replace_in_dr(old, new, dr):
                         filter_file(os.path.join(root, fle), old, new)
 
 dr = '/Users/nknapp/Desktop/LaGriT/docs/pages/'
-old = '\n\n\n'
-new = '\n\n'
-replace_in_dr(old, new, dr)
+
+no = 'src="../images'
+yes = 'src="https://lanl.github.io/LaGriT/assets/images'
+
+replace_in_dr(no, yes, dr)
+
+no = 'GIF)""'
+yes = 'GIF">'
+
+replace_in_dr(no, yes, dr)
+
+no = '[<img'
+yes = '<img'
+
+replace_in_dr(no, yes, dr)
+
+

@@ -1,14 +1,9 @@
 ---
-GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
-Generator: Microsoft Word 98
 title: 'interpolate / map'
 ---
 
- 
-
 interpolate / map
 -----------------
-
 
 Example 2: show results from using the **map** option of interpolate.
 
@@ -44,15 +39,10 @@ Results from Example 2:
  The middle image shows the result of using default **tiemax** option.
 
  The right image shows the result of using the **tiemin** option.
-[source and sink grids](../images/view_map01.gif">
-[<img height="300" width="300" src="../images/view_map01_TN.GIF)"45"
-"45"](../images/view_map01.gif">
-[tiebreaker tiemax](../images/map01_max.gif">
-[<img height="300" width="300" src="../images/map01_max_TN.GIF)"45"
-"45"](../images/map01_max.gif">
-[tiebreaker tiemin](../images/map01_min.gif">
-[<img height="300" width="300" src="../images/map01_min_TN.GIF)"45"
-"45"](../images/map01_min.gif">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/view_map01_TN.GIF">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/map01_max_TN.GIF">
+""](../images/map01_max.gif">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/map01_min_TN.GIF">)""
 
  Demo 2 shows how the flag option is used for points outside the source
  grid. The sink grid has been translated so that part of the grid lies
@@ -70,15 +60,10 @@ Results from Example 2:
  points are flagged with the **nearest** point imt1 value of the source
  grid. Note that the keyword **nearest** must be followed with a node
  attribute name of source values to be used for the flagged points.
-[source and sink grids](../images/view_map02.gif">
-[<img height="300" width="300" src="../images/view_map02_TN.GIF)"45"
-"45"](../images/view_map02.gif">
-[flag with plus1](../images/map02_plus1.gif">
-[<img height="300" width="300" src="../images/map02_plus1_TN.GIF)"45"
-"45"](../images/map02_plus1.gif">
-[flag with nearest](../images/map02_nearest.gif">
-[<img height="300" width="300" src="../images/map02_nearest_TN.GIF)"45"
-"45"](../images/map02_nearest.gif">
+
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/view_map02_TN.GIF">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/map02_plus1_TN.GIF">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/map02_nearest_TN.GIF">
 
  Demo 3 shows how to map values from source elements to sink elements
  (centroid point). Image on the left shows the hex source grid colored
@@ -87,15 +72,10 @@ Results from Example 2:
  grid. If the sink attribute is element type, centroids for each
  element are calculated and used as the sink points. The sink image has
  the nine materials exploded for better viewing.
-[Source hex grid](../images/map03_src.gif">
-[<img height="300" width="300" src="../images/map03_src_TN.GIF)"97"
-"75"](../images/map03_src.gif">
-[Sink and Source grids](../images/map03_view.gif">
-[<img height="300" width="300" src="../images/map03_view_TN.GIF)"97"
-"75"](../images/map03_view.gif">
-[Sink tet grid](../images/map03_sink.gif">
-[<img height="300" width="300" src="../images/map03_sink_TN.GIF)"97"
-"75"](../images/map03_sink.gif">
+
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/map03_src_TN.GIF">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/map03_view_TN.GIF">
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/map03_sink_TN.GIF">
 
 
 

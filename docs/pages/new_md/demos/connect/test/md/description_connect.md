@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -26,6 +26,6 @@ title: '
   
 
    ------------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------------------
-   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_nodes_tn.gif">"114" "89"](image/output_nodes.gif"> [input nodes](image/output_nodes.gif">   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_connect_tn.gif">"114" "89"](image/output_connect.gif"> [output mesh](image/output_connect.gif">
+   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_nodes_tn.gif">"114" "89"](image/output_nodes.gif"> [input nodes](image/output_nodes.gif">   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_connect_tn.gif">"114" "89"](image/output_connect.gif"> [output mesh](image/output_connect.gif">
    ------------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------------------
 

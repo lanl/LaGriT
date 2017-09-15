@@ -12,5 +12,5 @@ title: '
     
 
    [Example 1](description_dump.md)
-   [<img height="300" width="300" src="../images/output_tn.gif">"114"
+   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_tn.gif">"114"
    "89"](description_dump.md)

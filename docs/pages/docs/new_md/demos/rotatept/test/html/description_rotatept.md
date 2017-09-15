@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -21,10 +21,10 @@ Input
 
 Images of GMV input and output
 [Initial point
-distribution](image/rotatept1.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rotatept1_tn.gif">"112"
+distribution](image/rotatept1.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rotatept1_tn.gif">"112"
 "87"](image/rotatept1.gif">
 [rotation in
-xy-plane](image/rotatept2.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rotatept2_tn.gif">"112"
+xy-plane](image/rotatept2.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rotatept2_tn.gif">"112"
 "87"](image/rotatept2.gif">
 [rotation in xy-plane and away from
 z-axis<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rotatept3_tn.gif">"112"

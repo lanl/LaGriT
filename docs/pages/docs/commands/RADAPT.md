@@ -31,7 +31,7 @@
   used for the adaption. **mega** can be used to adapt hybrid meshes
   as well as tetrahedral meshes. (Randolph E. Bank and R. Kent Smith,
   "Mesh Smoothing Using A Posteriori Error Estimates", SIAM J. Num.
-  Anal. Vol. 34, Issue 3, pp. 979-997 (1997))
+  Anal. Vol. 34, Issue 3, pp. 9-9 (19))
 
   In the field adaption form, the user has specified a valid field
   from the current mesh object, and r-adaption is to be based upon

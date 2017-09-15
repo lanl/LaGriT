@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -20,10 +20,10 @@ title: '
 
  Images of GMV output
 
-     [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7tn.gif">"164"
+     <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7tn.gif">"164"
  "167"](image/image7a.gif"> [View
- A](image/image7a.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7btn.gif">"225"
- "175"](image/image7b.gif"> [View B](image/image7b.gif">
+ A](image/image7a.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7btn.gif">"225"
+ "1"](image/image7b.gif"> [View B](image/image7b.gif">
 
   
 
@@ -38,7 +38,7 @@ title: '
 
  cmo/create/abc///hex
 
- quadxyz/5 7 5/ 0. 0. 0. /1. 0. 0./ 1. 0. 0.75 /0. 0. 1./ &
+ quadxyz/5 7 5/ 0. 0. 0. /1. 0. 0./ 1. 0. 0. /0. 0. 1./ &
 
   0. 0.8 0./ 1. 1.25 0./ 1.0 1.0 1.2/ 0. 1. 0.8/
 

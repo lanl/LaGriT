@@ -1,5 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
+GENERATOR: 'Mozilla/4. [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 ---
 
  
@@ -290,7 +290,7 @@ stack/layers to hex to tet, with buffered interfaces
 
 *`             qtop.inp    12    5    0       364)   1.000000E+00`*
 
-*`               buffer    13    5    1       397)   1.200000E+00`*
+*`               buffer    13    5    1       3)   1.200000E+00`*
 
 *`               q5.inp    14    5   -2       430)   5.000000E+00`*
 
@@ -436,7 +436,7 @@ stack/layers to hex to tet, with buffered interfaces
 
 *`               refine     4    2    2       109)   1.666667E+00`*
 
-*`            surf5.inp     5    3    0       145)   5.000000E+00`*
+*`            surf5.inp     5    3    0       1)   5.000000E+00`*
 
 *`      surf2_slope.inp     6    4    0       181)   1.800000E+01`*
 

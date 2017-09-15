@@ -1,9 +1,9 @@
 ---
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 ---
-[<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20VERTEX:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20VERTEX:) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.md)
 
  
@@ -57,21 +57,21 @@ Coordinates of mesh vertex
 
 *int* **MV\_IsParent**(*PMeshObj* mesh, *PMeshVert* v);
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"A vertex not on an
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"A vertex not on an
 interface is its own parent - return value will be 1
 
 ------------------------------------------------------------------------
 
 *int* **MV\_IsChild**(*PMeshObj* mesh, *PMeshVert* v);
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"A vertex not on an
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"A vertex not on an
 interface is its own child - return value will be 1
 
 ------------------------------------------------------------------------
 
 *PMeshVert* **MV\_Parent**(*PMeshObj* mesh, *PMeshVert* v);
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"For a vertex not on an
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"For a vertex not on an
 interface, the vertex itself is returned
 
 ------------------------------------------------------------------------
@@ -82,7 +82,7 @@ interface, the vertex itself is returned
 *
 *vc)
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"For a vertex not on an
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"For a vertex not on an
 interface, a 1 item array with the vertex
 
 pointer itself is returned and nvc = 1
@@ -121,7 +121,7 @@ to. Note that vertices on 2-manifold (single material) boundaries and
 
 in the interior can be considered a parent or a child as required.
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31"
 *
 *
 * IMPORTANT
@@ -148,7 +148,7 @@ keep track of them.
 *
 *vfaces);
 
-<img height="300" width="300" src="../images/note1.gif">"31" "32"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif">"31" "32"
 *
 * NOT YET TESTED 
 *
@@ -164,7 +164,7 @@ The behavior of the operator for parent and child vertices is the same
 
 as it is for MV\_Edges.
 
-<img height="300" width="300" src="../images/bullet12.gif">"27" "31"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif">"27" "31"
 *
 *
 * IMPORTANT
@@ -266,7 +266,7 @@ now.....
  
 
  
-[<img height="300" width="300" src="../images/arrow2.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20VERTEX:) [<img height="300" width="300" src="../images/arrow3.gif">"30"
-"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.md) [<img height="300" width="300" src="../images/arrow4.gif">"30"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MESH%20VERTEX:) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif">"30"
+"30"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif">"30"
 "30"](http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.md)

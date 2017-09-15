@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -19,7 +19,7 @@ title: '
 
  Output Image
 
-  [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image2tn.gif">"116"
+  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image2tn.gif">"116"
   "138"](image/image2.gif"> [cylindrical
   grid](image/image2.gif">
 
@@ -36,7 +36,7 @@ title: '
 
  mregion/m1/ le outer /
 
- createpts/rtz/4,6,11/0,0,0/3,45,10/1,0,1/
+ createpts/rtz/4,6,11/0,0,0/3,,10/1,0,1/
 
  dump/gmv/output\_creatertz.gmv
 

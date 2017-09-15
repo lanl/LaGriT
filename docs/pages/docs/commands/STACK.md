@@ -152,7 +152,7 @@ elements will be hex.
 
  cmo create cmo\_stack
 
- **stack/layers/avs**/ fsrf575.inp  1/ fsrf09.inp  2/ fsrf44.inp  2
+ **stack/layers/avs**/ fsrf5.inp  1/ fsrf09.inp  2/ fsrf44.inp  2
  **/flip/pinch** 1.0
 
  This command will read 3 triangulated surface files, flip the normal
@@ -163,7 +163,7 @@ elements will be hex.
  A surface is assigned the material value that occurs with it on the
  command line. When the surfaces are filled with volumes, the nodes on
  the bottom surface will detirmine the material of volume elements on
- and above that surface. So nodes on fsrf575.inp and above will all
+ and above that surface. So nodes on fsrf5.inp and above will all
  have imt values of 1. Nodes on fsrf09.inp and above will have imt
  equal to 2.
 
@@ -171,7 +171,7 @@ elements will be hex.
 
  cmo create cmo\_stack
 
- **stack/layers/avs** / fsrf575.inp  1/  fsrf09.inp  2/fsrf44.inp  2/
+ **stack/layers/avs** / fsrf5.inp  1/  fsrf09.inp  2/fsrf44.inp  2/
  **flip** / **buffer** 3.0 / **dpinch** 1.0 / **dmin** 3.0
 
  Same surfaces are used but buffer layers are added at 3 meters below

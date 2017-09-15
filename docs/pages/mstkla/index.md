@@ -3,8 +3,8 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 title: MSTKLA Online Manual
 ---
 
-<img height="300" width="300" src="../images/construction24.gif">"249"
-"87"<img height="300" width="300" src="../images/construc6.gif">"248" "166"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/construction24.gif">"249"
+"87"<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/construc6.gif">"248" "166"
 
 ------------------------------------------------------------------------
 
@@ -15,24 +15,24 @@ title: MSTKLA Online Manual
 ------------------------------------------------------------------------
 
 **DIRECT LINKS**
-[<img height="300" width="300" src="../images/model.gif">"142"
-"24"](Geom.md) [<img height="300" width="300" src="../images/mesh.gif">"143"
-"26"](Mesh.md) [<img height="300" width="300" src="../images/utilities.gif">"143"
-"25"](utilities.md) [<img height="300" width="300" src="../images/attributes.gif">"145"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/model.gif">"142"
+"24"](Geom.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/mesh.gif">"143"
+"26"](Mesh.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/utilities.gif">"143"
+"25"](utilities.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/attributes.gif">"1"
 "26"](MeshAttributes.md)
-[<img height="300" width="300" src="../images/modelenty.gif">"144"
-"24"](GeomEntity.md) [<img height="300" width="300" src="../images/modelregn.gif">"141"
-"25"](GeomRegion.md) [<img height="300" width="300" src="../images/modelface.gif">"143"
-"26"](GeomFace.md) [<img height="300" width="300" src="../images/modeledge.gif">"143"
-"25"](GeomEdge.md) [<img height="300" width="300" src="../images/modelvert.gif">"142"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/modelenty.gif">"144"
+"24"](GeomEntity.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/modelregn.gif">"141"
+"25"](GeomRegion.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/modelface.gif">"143"
+"26"](GeomFace.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/modeledge.gif">"143"
+"25"](GeomEdge.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/modelvert.gif">"142"
 "24"](GeomVertex.md)
-[<img height="300" width="300" src="../images/genregn.gif">"145"
-"25"](GenRegion.md) [<img height="300" width="300" src="../images/meshregn.gif">"143"
-"25"](MeshRegion.md) [<img height="300" width="300" src="../images/meshface.gif">"143"
-"26"](MeshFace.md) [<img height="300" width="300" src="../images/meshedge.gif">"143"
-"25"](MeshEdge.md) [<img height="300" width="300" src="../images/meshvert.gif">"143"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/genregn.gif">"1"
+"25"](GenRegion.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/meshregn.gif">"143"
+"25"](MeshRegion.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/meshface.gif">"143"
+"26"](MeshFace.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/meshedge.gif">"143"
+"25"](MeshEdge.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/meshvert.gif">"143"
 "25"](MeshVertex.md)
-[<img height="300" width="300" src="../images/trivia.gif">"144" "25"](trivia.md)
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/trivia.gif">"144" "25"](trivia.md)
 
 ------------------------------------------------------------------------
 
@@ -44,17 +44,17 @@ Questions, Comments, Suggestions? Contact:
 PostDoc                                                                      
 Tel: (505) 665-4636
 
-                EES-5, MS D450                                       
+                EES-5, MS D0                                       
 '
 
       '
 
-                                   FAX: (505) 665-6459
+                                   FAX: (505) 665-69
 
                 Los Alamos National Lab                              ( 
 )-(  )                                Email: <rao@lanl.gov
 
-                Los Alamos, NM 87545
+                Los Alamos, NM 8
 
 ------------------------------------------------------------------------
 

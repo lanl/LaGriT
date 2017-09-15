@@ -1,6 +1,6 @@
 ---
 GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
-Generator: 'Microsoft Word 97/98'
+Generator: 'Microsoft Word /98'
 Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
 title: '
 *arguments:'
@@ -18,7 +18,7 @@ Example 1: test using sort.
 
 Output Results:
 [Initial point
-distribution](image/sort.gif">[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/sort_tn.gif">"110"
+distribution](image/sort.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/sort_tn.gif">"110"
 "83"](image/sort.gif">
 [Output for **sort/bins**](sort_output2)
 
