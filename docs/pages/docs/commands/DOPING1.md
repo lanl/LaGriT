@@ -1,3 +1,8 @@
+---
+title: DOPING
+tags: ok
+---
+
 **DOPING**
 
   Interpolates between mesh object attributes or assigns values to a
@@ -18,28 +23,18 @@
   required.  The value assigned to the attribute is determined by the
   Gaussian distribution:
  
-   value = concentration 
-* exp(-(L/std\_dev)
-*
-*2)
+   value = concentration * exp(-(L/std\_dev) * *2)
  
   where L is the effective distance and can be represented as:
  
-   L = sqrt( dy
-*
-*2 + (1/lateral\_diffusion)
-*(dx
-*
-*2 + dz
-*
-*2) )
+   L = sqrt( dy**2 + (1/lateral\_diffusion)*(dx**2 + dz**2) ) 
+  
+and where
  
-  and where
- 
-   dy = y-y1 (y2 ignored)
-   dx = x-x1 if x &lt; x1 &lt; x2
-   = 0 if x1 &lt; x &lt; x2
-   = x-x2 if x1 &lt; x2 &lt; x
+   dy = y-y1 (y2 ignored) \
+   dx = x-x1 if x &lt; x1 &lt; x2 \
+   = 0 if x1 &lt; x &lt; x2 \
+   = x-x2 if x1 &lt; x2 &lt; x \
    dz similar to dx.
  
   The **table** option interpolates an attribute from a reference mesh
@@ -94,13 +89,13 @@
  
   **FORMAT:**
  
-doping/constant/field_out/set|add|sub/ ifirst,ilast,istride/value 
-doping/gaussian/field_out/set|add|sub/ ifirst,ilast,istride/ 
+**doping**/constant/field_out/set|add|sub/ ifirst,ilast,istride/value 
+**doping**/gaussian/field_out/set|add|sub/ ifirst,ilast,istride/ 
 xyz/x1,y1,z1/x2,y2,z2/lateral_diffusion/ concentration/standard_deviation/ 
-doping/table/field_out/set|add|sub/cmo_ref/attr_ref/[linear|log|asinh] 
-doping/table/field_out/set|add|sub/cmo_ref/attr_ref/[linear|log|asinh]/ [geom_out/geom_ref] 
-doping/integer1/imt1/set/ifirst,ilast,istride/cmo_ref /imt1/min|max 
-doping/integer2/field_out2/set/ifirst,ilast,istride/cmo_ref/attr_ref/ 
+**doping**/table/field_out/set|add|sub/cmo_ref/attr_ref/[linear|log|asinh] 
+**doping**/table/field_out/set|add|sub/cmo_ref/attr_ref/[linear|log|asinh]/ [geom_out/geom_ref] 
+**doping**/integer1/imt1/set/ifirst,ilast,istride/cmo_ref /imt1/min|max 
+**doping**/integer2/field_out2/set/ifirst,ilast,istride/cmo_ref/attr_ref/ 
 min|max|minp|maxp/[create|use]
  
   EXAMPLE:
