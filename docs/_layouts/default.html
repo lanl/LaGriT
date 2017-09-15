@@ -14,7 +14,25 @@
   </head>
 
   <body>
+	<div id="sidebar">
 
+	   <a href="https://lanl.github.io/LaGriT/pages/manual.html"> Manual </a>
+	   <a href="https://lanl.github.io/LaGriT/pages/lagrit_site_list.html"> Site Index </a>
+	   <a href="https://lanl.github.io/LaGriT/"> Return to LaGriT Home </a>
+
+		<div class="grid" id="searchBar">
+			  <div>
+				  <div id="search">
+					  <form role="search" method="get" action="{{ site.baseurl }}//pages/search">
+						  <input id="searchString" name="searchString"
+								 placeholder="Enter text here" type="text">
+						  <input id="searchButton" name="googleSearchName" type="button" value="Search">
+					  </form>
+				  </div>
+
+			  </div>
+		  </div>
+	</div>
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
@@ -34,19 +52,6 @@
       <footer class="inner">
         <p class="copyright">{{ site.title | default: site.github.repository_name }} maintained by <a href="http://www.lanl.gov/orgs/ees/ees16/index.shtml"> EES-16 at LANL </a></p>
       <br>
-	   <a href="https://lanl.github.io/LaGriT/"> Return to LaGriT Home </a>
-		<div class="grid" id="searchBar">
-			  <div>
-				  <div id="search">
-					  <form role="search" method="get" action="{{ site.baseurl }}//pages/search">
-						  <input id="searchString" name="searchString"
-								 placeholder="Enter text here" type="text">
-						  <input id="searchButton" name="googleSearchName" type="button" value="Search">
-					  </form>
-				  </div>
-
-			  </div>
-		  </div>
 		</footer>
     </div>
 

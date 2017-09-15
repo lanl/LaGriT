@@ -15,3 +15,9 @@ base_url : https://lanl.github.io/LaGriT
 
 markdown: kramdown
 
+gems: [jekyll-sitemap]
+
+plugins:
+  - jekyll-sitemap
+
+
