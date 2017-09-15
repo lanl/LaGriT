@@ -1,5 +1,9 @@
 ---
-title: Example 8: creatpts in a spherical geometry using shells as region boundaries
+GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+Generator: 'Microsoft Word /98'
+Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
+title: '
+*arguments:'
 ---
 
  Example 8: creatpts in a spherical geometry using shells as region
@@ -20,6 +24,7 @@ title: Example 8: creatpts in a spherical geometry using shells as region bounda
 
  Images of GMV output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image8tn.gif"> 
-
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image8btn.gif"> 
+   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image8tn.gif">"156"
+ "153"](image/image8a.gif"> [View A](image/image8a.gif">     
+ <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image8btn.gif">"170"
+ ](image/image8b.gif"> [View B](image/image8b.gif">

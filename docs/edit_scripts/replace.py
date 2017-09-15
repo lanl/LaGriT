@@ -17,8 +17,9 @@ def replace_in_dr(old, new, dr):
 
 dr = '/Users/nknapp/Desktop/LaGriT/docs/pages/'
 
-no_list = ["168", "158", "174"] 
+no = '[image]('
+yes = 'Image <a href="https://lanl.github.io/LaGriT/assets/images/'
 
-for no in no_list:
-	replace_in_dr(no, '', dr)
+replace_in_dr(no, yes, dr)
 
+ 

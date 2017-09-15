@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
-Generator: 'Microsoft Word /98'
-Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
-title: '
-*arguments:'
+title: Example 1: define various point sets within a geometry
 ---
 
 Example 1: define various point sets within a geometry
@@ -18,23 +14,16 @@ Input
  [lagrit\_input\_pset](../lagrit_input_pset)
 
 Images of GMV input and output
+
 [Output log file](../output_pset)
-[Input geometry 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/pset2_tn.gif"""
-""](image/pset2.gif"
 
-<img height="300" width="300" src="transparent.gif""4" 
 
-<img height="300" width="300" src="transparent.gif""46" 
+Input geometry 
 
-<img height="300" width="300" src="transparent.gif""128" 
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/pset2_tn.gif"> 
 
-<img height="300" width="300" src="transparent.gif""33" 
+<img height="300" width="300" src="transparent.gif">  
 
-<img height="300" width="300" src="transparent.gif""128" 
 
-<img height="300" width="300" src="transparent.gif""517" 
-
-  [](image/input_hex.gif"
  
  

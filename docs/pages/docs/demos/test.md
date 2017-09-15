@@ -14,48 +14,33 @@ Input
  
 Images of GMV output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh1_tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh1_tn.gif">
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh2_tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh2_tn.gif">
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/add_inter_tn.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/add_inter_tn.gif">
   
 
 Input file:
 
-    Input File
-* TEST
-    addmesh/intersect (lagrit\_input\_inter)
-
-    read / gmv / input\_mesh1.gmv / cmo1
-
-    read / gmv / input\_mesh2.gmv / cmo2
-
+	* TEST
+	
+	addmesh/intersect (lagrit\_input\_inter)
+	read / gmv / input\_mesh1.gmv / cmo1
+	read / gmv / input\_mesh2.gmv / cmo2
+	
+	* get nodes of cmo1 that intersect elements of mesh cmo2
+	* and put them into a pset called pset\_overlap
     
-*
-
-    
-* get nodes of cmo1 that intersect elements of mesh cmo2
-
-    
-* and put them into a pset called pset\_overlap
-
-    addmesh / intersect / pset\_overlap / cmo1 / cmo2
-
+	addmesh / intersect / pset\_overlap / cmo1 / cmo2
     cmo/setatt/cmo1/imt/1 0 0/1
-
     cmo/setatt/cmo1/imt/pset get pset\_overlap/2
-
     dump/gmv/output\_inter.gmv/cmo1
-
     
-* begin compare here
-
-    cmo/status
-
+	* begin compare here
+    
+	cmo/status
     cmo/printatt//-all-/minmax
-
     quality
-
     finish
 

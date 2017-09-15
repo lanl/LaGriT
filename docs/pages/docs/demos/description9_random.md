@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word /98'
-Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
-title: '
-*arguments:'
+title: Example 9: random distribution of points in a box
 ---
 
  Example 9: random distribution of points in a box
@@ -20,9 +16,7 @@ title: '
 
   [lagrit\_input\_createrandom](../lagrit_input_createrandom)
 
- Images of GMV output
+ Image of GMV output
 
-   [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/random_tn.gif"""
- ""](image/random.gif" [randomized points](image/random.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/random_tn.gif">
 

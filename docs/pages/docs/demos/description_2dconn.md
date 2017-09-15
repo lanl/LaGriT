@@ -1,13 +1,7 @@
  Example 1: connect points in a 2d geometry
 
-  The objective is to connect a set of existing nodes (2 dimensional)
-
-  into a triangle mesh that satisfies the Delaunay criterion using
-  the
-
-  **connect** command.
-  The output consists of two gmv files - one showing the point
-  distribution and the other showing the resulting triangle mesh.
+ The objective is to connect a set of existing nodes (2 dimensional) into a triangle mesh that satisfies the Delaunay criterion using the  **connect** command.
+ The output consists of two gmv files - one showing the point  distribution and the other showing the resulting triangle mesh.
 
  Input
 

@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word /98'
-Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
-title: '
-*arguments:'
+title: 'Example 7: creatpts in a logically rectangular geometry'
 ---
 
  Example 7: creatpts in a logically rectangular geometry
@@ -21,13 +17,9 @@ title: '
      
  [lagrit\_input\_createbrick2](../lagrit_input_createbrick2)
 
-  
 
  Images of GMV output
 
-     [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7tn.gif""164"
- "167"](image/image7a.gif" [View A](image/image7a.gif"    
- [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7btn.gif""225"
- "1"](image/image7b.gif" [View B](image/image7b.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7tn.gif"> 
+
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7btn.gif"> 

@@ -38,8 +38,8 @@ title: '
   Examples of **addmesh glue** to make repetitive grids sample inputs
   and images:
  
-  [Example 8](hlwg.lgc) -- [image](hlwg-pic.pdf" download> </a>[](hlwg-pic.pdf" download> </a>
+  [Example 8](hlwg.lgc) -- Image <a href="https://lanl.github.io/LaGriT/assets/images/hlwg-pic.pdf" download> </a>[](hlwg-pic.pdf" download> </a>
  
-  [Example 9](hlres.lgc) -- [image](hlres-pic.pdf" download> </a>[](slad.lgc)
+  [Example 9](hlres.lgc) -- Image <a href="https://lanl.github.io/LaGriT/assets/images/hlres-pic.pdf" download> </a>[](slad.lgc)
  
-  [Example 10](slad.lgc) --[image](slad-pic.pdf" download> </a>
+  [Example 10](slad.lgc) --Image <a href="https://lanl.github.io/LaGriT/assets/images/slad-pic.pdf" download> </a>

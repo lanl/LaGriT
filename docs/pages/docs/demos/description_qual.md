@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
-Generator: 'Microsoft Word /98'
-Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
-title: '
-*arguments:'
+title: Example 1: Check quality of various meshes
 ---
 
 Example 1: Check quality of various meshes
@@ -17,21 +13,12 @@ Example 1: Check quality of various meshes
  the output log file.
 
 Input
-[lagrit\_input\_qual1
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/qual1_tn.gif"""
-""](../lagrit_input_qual1)
 
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/qual1_tn.gif">
    
-[lagrit\_input\_qual1skew
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/qua11skew_tn.gif"""
-""](../lagrit_input_qual1skew)
-
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/qua11skew_tn.gif"> 
    
-[lagrit\_input\_qual2
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/qual2_tn.gif"""
-""](../lagrit_input_qual2)
-
-   
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/qual2_tn.gif"> 
 
 Output
 
@@ -41,22 +28,4 @@ Output
 
  [output\_qual2](../output_qual2)
 
-<img height="300" width="300" src="transparent.gif""10" 
 
-<img height="300" width="300" src="transparent.gif""10" 
-
-<img height="300" width="300" src="transparent.gif""30" 
-
-<img height="300" width="300" src="transparent.gif""135" 
-
-<img height="300" width="300" src="transparent.gif""25" 
-
-<img height="300" width="300" src="transparent.gif""150" 
-
-<img height="300" width="300" src="transparent.gif""" 
-
-<img height="300" width="300" src="transparent.gif""200" 
-
-<img height="300" width="300" src="transparent.gif""5" 
-
-<img height="300" width="300" src="transparent.gif""252" 
