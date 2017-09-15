@@ -37,13 +37,9 @@
   and where
  
    dy = y-y1 (y2 ignored)
-
    dx = x-x1 if x &lt; x1 &lt; x2
-
    = 0 if x1 &lt; x &lt; x2
-
    = x-x2 if x1 &lt; x2 &lt; x
-
    dz similar to dx.
  
   The **table** option interpolates an attribute from a reference mesh
