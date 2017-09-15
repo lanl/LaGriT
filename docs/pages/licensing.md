@@ -12,8 +12,6 @@ description:
 title: LANL  LaGriT 
 ---
 
-
-
  
 LaGriT Registration and Download
 --------------------------------
@@ -56,8 +54,6 @@ at Sandia National Laboratories (gdsjaar@sandia.gov).
 -   [HDF5](https://www.hdfgroup.org/downloads/index.html)
 -   [NetCDF4.3](http://www.unidata.ucar.edu/downloads/netcdf/index.jsp)
 -   [zlib-1.2.8](http://www.zlib.net)
-
-
 
 ------------------------------------------------------------------------
 
@@ -104,7 +100,5 @@ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
 STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
-
-
 
 

@@ -54,8 +54,6 @@ III.a](meshobject.md)
 itp1                       array of point types [See
 III.a](meshobject.md)
 
-
-
 **pntlimn**(ifirst,ilast,istride,ipmary,mpno,npoints,isetwd,itp1)
 
 ifirst,ilast,istride  point range: first node, last node, stride between

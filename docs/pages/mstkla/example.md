@@ -12,7 +12,6 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 
 ==========================================================================
 
-
 #
 #
 #
@@ -89,7 +88,6 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 #
 
   Example program with MSTKLA
-
 
 #
 #
@@ -168,18 +166,13 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 
 ==========================================================================
 
-
 *
-
 
 #include &lt;stdio.h&gt;
 
-
 #include &lt;stdlib.h&gt;
 
-
 #include "mstkla.h"
-
 
 #include "gmtkla.h"
 
@@ -521,8 +514,6 @@ n");
   
 
  
-
-
 
  
 

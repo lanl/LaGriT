@@ -8,7 +8,6 @@ title: '
 
 Example 1: test using sort.
 
-
  The objective is to use the **sort** command to obtain some statistics
  of a point distribution.
 

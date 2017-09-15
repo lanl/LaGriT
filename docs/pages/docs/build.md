@@ -8,10 +8,8 @@ user\_sub.  The input arguments to initLaGriT are:
 **mode** - set to 'noisy' for output to be echoed to the screen - set to
 'silent' for no echo
 
-
 **log\_file** - name of log file (if ' ' or '-def-' use default name which
 is logx3dgen)  This file will contain a list of commands.
-
 
 **batch\_file** - name of batch file (if ' ' or '-def-' use default name
 which is outx3dgen). This file will contain a list of commands and the
@@ -21,14 +19,9 @@ IV.C](writing.md))
 
 A sample driver routine is listed below:
 
-
-
 program adrivgen
 
-
-
 PURPOSE -LaGriT driver
-
 
      implicit none
      integer ierror_return
@@ -44,11 +37,9 @@ PURPOSE -LaGriT driver
      
      ierr1)
 
-
 PURPOSE 
 
 Process user supplied commands
-
 
 INPUT ARGUMENTS 
 
@@ -62,11 +53,9 @@ msgtyp - int array of token types returned by parser
 
 nwds - number of tokens returned by parser
 
-
 OUTPUT ARGUMENTS 
 
 ierr1 - 0 for successful completion - -1 otherwise
-
 
      character*32 cmsgin(nwds)
      integer imsgin(nwds),msgtyp(nwds)

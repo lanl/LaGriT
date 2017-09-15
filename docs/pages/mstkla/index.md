@@ -56,10 +56,7 @@ Tel: (505) 665-4636
 
                 Los Alamos, NM 87545
 
-
 ------------------------------------------------------------------------
-
-
 
  
 
@@ -130,11 +127,9 @@ guarantee it.
 []{#parent-childAlso see **[Parent-Child Node (Vertex)
 Issues](http://www.ees.lanl.gov/staff/rao/mstkla/parent-child.md)**
 
-
 ------------------------------------------------------------------------
 
 ------------------------------------------------------------------------
-
 
 []{#typedefs[TYPEDEFS](http://www.ees.lanl.gov/staff/rao/mstkla/prelim.md) 
 
@@ -143,15 +138,10 @@ Issues](http://www.ees.lanl.gov/staff/rao/mstkla/parent-child.md)**
 ------------------------------------------------------------------------
 []{#MSTKLA_Init**MSTKLA Interface Operators**
 
-
 ------------------------------------------------------------------------
 
 
-
-
 ------------------------------------------------------------------------
-
-
 
 **MESH INITIALIZATION:**
 
@@ -162,8 +152,6 @@ Issues](http://www.ees.lanl.gov/staff/rao/mstkla/parent-child.md)**
 Initialize the mesh toolkit.
 
 ------------------------------------------------------------------------
-
-
 
 **MESH OPERATORS:**
 
@@ -189,14 +177,10 @@ VERTEX:](http://www.ees.lanl.gov/staff/rao/mstkla/MeshVertex.md)
  []{#GENERIC MESH REGION QUERIES:[GENERIC MESH REGION
 QUERIES:](http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.md)
 
-
 ------------------------------------------------------------------------
 
 
-
-
 ------------------------------------------------------------------------
-
 
 []{#GMTKLA_Init**GEOMETRIC MODEL INITIALIZATION:**
 
@@ -205,8 +189,6 @@ QUERIES:](http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.md)
 Initialize the geometric model interface.
 
 ------------------------------------------------------------------------
-
-
 
 **MODEL OPERATORS:**
 
@@ -234,10 +216,7 @@ VERTEX](http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.md)
 ------------------------------------------------------------------------
 
 
-
-
 ------------------------------------------------------------------------
-
 
 []{#UTILITIES:**[UTILITIES:](http://www.ees.lanl.gov/staff/rao/mstkla/utilities.md)**
 

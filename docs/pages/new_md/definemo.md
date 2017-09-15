@@ -12,7 +12,6 @@ Object data structure ([see Section III.a](meshobject.md) for a
 description). For this example we will need only a single 3D Mesh
 Object:
 
-
 * create a 3D tetrahedral mesh object and name it *3dmesh*
 
 **cmo/create/3dmesh**/

@@ -25,5 +25,3 @@ Spherical coordinates
              
             
 
-
-

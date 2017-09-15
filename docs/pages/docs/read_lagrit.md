@@ -6,7 +6,6 @@ SHORT **FORMAT:**
 
 **read**/filename.[lglagritLaGriT]/cmo\_name
 
-
 [Note that the filename is case-sensitive, though the extension
 itself is not. When using the short format, the file will be read in
 ascii mode.]

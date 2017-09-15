@@ -23,7 +23,6 @@ local facets are defined as follows:
   F3  |   I1  | I2 |  I4
   F4 |   I1 |  I3   |I2
 
-
    The local edges for a tetrahedral are defined as follows:
 
   Edge | Point A | Point B
@@ -152,5 +151,4 @@ local facets are defined as follows:
            endif
          enddo
         enddo
-
 

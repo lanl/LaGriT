@@ -6,7 +6,6 @@ quadxyz/5 25 7/ 0. 0. 0. /1. 0. 0. /1. 0. 10. /0.  0.  10. /0. 2. 
   
 Define an arbitrary, logical hexahedron of points in the xz plane.
 
-
 Argument | Description
 ------------- |  --------------------------------------------------
 5 25 7

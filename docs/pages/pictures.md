@@ -53,4 +53,3 @@ Gif Animations
     -   without grid [temperature field displayed
         (10MB)](dendriteng.gif">
 
-

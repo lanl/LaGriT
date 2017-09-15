@@ -18,10 +18,4 @@ title: '
 
 
 
-
-
-
-
-
-
 [Next Demo](../../../demos/pset/md/main_pset1.md)

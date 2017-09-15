@@ -53,7 +53,6 @@ element. The following controls may be supplied:
 
  
 
-
   rlxwt default(0.5)                weight for underrelaxed         
                                      Laplacian smothing              
 
@@ -76,7 +75,6 @@ element. The following controls may be supplied:
             
                                      **exclusive** means restrict    
                                      neighbors to nodes in pset      
-
 
  5. **aspect**---Adjusts node positions such that the aspect ratio of
 the elements is improved.  The default damage tolerance for

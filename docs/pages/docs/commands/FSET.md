@@ -5,7 +5,6 @@
  face sets can be useful for either defining boundary conditions,
  material interfaces, or surface subsets for further mesh processing.
 
-
  **FORMAT:**
 
   [fset ] / name / pset, get, pointsetname

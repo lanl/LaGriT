@@ -10,8 +10,6 @@ title: memory
 ---
 
 
-
-
 memory
 ------
 
@@ -26,11 +24,7 @@ developers read more on LaGriT memory management at **[Memory
 Manager](../memmang.md)**
 
 
-
-
-
 The following memory keywords are recognized:
-
 
   
 
@@ -52,7 +46,6 @@ The following memory keywords are recognized:
  name, and partition. The partition is the grouping of arrays by usage.
  Common partitions include the mesh object (by name), global memory,
  and temporary memory for work arrays.
-
 
      MEMORY SIZES : 
       Sizeof char    (type 3) =  1 bytes      Sizeof long        =   4 bytes
@@ -96,7 +89,6 @@ The following memory keywords are recognized:
 
  The 64 bit version for memory routines will look slightly different:
 
-
      MEMORY SIZES : 
       Sizeof char    (type 3) =  1 bytes      Sizeof long        =   8 bytes
       Sizeof real*8  (type 2) =  8 bytes      Sizeof pointer     =   8 bytes
@@ -113,12 +105,7 @@ The following memory keywords are recognized:
       Failed at        104857.60000000001       MEGABYTES
 
 
-
-
-
 **EXAMPLES:**
-
-
 
 ** memory / verify**
 

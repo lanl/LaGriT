@@ -141,7 +141,6 @@ in question.
 
  
 
-
 ------------------------------------------------------------------------
 
 *PMeshRegn* **MR\_FaceNebr**(*PMeshObj* mesh, *PMeshRegn* r, *int*
@@ -153,9 +152,7 @@ The local face numbering starts from 0 in C style.
 
  
 
-
 ------------------------------------------------------------------------
-
 
 []{#MR-Attribs*int* **MR\_GetAttVal**(*PMeshObj* mesh, *PMeshRegn* r,
 *char 
@@ -182,8 +179,6 @@ solid meshes
 
 ------------------------------------------------------------------------
 
-
-
 *int* **MR\_SetAttVal**(*PMeshObj* mesh, *PMeshRegn* r, *char
 
 **attname, *int* ival,
@@ -194,7 +189,6 @@ solid meshes
 This is similar to the GetAttVal routine - depending on the type and
 
 rank, one sends in a value with the right variable
-
 
 *
 *

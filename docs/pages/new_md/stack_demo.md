@@ -6,10 +6,7 @@ GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 
 **ROUTINE:  stack / layers**
 
-
 ------------------------------------------------------------------------
-
-
 
  
 
@@ -23,8 +20,6 @@ GENERATOR: 'Mozilla/4.75 [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
 
 **stack/layers**
 ----------------
-
-
 
 <img height="300" width="300" src="simple_stack.gif">"400" "300"
 
@@ -486,7 +481,5 @@ stack/layers to hex to tet, with buffered interfaces
  
 
 `More Features`
-
-
 
 `Main`

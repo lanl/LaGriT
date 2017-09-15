@@ -8,7 +8,6 @@ title: '
 
 Example 1: test using rotatept to modify a point distribution.
 
-
  The objective is to use the **rotatept** command to modify a point
  distribution by rotation.
 

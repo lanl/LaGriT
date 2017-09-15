@@ -114,7 +114,6 @@
   where multi-material edges do not get refined because they connect
   an 'intrface' node to an 'intrface' node.
 
-
  [Click here for 2D demos](../demos/main_2d_connect.md)
 
  [Click here for 3D demos](../demos/main_connect.md)

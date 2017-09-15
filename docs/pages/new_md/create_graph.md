@@ -22,8 +22,6 @@ CREATE\_GRAPH
 
  create\_graph/ lagrit / dual / jtetoff / jtet
 
-
-
 LIMITATIONS
 
  The metis option will not work on a hybrid mesh. Supported element

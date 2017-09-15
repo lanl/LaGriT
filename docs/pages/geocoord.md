@@ -7,19 +7,13 @@ keywords:
 title: Geometry
 ---
 
-
-
  
 
-
 * input.coordsys
 
-
 * input.coordsys
-
 
 *create a cylinder parallel to the y-axis inside a box
-
 
 *use the coordsys command
 
@@ -87,6 +81,4 @@ finish
 [Return to LaGriT Home Page](index.md)
 
  
-
-
 

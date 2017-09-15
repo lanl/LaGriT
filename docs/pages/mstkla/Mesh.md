@@ -32,8 +32,6 @@ These operators work on variables of type *PMeshObj.*
 
 ------------------------------------------------------------------------
 
-
-
 *PMeshObj* **MESH\_Create**();
 
 Creates a default mesh object and returns it - At this point all the
@@ -63,8 +61,6 @@ If a LaGriT file is read, the geometric model info will be read as well.
 
 ------------------------------------------------------------------------
 
-
-
 *void* **MESH\_InitFromCMO**(*PMeshObj* mesh, *char* 
 *cmoname);
 
@@ -81,8 +77,6 @@ which initializes a mesh object and then uses the functionality of
 MSTKLA!! (Cool!)
 
 ------------------------------------------------------------------------
-
-
 
 *int* **MESH\_Select**(*PMeshObj* mesh);
 
@@ -174,8 +168,6 @@ by checking if MR\_Type returns RDELETED.
 
 ------------------------------------------------------------------------
 
-
-
 *PMeshVert* **MESH\_Vertex**(*PMeshObj* mesh, *int* i);
 
 Fetch the i'th vertex (node) of the mesh (This is C so remember i
@@ -198,8 +190,6 @@ it is a deleted region.
 
 ------------------------------------------------------------------------
 
-
-
 *void* **MESH\_BldUpAdj**(*PMeshObj* mesh);
 
 Build the vertex to region connectivity. This will allow upward
@@ -210,8 +200,6 @@ will function properly only after this is called.
 
 ------------------------------------------------------------------------
 
-
-
 *void* **MESH\_DelUpAdj**(*PMeshObj* mesh);
 
 Delete the vertex to region connectivity information to save
@@ -221,8 +209,6 @@ memory. It is not possible for MSTKLA to determine when this
 information is not needed and call this routine automatically.
 
 ------------------------------------------------------------------------
-
-
 
 *void* **MESH\_IncrNodeLists**(*PMeshObj* mesh);
 
@@ -237,8 +223,6 @@ Increment all the node lists.
 
 ------------------------------------------------------------------------
 
-
-
 *void* **MESH\_IncrElemLists**(*PMeshObj* mesh);
 
 Increment all the element lists.
@@ -251,8 +235,6 @@ Increment all the element lists.
 *)
 
 ------------------------------------------------------------------------
-
-
 
 *void* **MESH\_CmprNodeLists**(*PMeshObj* mesh);
 
@@ -287,8 +269,6 @@ numbers or PMeshVert "addresses" may not be referring to the nodes you
 think they are.
 
 ------------------------------------------------------------------------
-
-
 
 *void* **MESH\_CmprElemLists**(*PMeshObj* mesh);
 

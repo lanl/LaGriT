@@ -53,7 +53,6 @@
   check is made, it compares child points. When permutation of
   elements is done, only itet and jtet arrays are updated.
 
-
  **FORMAT:**
 
   OPTION 1:

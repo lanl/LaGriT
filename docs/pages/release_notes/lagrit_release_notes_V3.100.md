@@ -34,9 +34,6 @@ LaGriT Release Notes
     
 
 
-
-
-
 ------------------------------------------------------------------------
 []{#Release_V3.108
 
@@ -149,9 +146,6 @@ Mikita comments and updates to mercurial/trac repository include:
     
 
 
-
-
-
 ------------------------------------------------------------------------
 []{#Release_V3.106
 
@@ -250,8 +244,6 @@ Minor updates to master version include:
         Solution was to switch ${HDF5_LIBRARY with ${HDF5HL_LIBRARY
 
 
-
-
 ------------------------------------------------------------------------
 []{#Release_V3.101
 
@@ -334,8 +326,6 @@ This release include the following fixes:
     on the command line, added better reporting for this.
 
     
-
-
 
 
 ------------------------------------------------------------------------
@@ -455,8 +445,6 @@ changes. Improved error catching for common routines.
     
 
 
-
-
 ------------------------------------------------------------------------
 []{#Release_V3.001
 
@@ -469,8 +457,6 @@ summer student Adam Cozzette to add more capability. Changes to make
 The code for stack routines are combined into stack\_options.f from
 temptam.f and read\_trilayers.f. The beads algorithm and routines are
 now all in their own file beads\_ona\_ring.f
-
-
 
 LaGriT assumes that the size of an integer is the same size as a
 pointer. Use the preprocessor and configure settings to select the
@@ -489,8 +475,6 @@ integer type so that it matches the size of a pointer.
     By default, gfortran enforces proper alignment of all variables in a COMMON block by padding them as needed. On certain platforms this is mandatory, on others it increases performance. If a COMMON block is not declared with consistent data types everywhere, this padding can cause trouble, and -fno-align-commons can be used to disable automatic alignment. The same form of this option should be used for all files that share a COMMON block. To avoid potential alignment issues in COMMON blocks, it is recommended to order objects from largests to smallest.
 
 Andrew Kuprat changes:
-
-
 
 
 Adam Cozzette changes:
@@ -608,10 +592,6 @@ Adam Cozzette changes:
 
 
 
-
-
-
-
 ------------------------------------------------------------------------
 []{#Release_V2.200
 
@@ -620,13 +600,10 @@ LaGriT V2.200 November 2010
 
 Banner when LaGriT is started (eg Linux):
 
-
 ``` {wrap=
 *               *    Program:  LaGriT V2.200   Linux m32      *                 
 *               *    date_compile: 2010/11/22                 *     
 ```
-
-
 
 
 +-----------------------------------------------------------------------+
@@ -954,8 +931,6 @@ Banner when LaGriT is started (eg Linux):
 +-----------------------------------------------------------------------+
 
 
-
-
 ------------------------------------------------------------------------
 []{#Release_V2.106
 
@@ -970,8 +945,6 @@ are new syntax that are code wrappers for common command calls.
 -   grid2grid/ tree\_to\_fe
 
     grid2grid/ quadtotri4
-
-
 
 
 ------------------------------------------------------------------------
@@ -1014,8 +987,5 @@ graph, coefs, or none.
 Update manual and web pages
 
 Bug fix, various modules
-
-
-
 
 

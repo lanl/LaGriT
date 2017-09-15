@@ -2,7 +2,6 @@
 title: SETTETS
 ---
 
-
 **SETTETS**
 
 Set element color (itetclr) and create child points at interior

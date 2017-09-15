@@ -80,7 +80,6 @@
  the tet grid that fit into one quad face of the hex grid). Pyramid
  elements will be constructed in the region where the two meshes join.
 
-
  **excavate** - mesh1 must be a 3D mesh (of any geometry) and mesh2
  must be a 2D triangular mesh. This then excavates an area in mesh1
  around mesh2, such that the surface could then be inserted into the 3D

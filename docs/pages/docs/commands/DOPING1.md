@@ -134,7 +134,6 @@ current mesh object:
 
 See which element of cmo_old each node of the current mesh object falls in, and set the imt1 attribute value to the itetclr of the element in cmo_old.  If the node falls in more than one element use the smallest itetclr. 
 
-
     doping/integer2/rad2/set/1,0,0/cmo_old/rad1/min/create 
     
     

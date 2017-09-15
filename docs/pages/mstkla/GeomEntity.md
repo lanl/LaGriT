@@ -54,8 +54,6 @@ is on the boundary of a region)
 
 ------------------------------------------------------------------------
 
-
-
 *int* **GEnts\_Common**(*int* nent, *GType* 
 *types, *PGeomEntity*
 
@@ -76,8 +74,6 @@ Naturally, there may be more than one such common model entity in
 general geometric models.
 
 ------------------------------------------------------------------------
-
-
 
 *int* **GEnt\_OnExtBoundary**(*PGeomEntity* gent)
 

@@ -39,12 +39,7 @@
  - Electrostatics
  - Geologic Flow and Transport
 
-
 <div style="text-align: right"> <b Material Deposition </b </div
 
-
-
  
-
-
 

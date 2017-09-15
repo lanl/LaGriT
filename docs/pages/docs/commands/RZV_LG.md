@@ -134,8 +134,6 @@ nice 2-d distribution of points in a circle of radius 1
 
 **rzv/xyz**/10,60,0/0.1,0,0/0,60,0/0,0,1/0,0,0/1,0.5,1/1,1,1/1,1,1**/vector**/0,0,0
 
-
-
    CAVEATS -
 
       

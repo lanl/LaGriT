@@ -24,7 +24,6 @@ can have the character- string values:
   **[pset](commands/PSET.md)**, **get**, name where name has been
   defined by a previous **[pset](commands/PSET.md)** command.
 
-
   The triplet: 1, 0, 0 refers to all points.
 
   The triplet: 0, 0, 0 refers to the set of points defined in the last
@@ -62,7 +61,6 @@ sheet surfaces. The first two points determin the first vector and the
 first and third point determine the second vector. By curling the
 fingers of the right hand from the first vector toward the second
 vector, the right thumb will point in the direction of the normal.
-
 
 - To separate commands on the same line use a semicolon (;).
 

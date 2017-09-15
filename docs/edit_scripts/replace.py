@@ -15,8 +15,7 @@ def replace_in_dr(old, new, dr):
                    if '.md' in fle: 
                         filter_file(os.path.join(root, fle), old, new)
 
-dr = '/home/nknapp/LaGriT/docs/pages/'
 dr = '/Users/nknapp/Desktop/LaGriT/docs/pages/'
-old = 'docs/assets'
-new = 'assets'
+old = '\n\n\n'
+new = '\n\n'
 replace_in_dr(old, new, dr)

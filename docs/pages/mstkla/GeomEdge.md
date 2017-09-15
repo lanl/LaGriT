@@ -10,15 +10,11 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 
 ------------------------------------------------------------------------
 
-
-
 *int* **GEs\_AreSame**(*PGeomEdge* pe1, *PGeomEdge* pe2)
 
  
 
 ------------------------------------------------------------------------
-
-
 
 *void* **GE\_Faces**(*PGeomEdge* pe, *int* 
 *nf, *PGeomFace* 
@@ -29,8 +25,6 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 
 ------------------------------------------------------------------------
 
-
-
 *void* **GE\_Regions**(*PGeomEdge* pe, *int* 
 *nr, *PGeomRegn*
 
@@ -40,8 +34,6 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
  
 
 ------------------------------------------------------------------------
-
-
 
 *int* **GE\_OnBoundary**(*PGeomEdge* pe, *PGeomEntity* gent)
 

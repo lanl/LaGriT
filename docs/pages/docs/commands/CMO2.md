@@ -14,7 +14,6 @@ length/interpolate/persistence/ioflag/value
 [**mo** **/addatt**](cmo/cmo_addatt.md) /mo\_name /keyword /
 keyword\_parameters
 
-
 Give the sink mesh the same set of attributes as the source mesh (with
 unitialized values)
 
@@ -77,7 +76,6 @@ Adjust the memory manages arrays associated with mo\_name to the
 
 lengths required by number\_nodes and number\_elements:
 [mo**/memory**/](cmo/cmo_memory.md)mo\_name/number\_nodes/number\_elements
-
 
 Modify an attribute parameter value:
 [**mo** **/ modatt**/](cmo/cmo_modatt.md)mo\_name/att\_name/field\_name/new\_field

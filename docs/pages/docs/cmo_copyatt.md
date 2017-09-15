@@ -14,20 +14,12 @@ cmo/copyatt
 
 
 
-
-
-
-
 **FORMAT:**
 
  **cmo/copyatt**/ cmo\_sink / cmo\_src / attnam\_sink / attnam\_src
 
-
-
 cmo\_sink / cmo\_src : are the mesh object names to write to(sink) and
 from (source). The two names can represent the same mesh object.
-
-
 
 attnam\_sink / attnam\_src : are the mesh object attributes to write
 to(sink) and from (source). If the two attributes differ in type or
@@ -36,10 +28,6 @@ an element attribute to be written to the nodes of that belong to each
 element. To create a mesh object where each element has its own unique
 set of nodes, create parent-child chains for each element. This can be
 done using commands **cmo/set\_id** and **settets**.
-
-
-
-
 
 
 

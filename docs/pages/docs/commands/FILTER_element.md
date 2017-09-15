@@ -14,7 +14,6 @@
   correspondence of master(retained)/duplicate(removed) elements and
   their original material id (itetclr). 
 
-
 For all elements the values of iclr1 are set their original itetclr
 values.
 
@@ -26,8 +25,6 @@ value of its duplicate.
 
 For an element that is a duplicate, icrl2 is set to the original itetclr
 value of its master.
-
-
 
 
   For example, consider the 4 element mesh, where element 2 and 3 are:
@@ -192,9 +189,7 @@ value of its master.
   [element] / 
   [delete]
 
-
  **EXAMPLES:**
-
 
  
 
@@ -224,5 +219,4 @@ value of its master.
  Filter all elements (assuming there are less than 1e20)  with an
  exhaustive search and delete duplicate elements. Assign values to
  iclr1 and iclr2 arrays.
-
 

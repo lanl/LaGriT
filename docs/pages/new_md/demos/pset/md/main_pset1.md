@@ -18,10 +18,4 @@ title: '
 
 
 
-
-
-
-
-
-
 [Next Demo](../../../demos/rmmat/md/main_rmmat.md)

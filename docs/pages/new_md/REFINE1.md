@@ -50,4 +50,3 @@ title: 'REFINE1.md'
    of the tet are tagged for refinement or derefinement if the
    condition is met for the tet.
 
-

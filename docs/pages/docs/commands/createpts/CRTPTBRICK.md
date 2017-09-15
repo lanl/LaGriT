@@ -52,8 +52,6 @@ Use this option (for example, with **quadxyz)** to create finite element
 hexahedral connectivity on a logically rectangular set of nodes created
 via another method..
 
-
-
 **EXAMPLES:**
 
 reatepts/brick/xyz**/3,2,3/0.,0.,0./1.,1.,1./1,1,1

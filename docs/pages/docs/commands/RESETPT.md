@@ -2,7 +2,6 @@
 title: RESETPTS
 ---
 
-
  **RESETPTS**
 
   Reset node values.
@@ -49,7 +48,6 @@ title: RESETPTS
 
 remove child points
 
-
 **resetpts/parent**   
 
 remove child points
@@ -69,7 +67,6 @@ set all node colors (**imt**) from element colors(**itetclr**)
 **resetpts/cell\_color**/ integer\_node\_color   
 
 reset node **imt** for nodes with **imt** currently = integer\_node\_color from the **itetclr** of an element that contains the node
-
 
 **EXAMPLES:**
 

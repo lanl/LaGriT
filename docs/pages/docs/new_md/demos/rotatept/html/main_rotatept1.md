@@ -18,10 +18,4 @@ title: '
 
 
 
-
-
-
-
-
-
 [Next Demo](../../../demos/triangulate/md/main_tri1.md)

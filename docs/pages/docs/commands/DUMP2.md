@@ -11,8 +11,6 @@ dump/ file_name.[inp | avs | gmv | lg | lagrit | ts | exo ] / [cmo_name]
 
 For common file types, a short form syntax can be used which skips the file type designation. The file_type is asssumed from the file_name suffix. The following are recognized; AVS (.inp or .avs), Exodus (.exo), GMV (.gmv), LaGriT (.lagrit or .lg), and .ts (gocad). 
 
-
-
 FILE TYPES: 
 
 dump / avs /file_name/[cmo_name] /[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes] 
@@ -51,12 +49,10 @@ Write adjacency information to an ascii file. Write list of all elements adjacen
 File format: 
 node_number number_of_adjacent_elem e1 e2 ... en   
 
-
 dump / exo | exodusii / file_name/ mo_name [ psets ] / [ eltsets] / [ facesets file1 file2 ... filen ] 
 
 Write a mesh object to a file in the Exodus II format. The keyword psets as token 5 will cause all psets (lists of vertex numbers) associated with the mesh object to be written to the ExodusII output file. The keyword eltsets as token 6 will cause all eltsets (lists of cell numbers) associated with the mesh object to be written to the ExodusII output file. If face set information is being provided from files (file1 file2 ... filen) the format of the file is written in AVS UCD cell attribute format. The first column is the global cell number, the second column is the local face number. 
 Click here for more details on options and files that are written. 
-
 
 dump / fehm / file_name_root / cmo_name / [delatt | keepatt]   [keepatt_voronoi | keepatt_median]    
         / [ ascii | binary ] / [scalar | vector | both | area_scalar | area_vector | area_both] 
@@ -115,11 +111,9 @@ The stor file is one of a set of files written when the fehm file type is called
 Click here for further explanation of options. 
 Click here for the STOR file format. 
 
-
 dump / tecplot /file_name 
 
 Write a file to be read by the Tecplot graphics package.  The output file is ascii. Only node attributes are output, element attributes are ignored and not output. Tecplot does not support prism or pyramid element types so they are written as eight node, degenerate hex elements. The ioflag parameter is used to control if the node attributes are output or not is the AVS ioflag. The expected suffix for the file name is '.plt'. If a name is given without the .plt suffix, a suffix, .plt is added. Output is ascii. This output format does not support output of a mesh with nodes but zero elements. If there are zero elements, a header is written but node coordinate information is not output.
-
 
 dump / zone /file_name/[cmo_name] / [delatt | keepatt]   [keepatt_voronoi | keepatt_median] 
 
@@ -133,7 +127,6 @@ file_name_outside.zone - node external boundary zone lists (see dump/zone_outsid
 file_name_outside_vor.area or file_name_outside_med.area - node external boundary area lists (see dump/zone_outside/... command)
 file_name_interface.zone - zone lists for nodes along material interfaces, 0 length file if mesh is single material 
 file_name_multi_mat.zone - lists of node pairs connected across material interfaces, 0 length file if mesh is single material 
-
 
 dump / zone_imt /file_name/[cmo_name] / [ imt_value ]   
 
@@ -165,14 +158,12 @@ nnum
   -2.500000000000E-01  -2.500000000000E-01   2.500000000000E-01   2.500000000000E-01   0.000000000000E+00   1.250000000000E-01
    0.000000000000E+00   2.500000000000E-01   1.250000000000E-01
 
-
 If the keyword keepatt_voronoi is specified, three node attributes (xn_varea, yn_varea, zn_varea) representing the voronoi area are added.
 If the keyword keepatt_median is specified, three node attributes (xn_marea, yn_marea, zn_marea) representing the median area are added and the file name will be file_name_outside_med.area. Note that the old version file name file_name_outside.area has area vectors computed with the median strategy.
 
 The option zone_outside_minmax is used to find the min and max external node along each row and column of the regular grid. Click here for image showing difference between the default and the minmax options for outside nodes. 
 
 These zone_outside files are part of a set of files written when the zone or fehm file type is called. The fehm zone format and descriptions are  in the dump/fehm command details. 
-
 
 **EXAMPLES:**
 

@@ -39,6 +39,5 @@ the xy plane.
 
 ** **
 
-
 [Click here for demos](demos/triangulate/md/main_tri.md)
 [](demos/triangulate/test/test/md/main_tri.md)

@@ -32,7 +32,6 @@ skip n    |                 skip n number of header lines
 istart,istop,jstart,jstop |  gives indices of ij subset  
 --------------------------- ------------------------------------------------------
 
-
 Option | Description 
 --------------------------- | ---------------------------------------------------------------
 **ascii** or **binary** |   file-type (default-**ascii**)
@@ -88,9 +87,7 @@ Option | Description
              cmo / copyatt / cmot / cmot / tempval / zic
              cmo / setatt / cmot / zic / 0.
 
-
 TEST **EXAMPLES:**
-
 
 Test file for sheetij: [LaGriT\_input00](lagrit_input00)
 

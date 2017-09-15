@@ -11,7 +11,6 @@ GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
   <http://gocad.ensg.inpl-nancy.fr/IMG/papers/Fileform.fm.htm for
   further details on GoCad.
 
-
  **FORMAT:**
 
   **read/gocad**/file\_name/mesh\_object\_name
@@ -19,7 +18,5 @@ GENERATOR: 'Mozilla/4.72 [en] (X11; U; Linux 2.2.14-5.0 i686) [Netscape]'
  **EXAMPLES:**
 
   **read/gocad**/file.ts/cmo1
-
-
 
 

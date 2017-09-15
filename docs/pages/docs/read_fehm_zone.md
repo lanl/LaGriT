@@ -35,7 +35,6 @@
   **read / zone  zonn / file\_name / [mo\_name  -def- ] /
   [att\_name  -def-]**
 
-
   EXAMPLE:
 
   Read in a mesh and a zone file that identifies a subset of the nodes
@@ -47,7 +46,6 @@
       read / zone / node\_list.zone / cmo / id\_nodes
 
       pset / p\_nodes / attribute / id\_nodes / 1 0 0 / 0 / ne
-
 
   ZONE/ZONN FILE **FORMAT:**
 
@@ -94,7 +92,6 @@
   Note also that the [PSET](http://lagrit.lanl.gov/docs/PSET.md)
   command will output files in the FEHM zone file format.
   
-
 
   AN EXAMPLE USING ZONE FILES:
 

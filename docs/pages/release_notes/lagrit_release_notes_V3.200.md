@@ -20,7 +20,6 @@ LaGriT Release Notes
 
 -   [**LaGriT V2.100 August 2009 Release**](#Release_V2.100)
 
-
 ------------------------------------------------------------------------
 
 Release_V3.203
@@ -43,8 +42,6 @@ $EXODUSII\_HOME/include
 Updates to lagrit.lanl.gov web pages and documents, added text regarding
 open source and github
 
-
-
 These issues were fixed:
 
  segmentation fault during triangulate
@@ -58,8 +55,6 @@ These issues were fixed:
 
  output adjusted to make room for large numbers when reporting dudded
  nodes from filter command
-
-
 
 Additional tests and improvements to suite.py for running and reporting
 the test suite New tests include:
@@ -75,8 +70,6 @@ the test suite New tests include:
 
  level01/pflotran\_stor - write pflotran style Voronoi geometric
  coefficient (volume, face area) files
-
-
 
 PyLaGriT new features:
 
@@ -94,8 +87,6 @@ PyLaGriT new features:
 
  examples/julia - Example of using PyLaGriT within a Julia script.
  Requires that the Julia package PyCall is installed.
-
-
 
 Known Issues:
 
@@ -124,7 +115,6 @@ Known Issues:
  Paraview issue. See test/level01/write\_exo/reference for ExodusII
  example files.
 
-
 ------------------------------------------------------------------------
 
 Release_V3.200
@@ -141,14 +131,10 @@ control to github and now includes the python driven version PyLaGriT.
 For most current versions of source and documentation use the
 open-source repository at
 
-
  https://github.com/lanl/LaGriT
-
-
 
 *Compiled executable versions of LaGriT will continue to available
 through https://lagrit.lanl.gov/licensing.md*
-
 
 ------------------------------------------------------------------------
 
@@ -440,7 +426,6 @@ This release include the following fixes:
     y\_n\_norm z\_n\_norm on the input cmo. Attribute names are ignored
     on the command line, added better reporting for this.
 
-
 ------------------------------------------------------------------------
 
 Release_V3.100
@@ -556,7 +541,6 @@ changes. Improved error catching for common routines.
         Syntax:
           sort / line_graph / cmo / ascending  descending / [key] / [nodes/elements]
 
-
 ------------------------------------------------------------------------
 
 Release_V3.001
@@ -570,8 +554,6 @@ summer student Adam Cozzette to add more capability. Changes to make
 The code for stack routines are combined into stack\_options.f from
 temptam.f and read\_trilayers.f. The beads algorithm and routines are
 now all in their own file beads\_ona\_ring.f
-
-
 
 LaGriT assumes that the size of an integer is the same size as a
 pointer. Use the preprocessor and configure settings to select the
@@ -704,10 +686,6 @@ Adam Cozzette changes:
 
 
 
-
-
-
-
 ------------------------------------------------------------------------
 
 Release_V2.200
@@ -717,13 +695,10 @@ LaGriT V2.200 November 2010
 
 Banner when LaGriT is started (eg Linux):
 
-
 ``` {wrap=
 *               *    Program:  LaGriT V2.200   Linux m32      *                 
 *               *    date_compile: 2010/11/22                 *     
 ```
-
-
 
 
 +-----------------------------------------------------------------------+
@@ -1048,7 +1023,6 @@ Banner when LaGriT is started (eg Linux):
                  
 +-----------------------------------------------------------------------+
 
-
 ------------------------------------------------------------------------
 
 Release_V2.106
@@ -1064,7 +1038,6 @@ are new syntax that are code wrappers for common command calls.
 -   grid2grid/ tree\_to\_fe
 
     grid2grid/ quadtotri4
-
 
 ------------------------------------------------------------------------
 

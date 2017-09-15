@@ -59,7 +59,6 @@ cmo/addatt
 
  
 
-
   **area\_normal**: creates vector attribute att\_v\_name and fills
   with the x,y,z components of area normals for each face. The new
   attribute is nelements in length, type is VDOUBLE, and rank is
@@ -93,13 +92,11 @@ cmo/addatt
 
   
 
-
  
 
  
 
  **EXAMPLES:**
-
 
   **cmo** **/addatt**/cmo1/boron1**/VDOUBLE** **/scalar** **/nnodes** **/asinh** **/permanent**
   Create node attribute named boron1 with interpolate method of asinh.

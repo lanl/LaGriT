@@ -8,7 +8,6 @@ title: '
 
 Example 1: test using triangulate to create a 2d mesh.
 
-
  The objective is to use the **triangulate** command to create a mesh
  on a polygonal point distribution.
 

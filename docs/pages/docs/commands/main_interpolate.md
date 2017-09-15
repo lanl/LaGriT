@@ -46,9 +46,6 @@ INTERPOLATE
 
 
 
-
-
-
  The format for the command line is as follows:
 
  **interpolate** / intrp\_method / cmosink, attsink / 1,0,0 / cmosrc,
@@ -121,7 +118,6 @@ INTERPOLATE
  methods. All integer attributes are converted to double for the
  interpolation routines. The interpolated values are then converted to
  integer if the sink attribute is integer.
-
 
  indexed\_set is the set of sink nodes or elements to write
  interpolated values to. 1,0,0 will select all sink nodes or elements. 
@@ -233,7 +229,6 @@ INTERPOLATE
 
  
 
-
  This table shows supported applications for each of the interpolation
  methods.
 
@@ -242,7 +237,6 @@ INTERPOLATE
  NOT means Not Supported
 
  
-
 
    -------------------- -------------------------------------------------- -------------------------------------------------- --------------------------------------------------
                         **MAP**
@@ -297,7 +291,6 @@ INTERPOLATE
  
 
  
-
 
  **FORMAT:**
 
@@ -372,7 +365,6 @@ INTERPOLATE
 
  
 
-
  []{#DEMOS
 
    ------------------------------------------------------------------------------------------------------------ ---------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------
@@ -388,5 +380,4 @@ INTERPOLATE
    ------------------------------------------------------------------------------------------------------------ ---------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------
 
  
-
 

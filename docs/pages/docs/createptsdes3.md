@@ -11,7 +11,6 @@ rtp |      specifies sperical coordinates
 1,45,360 |  radius from 0 to 1, angle in the xy-plane is 45 degrees, angle in the zy-plane is 360 degrees
 1,0,1   |   rmins and rmaxs are used as cell vertices, tmins and tmaxs are used as cell vertices, zmins and zmaxs are used as cell vertices
 
-
 Input deck:
 
     cmo/create/cmo1/
@@ -21,5 +20,4 @@ Input deck:
     createpts/rtp/2,6,30/0,0,0/1,45,360/1,1,1
     dump/gmv/gmv2/
     finish
-
 

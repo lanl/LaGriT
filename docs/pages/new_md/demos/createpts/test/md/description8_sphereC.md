@@ -22,7 +22,6 @@ title: '
 
   [lagrit\_input\_createsphere3](../lagrit_input_createsphere3)
 
-
  Images of GMV output
 
    [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image8tn.gif">"156"

@@ -4,10 +4,7 @@ Generator: Microsoft Word 98
 title: 'DUMP/FEHM and DUMP/STOR'
 ---
 
-
-
 **DUMP/ fehm** and **DUMP/ stor**
-
 
 Output a set of files that are of general use but are specifically
 designed for the [FEHM](http://fehm.lanl.gov)porous flow and transport
@@ -20,14 +17,11 @@ will continue but use a valid default setting. Both
 **[dump/fehm]{style="font-family: Courier New,Courier,monospace;"** and
 **dump/stor** use the same set of optional settings after the required[file\_name]{style="font-family: Courier New,Courier,monospace;". 
 
-
-
 Though the syntax for both are the same, with command[stor]{style="font-weight: bold;", only the stor file is written. With
 command [fehm]{style="font-weight: bold;", the full set of 7 FEHM files
 are written. The full set of fehm files will look like the following,
 where "[file\_name]{style="font-style: italic; is the root of each
 name:
-
 
     file_name.fehmn              file_name_interface.zone      file_name_outside_vor.area     
     file_name_material.zone      file_name_multi_mat.zone      file_name_outside.zone       file_name.stor
@@ -76,7 +70,6 @@ name:
 
     6 = back\_n = back or north = positive y direction (0,1,0)
 
-
     
 
     If keepatt is specified, then 6 node based attributes are added to
@@ -121,9 +114,6 @@ name:
     solving PDE on a triangular or tetrahedral Delaunay mesh. The stor
     format is written for FEHM input and is described at this page:   
     [FEHM STOR File Format](../../STOR_Form.md)
-
-
-
 
 
 
@@ -172,8 +162,6 @@ name:
  Specify whether hybrid median-Voronoi control volumes should be used
 
 
-
-
 IO MODE OPTIONS for STOR File:
 
    ---------------------- ---------------------------------------------------------------
@@ -190,8 +178,6 @@ IO MODE OPTIONS for STOR File:
  needed to toggle the compression settings.*
 
 
-
-
 Area Coefficient OPTIONS for STOR File:
 
    ----------------------- --------------------------------------------------------------------------------
@@ -204,8 +190,6 @@ Area Coefficient OPTIONS for STOR File:
    ----------------------- --------------------------------------------------------------------------------
 
  
-
-
 
 
 Compression OPTIONS for STOR File:
@@ -229,8 +213,6 @@ Compression OPTIONS for STOR File:
  *Note: The old syntax using the alternate\_scalar keyword is now the
  default option of scalar compressed. It is the same as using keywords
  all or graph and if used will be recognized.*
-
-
 
 
 CMO Attribute OPTIONS:
@@ -274,8 +256,6 @@ CMO Attribute OPTIONS:
                              There is no option to turn this feature on or off.
 
    ------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 Hybrid OPTIONS:
 
@@ -324,7 +304,6 @@ Hybrid OPTIONS:
 
 EXAMPLES
 
-
      dump / fehm / file_name / cmo   (write all FEHM files, STOR file will be ascii compressed) 
      dump / stor / file_name / cmo   (write the FEHM STOR file in ascii compressed format) 
      dump / fehm / file_name / cmo / binary / none (write all FEHM files, STOR file will be unformatted compressed) 
@@ -336,8 +315,5 @@ OLD EXAMPLES (recognized but no longer used)
      dump / stor / file_name_as / cmo / ascii  / / alternate_scalar 
      dump / stor / file_name_as / cmo / asciic / / alternate_scalar 
      dump / fehm / file_name / cmo / binaryc / / alternate_scalar/ keepatt 
-
-
-
 
 

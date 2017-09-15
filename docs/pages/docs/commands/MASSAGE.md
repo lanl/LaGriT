@@ -41,7 +41,6 @@
      only)  measure of grid roughness (deviation from average surface
      normal) that triggers refinement.
 
-
  **bisection\_length** can either be a scalar value or a node field (a
  node attribute). In the first case, the algorithm directly compares
  the edge length to the **bisection\_length** value. If the edge length
@@ -53,7 +52,6 @@
  twice the desired minimum edge lenth) for the field. Otherwise the
  code will refine indefinitely. For an example of an appropriate field,
  see **MASSAGE2** at the end.
-
 
  [toldamage] is a parameter which controls
  how much the grid will be deformed.  The 'damage' is a measure of how
@@ -139,7 +137,6 @@
  semiexclusive], and
  [exclusive]. 
 
-
 -   Specifying [nosmooth]will turn off the
     'smooth' step by skipping the call to SGD.
 -   Specifying [norecon] will turn off all
@@ -174,8 +171,6 @@
     as part of a 'Rivara chain' triggered by the refinement of an edge
     with both endpoints in the PSET.  This represents an intermediate
     case between 'inclusive' and [exclusive]
-
-
 
  Note:  Since CEL\_CHAIN is called only once at the end of **MASSAGE**,
  it may be necessary to call **MASSAGE** twice for optimal results. 

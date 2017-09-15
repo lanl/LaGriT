@@ -6,7 +6,6 @@
   <http://gocad.ensg.inpl-nancy.fr/IMG/papers/Fileform.fm.htm for
   further details on GoCad.
 
-
  SHORT **FORMAT:**
 
   **read**/filename.ts/cmo\_name
@@ -24,5 +23,4 @@
  **EXAMPLES:**
 
   **read/gocad**/file.ts/cmo1
-
 

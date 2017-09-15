@@ -20,7 +20,6 @@ title: '
 
   [lagrit\_input\_createxyz](../lagrit_input_createxyz)
 
-
  Images of GMV output
 
   [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image1tn.gif">"112" "87" rectangular

@@ -17,7 +17,6 @@ title: SETSIZE
 
 EXAMPLE:
 
-
 rankvolume/10
 
 elt. no.       volume     

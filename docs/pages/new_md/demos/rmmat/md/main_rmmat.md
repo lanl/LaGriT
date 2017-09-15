@@ -18,10 +18,4 @@ title: '
 
 
 
-
-
-
-
-
-
 [Next Demo](../../../demos/rotatept/md/main_rotatept1.md)

@@ -2,8 +2,6 @@
 **dump / exo  exodusii** / file\_name/ mo\_name [ **psets** ] / [
 **eltsets**] / [ **facesets** file1 file2 ... filen ]
 
-
-
 Write a mesh object to a file in the Exodus II format. The keyword pests
 as token 5 will cause all psets (lists of vertex numbers) associated
 with the mesh object to be written to the ExodusII output file. The
@@ -41,12 +39,10 @@ files listed in the command will be used to define facesets:
 **dump / exo** / file\_name/ mo\_name / **psets** / **eltsets** /
 **facesets** file1 file2 ... filen
 
-
 Dump ExodusII file with vertex set, element set and no face set
 information:
 
 **dump / exo** / file\_name/ mo\_name / **psets** / **eltsets**
-
 
 Dump ExodusII file with no vertex set, no element set and face set
 information from files:
@@ -54,10 +50,7 @@ information from files:
 **dump / exo** / file\_name/ mo\_name / / / **facesets** file1 file2 ...
 filen
 
-
-
 EXAMPLE WITH FACESET FILES:
-
 
 The following are examples for writing an ExodusII file with top and
 bottom facesets for a hex mesh.
@@ -69,8 +62,6 @@ format.
 The first column is the global cell number, the second column is the
 local face number.
 
-
-
     File output\_1\_bottom.faceset:    File output\_1\_bottom.faceset:   
         0 0 0 2 0                          0 0 0 2 0                     
         00002  1  1                        00002  1  1                   
@@ -80,7 +71,6 @@ local face number.
            5  1                               3  2                       
            7  1                               4  2                       
            8  1                               6  2                       
-
 
 This is the LaGriT screen/logfile output during ExodusII output using
 faceset files:
@@ -154,7 +144,6 @@ faceset files:
 
      ExodusII: Done writing to ExodusII file: output_hex_final.exo using cmo: mohex                                                         
 +-----------------------------------------------------------------------+
-
 
 Output ExodusII file using **facesets**:
 

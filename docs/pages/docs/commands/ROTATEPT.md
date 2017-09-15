@@ -14,5 +14,4 @@
 **rotatept** /ifirst,ilast,istride/ [**no**] **copy** /
 xcen,ycen,zcen/theta/phi
 
-
 [Click here for demos](../demos/main_rotatept.md)

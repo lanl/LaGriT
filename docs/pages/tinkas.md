@@ -4,7 +4,6 @@ Initial (t=0) microstructure for a  short metallic line used in the gradient-wei
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/tinka1small.jpg">
 
-
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/tinka1bsmall.jpg">
 
 Microstructure at t=4 when an orientation dependent grain boundary energy is used. Note that while the gross features of (b) and (c) are the same, the  mean curvature evolution in (b) accurately reproduces the well-known predictions for mean curvature motion (grains meeting at triple lines with 120 degree angles, etc), whereasthe orientation dependent grainboundary energy used in (c) gives rise to the steps and facets expected for crytalline metals such as Copper.

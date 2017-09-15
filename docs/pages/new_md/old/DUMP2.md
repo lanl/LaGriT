@@ -158,7 +158,6 @@ Write a file to be read by the graphics program GMV.  The defaults are
 binary and current mesh object.
 [**dump/fehm**/file\_name/[cmo\_name[**scalarvectorbotharea\_scalararea\_vectorarea\_both**]/[**delatt,keepatt**]](http://lagrit.lanl.gov/DUMP3.md)
 
-
 Write out a series of files for the FEHM flow and transport code. The
 file\_name is the file root name for:
 
@@ -179,8 +178,6 @@ multi-material connections )
 file\_name.stor ( output of FEHM format file with geometric coefficient
 matrix, these are the Voronoi (control volume) area and volume
 associated with each node and the sparce matrix structure.
-
-
 
 
 EXAMPLE:
@@ -206,15 +203,8 @@ element connectivity and node attributes)
 attributes)
 
 
-
-
-
 [Click here for
 demos](http://lagrit.lanl.gov/demos/dump/test/md/main_dump.md)
-
-
-
-
 
 
 

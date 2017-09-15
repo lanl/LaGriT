@@ -54,8 +54,6 @@ $LAGRIT\_SRC\_PATH/adrivgen.f
 
  f90 -g -n32 -r10000 -avoid\_gp\_overflow -o xlagrit\_g\_metis 
 
-
-
  adrivgen.o liblagrit\_sgi.a libmetis.a libutil\_sgi.a
 
   
@@ -66,8 +64,6 @@ FORMAT (partition):
 
  metis / partition / metis\_partmeshnodal  metis\_partmeshdual/ node 
  dual / npartitions / inodeprt / ielemprt
-
-
 
 FORMAT (reorder):
 

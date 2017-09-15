@@ -15,7 +15,6 @@ Filter should be used to remove these duplicate points. Note:
 Cylinders are open but finite. To create a closed cylinder cap both
 ends with planes.
 
-
 Argument | Description
 ---------  | --------------------------------------------------------------------------------------------------------------------------------
 rtz |   specifies cylindrical coordinates
@@ -39,5 +38,4 @@ Input deck:
     dump/gmv/gmv2
 
     finish
-
 

@@ -55,7 +55,6 @@ Command | Default | Description
   useisn | 1 |                 1 means interface nodes are smoothed based along a multimaterial edge with all the same materials as the candidate node. 0 means interface nodes are smoothed based on all interface neighbors             
   extrnbr (**inclusive**) | |   **inclusive**means do not   restrict neighbors  **exclusive** means restrict    neighbors to nodes in pset      
 
-
  5. **aspect**---Adjusts node positions such that the aspect ratio of
 the elements is improved.  The default damage tolerance for
 **smooth//aspect** is infinity, so it can be used as a general smooth

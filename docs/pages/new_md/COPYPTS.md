@@ -74,5 +74,3 @@ title: COPYPTS
   effect as the example directly above. The current mesh object is
   used since the fields are blank on the command line
 
-
-

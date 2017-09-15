@@ -8,7 +8,6 @@ title: '
 
 Example 1: test using regnpts to create point distributions and meshes.
 
-
  The objective is to use the **regnpts** command to create point
  distributions within a geometry, and subsequently create a mesh.
 

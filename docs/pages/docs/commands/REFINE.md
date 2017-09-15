@@ -11,7 +11,6 @@ REFINE
  [Grid Refinement](http://lagrit.lanl.gov/REFINE1.md)
  Section.
 
-
 COMMAND ARGUMENTS:
 
  The refinement choice is followed on the command line by options that
@@ -24,8 +23,6 @@ COMMAND ARGUMENTS:
  range / xvalue
 
  / [ xvalue2 / xvalue3 / inclusive\_flag ]
-
-
 
 refine\_option: indicates the choice of refinement method. The choices
 for first parameter are:
@@ -115,8 +112,6 @@ values to the new nodes created. The implemented values are:
  **log**
 
  **asinh**
-
-
 
 range is the selection of points designated by node numbers for
 ifirst,ilast,istride or **pset,get**,pname. **/1,0,0**/ will select all
@@ -245,8 +240,6 @@ The element attributes added to the Mesh object are:
 
  ![octree refinement](../dsquare.gif">
 
-
-
  
 
  One can control refinement so that a hex is broken into either 8, 4 or
@@ -292,8 +285,6 @@ The element attributes added to the Mesh object are:
 
  = 0 refine xyz with default amr refinement, 1 hex-&gt;8 hex, 1
  quad-&gt;4 quad
-
-
 
 
 FORMATS:
@@ -354,6 +345,4 @@ FORMATS:
  3
  refine the material 2 elements of a hex mesh , refine only in the
  vertical direction
-
-
 

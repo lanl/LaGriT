@@ -50,8 +50,6 @@ or
 
 Use this option with **quadxyz** to connect logically rectangular grids.
 
-
-
 **EXAMPLES:**
 
          **createpts/brick/xyz**/3,2,3/0.,0.,0./1.,1.,1./1,1,1

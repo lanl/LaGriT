@@ -28,7 +28,6 @@ title: ROTATELN
 **rotateln** /ifirst,ilast,istride/ [**no**] **copy** /
 x1,y1,z1/x2,y2,z2/theta/xcen,ycen,zcen/
 
-
 EXAMPLE:
 
  

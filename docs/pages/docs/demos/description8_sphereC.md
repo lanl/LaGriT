@@ -22,7 +22,6 @@ title: '
 
   [lagrit\_input\_createsphere3](../lagrit_input_createsphere3)
 
-
  Images of GMV output
 
    [

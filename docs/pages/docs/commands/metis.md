@@ -40,7 +40,6 @@ METIS Interface to LaGriT
  -   METIS 4.0 Copyright 2001-06, Regents of the University of
      Minnesota
 
-
 FORMAT (partition):
 
  

@@ -23,8 +23,6 @@ CREATE\_GRAPH
  See the [dump](DUMP2.md) command for options to output the adjacency
  graph to a file.`   `
 
-
-
 LIMITATIONS
 
  The metis option will not work on a hybrid mesh. Supported element
@@ -35,11 +33,9 @@ LIMITATIONS
  present implementation is just a wrapper on the [geniee](GENIEE.md)
  command.
 
-
  See instructions in documentation of the [metis](metis.md) command.
 
 METIS Interface to LaGriT
-
 
  METIS can be freely distributed provided that:
 
@@ -59,6 +55,4 @@ METIS Interface to LaGriT
 **EXAMPLES:**
 
  `create_graph / metis / dual / -def- / -def-  create_graph / metis / node / -def- / -def-  create_graph / metis / dual / ie1 / ieadj1  create_graph / metis / node / in1 / inadj1  create_graph / lagrit / dual / jtetoff / jtet`
-
-
 

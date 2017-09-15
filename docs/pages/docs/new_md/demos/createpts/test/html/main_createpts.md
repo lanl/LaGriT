@@ -30,7 +30,6 @@ title: '
 spherical [<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image3tn.gif">"159"
 "156"](description3_rtp.md)
 
-
 [Example 4](description4_brick.md)
 
 **createpts/brick/xyz**

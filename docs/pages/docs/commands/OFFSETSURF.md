@@ -76,7 +76,6 @@ plane
 offset a line cmo a distance d in the direction specified by the vector
 (x,y,z)
 
-
  
 
  

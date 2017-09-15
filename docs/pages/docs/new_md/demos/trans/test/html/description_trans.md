@@ -8,7 +8,6 @@ title: '
 
 Example 1: test using trans to modify two point distributions.
 
-
  The objective is to use the **trans** command to translate a point
  distribution.
 

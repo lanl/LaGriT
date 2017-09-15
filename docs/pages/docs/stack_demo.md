@@ -147,14 +147,12 @@ The unit value was changed from above example on the command line:
 
 ` ................................................................`
 
-
 stack/layers to hex to tet, with buffered interfaces
 ----------------------------------------------------
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/hex_buffers.jpg">
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/hex_buffers.jpg">
-
 
 `** **** **** **** **** **** **** **** **** **** **** **** **** **** **`
 
@@ -271,7 +269,6 @@ stack/layers to hex to tet, with buffered interfaces
 -------------------------------------------------------------
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/tet_trunc_refine_exp.jpg">
-
 
 `** **** **** **** **** **** **** **** **** **** **** **** **** **** **`
 

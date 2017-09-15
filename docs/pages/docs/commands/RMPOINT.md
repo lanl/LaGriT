@@ -2,7 +2,6 @@
 title: RMPOINT
 ---
 
-
  **RMPOINT**
 
   Removes nodes or marks nodes for removal points or removes elements

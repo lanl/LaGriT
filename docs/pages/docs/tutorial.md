@@ -28,4 +28,3 @@ containing two materials separated by a plane. Lines that begin with
 an asterisk (
 *) are comments; keywords are in **bold**.
 
-

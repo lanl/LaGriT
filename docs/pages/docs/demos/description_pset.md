@@ -23,21 +23,15 @@ Images of GMV input and output
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/pset2_tn.gif""114"
 "89"](image/pset2.gif"
 
-
 <img height="300" width="300" src="transparent.gif""4" 
-
 
 <img height="300" width="300" src="transparent.gif""46" 
 
-
 <img height="300" width="300" src="transparent.gif""128" 
-
 
 <img height="300" width="300" src="transparent.gif""33" 
 
-
 <img height="300" width="300" src="transparent.gif""128" 
-
 
 <img height="300" width="300" src="transparent.gif""517" 
 

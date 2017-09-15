@@ -52,7 +52,6 @@ title: 'createpts/interp'
 
  
 
-
  **npoint ** specifies the number of points to create between the
  specified point sets.**
 
@@ -64,7 +63,6 @@ title: 'createpts/interp'
 
  **cmo\_new**  is the name of the mesh object the result goes into. The
  source mesh object is the current mesh object.
-
 
  i1,i2,i3 and j1,j2,j3 can specify either a)start, stop, stride or b) 1
  0 0  for everything or c)pset get pset\_name
@@ -142,8 +140,5 @@ title: 'createpts/interp'
 
   
 
-
   
-
-
 

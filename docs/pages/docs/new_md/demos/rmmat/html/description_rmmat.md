@@ -8,7 +8,6 @@ title: '
 
 Example 1: test using rmmat to modify a mesh.
 
-
  The objective is to use the **rmmat** command to modify a mesh by
  removing one of the material regions.
 

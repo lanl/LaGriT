@@ -18,8 +18,6 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 
 ------------------------------------------------------------------------
 
-
-
 *int* **MV\_Number**(*PMeshObj* mesh, *PMeshVert* v);
 
 Return an ID number for the mesh vertex.
@@ -90,7 +88,6 @@ interface, a 1 item array with the vertex
 pointer itself is returned and nvc = 1
 
  
-
 
 ------------------------------------------------------------------------
 
@@ -224,7 +221,6 @@ are returned.
 
 ------------------------------------------------------------------------
 
-
 []{#MV-Attribs*int* **MV\_GetAttVal**(*PMeshObj* mesh, *PMeshVert* v,
 *char 
 **attname, *int 
@@ -249,8 +245,6 @@ attributes)
 
 ------------------------------------------------------------------------
 
-
-
 *int* **MV\_SetAttVal**(*PMeshObj* mesh, *PMeshVert* v, *char
 
 **attname, *int* ival,
@@ -261,7 +255,6 @@ attributes)
 This is similar to the GetAttVal routine - depending on the type and
 
 rank, one sends in a value with the right variable
-
 
 *
 *

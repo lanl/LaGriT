@@ -3,9 +3,7 @@
 
         cmo/create/3dmesh///hex/
 
-
         * create a cylinder inside a cylinder
-
 
         * inner cylinder will be replaced by tet grid
 
@@ -21,7 +19,6 @@
 
         surface/cutpl2/intrface/plane/0.,0.,9./1.,0.,9./1.,1.,9./
 
-
         *define geometric regions
 
         region/inner/ lt cyl2 and lt cutpl2 and gt cutpl1 /
@@ -29,7 +26,6 @@
         region/outer/ le cyl1 and le top and ge bot and &
 
         ( ge cyl2 or ge cutpl2 or le cutpl1 )
-
 
         * define material regions
 
@@ -39,20 +35,15 @@
 
         ( gt cyl2 or gt cutpl2 or lt cutpl1 )
 
-
         * distribute points in cylindrical arrangement
 
         rz/rtz/11,61,21/0.,0.,0./5.,360.,10./1,1,1/
 
-
         * assign material colors to the points
-
 
         * identify points that are on material interfaces
 
-
         * identify constrained points
-
 
         * connect hex mesh
 
@@ -74,7 +65,6 @@
 
         dump/gmv/gmv1
 
-
         * remove inner region
 
         rmmat/inner
@@ -83,14 +73,11 @@
 
         geniee
 
-
         *zq/xic/1,0,0
-
 
         *zq/itp/1,0,0
 
         dump/gmv/gmv2
-
 
         * grid tet part
 
@@ -107,7 +94,6 @@
         zq/xic/1,0,0
 
         zq/itp/1,0,0
-
 
         * add meshes
 
@@ -127,7 +113,6 @@
 
         surface/cutpl2/intrface/plane/0.,0.,4./1.,0.,4./1.,1.,4./
 
-
         *define geometric regions
 
         region/inner/ le cyl2 and le cutpl2 and ge cutpl1 /
@@ -135,7 +120,6 @@
         region/outer/ le cyl1 and le top and ge bot and &
 
         ( gt cyl2 or gt cutpl2 or lt cutpl1 )
-
 
         * define material regions
 
@@ -161,11 +145,9 @@
 
         settets
 
-
         * dump mesh to some output form
 
         dump/gmv/gmv.hybrid/hybrid
-
 
         * terminate processing
 
@@ -173,13 +155,7 @@
 
 
 
-
-
-
-
 [Return to LaGriT Home Page](index.md)
 
  
-
-
 

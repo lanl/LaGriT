@@ -20,7 +20,6 @@ title: RZRAN
   LaGriT's connect algorithm avoid creating artificial "pits" in the
   interface surfaces.
 
-
  FORMAT
 
   **rzran** / **geom** / **spacing** / rmin1,rmin2,rmin3 /

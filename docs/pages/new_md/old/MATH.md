@@ -32,8 +32,6 @@ MATH
  **math** / operation / cmo\_sink/attr\_sink / range
  /cmo\_src/attr\_src / [ value ]
 
-
-
 operation: The keyword choices for the first parameter indicate the
 arithmetic, functional, or operational types of work to perform.
 
@@ -91,13 +89,9 @@ arithmetic, functional, or operational types of work to perform.
  attribute must be of type REAL or INT (length=1, rank=1) and will be
  created if it does not exist.
 
-
-
 cmo\_sink, attr\_sink: are the sink cmo and sink attribute for the math
 results to be written to. These parameters are required for all math
 operations.
-
-
 
 range: is the selection set of elements or nodes for the math operation
 and is in the form:
@@ -109,8 +103,6 @@ and is in the form:
  **/eltset,get**, eltset\_name / for attributes with length =
  'nelements'
 
-
-
 value: is required by some math operations and can be of type constant
 or can be a cmo attribute. The following are possible forms:
 
@@ -120,8 +112,6 @@ or can be a cmo attribute. The following are possible forms:
  /attr\_src2/ assumes attribute is a part of cmo\_src
 
  /constant/ is a numerical value
-
-
 
 **EXAMPLES:**
 

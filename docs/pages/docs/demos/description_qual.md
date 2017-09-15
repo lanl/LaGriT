@@ -41,32 +41,22 @@ Output
 
  [output\_qual2](../output_qual2)
 
-
 <img height="300" width="300" src="transparent.gif""10" 
 
-
 <img height="300" width="300" src="transparent.gif""10" 
-
 
 <img height="300" width="300" src="transparent.gif""30" 
 
-
 <img height="300" width="300" src="transparent.gif""135" 
-
 
 <img height="300" width="300" src="transparent.gif""25" 
 
-
 <img height="300" width="300" src="transparent.gif""150" 
-
 
 <img height="300" width="300" src="transparent.gif""45" 
 
-
 <img height="300" width="300" src="transparent.gif""200" 
 
-
 <img height="300" width="300" src="transparent.gif""5" 
-
 
 <img height="300" width="300" src="transparent.gif""252" 

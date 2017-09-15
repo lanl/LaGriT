@@ -41,7 +41,6 @@ No buffers at interfaces, no refinements.
 
 `................................................................`
 
-
 **x5buff**
 
 cmo create cmo1
@@ -90,8 +89,6 @@ buffers at interfaces, no refinements.
 
 `STACK DONE:         6 layers created for total        11`
 
-
-
 **x5top**
     
     cmo create cmo1
@@ -125,7 +122,6 @@ No buffers at interfaces, no refinements.
 `STACK DONE:         4 files read out of         4`
 
 `................................................................`
-
 
 **x5top\_buff**
 
@@ -187,7 +183,6 @@ buffers at interfaces, no refinements.`
 
 `As is, code does not buffer the top layer, just the interfaces.`
 
-
 **Feature: bead algorithm for post processing**
 
 Images are 250 high by 500 wide.
@@ -196,7 +191,6 @@ bead0
 =====
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bead.jpg"> 
-
 
     buffer 2.?| ?|  pinch 0.
 
@@ -213,7 +207,6 @@ bead0
 `3     432    0.2600E+05     0.221114865`
 
 `4     288    0.6920000E+05     0.584459459`
-
 
 bead1
 =====
@@ -238,7 +231,6 @@ bead1
 
 `4     288    0.6920000E+05     0.584459459`
 
-
 bead3
 =====
 
@@ -260,8 +252,6 @@ bead3
 
 `4     288    0.6920000E+05     0.584459459`
 
-
-
 bead4
 =====
 
@@ -281,7 +271,6 @@ bead4
 
 `4     288    0.6730000E+05     0.568412162`
 
-
 bead5
 =====
 
@@ -300,7 +289,6 @@ bead5
 `3    432    0.2552000E+05     0.215540541`
 
 `4    288    0.6825000E+05     0.576435811`
-
 
 bead2 - last image
 ==================

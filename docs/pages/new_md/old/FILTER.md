@@ -20,4 +20,3 @@ title: FILTER
 
   **filter** / ifirst,ilast,istride / [tolerance]
 
-

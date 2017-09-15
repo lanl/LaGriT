@@ -118,12 +118,10 @@
  
  compute/distance\_field/mo\_sink/mo\_source/distance\_field\_attribute
 
-
  compute/signed\_distance\_field/mo\_sink/mo\_source/distance\_field\_attribute
 
   
  compute/linear\_transform/mo\_main/mo\_surface/[direction/att\_name
-
 
  **EXAMPLES**:
 

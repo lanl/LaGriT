@@ -44,9 +44,6 @@ STACK
  [buffer\_opt] [truncate\_opt] [pinchout\_opt] [flip\_opt]
 
 
-
-
-
 file\_type The third parameter indicates the type of files to read as
 surfaces.
 
@@ -54,13 +51,8 @@ surfaces.
 
  **gmv** will read GMV files as a surfaces.
 
-
-
 xy\_subset This option allows a subset of the surfaces to be used. The
 syntax is minx, miny, maxx, maxy
-
-
-
 
 
 file\_list This is the list of files to read from bottom surface to top.
@@ -82,8 +74,6 @@ mat\_num, file2 mat\_num [ref\_num], file3 mat\_num [ref\_num] ...
  below.
 
 
-
-
 buffer\_option This optional parameter creates buffer layers around
 interfaces at a distance equal to xvalue. It derives layers above and
 below each surface that is read in to the stack routine. Buffers are not
@@ -91,14 +81,10 @@ created around refinement layers or on the top and bottom surfaces. The
 buffer option has this syntax: **buffer** xvalue
 
 
-
-
-
 truncate\_option This optional parameter causes all layers below the
 choosen surface to be truncated. The truncating surface is indicated by
 the integer number. For instance 5 will truncate all layers below the
 5th surface by the 5th surface. **trunc** nth\_file
-
 
 pinchout\_options These optional parameters control how layers are
 pinched out where they cross. They will also help to control the minimum
@@ -123,13 +109,8 @@ ss &lt;= dvalue then thickness is set to zero.
 
  (default dvalue = mvalue = 0.0, no post processing)
 
-
-
 **flip** optional parameter will flip elements so the normals point
 positive Z direction.
-
-
-
 
 
 **stack/fill** / cmo\_3D / cmo\_stack
@@ -138,10 +119,6 @@ is a command used after the files are stacked into a single cmo. The
 units are filled between the layers with 3D elements. For triangulated
 surfaces, the elements will be prisms, and for quad sheets the filler
 elements will be hex.
-
-
-
-
 
 
 
@@ -169,9 +146,6 @@ elements will be hex.
   
 
   
-
-
-
 
 
 **EXAMPLES:**
@@ -237,12 +211,8 @@ elements will be hex.
  there are 3 tets from each prism.
 
 
-
-
-
 LINKS:
 
  [Simple Examples for stack](../stack_demo.md)
-
 
  [Advanced Examples for stack](../stack_demo2.md)

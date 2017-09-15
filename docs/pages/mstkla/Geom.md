@@ -16,8 +16,6 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 
 ------------------------------------------------------------------------
 
-
-
 *void* **GMTKLA\_Init**(*void*);
 
 Initialize the geometric model interface (does nothing for now but

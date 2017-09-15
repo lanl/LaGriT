@@ -61,8 +61,6 @@ itype = diamond generates the points for one diamond of the icosahedron
 
 reatepts/sphere**/itype/nr,npt,xirad,xorad/xcen,ycen,zcen/iz/irat,rz
 
-
-
 **EXAMPLES:**
 
          createpts/sphere/8/5/162/1.0,0.5/0.,0.,0./1,0,0.0/

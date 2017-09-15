@@ -38,7 +38,6 @@ UPSCALE
 
  
 
-
   The format for the command line is as follows:
 
   **upscale** / scale\_method / cmosink, attsink / 1,0,0 / cmosrc,
@@ -48,7 +47,6 @@ UPSCALE
 
   Keywords appearing after the source cmo attribute name are optional
   and may appear in any order.
-
 
   scale\_method is the choice of upscale calculation applied to each
   set of source nodes within each sink Voronoi cell where x(1) to x(n)
@@ -552,7 +550,6 @@ Sink points colored by upscaled value.
                                                                          
    
 <img src="https://lanl.github.io/LaGriT/assets/images/upscale_arithmetic.jpg">                              
-
 
        **Image 2 shows Geometric mean result of 4.0**
                            

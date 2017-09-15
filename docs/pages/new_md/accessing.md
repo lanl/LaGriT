@@ -26,7 +26,6 @@ pointer (ipisn1, isn1)
 
 integer imt1(1000000), itp1(1000000),
 
-
 * icr1(1000000), isn1(1000000)
 
 pointer (ipxic, xic)
@@ -52,7 +51,6 @@ pointer (ipjtet, jtet)
 
 integer itetclr(1000000), itettyp(1000000),
 
-
 * itetoff(1000000), jtetoff(1000000)
 
 integer itet(4,1000000) , jtet(4,1000000)
@@ -72,7 +70,6 @@ pointer (ipicr1a, icr1a)
 pointer (ipisn1a, isn1a)
 
 integer imt1a(1000000), itp1a(1000000),
-
 
 * icr1a(1000000), isn1a(1000000)
 
@@ -98,7 +95,6 @@ pointer (ipiteta, iteta)
 pointer (ipjteta, jteta)
 
 integer itetclra(1000000), itettypa(1000000),
-
 
 * itetoffa(1000000), jtetoffa(1000000)
 

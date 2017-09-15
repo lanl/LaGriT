@@ -107,7 +107,6 @@ title: LaGriT CodeLaGriT Manual
  and  internal Laboratory employees who are working on projects that
  will utilize LaGriT.)**
 
-
  ------------------------------------------------------------------------
 
  ***These pages are maintained by Denise George at

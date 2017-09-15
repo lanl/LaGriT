@@ -7,14 +7,9 @@ keywords:
 title: Semiconductor
 ---
 
-
-
  
 
-
 * RTZ: Cylindrical coordinates
-
-
 
 cmo/create/cmo\_hex\_rtz//
 
@@ -41,6 +36,4 @@ finish
 [Return to LaGriT Home Page](index.md)
 
  
-
-
 

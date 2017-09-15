@@ -4,9 +4,12 @@ import os, sys
 def filter_file(infile_name):
 	with open(infile_name, 'r') as infile:
 		for line in infile.readlines():
-			if 'assets' in line:
-				print line
-				break
+				if 'assets' in line and 'docs' in line:
+					print infile_name
+					break
+				if 'img' in line and not ('<' in line and '>' in line): 
+					print infile_name
+					break
 	
 def list_in_dr(dr):
  	

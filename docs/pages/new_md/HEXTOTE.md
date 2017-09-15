@@ -15,15 +15,9 @@ HEXTOTET
 
 
 
-
-
-
-
 **FORMAT:**
 
  **hextotet**/ [ ioption ] / cmo\_snk / cmo\_src / [**rmvolume**]
-
-
 
 ioption: is a numerical number indicating the number of tets or
 triangles to break each element into. If this parameter is missing then
@@ -54,12 +48,8 @@ The selections include:
  **24**   hex to 24 tets, seven new points (1 + 6 faces).
 
 
-
-
 cmo\_snk / cmo\_src : are the mesh\_object names. cmo\_src is the
 original grid. cmo\_snk is the name for the new tet or triangle grid.
-
-
 
 **rmvolume** : keyword is optional and will assign
 hextotet\_remove\_volume and hextotet\_remove\_duplicates to 'yes'. This
@@ -67,11 +57,6 @@ will enable hextotet to use its own algorithm for removing elements with
 zero volume and duplicate points. It may be prone to epsilon errors for
 grids over large areas. By default, zero volumes and duplicate points
 are not removed from the new mesh object cmo\_snk.
-
-
-
-
-
 
 
 
@@ -97,17 +82,9 @@ are not removed from the new mesh object cmo\_snk.
 
 
 
-
-
-
 LINKS:
 
  [Click here for demos](demos/hextotet/test/md/main_hextet.md)
-
-
-
-
-
 
 
 

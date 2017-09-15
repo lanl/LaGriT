@@ -9,7 +9,6 @@ recon is called by other LaGriT commands such as massage.  To disable recon set 
 
 recon will by default reconnect across interface edges.  To restrict reconnection to interior faces and exterior boundary faces, set iopt2to2 to 0 (cmo/setatt//iopt2to2/0)
 
-
 **FORMAT:**
 
 recon/[1|0]/[damage]/[checkaxy]

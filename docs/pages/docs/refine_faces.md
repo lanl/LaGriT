@@ -45,7 +45,6 @@ AR is never greater than one.
 
 Tag if AR < c.  Generally the smaller AR is the more elongated the face is.
 
-
 5) Lambda Refine: Refine if lamda/dx  <c.  Where dx  is taken to be the radius of the circumscribed circle  RIN of the triangular face 
  
 lambda = f(xcen)/grad f 

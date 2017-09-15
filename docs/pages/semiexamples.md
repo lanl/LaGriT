@@ -14,11 +14,7 @@ Click on picture to expand
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/sn.mos3d.jpg">
 [View input desk](semi2.md)
 
-
-
  
              
             
-
-
 

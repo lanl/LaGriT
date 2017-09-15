@@ -33,4 +33,3 @@ title: COLORMAP
 
   **colormap** **/delete**
 
-

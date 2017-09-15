@@ -25,4 +25,3 @@
 
   **colormap** **/delete**
 
-

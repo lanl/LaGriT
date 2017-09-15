@@ -44,7 +44,6 @@ material interface
 
 partial sphere using region boundaries
 
-
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image5tn.gif"
 [Example 6](description6_sphereB.md)
 
@@ -63,6 +62,5 @@ brick mesh
 [Example 8](description8_sphereC.md)
 
 **createpts/sphere**
-
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/random_tn.gif"

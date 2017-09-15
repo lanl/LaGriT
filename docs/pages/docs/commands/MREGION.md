@@ -47,7 +47,6 @@ this material region to be stored under the name of
 the [geometry](../geometries.md) of the current mesh object.  Releasing
 the material region will remove this information.
 
-
 **FORMAT:**
 
 **mregion**/ material_region\_name/region definition

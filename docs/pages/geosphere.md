@@ -7,8 +7,6 @@ keywords:
 title: Geometry
 ---
 
-
-
  
 
 cmo/create/3dmesh
@@ -49,6 +47,4 @@ finish
 [Return to LaGriT Home Page](../index.md)
 
  
-
-
 

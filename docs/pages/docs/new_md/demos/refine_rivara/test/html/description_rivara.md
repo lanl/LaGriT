@@ -9,7 +9,6 @@ title: '
 Example 1: test mesh edges and boundary faces for negative coupling
 coefficients.
 
-
  The objective is to use the **negative\_aij / rivara** command that
  first identifies elements that have negative coupling coefficents, and
  then proceeds with a rivara boundary refinement to reduce or eliminate

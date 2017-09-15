@@ -32,7 +32,6 @@ title: RM
 
   xscale, yscale, zscale -- scaling factors for geometry limits
 
-
  **FORMAT:**
 
   **rm** / geometry

@@ -111,7 +111,6 @@ Min/Max Edge Length Ratio  | 1.0 | 7.14143E-01 | 2.59808E-01 | 1.98030E-01 | 0.1
     cmo/setatt/cmo1/if_ned /eltset get e_needle/ 2
     cmo/setatt/cmo1/if_wed /eltset get e_wedge / 2
 
-
     dump / gmv / tet_types.gmv / cmo1
 
     * begin compare here

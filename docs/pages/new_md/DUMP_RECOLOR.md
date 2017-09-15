@@ -35,5 +35,3 @@ EXAMPLE:
  Recolors the current mesh object using the existing colormap and then
  writes a binary gmv dump to the fine mesh.gmv.
 
-
-

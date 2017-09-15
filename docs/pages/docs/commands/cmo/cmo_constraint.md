@@ -15,8 +15,6 @@ mo/constraint**
  existing geometry.  [See III.A](../../meshobject.md)  for a
  description of nconbnd and incontab.
 
-
-
     **EXAMPLES:**
 
  mo/create**/cmotet

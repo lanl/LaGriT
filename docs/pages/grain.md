@@ -5,4 +5,3 @@ GRAIN GROWTH EXAMPLES
 
 <a href="https://lanl.github.io/LaGriT/assets/images/grid.pdf" download> 5 grain evolution showing grid </a>
 
-

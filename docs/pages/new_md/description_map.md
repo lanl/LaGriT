@@ -10,12 +10,7 @@ interpolate / map
 -----------------
 
 
-
-
-
 Example 2: show results from using the **map** option of interpolate.
-
-
 
 
  For each point in the sink grid, the enclosing element is found from
@@ -28,12 +23,7 @@ Example 2: show results from using the **map** option of interpolate.
  example is [lagrit\_input\_map](../lagrit_input_map)
 
 
-
-
-
 Results from Example 2:
-
-
 
 
  The objective is to test the ability of **interpolate** to find the
@@ -100,12 +90,5 @@ Results from Example 2:
 
 
 
-
-
-
-
-
 [Back to main page.](main_interpolate.md#DEMOS)
-
-
 

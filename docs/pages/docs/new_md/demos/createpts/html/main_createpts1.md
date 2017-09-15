@@ -60,8 +60,6 @@ boundaries[<img height="300" width="300" src="https://lanl.github.io/LaGriT/asse
 full sphere using region boundaries[<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image6tn.gif">"171"
 "161"](description6_sphereB.md)
 
-
-
  
 
  

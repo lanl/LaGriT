@@ -43,7 +43,6 @@ title: MASSAGE
  The actions of [MASSAGE]{style="font-weight: bold;" are controlled by
  values of these four parameters:
 
-
  -   [bisection\_length]{style="font-weight: bold;"  - edge length
      that will trigger bisection.
  -   [merge\_length]{style="font-weight: bold;" - edge length that
@@ -55,7 +54,6 @@ title: MASSAGE
  -   [tolroughness]{style="font-weight: bold;" - (for 2D surface grids
      only)  measure of grid roughness (deviation from average surface
      normal) that triggers refinement.
-
 
  [toldamage]{style="font-weight: bold;" is a parameter which controls
  how much the grid will be deformed.  The 'damage' is a measure of how
@@ -141,7 +139,6 @@ title: MASSAGE
  semiexclusive]{style="font-weight: bold;", and
  [exclusive]{style="font-weight: bold;". 
 
-
 <div style="margin-left: 40px;">
 
 -   Specifying [nosmooth]{style="font-weight: bold;" will turn off the
@@ -179,8 +176,6 @@ title: MASSAGE
     as part of a 'Rivara chain' triggered by the refinement of an edge
     with both endpoints in the PSET.  This represents an intermediate
     case between 'inclusive' and [exclusive]{style="font-weight: bold;"
-
-
 
  Note:  Since CEL\_CHAIN is called only once at the end of **MASSAGE**,
  it may be necessary to call **MASSAGE** twice for optimal results. 
@@ -249,6 +244,4 @@ title: MASSAGE
  merging nodes that have the same coordinate values ( within 1.e-9).
 
   
-
-
 

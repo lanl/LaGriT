@@ -14,7 +14,6 @@ rotateln command to orient the cylinder. For example, to center the
 cylinder around the y axis, specify the x axis as the line of
 rotation in the rotateln command.
 
-
 Argument | Description
 --------- | ------------------------------------------------------------------------------------------------------------
 xyz |    specifies cartesian coordinates
@@ -35,5 +34,4 @@ Input file:
     setpts
     dump/gmv/gmv1
     finish
-
 

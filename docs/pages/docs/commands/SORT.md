@@ -29,8 +29,6 @@ sort
 cmo\_name: The choices for first parameter are the name of a valid mesh
 object or **-def-** which select the currently active mesh object.
 
-
-
 sort\_type: The sorting methods include **bins**, **index**, **rank**
 and **line\_graph**.
 
@@ -54,7 +52,6 @@ and **line\_graph**.
  **index** Constructs a single or multi-key index table such that
  in\_att1(ikey(1)) is the first entry in the sorted array,
  in\_att1(ikey(2)) is the second, etc.
-
 
  **rank** Constructs a single or multi-key rank table such that the
  tables ith entry give the rank of the ith entry of the sorted arrays.
@@ -118,8 +115,6 @@ and **line\_graph**.
  This is necessary for triangulation as "TRIANGULATE" routine requires
  the nodes to be in clockwise/counterclockwise order.
 
-
-
 sort\_order: Choose between **ascending** or **descending**
 
  **ascending** Sort sort\_attributes in **ascending** order
@@ -129,8 +124,6 @@ sort\_order: Choose between **ascending** or **descending**
 The **line\_graph** sort will ignore this option, but it still expects
 the field to be present for consistency with the other sort variations.
 
-
-
 sort\_key\_name: The name for an integer vector (VINT) which will hold
 the output sort key values. If the name exists it will be used, if it
 does not exist it will be created. If no name is given for
@@ -139,8 +132,6 @@ of **'ikey\_**' and the first attribute name in sort\_attributes (i.e.
 /-def-/imt will produce a sort key named ikey\_imt). For the
 **line\_graph** option, the default key will be called
 **ikey\_line\_graph**.
-
-
 
 sort\_attributes: The name of one or more existing attribute names. Each
 attribute will be used as a node of element based array upon which the

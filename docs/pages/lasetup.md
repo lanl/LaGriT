@@ -12,8 +12,6 @@ description:
 title: LANL  LaGriT 
 ---
 
-
-
  
 Lasetup
 -------
@@ -41,5 +39,4 @@ extension. Extensions are listed near the top of the output of xdpyinfo.
 [Download lasetuplinux](lasetuplinux)
 
 Questions may be directed to: John Fowler at <jxf@lanl.gov
-
 

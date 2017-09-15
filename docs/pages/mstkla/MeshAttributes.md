@@ -18,8 +18,6 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 
 ------------------------------------------------------------------------
 
-
-
 *void* **MESH\_AddAtt**(*PMeshObj* mesh, *char 
 **attname, *AttType*
 attype, *Rank* rank,
@@ -54,8 +52,6 @@ is 2D or 3D respectively.
 
 ------------------------------------------------------------------------
 
-
-
 *void* **MESH\_ModAtt**(*PMeshObj* mesh, *char 
 **attname, *char
 
@@ -69,7 +65,6 @@ inew,
 
 rnew or cnew.
 
-
 *
 *
 * NOT TESTED 
@@ -79,13 +74,10 @@ rnew or cnew.
 
 ------------------------------------------------------------------------
 
-
-
 *void* **MESH\_CopyAtt**(*PMeshObj* trgmsh, *PMeshObj* srcmsh, *char*
 
 *trgatt, *char* 
 *srcatt);
-
 
 *
 *
@@ -101,8 +93,6 @@ rnew or cnew.
 
 ------------------------------------------------------------------------
 
-
-
 *void* **MESH\_SetAtt**(*PMeshObj* mesh, *char 
 **attname, *int* ifirst,
 *int* ilast, *int*
@@ -112,7 +102,6 @@ istride, *char
 
 If psetname is specified ifirst is ignored
 
-
 *
 *
 * NOT TESTED 
@@ -120,10 +109,7 @@ If psetname is specified ifirst is ignored
 *
 *
 
-
 ------------------------------------------------------------------------
-
-
 
 
 ------------------------------------------------------------------------

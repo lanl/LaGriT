@@ -16,8 +16,6 @@ sort
  mesh object.
 
 
-
-
  The command parameters include the cmo\_name, followed by the
  sort\_type. The ordering is indicated by **ascending** or
  **decending**. A new attribute is created with the sort\_key\_name.
@@ -26,13 +24,8 @@ sort
  attribute names in\_att1, in\_att2, through in\_attn.
 
 
-
-
-
 cmo\_name: The choices for first parameter are the name of a valid mesh
 object or **-def-** which select the currently active mesh object.
-
-
 
 sort\_type: The sorting methods include **bins**, **index** or **rank**.
 
@@ -61,15 +54,11 @@ sort\_type: The sorting methods include **bins**, **index** or **rank**.
 
  end
 
-
-
 sort\_order: Choose between **ascending** or **decending**
 
  **ascending** Sort sort\_attributes in **ascending** order
 
  **decending** Sort sort\_attributes in **decending** order
-
-
 
 sort\_key\_name: The name for an integer vector (VINT) which will hold
 the output sort key values. If the name exists it will be used, if it
@@ -77,8 +66,6 @@ does not exist it will be created. If no name is given for
 sort\_key\_name A name will be created which will be the concatination
 of **'ikey\_**' and the first attribute name in sort\_attributes. (i.e.
 /-def-/imt will produce a sort key named ikey\_imt)
-
-
 
 sort\_attributes: The name of one or more existing attribute names. Each
 attribute will be used as a node of element based array upon which the

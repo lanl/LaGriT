@@ -21,8 +21,6 @@ point outward.
 
  
 
-
-
 **Supported Element Types**
 +-----------------+-----------------+-----------------+-----------------+
                                    Nodes for faces  Edges for face  

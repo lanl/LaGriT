@@ -20,7 +20,6 @@ title: '
 
   [lagrit\_input\_createrandom](../lagrit_input_createrandom)
 
-
  Images of GMV output
 
    [

@@ -10,13 +10,8 @@ interpolate / continuous
 ------------------------
 
 
-
-
-
 Example 3: show results from using the **continuous** option of
 interpolate.
-
-
 
 
  For each point in the sink grid, the enclosing element is found from
@@ -32,12 +27,7 @@ interpolate.
  [lagrit\_input\_continuous](../lagrit_input_continuous)
 
 
-
-
-
 Results from Example 3:
-
-
 
 
  The objective is to test the ability of **interpolate** to use
@@ -73,12 +63,5 @@ Results from Example 3:
 
 
 
-
-
-
-
-
 [Back to main page.](main_interpolate.md#DEMOS)
-
-
 

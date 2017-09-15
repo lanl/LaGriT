@@ -11,7 +11,6 @@
  
     [Example 1] (description1_add.md) **add**
 
-
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_add/addmesh_out2_tn.gif"
                                                           [Example 2] (description2_amr.md) **amr**
                                                             
@@ -26,7 +25,6 @@
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_delete/addmesh_delete_tn.gif"
 [Example 5] (description5_intersect.md) **intersect**
-
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_intersect/add_inter_tn.gif"
                                                 [Example 6] (description6_match.md) **match**

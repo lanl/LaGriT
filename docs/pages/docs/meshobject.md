@@ -85,7 +85,6 @@ point type | name | description
 21    |      dud | Dudded node
 41    |     par |  Parent node
 
-
 **icr1** (integer array of constraint numbers for nodes; the
 value of this array is an index into the **[icontab](#icontab)** table
 of node constraints described later in this section)
@@ -123,9 +122,7 @@ is established by the **settets** command.
   ifelmhyb | 9 |     hybrid
   ifelmply | 10    | polygon
 
-
 **[See supported element types.](supported.md)**
-
 
 **xtetwd** (real array containing eltset membership information, see
 eltset command definition )
@@ -200,7 +197,6 @@ routines.
 
 +5 means disable all reconnection
 
-
 **iopt2to2** (integer default 2) flag to contol boundary flips during
 reconnection (see [recon)](commands/RECON.md):
 
@@ -211,7 +207,6 @@ reconnection (see [recon)](commands/RECON.md):
 2=exterior boundaries and interfaces
 
 3=all
-
 
 **dumptype** (character default binary) Type of gmv file to write.
 
@@ -306,8 +301,6 @@ Command | Description
 --- | ---
 TENSOR |                   Dimension of XCONTAB 
 XCONTAB(TENSOR,NPOINTS) |  This is a 3x3 matrix which multiplied by the velocity vector, constrains the velocity to the degrees of freedom possessed by the node.  May be constructed by calls to constrainv.
-
-
 
 **b.   Mesh Object Attribute Definition** :
 

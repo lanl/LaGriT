@@ -28,10 +28,8 @@ operator.
 
 *int* **ME\_Number**(*PMeshObj* mesh, *PMeshEdge* e);
 
-
 *
 * This will return 0 for now since I haven't yet decided on a good
-
 
 *
 * way to assign a unique number to the (virtual) edges of the mesh.

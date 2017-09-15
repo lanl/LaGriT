@@ -10,7 +10,6 @@
     
  [**nosmooth**]/[**norecon**][**strictmergelength**]/[**ignoremats**]/[**lite]**/[**heckaxy**]/[**semiexclusive**]**/[exclusive**]
 
-
  **file\_name** is a file which contains a set of LaGriT commands that
  calculates the gradient field based on the distance field. In other
  words, the gradient field is a function of the distance field. It is
@@ -64,5 +63,4 @@
  EXAMPLE:
 
       massage2 / user_function.mlgi / 0.1 / ref_field / 1.e-5 / 1.e-5 / strictmergelength
-
 

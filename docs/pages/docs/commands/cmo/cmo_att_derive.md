@@ -29,7 +29,6 @@ cmo/attribute\_derive
   [mo** **/attribute\_derive**/cmo\_sink/cmo\_src]{.style1
   [mo** **/attribute\_derive**/empty\_cmo]{.style1
 
-
 cmo/attribute\_union
 --------------------
 
@@ -50,7 +49,6 @@ cmo/attribute\_union
  **FORMAT:**
 
   mo/attribute\_union** / sink\_mo\_name /  src\_mo\_name
-
 
  
 

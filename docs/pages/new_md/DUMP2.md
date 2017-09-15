@@ -158,7 +158,6 @@ Write a file to be read by the graphics program[GMV](http://laws.lanl.gov/XCM/gm
 binary and current mesh object.
 [**dump/fehm**/file\_name/[cmo\_name[**scalarvectorbotharea\_scalararea\_vectorarea\_both**]/[**delatt,keepatt**]](http://lagrit.lanl.gov/DUMP3.md)
 
-
 Write out a series of files for the FEHM flow and transport code. The
 file\_name is the file root name for:
 
@@ -186,8 +185,6 @@ Tool](http://www.openchannelfoundation.org/projects/GeoFEST/) .  The
 output file is ascii.
 
 
-
-
 EXAMPLE:
 
 **dump**/gmv/file\_name.gmv/cmo\_name/
@@ -211,16 +208,8 @@ element connectivity and node attributes)
 attributes)
 
 
-
-
-
 [Click here for
 demos](http://lagrit.lanl.gov/demos/dump/test/md/main_dump.md)
-
-
-
-
-
 
 
 

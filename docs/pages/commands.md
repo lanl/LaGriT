@@ -201,5 +201,3 @@ material)
 [UPSCALE](docs/commands/UPSCALE.md) (attributes from a fine grid to a
 coarse grid)
 
-
-

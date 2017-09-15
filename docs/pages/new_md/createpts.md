@@ -42,5 +42,3 @@ title: createpts
 
  [Click here for demos](demos/createpts/test/md/main_createpts.md)
 
-
-

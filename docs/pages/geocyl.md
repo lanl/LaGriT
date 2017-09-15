@@ -7,40 +7,27 @@ keywords:
 title: Geometry
 ---
 
-
-
  
-
 
 * input.cylrot use rotateln and trans to move cylinder
 
-
 * create a cylinder centered around x=.5,z=.5, radius = .1
-
 
 * the cylinder is aligned parallel to the y-axis.
 
-
 * inside a box of width =2 , length=2 ,1
-
 
 * the regions are air for the cylinder - solid outside the cyl.
 
-
 * points are spread by surrounding the whole object with
-
 
 * a cylinder shell of points and then creating rays between
 
-
 * these points and the major axis of the cylinder. Points
-
 
 * are distributed along these rays inside the cylindrical region.
 
-
 * a background rectangular grid of points is spread outside the
-
 
 * cylinder.
 
@@ -66,15 +53,11 @@ regnpts/Fill/11/pset,get,rays/xyz/ 0.0,0.0,-0.1/1.0,1.0,-0.1/ &
 
 0.0,1.0,-0.1/0,0/
 
-
 * the rz command always distributes points with the z-axis as
-
 
 * the axis of symmetry
 
-
 * use the rotateln and trans commands to move the point
-
 
 * distribution after it is created.
 
@@ -120,6 +103,4 @@ finish
 [Return to LaGriT Home Page](index.md)
 
  
-
-
 

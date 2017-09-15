@@ -10,13 +10,8 @@ interpolate / voronoi
 ---------------------
 
 
-
-
-
 Example 1: show results from using the **voronoi** (nearest node) option
 of interpolate.
-
-
 
 
  For each point in the sink grid, the nearest node is found from the
@@ -30,12 +25,7 @@ of interpolate.
  [lagrit\_input\_voronoi](../lagrit_input_voronoi)
 
 
-
-
-
 Results from Example 1:
-
-
 
 
  The objective is to test the ability of **interpolate** to find the
@@ -66,12 +56,5 @@ Results from Example 1:
 
 
 
-
-
-
-
-
 [Back to main page.](main_interpolate.md#DEMOS)
-
-
 

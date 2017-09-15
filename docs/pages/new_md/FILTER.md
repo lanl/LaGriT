@@ -47,7 +47,6 @@ title: FILTER
   correspondence of master(retained)/duplicate(removed) elements and
   their original material id (itetclr). 
 
-
 <div style="margin-left: 80px;">
 
 For all elements the values of iclr1 are set their original itetclr
@@ -61,8 +60,6 @@ value of its duplicate.
 
 For an element that is a duplicate, icrl2 is set to the original itetclr
 value of its master.
-
-
 
 
   For example, consider the 4 element mesh, where element 2 and 3 are
@@ -236,7 +233,6 @@ value of its master.
 
   
 
-
  **FORMAT:**
 
   **filter** / ifirst,ilast,istride / [tolerance]
@@ -247,9 +243,7 @@ value of its master.
   [[search\_range]{style="font-family: monospace;"[]]{style="font-family: courier new,courier,monospace;"
   / [ **nodelete**  [delete]{style="font-weight: bold;" ]
 
-
   **EXAMPLES:**
-
 
   **filter**
 
@@ -303,8 +297,5 @@ value of its master.
   exhaustive search and delete duplicate elements. Assign values to
   iclr1 and iclr2 arrays.
 
-
  
-
-
 

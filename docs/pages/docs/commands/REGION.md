@@ -13,7 +13,6 @@ a plane or a sheet lt means the space on the side of the plane or
 sheet opposite to the normal not including the plane or sheet
 itself.
 
-
 **le** -- if the surface following is a volume then le means
 inside including the surface of the volume. If the surface is a
 plane or a sheet le means the space on the side of the plane or

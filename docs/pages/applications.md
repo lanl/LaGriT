@@ -13,7 +13,6 @@ hydrology, carbon dioxide sequestration, oil and gas, crustal deformation, hydro
 and more. The following are graphics and software output formats used
 with LaGriT and may be obtained from their respective sources.
 
-
 ### Mesh and Simulation Visualization Software
 
 -   [AVS](https://www.avs.com) (commercial)
@@ -32,7 +31,6 @@ with LaGriT and may be obtained from their respective sources.
             GRIDDER open source LA-CC-15-082
             https://github.com/lanl/gridder
 
-
 -   MSTKLA - Mesh ToolKit using the functionality of LaGriT
 
             MSTK open source LA-CC-04-010
@@ -41,15 +39,11 @@ with LaGriT and may be obtained from their respective sources.
 -   [LASETUP - interface for generating and viewing LaGriT
     geometries.](lasetup.md)
 
-
-
 ### Modeling Software Used with LaGriT generated files
-
 
 -   [FEHM](https://fehm.lanl.gov) (Subsurface Flow and Transport)
 -   [PFLOTRAN](https://ees.lanl.gov/pflotran/) (Parallel Reactive Flow
     and Transport)
 -   [GEOFEST](https://www.openchannelsoftware.com/projects/GeoFEST)
     (Geophysical Finite Element Simulation Tool)
-
 

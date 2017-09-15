@@ -134,7 +134,6 @@ will be returned.  If **-boundary-** is specified for the surface name,
 all nodes on external bounding surfaces will be returned. If **-all-**
 is specified all nodes on any surface are returned.
 
-
 **eltset**/element\_set\_name
 
 **eltset** will return all nodes that are vertices of the elements in

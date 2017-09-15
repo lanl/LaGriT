@@ -137,14 +137,11 @@ title: CONNECT
   where multi-material edges do not get refined because they connect
   an 'intrface' node to an 'intrface' node.
 
-
  [Click here for 2D
  demos](http://lagrit.lanl.gov/demos/2d_connect/test/md/main_2d_connect.md)
 
  [Click here for 3D
  demos](http://lagrit.lanl.gov/demos/connect/test/md/main_connect.md)
-
-
 
  
 

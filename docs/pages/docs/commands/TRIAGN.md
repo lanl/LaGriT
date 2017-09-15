@@ -8,18 +8,15 @@ define a legal perimeter (i.e. that segments of the perimeter do not
 cross).  The code will connect the last node to the first node to
 complete the perimeter.
 
-
 This code support triangulation of self-intersecting polygons (polygon
 with holes), assuming that the order of the nodes are correct. Moreover
 the connectivity of the polyline must also be defined correctly. No
 checks are made.
 
-
 One disadvantage of the algorithm for triangulating self-intersecting
 polygons is that it does not always work. For example, if the holes have
 complicated shapes, with many concave vertices, the code might fail. In
 this case, the user may try to rotate the order of the nodes:
-
 
 NODE\_ID:
 
@@ -30,7 +27,6 @@ NODE\_ID:
 ...
 
 N -&gt; 1
-
 
 **FORMAT:**
 

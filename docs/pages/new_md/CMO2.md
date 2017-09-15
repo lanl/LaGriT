@@ -77,7 +77,6 @@ Adjust the memory manages arrays associated with mo\_name to the
 lengths required by number\_nodes and number\_elements:
 [**cmo/memory**/](cmo_memory.md)mo\_name/number\_nodes/number\_elements
 
-
 Modify an attribute parameter value:
 [**cmo** **/modatt**/](cmo_modatt.md)mo\_name/att\_name/field\_name/new\_field
 

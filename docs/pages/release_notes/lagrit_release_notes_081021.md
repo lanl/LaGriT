@@ -9,12 +9,7 @@ title: 'LaGriT V2.004 Release Notes, 10/21/2008'
 
 ------------------------------------------------------------------------
 
-
-
 <div id="metanav" class="nav">
-
-
-
 
 
 <div id="main">
@@ -37,14 +32,12 @@ Message:
 :   resetpts bug fix, boundary\_components and extract\_surfmesh added
     features
 
-
     resetpts had a bug for some element types
 
     boundary\_components: added id\_numb boundary index number
 
     extract\_surfmesh: added attributes idelem0, idelem1, idnode0 and
     removed attribute map
-
 
  Files: 
 
@@ -67,9 +60,6 @@ Message:
 <div id="legend">
 
 
-
-
-
 07/08/08:
 ---------
 
@@ -78,7 +68,6 @@ Timestamp:
 Message:
 Made changes so that filter and rmmat return with no action rather than
 crash when passed an empty mesh object.
-
 
 Files:
 -   [src/filter.f](https://ancho.lanl.gov/lagrit/trac/browser/src/filter.f?rev=71%3A5c8406e8de14 "Show entry in browser")
@@ -90,13 +79,10 @@ Files:
 -   
 
 
-
-
 Timestamp:
 07/08/08 07:32:28 (4 months ago)
 Message:
 Minor changes to documentation pages.
-
 
 Files:
 -   [lagrit.lanl.gov/docs/CONNECT1.md](https://ancho.lanl.gov/lagrit/trac/browser/lagrit.lanl.gov/docs/CONNECT1.md?rev=70%3Acc165a78f4ee "Show entry in browser")
@@ -118,8 +104,6 @@ Files:
     [(modified)]{.comment
     ([9 diffs](https://ancho.lanl.gov/lagrit/trac/changeset/70%3Acc165a78f4ee#file5 "Show differences"))
 
-
-
 06/12/08:
 ---------
 
@@ -127,7 +111,6 @@ Timestamp:
 06/12/08 13:35:01 (4 months ago)
 Message:
 Add options dump/att\_node and dump/att\_elem
-
 
 Add options dump/att\_node and dump/att\_elem to output tables of either
 node
@@ -147,7 +130,6 @@ without editing using:
 
 cmo / readatt / mo\_name / etc...
 
-
 Files:
 -   [src/dumpavs.f](https://ancho.lanl.gov/lagrit/trac/browser/src/dumpavs.f?rev=69%3A9cd5c898d5e4 "Show entry in browser")
     [(modified)]{.comment
@@ -155,8 +137,6 @@ Files:
 -   [src/writedump.f](https://ancho.lanl.gov/lagrit/trac/browser/src/writedump.f?rev=69%3A9cd5c898d5e4 "Show entry in browser")
     [(modified)]{.comment
     ([5 diffs](https://ancho.lanl.gov/lagrit/trac/changeset/69%3A9cd5c898d5e4#file1 "Show differences"))
-
-
 
 06/11/08:
 ---------
@@ -168,13 +148,10 @@ Message:
 Corrected bug: cmo\_exist returned error flag but check of error flag
 was to wrong error flag variable.
 
-
 Files:
 -   [src/interp\_lg.f](https://ancho.lanl.gov/lagrit/trac/browser/src/interp_lg.f?rev=68%3Afb1f221839b1 "Show entry in browser")
     [(modified)]{.comment
     ([1 diff](https://ancho.lanl.gov/lagrit/trac/changeset/68%3Afb1f221839b1#file0 "Show differences"))
-
-
 
 
 Timestamp:
@@ -187,14 +164,11 @@ Message:
 # in addition to 
 * for comment lines.
 
-
  Files: 
 
 :   -   [src/control\_command\_lg.f](https://ancho.lanl.gov/lagrit/trac/browser/src/control_command_lg.f?rev=66%3A479e73cf7d3e "Show entry in browser")
         [(modified)]{.comment
         ([1 diff](https://ancho.lanl.gov/lagrit/trac/changeset/66%3A479e73cf7d3e#file0 "Show differences"))
-
-
 
 -
 
@@ -202,9 +176,6 @@ Message:
 ---------
 
 LaGriT V2.003 Release
-
-
-
 
 
 Timestamp:
@@ -219,7 +190,6 @@ Message:
 
     refine\_tet\_add.f lagrit
 *.h writinit.f and the Makefile in src
-
 
  Files: 
 
@@ -268,7 +238,6 @@ Message:
 
 :   
 
-
 05/01/08:
 ---------
 
@@ -277,18 +246,15 @@ Timestamp:
 Message:
 Correct minor bugs. Test case now works.
 
-
 sphere1.f had an incorrect attempt to use MO name before the name
 
 had been obtained. Code would crash.
-
 
 offsetsurf.f did not handle problems with non-triangle or line type MO.
 
 Instead of kicking out, an attempt was made to compute sythetic normal
 
 for a mesh object (such as quad) and this caused code to crash.
-
 
 Files:
 -   [src/offsetsurf.f](https://ancho.lanl.gov/lagrit/trac/browser/src/offsetsurf.f?rev=48%3A1a8051c0661a "Show entry in browser")
@@ -302,8 +268,6 @@ Files:
 ---------
 [[]{.time](https://ancho.lanl.gov/lagrit/trac/changeset/47%3Aded381465e6b)
 
-
-
 Timestamp:
 :   04/30/08 12:33:36 (6 months ago)
 :   
@@ -313,12 +277,10 @@ Message:
 :   Fixed error that occured when all output attributes were turned
     off.
 
-
     Fixed error that occured when all output attributes were turned
     off.
 
     Code tried to allocate a zero length array for xvalues( ).
-
 
  Files: 
 
@@ -331,8 +293,6 @@ Message:
 ### 
 
 
-
-
 04/08/08:
 ---------
 
@@ -340,14 +300,11 @@ Timestamp:
 :   04/08/08 12:50:28 (7 months ago)
 
 
-
-
 :   
 
 Message:
 
 :   Updated and tested V2.002 apr 2008
-
 
  Files: 
 
@@ -373,11 +330,6 @@ Message:
 
 
 
-
-
-
-
-
 Timestamp:
 :   04/08/08 12:50:28 (7 months ago)
 :   
@@ -385,7 +337,6 @@ Timestamp:
 Message:
 
 :   Updated and tested V2.002 apr 2008
-
 
  Files: 
 
@@ -443,7 +394,6 @@ Message:
 
     use make help for list of options
 
-
  Files: 
 
 :   -   [src/Makefile](https://ancho.lanl.gov/lagrit/trac/browser/src/Makefile?rev=40%3A27593993b117 "Show entry in browser")
@@ -459,7 +409,6 @@ Timestamp:
 Message:
 
 :   added options opt and debug as build choices
-
 
  Files: 
 
@@ -481,7 +430,6 @@ Message:
 
     when there are no elements (for removal)
 
-
  Files: 
 
 :   -   [src/rmpoint.f](https://ancho.lanl.gov/lagrit/trac/browser/src/rmpoint.f?rev=37%3Ae47bed56f475 "Show entry in browser")
@@ -500,7 +448,6 @@ Message:
 
     to avoid junk values occuring when number should be 0
 
-
  Files: 
 
 :   -   [src/cmo\_create\_cmo.f](https://ancho.lanl.gov/lagrit/trac/browser/src/cmo_create_cmo.f?rev=36%3A9367c60e5cb4 "Show entry in browser")
@@ -513,14 +460,11 @@ Timestamp:
 :   04/08/08 13:38:16 (7 months ago)
 
 
-
-
 :   
 
 Message:
 
 :   corrected line 390 which was too long
-
 
  Files: 
 
@@ -540,14 +484,11 @@ Message:
 
     so that name has 18 characters, with total line of 80 chars
 
-
  Files: 
 
 :   -   [src/cmo\_setatt.f](https://ancho.lanl.gov/lagrit/trac/browser/src/cmo_setatt.f?rev=29%3A16b0a7f6385a "Show entry in browser")
         [(modified)]{.comment
         ([3 diffs](https://ancho.lanl.gov/lagrit/trac/changeset/32%3Ad3b90dceed42#file0 "Show differences"))
-
-
 
 -
 
@@ -567,15 +508,11 @@ Message:
 
     and expanded name string size for 17 character names
 
-
  Files: 
 
 :   -   [src/cmo\_setatt.f](https://ancho.lanl.gov/lagrit/trac/browser/src/cmo_setatt.f?rev=29%3A16b0a7f6385a "Show entry in browser")
         [(modified)]{.comment
         ([3 diffs](https://ancho.lanl.gov/lagrit/trac/changeset/29%3A16b0a7f6385a#file0 "Show differences"))
-
-
-
 
 
 Timestamp:
@@ -585,7 +522,6 @@ Timestamp:
 Message:
 
 :   Add capability to read FEHM zone/zonn files.
-
 
  Files: 
 
@@ -602,7 +538,6 @@ Message:
 
 :   
 
-
 01/30/08:
 ---------
 [[]{.time](https://ancho.lanl.gov/lagrit/trac/changeset/24%3A7ea4eb8824e0)
@@ -616,10 +551,8 @@ Message:
 :   Corrected typo in screen output. Changed 'nnelements' to
     'nelements'
 
-
      Corrected typo in screen output. Changed 'nnelements' to
      'nelements'
-
 
  Files: 
 
@@ -633,9 +566,6 @@ Message:
 
 
 
-
-
-
 :   
 
 01/25/08:
@@ -646,8 +576,6 @@ Timestamp:
 :   01/25/08 14:42:43 (9 months ago)
 
 
-
-
 :   
 
 Message:
@@ -655,11 +583,9 @@ Message:
 :   Changed some memory allocation from real(2) to int(1) for integer
     work arrays.
 
-
     Changed some memory allocation from real(2) to int(1) for integer
     work arrays. Running a large problem (&gt;10,000,000 nodes) was
     crashing at rmpoint / pset get pset\_name ) due to MALLOC failure.
-
 
  Files: 
 
@@ -667,10 +593,7 @@ Message:
         [(modified)]{.comment
         ([3 diffs](https://ancho.lanl.gov/lagrit/trac/changeset/21%3A0acfc0ed75df#file0 "Show differences"))
 
-
-
 :   
-
 
 01/22/08:
 ---------
@@ -680,9 +603,7 @@ Timestamp:
 Message:
 Changed name from 'program adrivgen' to 'program lagrit\_main'
 
-
 Changed name from 'program adrivgen' to 'program lagrit\_main'
-
 
 Files:
 -   [lagrit.lanl.gov/docs/DEFINE.md](https://ancho.lanl.gov/lagrit/trac/browser/lagrit.lanl.gov/docs/DEFINE.md?rev=20%3A1d3957a02d1f "Show entry in browser")
@@ -691,8 +612,6 @@ Files:
 -   [src/lagrit\_main.f](https://ancho.lanl.gov/lagrit/trac/browser/src/lagrit_main.f?rev=20%3A1d3957a02d1f "Show entry in browser")
     [(modified)]{.comment
     ([1 diff](https://ancho.lanl.gov/lagrit/trac/changeset/20%3A1d3957a02d1f#file1 "Show differences"))
-
-
 
 
 Timestamp:
@@ -704,18 +623,14 @@ Message:
 :   Modified format of cmo/printatt/.../minmax to i18 and e18.9 instead
     of old 6 sig. figs.
 
-
     Modified format of cmo/printatt/.../minmax to i18 and e18.9 instead
     of old 6 significant figures.
-
 
  Files: 
 
 :   -   [src/cmo\_setatt.f](https://ancho.lanl.gov/lagrit/trac/browser/src/cmo_setatt.f?rev=19%3A0b384968dbf6 "Show entry in browser")
         [(modified)]{.comment
         ([3 diffs](https://ancho.lanl.gov/lagrit/trac/changeset/19%3A0b384968dbf6#file0 "Show differences"))
-
-
 
 -
 
@@ -727,19 +642,14 @@ Timestamp:
 :   01/17/08 08:03:46 (9 months ago)
 
 
-
-
-
 Message:
 
 :   Modified header to FEHM STOR file output files.
-
 
     Modified header correcting spelling, changed X3D to LaGriT. No
     functional changes.
 
     Only test in lines one and two of STOR files has been changed.
-
 
  Files: 
 
@@ -756,17 +666,10 @@ Message:
         [(modified)]{.comment
         ([3 diffs](https://ancho.lanl.gov/lagrit/trac/changeset/18%3Aaed1a435b630#file3 "Show differences"))
 
-
-
 :   
 
 
-
-
 <div id="altlinks">
-
-
-
 
 
 <div id="footer">
@@ -782,8 +685,5 @@ By [Edgewall Software](http://www.edgewall.org/).
 Visit the Trac open source project at
 
 <http://trac.edgewall.org/
-
-
-
 
 

@@ -8,7 +8,6 @@ SHORT **FORMAT:**
 
 **read**/filename.[inpavs]/cmo\_name
 
-
 [Note that the filename is case-sensitive, though the extension
 itself is not.]
 
@@ -33,5 +32,4 @@ attribute\_flag |  (default=1) |  0 skip attribute data / 1 read attribute data
 (skip attribute data)
 
 (mesh object must already exist)
-
 

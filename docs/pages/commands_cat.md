@@ -9,7 +9,6 @@ LaGriT Commands by Category
 [RZS](docs/commands/RZS.md) (depreciated, see createpts)
 [SURFACE](docs/commands/SURFACE.md) (define a geometric surface)
 
-
 #### Point Placement:
 [COPYPTS](docs/commands/COPYPTS.md) (copy existing points)
 [CREATEPTS](docs/commands/createpts.md) (create points)
@@ -51,7 +50,6 @@ LaGriT Commands by Category
 [SETTETS](docs/commands/SETTETS.md) (make child nodes, set element
 material)
 [TRIANGULATE](docs/commands/TRIAGN.md) (make triangles)
-
 
 #### Element Modification and Selection:
 [ELTSET](docs/commands/ELTSET2.md) (select, name a set of elements)
@@ -119,7 +117,6 @@ grid)
 [STACK](docs/commands/STACK.md) (read,merge surfaces)
 [UNG2AVS](docs/commands/UNG2AVS.md) (UNGenerate to AVS)
 
-
 #### Validation, Manipulation:
 [ASSIGN](docs/commands/ASSIGN.md) (set global variables)
 [ELMTEST](docs/commands/elmtest.md) (validate connectivity)
@@ -128,6 +125,4 @@ grid)
 [NEGATIVE\_AIJ](docs/commands/NEGATIVE.md) (test bndry for neg.
 coef.)
 [RZV](docs/commands/RZV_LG.md) (depreciated, see createpts)
-
-
 

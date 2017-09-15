@@ -34,8 +34,6 @@ MATH
  **math** / operation / cmo\_sink/attr\_sink / range
  /cmo\_src/attr\_src / [ value ]
 
-
-
 operation: The first parameter is one of the following keywords that
 indicates the type of work to perform.
 
@@ -49,7 +47,6 @@ indicates the type of work to perform.
  min, max ]{style="font-weight: bold;"are not to be confused with the
  minimum or maximum value of an attribute; rather the the result is a
  comparison of pairs of source values.
-
 
  **sin, cos, tan, ln** (natural log), and **log10** are mathematical
  functions. The value parameter is omitted, and the function is
@@ -104,13 +101,9 @@ indicates the type of work to perform.
  must be of type 'REAL' or 'INT' (length='scalar') and will be created
  if it does not exist.
 
-
-
 cmo\_sink, attr\_sink: are the sink cmo and sink attribute for the math
 results to be written to. These parameters are required for all math
 operations.
-
-
 
 range: is the selection set of elements or nodes for the math operation
 and may be in one of these 3 forms:
@@ -125,8 +118,6 @@ and may be in one of these 3 forms:
  'nelements' (all elements in the named element set)
 
 
-
-
 value: is required by some math operations and can be of type constant
 or can be a cmo attribute. The following are possible forms:
 
@@ -136,8 +127,6 @@ or can be a cmo attribute. The following are possible forms:
  /attr\_src2/ assumes attribute is a part of cmo\_src
 
  /constant/ is a numerical value
-
-
 
 **EXAMPLES:**
 
@@ -171,6 +160,4 @@ power\_mo/power\_attr
 **math/sum**/ cmotri / area\_sum /1,0,0/ cmotri / darea
 
  
-
-
 

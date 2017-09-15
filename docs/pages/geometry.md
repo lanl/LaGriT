@@ -10,21 +10,15 @@
  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/hex.jpg"> 
 [View input desk](geohex.md)
 
-
  <a href="/assets/images/cylinder_expand.jpg"> 
  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/cylinder.jpg"> 
 [View input desk](geocyl.md)  
-
 
  <a href="/assets/images/coord.jpg">
  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/coord.jpg"> 
 [View input desk](geocoord.md) 
 
-
-
                                  
                                              
                                             
-
-
 

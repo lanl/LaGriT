@@ -13,8 +13,6 @@ title: LANL  LaGriT
 ---
 
 
-
-
                Pictures Created by Tinka Gammel  
               --------------------------------  
 
@@ -27,6 +25,4 @@ title: LANL  LaGriT
                                      
                                                  
                                                 
-
-
 

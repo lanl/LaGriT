@@ -7,14 +7,9 @@ keywords:
 title: Semiconductor
 ---
 
-
-
  
 
-
 *XYZ: Cartesian coordinates
-
-
 
 cmo/create/cmo\_hex\_xyz/
 
@@ -26,7 +21,6 @@ zq/imd/1,0,0/regxyz/
 
 dump/gmv/gmv\_hex\_xyz/
 
-
  
 
  
@@ -36,6 +30,4 @@ dump/gmv/gmv\_hex\_xyz/
 [Return to LaGriT Home Page](index.md)
 
  
-
-
 

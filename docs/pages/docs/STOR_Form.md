@@ -18,7 +18,6 @@ The stor file is written with "blocks" of information data in the following form
 
 7. Geometric area coefficients. In general this is the area of each face of the Voronoi polygon associate with node i, face j
 
-
 1. ASCII Header
 Title Line: The first line consists of a character string of 72 or less characters. 
 
@@ -158,8 +157,6 @@ STOR File example cstor: coef compression on, graph compression off.
             40        49        55
       0.000000000000E+00 -2.500000000000E-01
 
-
-
 STOR File example gstor: coef compression off, graph compression on.
      
     fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients
@@ -191,7 +188,6 @@ STOR File example gstor: coef compression off, graph compression on.
      -2.500000000000E-01 -2.500000000000E-01  0.000000000000E+00 -2.500000000000E-01 -2.500000000000E-01
       0.000000000000E+00 -2.500000000000E-01  0.000000000000E+00 -2.500000000000E-01 -2.500000000000E-01
       0.000000000000E+00 -2.500000000000E-01  0.000000000000E+00 -2.500000000000E-01  0.000000000000E+00
-
 
 STOR File example astor: Compress all, graph compression on and coef compression on.
  

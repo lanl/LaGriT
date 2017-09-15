@@ -33,7 +33,6 @@
   removes everything except nodes with imt =material and removes
   everything except elements with itetclr= material
 
-
  [Click here for demos](../demos/main_rmmat.md)
 
  

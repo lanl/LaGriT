@@ -4,8 +4,6 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 ---
 
 
-
-
  **II. Faces:** Each face is tested separately for refinement or
  derefinement. For the tetrahedral face defined by nodes 1, 2, and 3,
  we have

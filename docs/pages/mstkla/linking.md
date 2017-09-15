@@ -76,8 +76,6 @@ and the libs are **libutilities.a** (debug) and **libutilities-O.a**
 
 ------------------------------------------------------------------------
 
-
-
 Also, the standard l**agrit** and **util** libs have to be included.
 
 They are located in
@@ -106,8 +104,6 @@ $ARCH** is as follows:
     IBM:         ibm
 
 ------------------------------------------------------------------------
-
-
 
 The order of libraries that works while linking (until more complicated
 library interdependencies creep in) is

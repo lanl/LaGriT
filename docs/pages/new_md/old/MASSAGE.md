@@ -211,4 +211,3 @@ title: MASSAGE
  This set of arguments will remove degenerate elements from a mesh by
  merging nodes that have the same coordinate values ( within 1.e-9).
 
-

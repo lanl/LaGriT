@@ -80,4 +80,3 @@ title: RZ
   intervals along the z-axis at heights z=0., z=1., z=2.,...z=10.
   Filter should be used to remove these duplicate points.
 
-

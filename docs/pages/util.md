@@ -24,4 +24,3 @@ Utility Subroutines
 9.  [Geometry Information](docs/geom.md) (geom\_lg.h, 
     get\_material\_number)
 
-

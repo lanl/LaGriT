@@ -14,8 +14,6 @@ GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX64 6.5 IP28) [Netscape]'
 
 ------------------------------------------------------------------------
 
-
-
 Since LaGriT does not really store mesh faces, the mesh face data
 
 structure (MeshFace, *PMeshFace*) is created on the fly whenever face
@@ -34,7 +32,6 @@ operator.
 *
 * This will return 0
 for now since I haven't yet decided on a good
-
 
 *
 * way to assign a unique number to the (virtual) faces of the mesh.
@@ -74,8 +71,6 @@ The parents of all vertices of the face are obtained and a new
 'parent' face is constructed from them.
 
 ------------------------------------------------------------------------
-
-
 
 *void* **MF\_Children**(*PMeshObj* mesh, *PMeshFace* pf, *int* 
 *nfc,
@@ -236,9 +231,7 @@ mesh face is made up of mesh edge or vertex in question.
 
  
 
-
 ------------------------------------------------------------------------
-
 
 []{#MF-Attribs*int* **MF\_GetAttVal**(*PMeshObj* mesh, *PMeshFace* f,
 *char 
@@ -265,8 +258,6 @@ surface meshes
 
 ------------------------------------------------------------------------
 
-
-
 *int* **MR\_SetAttVal**(*PMeshObj* mesh, *PMeshFace* f, *char
 
 **attname, *int* ival,
@@ -277,7 +268,6 @@ surface meshes
 This is similar to the GetAttVal routine - depending on the type and
 
 rank, one sends in a value with the right variable
-
 
 *
 *

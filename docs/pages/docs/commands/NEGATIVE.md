@@ -53,7 +53,6 @@ until a maximum number of iterations has been exceeded.
 
 only one iteration will be performed
 
-
 **negative\_aij/refine/5** 
 
 a maximum of 5 iterations will be performed
