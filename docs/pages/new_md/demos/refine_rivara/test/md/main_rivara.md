@@ -11,5 +11,5 @@ title: '
     
 
    [Example 1](description_rivara.md)
-   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rivara2_tn.gif">"114"
-   "89"](description_rivara.md)
+   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rivara2_tn.gif">""
+   ""](description_rivara.md)

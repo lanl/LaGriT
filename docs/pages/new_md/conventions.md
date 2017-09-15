@@ -71,7 +71,7 @@ first and third point determine the second vector. By curling the
 fingers of the right hand from the first vector toward the second
 vector, the right thumb will point in the direction of the normal.
 
-<img height="300" width="300" src="Image230.gif">"189" "148"
+<img height="300" width="300" src="Image230.gif">"1" "148"
 
 10
 . To separate commands on the same line use a semicolon (;).

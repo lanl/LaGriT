@@ -11,8 +11,8 @@ title: '
     
 
    [Example 1](description_rmmat.md)
-   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat4_tn.gif">"114"
-   "89"](description_rmmat.md)
+   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat4_tn.gif">""
+   ""](description_rmmat.md)
 
 
 

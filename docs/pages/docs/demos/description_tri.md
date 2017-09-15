@@ -23,13 +23,13 @@ distribution](image/triang1.gif"[
 "86"](image/triang1.gif"
 [Concave
 triangulation](image/triang2.gif"[
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang2_tn.gif""114"
-"89"](image/trans2.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang2_tn.gif"""
+""](image/trans2.gif"
 [Convex point
 distribution](image/triang3.gif"[
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang3_tn.gif""110"
 "86"](image/triang1.gif"
 [Convex
 triangulation](image/triang4.gif"[
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang4_tn.gif""114"
-"89"](image/triang4.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang4_tn.gif"""
+""](image/triang4.gif"

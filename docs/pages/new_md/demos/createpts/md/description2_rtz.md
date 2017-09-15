@@ -19,8 +19,8 @@ title: '
 
  Output Image
 
-  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image2tn.gif">"116"
-  "138"](image/image2.gif"> [cylindrical
+  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image2tn.gif">""
+  ""](image/image2.gif"> [cylindrical
   grid](image/image2.gif">
 
  Input file

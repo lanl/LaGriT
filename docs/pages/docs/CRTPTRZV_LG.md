@@ -103,7 +103,7 @@ compare the eight command sequence (different bounding box)
 
 **createpts/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/
 
-**createpts/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/.5,0.289,.5
+**createpts/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/.5,0.2,.5
 
    CAVEATS -
 

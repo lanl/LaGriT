@@ -1,9 +1,5 @@
 ---
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word /98'
-Template: 'Macintosh HD:Microsoft Office 98:Templates:Web Pages:Blank Web Page'
-title: '
-*arguments:'
+title:  Example 4: creatpts in a rectangular geometry that includes a material interface
 ---
 
  Example 4: creatpts in a rectangular geometry that includes a material
@@ -22,13 +18,8 @@ title: '
 
   [lagrit\_input\_createbrick](../lagrit_input_createbrick)
 
-   
-
  Images of GMV output
 
-  [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image4tn.gif""168"
-  "158"](image/image4a.gif" [View A](image/image4a.gif"    
-  [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image4btn.gif"
-  "174"](image/image4b.gif" [View B](image/image4b.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image4tn.gif">
+
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image4btn.gif">

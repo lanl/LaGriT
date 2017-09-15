@@ -206,7 +206,7 @@ Mikita comments and updates to mercurial/trac repository include:
         < #ifdef win64
         < #define int_ptrsize long long
         < #else
-        189d176
+        1d176
         < #endif
 
         type_sizes.h

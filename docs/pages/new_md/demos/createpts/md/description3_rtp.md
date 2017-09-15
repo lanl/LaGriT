@@ -19,8 +19,8 @@ title: '
 
  Images of GMV output
 
-  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image3tn.gif">"116"
-  "138"](./image/image3.gif">[spherical
+  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image3tn.gif">""
+  ""](./image/image3.gif">[spherical
   geometry](image/image3.gif">
 
    

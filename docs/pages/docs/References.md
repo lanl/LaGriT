@@ -9,7 +9,7 @@ Quality in Response to Time-DependentTopological    and Geometrical
 Deformation<a href="https://lanl.github.io/LaGriT/assets/images/london98_pn.pdf" download> </a>", LA-UR--5187, Proceedings of
 the 6th International Conference on  Numerical Grid Generation in
 Computational Field Simulations, M. Cross (ed.), International Society
-of Grid Generation  (ISBN 0-9651627), pp. 589-598, May 1998.
+of Grid Generation  (ISBN 0-9651627), pp. 5-598, May 1998.
 
 3.  George, Denise, "[Unstructured Toolbox for Modeling and
 Simulation"<a href="https://lanl.github.io/LaGriT/assets/images/nasa.pdf" download> </a>, LA-UR--3052, presented at the 19
@@ -18,10 +18,10 @@ Illinois, October 20-22, 19.
 
 4.  Kuprat, Andrew; Cartwright David; Gammel J. Tinka; George Denise;
 Kendrick Brian; Kilcrease David; Trease Harold;  and Walker, Robert,["X3D, Moving Grid Methods for Semiconductor
-Applications"<a href="https://lanl.github.io/LaGriT/assets/images/2891.pdf" download> </a> ,LA-UR--2891.
+Applications"<a href="https://lanl.github.io/LaGriT/assets/images/21.pdf" download> </a> ,LA-UR--21.
 
 5.  Kuprat, Andrew, "[Adaptive Smoothing Techniques for 3-D Unstructured
-Meshes<a href="https://lanl.github.io/LaGriT/assets/images/MSU96.pdf" download> </a>", LA-UR-96-1116 (1996).
+Meshes<a href="https://lanl.github.io/LaGriT/assets/images/MSU96.pdf" download> </a>", LA-UR-96-1 (1996).
 
 6.   Kuprat, Andrew, Denise George, Eldon Linnebur, Harold Trease , R.
 Kent Smith, "[Moving Adaptive Unstructured 3-D  Meshes in Semiconductor

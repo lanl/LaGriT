@@ -53,7 +53,7 @@ The following memory keywords are recognized:
       Sizeof integer (type 1) =  4 bytes      Sizeof INT_PTRSIZE =   4 bytes
 
      INDEX         LENGTH    TYPE     ADDRESS     NAME                           PARTITION
-       29          40000000   2     -1894248416 xic                              cmo1    
+       29          40000000   2     -14248416 xic                              cmo1    
         1                10   3       143632720 global_name                      global_lg
        31          40000000   2      1760710688 zic                              cmo1    
        30          40000000   2      2080714784 yic                              cmo1   

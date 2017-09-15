@@ -16,5 +16,5 @@ title: '
 
   [example 1](description1.md)   Yucca Mountain
 
-  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1b_tn.gif">"114"
-  "89"](description1.md)
+  <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1b_tn.gif">""
+  ""](description1.md)

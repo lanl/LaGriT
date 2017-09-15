@@ -132,7 +132,7 @@ compare the eight command sequence (different bounding box)
 
 **rzv/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/
 
-**rzv/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/.5,0.289,.5
+**rzv/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/.5,0.2,.5
 
 nice 2-d distribution of points in a circle of radius 1
 

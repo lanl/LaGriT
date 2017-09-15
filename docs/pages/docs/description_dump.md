@@ -20,5 +20,5 @@ title: '
  Images of GMV input (the output consists of several file formats
  including binary)
 
-  [Input geometry <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_tn.gif">"114"
-  "89"](../images/output.gif">
+  [Input geometry <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_tn.gif">""
+  ""](../images/output.gif">

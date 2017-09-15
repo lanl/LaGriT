@@ -17,7 +17,7 @@ Hyman, J.D., Gable, C.W., Painter, S.L Makedonska, N., [Conforming
 Delaunay Triangulation of Stochastically Generated Three Dimensional
 Discrete Fracture Networks : A Feature Rejection Algorithm for Meshing
 Strategy](http://epubs.siam.org/doi/abs/10.1137/130942541), SIAM J of
-Sci Computing, V 36, No. 4, pp. A1871-A1894, DOI:10.1137/130942541,
+Sci Computing, V 36, No. 4, pp. A1871-A14, DOI:10.1137/130942541,
 2014.
 
 Pepin, J, Person, M, Phillips, F, Kelley, S, Timmons, S, Owens, L,
@@ -139,7 +139,7 @@ VADOSE ZONE JOURNAL (MAY 2009) Vol.8, iss.2, p.510-522
 
 Kuprat, AP ; Einstein, DR [An anisotropic scale-invariant unstructured
 mesh generator suitable for volumetric imaging
-data<a href="https://lanl.github.io/LaGriT/assets/images/0906011411167--journals--00219991--v228i0003--619_aasumgsfvid.pdf" download> </a>
+data<a href="https://lanl.github.io/LaGriT/assets/images/0906017--journals--00219991--v228i0003--619_aasumgsfvid.pdf" download> </a>
 JOURNAL OF COMPUTATIONAL PHYSICS (FEB 20 2009) Vol.228, iss.3, p.619-640
 
 **Year 2008:**
@@ -294,7 +294,7 @@ Quality in Response to Time-dependent Topological and Geometrical
 Deformation](assets/images/london98_pn.pdf" download> </a> " LA-UR--5187, Proceedings of the
 6th International Conference on  Numerical Grid Generation in
 Computational Field Simulations, M. Cross  (ed.), International Society
-of Grid Generation  (ISBN 0-9651627), pp. 589-598, May 1998.
+of Grid Generation  (ISBN 0-9651627), pp. 5-598, May 1998.
 
 Michael Murphy, Carl W. Gable, "[Strategies for Nonobtuse Boundary
 Delaunay Triangulations](http://citeseer.ist.psu.edu/321240.html)",
@@ -361,10 +361,10 @@ Modelers in Geological Modeling"
 Kuprat, Andrew; Cartwright David; Gammel J. Tinka; George Denise;
 Kendrick Brian; Kilcrease David; Trease Harold; Walker, Robert, "[X3D
 Moving Grid Methods for Semiconductor Applications](assets/images/notred.pdf" download> </a> ",
-LA-UR--2891.
+LA-UR--21.
 
 Kuprat, Andrew,  "[Adaptive Smoothing Techniques for 3D Unstructured
-Meshes](assets/images/MSU96.pdf" download> </a> ",  LA-UR-96-1116 (1996).
+Meshes](assets/images/MSU96.pdf" download> </a> ",  LA-UR-96-1 (1996).
 
 Terry Cherry, C. W. Gable and Harold Trease , "[3-Dimensional Wells and
 Tunnels for Finite Element Grids](assets/images/NGG96.pdf" download> </a>," in Numerical Grid

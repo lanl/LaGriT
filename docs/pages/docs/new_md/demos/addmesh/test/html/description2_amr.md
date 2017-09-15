@@ -30,11 +30,11 @@ title: '
    addmesh_amr1.gif">[![]  addmesh_amr2.gif">[![]  bined                 
    (image/addmesh_amr/ad  (image/addmesh_amr/ad  (view                 
    dmesh_amr1_tn.gif">{wi  dmesh_amr2_tn.gif">{wi  1)](image/addmesh_amr 
-   dth="114"              dth="114"              /addmesh_amr3.gif">![] 
-   "89"](image/a  "89"](image/a  (image/addmesh_amr/ad 
+   dth=""              dth=""              /addmesh_amr3.gif">![] 
+   ""](image/a  ""](image/a  (image/addmesh_amr/ad 
    ddmesh_amr/addmesh_am  ddmesh_amr/addmesh_am  dmesh_amr3_tn.gif">{wi 
-   r1.gif">                r2.gif">                dth="114"             
-                                                 "89"          
+   r1.gif">                r2.gif">                dth=""             
+                                                 ""          
   +-----------------------+-----------------------+-----------------------+
    [](image/addmesh_amr/  [](image/addmesh_amr/                        
    addmesh_amr4.gif">[com  addmesh_amr5.gif">[com                        
@@ -44,8 +44,8 @@ title: '
    /addmesh_amr4.gif">[![  /addmesh_amr5.gif">[![                        
    ](image/addmesh_amr/a  ](image/addmesh_amr/a                        
    ddmesh_amr4_tn.gif">{w  ddmesh_amr5_tn.gif">{w                        
-   idth="114"             idth="114"                                   
-   "89"](image/a  "89"](image/a                        
+   idth=""             idth=""                                   
+   ""](image/a  ""](image/a                        
    ddmesh_amr/addmesh_am  ddmesh_amr/addmesh_am                        
    r4.gif">                r5.gif">                                      
   +-----------------------+-----------------------+-----------------------+

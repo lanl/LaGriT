@@ -21,5 +21,5 @@ title: '
  including binary)
 
   [Input geometry 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_tn.gif""114"
-  "89"](image/output.gif"
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_tn.gif"""
+  ""](image/output.gif"

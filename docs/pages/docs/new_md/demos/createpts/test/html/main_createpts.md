@@ -40,8 +40,8 @@ material interface <img height="300" width="300" src="https://lanl.github.io/LaG
 
 **createpts/rtz**
 
-(cylindrical) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image2tn.gif">"116"
-"138"](description2_rtz.md)
+(cylindrical) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image2tn.gif">""
+""](description2_rtz.md)
 [Example 1](description1_xyz.md)
 
 **createpts/xyz**
@@ -76,5 +76,5 @@ gridding a sphere, including materials<img height="300" width="300" src="https:/
 
 **createpts/random/xyz**
 
-random points <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/random_tn.gif">"114"
-"89"](description9_random.md)
+random points <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/random_tn.gif">""
+""](description9_random.md)

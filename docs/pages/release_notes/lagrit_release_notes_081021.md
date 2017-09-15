@@ -131,12 +131,12 @@ without editing using:
 cmo / readatt / mo\_name / etc...
 
 Files:
--   [src/dumpavs.f](https://ancho.lanl.gov/lagrit/trac/browser/src/dumpavs.f?rev=69%3A9cd5c898d5e4 "Show entry in browser")
+-   [src/dumpavs.f](https://ancho.lanl.gov/lagrit/trac/browser/src/dumpavs.f?rev=69%3A9cd5c8d5e4 "Show entry in browser")
     [(modified)]{.comment
-    ([8 diffs](https://ancho.lanl.gov/lagrit/trac/changeset/69%3A9cd5c898d5e4#file0 "Show differences"))
--   [src/writedump.f](https://ancho.lanl.gov/lagrit/trac/browser/src/writedump.f?rev=69%3A9cd5c898d5e4 "Show entry in browser")
+    ([8 diffs](https://ancho.lanl.gov/lagrit/trac/changeset/69%3A9cd5c8d5e4#file0 "Show differences"))
+-   [src/writedump.f](https://ancho.lanl.gov/lagrit/trac/browser/src/writedump.f?rev=69%3A9cd5c8d5e4 "Show entry in browser")
     [(modified)]{.comment
-    ([5 diffs](https://ancho.lanl.gov/lagrit/trac/changeset/69%3A9cd5c898d5e4#file1 "Show differences"))
+    ([5 diffs](https://ancho.lanl.gov/lagrit/trac/changeset/69%3A9cd5c8d5e4#file1 "Show differences"))
 
 06/11/08:
 ---------

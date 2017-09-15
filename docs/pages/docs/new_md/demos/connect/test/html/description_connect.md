@@ -26,6 +26,6 @@ title: '
   
 
    ------------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------------------
-   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_nodes_tn.gif">"114" "89"](image/output_nodes.gif"> [input nodes](image/output_nodes.gif">   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_connect_tn.gif">"114" "89"](image/output_connect.gif"> [output mesh](image/output_connect.gif">
+   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_nodes_tn.gif">"" ""](image/output_nodes.gif"> [input nodes](image/output_nodes.gif">   <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/output_connect_tn.gif">"" ""](image/output_connect.gif"> [output mesh](image/output_connect.gif">
    ------------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------------------
 

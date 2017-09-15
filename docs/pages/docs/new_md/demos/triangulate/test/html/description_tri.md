@@ -20,13 +20,13 @@ Images of GMV input and output
 [Concave point distribution with crude
 triangulation](image/triang1.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang1_tn.gif">"110"
 "86"](image/triang1.gif">
-[Refinement](image/triang2.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang2_tn.gif">"114"
-"89"](image/triang2.gif">
+[Refinement](image/triang2.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang2_tn.gif">""
+""](image/triang2.gif">
 [Smoothing and further
 refinement](image/triang3.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang3_tn.gif">"110"
 "86"](image/triang3.gif">
 [Smoothing and
-recon/0](image/picture4.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang4_tn.gif">"114"
-"89"](image/picture4.gif">
-[recon/1](image/picture5.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang5_tn.gif">"114"
-"89"](image/picture5.gif">
+recon/0](image/picture4.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang4_tn.gif">""
+""](image/picture4.gif">
+[recon/1](image/picture5.gif"><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang5_tn.gif">""
+""](image/picture5.gif">

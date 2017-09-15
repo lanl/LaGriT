@@ -313,7 +313,7 @@ UPSCALE
      used   calculated value ---                                          
                                                        1221 Total source  
                        1                nodes searched.                   
-     189               189                                                
+     1               1                                                
                                             ---     Sink id   # of nodes  
          Duplicate nodes                used   calculated value ---       
        1                 1                                                
@@ -322,7 +322,7 @@ UPSCALE
      108               108                                                
                                                           2               
                        4                108               108             
-     189               189                                                
+     1               1                                                
                                                           4               
          Duplicate nodes                181               181             
        8                 8                                                
@@ -361,7 +361,7 @@ UPSCALE
          Attribute: icount                                                
                                                                           
                                                      1        188         
-                  1        189                                            
+                  1        1                                            
                                                                           
                                                      2        108         
                   2        108                                            
@@ -370,7 +370,7 @@ UPSCALE
                   3          0                                            
                                                                           
                                                      4        181         
-                  4        189                                            
+                  4        1                                            
                                                                           
                                                      5        256         
                   5        256                                            
