@@ -13,7 +13,17 @@ def get_long_name(fle, md_file_list):
 		if fle in i:
 			return i
 
-
+def get_site_list(link_dict, fle, full_list):
+	link_list = []
+	for k, v in link_dict.items():
+		link_list += v
+	link_list = list(set(link_list))
+	print link_list
+	out = open(fle, 'w')
+	for link in sorted(link_list):
+		html_string = html_link(link, '') + " <br> \n"   
+		out.write(html_string)
+	
 def recursive_print(link_dict, key, indent, out_md, out_html, parent_list, counter):
 	if key in link_dict and key not in parent_list:
 		parent_list.append(key)
@@ -40,6 +50,7 @@ for root, drs, fles in os.walk(md_dir):
     for fle in fles:
         if '.md' in fle:
             md_file_list.append(os.path.join(root,fle))
+
 
 home_key = '/Users/nknapp/Desktop/LaGrit/docs/index.md'
 
@@ -69,5 +80,8 @@ parent_list = []
 counter = 0
 recursive_print(link_dict, home_key, '', out_md, out_html, parent_list, counter)
 
+list_file = '/Users/nknapp/Desktop/LaGriT/docs/site_list.html'
+
+get_site_list(link_dict, list_file, md_file_list)
 
 		
