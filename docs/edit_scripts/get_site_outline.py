@@ -14,16 +14,21 @@ def get_long_name(fle, md_file_list):
 			return i
 
 
-def recursive_print(link_dict, key, indent, out_md, out_html, parent_list):
+def recursive_print(link_dict, key, indent, out_md, out_html, parent_list, counter):
 	if key in link_dict and key not in parent_list:
 		parent_list.append(key)
 		indent += "    "
+		counter += 1
+		header = "h" + str(counter)
+		if counter > 6:
+			return 
 		for link in list(set(link_dict[key])):
-			out_md.write(indent + link + ' \n')
-			html_string = indent + html_link(link)
+			md_string = indent + './' + link.split('LaGrit/docs/')[-1] + '\n' 
+			out_md.write(md_string)
+			html_string = indent + "<" + header + ">" + html_link(link) + " </" + header + "> <br> \n" 
 			print html_string
-			out_html.write(html_string + ' \n')
-			recursive_print(link_dict, link, indent, out_md, out_html, parent_list)
+			out_html.write(html_string)
+			recursive_print(link_dict, link, indent, out_md, out_html, parent_list, counter)
 	
 md_dir = '/Users/nknapp/Desktop/LaGriT/docs/pages/'
 md_file_list = []
@@ -58,7 +63,8 @@ html_output_file = '/Users/nknapp/Desktop/LaGriT/docs/html_website_map.html'
 out_md = open(md_output_file, 'w')
 out_html = open(html_output_file, 'w')
 parent_list = []
-recursive_print(link_dict, home_key, '', out_md, out_html, parent_list)
+counter = 0
+recursive_print(link_dict, home_key, '', out_md, out_html, parent_list, counter)
 
 
 		
