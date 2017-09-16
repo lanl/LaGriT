@@ -20,7 +20,7 @@ def recursive_print(link_dict, key, indent, out_md, out_html, parent_list, count
 		indent += "    "
 		counter += 1
 		spaces = ''
-		for i in range(counter):
+		for i in 3*range(counter):
 			spaces += '&emsp; '	
 		header = "h" + str(counter)
 		if counter > 6:
@@ -28,7 +28,7 @@ def recursive_print(link_dict, key, indent, out_md, out_html, parent_list, count
 		for link in list(set(link_dict[key])):
 			md_string = indent + './' + link.split('LaGrit/docs/')[-1] + '\n' 
 			out_md.write(md_string)
-			html_string = indent + "<" + header + ">" + html_link(link, spaces) + " </" + header + "> <br> \n" 
+			html_string = indent + "<" + header + ">" + html_link(link, spaces) + " </" + header + ">  \n" 
 			print html_string
 			out_html.write(html_string)
 			recursive_print(link_dict, link, indent, out_md, out_html, parent_list, counter)
