@@ -2,10 +2,10 @@ import os, sys
 
 # get names of all markdown files
 
-def html_link(md_name):
+def html_link(md_name, spaces):
 	string = '<a href="https://lanl.github.io/LaGriT/'
 	location = md_name.split('LaGriT/docs/')[-1][:-3]
-	string += location + '" > ' + location + ' </a>'
+	string += location + '" > ' + spaces + location + ' </a>'
 	return string
 
 def get_long_name(fle, md_file_list):
@@ -19,13 +19,16 @@ def recursive_print(link_dict, key, indent, out_md, out_html, parent_list, count
 		parent_list.append(key)
 		indent += "    "
 		counter += 1
+		spaces = ''
+		for i in range(counter):
+			spaces += '&emsp; '	
 		header = "h" + str(counter)
 		if counter > 6:
 			return 
 		for link in list(set(link_dict[key])):
 			md_string = indent + './' + link.split('LaGrit/docs/')[-1] + '\n' 
 			out_md.write(md_string)
-			html_string = indent + "<" + header + ">" + html_link(link) + " </" + header + "> <br> \n" 
+			html_string = indent + "<" + header + ">" + html_link(link, spaces) + " </" + header + "> <br> \n" 
 			print html_string
 			out_html.write(html_string)
 			recursive_print(link_dict, link, indent, out_md, out_html, parent_list, counter)
