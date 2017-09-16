@@ -2,20 +2,28 @@ import os, sys
 
 # get names of all markdown files
 
+def html_link(md_name):
+	string = '<a href="https://lanl.github.io/LaGriT/'
+	location = md_name.split('LaGriT/docs/')[-1][:-3]
+	string += location + '" > ' + location + ' </a>'
+	return string
+
 def get_long_name(fle, md_file_list):
 	for i in md_file_list:
 		if fle in i:
 			return i
 
 
-def recursive_print(link_dict, key, indent, out, parent_list):
+def recursive_print(link_dict, key, indent, out_md, out_html, parent_list):
 	if key in link_dict and key not in parent_list:
 		parent_list.append(key)
 		indent += "    "
-		for link in link_dict[key]:
-			out.write(indent + link)
-			print indent + link
-			recursive_print(link_dict, link, indent, out, parent_list)
+		for link in list(set(link_dict[key])):
+			out_md.write(indent + link + ' \n')
+			html_string = indent + html_link(link)
+			print html_string
+			out_html.write(html_string + ' \n')
+			recursive_print(link_dict, link, indent, out_md, out_html, parent_list)
 	
 md_dir = '/Users/nknapp/Desktop/LaGriT/docs/pages/'
 md_file_list = []
@@ -45,11 +53,12 @@ for fle in md_file_list:
 	if len(link_list) > 0:
 		link_dict[fle] = link_list
 
-output_file = '/Users/nknapp/Desktop/LaGriT/docs/website_map.txt'
-out = open(output_file, 'w')
-
+md_output_file = '/Users/nknapp/Desktop/LaGriT/docs/md_website_map.txt'
+html_output_file = '/Users/nknapp/Desktop/LaGriT/docs/html_website_map.html'
+out_md = open(md_output_file, 'w')
+out_html = open(html_output_file, 'w')
 parent_list = []
-recursive_print(link_dict, home_key, '', out, parent_list)
+recursive_print(link_dict, home_key, '', out_md, out_html, parent_list)
 
 
 		
