@@ -16,9 +16,9 @@ INTERPOLATE
  then the centroids for each element are calculated and used for the
  interpolated sink points.
 
- The intrp\_method parameter includes ** map**, **voronoi**, and
- ontinuous**. The ** map** method copies the value from the enclosing
- source element. ontinuous** interpolates on to a sink point using
+ The intrp\_method parameter includes **map**, **voronoi**, and
+ **continuous**. The **map** method copies the value from the enclosing
+ source element. **continuous** interpolates on to a sink point using
  the enclosing source element nodes. Method **voronoi** copies the
  value from the nearest source node.
 
@@ -37,7 +37,7 @@ INTERPOLATE
  the sink cmo is **keepatt**.
 
  The valid element types depend on the **interpolate** method being
- used. For instance, a valid ontinuous** interpolation can not
+ used. For instance, a valid **continuous** interpolation can not
  currently be applied using a hex element. Use **hextotet** to convert
  hex elements of the source grid to tets.
 
@@ -56,21 +56,19 @@ INTERPOLATE
  Parameters appearing after the source cmo attribute name are
  optional.
 
- 
 
- 
 
  intrp\_method is the choice of interpolation methods. These methods
- evolved from methods available in the **doping** command. The ** map**
+ evolved from methods available in the **doping** command. The **map**
  method replaces **doping/integer1** which copied source itetclr values
  to sink imt values. The **voronoi** method replaces
  **doping/integer2** which copied nearest node source imt to sink imt.
- ontinuous** evolved from the **doping/table** command. These
+ **continuous** evolved from the **doping/table** command. These
  commands are still similar to the old versions except that they have
  been generalized to include user chosen attributes and more element
  types. The choices for intrp\_method are as follows:
 
-  ** map** - For each sink point, search source cmo for an enclosing
+  **map** - For each sink point, search source cmo for an enclosing
   element. Copy the found source element value to the sink attribute.
   The source attribute is of type element. To copy from a source
   attribute of type node, use **voronoi** method.
@@ -78,13 +76,13 @@ INTERPOLATE
   **voronoi** - For each sink point, search the source cmo for a
   nearest node. Copy found source node value to the sink attribute.
   The source attribute is of type node. To copy from a source
-  attribute of type element, use ** map** method. By selecting the
+  attribute of type element, use **map** method. By selecting the
   nearest source points, Voronoi regions are generated around each
   sink point. The sink point (node or centroid) is given the value of
   the attribute associated with the Voronoi generating point whose
   Voronoi cell the sink point lands in.
 
-  ontinuous** - For each sink point, search the source cmo for an
+  **continuous** - For each sink point, search the source cmo for an
   enclosing element. Use the vertices of enclosing element to
   interpolate a value on to the sink point. The source attribute is of
   type node. The interpolation is the sum of vertice values multiplied
@@ -106,8 +104,8 @@ INTERPOLATE
   interpolation types are handled. The final value of the sink point
   has the inverse function operation applied.
 
-  **default** - If source attribute is element type then use ** map**.
-  If source attribute is node type then use ontinuous**.
+  **default** - If source attribute is element type then use **map**.
+  If source attribute is node type then use **continuous**.
 
  
 
@@ -170,7 +168,7 @@ INTERPOLATE
  and uses these attributes to look up associated node or element
  numbers. The **interpolate** command uses kdtree to create sink
  attributes that pair sink points to associated source node or element
- numbers. If ** map** or ontinuous** methods are used, the element
+ numbers. If **map** or **continuous** methods are used, the element
  attribute named el\_gtg will be created. If **voronoi** or the
  flag\_option **nearest** are used, the node attribute named pt\_gtg
  will be created.
@@ -202,33 +200,17 @@ INTERPOLATE
  centroids are calculated for each sink element and used for the
  interpolation methods.
 
-  
 
-   ------------------------ -------------- --------------
-                            **SOURCE **
-   **SOURCE **
-
-                            **node**       **element**
-
-   **SINK**                                 
-
-   ** map node**             no             yes
-
-   ** map element**          no             yes
-
-   ontinuous node**      yes            no
-
-   ontinuous element**   yes            no
-
-   **voronoi node**         yes            no
-
-   **voronoi element**      yes            no
-   ------------------------ -------------- --------------
+   **SINK**  | **SOURCE node** | **SOURCE element**    
+   --- | --- | ---                         
+   **map node**             | no         |  yes
+   **map element**          | no            | yes
+   **continuous node**     | yes            | no
+   **continuous element**   | yes         |   no
+   **voronoi node**   |      yes          |  no
+   **voronoi element**  |    yes         |  no
 
  
-
- 
-
  This table shows supported applications for each of the interpolation
  methods.
 
@@ -238,59 +220,20 @@ INTERPOLATE
 
  
 
-   -------------------- -------------------------------------------------- -------------------------------------------------- --------------------------------------------------
-                        **MAP**
-                                           **CONTINUOUS**
-                                    **VORONOI**
 
-                        copy element value to enclosed point               interpolate element nodes to enclosed point        copy nearest node value
-
-   **source**
-          tri, quad, hex, tet, (pyr), (pri), (line)          tri, quad, NOT hex, tet, (pyr), (pri), (line)      tri, quad, hex, tet, (pyr), (pri), (line), (pnt)
-   **elements**                                                                                                               
-
-   **sink**
-            tri, quad, hex, tet, (pyr), (pri), (line), (pnt)   tri, quad, hex, tet, (pyr), (pri), (line), (pnt)   tri, quad, hex, tet, (pyr), (pri), (line), (pnt)
-   **elements**                                                                                                               
-
-   **source**
-          element                                            node                                               node
-   **attribute**                                                                                                              
-
-   **sink**
-            node or element (centroid)                         node or element (centroid)                         node or element (centroid)
-   **attribute**                                                                                                              
-
-   **source**
-          integer or double                                  integer or double                                  integer or double
-   **attribute type**                                                                                                         
-
-   **sink**
-            integer or double                                  NOT integer, double                                integer or double
-   **attribute type**                                                                                                         
-
-   **interpolation**
-   linear, log, sinh
-                                 linear, log, sinh
-                                 linear, log, sinh
-
-   **function**         all others pass value unaltered                    all others pass value unaltered                    all others pass value unaltered
-
-   iebreaker**       tiemin or tiemax                                   tiemin or tiemax                                   tiemin or tiemax
-
-   **error flag**       plus1, nearest, or user value                      plus1, nearest, or user value                      plus1 or user value
-
-   **added**
-           
-                                                  
-                                                  
-
-   **attributes**       keepatt creates attribute el\_gtg                  keepatt creates attribute el\_gtg                  keepatt creates attribute pt\_gtg
-   -------------------- -------------------------------------------------- -------------------------------------------------- --------------------------------------------------
-
- 
-
- 
+| **MAP** | **CONTINUOUS** | **VORONOI**
+--- | --- | --- | ---
+| copy element value to enclosed point       |        interpolate element nodes to enclosed point    |    copy nearest node value
+**source elements** | tri, quad, hex, tet, (pyr), (pri), (line) |  tri, quad, NOT hex, tet, (pyr), (pri), (line)  | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)                                                                                                      
+**sink element** | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)                                                                                                      
+**source attribute8* | element        |  node     |      node
+**sink attribute** | node or element (centroid)   |     node or element (centroid)  |    node or element (centroid)                                                                                                          
+**source attribute type** |integer or double    |    integer or double      |   integer or double                                                                                                   
+**sink attribute type**  | integer or double   |      NOT integer, double      |   integer or double                                                                                                  
+**interpolation function** | linear, log, sinh, all others pass unaltered | linear, log, sinh, all others pass unaltered | linear, log, sinh, all others pass unaltered  
+**tiebreaker**       | tiemin or tiemax             |                      tiemin or tiemax            |                       tiemin or tiemax
+**error flag**    |   plus1, nearest, or user value              |        plus1, nearest, or user value         |             plus1 or user value=
+**added attributes**    |   keepatt creates attribute el\_gtg      |            keepatt creates attribute el\_gtg        |          keepatt creates attribute pt\_gtg
 
  **FORMAT:**
 
@@ -299,7 +242,7 @@ INTERPOLATE
 
   [tie\_option] [flag\_option] [keep\_option]
   [intrp\_function]
-  **interpolate  intrp**   /  ** map  voronoi  continuous 
+  **interpolate  intrp**   /  **map  voronoi  continuous 
   default**  /  &
 
   cmosink, attsink  /   1,0,0   /  cmosrc, attsrc  /  [ iemin 
