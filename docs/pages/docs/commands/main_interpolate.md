@@ -1,3 +1,8 @@
+---
+title: INTERPOLATE
+tags: review
+---
+
 INTERPOLATE
 -----------
 
@@ -144,7 +149,7 @@ INTERPOLATE
   iemax** selects the maximum value from candidate nodes or
   elements. This is the default selection.
 
-  iemin** selects the minimum value from candidate nodes or
+  **tiemin** selects the minimum value from candidate nodes or
   elements.
 
  flag\_option is the value used to initialize the sink attribute. These
@@ -160,7 +165,7 @@ INTERPOLATE
   **nearest** must be followed with the name of the source node
   attribute to use for the flag values.
 
-  flag\_option given as an integer or real value will use the user's
+  flag\_option given as an integer or real value will use the users
   numeric value for the flag assignments.
 
  keep\_option is used during multiple calls to **interpolate** with the
@@ -187,13 +192,12 @@ INTERPOLATE
  user. Functions such as min and max pass the interpolation value
  unchanged.
 
-  
 
-  
+TABLE1
 
- []{#TABLE1The following tables identify what combinations of methods,
- options, and element types are supported with the command
- **interpolate**.
+The following tables identify what combinations of methods,
+options, and element types are supported with the command
+**interpolate**.
 
  This table indicates the type of attributes that can be used with the
  interpolation methods. If a sink attribute is of type element,
@@ -231,22 +235,20 @@ INTERPOLATE
 **source attribute type** |integer or double    |    integer or double      |   integer or double                                                                                                   
 **sink attribute type**  | integer or double   |      NOT integer, double      |   integer or double                                                                                                  
 **interpolation function** | linear, log, sinh, all others pass unaltered | linear, log, sinh, all others pass unaltered | linear, log, sinh, all others pass unaltered  
-**tiebreaker**       | tiemin or tiemax             |                      tiemin or tiemax            |                       tiemin or tiemax
+**tiebreaker**       | **tiemin or tiemax             |                      **tiemin or tiemax            |                       **tiemin or tiemax
 **error flag**    |   plus1, nearest, or user value              |        plus1, nearest, or user value         |             plus1 or user value=
 **added attributes**    |   keepatt creates attribute el\_gtg      |            keepatt creates attribute el\_gtg        |          keepatt creates attribute pt\_gtg
 
  **FORMAT:**
 
-  **interpolate** / intrp\_method / cmosink, attsink / 1,0,0 / cmosrc,
-  attsrc / &
+
+  **interpolate** / intrp\_method / cmosink, attsink / 1,0,0 / cmosrc, attsrc / &
 
   [tie\_option] [flag\_option] [keep\_option]
   [intrp\_function]
-  **interpolate  intrp**   /  **map  voronoi  continuous 
-  default**  /  &
+  **interpolate  intrp**   /  **map  voronoi  continuous  default**  /  &
 
-  cmosink, attsink  /   1,0,0   /  cmosrc, attsrc  /  [ iemin 
-  tiemax** ]   &
+  cmosink, attsink  /   1,0,0   /  cmosrc, attsrc  /  [ **tiemin tiemax** ]   &
 
   [ flag\_value    **plus1   nearest,** near\_attribute ]  [
   **keepatt  delatt** ]  [ intrp\_function ]
@@ -260,7 +262,7 @@ INTERPOLATE
   imt attribute of cmo\_sink.
 
   **interpolate/ map **/ cmo\_sink Pval /1,0,0/ cmo\_src Vval /
-  tiemin, log
+  **tiemin, log
 
   This command will assign source Vval values to sink Pval for
   elements enclosing cmo\_sink points. If the sink point is found
@@ -305,22 +307,26 @@ INTERPOLATE
   **keepatt** is used.
 
  
+ DEMOS
 
- 
+   MAP from element to element.
 
- []{#DEMOS
+	<img src="https://lanl.github.io/LaGriT/assets/images/map03_view.gif">
+   
+ CONTINUOUS from triangles
 
-   ------------------------------------------------------------------------------------------------------------ ---------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------
-   [![VORONOI from quad grid]<img src="https://lanl.github.io/LaGriT/assets/images/vor_rand.gif">"" ""]<img src="https://lanl.github.io/LaGriT/assets/images/vor_rand.gif">
-   [![MAP from element to element.]<img src="https://lanl.github.io/LaGriT/assets/images/map03_view.gif">"" ""]<img src="https://lanl.github.io/LaGriT/assets/images/map03_view.gif">
-   [![CONTINUOUS from triangles]<img src="https://lanl.github.io/LaGriT/assets/images/con02_sink.gif">"" ""]<img src="https://lanl.github.io/LaGriT/assets/images/con02_sink.gif">
+<img src="https://lanl.github.io/LaGriT/assets/images/con02_sink.gif">
 
-   [Example 1: interpolate / voronoi](../description_voronoi.md)
-   [Example 2: interpolate / map](../description_map.md)
-   [Example 3: interpolate / continuous](../description_cont.md)
+   [Example 1: interpolate / voronoi](../description_voronoi.md) \
 
-   Copy nearest source node value to sink point                                                                 Copy source element value to enclosed sink point                                                                       Interpolate source element vertices to sink point
-   ------------------------------------------------------------------------------------------------------------ ---------------------------------------------------------------------------------------------------------------------- -------------------------------------------------------------------------------------------------------------------
+	Copy nearest source node value to sink point
 
+   [Example 2: interpolate / map](../description_map.md) \
+
+	Copy source element value to enclosed sink point
+
+   [Example 3: interpolate / continuous](../description_cont.md) \
+
+   Interpolate source element vertices to sink point 
  
 
