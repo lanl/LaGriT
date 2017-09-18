@@ -1,21 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
- 
-
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width,maximum-scale=2">
-    <meta name="description" content="{{ site.title | default: site.github.repository_name }} : {{ site.description | default: site.github.project_tagline }}">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-
-{% seo %}
-  </head>
-
-  <body>
-	<div id="top_right">
-
+ 	<div id="top_right">
 	   <a href="https://lanl.github.io/LaGriT/pages/manual.html"> Manual </a> <br>
 	   <a href="https://lanl.github.io/LaGriT/site_list.html"> Site Index </a> <br>
 	   <a href="https://lanl.github.io/LaGriT/site_map.html"> Site Map </a> <br>
@@ -32,8 +17,21 @@
 				  </div>
 
 			  </div>
-		  </div>
+		</div>
 	</div>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <meta name="description" content="{{ site.title | default: site.github.repository_name }} : {{ site.description | default: site.github.project_tagline }}">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+
+{% seo %}
+  </head>
+
+  <body>
+	
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
@@ -45,6 +43,7 @@
     <div id="main_content_wrap">
       <section id="main_content" class="inner">
         {{ content }}
+	     
       </section>
     </div>
 
