@@ -1,3 +1,8 @@
+---
+title: GRID2GRID
+tags: ok
+---
+
 GRID2GRID
 ---------
 
@@ -33,16 +38,12 @@ must be specified.
 
  **tree\_to\_fe**   quadtree or octree grid to grid with no parent-type elements.
 
-**[ cmo\_snk / cmo\_src ]** . the mesh\_object names. cmo\_src is the
-original grid. cmo\_snk
+**[ cmo\_snk / cmo\_src ]** : the mesh\_object names. 
 
-            is the name for the new tet or triangle grid. These may be
-the same grid, if so desired. If both are left blank,
+cmo\_src is the original grid. 
 
-            the current mesh object will be used. If only one mesh name
-is given, it will be used at the sink mesh, and the
-
-            current mesh object will be used as the source.
+cmo\_snk is the name for the new tet or triangle grid. These may be the same grid, if so desired. If both are left blank, the current mesh object will be used. If only one mesh name
+is given, it will be used at the sink mesh, and the current mesh object will be used as the source.
 
 **EXAMPLES**:
 

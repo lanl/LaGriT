@@ -128,6 +128,8 @@
   
   Check orientation of tri/quad elements and if their orientation is
   different than element 1, report the difference but do not change
-  the mesh object orientation. Create two new attributes. ipath is the
-  search path the algorithm followed through the mesh. ifflip reports
-  the orientation of each element as compared to element 1.
+  the mesh object orientation. Create two new attributes:
+
+  ipath is the search path the algorithm followed through the mesh. 
+
+  ifflip reports the orientation of each element as compared to element 1.
