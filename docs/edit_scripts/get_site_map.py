@@ -45,8 +45,8 @@ already_linked = []
 
 print_links(start_page, 0, max_depth, out_fle, md_file_list, already_linked)
 
-convert = 'pandoc ' + out_fle_name + ' -f markdown -t html -s -o /Users/nknapp/Desktop/LaGriT/docs/site_map.html'
-os.system(convert)
+# convert = 'pandoc ' + out_fle_name + ' -f markdown -t html -s -o /Users/nknapp/Desktop/LaGriT/docs/site_map.html'
+# os.system(convert)
 
 
 out_fle_name = '/Users/nknapp/Desktop/LaGrit/docs/md_site_list.md'
@@ -55,8 +55,13 @@ for fle in sorted(md_file_list):
     rel_link = fle.split('LaGriT/docs/')[-1][:-3]
     out.write('[' + fle.split('/')[-1][:-3] + '](' + rel_link + ')' + '\\' + '\n') 
 
-convert = 'pandoc ' + out_fle_name + ' -f markdown -t html -s -o /Users/nknapp/Desktop/LaGriT/docs/site_list.html'
-os.system(convert)
+# convert = 'pandoc ' + out_fle_name + ' -f markdown -t html -s -o /Users/nknapp/Desktop/LaGriT/docs/site_list.html'
+# os.system(convert)
+
 out_fle_name = '/Users/nknapp/Desktop/LaGriT/docs/end_md_site_map.md'
 convert = 'pandoc ' + out_fle_name + ' -f markdown -t html -s -o /Users/nknapp/Desktop/LaGriT/docs/end_site_map..html'
+os.system(convert)
+
+out_fle_name = '/Users/nknapp/Desktop/LaGriT/docs/end_md_site_list.md'
+convert = 'pandoc ' + out_fle_name + ' -f markdown -t html -s -o /Users/nknapp/Desktop/LaGriT/docs/end_site_list.html'
 os.system(convert)
