@@ -1,5 +1,6 @@
 ---
 title: INTERSECTELEMENTS
+tags: ok
 ---
 
 **INTERSECT\_ELEMENTS**
@@ -44,16 +45,16 @@ title: INTERSECTELEMENTS
  available. An **X** in the box means that the intersection is
  supported.
 
-   ------- ------- ------- ------- ------- ------- ------- -------
-           point   line    tri     quad    tet     pyr     hex
-   point   **X**   **X**   **X**   **X**   **X**   **X**   **X**
-   line    **X**   **X**   **X**   **X**   **X**           **X**
-   tri     **X**   **X**   **X**   **X**   **X**           **X**
-   quad    **X**   **X**   **X**   **X**   **X**           **X**
-   tet     **X**   **X**   **X**   **X**   **X**           **X**
-   pyr     **X**                                            
-   hex     **X**   **X**   **X**   **X**   **X**           **X**
-   ------- ------- ------- ------- ------- ------- ------- -------
+element |  point   | line     |  tri     |   quad   |  tet     |   pyr     |   hex
+------- | -------  | -------  | -------  |  ------- |  ------- |  -------  |  -------
+
+point |  **X**  | **X** | **X** | **X** | **X** | **X** | **X**
+line |  **X** | **X** | **X** | **X** | **X** |         |     **X**
+tri  |   **X**  | **X** | **X** | **X** | **X** |      |    **X**
+quad |  **X** | **X** | **X** | **X** | **X** |       |    **X**
+tet |   **X** | **X** | **X** | **X** | **X** |       |    **X**
+pyr |   **X** |       |        |      |       |      |     
+hex |   **X** | **X** | **X** | **X** | **X** |       |     **X**
 
  For example, this means that if you have a mesh that has hexes and
  tets in it, you could intersect it with a mesh that has anything but

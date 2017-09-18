@@ -1,3 +1,7 @@
+---
+title: HEXTOTET
+tags: ok
+---
 
 HEXTOTET
 --------
@@ -57,17 +61,20 @@ are not removed from the new mesh object cmo\_snk.
 **EXAMPLES:**
 
  **hextotet** / **24** / cmo\_tet / cmo\_hex
+
  Convert each hex element in cmo\_hex to 24 tets and name the new grid
  cmo\_tet.
  
 
  **hextotet** / / cmo\_tri / cmo\_quad
+
  No value is given for ioption, so the default settings are used. The
  mesh\_type of cmo\_quad is quad, so each element is converted to two
  triangles. The new mesh\_object is named cmo\_tri.
  
 
  **hextotet** / **3** / cmo\_tet / cmo\_pri / **rmvolume**
+ 
  Each prism element in cmo\_pri is converted to three tet elements.
  Zero volume elements and duplicate points are removed. The new tet
  mesh object is called cmo\_tet.
