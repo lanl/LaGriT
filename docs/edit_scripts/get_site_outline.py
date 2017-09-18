@@ -8,10 +8,8 @@ def html_link(md_name, spaces):
 	string += location + '" > ' + spaces + location + ' </a>'
 	return string
 
-def get_long_name(fle, md_file_list):
-	for i in md_file_list:
-		if fle in i:
-			return i
+def get_long_name(fle):
+	return '/Users/nknapp/Desktop/LaGriT/docs' + fle
 
 def get_site_list(link_dict, fle, full_list):
 	link_list = []
@@ -23,6 +21,11 @@ def get_site_list(link_dict, fle, full_list):
 	for link in sorted(link_list):
 		html_string = html_link(link, '') + " <br> \n"   
 		out.write(html_string)
+	not_list = list(set(full_list) - set(link_list))
+	print '\b\b\b'
+	print 'THESE FILES NOT IN WEBSITE '
+	for fle in not_list:
+		print fle
 	
 def recursive_print(link_dict, key, indent, out_md, out_html, parent_list, counter):
 	if key in link_dict and key not in parent_list:
@@ -56,7 +59,7 @@ home_key = '/Users/nknapp/Desktop/LaGrit/docs/index.md'
 
 md_file_list.insert(0, home_key)
 
-short_md_file_list = [i.split('/')[-1] for i in md_file_list]
+short_md_file_list = [i.split('LaGriT/docs')[-1] for i in md_file_list]
 
 link_dict = {}
 for fle in md_file_list:
@@ -68,7 +71,7 @@ for fle in md_file_list:
 	link_list = []
 	for short in short_md_file_list:
 		if short in data:
-			link_list.append(get_long_name(short, md_file_list))
+			link_list.append(get_long_name(short))
 	if len(link_list) > 0:
 		link_dict[fle] = link_list
 

@@ -1,9 +1,9 @@
 
- **FILTERKD
+ **FILTERKD**
 
- FILTER
+ **FILTER**
 
- FILTER/ELEMENT**
+ **FILTER/ELEMENT**
 
   This command is used to filter (mark for deletion) a set of nodes
   that are geometricly close, within the tolerance value. This command
@@ -15,7 +15,7 @@
   
 
   Dudded nodes are not removed from the mesh object, but are ignored
-  by many routines because of their dudded status. Use the command [rmpoint/compress](RMPOINT.md)] to
+  by many routines because of their dudded status. Use the command [rmpoint/compress](RMPOINT.md) to
   remove dudded nodes and update the mesh object.
 
   
@@ -27,13 +27,11 @@
 
  **FORMAT**:
 
-  **filterkd**/ifirst,ilast,istride/[tolerance] / [**nocheck** 
-  **zero\_element**]
+  **filterkd**/ ifirst,ilast,istride/ [tolerance] / [**nocheck** OR **zero\_element**]
 
   
 
-  **filter**/ifirst,ilast,istride/[tolerance] / [**minmax**
-  /attribute]
+  **filter**/ ifirst,ilast,istride / [tolerance] / [ **min OR max** ] / attribute]
 
   *This version of filter is being replaced with the kd-tree search
   algorithm used in filterkd that more accurately identifies nodes
@@ -43,32 +41,39 @@
    iirst,ilast,istride defines the node set where 1,0,0 are all nodes
    in the mesh object.
 
-   
+  
+   [tolerance]
 
-   tolerance This is the epsilon value used to measure node
+  This is the epsilon value used to measure node
    distances. If this value is not included, the mesh object epsilon
    value is used.
   
-   **nocheck** is the default for **filterkd** and will skip the code
+   **nocheck** 
+
+   This is the default for **filterkd** and will skip the code
    that removes zero elements. The behavior is similar to original
    **filter** except a kdtree structure is used instead of a binning
    method for finding nodes within epsilon value. This version has
    been shown to be more accurate where precision matters.
   
-   **zero\_element** This option is available with **filterkd** where
+   **zero\_element** 
+
+   This option is available with **filterkd** where
    a mesh has connected elements. The algorithm removes flat elements
    as using the tolerence value as mininum edge length. Duplicate
    nodes not associated with these flat elements are not removed.
   
-   **minmax** / attribute option is available with the **filter**
+   **minmax** / attribute 
+
+   This option is available with the **filter**
    command. Nodes for deletion are detected based on the standard
    geometric criteria however, the choice about which node is
    retained is determined based on comparison of the attribute values
    and the node with either the ** min** or ** max** value is retained.
  
-  **filter**/[element]/[search\_range]/ [**nodelete** | **delete**]
+  **filter**/[element]/[search\_range]/ [**nodelete** OR **delete**]
  
-   [ Search a mesh object for duplicate elements. A duplicate element
+  Search a mesh object for duplicate elements. A duplicate element
    is defined as having the exact same set of nodes in the element
    connectivity list (itet). The order of the nodes in the
    connectivity does not matter. The element with the larger itetclr
@@ -137,6 +142,7 @@
   
 
   **filter** / [element] / 1e20 / [delete]
+  
   Filter all elements (assuming there are less than 1e20)  with an
   exhaustive search and delete duplicate elements. Assign values to
   iclr1 and iclr2 arrays.
