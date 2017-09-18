@@ -57,3 +57,6 @@ for fle in sorted(md_file_list):
 
 convert = 'pandoc ' + out_fle_name + ' -f markdown -t html -s -o /Users/nknapp/Desktop/LaGriT/docs/site_list.html'
 os.system(convert)
+out_fle_name = '/Users/nknapp/Desktop/LaGriT/docs/end_md_site_map.md'
+convert = 'pandoc ' + out_fle_name + ' -f markdown -t html -s -o /Users/nknapp/Desktop/LaGriT/docs/end_site_map..html'
+os.system(convert)
