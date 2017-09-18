@@ -3,12 +3,19 @@
 
 @import "{{ site.theme }}";
 
-#sidebar {
+/*#sidebar {
     position:absolute;
     top:50%; left:400;
     width:200px;
     background:#000;
-}
+}*/
+
+#top_right {
+	position:absolute
+	top:10%, right:30%;
+	width:400px;
+	background:#000;
+} 
 
 #main_content_wrap {
 	width: 85%; 
