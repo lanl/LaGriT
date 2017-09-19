@@ -29,7 +29,7 @@ def print_links(root_fle, depth, max_depth, out_fle, md_file_list, already_linke
             elif 'tags' and 'review' in link_fle_in:
                 tags = '*'
             rel_link = link_fle.split('LaGriT/docs/')[-1][:-3]
-            out_fle.write(indent + '[' + tags + link[:-3] + tags + ']' + '(' + rel_link + ')' + '\\' + '\n')
+            out_fle.write(indent + '[' + tags + link[:-3] + tags + ']' + '(' + rel_link + ')' + '\n' + '\n')
             already_linked.append(link)
             if 'release' not in link_fle:
                 print_links(link_fle, depth+1, max_depth, out_fle, md_file_list, already_linked)
