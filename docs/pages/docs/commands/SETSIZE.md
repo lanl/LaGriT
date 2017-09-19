@@ -1,5 +1,6 @@
 ---
 title: setsize
+tags: ok
 ---
 
  **SETSIZE**
@@ -35,13 +36,9 @@ title: setsize
      x2=one
 
      do i=1,1000
-    
       x2=x2/two
-
       x1=one+x2
-
       if(x1.le.one) go to 11
-    
      enddo
 
      11 epsilonr=x2*2.
@@ -64,8 +61,6 @@ written to LaGriT dumps and subsequently will be read in at restart. The
 variables in consts.h (epsilon and epsilonr) are machine and run
 dependent. They are not written to LaGriT dumps and there is only one
 copy per run.
-
- 
 
 **FORMAT:**
 

@@ -1,5 +1,6 @@
 ---
 title: SMOOTH
+tags: ok
 ---
 
  **SMOOTH**
@@ -114,27 +115,18 @@ ignored.
 
 **EXAMPLES:**
 
- 
+1. Smooth all nodes in the mesh using esug in 2D or geometry in 3D.
 
-1
-. Smooth all nodes in the mesh using **esug** in 2D or **geometry** in
-3D.
+		smooth
 
-**smooth**
+2. Smooth all nodes in the mesh, using controlled smoothing with control=0.5.
 
-2. Smooth all nodes in the mesh, using controlled smoothing with control
-=0.5
-
-**smooth** / / / 1,0,0 / 0.5
+		smooth / / / 1,0,0 / 0.5
 
 3. Smooth a 3D grid by combining network and volume smooths.
 
-**pset**/p2**/attribute**/itp1/1,0,0/0**/eq**
-
-**smooth** **/position** **/network**/1,0,0/3/1./heck
-
-**smooth/position/geometry/pset,get,**p2
-
-**smooth** **/position** **/network**/1,0,0/3/1./heck
-
-**smooth/position/geometry/pset,get,**p2
+		pset/p2/attribute/itp1/1,0,0/0/eq
+		smooth /position /network/1,0,0/3/1./heck
+		smooth/position/geometry/pset,get,p2
+		smooth /position /network/1,0,0/3/1./heck
+		smooth/position/geometry/pset,get,p2

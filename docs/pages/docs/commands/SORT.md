@@ -1,5 +1,6 @@
 ---
 title: sort
+tags: ok
 ---
 
 sort
@@ -195,13 +196,13 @@ LINE GRAPH **FORMAT:**
  Old version no longer supported but syntax will work. Result is the
  same as previous three commands.
 
-LINKS:
+**LINKS:**
 
  [Example 1 for sort and reorder](../sort_lagrit_input_1)
 
  [Example 2 for sort and reorder](../sort_lagrit_input_2)
 
-BEGIN OLD FORMAT - No longer supported but syntax will still work.
+**BEGIN OLD FORMAT** - No longer supported but syntax will still work.
 
 Old Format - **sort / xyz / [ index  bins  rank** ]
 

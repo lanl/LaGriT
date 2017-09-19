@@ -1,5 +1,6 @@
 ---
 title: rzamr
+tags: ok
 ---
 
 **RZAMR**
@@ -38,109 +39,65 @@ title: rzamr
  
   
     *create the hex mesh
-
-      cmo/create/cmo///hex
-
-      
+      cmo/create/cmo///hex 
+  
     * define geometry
 
       surface/inside/reflect/box/0,0,0/1,1,1
-
       surface/diag/intrface/plane/0,0,0/1,0,1/1,1,1
-
       region/lin/ le inside and ge diag /
-
       region/rin/ le inside and lt diag /
-
-      mregion/mlin/ le inside and gt diag /
-
+      mregion/mlin/ le in=side and gt diag /
       mregion/mrin/ le inside and lt diag /
-
       
     * distribute nodes
 
       quadxyz/2,2,2/0.,0.,0./1.,0.,0./1.,1.,0./0.,1.,0./ &
-
       0.,0.,1./1.,0.,1./1.,1.,1./0.,1.,1./
-
       
     * set node types and materials
-
       setpts
-
       
     * connect up the hex mesh
-
       rzbrick/xyz/2,2,2/1,0,0/connect
-
       
     * refine the hex mesh
-
       rzamr/lin/1
-
       rzamr/rin/3
-
       
     * create the tet mesh
-
       cmo/create/cmot///tet
-
       
     * define geometry again for tet mesh
-
       surface/inside/reflect/box/0,0,0/1,1,1
-
       surface/diag/intrface/plane/0,0,0/1,0,1/1,1,1
-
       region/lin/ le inside and ge diag /
-
       region/rin/ le inside and lt diag /
-
       mregion/mlin/ le inside and gt diag /
-
       mregion/mrin/ le inside and lt diag /
-
       
     * copy in the nodes from the hex mesh to the tet mesh
-
       copypts/cmot/cmo
-
       cmo/select/cmot
-
       cmo/release/cmo
-
       
     * reset node types and materials so that setpts will use
-
       
     * geometry to figure out the correct values
-
       cmo/setatt/cmot/itp/1,0,0/0
-
       cmo/setatt/cmot/imt/1,0,0/0
-
       
     * set node types and materials
-
       setpts
-
       
     * connect up the tet mesh
-
       connect
-
       
     * set element materials
-
       
     * and create parent/child nodes on interfaces
-
       settets
-
       dump/gmv/gmvtet
-
       finish
-
        
-
      

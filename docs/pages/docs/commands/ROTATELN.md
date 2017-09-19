@@ -1,5 +1,6 @@
 ---
 title: ROTATELN
+tags: ok
 ---
 
  **ROTATELN**
@@ -28,9 +29,8 @@ title: ROTATELN
 **rotateln** /ifirst,ilast,istride/ [**no**] **copy** /
 x1,y1,z1/x2,y2,z2/theta/xcen,ycen,zcen/
 
-EXAMPLE:
+**EXAMPLE:**
 
- 
 input.cylrot use rotateln and trans to move cylinder
 create a cylinder centered around x=.5,z=.5, radius = .1
 the cylinder is aligned parallel to the y-axis.
@@ -43,27 +43,17 @@ are distributed along these rays inside the cylindrical region.
 a background rectangular grid of points is spread outside the
 cylinder.
 
-         cmo/create/3dmesh
-
-         surface/box1/reflect /box/-1.0,-1.0,0.0/ 1.0, 1.0, 1.0/
-
-         surface/h1/intrface /cylinder/ 0.5, -1.,0.5/ 0.5, 1.0, 0.5/.1/
-
-         region/H1/ le box1 and le h1 /
-
-         region/Fill/ le box1 and gt h1 /
-
-         mregion/Air/ le box1 and lt h1 /
-
-         mregion/Solid/Fill
-
-         createpts/xyz/11,11,1/-1.,-1.,1.1/1.0,1.0,1.1/,1,1,0/
-
-         pset/rays/seq/1,0,0/
-
-         regnpts/Fill/11/pset,get,rays/xyz/ 0.0,0.0,-0.1/1.0,1.0,-0.1/ 
-
-         0.0,1.0,-0.1/0,0/
+     cmo/create/3dmesh
+     surface/box1/reflect /box/-1.0,-1.0,0.0/ 1.0, 1.0, 1.0/
+     surface/h1/intrface /cylinder/ 0.5, -1.,0.5/ 0.5, 1.0, 0.5/.1/
+     region/H1/ le box1 and le h1 /
+     region/Fill/ le box1 and gt h1 /
+     mregion/Air/ le box1 and lt h1 /
+     mregion/Solid/Fill
+     createpts/xyz/11,11,1/-1.,-1.,1.1/1.0,1.0,1.1/,1,1,0/
+     pset/rays/seq/1,0,0/
+     regnpts/Fill/11/pset,get,rays/xyz/ 0.0,0.0,-0.1/1.0,1.0,-0.1/ 
+     0.0,1.0,-0.1/0,0/
 
  
 the rz command always distributes points with the z-axis as
@@ -71,31 +61,18 @@ the axis of symmetry
 use the rotateln and trans commands to move the point
 distribution after it is created.
 
-         createpts/rtz/1,13,11/5.,0.,-1./5.,360.,1./0,1,1/0,0,0/
-
-         pset/ray1/seq/0,0,0/
-
-         rotateln/pset,get,ray1/nocopy/-100.,0.,0./100.,0.,0./-90./0.,0.,0./
-
-         trans/pset,get,ray1/0.,0.,0./0.5,0.,0.5/
-
-         regnpts/H1/3/pset,get,ray1/rtz/0.5,-1.1,0.5/0.5,1.1,0.5/0,0/
-
-         filter/1,0,0/
-
-         cmo/setatt//itp1/pset,get,rays/21
-
-         cmo/setatt//itp1/pset,get,ray1/21
-
-         setpts
-
-         connect
-
-         settets
-
-         dump/gmv/gmv.cylrot/3dmesh
-
-         finish
+     createpts/rtz/1,13,11/5.,0.,-1./5.,360.,1./0,1,1/0,0,0/
+     pset/ray1/seq/0,0,0/
+     rotateln/pset,get,ray1/nocopy/-100.,0.,0./100.,0.,0./-90./0.,0.,0./
+     trans/pset,get,ray1/0.,0.,0./0.5,0.,0.5/
+     regnpts/H1/3/pset,get,ray1/rtz/0.5,-1.1,0.5/0.5,1.1,0.5/0,0/
+     filter/1,0,0/
+     cmo/setatt//itp1/pset,get,rays/21
+     cmo/setatt//itp1/pset,get,ray1/21
+     setpts
+     connect
+     settets
+     dump/gmv/gmv.cylrot/3dmesh
+     finish
  
-
-[click here for image](../image/cylrot.gif">
+<a href="https://lanl.github.io/LaGriT/assets/images/cylrot.gif"> Click here for image </a>

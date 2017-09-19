@@ -1,5 +1,6 @@
 ---
 title: RZS
+tags: review
 ---
 
  **RZV**
@@ -62,93 +63,70 @@ default = component
 
 spiral of points
 
-**rzv/rtz**/n1,0,0/.1,10.,1/ , , / , , / , , /1.1,1,.9
+    rzv/rtz/n1,0,0/.1,10.,1/ , , / , , / , , /1.1,1,.9
 
 sc (simple cubic) point distribution
 
-**rzv/xyz**/n1,n2,n3/1,0,0/0,1,0/0,0,1
+    rzv/xyz/n1,n2,n3/1,0,0/0,1,0/0,0,1
 
-        same as
+same as
 
-        **rz/xyz**/n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1
+    rz/xyz/n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1
 
 bcc (body centered cubic) point distribution
 
-**rzv/xyz**/n1,n2,n3/.5,.5,.5/.5,.5,-.5/.5,-.5,-.5/
+    rzv/xyz/n1,n2,n3/.5,.5,.5/.5,.5,-.5/.5,-.5,-.5/
 
 compare the two command sequence (different bounding box)
 
-**rz/xyz**/n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1
-
-**rz/xyz**/n1  ,n2  ,n3  /0,0,0/n1,n2,n3/0,0,0
+    rz/xyz/n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1
+    rz/xyz/n1  ,n2  ,n3  /0,0,0/n1,n2,n3/0,0,0
 
 fcc (face centered cubic) point distribution
 
-**rzv/xyz**/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/
+    rzv/xyz/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/
 
 compare the four command sequence (different bounding box)
 
-**rz/xyz**/n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1
-
-**rz/xyz**/n1  ,n2  ,n3+1/0,0,0/n1,n2,n3/0,0,1
-
-**rz/xyz/n**1  ,n2+1,n3  /0,0,0/n1,n2,n3/0,1,0
-
-**rz/xyz**/n1+1,n2  ,n3  /0,0,0/n1,n2,n3/1,0,0
+    rz/xyz/n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1
+    rz/xyz/n1  ,n2  ,n3+1/0,0,0/n1,n2,n3/0,0,1
+    rz/xyz/n1  ,n2+1,n3  /0,0,0/n1,n2,n3/0,1,0
+    rz/xyz/n1+1,n2  ,n3  /0,0,0/n1,n2,n3/1,0,0
 
 hexagonal lattice of points in x,y plane, repeated in z direction
 
-**rzv/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1
+    rzv/xyz/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1
 
 diamond point distribution (two command sequence)
 
-**rzv/xyz**/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5
-
-          **rzv/xyz**/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/.25,.25,.25
+    rzv/xyz/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5
+    rzv/xyz/n1,n2,n3/.5,.5,0/0,.5,.5/.5,0,.5/.25,.25,.25
 
 compare the eight command sequence (different bounding box)
 
-**rz/xyz**/n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1
+    rz/xyz/n1+1,n2+1,n3+1/0,0,0/n1,n2,n3/1,1,1
+    rz/xyz/n1  ,n2  ,n3+1/0,0,0/n1,n2,n3/0,0,1
+    rz/xyz/n1  ,n2+1,n3  /0,0,0/n1,n2,n3/0,1,0
+    rz/xyz/n1+1,n2  ,n3  /0,0,0/n1,n2,n3/1,0,0
+    rz/xyz/n1+1,n2+1,n3+1/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/1,1,1
+    rz/xyz/n1  ,n2  ,n3+1/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/0,0,1
+    rz/xyz/n1  ,n2+1,n3  /0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/0,1,0
+    rz/xyz/n1+1,n2  ,n3  /0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/1,0,0
 
-          **rz/xyz**/n1  ,n2  ,n3+1/0,0,0/n1,n2,n3/0,0,1
+hcp (hexagonal close pack) point distribution  (two command sequence)
 
-          **rz/xyz**/n1  ,n2+1,n3  /0,0,0/n1,n2,n3/0,1,0
-
-          **rz/xyz**/n1+1,n2  ,n3  /0,0,0/n1,n2,n3/1,0,0
-
-**rz/xyz**/n1+1,n2+1,n3+1/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/1,1,1
-
-**rz/xyz**/n1  ,n2  ,n3+1/0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/0,0,1
-
-**rz/xyz**/n1  ,n2+1,n3  /0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/0,1,0
-
-**rz/xyz**/n1+1,n2  ,n3  /0.25,0.25,0.25/n1+.25,n2+.25,n3+.25/1,0,0
-
- hcp (hexagonal close pack) point distribution  (two command sequence)
-
-**rzv/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/
-
-**rzv/xyz**/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/.5,0.2,.5
+    rzv/xyz/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/
+    rzv/xyz/n1,n2,n3/1,0,0/.5,0.866,0/0,0,1/.5,0.2,.5
 
 nice 2-d distribution of points in a circle of radius 1
 
-**rzv/xyz**/10,60,0/0.1,0,0/0,60,0/0,0,1/0,0,0/1,0.5,1/1,1,1/1,1,1**/vector**/0,0,0
+    rzv/xyz/10,60,0/0.1,0,0/0,60,0/0,0,1/0,0,0/1,0.5,1/1,1,1/1,1,1/vector/0,0,0
 
-   CAVEATS -
-
+**CAVEATS:**:
       
-* filter should be used afterwards to remove possibly duplicate
-points
-
-      
-* this can create some really bizzare point distributions
-
-      
-* mistyped input after "rzv/[cgeom]" always returns successful
-point addition,
-
-      but may be very different than desired
-
-      
-* ratio\_flag might better be a scalar or a matix, and its use
-might want to be extended to ratio\_method=component.
+  * filter should be used afterwards to remove possibly duplicate
+  points
+  * this can create some really bizzare point distributions
+  * mistyped input after "rzv/[cgeom]" always returns successful
+  point addition, but may be very different than desired
+  * ratio\_flag might better be a scalar or a matix, and its use might want to be extended to ratio\_method=component.

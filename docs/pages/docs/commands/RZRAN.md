@@ -1,5 +1,6 @@
 ---
 title: RZRAN
+tags: review
 ---
 
  **RZRAN**
@@ -30,99 +31,45 @@ title: RZRAN
   the origin), it is recommended that you use as the minimal command:
   **rzran** / **geom** / spacing /  rmin1,rmin2,rmin3 /
   rmax1,rmax2,rmax3
- 
-  **geom**
 
-     geometry label (same convention as for rz)
+Argument | Description | Allowed Values | Default
+--- | --- | --- | ---
+**geom** | geometry label (same convention as for rz)|      xyzrtprtz |      default: xyz if not present, error return if not allowed 
+**spacing** |  target separation between the random points |      spacing&gt;0  |      default: spacing=1
+rmin1,rmin2,rmin3 <br> rmax1,rmax2,rmax3 |  minimum and maximum coordinate values |   all geometries: rmax.ge.rmin |  defaults: rmin=0, rmax=rmin |  
+xoff,yoff,zoff (specified in xyz coordinate system) | local origin shift | | defaults: 0  |
+edgedist | edge protection distance aka interior-exterior offset | | default: spacing/2, recommended value: spacing/2
+ranseed1,ranseed2 | seeds for the random number generator | | defaults: -1 (do not re-seed, recommended) 
 
-     allowed values: xyzrtprtz
+If either seed is .le. zero, the seeds are ignored.
+Recommended values if reseed: large-ish integers, ranseed1&gt;ranseed2&gt;0, ranseed2 odd.
 
-     default: xyz if not present, error return if not allowed
- 
-  **spacing**
-
-     target separation between the random points
-
-     allowed values: spacing&gt;0
-
-     default: spacing=1
- 
-  rmin1,rmin2,rmin3 / rmax1,rmax2,rmax3
-
-     minimum and maximum coordinate values
-
-     allowed values:
-
-        all geometries: rmax.ge.rmin
-
-        **rtz:** rmin1.ge.0, rmax2-rmin2.le.360
-
-        **rtp**: rmin1.ge.0, rmin2.ge.0, rmax2.le.,
-  rmax3-rmin3.le.360
-
-      defaults: rmin=0, rmax=rmin
- 
-  xoff,yoff,zoff (specified in xyz coordinate system)
-
-     local origin shift
-
-     defaults: 0
- 
-  edgedist
-
-     edge protection distance aka interior-exterior offset
-
-     default: spacing/2
-
-     recommended value: spacing/2
- 
-  ranseed1,ranseed2
-
-     seeds for the random number generator
-
-     defaults: -1 (do not re-seed, recommended)
-
-        if either seed is .le. zero, the seeds are ignored
-
-     recommended values if reseed:
-
-        large-ish integers, ranseed1&gt;ranseed2&gt;0, ranseed2 odd.
-
-     No initial seeds are needed, and repeating the command
-
-     with the identical parameters and seeds should result
-
-     in the identical point distribution. Repeating the
-
-     command with no seeds specified should result in
-
-     different point locations with the same distribution.
+No initial seeds are needed, and repeating the command
+with the identical parameters and seeds should result
+in the identical point distribution. Repeating the
+command with no seeds specified should result in
+different point locations with the same distribution.
 
    
+**EXAMPLES**
 
- EXAMPLES
+    rzran / xyz / .1 / 0 0 0 / 1 1 1 /
 
-  **rzran** / **xyz** / .1 / 0 0 0 / 1 1 1 /
-
-     random points with target spacing 0.1 in a 1x1x1 box
+random points with target spacing 0.1 in a 1x1x1 box
  
-  **rzran**/ **rtz** / .1 /  0,0,0 / 1,,360 / 2,3,4 / 0.2
+    rzran/ rtz / .1 /  0,0,0 / 1,,360 / 2,3,4 / 0.2
 
-     random points with target spacing 0.1 in a cylinder
-
-     of radius 1 centered at xyz=(2,3,4) and with an
-
-     edge protection distance of 0.2
+random points with target spacing 0.1 in a cylinder
+of radius 1 centered at xyz=(2,3,4) and with an
+edge protection distance of 0.2
  
-  **rzran/ rtp** / .5 /  5,0,0 / 5,,360 /  , ,  /  / 98765 4321/
+    rzran/ rtp / .5 /  5,0,0 / 5,,360 /  , ,  /  / 98765 4321/
 
-     random points with target spacing 0.5 on the surface
+random points with target spacing 0.5 on the surface
+of a sphere of radius 5 centered at the origin
+with new random seeds
 
-     of a sphere of radius 5 centered at the origin
-
-     with new random seeds
-
- CAVEATS
+**CAVEATS**
 
   Filter should be used afterwards to remove possibly duplicate
   points. The algorithm to insure the points are uniformly distributed

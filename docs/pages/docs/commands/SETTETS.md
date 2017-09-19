@@ -1,5 +1,6 @@
 ---
 title: SETTETS
+tags: ok
 ---
 
 **SETTETS**
