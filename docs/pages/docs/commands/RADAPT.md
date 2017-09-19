@@ -1,7 +1,7 @@
  **RADAPT**
 
   The command radapt performs r-adaption on 2D or 3D mesh objects. For
-  simple smoothing see command smooth. radapt takes a 2D or 3D mesh
+  simple smoothing see command smooth. **radapt** takes a 2D or 3D mesh
   object and moves nodes (specifically the nodes selected by
   ifirst,ilast,istride), without changing the connectivity of the
   grid, in order to adapt the mesh to best capture the behavior of a
@@ -23,7 +23,7 @@
   smoothing purposes, **mega** can only be used on 3D meshes, and only
   in conjunction with a user-supplied subroutine fadpt or with a user
   specified attribute field. If adaption is to an attribute field,
-  then **radapt** may be instructed to use the interpolation mode
+  then ****radapt**** may be instructed to use the interpolation mode
   associated with the attribute to **refresh** the attribute values.
   The default is **stale** in which case the attribute value will not
   be updated to reflect the new node position. In either case, the
@@ -40,7 +40,7 @@
   to be attracted to the region of interest. (**esug** adapts
   especially to large gradients, **mega** adapts especially to large
   second derivatives---"curvature".) If adaption is to an attribute
-  field, then **radapt** may be instructed to use the interpolation
+  field, then ****radapt**** may be instructed to use the interpolation
   mode associated with the attribute field to **refresh** the
   attribute values. The default is **stale** in which case the
   attribute value will not be updated to reflect the new node position
@@ -83,8 +83,8 @@
   algorithm. In particular, rescaling has no effect on the output.*
 
   The code variable **maxiter**\_**sm** (default=25) can be set using
-  the **assign** command before calling **radapt**. This controls the
-  maximum number of adaption iterations to be performed by **radapt**.
+  the **assign** command before calling ****radapt****. This controls the
+  maximum number of adaption iterations to be performed by ****radapt****.
   If convergence is detected , fewer iterations will be performed. If
   field data is allowed to become **stale** during the course of
   r-adaption, **maxiter**\_**sm** should be reduced (e.g. less than
@@ -92,47 +92,38 @@
 
  **FORMAT:**
 
-    radapt / position/  
-    esugmega/ ifirst,ilast,istride / field/ 
-    refreshstale
-    radapt /  position/   esugmega / 
-    ifirst,ilast,istride /  user
+**radapt** / position/  esugmega/ ifirst,ilast,istride / field/ refreshstale
+**radapt** /  position/   esugmega / ifirst,ilast,istride /  user
 
  **EXAMPLES:**
 
-  Using **esug**, adapt all nodes in 2dmesh to the density field. Do
-  not update data.
+Using **esug**, adapt all nodes in 2dmesh to the density field. Do
+not update data.
  
-   **radapt / / esug **/ 1,0,0 / density
+		radapt / / esug **/ 1,0,0 / density
  
-  Assuming a default 3D cmo, use **mega** to adapt the mesh to the
-  adaption function supplied by the user via subroutine fadpt.
-  Afterwards dope the density field with the fadpt function values.
+Assuming a default 3D cmo, use **mega** to adapt the mesh to the
+adaption function supplied by the user via subroutine fadpt.
+Afterwards dope the density field with the fadpt function values.
  
-   **radapt** / / / 1,0,0 / **user**
+		radapt / / / 1,0,0 / *user
+		doping / user / density / set /1,0,0/
 
-   **doping** / **user** / density / **set** /1,0,0/
-
- FORMAT FOR fadpt:
+ **FORMAT FOR fadpt**:
 
   subroutine fadpt(xvec,yvec,zvec,imtvec,nvec,time,fvec)
 
-  xvec, yvec, zvec --- Vectors of x, y, and z coordinates of the
-  points where the function is to be evaluated.
-  
-  imtvec --- Vector of **imt** values (material types) for the case
-  where function value depends on material type as well as position
-  (ie. functions with discontinuities).
-  
-  nvec --- Vector length (= number of places where function is to be
-  evaluated).
- 
-  time --- Time (scalar), for time-dependent functions.
- 
-  fvec --- Vector of adaption function values.
+Argument | Description
+--- | ---
+xvec, yvec, zvec | Vectors of x, y, and z coordinates of the points where the function is to be evaluated.
+imtvec | Vector of **imt** values (material types) for the case  where function value depends on material type as well as position
+(ie. functions with discontinuities).
+nvec | Vector length (= number of places where function is to be evaluated).
+time | Time (scalar), for time-dependent functions.
+fvec | Vector of adaption function values.
 
  
- SAMPLE FUNCTIONS AND INPUT DECKS
+ **SAMPLE FUNCTIONS AND INPUT DECKS**
 
   To demonstrate adaptive smoothing using **mega**, examples are
   available which use the files

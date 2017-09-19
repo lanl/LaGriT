@@ -1,5 +1,6 @@
 ---
 title: REORDER
+tags: ok
 ---
 
  **REORDER**
@@ -17,6 +18,6 @@ title: REORDER
 
  **FORMAT:**
      
-        reorder/mo_name/sort_key/
-        reorder/ -def- /sort_key/
+**reorder**/mo_name/sort_key/
+**reorder**/ -def- /sort_key/
  

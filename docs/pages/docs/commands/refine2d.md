@@ -1,4 +1,9 @@
- **REFINE2D**
+---
+title: REFINE2D
+tags: ok
+--- 
+
+**REFINE2D**
 
   This routine deterministically refines a triangle by bisecting all
   the edges and connect these bisection points to form new triangles.

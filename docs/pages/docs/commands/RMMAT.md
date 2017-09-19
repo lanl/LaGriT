@@ -1,4 +1,9 @@
- **RMMAT**
+---
+title: RMMAT
+tags: ok
+--- 
+
+**RMMAT**
 
   This routine is used to remove points that are of a specified
   material type. Elements with the specified material types are

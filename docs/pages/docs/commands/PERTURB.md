@@ -1,4 +1,9 @@
- **PERTURB**
+---
+title: PERTURB
+tags: ok
+--- 
+
+**PERTURB**
 
 This command moves node coordinates in the following manner.
 
@@ -15,7 +20,7 @@ triangles and cause 3D cells to have negative volumes.
 
 **FORMAT:**
 
-**perturb/pset,get,psetnam**e/xfactor,yfactor,zfactor
+**perturb/pset,get,psetname**/xfactor,yfactor,zfactor
 
  
 

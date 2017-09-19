@@ -1,4 +1,9 @@
- **QUADXY**
+---
+title: QUADXY
+tags: ok
+--- 
+
+**QUADXY**
 
   Define an arbitrary, logical quad of points in 3D space with NDIM1 x
   NDIM2 number of nodes.
@@ -7,7 +12,7 @@
   clockwise order ( the normal to the quad points is defined using the
   right hand rule and the order of the points).
 
-  The nodes can be connected using the createpts/brick/xyz command.
+  The nodes can be connected using the **createpts**/brick/xyz command.
 
 **FORMAT:**
 
@@ -19,8 +24,8 @@
  Create a XZ quad surface with 4 nodes in x direction and 10 nodes in
  Z direction. See Example 2 image.
 
- quadxy / 3 5 /0. 0. 0./10. 0. 0./10. 20. 0./0. 20. 0.
- createpts/brick/xyz/ 3 5 1 /1,0,0/connect
+	 quadxy / 3 5 /0. 0. 0./10. 0. 0./10. 20. 0./0. 20. 0.
+	 createpts/brick/xyz/ 3 5 1 /1,0,0/connect
 
  Create a XY quad surface with 3 nodes in x direction and 5 nodes in
  y direction. See Example 1 image.

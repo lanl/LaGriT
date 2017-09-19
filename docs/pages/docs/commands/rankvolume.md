@@ -1,10 +1,11 @@
 ---
 title: SETSIZE
+tags: ok
 ---
 
  **RANKVOLUME**
 
-  RANKVOLUME prints out the lowest volume elements from a mesh, ranked
+  **rankvolume**  prints out the lowest volume elements from a mesh, ranked
   in increasing order.  The default is to print out the 100 lowest
   volume elements, but this number can be changed by specifying it as
   an optional second argument to the command. Also printed are the
@@ -17,28 +18,28 @@ title: SETSIZE
 
 EXAMPLE:
 
-rankvolume/10
+        rankvolume/10
 
-elt. no.       volume     
-#ext.bound.faces 
-#int.bound.faces
+		elt. no.       volume     
+		#ext.bound.faces 
+		#int.bound.faces
 
-    343660  0.105844E-05      0          1
+		    343660  0.105844E-05      0          1
 
-    567342  0.105844E-05      0          0
+		    567342  0.105844E-05      0          0
 
-    567266  0.105844E-05      0          1
+		    567266  0.105844E-05      0          1
 
-    283659  0.105844E-05      0          0
+		    283659  0.105844E-05      0          0
 
-    687334  0.105844E-05      0          0
+		    687334  0.105844E-05      0          0
 
-    0784  0.105844E-05      0          0
+		    0784  0.105844E-05      0          0
 
-    730990  0.105844E-05      0          0
+		    730990  0.105844E-05      0          0
 
-    146725  0.105844E-05      0          0
+		    146725  0.105844E-05      0          0
 
-    785111  0.105844E-05      0          0
+		    785111  0.105844E-05      0          0
 
-    0711  0.105844E-05      0          0
+		    0711  0.105844E-05      0          0

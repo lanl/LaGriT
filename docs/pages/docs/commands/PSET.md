@@ -1,3 +1,7 @@
+---
+title: PSET
+tags: ok
+---
 
  **PSET (Point Set)**
 
@@ -204,4 +208,5 @@ associate the name spseta with the set of nodes that lie on the surface s2 and w
     pset/mypset/constraints/3
 
 associate the name mypset with the set of nodes that have 3 constraints ( normally the set of nodes that lie on 3  constrained surfaces -- surfaces of type reflect or intrcons)
+
 [Click here for demos](../demos/main_pset.md)

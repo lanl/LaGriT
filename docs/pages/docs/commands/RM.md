@@ -1,5 +1,6 @@
 ---
 title: RM
+tags: ok
 ---
 
  **RM**
@@ -38,8 +39,8 @@ title: RM
   /ifirst,ilast,istride/xmin,ymin,zmin/xmax,ymax,zmax/ xcen,ycen,zcen
   / [xscale,yscale,zscale]
 
- EXAMPLE:
+**EXAMPLES:**
 
- **rm** **/xyz**/1,0,0/2.,2.,2./4.,4.,4./0.,0.,0./
+    rm/xyz/1,0,0/2.,2.,2./4.,4.,4./0.,0.,0./
 
- **rm/rtz**/1,0,0/0.,0.,0./1.,360.,10./0.,0.,0./
+	rm/rtz/1,0,0/0.,0.,0./1.,360.,10./0.,0.,0./

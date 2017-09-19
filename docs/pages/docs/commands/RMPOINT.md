@@ -1,5 +1,6 @@
 ---
 title: RMPOINT
+tags: ok
 ---
 
  **RMPOINT**
@@ -42,23 +43,21 @@ title: RMPOINT
 
 **EXAMPLES:**
 
- 
+    rmpoint/pset, get, pset1
 
-**rmpoint/pset,** get, pset1
-
-    mark all the nodes in pset1 for removal.  Remove elements all of
+mark all the nodes in pset1 for removal.  Remove elements all of
 whose vertices are members of pset1.
 
-**rmpoint/compress**
+    rmpoint/compress
 
-**   ** remove all marked nodes and correct the itet array
+remove all marked nodes and correct the itet array
 
-**rmpoint/zero\_volume**/1.e-16
+    rmpoint/zero\_volume/1.e-16
 
-     remove all elements with volumes less than 1.e-16
+remove all elements with volumes less than 1.e-16
 
-**rmpoint/element**/27 259 1009
+    rmpoint/element/27 259 1009
 
-     remove the three specified elements
+remove the three specified elements
 
-**rmpoint/element/eltset,** get, myeset
+    rmpoint/element/eltset, get, myeset
