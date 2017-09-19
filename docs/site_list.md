@@ -88,7 +88,7 @@
 [LOG](pages/docs/commands/LOG)\
 [MASSAGE](pages/docs/commands/MASSAGE)\
 [MASSAGE2](pages/docs/commands/MASSAGE2)\
-[MATH](pages/docs/commands/MATH)\
+[MATh](pages/docs/commands/MATh)\
 [MERGE](pages/docs/commands/MERGE)\
 [MODE](pages/docs/commands/MODE)\
 [MREGION](pages/docs/commands/MREGION)\
