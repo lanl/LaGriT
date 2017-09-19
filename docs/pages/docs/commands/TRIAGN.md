@@ -1,3 +1,8 @@
+ ---
+ title: TRIAGN
+ tags: ok
+ ---
+ 
  **TRIANGULATE**
 
 **triangulate** will take an ordered set of nodes in the current 2d mesh
@@ -21,20 +26,16 @@ this case, the user may try to rotate the order of the nodes:
 NODE\_ID:
 
 1 -&gt; 2
-
 2 -&gt; 3
-
 ...
-
 N -&gt; 1
 
 **FORMAT:**
 
-**triangulate** **/clockwise** | **counterclockwise** 
+**triangulate** **/clockwise** OR **counterclockwise** 
 
 clockwise is the default.  Orientation is defined with the viewer above
 the xy plane.
-
  
 **EXAMPLES:**
 

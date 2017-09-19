@@ -159,39 +159,37 @@ LINE GRAPH **FORMAT:**
 
 **EXAMPLES:**
 
- **sort** / cmo / **index / ascending** / ikey / imt zic yic xic
+     sort / cmo / index / ascending / ikey / imt zic yic xic
 
  Multi-key sort first by imt then to break ties consider z coordinate,
  then if there are further ties, use y coordinate. Use x coordinate as
  final tie breaker.
 
- **sort** / cmo **/ rank / descending** / ikey / yic
+     sort / cmo / rank / descending / ikey / yic
 
  Produce ranking of nodes based on y coordinate in descending order.
 
- **sort** / cmo / **index /-def-/-def-**/ xic yic zic
+     sort / cmo / index /-def-/-def-/ xic yic zic
 
  Produce index of noded coordinates. This would be like a line sweep
  sort where the sweep is first along x coordinate then y then z.
 
- **sort** / cmo / **bins / ascending** / i\_index / xic
-
- **sort**/ cmo / **bins / ascending** / j\_index / yic
-
- **sort** / cmo / **bins / ascending** / k\_index / zic
+     sort / cmo / bins / ascending / i\_index / xic
+     sort/ cmo / bins / ascending / j\_index / yic
+     sort / cmo / bins / ascending / k\_index / zic
 
  If the cmo were a finite difference grid of points, the above three
  commands would produce the finite difference indexing. All points with
  the same x value would be in the same i\_index bin, all points with
  the same y value would be in the same j\_index bin, etc.
 
- **sort** / cmo / **line\_graph** / **ascending** / ikey / elements
+     sort / cmo / line\_graph / ascending / ikey / elements
 
  Sort the line segment elements into a reasonable order based on
  connectivity. This also creates attributes cid, ctype, and loop\_id
  (see above).
 
- **sort / xyz / bins**
+      sort / xyz / bins
 
  Old version no longer supported but syntax will work. Result is the
  same as previous three commands.

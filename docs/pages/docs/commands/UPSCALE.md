@@ -1,3 +1,8 @@
+---
+title: UPSCALE
+tags: review
+---
+
 UPSCALE
 -------
 
@@ -43,7 +48,7 @@ UPSCALE
   **upscale** / scale\_method / cmosink, attsink / 1,0,0 / cmosrc,
   attsrc /
 
-  [boundary\_choice] [keepatt] [set\_id]
+  [**boundary\_choice**] [keepatt] [set\_id]
 
   Keywords appearing after the source cmo attribute name are optional
   and may appear in any order.
@@ -77,21 +82,21 @@ UPSCALE
 
    
 
-   **harave** - For each sink point, calculate the harmonic mean of n
-   values from source attribute attsrc
+  **harave** - For each sink point, calculate the harmonic mean of n
+  values from source attribute attsrc
 
-   sink\_val = n / ( 1/x(1) + 1/x(i)... + 1/x(n) )
+  sink\_val = n / ( 1/x(1) + 1/x(i)... + 1/x(n) )
 
-   for 4 values; 1,2,3,4 harave = 1.92
+  for 4 values; 1,2,3,4 harave = 1.92
 
-   
 
-   ** min** or ** max** - For each sink point, assign the min or max
-   source attribute from n values found in attsrc
 
-   sink\_val = min(x(1),x(i),x(n))
+  **min** or **max** - For each sink point, assign the min or max
+  source attribute from n values found in attsrc
 
-   for 4 values; 1,2,3,4 min = 1
+  sink\_val = min(x(1),x(i),x(n))
+
+  for 4 values; 1,2,3,4 min = 1
 
    
 
@@ -134,14 +139,14 @@ UPSCALE
  
   The following parameters are optional for the command **upscale**. 
  
-  boundary\_choice provides a method of choice when source nodes are
+  **boundary\_choice** provides a method of choice when source nodes are
   found on the boundary of multiple Voronoi volumes of sink nodes. By
   default, each set of souce nodes found within each volume are used
   to calculate an upscale value for the sink node. In this case if
   duplicate nodes occur on multiple cells, the sum number of nodes
   used in upscale calculations will exceed the sum total of nodes in
   the source mesh. If the number of source nodes used must equal the
-  number of source mesh nodes, choose an boundary\_choice to detirmine
+  number of source mesh nodes, choose an **boundary\_choice** to detirmine
   which sink volume an boundary node should be assigned to. The result
   is a one-to-one correspondence with each source point assigned to a
   single sink node id which is stored in source attribute pt\_gtg.
@@ -197,22 +202,19 @@ UPSCALE
  
   **EXAMPLES:**
  
-   upscale / sum / cmo_sink icount /1,0,0/ cmo_src ival
+       upscale / sum / cmo_sink icount /1,0,0/ cmo_src ival
+       upscale / sum / cmo_sink icount /1,0,0/ cmo_src ival/
+       single keepatt
 
-   upscale / sum / cmo_sink icount /1,0,0/ cmo_src ival/
-   single keepatt
+       upscale / min / cmo_sink imin /1,0,0/ cmo_src ival/ single
+       keepatt set_id
 
-   upscale / min / cmo_sink imin /1,0,0/ cmo_src ival/ single
-   keepatt set_id
+       upscale / max / cmo_sink imax /1,0,0/ cmo_src ival/
+       keepatt
 
-   upscale / max / cmo_sink imax /1,0,0/ cmo_src ival/
-   keepatt
-
-   upscale / ariave / cmo_sink ave_val /1,0,0/ cmo_src xval/
-
-   upscale / harave / cmo_sink har_val /1,0,0/ cmo_src xval/
-
-   upscale / geoave / cmo_sink geo_val /1,0,0/ cmo_src xval/
+       upscale / ariave / cmo_sink ave_val /1,0,0/ cmo_src xval/
+       upscale / harave / cmo_sink har_val /1,0,0/ cmo_src xval/
+       upscale / geoave / cmo_sink geo_val /1,0,0/ cmo_src xval/
 
  
   EXAMPLES 1 and 2:
@@ -224,7 +226,7 @@ UPSCALE
     sink points are shown below.
    
     
-     Example 1:                         Example 2:                        
+               Example 1:                         Example 2:                        
                                                                           
       cmo/setatt/cmo\_src/ival/1,0,0/   cmo/setatt/cmo\_src/ival/1,0,0/ 
       1
@@ -401,11 +403,13 @@ UPSCALE
                                                                         
   
  
-  EXAMPLE 2 IMAGES: These images show the 10 numbered sink points and
-  the 1221 source points. In this example all source points have an
-  imt1 value of 1. The sink points each have a value in icount equal
-  to the number of nodes used for the associated Voronoi volume. The
-  red lines show the Voronoi cell boundaries for the 10 sink points.
+**EXAMPLE 2 IMAGES:** 
+
+These images show the 10 numbered sink points and
+the 1221 source points. In this example all source points have an
+imt1 value of 1. The sink points each have a value in icount equal
+to the number of nodes used for the associated Voronoi volume. The
+red lines show the Voronoi cell boundaries for the 10 sink points.
 
 Source points all equal to 1,
 

@@ -1,3 +1,8 @@
+---
+title: STACK
+tags: review
+---
+
 STACK
 -----
 
@@ -124,30 +129,16 @@ elements will be hex.
 
 **FORMAT:**
 
- **stack/layers**
-
- **[avs  gmv ]**
-
- [minx,miny, maxx,maxy]
-
- filename(1) [matno] filename(i) [matnum, addnum] filename(n)
+ **stack/layers** **[avs  gmv ]** [minx,miny, maxx,maxy] \
+ filename(1) [matno] filename(i) [matnum, addnum] filename(n) \
  [matnum, addnum] **[ flip ]**
-
- **[ buffer** [xdistance] ]
-
- **[ pinch** font face="Courier New,Courier"&gt;[xthick] ]
-
- **[ t**trunc** [ifile]
-
- **[ dpinch** xvalue /
-
- **dmin** xvalue ]
+**[ buffer** [xdistance] ] /
+**[ pinch**  &gt;[xthick] ] /\
+[ **trunc** [ifile] /
+**[ dpinch** xvalue /
+**dmin** xvalue ]
 
   
-
-  
-
-
 **EXAMPLES:**
 
  cmo create cmo\_stack
@@ -184,7 +175,7 @@ elements will be hex.
  cmo create cmo\_stack
 
  **stack/layers/avs** / surf-12.inp  1/ surf-5.inp  2 3 /
- surf5.inp  3  / surf2\_slope.inp  4/ surf25.inp  4 1 / runcate** 4
+ surf5.inp  3  / surf2\_slope.inp  4/ surf25.inp  4 1 / **truncate** 4
  / **pinch** 0.
 
  stack/fill/mohex/cmo\_stack

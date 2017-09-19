@@ -190,17 +190,17 @@
 
 [**OFFSETSURF**](pages/docs/commands/OFFSETSURF)
 
-[~~PERTURB~~](pages/docs/commands/PERTURB)
+[**PERTURB**](pages/docs/commands/PERTURB)
 
-[~~PSET~~](pages/docs/commands/PSET)
+[**PSET**](pages/docs/commands/PSET)
 
-[~~PSTATUS~~](pages/docs/commands/PSTATUS)
+[**PSTATUS**](pages/docs/commands/PSTATUS)
 
-[~~QUADXY~~](pages/docs/commands/QUADXY)
+[**QUADXY**](pages/docs/commands/QUADXY)
 
 [~~QUADXYZ1~~](pages/docs/commands/QUADXYZ1)
 
-[~~QUALITY~~](pages/docs/commands/QUALITY)
+[**QUALITY**](pages/docs/commands/QUALITY)
 
 [~~RADAPT~~](pages/docs/commands/RADAPT)
 
@@ -210,65 +210,65 @@
 
 [**REFINE**](pages/docs/commands/REFINE)
 
-[~~REGION~~](pages/docs/commands/REGION)
+[**REGION**](pages/docs/commands/REGION)
 
-[~~REGNPTS~~](pages/docs/commands/REGNPTS)
+[**REGNPTS**](pages/docs/commands/REGNPTS)
 
-[~~REORDER~~](pages/docs/commands/REORDER)
+[**REORDER**](pages/docs/commands/REORDER)
 
-[~~RESETPT~~](pages/docs/commands/RESETPT)
+[**RESETPT**](pages/docs/commands/RESETPT)
 
-[~~RM~~](pages/docs/commands/RM)
+[**RM**](pages/docs/commands/RM)
 
-[~~RMMAT~~](pages/docs/commands/RMMAT)
+[**RMMAT**](pages/docs/commands/RMMAT)
 
-[~~RMPOINT~~](pages/docs/commands/RMPOINT)
+[**RMPOINT**](pages/docs/commands/RMPOINT)
 
-[~~RMREGION~~](pages/docs/commands/RMREGION)
+[**RMREGION**](pages/docs/commands/RMREGION)
 
-[~~RMSPHERE~~](pages/docs/commands/RMSPHERE)
+[**RMSPHERE**](pages/docs/commands/RMSPHERE)
 
-[~~RMSURF~~](pages/docs/commands/RMSURF)
+[**RMSURF**](pages/docs/commands/RMSURF)
 
-[~~ROTATELN~~](pages/docs/commands/ROTATELN)
+[**ROTATELN**](pages/docs/commands/ROTATELN)
 
-[~~ROTATEPT~~](pages/docs/commands/ROTATEPT)
+[**ROTATEPT**](pages/docs/commands/ROTATEPT)
 
-[~~RZ~~](pages/docs/commands/RZ)
+[**RZ**](pages/docs/commands/RZ)
 
-[~~RZAMR~~](pages/docs/commands/RZAMR)
+[**RZAMR**](pages/docs/commands/RZAMR)
 
-[~~RZBRICK~~](pages/docs/commands/RZBRICK)
+[*RZBRICK*](pages/docs/commands/RZBRICK)
 
-[~~RZRAN~~](pages/docs/commands/RZRAN)
+[*RZRAN*](pages/docs/commands/RZRAN)
 
-[~~RZS~~](pages/docs/commands/RZS)
+[*RZS*](pages/docs/commands/RZS)
 
-[~~RZV_LG~~](pages/docs/commands/RZV_LG)
+[*RZV_LG*](pages/docs/commands/RZV_LG)
 
 [~~SCALE~~](pages/docs/commands/SCALE)
 
 [**SETPTS**](pages/docs/commands/SETPTS)
 
-[~~SETSIZE~~](pages/docs/commands/SETSIZE)
+[**SETSIZE**](pages/docs/commands/SETSIZE)
 
-[~~SETTETS~~](pages/docs/commands/SETTETS)
+[**SETTETS**](pages/docs/commands/SETTETS)
 
-[~~SMOOTH~~](pages/docs/commands/SMOOTH)
+[**SMOOTH**](pages/docs/commands/SMOOTH)
 
-[~~SORT~~](pages/docs/commands/SORT)
+[**SORT**](pages/docs/commands/SORT)
 
-[~~STACK~~](pages/docs/commands/STACK)
+[*STACK*](pages/docs/commands/STACK)
 
-[~~SURFACE~~](pages/docs/commands/SURFACE)
+[*SURFACE*](pages/docs/commands/SURFACE)
 
-[~~SURFPTS~~](pages/docs/commands/SURFPTS)
+[**SURFPTS**](pages/docs/commands/SURFPTS)
 
-[~~TRANS~~](pages/docs/commands/TRANS)
+[**TRANS**](pages/docs/commands/TRANS)
 
-[~~TRIAGN~~](pages/docs/commands/TRIAGN)
+[**TRIAGN**](pages/docs/commands/TRIAGN)
 
-[~~UNG2AVS~~](pages/docs/commands/UNG2AVS)
+[**UNG2AVS**](pages/docs/commands/UNG2AVS)
 
 [**UPSCALE**](pages/docs/commands/UPSCALE)
 
@@ -370,9 +370,9 @@
 
 [**metis**](pages/docs/commands/metis)
 
-[~~rankvolume~~](pages/docs/commands/rankvolume)
+[**rankvolume**](pages/docs/commands/rankvolume)
 
-[~~refine2d~~](pages/docs/commands/refine2d)
+[**refine2d**](pages/docs/commands/refine2d)
 
 [**connect_notes**](pages/docs/connect_notes)
 
