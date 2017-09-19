@@ -1,10 +1,8 @@
 ---
-Author: Carl Gable
-GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 title: loop
+tags: ok
 ---
 
- 
 
 loop
 ----
@@ -18,7 +16,6 @@ loop
  the /foreach/ list.
 
  
-
 **FORMAT:**
 
  **loop**/ **do** / variable / loop\_start / loop\_stop / loop\_stride
@@ -48,12 +45,9 @@ loop
  command.
 
   
-
-  
-
 **EXAMPLES:**
 
- **loop / foreach** / MO / cmo1 cmo2 cmo3 / **loop\_end** / mo** /
+ **loop / foreach** / MO / cmo1 cmo2 cmo3 / **loop\_end** / **cmo** /
  **delete** / MO
 
   
@@ -81,7 +75,7 @@ loop
 
  **loop** / **foreach** / X0 0 5.5 10.23678 / **loop\_end** &
 
- reatepts** **/xyz**/NX,NY,NZ/X0 0. 0. / 100. 100. 100.
+ **createpts** **/xyz**/NX,NY,NZ/X0 0. 0. / 100. 100. 100.
 
   
 
@@ -92,7 +86,7 @@ loop
 
  **loop** / **foreach** / ATTRIBUTE / icr isn itp / **loop\_end** &
 
- mo** **/ modatt**/MO/ATTRIBUTE**/ioflag**/l
+ **cmo** **/ modatt**/MO/ATTRIBUTE**/ioflag**/l
 
   
 

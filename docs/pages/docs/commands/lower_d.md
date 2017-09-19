@@ -1,7 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: Microsoft Word 98
-title: FIELD
+title: LOWER_DFIELD
+tags: ok
 ---
 
  
@@ -21,103 +20,39 @@ title: FIELD
 
    
  
-    ------------------------ ------------------------ ------------------------
-    name                     type                     length
+    name     |      type   |   length
+	--- | --- | -- 
+    d0\_nnodes\_topo     |  VINT, nnodes  | 0 = interior / 1 = surface node / 2 = line node / 3 = line end node
  
-    d0\_nnodes\_topo         VINT, nnodes             0 = interior
-
-                                                      1 = surface node
-
-                                                      2 = line node
-
-                                                      3 = line end node
+    d1\_nnodes | INT, scalar | number of nodes in this   structure 
+    d1\_elements             | INT, scalar |              number of elements in   this structure 
+    d1\_nef\_cmo       | INT, scalar |              number of facets/element in this structure 
+    d1\_nee\_cmo             | INT, scalar |              number of edges/element in this structure 
+    d1\_nen\_cmo             | INT, scalar |              number of nodes/element in this structure 
+    d1\_jtet\_cycle\_max     | INT, scalar |              the longest jtet cycle  in this structure 
+    d1\_itettyp              | VINT d1\_elements |         element type
+    d1\_itetclr              | VINT d1\_elements |         element selection number
+    d1\_itet off             | VINT d1\_elements |        offset to d1\_itet
+    d1\_jtet off             | VINT d1\_elements |        offset to d1\_jtet
+    d1\_itet                 | VINT d1\_elements |        list of nodes for each xd1\_neu\_cmo  element
+    d1\_jtet                 | VINT d1\_elements |        list of face neighbors xd1\_nef\_cmo            
+    d1\_elm\_d0              | VINT d1\_elements |        elements face # in   original mesh that this         element came from
  
-    d1\_nnodes               INT, scalar              number of nodes in this
-                                                      structure
- 
-    d1\_elements             INT, scalar              number of elements in
-                                                      this structure
- 
-    d1\_nef\_cmo             INT, scalar              number of facets/element
-                                                      in this structure
- 
-    d1\_nee\_cmo             INT, scalar              number of edges/element
-                                                      in this structure
- 
-    d1\_nen\_cmo             INT, scalar              number of nodes/element
-                                                      in this structure
- 
-    d1\_jtet\_cycle\_max     INT, scalar              the longest jtet cycle
-                                                      in this structure
- 
-    d1\_itettyp              VINT d1\_elements        element type
- 
-    d1\_itetclr              VINT d1\_elements        element selection number
- 
-    d1\_itet off             VINT d1\_elements        offset to d1\_itet
- 
-    d1\_jtet off             VINT d1\_elements        offset to d1\_jtet
- 
-    d1\_itet                 VINT d1\_elements        list of nodes for each
-                             xd1\_neu\_cmo            element
- 
-    d1\_jtet                 VINT d1\_elements        list of face neighbors
-                             xd1\_nef\_cmo            
- 
-    d1\_elm\_d0              VINT d1\_elements        elements face 
-# in
-                                                      original mesh that this
-                                                      element came from
- 
-    d2\_nnodes               INT, scalar              number of nodes in this
-                                                      structure
- 
-    d2\_elements             INT, scalar              number of elements in
-                                                      this structure
- 
-    d2\_nef\_cmo             INT, scalar              number of facets/element
-                                                      in this structure
- 
-    d2\_nee\_cmo             INT, scalar              number of edges/element
-                                                      in this structure
- 
-    d3\_nen\_cmo             INT, scalar              number of nodes/element
-                                                      in this structure
- 
-    d2\_jtet\_cycle\_max     INT, scalar              the longest jtet cycle
-                                                      in this structure
- 
-    d2\_itettyp              VINT d2\_elements        element type
- 
-    d2\_itetclr              VINT d2\_elements        element material number
- 
-    d2\_itet off             VINT d2\_elements        offset to d2\_itet
- 
-    d2\_jtet off             VINT d2\_elements        offset to d2\_jtet
- 
-    d2\_itet                 VINT d2\_elements        list of nodes for each
-                             xd2\_neu\_cmo            element
- 
-    d2\_jtet                 VINT d2\_elements        list of face neighbors 
-                             xd2\_nef\_cmo            
- 
-    d2\_elm\_d1              VINT d2\_elements        element & face that this
-                                                      element came from in
-                                                      next higher level
-                                                      structure
- 
-    d3\_nnodes               INT, scalar              number of nodes in this
-                                                      structure
- 
-    lower\_d\_flag           INT, scalar              0= no lower d structure
-                                                      exist
-
-                                                      =1 lower\_d structures
-                                                      exist and are valid
-
-                                                      =2 lower\_d structures
-                                                      not valid
-    ------------------------ ------------------------ ------------------------
+    d2\_nnodes            |   INT, scalar            |  number of nodes in this         structure 
+    d2\_elements             | INT, scalar              | number of elements in         this structure 
+    d2\_nef\_cmo             | INT, scalar              | number of facets/element in this structure 
+    d2\_nee\_cmo             | INT, scalar              | number of edges/element in this structure 
+    d3\_nen\_cmo             | INT, scalar              | number of nodes/element in this structure 
+    d2\_jtet\_cycle\_max     | INT, scalar            |  the longest jtet cycle  in this structure 
+    d2\_itettyp              | VINT d2\_elements        | element type
+    d2\_itetclr              | VINT d2\_elements        | element material number
+    d2\_itet off             | VINT d2\_elements        | offset to d2\_itet
+    d2\_jtet off             | VINT d2\_elements        | offset to d2\_jtet
+    d2\_itet                 | VINT d2\_elements        | list of nodes for each xd2\_neu\_cmo  element
+    d2\_jtet                 | VINT d2\_elements        | list of face neighbors xd2\_nef\_cmo            
+    d2\_elm\_d1              | VINT d2\_elements  |      element & face that this element came from in next higher level structure 
+    d3\_nnodes    |           INT, scalar          |    number of nodes in this structure 
+    lower\_d\_flag           | INT, scalar          |    0= no lower d structure exist \ =1 lower\_d structures exist and are valid \ =2 lower\_d structures not valid
  
   The above set of attributes are created if the original mesh is 3D. 
   If the original mesh is 2D then the d1 structures are created, but
@@ -129,7 +64,7 @@ title: FIELD
 
  **FORMAT:**
 
-  **lower\_d** / reate**/ [cmo\_name]
+  **lower\_d** / **create**/ [cmo\_name]
 
     create lower\_d structures in mesh object
 

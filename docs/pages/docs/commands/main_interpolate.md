@@ -146,7 +146,7 @@ INTERPOLATE
  result is a one-to-one correspondence with each sink point paired with
  a single source node or a single source element.
 
-  iemax** selects the maximum value from candidate nodes or
+  **tiemax** selects the maximum value from candidate nodes or
   elements. This is the default selection.
 
   **tiemin** selects the minimum value from candidate nodes or
@@ -225,18 +225,18 @@ options, and element types are supported with the command
  
 
 
-| **MAP** | **CONTINUOUS** | **VORONOI**
+   | **MAP** | **CONTINUOUS** | **VORONOI**
 --- | --- | --- | ---
 | copy element value to enclosed point       |        interpolate element nodes to enclosed point    |    copy nearest node value
 **source elements** | tri, quad, hex, tet, (pyr), (pri), (line) |  tri, quad, NOT hex, tet, (pyr), (pri), (line)  | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)                                                                                                      
 **sink element** | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)                                                                                                      
-**source attribute8* | element        |  node     |      node
+**source attribute** | element        |  node     |      node
 **sink attribute** | node or element (centroid)   |     node or element (centroid)  |    node or element (centroid)                                                                                                          
 **source attribute type** |integer or double    |    integer or double      |   integer or double                                                                                                   
 **sink attribute type**  | integer or double   |      NOT integer, double      |   integer or double                                                                                                  
 **interpolation function** | linear, log, sinh, all others pass unaltered | linear, log, sinh, all others pass unaltered | linear, log, sinh, all others pass unaltered  
-**tiebreaker**       | **tiemin or tiemax             |                      **tiemin or tiemax            |                       **tiemin or tiemax
-**error flag**    |   plus1, nearest, or user value              |        plus1, nearest, or user value         |             plus1 or user value=
+**tiebreaker**       | **tiemin or tiemax**             |                      **tiemin or tiemax**            |                       **tiemin or tiemax**
+**error flag**    |   plus1, nearest, or user value              |        plus1, nearest, or user value         |             plus1 or user value
 **added attributes**    |   keepatt creates attribute el\_gtg      |            keepatt creates attribute el\_gtg        |          keepatt creates attribute pt\_gtg
 
  **FORMAT:**
@@ -255,13 +255,13 @@ options, and element types are supported with the command
 
  **EXAMPLES:**
 
-  **interpolate / map **/ cmo\_sink imt /1,0,0/ cmo\_src itetclr
+  **interpolate / map**/ cmo\_sink imt /1,0,0/ cmo\_src itetclr
 
   For each node in cmo\_sink find an enclosing element from mesh
   cmo\_src. Assign the element's itetclr value to the corresponding
   imt attribute of cmo\_sink.
 
-  **interpolate/ map **/ cmo\_sink Pval /1,0,0/ cmo\_src Vval /
+  **interpolate/ map**/ cmo\_sink Pval /1,0,0/ cmo\_src Vval /
   **tiemin, log
 
   This command will assign source Vval values to sink Pval for
@@ -309,24 +309,24 @@ options, and element types are supported with the command
  
  DEMOS
 
-   MAP from element to element.
+ MAP from element to element.
 
-	<img src="https://lanl.github.io/LaGriT/assets/images/map03_view.gif">
-   
- CONTINUOUS from triangles
+<img src="https://lanl.github.io/LaGriT/assets/images/map03_view.gif">
+ 
+CONTINUOUS from triangles
 
 <img src="https://lanl.github.io/LaGriT/assets/images/con02_sink.gif">
 
-   [Example 1: interpolate / voronoi](../description_voronoi.md) \
+ [Example 1: interpolate / voronoi](../description_voronoi.md) \
 
-	Copy nearest source node value to sink point
+Copy nearest source node value to sink point
 
-   [Example 2: interpolate / map](../description_map.md) \
+ [Example 2: interpolate / map](../description_map.md) \
 
-	Copy source element value to enclosed sink point
+Copy source element value to enclosed sink point
 
-   [Example 3: interpolate / continuous](../description_cont.md) \
+ [Example 3: interpolate / continuous](../description_cont.md) \
 
-   Interpolate source element vertices to sink point 
+ Interpolate source element vertices to sink point 
  
 

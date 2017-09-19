@@ -1,3 +1,8 @@
+ ---
+ title: LOG
+ tags: review
+ ---
+
  **LOG**
 
   Turn the batch output file and tty output file **off** and **on**.
@@ -7,7 +12,7 @@
 
  **FORMAT:**
 
-  **log** **/baty** **/on**|**off**/
+  **log** /**ba** OR **ty** / **on** OR **off** 
 
  EXAMPLE:
 
