@@ -1,4 +1,9 @@
- **MODE**
+---
+title: MODE
+tags: ok
+---
+
+**MODE**
 
   The MODE Command  sets up several optimization options
 

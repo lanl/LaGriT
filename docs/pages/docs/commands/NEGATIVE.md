@@ -1,17 +1,20 @@
- **NEGATIVE\_AIJ**
+---
+title: NEGATIVE_AIJ
+tags: ok
+---
+ 
+**NEGATIVE\_AIJ**
 
   This command tests all edges of all boundary faces for negative
   coupling coefficients.
 
 It adds three attributes to the mesh object:
 
-num\_neg\_coup\_coeff, type=INT, length=scalar -number of negative
-coupling coefficients
-
-neg\_coup\_coeff, type=VDOUBLE, length=num\_neg\_coup\_coeff - value of
-coupling coefficient
-
-ietet\_aij, type=VINT, length=num\_neg\_coup\_coeff,rank=vector -
+attribute | type | description
+--- | --- | ---
+num\_neg\_coup\_coeff | type=INT, length=scalar | number of negative coupling coefficients
+neg\_coup\_coeff | type=VDOUBLE | length=num\_neg\_coup\_coeff | value of coupling coefficient
+ietet\_aij | type=VINT, length=num\_neg\_coup\_coeff,rank=vector | (see below) 
 
 for each negative coupling coefficient, i: ietet\_aij(1,i) contains the
 tetrahedron number which contributes the most negative portion to the
@@ -30,7 +33,7 @@ be iterated up to maxiter times. Alternatively the attribute may be used
 to create an **eltset** of the identified elements.
 
 The **rivara** option uses a rivara refinement method to add nodes on
-exterior boundary edges until all coupling coefficients are positive or
+exterior boundary edges until all coupling coefficients are positive or62
 until a maximum number of iterations has been exceeded.
 
 **FORMAT:**
@@ -59,7 +62,8 @@ a maximum of 5 iterations will be performed
 
 **negative\_aij/eltset**/bad\_tets 
 
-an element set called bad\_tets
-will be made no refinement will be performed/ **negative\_aij/rivara**
-[Click here for
-demos](../demos/main_rivara.md)
+an element set called bad\_tets will be made no refinement will be performed
+
+/**negative\_aij/rivara**
+
+[Click here for demo of the command above](../demos/main_rivara.md)

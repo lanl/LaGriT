@@ -1,4 +1,7 @@
-
+---
+title: OFFSETSURF
+tags: ok
+---
 
  **OFFSETSURF**
 
@@ -16,15 +19,14 @@
   whatever units the old\_cmo mesh object was defined in.) The new
   node coordinates, R\_new, are computed using the formula:
  
-   R\_new = R\_old + dist 
-* N\_node
+   R\_new = R\_old + dist * N\_node
  
   Various keywords control the behavior of the command:
  
    The following keywords can appear in the 5th, 6th, 7th or 8th
-   argument position.**
+   argument position.
 
-   keepatt, keep\_angle** -  Compute node angle weighted normals and
+   **keepatt, keep\_angle** -  Compute node angle weighted normals and
    keep the vector components in three scalar attributes x\_n\_norm,
    y\_n\_norm, z\_n\_norm
 
@@ -44,7 +46,7 @@
    
    The following keywords can appear in the 5th argument position.
 
-   **xy, xz, yx yz zx zy** - these keywords constrain the offset to
+   **xy, xz, yx, yz, zx, zy** - these keywords constrain the offset to
    be parallel to the specified plane. These arguments can be used
    with a line type mesh object to constrain the offset to a
    particular plane.

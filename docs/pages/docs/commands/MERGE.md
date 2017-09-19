@@ -1,4 +1,9 @@
- **MERGE**
+---
+title: MERGE
+tags: ok
+--- 
+
+**MERGE**
 
   Merge pairs of points together. On return, the first\_point of a
   pair is the survivor unless first\_point may not be removed ( a

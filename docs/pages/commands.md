@@ -100,7 +100,7 @@ elements)
 
 [MERGE](docs/commands/MERGE.md) (remove nodes)
 
-[METIS](docs/commands/MERGE.md) (graph partition algorithms)
+[METIS](docs/commands/metis.md) (graph partition algorithms)
 
 [MODE](docs/commands/MODE.md) (set modes)
 

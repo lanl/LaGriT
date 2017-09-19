@@ -1,14 +1,7 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
-Generator: Microsoft Word 
-Keywords:  
-LaGriT command memory : 
-    Description metadata should be 25-30 words and written from the specific
-    to the general. Put your top keywords first but don't repeat title
-    information.
 title: memory
+tags: ok
 ---
-
 
 memory
 ------
@@ -26,20 +19,14 @@ Manager](../memmang.md)**
 
 The following memory keywords are recognized:
 
-  
-
- ** memory / verify  **
+ **memory / verify  **
 
  verify the integerity of LaGriT memory manager storage by checking
  that the known blocks have not been overwritten. If corruption is
  detected, an array map will be printed. Nothing is printed if there
  memory is successfully verified.
 
- 
-
- 
-
- ** memory / print  **
+ **memory / print  **
 
  print an address map of the LaGriT managed arrays. For each array the
  following is printed; index, length, type, memory address, associated
@@ -60,11 +47,7 @@ The following memory keywords are recognized:
 
      Total BYTES =    2.400E+09   Total MEGABYTES =    2.400E+03
 
- 
-
- 
-
- ** memory / maxmalloc  **
+ **memory / maxmalloc  **
 
  Report estimate of possible amount of memory available for allocation
  by LaGriT. This test will make incremental calls to internal LaGriT
@@ -83,9 +66,6 @@ The following memory keywords are recognized:
       Succeeded at     819.20000000000005       MEGABYTES
       Failed at        1638.4000000000001       MEGABYTES
 
-      
-
- 
 
  The 64 bit version for memory routines will look slightly different:
 
@@ -107,8 +87,8 @@ The following memory keywords are recognized:
 
 **EXAMPLES:**
 
-** memory / verify**
+**memory / verify**
 
-** memory / print**
+**memory / print**
 
-** memory / maxmalloc**
+**memory / maxmalloc**

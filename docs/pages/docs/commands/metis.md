@@ -1,16 +1,16 @@
 ---
-GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
+title: METIS
+tags: ok
 ---
 
  METIS
-
- 
+ -------
 
  Interface METIS graph partition and reorder package with LaGriT. For
  details of METIS algorithms and descriptions of the third command line
  argument see:
 
- <http://glaros.dtc.umn.edu/gkhome/views/metis
+ <http://glaros.dtc.umn.edu/gkhome/views/metis>
 
  Partition algorithm divides mesh into npartition parts attempting to
  assign an equal number of graph vertices (nodes or elements) to each
@@ -23,8 +23,6 @@ GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
  permutation vector, invperm. The mesh can be reordered using the
  permutation vector in reorder. The reorder algorithms will compute
  fill-reducing orderings of sparse matrices.
-
-  
 
 METIS Interface to LaGriT
 
@@ -44,46 +42,34 @@ FORMAT (partition):
 
  
 
- metis / partition / metis\_partmeshnodal  metis\_partmeshdual/ node 
+ **metis** / partition / metis\_partmeshnodal  metis\_partmeshdual/ node 
  dual / npartitions / inodeprt / ielemprt
 
 FORMAT (reorder):
 
- metis / reorder / metis\_edgend  metis\_nodend / node  dual /
+ **metis** / reorder / metis\_edgend  metis\_nodend / node  dual /
  [iperm] / [invperm]
 
 FORMAT (reorder with weights):
 
- metis / reorder / mmetis\_nodewnd / node  dual / [iperm] /
+ **metis** / reorder / mmetis\_nodewnd / node  dual / [iperm] /
  [invperm] / ivert\_weight
 
 EXAMPLES (partition):
 
- metis / partition / metis\_partmeshnodal / node / 32 / inodeprt /
- ielemprt
-
- metis / partition / metis\_partmeshdual / dual / 32 / inodeprt /
- ielemprt
-
- metis / partition / metis\_partmeshnodal / node / 32 / -def- / -def-
-
- metis / partition / metis\_partmeshnodal / node / 32
+		 metis / partition / metis\_partmeshnodal / node / 32 / inodeprt / ielemprt
+		 metis / partition / metis\_partmeshdual / dual / 32 / inodeprt /  ielemprt
+		 metis / partition / metis\_partmeshnodal / node / 32 / -def- / -def-
+		 metis / partition / metis\_partmeshnodal / node / 32
 
 EXAMPLES (reorder):
-
- metis / reorder / metis\_edgend / dual
-
- metis / reorder / metis\_nodend / node
-
- metis / reorder / metis\_nodend / dual
-
- metis / reorder / metis\_nodend / dual / -def- / -def-
-
- metis / reorder / metis\_nodend / dual / ieprm1 / ieinvprm1
-
- metis / reorder / metis\_edgend / node
-
- reorder/-def-/ieprm1
+ 
+		 metis / reorder / metis\_edgend / dual
+		 metis / reorder / metis\_nodend / node
+		 metis / reorder / metis\_nodend / dual
+		 metis / reorder / metis\_nodend / dual / -def- / -def-
+		 metis / reorder / metis\_nodend / dual / ieprm1 / ieinvprm1
+		 metis / reorder / metis\_edgend / nodereorder/-def-/ieprm1
 
 EXAMPLE LaGriT Control File:
 
