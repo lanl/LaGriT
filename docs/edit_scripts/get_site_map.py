@@ -46,7 +46,7 @@ max_depth = 4
 out_fle_name = '/Users/nknapp/Desktop/LaGrit/docs/site_map.md'
 start_page = '/Users/nknapp/Desktop/LaGriT/docs/index.md'
 out_fle = open(out_fle_name, 'w')
-out_fle.write('[Home](index.md)' + '\\' +  '\n')
+out_fle.write('[Home](index.md)' + '\n' +  '\n')
 already_linked = []
 
 print_links(start_page, 0, max_depth, out_fle, md_file_list, already_linked)
@@ -58,5 +58,12 @@ print_links(start_page, 0, max_depth, out_fle, md_file_list, already_linked)
 out_fle_name = '/Users/nknapp/Desktop/LaGrit/docs/site_list.md'
 out = open(out_fle_name, 'w')
 for fle in sorted(md_file_list):
+
+    link_fle_in = open(fle, 'r').read()
+    tags = '~~'
+    if 'tags' and 'ok' in link_fle_in:
+        tags = '**'
+    elif 'tags' and 'review' in link_fle_in:
+        tags = '*'
     rel_link = fle.split('LaGriT/docs/')[-1][:-3]
-    out.write('[' + fle.split('/')[-1][:-3] + '](' + rel_link + ')' + '\\' + '\n') 
+    out.write('[' + tags + fle.split('/')[-1][:-3] + tags + ']' + '(' + rel_link + ')' + '\n' + '\n') 

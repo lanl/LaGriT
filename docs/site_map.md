@@ -1,4 +1,5 @@
-[Home](index.md)\
+[Home](index.md)
+
 [~~applications~~](pages/applications)
 
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [~~index~~](pages/docs/demos/index)
