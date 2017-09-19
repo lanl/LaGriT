@@ -1,7 +1,6 @@
 ---
-GENERATOR: 'Mozilla/4. [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
-Generator: 'Microsoft Word /98'
 title: createpts
+tags: ok
 ---
 
   
@@ -18,7 +17,7 @@ title: createpts
 
   
 
-  **[createpts/](CRTPTSRZ.md)xyzrtzrtpline**
+  **[createpts/](CRTPTSRZ.md) xyz OR rtz OR rtp /line**
 
   **[createpts/brick](CRTPTBRICK.md)**
 
@@ -35,10 +34,6 @@ title: createpts
   **[createpts/median](createpts_median.md)**
 
   **[createpts/amr](CREATEPTSAMR.md)**
-
- 
-
-  
 
  [Click here for demos](demos/main_createpts.md)
 

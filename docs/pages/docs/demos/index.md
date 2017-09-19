@@ -1,3 +1,8 @@
+---
+title: Demo Index
+tags: ok
+---
+
 **LaGriT Examples and Demos**
 
 [2d_connect](main_2d_connect.md)

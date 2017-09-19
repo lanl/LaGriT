@@ -1,14 +1,15 @@
 import os, sys
 
-
+# get the full path of a markdown file
 def get_file(link, md_file_list):
     for fle in md_file_list:
         if link in fle:
             return fle
 
+# This function, called recursively, prints out the site map, with formatting based on tags in the file
 def print_links(root_fle, depth, max_depth, out_fle, md_file_list, already_linked):
     if depth < max_depth:
-        link_list = []
+        link_list = []i
         indent = ''
         infile = open(root_fle, 'r')
         data = infile.read()
@@ -34,31 +35,32 @@ def print_links(root_fle, depth, max_depth, out_fle, md_file_list, already_linke
             if 'release' not in link_fle:
                 print_links(link_fle, depth+1, max_depth, out_fle, md_file_list, already_linked)
 
-dr = '/Users/nknapp/Desktop/LaGriT/docs/pages'
+# CHANGE THIS LINE TO LOCATION OF REPO:
+repo_location = '/Users/nknapp/Desktop/LaGriT/docs/'
+
+dr = repo_location + 'pages'
 md_file_list = []
 
+# Get a list of all the Markdown files in the repository
 for root, drs, fles in os.walk(dr):
     for fle in fles:
         if '.md' in fle:
             md_file_list.append(os.path.join(root, fle))
 
 max_depth = 4
-out_fle_name = '/Users/nknapp/Desktop/LaGrit/docs/site_map.md'
-start_page = '/Users/nknapp/Desktop/LaGriT/docs/index.md'
+out_fle_name = repo_location + 'site_map.md'
+start_page = repo_location + 'index.md'
 out_fle = open(out_fle_name, 'w')
-out_fle.write('[Home](index.md)' + '\n' +  '\n')
+out_fle.write('[**Home**](index.md)' + '\n' +  '\n')
 already_linked = []
 
+# print out the website map using a recursive function
 print_links(start_page, 0, max_depth, out_fle, md_file_list, already_linked)
 
-# convert = 'pandoc ' + out_fle_name + ' -f markdown -t html -s -o /Users/nknapp/Desktop/LaGriT/docs/site_map.html'
-# os.system(convert)
-
-
-out_fle_name = '/Users/nknapp/Desktop/LaGrit/docs/site_list.md'
+# list all files in the website; format based on tags in file
+out_fle_name = repo_location + 'site_list.md'
 out = open(out_fle_name, 'w')
 for fle in sorted(md_file_list):
-
     link_fle_in = open(fle, 'r').read()
     tags = '~~'
     if 'tags' and 'ok' in link_fle_in:

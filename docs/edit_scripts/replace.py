@@ -1,3 +1,4 @@
+# replace or remove text and formatting  that is not wanted in website
 
 import os, sys
 
@@ -18,7 +19,7 @@ def replace_in_dr(old, new, dr):
 dr = '/Users/nknapp/Desktop/LaGriT/docs/pages/'
 
 no = 
-yes = '[Click here for demos](../demos/index.md)'
+yes = 
 
 replace_in_dr(no, yes, dr)
 

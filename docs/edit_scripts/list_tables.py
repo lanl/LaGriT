@@ -1,3 +1,4 @@
+# list all files that are supposed to have tables in them - useful for finding broken tables
 
 import os, sys
 
@@ -16,7 +17,6 @@ def list_in_dr(dr):
 			if '.md' in fle:
 				filter_file(os.path.join(root, fle))
 
-#dr = '/Users/NKnapp/Desktop/deknapp.github.io/'
 dr = '/home/nknapp/deknapp.github.io/pages/'
 list_in_dr(dr)
 

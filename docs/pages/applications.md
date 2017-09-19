@@ -1,5 +1,6 @@
 ---
 title: Applications
+tags: ok
 ---
 
 LaGriT Applications
