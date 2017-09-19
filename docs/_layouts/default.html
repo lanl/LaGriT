@@ -1,24 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
- 	<div id="top_right">
-	   <a href="https://lanl.github.io/LaGriT/pages/manual.html"> Manual </a> <br>
-	   <a href="https://lanl.github.io/LaGriT/site_list.html"> Site Index </a> <br>
-	   <a href="https://lanl.github.io/LaGriT/site_map.html"> Site Map </a> <br>
-	   <a href="https://lanl.github.io/LaGriT/"> Home </a> <br>
 
-		<div class="grid" id="searchBar">
-			  <div>
-				  <div id="search">
-					  <form role="search" method="get" action="{{ site.baseurl }}//pages/search">
-						  <input id="searchString" name="searchString"
-								 placeholder="Enter text here" type="text">
-						  <input id="searchButton" name="googleSearchName" type="button" value="Search">
-					  </form>
-				  </div>
-
-			  </div>
-		</div>
-	</div>
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -37,6 +19,26 @@
         <header class="inner">
           <h3 id="project_title">{{ site.title | default: site.github.repository_name }}</h1>
         </header>
+
+          <div id="top_right">
+             <a href="https://lanl.github.io/LaGriT/pages/manual.html"> Manual </a> <br>
+             <a href="https://lanl.github.io/LaGriT/site_list.html"> Site Index </a> <br>
+             <a href="https://lanl.github.io/LaGriT/site_map.html"> Site Map </a> <br>
+             <a href="https://lanl.github.io/LaGriT/"> Home </a> <br>
+
+            <div class="grid" id="searchBar">
+                <div>
+                  <div id="search">
+                    <form role="search" method="get" action="{{ site.baseurl }}//pages/search">
+                      <input id="searchString" name="searchString"
+                         placeholder="Enter text here" type="text">
+                      <input id="searchButton" name="googleSearchName" type="button" value="Search">
+                    </form>
+                  </div>
+
+                </div>
+            </div>
+          </div>
     </div>
 
     <!-- MAIN CONTENT -->
