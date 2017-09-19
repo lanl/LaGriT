@@ -1,6 +1,6 @@
 [~~FSET~~](pages/FSET)
 
-[~~applications~~](pages/applications)
+[**applications**](pages/applications)
 
 [~~commands~~](pages/commands)
 
@@ -380,7 +380,7 @@
 
 [~~conventions~~](pages/docs/conventions)
 
-[~~createpts~~](pages/docs/createpts)
+[**createpts**](pages/docs/createpts)
 
 [~~description1~~](pages/docs/createpts/html/description1)
 
@@ -488,7 +488,7 @@
 
 [~~description_tri~~](pages/docs/demos/description_tri)
 
-[~~index~~](pages/docs/demos/index)
+[**index**](pages/docs/demos/index)
 
 [~~main_2d_connect~~](pages/docs/demos/main_2d_connect)
 
@@ -1526,7 +1526,7 @@
 
 [**publications**](pages/publications)
 
-[~~release~~](pages/release)
+[**release**](pages/release)
 
 [~~lagrit_release_notes_081021~~](pages/release_notes/lagrit_release_notes_081021)
 

@@ -9,7 +9,7 @@ def get_file(link, md_file_list):
 # This function, called recursively, prints out the site map, with formatting based on tags in the file
 def print_links(root_fle, depth, max_depth, out_fle, md_file_list, already_linked):
     if depth < max_depth:
-        link_list = []i
+        link_list = []
         indent = ''
         infile = open(root_fle, 'r')
         data = infile.read()
