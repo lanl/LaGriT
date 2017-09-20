@@ -15,37 +15,26 @@ Older versions with high impact are also described starting with V2.1 2009 Relea
 
 ## These issues were fixed:
 
- - segmentation fault during triangulate
-
- - massage command failing to de-refine and no error is reported
-
- - ExodusII output for 2D Planar incorrectly written as 3 Dimensions
-
- - second call to addmesh/excavate command causing memory error or segmentation fault
-
- - output adjusted to make room for large numbers when reporting dudded nodes from filter command
+- segmentation fault during triangulate
+- massage command failing to de-refine and no error is reported
+- ExodusII output for 2D Planar incorrectly written as 3 Dimensions
+- second call to addmesh/excavate command causing memory error or segmentation fault
+- output adjusted to make room for large numbers when reporting dudded nodes from filter command
 
 ## Added to Test Suite:
 
- - *level01/createpts\_filter*  illustrates the difference between filter and the more accurate filterkd commands
-
- - *level01/smooth\_massage*  use massage with smooth to refine and de-refine a triangulation
-
- - *level01/write\_exo*  write 3D and 2D Exodus files with psets, eltsets, and facesets
-
- - *level01/pflotran\_stor*  write pflotran style Voronoi geometric coefficient (volume, face area) files
+- *level01/createpts\_filter*  illustrates the difference between filter and the more accurate filterkd commands
+- *level01/smooth\_massage*  use massage with smooth to refine and de-refine a triangulation
+- *level01/write\_exo*  write 3D and 2D Exodus files with psets, eltsets, and facesets
+- *level01/pflotran\_stor*  write pflotran style Voronoi geometric coefficient (volume, face area) files
 
 ## PyLaGriT new features:
 
- - **read\_sheetij**  creates a quad mesh from an elevation file reading Z(i,j) into mesh zic attribute
-
- - **read\_modflow** creates a modflow rectilinear mesh using modflow files using elev\_top.mod and init\_bnds.inf
-
- - **read\_fehm** read FEHM format mesh file with geometry and connectivity (LaGriT does not have this option)
-
- - *examples/arctic\_w\_ice\_wedges* example Mesh for 2D polygon with ice wedges by Chuck Abolt
-
- - *examples/julia* Example of using PyLaGriT within a Julia script. Requires that the Julia package PyCall is installed.
+- **read\_sheetij**  creates a quad mesh from an elevation file reading Z(i,j) into mesh zic attribute
+- **read\_modflow** creates a modflow rectilinear mesh using modflow files using elev\_top.mod and init\_bnds.inf
+- **read\_fehm** read FEHM format mesh file with geometry and connectivity (LaGriT does not have this option)
+- *examples/arctic\_w\_ice\_wedges* example Mesh for 2D polygon with ice wedges by Chuck Abolt
+- *examples/julia* Example of using PyLaGriT within a Julia script. Requires that the Julia package PyCall is installed.
 
 ## Known Issues:
 
