@@ -53,7 +53,7 @@ Older versions with high impact are also described starting with V2.1 2009 Relea
 
 LaGriT V3 LACC-15-069 is now distributed as open-source software under a BSD 3-Clause License.
 
-This version moves the entire LaGriT repo from a local mercurial version control to github and now includes the python driven version PyLaGriT. For most current versions of source and documentation use the open-source repository at
+This version moves the entire LaGriT repo from a local mercurial version control to public github and now includes the python driven version PyLaGriT. For most current versions of source and documentation use the open-source repository at
 
     https://github.com/lanl/LaGriT
 
@@ -63,19 +63,12 @@ This version moves the entire LaGriT repo from a local mercurial version control
 
 ## LaGriT V3.108 July 2016
 
-The was the Last version released under Open Distribution license LA-CC-2012-084 before change to Open Source.
-
+The was the Last version released under Open Distribution license LA-CC-2012-084 before Open Source.\
 This code was tagged in Mercurial as V3.108 and used to start open-source repository on github.
 
-This merges student Mikita's V3.106 WIN development with master.
-
-Mikita comments and updates to mercurial/trac repository include:
-
-- Added top level python control suite, and standarized level02 output files.
-    
-- The windows version of LaGrit is compiled using cygwin by Mikita. See instructions.txt and cmake-script.
-
-    - changed both opsys.h and type_sizes.h to account for win64 and changed define for SIZEOF_LONG
+- This merges student Mikita's V3.106 WIN code to enable compile using cygwin.
+- Added top level python control suite, and standarized level02 output files. See instructions.txt and cmake-script. \
+- Files changed for WIN are opsys.h and type_sizes.h to account for win64 and changed define for SIZEOF_LONG
 
 ```
         file: opsys.h
@@ -129,7 +122,7 @@ Major update to write PFLOTRAN type option stor file and new syntax using Exodus
 *Note: The LaGriT run-time banner shows V3.2 with compile date Aug 2015,
 even though it is actually a branch from V3.106.*
 
-### Major improvements
+### New Features:
 
 -   **dump / pflotran** Writes .uge file for pflotran and is used by the DFN suite of scripts. The deve directory is in */n/swdev/LAGRIT/work/pflotran*. The syntax looks like:
 
@@ -143,7 +136,7 @@ even though it is actually a branch from V3.106.*
            HDF5 version 1.8.6
            netcdf-4.1.3
 
--   *exo block id* modified to single digit. All exodus files are same as Exodus II 5, except for the block id.
+-   *exo block id* modified to input digit instead of *digit*0000. All exodus files are same as Exodus II 5, except for the block id.
     Tests have been updated resulting in the following differences:
 
         Exodus 6.09:
@@ -158,125 +151,49 @@ even though it is actually a branch from V3.106.*
         ---
           eb_prop1 = 10000, 20000, 30000 ;
 
-Minor updates to master version include:
+-   **attribute compress_eps** new attribute for stor file allowing user to extend range of ccoef values by setting mesh attribute compress\_eps (from default 1e-8). Changing value of compress\_epsilon seemed to help loss of coeffs with large aspect ratios.
 
--   **attribute compress\_eps**
 
-    new attribute for stor file allowing user to extend range of ccoef
-    values by setting mesh attribute compress\_eps (from default 1e-8).
-    This will keep connection regardless of coefficient value. Changing
-    value of compress\_epsilon seemed to help loss of coeffs with large
-    aspect ratios.
--   **dump / stor (2D)**
+### These issues were fixed:
 
-    Corrected bug that overwrites volic with incorrect value if grid is
-    non-planer.
--   **dump / fehm**
-
-    add space between ns and nelements, increase to i12
--   **read / fehm**
-
-    Fixed seg fault for 0 elem report message by using a,a instead of a
-    format.
+-   **dump / stor** corrected bug for 2D grids that overwrite volic with incorrect value if grid is non-planer.
+-   **dump / fehm** add space between ns and nelements, increase to i12
+-   **read / fehm** fixed seg fault for 0 elem report message by using a,a instead of a in write format.
 -   **build exodus libs**
-
-    The following is a list of issues when dealing with building static
-    libraries for exodus and its compilation.
-
+- The following issue was fixed when building static libraries with exodus:
+    ```
         Library inclusion order in the following places:
         1. /n/swdev/src/exodusii/exodus-6.09/exodus/cbind/CMakeList.txt 
             Line 284
         2. /n/swdev/src/exodusoo/exodus-6.09/exodus/forbind/CMakeList.txt
             Line 62
         Solution was to switch ${HDF5_LIBRARY with ${HDF5HL_LIBRARY
+    ```
 
-------------------------------------------------------------------------
-
+----------------------------------
 
 ## LaGriT V3.101 November 2013
 
+Note for DFNWorks applications using LaGriT, this version does NOT have the PFLOTRAN file option.
+This version of code uses ExodusII 5 routine calls. These are replaced with ExodusII 6 in newer versions.
 
-This version does NOT have the PFLOTRAN file output used by DFN
-workflow.
+V3.103 is last version lagrit code using Exodus 5 libs \
+V3.104 is new  version lagrit code using Exodus 6 libs
 
-There are no major enhancements, code is compiled and tested for
-release. This is in preparation for major update to Exodus 6 which
-changes routine calls and syntax.
+### Enhancements:
 
-    V3.103 is last version lagrit code using Exodus 5 libs
-    V3.104 is new  version lagrit code using Exodus 6 libs
-
-    - Build/test V3.103 old RHEL RedHat 5 on aquifer with Exodus 5
-    - Build/test V3.103 new RHEL RedHat 6.5 on darcy or talik with Exodus 5
-    - Build/test V3.103 Ubuntu-14.04-x86_64 with Exodus 5
-    - Build/test V3.104 Ubuntu-14.04-x86_64 with Exodus 6
-
-    - Build/test V3.104 WIN7 with Exodus 6
-    - Build/test V3.104 MacOS with Exodus 6
-    - Build/test V3.104 RHEL 6.5 with Exodus 6
-
-    Current Stable Linux version:
-      LaGriT V3.101 Linux m64
-      date_compile: 2013/04/25  RH gf4.5
-
-    These are the external libs used with LaGriT V3.1 As of November 2012
-       http://sourceforge.net/projects/exodusii/files/
-         Exodus II 5.22a
-         HDF5 version 1.8.6
-         netcdf-4.1.3
-
-    Linux RHEL Exodus 5 libraries were built in
-     /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus
-
-    Build executable for linux:
-    gfortran -O -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_o_gf4.5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/lg_util/lib/util_lin64_o_gfort4.5.a -L /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/lin64/lib -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
-
-This release include the following enhancements:
-
--   **read / zonezone\_element **/
-    
-
-    Added option zone\_element which allows reading of node or element
-    list in FEHM zone or zonn format. Each node or element number found
-    in the list has attribute tagged.
+-   **read / zone_element** added option zone_element which allows reading of node or element list in FEHM zone or zonn format. Each node or element number found in the list has attribute tagged.
 
     
+### These issues were fixed:
 
-This release include the following fixes:
-
--   **
-#105: addatt/ mo\_tri / unit\_area\_normal**
-    
-
-    Fixed incorrect zero result and fixed attribute handling so vector
-    array is formed using irank = 3.
-
-    
-
--   **
-#108: cmo/addatt/mo/area\_normal/xyz/att\_v\_area**
-    
-
-    Result is off by factor of 2, fixed area normal to assign half the
-    cross product (for triangles).
-
-    
-
--   **
-#132: synth\_norm**
-    
-
-    Fixed handling of attributes. The synthetic normals were creating a
-    dummy attribute not used because offsetsurf is creating x\_n\_norm
-    y\_n\_norm z\_n\_norm on the input cmo. Attribute names are ignored
-    on the command line, added better reporting for this.
+-   **addatt**/mo_tri / **unit_area_normal** fixed incorrect zero result and fixed attribute handling so vector array is formed using irank = 3.
+-   **cmo/addatt/** mo/ **area_normal/xyz/** Result is off by factor of 2, fixed area normal to assign half the cross product (for triangles).
+-   **synth_norm** fixed handling of attributes. The synthetic normals were creating a dummy attribute not used because offsetsurf is creating x_n_norm y_n_norm z_n_norm on the input cmo. Attribute names are ignored on the command line, added better reporting for this.
 
 ------------------------------------------------------------------------
 
-Release_V3.100
-
-LaGriT V3.100 November 2012
----------------------------
+## LaGriT V3.100 November 2012
 
 Major changes to most parts of the code to enable 64 bit compilation and
 added external Exodus II 5 libraries to write Exodus basic mesh files.
@@ -287,7 +204,7 @@ attribute to elem attribute of equal length. cmo/readatt fix to allow
 char in first position. Memory and bug fixes related to 64 bit code
 changes. Improved error catching for common routines.
 
-### Command Enhancements
+### Enhancements:
 
 -   **dump / exo**
     
