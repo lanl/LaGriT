@@ -13,7 +13,9 @@ production_url : https://lanl.github.io/LaGriT
 
 base_url : https://lanl.github.io/LaGriT
 
-markdown: kramdown
+kramdown:
+   input: GFM
+   hard_wrap: false
 
 gems: [jekyll-sitemap]
 
