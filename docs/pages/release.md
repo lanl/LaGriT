@@ -11,7 +11,7 @@ Release Notes
 
 [LaGriT V3.0 August 2011](release_notes/lagrit_release_notes_V3.00.md) Release V3 64 bit LA-CC-07-084
 
-[LaGriT V2 July 2009](release_notes/lagrit_release_notes_090708.md) Release V2 Open Distribution LA-CC-07-038  
+[LaGriT V2 July 2009](release_notes/lagrit_release_notes_081021.md) Release V2 Open Distribution LA-CC-07-038  
 
 <a href="/assets/images/release_notes15.pdf" download> LaGriT V1.1 November 2005 </a> Development 
 
