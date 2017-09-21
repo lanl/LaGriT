@@ -2,24 +2,11 @@
 title: 'LaGriT V2.004 Release Notes, 10/21/2008'
 ---
 
-<div id="banner">
-
-<div id="header">
-<img height="300" width="300" src="lagrit_release_notes_081021_files/lagrit-logo.jpg">](https://ancho.lanl.gov/lagrit/){#logo
-
-------------------------------------------------------------------------
-
-<div id="metanav" class="nav">
-
-
-<div id="main">
-
-<div id="content" class="timeline">
 
 10/21/08:
 ---------
 
-### **[[]{.time](https://ancho.lanl.gov/lagrit/trac/changeset/77%3Aa230c6aa1ef4)Version 2.004 Release**
+## Version 2.004 Release
 
 09/12/08:
 ---------
