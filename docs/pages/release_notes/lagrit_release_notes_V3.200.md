@@ -4,113 +4,93 @@ LaGriT Release Notes
 This document is a summary of LaGriT versions up to latest version of LaGriT V3.
 Older versions with high impact are also described starting with V2.1 2009 Release. 
 
-------
+-------------------------
 
 ## LaGriT V3.203 July 2017
 
-    - Major upgrade to LaGriT build and test scripts.
-    - Added install.h and improved documentation for building LaGriT on Linux and Mac machines.
-    - Update ExodusII to 7.01 using git clone https://github.com/gsjaardema/seacas.git
-    - Removed exodus include files from src directory and use install.sh instead
-    - Convert lagrit.lanl.gov to github Markdown pages at https://lanl.github.io/LaGriT
+- Major upgrade to LaGriT build and test scripts.
+- Added install.h and improved documentation for building LaGriT on Linux and Mac machines.
+- Update ExodusII to 7.01 using git clone https://github.com/gsjaardema/seacas.git
+- Removed exodus include files from src directory and use install.sh instead
+- Convert lagrit.lanl.gov to github Markdown pages at https://lanl.github.io/LaGriT
 
-    ### These issues were fixed:
+### These issues were fixed:
 
-        - segmentation fault during triangulate
-        - massage command failing to de-refine and no error is reported
-        - ExodusII output for 2D Planar incorrectly written as 3 Dimensions
-        - second call to addmesh/excavate command causing memory error or segmentation fault
-        - output adjusted to make room for large numbers when reporting dudded nodes from filter command
+- segmentation fault during triangulate
+- massage command failing to de-refine and no error is reported
+- ExodusII output for 2D Planar incorrectly written as 3 Dimensions
+- second call to addmesh/excavate command causing memory error or segmentation fault
+- output adjusted to make room for large numbers when reporting dudded nodes from filter command
 
-    ### Added to Test Suite:
+### Added to Test Suite:
 
-        - *level01/createpts\_filter*  illustrates the difference between filter and the more accurate filterkd commands
-        - *level01/smooth\_massage*  use massage with smooth to refine and de-refine a triangulation
-        - *level01/write\_exo*  write 3D and 2D Exodus files with psets, eltsets, and facesets
-        - *level01/pflotran\_stor*  write pflotran style Voronoi geometric coefficient (volume, face area) files
+- *level01/createpts\_filter*  illustrates the difference between filter and the more accurate filterkd commands
+- *level01/smooth\_massage*  use massage with smooth to refine and de-refine a triangulation
+- *level01/write\_exo*  write 3D and 2D Exodus files with psets, eltsets, and facesets
+- *level01/pflotran\_stor*  write pflotran style Voronoi geometric coefficient (volume, face area) files
 
-    ### PyLaGriT new features:
+### PyLaGriT new features:
 
-        - **read\_sheetij**  creates a quad mesh from an elevation file reading Z(i,j) into mesh zic attribute
-        - **read\_modflow** creates a modflow rectilinear mesh using modflow files using elev\_top.mod and init\_bnds.inf
-        - **read\_fehm** read FEHM format mesh file with geometry and connectivity (LaGriT does not have this option)
-        - *examples/arctic\_w\_ice\_wedges* example Mesh for 2D polygon with ice wedges by Chuck Abolt
-        - *examples/julia* Example of using PyLaGriT within a Julia script. Requires that the Julia package PyCall is installed.
-
-    ### Known Issues:
-
-        - Builds with compiler gfortran v5 or greater can generate run-time signal exceptions such as IEEE_DNORMAL. Most exceptions have been tracked down and fixed according to picky compiler suggestions. These exceptions have not changed the behavior of the code. Exceptions will continue to be fixed as they show up.
-
-        - During testing it was found that the filter command may find and remove fewer nodes than the command filterkd. The command filterkd is recommended where precision might be an issue. Documentation will be changed to reflect this. It is expected that the filter command and algorithm will be deprecated and replaced by filterkd. See *test/level01/createpts_filter*
-
-        - Paraview has trouble displaying ExodusII facesets for 2D grids in 3 Dimensions, but is fine with 2D planar where Z values are ignored. When viewing these same ExodusII files with GMV, the facesets look correct. Checking files by converting to ASCII with ncdump, the files look correct. We do not know if this is a LaGriT, ExodusII, or Paraview issue. See *test/level01/write_exo* for ExodusII example files.
-
-------
-
-    ## LaGriT V3.200 September 2016
+- **read\_sheetij**  creates a quad mesh from an elevation file reading Z(i,j) into mesh zic attribute
+- **read\_modflow** creates a modflow rectilinear mesh using modflow files using elev\_top.mod and init\_bnds.inf
+- **read\_fehm** read FEHM format mesh file with geometry and connectivity (LaGriT does not have this option)
+- *examples/arctic\_w\_ice\_wedges* example Mesh for 2D polygon with ice wedges by Chuck Abolt
+- *examples/julia* Example of using PyLaGriT within a Julia script. Requires that the Julia package PyCall is installed.
 
 
-        LaGriT V3 LACC-15-069 is now distributed as open-source software under a BSD 3-Clause License.
+### Known Issues:
 
-        This version moves the entire LaGriT repo from a local mercurial version control to github and now includes the python driven version PyLaGriT. For most current versions of source and documentation use the open-source repository at
+- Builds with compiler gfortran v5 or greater can generate run-time signal exceptions such as IEEE_DNORMAL. Most exceptions have been tracked down and fixed according to picky compiler suggestions. These exceptions have not changed the behavior of the code. Exceptions will continue to be fixed as they show up.
+
+- During testing it was found that the filter command may find and remove fewer nodes than the command filterkd. The command filterkd is recommended where precision might be an issue. Documentation will be changed to reflect this. It is expected that the filter command and algorithm will be deprecated and replaced by filterkd. See *test/level01/createpts_filter*
+
+- Paraview has trouble displaying ExodusII facesets for 2D grids in 3 Dimensions, but is fine with 2D planar where Z values are ignored. When viewing these same ExodusII files with GMV, the facesets look correct. Checking files by converting to ASCII with ncdump, the files look correct. We do not know if this is a LaGriT, ExodusII, or Paraview issue. See *test/level01/write_exo* for ExodusII example files.
+
+---------------------------
+
+## LaGriT V3.200 September 2016
+
+
+LaGriT V3 LACC-15-069 is now distributed as open-source software under a BSD 3-Clause License.
+
+This version moves the entire LaGriT repo from a local mercurial version control to github and now includes the python driven version PyLaGriT. For most current versions of source and documentation use the open-source repository at
 
     https://github.com/lanl/LaGriT
 
 *Compiled executable versions of LaGriT will continue to available through https://lagrit.lanl.gov/licensing.md*
 
-------
+---------------------------
 
 ## LaGriT V3.108 July 2016
 
-The was the Last version released under Open Distribution license LA-CC-2012-084.
+The was the Last version released under Open Distribution license LA-CC-2012-084 before change to Open Source.
 
 This code was tagged in Mercurial as V3.108 and used to start open-source repository on github.
 
-This merges student Mikita V3.106 WIN development with master.
+This merges student Mikita's V3.106 WIN development with master.
 
 Mikita comments and updates to mercurial/trac repository include:
 
--   **test**
+- Added top level python control suite, and standarized level02 output files.
+    
+- The windows version of LaGrit is compiled using cygwin by Mikita. See instructions.txt and cmake-script.
 
-    Added top level python control suite, and standarized level02 output
-    files.
--   **build windows**
+    - changed both opsys.h and type_sizes.h to account for win64 and changed define for SIZEOF_LONG
 
-    The windows version of LaGrit is compiled using cygwin by Mikita.
-    See files instructions.txt (copied to build\_win.txt), and
-    cmake-script.
--   **build static**
+```
+        file: opsys.h
+         #ifdef win64
+         #define FCV_UNDERSCORE
+         #define SIZEOF_INT 4
+         #define SIZEOF_LONG 8
+         #define SIZEOF_VOIDP 8
+         #define MAX_UINT 18446744073709551615.00 
+         #endif
+         
+         #ifdef win64
+         #define int_ptrsize long long
 
-    The static version of LaGrit is compiled on Ubuntu by Mikita.
-    Instructions Ubuntu are not written, however the instructions
-    written for Windows static compilation using Cygwin are almost
-    exactly as they are for Ubuntu.
--   **lg\_util library**
-
-    changed both opsys.h and type\_sizes.h to account for win64 and
-    changed define for SIZEOF\_LONG
-
-        opsys.h
-        157,165d156
-        < #ifdef win64
-        < #define FCV_UNDERSCORE
-        < #define SIZEOF_INT 4
-        < #define SIZEOF_LONG 8
-        < #define SIZEOF_VOIDP 8
-        < #define MAX_UINT 18446744073709551615.00 
-        < #endif
-        < 
-        < 
-        185,187d1
-        < #ifdef win64
-        < #define int_ptrsize long long
-        < #else
-        1d176
-        < #endif
-
-        type_sizes.h
-        46a47,54
-          **/** ** Cygwin ** ****
+        file: type_sizes.h
          #ifdef __CYGWIN__
          #define FCV_UNDERSCORE
          #define SIZEOF_INT 4
@@ -118,8 +98,7 @@ Mikita comments and updates to mercurial/trac repository include:
          #define SIZEOF_VOIDP 8
          #endif ***
 
-        machine_header.h
-        68a69,74
+        file: machine_header.h
          #ifdef win64
          #define FCV_UNDERSCORE
          #define SIZEOF_INT 4
@@ -127,76 +106,44 @@ Mikita comments and updates to mercurial/trac repository include:
          #define SIZEOF_VOIDP 8
          #endif
 
-        Makefile
-        94a95,109
+        file: Makefile
          ifeq ($(COMPILER), cygwin)
          SUFFC = _cygwin
          FC = /bin/gfortran
          CC = /bin/gcc
          CXX = /bin/c++
          FC90 = /bin/gfortran
-         
          OSTAG = _cygwin
          
          FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
          FF90FLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
          CFLAGS = -m64 -Dwin64 
-         # -I/usr/include
-         endif
-         
+ ```        
 
 ------------------------------------------------------------------------
 
-Release_V3.106
+## LaGriT V3.106 August 2015
 
-LaGriT V3.106 August 2015
--------------------------
-
-Major update to write PFLOTRAN type option stor file and new syntax
-using Exodus II 6.9 libraries.
-
-This version is used for code development by summer student Mikita Yanki
-that includes changes and scripts to build LaGriT on windows with Exodus
-II V6 libraries. This is a branch that does not include some of the
-V3.107 updates. Mikita's version is merged and contained in the V3.2
-release.
+Major update to write PFLOTRAN type option stor file and new syntax using Exodus II 6.9 libraries.
 
 *Note: The LaGriT run-time banner shows V3.2 with compile date Aug 2015,
 even though it is actually a branch from V3.106.*
 
-Major updates include:
+### Major improvements
 
--   **dump / pflotran**
-
-    Writes .uge file for pflotran and is used by the DFN suite of
-    scripts. The first block are the list of ids of cells and the
-    coordinates of cell centroids and the volumes of the cells. The
-    second block consists of a list of ids of the connecting cells
-    (id\_up, id\_dn), coordinates of the face centroid between the two
-    connected cells and areas of the faces.
-
-    Test directory is in /n/swdev/LAGRIT/work/pflotran/test along with
-    upper directory with dev work.
-
-    The routines are called from matbld 2D and 3D and use the same
-    syntax as dump/stor and look like:
+-   **dump / pflotran** Writes .uge file for pflotran and is used by the DFN suite of scripts. The deve directory is in */n/swdev/LAGRIT/work/pflotran*. The syntax looks like:
 
             dump / pflotran / root_name / cmo_name
             dump / pflotran / root_name / cmo_name / nofilter_zero
 
--   **dump / exo**
-
-    New code syntax using ExodusII 6.09, LaGriT commands remain the
-    same.
+-   **dump / exo** calls ExodusII new routines changed from V5 to V6. LaGriT command syntax is unchanged.
 
            http://sourceforge.net/projects/exodusii/files/
            Exodus II 6.09
            HDF5 version 1.8.6
            netcdf-4.1.3
 
--   **exo block id** modified to single digit.
-
-    All exodus files are same as Exodus II 5, except for the block id.
+-   **exo block id** modified to single digit. All exodus files are same as Exodus II 5, except for the block id.
     Tests have been updated resulting in the following differences:
 
         Exodus 6.09:
@@ -245,10 +192,9 @@ Minor updates to master version include:
 
 ------------------------------------------------------------------------
 
-Release_V3.101
 
-LaGriT V3.101 November 2013
----------------------------
+## LaGriT V3.101 November 2013
+
 
 This version does NOT have the PFLOTRAN file output used by DFN
 workflow.
@@ -442,10 +388,8 @@ changes. Improved error catching for common routines.
 
 ------------------------------------------------------------------------
 
-Release_V3.001
 
-LaGriT V3.001 August 2011
--------------------------
+## LaGriT V3.001 August 2011
 
 Major changes incoporating work from Andrew Kuprat (64bit work) and
 summer student Adam Cozzette to add more capability. Changes to make
@@ -587,10 +531,7 @@ Adam Cozzette changes:
 
 ------------------------------------------------------------------------
 
-Release_V2.200
-
-LaGriT V2.200 November 2010
----------------------------
+## LaGriT V2.200 November 2010
 
 Banner when LaGriT is started (eg Linux):
 
@@ -920,14 +861,11 @@ Banner when LaGriT is started (eg Linux):
  Change reference files to results from Linux Updated zone\_outside    
  and zone\_outside\_minmax to current voronoi version
                  
-+-----------------------------------------------------------------------+
 
 ------------------------------------------------------------------------
 
-Release_V2.106
+## LaGriT V2.106 June 2010
 
-LaGriT V2.106 June 2010
------------------------
 
 This includes a minor changes and added error checking. The following
 are new syntax that are code wrappers for common command calls.
@@ -940,10 +878,8 @@ are new syntax that are code wrappers for common command calls.
 
 ------------------------------------------------------------------------
 
-Release_V2.100
 
-LaGriT V2.100 August 2009
--------------------------
+## LaGriT V2.100 August 2009
 
 This is a major update to LaGriT and the lg\_util library. Major changes
 have been made in the core memory management routines to allow
@@ -953,30 +889,26 @@ useful diagnostic information.
 
 Other changes include:
 
-Executable build for Mac with Intel chip
+- Executable build for Mac with Intel chip
 
-New capability in compute module to compute signed distance fields
+- New capability in compute module to compute signed distance fields
 
-Incorporate METIS source code for graph partition and reorder package
-with LaGriT.
-
-For details of METIS algorithms and descriptions of the third command
+- Incorporate METIS source code for graph partition and reorder package
+with LaGriT. For details of METIS algorithms and descriptions of the third command
 line argument see: http://glaros.dtc.umn.edu/gkhome/views/metis
 
-Add option to create node attribute that is the Voronoi volume
+- Add option to create node attribute that is the Voronoi volume
 associated with each node of a Delaunay mesh
 
-Module addmesh modified to handle errors so that it can be used in a
+- Module addmesh modified to handle errors so that it can be used in a
 loop without needing to have first call be different
 
-Updates stor file commands so default uses newest version of code to
+- Updates stor file commands so default uses newest version of code to
 build sparse matrix. This uses less memory and takes less time to
 build.
 
-New syntax options for stor file compression include all (default),
+- New syntax options for stor file compression include all (default),
 graph, coefs, or none.
 
-Update manual and web pages
-
-Bug fix, various modules
+- Bug fixes, various modules
 
