@@ -143,7 +143,7 @@ even though it is actually a branch from V3.106.*
            HDF5 version 1.8.6
            netcdf-4.1.3
 
--   **exo block id** modified to single digit. All exodus files are same as Exodus II 5, except for the block id.
+-   *exo block id* modified to single digit. All exodus files are same as Exodus II 5, except for the block id.
     Tests have been updated resulting in the following differences:
 
         Exodus 6.09:
