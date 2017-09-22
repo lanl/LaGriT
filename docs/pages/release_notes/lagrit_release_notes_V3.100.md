@@ -101,23 +101,23 @@ even though it is actually a branch from V3.106.*
 -   **dump / fehm** add space between ns and nelements, increase to i12
 -   **read / fehm** fixed seg fault for 0 elem report message by using a,a instead of a in write format.
 -   *build ExodusII6 libraries* The following issue was fixed when building static libraries with exodus:
-    ```
-    These are the external libs used with LaGriT V3.1 As of November 2012
+
+```
+These are the external libs used with LaGriT V3.1 As of November 2012
          http://sourceforge.net/projects/exodusii/files/
          Exodus II 5.22a
          HDF5 version 1.8.6
          netcdf-4.1.3
-     
-    Error Library inclusion order in the following places:
+         
+Error in Library inclusion order in the following places:
         1. /n/swdev/src/exodusii/exodus-6.09/exodus/cbind/CMakeList.txt 
             Line 284
         2. /n/swdev/src/exodusoo/exodus-6.09/exodus/forbind/CMakeList.txt
             Line 62
             
-    Solution was to switch ${HDF5_LIBRARY with ${HDF5HL_LIBRARY
+Solution was to switch ${HDF5_LIBRARY with ${HDF5HL_LIBRARY
     
-    Linux RHEL Exodus 5 libraries were built in
- /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus
+Linux RHEL Exodus 5 libraries were built in /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus
 
 Build executable for linux:
 gfortran -O -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_o_gf4.5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/lg_util/lib/util_lin64_o_gfort4.5.a -L /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/lin64/lib -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
