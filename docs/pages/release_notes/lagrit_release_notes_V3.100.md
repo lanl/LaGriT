@@ -12,46 +12,46 @@ This includes work by summer student Mikita Yankouski with WIN development using
 - Files changed for WIN are opsys.h and type_sizes.h to account for win64 and changed define for SIZEOF_LONG
 
 ```
-        file: opsys.h
-         #ifdef win64
-         #define FCV_UNDERSCORE
-         #define SIZEOF_INT 4
-         #define SIZEOF_LONG 8
-         #define SIZEOF_VOIDP 8
-         #define MAX_UINT 18446744073709551615.00 
-         #endif
+file: opsys.h
+#ifdef win64
+ #define FCV_UNDERSCORE
+ #define SIZEOF_INT 4
+ #define SIZEOF_LONG 8
+ #define SIZEOF_VOIDP 8
+ #define MAX_UINT 18446744073709551615.00 
+#endif
          
-         #ifdef win64
-         #define int_ptrsize long long
+#ifdef win64
+ #define int_ptrsize long long
 
-        file: type_sizes.h
-         #ifdef __CYGWIN__
-         #define FCV_UNDERSCORE
-         #define SIZEOF_INT 4
-         #define SIZEOF_LONG 4
-         #define SIZEOF_VOIDP 8
-         #endif ***
+file: type_sizes.h
+#ifdef __CYGWIN__
+ #define FCV_UNDERSCORE
+ #define SIZEOF_INT 4
+ #define SIZEOF_LONG 4
+ #define SIZEOF_VOIDP 8
+#endif 
 
-        file: machine_header.h
-         #ifdef win64
-         #define FCV_UNDERSCORE
-         #define SIZEOF_INT 4
-         #define SIZEOF_LONG 8
-         #define SIZEOF_VOIDP 8
-         #endif
+file: machine_header.h
+#ifdef win64
+ #define FCV_UNDERSCORE
+ #define SIZEOF_INT 4
+ #define SIZEOF_LONG 8
+ #define SIZEOF_VOIDP 8
+#endif
 
-        file: Makefile
-         ifeq ($(COMPILER), cygwin)
-         SUFFC = _cygwin
-         FC = /bin/gfortran
-         CC = /bin/gcc
-         CXX = /bin/c++
-         FC90 = /bin/gfortran
-         OSTAG = _cygwin
+file: Makefile
+ifeq ($(COMPILER), cygwin)
+  SUFFC = _cygwin
+  FC = /bin/gfortran
+  CC = /bin/gcc
+  CXX = /bin/c++
+  FC90 = /bin/gfortran
+  OSTAG = _cygwin
          
-         FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
-         FF90FLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
-         CFLAGS = -m64 -Dwin64 
+ FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
+ FF90FLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
+ CFLAGS = -m64 -Dwin64 
  ```        
 
 ------------------------------------------------------------------------
@@ -66,20 +66,21 @@ even though it is actually a branch from V3.106.*
 ### New Features:
 
 -   **dump / pflotran** Writes .uge file for pflotran and is used by the DFN suite of scripts. The deve directory is in */n/swdev/LAGRIT/work/pflotran*. The syntax looks like:
-
-            dump / pflotran / root_name / cmo_name
-            dump / pflotran / root_name / cmo_name / nofilter_zero
-
+```
+   dump / pflotran / root_name / cmo_name
+   dump / pflotran / root_name / cmo_name / nofilter_zero
+```
 -  **dump / exo** calls ExodusII new routines changed from V5 to V6. LaGriT command syntax is unchanged.
-
+```
            http://sourceforge.net/projects/exodusii/files/
            Exodus II 6.09
            HDF5 version 1.8.6
            netcdf-4.1.3
+```
 
 -  *exo block id* modified to input digit instead of *digit*0000. All exodus files are same as Exodus II 5, except for the block id.
     Tests have been updated resulting in the following differences:
-
+```
         Exodus 6.09:
         <               :api_version = 6.09f ;
         <               :version = 6.09f ;
@@ -91,8 +92,9 @@ even though it is actually a branch from V3.106.*
                        :version = 5.22f ;
         ---
           eb_prop1 = 10000, 20000, 30000 ;
+```
 
--   **compress_eps** new cmo attribute for stor file allowing user to extend range of ccoef values by setting mesh attribute compress_eps (from default 1e-8). Changing value of compress_epsilon seemed to help loss of coeffs with large aspect ratios.
+-  **compress_eps** new cmo attribute for stor file allowing user to extend range of ccoef values by setting mesh attribute compress_eps (from default 1e-8). Changing value of compress_epsilon seemed to help loss of coeffs with large aspect ratios.
 
 
 ### These issues were fixed:
@@ -136,7 +138,7 @@ V3.104 is new  version lagrit code using Exodus 6 libs
 
 ### Enhancements:
 
--   **read / zone | zone_element** added option zone_element which allows reading of node or element list in FEHM zone or zonn format. Each node or element number found in the list has attribute tagged.
+- **read / zone | zone_element** added option zone_element which allows reading of node or element list in FEHM zone or zonn format. Each node or element number found in the list has attribute tagged.
 
     
 ### These issues were fixed:
