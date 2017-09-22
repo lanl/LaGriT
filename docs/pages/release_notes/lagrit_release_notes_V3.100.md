@@ -4,11 +4,12 @@ title: 'LaGriT Release Notes V3.1'
 
 ## LaGriT V3.108 July 2016
 
-The was the Last version released under Open Distribution license LA-CC-2012-084 before Open Source.\
+The was the Last version released under Open Distribution license LA-CC-2012-084 before Open Source.
+
 This code was tagged in Mercurial as V3.108 and used to start open-source repository on github.
 
 This includes work by summer student Mikita Yankouski with WIN development using Cygwin.
-- Added top level python control suite, and standarized level02 output files. See instructions.txt and cmake-script. \
+- Added top level python control suite, and standarized level02 output files. See instructions.txt and cmake-script. 
 - Files changed for WIN are opsys.h and type_sizes.h to account for win64 and changed define for SIZEOF_LONG
 
 ```
@@ -63,14 +64,17 @@ Major update to write PFLOTRAN type option stor file and new syntax using Exodus
 *Note: The LaGriT run-time banner shows V3.2 with compile date Aug 2015,
 even though it is actually a branch from V3.106.*
 
-### New Features:
+### Enhancements:
 
 -   **dump / pflotran** Writes .uge file for pflotran and is used by the DFN suite of scripts. The deve directory is in */n/swdev/LAGRIT/work/pflotran*. The syntax looks like:
+
 ```
    dump / pflotran / root_name / cmo_name
    dump / pflotran / root_name / cmo_name / nofilter_zero
 ```
+
 -  **dump / exo** calls ExodusII new routines changed from V5 to V6. LaGriT command syntax is unchanged.
+
 ```
            http://sourceforge.net/projects/exodusii/files/
            Exodus II 6.09
@@ -80,6 +84,7 @@ even though it is actually a branch from V3.106.*
 
 -  *exo block id* modified to input digit instead of *digit*0000. All exodus files are same as Exodus II 5, except for the block id.
     Tests have been updated resulting in the following differences:
+    
 ```
         Exodus 6.09:
         <               :api_version = 6.09f ;
@@ -100,8 +105,11 @@ even though it is actually a branch from V3.106.*
 ### These issues were fixed:
 
 -   **dump / stor** corrected bug for 2D grids that overwrite volic with incorrect value if grid is non-planer.
+
 -   **dump / fehm** add space between ns and nelements, increase to i12
+
 -   **read / fehm** fixed seg fault for 0 elem report message by using a,a instead of a in write format.
+
 -   *build ExodusII6 libraries* The following issue was fixed when building static libraries with exodus:
 
 ```
@@ -133,18 +141,22 @@ gfortran -O -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -
 Note for DFNWorks applications using LaGriT, this version does NOT have the PFLOTRAN file option.
 This version of code uses ExodusII 5 routine calls. These are replaced with ExodusII 6 in newer versions.
 
-V3.103 is last version lagrit code using Exodus 5 libs \
+V3.103 is last version lagrit code using Exodus 5 libs
+
 V3.104 is new  version lagrit code using Exodus 6 libs
+
 
 ### Enhancements:
 
-- **read / zone | zone_element** added option zone_element which allows reading of node or element list in FEHM zone or zonn format. Each node or element number found in the list has attribute tagged.
+- **read / zone** or **zone_element** added option zone_element which allows reading of node or element list in FEHM zone or zonn format. Each node or element number found in the list has attribute tagged.
 
     
 ### These issues were fixed:
 
 - **addatt**/mo_tri / **unit_area_normal** fixed incorrect zero result and fixed attribute handling so vector array is formed using irank = 3.
+
 - **cmo/addatt/** mo/ **area_normal/xyz/** Result is off by factor of 2, fixed area normal to assign half the cross product (for triangles).
+
 - **synth_norm** fixed handling of attributes. The synthetic normals were creating a dummy attribute not used because offsetsurf is creating x_n_norm y_n_norm z_n_norm on the input cmo. Attribute names are ignored on the command line, added better reporting for this.
 
 ------------------------------------------------------------------------
@@ -153,12 +165,7 @@ V3.104 is new  version lagrit code using Exodus 6 libs
 
 Major changes to most parts of the code to enable 64 bit compilation and
 added external ExodusII 5 libraries to write Exodus basic mesh files.
-These are the external libs used with this release.
-
-A few minor changes/fixes include: cmo/copyatt fix copy from node
-attribute to elem attribute of equal length. cmo/readatt fix to allow
-char in first position. Memory and bug fixes related to 64 bit code
-changes. Improved error catching for common routines.
+This includes work by Quan Bui for ExodusII node sets and element sets.
 
 ### Enhancements:
 
@@ -187,37 +194,56 @@ changes. Improved error catching for common routines.
 ```
    
 - **dump** 3 token short syntax for dump (avs,gmv,lg,lagrit,ts,exo)
+
 - **extract/surfmesh** Now creates attributes to hold element local face numbers of 3D
     input mesh that occur on either side of output mesh face, idface0
     and idface1. Now copies user-created node-based attributes from
     source.
+    
 -  **interpolate**  Changed interpolate to "find" more points on edges this will permit
     nodes to find a nearest edge or point and be "inside" the triangle
     for extreme small or large numbers where epsilon values are
     difficult to evaluate correctly.
+
 -  **massage** Added option for massage to refine based on an attribute field.
 ```
   Syntax:
           massage / [bisection length/field name] / merge_length / toldamage / ...
 ```
+
 -  **massage2** Under development massage2 syntax for incremental refinement strategies.
 ```
   Syntax:
           massage2/ [file name] / [Target Length Scale]/[field name]/ &
              merge_length/toldamage/[tolroughness]/[ifirst,ilast,istride]/ ...
 ```
+
 -  **math** add modulo and mod options
+
 -  **recon** Code improvements related to recon 0 and recon 1 will result in
     slightly different but better connectivity results.
+    
 -  **sort** Added line sort by nodes or elements for creating valid polygons
     that can be read and used by other routines.
+    
 ```
    Syntax:
           sort / line_graph / cmo / ascending  descending / [key] / [nodes/elements]
 ```
 
+
+### These issues were fixed:
+
+- cmo/copyatt fix copy from node attribute to elem attribute of equal length
+
+- cmo/readatt fix to allow character in first position which will be skipped
+
+- minor fixes related to 64 bit code changes. Improved error catching for common routines.
+
+
+
 ------------------------------------------------------------------------
 
-Changesets tracked in Mercurial/Trac on ancho.lanl.gov/lagrit
+*Changesets tracked in Mercurial/Trac on ancho.lanl.gov/lagrit*
 
 
