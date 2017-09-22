@@ -38,7 +38,7 @@ create node attributes xn_varea, yn_varea, zn_varea indicating face directions.
 
 - **dump/ filename** 2 token dump for common files added to writedump.f
 
-
+- **addmesh/ excavate** remove nodes and elements if they fall with the circumsphere of triangles on the input mesh.
 
 ### These issues were fixed:
 
@@ -69,6 +69,8 @@ various pieces of the code having to do with actions involving
 more than one mesh object and their user defined attributes.
 
 ### Enhancements
+
+- **memory** New options to print and check memory manager and report memory usage. This superseeds old utilities mmprint, mmcheck, etc.
 
 - **read** for 3 tokens for .inp .gmv .avs
 
@@ -108,44 +110,42 @@ but allows better reporting of errors and memory usage for useful diagnostic inf
 *               *    date_compile: 2009/08/03                 *                   
 ```
 
-== initlagrit.f
-add call to mmverify
+###Enhancements:
+
+- Executable build for Mac with Intel chip
+
+- New capability in compute module to compute signed distance fields
+
+- Incorporate METIS source code for graph partition and reorder package
+with LaGriT. For details of METIS algorithms and descriptions of the third command
+line argument see ``` http://glaros.dtc.umn.edu/gkhome/views/metis```
+
+- Add option to create node attribute that is the Voronoi volume
+associated with each node of a Delaunay mesh
+
+- Module addmesh modified to handle errors so that it can be used in a
+loop without needing to have first call be different
+
+- Updates stor file commands so default uses newest version of code to
+build sparse matrix. This uses less memory and takes less time to
+build. New syntax options for stor file compression include all (default),
+graph, coefs, or none. Initialize list pointers to null
+assign null to pointers after free
+add warning messages for failure to free.
+
+- *initlagrit.f* add call to mmverify
 the new util version checks for correct pointer sizes 
 
-== writinit.f
-add m32 and m64 to Program line in lagrit header 
-add intel to Program line for Mac
+- **cmo addatt vor_volume** added which calls anothermatbld3d_wrapper to fill voronoi volumes
 
-== cmo_addatt.f
-addatt keyword vor_volume which calls
-anothermatbld3d_wrapper to fill voronoi volumes
-
-== sparseMatrix.c 
-initialize list pointers to null
-assign null to pointers after free
-add warning messages for failure to free 
-
-== writedump.f
-declare implicit none and initialize variables
-add comments to clarify the case switches
-add more error checking and messages
-change syntax for dump/ fehm and dump/ stor
-old keywords not needed include alternate_scalar, binaryc, asciic
-compression keywords are now none, coefs, graph, or all 
-old syntax still works, but now code checks
-for keywords after filename and cmo and sets
-options for the fehm and stor routine calls 
-The man pages are updated and corrected 
-
-- dumpfehm.f
-Add compress_opt to dumpfehm arguments
+- *dumpfehm.f*  Add compress_opt to dumpfehm arguments
 add comments and error checking to clarify code logic
 check options and set for 2D or 3D calls to matbld
 use matbld3d_stor for compress options none and coefs
 use anothermatbld3d_wrapper for compress options all and graph
 Note anothermatbld3d_wrapper can write only scalar coef values
 
-- anothermatbld3d_wrapper.f
+- *anothermatbld3d_wrapper.f*
 Extensive chages to error handling and messages, but not to the logic of program
 This code has same logic as matbld3d - but uses linked lists instead of mmgetblk calls
 Use io_type to toggle creation of attribute for voronoi volumes or to write to stor file
@@ -158,7 +158,7 @@ changed all routine messages to start with AMatbld3d_stor to distinguish from ma
 added idebug options
 added status report at end of routine
 
-- matbld3d_stor.f
+- *matbld3d_stor.f*
 Extensive chages to error handling and messages, but not to the logic of program
 This code uses many mmgetblk calls and about 40 percent more memory than linked list version
 added extensive error checking to eliminate segmentation faults
@@ -169,7 +169,7 @@ added istatus to check for errors and completion of matrix
 added idebug options
 added status report at end of routine
 
-- matbld1.f
+- *matbld1.f*
 This routine is called  by matbld3d_stor
 added error check and message for every mmgetblk and mmrelblk
 added calls to mmprint when mm calls fail
