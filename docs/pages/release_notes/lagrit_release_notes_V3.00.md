@@ -34,10 +34,14 @@ integer type so that it matches the size of a pointer.
  ```
  
  By default, gfortran enforces proper alignment of all variables in a COMMON block by padding them as needed. On certain platforms this is mandatory, on others it increases performance. If a COMMON block is not declared with consistent data types everywhere, this padding can cause trouble, and -fno-align-commons can be used to disable automatic alignment. The same form of this option should be used for all files that share a COMMON block. To avoid potential alignment issues in COMMON blocks, it is recommended to order objects from largests to smallest.
+ 
 
-This includes Work from summer student Adam Cozzette.
+
+This includes Work from Andrew Kuprat and summer student Adam Cozzette.
 
 ###Enhancements:
+
+- **filterkd** - new filter command uses kd-tree for filter. Uses reverseform.f
 
 - *anothermatbld3d.c* added several functions for computing the hybrid point of a control volume: tetisOnBoundary, intersectSegmentWithFace, getHybridPoint
 - added helper functions for computing dot products and distances.
@@ -93,6 +97,8 @@ This includes Work from summer student Adam Cozzette.
 -  *rotatelo.f* Fixed a bug whereby rotateln would rotate some points in one direction and some points in the opposite direction.
               
 - *sparseMatrix.c* removed unused variables in order to get rid of compiler warnings. Added #if for printf to use string according to integer size
+
+- *readgmv_binary.f* Changed gmv routines readgmv_binary.f and dumpgmv_hybrid.f so read/write gmv works on 64-bit
               
 ------------------------------------------------------------------------
 
