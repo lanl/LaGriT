@@ -268,6 +268,17 @@ build_exodus()
 	sh ../runconfigure.sh
 	make && make install || exit 1
 
+    # Verify that HDF5 libraries are in the correct location
+    # Change for Darwin
+    if [[ ! -f "$ACCESS/lib/libhdf5.so" ]]; then
+        mkdir $ACCESS/lib/
+        mkdir $ACCESS/include/
+        mkdir $ACCESS/bin/
+        cp $ACCESS/TPL/hdf5/hdf5-1.10.1/hdf5/lib/* $ACCESS/lib/
+        cp $ACCESS/TPL/hdf5/hdf5-1.10.1/hdf5/include/* $ACCESS/include/
+        cp $ACCESS/TPL/hdf5/hdf5-1.10.1/hdf5/bin/* $ACCESS/bin/
+    fi
+
 	cd ../../netcdf
 
 	echo "Downloading and unpacking netCDF..."
