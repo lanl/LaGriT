@@ -24,24 +24,26 @@
              <a href="https://lanl.github.io/LaGriT/site_list.html"> Site Index </a> <br>
              <a href="https://lanl.github.io/LaGriT/site_map.html"> Site Map </a> <br>
              <a href="https://lanl.github.io/LaGriT/"> Home </a> <br>
-
-            <div class="grid" id="searchBar">
-                <div>
-                  <div id="search">
-                    <form role="search" method="get" action="{{ site.baseurl }}//pages/search">
-                      <input id="searchString" name="searchString"
-                         placeholder="Enter text here" type="text">
-                      <input id="searchButton" name="googleSearchName" type="button" value="Search">
-                    </form>
-                  </div>
-
-                </div>
-            </div>
           </div>
     </div>
 
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap">
+    
+	<!-- BEGIN SEARCH BAR -->
+	<div class="grid" id="searchBar">
+        <div>
+          <div id="search">
+            <form role="search" method="get" action="{{ site.baseurl }}//pages/search">
+              <input id="searchString" name="searchString"
+                 placeholder="Enter text here" type="text">
+              <input id="searchButton" name="googleSearchName" type="button" value="Search">
+            </form>
+          </div>
+
+        </div>
+    </div>
+	
       <section id="main_content" class="inner">
         {{ content }}
 	     
