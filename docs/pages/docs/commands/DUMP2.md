@@ -1,35 +1,41 @@
-**DUMP**
+# DUMP
+
 This command produces an output file from a Mesh Object. Some of the standard graphics packages are supported including AVS, GMV and TECPLOT. See below for full list of file types that can be written. The list is in alphabetic order and describes each valid file_type with syntax and usage. 
 
-**GENERAL SYNTAX:**
+## GENERAL SYNTAX:
+
 **dump**/file_type/file_name/[cmo_name]/
 The dump command is followed by a word indicating file type. Valid file type kewords are: gmv, avs, avs2, chad, coord, datex, elem_adj_node, elem_adj_elem, fehm, geofest, geom, gmv, gocad, lagrit, recolor, stl, stor, tecplot, zone, zone_imt, and zone_outside . 
 The file_type is followed by a string to be used as whole or part of file name as described below.
 
-**SHORT SYNTAX:**
+## SHORT SYNTAX:
+
 **dump**/ file_name.[inp  OR  avs  OR  gmv  OR  lg  OR  lagrit  OR  ts  OR  exo ] / [cmo_name] 
 
 For common file types, a short form syntax can be used which skips the file type designation. The file_type is asssumed from the file_name suffix. The following are recognized; AVS (.inp or .avs), Exodus (.exo), GMV (.gmv), LaGriT (.lagrit or .lg), and .ts (gocad). 
 
-**FILE TYPES:** 
+## FILE TYPES:
 
-**dump** / avs /file_name/[cmo_name] /[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes] 
+### dump / avs /
+file_name/[cmo_name] /[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes] 
 
 Output in AVS UCD (Unstructured Cell Data) format. One can turn on or off the output of node coordinates (iopt_points), element connectivity (iopt_elements), node attributes (iopt_node_attributes) and element attributes (iopt_element_attributes). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file. For instance, **dump**/avs/file.inp/cmo_name/1,1,0,0 will write the node coordinates and element connectivity, but will not write node attributes or element attributes. 
 Use the =2 option with caution since the output will really not be AVS format files. This is fine as long as you do not expect read/avs or the AVS graphics program to read the file.
-For file format specification see http://help.avs.com/Express/doc/help/reference/dvmac/UCD_Form.htm 
 
-**dump** / avs2 / file_name/[cmo_name]/[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes]
+### dump / avs2 / 
+file_name/[cmo_name]/[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes]
 
 This option will output integers as integers instead of floating point. The other avs option converts integers to reals on output. The /avs/ option above outputs all attributes as real numbers. This option is slower but the files are smaller if there are integers in the node or element attributes. 
 
-**dump** / chad /file_name/[cmo_name]/ 
+### dump / chad 
+/file_name/[cmo_name]/ 
 
 Will output a file nodes, faces, and connectivity for tet, hex, pyr, or pri in CHAD format. Writes attributes imt and itp.
 
 **dump** / coord /file_name/[cmo_name]/ (See also **dump**/fehm ) 
 
-Will output a single file with node list x,y,z values and element connectivity list in FEHM format. Files are written in FEHM format and are described by clicking here for details. 
+Will output a single file with node list x,y,z values and element connectivity list in FEHM format. Files are written in FEHM format and are described by [clicking here for details.](dump/DUMP3.md)
+
 The coord file is one of a set of files written when the fehm file type is called. 
 
 **dump** / datex  OR  simul /file_name/[cmo_name]/ 
@@ -51,8 +57,10 @@ node_number number_of_adjacent_elem e1 e2 ... en
 
 **dump** / exo  OR  exodusii / file_name/ mo_name [ psets ] / [ eltsets] / [ facesets file1 file2 ... filen ] 
 
-Write a mesh object to a file in the Exodus II format. The keyword psets as token 5 will cause all psets (lists of vertex numbers) associated with the mesh object to be written to the ExodusII output file. The keyword eltsets as token 6 will cause all eltsets (lists of cell numbers) associated with the mesh object to be written to the ExodusII output file. If face set information is being provided from files (file1 file2 ... filen) the format of the file is written in AVS UCD cell attribute format. The first column is the global cell number, the second column is the local face number. 
-Click here for more details on options and files that are written. 
+Write a mesh object to a file in the Exodus II format. The keyword psets as token 5 will cause all psets (lists of vertex numbers) associated with the mesh object to be written to the ExodusII output file. The keyword eltsets as token 6 will cause all eltsets (lists of cell numbers) associated with the mesh object to be written to the ExodusII output file. If face set information is being provided from files (file1 file2 ... filen) the format of the file is written in AVS UCD cell attribute format. The first column is the global cell number, the second column is the local face number.
+
+[Click here for more details on options and files that are written.](EXODUS.md) 
+
 
 **dump** / fehm / file_name_root / cmo_name / [delatt  OR  keepatt]   [keepatt_voronoi  OR  keepatt_median]    
         / [ ascii  OR  binary ] / [scalar  OR  vector  OR  both  OR  area_scalar  OR  area_vector  OR  area_both] 
@@ -74,7 +82,9 @@ file_name.stor - FEHM format file giving the voronoi (control volume) associated
 
 **dump** / geofest/file_name 
 
-Write a file to be read by the GeoFEST, Geophysical Finite Element Simulation Tool .  The output file is ascii.
+Write a file to be read by the GeoFEST, Geophysical Finite Element Simulation Tool hosted by Open Channel Foundation. The output file is ascii.
+See more at 
+
 
 **dump** / geom/file_name 
 
@@ -83,17 +93,20 @@ will write an ascii file containing the geometry information for the current run
 **dump**/gmv/file-name/[mesh-object]/[ascii  OR  binary] 
 
 Write a file to be read by the graphics program GMV.  The defaults are binary and current mesh object.  NOTE:  For LaGriT versions dated after October 1999, use    cmo/setatt//ipolydat/no   to reduce file size. This command will keep the polygon data from being written to GMV files. 
+[For more on GMV visit](http://www.generalmeshviewer.com)
 
 **dump** / gocad /file_name 
 
-Write a gocad TSURF file. See GOCAD TSURF.  
+Write a gocad TSURF file.
+
+
 **dump** / lagrit /file_name/[cmo_name]/ [ascii  OR  binary] 
 
 Write a LaGriT restart file that contains geometry and mesh object information.  cmo_name can be '-all-' in which case all mesh objects are written to the file or it can specify a list of mesh objects to be written. A subsequent read/lagrit command will restart the code at the state at which the **dump** command was issued. The default file type is binary. 
  
 **dump** / recolor/file_name 
 
-This command writes the existing colormap to the specified file.  (See colormap command)
+This command writes the existing colormap to the specified file.  [See colormap command](COLORMAP.md)
 
 **dump** / stl /file_name 
 
@@ -108,8 +121,10 @@ File can be written in ascii or binary (fortran unformatted platform dependent).
 The compression default is all which will compress both the list of area coefficients and the indices. The coefs compression, or none compression both use and older algorithm and will result in larger files and may take longer to run.
 The stor file is one of a set of files written when the fehm file type is called. 
 
-Click here for further explanation of options. 
-Click here for the STOR file format. 
+[Click here for further explanation of syntax options.](dump/DUMP3.md)
+
+[Click here for the FEHM style STOR file format.](../STOR_Form.md) 
+
 
 **dump** / tecplot /file_name 
 
@@ -130,10 +145,14 @@ file_name_multi_mat.zone - lists of node pairs connected across material interfa
 
 **dump** / zone_imt /file_name/[cmo_name] / [ imt_value ]   
 
-Will output only one file with name file_name_material.zone. It is written in FEHM zone format and are described by clicking here for details. 
+Will output only one file with name file_name_material.zone. It is written in FEHM zone format and are described by 
+[clicking here for details.](dump/DUMP3.md)
+
 file_name_material.zone is node list for each integer material (imt) value. If the optional fifth argument is specified as an integer, then a node list file is written only listing the nodes with the value specified by imt_value. 
-(For options to output PSET's as ZONE/ZONN files see: pset/zone) 
+[For options to output PSET's as ZONE/ZONN files see:](PSET.md) 
+
 The zone_imt file is one of a set of files written when the fehm file type is called. 
+
 
 **dump** / zone_outside  OR  zone_outside_minmax /file_name/[cmo_name] / 
      [delatt  OR  keepatt]  [keepatt_voronoi  OR  keepatt_median] 
@@ -161,9 +180,10 @@ nnum
 If the keyword keepatt_voronoi is specified, three node attributes (xn_varea, yn_varea, zn_varea) representing the voronoi area are added.
 If the keyword keepatt_median is specified, three node attributes (xn_marea, yn_marea, zn_marea) representing the median area are added and the file name will be file_name_outside_med.area. Note that the old version file name file_name_outside.area has area vectors computed with the median strategy.
 
-The option zone_outside_minmax is used to find the min and max external node along each row and column of the regular grid. Click here for image showing difference between the default and the minmax options for outside nodes. 
+The option zone_outside_minmax is used to find the min and max external node along each row and column of the regular grid.
+<a href="../../images/zone_outside.png" target="_blank">Click here for image </a> showing difference between the default and the minmax options for outside nodes. 
 
-These zone_outside files are part of a set of files written when the zone or fehm file type is called. The fehm zone format and descriptions are  in the **dump**/fehm command details. 
+These zone_outside files are part of a set of files written when the zone or fehm file type is called. The fehm zone format and descriptions are  in the **dump/fehm** command details. 
 
 **EXAMPLES:**
 
