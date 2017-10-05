@@ -990,11 +990,22 @@ C            **************************************************************
 C            connect: Use Watson point insertion to grid the mesh
 C
            call cmo_get_name(cmo,ierror)
-           call cmo_get_info('ndimensions_topo',cmo,
-     *                           nsdtopo,length,icmotype,ierror)
-           call cmo_get_info('ndimensions_geom',cmo,
-     *                           nsdgeom,length,icmotype,ierror)
 
+           call cmo_get_info('ndimensions_topo',cmo,
+     *                           nsdtopo,length,icmotype,ierr2)
+           if (ierror.ne.0 .or. ierr2 .ne. 0) then
+             call x3d_error(isubname,'get_info nsdtopo')
+             nsdtopo = -1
+           endif
+           call cmo_get_info('ndimensions_geom',cmo,
+     *                           nsdgeom,length,icmotype,ierr2)
+           if (ierror.ne.0 .or. ierr2 .ne. 0) then
+             call x3d_error(isubname,'get_info nsdgeom')
+             nsdgeom = -1
+           endif
+
+
+C          CMO 2D in 2 dimensions
            if(nsdtopo.eq.2.and.nsdgeom.eq.2) then
              call connect2d_lg(imsgout,xmsgout,cmsgout,msgtype,nwds,
      *                              ierr2)
@@ -1009,6 +1020,7 @@ C
                call writloga('default',0,logmess,1,ierrw)
              endif
 
+C          CMO 3D in 3 dimensions
            elseif(nsdtopo.eq.3.and.nsdgeom.eq.3) then
              call connect(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
 
@@ -1023,6 +1035,7 @@ C
                call writloga('default',0,logmess,1,ierrw)
              endif
 
+C          CMO dimensions inconsistent
            else
 
                write(logmess,'(a)')
