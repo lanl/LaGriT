@@ -22,7 +22,6 @@ void exo_lg_ini_(int *idexo, void_int *ndim,
 {
 	ex_init_params params;
 
-
 	int64_t *n_dim = ndim;
 	int64_t *n_nodes = nnodes;
 	int64_t *n_elements = nelements;
@@ -50,6 +49,7 @@ void exo_lg_ini_(int *idexo, void_int *ndim,
 	params.num_face_maps = 0;
 	params.num_elem_maps = 0;
 
+/* commented out since this is already written to screen and log
 	printf("Title: %s \n", params.title);
 	printf("number of dimension: %d \n", params.num_dim);
 	printf("number of nodes: %d \n", params.num_nodes);
@@ -68,8 +68,7 @@ void exo_lg_ini_(int *idexo, void_int *ndim,
 	printf("number of face maps: %d \n", params.num_face_maps);
 	printf("number of element maps: %d \n", params.num_elem_maps);
 	printf("\n");
-
-
+*/
 	
 	*status = ex_put_init_ext(*idexo, &params);
 }

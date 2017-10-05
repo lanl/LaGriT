@@ -25,20 +25,20 @@ C     Dump ExodusII file with vertex set, element set and face set info:
 C       dump / exo / file_name/ mo_name / psets / eltsets / facesets 
 C
 C     Dump ExodusII file with vertex set, element set and face set info:
-C       dump / exo / file_name/ mo_name / psets / eltsets / facesets file1 file2 … filen
+C       dump / exo / file_name/ mo_name / psets / eltsets / facesets file1 file2 filen
 C
 C     Dump ExodusII file with vertex set, element set and no face set information:
 C       dump / exo / file_name/ mo_name / psets / eltsets
 C
 C     Dump ExodusII file with no vertex set,  no element set and face set info:
-C       dump / exo / file_name/ mo_name / / / facesets file1 file2 … filen
+C       dump / exo / file_name/ mo_name / / / facesets file1 file2 filen
 C
 C     Write a mesh object to a file in the Exodus II format. 
 C     The keyword pests as token 5 will cause all psets (lists of vertex numbers) 
 C     associated with the mesh object to be written to the ExodusII output file. 
 C     The keyword eltsets as token 6 will cause all eltsets (lists of cell numbers) 
 C     associated with the mesh object to be written to the ExodusII output file.  
-C     If face set information is being provided from files (file1 file2 … filen) the 
+C     If face set information is being provided from files (file1 file2 filen) the 
 C     format of the file is written in AVS UCD cell attribute format. 
 C     The first column is the global cell number, the second column is the local face number
 C
@@ -92,7 +92,7 @@ c     character*(*) ifile
 c     local variables
 
 c     I am unable to successfully use blockcom.h so I am redefining some
-c     vars in place of nelmnen and nelmnef
+c     vars in place of nelmnen and nelmnef - quan
 
       integer nelnodes(8)
       data nelnodes / 1, 2, 3, 4, 4, 5, 6, 8 /
@@ -101,15 +101,15 @@ c     vars in place of nelmnen and nelmnef
 
       integer i,j,k,ii,j1, k1, k2, idx, idx1, idx2, ioffset
       integer ierr, ierrw
-      integer len_cmo_name, iblk_num, if_debug_local
+      integer len_cmo_name, iblk_num, if_debug_local, idebug
       integer icharlnf,eltyp
       integer ierror_return
       integer nnodes, nelements, nen, mbndry
       integer iout,loutx,louty,loutz,loutk,itype
-      integer lout, length
+      integer lout, length, ityp
       integer nsdgeom, ndimtopo
       integer status
-      integer ilen, llen_string, llen_line
+      integer ilen, llen_string, llen_line, ilen_word
       integer id_elem, nelblocks, iblockel
       integer inumqarec
       integer wsize,fsize
@@ -266,18 +266,12 @@ c     these should be allocated, but 1000 should be more than enough sidesets
       pointer (ipouterfaces2,outerfaces2)
       integer outerfaces2(*)
 
-c     these must be integer 4 to work with fortran calls
-c     this is contrary to our 64 bit work
-c     TODO find out how to pass 8 bit integers
-      integer*4 elconblk(*)
-      integer*4 sselemlist(*)
-      integer*4 ssfacelist(*)
-      integer*4 outernodes(*)
-
-c     integer elconblk(*)
-c     integer sselemlist(*)
-c     integer ssfacelist(*)
-c     integer outernodes(*)
+c     these were integer 4 to work with fortran calls
+c     changed for ExodusII6 and greater
+      integer elconblk(*)
+      integer sselemlist(*)
+      integer ssfacelist(*)
+      integer outernodes(*)
 
       pointer (ipelconblk,elconblk)
       pointer (ipsselemlist,sselemlist)
@@ -298,8 +292,9 @@ c      external excre_wrapper
 
 
 c**********************************************************
-C     Begin dumpnetcdf
-C
+C     Begin dumpexodusII formerly known as dumpnetcdf
+
+C     There are SETUP and WRITE SECTIONS in this file.
 
 C     Initialize flags for output sets
       output_psets = .false.
@@ -309,9 +304,11 @@ C     Initialize flags for output sets
       auto_facesets = .false.
       auto_nodesets = .false.
 
-
-      ierror_return = 0
+c     for extra output from this routine if compiled non-zero 
+c     also will keep tty output on if not zero
       if_debug_local = 0
+      idebug = 0
+      ierror_return = 0
 
 c
       isubname ='dumpexodusII'
@@ -320,14 +317,26 @@ c
 
       cosang_flat = -0.707      ! Approximately 135 degrees
 
-      api=4.5700002
-      vers=4.5700002
+C     api=4.5700002
+C     vers=4.5700002
+C     Update 2017 - should be dynamic instead of hard coded
+C     Output from run:
+C     global attributes:
+C      api_version = 7.03f ;
+C      version = 7.03f ;
+C      floating_point_word_size = 8 ;
+C      file_size = 1 ;
+C      maximum_name_length = 32 ;
+C      int64_status = 0 ;
+C      title = "LaGriT to Exodus" ;
+
+      api=7.03
+      vers=7.03
       wsize=8
       fsize=0
       llen_string=33
       llen_line=81
       inumqarec=1
-      inumatt=1
 
 
 c**********************************************************
@@ -344,7 +353,7 @@ C     dump/exo/ ifile / cmoname / option
          ifile = cmsgin(3)
       else
          write(logmess,"(a,a)") isubname,
-     *   " Error : filename not given."
+     *   " ERROR : filename not given."
          call writloga('default',0,logmess,1,ierr)
          ierror_return = -1
          go to 9999
@@ -354,7 +363,7 @@ C     dump/exo/ ifile / cmoname / option
          cmo_name = cmsgin(4)
       else
          write(logmess,"(a,a)") isubname,
-     *   " Error : cmo name not given."
+     *   " ERROR : cmo name not given."
          call writloga('default',0,logmess,1,ierr)
          ierror_return = -1
       endif
@@ -390,15 +399,22 @@ C     Check for faceset option
             do ii = 8,nwds
               nfiles = nfiles+1
               flist(nfiles) = cmsgin(ii)
-              print*,'got ',nfiles,flist(nfiles)
-        	
+
+              write(logmess,"(a,i7,1x,a)") 
+     *        "got ",nfiles,flist(nfiles)
+               call writloga('default',0,logmess,0,ierr)
+
               ilen = icharlnf(flist(nfiles))
               call fexist(flist(nfiles)(1:ilen),ierr)
+
               if(ierr.eq.0) then
-                print*,'Missing facesets file: ',flist(nfiles)(1:ilen)
+                write(logmess,"(a,a)") 
+     *      "ERROR: Missing facesets file: ",flist(nfiles)(1:ilen)
+                call writloga('default',1,logmess,1,ierr)
                 ierror_return = -2
                 goto 9999
               endif
+
             enddo
          endif
       endif
@@ -411,25 +427,34 @@ c     Get CMO info
 C     set cmo and ierror_return in case things blow up
       call cmo_exist(cmo_name,ierr)
       if(ierr.ne.0) then
-        write(logmess,*)
-     *  'dump/exo Warning: cannot find default mesh object.'
+        write(logmess,'(a)')
+     &  'dump/exo Warning: cannot find default mesh object.'
         call writloga('default',0,logmess,0,ierrw)
         ierror_return = -3
         go to 9999
       endif
       len_cmo_name=icharlnf(cmo_name)
 
+C     set debug level based on user or code defintions
+      call cmo_get_info('idebug',cmo_name,idebug,ilen,ityp,ierr)
+      if (idebug .gt. 0) if_debug_local = idebug
+      if (if_debug_local .gt. 0) then
+         write(logmess,'(a,i5)')
+     &  'dump/exo idebug set: ',if_debug_local
+        call writloga('default',1,logmess,1,ierrw)
+      endif
+
       filename=ifile(1:icharlnf(ifile))
-
-
       write(logmess,"(a,a,a,a,a,a)")'ExodusII: ',
      & 'Start writing to file: ',filename(1:icharlnf(filename)),
      & ' using cmo: ',cmo_name(1:len_cmo_name)
       call writloga('default',1,logmess,1,ierr)
 
 c     Turn off screen output of dotask commands
-c
-      if(if_debug_local .eq. 0)call writset('stat','tty','off',ierr)
+c     but leave on for debug mode
+
+      if(if_debug_local.eq.0) call writset('stat','tty','off',ierr)
+
       ierr=0
       cbuff = ' '
       write(cbuff,*) 'cmo/set_id/' // cmo_name(1:len_cmo_name)//
@@ -454,14 +479,12 @@ c     Sort the elements according to their itetclr (material ID)
      &               '/ e_num_temp; finish'
       call dotask(cbuff,ierr)
 
-
-
 c
 c     For Exodus II output reset ioflag of itetclr
-c
-      write(cbuff,*) 'cmo/modatt/' // cmo_name(1:len_cmo_name)//
-     &               '/ itetclr / ioflag / lga ; finish'
-      call dotask(cbuff,ierr)
+c TAM - why are we resetting ioflag ?
+c      write(cbuff,*) 'cmo/modatt/' // cmo_name(1:len_cmo_name)//
+c     &               '/ itetclr / ioflag / lga ; finish'
+c      call dotask(cbuff,ierr)
 
 
 c     Retrieve detailed info about mesh including coordinates, connectivity
@@ -498,12 +521,11 @@ c     Retrieve detailed info about mesh including coordinates, connectivity
 
 
 c-------------------------------------------------------------------
-c     PREPROCESS
-c-------------------------------------------------------------------
+c     PREPROCESS LAGRIT DATA for EXODUSII calls
 
-c-------------------------------------------------------------------
-c     COUNT ELEMENT SETS AND POINT SETS
-c-------------------------------------------------------------------
+
+c     SECTION SETUP - COUNT ELEMENT SETS AND POINT SETS
+
 C     print*
 C     print*, 'Counting number of psets and eltsets'
       if (output_psets .eqv. .true.) then
@@ -542,7 +564,8 @@ C      print *, 'Finish counting eltsets'
 C      print *, 'Number of eltsets: ', neltsets
 C      print*
 
-c     SET UP A MAP FOR ELEMENT IDS BETWEEN EXODUS AND LAGRIT
+
+c     SECTION SETUP - MAP ELEMENT IDS BETWEEN EXODUS AND LAGRIT
 
       length = max(nnodes, nelements)
       call mmgetblk('elem_map',isubname,ipelem_map,length,2,ierr)
@@ -550,13 +573,15 @@ c     SET UP A MAP FOR ELEMENT IDS BETWEEN EXODUS AND LAGRIT
          elem_map(ikey_utr(i)) = i
       enddo
 
-c     DO SOME PROCESSING TO SET UP ELEMENT BLOCKS
 
-c
+c     SECTION SETUP - PREPARE ELEMENT BLOCKS
+
+c     There is an element block for each itetclr 1 thru N
 c     First count the blocks, then allocate an array, then fill the array.
-c
 c     nblocks is number of blocks
 c     blockinfo has number of elements per block
+c     There is currently no attrib for these blocks
+
 
       nmat = 1                  ! There is at least one material
       nelblocks=1               ! There is at least one block
@@ -597,9 +622,7 @@ c     blockinfo has number of elements per block
          iblockel=iblockel+1
          if (itetclr(ikey_utr(i)).ne.itetclr(ikey_utr(i-1))) then
             
-c
 c           start a new block with new material
-c
 
             nelblocks=nelblocks+1 
             nmat = nmat + 1
@@ -617,10 +640,7 @@ c
          endif
       enddo
 
-
-c
 c     Maximum number of elements in any block
-c
 
       maxelblk=0
       do i = 1, nelblocks
@@ -628,22 +648,10 @@ c
       enddo
 
 
+C     SECTION SETUP Side Sets 
 
 
-c     THEN DO SOME PROCESSING TO SET UP FACESETS
-
-c     First we will form a list of outer faces - outerfaces1,outerelems1
-c
-c     Then we will form lists outerfaces2,outerelems2 containing faces
-c     grouped according to contiguous sets separated by sharp angles
-c
-c     Then we will repopulate outerfaces1,outerelems1 from outerfaces2,
-c     outerelems2 by forming sub-groups of faces with the same material IDs
-
-c     We assume there will be a maximum of 1000 sidesets
-
-
-c     Count how many outer faces there are
+c     form a list of outer faces - outerfaces1,outerelems1
 
       nouter1 = 0
       do i = 1, nelements
@@ -683,6 +691,14 @@ c     collect all the outer faces
          enddo
       enddo
 
+c     Automated Version to find faces for Side Sets:
+
+c     form lists outerfaces2,outerelems2 containing faces
+c     grouped according to contiguous sets separated by sharp angles
+c
+c     Then we will repopulate outerfaces1,outerelems1 from outerfaces2,
+c     outerelems2 by forming sub-groups of faces with the same material IDs
+c     We assume there will be a maximum of 1000 sidesets
 
       if (output_facesets .eqv. .true.) then
 	if ( auto_facesets .eqv. .false.) then
@@ -700,11 +716,18 @@ c     collect all the outer faces
       endif
 
 
-c     Break up these faces first according to sharp edges (or edges
-c     according to sharp corners)
+c     Auto Break up these faces first according to sharp edges 
+c     (or edges according to sharp corners)
 
- 2000 print *, 'WARNING: trying to figure out sidesets automatically'
-      print *, 'This process will take a while'
+ 2000 print *, 'Warning: Side Sets detected automatically.'
+      print *, "This process may take awhile."
+         write(logmess,"(a)")
+     *  "Warning: Side Sets detected automatically."
+         call writloga('default',1,logmess,0,ierr)
+         write(logmess,"(a)")
+     *  "This process may take awhile."
+         call writloga('default',0,logmess,1,ierr)
+
       call mmgetblk
      &     ('fmarked',isubname,ipfmarked,nouter1,1,ierr)
       call mmgetblk
@@ -780,7 +803,6 @@ c              search the rest of the elements to find an adjacent face
                   eltyp = itettyp(elem_id)
                   nen = nelnodes(eltyp)
 
-c   TODO  Type mismatch in outerfaces1; passed INTEGER(8) to INTEGER(4)
                   call get_face_nodes(outerfaces1(k), nfnk, fnodes_k,
      &                 eltyp, nen, itet(itetoff(elem_id)+1))
 
@@ -909,7 +931,7 @@ c                             Include this adjacent face in this sideset
 
 
 
-c     Now further subdivide the sidesets based on material IDs of elements
+c     Auto -  further subdivide the sidesets based on material IDs of elements
       call mmgetblk
      &     ('nsidesetmat',isubname,ipnsidesetmat,nmat,1,ierr)
       nsidesetmat(1:nmat) = 0
@@ -945,7 +967,8 @@ c              start a new sideset
                enddo
                nsidesetmat(k) = nsidesetmat(k) + 1
 
-c              TODO if we use this code, consider more reasonable numbering
+c              TODO if possible, remove the 10000 multiplier 
+c              The multiplier for block id was removed for ExoduII6
                sideset_tag1(nsidesets1) = 10000*k + nsidesetmat(k)
 
 c              add face to temporary sideset list
@@ -1001,8 +1024,7 @@ c              other faces in the same material
 
 
 
-c     Now form the final sideset info
-
+c     Auto - form the final sideset info
 c     In addition to the above two sidesets, all the outer faces of the
 c     mesh will be made into one sideset (the first one)
 
@@ -1045,7 +1067,7 @@ c     mesh will be made into one sideset (the first one)
          offset = offset + nfaces_ss1(i)
          ibeg = ibeg + nfaces_ss1(i)
       enddo
-      print *, 'Done setting up the sidesets!'
+      print *, 'Done preparing automated sidesets!'
       print*
 
 
@@ -1117,9 +1139,10 @@ c                 add to nodeset
       goto 4000
       
 
+C     SECTION SETUP - User Defined Side Sets 
 
-C TAM - add option to import facesets from files
-C     update facesets information
+C     option to import facesets from lagrit faceset files
+C     this section updates facesets information
 C     nsidesets - number of sets = nfiles
 C     sideset_tag(1:nfiles) - id number tag to assign
 C     nfaces_ss( )  - indexes into big arrays 
@@ -1177,11 +1200,11 @@ C       read and save values from current file
 
  3000  close(iunit)
 
-       print*
-       print*,'done reading ',ifile2
-       print*,' total values ',ncount
        if (ncount .le. 0) then
-         print*,'No idelem idface tags in file ',ifile2(1:ilen)
+         write(logmess,*) 'Warning: No idelem idface tags in file: '
+     &       //ifile2(1:ilen)
+         call writloga('default',1,logmess,1,ierr)
+         print*,'Warning: No idelem, idface in file: ',ifile2(1:ilen)
        endif
 
 C     ********** now write to faceset arrays *******
@@ -1216,6 +1239,11 @@ C     end loop through nfiles
       nsidesets = nfiles
 
  9000 if (ierr .lt. 0) then
+         write(logmess,*) 'Warning: Could not read facesets file: '
+     &       //ifile2(1:ilen)
+         call writloga('default',1,logmess,0,ierr)
+         write(logmess,*) 'Warning: No facesets defined.'
+         call writloga('default',0,logmess,1,ierr)
         print*, 'Could not read facesets file ',ifile2(1:ilen)
 	print*, 'No facesets will be defined'
         nsidesets = 0
@@ -1224,18 +1252,22 @@ C     end loop through nfiles
 
 
 
-c----------------------------------------------------------------
-c     WRITE MESH INFO TO EXODUSII FILE
-c----------------------------------------------------------------
+C     -------------------------------------------------
+C     SETUP DONE  
+C     SKIP to HERE to WRITE 
+
+ 4000 icompws=8
+      iows = 8
+      status = 0
+
+C     Turn on screen output to allow important information
+      call writset('stat','tty','on',ierr)    
+
+
 c The function ex_create or (EXCRE for Fortran) creates a new EXODUS II file and returns an
 c ID that can subsequently be used to refer to the file.
 c
-c All floating point values in an EXODUS II file are stored as 
-c either 4-byte (“float” in C and  “REAL*4” in FORTRAN) 
-c or 8-byte (“double” in C and “REAL*8” or “DOUBLE PRECISION” in FORTRAN) numbers 
-c no mixing of 4- and 8-byte numbers in a single file is allowed. 
-c
-c An application code can compute either 4- or 8-byte values and can designate that the values 
+c An application code can compute either 4- or 8-byte values and can designate that the values
 c be stored in the EXODUS II file as either 4- or 8-byte numbers; conversion between the 4- and
 c 8-byte values is performed automatically by the API routines. Thus, there are four possible
 c combinations of compute word size and storage (or I/O) word size.
@@ -1249,46 +1281,56 @@ c -  Passing an invalid file mode.
 c
 
 C INTEGER FUNCTION EXCRE (PATH, ICMODE, ICOMPWS, IOWS, IERR)
-C CHARACTER*(*) PATH (R) The file name of the new EXODUS II file. 
+C CHARACTER*(*) PATH (R) The file name of the new EXODUS II file.
 C INTEGER ICMODE (R) Clobber mode. Use one of the following predefined constants:
 C   - EXNOCL create the new file only if the given file name does not already exist.
-C   - EXCLOB create the new file, overwrite if exists. 
+C   - EXCLOB create the new file, overwrite if exists.
 C   - EXNORM Create a normal (32-bit offset) model.
-C   - EXLARG To create a model which can store datasets larger than 2 gigabytes. 
+C   - EXLARG To create a model which can store datasets larger than 2 gigabytes.
 C   - EXNET4 To create a model using the HDF5-based netcdf-4 output. (Future capability)
-C   - EXNOSH Do not open the underlying netCDF file in “share” mode. 
+C   - EXNOSH Do not open the underlying netCDF file in share mode.
 C INTEGER ICOMPWS (RW) The word size in bytes (0, 4 or 8) of the (REAL) program variables
 C INTEGER IOWS (R) The word size in bytes (4 or 8) of the (REAL) data stored in file.
 C INTEGER IERR (W) Returned error code. If no errors occurred, 0 is returned.
-C
-
-c     This is the "computer word size." It should probably not be
+c
+c     icompws is the "computer word size." It should probably not be
 c     hard-coded here. Likewise for iows, the IO word size.
- 4000 icompws=8
-      iows = 8
-      status = 0
 
-C     tamiller - replace with fortran
-C      idexo = excre_wrapper(filename,exclob,icompws,iows,status,
-C     *      icharlnf(filename))
+
+C     SECTION WRITE - Create ExodusII File 
 
       idexo = excre (filename, EXCLOB, icompws, iows, status)
 
+
+      if (if_debug_local .gt. 0) then
+            write(logmess,'(a,a)')
+     &       'EXCRE Create ExodusII File: ',filename
+            call writloga('default',1,logmess,0,ierr)
+            write(logmess,'(2x,a,i7)')
+     &      'File ID:        ',idexo
+            call writloga('default',0,logmess,0,ierr)
+            write(logmess,'(2x,a,i15)')
+     &      'Word Size Program:   ',icompws
+            call writloga('default',0,logmess,0,ierr)
+            write(logmess,'(2x,a,i15)')
+     &      'Word Size Data:      ',iows
+            call writloga('default',0,logmess,0,ierr)
+      endif
+
+
       if (status.ne.0) then 
         call exerr(isubname,
-     & " Error opening ExodusII file: ",status)
+     & " ERROR opening ExodusII file: ",status)
         ierror_return = status
         go to 9999
       endif
 
-C
-C     Put initialization information
-C
-
-      write(logmess,"('INITIALIZE exodus')")
+ 
+C     -------------------------------------------------
+C     SECTION WRITE Initialize ExodusII data 
+ 
+      write(logmess,"('Title: LAGRIT TO EXODUSII')")
       call writloga('default',1,logmess,0,ierrw)
-      write(logmess,"('Title: LAGRIT TO EXODUS')")
-      call writloga('default',0,logmess,0,ierrw)
       write(logmess,"('number of dimension:      ',i10)") nsdgeom
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,"('number of nodes:          ',i10)") nnodes
@@ -1328,14 +1370,16 @@ C
 
       if (status.ne.0) then 
          call exerr(isubname,
-     &   " Error writing ExodusII init parameters.",status)
+     &   " ERROR writing ExodusII init parameters.",status)
          ierror_return = status
          go to 9999
       endif
 
-c
+
+C     -------------------------------------------------
+C     SECTION WRITE QA Information 
+
 c     Put some QA info - problem name, date, time etc.
-c
 
       num_qa_rec = 1
 
@@ -1347,20 +1391,35 @@ c
       call EXPQA(idexo, num_qa_rec, qa_record, status)
       if (status.ne.0) then 
           call exerr(isubname,
-     &    " Error writing ExodusII date/time. ",status)
+     &    " ERROR writing ExodusII date/time. ",status)
           ierror_return = status
+          print*,'EXPQA DONE.',status
           go to 9999
       endif
+
+
+C     -------------------------------------------------
+C     SECTION WRITE Coordinates
+
+       if (if_debug_local .gt. 0) then
+            write(logmess,'(a,i10)')
+     &       'EXCRE Write Coordinates: ',nnodes
+            call writloga('default',1,logmess,0,ierr)
+       endif
 
       call EXPCOR(idexo, xic, yic, zic, status)
       if (status.ne.0) then 
           call exerr(isubname,
-     &    " Error writing ExodusII coordinates. ",status)
+     &    " ERROR writing ExodusII coordinates. ",status)
           ierror_return = status
+          print*,'EXPCOR DONE.',status
           go to 9999
       endif
+
+C     -------------------------------------------------
+C     SECTION WRITE Element Blocks
       
-C       Write Element Block Parameters
+
 C The function ex_put_elem_block (or EXPELB for Fortran) writes the parameters used to
 C describe an element block. In case of an error, ex_put_elem_block returns a negative number; 
 C a warning will return a positive number. 
@@ -1373,7 +1432,20 @@ C  -  an element block with the same ID has already been specified.
 C  -  the number of element blocks specified in the call to ex_put_init (EXPINI for
 C     Fortran) has been exceeded.
 
-      print*,'EXODUSII write element blocks: ',nelblocks
+C SUBROUTINE EXPELB (IDEXO, IDELB, NAMELB, NUMELB, NUMLNK, NUMATR, IERR)
+C 
+C INTEGER IDEXO (R) EXODUS file ID
+C INTEGER IDELB (R) The element block ID. 
+C CHARACTER*MXSTLN NAMELB (R) The type of elements in the element block.
+C     For historical reasons, this string should be all upper case.
+C INTEGER NUMELB (R) The number of elements in the element block.
+C INTEGER NUMLNK (R) The number of nodes per element in the element block.
+C INTEGER NUMATR (R) The number of attributes per element in the element block.
+C                    (These attrib arrays are not currently used)
+C INTEGER IERR (W)  Returned error code. If no errors occurred, 0 is returned.
+C 
+C There is an Element Block for each itetclr (material) value 1 thru N
+
 
       call mmgetblk
      &     ('elconblk',isubname,ipelconblk,8*maxelblk,1,ierr)
@@ -1384,6 +1456,10 @@ C     Fortran) has been exceeded.
       endif
 
       do i=1,nelblocks
+
+c        set element attribute array to 0
+c        it is not used, so do not write it
+         inumatt = 0
 
 c        element block info
 
@@ -1413,29 +1489,26 @@ c        iblk_id = elcolblk(i)*10000
             eltyp_str='BEAM'
          endif
 
-
-C SUBROUTINE EXPELB (IDEXO, IDELB, NAMELB, NUMELB, NUMLNK, NUMATR, IERR)
-C
-C INTEGER IDEXO (R) EXODUS file ID
-C INTEGER IDELB (R) The element block ID.
-C CHARACTER*MXSTLN NAMELB (R) The type of elements in the element block. 
-C     For historical reasons, this string should be all upper case.
-C INTEGER NUMELB (R) The number of elements in the element block.
-C INTEGER NUMLNK (R) The number of nodes per element in the element block.
-C INTEGER NUMATR (R) The number of attributes per element in the element block.
-C INTEGER IERR (W)  Returned error code. If no errors occurred, 0 is returned.
-C 
-C For example, the following code segment will initialize an element block with an ID of 10,
-C write out the connectivity array, and write out the element attributes array:
-C  NOTE: MAXLNK is the maximum number of nodes per element
-C  MAXELB is the maximum number of elements per element block
-C  MAXATR is the maximum number of attributes per element
-C 
-C include ’exodusII.inc’
-C integer ebid, connect(MAXLNK * MAXELB)
-C real attrib(MAXATR * MAXELB)
-C character*(MXSTLN) cname
-C
+         if (if_debug_local .gt. 0) then
+            write(logmess,'(a)')
+     &       'EXPELB write block elements: '
+            call writloga('default',1,logmess,0,ierr)
+            write(logmess,'(2x,a,a)')
+     &      'Block Type:        ',eltyp_str
+            call writloga('default',0,logmess,0,ierr)
+            write(logmess,'(2x,a,i7)')
+     &      'Block ID:        ',iblk_id
+            call writloga('default',0,logmess,0,ierr)
+            write(logmess,'(2x,a,i12)')
+     &      'Block Elements:  ',numelblk(i)
+            call writloga('default',0,logmess,0,ierr)
+            write(logmess,'(2x,a,i5)')
+     &      'Element Nodes:     ',nelnodes(eltyp)
+            call writloga('default',0,logmess,0,ierr)
+            write(logmess,'(2x,a,i5)')
+     &      'Block attrib:      ',inumatt
+            call writloga('default',0,logmess,0,ierr)
+         endif
 
          call EXPELB(idexo, iblk_id, eltyp_str, 
      &        numelblk(i), nelnodes(eltyp), 
@@ -1443,7 +1516,7 @@ C
 
          if (status.lt.0) then 
               call exerr(isubname,
-     &       "Error writing ExodusII element block. ",status)
+     &       "ERROR writing ExodusII element block. ",status)
              ierror_return = status
              go to 9999
          endif
@@ -1453,10 +1526,30 @@ C
              status = 0
          endif
 
+C     SECTION WRITE Element block attrib (not implemented)
 
-c        element connectivity array - 8 is the maximum number of nodes
-c        in any element and maxelblk is the maximum number of elements
-c        in any block
+C     Note  element attrib is turned off by EXPELB argument inumatt = 0 
+C
+C     may need attrib written with 0 values for backward compatiblity
+C     EXPEAT is where the attribute data (ie attrib1) is written.
+C     EXPEAN is where the attribute name (ie attrib1_name) is written.
+C
+C     Suggested syntax:
+C       cmo/addatt/ mo / exo_attrib / VINT / scalar/ scalar /constant/permanent/ 0
+C       cmo/setatt/ mo / exo_attrib / [flag value]
+C
+C     check for mesh object attribute exo_attrib
+C     If exo_attrib is -1, do not write to file, this will save space. (current default)
+C     If exo_attrib = 0, call exodus to write attrib with 0's (for backward compatibility)
+C     If exo_attrib is 1, fill attrib with to itetclr (block id) 
+C
+
+
+
+C        SECTION WRITE Element Connectivity
+
+c        ecolnblk array - 8 is the maximum number of nodes per element
+c        maxelblk is the maximum number of elements in any block
 
 c        fill arrays for exodus ordering based on sort key ikey_utr
          k = 0
@@ -1470,24 +1563,34 @@ c        fill arrays for exodus ordering based on sort key ikey_utr
             k = k + nelnodes(eltyp)
          enddo
 
+       if (if_debug_local .gt. 0) then
+            write(logmess,'(a)')
+     &       'EXPELC write block connectivity: '
+            call writloga('default',1,logmess,0,ierr)
+            write(logmess,'(2x,a,i7)')
+     &      'Block ID:        ',iblk_id
+            call writloga('default',0,logmess,0,ierr)
+            write(logmess,'(2x,a,i12,i12)')
+     &      'Block index     ',begidxblk(i), begidxblk(i)+numelblk(i)-1
+            call writloga('default',0,logmess,0,ierr)
+         endif
+
+
          call EXPELC(idexo, iblk_id, elconblk, status)
+
          if (status.ne.0) then 
             call exerr(isubname,
-     &      " Error writing ExodusII element connectivity. ",status)
+     &      " ERROR writing ExodusII element connectivity. ",status)
             ierror_return = status
             go to 9999
          endif
 
-C     TODO - perhaps have default material id copied here
-C     if element attribute, call EXPEAT (idexo, iblk_id, attrib, status)
-
       enddo
 
-C     Write out node sets
+
+C     SECTION WRITE node sets (pset) (if defined) 
 
       if (auto_nodesets .eqv. .true.) then
-
-      print*,'EXODUSII write node sets: ',npsets
 
       ibeg = 1
       do i = 1, npsets
@@ -1517,10 +1620,12 @@ C     Write out node sets
 
       write(logmess,'(a,i10,a)')'WRITING EXODUS NODE SETS:',
      &   npsets, ' sets in total'
+
       call writloga('default',0,logmess,0,ierr)
       write(logmess,'(a32,a20,a25)')'Nodeset Names',
      &   'Set ID','# nodes in set'
       call writloga('default',0,logmess,0,ierr)
+
       do j = 1, nbitsmax
          if((psetnames1(j) .ne.' ')   .and.
      *      (psetnames1(j)(1:5) .ne. '-def-')) then
@@ -1535,10 +1640,21 @@ C     Write out node sets
             print*, 'Writing to EXO file nodeset no. ', set_id
             print*, 'Nodeset name: ', trim(cpt3)
 
-C           EX_NODE_SET = EXNSET = 2 - node set property code
+C           EX_NODE_SET = EXNSET = 2 = node set property code
+            status = 0
+            ilen = icharlnf(trim(cpt3))
+
+c          call c routine
+c          void exo_put_sets_
+c          const int_ptrsize *idexo, const int_ptrsize *type,
+c          const char *name, const int_ptrsize *nlen,
+c          const int_ptrsize *sid, const int_ptrsize *nentry,
+c          const int_ptrsize *num_df,
+c          const int_ptrsize *set_entry_list, int_ptrsize *status
+c          where int_ptrsize is usually integer 8
+
             call exo_put_sets(idexo, EXNSET, trim(cpt3), 
-     *         icharlnf(trim(cpt3)), set_id, mpno, 
-     *         0, pmpary1, status)
+     *         ilen, set_id, mpno, 0, pmpary1, status)
 
             if (status .eq. 0) then
                write(logmess,'(a32,i20,i25)')trim(cpt3),
@@ -1554,12 +1670,10 @@ C           EX_NODE_SET = EXNSET = 2 - node set property code
       endif
       endif
 
-C     Write out element sets
+C     SECTION WRITE element sets (eltset) (if defined) 
 
       if (neltsets .ne. 0) then
       set_id = 0
-      print*
-      print*,'EXODUSII write element sets: ',neltsets
 
       write(logmess,'(a,i10,a)')'WRITING EXODUS ELEMENT SETS:',
      &   neltsets, ' sets in total'
@@ -1582,8 +1696,6 @@ C     Write out element sets
             do i = 1, mpno
               exo_elt_ary(i) = elem_map(empary1(i))
             enddo
-            print*, 'Writing to EXO file eltset no. ', set_id
-            print*, 'Eltset name: ', trim(cpt3)
 
 C           EX_ELEM_SET = NOT FOUND in new exodusII.inc !!
             call exo_put_sets(idexo, EX_ELEM_SET, trim(cpt3), 
@@ -1604,7 +1716,9 @@ C           EX_ELEM_SET = NOT FOUND in new exodusII.inc !!
       endif
 
 
-c     transform LaGriT local face numbers to Exodus II local face numbers
+C     SECTION WRITE Side Sets (if defined) 
+
+c     Side Set transform LaGriT local face numbers to Exodus II local face numbers
 
       offset = 0
       do i = 1, nsidesets
@@ -1617,8 +1731,6 @@ c     transform LaGriT local face numbers to Exodus II local face numbers
          offset = offset + nfaces_ss(i)
       enddo
 
-
-c    Write Side Sets (from lagrit faceset files) 
 c
 c The function ex_put_side_set_param (or EXPSP for Fortran) writes the side set ID and the
 c number of sides (faces on 3-d element types; edges on 2-d element types) which describe a
@@ -1642,8 +1754,6 @@ C INTEGER IDESS (R) The side set ID.
 C INTEGER NSESS (R) The number of sides (faces or edges) in the side set.
 C INTEGER NDESS (R) The number of distribution factors on the side set.
 C INTEGER IERR (W) Returned error code. 0 for no errors. 
-
-      print*,'EXODUSII writing side sets: ',nsidesets
 
       ibeg = 1
       do i = 1, nsidesets
@@ -1675,32 +1785,60 @@ C INTEGER IERR (W) Returned error code. 0 for no errors.
             status = 0
          endif
 
-
          
-C     change format for easier reading and summary info
-c     print*,'EXPSP ',i,' starting at ',ibeg
-c     print*,'   sideset_tag :',sideset_tag(i)
+C     change to writlog for output to log files
+c     print*,'------------------------------------------'
+c     print*,'EXPSS loop: ',i
+c     print*,'sideset tag: ',sideset_tag(i),'nfaces: ',nfaces_ss(i)
+c     print*,'index starting at ',ibeg
 c     print*,'   nfaces_ss :',nfaces_ss(i)
-c     print*,'EXPSS ',i
 c     print*,'   sselemlist :',sselemlist(ibeg)
 c     print*,'   ssfacelist :',ssfacelist(ibeg)
+c     print*,'------------------------------------------'
 
-      print*,'------------------------------------------'
-      print*,'EXPSS loop: ',i
-      print*,'sideset tag: ',sideset_tag(i),'nfaces: ',nfaces_ss(i)
-      print*,'index starting at ',ibeg
-      print*,'   nfaces_ss :',nfaces_ss(i)
-      print*,'   sselemlist :',sselemlist(ibeg)
-      print*,'   ssfacelist :',ssfacelist(ibeg)
-      print*,'------------------------------------------'
-      
+c        write SS sideset information for logfiles
+
+         if (i .eq.1) then
+           write(logmess,'(a)')
+     &     '------------------------------------------'
+           call writloga('default',1,logmess,0,ierr)
+            write(logmess,'(a)') 'EXPSS loop: '
+            call writloga('default',0,logmess,0,ierr)
+         endif
+
+         write(logmess,'(2x,i7,a,1x,i12,a,1x,i12)')
+     &     i,' Side Set tag: ',sideset_tag(i),
+     &     ' Faces: ',nfaces_ss(i)
+         call writloga('default',0,logmess,0,ierr)
+
+         if (if_debug_local .ne. 0) then
+             print*,'   nfaces_ss : ',nfaces_ss(i)
+             print*,'   sselemlist :',sselemlist(ibeg)
+             print*,'   ssfacelist :',ssfacelist(ibeg)
+         endif
 
          ibeg = ibeg + nfaces_ss(i)
-
       enddo
 
-c     Close the Exodus II file
+      if (nsidesets .gt. 0) then
+         write(logmess,'(a)')
+     &     '------------------------------------------'
+         call writloga('default',0,logmess,0,ierr)
+         write(logmess,'(a,i7,a,i14,a,i14)')
+     &     'Done ExodusII Side Sets Total: ',nsidesets
+         call writloga('default',0,logmess,1,ierr)
 
+         if ( auto_facesets .eqv. .true.) then
+           write(logmess,"(a)")
+     *     "Side Sets detected automatically."
+           call writloga('default',0,logmess,1,ierr)
+         endif
+      endif
+
+
+C     SECTION DONE with ExodusII file
+
+c     Close the ExodusII file
       call EXCLOS(idexo, status)
       if (status.ne.0) then 
            call exerr(isubname,
@@ -1711,25 +1849,36 @@ c     Close the Exodus II file
 
 c
 c     For netCDF output reset ioflag of itetclr
+c     TAM - why are we changing ioflag for itetclr ?
 c
-      write(cbuff,*) 'cmo/modatt/' // cmo_name(1:len_cmo_name)//
-     &               '/ itetclr / ioflag / l ; finish'
-      call dotask(cbuff,ierr)
+c     write(cbuff,*) 'cmo/modatt/' // cmo_name(1:len_cmo_name)//
+c    &               '/ itetclr / ioflag / l ; finish'
+c     call dotask(cbuff,ierr)
 c
 
  9999 continue
 
-c     Turn on screen output
-      if(if_debug_local .eq. 0)call writset('stat','tty','on',ierr)
+C     CLEANUP and RETURN 
 
-      if(if_debug_local .ne. 0)call mmprint()
-c
+c     Turn on screen output to allow important information
+      call writset('stat','tty','on',ierr)
+
+      if(if_debug_local .gt. 1) call mmprint()
+
+      
+      if(if_debug_local .ne. 0) then 
+         write(logmess,'(a,i5)')
+     &     'dumpexodusII debug mode ON set to: ',if_debug_local
+         call writloga('default',0,logmess,0,ierr)
+      endif
+
+C     release all memory
       call mmrelprt(isubname, ierr)
 
       ierror = ierror_return
       if (ierror .ne. 0) then
          write(logmess,"(a,i5)")
-     *   "ExodusII dump exiting with Error flag: ",ierror
+     *   "ExodusII dump exiting with ERROR flag: ",ierror
          call writloga('default',1,logmess,1,ierr)
       else
          write(logmess,"(a,a,a,a,a,a)")'ExodusII: ',
@@ -1743,9 +1892,7 @@ c
       return
       end
 
-
-
-
+C     DONE dumpexodusII() 
 
 c     *******************************************************************
 c
@@ -1756,8 +1903,7 @@ c     *******************************************************************
       subroutine get_face_nodes(faceid, nfn, fnodes, eltype, nelnodes, 
      &     elnodes)
 
-c     TODO - find way to change to 8 for EXO fortran calls 
-      integer*4 faceid
+      integer faceid
       integer nfn, fnodes(4), eltype, nelnodes
       integer elnodes(nelnodes)
       integer fnode_tmpl(4,6,4), nfn_tmpl(6,4)
