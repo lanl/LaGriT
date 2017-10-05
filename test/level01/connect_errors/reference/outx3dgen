@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.203   Linux m64      *                 
-*               *    date_compile: 2017/07/19 linked          *                 
-*               *    Run Time: 2017/Jul 19  09:44:57          *                 
+*               *    Program:  LaGriT V3.203   Linux          *                 
+*               *    date_compile: 2017/09/26 Static DB       *                 
+*               *    Run Time: 2017/Oct  5  08:40:19          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -359,12 +359,15 @@ cmo delete mo
      Released Mesh Object: mo                                                   
 connect                                                                         
 CMO_GET_INFO: Mesh Object does not exist: -notset-                              
+                Error from:   msgtty                            get_info nsdtopo
 CMO_GET_INFO: Mesh Object does not exist: -notset-                              
+                Error from:   msgtty                            get_info nsdgeom
 LaGriT ABORT: connect                                                           
  
-ndimensions_topo=*** ndimensions_geom=  3 not consistent - connect will not work
+ndimensions_topo= -1 ndimensions_geom= -1 not consistent - connect will not work
 LaGriT ABORT: connect                                                           
  
+error in command : connect                                                      
 # CHECK empty cmo                                                               
 cmo create mo                                                                   
 connect                                                                         
