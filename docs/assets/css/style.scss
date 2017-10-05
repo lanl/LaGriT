@@ -12,9 +12,9 @@
 
 #top_right {
 	position:absolute;
-	top:20px; right:200px;
-	width:400px;
-	background:#000;
+	top:30px; right:200px;
+  width:400px;
+  color:white;
 } 
 
 #main_content_wrap {
@@ -31,7 +31,6 @@ code {
 #searchBar {
        font-size: 80%;
        padding: 0.43em 0 0.57em;
-       background-color: black;
 
        #search {
          float: right;
