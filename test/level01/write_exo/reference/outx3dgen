@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.203   Linux m64      *                 
-*               *    date_compile: 2017/07/19 linked          *                 
-*               *    Run Time: 2017/Jul 19  09:08:58          *                 
+*               *    Program:  LaGriT V3.203   Linux          *                 
+*               *    date_compile: 2017/09/26 Static DB       *                 
+*               *    Run Time: 2017/Oct  4  16:29:16          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -106,11 +106,8 @@ finish
 finish                                                                          
 cmo/DELATT/mohex/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/mohex/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:               27                                            
@@ -139,8 +136,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                       18   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/mohex/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_hex_pset_eltset.exo using cmo: m
                                                                             ohex
@@ -163,11 +158,8 @@ finish
 finish                                                                          
 cmo/DELATT/mohex/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/mohex/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:               27                                            
@@ -190,8 +182,6 @@ WRITING EXODUS NODE SETS:         3 sets in total
                               p1                   1                       56   
                               p2                   2                       16   
                               p3                   3                       24   
-cmo/modatt/mohex/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_hex_pset.exo using cmo: mohex   
  
@@ -213,11 +203,8 @@ finish
 finish                                                                          
 cmo/DELATT/mohex/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/mohex/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:               27                                            
@@ -241,8 +228,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                       18   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/mohex/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_hex_eltset.exo using cmo: mohex 
  
@@ -265,11 +250,12 @@ finish
 finish                                                                          
 cmo/DELATT/mohex/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/mohex/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Warning: Side Sets detected automatically.                                      
+This process may take awhile.                                                   
+ 
+ 
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:               27                                            
@@ -298,8 +284,34 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                       18   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/mohex/itetclr/ioflag/l                                               
-finish                                                                          
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:            54                      
+        2 Side Set tag:           101 Faces:             9                      
+        3 Side Set tag:           102 Faces:             9                      
+        4 Side Set tag:           103 Faces:             9                      
+        5 Side Set tag:           104 Faces:             9                      
+        6 Side Set tag:           105 Faces:             9                      
+        7 Side Set tag:           106 Faces:             9                      
+        8 Side Set tag:         10001 Faces:             6                      
+        9 Side Set tag:         20001 Faces:             3                      
+       10 Side Set tag:         10002 Faces:             6                      
+       11 Side Set tag:         20002 Faces:             1                      
+       12 Side Set tag:         30001 Faces:             2                      
+       13 Side Set tag:         10003 Faces:             6                      
+       14 Side Set tag:         30002 Faces:             2                      
+       15 Side Set tag:         20003 Faces:             1                      
+       16 Side Set tag:         10004 Faces:             9                      
+       17 Side Set tag:         10005 Faces:             9                      
+       18 Side Set tag:         10006 Faces:             3                      
+       19 Side Set tag:         30003 Faces:             3                      
+       20 Side Set tag:         20004 Faces:             3                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:      20                                          
+ 
+Side Sets detected automatically.                                               
+ 
  
 ExodusII: Done writing to ExodusII file: out_3D_hex_all_auto.exo using cmo: mohe
                                                                                x
@@ -359,6 +371,7 @@ cmo/delete/motmp
      Released Mesh Object: motmp                                                
 dump/exo/out_3D_hex_all_extract.exo/mohex/psets/eltsets/facesets tmp_3d_hex_extr
 act.faceset                                                                     
+got       1 tmp_3d_hex_extract.faceset                                          
  
 ExodusII: Start writing to file: out_3D_hex_all_extract.exo using cmo: mohex    
  
@@ -376,11 +389,8 @@ finish
 finish                                                                          
 cmo/DELATT/mohex/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/mohex/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:               27                                            
@@ -409,8 +419,13 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                       18   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/mohex/itetclr/ioflag/l                                               
-finish                                                                          
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:            54                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:       1                                          
+ 
  
 ExodusII: Done writing to ExodusII file: out_3D_hex_all_extract.exo using cmo: m
                                                                             ohex
@@ -508,11 +523,8 @@ finish
 finish                                                                          
 cmo/DELATT/motet/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motet/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:              135                                            
@@ -541,8 +553,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                      126   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/motet/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_tet_pset_eltset.exo using cmo: m
                                                                             otet
@@ -565,11 +575,8 @@ finish
 finish                                                                          
 cmo/DELATT/motet/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motet/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:              135                                            
@@ -592,8 +599,6 @@ WRITING EXODUS NODE SETS:         3 sets in total
                               p1                   1                       62   
                               p2                   2                        7   
                               p3                   3                       10   
-cmo/modatt/motet/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_tet_pset.exo using cmo: motet   
  
@@ -615,11 +620,8 @@ finish
 finish                                                                          
 cmo/DELATT/motet/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motet/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:              135                                            
@@ -643,8 +645,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                      126   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/motet/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_tet_eltset.exo using cmo: motet 
  
@@ -667,11 +667,12 @@ finish
 finish                                                                          
 cmo/DELATT/motet/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motet/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Warning: Side Sets detected automatically.                                      
+This process may take awhile.                                                   
+ 
+ 
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:              135                                            
@@ -700,8 +701,33 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                      126   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/motet/itetclr/ioflag/l                                               
-finish                                                                          
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:           108                      
+        2 Side Set tag:           101 Faces:            18                      
+        3 Side Set tag:           102 Faces:            18                      
+        4 Side Set tag:           103 Faces:            18                      
+        5 Side Set tag:           104 Faces:            18                      
+        6 Side Set tag:           105 Faces:            18                      
+        7 Side Set tag:           106 Faces:            18                      
+        8 Side Set tag:         10001 Faces:            17                      
+        9 Side Set tag:         20001 Faces:             1                      
+       10 Side Set tag:         10002 Faces:            14                      
+       11 Side Set tag:         30001 Faces:             2                      
+       12 Side Set tag:         20002 Faces:             2                      
+       13 Side Set tag:         10003 Faces:            14                      
+       14 Side Set tag:         30002 Faces:             2                      
+       15 Side Set tag:         20003 Faces:             2                      
+       16 Side Set tag:         10004 Faces:            16                      
+       17 Side Set tag:         30003 Faces:             2                      
+       18 Side Set tag:         10005 Faces:            18                      
+       19 Side Set tag:         10006 Faces:            18                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:      19                                          
+ 
+Side Sets detected automatically.                                               
+ 
  
 ExodusII: Done writing to ExodusII file: out_3D_tet_all_auto.exo using cmo: mote
                                                                                t
@@ -763,6 +789,7 @@ cmo/delete/motmp
      Released Mesh Object: motmp                                                
 dump/exo/out_3D_tet_all_extract.exo/motet/psets/eltsets/facesets tmp_3d_hex_extr
 act.faceset                                                                     
+got       1 tmp_3d_hex_extract.faceset                                          
  
 ExodusII: Start writing to file: out_3D_tet_all_extract.exo using cmo: motet    
  
@@ -780,11 +807,8 @@ finish
 finish                                                                          
 cmo/DELATT/motet/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motet/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:              135                                            
@@ -813,8 +837,13 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                      126   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/motet/itetclr/ioflag/l                                               
-finish                                                                          
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:            54                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:       1                                          
+ 
  
 ExodusII: Done writing to ExodusII file: out_3D_tet_all_extract.exo using cmo: m
                                                                             otet
@@ -898,11 +927,8 @@ finish
 finish                                                                          
 cmo/DELATT/motri/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motri/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               2                                            
 number of nodes:                  16                                            
 number of elements:               18                                            
@@ -931,8 +957,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                        9   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/motri/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_2D_tri_pset_eltset.exo using cmo: m
                                                                             otri
@@ -955,11 +979,8 @@ finish
 finish                                                                          
 cmo/DELATT/motri/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motri/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               2                                            
 number of nodes:                  16                                            
 number of elements:               18                                            
@@ -982,8 +1003,6 @@ WRITING EXODUS NODE SETS:         3 sets in total
                               p1                   1                       13   
                               p2                   2                        7   
                               p3                   3                       11   
-cmo/modatt/motri/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_2D_tri_pset.exo using cmo: motri   
  
@@ -1005,11 +1024,8 @@ finish
 finish                                                                          
 cmo/DELATT/motri/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motri/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               2                                            
 number of nodes:                  16                                            
 number of elements:               18                                            
@@ -1033,8 +1049,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                        9   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/motri/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_2D_tri_eltset.exo using cmo: motri 
  
@@ -1057,11 +1071,12 @@ finish
 finish                                                                          
 cmo/DELATT/motri/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motri/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Warning: Side Sets detected automatically.                                      
+This process may take awhile.                                                   
+ 
+ 
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               2                                            
 number of nodes:                  16                                            
 number of elements:               18                                            
@@ -1090,8 +1105,25 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                        9   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/motri/itetclr/ioflag/l                                               
-finish                                                                          
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:            12                      
+        2 Side Set tag:           101 Faces:             3                      
+        3 Side Set tag:           102 Faces:             3                      
+        4 Side Set tag:           103 Faces:             3                      
+        5 Side Set tag:           104 Faces:             3                      
+        6 Side Set tag:         10001 Faces:             3                      
+        7 Side Set tag:         10002 Faces:             2                      
+        8 Side Set tag:         30001 Faces:             1                      
+        9 Side Set tag:         10003 Faces:             3                      
+       10 Side Set tag:         20001 Faces:             1                      
+       11 Side Set tag:         30002 Faces:             2                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:      11                                          
+ 
+Side Sets detected automatically.                                               
+ 
  
 ExodusII: Done writing to ExodusII file: out_2D_tri_all_auto.exo using cmo: motr
                                                                                i
@@ -1150,6 +1182,7 @@ cmo/delete/mofs
 cmo/delete/motmp                                                                
      Released Mesh Object: motmp                                                
 dump/exo/out_2D_tri_all_extract.exo/motri///facesets tmp_2D_tri_extract.faceset 
+got       1 tmp_2D_tri_extract.faceset                                          
  
 ExodusII: Start writing to file: out_2D_tri_all_extract.exo using cmo: motri    
  
@@ -1167,11 +1200,8 @@ finish
 finish                                                                          
 cmo/DELATT/motri/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motri/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               2                                            
 number of nodes:                  16                                            
 number of elements:               18                                            
@@ -1189,8 +1219,13 @@ number of edge maps:               0
 number of face maps:               0                                            
 number of element maps:            0                                            
  
-cmo/modatt/motri/itetclr/ioflag/l                                               
-finish                                                                          
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:            12                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:       1                                          
+ 
  
 ExodusII: Done writing to ExodusII file: out_2D_tri_all_extract.exo using cmo: m
                                                                             otri
@@ -1278,11 +1313,12 @@ finish
 finish                                                                          
 cmo/DELATT/motri0/e_num_temp                                                    
 finish                                                                          
-cmo/modatt/motri0/itetclr/ioflag/lga                                            
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Warning: Side Sets detected automatically.                                      
+This process may take awhile.                                                   
+ 
+ 
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               2                                            
 number of nodes:                   3                                            
 number of elements:                1                                            
@@ -1300,8 +1336,18 @@ number of edge maps:               0
 number of face maps:               0                                            
 number of element maps:            0                                            
  
-cmo/modatt/motri0/itetclr/ioflag/l                                              
-finish                                                                          
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:             3                      
+        2 Side Set tag:           101 Faces:             1                      
+        3 Side Set tag:           102 Faces:             1                      
+        4 Side Set tag:           103 Faces:             1                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:       4                                          
+ 
+Side Sets detected automatically.                                               
+ 
  
 ExodusII: Done writing to ExodusII file: out_2Dim_auto.exo using cmo: motri0    
  
@@ -1350,6 +1396,7 @@ finish
 cmo/delete/mofs                                                                 
      Released Mesh Object: mofs                                                 
 dump/exo/out_2Dim_extract.exo/motri0///facesets tmp_sngl0_extract.faceset       
+got       1 tmp_sngl0_extract.faceset                                           
  
 ExodusII: Start writing to file: out_2Dim_extract.exo using cmo: motri0         
  
@@ -1367,11 +1414,8 @@ finish
 finish                                                                          
 cmo/DELATT/motri0/e_num_temp                                                    
 finish                                                                          
-cmo/modatt/motri0/itetclr/ioflag/lga                                            
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               2                                            
 number of nodes:                   3                                            
 number of elements:                1                                            
@@ -1389,8 +1433,13 @@ number of edge maps:               0
 number of face maps:               0                                            
 number of element maps:            0                                            
  
-cmo/modatt/motri0/itetclr/ioflag/l                                              
-finish                                                                          
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:             3                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:       1                                          
+ 
  
 ExodusII: Done writing to ExodusII file: out_2Dim_extract.exo using cmo: motri0 
  
@@ -1425,11 +1474,12 @@ finish
 finish                                                                          
 cmo/DELATT/motri/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motri/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Warning: Side Sets detected automatically.                                      
+This process may take awhile.                                                   
+ 
+ 
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                   3                                            
 number of elements:                1                                            
@@ -1447,8 +1497,18 @@ number of edge maps:               0
 number of face maps:               0                                            
 number of element maps:            0                                            
  
-cmo/modatt/motri/itetclr/ioflag/l                                               
-finish                                                                          
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:             3                      
+        2 Side Set tag:           101 Faces:             1                      
+        3 Side Set tag:           102 Faces:             1                      
+        4 Side Set tag:           103 Faces:             1                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:       4                                          
+ 
+Side Sets detected automatically.                                               
+ 
  
 ExodusII: Done writing to ExodusII file: out_3Dim_auto.exo using cmo: motri     
  
@@ -1497,6 +1557,7 @@ finish
 cmo/delete/mofs                                                                 
      Released Mesh Object: mofs                                                 
 dump/exo/out_3Dim_extract.exo/motri///facesets tmp_sngl_extract.faceset         
+got       1 tmp_sngl_extract.faceset                                            
  
 ExodusII: Start writing to file: out_3Dim_extract.exo using cmo: motri          
  
@@ -1514,11 +1575,8 @@ finish
 finish                                                                          
 cmo/DELATT/motri/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motri/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                   3                                            
 number of elements:                1                                            
@@ -1536,8 +1594,13 @@ number of edge maps:               0
 number of face maps:               0                                            
 number of element maps:            0                                            
  
-cmo/modatt/motri/itetclr/ioflag/l                                               
-finish                                                                          
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:             3                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:       1                                          
+ 
  
 ExodusII: Done writing to ExodusII file: out_3Dim_extract.exo using cmo: motri  
  

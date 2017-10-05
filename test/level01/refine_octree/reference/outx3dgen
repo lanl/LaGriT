@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:53          *                 
+*               *    Program:  LaGriT V3.203   Linux          *                 
+*               *    date_compile: 2017/09/26 Static DB       *                 
+*               *    Run Time: 2017/Oct  5  11:13:29          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -59,12 +59,10 @@ cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent//0.0
 finish                                                                          
 Element iteration:          1        27                                         
 Octree refined elems: old=        50 new=       266                             
+FILTER_SUBSET:Dudding duplicate points:         204                             
  
- Dudding duplicate points:         204                                          
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -84,23 +82,19 @@ refine elements:
 refine hex     :        175                                                     
 Element iteration:          1       148                                         
 Octree refined elems: old=       266 new=      1450                             
+FILTER_SUBSET:Dudding duplicate points:        1371                             
  
- Dudding duplicate points:        1371                                          
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         7                                         
 Octree refined elems: old=      1450 new=      1506                             
+FILTER_SUBSET:Dudding duplicate points:          71                             
  
- Dudding duplicate points:          71                                          
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
- 
 FILTER:Dudding duplicate points:           7                                    
 geniee                                                                          
 finish                                                                          
@@ -120,23 +114,19 @@ refine elements:
 refine hex     :        995                                                     
 Element iteration:          1       820                                         
 Octree refined elems: old=      1506 new=      8066                             
+FILTER_SUBSET:Dudding duplicate points:        8394                             
  
- Dudding duplicate points:        8394                                          
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1        32                                         
 Octree refined elems: old=      8066 new=      8322                             
+FILTER_SUBSET:Dudding duplicate points:         330                             
  
- Dudding duplicate points:         330                                          
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
- 
 FILTER:Dudding duplicate points:          36                                    
 geniee                                                                          
 finish                                                                          

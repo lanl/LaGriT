@@ -109,7 +109,7 @@ dump / pflotran / hex_3x4_pts / mohex / nofilter_zero
 * matbld voronoi volumes do not go beyond the mesh boundary
 * so an edge node can have half a voronoi volume
 
-read gmv sample_tet.gmv motet
+read sample_tet.inp motet
 cmo printatt motet -all- minmax
 
 * write pflotran coefficent file, skip zeros

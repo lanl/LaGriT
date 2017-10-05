@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.202   Linux m64      *                 
-*               *    date_compile: 2017/04/20 mtools          *                 
-*               *    Run Time: 2017/Jul 11  11:03:15          *                 
+*               *    Program:  LaGriT V3.203   Linux          *                 
+*               *    date_compile: 2017/09/26 Static DB       *                 
+*               *    Run Time: 2017/Oct  4  15:17:28          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -240,11 +240,11 @@ eltset/e_delete/not/e_bottom
  
  THE ELTSET e_delete                         HAS         20 ELEMENTS            
 rmpoint/element/eltset get e_delete                                             
- Dudded        17 points plus parents, and         20 elements removed.         
+ Dudded         17 points plus parents, and          20 elements removed.       
 rmpoint/compress                                                                
         17 points removed and          0 elements removed.                      
-   The new point count is         9.                                            
-   The new element count is         4.                                          
+RMPOINT: new point count is            9                                        
+RMPOINT: new element count is          4                                        
 cmo/DELATT/mo_tmp/id_side                                                       
 dump/avs2/output_1_bottom.faceset/mo_tmp/0 0 0 2                                
 WARNING: dump/avs  iopt_points=    0                                            
@@ -281,11 +281,11 @@ eltset/e_delete/not/e_top
  
  THE ELTSET e_delete                         HAS         20 ELEMENTS            
 rmpoint/element/eltset get e_delete                                             
- Dudded        17 points plus parents, and         20 elements removed.         
+ Dudded         17 points plus parents, and          20 elements removed.       
 rmpoint/compress                                                                
         17 points removed and          0 elements removed.                      
-   The new point count is         9.                                            
-   The new element count is         4.                                          
+RMPOINT: new point count is            9                                        
+RMPOINT: new element count is          4                                        
 cmo/DELATT/mo_tmp/id_side                                                       
 dump/avs2/output_2_top.faceset/mo_tmp/0 0 0 2                                   
 WARNING: dump/avs  iopt_points=    0                                            
@@ -317,6 +317,8 @@ cmo/delete/mo_tmp
 # show the facesets under Display Surfaces                                      
 dump/exo/output_hex_final.exo/mohex///facesets output_1_bottom.faceset output_2_
 top.faceset                                                                     
+got       1 output_1_bottom.faceset                                             
+got       2 output_2_top.faceset                                                
  
 ExodusII: Start writing to file: output_hex_final.exo using cmo: mohex          
  
@@ -332,11 +334,8 @@ finish
 finish                                                                          
 cmo/DELATT/mohex/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/mohex/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  27                                            
 number of elements:                8                                            
@@ -345,7 +344,7 @@ number of edge blocks:             0
 number of element blocks:          2                                            
 number of face blocks:             0                                            
 number of node sets:               0                                            
-number of edge sets:               3                                            
+number of edge sets:               0                                            
 number of element sets:            0                                            
 number of side sets:               2                                            
 number of face sets:               0                                            
@@ -354,8 +353,14 @@ number of edge maps:               0
 number of face maps:               0                                            
 number of element maps:            0                                            
  
-cmo/modatt/mohex/itetclr/ioflag/l                                               
-finish                                                                          
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:             4                      
+        2 Side Set tag:             2 Faces:             4                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:       2                                          
+ 
  
 ExodusII: Done writing to ExodusII file: output_hex_final.exo using cmo: mohex  
  

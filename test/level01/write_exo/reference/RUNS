@@ -1,0 +1,37 @@
+
+  valgrind --leak-check=yes --track-origins=yes  --log-file=memcheck.txt ./lagrit_new < x.lgi
+
+  603  ln -s /n/swdev/LAGRIT/bin/lagrit_ulin3.2 lagrit_old
+  605  ./lagrit_old < x.lgi
+
+  valgrind --leak-check=yes --track-origins=yes  --log-file=memcheck2.txt ./lagrit_old < x.lgi
+  cat memcheck2.txt
+
+  610  module load mesh_tools
+  611  module list
+  612  diff memcheck.txt memcheck2.txt
+
+  614  valgrind --leak-check=yes --track-origins=yes  --log-file=memcheck3.txt ./lagrit_old < x.lgi
+  615  cat memcheck3.txt
+  616  diff memcheck2.txt memcheck3.txt
+  617  lagrit
+
+
+  valgrind --leak-check=yes --track-origins=yes  --log-file=memcheck.so.txt lagrit < x.lgi
+  cat memcheck.so.txt
+
+  mv memcheck3.txt memcheck.old.txt
+
+
+  627  ./lagrit_old < x.lgi
+  628  cp outx3dgen x.out.old.txt
+  629  lagrit < x.lgi
+  630  cp outx3dgen x.out.so.txt
+  631  diff x.out.so.txt x.out.old.txt
+  632  ./lagrit_old < x.lgi
+  633  ncdump out_3D_hex_pset.exo > tmp.txt
+  634  cat tmp.txt
+  635  lagrit < x.lgi
+  636  ncdump out_3D_hex_pset.exo > tmp.txt
+  637  cat tmp.txt
+

@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.202   Linux m64      *                 
-*               *    date_compile: 2017/07/13 -O tam          *                 
-*               *    Run Time: 2017/Jul 17  11:42:13          *                 
+*               *    Program:  LaGriT V3.203   Linux          *                 
+*               *    date_compile: 2017/09/26 Static DB       *                 
+*               *    Run Time: 2017/Oct  5  11:18:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -60,15 +60,13 @@ cmo select cmotri
 # triangulate inside the polygon                                                
 triangulate/clockwise                                                           
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.496506830649E-08                       
- 
 FILTER:Dudding duplicate points:           0                                    
 finish                                                                          
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is         7.                                            
-   The new element count is         5.                                          
+RMPOINT: new point count is            7                                        
+RMPOINT: new element count is          5                                        
 finish                                                                          
 resetpts/itp                                                                    
 geniee                                                                          
@@ -324,14 +322,12 @@ RECON2D reconnection loop2d:     1
 Recon2d: iteration number=          1 number of flips=         11               
 RECON: done.                                                                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.496506830649E-08                       
- 
 FILTER:Dudding duplicate points:           0                                    
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is       456.                                            
-   The new element count is       830.                                          
+RMPOINT: new point count is          456                                        
+RMPOINT: new element count is        830                                        
 resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
@@ -399,8 +395,8 @@ nodes in point set  =        456
 SGD:      8 total relaxations on point set of    456 indept. nodes.             
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is       456.                                            
-   The new element count is       830.                                          
+RMPOINT: new point count is          456                                        
+RMPOINT: new element count is        830                                        
 finish                                                                          
 nodes in point set  =        456                                                
 recon/0/0.10000000E-01/                                                         
@@ -412,8 +408,8 @@ nodes in point set  =        456
 SGD:      3 total relaxations on point set of    456 indept. nodes.             
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is       456.                                            
-   The new element count is       830.                                          
+RMPOINT: new point count is          456                                        
+RMPOINT: new element count is        830                                        
 finish                                                                          
 nodes in point set  =        456                                                
 recon/0/0.10000000E-01/                                                         
@@ -444,8 +440,8 @@ RECON: done.
 finish                                                                          
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is      4543.                                            
-   The new element count is      8764.                                          
+RMPOINT: new point count is         4543                                        
+RMPOINT: new element count is       8764                                        
 # CHECK 02 massage 200                                                          
 quality                                                                         
  
@@ -660,8 +656,8 @@ cmo/modatt/-def-/-def-/ioflag/x
 finish                                                                          
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is      4543.                                            
-   The new element count is      8764.                                          
+RMPOINT: new point count is         4543                                        
+RMPOINT: new element count is       8764                                        
 resetpts itp                                                                    
 geniee                                                                          
 finish                                                                          
@@ -790,79 +786,79 @@ pset/pmass/attribute dfield/1,0,0/gt 800.
 massage/MAXEDGE MINEDGE DAMAGE/pset,get,pmass/nosmooth                          
 nodes in point set  =       2956                                                
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and       1474 elements removed.         
+ Dudded          0 points plus parents, and        1474 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged            737 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and       1154 elements removed.         
+ Dudded          0 points plus parents, and        1154 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged            577 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and        886 elements removed.         
+ Dudded          0 points plus parents, and         886 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged            443 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and        640 elements removed.         
+ Dudded          0 points plus parents, and         640 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged            320 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and        478 elements removed.         
+ Dudded          0 points plus parents, and         478 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged            239 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and        356 elements removed.         
+ Dudded          0 points plus parents, and         356 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged            178 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and        252 elements removed.         
+ Dudded          0 points plus parents, and         252 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged            126 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and        196 elements removed.         
+ Dudded          0 points plus parents, and         196 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged             98 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and        136 elements removed.         
+ Dudded          0 points plus parents, and         136 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged             68 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and         94 elements removed.         
+ Dudded          0 points plus parents, and          94 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged             47 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and         62 elements removed.         
+ Dudded          0 points plus parents, and          62 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged             31 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and         32 elements removed.         
+ Dudded          0 points plus parents, and          32 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 Merged             16 nodes.                                                    
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and         10 elements removed.         
+ Dudded          0 points plus parents, and          10 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
@@ -880,12 +876,12 @@ RECON: done.
 finish                                                                          
 rmpoint/compress                                                                
       2885 points removed and          0 elements removed.                      
-   The new point count is      1658.                                            
-   The new element count is      2994.                                          
+RMPOINT: new point count is         1658                                        
+RMPOINT: new element count is       2994                                        
 finish                                                                          
 nodes in point set  =         71                                                
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and         14 elements removed.         
+ Dudded          0 points plus parents, and          14 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
@@ -906,12 +902,12 @@ RECON: done.
 finish                                                                          
 rmpoint/compress                                                                
          7 points removed and          0 elements removed.                      
-   The new point count is      1651.                                            
-   The new element count is      2980.                                          
+RMPOINT: new point count is         1651                                        
+RMPOINT: new element count is       2980                                        
 finish                                                                          
 nodes in point set  =         64                                                
 rmpoint/element                                                                 
- Dudded         0 points plus parents, and          2 elements removed.         
+ Dudded          0 points plus parents, and           2 elements removed.       
 finish                                                                          
 geniee                                                                          
 finish                                                                          
@@ -931,8 +927,8 @@ RECON: done.
 finish                                                                          
 rmpoint/compress                                                                
          1 points removed and          0 elements removed.                      
-   The new point count is      1650.                                            
-   The new element count is      2978.                                          
+RMPOINT: new point count is         1650                                        
+RMPOINT: new element count is       2978                                        
 finish                                                                          
 nodes in point set  =         63                                                
 recon/0/0.10000000E-01/                                                         
@@ -941,8 +937,8 @@ RECON: done.
 finish                                                                          
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is      1650.                                            
-   The new element count is      2978.                                          
+RMPOINT: new point count is         1650                                        
+RMPOINT: new element count is       2978                                        
 finish                                                                          
 MASSAGE:  hit max. iteration limit.                                             
 nodes in point set  =         63                                                
@@ -966,8 +962,8 @@ RECON: done.
 finish                                                                          
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is      1780.                                            
-   The new element count is      3238.                                          
+RMPOINT: new point count is         1780                                        
+RMPOINT: new element count is       3238                                        
 # CHECK 03 massage de-refine                                                    
 quality                                                                         
  
@@ -1192,8 +1188,8 @@ nodes in point set  =       1780
 SGD:    137 total relaxations on point set of   1780 indept. nodes.             
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is      1780.                                            
-   The new element count is      3238.                                          
+RMPOINT: new point count is         1780                                        
+RMPOINT: new element count is       3238                                        
 finish                                                                          
 nodes in point set  =       1780                                                
 recon/0/0.10000000E+00/                                                         
@@ -1206,8 +1202,8 @@ nodes in point set  =       1780
 SGD:     23 total relaxations on point set of   1780 indept. nodes.             
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is      1780.                                            
-   The new element count is      3238.                                          
+RMPOINT: new point count is         1780                                        
+RMPOINT: new element count is       3238                                        
 finish                                                                          
 nodes in point set  =       1780                                                
 recon/0/0.10000000E+00/                                                         
@@ -1220,8 +1216,8 @@ SGD:      0 total relaxations on point set of   1780 indept. nodes.
 nodes in point set  =       1780                                                
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is      1780.                                            
-   The new element count is      3238.                                          
+RMPOINT: new point count is         1780                                        
+RMPOINT: new element count is       3238                                        
 resetpts itp                                                                    
 geniee                                                                          
 finish                                                                          
@@ -1382,14 +1378,12 @@ Recon2d: iteration number=          1 number of flips=         46
 Recon2d: iteration number=          2 number of flips=          1               
 RECON: done.                                                                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.496506830649E-08                       
- 
 FILTER:Dudding duplicate points:           0                                    
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is      1780.                                            
-   The new element count is      3238.                                          
+RMPOINT: new point count is         1780                                        
+RMPOINT: new element count is       3238                                        
 resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          

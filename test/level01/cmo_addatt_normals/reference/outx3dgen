@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:40          *                 
+*               *    Program:  LaGriT V3.203   Linux          *                 
+*               *    date_compile: 2017/09/26 Static DB       *                 
+*               *    Run Time: 2017/Oct  5  11:07:19          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1048,14 +1048,12 @@ E-01/8.7500000E-01/
 finish                                                                          
   RZS GENERATED POINTS      1 TO    972                                         
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.673036940234E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is       972.                                            
-   The new element count is         0.                                          
+RMPOINT: new point count is          972                                        
+RMPOINT: new element count is          0                                        
 cmo/setatt/cmo_tet/imt/1 0 0/1                                                  
 Warning: nelements = 0                                                          
        972 values reset for attribute imt1                                      

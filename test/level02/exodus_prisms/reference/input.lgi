@@ -115,9 +115,9 @@ stack / layers / avs / tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp &
 stack / fill / moprism / mostack
 resetpts / itp
 
-dump / gmv / out_prism_two_layer_perturb_z.gmv / moprism
-dump / avs / out_prism_two_layer_perturb_z.inp / moprism
-dump / exo / out_prism_two_layer_perturb_z.exo / moprism
+dump / gmv / out_prism_two_layer_pb_z.gmv / moprism
+dump / avs / out_prism_two_layer_pb_z.inp / moprism
+dump / exo / out_prism_two_layer_pb_z.exo / moprism
 
 #
 # Create a one layer versino of stacked mesh

@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  11:59:30          *                 
+*               *    Program:  LaGriT V3.203   Linux          *                 
+*               *    date_compile: 2017/09/26 Static DB       *                 
+*               *    Run Time: 2017/Oct  5  11:38:52          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -304,12 +304,12 @@ finish
 cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,bot_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
+ Dudded        953 points plus parents, and        1960 elements removed.       
 finish                                                                          
 cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,top_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
+ Dudded        953 points plus parents, and        1960 elements removed.       
 finish                                                                          
 cmo/addatt/top_mo_lin_ext_tmp/zic_L1                                            
 CMO_ADDATT warning: attribute already exist: top_mo_lin_ext_tmp  zic_L1         
@@ -615,12 +615,12 @@ finish
 cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,bot_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
+ Dudded        953 points plus parents, and        1960 elements removed.       
 finish                                                                          
 cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,top_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
+ Dudded        953 points plus parents, and        1960 elements removed.       
 finish                                                                          
 cmo/addatt/top_mo_lin_ext_tmp/zic_L1                                            
 CMO_ADDATT warning: attribute already exist: top_mo_lin_ext_tmp  zic_L1         
@@ -926,12 +926,12 @@ finish
 cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,bot_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
+ Dudded        953 points plus parents, and        1960 elements removed.       
 finish                                                                          
 cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,top_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
+ Dudded        953 points plus parents, and        1960 elements removed.       
 finish                                                                          
 cmo/addatt/top_mo_lin_ext_tmp/yic_L1                                            
 CMO_ADDATT warning: attribute already exist: top_mo_lin_ext_tmp  yic_L1         
@@ -1237,12 +1237,12 @@ finish
 cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,bot_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
+ Dudded        953 points plus parents, and        1960 elements removed.       
 finish                                                                          
 cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,top_els                                              
- Dudded       953 points plus parents, and       1960 elements removed.         
+ Dudded        953 points plus parents, and        1960 elements removed.       
 finish                                                                          
 cmo/addatt/top_mo_lin_ext_tmp/yic_L1                                            
 CMO_ADDATT warning: attribute already exist: top_mo_lin_ext_tmp  yic_L1         
@@ -1605,12 +1605,12 @@ finish
 cmo/copy/top_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,bot_els                                              
- Dudded      6033 points plus parents, and      12180 elements removed.         
+ Dudded       6033 points plus parents, and       12180 elements removed.       
 finish                                                                          
 cmo/copy/bot_mo_lin_ext_tmp/hull_mo_lin_ext_tmp                                 
 finish                                                                          
 rmpoint/element/eltset,get,top_els                                              
- Dudded      6033 points plus parents, and      12180 elements removed.         
+ Dudded       6033 points plus parents, and       12180 elements removed.       
 finish                                                                          
 cmo/addatt/top_mo_lin_ext_tmp/zic_L1                                            
 CMO_ADDATT warning: attribute already exist: top_mo_lin_ext_tmp  zic_L1         

@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  11:52:22          *                 
+*               *    Program:  LaGriT V3.203   Linux          *                 
+*               *    date_compile: 2017/09/26 Static DB       *                 
+*               *    Run Time: 2017/Oct  5  11:32:23          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -77,10 +77,10 @@ cmo/addatt/octcube/itetlev/VINT/scalar/nelements/linear/permanent//0.0
 finish                                                                          
 Element iteration:          1         1                                         
 Octree refined elems: old=         8 new=        16                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -123,10 +123,10 @@ refine elements:
 refine hex     :          1                                                     
 Element iteration:          1         1                                         
 Octree refined elems: old=        16 new=        24                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -169,10 +169,10 @@ refine elements:
 refine hex     :          1                                                     
 Element iteration:          1         1                                         
 Octree refined elems: old=        24 new=        32                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -215,10 +215,10 @@ refine elements:
 refine hex     :          1                                                     
 Element iteration:          1         1                                         
 Octree refined elems: old=        32 new=        40                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -261,10 +261,10 @@ refine elements:
 refine hex     :          1                                                     
 Element iteration:          1         1                                         
 Octree refined elems: old=        40 new=        48                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -307,10 +307,10 @@ refine elements:
 refine hex     :          1                                                     
 Element iteration:          1         1                                         
 Octree refined elems: old=        48 new=        56                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.769185074553E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -420,12 +420,12 @@ eltset/-parentset-/itetkid/gt/0
  THE ELTSET -parentset-                      HAS          6 ELEMENTS            
 finish                                                                          
 rmpoint/element/eltset,get,-parentset-                                          
- Dudded         0 points plus parents, and          6 elements removed.         
+ Dudded          0 points plus parents, and           6 elements removed.       
 finish                                                                          
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is       141.                                            
-   The new element count is        50.                                          
+RMPOINT: new point count is          141                                        
+RMPOINT: new element count is         50                                        
 finish                                                                          
 resetpts/itp                                                                    
 geniee                                                                          
@@ -640,12 +640,12 @@ eltset/-parentset-/itetkid/gt/0
  THE ELTSET -parentset-                      HAS          6 ELEMENTS            
 finish                                                                          
 rmpoint/element/eltset,get,-parentset-                                          
- Dudded         0 points plus parents, and          6 elements removed.         
+ Dudded          0 points plus parents, and           6 elements removed.       
 finish                                                                          
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is       141.                                            
-   The new element count is        50.                                          
+RMPOINT: new point count is          141                                        
+RMPOINT: new element count is         50                                        
 finish                                                                          
 resetpts/itp                                                                    
 geniee                                                                          
@@ -810,10 +810,10 @@ cmo/addatt/quadplane/itetlev/VINT/scalar/nelements/linear/permanent//0.0
 finish                                                                          
 Element iteration:          1         1                                         
 Octree refined elems: old=         4 new=         8                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -850,10 +850,10 @@ refine elements:
 refine quad    :          1                                                     
 Element iteration:          1         1                                         
 Octree refined elems: old=         8 new=        12                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -890,10 +890,10 @@ refine elements:
 refine quad    :          1                                                     
 Element iteration:          1         1                                         
 Octree refined elems: old=        12 new=        16                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -930,10 +930,10 @@ refine elements:
 refine quad    :          1                                                     
 Element iteration:          1         1                                         
 Octree refined elems: old=        16 new=        20                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -970,10 +970,10 @@ refine elements:
 refine quad    :          1                                                     
 Element iteration:          1         1                                         
 Octree refined elems: old=        20 new=        24                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -1010,10 +1010,10 @@ refine elements:
 refine quad    :          1                                                     
 Element iteration:          1         1                                         
 Octree refined elems: old=        24 new=        28                             
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.628036983474E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -1123,12 +1123,12 @@ eltset/-parentset-/itetkid/gt/0
  THE ELTSET -parentset-                      HAS          6 ELEMENTS            
 finish                                                                          
 rmpoint/element/eltset,get,-parentset-                                          
- Dudded         0 points plus parents, and          6 elements removed.         
+ Dudded          0 points plus parents, and           6 elements removed.       
 finish                                                                          
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is        39.                                            
-   The new element count is        22.                                          
+RMPOINT: new point count is           39                                        
+RMPOINT: new element count is         22                                        
 finish                                                                          
 resetpts/itp                                                                    
 geniee                                                                          
@@ -1347,12 +1347,12 @@ eltset/-parentset-/itetkid/gt/0
  THE ELTSET -parentset-                      HAS          6 ELEMENTS            
 finish                                                                          
 rmpoint/element/eltset,get,-parentset-                                          
- Dudded         0 points plus parents, and          6 elements removed.         
+ Dudded          0 points plus parents, and           6 elements removed.       
 finish                                                                          
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is        39.                                            
-   The new element count is        22.                                          
+RMPOINT: new point count is           39                                        
+RMPOINT: new element count is         22                                        
 finish                                                                          
 resetpts/itp                                                                    
 geniee                                                                          
@@ -1509,12 +1509,10 @@ cmo/addatt/cmo_hex/itetlev/VINT/scalar/nelements/linear/permanent//0.0
 finish                                                                          
 Element iteration:          1        27                                         
 Octree refined elems: old=        50 new=       266                             
+FILTER_SUBSET:Dudding duplicate points:         204                             
  
- Dudding duplicate points:         204                                          
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -1534,23 +1532,19 @@ refine elements:
 refine hex     :        175                                                     
 Element iteration:          1       148                                         
 Octree refined elems: old=       266 new=      1450                             
+FILTER_SUBSET:Dudding duplicate points:        1371                             
  
- Dudding duplicate points:        1371                                          
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1         7                                         
 Octree refined elems: old=      1450 new=      1506                             
+FILTER_SUBSET:Dudding duplicate points:          71                             
  
- Dudding duplicate points:          71                                          
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
- 
 FILTER:Dudding duplicate points:           7                                    
 geniee                                                                          
 finish                                                                          
@@ -1570,23 +1564,19 @@ refine elements:
 refine hex     :        995                                                     
 Element iteration:          1       820                                         
 Octree refined elems: old=      1506 new=      8066                             
+FILTER_SUBSET:Dudding duplicate points:        8394                             
  
- Dudding duplicate points:        8394                                          
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
 Element iteration:          1        32                                         
 Octree refined elems: old=      8066 new=      8322                             
+FILTER_SUBSET:Dudding duplicate points:         330                             
  
- Dudding duplicate points:         330                                          
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-12                       
- 
 FILTER:Dudding duplicate points:          36                                    
 geniee                                                                          
 finish                                                                          
@@ -1877,12 +1867,12 @@ eltset/-parentset-/itetkid/gt/0
  THE ELTSET -parentset-                      HAS       1034 ELEMENTS            
 finish                                                                          
 rmpoint/element/eltset,get,-parentset-                                          
- Dudded     10413 points plus parents, and       1034 elements removed.         
+ Dudded      10413 points plus parents, and        1034 elements removed.       
 finish                                                                          
 rmpoint/compress                                                                
      10413 points removed and          0 elements removed.                      
-   The new point count is      9341.                                            
-   The new element count is      7288.                                          
+RMPOINT: new point count is         9341                                        
+RMPOINT: new element count is       7288                                        
 finish                                                                          
 resetpts/itp                                                                    
 geniee                                                                          

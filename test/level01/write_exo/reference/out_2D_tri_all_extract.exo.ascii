@@ -3,7 +3,7 @@ dimensions:
 	len_string = 33 ;
 	len_line = 81 ;
 	four = 4 ;
-	len_name = 33 ;
+	len_name = 256 ;
 	time_step = UNLIMITED ; // (0 currently)
 	num_dim = 2 ;
 	num_nodes = 16 ;
@@ -13,13 +13,10 @@ dimensions:
 	num_qa_rec = 1 ;
 	num_el_in_blk1 = 9 ;
 	num_nod_per_el1 = 3 ;
-	num_att_in_blk1 = 1 ;
 	num_el_in_blk2 = 3 ;
 	num_nod_per_el2 = 3 ;
-	num_att_in_blk2 = 1 ;
 	num_el_in_blk3 = 6 ;
 	num_nod_per_el3 = 3 ;
-	num_att_in_blk3 = 1 ;
 	num_side_ss1 = 12 ;
 variables:
 	double time_whole(time_step) ;
@@ -35,24 +32,18 @@ variables:
 	char ss_names(num_side_sets, len_name) ;
 	char coor_names(num_dim, len_name) ;
 	char qa_records(num_qa_rec, four, len_string) ;
-	double attrib1(num_el_in_blk1, num_att_in_blk1) ;
-	char attrib_name1(num_att_in_blk1, len_name) ;
 	int connect1(num_el_in_blk1, num_nod_per_el1) ;
 		connect1:elem_type = "TRI3" ;
-	double attrib2(num_el_in_blk2, num_att_in_blk2) ;
-	char attrib_name2(num_att_in_blk2, len_name) ;
 	int connect2(num_el_in_blk2, num_nod_per_el2) ;
 		connect2:elem_type = "TRI3" ;
-	double attrib3(num_el_in_blk3, num_att_in_blk3) ;
-	char attrib_name3(num_att_in_blk3, len_name) ;
 	int connect3(num_el_in_blk3, num_nod_per_el3) ;
 		connect3:elem_type = "TRI3" ;
 	int elem_ss1(num_side_ss1) ;
 	int side_ss1(num_side_ss1) ;
 
 // global attributes:
-		:api_version = 6.09f ;
-		:version = 6.09f ;
+		:api_version = 7.03f ;
+		:version = 7.03f ;
 		:floating_point_word_size = 8 ;
 		:file_size = 1 ;
 		:maximum_name_length = 32 ;
@@ -94,20 +85,6 @@ data:
   "Today",
   "Time" ;
 
- attrib1 =
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0,
-  0 ;
-
- attrib_name1 =
-  "" ;
-
  connect1 =
   11, 15, 14,
   9, 10, 13,
@@ -119,29 +96,10 @@ data:
   10, 14, 13,
   5, 6, 9 ;
 
- attrib2 =
-  0,
-  0,
-  0 ;
-
- attrib_name2 =
-  "" ;
-
  connect2 =
   2, 3, 6,
   11, 12, 15,
   2, 6, 5 ;
-
- attrib3 =
-  0,
-  0,
-  0,
-  0,
-  0,
-  0 ;
-
- attrib_name3 =
-  "" ;
 
  connect3 =
   1, 2, 5,

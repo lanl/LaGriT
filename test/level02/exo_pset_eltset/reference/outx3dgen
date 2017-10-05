@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.203   Linux m64      *                 
-*               *    date_compile: 2017/07/19 linked          *                 
-*               *    Run Time: 2017/Jul 19  12:01:11          *                 
+*               *    Program:  LaGriT V3.203   Linux          *                 
+*               *    date_compile: 2017/09/26 Static DB       *                 
+*               *    Run Time: 2017/Oct  4  15:24:03          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -89,11 +89,8 @@ finish
 finish                                                                          
 cmo/DELATT/mohex/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/mohex/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:               27                                            
@@ -122,8 +119,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                       18   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/mohex/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_hex_pset_eltset.exo using cmo: m
                                                                             ohex
@@ -146,11 +141,8 @@ finish
 finish                                                                          
 cmo/DELATT/mohex/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/mohex/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:               27                                            
@@ -173,8 +165,6 @@ WRITING EXODUS NODE SETS:         3 sets in total
                               p1                   1                       56   
                               p2                   2                       16   
                               p3                   3                       24   
-cmo/modatt/mohex/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_hex_pset.exo using cmo: mohex   
  
@@ -196,11 +186,8 @@ finish
 finish                                                                          
 cmo/DELATT/mohex/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/mohex/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:               27                                            
@@ -224,8 +211,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                       18   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/mohex/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_hex_eltset.exo using cmo: mohex 
  
@@ -318,11 +303,8 @@ finish
 finish                                                                          
 cmo/DELATT/motet/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motet/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:              135                                            
@@ -351,8 +333,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                      126   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/motet/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_tet_pset_eltset.exo using cmo: m
                                                                             otet
@@ -375,11 +355,8 @@ finish
 finish                                                                          
 cmo/DELATT/motet/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motet/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:              135                                            
@@ -402,8 +379,6 @@ WRITING EXODUS NODE SETS:         3 sets in total
                               p1                   1                       62   
                               p2                   2                        7   
                               p3                   3                       10   
-cmo/modatt/motet/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_tet_pset.exo using cmo: motet   
  
@@ -425,11 +400,8 @@ finish
 finish                                                                          
 cmo/DELATT/motet/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motet/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               3                                            
 number of nodes:                  64                                            
 number of elements:              135                                            
@@ -453,8 +425,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                      126   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/motet/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_3D_tet_eltset.exo using cmo: motet 
  
@@ -561,11 +531,8 @@ finish
 finish                                                                          
 cmo/DELATT/motri/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motri/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               2                                            
 number of nodes:                  16                                            
 number of elements:               18                                            
@@ -594,8 +561,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                        9   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/motri/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_2D_tri_pset_eltset.exo using cmo: m
                                                                             otri
@@ -618,11 +583,8 @@ finish
 finish                                                                          
 cmo/DELATT/motri/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motri/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               2                                            
 number of nodes:                  16                                            
 number of elements:               18                                            
@@ -645,8 +607,6 @@ WRITING EXODUS NODE SETS:         3 sets in total
                               p1                   1                       13   
                               p2                   2                        7   
                               p3                   3                       11   
-cmo/modatt/motri/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_2D_tri_pset.exo using cmo: motri   
  
@@ -668,11 +628,8 @@ finish
 finish                                                                          
 cmo/DELATT/motri/e_num_temp                                                     
 finish                                                                          
-cmo/modatt/motri/itetclr/ioflag/lga                                             
-finish                                                                          
  
-INITIALIZE exodus                                                               
-Title: LAGRIT TO EXODUS                                                         
+Title: LAGRIT TO EXODUSII                                                       
 number of dimension:               2                                            
 number of nodes:                  16                                            
 number of elements:               18                                            
@@ -696,8 +653,6 @@ WRITING EXODUS ELEMENT SETS:         3 sets in total
                               e1                   1                        9   
                               e2                   2                        3   
                               e3                   3                        6   
-cmo/modatt/motri/itetclr/ioflag/l                                               
-finish                                                                          
  
 ExodusII: Done writing to ExodusII file: out_2D_tri_eltset.exo using cmo: motri 
  

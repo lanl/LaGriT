@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:55          *                 
+*               *    Program:  LaGriT V3.203   Linux          *                 
+*               *    date_compile: 2017/09/26 Static DB       *                 
+*               *    Run Time: 2017/Oct  5  11:16:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -129,14 +129,12 @@ cmo/setatt/mo2/imt pset,get,p2 2
 * Figure out where there are duplicate points and remove duplicates             
 *                                                                               
 filter/1 0 0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.317143130803E-12                       
- 
 FILTER:Dudding duplicate points:           0                                    
 rmpoint/compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is        60.                                            
-   The new element count is       144.                                          
+RMPOINT: new point count is           60                                        
+RMPOINT: new element count is        144                                        
 *                                                                               
 * Recompute the jtet element adjancy information.                               
 *                                                                               
@@ -394,8 +392,8 @@ Attribute: itp1
  
 rmpoint compress                                                                
         24 points removed and          0 elements removed.                      
-   The new point count is        60.                                            
-   The new element count is       144.                                          
+RMPOINT: new point count is           60                                        
+RMPOINT: new element count is        144                                        
 cmo/printatt/mo2/itp1                                                           
 Attribute: itp1                                                                 
          1         10                                                           
@@ -802,8 +800,8 @@ rmmat 2/node
  RMMAT DUDDED         74 POINTS: FLAGGED          0 ELEMENTS                    
 rmpoint/compress                                                                
         74 points removed and        297 elements removed.                      
-   The new point count is       376.                                            
-   The new element count is       879.                                          
+RMPOINT: new point count is          376                                        
+RMPOINT: new element count is        879                                        
 dump/gmv/output_rmmat3.gmv/mo3                                                  
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -844,8 +842,8 @@ rmmat 2/element
  RMMAT DUDDED          0 POINTS: FLAGGED        221 ELEMENTS                    
 rmpoint/compress                                                                
         50 points removed and        221 elements removed.                      
-   The new point count is       400.                                            
-   The new element count is       955.                                          
+RMPOINT: new point count is          400                                        
+RMPOINT: new element count is        955                                        
 dump/gmv/output_rmmat4.gmv/mo4                                                  
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -886,8 +884,8 @@ rmmat 2/all
  RMMAT DUDDED         74 POINTS: FLAGGED        221 ELEMENTS                    
 rmpoint/compress                                                                
         74 points removed and        297 elements removed.                      
-   The new point count is       376.                                            
-   The new element count is       879.                                          
+RMPOINT: new point count is          376                                        
+RMPOINT: new element count is        879                                        
 dump/gmv/output_rmmat5.gmv/mo5                                                  
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -1264,7 +1262,7 @@ pset/p1/seq/1,3,1/
  
  THE PSET  p1  HAS          3 POINTS                                            
 rmpoint/pset,get,p1                                                             
- Dudded         3 points plus parents, there are no elements in mesh.           
+ Dudded          3 points plus parents, there are no elements in mesh.          
 * begin compare here                                                            
 cmo/status                                                                      
  
