@@ -1,8 +1,15 @@
 LaGriT Release Notes
 ====================
 
-This document is a summary of LaGriT versions up to latest version of LaGriT V3.
-Older versions with high impact are also described starting with V2.1 2009 Release. 
+This page describes version updates for V3.2 and newer. See other pages for older versions.
+
+## LaGriT V3.3 October 2017
+
+- Major changes to comply with ExodusII 7, changed arrays to 8 byte integers instead of 4
+- dump/exo no longer writes empty attrib arrays to the ExodusII file
+- all test directories with ExodusII files updated to new output
+- all test directories using rmpoint and filter commands updated to new output
+- lagrit.lanl.gov removed from this repo, use docs/pages instead
 
 -------------------------
 
