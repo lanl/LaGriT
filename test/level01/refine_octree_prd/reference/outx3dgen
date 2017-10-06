@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:54          *                 
+*               *    Program:  LaGriT V3.203   Linux          *                 
+*               *    date_compile: 2017/09/26 Static DB       *                 
+*               *    Run Time: 2017/Oct  6  08:13:46          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -81,6 +81,8 @@ Octree(PRD) refined elems: old=         4 new=        12
 nlist =              1 sink nnodes =             37 mmgetlen =           1018   
 nlist =              6 sink nnodes =             37 mmgetlen =           1018   
 nlist =             12 sink nnodes =             37 mmgetlen =           1018   
+FILTER_SUBSET:Dudding duplicate points:           0                             
+ 
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -88,9 +90,7 @@ nlist =             12 sink nnodes =             37 mmgetlen =           1018
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -125,8 +125,8 @@ The current-mesh-object(CMO) is: cmo_hex
 * end compare here                                                              
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
-   The new point count is        37.                                            
-   The new element count is        12.                                          
+RMPOINT: new point count is           37                                        
+RMPOINT: new element count is         12                                        
 * refine again                                                                  
 pset/p1/release                                                                 
  
@@ -156,8 +156,8 @@ Octree(PRD) refined elems: old=        12 new=        28
 nlist =              2 sink nnodes =             75 mmgetlen =           1037   
 nlist =             12 sink nnodes =             75 mmgetlen =           1037   
 nlist =             24 sink nnodes =             75 mmgetlen =           1037   
+FILTER_SUBSET:Dudding duplicate points:           5                             
  
- Dudding duplicate points:           5                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -165,9 +165,7 @@ nlist =             24 sink nnodes =             75 mmgetlen =           1037
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -190,8 +188,8 @@ cmo/DELATT/cmo_hex/xradavg
 finish                                                                          
 rmpoint compress                                                                
          5 points removed and          0 elements removed.                      
-   The new point count is        70.                                            
-   The new element count is        28.                                          
+RMPOINT: new point count is           70                                        
+RMPOINT: new element count is         28                                        
 * refine again in the x and y directions                                        
 pset/p1/release                                                                 
  
@@ -220,8 +218,8 @@ Element iteration:          1         4
 Octree(PRD) refined elems: old=        28 new=        44                        
 nlist =              8 sink nnodes =            110 mmgetlen =           1070   
 nlist =             32 sink nnodes =            110 mmgetlen =           1070   
+FILTER_SUBSET:Dudding duplicate points:          15                             
  
- Dudding duplicate points:          15                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -229,9 +227,7 @@ nlist =             32 sink nnodes =            110 mmgetlen =           1070
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -254,8 +250,8 @@ cmo/DELATT/cmo_hex/xradavg
 finish                                                                          
 rmpoint compress                                                                
         15 points removed and          0 elements removed.                      
-   The new point count is        95.                                            
-   The new element count is        44.                                          
+RMPOINT: new point count is           95                                        
+RMPOINT: new element count is         44                                        
 * refine again                                                                  
 pset/p1/release                                                                 
  
@@ -284,8 +280,8 @@ Element iteration:          1         4
 Octree(PRD) refined elems: old=        44 new=        60                        
 nlist =              8 sink nnodes =            135 mmgetlen =           1095   
 nlist =             32 sink nnodes =            135 mmgetlen =           1095   
+FILTER_SUBSET:Dudding duplicate points:          15                             
  
- Dudding duplicate points:          15                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -293,9 +289,7 @@ nlist =             32 sink nnodes =            135 mmgetlen =           1095
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -318,8 +312,8 @@ cmo/DELATT/cmo_hex/xradavg
 finish                                                                          
 rmpoint compress                                                                
         15 points removed and          0 elements removed.                      
-   The new point count is       120.                                            
-   The new element count is        60.                                          
+RMPOINT: new point count is          120                                        
+RMPOINT: new element count is         60                                        
 * refine again                                                                  
 pset/p1/release                                                                 
  
@@ -348,8 +342,8 @@ Element iteration:          1         4
 Octree(PRD) refined elems: old=        60 new=        76                        
 nlist =              8 sink nnodes =            160 mmgetlen =           1120   
 nlist =             32 sink nnodes =            160 mmgetlen =           1120   
+FILTER_SUBSET:Dudding duplicate points:          15                             
  
- Dudding duplicate points:          15                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -357,9 +351,7 @@ nlist =             32 sink nnodes =            160 mmgetlen =           1120
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -382,8 +374,8 @@ cmo/DELATT/cmo_hex/xradavg
 finish                                                                          
 rmpoint compress                                                                
         15 points removed and          0 elements removed.                      
-   The new point count is       145.                                            
-   The new element count is        76.                                          
+RMPOINT: new point count is          145                                        
+RMPOINT: new element count is         76                                        
 * refine again                                                                  
 pset/p1/release                                                                 
  
@@ -414,8 +406,8 @@ Element iteration:          1        16
 Octree(PRD) refined elems: old=        76 new=       140                        
 nlist =             32 sink nnodes =            305 mmgetlen =           1145   
 nlist =            128 sink nnodes =            305 mmgetlen =           1145   
+FILTER_SUBSET:Dudding duplicate points:          80                             
  
- Dudding duplicate points:          80                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -423,9 +415,7 @@ nlist =            128 sink nnodes =            305 mmgetlen =           1145
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -433,8 +423,8 @@ Element iteration:          1         8
 Octree(PRD) refined elems: old=       140 new=       172                        
 nlist =             16 sink nnodes =            385 mmgetlen =           1305   
 nlist =             64 sink nnodes =            385 mmgetlen =           1305   
+FILTER_SUBSET:Dudding duplicate points:          40                             
  
- Dudding duplicate points:          40                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -442,9 +432,7 @@ nlist =             64 sink nnodes =            385 mmgetlen =           1305
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -452,8 +440,8 @@ Element iteration:          1         8
 Octree(PRD) refined elems: old=       172 new=       204                        
 nlist =             16 sink nnodes =            465 mmgetlen =           1385   
 nlist =             64 sink nnodes =            465 mmgetlen =           1385   
+FILTER_SUBSET:Dudding duplicate points:          40                             
  
- Dudding duplicate points:          40                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -461,9 +449,7 @@ nlist =             64 sink nnodes =            465 mmgetlen =           1385
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -471,8 +457,8 @@ Element iteration:          1         8
 Octree(PRD) refined elems: old=       204 new=       236                        
 nlist =             16 sink nnodes =            545 mmgetlen =           1465   
 nlist =             64 sink nnodes =            545 mmgetlen =           1465   
+FILTER_SUBSET:Dudding duplicate points:          40                             
  
- Dudding duplicate points:          40                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -480,9 +466,7 @@ nlist =             64 sink nnodes =            545 mmgetlen =           1465
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -490,8 +474,8 @@ Element iteration:          1         4
 Octree(PRD) refined elems: old=       236 new=       252                        
 nlist =              8 sink nnodes =            585 mmgetlen =           1545   
 nlist =             32 sink nnodes =            585 mmgetlen =           1545   
+FILTER_SUBSET:Dudding duplicate points:          16                             
  
- Dudding duplicate points:          16                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -499,9 +483,7 @@ nlist =             32 sink nnodes =            585 mmgetlen =           1545
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -509,8 +491,8 @@ Element iteration:          1         2
 Octree(PRD) refined elems: old=       252 new=       260                        
 nlist =              4 sink nnodes =            605 mmgetlen =           1585   
 nlist =             16 sink nnodes =            605 mmgetlen =           1585   
+FILTER_SUBSET:Dudding duplicate points:           4                             
  
- Dudding duplicate points:           4                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -518,9 +500,7 @@ nlist =             16 sink nnodes =            605 mmgetlen =           1585
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -543,8 +523,8 @@ cmo/DELATT/cmo_hex/xradavg
 finish                                                                          
 rmpoint compress                                                                
        220 points removed and          0 elements removed.                      
-   The new point count is       385.                                            
-   The new element count is       260.                                          
+RMPOINT: new point count is          385                                        
+RMPOINT: new element count is        260                                        
 * refine again                                                                  
 pset/p1/release                                                                 
  
@@ -578,8 +558,8 @@ Element iteration:          1        36
 Octree(PRD) refined elems: old=       260 new=       404                        
 nlist =             72 sink nnodes =            745 mmgetlen =           1385   
 nlist =            288 sink nnodes =            745 mmgetlen =           1385   
+FILTER_SUBSET:Dudding duplicate points:         195                             
  
- Dudding duplicate points:         195                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -587,9 +567,7 @@ nlist =            288 sink nnodes =            745 mmgetlen =           1385
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -612,8 +590,8 @@ cmo/DELATT/cmo_hex/xradavg
 finish                                                                          
 rmpoint compress                                                                
        195 points removed and          0 elements removed.                      
-   The new point count is       550.                                            
-   The new element count is       404.                                          
+RMPOINT: new point count is          550                                        
+RMPOINT: new element count is        404                                        
 * refine again                                                                  
 pset/p1/release                                                                 
  
@@ -666,8 +644,8 @@ Octree(PRD) refined elems: old=       404 new=      1556
 nlist =            144 sink nnodes =           3286 mmgetlen =           3526   
 nlist =            864 sink nnodes =           3286 mmgetlen =           3526   
 nlist =           1728 sink nnodes =           3286 mmgetlen =           3526   
+FILTER_SUBSET:Dudding duplicate points:        1460                             
  
- Dudding duplicate points:        1460                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -675,9 +653,7 @@ nlist =           1728 sink nnodes =           3286 mmgetlen =           3526
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -686,8 +662,8 @@ Octree(PRD) refined elems: old=      1556 new=      1748
 nlist =             24 sink nnodes =           3742 mmgetlen =           4286   
 nlist =            144 sink nnodes =           3742 mmgetlen =           4286   
 nlist =            288 sink nnodes =           3742 mmgetlen =           4286   
+FILTER_SUBSET:Dudding duplicate points:         244                             
  
- Dudding duplicate points:         244                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -695,9 +671,7 @@ nlist =            288 sink nnodes =           3742 mmgetlen =           4286
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -706,8 +680,8 @@ Octree(PRD) refined elems: old=      1748 new=      1876
 nlist =             16 sink nnodes =           4046 mmgetlen =           4742   
 nlist =             96 sink nnodes =           4046 mmgetlen =           4742   
 nlist =            192 sink nnodes =           4046 mmgetlen =           4742   
+FILTER_SUBSET:Dudding duplicate points:         150                             
  
- Dudding duplicate points:         150                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -715,9 +689,7 @@ nlist =            192 sink nnodes =           4046 mmgetlen =           4742
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -726,8 +698,8 @@ Octree(PRD) refined elems: old=      1876 new=      1908
 nlist =              4 sink nnodes =           4122 mmgetlen =           5046   
 nlist =             24 sink nnodes =           4122 mmgetlen =           5046   
 nlist =             48 sink nnodes =           4122 mmgetlen =           5046   
+FILTER_SUBSET:Dudding duplicate points:          37                             
  
- Dudding duplicate points:          37                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -735,9 +707,7 @@ nlist =             48 sink nnodes =           4122 mmgetlen =           5046
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.163168794661E-10                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -760,8 +730,8 @@ cmo/DELATT/cmo_hex/xradavg
 finish                                                                          
 rmpoint compress                                                                
       1891 points removed and          0 elements removed.                      
-   The new point count is      2231.                                            
-   The new element count is      1908.                                          
+RMPOINT: new point count is         2231                                        
+RMPOINT: new element count is       1908                                        
 cmo status cmo_hex brief                                                        
  
 The current-mesh-object(CMO) is: cmo_hex                                        
@@ -882,8 +852,8 @@ Octree(PRD) refined elems: old=         4 new=        36
 nlist =              4 sink nnodes =             94 mmgetlen =           1018   
 nlist =             24 sink nnodes =             94 mmgetlen =           1018   
 nlist =             48 sink nnodes =             94 mmgetlen =           1018   
+FILTER_SUBSET:Dudding duplicate points:          19                             
  
- Dudding duplicate points:          19                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -891,9 +861,7 @@ nlist =             48 sink nnodes =             94 mmgetlen =           1018
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.104148151432E-11                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -914,8 +882,8 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
 finish                                                                          
 rmpoint compress                                                                
         19 points removed and          0 elements removed.                      
-   The new point count is        75.                                            
-   The new element count is        36.                                          
+RMPOINT: new point count is           75                                        
+RMPOINT: new element count is         36                                        
 eltset/elm2/itetclr/eq 2                                                        
  
  THE ELTSET elm2                             HAS          9 ELEMENTS            
@@ -943,8 +911,8 @@ Element iteration:          1        18
 Octree(PRD) refined elems: old=        36 new=       108                        
 nlist =             36 sink nnodes =            255 mmgetlen =           1075   
 nlist =            144 sink nnodes =            255 mmgetlen =           1075   
+FILTER_SUBSET:Dudding duplicate points:          88                             
  
- Dudding duplicate points:          88                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -952,9 +920,7 @@ nlist =            144 sink nnodes =            255 mmgetlen =           1075
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.104148151432E-11                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -1030,8 +996,8 @@ Element iteration:          1         6
 Octree(PRD) refined elems: old=         8 new=        32                        
 nlist =              6 sink nnodes =             45 mmgetlen =           1015   
 nlist =             24 sink nnodes =             45 mmgetlen =           1015   
+FILTER_SUBSET:Dudding duplicate points:           7                             
  
- Dudding duplicate points:           7                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -1039,9 +1005,7 @@ nlist =             24 sink nnodes =             45 mmgetlen =           1015
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.157009245868E-11                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
 finish                                                                          
@@ -1231,8 +1195,8 @@ Refine PRD:     1
 Element iteration:          1        11                                         
 Octree(PRD) refined elems: old=        32 new=        54                        
 nlist =             22 sink nnodes =             67 mmgetlen =           1045   
+FILTER_SUBSET:Dudding duplicate points:           7                             
  
- Dudding duplicate points:           7                                          
  ELMTESTD WARNING:                     0  faces are part of jtet loops          
  ELMTESTD WARNING:                     0  jtet loops linking faces with unequal 
                                                                         of nodes
@@ -1240,9 +1204,7 @@ nlist =             22 sink nnodes =             67 mmgetlen =           1045
  ELMTESTD WARNING: mesh has                     0  degenerate elements          
          and                     0  self-degenerate elements                    
 filter/1,0,0                                                                    
- 
 FILTER:Use internal epsilonl value =   0.157009245868E-11                       
- 
 FILTER:Dudding duplicate points:           0                                    
 geniee                                                                          
  geniee: mesh has                    11  jtet loops, max cycle length=          
