@@ -8,7 +8,7 @@
   <p align="center">
     Powerful Delaunay mesh generation and optimization toolkit.
     <br>
-    <a href="http://lagrit.lanl.gov"><strong>Visit LaGriT &raquo;</strong></a>
+    <a href="http://lagrit.lanl.gov"><strong>Visit LaGriT @ LANL &raquo;</strong></a>
   </p>
 </p>
 
@@ -47,8 +47,8 @@ Or `--help` to see other build configurations. The build script will check if Ex
 * [LaGriT Description and Manual](http://lagrit.lanl.gov)
 * [LaGriT commands](http://lagrit.lanl.gov/commands.shtml)
 * [PyLaGriT documentation](https://lanl.github.io/LaGriT/)
-* [Contributions for External Collaborators](CONTRIBUTING.md)
-* [License](LICENSE.md)
+* [Contribution Agreement for External Collaborators](CONTRIBUTING.md)
+* [Copyright License](LICENSE.md)
 
 ![Refine Samples](screenshots/refine_samples_TN1000.png)
 
