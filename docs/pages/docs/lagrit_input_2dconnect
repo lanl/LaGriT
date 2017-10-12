@@ -1,16 +1,32 @@
-*TEST connect (2d) (lagrit_input_2dconnect)
-cmo / create / cmotri / / / tri
-read / avs / input.inp / cmotri
-*
-cmo/setatt/cmotri/ndimensions_geom/1 0 0/2
-cmo/setatt/cmotri/imt/1 0 0/1
-setsize
-*
+Example LaGriT command file for 2D connect 
+
+
+'''
+# read the input points
+read / avs / input.inp / cmopts
+
+# create 2D mesh object and copy points
+cmo/create/cmotri/ / /triplane
+copypts/cmotri/ cmopts
+cmo/delete/cmopts
+
+# remove duplicate points if they exist
+cmo/select/cmotri
+filter/1,0,0
+rmpoint/compress
+
+# connect the points and set itp array
 connect
-*
-dump / gmv / output_2d_conn.gmv / cmotri
-*begin compare here
+resetpts/itp
+
+# write AVS format file of the tri plane
+dump / avs / output_2d_conn.inp / cmotri
+
+# report mesh information
 cmo/status
 cmo/printatt//-all-/minmax
 quality
+
 finish
+'''
+
