@@ -36,4 +36,4 @@
 [**LaGriT References**](docs/References.md)   
 
 
-[**Download lagrit.lanl.gov manual from Github**](https://git-hub.com/lanl/LaGriT)
+[**LaGriT on Github**](https://github.com/lanl/LaGriT)
