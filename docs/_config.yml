@@ -1,16 +1,17 @@
 exclude: [".rvmrc", ".rbenv-version", "ReadMe.md", "Rakefile", "changelog.md", "License.md"]
 highlighter: rouge
 
-title : LaGriT
-author :
-  name : Nathaniel Knapp
-  email : nknapp@lanl.gov
-  github : deknapp
+title : LaGriT - Los Alamos Grid Toolbox
+description: LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.
 
-theme: jekyll-theme-slate
+author :
+  name : Terry Miller, Carl Gable, Nathaniel Knapp, Daniel Livingston
+  email : tamiller@lanl.gov
+  github : lanl
+
+theme: jekyll-theme-minimal
 
 production_url : https://lanl.github.io/LaGriT
-
 base_url : https://lanl.github.io/LaGriT
 
 kramdown:
