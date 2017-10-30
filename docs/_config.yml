@@ -1,7 +1,7 @@
 exclude: [".rvmrc", ".rbenv-version", "ReadMe.md", "Rakefile", "changelog.md", "License.md"]
 highlighter: rouge
 
-title : LaGriT - Los Alamos Grid Toolbox
+title : LaGriT
 description: LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.
 
 author :
@@ -9,7 +9,7 @@ author :
   email : tamiller@lanl.gov
   github : lanl
 
-theme: jekyll-theme-minimal
+theme: jekyll-theme-slate
 
 production_url : https://lanl.github.io/LaGriT
 base_url : https://lanl.github.io/LaGriT
