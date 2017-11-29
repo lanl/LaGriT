@@ -411,10 +411,10 @@ class PyLaGriT(spawn):
             hexmesh.addatt('z_new')
             hexmesh.interpolate('continuous','z_new',elev_surface,'z_elev')
             hexmesh.copyatt('z_new','zic')
-            hexmesh.math('add',-height,'zic',stride=['pset','get',hex_bottom.name],attsrc='z_new')
+            hexmesh.math('add','zic',value=-height,stride=['pset','get',hex_bottom.name],attsrc='z_new')
             hexmesh.delatt('z_new')
         else:
-            hexmesh.math('add',height,'zic',stride=['pset','get',hex_bottom.name],attsrc='zic')
+            hexmesh.math('add','zic',value=height,stride=['pset','get',hex_bottom.name],attsrc='zic')
 
         self.mo[name] = MO(name,self)
         return self.mo[name]
