@@ -25,7 +25,7 @@
 
 # LaGriT release version - 3.203
 major_version=3
-minor_version=203
+minor_version=300
 
 echo "========================================================"
 echo "=================== Building LaGriT ===================="

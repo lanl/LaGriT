@@ -1,6 +1,6 @@
 ---
 title: QUALITY
-tags: ok
+tags: bad missing half the page
 ---
 
 **QUALITY**

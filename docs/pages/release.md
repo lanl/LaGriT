@@ -5,7 +5,7 @@ tags: ok
 
 Release Notes
 --------------
-[LaGriT V3.2 July 2017](release_notes/lagrit_release_notes_V3.200.md) Release Open Source LA-CC-15-069 
+[LaGriT V3.3 October 2017](release_notes/lagrit_release_notes_V3.200.md) Release Open Source LA-CC-15-069 
 
 [LaGriT V3.1 November 2012](release_notes/lagrit_release_notes_V3.100.md) Release Added ExodusII Libraries
 

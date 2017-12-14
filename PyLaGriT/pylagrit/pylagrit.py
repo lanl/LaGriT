@@ -411,10 +411,10 @@ class PyLaGriT(spawn):
             hexmesh.addatt('z_new')
             hexmesh.interpolate('continuous','z_new',elev_surface,'z_elev')
             hexmesh.copyatt('z_new','zic')
-            hexmesh.math('add',-height,'zic',stride=['pset','get',hex_bottom.name],attsrc='z_new')
+            hexmesh.math('add','zic',value=-height,stride=['pset','get',hex_bottom.name],attsrc='z_new')
             hexmesh.delatt('z_new')
         else:
-            hexmesh.math('add',height,'zic',stride=['pset','get',hex_bottom.name],attsrc='zic')
+            hexmesh.math('add','zic',value=height,stride=['pset','get',hex_bottom.name],attsrc='zic')
 
         self.mo[name] = MO(name,self)
         return self.mo[name]
@@ -2785,11 +2785,13 @@ class MO(object):
         self.sendline('/'.join(['stack/fill',name,self.name]))
         self._parent.mo[name] = MO(name, self._parent)
         return self._parent.mo[name]
-    def math(self,operation,value,attsink,stride=[1,0,0],cmosrc=None,attsrc=None):
+    def math(self,operation,attsink,value=None,stride=[1,0,0],cmosrc=None,attsrc=None):
         stride = [str(v) for v in stride]
         if cmosrc is None: cmosrc = self
         if attsrc is None: attsrc = attsink
-        cmd = ['math',operation,self.name,attsink,','.join(stride),cmosrc.name,attsrc,str(value)]
+        cmd = ['math',operation,self.name,attsink,','.join(stride),cmosrc.name,attsrc]
+        if value is not None:
+            cmd += [str(value)]
         self.sendline('/'.join(cmd))
     def settets(self,method=None):
         if method is None:
