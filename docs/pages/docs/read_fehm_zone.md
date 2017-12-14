@@ -1,6 +1,6 @@
- **read/zonezonn**
+ **read/ zone | zonn | zone_element**
 
-  Read in a list of node numbers in FEHM zone/zonn file format (See
+  Read in a list of node numbers in FEHM zone or zonn file format (See
   <http://FEHM.lanl.gov). It is assumed that a MO already exists and
   the node numbering of the MO is compatible with the zone/zonn file.
   The only error checking is that the maximum node number in the input
@@ -32,20 +32,25 @@
 
  **FORMAT:**
 
-  **read / zone  zonn / file\_name / [mo\_name  -def- ] /
-  [att\_name  -def-]**
+  **read** / **zone | zonn** / file_name / [mo_name  -def- ] / [att_name  -def-]
+  
+  **read** / **zone_element** / file_name / [mo_name  -def- ] / [att_name  -def-]
 
   EXAMPLE:
 
-  Read in a mesh and a zone file that identifies a subset of the nodes
-  in the mesh:
+  Read in a mesh and a zone file and create a point set of the nodes in the mesh: 
+```
+read / gmv / mesh.gmv / cmo
+read / zone / node_list.zone / cmo / id_nodes
+pset / p_nodes / attribute / id_nodes / 1 0 0 / 0 / ne
+```
 
-      
-      read / gmv / mesh.gmv / cmo
-
-      read / zone / node\_list.zone / cmo / id\_nodes
-
-      pset / p\_nodes / attribute / id\_nodes / 1 0 0 / 0 / ne
+  Read in a mesh and element based zone file and create element set.
+```
+read / gmv / mesh.gmv / cmo
+read / zone_element / tet_list.zone / cmo / id_tets
+eltset / e_sel / attribute / id_tets / 1 0 0 / 0 / ne
+```
 
   ZONE/ZONN FILE **FORMAT:**
 
@@ -59,16 +64,16 @@
   3.  An integer zone number identifier and an optional character
       string name &lt;new line&gt;
   4.  The keyword **nnum** &lt;new line&gt;
-  5.  An integer with the **number\_of\_node\_numbers** in the list to
+  5.  An integer with the **number_of_node_numbers** in the list to
       follow &lt;new line&gt;
-  6.  A free format list of **number\_of\_node\_numbers** integer node
+  6.  A free format list of **number_of_node_numbers** integer node
       identifiers.
   7.  Additional zone lists can be included by repeating again
       starting with step 3. an integer zone number identifier
   8.  zone list reading is terminated when a blank line is reached
       after step 6.
  
-  For example:
+  Example Zone File:
  
       # comment line
       another comment line as long as the first word is not zone
@@ -93,7 +98,7 @@
   command will output files in the FEHM zone file format.
   
 
-  AN EXAMPLE USING ZONE FILES:
+  EXAMPLE COMMANDS USING ZONE FILES:
 
      *
      * LaGriT control file to test read / zonezonn
