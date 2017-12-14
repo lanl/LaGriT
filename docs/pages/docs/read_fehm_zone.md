@@ -1,4 +1,6 @@
- **read/ zone | zonn | zone_element**
+ **read/ zone**
+ **read/ zonn**
+ **read/ zone_element**
 
   Read in a list of node numbers in FEHM zone or zonn file format (See
   <http://FEHM.lanl.gov). It is assumed that a MO already exists and
@@ -8,33 +10,28 @@
   MO.
 
   
-
-  The second token zonezonn does not have any effect other than
+  The second token zone or zonn does not have any effect other than
   specify that the input file is of the zone/zonn format. The
   zone/zonn option is controled by the value of the zone/zonn keyword
   that is read from inside the input file. If the keyword 'zone' is
   found in the file file\_name, the attribute att\_name is first
   initialized to zero. If the keyword 'zonn' is found, the attribute
-  att\_name is not initialized.
+  att_name is not initialized.
 
+
+  If att_name is given as -def-, then the imt array is filled.
+
+  If att_name exits and is type VINT, it is used. If it does not exist, a VINT array is created.
+
+  file_name can be up to 32 characters.
   
-
-  If att\_name is given as -def-, then the imt array is filled.
-
-  
-
-  If att\_name exits and is type VINT, it is used. If it does not
-  exist, a VINT array is created.
-
-  
-
-  file\_name can be up to 32 characters.
+  *Note also that the [PSET](http://lagrit.lanl.gov/docs/PSET.md) command can output files in the FEHM zone file format.*
 
  **FORMAT:**
 
-  **read** / **zone | zonn** / file_name / [mo_name  -def- ] / [att_name  -def-]
+  **read** / **zone** or **zonn** / file_name / [mo_name or -def- ] / [att_name or -def-]
   
-  **read** / **zone_element** / file_name / [mo_name  -def- ] / [att_name  -def-]
+  **read** / **zone_element** / file_name / [mo_name or -def- ] / [att_name or -def-]
 
   EXAMPLE:
 
@@ -52,7 +49,7 @@ read / zone_element / tet_list.zone / cmo / id_tets
 eltset / e_sel / attribute / id_tets / 1 0 0 / 0 / ne
 ```
 
-  ZONE/ZONN FILE **FORMAT:**
+  **FORMAT FOR ZONE or ZONN FILE**
 
   The format of a zone file is specified in the FEHM Users Manual
   (<http://FEHM.lanl.gov). The general format is:
@@ -90,12 +87,7 @@ eltset / e_sel / attribute / id_tets / 1 0 0 / 0 / ne
       10
       1  2  3  4  5
       6  7  8  9  10
-      <blank line
- 
-  
-
-  Note also that the [PSET](http://lagrit.lanl.gov/docs/PSET.md)
-  command will output files in the FEHM zone file format.
+      <blank line>
   
 
   EXAMPLE COMMANDS USING ZONE FILES:
