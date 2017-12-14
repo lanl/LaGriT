@@ -30,11 +30,11 @@ tags: ok
 
   **[read/ datex](../read_datex.md)**
 
-  **[read sheetij](../read_sheetij.md)**
+  **[read/ sheetij](../read_sheetij.md)**
 
   **[read/ gmvfreeformat](../read_freeformat.md)**
 
-  **[read/ zone | zonn](../read_fehm_zone.md)**
+  **[read/ zone|zonn](../read_fehm_zone.md)**
  
   Note: To read tabular data (spreadsheet style x,y,z nodes or
   attributes) see: [cmo/readatt/...](cmo/cmo_readatt.md)
