@@ -1,0 +1,224 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.301   Linux (64-bit) *                 
+*               *    date_compile: 2017/07/19 linked          *                 
+*               *    Run Time: 2017/Dec 14  10:07:04          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
+under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
+Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
+for the U.S. Department of Energy. The U.S. Government has rights to use,       
+reproduce, and distribute this software. Neither the  government nor Los Alamos 
+National Security, LLC makes any warranty, express or  implied, or assumes any  
+liability for the use of this software. If software is modified to produce      
+derivative works, such modified software should be  clearly marked, so as not   
+to confuse it with the version available from LANL.                             
+                               -----oOo-----                                    
+ 
+ 
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
+ 
+# test pset for zone and zonn files                                             
+# option -all- will write one file for all psets                                
+# for single file, cat into single file                                         
+# write zonn or zone only once at top                                           
+# do not write stop until end of file                                           
+define X0 0.                                                                    
+define X1 100.                                                                  
+define Y0 0.                                                                    
+define Y1 100.                                                                  
+define Z0 1.                                                                    
+define Z1 100.                                                                  
+define/NX/11                                                                    
+define/NY/2                                                                     
+define/NZ/11                                                                    
+cmo/create/cmohex///hex                                                         
+createpts/brick/xyz/NX NY NZ/X0 Y0 Z0/X1 Y1 Z1/1,1,1/1,1,0/1. 1. 1.             
+          Number of nodes:         242                                          
+          Number of elements:         100                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.990000000000E+06                                  
+resetpts itp                                                                    
+geniee                                                                          
+finish                                                                          
+cmo/copyatt/cmohex cmohex/imt zic                                               
+Warning: Attribute type VDOUBLE written to VINT                                 
+       242 copied from cmohex zic to -> cmohex imt1                             
+ 
+cmo/printatt/cmohex/imt minmax                                                  
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1              100              99       242  
+ 
+pset/p1/attribute imt/1,0,0/lt 10.                                              
+ 
+ THE PSET  p1  HAS         22 POINTS                                            
+pset/p2/attribute imt/1,0,0/gt 90.                                              
+ 
+ THE PSET  p2  HAS         22 POINTS                                            
+pset/p3/attribute imt/1,0,0/eq 50.                                              
+ 
+ THE PSET  p3  HAS         22 POINTS                                            
+cmo setatt cmohex idebug 10                                                     
+         1 values reset for attribute idebug                                    
+ 
+# LIST the sets                                                                 
+pset/-all- list                                                                 
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+pset/list                                                                       
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+pset//list                                                                      
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+#######################################                                         
+# Write all vertex, zonn and zone, ascii and binary                             
+# vertex ascii                                                                  
+pset/-all-/write/out_pset_asc                                                   
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT p1    1 PSETS TO FILE                                              
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT p2    1 PSETS TO FILE                                              
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT p3    1 PSETS TO FILE                                              
+pset/-all-/write/out_pset_bin/binary                                            
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT p1    1 PSETS TO FILE                                              
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT p2    1 PSETS TO FILE                                              
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT p3    1 PSETS TO FILE                                              
+pset/-all-/zone/out_pset_asc                                                    
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+PSET: Appended .zone to the file name                                           
+PSET: OUTPUT p1    1 PSETS TO FILE                                              
+PSET: Appended .zone to the file name                                           
+PSET: OUTPUT p2    1 PSETS TO FILE                                              
+PSET: Appended .zone to the file name                                           
+PSET: OUTPUT p3    1 PSETS TO FILE                                              
+pset/-all-/zone/out_pset_bin/binary                                             
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+PSET: Appended .zone to the file name                                           
+PSET: OUTPUT p1    1 PSETS TO FILE                                              
+PSET: Appended .zone to the file name                                           
+PSET: OUTPUT p2    1 PSETS TO FILE                                              
+PSET: Appended .zone to the file name                                           
+PSET: OUTPUT p3    1 PSETS TO FILE                                              
+pset/-all-/zonn/out_pset_bin/binary                                             
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+PSET: Appended .zonn to the file name                                           
+PSET: OUTPUT p1    1 PSETS TO FILE                                              
+PSET: Appended .zonn to the file name                                           
+PSET: OUTPUT p2    1 PSETS TO FILE                                              
+PSET: Appended .zonn to the file name                                           
+PSET: OUTPUT p3    1 PSETS TO FILE                                              
+pset/-all-/zonn/out_pset_asc                                                    
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+PSET: Appended .zonn to the file name                                           
+PSET: OUTPUT p1    1 PSETS TO FILE                                              
+PSET: Appended .zonn to the file name                                           
+PSET: OUTPUT p2    1 PSETS TO FILE                                              
+PSET: Appended .zonn to the file name                                           
+PSET: OUTPUT p3    1 PSETS TO FILE                                              
+#######################################                                         
+# Write single vertex zonn and zone                                             
+pset/p1/zone/out_sngl_p1/ascii/10                                               
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+PSET: Appended .zone to the file name                                           
+PSET: OUTPUT p1    1 PSETS TO FILE                                              
+pset/p2/zonn/out_sngl_p2/ascii/20                                               
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+PSET: Appended .zonn to the file name                                           
+PSET: OUTPUT p2    1 PSETS TO FILE                                              
+pset/p3/write/out_sngl_p3/ascii/30                                              
+PSET: THERE ARE  3 PSETS DEFINED                                                
+  p1                p2                p3                                        
+PSET: Appended .vertexset to the file name                                      
+PSET: OUTPUT p3    1 PSETS TO FILE                                              
+#######################################                                         
+# Read single vertex zonn and zone                                              
+read/zone/out_sngl_p1.zone/cmohex/iset10                                        
+ 
+Reading zone file: out_sngl_p1.zone into iset10 for nodes                       
+ 
+cmo/addatt/cmohex/iset10/vint/scalar/nnodes/linear/permanent/agl/0/             
+finish                                                                          
+ 
+ zone/zonn   id_zone       name            #nodes  index__min   index_max       
+---------------------------------------------------------------------------     
+    zone          10    p1                     22           1          22       
+---------------------------------------------------------------------------     
+ 
+cmo printatt cmohex iset10 minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ iset10                           0               10              10       242  
+ 
+read/zonn/out_sngl_p2.zonn/cmohex/iset20                                        
+ 
+Reading zone file: out_sngl_p2.zonn into iset20 for nodes                       
+ 
+cmo/addatt/cmohex/iset20/vint/scalar/nnodes/linear/permanent/agl/0/             
+finish                                                                          
+ 
+ zone/zonn   id_zone       name            #nodes  index__min   index_max       
+---------------------------------------------------------------------------     
+    zonn          20    p2                     22         221         242       
+---------------------------------------------------------------------------     
+ 
+cmo printatt cmohex iset20 minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ iset20                           0               20              20       242  
+ 
+#######################################                                         
+# Write ELEMENTS                                                                
+eltset/e1/inclusive pset,get,p1                                                 
+ 
+ THE ELTSET e1                               HAS         10 ELEMENTS            
+         1        2        3        4        5        6        7        8       
+         9       10                                                             
+eltset/e1/write/out_eltset_asc/ascii                                            
+ 
+ THERE ARE  1 ELTSETS DEFINED                                                   
+  e1                                                                            
+ELTSET: Appended .cellset to the file name                                      
+ELTSET: OUTPUT e1    1 ELTSETS TO FILE                                          
+# Read ELEMENTS                                                                 
+# test read_element for zone file                                               
+# there is no option to write element zone                                      
+# use one created outside of lagrit                                             
+read zone_element input_element.zone cmohex ezone                               
+ 
+Reading zone file: input_element.zone into ezone for elements                   
+ 
+cmo/addatt/cmohex/ezone/vint/scalar/nelements/linear/permanent/agl/0/           
+finish                                                                          
+ 
+ zone/zonn   id_zone       name            #elements  index__min   index_max    
+---------------------------------------------------------------------------     
+    zone           1    e1                     10           1          10       
+---------------------------------------------------------------------------     
+ 
+cmo printatt cmohex ezone minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ ezone                            0                1               1       100  
+ 
+finish                                                                          
+LaGriT successfully completed                                                   

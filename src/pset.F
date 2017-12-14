@@ -22,12 +22,14 @@ C                            /RTP/
 C                        surface name can be -all-, -interface-,
 C                          -boundary- or any previously defined surface
 C
-C             pset/[name|-all-]/write/file_name[.pset]/[ascii|binary]
-C             pset/[name|-all-]/zone /file_name[.zone]/[ascii]
-C             pset/[name|-all-]/zonn /file_name[.zonn]/[ascii]
+C            pset/[name|-all-]/write/file_name[.pset]/[ascii|binary]
+C            pset/[name|-all-]/zone /file_name[.zone]/[ascii|binary]
+C            pset/[name|-all-]/zonn /file_name[.zonn]/[ascii|binary]
+C            -all- will write one file for each pset in the cmo
 C
-C            use assign/// idebug=1 to print element sets
-C
+c            TO DO option to write one file for all psets                                
+c              write zonn or zone only once at top                                           
+c              do not write stop until end of file                                           
 C
 C     INPUT ARGUMENTS -
 C
@@ -547,29 +549,46 @@ C
       xxsmall=asmallnumber
       xsmall=alargenumber
 C
+C     get pset name or special optional 2nd argument
+C     -all- or list
       name=cmsgin(2)
       lenname=icharlnf(name)
       if(name(1:5) .eq. '-def-')name(1:5) = '-all-'
+      if(name(1:4) .eq. 'list' .and. nwds.eq.2 ) then
+          mode = 'list'
+          lenmode = 4
+          name = '-all-'
+      endif
 
-      mode=cmsgin(3)
-      lenmode=icharlnf(mode)
-      if ((name(1:lenname).eq.'0' .or. name(1:lenname).eq. ' ') .and.
+Ctam fix binary and list output
+C     by parsing message at top of code instead of further down
+C     set mode to write if option is write or zone or zonn
+C     iotype 1 = ascii, 0 = binary 
+C     ioformat 1 = vertexset, 2 = zone, 3 = zonn
+
+      if (nwds .gt. 2) then
+        mode=cmsgin(3)
+        lenmode=icharlnf(mode)
+        if ((name(1:lenname).eq.'0' .or. name(1:lenname).eq. ' ') .and.
      &    (mode(1:lenmode).eq.'0' .or. mode(1:lenmode).eq. ' ')) then
-         mode='list'
-      endif
-      if (mode(1:lenmode).eq. 'write') then
-         mode='write'
-         ioformat = 1   ! PYLITH pset file format
-      endif
-      if (mode(1:lenmode).eq. 'zone') then
-         mode='write'
-         lenmode = 5
-         ioformat = 2   ! FEHM zone file format
-      endif
-      if (mode(1:lenmode).eq. 'zonn') then
-         mode='write'
-         lenmode = 5
-         ioformat = 3   ! FEHM zonn file format
+          mode='list'
+          lenmode = 4
+          name = '-all-'
+        endif
+        if (mode(1:lenmode).eq. 'write') then
+           mode='write'
+           ioformat = 1   ! PYLITH pset file format
+        endif
+        if (mode(1:lenmode).eq. 'zone') then
+           mode='write'
+           ioformat = 2   ! FEHM zone file format
+           lenmode = 5
+        endif
+        if (mode(1:lenmode).eq. 'zonn') then
+           mode='write'
+           ioformat = 3   ! FEHM zonn file format
+           lenmode = 5
+        endif
       endif
 C
 C     ******************************************************************
@@ -588,16 +607,18 @@ C     ******************************************************************
 C
 C     PROCESS THE 'LIST' and ''WRITE'  MODE
 C
+C     name has been found
   12  if ((mode(1:lenmode) .eq. 'list') .or.
      $    (mode(1:lenmode) .eq. 'write')) then
 
-      if(mode(1:lenmode) .eq. 'write') then
-      if ((msgtype(2).eq.3.and.cmsgin(2)(1:5).eq.'-def-') .or.
+        if(mode(1:lenmode) .eq. 'write') then
+          if ((msgtype(2).eq.3.and.cmsgin(2)(1:5).eq.'-def-') .or.
      *    (msgtype(2).eq.3.and.cmsgin(2)(1:5).eq.'-all-') .or.
      *    (msgtype(2).eq.3.and.cmsgin(2).eq.' ')) then
            name = '-all-'
+        endif
       endif
-      endif
+
 C
 C        ---------------------------------------------------------------
 C        IF NO NAME ENTERED, DISPLAY LIST OF PSET NAMES
@@ -605,7 +626,8 @@ C
          if ((msgtype(2).eq.1.and.imsgin(2).eq.0) .or.
      *       (msgtype(2).eq.3.and.cmsgin(2)(1:5).eq.'-def-') .or.
      *       (msgtype(2).eq.3.and.cmsgin(2).eq.' ') .or.
-     *       (mode(1:lenmode) .eq. 'write')) then
+     *       (mode(1:lenmode).eq.'write') 
+     *        .or. (mode(1:lenmode).eq.'list') ) then 
             ierror=0
             icnt=0
             do 1 i=1,nbitsmax
@@ -2085,6 +2107,9 @@ C
       endif
 C     ******************************************************************
 C     Write pset info to a file.
+C     mode = write
+C     iotype 1 = ascii, 0 = binary 
+C     ioformat 1 = vertexset, 2 = zone, 3 = zonn
 C
       elseif(mode(1:lenmode) .eq. 'write') then
 C
@@ -2116,8 +2141,10 @@ C
           iprint = 0
        endif
 
+ctam
       if(iprint .eq. 1)then
 
+c     get filename based on pset name
       file_name = cmsgin(4)
       if (name(1:5) .eq. '-all-') then
           file_name = file_name(1:icharlnf(file_name)) // '_' //
@@ -2149,14 +2176,10 @@ C
       endif
       endif
 C
-C     Open file for pset output.
+C     Open file for for this pset output.
 C
       iunit = nextlun()
 
-      write(logmess,7007)name(1:icharlnf(name)),icnt
- 7007 format('PSET: OUTPUT ',a,'  ',i3,' PSETS TO FILE ')
-      call writloga('default',0,logmess,0,ierr)
-      print *, 5, msgtype(5), cmsgin(5)
       if ((msgtype(5).eq.3.and.cmsgin(5)(1:5).eq.'ascii') .or.
      *    (msgtype(5).eq.3.and.cmsgin(5)(1:5).eq.'-def-') .or.
      *    (nwds .eq. 4)                                   .or.
@@ -2167,7 +2190,8 @@ C
          open(unit=iunit, file = file_name, form = 'unformatted')
          iotype = 0
       endif
-      
+
+C     Write header for the pset file type
       if(iotype .eq. 1)then
       if(ioformat .eq. 1)then
       write(iunit,7005) 'pset ascii',icnt
@@ -2188,6 +2212,14 @@ C
       call pntlimc(cpt1,cpt2,cpt3,ipmpary1,mpno,
      *             npoints,isetwd,itp1)
  
+C     Write pset name and number and list of nodes
+
+      write(logmess,7007)
+     *  psetnames(index)(1:icharlnf(psetnames(index))),icnt
+ 7007 format('PSET: OUTPUT ',a,'  ',i3,' PSETS TO FILE ')
+      call writloga('default',0,logmess,0,ierr)
+
+C     ASCII pset names and numbers
       if(iotype .eq. 1)then
          if(ioformat .eq. 1)then
             write(iunit,7010) 
@@ -2214,18 +2246,26 @@ C
      *     (mpary1(k),k=i,min0(i-1+n_entry_per_line,mpno))
  7011      format(10(i10,1x))
         enddo
+
+C     BINARY pset names and numbers
       elseif(iotype .eq. 0)then
          write(iunit) psetnames(index)(1:32),index,mpno
          write(iunit) ( mpary1(k),k=1,mpno )
       endif
  
       if((ioformat .eq. 2).or.(ioformat .eq. 3))then
+       if(iotype .eq. 1)then 
          write(iunit,*)' '
          write(iunit,7013)'stop'
+       endif
+       if(iotype .eq. 0)then 
+         write(iunit)'stop'
+       endif
       endif
-      close(iunit)
 
+      close(iunit)
       endif
+
       enddo
       endif
 

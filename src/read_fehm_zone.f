@@ -245,9 +245,7 @@ C     Create the attribute (if not default) and read values into the attribute
 C
 C     ******************************************************************
 C
-
-      if (coption(1:9).ne.'zone_elem') then
-
+c       default usage use nnodes attribute and length
         call cmo_get_info('nnodes',cmoname,nnodes,ilen,itp,ierr)
         if (ierr.ne.0 .or. nnodes.le.0) then
           write(logmess,"(a,a)")
@@ -263,8 +261,8 @@ C
         nlength = nnodes
         catt_len = 'nnodes'
 
-      else
-
+c     for elements use nelements attribute and length
+      if (coption(1:12).eq.'zone_element') then
         call cmo_get_info('nelements',cmoname,nelements,ilen,itp,ierr)
         if (ierr.ne.0 .or. nelements.le.0) then
           write(logmess,"(a,a)")
@@ -279,7 +277,6 @@ C
         endif
         nlength = nelements
         catt_len = 'nelements'
-
       endif
 
        write(logmess,"(a)")
@@ -327,7 +324,7 @@ c     get attribute information and do some error checking
       if (ierror .ne. 0) then
 
 c       check, but allow overwrite of unequal attributes
-        if (coption(1:9).eq.'zone_elem' ) then 
+        if (coption(1:12).eq.'zone_element' ) then 
 
           if (clen(1:9).ne.'nelements') then
             write(logmess,"(a,a,1x,a)")
@@ -373,14 +370,15 @@ c
 c     On error, no more return statement. Only go to so that clean up
 c     and memory release occurs.
 c
-      call mmgetblk('iwork',isubname,ipiwork,nnodes,1,ierr)
+c      call mmgetblk('iwork',isubname,ipiwork,nnodes,1,ierr)
+       call mmgetblk('iwork',isubname,ipiwork,nlength,1,ierr)
 c
 C
 C     ******************************************************************
 
 C     Some screen output.
 C
-      if (coption(1:9).eq.'zone_elem') then
+      if (coption(1:12).eq.'zone_element') then
          write(logmess,"(a)")
      1    ' zone/zonn   id_zone       name      '//
      2    '      #elements  index__min   index_max'
@@ -466,6 +464,7 @@ c
                  go to 9999
               endif
               if(nnum .gt. 0)then
+
                  read(iunit,*,end=9998, err=9999) (iwork(i), i=1,nnum)
                  iwork_min =  1.e9
                  iwork_max = -1.e9
