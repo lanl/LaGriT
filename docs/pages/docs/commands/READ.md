@@ -34,7 +34,7 @@ tags: ok
 
   **[read/ gmvfreeformat](../read_freeformat.md)**
 
-  **[read/ zone|zonn](../read_fehm_zone.md)**
+  **[read/ zone or zonn or zone_element](../read_fehm_zone.md)**
  
   Note: To read tabular data (spreadsheet style x,y,z nodes or
   attributes) see: [cmo/readatt/...](cmo/cmo_readatt.md)
