@@ -10,18 +10,20 @@ information. 
 
 **read** **/avs**/filename/[cmo-name]/[node\_flags/element\_flag/attribute\_flag]
 
-[Note that the filename is case-sensitive, though the extension itself is not.]
+*Note that the filename is case-sensitive, though the extension itself is not.*
 
 
 
 
 **OPTIONS:**
  
-Argument | Default | Description
------------------ |  ------------- | -----------------------
-node_flag  |  (default=1) |  0 skip node data /  1 read node data
-element_flag |    (default=1) |  0 skip element data / 1 read element data
-attribute_flag |  (default=1) |  0 skip attribute data / 1 read attribute data
+ 
+| Argument | Default | Description |
+| ----------------- |  ------------- | ----------------------- |
+| node_flag  |  (default=1) |  0 skip node data /  1 read node data |
+| element_flag |    (default=1) |  0 skip element data / 1 read element data |
+| attribute_flag |  (default=1) |  0 skip attribute data / 1 read attribute data |
+
 
 **EXAMPLES:**
 
