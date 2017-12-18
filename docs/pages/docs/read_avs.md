@@ -4,7 +4,7 @@ read an AVS format file into a mesh object. This command requires either cmo-na
 the command or for a mesh object to have been created previously. This file format contains no geometry
 information. 
 
-**SYNTAX**
+**FORMAT:**
 
 **read**/ filename.[inp or .avs] / cmo_name
 
@@ -15,7 +15,7 @@ information. 
 
 
 
-**OPTIONS**
+**OPTIONS:**
  
 Argument | Default | Description
 ----------------- |  ------------- | -----------------------
