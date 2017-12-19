@@ -44,12 +44,13 @@ AVS (avs.com) is a data visualization tool with ASCII mesh file formats used by 
 
 
 <pre>
-A UCD data structure consists of an irregular coordinate structure (or “model) made up of cells of various types.
+A UCD data structure consists of an irregular coordinate structure made up of cells of various types.
 Each cell has a corresponding number of nodes and connectivity. 
-Mesh Data can be associated with the entire structure, with each cell, or with each node. 
+Data can be associated with each node, cell, or the entire "model".  
 The data is structured as a set of components. Each component can be either a scalar or a vector.
-The input file cannot contain blank lines or lines with leading blanks. Comments, if present, must precede all data in the file. 
-The general order of the data is as follows
+The input file cannot contain blank lines or lines with leading blanks. 
+Comments, if present, must precede all data in the file. 
+The general order of the data is as follows.
  
 1. Numbers defining the overall structure, including the number of nodes, the number of cells, and the length of the vector of data associated with the nodes, cells, and the model.
  
@@ -77,47 +78,33 @@ Point pt
 
 This is the format of the AVS ASCII UCD file:
 
-# <comment n> 
-1. <num_nodes> <num_cells> <num_ndata> <num_cdata> <num_mdata> 
-2. <node_id 1> <x> <y> <z> 
-<node_id 2> <x> <y> <z>
-. 
-. 
-. 
-<node_id num_nodes> <x> <y> <z> 
-3. <cell_id 1> <mat_id> <cell_type> <cell_vert 1> ... <cell_vert n> 
-<cell_id 2> <mat_id> <cell_type> <cell_vert 1> ... <cell_vert n> 
-. 
-. 
-. 
-<cell_id num_cells> <mat_id> <cell_type> <cell_vert 1> ...<cell_vert n> 
-4. <num_comp for node data> <size comp 1> <size comp 2>...<size comp n> 
-5. <node_comp_label 1> , <units_label 1> 
-<node_comp_label 2> , <units_label 2> 
-. 
-. 
-. 
-<node_comp_label num_comp> , <units_label num_comp>
+# comment  
+num_nodes num_cells num_ndata num_cdata num_mdata 
+node_id 1 x y z 
+node_id 2 x y z
+. . .
+node_id num_nodes x y z 
+cell_id 1 mat_id cell_type cell_vert 1 ... cell_vert n
+cell_id 2 mat_id cell_type cell_vert 1 ... cell_vert n 
+. . .
 
-6. <node_id 1> <node_data 1> ... <node_data num_ndata> 
-<node_id 2> <node_data 1> ... <node_data num_ndata> 
-. 
-. 
-. 
-<node_id num_nodes> <node_data 1> ... <node_data num_ndata> 
-7. <num_comp for cell's data> <size comp 1> <size comp 2>...<size comp n> 
-<cellcomponentlabel 1> , <unitslabel 1> 
-<cellcomponentlabel 2> , <unitslabel 2> 
-. 
-. 
-. 
-<cellcomponentlabel n> , <unitslabel n> 
-8. <cellid 1> <celldata 1> ... <celldata num_cdata> 
-<cellid 2> <celldata 1> ... <celldata num_cdata> 
-. 
-. 
-. 
-<cellid num_cells> <celldata 1> <celldata num_cdata>
+num_comp for node data   size comp 1   size comp 2...s  ize comp n 
+node_comp_label 1, units_label 1
+node_comp_label 2, units_label 2 
+. . .
+
+node_id 1 node_data 1 ... node_data num_ndata 
+node_id 2 node_data 1 ... node_data num_ndata
+. . .
+
+num_comp for cell's data    size comp 1   size comp 2...size comp n 
+cellcomponentlabel 1, unitslabel 1 
+cellcomponentlabel 2, unitslabel 2 
+. . .  
+
+cellid 1 celldata 1 ... celldata num_cdata 
+cellid 2 celldata 1 ... celldata num_cdata 
+. . .
 
 </pre>
 
