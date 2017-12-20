@@ -42,8 +42,6 @@ read/ avs / file2.avs / /1/1/0
 
 AVS (avs.com) is a data visualization tool with ASCII mesh file formats used by LaGriT as they are easy to read and easy to convert from and to other mesh file formats. The Unstructured Cell Data (UCD) format is described here.
 
-
-<pre>
 A UCD data structure consists of an irregular coordinate structure made up of cells of various types.
 Each cell has a corresponding number of nodes and connectivity. 
 Data can be associated with each node, cell, or the entire "model".  
@@ -67,16 +65,17 @@ Tetrahedron tet
 Pyramid pyr
 Point pt
 
-4. Node based data descriptions, if present, the data vector associated with nodes, how many components that vector is divided into (e.g., a vector of 5 floating point numbers may be treated as 3 components: a scalar, a vector of 3, and another scalar, which would be specified as 3 1 3 1).
+4. Optional Node based data descriptions: data vector for nodes and number components that vector is divided into.
  
-5. For each node data component in a separate line, a component label/unit label pair, separated by a comma.
+5. For each node data a label on seperate lines; label/unit label pair, separated by a comma.
 
-6. For each node in a separate line, the vector of data values associated with it. This is the end of node definitions.
+6. For each node in a separate line, the vector of data values associated with it.
 
 7. Cell based data descriptions, if present, then follow in the same order and format as items 4, 5, and 6.
 
 
 This is the format of the AVS ASCII UCD file:
+<pre>
 
 # comment  
 num_nodes  num_cells  num_node_data  num_cell_data  num_model_data 
