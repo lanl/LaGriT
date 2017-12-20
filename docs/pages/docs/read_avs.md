@@ -56,8 +56,8 @@ The general order of the data is as follows.
  
 2. For each node, its node id and the coordinates of that node in space. Node ids must be integers, but any number including non sequential numbers can be used. Mid edge nodes are treated like any other node.
  
-3. For each cell: its cell id, material, cell type (hexahedral, pyramid, etc.), and the list of node ids that correspond to each of the cell's vertices. The below table specifies the different cell types and the keyword used to represent them in the file.
- 
+3. For each cell: its cell id, material, cell type, and the list of nodes for the cell connectivity. 
+These are the cell types and the associated keywords.
 Line line
 Triangle tri
 Quadrilateral quad
@@ -73,39 +73,39 @@ Point pt
 
 6. For each node in a separate line, the vector of data values associated with it. This is the end of node definitions.
 
-7.Cell based data descriptions, if present, then follow in the same order and format as items 4, 5, and 6.
+7. Cell based data descriptions, if present, then follow in the same order and format as items 4, 5, and 6.
 
 
 This is the format of the AVS ASCII UCD file:
 
 # comment  
-num_nodes num_cells num_ndata num_cdata num_mdata 
-node_id 1 x y z 
-node_id 2 x y z
+num_nodes  num_cells  num_node_data  num_cell_data  num_model_data 
+node_id_1 x y z 
+node_id_n x y z
 . . .
-node_id num_nodes x y z 
-cell_id 1 mat_id cell_type cell_vert 1 ... cell_vert n
-cell_id 2 mat_id cell_type cell_vert 1 ... cell_vert n 
+. . . 
+cell_id_1 mat_id  cell_type  cell_vert 1 ... cell_vert n
+cell_id_n mat_id  cell_type  cell_vert 1 ... cell_vert n 
 . . .
-
-num_comp for node data   size comp 1   size comp 2...s  ize comp n 
-node_comp_label 1, units_label 1
-node_comp_label 2, units_label 2 
 . . .
-
-node_id 1 node_data 1 ... node_data num_ndata 
-node_id 2 node_data 1 ... node_data num_ndata
+num_node_data  node_data_1_size node_data_n_size
+node_data_1_label, units_data_1
+node_data_n_label, units_data_n 
 . . .
-
-num_comp for cell's data    size comp 1   size comp 2...size comp n 
-cellcomponentlabel 1, unitslabel 1 
-cellcomponentlabel 2, unitslabel 2 
-. . .  
-
-cellid 1 celldata 1 ... celldata num_cdata 
-cellid 2 celldata 1 ... celldata num_cdata 
 . . .
-
+node_id_1  node_data_1 ...  node_data_n
+node_id_n  node_data_1 ...  node_data_n
+. . .
+. . .
+num_cell_data  cell_data_1_size cell_data_n_size
+cell_data_1_label, units_data_1
+cell_data_n_label, units_data_n 
+. . .
+. . .
+cell_id_1  cell_data_1 ...  cell_data_n
+cell_id_n  cell_data_1 ...  cell_data_n
+. . .
+. . .
 </pre>
 
 This is an Example ASCII UCD File for a single hexahedral cell with 8 nodes. Associated with each node is a data value, there are no cell data. The first line indicates 8 nodes, 1 cell, 1 scaler attribute for the nodes, no attributes for cell or model.
@@ -121,15 +121,16 @@ This is an Example ASCII UCD File for a single hexahedral cell with 8 nodes. Ass
 7 1.000 1.000 0.000 
 8 0.000 1.000 0.000 
 1 1 hex 1 2 3 4 5 6 7 8 
-1 1 
+002 1 1
+elev, real
 stress, lb/in**2 
-1   4999.9999  
-2  18749.9999 
-3  37500.0000 
-4  56250.0000 
-5  74999.9999 
-6  93750.0001 
-7 107500.0003 
-8   5000.0001 
+1  1.00   4999.9999  
+2  1.00   18749.9999 
+3  1.00   37500.0000 
+4  1.00   56250.0000 
+5  0.00   74999.9999 
+6  0.00   93750.0001 
+7  0.00   107500.0003 
+8  0.00   5000.0001 
 
 </pre>
