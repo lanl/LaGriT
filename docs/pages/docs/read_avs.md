@@ -80,31 +80,25 @@ This is the format of the AVS ASCII UCD file:
 # comment  
 num_nodes  num_cells  num_node_data  num_cell_data  num_model_data 
 node_id_1 x y z 
+. . .
 node_id_n x y z
+cell_id_1 mat_id  cell_type  cell_vert 1 ... cell_vert n 
 . . .
-. . . 
-cell_id_1 mat_id  cell_type  cell_vert 1 ... cell_vert n
-cell_id_n mat_id  cell_type  cell_vert 1 ... cell_vert n 
-. . .
-. . .
+cell_id_n mat_id  cell_type  cell_vert 1 ... cell_vert n
 num_node_data  node_data_1_size node_data_n_size
-node_data_1_label, units_data_1
-node_data_n_label, units_data_n 
+node_data_1_label, units_data_1 
 . . .
-. . .
+node_data_n_label, units_data_n
 node_id_1  node_data_1 ...  node_data_n
+. . .
 node_id_n  node_data_1 ...  node_data_n
-. . .
-. . .
 num_cell_data  cell_data_1_size cell_data_n_size
-cell_data_1_label, units_data_1
-cell_data_n_label, units_data_n 
+cell_data_1_label, units_data_1 
 . . .
-. . .
+cell_data_n_label, units_data_n
 cell_id_1  cell_data_1 ...  cell_data_n
+. . .
 cell_id_n  cell_data_1 ...  cell_data_n
-. . .
-. . .
 </pre>
 
 This is an Example ASCII UCD File for a single hexahedral cell with 8 nodes. Associated with each node is a data value, there are no cell data. The first line indicates 8 nodes, 1 cell, 1 scaler attribute for the nodes, no attributes for cell or model.
