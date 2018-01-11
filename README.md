@@ -44,9 +44,10 @@ Or `--help` to see other build configurations. The build script will check if Ex
 ### Supporting Documentation ###
 ---
 * [Installation](documentation/INSTALL.md)
+* [`man` pages](https://lanl.github.io/LaGriT/)
 * [LaGriT Description and Manual](http://lagrit.lanl.gov)
 * [LaGriT commands](http://lagrit.lanl.gov/commands.shtml)
-* [PyLaGriT documentation](https://lanl.github.io/LaGriT/)
+* [PyLaGriT documentation](https://lanl.github.io/LaGriT/pylagrit/original/index.html)
 * [Contribution Agreement for External Collaborators](CONTRIBUTING.md)
 * [Copyright License](LICENSE.md)
 
