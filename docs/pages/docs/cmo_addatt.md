@@ -6,32 +6,28 @@ title: 'cmo/addatt'
 cmo/addatt
 ----------
 
- The **cmo/addatt** command is used to add and initialize a new mesh
- object attribute. There are two variations on the command syntax. The
- general form is used to add a new attribute to a mesh object. The
- second syntax uses keywords to create and/or fill a valid attribute
- with calculated values. This syntax can also derive a vector attribute
- from three attributes or derive three scalar attributes from a vector
- attribute.
+ The general version of the **cmo/addatt** command is used to add and initialize a new mesh
+ object attribute. Note for the general form, parameters will resort to default settings if not
+ included on the command line. 
+ See the **[modatt](cmo_modatt.md)** command for details on these  attribute parameters.
 
- For the general form, the first two parameters, mo\_name/att\_name are
- required. All other parameters will resort to default settings if not
- included on the command line. See the
- **[modatt](cmo_modatt.md)**command for details on these parameters.
-
- The keyword syntax uses the fourth token on the command line to define
- the type of attribute to create. The syntax for each keyword is
- unique. If the named attribute already exists, values will be
- overwritten with values as indicated by the keyword.
-
- GENERAL **FORMAT:**
+ 
+ **GENERAL FORMAT:**
 
   **cmo/addatt** / mo\_name / att\_name / [ type / rank / length /
   interpolate / persistence / ioflag / value ]
 
  
+ The keyword syntax uses keywords to create and/or fill a valid attribute
+ with values as defined by the keyword being used.
+ The keyword is the fourth token on the command line and the syntax for each keyword 
+ is unique as defined below. If the named attribute already exists, values will be
+ overwritten with values as indicated by the keyword.
+ This syntax can also derive a vector attribute from three attributes or derive three 
+ scalar attributes from a vector attribute.
 
- KEYWORD **FORMAT:**
+
+ **KEYWORD FORMAT:**
 
   **cmo/addatt** / mo\_name / **area\_normal** / normal\_type /
   att\_v\_name
@@ -102,3 +98,36 @@ cmo/addatt
   ynorm, znorm.
   **cmo/addatt**/ cmotri / **area** / darea
   Create and fill attribute named darea with area of each triangle.
+  
+  
+This example will fill an attribute with a cmo scalar value.
+First a scalar value is created from the max value in zic, then all zic are set to this value.
+Note error may occur due to difference in attribute length but can be ignored.
+
+```
+cmo/ addatt/ mo /maxnode/ zic_new/ zic
+cmo/ copyatt/ mo mo / zic zic_new
+cmo/ printatt /mo/ zic_new
+cmo/ printatt/ mo/ zic
+
+# Result complains but values are written
+
+cmo/ addatt/ mo /maxnode/ zic_new/ zic                                              
+ADDATT/maxnode: creating new attribute: zic_new                                 
+ 
+cmo/ copyatt/ mo mo / zic zic_new                                                   
+Error from:   incompatible att length types for   cmo_copyatt                   
+ Special Copy...
+         3 copied from mo element zic_new to -> mo node vertices zic            
+ 
+cmo/ printatt /mo/ zic_new                                                         
+Attribute: zic_new                                                              
+         1  2.90000E+03                                                         
+ 
+cmo/ printatt/ mo/ zic                                                             
+Attribute: zic                                                                  
+         1  2.90000E+03                                                         
+         2  2.90000E+03                                                         
+         3  2.90000E+03        
+```         
+         
