@@ -9,19 +9,19 @@ cmo/addatt
 
  The **cmo/addatt** command is used to add and initialize a new mesh
  object attribute. There are two variations on the command syntax, general and keyword.
-
+ 
+ **GENERAL FORMAT:**
+ 
  The general version of the **cmo/addatt** command is used to add and initialize a new mesh
  object attribute. Note for the general form, parameters will resort to default settings if not
  included on the command line. 
  See the **[modatt](cmo_modatt.md)** command for details on these  attribute parameters.
 
- 
- **GENERAL FORMAT:**
-
   **cmo/addatt** / mo\_name / att\_name / [ type / rank / length /
   interpolate / persistence / ioflag / value ]
 
  
+ **KEYWORD FORMAT:**
  
  The keyword syntax uses keywords to create and/or fill a valid attribute
  with values as defined by the keyword being used.
@@ -30,9 +30,6 @@ cmo/addatt
  overwritten with values as indicated by the keyword.
  This syntax can also derive a vector attribute from three attributes or derive three 
  scalar attributes from a vector attribute.
- 
-
- **KEYWORD FORMAT:**
 
   **cmo/addatt** / mo\_name / **area\_normal** / normal\_type /
   att\_v\_name
@@ -51,6 +48,7 @@ cmo/addatt
 
  **KEYWORDS:**
  
+ <blockquote>
  
   **vector**: creates att\_v\_snk of rank vector from three existing
   attributes att\_1src, att\_2src, and att\_3src
@@ -139,6 +137,8 @@ See also the command quality for adding attributes such as element aspect ratio(
 **quad_quality** creates element attributes att_name_quality, att_name_regularity, and att_name_flag. These three attributes all describe the quality of each quadrilateral in a quad mesh.
  
 
+</blockquote>
+
  **EXAMPLES:**
 
   **cmo** **/addatt**/cmo1/boron1**/VDOUBLE** **/scalar** **/nnodes** **/asinh** **/permanent**
@@ -185,17 +185,21 @@ See also the command quality for adding attributes such as element aspect ratio(
   Create and fill attribute named darea with area of each triangle.
   
   **cmo/addatt** / cmotet / **voronoi_volume** / vor_vol
+  
 Create and fill attribute named vor_vol with Voronoi volume of each node in tetrahedral mesh.
 
 **cmo/addatt** / cmotet / **hybrid_volume** / hybrid_vol
+
 Create and fill an attribute named hybrid_vol with the hybrid median-Voronoi volume of each node in a tetrahedral mesh.
 
 
 **cmo/addatt** / cmotri / **voronoi_varea** / xvarea yvarea zvarea
+
 Create and fill attributes xvarea, yvarea, and zvarea with xyz components of the Voronoi areas for each node in triangle mesh.
 
 
 **cmo/addatt** / cmoquad / **quad_quality** / quality regularity flag
+
 Create attributes named quality, regularity, and flag with several quad quality measures.
 
 
