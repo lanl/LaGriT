@@ -48,16 +48,18 @@ cmo/addatt
 
  **KEYWORDS:**
  
- <blockquote>
+
+
  
   **vector**: creates att\_v\_snk of rank vector from three existing
   attributes att\_1src, att\_2src, and att\_3src
-<br>
-<br>
+
+
+
   **scalar**: creates three attributes att\_1snk, att\_2snk, and
   att\_3snk from an attribute att\_v\_src of rank vector.
-<br>
-<br>
+
+
   **area\_normal**: creates vector attribute att\_v\_name and fills
   with the x,y,z components of area normals for each face. The new
   attribute is nelements in length, type is VDOUBLE, and rank is
@@ -65,19 +67,20 @@ cmo/addatt
   area normal is a vector perpendicular to the triangle face with
   length equal to the area of the triangle. Currently implemented for
   **xyz** on triangles only.
-<br>
-<br>
+
+
   **unit\_area\_normal**: is a vector perpendicular to the triangle
   face with length equal to one. This command has the same format as
   **area\_normal**.
-<br>
-<br>
+
+
+
   **volume** or **area**: creates an attribute nelements in length and
   type VDOUBLE. For **volume** keyword the att_name attribute is
   filled with **volume**(if 3D), **area**(if 2D) or **length**(if
   lines). Currently implemented for triangle areas.
-<br>
-<br>
+
+
   **median** creates three element attributes (default names xmed, ymed, zmed) that are the coordinates of the median point (average value of the vertices) of each element. This is valid for all element types.
 
   **voronoi** creates three element attributes (default names xvor, yvor, zvor) that are the coordinates of the Voronoi point (center of circumscribed circle or sphere) of each element. This is only valid for elements of type tri and tet. This command does not check if a mesh is Delaunay, so a better syntax might be to call this circumscribed_center.
@@ -142,7 +145,6 @@ See also the command quality for adding attributes such as element aspect ratio(
 **quad_quality** creates element attributes att_name_quality, att_name_regularity, and att_name_flag. These three attributes all describe the quality of each quadrilateral in a quad mesh.
  
 
-</blockquote>
 
  **EXAMPLES:**
 
