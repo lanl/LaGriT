@@ -38,18 +38,17 @@ is given, it will be used at the sink mesh, and the current mesh object will be 
 
 **EXAMPLES**:
 
- **`grid2grid / hextotet24`**` /  cmo_tet / cmo_hex`
+ **`grid2grid / hextotet24`**` /  cmo_tet / cmo_hex`  
  Convert each hex element in cmo\_hex to 24 tets and name the new grid
  cmo\_tet.
  
  
- **`grid2grid / quadtotri4`**` /  new_mesh`
+ **`grid2grid / quadtotri4`**` /  new_mesh`  
  No source mesh is given, so the current mesh object (which is a quad
  mesh) will have every quad converted into 4 triangles, and saved as
  new\_mesh.
  
- **`grid2grid / tree_to_fe`**` / new_mesh /  octree_mesh`
- 
+ **`grid2grid / tree_to_fe`**` / new_mesh /  octree_mesh`  
  Every element in octree\_mesh will be scanned to see if it is a parent
  element. If it is, it will be removed, so only the leaf elements
  remain. The result will be stored in new\_mesh.
