@@ -161,7 +161,7 @@ See also the command quality for adding attributes such as element aspect ratio(
   
   **cmo/copyatt/** cmo1 cmo1 / z_save zic
   
-  Create node attribute named zic_sav and fill with value .0, then use **copyatt** to copy values from zic to z_save.
+  Create node attribute named z_save then use **copyatt** to copy values from zic to z_save.
   
   
   **cmo/addatt**/ cmo1 /boron3 **/VDOUBLE/scalar/nnodes/user/temporary**/ .1
