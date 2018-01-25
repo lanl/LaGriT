@@ -157,7 +157,7 @@ See also the command quality for adding attributes such as element aspect ratio(
   
   Create node attribute named boron1 with interpolate method of asinh.
   
-  **cmo/addatt**/ cmo1 /z_save **/VDOUBLE/scalar/nnodes/linear/permanent/
+  **cmo/addatt**/ cmo1 /z_save **/VDOUBLE/scalar/nnodes/linear/permanent/**
   
   **cmo/copyatt/** cmo1 cmo1 / z_save zic
   
