@@ -5,7 +5,7 @@ title: RZ
 ---
 
  
-## CREATEPTS/xyz rtz rtp line
+## CREATEPTS/ xyz rtz rtp line
 
   This command adds points to the mesh. It can distribute points
   evenly or according to a ratio zoning method.
@@ -19,12 +19,11 @@ title: RZ
   **line** this option implies xyz and will distribute n1 nodes from (xmin,ymin,zmin) to (xmax,ymax,zmaz)
   
 
-  When using the rtz or rtp coordinate systems the center is at (0,0,0). 
+  When using the rtz or rtp coordinate systems the center is at (0,0,0).   
   Use a **trans** command to move the center to a new location. 
   
   
-  For the **rtz** command, minimum and maximum coordinates are the triplets:
-  
+  For the **rtz** command, minimum and maximum coordinates are the triplets:  
   radius from the cylinder's axis, angle in the xy-plane measured from the x-axis, and height along the z-axis. 
   
   Note that the **rtz** always results in a (partial) cylinder of points
@@ -33,7 +32,7 @@ title: RZ
   specify the x axis as the line of rotation in the **rotateln** command.
   
   
-  For the **rtp** command minimum and maximum coordinates are the triplets: 
+  For the **rtp** command minimum and maximum coordinates are the triplets:   
   radius from the center of the sphere axis, angle in the zy-plane measured from the positive z-axis, and the angle in the xy-plane measured from the positive x-axis ([see II.a.11](../../conventions.md)). 
   
   
@@ -55,8 +54,7 @@ title: RZ
   value for each subsequent point.
 
    
-
- ## FORMAT:
+## FORMAT:
 
  
  **createpts** **/xyz** **rtz** **rtp** / *ni,nj,nk*/ *xmin,ymin,zmin* / *xmax,ymax,zmax* / *iiz,ijz,ikz* /[ *iirat,ijrat,ikrat/xrz,yrz,zrz/* ]
@@ -64,7 +62,7 @@ title: RZ
  **createpts/line** /np/// *xmin,ymin,zmin,xmax,ymax,zmax* / *iiz,ijz,ikz* /
 
 
- ## EXAMPLES:
+## EXAMPLES:
 
 ```
   createpts/xyz/ 5,3,10 /0.,2.,0./5.,6.,2./1,1,1/
@@ -78,19 +76,14 @@ title: RZ
   
   rmpoint/compress
 ```
-  This results in 264 points arranged around the z- axis. 
-  
-  There are 3 rings of points at distances r=1., r=2. and r=3. from the z-axis.
-  
+  This results in 264 points arranged around the z- axis.   
+  There are 3 rings of points at distances r=1., r=2. and r=3. from the z-axis.  
   There are 11 sets of these three rings of points and heights z=0.,
-  z=1., z=2.,...,z=10. 
-  
-  In each ring there are 6 points where each pair of points is separated by 60° 
-  
-  *Note that ijz=0 requests that points
+  z=1., z=2.,...,z=10.   
+  In each ring there are 6 points where each pair of points is separated by 60°   
+  Note that ijz=0 requests that points
   be placed at cell centers, hence the first point will be at 30° not
-  at 0°.*
-  
+  at 0°.  
   Corresponding to r=0, there will be 6 identical points at 11
   intervals along the z-axis at heights z=0., z=1., z=2.,...z=10.
   
@@ -108,10 +101,9 @@ define CIRDEG 360.
 createpts/brick/rtz/NRADIAL,NRAYS,NRINGS/0. 0. 0./ &
          WRADIUS CIRDEG RTOP /1,1,1
 ```
-Use the **define** commands to set variables for making a cylinder mesh. This hex mesh has height of 20.
-
+Use the **define** commands to set variables for making a cylinder mesh.   
+This hex mesh has height of 20.
 There are 3 points from center to rim, there are 20 points around and 12 points vertical. 
-
 Width of radius from center is 2 and the cylinder is a full 360 degrees.
 
 
