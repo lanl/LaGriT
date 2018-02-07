@@ -4,28 +4,40 @@ This command produces an output file from a Mesh Object. Some of the standard gr
 
 ## GENERAL SYNTAX:
 
-**dump**/file_type/file_name/[cmo_name]/
-The dump command is followed by a word indicating file type. Valid file type kewords are: gmv, avs, avs2, chad, coord, datex, elem_adj_node, elem_adj_elem, fehm, geofest, geom, gmv, gocad, lagrit, recolor, stl, stor, tecplot, zone, zone_imt, and zone_outside . 
-The file_type is followed by a string to be used as whole or part of file name as described below.
+**dump**/ *file_type* / file_name /[cmo_name]/       
+
+The dump command is followed by a keyword for file type. Valid file type keywords are listed below and include: gmv, avs, avs2, chad, coord, datex, elem_adj_node, elem_adj_elem, fehm, geofest, geom, gmv, gocad, lagrit, recolor, stl, stor, tecplot, zone, zone_imt, and zone_outside .   
+The *file_type* keyword is followed by a string to be used as whole or part of file name as described below.
+
 
 ## SHORT SYNTAX:
 
-**dump**/ file_name.[inp  OR  avs  OR  gmv  OR  lg  OR  lagrit  OR  ts  OR  exo ] / [cmo_name] 
+**dump** / file_name.*extension* / [cmo_name]     
 
-For common file types, a short form syntax can be used which skips the file type designation. The file_type is asssumed from the file_name suffix. The following are recognized; AVS (.inp or .avs), Exodus (.exo), GMV (.gmv), LaGriT (.lagrit or .lg), and .ts (gocad). 
+Where extension implies the file type designation. Valid exetensions are recognized:   
+
+AVS (**.inp** or **.avs**), Exodus (**.exo**), GMV (**.gmv**), LaGriT (**.lagrit** or **.lg**), and GoCAD (**.ts**). 
 
 ## FILE TYPES:
 
 **dump / avs /**
-file_name/[cmo_name] /[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes] 
+file_name/[cmo_name] /[iopt_points, iopt_elements, iopt_node_attributes ,iopt_element_attributes] 
 
-Output in AVS UCD (Unstructured Cell Data) format. One can turn on or off the output of node coordinates (iopt_points), element connectivity (iopt_elements), node attributes (iopt_node_attributes) and element attributes (iopt_element_attributes). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file. For instance, **dump**/avs/file.inp/cmo_name/1,1,0,0 will write the node coordinates and element connectivity, but will not write node attributes or element attributes. 
-Use the =2 option with caution since the output will really not be AVS format files. This is fine as long as you do not expect read/avs or the AVS graphics program to read the file.
+Output in AVS UCD (Unstructured Cell Data) format. One can turn on or off the output of node coordinates (iopt_points), element connectivity (iopt_elements), node attributes (iopt_node_attributes) and element attributes (iopt_element_attributes). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file. For example, 
+```
+**dump**/avs/file.inp/cmo_name/ 1, 1, 0, 0
+```
+will write node coordinates and element connectivity, but not node attributes or element attributes.    
+
+*Note the* **2** *option writes an abreviated form of the file format that is non-standard and probably not recognized outside of LaGriT.*
+
+For a description of the AVS file format see the [**read/avs** command.](pages/docs/read_avs.md)
 
 **dump / avs2 /** 
 file_name/[cmo_name]/[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes]
 
-This option will output integers as integers instead of floating point. The other avs option converts integers to reals on output. The /avs/ option above outputs all attributes as real numbers. This option is slower but the files are smaller if there are integers in the node or element attributes. 
+This option will output integers as integers instead of floating point. The other avs option converts integers to reals on output. The **/avs/** option above outputs all attributes as real numbers. This option is slower but the files are smaller if there are integers in the node or element attributes. 
+
 
 **dump / chad /** file_name/[cmo_name]/ 
 
