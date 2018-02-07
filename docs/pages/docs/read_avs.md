@@ -55,15 +55,17 @@ The general order of the data is as follows.
 2. For each node, its node id and the coordinates of that node in space. Node ids must be integers, but any number including non sequential numbers can be used. Mid edge nodes are treated like any other node.
  
 3. For each cell: its cell id, material, cell type, and the list of nodes for the cell connectivity. 
-These are the cell types and the associated keywords.
-Line line
-Triangle tri
-Quadrilateral quad
-Hexahedron hex
-Prism prism
-Tetrahedron tet
-Pyramid pyr
-Point pt
+These are the cell types and the associated keywords:
+```
+line (Line)
+tri (Triangle)
+quad (Quadrilateral)
+hex (Hexahedron)
+prism (Prism)
+tet (Tetrahedron)
+pyr (Pyramid)
+pt (Point)
+```
 
 4. Optional Node based data descriptions: data vector for nodes and number components that vector is divided into.
  
@@ -127,3 +129,16 @@ stress, lb/in**2
 8  0.00   5000.0001 
 
 </pre>
+
+This is an Example ASCII UCD File for a point, this is handy for use with Paraview to render the point object instead of reading point values into a table. This example has 3 nodes, each as UCD object **pt**. The file has 0 attributes for nodes, elements, and model.
+
+<pre>
+         3          3          0          0          0
+001   3.304250000000E+05  4.309168000000E+06  0.000000000000E+00
+002   3.308220000000E+05  4.314749000000E+06  0.000000000000E+00
+003   3.259190000000E+05  4.313480000000E+06  0.000000000000E+00
+001        1    pt  1
+002        1    pt  2
+003        1    pt  3
+
+ </pre>
