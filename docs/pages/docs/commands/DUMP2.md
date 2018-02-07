@@ -31,7 +31,7 @@ will write node coordinates and element connectivity, but not node attributes or
 
 *Note the* **2** *option writes an abreviated form of the file format that is non-standard and probably not recognized outside of LaGriT.*
 
-For a description of the AVS file format see the [**read/avs** command.](pages/docs/read_avs.md)
+For a description of the AVS file format see the [**read/avs** command.](../read_avs.md)
 
 **dump / avs2 /** 
 file_name/[cmo_name]/[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes]
