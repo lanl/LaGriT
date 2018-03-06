@@ -79,44 +79,63 @@ The keyword eltsets as token 6 will cause all eltsets (lists of cell numbers) as
 
 If face set information is being provided from files (file1 file2 ... filen) the format of the file is written in AVS UCD cell attribute format. The first column is the global cell number, the second column is the local face number.
 
-[Click here for more details on options and files that are written.](EXODUS.md) 
+[Click here for more details on options and files that are written for ExodusII.](EXODUS.md) 
 
 
-**dump/ fehm /** 
-file_name_root / cmo_name / 
 
-[__**delatt**__  OR  **keepatt**]   [**keepatt_voronoi**  OR  **keepatt_median**] /[ __**ascii**__  OR  **binary** ] / 
-
-[__**scalar**__  OR  **vector**  OR  **both**  OR  **area_scalar**  OR  **area_vector**  OR  **area_both**] /
-
-
-[__**all**__  OR  **graph**  OR  **coefs**  OR  **none**] / [**hybrid**  OR  __**nohybrid**__ ] 
+**dump/ fehm /** rootname / cmo\_name / \[ optional keywords \]
 
 
 Write out a series of files for the FEHM flow and transport code. The tokens after the cmo name are all optional. 
 
+The following keyword commands are optional and can occur in any order after the cmo\_name.
+
+
+**ascii** or **binary**  indicate IO Mode Options for the stor file. Default is ascii.
+
+
+**scalar**,  **vector**,  **both**,  **area\_scalar**,  **area\_vector**, or **area\_both** are Area Coefficient Options for writing stor file coefficient values. Default is scalar.
+ 
+
+**all**,  **graph**,  **coefs**, or  **none** are Compression Options for the stor file. Default is all.
+
+
+**delatt** or  **keepatt**  deletes or keeps CMO Attributes created to find outside zone nodes. Default is delatt.
+
+
+**hybrid** or **nohybrid** Specify whether hybrid median-Voronoi control volumes should be used. Default is nohybrid.
+
+ 
 The default options will
 delete the outside node attributes and will not add attributes for the outside voronoi or median areas. 
 The stor file will be written in ASCII format with scalar coefficient values with compression of area coefficient list and indices.
 
-[Click here for more details on the files and options.](dump/DUMP3.md) 
+The *rootname* will be used to form full names for the files that are written:
+```
+rootname.fehmn              rootname_interface.zone      rootname_outside_vor.area     
+rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone       rootname.stor
+```
+
+**.fehm** - mesh coordinates and geometry ( see dump/coord/... command)
+
+**_material.zone** - node imt (material) zone lists ( see dump/zone_imt/... command)
+
+**_outside.zone** - node external boundary zone lists (see dump/zone_outside/... command)
+
+**_outside_vor.area** - node external boundary area lists (see dump/zone_outside/... command)
+
+**_interface.zone** - zone lists for nodes along material interfaces 
+
+**_multi_mat.zone** - lists of node pairs connected across material interfaces 
+
+**.stor** - FEHM format file giving the voronoi (control volume) associated with each node and the sparce matrix structure
 
 
-The *file_name* is used to form the names of the following 7 files: 
+[Click here for more details on the FEHM files and options.](dump/DUMP3.md)
 
-*file_name*.fehm - coordinates and geometry ( see dump/coord/... command)
 
-*file_name_material*.zone - node imt (material) zone lists ( see dump/zone_imt/... command)
+[Click here for the FEHM style STOR file format.](../STOR_Form.md) 
 
-*file_name_outside*.zone - node external boundary zone lists (see dump/zone_outside/... command)
-
-*file_name_outside_vor*.area - node external boundary area lists (see dump/zone_outside/... command)
-
-*file_name_interface*.zone - zone lists for nodes along material interfaces 
-
-*file_name_multi_mat*.zone - lists of node pairs connected across material interfaces 
-
-*file_name*.stor - FEHM format file giving the voronoi (control volume) associated with each node and the sparce matrix structure
 
 
 **dump/ geofest /** file_name 
@@ -165,7 +184,7 @@ Output in STL, stereo lithography format. This is only supported for triangle me
 [__**all**__  OR  **graph**  OR  **coefs**  OR  **none**] / [**hybrid**  OR  __**nohybrid**__ ] 
 
 
-Same syntax as **dump/fehm** except the only output is the FEHM sparse matrix coefficient STOR file *file_name*.stor. 
+Same syntax as **dump/fehm** except the only output is the FEHM sparse matrix coefficient STOR file *rootname*.stor. 
 File can be written in ascii or binary (fortran unformatted platform dependent). The area coefficient values can be written as scalar or vector.
 The compression default is **all** which will compress both the list of area coefficients and the indices. The coefs compression, or none compression both use and older algorithm and will result in larger files and may take longer to run.
 The stor file is one of a set of files written when the fehm file type is called. 
