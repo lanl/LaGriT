@@ -19,22 +19,23 @@ The keyword **stor** writes a single FEHM sparse matrix stor file.
 
 ## OUTPUT FILES:
 
-The *root name* will be used as root for all files written and include:
+The *root* will be used to form full names for the files that are written:
 ```
 root_name.fehmn              root_name_interface.zone      root_name_outside_vor.area     
 root_name_material.zone      root_name_multi_mat.zone      root_name_outside.zone       root_name.stor
 ```
 
-1.  root_name **.fehmn** is a list of
+
+1.  **.fehmn** is a list of
     mesh object node x,y,z values and the element connectivity list in ASCII FEHM format (also dump/coord/... command).
-2.  root_name **\_material.zone**
+2.  **\_material.zone**
     is a file with a node list for each integer material (imt) value (also dump/zone/imt/... command).
-3.  root_name **\_interface.zone**
+3.  **\_interface.zone**
     is output of FEHM zone format files of nodes along an interface
     where interface is defined as a node to node connection where the
     integer attribute imt changes. *Note this file will have 0 length if
     there is only one material.*
-4.  root_name **\_multi_mat.zone**
+4.  **\_multi_mat.zone**
     is a list of multi-material connections,
     where multi-material is defined as a node to node connection where
     the integer attribute imt changes. Each list consists of a header
@@ -46,8 +47,18 @@ root_name_material.zone      root_name_multi_mat.zone      root_name_outside.zon
     the connected node on other side of material interface. The lists
     are sorted by the first node. *Note this file will have 0 length if
     there is only one material.*
-5.  root_name **\_outside.zone**
-    is a list of each node located on the outside areas.
+5.  **\_outside.zone**
+    is a list of each node located on the outside areas. 
+
+    If the keyword **keepatt** is included, then 6 node based attributes are added to
+    the mesh object with the names top, bottom, left\_w, right\_e,
+    back\_n, and front\_s. Note that a node can belong to more than 1
+    zone list. For example, in an orthogonal cube aligned with the
+    coordinate axes, a corner node can belong to 3 zone lists (e.g.
+    front\_s, top and left\_w lists). By default, these node
+    attributes are deleted after the zone file is written and the mesh
+    object remains unchanged. (also dump/zone\_outside/... command).
+    
     These outside zones are defined as 6 possible external boundaries for
     rectangular geometries and are defined as:
 
@@ -65,15 +76,7 @@ root_name_material.zone      root_name_multi_mat.zone      root_name_outside.zon
     6 = back\_n = back or north = positive y direction (0,1,0)
 
  ```
-
-    If the keyword **keepatt** is included, then 6 node based attributes are added to
-    the mesh object with the names top, bottom, left\_w, right\_e,
-    back\_n, and front\_s. Note that a node can belong to more than 1
-    zone list. For example, in an orthogonal cube aligned with the
-    coordinate axes, a corner node can belong to 3 zone lists (e.g.
-    front\_s, top and left\_w lists). By default, these node
-    attributes are deleted after the zone file is written and the mesh
-    object remains unchanged. (also dump/zone\_outside/... command).
+ 
 6.  root_name **\_outside_vor.area** (default) or **\_outside_med.area**
     uses outside nodes to write a list of
     2D area or 1D length vectors (Ax\_i,Ay\_i,Az\_i) associated with
