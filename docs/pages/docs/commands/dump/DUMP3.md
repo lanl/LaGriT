@@ -9,9 +9,7 @@ title: 'DUMP/FEHM and DUMP/STOR'
 
 Output a set of files that are of general use but are specifically
 designed for the [FEHM](http://fehm.lanl.gov) porous flow and transport
-code.
-
-Both commands **dump/fehm** and **dump/stor** use the same set of optional settings after the required file root name and cmo name.
+code. Both commands **dump/fehm** and **dump/stor** use the same set of optional settings after the required file root name and cmo name.
 
 The keyword **fehm** writes the full set of 7 FEHM files.
 
@@ -21,8 +19,8 @@ The keyword **stor** writes a single FEHM sparse matrix stor file.
 
 The *root* will be used to form full names for the files that are written:
 ```
-root_name.fehmn              root_name_interface.zone      root_name_outside_vor.area     
-root_name_material.zone      root_name_multi_mat.zone      root_name_outside.zone       root_name.stor
+rootname.fehmn              rootname_interface.zone      rootname_outside_vor.area     
+rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone       rootname.stor
 ```
 
 
@@ -77,30 +75,30 @@ root_name_material.zone      root_name_multi_mat.zone      root_name_outside.zon
 
  ```
  
-6.  root_name **\_outside_vor.area** (default) or **\_outside_med.area**
+6.  **\_outside_vor.area** (default) or **\_outside_med.area**
     uses outside nodes to write a list of
     2D area or 1D length vectors (Ax\_i,Ay\_i,Az\_i) associated with
     each and listed the same order as zones and nodes in the file root_name_outside.zone.
 
-    If the keyword **keepatt\_voronoi** is
-    specified, three node attributes (xn\_varea, yn\_varea, zn\_varea)
+    optional keyword **keepatt\_voronoi** will keep the attributes created for outside voronoi areas.
+    Three node attributes (xn\_varea, yn\_varea, zn\_varea)
     are added and they contain the vector area associated with the
     voronoi areas for each of the nodes located on their external
     triangles.
 
-    If the keyword **keepatt\_median** is
-    specified, three node attributes (xn\_marea, yn\_marea, zn\_marea)
+    optional keyword **keepatt\_median** will keep the attributes created for outside median areas.
+    Three node attributes (xn\_marea, yn\_marea, zn\_marea)
     are added and they contain the vector area associated with the
     median area for each of the nodes located on their external
     triangles. These area vectors are computed by computing the median
     mesh (triangle centroids connected to triangle edge centers)  If the
     input mesh are 2D triangles, the median length of external edges
     incident upon a node are written. 
-7.  root_name **.stor**
+7.  **.stor**
     is geometric coefficient matrix written in FEHM stor file format.
     These are the Voronoi (control volume) area and volume associated
     with each node and the sparse matrix structure. 
-    ASCII compressed is the default output.
+    ASCII compressed is the default file output.
 
     The **stor** file represents a sparse coefficient matrix and is used for
     solving PDE on a triangular or tetrahedral Delaunay mesh. The stor
@@ -143,111 +141,94 @@ The following command settings are optional and can occur in any order after the
 **delatt** or  **keepatt**  deletes or keeps CMO Attributes created to find outside zone nodes. Default is delatt.
 
 
-**hybrid** or **nohybrid** Specify whether hybrid median-Voronoi control volumes should be used.
+**hybrid** or **nohybrid** Specify whether hybrid median-Voronoi control volumes should be used. Default is nohybrid.
  
 
 
-### STOR IO MODES:
+#### STOR IO MODES:
 
-   ---------------------- ---------------------------------------------------------------
-   **binary**             Output sparse matrix stor file in Fortran unformatted format
+   
+   **binary**             Output sparse matrix stor file in Fortran unformatted format *Note: These files are platform dependent.* 
 
-                          Note: These files are platform dependent. 
-
-   **ascii** (default)    Output sparse matrix stor file as ASCII format 
-   ---------------------- ---------------------------------------------------------------
-
- 
-
- *Note: The old syntax using asciic and binaryc keywords are no longer
- needed to toggle the compression settings.*
+   **ascii** (default)    Output sparse matrix stor file as ASCII format. This is a larger file but not machine dependent.
 
 
-### STOR Area Coefficient OPTIONS:
+#### STOR Area Coefficient OPTIONS:
 
-   ----------------------- --------------------------------------------------------------------------------
+
    **scalar** (default)    Area/distance               coefficients are output as scalars 
+   
+   
    **vector**              Area/distance               coefficients are output as vectors 
+   
+   
    **both**                Area/distance               coefficients are output as scalars and vectors 
-   **area\_scalar **       Area                           coefficients are output as scalars
-   **area\_vector**        Area                           coefficients are output as vectors 
-   **area\_both **         Area                           coefficients are output as scalars and vectors 
-   ----------------------- --------------------------------------------------------------------------------
+   
+   
+   **area\_scalar**        Area                        coefficients are output as scalars
+   
+   
+   **area\_vector**        Area                        coefficients are output as vectors 
+   
+   
+   **area\_both **         Area                        coefficients are output as scalars and vectors 
 
  
 
 
-### STOR Compression OPTIONS:
+#### STOR Compression OPTIONS:
 
-   ------------------- -------------------------------------------------------------------------------------
-   **all** (default)   (\_astor) compression of area coefficients and compression of coefficient indices  
 
-   **graph**           (\_gstor) compression of area coefficient indices (edge compression)  
-
-   oefs**           (\_cstor) compression of area coefficient to a list of unique values
-
-                       Note: This older algorithm uses more space and time.  
-
-   **none**            (\_nstor) full indices and area coefficient list
-
-                       Note: This older algorithm uses more space and time.  
-   ------------------- -------------------------------------------------------------------------------------
-
+**all** (default)   (\_astor) compression of area coefficients and compression of coefficient indices
  
 
+**graph**           (\_gstor) compression of area coefficient indices (edge compression)  
+
+
+
+**coefs**           (\_cstor) compression of area coefficient to a list of unique values. *Note: This older algorithm uses more space and time.*
+
+
+**none**            (\_nstor) full indices and area coefficient list. *Note: This older algorithm uses more space and time.*
+
+
+The attributes ccoef and ij\_ccoef may be added if negative area coefficients are detected when the \_astor or \_gstor compression algorithms are invoked (default) or by using the **all** or **graph** keywords, these two new attributes are added to the CMO. Since the area coefficients are really edge based quantities but we only have access to node and element quantities, the following convention is used.
+
+
+If any area coefficient is negative the integer node array ij\_ccoef and real node array ccoef are created. All connections with area coefficients >= 0 are set to zero in these attributes, so values will range from the largest negative value to 0. This is not implemented for 2D and there is no option to turn this feature on or off.
+
+If no area coefficients are negative the arrays are not created.
+
+If the area coefficient A\_ij, between nodes i and j is negative then
+```
+ccoef(i)    = ccoef(j) = A\_ij
+ij\_ccoef(i) = j
+ij\_ccoef(j) = i
+```
+                                                     
  *Note: The old syntax using the alternate\_scalar keyword is now the
- default option of scalar compressed. It is the same as using keywords
+ default option using scalar and compressed. It is the same as using keywords
  all or graph and if used will be recognized.*
 
 
-### CMO Attribute OPTIONS:
+#### CMO Attributes for outside zones:
 
  
-   **delatt** (default)
-     No new cmo attributes are created.
+**delatt** (default)  No new cmo attributes are created.
 
    
-                         
-
-   **keepatt**
-              Used for the outside zone file, six node attributes are created (top, bottom, left\_w, right\_e,back\_n, front\_s) which are assigned values according to the direction of the octant of their normal vector. 
+**keepatt** Six node attributes are created (top, bottom, left\_w, right\_e,back\_n, front\_s) which are assigned values according to the direction of the octant of their normal vector. Each outside node can occur in multiple directions. For instance an edge between top and left side will be in both top and left\_w attributes. Attribute values greater than 0 are nodes found in that direction.
 
    
-                           
 
-   NOTE: ccoef, ij\_ccoef
-   When the \_astor or \_gstor compression algorithms are invoked by default or by using the [all]{style="font-family: Courier New,Courier,monospace;" or [graph keywords, ]{style="font-family: Courier New,Courier,monospace;"[two new attributes]{style="font-family: Times New Roman,Times,serif;" are created, ccoef and ij\_ccoef, if and only if there are some negative area coefficients. Since the area coefficients are really edge based quantities but we only have access to node and element quantities, the following convention is used.
+#### STOR Hybrid OPTIONS:
 
-                             
+   
+**nohybrid** (default)   Do not use hybrid median-Voronoi control volumes
 
-                             If any area coefficient is negative the integer node array ij\_ccoef and real node array ccoef are created.
 
-                             If no area coefficients are negative the arrays are not created.
-
-                             If the area coefficient A\_ij, between nodes i and j is negative then
-
-                             [ccoef(i)    = ccoef(j) = A\_ij]{style="font-family: Courier New,Courier,monospace;"
-
-                             [ij\_ccoef(i) = j]{style="font-family: Courier New,Courier,monospace;"
-
-                             [ij\_ccoef(j) = i]{style="font-family: Courier New,Courier,monospace;"
-
-                             
-
-                             All connections with area coefficients &gt;= 0 are set to zero.
-
-                             
-
-                             There is no option to turn this feature on or off.
-
-   ------------------------- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-### STOR Hybrid OPTIONS:
-
-   ------------------------ --------------------------------------------------
-   **nohybrid** (default)   Do not use hybrid median-Voronoi control volumes
-   **hybrid**               Use hybrid median-Voronoi control volumes.
-   ------------------------ --------------------------------------------------
+**hybrid**               Use hybrid median-Voronoi control volumes.
+ 
 
  These hybrid volumes represent a means for addressing poorly shaped
  tetrahedra on a boundary of the mesh. Boundary tetrahedra whose
@@ -255,7 +236,7 @@ The following command settings are optional and can occur in any order after the
  results. Alternatively, if we construct control volumes using medians
  (centroids), the center point for each element always lies within that
  element, but median meshes lack other nice properties of Voronoi
- meshes.
+ meshes.    
 
  As a compromise between the median and Voronoi approaches, we start
  with a Voronoi mesh and fix boundary tetrahedra whose circumcenters
@@ -265,7 +246,7 @@ The following command settings are optional and can occur in any order after the
  of the element. This intersection then becomes the center point for
  the purposes of determining control volumes. Essentially we move the
  Voronoi center toward the median point until it just reaches the
- element.
+ element.   
 
  When we use the hybrid approach, we also make a slight change to the
  way we calculate the area coefficients. Voronoi control volumes have
@@ -275,17 +256,15 @@ The following command settings are optional and can occur in any order after the
  when we compute the area coefficient we only consider the component of
  the face area vector which is in the same direction as the edge. We
  accomplish this by taking the area vector and dotting it with a unit
- vector in the direction of the edge.
+ vector in the direction of the edge.    
 
  The **hybrid** option may lead to poor results if it is applied to a
  mesh that is non-Delaunay, because there may be elements which it
  cannot fix, such as interior elements whose circumcenters are outside
  the mesh. A warning will be printed if the code detects that the mesh
- appears to be non-Delaunay.
+ appears to be non-Delaunay.    
 
- NOTE: The hybrid option is only available with the **all** (default)
- and **graph** compression options. It also requires the **scalar**
- (default) area coefficient option.
+ *NOTE: The hybrid option is only available with the default implmentation using no other options or including **all**, **graph**, and **scalar** in the command.*
 
 
 ## EXAMPLES:
