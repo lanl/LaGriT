@@ -1,63 +1,82 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
   <head>
+
+  <style>
+  div.myheader { 
+      height: 50px;
+      width: 100%;
+      background: rgb(33,25,41);
+      border: 1px solid black;
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      display: flex;
+  }
+  div.txt {
+    color: white;
+    width: 15%;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 50px;       /* the same as your div height */
+    /*position: absolute;*/
+    flex-grow: 0;
+    font-size: 20px;
+    font-family: Helvetica;
+  }
+  </style>
+
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
     <meta name="description" content="{{ site.title | default: site.github.repository_name }} : {{ site.description | default: site.github.project_tagline }}">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+        <!-- load stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">                <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">                                      <!-- Bootstrap style -->
+    <link rel="stylesheet" type="text/css" href="css/datepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
+    <link rel="stylesheet" href="css/templatemo-style.css">                                   <!-- Templatemo style -->
 
-{% seo %}
   </head>
 
   <body>
-	
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <h3 id="project_title">{{ site.title | default: site.github.repository_name }}</h1>
-        </header>
 
-          <div id="top_right">
-             <a href="https://lanl.github.io/LaGriT/pages/manual.html"> Manual </a> <br>
-             <a href="https://lanl.github.io/LaGriT/site_list.html"> Site Index </a> <br>
-             <a href="https://lanl.github.io/LaGriT/site_map.html"> Site Map </a> <br>
-             <a href="https://github.com/lanl/LaGriT"> GitHub Repo </a> <br>
-             <a href="https://lanl.github.io/LaGriT/"> Home </a> <br>
-          </div>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap">
-    
-	<!-- BEGIN SEARCH BAR -->
-	<div class="grid" id="searchBar">
-        <div>
-          <div id="search">
-            <form role="search" method="get" action="{{ site.baseurl }}//pages/search">
-              <input id="searchString" name="searchString"
-                 placeholder="Enter text here" type="text">
-              <input id="searchButton" name="googleSearchName" type="button" value="Search">
-            </form>
-          </div>
-
-        </div>
-    </div>
-	
-      <section id="main_content" class="inner">
-        {{ content }}
-	     
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">{{ site.title | default: site.github.repository_name }} maintained by <a href="http://www.lanl.gov/orgs/ees/ees16/index.shtml"> EES-16 at LANL </a></p>
-      <br>
-		</footer>
-    </div>
+        <div class="tm-main-content" id="top">
+            <div class="tm-top-bar-bg"></div>    
+            <div class="tm-top-bar" id="tm-top-bar">
+                <div class="container">
+                    <div class="row">
+                        <nav class="navbar navbar-expand-lg narbar-light">
+                            <a class="navbar-brand mr-auto" href="#">
+                                <img src="img/logo2.png" alt="Site logo">
+                                LaGriT
+                            </a>
+                            <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
+                                <ul class="navbar-nav ml-auto">
+                                  <li class="nav-item">
+                                    <a class="nav-link active" href="#top">Manual</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#tm-section-2">Tutorial</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#tm-section-3">Commands</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#tm-section-4">About</a>
+                                </li>
+                            </ul>
+                        </div>                            
+                    </nav>
+                </div> <!-- row -->
+            </div> <!-- container -->
+        </div> <!-- .tm-top-bar -->
 
   </body>
 </html>
