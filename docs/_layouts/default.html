@@ -2,49 +2,23 @@
 <html lang="{{ site.lang | default: "en-US" }}">
   <head>
 
-  <style>
-  div.myheader { 
-      height: 50px;
-      width: 100%;
-      background: rgb(33,25,41);
-      border: 1px solid black;
-      position: fixed;
-      top: 0px;
-      left: 0px;
-      display: flex;
-  }
-  div.txt {
-    color: white;
-    width: 15%;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 50px;       /* the same as your div height */
-    /*position: absolute;*/
-    flex-grow: 0;
-    font-size: 20px;
-    font-family: Helvetica;
-  }
-
-  body {
-    width: 750px;
-    margin: 0 auto;
-  }
-  </style>
-
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
     <meta name="description" content="{{ site.title | default: site.github.repository_name }} : {{ site.description | default: site.github.project_tagline }}">
 
-        <!-- load stylesheets -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">  <!-- Google web font "Open Sans" -->
+    <!-- Load Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+
+    <!-- load stylesheets -->
     <link rel="stylesheet" href="{{ "/assets/font-awesome-4.7.0/css/font-awesome.min.css" | relative_url }}">
     <link rel="stylesheet" href="{{ "/assets/css/bootstrap.min.css" | relative_url }}">
     <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick.css" | relative_url }}"/>
     <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick-theme.css" | relative_url }}"/>
     <link rel="stylesheet" type="text/css" href="{{ "/assets/css/datepicker.css" | relative_url }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick.css" | relative_url}}"/>
-    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick-theme.css" | relative_url}}"/>
+    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick.css" | relative_url }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick-theme.css" | relative_url }}"/>
     <link rel="stylesheet" href="{{ "/assets/css/templatemo-style.css" | relative_url }}">
 
   </head>
@@ -57,8 +31,8 @@
                 <div class="container">
                     <div class="row">
                         <nav class="navbar navbar-expand-lg narbar-light">
-                            <a class="navbar-brand mr-auto" href="#">
-                                <img src="{{ "/" | relative_url }}/assets/img/logo2.png" alt="Site logo">
+                            <a class="navbar-brand mr-auto" style="font-family: 'Do Hyeon', sans-serif; color: white;" href="https://lanl.github.io/LaGriT/">
+                                <img src="{{ "/assets/img/logo.png" | relative_url }}" alt="LANL">
                                 LaGriT
                             </a>
                             <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,16 +41,20 @@
                             <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
                                 <ul class="navbar-nav ml-auto">
                                   <li class="nav-item">
-                                    <a class="nav-link active" href="#top">Manual</a>
+                                    <!-- change to class="nav-link active" for highlighting -->
+                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pages/manual.html">Manual</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#tm-section-2">Tutorial</a>
+                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#tm-section-3">Commands</a>
+                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pages/commands.html">Commands</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#tm-section-4">About</a>
+                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pages/publications">Publications</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="http://github.com/lanl/LaGriT"><img src="{{ "assets/img/github_white.png" | relative_url }}" style="width: 20px;" alt="GitHub" onmouseover="this.src='{{ "assets/img/github_hover.png" | relative_url }}';" onmouseout="this.src='{{ "/assets/img/github_white.png" | relative_url }}';"></a>
                                 </li>
                             </ul>
                         </div>                            
@@ -86,9 +64,18 @@
         </div> <!-- .tm-top-bar -->
 
 
-  <div style="width: 80%; height: 600px; margin: 0 auto; position: relative; padding: 35px 45px; background-color: white;">
-        {{ content }}
+  <div style="width: 80%; margin: 0 auto; position: relative; padding: 35px 45px; background-color: white;" id="mainContent">
+    {{ content }}
   </div>
+
+    <!-- load JS files -->
+    <script src="{{ "/assets/js/jquery-1.11.3.min.js" | relative_url }}"></script>             <!-- jQuery (https://jquery.com/download/) -->
+    <script src="{{ "/assets/js/popper.min.js" | relative_url }}"></script>                    <!-- https://popper.js.org/ -->       
+    <script src="{{ "/assets/js/bootstrap.min.js" | relative_url }}"></script>                 <!-- https://getbootstrap.com/ -->
+    <script src="{{ "/assets/js/datepicker.min.js" | relative_url }}"></script>                <!-- https://github.com/qodesmith/datepicker -->
+    <script src="{{ "/assets/js/jquery.singlePageNav.min.js" | relative_url }}"></script>      <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
+    <script src="{{ "/assets/slick/slick.min.js" | relative_url }}"></script>                  <!-- http://kenwheeler.github.io/slick/ -->
+    <script src="{{ "/assets/js/jquery.scrollTo.min.js" | relative_url }}"></script>           <!-- https://github.com/flesler/jquery.scrollTo -->
 
   </body>
 </html>
