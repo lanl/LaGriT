@@ -4,7 +4,7 @@ This command produces an output file from a Mesh Object. Some of the standard gr
 
 ## GENERAL SYNTAX:
 
-**dump**/ *file_type* / file_name /[cmo_name]/       
+**dump** / *file_type* / file_name /[cmo_name]/       
 
 The dump command is followed by a keyword for file type. Valid file type keywords are listed below and include: gmv, avs, avs2, chad, coord, datex, elem_adj_node, elem_adj_elem, fehm, geofest, geom, gmv, gocad, lagrit, recolor, stl, stor, tecplot, zone, zone_imt, and zone_outside .   
 The *file_type* keyword is followed by a string to be used as whole or part of file name as described below.
@@ -20,7 +20,7 @@ AVS (**.inp** or **.avs**), Exodus (**.exo**), GMV (**.gmv**), LaGriT (**.lagrit
 
 ## FILE TYPES:
 
-**dump / avs /**
+**dump** / **avs** /
 file_name/[cmo_name] /[iopt_points, iopt_elements, iopt_node_attributes ,iopt_element_attributes] 
 
 Output in AVS UCD (Unstructured Cell Data) format. One can turn on or off the output of node coordinates (iopt_points), element connectivity (iopt_elements), node attributes (iopt_node_attributes) and element attributes (iopt_element_attributes). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file. For example, 
@@ -33,28 +33,28 @@ will write node coordinates and element connectivity, but not node attributes or
 
 For a description of the AVS file format see the [**read/avs** command.](../read_avs.md)
 
-**dump / avs2 /** 
+**dump** / **avs2** / 
 file_name/[cmo_name]/[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes]
 
 This option will output integers as integers instead of floating point. The other avs option converts integers to reals on output. The **/avs/** option above outputs all attributes as real numbers. This option is slower but the files are smaller if there are integers in the node or element attributes. 
 
 
-**dump / chad /** file_name/[cmo_name]/ 
+**dump** / **chad** / *file_name* /[cmo_name]/ 
 
 Will output a file nodes, faces, and connectivity for tet, hex, pyr, or pri in CHAD format. Writes attributes imt and itp.
 
-**dump/ coord /** file_name/[cmo_name]/ (See also **dump/fehm** ) 
+**dump** / **coord** / *file_name* /[cmo_name]/ (See also **dump/fehm** ) 
 
 Will output a single file with node list x,y,z values and element connectivity list in FEHM format. Files are written in FEHM format and are described by [clicking here for details.](dump/DUMP3.md)
 
 The coord file is one of a set of files written when the fehm file type is called. 
 
-**dump / datex**  OR  **simul /** file_name/[cmo_name]/ 
+**dump** / **datex**  OR  **simul** / *file_name* /[cmo_name]/ 
 
 Will output a file with Geometry, Element, Region, Location, and Dataset in DATEX format.
 
 
-**dump / elem_adj_elem /** file_name / mo_name [__**delatt**__  OR  **keepatt**  OR  **attonly**] 
+**dump** / **elem_adj_elem** / *file_name* / mo_name [__**delatt**__  OR  **keepatt**  OR  **attonly**] 
 
 Option: delatt - Write adjacency information to an ascii file. Write list of all elements adjacent to each element. 
 File format: elem_number ean_num e1 e2 ... en 
@@ -164,7 +164,14 @@ Write a gocad TSURF file.
 
 Write a LaGriT restart file that contains geometry and mesh object information.  *cmo_name* can be **-all-** in which case all mesh objects are written to the file or it can specify a list of mesh objects to be written. A subsequent read/lagrit command will restart the code at the state at which the **dump** command was issued. The default file type is binary. 
 
- 
+
+**dump** / **pflotran** / *file_name_root* / cmo_name / 
+
+**dump** / **pflotran** / *file_name_root* / cmo_name / **nofilter_zero**
+
+Write coefficient matrix (stor) style values in PFLOTRAN .uge format file. The default **dump/pflotran** command does not write zero coupling coefficients. Use the keyword nofilter_zero to include them. 
+
+
 **dump / recolor /** file_name 
 
 This command writes the existing colormap to the specified file.  [See colormap command](COLORMAP.md)
