@@ -1,63 +1,81 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
   <head>
+
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
     <meta name="description" content="{{ site.title | default: site.github.repository_name }} : {{ site.description | default: site.github.project_tagline }}">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <!-- Load Google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
 
-{% seo %}
+    <!-- load stylesheets -->
+    <link rel="stylesheet" href="{{ "/assets/font-awesome-4.7.0/css/font-awesome.min.css" | relative_url }}">
+    <link rel="stylesheet" href="{{ "/assets/css/bootstrap.min.css" | relative_url }}">
+    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick.css" | relative_url }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick-theme.css" | relative_url }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ "/assets/css/datepicker.css" | relative_url }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick.css" | relative_url }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick-theme.css" | relative_url }}"/>
+    <link rel="stylesheet" href="{{ "/assets/css/templatemo-style.css" | relative_url }}">
+
   </head>
 
   <body>
-	
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <h3 id="project_title">{{ site.title | default: site.github.repository_name }}</h1>
-        </header>
 
-          <div id="top_right">
-             <a href="https://lanl.github.io/LaGriT/pages/manual.html"> Manual </a> <br>
-             <a href="https://lanl.github.io/LaGriT/site_list.html"> Site Index </a> <br>
-             <a href="https://lanl.github.io/LaGriT/site_map.html"> Site Map </a> <br>
-             <a href="https://github.com/lanl/LaGriT"> GitHub Repo </a> <br>
-             <a href="https://lanl.github.io/LaGriT/"> Home </a> <br>
-          </div>
-    </div>
+        <div class="tm-main-content" id="top">
+            <div class="tm-top-bar-bg"></div>    
+            <div class="tm-top-bar" id="tm-top-bar">
+                <div class="container">
+                    <div class="row">
+                        <nav class="navbar navbar-expand-lg narbar-light">
+                            <a class="navbar-brand mr-auto" style="font-family: 'Do Hyeon', sans-serif; color: white;" href="https://lanl.github.io/LaGriT/">
+                                <img src="{{ "/assets/img/logo.png" | relative_url }}" alt="LANL">
+                                LaGriT
+                            </a>
+                            <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
+                                <ul class="navbar-nav ml-auto">
+                                  <li class="nav-item">
+                                    <!-- change to class="nav-link active" for highlighting -->
+                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pages/manual.html">Manual</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pages/commands.html">Commands</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pages/publications">Publications</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="http://github.com/lanl/LaGriT"><img src="{{ "assets/img/github_white.png" | relative_url }}" style="width: 20px;" alt="GitHub" onmouseover="this.src='{{ "assets/img/github_hover.png" | relative_url }}';" onmouseout="this.src='{{ "/assets/img/github_white.png" | relative_url }}';"></a>
+                                </li>
+                            </ul>
+                        </div>                            
+                    </nav>
+                </div> <!-- row -->
+            </div> <!-- container -->
+        </div> <!-- .tm-top-bar -->
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap">
-    
-	<!-- BEGIN SEARCH BAR -->
-	<div class="grid" id="searchBar">
-        <div>
-          <div id="search">
-            <form role="search" method="get" action="{{ site.baseurl }}//pages/search">
-              <input id="searchString" name="searchString"
-                 placeholder="Enter text here" type="text">
-              <input id="searchButton" name="googleSearchName" type="button" value="Search">
-            </form>
-          </div>
 
-        </div>
-    </div>
-	
-      <section id="main_content" class="inner">
-        {{ content }}
-	     
-      </section>
-    </div>
+  <div style="width: 80%; margin: 0 auto; position: relative; padding: 35px 45px; background-color: white;" id="mainContent">
+    {{ content }}
+  </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">{{ site.title | default: site.github.repository_name }} maintained by <a href="http://www.lanl.gov/orgs/ees/ees16/index.shtml"> EES-16 at LANL </a></p>
-      <br>
-		</footer>
-    </div>
+    <!-- load JS files -->
+    <script src="{{ "/assets/js/jquery-1.11.3.min.js" | relative_url }}"></script>             <!-- jQuery (https://jquery.com/download/) -->
+    <script src="{{ "/assets/js/popper.min.js" | relative_url }}"></script>                    <!-- https://popper.js.org/ -->       
+    <script src="{{ "/assets/js/bootstrap.min.js" | relative_url }}"></script>                 <!-- https://getbootstrap.com/ -->
+    <script src="{{ "/assets/js/datepicker.min.js" | relative_url }}"></script>                <!-- https://github.com/qodesmith/datepicker -->
+    <script src="{{ "/assets/js/jquery.singlePageNav.min.js" | relative_url }}"></script>      <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
+    <script src="{{ "/assets/slick/slick.min.js" | relative_url }}"></script>                  <!-- http://kenwheeler.github.io/slick/ -->
+    <script src="{{ "/assets/js/jquery.scrollTo.min.js" | relative_url }}"></script>           <!-- https://github.com/flesler/jquery.scrollTo -->
 
   </body>
 </html>
