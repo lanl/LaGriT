@@ -1,0 +1,29 @@
+/*
+
+  Global stylesheet for GitHub markdown pages.
+  Extend the configuration of classes here.
+  
+  As a general rule, a Markdown -> HTML translation looks like:
+  
+  #      -> h1
+  ##     -> h2
+  ###    -> h3
+  >      -> blockquote
+  `code` -> code
+  
+  Be careful as pre-defined class and/or id properties may be overwritten.
+  
+  View the source of a page in the Developer mode of your browser
+  to see more precisely how Markdown gets rendered as HTML.
+
+*/
+
+blockquote {
+    position: relative;
+    display: inline-block;
+    padding: 0px 10px 10px 20px;
+}
+
+h2 {
+    font-size: 17px;
+}
