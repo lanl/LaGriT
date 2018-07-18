@@ -54,7 +54,7 @@ The coord file is one of a set of files written when the fehm file type is calle
 Will output a file with Geometry, Element, Region, Location, and Dataset in DATEX format.
 
 
-**dump** / **elem_adj_elem** / *file_name* / mo_name [__**delatt**__  OR  **keepatt**  OR  **attonly** ] 
+**dump** / **elem_adj_elem** / *file_name* / mo_name \[ _**delatt**_  OR  **keepatt**  OR  **attonly** \] 
 
 Option: delatt - Write adjacency information to an ascii file. Write list of all elements adjacent to each element. 
 File format: elem_number ean_num e1 e2 ... en 
