@@ -173,11 +173,8 @@ Write coefficient matrix (stor) style values in PFLOTRAN .uge format file. The d
 
 The following is the format used by PFLOTRAN for .uge (explicit unstructured grid) file.
 
-<blockquote>
-The first block are the list of ids of cells and the 
-coordinates of cell centroids and the volumes of the cells.
-The PFLOTRAN cells are Voronoi volumes, one for each node.
- 
+The first block are the list of ids of cells and the coordinates of cell centroids and the volumes of the cells. The PFLOTRAN cells are Voronoi volumes, one for each node.
+
 ```
 CELLS <integer>    integer = # cells (N)
 id_1  x_1  y_1  z_1 volume_1
@@ -199,7 +196,7 @@ id_up_2 id_dn_2 x_2 y_2 z_2 area_2
 ...
 id_up_M id_dn_M x_M y_M z_M area_M
 ```
-</blockquote>
+
 
 **dump / recolor /** file_name 
 
