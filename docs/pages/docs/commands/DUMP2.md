@@ -12,7 +12,7 @@ The *file_type* keyword is followed by a string to be used as whole or part of f
 
 ## SHORT SYNTAX:
 
-**dump** / file_name.*extension* / [cmo_name]     
+**dump** / *file_name*.extension / [cmo_name]     
 
 Where extension implies the file type designation. Valid exetensions are recognized:   
 
@@ -25,7 +25,7 @@ file_name/[cmo_name] /[iopt_points, iopt_elements, iopt_node_attributes ,iopt_el
 
 Output in AVS UCD (Unstructured Cell Data) format. One can turn on or off the output of node coordinates (iopt_points), element connectivity (iopt_elements), node attributes (iopt_node_attributes) and element attributes (iopt_element_attributes). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file. For example, 
 ```
-**dump**/avs/file.inp/cmo_name/ 1, 1, 0, 0
+dump / avs / file.inp / cmo_name / 1, 1, 0, 0
 ```
 will write node coordinates and element connectivity, but not node attributes or element attributes.    
 
@@ -49,12 +49,12 @@ Will output a single file with node list x,y,z values and element connectivity l
 
 The coord file is one of a set of files written when the fehm file type is called. 
 
-**dump** / **datex**  OR  **simul** / *file_name* /[cmo_name]/ 
+**dump** / **datex**  OR  **simul** / *file_name* / [cmo_name]
 
 Will output a file with Geometry, Element, Region, Location, and Dataset in DATEX format.
 
 
-**dump** / **elem_adj_elem** / *file_name* / mo_name [__**delatt**__  OR  **keepatt**  OR  **attonly**] 
+**dump** / **elem_adj_elem** / *file_name* / mo_name [__**delatt**__  OR  **keepatt**  OR  **attonly** ] 
 
 Option: delatt - Write adjacency information to an ascii file. Write list of all elements adjacent to each element. 
 File format: elem_number ean_num e1 e2 ... en 
@@ -64,7 +64,7 @@ Option: keepatt - write file and add node attribute ean_num (number of elements 
 Option: attonly - do not write file, add node attribute ean_num, a dummy argument is still required in the file_name field 
 
 
-**dump / elem_adj_node /** file_name / mo_name 
+**dump** / **elem_adj_node** / *file_name* / mo_name 
 
 Write adjacency information to an ascii file. Write list of all elements adjacent to each node. 
 File format: 
@@ -169,8 +169,37 @@ Write a LaGriT restart file that contains geometry and mesh object information. 
 
 **dump** / **pflotran** / *file_name_root* / cmo_name / **nofilter_zero**
 
-Write coefficient matrix (stor) style values in PFLOTRAN .uge format file. The default **dump/pflotran** command does not write zero coupling coefficients. Use the keyword nofilter_zero to include them. 
+Write coefficient matrix (stor) style values in PFLOTRAN .uge format file. The default **dump/pflotran** command does not write zero coupling coefficients. Use the keyword nofilter_zero to include zero coupling coefficients in the file.
 
+The following is the format used by PFLOTRAN for .uge (explicit unstructured grid) file.
+
+<blockquote>
+The first block are the list of ids of cells and the 
+coordinates of cell centroids and the volumes of the cells.
+The PFLOTRAN cells are Voronoi volumes, one for each node.
+ 
+```
+CELLS <integer>    integer = # cells (N)
+id_1  x_1  y_1  z_1 volume_1
+d_2   x_2  y_2  z_2  volume_2
+...
+...
+id_N x_N y_N z_N volume_N
+```
+
+The second block consists of a list of ids of the connecting cells (id_up, id_dn), 
+coordinates of the face centroid between the two connected cells and 
+areas of the faces.
+
+```
+CONNECTIONS <integer>   integer = # connections (M)
+id_up_1 id_dn_1 x_1 y_1 z_1 area_1
+id_up_2 id_dn_2 x_2 y_2 z_2 area_2
+...
+...
+id_up_M id_dn_M x_M y_M z_M area_M
+```
+</blockquote>
 
 **dump / recolor /** file_name 
 
