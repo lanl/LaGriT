@@ -1,7 +1,7 @@
 
- **GENIEE**
+ # GENIEE
 
-  OPTION1:
+ ## OPTION1:
   
   Generate element connectivity list (jtet) that gives neighbor
   information. Element connectivity is maintained by LaGriT, but can
@@ -31,7 +31,7 @@
   these faces will be matched.  Otherwise they will be marked as
   external boundary faces.
  
-  OPTION2:
+## OPTION2:
   
   Attempt to make the topological orientation (itet array) of a
   triangle, quad, or hybrid tri/quad mesh consistent so that shared
@@ -93,7 +93,7 @@
                   1 if the element orientation was changed
   
 
- EXAMPLE:
+## EXAMPLES:
 
       geniee / cmo / 2dnormal
   
@@ -133,3 +133,14 @@
   ipath is the search path the algorithm followed through the mesh. 
 
   ifflip reports the orientation of each element as compared to element 1.
+  
+  ## Testing Topology or watertightness for Multi-Materials
+  
+For a single material watertight mesh, there will be no boundaries, that is **geniee** will report no more than 2 jtet loops. If you run **boundary_components** the result will show "0  different exterior boundary components". For a watertight mesh, each edge needs to appear in (at least) two facets, but can appear in more than two. For instance if a surface is extracted on a 2 material mesh, the material boundary faces will also be extracted. These boundary faces will share an edge with outside faces so that 3 faces share a single edge. **geniee** will report as shown in this example with 4 boundary edges and no more than 3 faces sharing an edge:
+
+  
+    geniee: mesh has   4  jtet loops, max cycle length =  3
+    
+
+The basic test is we compute a face graph of the mesh. We visit all cells and look across the face and ask if I look across face i of cell J what is the cell m and face n on the other side. If the answer is, nothing is on the other side the face is labeled as 'boundary'. The tests are not geometric, they are topological. The test is on the cell connectivity list. That is if cell a has edge i,j then we are looking in the connectivity list for a cell with edge j,i (or i,j). In general in a 'good' mesh we expect the shared edge to be traversed in the opposite direction. However, in the multi-material models where 3 (or more) triangles share an edge, we cannot expect the edges to be traversed in opposite directions.
+
