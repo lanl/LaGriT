@@ -1,7 +1,12 @@
 
- # GENIEE
+# GENIEE
 
- ## OPTION1:
+ **geniee**
+ 
+ **geniee** / moname / **2dnormal** / *reference\_element\_number* / [ addatt ]
+
+
+## OPTION 1:
   
   Generate element connectivity list (jtet) that gives neighbor
   information. Element connectivity is maintained by LaGriT, but can
@@ -31,7 +36,7 @@
   these faces will be matched.  Otherwise they will be marked as
   external boundary faces.
  
-## OPTION2:
+ ## OPTION 2:
   
   Attempt to make the topological orientation (itet array) of a
   triangle, quad, or hybrid tri/quad mesh consistent so that shared
@@ -53,7 +58,7 @@
   check is made, it compares child points. When permutation of
   elements is done, only itet and jtet arrays are updated.
 
- **FORMAT:**
+## SYNTAX:**
 
   OPTION 1:
   
@@ -61,17 +66,16 @@
   
   OPTION 2:
   
- 
+
   **geniee** / **moname** / **2dnormal** /
   **reference\_element\_number** / [addatt]
 
   
-  **moname** - name of mesh object to operate on. Can be / / or /-def-/
+  *moname* - name of mesh object to operate on. Can be / / or /-def-/
   
   **2dnormal** - keyword to cause this module to execute
 
-  
-  **reference\_element\_number** - default = 1
+  *reference\_element\_number* - default = 1
   
   This is the element number that will be the reference element that
   all other elements are compared to. If this parameter is a negative
@@ -79,18 +83,14 @@
   abs(reference\_element\_number) is reversed and then used as the
   reference.
 
+  *reference\_element\_number* = 0 will check and report if orientation is consistent, but will not do any flipping.
   
-  **reference\_element\_number** = 0 will check and report if
-  orientation is consistent, but will not do any flipping.
-  
-  **addatt** - if the keyword addatt is included, two new arrays are
-  added to the mesh object.
+  **addatt** - if the keyword addatt is included, two new arrays ipath and ifflip are added to the mesh object.
 
-  **ipath** - The order in which elements are visited.
+      ipath - The order in which elements are visited.
 
-  **ifflip** -    0 if the element orientation was NOT changed
-
-                  1 if the element orientation was changed
+      ifflip - 0 if the element orientation was NOT changed, 1 if the element orientation was changed. 
+      Note the ifflip array will not make sense for jtet loops greater than 2. In this case there is no single solution.
   
 
 
