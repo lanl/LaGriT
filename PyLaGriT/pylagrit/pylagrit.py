@@ -3286,7 +3286,3 @@ def zone_to_zonn(zonefile):
     with open(zonnfile,'w') as fout:
         fout.write('zonn\n')
         for l in lns: fout.write(l)
-
-
-
-

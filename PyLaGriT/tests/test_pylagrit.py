@@ -16,7 +16,7 @@ class TestPyLaGriT(unittest.TestCase):
     def setUp(self):
         #Sets upt a lagrit object to be used during tests.
         with suppress_stdout():
-            self.lg = pylagrit.PyLaGriT('/n/swdev/LAGRIT/bin/lagrit_lin')
+            self.lg = pylagrit.PyLaGriT('/path/to/lagrit')
 
     def test_read_script(self):
         '''
@@ -65,7 +65,7 @@ class TestPyLaGriT(unittest.TestCase):
             mo1 = lg.read('avs', 'contour_file.avs')
             mo2 = lg.read('avs', 'contour_file.avs')
             mo3 = lg.read('avs', 'contour_file.avs')
-            new_mo = lg.merge(mo1, mo2, mo3)        
+            new_mo = lg.merge([mo1, mo2, mo3]) 
         #Test that the merge created a new mesh object.
         if type(new_mo) is type(None):
             raise ValueError('An expected mesh object was not created.')
@@ -81,7 +81,7 @@ class TestPyLaGriT(unittest.TestCase):
         with suppress_stdout():
             mo1 = lg.create() 
             mo2 = lg.create_hex() 
-            mo3 = lg.create(mesh='pri') 
+            mo3 = lg.create(elem_type='pri') 
         if any([type(x) is type(None) for x in [mo1, mo2, mo3]]):
             raise ValueError('An expected mesh object was not created.')
             

@@ -1,3 +1,3 @@
-from pylagrit.pylagrit import PyLaGriT
+from pylagrit.pylagrit import *
 
 __xall__ = ['PyLaGriT']
