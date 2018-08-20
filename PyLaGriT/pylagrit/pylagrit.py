@@ -44,8 +44,8 @@ class PyLaGriT(spawn):
         if self.batch:
             try: self.fh = open(batchfile, 'w')
             except IOError as e: 
-                print "Unable to open "+batchfile+": {1}".format(e.strerror)
-                print "Batch mode disabled"
+                print("Unable to open "+batchfile+": {1}".format(e.strerror))
+                print("Batch mode disabled")
                 self.batch = False
             else:
                 self.batchfile = batchfile
@@ -53,7 +53,7 @@ class PyLaGriT(spawn):
         else:
             super(PyLaGriT, self).__init__(self.lagrit_exe,timeout=timeout,*args, **kwargs) 
             self.expect()
-            if verbose: print self.before
+            if verbose: print(self.before)
     def run_batch(self):
         self.fh.write('finish\n')
         self.fh.close()
@@ -65,7 +65,7 @@ class PyLaGriT(spawn):
             fout.close()
     def expect(self, expectstr='Enter a command',timeout=8640000.):
         if self.batch:
-            print "expect disabled during batch mode"
+            print("expect disabled during batch mode")
         else:
             super(PyLaGriT, self).expect(expectstr,timeout=timeout) 
     def sendline(self, cmd, verbose=True, expectstr='Enter a command'):
@@ -74,16 +74,16 @@ class PyLaGriT(spawn):
         else:
             super(PyLaGriT, self).sendline(cmd) 
             self.expect(expectstr=expectstr)
-            if verbose and self.verbose: print self.before
+            if verbose and self.verbose: print(self.before)
     def interact(self, escape_character='^'):
         if self.batch:
-            print "Interactive mode unavailable during batch mode"
+            print("Interactive mode unavailable during batch mode")
         else:
-            print "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-            print "Entering interactive mode"
-            print "To return to python terminal, type a '"+escape_character+"' character"
-            print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-            print self.after
+            print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+            print("Entering interactive mode")
+            print("To return to python terminal, type a '"+escape_character+"' character")
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+            print(self.after)
             super(PyLaGriT, self).interact(escape_character=escape_character) 
     def cmo_status(self, cmo=None, brief=False, verbose=True):
         cmd = 'cmo/status'
@@ -171,7 +171,7 @@ class PyLaGriT(spawn):
                 return mos[0]
             elif len(mos) > 1:
                 if name is not None:
-                    print "Multiple mesh objects exist, 'name' option will be ignored"
+                    print("Multiple mesh objects exist, 'name' option will be ignored")
                 return mos
         else:
             self.mo[name] = MO(name,self)
@@ -446,12 +446,12 @@ class PyLaGriT(spawn):
         if isinstance(mo1,MO): mo1name = mo1.name
         elif isinstance(mo1,str): mo1name = mo1
         else:
-            print "ERROR: MO object or name of mesh object as a string expected for mo1"
+            print("ERROR: MO object or name of mesh object as a string expected for mo1")
             return
         if isinstance(mo2,MO): mo2name = mo2.name
         elif isinstance(mo2,str): mo2name = mo2
         else:
-            print "ERROR: MO object or name of mesh object as a string expected for mo2"
+            print("ERROR: MO object or name of mesh object as a string expected for mo2")
             return
         if name is None:
             name = make_name('mo',self.mo.keys())
@@ -479,17 +479,17 @@ class PyLaGriT(spawn):
         if isinstance(pset,PSet): psetname = pset.name
         elif isinstance(pset,str): psetname = pset
         else:
-            print "ERROR: PSet object or name of PSet object as a string expected for pset"
+            print("ERROR: PSet object or name of PSet object as a string expected for pset")
             return
         if isinstance(mo1,MO): mo1name = mo1.name
         elif isinstance(mo1,str): mo1name = mo1
         else:
-            print "ERROR: MO object or name of mesh object as a string expected for mo1"
+            print("ERROR: MO object or name of mesh object as a string expected for mo1")
             return
         if isinstance(mo2,MO): mo2name = mo2.name
         elif isinstance(mo2,str): mo2name = mo2
         else:
-            print "ERROR: MO object or name of mesh object as a string expected for mo2"
+            print("ERROR: MO object or name of mesh object as a string expected for mo2")
             return
         if name is None:
             name = make_name('mo',self.mo.keys())
@@ -611,15 +611,15 @@ class PyLaGriT(spawn):
                 elif v[0].strip() == 'paraview_exe':
                     self.paraview_exe = v[1].strip()
                 else:
-                    print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
+                    print('WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\'')
             else:
-                print 'WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\''
+                print('WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\'')
     def extract_surfmesh(self,name=None,cmo_in=None,stride=[1,0,0],reorder=True,resetpts_itp=True,external=False,append=None):
         if name is None:
             name = make_name('mo',self.mo.keys())
         if cmo_in is not None:
             if not isinstance( cmo_in, MO):
-                print "ERROR: MO object or name of mesh object as a string expected for cmo_in"
+                print("ERROR: MO object or name of mesh object as a string expected for cmo_in")
                 return
         if resetpts_itp: cmo_in.resetpts_itp()
         if reorder:
@@ -1055,17 +1055,17 @@ class PyLaGriT(spawn):
         if z is not None: 
             if len(z) > 0: dim += 1 
         if dim == 0:
-            print "ERROR: must define at least one of x, y, z arrays"
+            print("ERROR: must define at least one of x, y, z arrays")
             return
         if elem_type in ['line'] and dim != 1:
-            print "Error: Only 1 coordinate array (x,y,z) required for elem_type 'line'"
+            print("Error: Only 1 coordinate array (x,y,z) required for elem_type 'line'")
             return
         if elem_type in ['tri','quad'] and dim != 2:
-            print "Error: Only 2 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'"
+            print("Error: Only 2 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'")
             return
         if elem_type in ['tet','hex'] and dim != 3:
-            print "Error: 3 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'"
-            print "Set elem_type to a 2D format like 'quad' or 'triplane'"
+            print("Error: 3 coordinate arrays (x,y,z) required for elem_type '"+str(elem_type)+"'")
+            print("Set elem_type to a 2D format like 'quad' or 'triplane'")
             return
         if x is None or len(x) == 0: x = [0]
         if y is None or len(y) == 0: y = [0]
@@ -1128,14 +1128,14 @@ class PyLaGriT(spawn):
         iz = numpy.all(numpy.diff(coords[:,2])==0)
         if not iz: dim += 1
         if elem_type in ['line'] and dim != 1:
-            print "Error: Coordinates must form line for elem_type 'line'"
+            print("Error: Coordinates must form line for elem_type 'line'")
             return
         if elem_type in ['tri','quad'] and dim != 2:
-            print "Error: Coordinates must form plane for elem_type '"+str(elem_type)+"'"
+            print("Error: Coordinates must form plane for elem_type '"+str(elem_type)+"'")
             return
         if elem_type in ['tet','hex'] and dim != 3:
-            print "Error: 3D coordinates required for elem_type '"+str(elem_type)+"'"
-            print "Set elem_type to a 2D format like 'quad' or 'triplane'"
+            print("Error: 3D coordinates required for elem_type '"+str(elem_type)+"'")
+            print("Set elem_type to a 2D format like 'quad' or 'triplane'")
             return
 
         outfile = open(filename,'w')
@@ -1250,7 +1250,7 @@ class MO(object):
             if self.ndim_geo == 2: etype = 'triplane'
         return etype
     def status(self,brief=False,verbose=True):
-        print self.name
+        print(self.name)
         self._parent.cmo_status(self.name,brief=brief,verbose=verbose)
     def read(self,filename,filetype=None):
         # If filetype is lagrit, name is irrelevant
@@ -1261,7 +1261,7 @@ class MO(object):
         if filetype != 'lagrit':
             cmd = '/'.join([cmd,filename,self.name])
         else:
-            print "Error: Can't read in lagrit type file into existing mesh object"
+            print("Error: Can't read in lagrit type file into existing mesh object")
             return
         self.sendline(cmd)
 
@@ -1275,14 +1275,14 @@ class MO(object):
                 if isinstance(pset,PSet): setname = pset.name
                 elif isinstance(pset,str): setname = pset
                 else:
-                    print "ERROR: PSet object or name of PSet object as a string expected for pset"
+                    print("ERROR: PSet object or name of PSet object as a string expected for pset")
                     return
                 cmd = '/'.join(['cmo/printatt',self.name,attname,ptype,','.join(['pset','get',setname])])
             if eltset is not None:
                 if isinstance(eltset,EltSet): setname = eltset.name
                 elif isinstance(eltset,str): setname = eltset
                 else:
-                    print "ERROR: EltSet object or name of EltSet object as a string expected for eltset"
+                    print("ERROR: EltSet object or name of EltSet object as a string expected for eltset")
                     return
                 cmd = '/'.join(['cmo/printatt',self.name,attname,ptype,','.join(['eltset','get',setname])])
         self.sendline(cmd)
@@ -1672,7 +1672,7 @@ class MO(object):
         if isinstance(region,Region): region_name = region.name
         elif isinstance(region,str): region_name = region
         else:
-            print 'region must be a string or object of class Region'
+            print('region must be a string or object of class Region')
             return
         cmd = '/'.join(['eltset',name,'region',region_name])
         self.sendline(cmd)
@@ -1689,7 +1689,7 @@ class MO(object):
         if isinstance(pset,PSet): name = pset.name
         elif isinstance(pset,str): name = pset
         else:
-            print 'p must be a string or object of class PSet'
+            print('p must be a string or object of class PSet')
             return
         cmd = 'rmpoint/pset,get,'+name+'/'+itype
         self.sendline(cmd)
@@ -1698,7 +1698,7 @@ class MO(object):
         if isinstance(eltset,EltSet): name = eltset.name
         elif isinstance(eltset,str): name = eltset
         else:
-            print 'eltset must be a string or object of class EltSet'
+            print('eltset must be a string or object of class EltSet')
             return
         cmd = 'rmpoint/element/eltset,get,'+name
         self.sendline(cmd)
@@ -1967,7 +1967,7 @@ class MO(object):
         os.system(self._parent.paraview_exe+' '+filename)
     def dump(self,filename=None,format=None,*args):
         if filename is None and format is None:
-            print "Error: At least one of either filename or format option is required"
+            print("Error: At least one of either filename or format option is required")
             return
         #if format is not None: cmd = '/'.join(['dump',format])
         #else: cmd = 'dump'
@@ -2049,7 +2049,7 @@ class MO(object):
         cmd = ['dump','zone_outside',filename,self.name]
         if keepatt: cmd.append('keepatt')
         if keepatt_median and keepatt_voronoi:
-            print "Error: keepatt_median and keepatt_voronoi cannot both be True"
+            print("Error: keepatt_median and keepatt_voronoi cannot both be True")
             return
         elif keepatt_median: cmd.append('keepatt_median')
         elif keepatt_voronoi: cmd.append('keepatt_voronoi')
@@ -2251,13 +2251,13 @@ class MO(object):
             if cl == 'under': npts[i] = int(numpy.floor((maxs[i]-mins[i])/dxyz[i]))
             elif cl == 'over': npts[i] = int(numpy.ceil((maxs[i]-mins[i])/dxyz[i]))
             else:
-                print "Error: unrecognized clip option"
+                print("Error: unrecognized clip option")
                 return
         for i,bnd in enumerate(hard_bound):
             if bnd == 'min': maxs[i] = mins[i] + npts[i]*dxyz[i]
             elif bnd == 'max': mins[i] = maxs[i] - npts[i]*dxyz[i]
             else:
-                print "Error: unrecognized hard_bound option"
+                print("Error: unrecognized hard_bound option")
                 return
         npts += 1
         npts.astype('int')
@@ -2747,7 +2747,7 @@ class MO(object):
         cmd = ['intrp','continuous',self.name+' '+attsink,','.join(stride),cmosrc.name+' '+attsrc]
         if nearest is not None: cmd += ['nearest',nearest]
         if interp_function is not None: cmd.append(interp_function)
-        print '/'.join(cmd)
+        print('/'.join(cmd))
         self.sendline('/'.join(cmd))
     def interpolate_default(self,attsink,cmosrc,attsrc,stride=[1,0,0],tie_option='tiemax',
                     flag_option='plus1',keep_option='delatt',interp_function=None):
@@ -2768,7 +2768,7 @@ class MO(object):
         cmd = ['stack/layers',file_type]
         if xy_subset is not None: cmd.append(xy_subset)
         cmd.append(' &')
-        print cmd
+        print(cmd)
         self.sendline('/'.join(cmd),expectstr='\r\n')
         self._parent.sendline(' '.join([filelist[0],str(matids[0]),'/ &']),expectstr='\r\n')
         for f,nl,md in zip(filelist[1:-1],nlayers[0:-1],matids[1:-1]): 
@@ -2887,7 +2887,7 @@ class MO(object):
             cmd.append(boolean)
             cmd.append(attribute)
         elif (boolean is None and attribute is not None) or (boolean is not None and attribute is None):
-            print 'Error: Both boolean and attribute must be specified together'
+            print('Error: Both boolean and attribute must be specified together')
             return
         self.sendline('/'.join(cmd))
     def tri_mesh_output_prep(self):

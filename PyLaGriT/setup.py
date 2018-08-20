@@ -2,7 +2,7 @@ from distutils.core import setup
 import os
 
 setup(name='pylagrit',
-	version='0.0.0',
+	version='1.0.0',
 	description='Python interface for LaGriT',
 	author='Dylan R. Harp',
 	author_email='dharp@lanl.gov',
@@ -11,5 +11,4 @@ setup(name='pylagrit',
 	packages=[
 		'pylagrit',
 		'pylagrit.pexpect'],
-	py_modules=['pylagrit','pexpect','__init__'],
 	)
