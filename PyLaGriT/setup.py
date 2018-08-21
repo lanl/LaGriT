@@ -10,5 +10,5 @@ setup(name='pylagrit',
 	license='LGPL',
 	packages=[
 		'pylagrit',
-		'pylagrit.pexpect'],
+		'pylagrit.pexpect']
 	)

@@ -1,4 +1,4 @@
-from pexpect import spawn
+from pylagrit.pexpect import spawn
 from subprocess import call, PIPE
 import os,sys
 import glob
@@ -11,6 +11,13 @@ try:
 except ImportError:
     import xml.etree.ElementTree as ET
 from xml.dom import minidom
+
+# Universal-safe function for ensuring string integrity
+def _decode_binary(b):
+    if isinstance(b,bytes):
+        return b.decode('ascii')
+    else:
+        return b
 
 class PyLaGriT(spawn):
     ''' 
@@ -53,7 +60,7 @@ class PyLaGriT(spawn):
         else:
             super(PyLaGriT, self).__init__(self.lagrit_exe,timeout=timeout,*args, **kwargs) 
             self.expect()
-            if verbose: print(self.before)
+            if verbose: print(_decode_binary(self.before))
     def run_batch(self):
         self.fh.write('finish\n')
         self.fh.close()
@@ -72,9 +79,9 @@ class PyLaGriT(spawn):
         if self.batch:
             self.fh.write(cmd+'\n')
         else:
-            super(PyLaGriT, self).sendline(cmd) 
+            super(PyLaGriT, self).sendline(cmd)
             self.expect(expectstr=expectstr)
-            if verbose and self.verbose: print(self.before)
+            if verbose and self.verbose: print(_decode_binary(self.before))
     def interact(self, escape_character='^'):
         if self.batch:
             print("Interactive mode unavailable during batch mode")
@@ -159,7 +166,7 @@ class PyLaGriT(spawn):
             self.sendline('cmo/status/brief', verbose=False)
             # dump lagrit doesn't seem to ever dump multiple mos now???
             mos = []
-            for line in self.before.splitlines():
+            for line in _decode_binary(self.before).splitlines():
                 if 'Mesh Object name:' in line: 
                     nm = line.split(':')[1].strip()
                     self.mo[nm] = MO(nm,self)
