@@ -21,6 +21,14 @@ def isPointOutsidePolygon(vertices,pt1,pt2):
     Practically, what this means is that if you draw a line from the center 
     of a TIN (which is inside the convex hull) to an arbitrary point, this function
     will return whether that point is inside or outside the convex hull.
+
+    :param vertices: bounding polygon
+    :type vertices: np.ndarray
+    :param pt1: first vertex defining crossing line
+    :type pt1: float
+    :param pt2: second vertex defining crossing line
+    :type pt2: float
+    :returns: flag indicating whether point is in or outside polygon
     '''
 
     def ccw(A,B,C):
@@ -67,6 +75,19 @@ def cullTrianglesToAlphaHull(points,triangles,boundary,ncols,cell_size,xll_corne
     [2] http://geomalgorithms.com/a03-_inclusion.html
     [3] https://en.wikipedia.org/wiki/Point_in_polygon
 
+    :param points: set of points defining mesh
+    :type points: np.ndarray
+    :param triangles: array of triangle connectivity defining mesh
+    :type triangles: np.ndarray
+    :param boundary: set of vertices defining mesh boundary
+    :type boundary: np.ndarray
+    :param ncols: number of columns in DEM
+    :type ncols: int
+    :param cell_size: DEM cell size
+    :type cell_size: float
+    :param xll_corner: lower-left corner of DEM (x-component)
+    :type xll_corner: float
+    :returns: filtered triangles
     '''
 
     print("\n\nA Culling Triangulation to Bounding Polygon")
@@ -101,6 +122,14 @@ def cullTrianglesToAlphaHull(points,triangles,boundary,ncols,cell_size,xll_corne
 def triangulateNodes(nodes,preserve_boundary=False,boundary_vertices=None,
                      qhull_opts="QJ",ncols=None,cell_size=None,xll_corner=None):
     '''
+
+    Triangulates a set of nodes using the Delaunay criterion.
+
+    :param nodes: nodes to triangulate
+    :type nodes: np.ndarray
+    :param preserve_boundary: flag indicating whether bounding polygon should be respected
+    :type preserve_boundary: bool
+    :returns: triangulation
 
     '''
 
@@ -169,6 +198,37 @@ def CellsInCircle(maxDiameter,cellSize):
 
 def PlacePoints(elevation,arrayDistance,boundary,nRows,nCols,cellSize,noDataValue,maxDistance,
                 minDistance,maxEdge,minEdge,xllCorner,yllCorner):
+    '''
+    Circle-packs points with a density proportional to the provided distance map / rasterized gradient field.
+
+    :param elevation: rasterized DEM
+    :type elevation: np.ndarray
+    :param arrayDistance: rasterized gradient field
+    :type arrayDistance: np.ndarray
+    :param boundary: set of boundary nodes
+    :type boundary: np.ndarray
+    :param nRows: rows in DEM
+    :type nRows: int
+    :param nCols: columns in DEM
+    :type nCols: int
+    :param cellSize: DEM cell size
+    :type cellSize: float
+    :param noDataValue: DEM no data value
+    :type noDataValue: float
+    :param minDistance: threshold value for minimum-edged nodes
+    :type minDistance: float
+    :param maxDistance: threshold value for maximum-edged nodes
+    :type maxDistance: float
+    :param minEdge: length of smallest triangle edge
+    :type minEdge: float
+    :param maxEdge: length of largest triangle edge
+    :type maxEdge: float
+    :param xllCorner: lower left corner of DEM (x)
+    :type xllCorner: float
+    :param yllCorner: lower left corner of DEM (y)
+    :type yllCorner: float
+    :returns: array of nodes
+    '''
 
     print("\nA Variable Circle Packing over a Gradient")
     print("C Middleton, R., et al. 2017.\n")

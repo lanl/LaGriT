@@ -1,6 +1,7 @@
 import richdem as rd
 import matplotlib.pyplot as plt
 from copy import deepcopy
+from pylagrit import PyLaGriT
 from tinerator.watershed_deliniation import *
 from tinerator.boundary import *
 from tinerator.unit_conversion import *
@@ -10,12 +11,13 @@ from tinerator.visualize import *
 from tinerator.downloader import *
 from tinerator.generate_triplane import *
 
-def loadDEM(filepath):
-    return DEM(filepath)
+def loadDEM(filepath,lagrit_exe=None):
+    return DEM(filepath,lagrit_exe=lagrit_exe)
 
 class DEM():
-    def __init__(self,filepath):
+    def __init__(self,filepath,lagrit_exe=None):
         self.dem = rd.LoadGDAL(filepath)
+        self.lg = PyLaGriT(lagrit_exe=lagrit_exe)
         self.distance_field = None
         self.triangles = None
         self.feature = None
@@ -34,8 +36,6 @@ class DEM():
         self.min_distance = 0.3
         self.max_edge = 10.
         self.min_edge = 0.1
-
-        print(self.__dict__)
 
     def plot(self,plot_out=None):
         '''
@@ -57,6 +57,23 @@ class DEM():
 
         plotDEM(dem,plot_out=plot_out,title="DEM",extent=extent,xlabel="latitude",ylabel="longitude")
         plotDEM(distance,plot_out=plot_out,extent=extent,title="Distance Field",xlabel="latitude",ylabel="longitude",hillshade_image=False)
+
+    def watershedDeliniation(self,threshold:float=4000.):
+        '''
+
+        Performs watershed deliniation on a DEM and returns a set of points
+        corresponding to the feature.
+
+        :param threshold: threshold for determining feature from noise
+        :type threshold: float
+        :returns: (x,y) pairs of feature
+        '''
+
+        accumulation = watershedDeliniation(self.dem)
+        self.feature = getFeatureTrace(accumulation,threshold)
+        self.feature[:,0] = xVectorToProjection(self.feature[:,0],self.cell_size,self.yll_corner)
+        self.feature[:,1] = yVectorToProjection(self.feature[:,1],self.cell_size,self.xll_corner,self.nrows)
+        return self.feature
 
     def writeAVS(self,outfile:str):
         '''
@@ -88,15 +105,10 @@ class DEM():
         self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
         return self.boundary
 
-    def _generateTIN(self,outfile,offset=10.,lagrit_path="lagrit"):
+    def _generateTIN(self,outfile,layers,matids=None):
         '''
 
-        ~~~~~~DEPRECATED~~~~~
-
-        Generates an extruded TIN.
-
-        This function will soon be refactored (though the syntax will stay approximately
-        the same) in favor of a LaGriT-based algorithm.
+        Generates an extruded TIN using a deprecated algorithm.
 
         '''
         self.points = PlacePoints(self.dem,self.distance_field,self.boundary,self.ncols,self.nrows,
@@ -109,16 +121,37 @@ class DEM():
                                           boundary_vertices=self.boundary)
 
         self.writeAVS("_trimesh.inp")
-        extrudeTriangularMesh("_trimesh.inp",outfile,offset=offset,lagrit_path=lagrit_path)
+        stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids)
 
-
-    def generateTIN(self,outfile,offset=10.,lagrit_path="lagrit"):
+    def generateStackedTIN(self,outfile:str,layers:list,h=None,delta:float=0.75,
+                           slope:float=2.,refine_dist:float=0.5,matids=None,
+                           nlayers=None,xy_subset=None):
         '''
-        Generates an extruded TIN.
+        Generates a refined triangular mesh, with a minimum refinement length 
+        defined by h. Then, extrudes the mesh with user-defined layer thickness
+        and material ids.
 
+        :param outfile: filename to save mesh
+        :type outfile: str
+        :param layers: heights of each extruded layer
+        :type layers: list<float>
+        :param h: meshing length scale
+        :type h: float
+        :param delta: buffer zone, amount of h/2 removed around feature
+        :type delta: float
+        :param slope: slope of coarsening function
+        :type slope: float
+        :param refine_dist: distance used in coarsing function
+        :type refine_dist: float
+        :param matids: material ids for layers
+        :type matids: list<int>
         '''
-        buildRefinedTriplane(self.boundary,self.feature,"_trimesh.inp")
-        #extrudeTriangularMesh("_trimesh.inp",outfile,offset=offset,lagrit_path=lagrit_path)
+
+        if h is None:
+            h = 50.
+
+        buildRefinedTriplane(self.boundary,self.feature,"_trimesh.inp",h,refine_dist=refine_dist,slope=slope,delta=delta)
+        stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
 
     def calculateDistanceField(self,accumulation_threshold:float=75.,mask:bool=True,normalize:bool=True):
         '''

@@ -12,12 +12,14 @@ def downloadDEM(bounds=None,outfile=None,shapefile=None,margin=None,low_res=True
 
     To download DEMs using a shapefile as a reference, you must run:
 
+    .. code:: bash
+    
         pip install fiona
 
     Example:
 
     >>> my_dem = downloadDEM(bounds=(12.35,41.8,12.65,42),outfile='Rome-90m-DEM.tif')
-    >>> plt.imshow(my_dem.data)
+    >>> plt.imshow(my_dem)
     >>> plt.show()
 
     :param bounds: Bounding box values in geodetic coordinates (left, bottom, right, top)

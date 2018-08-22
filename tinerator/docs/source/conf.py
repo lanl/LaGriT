@@ -51,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'TINerator'
-copyright = '2018, Daniel Livingston, David Moulton, Richard Middleton'
+copyright = '(c) 2018 Los Alamos National Laboratory'
 author = 'Daniel Livingston, David Moulton, Richard Middleton'
 
 # The version info for the project you're documenting, acts as replacement for

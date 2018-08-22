@@ -5,46 +5,28 @@ import numpy as np
 from copy import deepcopy
 import skimage.draw as draw
 
-def __getPolygonFromFeature(feature,feature_threshold=750.):
-    '''
-    docs
-    '''
-
-    threshold_matrix = feature > feature_threshold
-    #plt.imshow(threshold_matrix); plt.show()
-    shapes = rasterio.features.shapes(threshold_matrix.astype(np.int32))
-    for shape in shapes:
-        xy = shape[0]['coordinates'][0]
-        xy = np.array(xy)
-        plt.scatter(xy[:,0],xy[:,1])
-    plt.show()
-    
-    #print(shapes.__dict__)
-    #polygons = [shapely.geometry.Polygon(shape[0]["coordinates"][0]) for shape in shapes if shape[1] == 1]
-    #print(polygons[0].exterior.coords.xy) # POLYGON ((369 24, 369 25, 372 25, 372 24, 369 24))
-
 def getFeatureTrace(feature: np.ndarray, distance: int, feature_threshold: float=750.):
+    '''
+    Returns an array of (x,y) pairs corresponding to values over a given
+    threshold in a feature array.
+
+    :param feature: 
+    :type feature:
+    :param distance:
+    :type distance:
+    :param feature_threshold:
+    :type feature_threshold:
+    :returns: 
+    '''
+
     threshold_matrix = (feature > feature_threshold)
     captured_areas = np.zeros(np.shape(threshold_matrix),dtype=bool)
-
-    from tinerator.unit_conversion import xVectorToProjection,yVectorToProjection
-    from tinerator.generate_triplane import generateLineConnectivity,_writeLineAVS
-
-    xllCorner = 0.0
-    yllCorner = 0.0
-    nRows = 751
-    cellSize = 10.0
-
     xy = np.transpose(np.where(threshold_matrix == True))
-    xy[:,0] = xVectorToProjection(xy[:,0],cellSize,xllCorner)
-    xy[:,1] = yVectorToProjection(xy[:,1],cellSize,yllCorner,nRows)
+    xy[:, 0], xy[:, 1] = xy[:, 1], xy[:, 0].copy()
 
-    connectivity = generateLineConnectivity(xy)
+    #TODO: Epsilon filtering of points
 
-    _writeLineAVS(xy,"tmp_boundary.inp",connections=connectivity)
-
-    #import scipy.spatial.distance as distance
-    #dst = distance.cdist(xy,xy)
+    return xy
 
 
 def calculateDistanceField(accum: np.ndarray,accumulation_threshold:float=750.):

@@ -1,4 +1,5 @@
 import subprocess
+import numpy as np
 
 def deleteFile(filename):
     subprocess.call(("rm %s" % filename),shell=True,stderr=subprocess.STDOUT)
@@ -54,62 +55,3 @@ def callLaGriT(commands:str,lagrit_path:str="lagrit"):
 
     subprocess.call(("%s < _tmp_lagrit_infile.in" % lagrit_path),shell=True,stderr=subprocess.STDOUT)
     deleteFile("_tmp_lagrit_infile.in")    
-
-def extrudeTriangularMesh(infile,outfile,layers,lagrit_path="lagrit"):
-    '''
-    Extrudes a triangular mesh into a layered prism mesh.
-    This function will be deprecated when PyLaGriT is updated for Python 3.
-
-    :param infile: triplane mesh infile
-    :type infile: string
-    :param outfile: output mesh filepath
-    :type outfile: string
-    :param layers: an ordered list of extrusion depths
-    :type outfile: list<float>
-    :param lagrit_path: path to LaGriT
-    :type lagrit_path: string
-    '''
-
-    if not isinstance(layers,list):
-        layers = [layers]
-
-    lagrit_string = '''
-read/avs/{0}/motmp_top///tri
-cmo printatt motmp_top -xyz- minmax
-cmo/select/motmp_top
-'''.format(infile)
-
-    for (i,layer) in enumerate(layers):
-        lagrit_string += '''
-cmo/select/motmp_top
-math/sub/motmp_top/zic/1,0,0/motmp_top/zic/ %f
-dump/layer%d.inp/motmp_top
-''' % (layer,i+1)
-
-    lagrit_string += '\ncmo/delete/motmp_top'
-    lagrit_string += '\ncmo/create/CMO_STACK\ncmo/select/CMO_STACK\nstack/layers/avs/ &\n'
-    lagrit_string += '\n'.join(["  layer{0}.inp {0}  &".format(len(layers)-i) for i in range(len(layers))])
-    lagrit_string += '  %s.inp 1  / flip\n' % infile
-    lagrit_string += '''
-stack/fill/CMO_PRISM / CMO_STACK                                                              
-cmo select CMO_PRISM                                                                  
-resetpts/itp
-
-cmo/addatt/CMO_PRISM/ volume / cell_vol
-cmo/printatt/CMO_PRISM/ volume minmax
-dump avs %s CMO_PRISM
-cmo printatt CMO_PRISM -all- minmax
-
-finish
-
-''' % outfile
-
-    with open('_tmp_lagrit_infile.in','w') as f:
-        f.write(lagrit_string)
-
-    print(("%s < _tmp_lagrit_infile.in" % lagrit_path).split())
-
-    subprocess.call(("%s < _tmp_lagrit_infile.in" % lagrit_path),shell=True,stderr=subprocess.STDOUT)
-    deleteFile(infile)
-    deleteFile("_tmp_lagrit_infile.in")
-

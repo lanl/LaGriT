@@ -2,13 +2,20 @@ import numpy as np
 import scipy.ndimage as ndimage
 from copy import deepcopy
 
-def imageErosionBoundary(A,nil_value):
+def imageErosionBoundary(A,nil_value,distance):
     '''
     Blazing fast way to create an accurate DEM boundary.
     Currently, there is no way to seperate nodes with a delta-x.
     As such, this function is not called anywhere within this package.
     Once that is implemented, this function will depreciate squareTraceBoundary().
 
+    :param A: matrix to perform boundary analysis on
+    :type A: np.ndarray
+    :param nil_value: value characterizing undefined array values
+    :type nil_value: float
+    :param distance: spacing between boundary nodes
+    :type distance: float
+    :returns: boundary nodes
     '''
 
     # Generate mask and pad to avoid conflicts with matrix edge
@@ -40,6 +47,14 @@ def squareTraceBoundary(A,NDV,dist=10.):
 
     For more information:
     http://www.imageprocessingplace.com/downloads_V3/root_downloads/tutorials/contour_tracing_Abeer_George_Ghuneim/square.html
+
+    :param A: matrix to perform boundary analysis on
+    :type A: np.ndarray
+    :param NDV: value characterizing undefined array values
+    :type NDV: float
+    :param dist: spacing between boundary nodes
+    :type dist: float
+    :returns: boundary nodes
     '''
 
     nRows = np.shape(A)[0]
@@ -182,6 +197,5 @@ def squareTraceBoundary(A,NDV,dist=10.):
     
     print("p Generating array...")
     boundary = np.array(tmp_points)
-    boundary_i_vertices = deepcopy(boundary)
     return boundary
 

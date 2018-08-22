@@ -1,0 +1,7 @@
+
+cmo/DELATT/mo_pts/dfield
+compute / distance_field / mo_pts / mo_line_work / dfield
+math/multiply/mo_pts/x_four/1,0,0/mo_pts/dfield/PARAM_A/
+math/add/mo_pts/x_four/1,0,0/mo_pts/x_four/PARAM_B/
+cmo/copyatt/mo_pts/mo_pts/fac_n/x_four
+finish
