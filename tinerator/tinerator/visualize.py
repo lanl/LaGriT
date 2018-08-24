@@ -56,7 +56,9 @@ def plotDEM(dem_array,title=None,xlabel=None,ylabel=None,extent=[],hillshade_ima
     ax = fig.add_subplot(111)
     if hillshade_image:
         ax.matshow(_hillshade(dem_array, 30, 30), extent=extent, cmap='Greys', alpha=.5, zorder=10, vmin=vmin, vmax=vmax)
-    cax = ax.imshow(dem_array, cmap=topocmap, extent=extent, vmin=vmin, vmax=vmax, origin='image')
+    #cax = ax.imshow(dem_array, cmap=topocmap, extent=extent, vmin=vmin, vmax=vmax, origin='image')
+    cax = ax.contourf(dem_array, np.arange(vmin, vmax, 10),extent=extent, 
+                  cmap=topocmap, vmin=vmin, vmax=vmax, origin='image')
     fig.colorbar(cax, ax=ax)
 
     if title is not None:

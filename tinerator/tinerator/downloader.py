@@ -1,7 +1,11 @@
 import subprocess
 import tinerator
+import rasterio
+import fiona
+import os
+from rasterio.mask import mask
 
-def downloadDEM(bounds=None,outfile=None,shapefile=None,margin=None,low_res=True):
+def downloadDEM(bounds=None,outfile=None,shapefile=None,margin=None,low_res=True,crop=False):
     """
     Downloads a DEM within a specified bounding box or shapefile.
     The DEM will be at a 30m or 90m resolution, depending on configuration.
@@ -65,4 +69,30 @@ def downloadDEM(bounds=None,outfile=None,shapefile=None,margin=None,low_res=True
         cmd += '--reference %s' % (shapefile)
 
     process = subprocess.call(cmd,shell=True,stderr=subprocess.STDOUT)
-    return tinerator.DEM(outfile)
+
+    if shapefile is not None and crop == True:
+
+        # Capture the shapefile geometry
+        with fiona.open(shapefile, "r") as _shapefile:
+            _poly = [feature["geometry"] for feature in _shapefile]
+
+        # Open the DEM in rasterio && mask && update metadata with mask
+        with rasterio.open(outfile) as _dem:
+            out_image, out_transform = mask(_dem, _poly, crop=True, invert=False)
+            out_meta = _dem.meta.copy()
+
+        out_meta.update({"driver": "GTiff",
+                 "height": out_image.shape[1],
+                 "width": out_image.shape[2],
+                 "transform": out_transform})
+
+        # Write out DEM and import into a TINerator class
+        with rasterio.open("_temp_cropped_dem.tif", "w", **out_meta) as dest:
+            dest.write(out_image)
+            
+        _dem = tinerator.DEM("_temp_cropped_dem.tif")
+        os.remove("_temp_cropped_dem.tif")
+        return _dem
+    else:
+        return tinerator.DEM(outfile)
+        

@@ -49,14 +49,18 @@ class DEM():
         distance = deepcopy(self.distance_field)
 
         if self.mask is not None:
-            dem[self.mask] = np.nan
-            distance[self.mask] = np.nan
+            try:
+                dem[self.mask] = np.nan
+            except ValueError:
+                dem = dem.astype(float)
+                dem[self.mask] = np.nan
+            #distance[self.mask] = np.nan
 
         extent = (self.xll_corner,self.ncols*self.cell_size+self.xll_corner,
                   self.yll_corner,self.nrows*self.cell_size+self.yll_corner)
 
         plotDEM(dem,plot_out=plot_out,title="DEM",extent=extent,xlabel="latitude",ylabel="longitude")
-        plotDEM(distance,plot_out=plot_out,extent=extent,title="Distance Field",xlabel="latitude",ylabel="longitude",hillshade_image=False)
+        #plotDEM(distance,plot_out=plot_out,extent=extent,title="Distance Field",xlabel="latitude",ylabel="longitude",hillshade_image=False)
 
     def watershedDeliniation(self,threshold:float=4000.):
         '''
