@@ -62,10 +62,10 @@ class DEM():
         plotDEM(dem,plot_out=plot_out,title="DEM",extent=extent,xlabel="latitude",ylabel="longitude")
         #plotDEM(distance,plot_out=plot_out,extent=extent,title="Distance Field",xlabel="latitude",ylabel="longitude",hillshade_image=False)
 
-    def watershedDeliniation(self,threshold:float=4000.):
+    def watershedDelineation(self,threshold:float=4000.):
         '''
 
-        Performs watershed deliniation on a DEM and returns a set of points
+        Performs watershed delineation on a DEM and returns a set of points
         corresponding to the feature.
 
         :param threshold: threshold for determining feature from noise
@@ -73,7 +73,7 @@ class DEM():
         :returns: (x,y) pairs of feature
         '''
 
-        accumulation = watershedDeliniation(self.dem)
+        accumulation = watershedDelineation(self.dem)
         self.feature = getFeatureTrace(accumulation,threshold)
         self.feature[:,0] = xVectorToProjection(self.feature[:,0],self.cell_size,self.yll_corner)
         self.feature[:,1] = yVectorToProjection(self.feature[:,1],self.cell_size,self.xll_corner,self.nrows)
@@ -173,7 +173,7 @@ class DEM():
         if self.mask is None:
             mask = False
 
-        accumulation = watershedDeliniation(self.dem)
+        accumulation = watershedDelineation(self.dem)
         self.distance_field = calculateDistanceField(accumulation,accumulation_threshold=accumulation_threshold)
 
         if normalize:
