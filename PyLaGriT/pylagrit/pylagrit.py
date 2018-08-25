@@ -262,34 +262,33 @@ class PyLaGriT(spawn):
         DXY = [str(v) for v in DXY]
         
         connect_str = 'connect' if connect==True else 'points'
-        skip_str = 'skip {}'.format(skip_lines)
+        skip_str = 'skip %d' % skip_lines
         
         data_type = data_type.lower()
         file_type = file_type.lower()
         
         if data_type not in ['float', 'double']:
-            print("ERROR: data_type must be float or double")
-            return
+            raise ValueError("data_type must be float or double")
         
         if file_type not in ['ascii', 'binary']:
-            print("ERROR: file_type must be ascii or binary")
-            return
+            raise ValueError("file_type must be ascii or binary")
         
         flip_str = flip.lower()
         
-        if flip_str in ['x', 'y', 'none']:
-            if flip_str == 'x': flip_str = 'xflip'
-            if flip_str == 'y': flip_str = 'yflip'
-            
-            if flip_str != 'none':
-                '/'.join([flip_str, file_type])
+        if flip_str in ['x', 'y', 'xy', 'none']:
+            if flip_str == 'x':    flip_str = 'xflip'
+            if flip_str == 'y':    flip_str = 'yflip'
+            if flip_str == 'xy':   flip_str = 'xflip,yflip'
+            if flip_str == 'none': flip_str = ''
+        else:
+            raise ValueError("Argument flip must be: 'x', 'y', 'xy', or 'none'")
         
         # Create new mesh object with given name
         self.sendline('cmo/create/{}'.format(name))
         self.sendline('cmo/select/{}'.format(name))
         
         # Read in elevation file and append to mesh
-        cmd = ['read','sheetij',filename,','.join(NXY),','.join(minXY),','.join(DXY),skip_str,connect_str,file_type,data_type]
+        cmd = ['read','sheetij',filename,','.join(NXY),','.join(minXY),','.join(DXY),skip_str,flip_str,connect_str,file_type,data_type]
         self.sendline('/'.join(cmd))
         
         self.mo[name] = MO(name,self)
