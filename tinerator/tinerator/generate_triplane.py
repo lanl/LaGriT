@@ -4,10 +4,13 @@ Meshing related functions that rely on an interface with LaGriT.
 
 '''
 
+import os
 import numpy as np
 from numpy import genfromtxt, sqrt, cos, arcsin
 from tinerator.dump import callLaGriT
 import pylagrit
+from copy import deepcopy
+from scipy import interpolate
 
 def generateLineConnectivity(nodes,connect_ends=False):
     connectivity = np.empty((np.shape(nodes)[0]-1,2),dtype=np.int)
@@ -30,6 +33,73 @@ def _writeLineAVS(boundary,outfile,connections=None):
             f.write("{} 1 line {} {}\n".format(i+1,connections[i][0],connections[i][1]))
 
         f.write("\n")
+
+def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout=None):
+    '''
+
+    Given a triplane mesh and a tinerator.DEM instance, this function will 
+    map elevation data from the array to the triplane mesh.
+
+    :param pylagrit.PyLaGriT lg:
+    :param str triplane: filepath to mesh to add 
+    :param str att_name:
+    :param str att_filepath:
+    :param str fileout: 
+    '''
+
+    # Generate sheet metadata
+    dem_dimensions = [dem.ncols,dem.nrows]
+    lower_left_corner = [dem.xll_corner, dem.yll_corner]
+    cell_size = [dem.cell_size,dem.cell_size]
+
+    # Overwrite original mesh if a path isn't provided
+    if fileout is None:
+        fileout = triplane_path
+
+    # Interpolate no data values on the DEM
+    # This is to prevent a noise effect on LaGriT interpolation 
+    _dem = deepcopy(dem.dem).astype(float)
+    _dem[_dem == dem.no_data_value] = np.nan
+
+    # Mask invalid values
+    _dem = np.ma.masked_invalid(_dem)
+    xx, yy = np.meshgrid(np.arange(0,_dem.shape[1]),np.arange(0,_dem.shape[0]))
+    #get only the valid values
+    x1 = xx[~_dem.mask]
+    y1 = yy[~_dem.mask]
+    newarr = _dem[~_dem.mask]
+
+    _dem = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method='cubic')
+    _dem[_dem == np.nan] = dem.no_data_value
+
+    # Dump DEM data
+    _array_out = "_temp_elev_array.dat"
+    _dem.tofile(_array_out,sep=' ',format='%.3f')
+
+    # Read DEM as a quad mesh
+    tmp_sheet = lg.read_sheetij('surfacemesh', _array_out, dem_dimensions,lower_left_corner, cell_size, flip=flip)
+
+    # Remove no_data_value elements
+    comp = 'le' if dem.no_data_value <= 0. else 'ge'
+    dud_value = dem.no_data_value - np.sign(dem.no_data_value)
+    pduds = tmp_sheet.pset_attribute('zic',dud_value,comparison=comp,name='pduds')
+    eduds = pduds.eltset(membership='inclusive',name='eduds')
+    tmp_sheet.rmpoint_eltset(eduds,compress=True,resetpts_itp=True)
+
+    # Copy elevation to new variable (priming for interpolation)
+    tmp_sheet.addatt('z_elev')
+    tmp_sheet.copyatt('zic','z_elev',tmp_sheet)
+    tmp_sheet.setatt('zic',0.)
+
+    # Load triplane && interpolate z-values onto mesh
+    triplane = lg.read(triplane_path,name='triplanemesh')
+    triplane.addatt('z_new')
+    triplane.interpolate('continuous', 'z_new', tmp_sheet, 'z_elev')
+    triplane.copyatt('z_new','zic')
+    triplane.delatt('z_new')
+    tmp_sheet.delete()
+    triplane.dump(fileout)
+    os.remove(_array_out)
 
 def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
                 matids=None,xy_subset=None,nlayers=None):
@@ -69,7 +139,7 @@ def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
     cmo_prism.dump(outfile)
     
 
-def buildRefinedTriplane(boundary:np.ndarray,feature:np.ndarray,outfile:str,
+def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.ndarray,outfile:str,
                          h:float,connectivity:bool=None,delta:float=0.75,
                          slope:float=2.,refine_dist:float=0.5):
     '''
@@ -213,4 +283,4 @@ def buildRefinedTriplane(boundary:np.ndarray,feature:np.ndarray,outfile:str,
     cmd += 'finish\n'
     ################################################
 
-    callLaGriT(cmd,lagrit_path="/Users/livingston/.bin/lagrit")
+    callLaGriT(cmd,lagrit_path=lg.lagrit_exe)

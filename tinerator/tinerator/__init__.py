@@ -129,7 +129,7 @@ class DEM():
 
     def generateStackedTIN(self,outfile:str,layers:list,h=None,delta:float=0.75,
                            slope:float=2.,refine_dist:float=0.5,matids=None,
-                           nlayers=None,xy_subset=None):
+                           nlayers=None,xy_subset=None,apply_elevation=True,flip='y'):
         '''
         Generates a refined triangular mesh, with a minimum refinement length 
         defined by h. Then, extrudes the mesh with user-defined layer thickness
@@ -154,7 +154,11 @@ class DEM():
         if h is None:
             h = 50.
 
-        buildRefinedTriplane(self.boundary,self.feature,"_trimesh.inp",h,refine_dist=refine_dist,slope=slope,delta=delta)
+        buildRefinedTriplane(self.lg,self.boundary,self.feature,"_trimesh.inp",h,refine_dist=refine_dist,slope=slope,delta=delta)
+
+        if apply_elevation:
+            addElevation(self.lg,self,"_trimesh.inp",fileout="_trimesh.inp",flip=flip)
+
         stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
 
     def calculateDistanceField(self,accumulation_threshold:float=75.,mask:bool=True,normalize:bool=True):
