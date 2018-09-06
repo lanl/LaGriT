@@ -2,8 +2,8 @@ from tinerator import *
 
 # You can use any one of the three methods of importing a DEM:
 my_dem = loadDEM("data/dem.asc") # by file
-my_dem = downloadDEM(bounds=(12.35,41.8,12.65,42)) # by bounding lat/long box
-my_dem = downloadDEM(shapefile="data/shapefile/example_shapefile.shp",crop=True) # or by shapefile
+#my_dem = downloadDEM(bounds=(12.35,41.8,12.65,42)) # by bounding lat/long box
+#my_dem = downloadDEM(shapefile="data/shapefile/example_shapefile.shp",crop=True) # or by shapefile
 
 my_dem.plot() # view the DEM
 
