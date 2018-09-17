@@ -161,6 +161,23 @@ class DEM():
 
         stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
 
+    def generateFaceSets(self,outfile,material_names=None,face_names=None):
+        '''
+        Generate boundary face sets according to normal vectors and layer ID.
+
+        :param lg: running instance of PyLaGriT
+        :type lg: pylagrit.PyLaGriT
+        :param outfile: filepath to save Exodus facesets
+        :type outfile: str
+        :param material_names: material_id,material_name key/value pairs
+        :type material_names: dict
+        :param face_names: faceset_id/faceset_name key/value pairs
+        :type face_names: dict
+
+        '''
+        generateFaceSets(self.lg,outfile,material_names=material_names,face_names=face_names)
+
+
     def calculateDistanceField(self,accumulation_threshold:float=75.,mask:bool=True,normalize:bool=True):
         '''
         Calculates the distance field for a DEM.
