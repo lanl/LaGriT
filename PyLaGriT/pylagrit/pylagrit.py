@@ -2103,7 +2103,7 @@ class MO(object):
 
         rmat = []
         lmat = []
-        for k,v in matnames.iteritems():
+        for k,v in matnames.items():
             rmat.append(ET.SubElement(r,'ParameterList',{'name':str(v),'type':'ParameterList'}))
             lmat.append(ET.SubElement(rmat[-1],'ParameterList',{'name':'Region: Labeled Set','type':'ParameterList'}))
             ET.SubElement(lmat[-1],'Parameter',{'name':'Label','type':'string','value':str(k)})
@@ -2113,7 +2113,7 @@ class MO(object):
 
         rsurf = []
         lsurf = []
-        for k,v in facenames.iteritems():
+        for k,v in facenames.items():
             rsurf.append(ET.SubElement(r,'ParameterList',{'name':str(v),'type':'ParameterList'}))
             lsurf.append(ET.SubElement(rsurf[-1],'ParameterList',{'name':'Region: Labeled Set','type':'ParameterList'}))
             ET.SubElement(lsurf[-1],'Parameter',{'name':'Label','type':'string','value':str(k)})
