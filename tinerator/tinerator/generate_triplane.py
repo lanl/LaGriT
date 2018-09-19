@@ -137,53 +137,7 @@ def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
 
     cmo_prism.addatt('cell_vol',keyword='volume')
     cmo_prism.dump(outfile)
-
-def generateFaceSets(lg:pylagrit.PyLaGriT,outfile:str,material_names=None,face_names=None):
-    '''
-    Generate boundary face sets according to normal vectors and layer ID.
-
-    :param lg: running instance of PyLaGriT
-    :type lg: pylagrit.PyLaGriT
-    :param outfile: filepath to save Exodus facesets
-    :type outfile: str
-    :param material_names: material_id,material_name key/value pairs
-    :type material_names: dict
-    :param face_names: faceset_id/faceset_name key/value pairs
-    :type face_names: dict
-
-    '''
-
-    if material_names is None:
-        material_names = {10000:'soil: top layer',
-                    20000:'soil: middle layer',
-                    30000:'soil: bottom layer',
-                    40000:'geology layer',
-                    50000:'bottom layer'}
-
-    if face_names is None:
-        face_names = {1:'bottom face',
-                     2:'surface',
-                     3:'front',
-                     4:'right',
-                     5:'back',
-                     6:'left'}
-
-    if '.' in outfile:
-        xml_outfile = '.'.join(outfile.split('.')[:-1])+'.xml'
-    else:
-        xml_outfile = outfile+'.xml'
-
-    lg.sendline('boundary_components')
-
-    # Automatically create face sets based on normal vectors and layer id
-    fs = stack_hex.create_boundary_facesets(base_name='faceset_bounds',stacked_layers=True)
-
-    # Write exo file with boundary facesets
-    stack_hex.dump_exo(outfile,facesets=fs.values())
-
-    # Dump ats style xml for mesh, can provide options for other schemas easily also
-    stack_hex.dump_ats_xml(xml_outfile,outfile,matnames=material_names,facenames=face_names)
-
+    
 
 def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.ndarray,outfile:str,
                          h:float,connectivity:bool=None,delta:float=0.75,

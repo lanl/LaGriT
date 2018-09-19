@@ -17,3 +17,4 @@ matids = (1,2,3,4,5)
 # Generate a perimeter around the DEM, spaced at 10 meters.
 my_dem.generateBoundary(10.)
 my_dem.generateStackedTIN("test_extruded_mesh.inp",layers,matids=matids)
+my_dem.generateFaceSets("facesets.exo")

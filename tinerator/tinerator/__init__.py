@@ -11,6 +11,14 @@ from tinerator.visualize import *
 from tinerator.downloader import *
 from tinerator.generate_triplane import *
 
+# Global TINerator settings
+params = {
+    'remove_temporary_files': True,
+    'quiet_lagrit': False,
+    'enable_logging': True,
+    'log_file': '_tin_log.out'
+}
+
 def loadDEM(filepath,lagrit_exe=None):
     return DEM(filepath,lagrit_exe=lagrit_exe)
 
@@ -175,8 +183,7 @@ class DEM():
         :type face_names: dict
 
         '''
-        generateFaceSets(self.lg,outfile,material_names=material_names,face_names=face_names)
-
+        generateFaceSets(self.lg,"test_extruded_mesh.inp",outfile,material_names=material_names,face_names=face_names)
 
     def calculateDistanceField(self,accumulation_threshold:float=75.,mask:bool=True,normalize:bool=True):
         '''
@@ -206,5 +213,8 @@ class DEM():
             self.distance_field[self.mask] = self.no_data_value
 
         return self.distance_field
+
+    def save(self,outfile:str):
+        pass
 
 
