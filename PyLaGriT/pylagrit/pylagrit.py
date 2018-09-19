@@ -1251,7 +1251,7 @@ class MO(object):
     def elem_type(self):
         self.status(1,verbose=False)
         strarr = self._parent.before.splitlines()
-        etype = strarr[8].split()[7]
+        etype = _decode_binary(strarr[8].split()[7])
         if etype == 'tri':
             if self.ndim_geo == 2: etype = 'triplane'
         return etype
@@ -2211,6 +2211,7 @@ class MO(object):
 
         cmd = '/'.join(['createpts',crd,','.join(npts),','.join(mins),','.join(maxs),','.join(rz_switch),','.join(rz_value)])
         self.sendline(cmd)
+
         if connect:
             if self.elem_type.startswith(('tri','tet')):
                 cmd = '/'.join(['connect','noadd'])
