@@ -138,6 +138,21 @@ def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
     cmo_prism.addatt('cell_vol',keyword='volume')
     cmo_prism.dump(outfile)
 
+def generateFaceSetsNaive(lg:pylagrit.PyLaGriT,stacked_mesh:str,outfile:str,material_names=None,face_names=None):
+
+    cmd = '''define CMO_PRISM motmp2
+read/avs/{}/CMO_PRISM
+infile infile_get_facesets3.mlgi
+
+# WRITE 3 faceset version of mesh
+dump/exo/{}/CMO_PRISM///facesets &
+fs1_bottom.avs fs2_top.avs fs3_sides_all.avs
+
+finish
+'''.format(stacked_mesh,outfile)
+
+    callLaGriT(cmd,lagrit_path=lg.lagrit_exe)
+
 def generateFaceSets(lg:pylagrit.PyLaGriT,inmesh:str,outfile:str,material_names=None,face_names=None):
     '''
     Generate boundary face sets according to normal vectors and layer ID.

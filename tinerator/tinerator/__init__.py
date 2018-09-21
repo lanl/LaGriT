@@ -169,7 +169,7 @@ class DEM():
 
         stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
 
-    def generateFaceSets(self,outfile,material_names=None,face_names=None):
+    def generateFaceSets(self,outfile,material_names=None,face_names=None,naive=True):
         '''
         Generate boundary face sets according to normal vectors and layer ID.
 
@@ -183,7 +183,10 @@ class DEM():
         :type face_names: dict
 
         '''
-        generateFaceSets(self.lg,"test_extruded_mesh.inp",outfile,material_names=material_names,face_names=face_names)
+        if naive:
+            generateFaceSetsNaive(self.lg,"test_extruded_mesh.inp",outfile)
+        else:
+            generateFaceSets(self.lg,"test_extruded_mesh.inp",outfile,material_names=material_names,face_names=face_names)
 
     def calculateDistanceField(self,accumulation_threshold:float=75.,mask:bool=True,normalize:bool=True):
         '''
