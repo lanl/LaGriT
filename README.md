@@ -1,19 +1,7 @@
-<p align="center">
-  <a href="http://lagrit.lanl.gov">
-    <img src="documentation/lanl.png" width=346 height=169>
-  </a>
+## LaGriT: Los Alamos Grid Toolbox ##
+###  LANL Software LA-CC-15-069  No. C15097  ###
 
-  <h3 align="center">LaGriT: Los Alamos Grid Toolbox</h3>
-
-  <p align="center">
-    Powerful Delaunay mesh generation and optimization toolkit.
-    <br>
-    <a href="http://lagrit.lanl.gov"><strong>Visit LaGriT @ LANL &raquo;</strong></a>
-  </p>
-</p>
-
-<br>
-
+[LaGriT Home at lagrit.lanl.gov](https://lagrit.lanl.gov) • [LaGriT Pages](http://lanl.github.io/LaGriT) • [Meshing](https://meshing.lanl.gov/)
 ---
 
 [![Build Status](https://travis-ci.org/lanl/LaGriT.svg?branch=master)](https://travis-ci.org/lanl/LaGriT) [![Latest Version](https://img.shields.io/github/release/lanl/lagrit.svg?style=flat-square)](https://github.com/lanl/lagrit/releases) [![PyPI](https://img.shields.io/pypi/l/Django.svg)](https://github.com/lanl/LaGriT/blob/doc-test/LICENSE)
@@ -26,7 +14,6 @@ The general capabilities of LaGriT can also be used outside of earth science app
 This allows the meshing capabilities of LaGriT to be combined with the numeric and scientific functionality of Python.
 PyLaGriT allows interactive and automated querying of mesh properties, enhanced looping functionality, and user defined error checking based on LaGriT output.
 
-*LaGriT V3 (OSS) LA-CC-15-069*
 
 ### Building LaGriT ###
 ---
