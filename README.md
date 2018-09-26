@@ -1,7 +1,9 @@
 ## LaGriT: Los Alamos Grid Toolbox ##
-###  LANL Software LA-CC-15-069  No. C15097  ###
+**  LANL Software: LA-CC-15-069  No. C15097 **
 
-[LaGriT Home at lagrit.lanl.gov](https://lagrit.lanl.gov) • [LaGriT Pages](http://lanl.github.io/LaGriT) • [Meshing](https://meshing.lanl.gov/)
+
+ • [LaGriT Home at lagrit.lanl.gov](https://lagrit.lanl.gov) • [LaGriT Pages](http://lanl.github.io/LaGriT) • [Meshing](https://meshing.lanl.gov/)
+
 ---
 
 [![Build Status](https://travis-ci.org/lanl/LaGriT.svg?branch=master)](https://travis-ci.org/lanl/LaGriT) [![Latest Version](https://img.shields.io/github/release/lanl/lagrit.svg?style=flat-square)](https://github.com/lanl/lagrit/releases) [![PyPI](https://img.shields.io/pypi/l/Django.svg)](https://github.com/lanl/LaGriT/blob/doc-test/LICENSE)
