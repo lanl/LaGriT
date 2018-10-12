@@ -70,7 +70,7 @@ class DEM():
         plotDEM(dem,plot_out=plot_out,title="DEM",extent=extent,xlabel="latitude",ylabel="longitude")
         #plotDEM(distance,plot_out=plot_out,extent=extent,title="Distance Field",xlabel="latitude",ylabel="longitude",hillshade_image=False)
 
-    def watershedDelineation(self,threshold:float=4000.):
+    def watershedDelineation(self,threshold:float=None,plot:bool=False):
         '''
 
         Performs watershed delineation on a DEM and returns a set of points
@@ -82,9 +82,33 @@ class DEM():
         '''
 
         accumulation = watershedDelineation(self.dem)
-        self.feature = getFeatureTrace(accumulation,threshold)
+
+        if threshold is None:
+            _thresh = np.unique(accumulation)
+            threshold = _thresh[int(0.1*len(_thresh))]
+
+        self.feature = getFeatureTrace(accumulation,None,feature_threshold=threshold)
+        assert np.size(self.feature) != 0,"Feature trace is empty. Try setting a lower threshold."
+
         self.feature[:,0] = xVectorToProjection(self.feature[:,0],self.cell_size,self.yll_corner)
         self.feature[:,1] = yVectorToProjection(self.feature[:,1],self.cell_size,self.xll_corner,self.nrows)
+
+        if plot:
+            from mpl_toolkits.axes_grid1 import make_axes_locatable
+            from matplotlib.colors import LogNorm
+
+            f, (ax1, ax2) = plt.subplots(1, 2, figsize=(14,6))
+
+            f.suptitle('Watershed delineation (threshold: %2.3e)' % threshold)            
+            divider = make_axes_locatable(ax1)
+            cax = divider.append_axes('right', size='5%', pad=0.05)
+
+            im = ax1.imshow(accumulation,norm=LogNorm(vmin=0.01, vmax=np.max(accumulation)))
+            f.colorbar(im, cax=cax, orientation='vertical')
+            
+            ax2.scatter(self.feature[:,0],self.feature[:,1],c=np.array([[0.,0.,0.]]),s=0.2)
+            plt.show()
+
         return self.feature
 
     def writeAVS(self,outfile:str):
@@ -117,6 +141,12 @@ class DEM():
         self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
         return self.boundary
 
+    def rectangularBoundary(self,distance):
+        self.boundary = rectangularBoundary(np.shape(self.dem)[0],np.shape(self.dem)[1],distance)
+        self.boundary[:,0] = xVectorToProjection(self.boundary[:,0],self.cell_size,self.xll_corner)
+        self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
+        return self.boundary
+
     def _generateTIN(self,outfile,layers,matids=None):
         '''
 
@@ -137,7 +167,8 @@ class DEM():
 
     def generateStackedTIN(self,outfile:str,layers:list,h=None,delta:float=0.75,
                            slope:float=2.,refine_dist:float=0.5,matids=None,
-                           nlayers=None,xy_subset=None,apply_elevation=True,flip='y'):
+                           nlayers=None,xy_subset=None,apply_elevation=True,flip='y',
+                           plot=False):
         '''
         Generates a refined triangular mesh, with a minimum refinement length 
         defined by h. Then, extrudes the mesh with user-defined layer thickness
@@ -167,6 +198,30 @@ class DEM():
         if apply_elevation:
             addElevation(self.lg,self,"_trimesh.inp",fileout="_trimesh.inp",flip=flip)
 
+        if plot:
+            points = None
+            triangles = None
+
+            with open('_trimesh.inp','r') as f:
+                header = f.readline().strip().split()
+                n_pts = int(header[0])
+                n_elems = int(header[1])
+
+                points = np.empty((n_pts,3),dtype=float)
+                triangles = np.empty((n_elems,3),dtype=int)
+
+                for pt in range(n_pts):
+                    line = f.readline().strip().split()
+                    points[pt,:] = np.array([float(x) for x in line[1:]])
+
+                for el in range(n_elems):
+                    line = f.readline().strip().split()
+                    triangles[el,:] = np.array([int(x) for x in line[3:]])
+
+            from mayavi import mlab
+            mlab.triangular_mesh(points[:,0],points[:,1],points[:,2],triangles-1,representation='wireframe')
+            mlab.show()
+
         stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
 
     def generateFaceSets(self,outfile,material_names=None,face_names=None,naive=True):
@@ -187,6 +242,9 @@ class DEM():
             generateFaceSetsNaive(self.lg,"test_extruded_mesh.inp",outfile)
         else:
             generateFaceSets(self.lg,"test_extruded_mesh.inp",outfile,material_names=material_names,face_names=face_names)
+
+    def generateSingleColumnPrism(self,outfile:str,layers:list,matids=None,nlayers=None,xy_subset=None):
+        generateSingleColumnPrism(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
 
     def calculateDistanceField(self,accumulation_threshold:float=75.,mask:bool=True,normalize:bool=True):
         '''
@@ -216,6 +274,27 @@ class DEM():
             self.distance_field[self.mask] = self.no_data_value
 
         return self.distance_field
+
+    def plotBoundary(self):
+
+        dem = deepcopy(self.dem)
+
+        if self.mask is not None:
+            try:
+                dem[self.mask] = np.nan
+            except ValueError:
+                dem = dem.astype(float)
+                dem[self.mask] = np.nan
+
+        fig,ax = plt.subplots()
+
+        extent = (self.xll_corner,self.ncols*self.cell_size+self.xll_corner,
+                  self.yll_corner,self.nrows*self.cell_size+self.yll_corner)
+        im = ax.imshow(dem,zorder=1,extent=extent,cmap=plt.cm.cubehelix)
+        fig.colorbar(im)
+        plt.title('DEM with generated boundary')
+        ax.scatter(self.boundary[:,0],self.boundary[:,1],zorder=2,s=1.,c='red')
+        plt.show()
 
     def save(self,outfile:str):
         pass

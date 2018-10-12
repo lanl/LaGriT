@@ -70,7 +70,7 @@ def watershedDelineation(dem,fill_depressions:bool=True,fill_flats:bool=True,met
     :type accum: np.ndarray
     '''
 
-    #dem_original = deepcopy(dem)
+    dem = deepcopy(dem)
 
     if fill_depressions:
         rd.FillDepressions(dem,epsilon=False,in_place=True)

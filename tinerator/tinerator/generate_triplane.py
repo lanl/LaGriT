@@ -64,17 +64,22 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     # Mask invalid values
     _dem = np.ma.masked_invalid(_dem)
     xx, yy = np.meshgrid(np.arange(0,_dem.shape[1]),np.arange(0,_dem.shape[0]))
+
     #get only the valid values
     x1 = xx[~_dem.mask]
     y1 = yy[~_dem.mask]
     newarr = _dem[~_dem.mask]
 
-    _dem = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method='cubic')
+    _dem = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method='nearest')
     _dem[_dem == np.nan] = dem.no_data_value
+
+    from matplotlib import pyplot as plt
+    plt.imshow(_dem)
+    plt.show()
 
     # Dump DEM data
     _array_out = "_temp_elev_array.dat"
-    _dem.tofile(_array_out,sep=' ',format='%.3f')
+    _dem.filled().tofile(_array_out,sep=' ',format='%.3f')
 
     # Read DEM as a quad mesh
     tmp_sheet = lg.read_sheetij('surfacemesh', _array_out, dem_dimensions,lower_left_corner, cell_size, flip=flip)
@@ -138,7 +143,49 @@ def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
     cmo_prism.addatt('cell_vol',keyword='volume')
     cmo_prism.dump(outfile)
 
+def generateSingleColumnPrism(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
+                matids=None,xy_subset=None,nlayers=None):
+    '''
+    Created a stacked mesh with layer thickness described by the variable
+    layers.
+
+    :param lg: Instantiation of PyLaGriT() class
+    :type lg: pylagrit.PyLaGriT()
+    :param outfile: path to save mesh
+    :type outfile: str
+    :param layers: sequential list of layer thickness
+    :type layers: list<float>
+    :param matids: material ids for layers
+    :type matids: list
+    '''
+
+    stack_files = ['layer%d.inp' % (len(layers)-i) for i in range(len(layers))]
+    if nlayers is None:
+        nlayers=['']*(len(stack_files)-1)
+    
+    motmp_top = lg.read(infile)
+    motmp_top.setatt('itetclr',2)
+    motmp_top.setatt('itetclr','1,1,0 1')
+
+    for (i,offset) in enumerate(layers):
+        motmp_top.math('sub','zic',value=offset)
+        motmp_top.dump('layer%d.inp' % (i+1))
+
+    motmp_top.delete()
+    stack = lg.create()
+    stack.stack_layers(stack_files,flip_opt=True,nlayers=nlayers,matids=matids,xy_subset=xy_subset)
+    stack.dump('tmp_layers.inp')
+
+    cmo_prism = stack.stack_fill(name='CMO_PRISM')
+    cmo_prism.resetpts_itp()
+
+    cmo_prism.addatt('cell_vol',keyword='volume')
+    cmo_prism.dump(outfile)
+
 def generateFaceSetsNaive(lg:pylagrit.PyLaGriT,stacked_mesh:str,outfile:str,material_names=None,face_names=None):
+
+    #stack_hex = lg.read(inmesh)
+    #lg.createpts()
 
     cmd = '''define CMO_PRISM motmp2
 read/avs/{}/CMO_PRISM
@@ -152,6 +199,60 @@ finish
 '''.format(stacked_mesh,outfile)
 
     callLaGriT(cmd,lagrit_path=lg.lagrit_exe)
+
+
+def generateFaceSets_2(lg:pylagrit.PyLaGriT,inmesh:str,outfile:str,material_names=None,face_names=None,
+                     north_line=None,flow_line=None):
+    '''
+    Generate boundary face sets according to normal vectors and layer ID.
+
+    :param lg: running instance of PyLaGriT
+    :type lg: pylagrit.PyLaGriT
+    :param outfile: filepath to save Exodus facesets
+    :type outfile: str
+    :param material_names: material_id,material_name key/value pairs
+    :type material_names: dict
+    :param face_names: faceset_id/faceset_name key/value pairs
+    :type face_names: dict
+
+    '''
+
+    # 1. generate river line
+    # 2. generate north_line
+    # 3. read mesh as CMO_PRISM
+
+    center = [4297.67,3925.68,0.]
+    upper_left = [3956.31,7400.28,0.]
+    upper_right = [7912.47,4961.96,0.]
+
+    inlet = [5516.83,6059.2,0.]
+    outlet = [859.651,280.406,0.]
+
+    north_line = '''3 2 0 0 0
+1 {} {} {}
+2 {} {} {}
+3 {} {} {}
+1 1 line 1 2
+2 1 line 2 3
+'''.format(upper_left[0],upper_left[1],upper_left[2],
+           center[0],center[1],center[2],
+           upper_right[0],upper_right[1],upper_right[2])
+
+    with open('north_line.inp','w') as f:
+        f.write(north_line)
+
+    river_line = '''2 1 0 0 0
+1 {} {} {}
+2 {} {} {}
+1 1 line 1 2
+'''.format(inlet[0],inlet[1],inlet[2],
+           outlet[0],outlet[1],outlet[2])
+
+    with open('river_line.inp','w') as f:
+        f.write(river_line)
+
+    #
+    #_writeLineAVS(boundary,outfile,connections=None)
 
 def generateFaceSets(lg:pylagrit.PyLaGriT,inmesh:str,outfile:str,material_names=None,face_names=None):
     '''
@@ -199,8 +300,188 @@ def generateFaceSets(lg:pylagrit.PyLaGriT,inmesh:str,outfile:str,material_names=
     stack_hex.dump_exo(outfile,facesets=fs.values())
 
     # Dump ats style xml for mesh, can provide options for other schemas easily also
-    stack_hex.dump_ats_xml(xml_outfile,outfile,matnames=material_names,facenames=face_names)
-        
+    stack_hex.dump_ats_xml(xml_outfile,outfile,matnames=material_names,facenames=face_names)    
+
+def buildUniformTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
+                         counterclockwise:bool=False,connectivity:bool=None,
+                         min_edge:float=16.):
+
+    if connectivity is None:
+        connectivity = generateLineConnectivity(boundary)
+
+    _writeLineAVS(boundary,"poly_1.inp",connections=connectivity)
+
+    a = '''
+cmo create motri///triplane                                                    
+cmo setatt motri ipolydat no
+copypts motri motmp
+  cmo setatt motri imt 1  
+  cmo delete motmp
+
+cmo select motri
+triangulate/clockwise                                                    
+#triangulate/counterclockwise
+cmo setatt motri itetclr 1
+cmo setatt motri imt 1
+resetpts itp
+
+quality edge_max y
+cmo printatt motri edgemax minmax
+quality
+dump gmv tmp_tri.gmv motri
+cmo copy mo motri 
+
+# break up very large triangles 
+cmo select motri
+
+# edgemax  7.075320352E+01  5.180963546E+03
+define EDGELEN 1000.
+refine rivara///edge/1,0,0/EDGELEN///inclusive
+recon 0 
+smooth
+recon 0 
+smooth
+recon 0 
+smooth
+rmpoint compress
+quality edge_max y
+cmo printatt motri edgemax minmax
+dump gmv tmp1.gmv motri
+
+define EDGELEN 500.
+refine rivara///edge/1,0,0/EDGELEN///inclusive
+recon 0
+smooth
+recon 0
+smooth
+recon 0
+smooth
+rmpoint compress
+quality edge_max y
+cmo printatt motri edgemax minmax
+dump gmv tmp2.gmv motri
+
+define EDGELEN 200.
+refine rivara///edge/1,0,0/EDGELEN///inclusive
+recon 0
+smooth
+recon 0
+smooth
+recon 0
+smooth
+rmpoint compress
+quality edge_max y
+cmo printatt motri edgemax minmax
+dump gmv tmp2.gmv motri
+
+define EDGELEN 100.
+refine rivara///edge/1,0,0/EDGELEN///inclusive
+recon 0
+smooth
+recon 0
+smooth
+recon 0
+smooth
+rmpoint compress
+quality edge_max y
+cmo printatt motri edgemax minmax
+dump gmv tmp2.gmv motri
+
+define EDGELEN 60.
+refine rivara///edge/1,0,0/EDGELEN///inclusive
+recon 0
+smooth
+recon 0
+smooth
+recon 0
+smooth
+rmpoint compress
+quality edge_max y
+cmo printatt motri edgemax minmax
+dump gmv tmp3.gmv motri
+
+define EDGELEN 30.
+refine rivara///edge/1,0,0/EDGELEN///inclusive
+recon 0
+smooth
+recon 0
+smooth
+rmpoint compress
+
+# crop skinny tip
+pset/py/attribute yic/1,0,0/ lt 4.314867400E+06
+rmpoint pset,get,py
+rmpoint compress
+resetpts itp
+
+define EDGELEN 15.
+refine rivara///edge/1,0,0/EDGELEN///inclusive
+recon 0
+smooth
+recon 0
+smooth
+rmpoint compress
+
+
+
+### should be close to target edge length here ###
+
+quality
+quality edge_max y
+quality edge_min y
+cmo printatt motri edgemax minmax
+cmo printatt motri edgemin minmax
+dump gmv tmp4.gmv motri
+
+define DAMAGE  1. 
+define MAXEDGE  1.e+20 
+define MINEDGE  10. 
+
+# massage/MAXEDGE MINEDGE DAMAGE /1,0,0/                                               
+smooth
+recon 0
+rmpoint compress
+resetpts itp
+
+# edge lengths good, try to improve aspect toward 1
+smooth
+recon 0
+smooth
+recon 0
+smooth
+recon 0
+smooth
+recon 0
+smooth
+recon 0
+rmpoint compress
+resetpts itp
+quality aspect y
+pset/pgood/attribute aratio/1,0,0/ gt .8
+pset/prest/ not pgood
+dump gmv tri_ref02.gmv motri   
+
+## connect delaunay #############
+rmpoint compress
+recon 1
+smooth
+recon 0
+recon 1
+
+quality edge_max y
+quality edge_min y
+quality aspect y
+cmo printatt motri edgemax minmax
+cmo printatt motri edgemin minmax
+cmo printatt motri aratio minmax
+pset/pgood/attribute aratio/1,0,0/ gt .8
+pset/prest/ not pgood
+
+quality
+cmo setatt motri ipolydat yes
+cmo addatt motri vor_volume vorvol
+dump gmv tri_recon.gmv motri
+dump avs tri_recon.inp motri'''
 
 def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.ndarray,outfile:str,
                          h:float,connectivity:bool=None,delta:float=0.75,

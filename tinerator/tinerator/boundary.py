@@ -36,6 +36,27 @@ def imageErosionBoundary(A,nil_value,distance):
     plt.show()
 
 
+def rectangularBoundary(ncols:int,nrows:int,nx:float,ny:float=None):
+
+    point_array = []
+    
+    ny = nx if ny is None else ny
+    
+    alpha_x = float(ncols) / float(nx)
+    alpha_y = float(nrows) / float(ny)
+
+    for i in range(0,nx+1):
+        x = float(i) * alpha_x
+        point_array.append((x,0))
+        point_array.append((x,nrows))
+
+    for j in range(1,ny):
+        y = float(j) * alpha_y
+        point_array.append((0,y))
+        point_array.append((ncols,y))
+
+    return np.array(point_array)
+
 def squareTraceBoundary(A,NDV,dist=10.):
     '''
     Uses a square-tracing algorithm to quickly find a set of points
