@@ -5,6 +5,7 @@ import glob
 import re
 from collections import  OrderedDict
 import numpy
+import warnings
 from itertools import product
 try:
     import xml.etree.cElementTree as ET
@@ -18,6 +19,11 @@ def _decode_binary(b):
         return b.decode('ascii')
     else:
         return b
+
+catch_errors = True
+
+class LaGriT_Warning(Warning):
+    pass
 
 class PyLaGriT(spawn):
     ''' 
@@ -82,6 +88,14 @@ class PyLaGriT(spawn):
             super(PyLaGriT, self).sendline(cmd)
             self.expect(expectstr=expectstr)
             if verbose and self.verbose: print(_decode_binary(self.before))
+
+            if catch_errors:
+                for _line in _decode_binary(self.before).split('\n'):
+                    if 'ERROR' in _line:
+                        raise Exception(_line)
+                    elif 'WARNING' in _line:
+                        warnings.warn(_line,category=LaGriT_Warning)
+
     def interact(self, escape_character='^'):
         if self.batch:
             print("Interactive mode unavailable during batch mode")
