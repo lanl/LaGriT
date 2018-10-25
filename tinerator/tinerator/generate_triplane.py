@@ -628,3 +628,196 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
     ################################################
 
     callLaGriT(cmd,lagrit_path=lg.lagrit_exe)
+
+def generateComplexFacesets(infile:str,outfile:str,dem:np.ndarray,lg:pylagrit.PyLaGriT,
+                            sidesets:dict,no_data_value:float=None,
+                            elev_delta:float=None):
+    '''
+
+    Generates an Exodus mesh with seven facesets.
+    Facesets are divided 
+
+    '''
+
+    facesets = []
+
+    _writeLineAVS(sidesets['sides'],'river_line.inp',generateLineConnectivity(sidesets['sides']))
+    _writeLineAVS(sidesets['north'],'north_line.inp',generateLineConnectivity(sidesets['north']))
+
+    dem_copy = deepcopy(dem)
+
+    if no_data_value is not None:
+        dem_copy[dem_copy == no_data_value] = np.nan
+
+    dem_min = np.nanmin(dem_copy)
+    dem_max = np.nanmax(dem_copy)
+
+    if elev_delta is None:
+        elev_delta = 0.02 * dem_min
+
+    # Outlet range to capture [min: outlet1, max: outlet2]
+    outlet1 = dem_min
+    outlet2 = dem_min+elev_delta
+
+    # ==================================================
+    # 1. Load mesh and features
+    # ==================================================
+
+    base_mesh = lg.read(infile,name='mo4')
+
+    # Read line 1
+    mo_line = lg.read('river_line.inp',name='mo_line')
+    mo_line.setatt('zic',(dem_max+200.))
+    mo_river = mo_line.extrude(dem_max+200.,offset_type='const',return_type='volume',
+                               direction=[0,0,-1],name='mo_river')
+    mo_line.delete()
+
+    # Read line 2
+    mo_line = lg.read('north_line.inp',name='mo_line')
+    mo_line.setatt('zic',(dem_max+200.))
+    mo_north = mo_line.extrude(dem_max+200.,offset_type='const',return_type='volume',
+                               direction=[0,0,-1],name='mo_north')
+    mo_line.delete()
+
+    # Extract
+    mo5 = base_mesh.extract_surfmesh(name='mo5',external=True,stride=[1,0,0])
+    mo5.addatt('id_side',value=0.0,vtype='vint',rank='scalar',
+               length='nelements',interpolate='linear',persistence='permanent')
+    mo5.select()
+    mo5.settets(method='normal')
+    mo5.select()
+
+    # ==================================================
+    # Begin facesets based on layer and river surface
+    # ==================================================
+
+    # Default value for all sides is 3
+    mo5.setatt('itetclr',3)
+    mo5.delatt('id_side')
+
+    # Bottom
+    p1 = mo5.pset_attribute('layertyp',name='p1',stride=[1,0,0],value=-1,comparison='eq')
+    e1 = p1.eltset(membership='exclusive')
+    mo5.setatt('itetclr',1,stride=['eltset','get',e1.name])
+    fs_bottom = e1.create_faceset(filename='faceset_bottom.avs')
+    facesets.append(fs_bottom.filename)
+
+    # Top
+    p2 = mo5.pset_attribute('layertyp',name='p2',stride=[1,0,0],value=-2,comparison='eq')
+    e2 = p2.eltset(membership='exclusive')
+    mo5.setatt('itetclr',2,stride=['eltset','get',e2.name])
+    fs_top = e2.create_faceset(filename='faceset_top.avs')
+    facesets.append(fs_top.filename)
+
+    # Sides - all sides, no direction
+    mo5.select()
+    mo_tmp1 = mo5.copy()
+    for att in ['itetclr0','itetclr1','facecol','idface0','idelem0']:
+        mo_tmp1.delatt(att)
+    lg.sendline('eltset/edel/itetclr lt 3')
+    mo_tmp1.rmpoint_eltset('edel',compress=True)
+    lg.sendline('dump/avs2/faceset_sides_all.avs/'+mo_tmp1.name+'/0 0 0 2')
+    #facesets.append('faceset_sides_all.avs')
+    mo_tmp1.delete()
+
+    # ===================================== #
+
+    mo5.select()
+    e12 = mo5.eltset_attribute('itetclr',3,boolstr='ne',name='e12')
+    mo5.rmpoint_eltset(e12,compress=True)
+
+    # Clean up element sets
+    for elt in [e1,e2,e12]:
+        elt.delete()
+    #lg.sendline('eltset/edel/delete')
+
+    # Operate on sides only
+    mo5.select()
+
+    r_surf = mo_river.surface(ibtype='reflect',name='r_surf')
+    r_1 = mo5.region_bool(name='r_1',bool='le '+r_surf.name)
+    r_2 = mo5.region_bool(name='r_2',bool='gt '+r_surf.name)
+
+    n_surf = mo_north.surface(ibtype='reflect',name='n_surf')
+    r_3 = mo5.region_bool(name='r_3',bool='le '+n_surf.name)
+    r_4 = mo5.region_bool(name='r_4',bool='gt '+n_surf.name)
+
+    # Either side of river surface
+    es3 = mo5.eltset_region(r_1)
+    es4 = mo5.eltset_region(r_2)
+
+    # Either side of north surface
+    en1 = mo5.eltset_region(r_3)
+    en2 = mo5.eltset_region(r_4)
+
+    # color sides and overwrite with north
+    es3.setatt('itetclr',3)
+    es4.setatt('itetclr',4)
+    en1.setatt('itetclr',5)
+
+    # RIVER 
+    # get river faceset at outlet in layer 1
+    # use the sides and do not include back north=3
+    # overwrite previous facesets
+
+    # get faces on sides and layer 1
+    ptop = mo5.pset_attribute('layertyp', -2, stride=[1,0,0], comparison='eq')
+
+    # get top nodes less than OUTLET2
+    pout2 = mo5.pset_attribute('zic', outlet2, stride=['pset','get',ptop.name], comparison='lt')
+    eout2 = pout2.eltset(membership='inclusive')
+    mo5.setatt('itetclr',6,stride=['eltset','get',eout2.name])
+
+    # get top nodes less than OUTLET1
+    pout1 = mo5.pset_attribute('zic', outlet1, stride=['pset','get',ptop.name], comparison='lt')
+    eout1 = pout1.eltset(membership='inclusive')
+    mo5.setatt('itetclr',7,stride=['eltset','get',eout1.name])
+
+    # Now write facesets
+    for att in ['itetclr0','itetclr1','facecol','idface0','idelem0','inriver']:
+        mo5.delatt(att)
+
+    # Write side left
+    mo_tmp1 = mo5.copy()
+    edel = mo_tmp1.eltset_attribute('itetclr',3,boolstr='ne')
+    mo_tmp1.rmpoint_eltset(edel)
+    lg.sendline('dump/avs2/faceset_side_left.avs/'+mo_tmp1.name+'/0 0 0 2')
+    facesets.append('faceset_side_left.avs')
+    mo_tmp1.delete()
+
+    # Write side right
+    mo_tmp1 = mo5.copy()
+    edel = mo_tmp1.eltset_attribute('itetclr',4,boolstr='ne')
+    mo_tmp1.rmpoint_eltset(edel)
+    lg.sendline('dump/avs2/faceset_side_right.avs/'+mo_tmp1.name+'/0 0 0 2')
+    facesets.append('faceset_side_right.avs')
+    mo_tmp1.delete()
+
+    # Write side back
+    mo_tmp1 = mo5.copy()
+    edel = mo_tmp1.eltset_attribute('itetclr',5,boolstr='ne')
+    mo_tmp1.rmpoint_eltset(edel)
+    lg.sendline('dump/avs2/faceset_side_back.avs/'+mo_tmp1.name+'/0 0 0 2')
+    facesets.append('faceset_side_back.avs')
+    mo_tmp1.delete()
+
+    # Write river facesets
+    mo_tmp1 = mo5.copy()
+    edel = mo_tmp1.eltset_attribute('itetclr',6,boolstr='ne')
+    mo_tmp1.rmpoint_eltset(edel)
+    lg.sendline('dump/avs2/faceset_river_out2.avs/'+mo_tmp1.name+'/0 0 0 2')
+    facesets.append('faceset_river_out2.avs')
+    mo_tmp1.delete()
+
+    mo_tmp1 = mo5.copy()
+    edel = mo_tmp1.eltset_attribute('itetclr',7,boolstr='ne')
+    mo_tmp1.rmpoint_eltset(edel)
+    lg.sendline('dump/avs2/faceset_river_out1.avs/'+mo_tmp1.name+'/0 0 0 2')
+    facesets.append('faceset_river_out1.avs')
+    mo_tmp1.delete()
+
+    # WRITE exodus with faceset files\n'
+    cmd = 'dump/exo/'+outfile+'/'+base_mesh.name+'///facesets &\n'
+    cmd += ' &\n'.join(facesets)
+    lg.sendline(cmd)
+

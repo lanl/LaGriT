@@ -20,4 +20,13 @@ my_dem.generateBoundary(10.)
 my_dem.plotBoundary()
 
 my_dem.generateStackedTIN("test_extruded_mesh.inp",layers,matids=matids,plot=True)
-my_dem.generateFaceSets("facesets.exo",naive=True)
+#my_dem.generateFaceSets("facesets.exo",naive=True)
+
+# To generate facesets, we are going to define a line through
+# the center of the DEM (for left/right facesets) and a line cutting
+# across laterally (to define north)
+center_line = np.array([[135.,160.,0.],[1920.,1087.,0.],[6085.,5970.,0.]])
+north_line = np.array([[3200.,7237.,0.],[8000.,4700.,0.]])
+
+sidesets = {'sides':center_line,'north':north_line}
+my_dem.generateComplexFacesets('test_exodus_7.exo',sidesets)

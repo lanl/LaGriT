@@ -243,6 +243,10 @@ class DEM():
         else:
             generateFaceSets(self.lg,"test_extruded_mesh.inp",outfile,material_names=material_names,face_names=face_names)
 
+    def generateComplexFacesets(self,outfile:str,sidesets:dict):
+        generateComplexFacesets('test_extruded_mesh.inp',outfile,self.dem,self.lg,
+                                sidesets,no_data_value=self.no_data_value)
+
     def generateSingleColumnPrism(self,outfile:str,layers:list,matids=None,nlayers=None,xy_subset=None):
         generateSingleColumnPrism(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
 
