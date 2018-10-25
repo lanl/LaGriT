@@ -1272,6 +1272,8 @@ class MO(object):
     def status(self,brief=False,verbose=True):
         print(self.name)
         self._parent.cmo_status(self.name,brief=brief,verbose=verbose)
+    def select(self):
+        self.sendline('cmo/select/'+self.name)
     def read(self,filename,filetype=None):
         # If filetype is lagrit, name is irrelevant
         if filetype is not None:
