@@ -311,177 +311,182 @@ def buildUniformTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
 
     _writeLineAVS(boundary,"poly_1.inp",connections=connectivity)
 
-    a = '''
-cmo create motri///triplane                                                    
-cmo setatt motri ipolydat no
-copypts motri motmp
-  cmo setatt motri imt 1  
-  cmo delete motmp
+    cmd = '# UNIFORM TRIPLANE \n '
 
-cmo select motri
-triangulate/clockwise                                                    
-#triangulate/counterclockwise
-cmo setatt motri itetclr 1
-cmo setatt motri imt 1
-resetpts itp
+    cmd += 'define / ID / 1\n'
+    cmd += 'define / OUTFILE_GMV / mesh_1.gmv\n'
+    cmd += 'define / OUTFILE_AVS / %s\n' % outfile
+    cmd += 'define / OUTFILE_LG / mesh_1.lg\n'
 
-quality edge_max y
-cmo printatt motri edgemax minmax
-quality
-dump gmv tmp_tri.gmv motri
-cmo copy mo motri 
+    cmd += 'define / H_PRIME / ' + str(0.8*min_edge) + '\n'
+    cmd += 'define / H_SCALE / ' + str(min_edge) + '\n'
+    cmd += 'define / H_SCALE2 / ' + str(2*min_edge) + '\n'
+    cmd += 'define / H_SCALE4 / ' + str(4*min_edge) + '\n'
+    cmd += 'define / H_SCALE8 / ' + str(8*min_edge) + '\n'
+    cmd += 'define / H_SCALE16 / ' + str(16*min_edge) + '\n'
+    cmd += 'define / H_SCALE32 / ' + str(32*min_edge) + '\n'
+    cmd += 'define / H_SCALE64 / ' + str(64*min_edge) + '\n'
 
-# break up very large triangles 
-cmo select motri
+    cmd += 'define / POLY_FILE / poly_1.inp\n'
 
-# edgemax  7.075320352E+01  5.180963546E+03
-define EDGELEN 1000.
-refine rivara///edge/1,0,0/EDGELEN///inclusive
-recon 0 
-smooth
-recon 0 
-smooth
-recon 0 
-smooth
-rmpoint compress
-quality edge_max y
-cmo printatt motri edgemax minmax
-dump gmv tmp1.gmv motri
+    cmd += 'read / POLY_FILE / motmp\n'
+    
+    cmd += 'cmo create motri///triplane\n'
+    cmd += 'cmo setatt motri ipolydat no\n'
+    cmd += 'copypts motri motmp\n'
+    cmd += '  cmo setatt motri imt 1\n'
+    cmd += '  cmo delete motmp\n'
 
-define EDGELEN 500.
-refine rivara///edge/1,0,0/EDGELEN///inclusive
-recon 0
-smooth
-recon 0
-smooth
-recon 0
-smooth
-rmpoint compress
-quality edge_max y
-cmo printatt motri edgemax minmax
-dump gmv tmp2.gmv motri
+    cmd += 'cmo select motri\n'
 
-define EDGELEN 200.
-refine rivara///edge/1,0,0/EDGELEN///inclusive
-recon 0
-smooth
-recon 0
-smooth
-recon 0
-smooth
-rmpoint compress
-quality edge_max y
-cmo printatt motri edgemax minmax
-dump gmv tmp2.gmv motri
+    if counterclockwise:
+        cmd += 'triangulate/counterclockwise\n'
+    else:
+        cmd += 'triangulate/clockwise\n'
+        
+    cmd += 'cmo setatt motri itetclr 1\n'
+    cmd += 'cmo setatt motri imt 1\n'
+    cmd += 'resetpts itp\n'
 
-define EDGELEN 100.
-refine rivara///edge/1,0,0/EDGELEN///inclusive
-recon 0
-smooth
-recon 0
-smooth
-recon 0
-smooth
-rmpoint compress
-quality edge_max y
-cmo printatt motri edgemax minmax
-dump gmv tmp2.gmv motri
+    cmd += 'quality edge_max y\n'
+    cmd += 'cmo printatt motri edgemax minmax\n'
+    cmd += 'quality\n'
+  #  cmd += 'dump gmv tmp_tri.gmv motri\n'
+    cmd += 'cmo copy mo motri \n'
 
-define EDGELEN 60.
-refine rivara///edge/1,0,0/EDGELEN///inclusive
-recon 0
-smooth
-recon 0
-smooth
-recon 0
-smooth
-rmpoint compress
-quality edge_max y
-cmo printatt motri edgemax minmax
-dump gmv tmp3.gmv motri
+    cmd += '# break up very large triangles \n'
+    cmd += 'cmo select motri\n'
 
-define EDGELEN 30.
-refine rivara///edge/1,0,0/EDGELEN///inclusive
-recon 0
-smooth
-recon 0
-smooth
-rmpoint compress
+    cmd += 'refine rivara///edge/1,0,0/H_SCALE64///inclusive\n'
+    cmd += 'recon 0 \n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0 \n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0 \n'
+    cmd += 'smooth\n'
+    cmd += 'rmpoint compress\n'
+    cmd += 'quality edge_max y\n'
+    cmd += 'cmo printatt motri edgemax minmax\n'
+   
+    cmd += 'refine rivara///edge/1,0,0/H_SCALE32///inclusive\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'rmpoint compress\n'
+    cmd += 'quality edge_max y\n'
+    cmd += 'cmo printatt motri edgemax minmax\n'
 
-# crop skinny tip
-pset/py/attribute yic/1,0,0/ lt 4.314867400E+06
-rmpoint pset,get,py
-rmpoint compress
-resetpts itp
+    cmd += 'refine rivara///edge/1,0,0/H_SCALE16///inclusive\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'rmpoint compress\n'
+    cmd += 'quality edge_max y\n'
+    cmd += 'cmo printatt motri edgemax minmax\n'
 
-define EDGELEN 15.
-refine rivara///edge/1,0,0/EDGELEN///inclusive
-recon 0
-smooth
-recon 0
-smooth
-rmpoint compress
+    cmd += 'define EDGELEN H_SCALE8\n'
+    cmd += 'refine rivara///edge/1,0,0/H_SCALE8///inclusive\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'rmpoint compress\n'
+    cmd += 'quality edge_max y\n'
+    cmd += 'cmo printatt motri edgemax minmax\n'
 
+    cmd += 'refine rivara///edge/1,0,0/H_SCALE4///inclusive\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'rmpoint compress\n'
+    cmd += 'quality edge_max y\n'
+    cmd += 'cmo printatt motri edgemax minmax\n'
+    cmd += 'dump gmv tmp3.gmv motri\n'
 
+    cmd += 'refine rivara///edge/1,0,0/H_SCALE2///inclusive\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'rmpoint compress\n'
+    
+    cmd += 'refine rivara///edge/1,0,0/H_SCALE///inclusive\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'rmpoint compress\n'
 
-### should be close to target edge length here ###
+    cmd += '### should be close to target edge length here ###\n'
 
-quality
-quality edge_max y
-quality edge_min y
-cmo printatt motri edgemax minmax
-cmo printatt motri edgemin minmax
-dump gmv tmp4.gmv motri
+    cmd += 'quality\n'
+    cmd += 'quality edge_max y\n'
+    cmd += 'quality edge_min y\n'
+    cmd += 'cmo printatt motri edgemax minmax\n'
+    cmd += 'cmo printatt motri edgemin minmax\n'
 
-define DAMAGE  1. 
-define MAXEDGE  1.e+20 
-define MINEDGE  10. 
+    cmd += 'define DAMAGE  1. \n'
+    cmd += 'define MAXEDGE  1.e+20 \n'
+   
+    cmd += '# massage/MAXEDGE H_PRIME DAMAGE /1,0,0/\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'rmpoint compress\n'
+    cmd += 'resetpts itp\n'
 
-# massage/MAXEDGE MINEDGE DAMAGE /1,0,0/                                               
-smooth
-recon 0
-rmpoint compress
-resetpts itp
+    cmd += '# edge lengths good, try to improve aspect toward 1\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'rmpoint compress\n'
+    cmd += 'resetpts itp\n'
+    cmd += 'quality aspect y\n'
+    cmd += 'pset/pgood/attribute aratio/1,0,0/ gt .8\n'
+    cmd += 'pset/prest/ not pgood\n'
 
-# edge lengths good, try to improve aspect toward 1
-smooth
-recon 0
-smooth
-recon 0
-smooth
-recon 0
-smooth
-recon 0
-smooth
-recon 0
-rmpoint compress
-resetpts itp
-quality aspect y
-pset/pgood/attribute aratio/1,0,0/ gt .8
-pset/prest/ not pgood
-dump gmv tri_ref02.gmv motri   
+    cmd += '## connect delaunay #############\n'
+    cmd += 'rmpoint compress\n'
+    cmd += 'recon 1\n'
+    cmd += 'smooth\n'
+    cmd += 'recon 0\n'
+    cmd += 'recon 1\n'
 
-## connect delaunay #############
-rmpoint compress
-recon 1
-smooth
-recon 0
-recon 1
+    cmd += 'quality edge_max y\n'
+    cmd += 'quality edge_min y\n'
+    cmd += 'quality aspect y\n'
+    cmd += 'cmo printatt motri edgemax minmax\n'
+    cmd += 'cmo printatt motri edgemin minmax\n'
+    cmd += 'cmo printatt motri aratio minmax\n'
+    cmd += 'pset/pgood/attribute aratio/1,0,0/ gt .8\n'
+    cmd += 'pset/prest/ not pgood\n'
 
-quality edge_max y
-quality edge_min y
-quality aspect y
-cmo printatt motri edgemax minmax
-cmo printatt motri edgemin minmax
-cmo printatt motri aratio minmax
-pset/pgood/attribute aratio/1,0,0/ gt .8
-pset/prest/ not pgood
+    cmd += 'quality\n'
+    cmd += 'cmo setatt motri ipolydat yes\n'
+    cmd += 'cmo addatt motri vor_volume vorvol\n'
+    cmd += 'dump gmv OUTFILE_GMV motri\n'
+    cmd += 'dump avs OUTFILE_AVS motri\n'
 
-quality
-cmo setatt motri ipolydat yes
-cmo addatt motri vor_volume vorvol
-dump gmv tri_recon.gmv motri
-dump avs tri_recon.inp motri'''
+    cmd += 'finish\n'
+
+    callLaGriT(cmd,lagrit_path=lg.lagrit_exe)
 
 def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.ndarray,outfile:str,
                          h:float,connectivity:bool=None,delta:float=0.75,

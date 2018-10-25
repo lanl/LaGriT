@@ -193,7 +193,10 @@ class DEM():
         if h is None:
             h = 50.
 
-        buildRefinedTriplane(self.lg,self.boundary,self.feature,"_trimesh.inp",h,refine_dist=refine_dist,slope=slope,delta=delta)
+        if self.feature is None:
+            buildUniformTriplane(self.lg, self.boundary, "_trimesh.inp", min_edge=h)
+        else:
+            buildRefinedTriplane(self.lg,self.boundary,self.feature,"_trimesh.inp",h,refine_dist=refine_dist,slope=slope,delta=delta)
 
         if apply_elevation:
             addElevation(self.lg,self,"_trimesh.inp",fileout="_trimesh.inp",flip=flip)
