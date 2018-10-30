@@ -11,22 +11,30 @@ my_dem.plot() # view the DEM
 my_dem.watershedDelineation(threshold=4500.,plot=True)
 #my_dem.plotWatershed()
 
-# Define the layers and corresponding material ids
-layers = (0.1*50.,0.3*50.,0.6*50.,8.0*50.,21.0*50.)
-matids = (1,2,3,4,5)
-
 # Generate a perimeter around the DEM, spaced at 10 meters.
 my_dem.generateBoundary(10.)
 my_dem.plotBoundary()
 
+# Define the layers and corresponding material ids
+layers = (0.1*50.,0.3*50.,0.6*50.,8.0*50.,21.0*50.)
+matids = (1,2,3,4,5)
+
 my_dem.generateStackedTIN("test_extruded_mesh.inp",layers,matids=matids,plot=True)
-#my_dem.generateFaceSets("facesets.exo",naive=True)
 
-# To generate facesets, we are going to define a line through
-# the center of the DEM (for left/right facesets) and a line cutting
-# across laterally (to define north)
-center_line = np.array([[135.,160.,0.],[1920.,1087.,0.],[6085.,5970.,0.]])
-north_line = np.array([[3200.,7237.,0.],[8000.,4700.,0.]])
+# Now we can generate facesets in one of three ways:
+option = 1 # change me!
 
-sidesets = {'sides':center_line,'north':north_line}
-my_dem.generateComplexFacesets('test_exodus_7.exo',sidesets)
+# The 'naive' approach: only generate top, bottom, and sides
+if option == 1:
+    my_dem.generateFacesets('facesets_example.exo',naive=True)
+
+# The GUI approach: manually select facesets from boundary
+elif option == 2:
+    fs = selectFacesetsFromBoundary(my_dem)
+    my_dem.generateFacesets('facesets_example.exo',facesets=fs)
+
+# The programmatic approach: define facesets using stateplane coordinates
+elif option == 3:
+    _coords = np.array([[3352.82,7284.46],[7936.85,4870.53],[1798.4,256.502],[1182.73,1030.19]])
+    fs = getFacesetsFromCoordinates(_coords,my_dem.boundary)
+    my_dem.generateFacesets('facesets_example.exo',facesets=fs)

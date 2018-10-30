@@ -227,7 +227,7 @@ class DEM():
 
         stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
 
-    def generateFaceSets(self,outfile,material_names=None,face_names=None,naive=True):
+    def generateFaceSets(self,outfile,facesets=None,naive=False):
         '''
         Generate boundary face sets according to normal vectors and layer ID.
 
@@ -235,20 +235,17 @@ class DEM():
         :type lg: pylagrit.PyLaGriT
         :param outfile: filepath to save Exodus facesets
         :type outfile: str
-        :param material_names: material_id,material_name key/value pairs
-        :type material_names: dict
-        :param face_names: faceset_id/faceset_name key/value pairs
-        :type face_names: dict
+        :param facesets: generated facesets integer array with length equal to boundary
+        :type facesets: np.ndarray
+        :param naive: flag to generate Exodus mesh with 3 facesets: top, bottom, sides
+        :type naive: bool
 
         '''
         if naive:
-            generateFaceSetsNaive(self.lg,"test_extruded_mesh.inp",outfile)
+            generateFaceSetsNaive(self.lg,self.stacked_mesh,outfile)
         else:
-            generateFaceSets(self.lg,"test_extruded_mesh.inp",outfile,material_names=material_names,face_names=face_names)
-
-    def generateComplexFacesets(self,outfile:str,sidesets:dict):
-        generateComplexFacesets('test_extruded_mesh.inp',outfile,self.dem,self.lg,
-                                sidesets,no_data_value=self.no_data_value)
+            assert facesets is not None, 'Function requires facesets array'
+            generateComplexFacesets(my_dem.lg,outfile,self.stacked_mesh,self.boundary,facesets)
 
     def generateSingleColumnPrism(self,outfile:str,layers:list,matids=None,nlayers=None,xy_subset=None):
         generateSingleColumnPrism(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)

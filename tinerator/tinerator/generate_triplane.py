@@ -18,19 +18,26 @@ def generateLineConnectivity(nodes,connect_ends=False):
         connectivity[i] = np.array((i+1,i+2))
     return connectivity
 
-def _writeLineAVS(boundary,outfile,connections=None):
+def _writeLineAVS(boundary,outfile,connections=None,node_atts=None,material_id=None):
 
     nnodes = np.shape(boundary)[0]
     nlines = np.shape(connections)[0] if connections is not None else 0
+    natts = 1 if node_atts is not None else 0
 
     with open(outfile,'w') as f:
-        f.write("{} {} 0 0 0\n".format(nnodes,nlines))
+        f.write("{} {} {} 0 0\n".format(nnodes,nlines,natts))
 
         for i in range(nnodes):
             f.write("{} {} {} 0.0\n".format(i+1,boundary[i][0],boundary[i][1]))
 
         for i in range(nlines):
-            f.write("{} 1 line {} {}\n".format(i+1,connections[i][0],connections[i][1]))
+            mat_id = material_id[i] if material_id is not None else 1
+            f.write("{} {} line {} {}\n".format(i+1,mat_id,connections[i][0],connections[i][1]))
+
+        if natts:
+            f.write("00001  1\nfset, integer\n")
+            for i in range(np.shape(node_atts)[0]):
+                f.write("{} {}\n".format(i+1,node_atts[i]))
 
         f.write("\n")
 
@@ -634,195 +641,188 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
 
     callLaGriT(cmd,lagrit_path=lg.lagrit_exe)
 
-def generateComplexFacesets(infile:str,outfile:str,dem:np.ndarray,lg:pylagrit.PyLaGriT,
-                            sidesets:dict,no_data_value:float=None,
-                            elev_delta:float=None):
+def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
+                            boundary:np.ndarray,boundary_attributes:np.ndarray):
+    '''
+    A new technique for generating Exodus facesets from the material ID of
+    boundary line segments.
+
+    By providing the array `boundary_attributes`, of equal length to `boundary`,
+    the line segment material IDs are used as indentifiers for unique facesets.
+
+    The top and bottom facesets will always be generated; there will be a
+    minimum of one side facesets if boundary_attributes is set to a uniform
+    value, or up to length(boundary) number of facesets, if each value in
+    boundary_attributes is unique.
+
+    LaGriT methodology developed by Terry Ann Miller, Los Alamos Natl. Lab.
+
+    :param lg: Instance of PyLaGriT
+    :type lg: pylagrit.PyLaGriT
+    :param outfile: Exodus file to write out to
+    :type outfile: str
+    :param mesh_file: Stacked mesh file to read
+    :type mesh_file: str
+    :param boundary: A boundary containing the convex hull of the mesh
+    :type boundary: np.ndarray
+    :param boundary_attributes: An array containing integer values
+    :type boundary_attributes: np.ndarray
     '''
 
-    Generates an Exodus mesh with seven facesets.
-    Facesets are divided 
+    _cleanup = []
 
-    '''
+    boundary_attributes = deepcopy(boundary_attributes) - np.min(boundary_attributes) + 1
+
+    # Test that the array does not have values that 'skip' an integer,
+    # i.e., [1,4,3] instead of [1,3,2]
+    assert np.all(np.unique(boundary_attributes) == \
+           np.array(range(1,np.size(np.unique(boundary_attributes))+1))),\
+           'boundary_attributes cannot contain non-sequential values'
+
+    boundary_file = "_boundary_line_colors.inp"
+    _writeLineAVS(boundary,boundary_file,connections=generateLineConnectivity(boundary,connect_ends=True),material_id=boundary_attributes)
+    _cleanup.append(boundary_file)
+
+    cmo_in = lg.read(mesh_file)
+    cmo_in.resetpts_itp()
+    
+    cmo_bndry = lg.read(boundary_file)
+    cmo_bndry.resetpts_itp()
+
+    # Extract surface w/ cell & face attributes to get the outside face to element relationships
+    mo_surf = lg.extract_surfmesh(cmo_in=cmo_in,stride=[1,0,0],external=True,resetpts_itp=True)
+    mo_surf.addatt('id_side',vtype='vint',rank='scalar',length='nelements')
+    mo_surf.select()
+    mo_surf.settets_normal()
+    mo_surf.copyatt('itetclr',attname_sink='id_side',mo_src=mo_surf)
+
+    for att in ['itetclr0','idnode0','idelem0','facecol','itetclr1','idface0',\
+                'nlayers','nnperlayer','neperlayer','ikey_utr']:
+        mo_surf.delatt(att)
+
+    # use stack attribute layertyp to set top and bottom
+    # set all sides to default 3 all
+    mo_surf.select()
+    mo_surf.setatt('id_side',3)
+
+    ptop = mo_surf.pset_attribute('layertyp',-2,comparison='eq',stride=[1,0,0])
+    pbot = mo_surf.pset_attribute('layertyp',-1,comparison='eq',stride=[1,0,0])
+
+    etop = ptop.eltset(membership='exclusive')
+    ebot = pbot.eltset(membership='exclusive')
+
+    mo_surf.setatt('id_side',2,stride=['eltset','get',etop.name])
+    mo_surf.setatt('id_side',1,stride=['eltset','get',ebot.name])
+
+    mo_surf.copyatt('id_side',attname_sink='itetclr',mo_src=mo_surf)
+
+    # Set default node imt based on top, bottom, sides
+    # NOTE nodes at top/side edge are set to 3 side
+    # change order of setatt to overwrite differently
+
+    mo_surf.select()
+    mo_surf.setatt('imt',1)
+    esides = mo_surf.eltset_attribute('id_side',3)
+    psides = esides.pset()
+
+    mo_surf.setatt('imt',2,stride=['pset','get',ptop.name])
+    mo_surf.setatt('imt',1,stride=['pset','get',pbot.name])
+    mo_surf.setatt('imt',3,stride=['pset','get',psides.name])
+
+    mo_surf.select()
+    mo_surf.addatt('zsave',vtype='vdouble',rank='scalar',length='nnodes')
+    mo_surf.copyatt('zic',mo_src=mo_surf,attname_sink='zsave')
+    mo_surf.setatt('zic',0.)
+    cmo_bndry.setatt('zic',0.)
+
+    # INTERPOLATE boundary faces to side faces
+    # FIX numbering so 1 and 2 are top and bottom
+
+    cmo_bndry.math('add','itetclr',value=2,stride=[1,0,0],cmosrc=cmo_bndry,attsrc='itetclr')
+    mo_surf.interpolate('map','id_side',cmo_bndry,'itetclr',stride=['eltset','get',esides.name])
+    mo_surf.copyatt('zsave',mo_src=mo_surf,attname_sink='zic')
+    mo_surf.delatt('zsave')
+
+    # SET FINAL FACE VALUES
+    # TOP and Bottom were defined earlier, do the sides 
+    e3 = mo_surf.eltset_attribute('id_side',3,boolstr='eq')
+    e4 = mo_surf.eltset_attribute('id_side',4,boolstr='eq')
+    e5 = mo_surf.eltset_attribute('id_side',5,boolstr='eq')
+    e6 = mo_surf.eltset_attribute('id_side',6,boolstr='eq')
+    e7 = mo_surf.eltset_attribute('id_side',7,boolstr='eq')
+
+    mo_surf.setatt('id_side',2,stride=['eltset','get',etop.name])
+    mo_surf.setatt('id_side',1,stride=['eltset','get',ebot.name])
+
+    # check material numbers, must be greater than 0
+    # id_side is now ready for faceset selections
+    mo_surf.copyatt('id_side',attname_sink='itetclr',mo_src=mo_surf)
 
     facesets = []
+    faceset_count = np.size(np.unique(boundary_attributes)) + 2
 
-    _writeLineAVS(sidesets['sides'],'river_line.inp',generateLineConnectivity(sidesets['sides']))
-    _writeLineAVS(sidesets['north'],'north_line.inp',generateLineConnectivity(sidesets['north']))
+    # Capture and write all facesets
+    for ss_id in range(1,faceset_count+1):
+        fname = 'ss%d_fs.faceset' % ss_id
 
-    dem_copy = deepcopy(dem)
+        mo_tmp = mo_surf.copy()
+        mo_tmp.select()
+        e_keep = mo_tmp.eltset_attribute('id_side',ss_id,boolstr='eq')
+        e_delete = mo_tmp.eltset_bool(boolstr='not',eset_list=[e_keep])
+        mo_tmp.rmpoint_eltset(e_delete,compress=True,resetpts_itp=False)
+        mo_surf.delatt('layertyp')
+        mo_tmp.delatt('id_side')
 
-    if no_data_value is not None:
-        dem_copy[dem_copy == no_data_value] = np.nan
+        lg.sendline('dump / avs2 / '+fname+'/'+mo_tmp.name+'/ 0 0 0 2')
+        mo_tmp.delete()
+        facesets.append(fname)
 
-    dem_min = np.nanmin(dem_copy)
-    dem_max = np.nanmax(dem_copy)
+    outfile = 'test_exo.exo'
 
-    if elev_delta is None:
-        elev_delta = 0.02 * dem_min
-
-    # Outlet range to capture [min: outlet1, max: outlet2]
-    outlet1 = dem_min
-    outlet2 = dem_min+elev_delta
-
-    # ==================================================
-    # 1. Load mesh and features
-    # ==================================================
-
-    base_mesh = lg.read(infile,name='mo4')
-
-    # Read line 1
-    mo_line = lg.read('river_line.inp',name='mo_line')
-    mo_line.setatt('zic',(dem_max+200.))
-    mo_river = mo_line.extrude(dem_max+200.,offset_type='const',return_type='volume',
-                               direction=[0,0,-1],name='mo_river')
-    mo_line.delete()
-
-    # Read line 2
-    mo_line = lg.read('north_line.inp',name='mo_line')
-    mo_line.setatt('zic',(dem_max+200.))
-    mo_north = mo_line.extrude(dem_max+200.,offset_type='const',return_type='volume',
-                               direction=[0,0,-1],name='mo_north')
-    mo_line.delete()
-
-    # Extract
-    mo5 = base_mesh.extract_surfmesh(name='mo5',external=True,stride=[1,0,0])
-    mo5.addatt('id_side',value=0.0,vtype='vint',rank='scalar',
-               length='nelements',interpolate='linear',persistence='permanent')
-    mo5.select()
-    mo5.settets(method='normal')
-    mo5.select()
-
-    # ==================================================
-    # Begin facesets based on layer and river surface
-    # ==================================================
-
-    # Default value for all sides is 3
-    mo5.setatt('itetclr',3)
-    mo5.delatt('id_side')
-
-    # Bottom
-    p1 = mo5.pset_attribute('layertyp',name='p1',stride=[1,0,0],value=-1,comparison='eq')
-    e1 = p1.eltset(membership='exclusive')
-    mo5.setatt('itetclr',1,stride=['eltset','get',e1.name])
-    fs_bottom = e1.create_faceset(filename='faceset_bottom.avs')
-    facesets.append(fs_bottom.filename)
-
-    # Top
-    p2 = mo5.pset_attribute('layertyp',name='p2',stride=[1,0,0],value=-2,comparison='eq')
-    e2 = p2.eltset(membership='exclusive')
-    mo5.setatt('itetclr',2,stride=['eltset','get',e2.name])
-    fs_top = e2.create_faceset(filename='faceset_top.avs')
-    facesets.append(fs_top.filename)
-
-    # Sides - all sides, no direction
-    mo5.select()
-    mo_tmp1 = mo5.copy()
-    for att in ['itetclr0','itetclr1','facecol','idface0','idelem0']:
-        mo_tmp1.delatt(att)
-    lg.sendline('eltset/edel/itetclr lt 3')
-    mo_tmp1.rmpoint_eltset('edel',compress=True)
-    lg.sendline('dump/avs2/faceset_sides_all.avs/'+mo_tmp1.name+'/0 0 0 2')
-    #facesets.append('faceset_sides_all.avs')
-    mo_tmp1.delete()
-
-    # ===================================== #
-
-    mo5.select()
-    e12 = mo5.eltset_attribute('itetclr',3,boolstr='ne',name='e12')
-    mo5.rmpoint_eltset(e12,compress=True)
-
-    # Clean up element sets
-    for elt in [e1,e2,e12]:
-        elt.delete()
-    #lg.sendline('eltset/edel/delete')
-
-    # Operate on sides only
-    mo5.select()
-
-    r_surf = mo_river.surface(ibtype='reflect',name='r_surf')
-    r_1 = mo5.region_bool(name='r_1',bool='le '+r_surf.name)
-    r_2 = mo5.region_bool(name='r_2',bool='gt '+r_surf.name)
-
-    n_surf = mo_north.surface(ibtype='reflect',name='n_surf')
-    r_3 = mo5.region_bool(name='r_3',bool='le '+n_surf.name)
-    r_4 = mo5.region_bool(name='r_4',bool='gt '+n_surf.name)
-
-    # Either side of river surface
-    es3 = mo5.eltset_region(r_1)
-    es4 = mo5.eltset_region(r_2)
-
-    # Either side of north surface
-    en1 = mo5.eltset_region(r_3)
-    en2 = mo5.eltset_region(r_4)
-
-    # color sides and overwrite with north
-    es3.setatt('itetclr',3)
-    es4.setatt('itetclr',4)
-    en1.setatt('itetclr',5)
-
-    # RIVER 
-    # get river faceset at outlet in layer 1
-    # use the sides and do not include back north=3
-    # overwrite previous facesets
-
-    # get faces on sides and layer 1
-    ptop = mo5.pset_attribute('layertyp', -2, stride=[1,0,0], comparison='eq')
-
-    # get top nodes less than OUTLET2
-    pout2 = mo5.pset_attribute('zic', outlet2, stride=['pset','get',ptop.name], comparison='lt')
-    eout2 = pout2.eltset(membership='inclusive')
-    mo5.setatt('itetclr',6,stride=['eltset','get',eout2.name])
-
-    # get top nodes less than OUTLET1
-    pout1 = mo5.pset_attribute('zic', outlet1, stride=['pset','get',ptop.name], comparison='lt')
-    eout1 = pout1.eltset(membership='inclusive')
-    mo5.setatt('itetclr',7,stride=['eltset','get',eout1.name])
-
-    # Now write facesets
-    for att in ['itetclr0','itetclr1','facecol','idface0','idelem0','inriver']:
-        mo5.delatt(att)
-
-    # Write side left
-    mo_tmp1 = mo5.copy()
-    edel = mo_tmp1.eltset_attribute('itetclr',3,boolstr='ne')
-    mo_tmp1.rmpoint_eltset(edel)
-    lg.sendline('dump/avs2/faceset_side_left.avs/'+mo_tmp1.name+'/0 0 0 2')
-    facesets.append('faceset_side_left.avs')
-    mo_tmp1.delete()
-
-    # Write side right
-    mo_tmp1 = mo5.copy()
-    edel = mo_tmp1.eltset_attribute('itetclr',4,boolstr='ne')
-    mo_tmp1.rmpoint_eltset(edel)
-    lg.sendline('dump/avs2/faceset_side_right.avs/'+mo_tmp1.name+'/0 0 0 2')
-    facesets.append('faceset_side_right.avs')
-    mo_tmp1.delete()
-
-    # Write side back
-    mo_tmp1 = mo5.copy()
-    edel = mo_tmp1.eltset_attribute('itetclr',5,boolstr='ne')
-    mo_tmp1.rmpoint_eltset(edel)
-    lg.sendline('dump/avs2/faceset_side_back.avs/'+mo_tmp1.name+'/0 0 0 2')
-    facesets.append('faceset_side_back.avs')
-    mo_tmp1.delete()
-
-    # Write river facesets
-    mo_tmp1 = mo5.copy()
-    edel = mo_tmp1.eltset_attribute('itetclr',6,boolstr='ne')
-    mo_tmp1.rmpoint_eltset(edel)
-    lg.sendline('dump/avs2/faceset_river_out2.avs/'+mo_tmp1.name+'/0 0 0 2')
-    facesets.append('faceset_river_out2.avs')
-    mo_tmp1.delete()
-
-    mo_tmp1 = mo5.copy()
-    edel = mo_tmp1.eltset_attribute('itetclr',7,boolstr='ne')
-    mo_tmp1.rmpoint_eltset(edel)
-    lg.sendline('dump/avs2/faceset_river_out1.avs/'+mo_tmp1.name+'/0 0 0 2')
-    facesets.append('faceset_river_out1.avs')
-    mo_tmp1.delete()
-
-    # WRITE exodus with faceset files\n'
-    cmd = 'dump/exo/'+outfile+'/'+base_mesh.name+'///facesets &\n'
+    # Write exodus with faceset files
+    cmd = 'dump/exo/'+outfile+'/'+cmo_in.name+'///facesets &\n'
     cmd += ' &\n'.join(facesets)
+    
     lg.sendline(cmd)
 
+    _cleanup.extend(facesets)
+
+def getFacesetsFromCoordinates(coords:np.ndarray,boundary:np.ndarray):
+    '''
+    Given an array of points on or near the boundary, generate the material_id
+    array required for a facesets function.
+
+    The points *must* be ordered clockwise: that is, the algorithm will generate
+    facesets under the assumption that the intermediate space between two
+    adjacent points is where a new faceset should be placed.
+
+    Example:
+
+        _coords = np.array([[3352.82,7284.46],[7936.85,4870.53],\
+                            [1798.4,256.502],[1182.73,1030.19]])
+        fs = getFacesetsFromCoordinates(_coords,my_dem.boundary)
+
+    :param coords: ordered array of coordinates between which to add facesets
+    :type coords: np.ndarray
+    :param boundary: tinerator.DEM boundary
+    :type boundary: np.ndarray
+    :returns: faceset array for 
+    '''
+
+    from scipy.spatial import distance
+    mat_ids = np.full((np.shape(boundary)[0],),1,dtype=int)
+    fs = []
+
+    # Iterate over given coordinates and find the closest boundary point...
+    for c in coords:
+        ind = distance.cdist([c], boundary[:,:2]).argmin()
+        fs.append(ind)
+
+    fs.sort(reverse=True)
+
+    # Map the interim space as a new faceset.
+    # 'Unmarked' facesets have a default filled value of 1
+    for i in range(len(fs)):
+        mat_ids[fs[-1]:fs[i]] = i+2
+
+    return mat_ids
