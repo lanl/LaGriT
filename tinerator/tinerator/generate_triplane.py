@@ -80,10 +80,6 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     _dem = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method='nearest')
     _dem[_dem == np.nan] = dem.no_data_value
 
-    from matplotlib import pyplot as plt
-    plt.imshow(_dem)
-    plt.show()
-
     # Dump DEM data
     _array_out = "_temp_elev_array.dat"
     _dem.filled().tofile(_array_out,sep=' ',format='%.3f')
@@ -776,8 +772,6 @@ def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
         lg.sendline('dump / avs2 / '+fname+'/'+mo_tmp.name+'/ 0 0 0 2')
         mo_tmp.delete()
         facesets.append(fname)
-
-    outfile = 'test_exo.exo'
 
     # Write exodus with faceset files
     cmd = 'dump/exo/'+outfile+'/'+cmo_in.name+'///facesets &\n'

@@ -22,7 +22,7 @@ matids = (1,2,3,4,5)
 my_dem.generateStackedTIN("test_extruded_mesh.inp",layers,matids=matids,plot=True)
 
 # Now we can generate facesets in one of three ways:
-option = 1 # change me!
+option = 2 # change me!
 
 # The 'naive' approach: only generate top, bottom, and sides
 if option == 1:

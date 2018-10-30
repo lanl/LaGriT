@@ -31,6 +31,8 @@ class DEM():
         self.feature = None
         self.boundary = None
         self.points = None
+        self.stacked_mesh = None
+
         self.no_data_value = self.dem.no_data
         self.ncols = np.shape(self.dem)[1]
         self.nrows = np.shape(self.dem)[0]
@@ -226,8 +228,9 @@ class DEM():
             mlab.show()
 
         stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
+        self.stacked_mesh = outfile
 
-    def generateFaceSets(self,outfile,facesets=None,naive=False):
+    def generateFacesets(self,outfile,facesets=None,naive=False):
         '''
         Generate boundary face sets according to normal vectors and layer ID.
 
@@ -241,11 +244,15 @@ class DEM():
         :type naive: bool
 
         '''
+
+        if self.stacked_mesh is None:
+            raise ValueError("A stacked mesh must be generated before calling this function")
+
         if naive:
             generateFaceSetsNaive(self.lg,self.stacked_mesh,outfile)
         else:
             assert facesets is not None, 'Function requires facesets array'
-            generateComplexFacesets(my_dem.lg,outfile,self.stacked_mesh,self.boundary,facesets)
+            generateComplexFacesets(self.lg,outfile,self.stacked_mesh,self.boundary,facesets)
 
     def generateSingleColumnPrism(self,outfile:str,layers:list,matids=None,nlayers=None,xy_subset=None):
         generateSingleColumnPrism(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
