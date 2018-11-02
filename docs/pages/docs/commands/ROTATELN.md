@@ -21,8 +21,8 @@ tags: ok
   If the **copy** option is chosen, the new points will have only
   coordinate values (**xic, yic**, **zic**); no values will be set for
   any other mesh object attribute for these points.
-  Note: The end points of the line segment must extend well beyond
-  the point set being rotated.
+  
+ ** Note: The end points of the line segment must extend well beyond the point set being rotated.**
 
 **FORMAT:**
 

@@ -5,6 +5,7 @@ import glob
 import re
 from collections import  OrderedDict
 import numpy
+import warnings
 from itertools import product
 try:
     import xml.etree.cElementTree as ET
@@ -18,6 +19,11 @@ def _decode_binary(b):
         return b.decode('ascii')
     else:
         return b
+
+catch_errors = True
+
+class LaGriT_Warning(Warning):
+    pass
 
 class PyLaGriT(spawn):
     ''' 
@@ -82,6 +88,14 @@ class PyLaGriT(spawn):
             super(PyLaGriT, self).sendline(cmd)
             self.expect(expectstr=expectstr)
             if verbose and self.verbose: print(_decode_binary(self.before))
+
+            if catch_errors:
+                for _line in _decode_binary(self.before).split('\n'):
+                    if 'ERROR' in _line:
+                        raise Exception(_line)
+                    elif 'WARNING' in _line:
+                        warnings.warn(_line,category=LaGriT_Warning)
+
     def interact(self, escape_character='^'):
         if self.batch:
             print("Interactive mode unavailable during batch mode")
@@ -262,34 +276,33 @@ class PyLaGriT(spawn):
         DXY = [str(v) for v in DXY]
         
         connect_str = 'connect' if connect==True else 'points'
-        skip_str = 'skip {}'.format(skip_lines)
+        skip_str = 'skip %d' % skip_lines
         
         data_type = data_type.lower()
         file_type = file_type.lower()
         
         if data_type not in ['float', 'double']:
-            print("ERROR: data_type must be float or double")
-            return
+            raise ValueError("data_type must be float or double")
         
         if file_type not in ['ascii', 'binary']:
-            print("ERROR: file_type must be ascii or binary")
-            return
+            raise ValueError("file_type must be ascii or binary")
         
         flip_str = flip.lower()
         
-        if flip_str in ['x', 'y', 'none']:
-            if flip_str == 'x': flip_str = 'xflip'
-            if flip_str == 'y': flip_str = 'yflip'
-            
-            if flip_str != 'none':
-                '/'.join([flip_str, file_type])
+        if flip_str in ['x', 'y', 'xy', 'none']:
+            if flip_str == 'x':    flip_str = 'xflip'
+            if flip_str == 'y':    flip_str = 'yflip'
+            if flip_str == 'xy':   flip_str = 'xflip,yflip'
+            if flip_str == 'none': flip_str = ''
+        else:
+            raise ValueError("Argument flip must be: 'x', 'y', 'xy', or 'none'")
         
         # Create new mesh object with given name
         self.sendline('cmo/create/{}'.format(name))
         self.sendline('cmo/select/{}'.format(name))
         
         # Read in elevation file and append to mesh
-        cmd = ['read','sheetij',filename,','.join(NXY),','.join(minXY),','.join(DXY),skip_str,connect_str,file_type,data_type]
+        cmd = ['read','sheetij',filename,','.join(NXY),','.join(minXY),','.join(DXY),skip_str,flip_str,connect_str,file_type,data_type]
         self.sendline('/'.join(cmd))
         
         self.mo[name] = MO(name,self)
@@ -1252,13 +1265,15 @@ class MO(object):
     def elem_type(self):
         self.status(1,verbose=False)
         strarr = self._parent.before.splitlines()
-        etype = strarr[8].split()[7]
+        etype = _decode_binary(strarr[8].split()[7])
         if etype == 'tri':
             if self.ndim_geo == 2: etype = 'triplane'
         return etype
     def status(self,brief=False,verbose=True):
         print(self.name)
         self._parent.cmo_status(self.name,brief=brief,verbose=verbose)
+    def select(self):
+        self.sendline('cmo/select/'+self.name)
     def read(self,filename,filetype=None):
         # If filetype is lagrit, name is irrelevant
         if filetype is not None:
@@ -2104,7 +2119,7 @@ class MO(object):
 
         rmat = []
         lmat = []
-        for k,v in matnames.iteritems():
+        for k,v in matnames.items():
             rmat.append(ET.SubElement(r,'ParameterList',{'name':str(v),'type':'ParameterList'}))
             lmat.append(ET.SubElement(rmat[-1],'ParameterList',{'name':'Region: Labeled Set','type':'ParameterList'}))
             ET.SubElement(lmat[-1],'Parameter',{'name':'Label','type':'string','value':str(k)})
@@ -2114,7 +2129,7 @@ class MO(object):
 
         rsurf = []
         lsurf = []
-        for k,v in facenames.iteritems():
+        for k,v in facenames.items():
             rsurf.append(ET.SubElement(r,'ParameterList',{'name':str(v),'type':'ParameterList'}))
             lsurf.append(ET.SubElement(rsurf[-1],'ParameterList',{'name':'Region: Labeled Set','type':'ParameterList'}))
             ET.SubElement(lsurf[-1],'Parameter',{'name':'Label','type':'string','value':str(k)})
@@ -2212,6 +2227,7 @@ class MO(object):
 
         cmd = '/'.join(['createpts',crd,','.join(npts),','.join(mins),','.join(maxs),','.join(rz_switch),','.join(rz_value)])
         self.sendline(cmd)
+
         if connect:
             if self.elem_type.startswith(('tri','tet')):
                 cmd = '/'.join(['connect','noadd'])
