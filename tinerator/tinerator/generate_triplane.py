@@ -12,20 +12,36 @@ import pylagrit
 from copy import deepcopy
 from scipy import interpolate
 
-def generateLineConnectivity(nodes,connect_ends=False):
-    connectivity = np.empty((np.shape(nodes)[0]-1,2),dtype=np.int)
-    for i in range(np.shape(connectivity)[0]):
+def generateLineConnectivity(nodes:np.ndarray,connect_ends:bool=False):
+    '''
+    Simple function to define a closed or open polyline for a set of 
+    nodes. Assumes adjacency in array == implicit connection.
+    That is, requires a clockwise- or counter-clockwise set of nodes.
+    '''
+
+    delta = 0 if connect_ends else -1
+    size = np.shape(nodes)[0]
+    connectivity = np.empty((size+delta,2),dtype=np.int)
+    for i in range(size-1):
         connectivity[i] = np.array((i+1,i+2))
+    if connect_ends:
+        connectivity[-1] = np.array((size,1))
     return connectivity
 
-def _writeLineAVS(boundary,outfile,connections=None,node_atts=None,material_id=None):
+def _writeLineAVS(boundary,outfile:str,connections=None,material_id=None,
+                  node_atts:dict=None,cell_atts:dict=None):
 
     nnodes = np.shape(boundary)[0]
     nlines = np.shape(connections)[0] if connections is not None else 0
-    natts = 1 if node_atts is not None else 0
+    natts = len(node_atts.keys()) if node_atts is not None else 0
+    catts = len(cell_atts.keys()) if cell_atts is not None else 0
+
+    if material_id is not None:
+        assert np.shape(material_id)[0] >= nlines, \
+        'Mismatch count between material ID and cells'
 
     with open(outfile,'w') as f:
-        f.write("{} {} {} 0 0\n".format(nnodes,nlines,natts))
+        f.write("{} {} {} {} 0\n".format(nnodes,nlines,natts,catts))
 
         for i in range(nnodes):
             f.write("{} {} {} 0.0\n".format(i+1,boundary[i][0],boundary[i][1]))
@@ -35,9 +51,46 @@ def _writeLineAVS(boundary,outfile,connections=None,node_atts=None,material_id=N
             f.write("{} {} line {} {}\n".format(i+1,mat_id,connections[i][0],connections[i][1]))
 
         if natts:
-            f.write("00001  1\nfset, integer\n")
-            for i in range(np.shape(node_atts)[0]):
-                f.write("{} {}\n".format(i+1,node_atts[i]))
+
+            for key in node_atts.keys():
+                assert np.shape(node_atts[key])[0] >= nnodes, \
+                'Length of node attribute %s does not match length of points array' % key
+
+            # 00007  1  1  1  1  1  1  1
+            f.write(str(natts) + ' 1'*natts + '\n')
+
+            # imt1, integer
+            # itp1, integer
+            _t = '\n'.join([key + ', ' + 'integer' if node_atts[key].dtype == int else 'real' for key in node_atts.keys()])
+            f.write(_t + '\n')
+
+            for i in range(nnodes):
+                _att_str = '%d' % (i+1)
+                for key in node_atts.keys():
+                    _att_str += ' ' + str(node_atts[key][i])
+                _att_str += '\n'
+                f.write(_att_str)
+
+        if catts:
+
+            for key in cell_atts.keys():
+                assert np.shape(cell_atts[key])[0] >= nlines, \
+                'Length of cell attribute %s does not match length of elem array' % key
+
+            # 00007  1  1  1  1  1  1  1
+            f.write(str(catts) + ' 1'*catts + '\n')
+
+            # imt1, integer
+            # itp1, integer
+            _t = '\n'.join([key + ', ' + 'integer' if cell_atts[key].dtype == int else 'real' for key in cell_atts.keys()])
+            f.write(_t + '\n')
+
+            for i in range(nlines):
+                _att_str = '%d' % (i+1)
+                for key in cell_atts.keys():
+                    _att_str += ' ' + str(cell_atts[key][i])
+                _att_str += '\n'
+                f.write(_att_str)
 
         f.write("\n")
 
@@ -49,9 +102,6 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
 
     :param pylagrit.PyLaGriT lg:
     :param str triplane: filepath to mesh to add 
-    :param str att_name:
-    :param str att_filepath:
-    :param str fileout: 
     '''
 
     # Generate sheet metadata
@@ -203,59 +253,6 @@ finish
 
     callLaGriT(cmd,lagrit_path=lg.lagrit_exe)
 
-
-def generateFaceSets_2(lg:pylagrit.PyLaGriT,inmesh:str,outfile:str,material_names=None,face_names=None,
-                     north_line=None,flow_line=None):
-    '''
-    Generate boundary face sets according to normal vectors and layer ID.
-
-    :param lg: running instance of PyLaGriT
-    :type lg: pylagrit.PyLaGriT
-    :param outfile: filepath to save Exodus facesets
-    :type outfile: str
-    :param material_names: material_id,material_name key/value pairs
-    :type material_names: dict
-    :param face_names: faceset_id/faceset_name key/value pairs
-    :type face_names: dict
-
-    '''
-
-    # 1. generate river line
-    # 2. generate north_line
-    # 3. read mesh as CMO_PRISM
-
-    center = [4297.67,3925.68,0.]
-    upper_left = [3956.31,7400.28,0.]
-    upper_right = [7912.47,4961.96,0.]
-
-    inlet = [5516.83,6059.2,0.]
-    outlet = [859.651,280.406,0.]
-
-    north_line = '''3 2 0 0 0
-1 {} {} {}
-2 {} {} {}
-3 {} {} {}
-1 1 line 1 2
-2 1 line 2 3
-'''.format(upper_left[0],upper_left[1],upper_left[2],
-           center[0],center[1],center[2],
-           upper_right[0],upper_right[1],upper_right[2])
-
-    with open('north_line.inp','w') as f:
-        f.write(north_line)
-
-    river_line = '''2 1 0 0 0
-1 {} {} {}
-2 {} {} {}
-1 1 line 1 2
-'''.format(inlet[0],inlet[1],inlet[2],
-           outlet[0],outlet[1],outlet[2])
-
-    with open('river_line.inp','w') as f:
-        f.write(river_line)
-
-    #
-    #_writeLineAVS(boundary,outfile,connections=None)
 
 def generateFaceSets(lg:pylagrit.PyLaGriT,inmesh:str,outfile:str,material_names=None,face_names=None):
     '''
@@ -448,7 +445,7 @@ def buildUniformTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
     cmd += 'rmpoint compress\n'
     cmd += 'resetpts itp\n'
 
-    cmd += '# edge lengths good, try to improve aspect toward 1\n'
+    # edge lengths good, try to improve aspect toward 1
     cmd += 'smooth\n'
     cmd += 'recon 0\n'
     cmd += 'smooth\n'
@@ -465,7 +462,7 @@ def buildUniformTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
     cmd += 'pset/pgood/attribute aratio/1,0,0/ gt .8\n'
     cmd += 'pset/prest/ not pgood\n'
 
-    cmd += '## connect delaunay #############\n'
+    ## connect delaunay
     cmd += 'rmpoint compress\n'
     cmd += 'recon 1\n'
     cmd += 'smooth\n'
@@ -570,7 +567,7 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
     cmd += 'read / POLY_FILE / mo_poly_work\n'
     cmd += 'read / LINE_FILE / mo_line_work \n'
 
-    cmd += '## Triangulate Fracture without point addition \n'
+    ## Triangulate Fracture without point addition
     cmd += 'cmo / create / mo_pts / / / triplane \n'
     cmd += 'copypts / mo_pts / mo_poly_work \n'
     cmd += 'cmo / select / mo_pts \n'
@@ -586,7 +583,7 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
     cmd += 'cmo / delete / mo_poly_work \n'
     cmd += 'cmo / select / mo_pts \n'
 
-    cmd += '# Creates a Coarse Mesh and then refines it using the distance field from intersections\n'
+    # Creates a Coarse Mesh and then refines it using the distance field from intersections
     cmd += 'massage / H_SCALE64 / H_EPS  / H_EPS\n'
     cmd += 'recon 0; smooth;recon 0;smooth;recon 0;smooth;recon 0\n'
     cmd += 'resetpts / itp\n'
@@ -619,7 +616,7 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
     cmd += 'cmo/addatt/ mo_pts /x_four/vdouble/scalar/nnodes \n'
     cmd += 'cmo/addatt/ mo_pts /fac_n/vdouble/scalar/nnodes \n'
 
-    cmd += '# Massage points based on linear function down to h_prime\n'
+    # Massage points based on linear function down to h_prime
     cmd += 'massage2/user_function2.lgi/H_PRIME/fac_n/1.e-5/1.e-5/1 0 0/strictmergelength \n'
 
     cmd += 'assign///maxiter_sm/1 \n'
@@ -638,7 +635,7 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
     callLaGriT(cmd,lagrit_path=lg.lagrit_exe)
 
 def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
-                            boundary:np.ndarray,boundary_attributes:np.ndarray):
+                            boundary:np.ndarray,facesets:np.ndarray):
     '''
     A new technique for generating Exodus facesets from the material ID of
     boundary line segments.
@@ -667,6 +664,16 @@ def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
 
     _cleanup = []
 
+    cell_atts = None
+    has_top = False
+    if isinstance(facesets,dict):
+        boundary_attributes = facesets['all']
+        if 'top' in facesets.keys():
+            cell_atts = { 'ioutlet': facesets['top'] }
+            has_top = True
+    else:
+        boundary_attributes = facesets
+
     boundary_attributes = deepcopy(boundary_attributes) - np.min(boundary_attributes) + 1
 
     # Test that the array does not have values that 'skip' an integer,
@@ -676,7 +683,10 @@ def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
            'boundary_attributes cannot contain non-sequential values'
 
     boundary_file = "_boundary_line_colors.inp"
-    _writeLineAVS(boundary,boundary_file,connections=generateLineConnectivity(boundary,connect_ends=True),material_id=boundary_attributes)
+    _writeLineAVS(boundary,boundary_file,
+                  connections=generateLineConnectivity(boundary,connect_ends=True),
+                  material_id=boundary_attributes,cell_atts=cell_atts)
+
     _cleanup.append(boundary_file)
 
     cmo_in = lg.read(mesh_file)
@@ -732,20 +742,26 @@ def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
     cmo_bndry.setatt('zic',0.)
 
     # INTERPOLATE boundary faces to side faces
-    # FIX numbering so 1 and 2 are top and bottom
+    # and set numbering so 1 and 2 are top and bottom
 
     cmo_bndry.math('add','itetclr',value=2,stride=[1,0,0],cmosrc=cmo_bndry,attsrc='itetclr')
     mo_surf.interpolate('map','id_side',cmo_bndry,'itetclr',stride=['eltset','get',esides.name])
+
+    if has_top:
+        mo_surf.addatt('ioutlet',vtype='vint',rank='scalar',length='nelements')
+        mo_surf.addatt('ilayer',vtype='vint',rank='scalar',length='nelements')
+        mo_surf.interpolate('map','ioutlet',cmo_bndry,'ioutlet',stride=['eltset','get',esides.name])
+
     mo_surf.copyatt('zsave',mo_src=mo_surf,attname_sink='zic')
     mo_surf.delatt('zsave')
 
     # SET FINAL FACE VALUES
     # TOP and Bottom were defined earlier, do the sides 
-    e3 = mo_surf.eltset_attribute('id_side',3,boolstr='eq')
-    e4 = mo_surf.eltset_attribute('id_side',4,boolstr='eq')
-    e5 = mo_surf.eltset_attribute('id_side',5,boolstr='eq')
-    e6 = mo_surf.eltset_attribute('id_side',6,boolstr='eq')
-    e7 = mo_surf.eltset_attribute('id_side',7,boolstr='eq')
+    #e3 = mo_surf.eltset_attribute('id_side',3,boolstr='eq')
+    #e4 = mo_surf.eltset_attribute('id_side',4,boolstr='eq')
+    #e5 = mo_surf.eltset_attribute('id_side',5,boolstr='eq')
+    #e6 = mo_surf.eltset_attribute('id_side',6,boolstr='eq')
+    #e7 = mo_surf.eltset_attribute('id_side',7,boolstr='eq')
 
     mo_surf.setatt('id_side',2,stride=['eltset','get',etop.name])
     mo_surf.setatt('id_side',1,stride=['eltset','get',ebot.name])
@@ -754,8 +770,30 @@ def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
     # id_side is now ready for faceset selections
     mo_surf.copyatt('id_side',attname_sink='itetclr',mo_src=mo_surf)
 
-    facesets = []
+    _all_facesets = []
     faceset_count = np.size(np.unique(boundary_attributes)) + 2
+
+    # This creates a top-layer boundary faceset by setting the area defined in 
+    # ioutlet to a unique value *only* on the top layer.
+    if has_top:
+
+        mo_surf.select()
+        mo_surf.setatt('ilayer',0.)
+
+        elay_inc = ptop.eltset(membership='inclusive')
+        mo_surf.setatt('ilayer',1,stride=['eltset','get',elay_inc.name])
+        mo_surf.setatt('ilayer',0,stride=['eltset','get',etop.name]) # ????
+
+        e1 = mo_surf.eltset_attribute('ilayer',1,boolstr='eq')
+        e2 = mo_surf.eltset_attribute('ioutlet',2,boolstr='eq')
+
+        faceset_count += 1
+
+        e_out1 = mo_surf.eltset_inter([e1,e2])
+        mo_surf.setatt('id_side',faceset_count,stride=['eltset','get',e_out1])
+
+        mo_surf.delatt('ioutlet')
+        mo_surf.delatt('ilayer')
 
     # Capture and write all facesets
     for ss_id in range(1,faceset_count+1):
@@ -766,22 +804,22 @@ def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
         e_keep = mo_tmp.eltset_attribute('id_side',ss_id,boolstr='eq')
         e_delete = mo_tmp.eltset_bool(boolstr='not',eset_list=[e_keep])
         mo_tmp.rmpoint_eltset(e_delete,compress=True,resetpts_itp=False)
-        mo_surf.delatt('layertyp')
+
+        mo_tmp.delatt('layertyp')
         mo_tmp.delatt('id_side')
 
         lg.sendline('dump / avs2 / '+fname+'/'+mo_tmp.name+'/ 0 0 0 2')
         mo_tmp.delete()
-        facesets.append(fname)
+        _all_facesets.append(fname)
 
     # Write exodus with faceset files
     cmd = 'dump/exo/'+outfile+'/'+cmo_in.name+'///facesets &\n'
-    cmd += ' &\n'.join(facesets)
-    
+    cmd += ' &\n'.join(_all_facesets)
+
     lg.sendline(cmd)
+    _cleanup.extend(_all_facesets)
 
-    _cleanup.extend(facesets)
-
-def getFacesetsFromCoordinates(coords:np.ndarray,boundary:np.ndarray):
+def getFacesetsFromCoordinates(coords:dict,boundary:np.ndarray):
     '''
     Given an array of points on or near the boundary, generate the material_id
     array required for a facesets function.
@@ -804,19 +842,30 @@ def getFacesetsFromCoordinates(coords:np.ndarray,boundary:np.ndarray):
     '''
 
     from scipy.spatial import distance
-    mat_ids = np.full((np.shape(boundary)[0],),1,dtype=int)
-    fs = []
 
-    # Iterate over given coordinates and find the closest boundary point...
-    for c in coords:
-        ind = distance.cdist([c], boundary[:,:2]).argmin()
-        fs.append(ind)
+    facesets = {}
 
-    fs.sort(reverse=True)
+    if isinstance(coords,(list,np.ndarray)):
+        coords = {'all':coords}
 
-    # Map the interim space as a new faceset.
-    # 'Unmarked' facesets have a default filled value of 1
-    for i in range(len(fs)):
-        mat_ids[fs[-1]:fs[i]] = i+2
+    for key in coords:
+        mat_ids = np.full((np.shape(boundary)[0],),1,dtype=int)
+        fs = []
 
-    return mat_ids
+        # Iterate over given coordinates and find the closest boundary point...
+        for c in coords[key]:
+            ind = distance.cdist([c], boundary[:,:2]).argmin()
+            fs.append(ind)
+
+        fs.sort(reverse=True)
+
+        # Map the interim space as a new faceset.
+        # 'Unmarked' facesets have a default filled value of 1
+        for i in range(len(fs)):
+            mat_ids[fs[-1]:fs[i]] = i+2
+
+        facesets[key] = mat_ids
+
+    # TODO: what to do in case of 'all' being undefined?
+
+    return facesets

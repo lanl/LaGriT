@@ -1,13 +1,25 @@
+#from setuptools import setup
 from distutils.core import setup
+
 setup(
     name = "tinerator",
     packages = ["tinerator"],
     version = "0.1.0",
     description = "DEM -> Refined TIN Generation",
-    author = "Daniel Livingston",
+    license = 'BSD-3',
+    author = "Daniel Livingston, David Moulton, Terry Ann Miller, Zexuan Xu, Ilhan Ozgen",
     author_email = "livingston@lanl.gov",
     url = "http://www.github.com/lanl/tinerator",
-    keywords = ["gis", "dem", "tin"],
+    keywords = ["gis", "dem", "tin", "amanzi", "lagrit"],
+    install_requires=[
+        'richdem',
+        'matplotlib',
+        'pylagrit',
+        'numpy',
+        'scipy',
+        'rasterio',
+        'fiona',
+        'elevation'],
     classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",

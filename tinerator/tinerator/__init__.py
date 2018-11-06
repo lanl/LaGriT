@@ -19,11 +19,11 @@ params = {
     'log_file': '_tin_log.out'
 }
 
-def loadDEM(filepath,lagrit_exe=None):
+def loadDEM(filepath:str,lagrit_exe:str=None):
     return DEM(filepath,lagrit_exe=lagrit_exe)
 
 class DEM():
-    def __init__(self,filepath,lagrit_exe=None):
+    def __init__(self,filepath:str,lagrit_exe:str=None):
         self.dem = rd.LoadGDAL(filepath)
         self.lg = PyLaGriT(lagrit_exe=lagrit_exe)
         self.distance_field = None
@@ -306,8 +306,5 @@ class DEM():
         plt.title('DEM with generated boundary')
         ax.scatter(self.boundary[:,0],self.boundary[:,1],zorder=2,s=1.,c='red')
         plt.show()
-
-    def save(self,outfile:str):
-        pass
 
 
