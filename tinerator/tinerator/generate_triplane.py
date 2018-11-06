@@ -755,14 +755,6 @@ def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
     mo_surf.copyatt('zsave',mo_src=mo_surf,attname_sink='zic')
     mo_surf.delatt('zsave')
 
-    # SET FINAL FACE VALUES
-    # TOP and Bottom were defined earlier, do the sides 
-    #e3 = mo_surf.eltset_attribute('id_side',3,boolstr='eq')
-    #e4 = mo_surf.eltset_attribute('id_side',4,boolstr='eq')
-    #e5 = mo_surf.eltset_attribute('id_side',5,boolstr='eq')
-    #e6 = mo_surf.eltset_attribute('id_side',6,boolstr='eq')
-    #e7 = mo_surf.eltset_attribute('id_side',7,boolstr='eq')
-
     mo_surf.setatt('id_side',2,stride=['eltset','get',etop.name])
     mo_surf.setatt('id_side',1,stride=['eltset','get',ebot.name])
 
