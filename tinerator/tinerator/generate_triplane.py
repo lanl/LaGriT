@@ -175,6 +175,11 @@ def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
     :type matids: list
     '''
 
+    if layers[0] != 0.:
+        layers = [0.0] + layers
+        matids = [0] + matids
+        assert len(layers) == len(matids)
+
     stack_files = ['layer%d.inp' % (len(layers)-i) for i in range(len(layers))]
     if nlayers is None:
         nlayers=['']*(len(stack_files)-1)
