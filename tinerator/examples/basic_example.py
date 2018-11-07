@@ -15,8 +15,8 @@ my_dem.generateBoundary(10.)
 my_dem.plotBoundary()
 
 # Define the layers and corresponding material ids
-layers = (0.1*50.,0.3*50.,0.6*50.,8.0*50.,21.0*50.)
-matids = (1,2,3,4,5)
+layers = [0.1*50.,0.3*50.,0.6*50.,8.0*50.,21.0*50.]
+matids = [1,2,3,4,5]
 
 my_dem.generateStackedTIN("test_extruded_mesh.inp",layers,matids=matids,plot=False)
 
