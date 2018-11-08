@@ -8,25 +8,6 @@ Highlight color (pink)		: #c66995
 --------------------------------------
 
 */
-body {
-	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-	font-size: 13px;
-	font-weight: 300;
-    background: white;
-}
-
-a, button { transition: all 0.3s ease; }
-a:hover,
-a:focus {
-	text-decoration: none;
-	outline: none;
-}
-
-#mainNav {
-    font-family: 'Fira Sans', sans-serif;
-}
-
-p:last-child { margin-bottom: 0; }
 
 .tm-page-wrap { 
     max-width: 1400px;
