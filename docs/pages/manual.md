@@ -1,36 +1,36 @@
 # Online Manual #
 
-## I. INTRODUCTION ##
+## I. Introduction ##
 
- -  A. [LaGriT and PyLaGriT](docs/lagrit.md)  
- -  B. [Tutorial](docs/tutorial.md)  
- -  C. [Examples and Simple Demos](docs/demos/index.md)  
+ -  [LaGriT and PyLaGriT](docs/lagrit.md)  
+ -  [Tutorial](docs/tutorial.md)  
+ -  [Examples and Simple Demos](docs/demos/index.md)  
  
-## II. LaGriT COMMANDS ##
+## II. LaGriT Commands ##
  
- -  A. [Conventions](docs/conventions.md)  
- -  B. [Alphabetic listing of LaGriT commands](commands.md)  
- -  C. [LaGriT commands by Category](commands_cat.md)  
- -  D. [Table of LaGriT Commands](table.md)  
+ -  [Conventions](docs/conventions.md)  
+ -  [Alphabetic listing of LaGriT commands](commands.md)  
+ -  [LaGriT commands by Category](commands_cat.md)  
+ -  [Table of LaGriT Commands](table.md)  
  
-## III. MESH OBJECTS ##
- -  A. [Mesh Object Definition](docs/meshobject.md)  
- -  B.[Command Interface](docs/commandi.md )  
- -  C. [Fortran Interface](docs/fortran.md)  
- -  D. [Mesh Object Connectivity](docs/meshobjcon.md)  
- -  E. [Geometries](docs/geometries.md)  
+## III. Mesh Objects ##
+ -  [Mesh Object Definition](docs/meshobject.md)  
+ -  [Command Interface](docs/commandi.md )  
+ -  [Fortran Interface](docs/fortran.md)  
+ -  [Mesh Object Connectivity](docs/meshobjcon.md)  
+ -  [Geometries](docs/geometries.md)  
 
-## IV. INTERFACING USER ROUTINES TO LaGriT ##
- -  A. [Building an Executable and Running LaGriT](docs/build.md)   
- -  B. [Issuing Commands from a User Program](docs/issuing.md)   
- -  C. [Writing User Commands](docs/writing.md)  
- -  D. [Accessing the Mesh Object](docs/accessing.md)  
- -  E. [Utility Subroutines](util.md)  
+## IV. Interfacing User Routines to LaGriT ##
+ -  [Building an Executable and Running LaGriT](docs/build.md)   
+ -  [Issuing Commands from a User Program](docs/issuing.md)   
+ -  [Writing User Commands](docs/writing.md)  
+ -  [Accessing the Mesh Object](docs/accessing.md)  
+ -  [Utility Subroutines](util.md)  
 
-## V. ERRORS ##
- -  A. [Errors in parsing or executing commands](docs/errors.md#parse).  
- -  B. [Out of memory errors.](docs/errors.md#memory)  
- -  C. [Fatal memory management errors](docs/errors.md#panic)    
+## V. Errors ##
+ -  [Errors in parsing or executing commands](docs/errors.md#parse).  
+ -  [Out of memory errors.](docs/errors.md#memory)  
+ -  [Fatal memory management errors](docs/errors.md#panic)    
 
 
 [**LaGriT References**](docs/References.md)   
