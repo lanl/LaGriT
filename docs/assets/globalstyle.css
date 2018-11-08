@@ -50,7 +50,7 @@ blockquote {
     padding: 0px 10px 10px 20px;
 }
 
-h2 {
+h1 {
   font: 300 32px/1.7 'Open Sans', sans-serif;
   font-weight: bold;
   color: #333;
@@ -58,8 +58,8 @@ h2 {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1 {
-  font: 300 32px/1.7 'Open Sans', sans-serif;
+h2 {
+  font: 300 26px/1.7 'Open Sans', sans-serif;
   color: #333;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
