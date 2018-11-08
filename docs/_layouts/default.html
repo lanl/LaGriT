@@ -10,6 +10,7 @@
     <!-- Load Google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300|Open+Sans:300,400|Open+Sans+Condensed:700|Source+Code+Pro" rel="stylesheet">
 
     <!-- load stylesheets -->
     <link rel="stylesheet" href="{{ "/assets/font-awesome-4.7.0/css/font-awesome.min.css" | relative_url }}">
@@ -58,6 +59,11 @@
                                     <a class="nav-link" href="http://github.com/lanl/LaGriT"><img src="{{ "assets/img/github_white.png" | relative_url }}" style="width: 20px;" alt="GitHub" onmouseover="this.src='{{ "assets/img/github_hover.png" | relative_url }}';" onmouseout="this.src='{{ "/assets/img/github_white.png" | relative_url }}';"></a>
                                 </li>
                             </ul>
+                            <ul class="nav navbar-nav ml-auto">
+                                <form class="form-inline my-2 my-md-0"> <!-- id="searchform" -->
+                                    <input type="search" placeholder="Search">
+                                </form>
+                            </ul>
                         </div>                            
                     </nav>
                 </div> <!-- row -->
@@ -65,9 +71,44 @@
         </div> <!-- .tm-top-bar -->
 
 
-  <div style="width: 80%; margin: 0 auto; position: relative; padding: 35px 45px; background-color: white;" id="mainContent">
-    {{ content }}
-  </div>
+    <div style="width: 80%; margin: 0 auto; position: relative; padding: 35px 45px; background-color: white;" id="mainContent">
+        {{ content }}
+    </div>
+
+    <!-- Begin footer -->
+    <footer class="footer-distributed">
+
+        <div class="footer-right">
+
+            <a href="mailto:millerta@lanl.gov"><i class="fa fa-envelope"></i></a>
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="https://www.github.com/lanl/LaGriT"><i class="fa fa-github"></i></a>
+
+        </div>
+
+        <div class="footer-left">
+
+            <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                <a href="#">Home</a>
+                ·
+                <a href="#">Examples</a>
+                ·
+                <a href="#">PyLaGriT</a>
+                ·
+                <a href="#">EES-16</a>
+                ·
+                <a href="#">License</a>
+                ·
+                <a href="#">Contact</a>
+            </p>
+
+            <p>&copy; 2018 Los Alamos National Laboratory</p>
+            <p>EES-16 | Computational Earth and Environmental Sciences</p>
+            <p>LA-CC-15-069</p>
+        </div>
+
+    </footer>
 
     <!-- load JS files -->
     <script src="{{ "/assets/js/jquery-1.11.3.min.js" | relative_url }}"></script>             <!-- jQuery (https://jquery.com/download/) -->
