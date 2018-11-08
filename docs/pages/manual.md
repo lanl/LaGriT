@@ -1,3 +1,9 @@
+---
+layout: post
+title: "Bacon Ipsum (Short)"
+categories: loremipsum
+---
+
 # Online Manual #
 
 ------------------------------------------------------------
