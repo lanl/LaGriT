@@ -1,8 +1,8 @@
 ---
-layout: post
-title: "Bacon Ipsum (Short)"
-categories: loremipsum
----
+title: Online Manual
+tags: ok
+tipue_search_active: true
+--- 
 
 # Online Manual #
 
