@@ -6,6 +6,7 @@ Tipue Search is released under the MIT License
 http://www.tipue.com/search
 */
 
+var tipuesearch_pages = ["/", "/approvals", "/docs"];
 
 /*
 Stop words
