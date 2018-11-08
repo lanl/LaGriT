@@ -23,6 +23,15 @@
     <link rel="stylesheet" href="{{ "/assets/css/templatemo-style.css" | relative_url }}">
     <link rel="stylesheet" href="{{ "/assets/globalstyle.css" | relative_url }}">
 
+    {% if page.tipue_search_active or layout.tipue_search_active %}
+    <link rel="stylesheet" href="{{ "/assets/tipuesearch/css/normalize.css" | relative_url }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{{ "/assets/tipuesearch/tipuesearch_content.js" | relative_url }}"></script>
+    <link rel="stylesheet" href="{{ "/assets/tipuesearch/css/tipuesearch.css" | relative_url }}">
+    <script src="{{ "/assets/tipuesearch/tipuesearch_set.js" | relative_url }}"></script>
+    <script src="{{ "/assets/tipuesearch/tipuesearch.min.js" | relative_url }}"></script>
+    {% endif %}
+
   </head>
 
   <body>
@@ -72,6 +81,19 @@
 
 
     <div style="width: 80%; margin: 0 auto; position: relative; padding: 35px 45px; background-color: white;" id="mainContent">
+<form action="{{ page.url | relative_url }}">
+  <div class="tipue_search_left"><img src="{{ "/assets/tipuesearch/search.png" | relative_url }}" class="tipue_search_icon"></div>
+  <div class="tipue_search_right"><input type="text" name="q" id="tipue_search_input" pattern=".{3,}" title="At least 3 characters" required></div>
+  <div style="clear: both;"></div>
+</form>
+
+<div id="tipue_search_content"></div>
+
+<script>
+$(document).ready(function() {
+  $('#tipue_search_input').tipuesearch();
+});
+</script>
         {{ content }}
     </div>
 
