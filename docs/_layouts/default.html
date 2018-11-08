@@ -74,9 +74,8 @@
                                     <!--<input type="search" placeholder="Search">-->
                                     <form action="{{ page.url | relative_url }}">
                                       <!--<div class="tipue_search_right"><input type="text" name="q" id="tipue_search_input" pattern=".{3,}" title="At least 3 characters" required></div>-->
-                                      <div class="tipue_search_right">
-                                        <input type="text" name="q" pattern=".{3,}" title="At least 3 characters" required placeholder="Search">
-                                    </div>
+
+                                        <input type="text" name="q" id="tipue_search_input" pattern=".{3,}" title="At least 3 characters" required placeholder="Search">
 
                                       <div style="clear: both;"></div>
                                     </form>
@@ -92,16 +91,14 @@
     <div style="width: 80%; margin: 0 auto; position: relative; padding: 35px 45px; background-color: white;" id="mainContent">
 
     <div id="tipue_search_content"></div>
-
     <script>
     $(document).ready(function() {
       $('#tipue_search_input').tipuesearch();
     });
     </script>
 
-    test
-
         {{ content }}
+
     </div>
 
     <!-- Begin footer -->
