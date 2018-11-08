@@ -1,5 +1,7 @@
 # Online Manual #
 
+------------------------------------------------------------
+
 ## I. Introduction ##
 
  -  [LaGriT and PyLaGriT](docs/lagrit.md)  
