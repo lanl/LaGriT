@@ -12,7 +12,7 @@ body {
 	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 	font-size: 13px;
 	font-weight: 300;
-    background: #e6e6e6;
+    background: white;
 }
 
 a, button { transition: all 0.3s ease; }
