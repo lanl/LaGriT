@@ -67,20 +67,22 @@
                                     <a class="nav-link" href="http://github.com/lanl/LaGriT"><img src="{{ "assets/img/github_white.png" | relative_url }}" style="width: 20px;" alt="GitHub" onmouseover="this.src='{{ "assets/img/github_hover.png" | relative_url }}';" onmouseout="this.src='{{ "/assets/img/github_white.png" | relative_url }}';"></a>
                                 </li>
                             </ul>
+
+                            <!-- Search bar -->
                             <ul class="nav navbar-nav ml-auto">
                                 <form class="form-inline my-2 my-md-0"> <!-- id="searchform" -->
                                     <!--<input type="search" placeholder="Search">-->
                                     <form action="{{ page.url | relative_url }}">
                                       <!--<div class="tipue_search_right"><input type="text" name="q" id="tipue_search_input" pattern=".{3,}" title="At least 3 characters" required></div>-->
                                       <div class="tipue_search_right">
-                                        <input type="text" name="q" id="tipue_search_input" pattern=".{3,}" title="At least 3 characters" required placeholder="Search">
+                                        <input type="text" name="q" pattern=".{3,}" title="At least 3 characters" required placeholder="Search">
                                     </div>
 
                                       <div style="clear: both;"></div>
                                     </form>
                                 </form>
-                            </ul>
-                        </div>                            
+                            </ul> <!-- search bar -->
+                        </div>
                     </nav>
                 </div> <!-- row -->
             </div> <!-- container -->
