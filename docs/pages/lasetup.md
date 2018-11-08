@@ -33,10 +33,10 @@ by running xdpyinfo. Also the X server must be running the GLX
 extension. Extensions are listed near the top of the output of xdpyinfo.
 [lasetup Requirements](lasetup_require.md)
 [lasetup User's Manual(ps)](lasetupdoc.ps)
-[lasetup User's Manual(pdf)](<a href="https://lanl.github.io/LaGriT/assets/images/lasetupdoc.pdf" download> </a>
+[lasetup User's Manual(pdf)](https://lanl.github.io/LaGriT/assets/images/lasetupdoc.pdf)
 [Download lasetupsgi](lasetupsgi)
 [Download lasetupsolaris](lasetupsolaris)
 [Download lasetuplinux](lasetuplinux)
 
-Questions may be directed to: John Fowler at <jxf@lanl.gov
+Questions may be directed to: John Fowler at jxf@lanl.gov
 
