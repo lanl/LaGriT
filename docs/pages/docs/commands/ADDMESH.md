@@ -12,44 +12,15 @@ tags: ok
 
 <pre>
 <b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
-</pre>
-<pre>
 <b>addmesh / amr</b> / mesh3 / mesh1 / mesh2 /
-</pre>
-
-<pre>
 <b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
-</pre>
-
-<pre>
 <b>addmesh / delete</b> / mesh3 / mesh1 / mesh2 /
-</pre>
-
-<pre>
 <b>addmesh / glue</b> / mesh3 / mesh1 / mesh2 /
-</pre>
- 
-<pre>
 <b>addmesh / intersect</b> / pset_name / mesh1 / mesh2 /
-</pre>
-
-<pre>
 <b>addmesh / match</b> / mesh3 / mesh1 / mesh2 / i1 12 i3 i4 i5 i6/
-</pre>
-
-<pre>
 <b>addmesh / match</b> / mesh3 / mesh1 / mesh2 /rx1 ry1 rz1/rx2 ry2 rz2/rx3 ry3 rz3/rx4 ry4 rz4/rx5 ry5 rz5/rx6/ry6/rz6/
-</pre>
-
-<pre>
 <b>addmesh / merge</b> / mesh3 / mesh1 / mesh2 /
-</pre>
-
-<pre>
 <b>addmesh / pyramid</b> / mesh3 / mesh1 / mesh2 /
-</pre>
-
-<pre>
 <b>addmesh / excavate</b> / mesh3 / mesh1 / mesh2 / [bfs] / [connect] /
 </pre>
 
