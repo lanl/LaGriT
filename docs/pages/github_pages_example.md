@@ -20,13 +20,13 @@ This should be used for subheadings.
 
     ## Header 2 ##
 
-## Header 3 ##
+### Header 3 ###
 
 Alternate subheadings.
 
 **Markdown representation:**
 
-    ## Header 3 ##
+    ### Header 3 ###
 
 ## Code Blocks ##
 
