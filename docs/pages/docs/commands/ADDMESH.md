@@ -3,22 +3,18 @@ title: ADDMESH
 tags: ok
 --- 
 
-**ADDMESH**
+# ADDMESH #
 
   This routine joins two meshes together at their common interface to
   produce a third mesh.
 
  **FORMAT:**
 
-  **addmesh / add** /mesh3 / mesh1 / mesh2 / [refine\_factor] / [tet **edge**]
-
-  **addmesh** / **amr** / mesh3 / mesh1 / mesh2 /
-
-  **addmesh / append** / mesh3 / mesh1 / mesh2 /
-
-  **addmesh / delete** / mesh3 / mesh1 / mesh2 /
-
-  **addmesh / glue** / mesh3 / mesh1 / mesh2 /
+    addmesh / add** /mesh3 / mesh1 / mesh2 / [refine\_factor] / [tet **edge**]
+    addmesh** / **amr** / mesh3 / mesh1 / mesh2 /
+    addmesh / append** / mesh3 / mesh1 / mesh2 /
+    **addmesh / delete** / mesh3 / mesh1 / mesh2 /
+    **addmesh / glue** / mesh3 / mesh1 / mesh2 /
 
   **addmesh / intersect** / pset\_name / mesh1 / mesh2 /
 

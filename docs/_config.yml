@@ -25,4 +25,6 @@ gems: [jekyll-sitemap]
 plugins:
   - jekyll-sitemap
 
-
+tipue_search:
+      include:
+              pages: true

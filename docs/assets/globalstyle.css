@@ -24,6 +24,25 @@ Global document settings
 
 */
 
+body {
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+    background: white;
+}
+
+a, button { transition: all 0.3s ease; }
+a:hover,
+a:focus {
+  text-decoration: none;
+  outline: none;
+}
+
+#mainNav {
+    font-family: 'Fira Sans', sans-serif;
+}
+
+p:last-child { margin-bottom: 0; }
 
 blockquote {
     position: relative;
@@ -31,7 +50,7 @@ blockquote {
     padding: 0px 10px 10px 20px;
 }
 
-h2 {
+h1 {
   font: 300 32px/1.7 'Open Sans', sans-serif;
   font-weight: bold;
   color: #333;
@@ -39,8 +58,8 @@ h2 {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1 {
-  font: 300 32px/1.7 'Open Sans', sans-serif;
+h2 {
+  font: 300 22px/1.7 'Open Sans', sans-serif;
   color: #333;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -81,7 +100,7 @@ Begin search bar CSS
 input {
   outline: none;
 }
-input[type=search] {
+input[type=text] {
   -webkit-appearance: textfield;
   -webkit-box-sizing: content-box;
   font-family: inherit;
@@ -92,7 +111,7 @@ input::-webkit-search-cancel-button {
   display: none; 
 }
 
-input[type=search] {
+input[type=text] {
   background: #212328 url(img/search.png) no-repeat 9px center;
   border: solid 1px #ccc;
   padding: 9px 10px 9px 32px;
@@ -106,7 +125,7 @@ input[type=search] {
   -moz-transition: all .5s;
   transition: all .5s;
 }
-input[type=search]:focus {
+input[type=text]:focus {
   width: 130px;
   background-color: #fff;
   border-color: #66CC75;
@@ -125,7 +144,7 @@ input::-webkit-input-placeholder {
 }
 
 
-#searchform input[type=search] {
+#searchform input[type=text] {
   display: block;
   margin: 0 0 0 auto;
   width: 15px;
@@ -133,10 +152,10 @@ input::-webkit-input-placeholder {
   color: transparent;
   cursor: pointer;
 }
-#searchform input[type=search]:hover {
+#searchform input[type=text]:hover {
   background-color: #fff;
 }
-#searchform input[type=search]:focus {
+#searchform input[type=text]:focus {
   width: 130px;
   padding-left: 32px;
   color: #000;

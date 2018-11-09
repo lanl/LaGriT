@@ -23,6 +23,29 @@
     <link rel="stylesheet" href="{{ "/assets/css/templatemo-style.css" | relative_url }}">
     <link rel="stylesheet" href="{{ "/assets/globalstyle.css" | relative_url }}">
 
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="{{ "/assets/tipuesearch/css/normalize.css" | relative_url }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{{ "/assets/tipuesearch/tipuesearch_content.js" | relative_url }}"></script>
+    <link rel="stylesheet" href="{{ "/assets/tipuesearch/css/tipuesearch.css" | relative_url }}">
+    <script src="{{ "/assets/tipuesearch/tipuesearch_set.js" | relative_url }}"></script>
+    <script src="{{ "/assets/tipuesearch/tipuesearch.min.js" | relative_url }}"></script>
+
+    <!-- This conflicts with jquery; should be merged into style sheet asap -->
+    <style>
+        pre, code {
+         display: inline-block;
+         width: 100%;
+         font: 14px 'Source Code Pro', monospace;
+         color: #111;
+         border: 0;
+         background-color: #f9f9f9;
+         resize: none;
+         outline: 0;
+         margin: 10px 10px 10px 10px;
+        }
+    </style>
+
   </head>
 
   <body>
@@ -59,12 +82,29 @@
                                     <a class="nav-link" href="http://github.com/lanl/LaGriT"><img src="{{ "assets/img/github_white.png" | relative_url }}" style="width: 20px;" alt="GitHub" onmouseover="this.src='{{ "assets/img/github_hover.png" | relative_url }}';" onmouseout="this.src='{{ "/assets/img/github_white.png" | relative_url }}';"></a>
                                 </li>
                             </ul>
+
+
+                            <!-- Search bar -->
                             <ul class="nav navbar-nav ml-auto">
-                                <form class="form-inline my-2 my-md-0"> <!-- id="searchform" -->
-                                    <input type="search" placeholder="Search">
+                                <form class="form-inline my-2 my-md-0" action="https://lanl.github.io/LaGriT/search/"> <!-- id="searchform" -->
+                                    <input type="text" name="q" placeholder="Search" id="tipue_search_input" autocomplete="off" required>
                                 </form>
                             </ul>
-                        </div>                            
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                });
+                                });
+                            </script>
+                        </div>
                     </nav>
                 </div> <!-- row -->
             </div> <!-- container -->
@@ -72,7 +112,11 @@
 
 
     <div style="width: 80%; margin: 0 auto; position: relative; padding: 35px 45px; background-color: white;" id="mainContent">
+
+
+
         {{ content }}
+
     </div>
 
     <!-- Begin footer -->
@@ -111,7 +155,7 @@
     </footer>
 
     <!-- load JS files -->
-    <script src="{{ "/assets/js/jquery-1.11.3.min.js" | relative_url }}"></script>             <!-- jQuery (https://jquery.com/download/) -->
+   <!-- <script src="{{ "/assets/js/jquery-1.11.3.min.js" | relative_url }}"></script>-->             <!-- jQuery (https://jquery.com/download/) -->
     <script src="{{ "/assets/js/popper.min.js" | relative_url }}"></script>                    <!-- https://popper.js.org/ -->       
     <script src="{{ "/assets/js/bootstrap.min.js" | relative_url }}"></script>                 <!-- https://getbootstrap.com/ -->
     <script src="{{ "/assets/js/datepicker.min.js" | relative_url }}"></script>                <!-- https://github.com/qodesmith/datepicker -->
