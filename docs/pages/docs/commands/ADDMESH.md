@@ -8,26 +8,51 @@ tags: ok
   This routine joins two meshes together at their common interface to
   produce a third mesh.
 
- **FORMAT:**
+### FORMAT: ###
 
-    addmesh / add** /mesh3 / mesh1 / mesh2 / [refine\_factor] / [tet **edge**]
-    addmesh** / **amr** / mesh3 / mesh1 / mesh2 /
-    addmesh / append** / mesh3 / mesh1 / mesh2 /
-    **addmesh / delete** / mesh3 / mesh1 / mesh2 /
-    **addmesh / glue** / mesh3 / mesh1 / mesh2 /
+<pre>
+<b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
+</pre>
+<pre>
+<b>addmesh / amr</b> / mesh3 / mesh1 / mesh2 /
+</pre>
 
-  **addmesh / intersect** / pset\_name / mesh1 / mesh2 /
+<pre>
+<b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
+</pre>
 
-  **addmesh / match** / mesh3 / mesh1 / mesh2 / i1 12 i3 i4 i5 i6/
+<pre>
+<b>addmesh / delete</b> / mesh3 / mesh1 / mesh2 /
+</pre>
 
-  **addmesh / match** / mesh3 / mesh1 / mesh2 /rx1 ry1 rz1/rx2 ry2
-  rz2/rx3 ry3 rz3/rx4 ry4 rz4/rx5 ry5 rz5/rx6/ry6/rz6/
+<pre>
+<b>addmesh / glue</b> / mesh3 / mesh1 / mesh2 /
+</pre>
+ 
+<pre>
+<b>addmesh / intersect</b> / pset_name / mesh1 / mesh2 /
+</pre>
 
-  **addmesh / merge**/ mesh3 / mesh1 / mesh2 /
+<pre>
+<b>addmesh / match</b> / mesh3 / mesh1 / mesh2 / i1 12 i3 i4 i5 i6/
+</pre>
 
-  **addmesh / pyramid** / mesh3 / mesh1 / mesh2 /
+<pre>
+<b>addmesh / match</b> / mesh3 / mesh1 / mesh2 /rx1 ry1 rz1/rx2 ry2 rz2/rx3 ry3 rz3/rx4 ry4 rz4/rx5 ry5 rz5/rx6/ry6/rz6/
+</pre>
 
-  **addmesh / excavate** / mesh3 / mesh1 / mesh2 / [bfs] / [connect] /
+<pre>
+<b>addmesh / merge</b> / mesh3 / mesh1 / mesh2 /
+</pre>
+
+<pre>
+<b>addmesh / pyramid</b> / mesh3 / mesh1 / mesh2 /
+</pre>
+
+<pre>
+<b>addmesh / excavate</b> / mesh3 / mesh1 / mesh2 / [bfs] / [connect] /
+</pre>
+
 
  **add** - Find the intersection of mesh1 and mesh2. Refine mesh1 where
  it overlaps mesh2 using the following criteria. refine\_factor
@@ -38,12 +63,12 @@ tags: ok
  continues to refine until the elements on the interface boundary of
  the background mesh object are within a given factor (5.0) of the
  volume of the elements on the border of the incoming mesh object. This
- factor is a parameter constant called size\_difference in the code
- continue\_refinement.f. For example, if size\_difference is set to
+ factor is a parameter constant called size_difference in the code
+ continue_refinement.f. For example, if size_difference is set to
  5.0, then the background mesh will be refined until the maximum volume
  element on the boundary with the incoming mesh object is no bigger
  than 5 times the volume of the maximum volume element on the border of
- the incoming mesh. refine\_type is the type of refinement that is
+ the incoming mesh. refine_type is the type of refinement that is
  executed. If the string **tet** appears, then tetrahedral refinement
  is performed. Otherwise, **edge** based refinement is performed. After
  the above refine steps have been done, the intersection of mesh1 and
@@ -93,13 +118,13 @@ tags: ok
  and then a connect, to produce a fully connected mesh with the surface
  (mesh2) inserted into the background (mesh1).
 
- NOTE: Care must be taken when using these commands because nothing is
- done to clean up the point type (itp) array after the **addmesh**
- operation. The user must often execute a series of
- [**resetpts** **/itp**](RESETPT.md) and **[filter](FILTER.md)**
- commands to get the final desired result.
+> NOTE: Care must be taken when using these commands because nothing is
+> done to clean up the point type (itp) array after the **addmesh**
+> operation. The user must often execute a series of
+> [**resetpts/itp**](RESETPT.md) and [**filter**](FILTER.md)
+> commands to get the final desired result.
 
- NOTE: Some operations may only work with tet meshes.
+> NOTE: Some operations may only work with tet meshes.
 
- [Click here for demos](../demos/index.md)
+* [Click here for demos](../demos/index.md)
 
