@@ -38,16 +38,19 @@ a:hover, a:focus {
 }
 
 #mainNav {
-    font-family: 'Fira Sans', sans-serif;
+  font-family: 'Fira Sans', sans-serif;
 }
 
 p:last-child { margin-bottom: 0; }
 
 blockquote {
-    position: relative;
-    display: inline-block;
-    padding: 0px 10px 10px 20px;
-    font-style: italic;
+  position: relative;
+  display: inline-block;
+  padding: 0px 10px 10px 20px;
+}
+
+blockquote p {
+  font-style: italic;
 }
 
 h1 {
@@ -82,7 +85,7 @@ code.bold {
   font-weight: bold;
 }
 
-ul {
+ol, ul {
   font: 300 16px/1.7 'Roboto Slab', serif;
   color: #333;
 }
