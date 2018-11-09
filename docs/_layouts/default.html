@@ -73,15 +73,11 @@
                                 <form class="form-inline my-2 my-md-0"> <!-- id="searchform" -->
                                     <!--<input type="search" placeholder="Search">-->
                                     
+                                    <form action="https://daniellivingston.github.io/LaGriT/search/">
+                                    <input type="text" name="q" id="tipue_search_input" autocomplete="off" required>
+                                    <!--<input type="button" id="tipue_search_button" onclick="this.form.submit();"> -->
+                                    </form>
 
-                                    <!--<form action="{{ page.url | relative_url }}">-->
-                                        <form action="https://daniellivingston.github.io/LaGriT/search/">
-                                    
-                                      <!--<div class="tipue_search_right"><input type="text" name="q" id="tipue_search_input" pattern=".{3,}" title="At least 3 characters" required></div>-->
-
-                                        <input type="text" name="q" id="tipue_search_input" pattern=".{3,}" title="At least 3 characters" required placeholder="Search">
-
-                                      <div style="clear: both;"></div>
                                     </form>
                                 </form>
                             </ul> <!-- search bar -->
@@ -94,14 +90,6 @@
 
     <div style="width: 80%; margin: 0 auto; position: relative; padding: 35px 45px; background-color: white;" id="mainContent">
 
-        ready
-
-    <form action="https://daniellivingston.github.io/LaGriT/search/">
-    <input type="text" name="q" id="tipue_search_input" autocomplete="off" required>
-    <!--<input type="button" id="tipue_search_button" onclick="this.form.submit();"> -->
-    </form>
-
-    <div id="tipue_search_content"></div>
     <script>
     $(document).ready(function() {
       $('#tipue_search_input').tipuesearch({
