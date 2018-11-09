@@ -100,7 +100,7 @@ Begin search bar CSS
 input {
   outline: none;
 }
-input[type=search] {
+input[type=text] {
   -webkit-appearance: textfield;
   -webkit-box-sizing: content-box;
   font-family: inherit;
@@ -111,7 +111,7 @@ input::-webkit-search-cancel-button {
   display: none; 
 }
 
-input[type=search] {
+input[type=text] {
   background: #212328 url(img/search.png) no-repeat 9px center;
   border: solid 1px #ccc;
   padding: 9px 10px 9px 32px;
@@ -125,7 +125,7 @@ input[type=search] {
   -moz-transition: all .5s;
   transition: all .5s;
 }
-input[type=search]:focus {
+input[type=text]:focus {
   width: 130px;
   background-color: #fff;
   border-color: #66CC75;
@@ -144,7 +144,7 @@ input::-webkit-input-placeholder {
 }
 
 
-#searchform input[type=search] {
+#searchform input[type=text] {
   display: block;
   margin: 0 0 0 auto;
   width: 15px;
@@ -152,10 +152,10 @@ input::-webkit-input-placeholder {
   color: transparent;
   cursor: pointer;
 }
-#searchform input[type=search]:hover {
+#searchform input[type=text]:hover {
   background-color: #fff;
 }
-#searchform input[type=search]:focus {
+#searchform input[type=text]:focus {
   width: 130px;
   padding-left: 32px;
   color: #000;
