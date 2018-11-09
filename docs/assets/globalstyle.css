@@ -90,7 +90,7 @@ ol, ul {
   color: #333;
 }
 
-pre, code {
+pre {
   display: inline-block;
   width: 100%;
   font: 14px 'Source Code Pro', monospace;
