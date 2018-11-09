@@ -20,6 +20,14 @@ This should be used for subheadings.
 
     ## Header 2 ##
 
+## Header 3 ##
+
+Alternate subheadings.
+
+**Markdown representation:**
+
+    ## Header 3 ##
+
 ## Code Blocks ##
 
 Here is an example code block:
@@ -40,21 +48,7 @@ Here is an example code block:
 
 By default, any code block will automatically render the Markdown bold syntax (`**bold text**`) as literal `**` within a code block.
 
-To then bold/italic certain parts of a command, there are several options available:
-
-### 1. Markdown Approach ###
-
-**Output:**
-
-**`cmo/create/`**`cmohex / / / hex`
-
-**Markdown representation:**
-
-    **`cmo/create/`**`cmohex / / / hex`
-
-### 2. HTML Approach ###
-
-As Markdown has native support for HTML elements, another solution is to render as HTML:
+To then bold/italic certain parts of a command, the best option is to use HTML*:
 
 **Output:**
 
@@ -67,6 +61,7 @@ As Markdown has native support for HTML elements, another solution is to render 
 	<pre>
 	<b>cmo/create/</b>cmohex / / / hex
 	</pre>
+
 
 ## Metadata ##
 
