@@ -28,12 +28,11 @@ body {
   font-family: 'Open Sans', Helvetica, Arial, sans-serif;
   font-size: 13px;
   font-weight: 300;
-    background: white;
+  background: white;
 }
 
 a, button { transition: all 0.3s ease; }
-a:hover,
-a:focus {
+a:hover, a:focus {
   text-decoration: none;
   outline: none;
 }
@@ -86,6 +85,23 @@ code.bold {
 ul {
   font: 300 16px/1.7 'Roboto Slab', serif;
   color: #333;
+}
+
+pre, code {
+  display: inline-block;
+  width: 100%;
+  font: 14px 'Source Code Pro', monospace;
+  color: #111;
+  border: 0;
+  background-color: #f9f9f9;
+  resize: none;
+  outline: 0;
+  margin: 10px 10px 10px 10px;
+}
+
+b,
+strong {
+  font-weight: bold;
 }
 
 /*

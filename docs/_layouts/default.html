@@ -21,7 +21,6 @@
     <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick.css" | relative_url }}"/>
     <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick-theme.css" | relative_url }}"/>
     <link rel="stylesheet" href="{{ "/assets/css/templatemo-style.css" | relative_url }}">
-    <link rel="stylesheet" href="{{ "/assets/globalstyle.css" | relative_url }}">
 
     <!-- tipuesearch files -->
     <link rel="stylesheet" href="{{ "/assets/tipuesearch/css/normalize.css" | relative_url }}">
@@ -31,20 +30,8 @@
     <script src="{{ "/assets/tipuesearch/tipuesearch_set.js" | relative_url }}"></script>
     <script src="{{ "/assets/tipuesearch/tipuesearch.min.js" | relative_url }}"></script>
 
-    <!-- This conflicts with jquery; should be merged into style sheet asap -->
-    <style>
-        pre, code {
-         display: inline-block;
-         width: 100%;
-         font: 14px 'Source Code Pro', monospace;
-         color: #111;
-         border: 0;
-         background-color: #f9f9f9;
-         resize: none;
-         outline: 0;
-         margin: 10px 10px 10px 10px;
-        }
-    </style>
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <link rel="stylesheet" href="{{ "/assets/globalstyle.css" | relative_url }}">
 
   </head>
 

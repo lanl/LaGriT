@@ -48,7 +48,7 @@ Here is an example code block:
 
 By default, any code block will automatically render the Markdown bold syntax (`**bold text**`) as literal `**` within a code block.
 
-To then bold/italic certain parts of a command, the best option is to use HTML*:
+To then bold/italic certain parts of a command, the best option is to use HTML:
 
 **Output:**
 
@@ -62,6 +62,16 @@ To then bold/italic certain parts of a command, the best option is to use HTML*:
 	<b>cmo/create/</b>cmohex / / / hex
 	</pre>
 
+
+## Inline Code ##
+
+Sections(s) of code within a larger normally typed paragraph, as in this example from ADDMESH:
+
+Similar to merge except `imt`, `icr`, `itetclr` of *mesh2* have the value `max(imt(mesh1))` added to *mesh2*.
+
+**Markdown representation:**
+
+    Similar to merge except `imt`, `icr`, `itetclr` of *mesh2* have the value `max(imt(mesh1))` added to *mesh2*.
 
 ## Metadata ##
 
