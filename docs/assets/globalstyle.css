@@ -102,6 +102,10 @@ pre {
   margin: 10px 10px 10px 10px;
 }
 
+code {
+  color: #111;
+}
+
 b,
 strong {
   font-weight: bold;

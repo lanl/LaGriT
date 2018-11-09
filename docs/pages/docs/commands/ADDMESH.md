@@ -26,9 +26,11 @@ produce a third mesh.
 <b>addmesh / excavate</b> / mesh3 / mesh1 / mesh2 / [bfs] / [connect] /
 </pre>
 
+<br>
+
 ## DOCUMENTATION: ##
 
- ### `add` ### - Find the intersection of mesh1 and mesh2. Refine mesh1 where
+ **`add`** - Find the intersection of mesh1 and mesh2. Refine mesh1 where
  it overlaps mesh2 using the following criteria. `refine_factor`
  specifies the number of times that the background mesh will be
  refined. If this number is negative, or if it does not appear, then
