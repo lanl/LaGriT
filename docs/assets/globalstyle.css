@@ -48,6 +48,7 @@ blockquote {
     position: relative;
     display: inline-block;
     padding: 0px 10px 10px 20px;
+    font-style: italic;
 }
 
 h1 {
@@ -59,7 +60,15 @@ h1 {
 }
 
 h2 {
-  font: 300 22px/1.7 'Open Sans', sans-serif;
+  font: 300 24px/1.7 'Open Sans', sans-serif;
+  color: #333;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h3 {
+  font: 300 20px/1.7 'Open Sans', sans-serif;
   color: #333;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -77,18 +86,6 @@ code.bold {
 ul {
   font: 300 16px/1.7 'Roboto Slab', serif;
   color: #333;
-}
-
-.coder
-{
-     display: inline-block;
-     width: 100%;
-     font: 14px 'Source Code Pro', monospace;
-     color: #111;
-     border: 0;
-     background-color: #f9f9f9;
-     resize: none;
-     outline: 0;    
 }
 
 /*
