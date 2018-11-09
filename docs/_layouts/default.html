@@ -96,10 +96,23 @@
 
         ready
 
+    <form action="https://daniellivingston.github.io/LaGriT/search/">
+    <input type="text" name="q" id="tipue_search_input" autocomplete="off" required>
+    <!--<input type="button" id="tipue_search_button" onclick="this.form.submit();"> -->
+    </form>
+
     <div id="tipue_search_content"></div>
     <script>
     $(document).ready(function() {
-      $('#tipue_search_input').tipuesearch();
+      $('#tipue_search_input').tipuesearch({
+            'show': 10,
+            'newWindow'  : true,
+            'showURL' : true,
+            'showTitleCount' : true,
+            'descriptiveWords' : 20,
+            'highlightTerms' : true,
+            'mode': 'static',
+    });
     });
     </script>
 
