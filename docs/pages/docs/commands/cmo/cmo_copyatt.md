@@ -5,7 +5,7 @@ title: 'cmo/copyatt'
 
 # cmo/copyatt #
 
-The `mo/copyatt` command is used to copy one attribute field to
+The `cmo/copyatt` command is used to copy one attribute field to
 another. There is currently no provision for indexed sets.
 
 
@@ -13,7 +13,7 @@ another. There is currently no provision for indexed sets.
 ## FORMAT: ##
 
 <pre>
-<b>mo / copyatt</b> / cmo_sink / cmo_src / attname_sink / attname_src
+<b>cmo / copyatt</b> / cmo_sink / cmo_src / attname_sink / attname_src
 </pre>
 
 **`cmo_sink / cmo_src`** : are the mesh object names to write to(sink) and
@@ -32,25 +32,25 @@ done using commands `mo/set_id` and `settets`.
 ## EXAMPLES: ##
 
 <pre>
-<b>mo / copyatt</b> / cmo1 / cmo2 / itetclr / itetclr
-<b>mo / copyatt</b> / cmo1 / cmo2 / itetclr
+<b>cmo / copyatt</b> / cmo1 / cmo2 / itetclr / itetclr
+<b>cmo / copyatt</b> / cmo1 / cmo2 / itetclr
 </pre>
 
 Both versions will copy `itetclr` from cmo2 to cmo1.
  
 <pre>
-<b>mo / addatt</b> / cmotet / elevation
-<b>mo / copyatt</b> / cmotet cmotet / elevation zic
+<b>cmo / addatt</b> / cmotet / elevation
+<b>cmo / copyatt</b> / cmotet cmotet / elevation zic
 </pre>
 
 In the mesh object cmotet, attribute zic is copied to attribute elevation.
 
 <pre>
-<b>mo / copyatt</b> cmotri cmotri/ itetsav itetclr
-<b>mo / set_id</b> / cmotri / element / itetclr
+<b>cmo / copyatt</b> cmotri cmotri/ itetsav itetclr
+<b>cmo / set_id</b> / cmotri / element / itetclr
 <b>settets</b>
 
-<b>mo / copyatt</b> / cmotri cmotri / imt itetsav
+<b>cmo / copyatt</b> / cmotri cmotri / imt itetsav
 </pre>
 
  Copy element `itetclr` values into attribute `itetsav`. Create
