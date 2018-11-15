@@ -164,7 +164,8 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
 
 
 def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
-                 outfile:str,layer:int,flip:str='y'):
+                 outfile:str,layer:int,dem_dimensions:list,lower_left_corner:list,
+                 cell_size:list,number_of_layers:int,flip:str='y',no_data_value:float=np.nan):
     '''
 
     Given a triplane mesh and a tinerator.DEM instance, this function will 
@@ -177,17 +178,12 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
     start = layer - 1
     end = layer
 
-    # Generate sheet metadata
-    dem_dimensions = [dem.ncols,dem.nrows]
-    lower_left_corner = [dem.xll_corner, dem.yll_corner]
-    cell_size = [dem.cell_size,dem.cell_size]
-
     data = imresize(data,(dem_dimensions[1],dem_dimensions[0]),interp='nearest')
 
     # Interpolate no data values on the DEM
     # This is to prevent a noise effect on LaGriT interpolation 
     data = deepcopy(data).astype(float)
-    mask = data == dem.no_data_value
+    mask = data == no_data_value
     data[mask] = np.nan
 
     # Mask invalid values
@@ -200,7 +196,7 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
     newarr = data[~mask]
 
     data = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method='nearest')
-    data[data == np.nan] = dem.no_data_value
+    data[data == np.nan] = no_data_value
 
     # Dump attribute data
     _array_out = "_temp_attrib_array.dat"
@@ -218,9 +214,9 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
 
     stacked_mesh = lg.read(stacked_mesh_infile)
     info = stacked_mesh.information()
-    v = info['elements'] // self.number_of_layers
+    v = info['elements'] // number_of_layers
 
-    my_line = lg.sendline('cmo/addatt/'+stacked_mesh.name+'/eslayer/VINT/scalar/nelements/linear/permanent/gxaf/0.0')
+    lg.sendline('cmo/addatt/'+stacked_mesh.name+'/eslayer/VINT/scalar/nelements/linear/permanent/gxaf/0.0')
     lg.sendline('cmo/setatt/ %s eslayer 1' % stacked_mesh.name)
     lg.sendline('cmo/setatt/ %s eslayer/ %d,%d 2' % (stacked_mesh.name,v*start,v*end))
 

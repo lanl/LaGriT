@@ -75,7 +75,7 @@ class DEM():
         plotDEM(dem,plot_out=plot_out,title="DEM",extent=extent,xlabel="latitude",ylabel="longitude")
         #plotDEM(distance,plot_out=plot_out,extent=extent,title="Distance Field",xlabel="latitude",ylabel="longitude",hillshade_image=False)
 
-    def watershedDelineation(self,threshold:float=None,plot:bool=False):
+    def watershedDelineation(self,threshold:float=None,plot:bool=False,spacing:float=None):
         '''
 
         Performs watershed delineation on a DEM and returns a set of points
@@ -92,11 +92,14 @@ class DEM():
             _thresh = np.unique(accumulation)
             threshold = _thresh[int(0.1*len(_thresh))]
 
-        self.feature = getFeatureTrace(accumulation,None,feature_threshold=threshold)
+        self.feature = getFeatureTrace(accumulation,feature_threshold=threshold)
         assert np.size(self.feature) != 0,"Feature trace is empty. Try setting a lower threshold."
 
         self.feature[:,0] = xVectorToProjection(self.feature[:,0],self.cell_size,self.yll_corner)
         self.feature[:,1] = yVectorToProjection(self.feature[:,1],self.cell_size,self.xll_corner,self.nrows)
+
+        if spacing is not None:
+            self.feature = filterPoints(self.feature,spacing)
 
         if plot:
             from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -141,6 +144,8 @@ class DEM():
         :returns: vertices of boundary
         '''
 
+        distance /= self.cell_size
+
         self.boundary = squareTraceBoundary(self.dem,self.no_data_value,dist=distance)
         self.boundary[:,0] = xVectorToProjection(self.boundary[:,0],self.cell_size,self.xll_corner)
         self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
@@ -151,24 +156,6 @@ class DEM():
         self.boundary[:,0] = xVectorToProjection(self.boundary[:,0],self.cell_size,self.xll_corner)
         self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
         return self.boundary
-
-    def _generateTIN(self,outfile,layers,matids=None):
-        '''
-
-        Generates an extruded TIN using a deprecated algorithm.
-
-        '''
-        self.points = PlacePoints(self.dem,self.distance_field,self.boundary,self.ncols,self.nrows,
-                                  self.cell_size,self.no_data_value,self.max_distance,
-                                  self.min_distance,self.max_edge,self.min_edge,
-                                  self.xll_corner,self.yll_corner)
-
-        self.triangles = triangulateNodes(self.points,preserve_boundary=True,ncols=self.ncols,
-                                          cell_size=self.cell_size,xll_corner=self.xll_corner,
-                                          boundary_vertices=self.boundary)
-
-        self.writeAVS("_trimesh.inp")
-        stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids)
 
     def generateStackedTIN(self,outfile:str,layers:list,h=None,delta:float=0.75,
                            slope:float=2.,refine_dist:float=0.5,matids=None,
@@ -236,7 +223,12 @@ class DEM():
 
     def addAttribute(self,data,layer,outfile=None,flip:str='y'):
         outfile = self.stacked_mesh if outfile is None else outfile
-        addAttribute(self.lg,data,self.stacked_mesh,outfile,layer,flip=flip)
+        addAttribute(self.lg,data,self.stacked_mesh,outfile,layer,
+                    [self.ncols,self.nrows],
+                    [self.xll_corner,self.yll_corner],
+                    [self.cell_size,self.cell_size],
+                    self.number_of_layers,
+                    flip=flip,no_data_value=self.no_data_value)
 
     def generateFacesets(self,outfile,facesets=None,naive=False):
         '''

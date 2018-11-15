@@ -37,3 +37,17 @@ def yProjectionToVector(v,cellSize,yllCorner,nRows):
 
 def normalizeMatrix(A):
     return (A-np.min(A))/(np.max(A)-np.min(A))
+
+def filterPoints(points:np.ndarray,eps:float):
+    '''
+    Removes points that are within eps distance of each other.
+    '''
+    from scipy.spatial.distance import cdist
+    mask = np.ones(np.shape(points)[0],dtype=bool)
+
+    for (i,p) in enumerate(points):
+        if mask[i]:
+            dst = cdist(points,[p])
+            mask[np.argwhere((dst > 0.) & (dst < eps))] = False
+
+    return points[mask]

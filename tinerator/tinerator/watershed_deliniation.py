@@ -5,7 +5,7 @@ import numpy as np
 from copy import deepcopy
 import skimage.draw as draw
 
-def getFeatureTrace(feature: np.ndarray, distance: int, feature_threshold: float=750.):
+def getFeatureTrace(feature:np.ndarray,feature_threshold:float=750.):
     '''
     Returns an array of (x,y) pairs corresponding to values over a given
     threshold in a feature array.
@@ -23,8 +23,6 @@ def getFeatureTrace(feature: np.ndarray, distance: int, feature_threshold: float
     captured_areas = np.zeros(np.shape(threshold_matrix),dtype=bool)
     xy = np.transpose(np.where(threshold_matrix == True))
     xy[:, 0], xy[:, 1] = xy[:, 1], xy[:, 0].copy()
-
-    #TODO: Epsilon filtering of points
 
     return xy
 

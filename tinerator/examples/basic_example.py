@@ -1,5 +1,11 @@
 from tinerator import *
 
+'''
+
+1. Loading the DEM.
+
+'''
+
 # You can use any one of the three methods of importing a DEM:
 my_dem = loadDEM("data/dem.asc") # by file
 #my_dem = downloadDEM(bounds=(12.35,41.8,12.65,42)) # by bounding lat/long box
@@ -7,20 +13,46 @@ my_dem = loadDEM("data/dem.asc") # by file
 
 my_dem.plot() # view the DEM
 
+
+'''
+
+2. Preparing the mesh.
+
+'''
+
 # Perform watershed delineation to capture features
-my_dem.watershedDelineation(threshold=4500.,plot=False)
+# spacing is distance between adjacent nodes
+# in DEM units (i.e. meters), and will be represented in the mesh
+my_dem.watershedDelineation(threshold=4500.,plot=True,spacing=30.)
 
 # Generate a perimeter around the DEM, spaced at 10 meters.
-my_dem.generateBoundary(10.)
+my_dem.generateBoundary(100.)
 my_dem.plotBoundary()
+
+
+'''
+
+3. Generating the mesh.
+
+In generateStackedTIN, `h` is a proxy for minimum edge length.
+Other optional parameters for adjusting minimum and maximum edge lengths, and
+their transistion, are:
+
+    delta: buffer zone, amount of h/2 removed around feature
+    slope: slope of coarsening function
+    refine_dist: distance used in coarsing function
+
+'''
 
 # Define the layers and corresponding material ids
 layers = [0.1*50.,0.3*50.,0.6*50.,8.0*50.,21.0*50.]
 matids = [1,2,3,4,5]
 
-my_dem.generateStackedTIN("test_extruded_mesh.inp",layers,matids=matids,plot=False)
+my_dem.generateStackedTIN("test_extruded_mesh.inp",layers,matids=matids,plot=True,h=50.)
 
-"""
+'''
+
+4. Adding attributes
 
 Next, we are going to make a set of attributes and apply them to discrete
 layers in the mesh.
@@ -29,7 +61,7 @@ Here, we're generating a standard 2D Gaussian for our sample dataset.
 'Real' datasets should be imported using the proper library,
 and then passed into the function.
 
-"""
+'''
 def makeGaussian(size, fwhm = 600, center=None):
     """ Make a square gaussian kernel.
 
@@ -55,6 +87,13 @@ data = makeGaussian(500)
 
 my_dem.addAttribute(data,1)
 my_dem.addAttribute(1.-data,4)
+
+
+'''
+
+5. Generating facesets
+
+'''
 
 # Now we can generate facesets in one of three ways:
 option = 3 # change me!
