@@ -2,11 +2,11 @@
 title: "Example LaGriT Page"
 ---
 
-asdf
-asfasdf
-
 
 <style>
+/*
+Style taken from Github's Mastering Markdown document
+*/
 .markdown-example {
   margin: 20px 0;
   border: 1px solid #ccc;
@@ -29,15 +29,6 @@ asfasdf
 }
 </style>
 
-<div class="markdown-example" id="example-text">
-	<pre class="source">
-	It's very easy to make some words **bold** and other words *italic* with Markdown. You can even 
-	</pre>
-	<div class="rendered">
-		asfsf **asdfsaf**
-	</div>
-</div>
-
 # LaGriT Style Guide #
 
 ------------------------------------
@@ -50,11 +41,16 @@ In an effort to maintain consistency across the GitHub Pages implementation of L
 Page titles should use the `h1` header class followed by a horizontal rule.
 This is accomplished in Markdown by:
 
-   # Page Title #
-   --------------------
-
-
-
+<div class="markdown-example" id="example-text">
+<pre class="source">
+# Page Title #
+--------------------
+</pre>
+<div class="rendered">
+<h1>Page Title</h1>
+<hr/>
+</div>
+</div>
 
 
 # Header 1 #
