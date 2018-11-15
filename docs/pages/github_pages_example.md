@@ -66,35 +66,38 @@ Subsections should be marked with `h2`, subsubsections with `h3`, etc.
 --------------------
 
 ## 1. Usage ##
-### 1.1 Step 1 ###
+### 1.1 First Step ###
 This is the first step to using this great command.
 
-### 1.2 Step 2 ###
+### 1.2 Second Step ###
 This is the second step to using this command.
 </pre>
 <div class="rendered">
-<h1>Page Title</h1>
+<h1>My Command</h1>
 <hr/>
 <h2>1. Usage</h2>
-<h3>1.1 Step 1</h3>
+<h3>1.1 First Step</h3>
 This is the first step to using this great command.<br>
-<h3>1.2 Step 2</h3>
+<h3>1.2 Second Step</h3>
 This is the second step to using this command.
 </div>
 </div>
 
 ## 2. Command Formatting <a name="cmdformatting"></a>
 
+When rendering LaGriT commands, it is the convention on the LANL website to use **`bold monospaced font`** for literal keywords and `unstyled monospace` for variable names, mesh objects, etc.
 
+This is difficult to do in pure Markdown, but fortunately very easy to do in HTML.
+Since part of the Markdown specification includes embedded HTML parsing, LaGriT commands should be styled as:
 
 <div class="markdown-example" id="example-text">
-<pre class="source">
 <code>
+<pre>
 <b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
 <b>addmesh / amr</b> / mesh3 / mesh1 / mesh2 /
 <b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
-</code>
 </pre>
+</code>
 <div class="rendered">
 <pre>
 <b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
@@ -104,6 +107,7 @@ This is the second step to using this command.
 </div>
 </div>
 
+Note how the block in enclosed in the `<pre>` tags.
 
 # Header 1 #
 
