@@ -42,7 +42,7 @@ In an effort to maintain consistency across the GitHub Pages implementation of L
 3. sdf
 4. sdf
 
-## 1. Page Titles <a name="pagetitles"></a>
+## 1. Page Titles & Headers <a name="pagetitles"></a>
 
 Page titles should use the `h1` header class followed by a horizontal rule.
 This is accomplished in Markdown by:
@@ -55,6 +55,31 @@ This is accomplished in Markdown by:
 <div class="rendered">
 <h1>Page Title</h1>
 <hr/>
+</div>
+</div>
+
+Subsections should be marked with `h2`, subsubsections with `h3`, etc.
+
+<div class="markdown-example" id="example-text">
+<pre class="source">
+# My Command #
+--------------------
+
+## 1. Usage ##
+### 1.1 Step 1 ###
+This is the first step to using this great command.
+
+### 1.2 Step 2 ###
+This is the second step to using this command.
+</pre>
+<div class="rendered">
+<h1>Page Title</h1>
+<hr/>
+<h2>1. Usage</h2>
+<h3>1.1 Step 1</h3>
+This is the first step to using this great command.<br>
+<h3>1.2 Step 2</h3>
+This is the second step to using this command.
 </div>
 </div>
 
