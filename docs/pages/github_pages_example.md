@@ -35,7 +35,14 @@ Style taken from Github's Mastering Markdown document
 
 In an effort to maintain consistency across the GitHub Pages implementation of LaGriT documentation, this document is a style guide (draft).
 
-## 1. Page Titles ##
+## Table of Contents ##
+
+1. [Page Titles](#pagetitles)
+2. [Command Formatting](#cmdformatting)
+3. sdf
+4. sdf
+
+## 1. Page Titles <a name="pagetitles"></a>
 
 Page titles should use the `h1` header class followed by a horizontal rule.
 This is accomplished in Markdown by:
@@ -51,7 +58,9 @@ This is accomplished in Markdown by:
 </div>
 </div>
 
-## 2. Multi-line Command Formatting ##
+## 2. Command Formatting <a name="cmdformatting"></a>
+
+
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
