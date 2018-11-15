@@ -33,7 +33,6 @@ Style taken from Github's Mastering Markdown document
 
 ------------------------------------
 
-
 In an effort to maintain consistency across the GitHub Pages implementation of LaGriT documentation, this document is a style guide (draft).
 
 ## 1. Page Titles ##
@@ -49,6 +48,23 @@ This is accomplished in Markdown by:
 <div class="rendered">
 <h1>Page Title</h1>
 <hr/>
+</div>
+</div>
+
+## 2. Multi-line Command Formatting ##
+
+<div class="markdown-example" id="example-text">
+<pre class="source">
+<b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
+<b>addmesh / amr</b> / mesh3 / mesh1 / mesh2 /
+<b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
+</pre>
+<div class="rendered">
+<pre>
+<b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
+<b>addmesh / amr</b> / mesh3 / mesh1 / mesh2 /
+<b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
+</pre>
 </div>
 </div>
 
