@@ -2,6 +2,57 @@
 title: "Example LaGriT Page"
 ---
 
+<style>
+.markdown-example {
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.075);
+}
+.markdown-example .source {
+  padding: 20px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 28px;
+  white-space: pre-wrap;
+  background: #F8F8F8;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+}
+.markdown-example .rendered {
+  padding: 20px;
+}
+</style>
+
+<div class="markdown-example" id="example-text">
+	<pre class="source">
+	It's very easy to make some words **bold** and other words *italic* with Markdown. You can even 
+	</pre>
+	<div class="rendered">
+		asfsf **asdfsaf**
+	</div>
+</div>
+
+# LaGriT Style Guide #
+
+------------------------------------
+
+
+In an effort to maintain consistency across the GitHub Pages implementation of LaGriT documentation, this document is a style guide (draft).
+
+## 1. Page Titles ##
+
+Page titles should use the `h1` header class followed by a horizontal rule.
+This is accomplished in Markdown by:
+
+   # Page Title #
+   --------------------
+
+
+
+
+
 # Header 1 #
 
 ------------------------------------
