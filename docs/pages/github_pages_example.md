@@ -91,13 +91,13 @@ This is difficult to do in pure Markdown, but fortunately very easy to do in HTM
 Since part of the Markdown specification includes embedded HTML parsing, LaGriT commands should be styled as:
 
 <div class="markdown-example" id="example-text">
-<code>
-<pre>
+<pre class="source">
+```
 <b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
 <b>addmesh / amr</b> / mesh3 / mesh1 / mesh2 /
 <b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
+```
 </pre>
-</code>
 <div class="rendered">
 <pre>
 <b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
