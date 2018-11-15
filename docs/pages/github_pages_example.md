@@ -2,6 +2,10 @@
 title: "Example LaGriT Page"
 ---
 
+asdf
+asfasdf
+
+
 <style>
 .markdown-example {
   margin: 20px 0;
