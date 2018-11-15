@@ -1378,6 +1378,75 @@ class MO(object):
         stride = [str(v) for v in stride]
         cmd = '/'.join(['cmo/setatt',self.name,attname,','.join(stride),str(value)])
         self.sendline(cmd)
+
+    def information(self):
+        '''
+        Returns a formatted dictionary with mesh information.
+
+        Information is that found in cmo/status/MO
+        '''
+        import contextlib
+
+        @contextlib.contextmanager
+        def capture():
+            import sys
+            from io import StringIO
+            oldout,olderr = sys.stdout, sys.stderr
+            try:
+                out=[StringIO(), StringIO()]
+                sys.stdout,sys.stderr = out
+                yield out
+            finally:
+                sys.stdout,sys.stderr = oldout, olderr
+                out[0] = out[0].getvalue()
+                out[1] = out[1].getvalue()
+
+        with capture() as out:
+            self.sendline('cmo/status/'+self.name)
+
+        atts = {}
+        in_attributes_section = False
+
+        for line in out[0].replace('\r','').split('\n'):
+            lline = line.strip().lower()
+            split = line.strip().split()
+
+            if not in_attributes_section:
+                if 'number of nodes' in lline:
+                    atts['nodes'] = int(split[4])
+                if 'number of elements' in lline:
+                    atts['elements'] = int(split[-1])
+                if 'dimensions geomoetry' in lline:
+                    atts['dimensions'] = int(split[3])
+                if 'element type' in lline:
+                    atts['type'] = split[-1]
+                if 'dimensions topology' in lline:
+                    atts['dimensions_topology'] = int(split[3])
+                if 'name' and 'type' and 'rank' and 'length' in lline:
+                    in_attributes_section = True
+                    atts['attributes'] = {}
+
+            else:
+
+                try:
+                    name,atype,rank,length,inter,persi,io,value = split[1:]
+                except ValueError:
+                    continue 
+
+                atts['attributes'][name] = {}
+                atts['attributes'][name]['type'] = atype
+                atts['attributes'][name]['rank'] = rank
+                atts['attributes'][name]['length'] = length
+                atts['attributes'][name]['inter'] = inter
+                atts['attributes'][name]['persi'] = persi
+                atts['attributes'][name]['io'] = io
+
+                try:
+                    atts['attributes'][name]['value'] = float(value)
+                except ValueError:
+                    atts['attributes'][name]['value'] = value
+
+        return atts
         
     def pset_geom(
             self, mins, maxs, 
