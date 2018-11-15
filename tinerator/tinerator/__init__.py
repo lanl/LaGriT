@@ -47,6 +47,9 @@ class DEM():
         self.max_edge = 10.
         self.min_edge = 0.1
 
+        # Mesh characteristics
+        self.number_of_layers = 0
+
     def plot(self,plot_out=None):
         '''
         Draws the DEM and distance map.
@@ -227,8 +230,13 @@ class DEM():
             mlab.triangular_mesh(points[:,0],points[:,1],points[:,2],triangles-1,representation='wireframe')
             mlab.show()
 
-        stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
+        mo = stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
         self.stacked_mesh = outfile
+        self.number_of_layers = len(layers)
+
+    def addAttribute(self,data,layer,outfile=None,flip:str='y'):
+        outfile = self.stacked_mesh if outfile is None else outfile
+        addAttribute(self.lg,data,self.stacked_mesh,outfile,layer,flip=flip)
 
     def generateFacesets(self,outfile,facesets=None,naive=False):
         '''

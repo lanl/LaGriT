@@ -20,6 +20,42 @@ matids = [1,2,3,4,5]
 
 my_dem.generateStackedTIN("test_extruded_mesh.inp",layers,matids=matids,plot=False)
 
+"""
+
+Next, we are going to make a set of attributes and apply them to discrete
+layers in the mesh.
+
+Here, we're generating a standard 2D Gaussian for our sample dataset.
+'Real' datasets should be imported using the proper library,
+and then passed into the function.
+
+"""
+def makeGaussian(size, fwhm = 600, center=None):
+    """ Make a square gaussian kernel.
+
+    size is the length of a side of the square
+    fwhm is full-width-half-maximum, which
+    can be thought of as an effective radius.
+    """
+
+    import numpy as np
+
+    x = np.arange(0, size, 1, float)
+    y = x[:,np.newaxis]
+
+    if center is None:
+        x0 = y0 = size // 2
+    else:
+        x0 = center[0]
+        y0 = center[1]
+
+    return np.exp(-4*np.log(2) * ((x-x0)**2 + (y-y0)**2) / fwhm**2)
+
+data = makeGaussian(500)
+
+my_dem.addAttribute(data,1)
+my_dem.addAttribute(1.-data,4)
+
 # Now we can generate facesets in one of three ways:
 option = 3 # change me!
 

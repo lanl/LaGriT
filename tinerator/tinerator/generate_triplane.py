@@ -11,6 +11,9 @@ from tinerator.dump import callLaGriT
 import pylagrit
 from copy import deepcopy
 from scipy import interpolate
+from scipy.misc import imresize
+import string
+import random
 
 def generateLineConnectivity(nodes:np.ndarray,connect_ends:bool=False):
     '''
@@ -159,6 +162,79 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     triplane.dump(fileout)
     os.remove(_array_out)
 
+
+def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
+                 outfile:str,layer:int,flip:str='y'):
+    '''
+
+    Given a triplane mesh and a tinerator.DEM instance, this function will 
+    map elevation data from the array to the triplane mesh.
+
+    :param pylagrit.PyLaGriT lg:
+    :param str triplane: filepath to mesh to add 
+    '''
+
+    start = layer - 1
+    end = layer
+
+    # Generate sheet metadata
+    dem_dimensions = [dem.ncols,dem.nrows]
+    lower_left_corner = [dem.xll_corner, dem.yll_corner]
+    cell_size = [dem.cell_size,dem.cell_size]
+
+    data = imresize(data,(dem_dimensions[1],dem_dimensions[0]),interp='nearest')
+
+    # Interpolate no data values on the DEM
+    # This is to prevent a noise effect on LaGriT interpolation 
+    data = deepcopy(data).astype(float)
+    mask = data == dem.no_data_value
+    data[mask] = np.nan
+
+    # Mask invalid values
+    data = np.ma.masked_invalid(data)
+    xx, yy = np.meshgrid(np.arange(0,data.shape[1]),np.arange(0,data.shape[0]))
+
+    #get only the valid values
+    x1 = xx[~mask]
+    y1 = yy[~mask]
+    newarr = data[~mask]
+
+    data = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method='nearest')
+    data[data == np.nan] = dem.no_data_value
+
+    # Dump attribute data
+    _array_out = "_temp_attrib_array.dat"
+    data.filled().tofile(_array_out,sep=' ',format='%.3f')
+
+    # Read sheet and extrude
+    name = ''.join(random.choice(string.ascii_lowercase) for _ in range(5))
+    tmp_sheet = lg.read_sheetij(name, _array_out, dem_dimensions, lower_left_corner, cell_size, flip=flip)
+    extrusion = tmp_sheet.extrude(10000.)
+    extrusion.addatt('esatt',length='nelements')
+
+    # Copy read attribute from tmp_sheet to extrusion
+    lg.sendline('interpolate/voronoi/%s,esatt/1,0,0/%s,elev' % (extrusion.name,tmp_sheet.name))
+    tmp_sheet.delete()
+
+    stacked_mesh = lg.read(stacked_mesh_infile)
+    info = stacked_mesh.information()
+    v = info['elements'] // self.number_of_layers
+
+    my_line = lg.sendline('cmo/addatt/'+stacked_mesh.name+'/eslayer/VINT/scalar/nelements/linear/permanent/gxaf/0.0')
+    lg.sendline('cmo/setatt/ %s eslayer 1' % stacked_mesh.name)
+    lg.sendline('cmo/setatt/ %s eslayer/ %d,%d 2' % (stacked_mesh.name,v*start,v*end))
+
+    test_elt = stacked_mesh.eltset_attribute('eslayer',2)
+
+    stacked_mesh.addatt('soiltype',length='nelements')
+
+    lg.sendline('interpolate/map/%s,soiltype/eltset,get,%s/%s,esatt' % (stacked_mesh.name,test_elt.name,extrusion.name))
+    extrusion.delete()
+    os.remove('_temp_attrib_array.dat')
+
+    stacked_mesh.dump(outfile)
+    return stacked_mesh
+
 def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
                 matids=None,xy_subset=None,nlayers=None):
     '''
@@ -200,6 +276,8 @@ def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
 
     cmo_prism.addatt('cell_vol',keyword='volume')
     cmo_prism.dump(outfile)
+
+    return cmo_prism
 
 def generateSingleColumnPrism(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
                 matids=None,xy_subset=None,nlayers=None):
