@@ -1,5 +1,7 @@
 ---
 title: "Example LaGriT Page"
+author: My Name
+tags: example, quickstart
 ---
 
 
@@ -33,7 +35,7 @@ Style taken from Github's Mastering Markdown document
 
 ------------------------------------
 
-In an effort to maintain consistency across the GitHub Pages implementation of LaGriT documentation, this document is a style guide (draft).
+In an effort to maintain consistency across the GitHub Pages implementation of LaGriT documentation, this document is a style guide (draft). Its use should be applied across all commands. See [the ADDMESH page](docs/commands/ADDMESH.md) for an example of it applied.
 
 ## Table of Contents ##
 
@@ -41,6 +43,8 @@ In an effort to maintain consistency across the GitHub Pages implementation of L
 2. [Command Formatting](#cmdformatting)
 3. [Inline Code](#inlinecode)
 4. [Linking to Other Pages](#linking)
+5. [Formatting Metadata](#metadata)
+6. [Further Resources](#resources)
 
 ## 1. Page Titles & Headers <a name="pagetitles"></a>
 
@@ -129,7 +133,7 @@ Similar to merge except `imt`, `icr`, `itetclr` of *`mesh2`* have the value `max
 
 ## 4. Linking to Other Pages <a name="linking"></a>
 
-You can link to other pages on this site by either using the literal URL, or (more appropriately) with a relative link to the corresponding Markdown file.
+You can link to other pages on this site by either using the literal URL, or (more appropriately) with a relative link to the corresponding Markdown file. It is better practice to use a relative link to a Markdown file, so that those attempting to read the documentation through a Markdown viewer (i.e. after cloning the LaGriT repo) will be able to easily access the referenced document.
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
@@ -141,3 +145,32 @@ will take you to the same place as [clicking here](docs&#x2F;commands&#x2F;ADDME
 </div>
 </div>
 
+## 5. Formatting Metadata <a name="metadata"></a>
+
+Each page should contain YAML-formatted metadata at the top of the document.
+See [GitHub's announcement](https://blog.github.com/2013-09-27-viewing-yaml-metadata-in-your-documents/) and a [basic guide on supported tags](https://hackmd.io/s/yaml-metadata#tags).
+
+In general, most metadata will do nothing.
+However, each document should contain at least these specifiers:
+
+1. `title` - this renders as the browser page title, and renders in search
+2. `tags` - this benefits the search functionality as well
+
+<div class="markdown-example" id="example-text">
+<pre class="source">
+---
+title: "Example LaGriT Page"
+author: My Name
+tags: example, quickstart
+---
+</pre>
+</div>
+
+## 6. Further Resources <a name="resources"></a>
+
+Markdown supports tables, lists, embedded HTML/Javascript/CSS, images, and more.
+For syntax usage on embedding these elements, a few references can be found below:
+
+* [Markdown Quick Cheatsheet (Common Mark)](https://commonmark.org/help/)
+* [Mastering Markdown (GitHub)](https://guides.github.com/features/mastering-markdown/) - basic Markdown syntax overview
+* [Markdown Cheatsheet (assemble.io)](http://assemble.io/docs/Cheatsheet-Markdown.html) - discusses the relationship between Markdown elements and HTML
