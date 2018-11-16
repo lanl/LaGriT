@@ -120,7 +120,7 @@ Similarily to the section above, for sections(s) of code within a larger normall
 Similar to merge except `imt`, `icr`, `itetclr` of *`mesh2`* have the value `max(imt(mesh1))` added to *`mesh2`*.
 </pre>
 <div class="rendered">
-Similar to merge except <code>imt</code>, <code>icr</code>, <code>itetclr<code> of <i><code>mesh2</i></code> have the value <code>max(imt(mesh1))</code> added to <i><code>mesh2</i></code>.
+Similar to merge except <code>imt</code>, <code>icr</code>, <code>itetclr</code> of <i><code>mesh2</i></code> have the value <code>max(imt(mesh1))</code> added to <i><code>mesh2</i></code>.
 </div>
 </div>
 
