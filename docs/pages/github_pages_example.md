@@ -132,7 +132,8 @@ You can link to other pages on this site by either using the literal URL, or (mo
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
-As an example, [this page](https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html) will take you to the same place as [clicking here](docs/commands/ADDMESH.html).
+As an example, [this page](https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html)
+will take you to the same place as [clicking here](docs/commands/ADDMESH.md).
 </pre>
 <div class="rendered">
 As an example, <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">this page</a> will take you to the same place as <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">clicking here</a>.
