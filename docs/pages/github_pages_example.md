@@ -2,6 +2,7 @@
 title: "Example LaGriT Page"
 author: My Name
 tags: example, quickstart
+categories: quickstart
 ---
 
 
