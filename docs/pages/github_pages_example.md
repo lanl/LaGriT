@@ -93,9 +93,11 @@ Since part of the Markdown specification includes embedded HTML parsing, LaGriT 
 <div class="markdown-example" id="example-text">
 <pre class="source">
 
+    <pre>
     <b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
     <b>addmesh / amr</b> / mesh3 / mesh1 / mesh2 /
     <b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
+    </pre>
 
 </pre>
 <div class="rendered">
@@ -108,6 +110,19 @@ Since part of the Markdown specification includes embedded HTML parsing, LaGriT 
 </div>
 
 Note how the block in enclosed in the `<pre>` tags.
+
+## 3. Inline Code ##
+
+Similarily to the section above, for sections(s) of code within a larger normally typed paragraph, literal keywords should be bold and all other objects should be unstyled. Mesh objects should be formatted with *`italic monospace`*.
+
+<div class="markdown-example" id="example-text">
+<pre class="source">
+Similar to merge except `imt`, `icr`, `itetclr` of *`mesh2`* have the value `max(imt(mesh1))` added to *`mesh2`*.
+</pre>
+<div class="rendered">
+Similar to merge except <code>imt</code>, <code>icr</code>, <code>itetclr<code> of <i><code>mesh2</i></code> have the value <code>max(imt(mesh1))</code> added to <i><code>mesh2</i></code>.
+</div>
+</div>
 
 # Header 1 #
 
@@ -172,13 +187,7 @@ To then bold/italic certain parts of a command, the best option is to use HTML:
 
 ## Inline Code ##
 
-Sections(s) of code within a larger normally typed paragraph, as in this example from ADDMESH:
 
-Similar to merge except `imt`, `icr`, `itetclr` of *mesh2* have the value `max(imt(mesh1))` added to *mesh2*.
-
-**Markdown representation:**
-
-    Similar to merge except `imt`, `icr`, `itetclr` of *mesh2* have the value `max(imt(mesh1))` added to *mesh2*.
 
 ## Metadata ##
 
