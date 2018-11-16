@@ -39,8 +39,8 @@ In an effort to maintain consistency across the GitHub Pages implementation of L
 
 1. [Page Titles](#pagetitles)
 2. [Command Formatting](#cmdformatting)
-3. sdf
-4. sdf
+3. [Inline Code](#inlinecode)
+4. [Linking to Other Pages](#linking)
 
 ## 1. Page Titles & Headers <a name="pagetitles"></a>
 
@@ -77,9 +77,9 @@ This is the second step to using this command.
 <hr/>
 <h2>1. Usage</h2>
 <h3>1.1 First Step</h3>
-This is the first step to using this great command.<br>
+  <p>This is the first step to using this great command.<br></p>
 <h3>1.2 Second Step</h3>
-This is the second step to using this command.
+  <p>This is the second step to using this command.</p>
 </div>
 </div>
 
@@ -113,7 +113,7 @@ Since part of the Markdown specification includes embedded HTML parsing, LaGriT 
 
 Note how the block in enclosed in the `<pre>` tags.
 
-## 3. Inline Code ##
+## 3. Inline Code <a name="inlinecode"></a>
 
 Similarily to the section above, for sections(s) of code within a larger normally typed paragraph, literal keywords should be bold and all other objects should be unstyled. Mesh objects should be formatted with *`italic monospace`*.
 
@@ -122,11 +122,11 @@ Similarily to the section above, for sections(s) of code within a larger normall
 Similar to merge except `imt`, `icr`, `itetclr` of *`mesh2`* have the value `max(imt(mesh1))` added to *`mesh2`*.
 </pre>
 <div class="rendered">
-Similar to merge except <code>imt</code>, <code>icr</code>, <code>itetclr</code> of <i><code>mesh2</code></i> have the value <code>max(imt(mesh1))</code> added to <i><code>mesh2</code></i>.
+<p>Similar to merge except <code>imt</code>, <code>icr</code>, <code>itetclr</code> of <i><code>mesh2</code></i> have the value <code>max(imt(mesh1))</code> added to <i><code>mesh2</code></i>.</p>
 </div>
 </div>
 
-## 4. Linking to Other Pages ##
+## 4. Linking to Other Pages <a name="linking"></a>
 
 You can link to other pages on this site by either using the literal URL, or (more appropriately) with a relative link to the corresponding Markdown file.
 
@@ -136,7 +136,7 @@ As an example, [this page](https://lanl.github.io/LaGriT/pages/docs/commands/ADD
 will take you to the same place as [clicking here](docs/commands/ADDMESH.md).
 </pre>
 <div class="rendered">
-As an example, <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">this page</a> will take you to the same place as <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">clicking here</a>.
+<p>As an example, <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">this page</a> will take you to the same place as <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">clicking here</a>.</p>
 </div>
 </div>
 
