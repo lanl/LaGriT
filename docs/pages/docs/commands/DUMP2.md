@@ -97,15 +97,20 @@ The coord file is one of a set of files written when the fehm file type is calle
 
 ### `DATEX` <a name="datex"></a>
 
-**dump** / **datex**  OR  **simul** / *file_name* / [cmo_name]
+<pre>
+<b>dump / datex</b>  OR  <b>simul</b> / file_name / [cmo_name]
+</pre>
 
-Will output a file with Geometry, Element, Region, Location, and Dataset in DATEX format.
+will output a file with Geometry, Element, Region, Location, and Dataset in DATEX format.
 
 <br>
 
 ### `ELEM_ADJ_ELEM` && `ELEM_ADJ_NODE` <a name="elem_adj"></a>
 
-**dump** / **elem_adj_elem** / *file_name* / mo_name \[ _**delatt**_  OR  **keepatt**  OR  **attonly** \] 
+<pre>
+<b>dump / elem_adj_elem</b> / file_name* / mo_name / [ <b>delatt</b>  OR  <b>keepatt</b>  OR  <b>attonly</b> ]
+</pre>
+
 
 * Option: `delatt` - Write adjacency information to an ascii file. Write list of all elements adjacent to each element. 
   * File format: `elem_number ean_num e1 e2 ... en`
@@ -113,75 +118,77 @@ Will output a file with Geometry, Element, Region, Location, and Dataset in DATE
 * Option: `attonly` - do not write file, add node attribute `ean_num`, a dummy argument is still required in the file_name field 
 
 
-**dump** / **elem_adj_node** / *file_name* / mo_name 
+<pre>
+<b>dump / elem_adj_node</b> / file_name / mo_name 
+</pre>
 
-> Write adjacency information to an ascii file. Write list of all elements adjacent to each node. 
-> File format: `node_number number_of_adjacent_elem e1 e2 ... en`
+Write adjacency information to an ascii file. Write list of all elements adjacent to each node. 
+
+File format: `node_number number_of_adjacent_elem e1 e2 ... en`
 
 <br>
 
 ### `Exodus` <a name="exodus"></a>
 
-**dump / exo**  OR  **exodusii /** file_name / mo_name [ **psets** ] / [ **eltsets**] / [ **facesets** file1 file2 ... filen ] 
+<pre>
+<b>dump / exo</b>  OR  <b>exodusii</b> / file_name / mo_name [ psets ] / [ eltsets] / [ facesets file1 file2 ... filen ] 
+</pre>
 
-> Write a mesh object to a file in the Exodus II format. The keyword psets as token 5 will cause all psets (lists of vertex numbers) associated with the mesh object to be written to the ExodusII output file. 
->
->The keyword eltsets as token 6 will cause all eltsets (lists of cell numbers) associated with the mesh object to be written to the ExodusII output file. 
->
->If face set information is being provided from files (file1 file2 ... filen) the format of the file is written in AVS UCD cell attribute format. The first column is the global cell number, the second column is the local face number.
->
-> [Click here for more details on options and files that are written for ExodusII.](EXODUS.md) 
+Write a mesh object to a file in the Exodus II format. The keyword psets as token 5 will cause all psets (lists of vertex numbers) associated with the mesh object to be written to the ExodusII output file. 
+
+The keyword eltsets as token 6 will cause all eltsets (lists of cell numbers) associated with the mesh object to be written to the ExodusII output file. 
+
+If face set information is being provided from files (`file1 file2 ... filen`) the format of the file is written in AVS UCD cell attribute format. The first column is the global cell number, the second column is the local face number.
+
+
+Click here for [more details on options and files that are written for ExodusII](EXODUS.md).
 
 <br>
 
 ### `FEHM` <a name="fehm"></a>
 
-**dump/ fehm /** rootname / cmo\_name / \[ optional keywords \]
+<pre>
+<b>dump/ fehm</b> / rootname / cmo\_name / [ optional keywords ]
+</pre>
 
-> Write out a series of files for the FEHM flow and transport code. The tokens after the cmo name are all optional. 
->
-> The following keyword commands are optional and can occur in any order after the cmo\_name.
->
-> **ascii** or **binary**  indicate IO Mode Options for the stor file. Default is ascii.
-> **scalar**,  **vector**,  **both**,  **area\_scalar**,  **area\_vector**, or **area\_both** are Area Coefficient Options for writing stor file coefficient values. Default is scalar.
-> **all**,  **graph**,  **coefs**, or  **none** are Compression Options for the stor file. Default is all.
-> **delatt** or  **keepatt**  deletes or keeps CMO Attributes created to find outside zone nodes. Default is delatt.
-> **hybrid** or **nohybrid** Specify whether hybrid median-Voronoi control volumes should be used. Default is nohybrid.
->
-> The default options will delete the outside node attributes and will not add attributes for the outside voronoi or median areas. 
-> The stor file will be written in ASCII format with scalar coefficient values with compression of area coefficient list and indices.
->
-> The *rootname* will be used to form full names for the files that are written:
-> ```
-> rootname.fehmn              rootname_interface.zone      rootname_outside_vor.area     
-> rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone       rootname.stor
-> ```
+Write out a series of files for the FEHM flow and transport code. The tokens after the cmo name are all optional. 
 
-**.fehm** - mesh coordinates and geometry ( see dump/coord/... command)
+The following keyword commands are optional and can occur in any order after the cmo\_name.
 
-**_material.zone** - node imt (material) zone lists ( see dump/zone_imt/... command)
+* `ascii` or `binary`  indicate IO Mode Options for the stor file. Default is ascii.
+* `scalar`,  `vector`,  `both`,  `area_scalar`,  `area_vector`, or `area_both` are Area Coefficient Options for writing stor file coefficient values. Default is scalar.
+* `all`,  `graph`,  `coefs`, or  `none` are Compression Options for the stor file. Default is all.
+* `delatt` or  `keepatt`  deletes or keeps CMO Attributes created to find outside zone nodes. Default is delatt.
+* `hybrid` or `nohybrid` Specify whether hybrid median-Voronoi control volumes should be used. Default is nohybrid.
 
-**_outside.zone** - node external boundary zone lists (see dump/zone_outside/... command)
+The default options will delete the outside node attributes and will not add attributes for the outside voronoi or median areas. 
+The stor file will be written in ASCII format with scalar coefficient values with compression of area coefficient list and indices.
 
-**_outside_vor.area** - node external boundary area lists (see dump/zone_outside/... command)
+The `rootname` will be used to form full names for the files that are written:
 
-**_interface.zone** - zone lists for nodes along material interfaces 
+```
+rootname.fehmn              rootname_interface.zone      rootname_outside_vor.area     
+rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone       rootname.stor
+```
 
-**_multi_mat.zone** - lists of node pairs connected across material interfaces 
+* `.fehm` - mesh coordinates and geometry ( see `dump/coord/...` command)
+* `_material.zone` - node imt (material) zone lists ( see `dump/zone_imt/...` command)
+* `_outside.zone` - node external boundary zone lists (see `dump/zone_outside/...` command)
+* `_outside_vor.area` - node external boundary area lists (see `dump/zone_outside/...` command)
+* `_interface.zone` - zone lists for nodes along material interfaces 
+* `_multi_mat.zone` - lists of node pairs connected across material interfaces 
+* `.stor` - FEHM format file giving the voronoi (control volume) associated with each node and the sparce matrix structure
 
-**.stor** - FEHM format file giving the voronoi (control volume) associated with each node and the sparce matrix structure
-
-
-[Click here for more details on the FEHM files and options.](dump/DUMP3.md)
-
-
-[Click here for the FEHM style STOR file format.](../STOR_Form.md) 
+Click here for [more details on the FEHM files and options.](dump/DUMP3.md)
+Click here for the [FEHM style STOR file format.](../STOR_Form.md) 
 
 <br>
 
 ### `GEOFEST` <a name="geofest"></a>
 
-**dump/ geofest /** file_name 
+<pre>
+<b>dump/ geofest /</b> file_name 
+</pre>
 
 Write a file to be read by the GeoFEST, Geophysical Finite Element Simulation Tool hosted by Open Channel Foundation. The output file is ascii.
 
@@ -189,7 +196,9 @@ Write a file to be read by the GeoFEST, Geophysical Finite Element Simulation To
 
 ### `GEOM` <a name="geom"></a>
 
-**dump / geom /** file_name 
+<pre>
+<b>dump / geom /</b> file_name 
+</pre>
 
 will write an ascii file containing the geometry information for the current run. This information includes the region and mregion definitions and surface, names, types and definitions. 
 
@@ -197,17 +206,23 @@ will write an ascii file containing the geometry information for the current run
 
 ### `GMV` <a name="gmv"></a>
 
-**dump / gmv /** file_name / [mesh-object] / [__**binary**__ OR **ascii**] 
+<pre>
+<b>dump / gmv /</b> file_name / [mesh-object] / [binary OR ascii] 
+</pre>
 
-Write a file to be read by the graphics program GMV.  The defaults are binary and current mesh object.  NOTE:  For LaGriT versions dated after October 1999, use    **cmo/setatt//ipolydat/no**   to reduce file size. This command will keep the polygon data from being written to GMV files. 
+Write a file to be read by the graphics program GMV.  The defaults are binary and current mesh object.
 
-[For more on GMV visit](http://www.generalmeshviewer.com)
+*NOTE:  For LaGriT versions dated after October 1999, use `cmo/setatt//ipolydat/no` to reduce file size. This command will keep the polygon data from being written to GMV files.*
+
+For more on GMV visit: http://www.generalmeshviewer.com
 
 <br>
 
 ### `GOCAD` <a name="gocad"></a>
 
-**dump / gocad /** file_name 
+<pre>
+<b>dump / gocad /</b> file_name 
+</pre>
 
 Write a gocad TSURF file.
 
@@ -215,21 +230,24 @@ Write a gocad TSURF file.
 
 ### `LaGriT` <a name="lagrit"></a>
 
-**dump / lagrit /** file_name / [cmo_name]/ [__**binary**__ OR **ascii** ] 
+<pre>
+<b>dump / lagrit /</b> file_name / [cmo_name]/ [binary OR ascii] 
+</pre>
 
-Write a LaGriT restart file that contains geometry and mesh object information.  *cmo_name* can be **-all-** in which case all mesh objects are written to the file or it can specify a list of mesh objects to be written. A subsequent read/lagrit command will restart the code at the state at which the **dump** command was issued. The default file type is binary. 
+Write a LaGriT restart file that contains geometry and mesh object information.  `cmo_name` can be `-all-` in which case all mesh objects are written to the file or it can specify a list of mesh objects to be written. A subsequent read/lagrit command will restart the code at the state at which the `dump` command was issued. The default file type is binary. 
 
 <br>
 
 ### `PFLOTRAN` <a name="pflotran"></a>
 
-**dump** / **pflotran** / *file_name_root* / cmo_name / 
+<pre>
+<b>dump / pflotran</b> / file_name_root / cmo_name / 
+<b>dump / pflotran</b> / file_name_root / cmo_name / nofilter_zero
+</pre>
 
-**dump** / **pflotran** / *file_name_root* / cmo_name / **nofilter_zero**
+Write coefficient matrix (stor) style values in PFLOTRAN `.uge` format file. The default `dump/pflotran` command does not write zero coupling coefficients. Use the keyword nofilter_zero to include zero coupling coefficients in the file.
 
-Write coefficient matrix (stor) style values in PFLOTRAN .uge format file. The default **dump/pflotran** command does not write zero coupling coefficients. Use the keyword nofilter_zero to include zero coupling coefficients in the file.
-
-The following is the format used by PFLOTRAN for .uge (explicit unstructured grid) file.
+The following is the format used by PFLOTRAN for `.uge` (explicit unstructured grid) file.
 
 The first block are the list of ids of cells and the coordinates of cell centroids and the volumes of the cells. The PFLOTRAN cells are Voronoi volumes, one for each node.
 
@@ -259,7 +277,9 @@ id_up_M id_dn_M x_M y_M z_M area_M
 
 ### `RECOLOR` <a name="recolor"></a>
 
-**dump / recolor /** file_name 
+<pre>
+<b>dump / recolor /</b> file_name 
+</pre>
 
 This command writes the existing colormap to the specified file.  [See colormap command](COLORMAP.md)
 
@@ -267,7 +287,9 @@ This command writes the existing colormap to the specified file.  [See colormap 
 
 ### `STL` <a name="stl"></a>
 
-**dump / stl /** file_name 
+<pre>
+<b>dump / stl /</b> file_name 
+</pre>
 
 Output in STL, stereo lithography format. This is only supported for triangle mesh objects.
 
@@ -275,18 +297,16 @@ Output in STL, stereo lithography format. This is only supported for triangle me
 
 ### `STOR` <a name="stor"></a>
 
-**dump / stor /** file_name_root / cmo_name / 
+<pre>
+<b>dump / stor /</b> file_name_root / cmo_name /
+[ascii  OR  binary ] / 
+[scalar  OR  vector  OR  both  OR  area_scalar  OR  area_vector  OR  area_both] \
+[all  OR  graph  OR  coefs  OR  none] / [hybrid  OR  nohybrid ] 
+</pre>
 
-[ __**ascii**__  OR  **binary** ] / 
-
-[__**scalar**__  OR  **vector**  OR  **both**  OR  **area_scalar**  OR  **area_vector**  OR  **area_both**] \
- 
-[__**all**__  OR  **graph**  OR  **coefs**  OR  **none**] / [**hybrid**  OR  __**nohybrid**__ ] 
-
-
-Same syntax as **dump/fehm** except the only output is the FEHM sparse matrix coefficient STOR file *rootname*.stor. 
+Same syntax as `dump/fehm` except the only output is the FEHM sparse matrix coefficient STOR file `rootname.stor`. 
 File can be written in ascii or binary (fortran unformatted platform dependent). The area coefficient values can be written as scalar or vector.
-The compression default is **all** which will compress both the list of area coefficients and the indices. The coefs compression, or none compression both use and older algorithm and will result in larger files and may take longer to run.
+The compression default is `all` which will compress both the list of area coefficients and the indices. The coefs compression, or none compression both use and older algorithm and will result in larger files and may take longer to run.
 The stor file is one of a set of files written when the fehm file type is called. 
 
 [Click here for further explanation of syntax options.](dump/DUMP3.md)
