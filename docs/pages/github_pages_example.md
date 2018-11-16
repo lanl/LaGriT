@@ -90,23 +90,18 @@ When rendering LaGriT commands, it is the convention on the LANL website to use 
 This is difficult to do in pure Markdown, but fortunately very easy to do in HTML.
 Since part of the Markdown specification includes embedded HTML parsing, LaGriT commands should be styled as:
 
-<div class="markdown-example" id="example-text">
-<pre class="source">
 
+<div class="markdown-example" id="example-text">
 <!--
 GH Pages keeps trying to render this as HTML instead of raw code.
 So, we're going to have to escape the HTML tags to get them literally rendered...
 -->
-
-<code>
-
-&lt;pre&gt;<br>
+<pre class="source">
+&lt;pre&gt;
 &lt;b&gt;addmesh / add&lt;/b&gt; / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
 &lt;b&gt;addmesh / amr&lt;/b&gt; / mesh3 / mesh1 / mesh2 /
 &lt;b&gt;addmesh / append&lt;/b&gt; / mesh3 / mesh1 / mesh2 /
 &lt;/pre&gt;
-
-</code>
 </pre>
 <div class="rendered">
 <pre>
@@ -139,7 +134,7 @@ You can link to other pages on this site by either using the literal URL, or (mo
 <div class="markdown-example" id="example-text">
 <pre class="source">
 As an example, [this page](https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html)
-will take you to the same place as [clicking here](docs/commands/ADDMESH.md).
+will take you to the same place as [clicking here](docs&#x2F;commands&#x2F;ADDMESH.md).
 </pre>
 <div class="rendered">
 <p>As an example, <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">this page</a> will take you to the same place as <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">clicking here</a>.</p>
