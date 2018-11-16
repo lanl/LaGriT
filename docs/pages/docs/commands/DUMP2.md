@@ -1,66 +1,84 @@
-# DUMP
+--
+title: "DUMP"
+categories: files
+--
+
+# DUMP #
 
 This command produces an output file from a Mesh Object. Some of the standard graphics packages are supported including AVS, GMV and TECPLOT. See below for full list of file types that can be written. The list is in alphabetic order and describes each valid file_type with syntax and usage. 
 
-## GENERAL SYNTAX:
+## GENERAL SYNTAX: ##
 
-**dump** / *file_type* / file_name /[cmo_name]/       
+<pre>
+<b>dump</b> / file_type / file_name /[cmo_name]/
+</pre>
 
-> The dump command is followed by a keyword for file type. Valid file type keywords are listed below and include: gmv, avs, avs2, chad, coord, datex, elem_adj_node, elem_adj_elem, fehm, geofest, geom, gmv, gocad, lagrit, recolor, stl, stor, tecplot, zone, zone_imt, and zone_outside .   
-> The *file_type* keyword is followed by a string to be used as whole or part of file name as described below.
+The dump command is followed by a keyword for file type. Valid file type keywords are listed below and include: `gmv`, `avs`, `avs2`, `chad`, `coord`, `datex`, `elem_adj_node`, `elem_adj_elem`, `fehm`, `geofest`, `geom`, `gmv`, `gocad`, `lagrit`, `recolor`, `stl`, `stor`, `tecplot`, `zone`, `zone_imt`, and `zone_outside`.   
+
+The `file_type` keyword is followed by a string to be used as whole or part of file name as described below.
 
 
-## SHORT SYNTAX:
+## SHORT SYNTAX: ##
 
-**dump** / *file_name*.extension / [cmo_name]     
+<pre>
+<b>dump</b> / file_name.extension / [cmo_name]
+</pre>
 
-> Where extension implies the file type designation. Valid exetensions are recognized:   
->
-> AVS (**.inp** or **.avs**), Exodus (**.exo**), GMV (**.gmv**), LaGriT (**.lagrit** or **.lg**), and GoCAD (**.ts**). 
+where extension implies the file type designation. Valid exetensions are recognized:   
+AVS (`.inp` or `.avs`), Exodus (`.exo`), GMV (`.gmv`), LaGriT (`.lagrit` or `.lg`), and GoCAD (`.ts`). 
 
-## FILE TYPES:
+## FILE TYPES: ##
 
-**dump** / **avs** /
-file_name/[cmo_name] /[iopt_points, iopt_elements, iopt_node_attributes ,iopt_element_attributes] 
+<pre>
+<b>dump / avs</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
+</pre>
 
-> Output in AVS UCD (Unstructured Cell Data) format. One can turn on or off the output of node coordinates (iopt_points), element connectivity (iopt_elements), node attributes (iopt_node_attributes) and element attributes (iopt_element_attributes). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file. For example, 
-> ```
-> dump / avs / file.inp / cmo_name / 1, 1, 0, 0
-> ```
-> will write node coordinates and element connectivity, but not node attributes or element attributes.    
->
-> *Note the* **2** *option writes an abreviated form of the file format that is non-standard and probably not recognized outside of LaGriT.*
->
-> For a description of the AVS file format see the [**read/avs** command.](../read_avs.md)
+Output in AVS-UCD (Unstructured Cell Data) format. One can turn on or off the output of node coordinates (`iopt_points`), element connectivity (`iopt_elements`), node attributes (`iopt_node_attributes`) and element attributes (`iopt_element_attributes`). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file.
 
-**dump** / **avs2** / 
-file_name/[cmo_name]/[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes]
+For example, 
 
-> This option will output integers as integers instead of floating point. The other avs option converts integers to reals on output. The **/avs/** option above outputs all attributes as real numbers. This option is slower but the files are smaller if there are integers in the node or element attributes. 
+<pre>
+dump / avs / file.inp / cmo_name / 1, 1, 0, 0
+</pre>
 
-**dump** / **chad** / *file_name* /[cmo_name]/ 
+will write node coordinates and element connectivity, but not node attributes or element attributes.    
 
-> Will output a file nodes, faces, and connectivity for tet, hex, pyr, or pri in CHAD format. Writes attributes imt and itp.
+*Note the **2** option writes an abreviated form of the file format that is non-standard and probably not recognized outside of LaGriT.*
 
-**dump** / **coord** / *file_name* /[cmo_name]/ (See also **dump/fehm** ) 
+For a description of the AVS file format see the [`read/avs` command](../read_avs.md).
 
-> Will output a single file with node list x,y,z values and element connectivity list in FEHM format. Files are written in FEHM format and are described by [clicking here for details.](dump/DUMP3.md)
->
-> The coord file is one of a set of files written when the fehm file type is called. 
+<pre>
+<b>dump / avs2</b> / file_name/[cmo_name]/[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes]
+</pre>
+
+This option will output integers as integers instead of floating point. The other avs option converts integers to reals on output. The `/avs/` option above outputs all attributes as real numbers. This option is slower but the files are smaller if there are integers in the node or element attributes. 
+
+<pre>
+<b>dump / chad</b> / file_name /[cmo_name]/ 
+</pre>
+
+Will output a file nodes, faces, and connectivity for tet, hex, pyr, or pri in CHAD format. Writes attributes imt and itp.
+
+<pre>
+<b>dump / coord</b> / file_name /[cmo_name]/
+</pre>
+
+> See also `dump/fehm`
+
+Will output a single file with node list x,y,z values and element connectivity list in FEHM format. Files are written in FEHM format and are described by [clicking here for details](dump/DUMP3.md).
+
+The coord file is one of a set of files written when the fehm file type is called. 
 
 **dump** / **datex**  OR  **simul** / *file_name* / [cmo_name]
 
-> Will output a file with Geometry, Element, Region, Location, and Dataset in DATEX format.
-
+Will output a file with Geometry, Element, Region, Location, and Dataset in DATEX format.
 
 **dump** / **elem_adj_elem** / *file_name* / mo_name \[ _**delatt**_  OR  **keepatt**  OR  **attonly** \] 
 
-> Option: delatt - Write adjacency information to an ascii file. Write list of all elements adjacent to each element. 
-> File format: `elem_number ean_num e1 e2 ... en`
->
-> Option: keepatt - write file and add node attribute ean_num (number of elements adjacent to each node) 
->
-> Option: attonly - do not write file, add node attribute ean_num, a dummy argument is still required in the file_name field 
+* Option: `delatt` - Write adjacency information to an ascii file. Write list of all elements adjacent to each element. 
+  * File format: `elem_number ean_num e1 e2 ... en`
+* Option: `keepatt` - write file and add node attribute `ean_num` (number of elements adjacent to each node) 
+* Option: `attonly` - do not write file, add node attribute `ean_num`, a dummy argument is still required in the file_name field 
 
 
 **dump** / **elem_adj_node** / *file_name* / mo_name 
@@ -303,7 +321,7 @@ The option **zone_outside_minmax** is used to find the min and max external node
 These zone_outside files are part of a set of files written when the zone or fehm file type is called. The fehm zone format and descriptions are  in the **dump/fehm** command details. 
 
 
-##EXAMPLES:
+## EXAMPLES: ##
 
     dump / gmv /file_name.gmv/cmo_name/
     dump / gmv /file_name.gmv/cmo_name/ascii
