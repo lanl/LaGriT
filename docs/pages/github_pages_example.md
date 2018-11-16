@@ -92,6 +92,7 @@ Since part of the Markdown specification includes embedded HTML parsing, LaGriT 
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
+<code>
 
     <pre>
     <b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
@@ -99,6 +100,7 @@ Since part of the Markdown specification includes embedded HTML parsing, LaGriT 
     <b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
     </pre>
 
+</code>
 </pre>
 <div class="rendered">
 <pre>
@@ -124,137 +126,16 @@ Similar to merge except <code>imt</code>, <code>icr</code>, <code>itetclr</code>
 </div>
 </div>
 
-# Header 1 #
+## 4. Linking to Other Pages ##
 
-------------------------------------
+You can link to other pages on this site by either using the literal URL, or (more appropriately) with a relative link to the corresponding Markdown file.
 
-This should be used for the title of the page.
-
-**Markdown representation:**
-
-    # Header 1 #
-
-## Header 2 ##
-
-This should be used for subheadings.
-
-**Markdown representation:**
-
-    ## Header 2 ##
-
-### Header 3 ###
-
-Alternate subheadings.
-
-**Markdown representation:**
-
-    ### Header 3 ###
-
-## Code Blocks ##
-
-Here is an example code block:
-
-    cmo/create/cmohex / / / hex
-    quadxyz/5,7,5/0.,0.,0./1.,0.,0./1.5,0.5,2.0/.5,.2,2.5/
-    -1.,1.5,0./2.0,0.,0.0/2.1,1.9,2.4/-0.2,1.8,2.3/
-    createpts/brick/xyz/5,7,5/1,0,0/connect
-
-**Markdown representation** (indent of four spaces to begin code block):
-
-        cmo/create/cmohex / / / hex
-        quadxyz/5,7,5/0.,0.,0./1.,0.,0./1.5,0.5,2.0/.5,.2,2.5/
-        -1.,1.5,0./2.0,0.,0.0/2.1,1.9,2.4/-0.2,1.8,2.3/
-        createpts/brick/xyz/5,7,5/1,0,0/connect
-
-## Bold/Italic Commands ##
-
-By default, any code block will automatically render the Markdown bold syntax (`**bold text**`) as literal `**` within a code block.
-
-To then bold/italic certain parts of a command, the best option is to use HTML:
-
-**Output:**
-
-<pre>
-<b>cmo/create/</b>cmohex / / / hex
+<div class="markdown-example" id="example-text">
+<pre class="source">
+As an example, [this page](https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html) will take you to the same place as [clicking here](docs/commands/ADDMESH.html).
 </pre>
+<div class="rendered">
+As an example, <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">this page</a> will take you to the same place as <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">clicking here</a>.
+</div>
+</div>
 
-**Markdown representation:**
-
-	<pre>
-	<b>cmo/create/</b>cmohex / / / hex
-	</pre>
-
-
-## Inline Code ##
-
-
-
-## Metadata ##
-
-This is parsed by GitHub Pages and should be at the very top of each document.
-
-	---
-	title: "Example LaGriT Page"
-	---
-
-
-## Lists ##
-
-### 1. Bullet Lists ###
-
-**Output:**
-
-* Bullet #1
-* Bullet #2
-* ...
-* Bullet #N
-
-**Markdown representation:**
-
-	* Bullet #1
-	* Bullet #2
-	* ...
-	* Bullet #N
-
-### 2. Numbered Lists ###
-
-**Output:**
-
-1. Item #1
-2. Item #2
-3. ...
-4. Item #N
-
-**Markdown representation:**
-
-	1. Item #1
-	2. Item #2
-	3. ...
-	4. Item #N
-
-## Quote Blocks ##
-
-**Output:**
-
-> I shall be telling this with a sigh
-> 
-> Somewhere ages and ages hence:
-> 
-> Two roads diverged in a wood, and I—
-> 
-> I took the one less traveled by,
-> 
-> And that has made all the difference.
-
-
-**Markdown representation:**
-
-	> I shall be telling this with a sigh
-	> 
-	> Somewhere ages and ages hence:
-	> 
-	> Two roads diverged in a wood, and I—
-	> 
-	> I took the one less traveled by,
-	> 
-	> And that has made all the difference.
