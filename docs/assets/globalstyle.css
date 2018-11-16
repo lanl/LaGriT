@@ -29,6 +29,12 @@ body {
   font-size: 13px;
   font-weight: 300;
   background: white;
+  padding-top: 0px;
+}
+@media (max-width: 979px) {
+  body {
+    padding-top: 60px;
+  }
 }
 
 a, button { transition: all 0.3s ease; }
