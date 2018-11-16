@@ -92,13 +92,19 @@ Since part of the Markdown specification includes embedded HTML parsing, LaGriT 
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
+
+<!--
+GH Pages keeps trying to render this as HTML instead of raw code.
+So, we're going to have to escape the HTML tags to get them literally rendered...
+-->
+
 <code>
 
-    <pre>
-    <b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
-    <b>addmesh / amr</b> / mesh3 / mesh1 / mesh2 /
-    <b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
-    </pre>
+&lt;pre&gt;<br>
+&lt;b&gt;addmesh / add&lt;/b&gt; / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
+&lt;b&gt;addmesh / amr&lt;/b&gt; / mesh3 / mesh1 / mesh2 /
+&lt;b&gt;addmesh / append&lt;/b&gt; / mesh3 / mesh1 / mesh2 /
+&lt;/pre&gt;
 
 </code>
 </pre>
