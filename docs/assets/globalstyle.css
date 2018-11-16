@@ -29,6 +29,12 @@ body {
   font-size: 13px;
   font-weight: 300;
   background: white;
+  padding-top: 0px;
+}
+@media (max-width: 979px) {
+  body {
+    padding-top: 60px;
+  }
 }
 
 a, button { transition: all 0.3s ease; }
@@ -96,14 +102,18 @@ pre {
   font: 14px 'Source Code Pro', monospace;
   color: #111;
   border: 0;
-  background-color: #f9f9f9;
+  background-color: #F8F8F8;
   resize: none;
-  outline: 0;
-  margin: 10px 10px 10px 10px;
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 20px;
 }
 
 code {
   color: #111;
+  background-color: #F2F2F2;
+  padding: .1rem .3rem;
 }
 
 b,
