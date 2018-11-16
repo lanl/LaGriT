@@ -92,11 +92,11 @@ Since part of the Markdown specification includes embedded HTML parsing, LaGriT 
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
-```
-<b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
-<b>addmesh / amr</b> / mesh3 / mesh1 / mesh2 /
-<b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
-```
+
+    <b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
+    <b>addmesh / amr</b> / mesh3 / mesh1 / mesh2 /
+    <b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
+
 </pre>
 <div class="rendered">
 <pre>
