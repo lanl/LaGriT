@@ -32,7 +32,7 @@ AVS (`.inp` or `.avs`), Exodus (`.exo`), GMV (`.gmv`), LaGriT (`.lagrit` or `.lg
 ### Jump to file format: ###
 
 | [`avs`](#avs)       | [`avs2`](#avs2)  | [`chad`](#chad)  | [`coord`](#coord)  |  [`datex`](#datex) |
-|---|---|---|---|---|
+|---------------------|------------------|------------------|--------------------|--------------------|
 | [`elem_adj_*`](#elem_adj) | [`exo`](#exo)  | [`fehm`](#fehm)  | [`geofest`](#geofest)  | [`geom`](#geom)  |
 | [`gmv`](#gmv)  | [`gocad`](#gocad)  | [`lagrit`](#lagrit)  | [`pflotran`](#pflotran)  | [`recolor`](#recolor)  |
 | [`stl`](#stl)  | [`stor`](#stor)  | [`tecplot`](#tecplot)  | [`zone`](#zone)  |   |
@@ -317,10 +317,12 @@ The stor file is one of a set of files written when the fehm file type is called
 
 ### `TECPLOT` <a name="tecplot"></a>
 
-**dump / tecplot /** file_name 
+<pre>
+<b>dump / tecplot /</b> file_name 
+</pre>
 
 Write a file to be read by the Tecplot graphics package.  The output file is ascii. Only node attributes are output, element attributes are ignored and not output. Tecplot does not support prism or pyramid element types so they are written as eight node, degenerate hex elements. 
-The ioflag parameter is used to control if the node attributes are output or not is the AVS ioflag. The expected suffix for the file name is '.plt'. If a name is given without the .plt suffix, a suffix, .plt is added. 
+The ioflag parameter is used to control if the node attributes are output or not is the AVS ioflag. The expected suffix for the file name is `.plt`. If a name is given without the `.plt` suffix, a suffix `.plt` is added. 
 
 Output is ascii. This output format does not support output of a mesh with nodes but zero elements. If there are zero elements, a header is written but node coordinate information is not output.
 
@@ -328,7 +330,9 @@ Output is ascii. This output format does not support output of a mesh with nodes
 
 ### `ZONE` <a name="zone"></a>
 
-**dump / zone /** file_name/ [cmo_name] / [__**delatt**__  OR  **keepatt**]   [**keepatt_voronoi**  OR  **keepatt_median**] 
+<pre>
+<b>dump / zone /</b> file_name/ [cmo_name] / [delatt  OR  keepatt]   [keepatt_voronoi  OR  keepatt_median] 
+</pre>
 
 Write out a set of fehm format zone files for the mesh object nodes. These include zones for mesh materials and the external faces of the mesh as described below. The keepatt option will keep node attributes that tag nodes on external mesh boundaries (see zone_outside). 
 
@@ -336,36 +340,35 @@ The delatt option will delete the outside attributes if they exist (the are remo
 
 Files are written in FEHM format and are described in the dump/fehm command by [clicking here for details.](dump/DUMP3.md)
 
+---------------
 
-The *file_name* is used to create names for the following 5 files:
+The `file_name` is used to create names for the following 5 files:
 
-*file_name_material*.zone - node imt (material) zone lists ( see dump/zone_imt/... command)
-
-*file_name_outside*.zone - node external boundary zone lists (see dump/zone_outside/... command)
-
-*file_name_outside_vor*.area or file_name_outside_med.area - node external boundary area lists (see dump/zone_outside/... command)
-
-*file_name_interface*.zone - zone lists for nodes along material interfaces, 0 length file if mesh is single material 
-
-*file_name_multi_mat*.zone - lists of node pairs connected across material interfaces, 0 length file if mesh is single material 
+* `file_name_material.zone` - node imt (material) zone lists (see `dump/zone_imt/...` command)
+* `file_name_outside.zone` - node external boundary zone lists (see `dump/zone_outside/...` command)
+* `file_name_outside_vor.area` or file_name_outside_med.area - node external boundary area lists (see `dump/zone_outside/...` command)
+* `file_name_interface.zone` - zone lists for nodes along material interfaces, 0 length file if mesh is single material 
+* `file_name_multi_mat.zone` - lists of node pairs connected across material interfaces, 0 length file if mesh is single material 
 
 
+<pre>
+<b>dump / zone_imt /</b> file_name / [cmo_name] / [ imt_value ]   
+</pre>
 
-**dump / zone_imt /** file_name / [cmo_name] / [ imt_value ]   
-
-Will output only one file with name file_name_material.zone. 
+will output only one file with name file_name_material.zone. 
 It is written in FEHM zone format and are described by 
 [clicking here for details.](dump/DUMP3.md)
 
-*file_name_materia*.zone is node list for each integer material (imt) value. 
+`file_name_material.zone` is node list for each integer material (imt) value. 
 If the optional fifth argument is specified as an integer, then a node list file is written only listing the nodes with the value specified by imt_value. 
-[For options to output PSET's as ZONE/ZONN files see:](PSET.md) 
+For options to output PSET's as ZONE/ZONN files see [PSET](PSET.md).
 
-The zone_imt file is one of a set of files written when the fehm file type is called. 
+The `zone_imt` file is one of a set of files written when the fehm file type is called. 
 
-
-**dump / zone_outside**  OR  **zone_outside_minmax /** file_name /[cmo_name] / 
-[__**delatt**__  OR  **keepatt**]  [**keepatt_voronoi**  OR  **keepatt_median**] 
+<pre>
+<b>dump / zone_outside</b>  OR  <b>zone_outside_minmax /</b> file_name /[cmo_name] / 
+[delatt  OR  keepatt]  [keepatt_voronoi  OR  keepatt_median] 
+</pre>
 
 Write fehm zone format files that contain the outside node list and the associated outside area list. 
 
@@ -373,23 +376,18 @@ There are two files written:
 
 1. file_name_outside.zone is a node list for each of 6 possible external boundaries. 
 
-If keepatt is specified, then 6 node based attributes are added to the mesh object with the names top, bottom, left_w, right_e, back_n, and front_s. A node can occur in multiple zones. For instance, a node located on a top corner of the mesh can be found in zones for top, front_s, and left_w.
+If keepatt is specified, then 6 node based attributes are added to the mesh object with the names `top`, `bottom`, `left_w`, `right_e`, `back_n`, and `front_s`. A node can occur in multiple zones. For instance, a node located on a top corner of the mesh can be found in zones for `top`, `front_s`, and `left_w`.
 
-1 = top = top = positive z direction (0,0,1) 
-
-2 = bottom = bottom = negative z direction (0,0,-1) 
-
-3 = left_w = left or west = negative x direction (-1,0,0) 
-
-4 = front_s = front or south = negative y direction (0,-1,0) 
-
-5 = right_e = right or east = positive x direction (1,0,0) 
-
-6 = back_n = back or north = positive y direction (0,1,0) 
+* 1 = top = top = positive z direction (0,0,1) 
+* 2 = bottom = bottom = negative z direction (0,0,-1) 
+* 3 = left_w = left or west = negative x direction (-1,0,0) 
+* 4 = front_s = front or south = negative y direction (0,-1,0) 
+* 5 = right_e = right or east = positive x direction (1,0,0) 
+* 6 = back_n = back or north = positive y direction (0,1,0) 
 
 
-2. file_name_outside_vor.area is a list of Voronoi area vectors (Ax_i,Ay_i,Az_i) associated with each external node. 
-It is written to match the node lists as written in the outside.zone file. Along with each outside zone tag (such as top), there is a sum of each vector for that zone. For applications such as infiltration, the z component (each 3rd value) would be used from the top zone list. 
+2. `file_name_outside_vor.area` is a list of Voronoi area vectors `(Ax_i,Ay_i,Az_i)` associated with each external node. 
+It is written to match the node lists as written in the `outside.zone` file. Along with each outside zone tag (such as top), there is a sum of each vector for that zone. For applications such as infiltration, the z component (each 3rd value) would be used from the top zone list. 
 
 ```
 00001  top   Sum VORONOI vectors:  0.5000000E+00 0.5000000E+00 0.5000000E+00
@@ -399,14 +397,14 @@ nnum
    0.000000000000E+00   2.500000000000E-01   1.250000000000E-01
 ```
 
-If the keyword keepatt_voronoi is specified, three node attributes (xn_varea, yn_varea, zn_varea) representing the voronoi area are added.
-If the keyword keepatt_median is specified, three node attributes (xn_marea, yn_marea, zn_marea) representing the median area are added and the file name will be file_name_outside_med.area. 
+If the keyword keepatt_voronoi is specified, three node attributes `(xn_varea, yn_varea, zn_varea)` representing the voronoi area are added.
+If the keyword keepatt_median is specified, three node attributes `(xn_marea, yn_marea, zn_marea)` representing the median area are added and the file name will be file_name_outside_med.area. 
 Note that the old version file name file_name_outside.area has area vectors computed with the median strategy.
 
-The option **zone_outside_minmax** is used to find the min and max external node along each row and column of the regular grid.
-<a href="../../images/zone_outside.png" target="_blank">Click here for image </a> showing difference between the default and the minmax options for outside nodes. 
+The option `zone_outside_minmax` is used to find the min and max external node along each row and column of the regular grid.
+<a href="../../images/zone_outside.png" target="_blank">Click here for an image </a> showing difference between the default and the minmax options for outside nodes. 
 
-These zone_outside files are part of a set of files written when the zone or fehm file type is called. The fehm zone format and descriptions are  in the **dump/fehm** command details. 
+These zone_outside files are part of a set of files written when the zone or fehm file type is called. The fehm zone format and descriptions are  in the `dump/fehm` command details. 
 
 
 ## EXAMPLES: ##
