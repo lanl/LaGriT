@@ -7,7 +7,7 @@ title: LaGriT - Home
 <div class="extended-content-container">
   <div class="extended-content">
   
-    Powerful mesh generation,<br>optimization, and maintenance.<br><br>
+    <br>Powerful mesh generation,<br>optimization, and maintenance.<br>
                 
     <div class="button" id="button-3">
     <div id="circle"></div>
