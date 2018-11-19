@@ -2,6 +2,8 @@
 title: LaGriT - Home
 ---
 
+<link rel="stylesheet" href="{{ "/assets/css/index_page_style.css" | relative_url }}">
+
 <div class="extended-content-container">
   <div class="extended-content">
   
