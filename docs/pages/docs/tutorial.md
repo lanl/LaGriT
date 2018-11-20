@@ -176,8 +176,8 @@ assign two materials, `mattop` and `matbot`, to the regions `top` and
 *bottom:*
 
 <pre>
-<b>mregion/ mattop/ <b>le</b> cube <b>and gt</b> cutplane /
-<b>mregion/ matbot/ <b>le</b> cube <b>and lt</b> cutplane /
+<b>mregion/ mattop/ le</b> cube <b>and gt</b> cutplane /
+<b>mregion/ matbot/ le</b> cube <b>and lt</b> cutplane /
 </pre>
 
 -----------------------
