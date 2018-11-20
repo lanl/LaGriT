@@ -154,6 +154,7 @@ input[type=text] {
   -webkit-transition: all .5s;
   -moz-transition: all .5s;
   transition: all .5s;
+  color: #999999;
 }
 input[type=text]:focus {
   width: 130px;
