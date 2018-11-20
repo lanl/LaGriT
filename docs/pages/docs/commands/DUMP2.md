@@ -5,6 +5,8 @@ categories: files
 
 # DUMP #
 
+--------------------------------------------
+
 This command produces an output file from a Mesh Object. Some of the standard graphics packages are supported including AVS, GMV and TECPLOT. See below for full list of file types that can be written. The list is in alphabetic order and describes each valid file_type with syntax and usage. 
 
 ## GENERAL SYNTAX: ##
