@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width,maximum-scale=2">
     <meta name="description" content="{{ site.title | default: site.github.repository_name }} : {{ site.description | default: site.github.project_tagline }}">
+    
+    <title>{{ page.title | default: site.title }}</title>
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
 
     <!-- Load Google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
@@ -72,8 +75,8 @@
 
 
                             <!-- Search bar -->
-                            <ul class="nav navbar-nav ml-auto">
-                                <form class="form-inline my-2 my-md-0" action="https://lanl.github.io/LaGriT/search/"> <!-- id="searchform" -->
+                            <ul class="nav navbar-nav ml-auto" style="background-color: #222429;">
+                                <form class="form-inline my-2 my-md-0" action="https://lanl.github.io/LaGriT/search/">
                                     <input type="text" name="q" placeholder="Search" id="tipue_search_input" autocomplete="off" required>
                                 </form>
                             </ul>

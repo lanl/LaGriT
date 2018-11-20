@@ -8,12 +8,13 @@
     
 .extended-content {
     width:100%;
-    height: 200px;
+    height: 100%;
     background-color:#68A5F3;
     text-align:center;
     color: white;
     font-size: 20pt;
 }
+
 /*
     Button Styles
     Inspired by 'CSS Button Animations' by Alex Loomer
