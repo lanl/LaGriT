@@ -4,7 +4,7 @@ title: "LaGriT Tutorial"
 
 # Tutorial
 -----------------------
-## *Generating Initial Grids Using the LaGriT Command Language* ##
+### **Generating Initial Grids Using the LaGriT Command Language** ###
 
 The steps involved in generating three dimensional grids in the LaGriT command language are:
  
@@ -25,7 +25,7 @@ an asterisk (*) are comments; keywords are in **bold**.
 ---------------------------------
 
 
- ## 1. Define mesh objects ##
+## 1. Define mesh objects ##
 
 Define all Mesh Objects to be used in this problem using the [**`cmo/create`**](commands/cmo/cmo_create.md) command. The [**`cmo/create`**](commands/cmo/cmo_create.md) command establishes an
 empty Mesh Object data structure ([see Section III.a](meshobject.md) for a description).
@@ -113,77 +113,81 @@ and interface surfaces:
 
 --------------------------------------
 
- **4. Divide the enclosing volumes into regions**
+## 4. Divide the enclosing volumes into regions
 
-The [**region**](commands/REGION.md) command is used to divide the
-enclosing volume into regions. The directional operators **lt**, **le**,
-**gt**, ** ** and **ge** are applied to previously defined surfaces
+The [**`region`**](commands/REGION.md) command is used to divide the
+enclosing volume into regions. The directional operators `lt`, `le`,
+`gt`, and `ge` are applied to previously defined surfaces
 according to the following rules.
 
-**lt --** if the surface following is a volume then **lt** means inside
+
+* `lt` -- if the surface following is a volume then `lt` means inside
 not including the surface of the volume. If the surface is a plane or a
-sheet **lt** means the space on the side of the plane or sheet opposite
+sheet `lt` means the space on the side of the plane or sheet opposite
 to the normal not including the plane or sheet itself.
 
-**le --** if the surface following is a volume then **le** means inside
+* `le` -- if the surface following is a volume then `le` means inside
 including the surface of the volume. If the surface is a plane or a
-sheet **le** means the space on the side of the plane or sheet opposite
+sheet `le` means the space on the side of the plane or sheet opposite
 to the normal including the plane or sheet itself.
 
-**gt --** if the surface following is a volume then **gt** means outside
+* `gt` -- if the surface following is a volume then `gt` means outside
 not including the surface of the volume. If the surface is a plane or a
 sheet **gt** means the space on the same side of the plane or sheet as
 the normal not including the plane or sheet itself.
 
-**ge --** if the surface following is a volume then **ge** means outside
+* `ge` -- if the surface following is a volume then `ge` means outside
 including the surface of the volume. If the surface is a plane or a
-sheet **ge** means the space on the same side of the plane or sheet as
+sheet `ge` means the space on the same side of the plane or sheet as
 the normal including the plane or sheet itself.
 
 In region comands, surface names must be preceeded by a directional
-operator. The logical operators **or**, **and**, and **not** mean union,
+operator. The logical operators `or`, `and`, and `not` mean union,
 intersection and complement respectively. Parentheses are operators and
 are used for nesting. Spaces are required as delimiters to separate
 operators and operands. To define the two regions created by the plane
 bisecting the unit cube:
 
-**region**/top/ **le** cube **and** **gt** cutplane 
+<pre>
+<b>region/top</b>/ <b>le</b> cube <b>and gt</b> cutplane
+<b>region/bottom</b>/ <b>le</b> cube <b>and le</b> cutplane
+</pre>
 
-**region**/bottom **/ le** cube **and le** cutplane 
-
-The region *bottom* contains the interface *cutplane*; top contains none
+The region `bottom` contains the interface *cutplane*; top contains none
 of the interface. Interior interfaces must be included in one and only
 one region.
 
 If a region touches an external boundary, include the surface that
 defines the enclosing volume in region and mregion commands. For
-example, the regions *top* and *bottom* are enclosed by the surface
+example, the regions `top` and `bottom` are enclosed by the surface
 *cube*
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image224.gif">
 
 -------------------
 
- **5. Assign material types to the regions**
+### 5. Assign material types to the regions
 
 Assign materials to regions using
-the [**mregion**](commands/MREGION.md) command. This command has
-similar syntax to the **[region](commands/REGION.md)** command except
+the [**`mregion`**](commands/MREGION.md) command. This command has
+similar syntax to the [**`region`**](commands/REGION.md) command except
 that the interface should not be assigned to any material region. To
-assign two materials, *mattop* and *matbot,* to the regions *top* and
+assign two materials, `mattop` and `matbot`, to the regions `top` and
 *bottom:*
 
-**mregion**/ mattop/ **le** cube **and gt** cutplane /
-
-**mregion**/ matbot/ **le** cube **and lt** cutplane /
+<pre>
+<b>mregion/ mattop/ <b>le</b> cube <b>and gt</b> cutplane /
+<b>mregion/ matbot/ <b>le</b> cube <b>and lt</b> cutplane /
+</pre>
 
 -----------------------
 
 
- **6. Distribute points within the volume**
+### 6. Distribute points within the volume
 
 There are many methods of distributing points within a volume.  For
-simple geometries refer to the [createpts](createpts.md) command. 
+simple geometries refer to the [`createpts`](createpts.md) command. 
+
 This example uses the regnpts command which, although more complicated,
 provides greate flexibility.  Points are distributed within regions
 using Cartesian, cylindrical or spherical coordinates by constructing
@@ -193,123 +197,91 @@ coordinates. The rays are specified by defining a set of points and a
 plane. For each point in the set, a ray is constructed normal to the
 plane passing through the point. In general rays are constructed in
 sets, each set is specified by a single plane and a set of points. The
-**createpts** command is used to create the points. The[regnpts](REGNPTS.md) command is used to specify the plane, to specify
+**`createpts`** command is used to create the points. The
+[`regnpts`](REGNPTS.md) command is used to specify the plane, to specify
 the region, and to specify the number of points to be distributed along
-the rays. The points and the plane should lie outside the enclosing
+the rays.
+
+The points and the plane should lie outside the enclosing
 volume and on opposite sides. The normal to the plane should point
 toward the point. As rays are created, if they do not pass through the
 specified region, no points are distributed. Points may be spaced evenly
-along the ray or they may be spaced according to a ratio. The following
-commands will place points in the unit cube.
+along the ray or they may be spaced according to a ratio.
 
- 
+The following commands will place points in the unit cube.
 
-* create 25 points (5x5x1) in a plane above the unit cube
+    # create 25 points (5x5x1) in a plane above the unit cube
+    # place points on the boundaries in the x and y directions (1,1,0)
+    createpts/xyz/5,5,1/0.,0.,1.1/1.,1.,1.1/1,1,0/
+    
+    # give the points defined by the createpts command the name, rayend
+    pset/rayend/seq/1,0,0/
 
-* place points on the boundaries in the x and y directions (1,1,0)
+<img height="300" width="300" src="https://lagrit.lanl.gov/docs/new_html/Image226.gif">
 
-**createpts** **/xyz**/5,5,1/0.,0.,1.1/1.,1.,1.1/1,1,0
+    # create rays between points in rayend and the plane below the cube
+    # distribute 3 points along these rays in the region top
+    # add one point at the upper external boundary for each ray
+    regnpts/top/3/pset,get,rayend/xyz/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/0,0/
 
-* give the points defined by the **createpts** command the name,
-*rayend*
+<img height="300" width="300" src="https://lagrit.lanl.gov/docs/new_html/Image227.gif">
 
-**pset/rayend/seq/1,0,0**/
+    # distribute 4 points along these rays in the region *bottom*
+    # add one point at the lower external boundary for each ray
+    # add one point at the material interface for each ray since
+    # *bottom* contains the interface - a total of 5 points for each ray.
+    # points will be distributed such that the ratio of distances between
+    # any two consecutive pairs of points is 0.6 traveling from the source
+    # of the ray (the plane) to the ray end.
+    
+    regnpts/bottom/4/pset,get,rayend/xyz/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/1,.6/
 
-<img height="300" width="300" src="Image226.gif">"283" "208"
+<img height="300" width="300" src="https://lagrit.lanl.gov/docs/new_html/Image228.gif">
 
-* create rays between points in *rayend* and the plane below the cube
+Other versions of the **`regnpts`** are appropriate for cylindrical and
+spherical geometries. For cylindrical geometries the **`createpts`**
+command specifies points in a cylindrical shell outside the volume.
 
-* distribute 3 points along these rays in the region *top*
-
-* add one point at the upper external boundary for each ray
-
-* will get 4 points total along each ray in region *top*
-
-* "**pset**,**get**,rayend" refers to all the points named *rayend*
-
-* the three points: (0.,0.,-.1), (0.,1.,-.1), (1.,1.,-.1)
-
-* define a plane whose normal points toward the *rayend* points
-
-**regnpts**/top/3**/pset**,**get**,rayend**/xyz**/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/0,0
-
-<img height="300" width="300" src="Image227.gif">"342" "270"
-
-* distribute 4 points along these rays in the region *bottom*
-
-* add one point at the lower external boundary for each ray
-
-* add one point at the material interface for each ray since
-
-* *bottom* contains the interface - a total of 6 points for each ray.
-
-* points will be distributed such that the ratio of distances between
-
-* any two consecutive pairs of points is 0.6, traveling from the source
-
-* of the ray (the plane) to the ray end.
-
-**regnpts**/bottom/4**/pset**,**get**,rayend**/xyz**/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/1,.6
-
-<img height="300" width="300" src="Image228.gif">"347" "308"
-
-Other versions of the **regnpts** are appropriate for cylindrical and
-spherical geometries. For cylindrical geometries the **createpts**
-command specifies points in a cylindrical shell outside the volume. The
-**regnpts** command specifies a line (usually the cylinder axis), and
+The **`regnpts`** command specifies a line (usually the cylinder axis), and
 the rays are constructed normal to this line and containing one of the
-**createpts** points. For spherical geometries the **createpts** command
-specifies points in a spherical shell outside the volume. The
-**regnpts** command specifies a point (usually the center of the sphere)
-from which rays are constructed to the **createpts** points.
+**createpts** points. For spherical geometries the **`createpts`** command
+specifies points in a spherical shell outside the volume. The **regnpts**
+command specifies a point (usually the center of the sphere)
+from which rays are constructed to the **`createpts`** points.
 
 ----------------------------
 
-**7. Connect the points into tetrahedra**
+### 7. Connect the points into tetrahedra
 
 The mesh designer may use the following set of command to connect the
 points into a tetrahedral mesh:
 
-* eliminate coincident or nearly coincident points
-
-* 1,0,0 means consider all points
-
-**[filter](commands/FILTER.md)/1,0,0**/
-
-* rayend points are set to invisible (21 is the code for invisible)
-
-* they were used as end points of the rays in the regnpts command
-
-**[cmo](commands/cmo/cmo_setatt.md)/setatt//itp/pset,get,rayend/21**/
-
-* assign material colors to the points
-
-* identify points that are on material interfaces
-
-* identify constrained points
-
-**[setpts](commands/SETPTS.md)**
-
-* connect the points into a Delaunay tetrahedral mesh
-
-* do not connect across material interfaces - add points if necessary
-o resolve material interfaces
-
-**[connect](commands/CONNECT1.md)**
-
-* set element (tetrahedral) color
-
-* spawn child points at material interfaces
-
-**[settets](commands/SETTETS.md)**
-
-* dump mesh to some output form
-
-**dump** **/gmv**/filename
-
-* terminate processing
-
-**[finish](commands/FINISH.md)**
+    # eliminate coincident or nearly coincident points
+    # 1,0,0 means consider all points
+    filter/1,0,0/
+    
+    # rayend points are set to invisible (21 is the code for invisible)
+    # they were used as end points of the rays in the regnpts command
+    cmo/setall//itp/pset,get,rayend/21/
+    
+    # assign material colors to the points
+    # identify points that are on material interfaces
+    # identify constrained points
+    setpts
+    
+    # connect the points into a Delaunay tetrahedral mesh
+    # do not connect across material interfaces -
+    # add points if necessary to resolve material interfaces
+    connect
+    
+    # set element (tetrahedral) type
+    settets
+    
+    # dump mesh to some output form
+    dump/gmv/filename
+    
+    # terminate processing
+    finish
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image229.gif">
 
