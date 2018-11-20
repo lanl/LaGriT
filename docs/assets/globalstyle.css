@@ -96,6 +96,12 @@ ol, ul {
   color: #333;
 }
 
+@media (max-width: 979px) {
+  ol, ul {
+    background-color: #222429;
+  }
+}
+
 pre {
   display: inline-block;
   width: 100%;
@@ -197,6 +203,22 @@ input::-webkit-input-placeholder {
 }
 #searchform input::-webkit-input-placeholder {
   color: transparent;
+}
+
+@media (max-width: 979px) {
+  input[type=text] {
+    width: 100%;
+    border: 0px;
+    margin: 5px 5px 5px 5px;
+    background-color: #626262;
+
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+    border-radius: 0.5em;
+  }
+  input[type=text]:focus {
+    width: 100%;
+  }
 }
 
 
