@@ -31,7 +31,7 @@ body {
   background: white;
   padding-top: 0px;
 }
-@media (max-width: 979px) {
+@media (max-width: 991px) {
   body {
     padding-top: 60px;
   }
@@ -96,7 +96,7 @@ ol, ul {
   color: #333;
 }
 
-@media (max-width: 979px) {
+@media (max-width: 991px) {
   ol, ul {
     background-color: #222429;
   }
@@ -205,7 +205,7 @@ input::-webkit-input-placeholder {
   color: transparent;
 }
 
-@media (max-width: 979px) {
+@media (max-width: 991px) {
   input[type=text] {
     width: 100%;
     border: 0px;
