@@ -96,12 +96,6 @@ ol, ul {
   color: #333;
 }
 
-@media (max-width: 991px) {
-  ol, ul {
-    background-color: #222429;
-  }
-}
-
 pre {
   display: inline-block;
   width: 100%;
