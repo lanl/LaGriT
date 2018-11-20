@@ -1,0 +1,109 @@
+.extended-content-container {
+    width: 125.5%;
+    margin-left: -13%;
+    margin-bottom: 50px;
+    background-color:#68A5F3;
+    padding: 20px;
+}
+    
+.extended-content {
+    width:100%;
+    height: 200px;
+    background-color:#68A5F3;
+    text-align:center;
+    color: white;
+    font-size: 20pt;
+}
+/*
+    Button Styles
+    Inspired by 'CSS Button Animations' by Alex Loomer
+    
+    https://codepen.io/atloomer/pen/JEaRWX
+*/
+
+.button {
+  display: inline-flex;
+  height: 40px;
+  width: 165px;
+  /*border: 2px solid #BFC0C0;*/
+  margin: 20px 20px 20px 20px;
+  color: #BFC0C0;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 10pt;
+  letter-spacing: 1.5px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+    
+/* Third Button */
+
+#button-3 {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid white;
+  background: #3570B3;
+}
+
+#button-3 a {
+  position: relative;
+  transition: all .45s ease-Out;
+  color: white;
+}
+
+#circle {
+  width: 0%;
+  height: 0%;
+  opacity: 0;
+  line-height: 40px;
+  border-radius: 50%;
+  background: #F0D451;
+  position: absolute;
+  transition: all .5s ease-Out;
+  top: 20px;
+  left: 70px;
+}
+
+#button-3:hover #circle {
+  width: 200%;
+  height: 500%;
+  opacity: 1;
+  top: -70px;
+  left: -70px;
+}
+
+#button-3:hover a {
+  color: #2D3142;
+}
+
+/* Fourth Button */
+
+#button-4 {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+#button-4 a {
+  position: relative;
+  transition: all .45s ease-Out;
+  color: white;
+}
+
+#underline {
+  width: 100%;
+  height: 2.5px;
+  margin-top: 15px;
+  align-self: flex-end;
+  left: -200px;
+  background: #F0D451;
+  position: absolute;
+  transition: all .3s ease-Out;
+  bottom: 0;
+}
+
+#button-4:hover #underline {
+  left: 0;
+}

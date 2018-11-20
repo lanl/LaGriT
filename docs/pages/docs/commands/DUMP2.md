@@ -5,6 +5,8 @@ categories: files
 
 # DUMP #
 
+--------------------------------------------
+
 This command produces an output file from a Mesh Object. Some of the standard graphics packages are supported including AVS, GMV and TECPLOT. See below for full list of file types that can be written. The list is in alphabetic order and describes each valid file_type with syntax and usage. 
 
 ## GENERAL SYNTAX: ##
@@ -33,13 +35,13 @@ AVS (`.inp` or `.avs`), Exodus (`.exo`), GMV (`.gmv`), LaGriT (`.lagrit` or `.lg
 
 | [`avs`](#avs)       | [`avs2`](#avs2)  | [`chad`](#chad)  | [`coord`](#coord)  |  [`datex`](#datex) |
 |---------------------|------------------|------------------|--------------------|--------------------|
-| [`elem_adj_*`](#elem_adj) | [`exo`](#exo)  | [`fehm`](#fehm)  | [`geofest`](#geofest)  | [`geom`](#geom)  |
+| [`elem_adj_*`](#elem_adj) | [`exo`](#exodus)  | [`fehm`](#fehm)  | [`geofest`](#geofest)  | [`geom`](#geom)  |
 | [`gmv`](#gmv)  | [`gocad`](#gocad)  | [`lagrit`](#lagrit)  | [`pflotran`](#pflotran)  | [`recolor`](#recolor)  |
 | [`stl`](#stl)  | [`stor`](#stor)  | [`tecplot`](#tecplot)  | [`zone`](#zone)  |   |
 
 <br>
 
-### `AVS` <a name="avs"></a>
+### **`AVS`** <a name="avs"></a>
 
 <pre>
 <b>dump / avs</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
@@ -61,7 +63,7 @@ For a description of the AVS file format see the [`read/avs` command](../read_av
 
 <br>
 
-### `AVS-2` <a name="avs2"></a>
+### **`AVS-2`** <a name="avs2"></a>
 
 <pre>
 <b>dump / avs2</b> / file_name/[cmo_name]/[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes]
@@ -71,7 +73,7 @@ This option will output integers as integers instead of floating point. The othe
 
 <br>
 
-### `CHAD` <a name="chad"></a>
+### **`CHAD`** <a name="chad"></a>
 
 <pre>
 <b>dump / chad</b> / file_name /[cmo_name]/ 
@@ -81,7 +83,7 @@ Will output a file nodes, faces, and connectivity for tet, hex, pyr, or pri in C
 
 <br>
 
-### `COORD` <a name="coord"></a>
+### **`COORD`** <a name="coord"></a>
 
 <pre>
 <b>dump / coord</b> / file_name /[cmo_name]/
@@ -95,7 +97,7 @@ The coord file is one of a set of files written when the fehm file type is calle
 
 <br>
 
-### `DATEX` <a name="datex"></a>
+### **`DATEX`** <a name="datex"></a>
 
 <pre>
 <b>dump / datex</b>  OR  <b>simul</b> / file_name / [cmo_name]
@@ -105,7 +107,7 @@ will output a file with Geometry, Element, Region, Location, and Dataset in DATE
 
 <br>
 
-### `ELEM_ADJ_ELEM` && `ELEM_ADJ_NODE` <a name="elem_adj"></a>
+### **`ELEM_ADJ_ELEM` && `ELEM_ADJ_NODE`** <a name="elem_adj"></a>
 
 <pre>
 <b>dump / elem_adj_elem</b> / file_name* / mo_name / [ <b>delatt</b>  OR  <b>keepatt</b>  OR  <b>attonly</b> ]
@@ -128,7 +130,7 @@ File format: `node_number number_of_adjacent_elem e1 e2 ... en`
 
 <br>
 
-### `Exodus` <a name="exodus"></a>
+### **`Exodus`** <a name="exodus"></a>
 
 <pre>
 <b>dump / exo</b>  OR  <b>exodusii</b> / file_name / mo_name [ psets ] / [ eltsets] / [ facesets file1 file2 ... filen ] 
@@ -145,7 +147,7 @@ Click here for [more details on options and files that are written for ExodusII]
 
 <br>
 
-### `FEHM` <a name="fehm"></a>
+### **`FEHM`** <a name="fehm"></a>
 
 <pre>
 <b>dump/ fehm</b> / rootname / cmo\_name / [ optional keywords ]
@@ -184,7 +186,7 @@ Click here for the [FEHM style STOR file format.](../STOR_Form.md)
 
 <br>
 
-### `GEOFEST` <a name="geofest"></a>
+### **`GEOFEST`** <a name="geofest"></a>
 
 <pre>
 <b>dump/ geofest /</b> file_name 
@@ -194,7 +196,7 @@ Write a file to be read by the GeoFEST, Geophysical Finite Element Simulation To
 
 <br>
 
-### `GEOM` <a name="geom"></a>
+### **`GEOM`** <a name="geom"></a>
 
 <pre>
 <b>dump / geom /</b> file_name 
@@ -204,7 +206,7 @@ will write an ascii file containing the geometry information for the current run
 
 <br>
 
-### `GMV` <a name="gmv"></a>
+### **`GMV`** <a name="gmv"></a>
 
 <pre>
 <b>dump / gmv /</b> file_name / [mesh-object] / [binary OR ascii] 
@@ -218,7 +220,7 @@ For more on GMV visit: http://www.generalmeshviewer.com
 
 <br>
 
-### `GOCAD` <a name="gocad"></a>
+### **`GOCAD`** <a name="gocad"></a>
 
 <pre>
 <b>dump / gocad /</b> file_name 
@@ -228,7 +230,7 @@ Write a gocad TSURF file.
 
 <br>
 
-### `LaGriT` <a name="lagrit"></a>
+### **`LaGriT`** <a name="lagrit"></a>
 
 <pre>
 <b>dump / lagrit /</b> file_name / [cmo_name]/ [binary OR ascii] 
@@ -238,7 +240,7 @@ Write a LaGriT restart file that contains geometry and mesh object information. 
 
 <br>
 
-### `PFLOTRAN` <a name="pflotran"></a>
+### **`PFLOTRAN`** <a name="pflotran"></a>
 
 <pre>
 <b>dump / pflotran</b> / file_name_root / cmo_name / 
@@ -275,7 +277,7 @@ id_up_M id_dn_M x_M y_M z_M area_M
 
 <br>
 
-### `RECOLOR` <a name="recolor"></a>
+### **`RECOLOR`** <a name="recolor"></a>
 
 <pre>
 <b>dump / recolor /</b> file_name 
@@ -285,7 +287,7 @@ This command writes the existing colormap to the specified file.  [See colormap 
 
 <br>
 
-### `STL` <a name="stl"></a>
+### **`STL`** <a name="stl"></a>
 
 <pre>
 <b>dump / stl /</b> file_name 
@@ -295,7 +297,7 @@ Output in STL, stereo lithography format. This is only supported for triangle me
 
 <br>
 
-### `STOR` <a name="stor"></a>
+### **`STOR`** <a name="stor"></a>
 
 <pre>
 <b>dump / stor /</b> file_name_root / cmo_name /
@@ -315,7 +317,7 @@ The stor file is one of a set of files written when the fehm file type is called
 
 <br>
 
-### `TECPLOT` <a name="tecplot"></a>
+### **`TECPLOT`** <a name="tecplot"></a>
 
 <pre>
 <b>dump / tecplot /</b> file_name 
@@ -328,7 +330,7 @@ Output is ascii. This output format does not support output of a mesh with nodes
 
 <br>
 
-### `ZONE` <a name="zone"></a>
+### **`ZONE`** <a name="zone"></a>
 
 <pre>
 <b>dump / zone /</b> file_name/ [cmo_name] / [delatt  OR  keepatt]   [keepatt_voronoi  OR  keepatt_median] 
