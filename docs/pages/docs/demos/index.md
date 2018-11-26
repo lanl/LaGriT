@@ -1,9 +1,21 @@
 ---
-title: Demo Index
-tags: ok
+title: LaGriT Examples and Demos
 ---
 
-**LaGriT Examples and Demos**
+# LaGriT Examples and Demos
+-----------------------------------------
+
+|                                  |                            |   |   |   |
+|:----------------------------------:|:----------------------------:|:---:|:---:|:---:|
+| [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![`alt text`][recon2d] |
+| [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![`alt text`][recon2d] |
+| [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![`alt text`][recon2d] |
+| [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![alt text][recon2d] | [`2d_connect`](main_2d_connect.md)<br>![`alt text`][recon2d] |
+
+[recon2d]: https://lagrit.lanl.gov/docs/demos/2d_recon/test/html/image/image1_tn.gif "2d_recon"
+
+
+
 
 [2d_connect](main_2d_connect.md)
 
