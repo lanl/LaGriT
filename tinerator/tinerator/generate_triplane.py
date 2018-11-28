@@ -8,6 +8,7 @@ import os
 import numpy as np
 from numpy import genfromtxt, sqrt, cos, arcsin
 from tinerator.dump import callLaGriT
+from tinerator.lg_infiles import Infiles
 import pylagrit
 from copy import deepcopy
 from scipy import interpolate
@@ -109,7 +110,7 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
 
     # Generate sheet metadata
     dem_dimensions = [dem.ncols,dem.nrows]
-    lower_left_corner = [dem.xll_corner, dem.yll_corner]
+    lower_left_corner = [dem.xll_corner,dem.yll_corner]
     cell_size = [dem.cell_size,dem.cell_size]
 
     # Overwrite original mesh if a path isn't provided
@@ -125,7 +126,7 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     _dem = np.ma.masked_invalid(_dem)
     xx, yy = np.meshgrid(np.arange(0,_dem.shape[1]),np.arange(0,_dem.shape[0]))
 
-    #get only the valid values
+    # Get only the valid values
     x1 = xx[~_dem.mask]
     y1 = yy[~_dem.mask]
     newarr = _dem[~_dem.mask]
@@ -138,7 +139,8 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     _dem.filled().tofile(_array_out,sep=' ',format='%.3f')
 
     # Read DEM as a quad mesh
-    tmp_sheet = lg.read_sheetij('surfacemesh', _array_out, dem_dimensions,lower_left_corner, cell_size, flip=flip)
+    tmp_sheet = lg.read_sheetij('surfacemesh',_array_out,dem_dimensions,
+                                lower_left_corner,cell_size,flip=flip)
 
     # Remove no_data_value elements
     comp = 'le' if dem.no_data_value <= 0. else 'ge'
@@ -155,7 +157,7 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     # Load triplane && interpolate z-values onto mesh
     triplane = lg.read(triplane_path,name='triplanemesh')
     triplane.addatt('z_new')
-    triplane.interpolate('continuous', 'z_new', tmp_sheet, 'z_elev')
+    triplane.interpolate('continuous','z_new',tmp_sheet,'z_elev')
     triplane.copyatt('z_new','zic')
     triplane.delatt('z_new')
     tmp_sheet.delete()
@@ -164,19 +166,31 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
 
 
 def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
-                 outfile:str,layer:int,dem_dimensions:list,lower_left_corner:list,
-                 cell_size:list,number_of_layers:int,flip:str='y',no_data_value:float=np.nan):
+                 outfile:str,dem_dimensions:list,lower_left_corner:list,
+                 cell_size:list,number_of_layers:int,flip:str='y',
+                 no_data_value:float=np.nan,attribute_name:str=None,
+                 layers:int=None):
     '''
+    Adds an attribute to the stacked mesh, over one or more layers. Default is all.
+    Data must be an NxM matrix - it does not necessarily have to be the same size at the DEM,
+    but is recommended as it will be streched to span the domain of it.
 
-    Given a triplane mesh and a tinerator.DEM instance, this function will 
-    map elevation data from the array to the triplane mesh.
+    attribute_name will be the element-based attribute the data is written into.
+    The default is 'material ID', but can be changed to any
+    [a-z][A-Z][0-9] string (outside of reserved LaGriT keywords).
 
-    :param pylagrit.PyLaGriT lg:
-    :param str triplane: filepath to mesh to add 
+    :param data:
+    :type data:
+    :param layers:
+    :type layers:
+    :param attribute_name:
+    :type attribute_name:
+    :param outfile:
+    :type outfile:
+    :param flip:
+    :type flip:
+
     '''
-
-    start = layer - 1
-    end = layer
 
     data = imresize(data,(dem_dimensions[1],dem_dimensions[0]),interp='nearest')
 
@@ -213,18 +227,37 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
     tmp_sheet.delete()
 
     stacked_mesh = lg.read(stacked_mesh_infile)
+
+    # Default to material_id - 'itetclr'
+    if attribute_name is not None:
+        stacked_mesh.addatt(attribute_name,length='nelements')
+    else:
+        attribute_name = 'itetclr'
+
     info = stacked_mesh.information()
     v = info['elements'] // number_of_layers
 
     lg.sendline('cmo/addatt/'+stacked_mesh.name+'/eslayer/VINT/scalar/nelements/linear/permanent/gxaf/0.0')
-    lg.sendline('cmo/setatt/ %s eslayer 1' % stacked_mesh.name)
-    lg.sendline('cmo/setatt/ %s eslayer/ %d,%d 2' % (stacked_mesh.name,v*start,v*end))
 
-    test_elt = stacked_mesh.eltset_attribute('eslayer',2)
+    if isinstance(layers,(int,float)):
+        layers = [layers]
+    elif layers is None:
+        layers = list(range(1,number_of_layers+1))
 
-    stacked_mesh.addatt('soiltype',length='nelements')
+    if not all(isinstance(x,int) for x in layers):
+        raise ValueError('layers contains non-conforming data')
 
-    lg.sendline('interpolate/map/%s,soiltype/eltset,get,%s/%s,esatt' % (stacked_mesh.name,test_elt.name,extrusion.name))
+    for layer in layers:
+        start = layer - 1
+        end = layer
+
+        lg.sendline('cmo/setatt/ %s eslayer 1' % stacked_mesh.name)
+        lg.sendline('cmo/setatt/ %s eslayer/ %d,%d 2' % (stacked_mesh.name,v*start,v*end))
+
+        test_elt = stacked_mesh.eltset_attribute('eslayer',2)
+
+        lg.sendline('interpolate/map/%s,%s/eltset,get,%s/%s,esatt' % (stacked_mesh.name,attribute_name,test_elt.name,extrusion.name))
+
     extrusion.delete()
     os.remove('_temp_attrib_array.dat')
 
@@ -314,72 +347,38 @@ def generateSingleColumnPrism(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers
     cmo_prism.addatt('cell_vol',keyword='volume')
     cmo_prism.dump(outfile)
 
-def generateFaceSetsNaive(lg:pylagrit.PyLaGriT,stacked_mesh:str,outfile:str,material_names=None,face_names=None):
-
-    #stack_hex = lg.read(inmesh)
-    #lg.createpts()
-
-    cmd = '''define CMO_PRISM motmp2
-read/avs/{}/CMO_PRISM
-infile infile_get_facesets3.mlgi
-
-# WRITE 3 faceset version of mesh
-dump/exo/{}/CMO_PRISM///facesets &
-fs1_bottom.avs fs2_top.avs fs3_sides_all.avs
-
-finish
-'''.format(stacked_mesh,outfile)
-
-    callLaGriT(cmd,lagrit_path=lg.lagrit_exe)
-
-
-def generateFaceSets(lg:pylagrit.PyLaGriT,inmesh:str,outfile:str,material_names=None,face_names=None):
+#:pylagrit.PyLaGriT.MO
+def generateFaceSetsNaive(lg:pylagrit.PyLaGriT,stacked_mesh,outfile:str):
     '''
-    Generate boundary face sets according to normal vectors and layer ID.
 
-    :param lg: running instance of PyLaGriT
-    :type lg: pylagrit.PyLaGriT
-    :param outfile: filepath to save Exodus facesets
-    :type outfile: str
-    :param material_names: material_id,material_name key/value pairs
-    :type material_names: dict
-    :param face_names: faceset_id/faceset_name key/value pairs
-    :type face_names: dict
+    Generates an Exodus mesh with three facesets:
+
+    - Top, bottom, and sides
+
+    This can be done easily without any further input from the user - i.e.
+    explicitly delimiting what determines a 'top' and a 'side'.
 
     '''
 
-    stack_hex = lg.read(inmesh)
+    if not isinstance(stacked_mesh,pylagrit.PyLaGriT.MO):
+        raise ValueError('stacked_mesh must be a PyLaGriT mesh object')
 
-    if material_names is None:
-        material_names = {10000:'soil: top layer',
-                          20000:'soil: middle layer',
-                          30000:'soil: bottom layer',
-                          40000:'geology layer',
-                          50000:'bottom layer'}
+    tmp_infile = 'infile_tmp_get_facesets3.mlgi'
 
-    if face_names is None:
-        face_names = {1:'bottom face',
-                     2:'surface',
-                     3:'front',
-                     4:'right',
-                     5:'back',
-                     6:'left'}
+    with open(tmp_infile,'w') as f:
+        f.write(Infiles.get_facesets3)
 
-    if '.' in outfile:
-        xml_outfile = '.'.join(outfile.split('.')[:-1])+'.xml'
-    else:
-        xml_outfile = outfile+'.xml'
+    lg.sendline('define CMO_PRISM %s' % stacked_mesh.name)
+    lg.sendline('infile %s' % tmp_infile)
+    lg.sendline('dump/exo/%s/CMO_PRISM///faceets &' % outfile)
+    lg.sendline('fs1_bottom.avs fs2_top.avs fs3_sides_all.avs')
 
-    lg.sendline('boundary_components')
+    _cleanup = 'fs1_bottom.avs fs2_top.avs fs3_sides_all.avs'.split()
+    _cleanup.extend(tmp_infile)
 
-    # Automatically create face sets based on normal vectors and layer id
-    fs = stack_hex.create_boundary_facesets(base_name='faceset_bounds',stacked_layers=True)
-
-    # Write exo file with boundary facesets
-    stack_hex.dump_exo(outfile,facesets=fs.values())
-
-    # Dump ats style xml for mesh, can provide options for other schemas easily also
-    stack_hex.dump_ats_xml(xml_outfile,outfile,matnames=material_names,facenames=face_names)    
+    for f in _cleanup:
+        os.remove(f)
+   
 
 def buildUniformTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
                          counterclockwise:bool=False,connectivity:bool=None,

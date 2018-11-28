@@ -152,7 +152,7 @@ class DEM():
         return self.boundary
 
     def rectangularBoundary(self,distance):
-        self.boundary = rectangularBoundary(np.shape(self.dem)[0],np.shape(self.dem)[1],distance)
+        self.boundary = rectangularBoundary(self.getBoundingBox(),distance)
         self.boundary[:,0] = xVectorToProjection(self.boundary[:,0],self.cell_size,self.xll_corner)
         self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
         return self.boundary
@@ -221,14 +221,40 @@ class DEM():
         self.stacked_mesh = outfile
         self.number_of_layers = len(layers)
 
-    def addAttribute(self,data,layer,outfile=None,flip:str='y'):
+    def addAttribute(self,data,layers=None,attribute_name=None,outfile=None,flip:str='y'):
+        '''
+        Adds an attribute to the stacked mesh, over one or more layers. Default is all.
+        Data must be an NxM matrix - it does not necessarily have to be the same size at the DEM,
+        but is recommended as it will be streched to span the domain of it.
+
+        attribute_name will be the element-based attribute the data is written into.
+        The default is 'material ID', but can be changed to any
+        [a-z][A-Z][0-9] string (outside of reserved LaGriT keywords).
+
+        :param data:
+        :type data:
+        :param layers:
+        :type layers:
+        :param attribute_name:
+        :type attribute_name:
+        :param outfile:
+        :type outfile:
+        :param flip:
+        :type flip:
+
+        '''
         outfile = self.stacked_mesh if outfile is None else outfile
-        addAttribute(self.lg,data,self.stacked_mesh,outfile,layer,
+        addAttribute(self.lg,data,self.stacked_mesh,outfile,
                     [self.ncols,self.nrows],
                     [self.xll_corner,self.yll_corner],
                     [self.cell_size,self.cell_size],
                     self.number_of_layers,
-                    flip=flip,no_data_value=self.no_data_value)
+                    flip=flip,no_data_value=self.no_data_value,
+                    layers=layers,attribute_name=attribute_name
+                    )
+
+    def meshStatistics(self):
+        return self.stacked_mesh.information()
 
     def generateFacesets(self,outfile,facesets=None,naive=False):
         '''
@@ -306,5 +332,18 @@ class DEM():
         plt.title('DEM with generated boundary')
         ax.scatter(self.boundary[:,0],self.boundary[:,1],zorder=2,s=1.,c='red')
         plt.show()
+
+    def getBoundingBox(self):
+        '''
+        Returns the bounding box (or extent) of the DEM domain.
+
+        Format of return is:
+
+           (x_min,x_max,y_min,y_max)
+
+        '''
+
+        return (self.xll_corner,self.ncols*self.cell_size+self.xll_corner,
+                self.yll_corner,self.nrows*self.cell_size+self.yll_corner)
 
 

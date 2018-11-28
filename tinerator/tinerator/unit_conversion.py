@@ -11,7 +11,7 @@ def convertXtoProjection(x,cellSize,xllCorner):
     return (xllCorner + (float(x) * cellSize) - (cellSize / 2.))
 
 def convertYtoProjection(y,cellSize,yllCorner,nRows):
-    return (yllCorner + (float(0. - y + nRows + 1) * cellSize) - (cellSize / 2.))
+    return (yllCorner + (float(0. - y + float(nRows)) * cellSize) - (cellSize / 2.))
 
 def convertProjectiontoX(x,cellSize,xllCorner):
     return (cellSize + 2. * float(x) - 2. * xllCorner) / (2. * cellSize)

@@ -226,8 +226,11 @@ def squareTraceBoundary(A,NDV,dist=10.):
     :returns: boundary nodes
     '''
 
-    nRows = np.shape(A)[0]
-    nCols = np.shape(A)[1]
+    #A = np.vstack([A,np.repeat(666.,A.shape[1])])
+    #A = np.hstack([A,np.resize(np.repeat(66666666.,A.shape[0]),(A.shape[0],1))])
+
+    nRows = np.shape(A)[0] - 1
+    nCols = np.shape(A)[1] - 1
 
     print("\nA Square Tracing method of finding boundary in a psuedo-masked array")
     print("C T. Pavlidis, Algorithms for Graphics and Image Processing, Computer Science Press, Rockville, Maryland, 1982\n")
@@ -298,7 +301,7 @@ def squareTraceBoundary(A,NDV,dist=10.):
         current_point = [x,y,A[y][x]]
 
         # Check if the current point and last saved point are far enough away
-        if (_distance(current_point,last_point) >= dist) or (dist == None):
+        if (_distance(current_point,last_point) >= dist) or (dist is None):
             tmp_points.append(current_point)
             last_point = current_point
 
@@ -316,22 +319,20 @@ def squareTraceBoundary(A,NDV,dist=10.):
     # This will be the starting pixel for the trace
     def _getStartingPixel(arr,nrows,ncols):
         s = None
-        for y in range(0,nrows):
-            for x in range(0,ncols):
+        for y in range(nrows):
+            for x in range(ncols):
                 if arr[y][x] != NDV:
                     s = [x,y]
                     break
-        if s == None:
+        if s is None:
             error("ERROR: Starting pixel not found.")
         
         return s
     
     # Find the distance between two points
     def _distance(v1,v2):
-        x1 = v1[0]
-        x2 = v2[0]
-        y1 = v1[1]
-        y2 = v2[1]
+        x1, y1 = v1[:2]
+        x2, y2 = v2[:2]
         return ((x1-x2)**2.+(y1-y2)**2.)**0.5
 
     print("p Finding starting pixel...")
@@ -340,8 +341,7 @@ def squareTraceBoundary(A,NDV,dist=10.):
     p = _Point()
     s = _getStartingPixel(A,nRows,nCols)
 
-    p.x = s[0]
-    p.y = s[1]
+    p.x, p.y = s
     p.direction = p.north
     _updateB(p.x,p.y)
     p.moveLeft()
@@ -350,21 +350,21 @@ def squareTraceBoundary(A,NDV,dist=10.):
     print("p Iterating over array...")
 
     iters = 0
-    while True or iters < maxiters:
+    while iters < maxiters:
         iters += 1 # Break if no convergence
         
         # Are we back at the origin?
-        if (p.x == s[0]) and (p.y == s[1]):
+        if [p.x,p.y] == s:
             print("p Found origin...")
             break
         
-        if _blackPixel(p.x,p.y,nCols,nRows) == True:
+        if _blackPixel(p.x,p.y,nCols,nRows):
             _updateB(p.x,p.y)
             p.moveLeft()
         else:
             p.moveRight()
     
     print("p Generating array...")
-    boundary = np.array(tmp_points)
+    boundary = np.array(tmp_points,dtype=np.double) + 1.
     return boundary
 
