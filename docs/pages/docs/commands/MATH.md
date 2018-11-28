@@ -41,7 +41,7 @@ indicates the type of work to perform.
 min, max, modulo`** are arithmetic operators; the result is stored in
 `sink_attr`:
 
-* `sink_attr` = (`src_attr`) operator (value), where value can be either a
+  * `sink_attr` = (`src_attr`) operator (value), where value can be either a
 numerical constant or a second mesh object attribute.
 
 * **`min, max`** are not to be confused with the
