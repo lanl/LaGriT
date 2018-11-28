@@ -85,8 +85,7 @@ def makeGaussian(size, fwhm = 600, center=None):
 
 data = makeGaussian(500)
 
-my_dem.addAttribute(data,1)
-my_dem.addAttribute(1.-data,4)
+my_dem.addAttribute(data)
 
 
 '''

@@ -257,6 +257,7 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
         test_elt = stacked_mesh.eltset_attribute('eslayer',2)
 
         lg.sendline('interpolate/map/%s,%s/eltset,get,%s/%s,esatt' % (stacked_mesh.name,attribute_name,test_elt.name,extrusion.name))
+        stacked_mesh.add('add',attribute_name,value=int(layer*10),stride=['eltset','get',test_elt.name],attsrc=attribute_name)
 
     extrusion.delete()
     os.remove('_temp_attrib_array.dat')

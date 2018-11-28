@@ -6,6 +6,7 @@ a DEM projection, and vice versa.
 '''
 
 import numpy as np
+import os
 
 def convertXtoProjection(x,cellSize,xllCorner):
     return (xllCorner + (float(x) * cellSize) - (cellSize / 2.))
@@ -51,3 +52,15 @@ def filterPoints(points:np.ndarray,eps:float):
             mask[np.argwhere((dst > 0.) & (dst < eps))] = False
 
     return points[mask]
+
+def cleanup(files,silent=True):
+    if not isinstance(files,list):
+        files = [files]
+
+    for file in files:
+        try:
+            os.remove(file)
+        except Exception as e:
+            if not silent:
+                print('Could not remove %s' % file)
+                print(e.message)
