@@ -4,6 +4,33 @@
 If you are trying to build LaGriT on a Windows PC, follow the directions [here](build_win.md). If you are on Linux or macOS, you can build LaGriT manually by following the directions in this document or using the automatic installer script.
 
 ## Automatic Build (Linux, macOS)
+
+Download the repo by running:
+
+    git clone https://github.com/lanl/LaGriT.git
+    cd LaGriT
+
+If you don't already have [Exodus](http://gsjaardema.github.io/seacas/exodusII-new.pdf) built on your system, run
+
+    make exodus
+
+or, on Ubuntu, you can build Exodus directly from a [PPA](https://launchpad.net/~nschloe/+archive/ubuntu/seacas-nightly/):
+
+    sudo add-apt-repository ppa:nschloe/seacas-nightly
+    sudo apt-get update
+    sudo apt-get install seacas-bin
+
+Finally, to build and test a shared, optimized LaGriT binary, run
+
+    make release
+    make test
+
+To build LaGriT without Exodus, 
+
+    make WITHEXODUS=0 release
+
+More options are available by running `make help`.
+
 ### USAGE:
 
     make [options] [target]
