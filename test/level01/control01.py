@@ -7,11 +7,11 @@ __all__ = ['ExecSuiteOne', 'OneFull', 'CheckOne', 'RunTestOne']
 
 
 def ExecSuiteOne(args):
-	if args.clean == True:
+	if args.clean:
 		Clean(tag = args.testfile)
-	if args.test == True:
+	if args.test:
 		RunTest(tag = args.testfile, executable = args.executable)
-	if args.check == True:
+	if args.check:
 		Check(target = args.checkdir)
 	if not (args.clean or args.test or args.check):
 		print("\nTest error (level01):")
@@ -50,17 +50,17 @@ def Clean(**args):
 						try:
 							if os.path.isfile(file_path) and (the_file.startswith("out") or the_file.endswith("gmvF") or the_file.endswith("x3dgen")):
 								os.remove(file_path)
-						except Exception, e:
-							print e
+						except Exception as e:
+							print(e)
 					print("\tClean.")
 			elif os.path.isfile(directory) and not directory.endswith(".old.txt"):
 				if directory.startswith("stdout_" + tag):
-					print "FOUND STDOUT"
+					print("FOUND STDOUT")
 					os.rename(directory, directory[:-4] + ".old" + directory[-4:])
 				elif directory.startswith("diffout_" + tag):
-					print "FOUND DIFFOUT_"
+					print("FOUND DIFFOUT_")
 					os.rename(directory, directory[:-4] + ".old" + directory[-4:])
-		except Exception, e:
-			print e
+		except Exception as e:
+			print(e)
 	print("Done. All output files removed from directories.\n")
 

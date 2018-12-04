@@ -21,7 +21,7 @@ Then `cd LaGriT/` and:
 | `-se`, `--skipexodus` | Removes dependencies on Exodus and bypasses Exodus install |
 | `-e=PATH`, `--exodus=PATH` | Pass `/path/to/exodus/lib` for existing Exodus build* |
 
-**Script automatically parses `LD_LIBRARY_PATH` for Exodus libraries - pass PATH if `echo $LD_LIBRARY_PATH` doesn't find Exodus automatically*
+**Script automatically parses `LD_LIBRARY_PATH` for Exodus libraries - pass PATH if `echo $LD_LIBRARY_PATH` doesn't find Exodus automatically**
 
 ## Manual Build (Linux, macOS)
 ### 1. Installing Dependencies

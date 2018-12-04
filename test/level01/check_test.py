@@ -86,26 +86,26 @@ def diff_chunk(rlines,tlines,rcnt,tcnt, wfile) :
 #       check to see if these are lines to skip 
         if twords[0].find("*") > -1 :
            ico=ico+1
-           if debug : print "comment line "+repr(idx)+tlines[idx]
+           if debug : print("comment line "+repr(idx)+tlines[idx])
         elif twords[0].find("#") > -1 :
            ico=ico+1
-           if debug : print "comment line "+repr(idx)+tlines[idx]
+           if debug : print("comment line "+repr(idx)+tlines[idx])
         elif len(twords) < 2 :
            iju=iju+1
-           if debug : print "junk line "+repr(idx)+tlines[idx]
+           if debug : print("junk line "+repr(idx)+tlines[idx])
 
         else :
 
 #          Loop through word by word
-           if debug : print "epsilon compare: %16.9f \n" % epsval
+           if debug : print("epsilon compare: %16.9f \n" % epsval)
            for i in range(len(rwords)) :
 
               if (rwords[i].isalpha() and twords[i].isalpha()) :
                 if (rwords[i] == twords[i]) : 
-                   if debug : print "alpha same "+rwords[i]+" and "+twords[i] 
+                   if debug : print("alpha same "+rwords[i]+" and "+twords[i])
 
                 else :
-                   if debug : print "alpha differ "+rwords[i]+" and "+twords[i]
+                   if debug : print("alpha differ "+rwords[i]+" and "+twords[i])
                    ibad = 1
 
               elif (rwords[i].isdigit() and twords[i].isdigit)  :
@@ -113,9 +113,9 @@ def diff_chunk(rlines,tlines,rcnt,tcnt, wfile) :
                 if (xval > epsval) :
                     ibad = 1
                     if debug :
-                        print "digits differ by %16.9f , %s %s " % (xval,rwords[i],twords[i])
+                        print("digits differ by %16.9f , %s %s " % (xval,rwords[i],twords[i]))
                 elif debug : 
-                    print "digits same by %16.9f , %s %s " % (xval,rwords[i],twords[i])
+                    print("digits same by %16.9f , %s %s " % (xval,rwords[i],twords[i]))
 
 
               elif (rwords[i].find("E+")>0 and twords[i].find("E+")>0)  :
@@ -123,9 +123,9 @@ def diff_chunk(rlines,tlines,rcnt,tcnt, wfile) :
                 if (xval > epsval) :
                     ibad = 1
                     if debug : 
-                        print "numbers E+ differ by %16.9f , %s %s " % (xval,rwords[i],twords[i])
+                        print("numbers E+ differ by %16.9f , %s %s " % (xval,rwords[i],twords[i]))
                 elif debug : 
-                    print "numbers E+ same by %16.9f , %s %s " % (xval,rwords[i],twords[i])
+                    print("numbers E+ same by %16.9f , %s %s " % (xval,rwords[i],twords[i]))
 
 
               elif (rwords[i].find("E-")>0 and twords[i].find("E-")>0)  :
@@ -133,9 +133,9 @@ def diff_chunk(rlines,tlines,rcnt,tcnt, wfile) :
                 if (xval > epsval) :                         
                     ibad = 1
                     if debug : 
-                        print "numbers E- differ by %16.9f , %s %s " % (xval,rwords[i],twords[i])
+                        print("numbers E- differ by %16.9f , %s %s " % (xval,rwords[i],twords[i]))
                 elif debug : 
-                    print "numbers E- same by %16.9f , %s %s " % (xval,rwords[i],twords[i])
+                    print("numbers E- same by %16.9f , %s %s " % (xval,rwords[i],twords[i]))
 
 
               elif (rwords[i].find("e+")>0 and twords[i].find("e+")>0)  :
@@ -143,26 +143,26 @@ def diff_chunk(rlines,tlines,rcnt,tcnt, wfile) :
                 if (xval > epsval) :                         
                     ibad = 1
                     if debug : 
-                        print "numbers e+ differ by %16.9f , %s %s " % (xval,rwords[i],twords[i])
+                        print("numbers e+ differ by %16.9f , %s %s " % (xval,rwords[i],twords[i]))
                 elif debug : 
-                    print "numbers e+ same by %16.9f , %s %s " % (xval,rwords[i],twords[i])
+                    print("numbers e+ same by %16.9f , %s %s " % (xval,rwords[i],twords[i]))
 
               elif (rwords[i].find("e-")>0 and twords[i].find("e-")>0)  :
                 xval=abs(float(rwords[i])-float(twords[i]))       
                 if (xval > epsval) :                         
                     ibad = 1
                     if debug : 
-                        print "numbers e- differ by %16.9f , %s %s " % (xval,rwords[i],twords[i])
+                        print("numbers e- differ by %16.9f , %s %s " % (xval,rwords[i],twords[i]))
                 elif debug : 
-                    print "numbers e- same by %16.9f , %s %s " % (xval,rwords[i],twords[i])
+                    print("numbers e- same by %16.9f , %s %s " % (xval,rwords[i],twords[i]))
      
               else :
                 if (rwords[i] != twords[i]) :
-                   if debug : print "words differ "+rwords[i]+" and "+twords[i] 
+                   if debug : print("words differ "+rwords[i]+" and "+twords[i])
 # check for -0 and 0 
                    ibad = 1
                 else :
-                   if debug : print "words same "+rwords[i]+" and "+twords[i] 
+                   if debug : print("words same "+rwords[i]+" and "+twords[i])
 
 #          Done Loop through word by word
 
@@ -170,18 +170,18 @@ def diff_chunk(rlines,tlines,rcnt,tcnt, wfile) :
      elif (tcount != rcount and tcount > 0):
         if (twords[0].find("*") > -1 or twords[0].find("#") > -1):
            ico=ico+1
-           if debug : print "Comment lines differs in length"
+           if debug : print("Comment lines differs in length")
      else:
-        if debug : print "Lines differ in length" 
+        if debug : print("Lines differ in length")
         ibad = 1
 
 #    compare for test and reference pair done 
      ifa = ifa + ibad
      if debug or ibad : 
-        print tmp1+"\n"+tmp2+"\n"
+        print(tmp1+"\n"+tmp2+"\n")
         wfile.write(tmp1+"\n"+tmp2+"\n")
 
-  if debug : print "end routine tcnt,ico,iju,ifa: ",tcnt,ico,iju,ifa  
+  if debug : print("end routine tcnt,ico,iju,ifa: ",tcnt,ico,iju,ifa)
 #-Done Loop over each pair of lines 0 to max(rcnt, tcnt)
 
 
@@ -218,10 +218,11 @@ def Check(**args):
   ndirs=0
   result_dir = 0
   target=args['target']
+  diffcopy = ''
 
 # get platform
   osname="unknown"
-  osname= string.lower(sys.platform)
+  osname= sys.platform.lower()
   if osname.find("linux") >= 0 :
      ostag="_lin" 
   elif osname.find("sun")>=0 or osname.find("sol")>=0 :
@@ -241,7 +242,7 @@ def Check(**args):
 
   date = time.ctime()
   buff = "Start in directory: "+dtop_path+" at "+date
-  print buff
+  print(buff)
 
   fref = "/reference/outx3dgen"
   ftest = "/outx3dgen"
@@ -255,8 +256,8 @@ def Check(**args):
   else :
     dirnames = os.listdir(dtop)"""
 
-  print target
-  print dtop
+  print(target)
+  print(dtop)
   if target == dtop:
   	dirnames = os.listdir(dtop)
   else:
@@ -281,7 +282,7 @@ def Check(**args):
         wfile.write("\n"+"Diff Summary ==================================================================="+"\n\n")
         ndirs=ndirs+1
         buff= repr(ndirs)+" Check Directory "+dwork+" --------------------------"
-        print buff
+        print(buff)
         wfile.write(buff+"\n")
 
         fromfile=dwork+fref
@@ -321,14 +322,14 @@ def Check(**args):
 #           if chunksize are equal, compare line pairs
 #           otherwise print the whole chunk
             if words[0].find("@") > -1 :
-               oldlins = string.split(words[1], ',' )
-               newlins = string.split(words[2], ',' )
-               tlineno= int(newlins[0][1:])
+               oldlins = words[1].split(',')
+               newlins = words[2].split(',')
+               tlineno = int(newlins[0][1:])
 
 #          versions of python greater than 2.5 allow single value instead of pairs
 #          avoid indexing number that may not exist
                if (len(newlins) > 1) :
-                  tnum= int(newlins[1])
+                  tnum = int(newlins[1])
                else :
                   tnum = 0
                if (len(oldlins) > 1) :
@@ -366,13 +367,13 @@ def Check(**args):
                else :
                   if (iread > 0) :
                      tmp=line.rstrip()
-                     print tmp
+                     print(tmp)
                      wfile.write(tmp+"\n")
 
 #              chunk has been read  
                if (chunk ==  1 and iread == nread ) : 
-                  if debug : print "Compare chunk ==============================================="
-                  print chdr 
+                  if debug : print("Compare chunk ===============================================")
+                  print(chdr) 
                   wfile.write(chdr+"\n")
                   ifa, ico, iju = diff_chunk(rlines,tlines,rcnt,tcnt, wfile)
                   ifail = ifail + ifa
@@ -382,7 +383,7 @@ def Check(**args):
                   tlines=[]
                   chunk = 0
                   buff= "Lines Essentially the Same: "+repr(tcnt-ifa)+" out of "+repr(tnum) 
-                  print buff
+                  print(buff)
                   wfile.write(buff+"\n")
 
 
@@ -412,33 +413,33 @@ def Check(**args):
 
 #--------       
 #         Done with loop through lines in diff result
-          print " "
+          print("")
           if icomment : 
              buff= repr(icomment)+" comment lines."
              wfile.write(buff+"\n")
-             print "Removed "+buff
+             print("Removed "+buff)
           if ijunk : 
              buff = repr(ijunk)+" junk lines."
              wfile.write(buff+"\n")
-             print "Removed "+buff
+             print("Removed "+buff)
           if ifail : 
             buff = repr(ifail)+" lines failed."
             wfile.write(buff+"\n")
-            print buff
+            print(buff)
             errList.append(dwork)
             errmess.append(repr(ifail)+" lines failed.")
             ierr = ierr+1
           else :
             buff = "No lines differ."
             wfile.write(buff+"\n")
-            print buff
+            print(buff)
           buff= repr(ndirs)+" Done with Directory "+dwork+" -----------------------"
-          print buff
+          print(buff)
           wfile.write(buff+"\n")
-          print " "
+          print(" ")
 
         else :
-          print "File missing: outx3dgen" 
+          print("File missing: outx3dgen" )
           errList.append(dwork)
           errmess.append("Missing LaGriT outx3dgen file.")
           ierr = ierr+1
@@ -458,28 +459,29 @@ def Check(**args):
   if nfail : 
     buff = "All checks complete, "+repr(nfail)+" directories failed out of "+repr(ndirs)
     wfile.write(buff+"\n")
-    print buff
+    print(buff)
+    sys.exit(1)
   else :
     buff =  "All "+repr(ndirs)+" successful!"
     wfile.write(buff+"\n")
-    print buff
+    print(buff)
   if (ierr > 0) :
     i = 0
-    print "--------------------------------------"
+    print("--------------------------------------")
     for d in errList :
       buff =  "  "+errList[i]+" Error: "+errmess[i]
       wfile.write(buff+"\n")
-      print buff
-      print "--------------------------------------"
+      print(buff)
+      print("--------------------------------------")
       i=i+1
 
   wfile.write("\n")
   wfile.close()
   if result_dir :
     b = os.system('cp -p '+fout+' ./test_results')
-    print "Check done."+"\n"+"Full result written to: "+"\n"
-    print fout+"\n"
-    print "and copied to ./test_results "+"\n"
+    print("Check done."+"\n"+"Full result written to: "+"\n")
+    print(fout+"\n")
+    print("and copied to ./test_results "+"\n")
 
 #    fromfile = "./test_results/diffout"+ostag+".txt" 
 #    tofile="./test_results/reference/diffout"+ostag+".txt" 
@@ -490,7 +492,7 @@ def Check(**args):
 #    sys.stdout.writelines(fdiff) 
 
   else :
-    print "Check done."+"\n"+"Full result written to "+fout+"\n"
+    print("Check done."+"\n"+"Full result written to "+fout+"\n")
       
 # end Main 
 #------------------------------------------------------------------------------
