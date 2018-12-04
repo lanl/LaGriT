@@ -22,15 +22,12 @@ before_install:
   - if [ $TRAVIS_OS_NAME = windows ]; then choco install cmake; fi
   - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get install gfortran; fi
   - if [ $TRAVIS_OS_NAME = osx ];     then brew install gcc; fi
-  - export FC=$(which gfortran)
-  - export CC=$(which gcc)
-  - export CXX=$(which g++)
-  - echo $FC
-  - echo $CC
-  - echo $CXX
+  - export FC=$(which gfortran); echo $FC
+  - export CC=$(which gcc); echo $CC
+  - export CXX=$(which g++); echo $CXX
   
 script:
-  - if [ $TRAVIS_OS_NAME = windows ]; then make exodus EXO_CMAKE_FLAGS=-DTPL_ENABLE_X11=OFF; else make exodus; fi
+  - if [ $TRAVIS_OS_NAME == "windows" ]; then make exodus EXO_CMAKE_FLAGS=-DTPL_ENABLE_X11=OFF; else make exodus; fi
   - make release
   - make test
 
