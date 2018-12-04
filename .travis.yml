@@ -12,14 +12,17 @@ matrix:
 
 compiler:
   - gcc
-  - clang
 
 branches:
   only:
     - master
 
 before_install:
-  - 
+  - if [ $TRAVIS_OS_NAME = windows ]; then choco install make; fi
+  - if [ $TRAVIS_OS_NAME = windows ]; then choco install cmake; fi
+  - export FC=$(which gfortran)
+  - export CC=$(which gcc)
+  - export CXX=$(which g++)
 
 script:
   - make exodus
