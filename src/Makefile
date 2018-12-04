@@ -29,7 +29,7 @@ DEBUG := 0
 LIB := lg_main_lib.a
 
 # Detect 64 or 32 bit arch; detect OS name
-MOPT := $(shell getconf LONG_BIT)
+BIT_SIZE := $(shell getconf LONG_BIT)
 OPSYS := $(shell uname -s)
 EXO_INCLUDE_DIR := $(shell pwd)/../seacas/include
 

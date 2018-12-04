@@ -22,7 +22,7 @@ Download the repo by running:
     git clone https://github.com/lanl/LaGriT.git
     cd LaGriT
 
-If you don't already have (Exodus)[http://gsjaardema.github.io/seacas/exodusII-new.pdf] built on your system, run
+If you don't already have [Exodus](http://gsjaardema.github.io/seacas/exodusII-new.pdf) built on your system, run
 
     make exodus
 
@@ -32,12 +32,11 @@ or, on Ubuntu, you can build Exodus directly from a [PPA](https://launchpad.net/
     sudo apt-get update
     sudo apt-get install seacas-bin
 
-Finally, run
+Finally, to build and test a shared, optimized LaGriT binary, run
 
     make release
     make test
 
-to build and test a shared, optimized LaGriT binary.
 To build LaGriT without Exodus, 
 
     make WITHEXODUS=0 release

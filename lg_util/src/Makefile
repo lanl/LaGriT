@@ -25,7 +25,7 @@ LIB := lg_util.a
 DEBUG := 0
 
 # Detect 64 or 32 bit
-MOPT := $(shell getconf LONG_BIT)
+BIT_SIZE := $(shell getconf LONG_BIT)
 OPSYS := $(shell uname -s)
 
 # Generate compiler flags and append OS-specific properties
@@ -94,7 +94,7 @@ $(OBJDIR)%.o : %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 mm2000.h : mm2000_header.F 
-	cp -p mm2000_m$(MOPT).h mm2000.h
+	cp -p mm2000_m$(BIT_SIZE).h mm2000.h
 
 $(OBJDIR) :; mkdir $(OBJDIR)
 
