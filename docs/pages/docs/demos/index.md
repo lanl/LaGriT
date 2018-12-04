@@ -7,10 +7,10 @@ title: LaGriT Examples and Demos
 
 |                                                     |                                                 |                                                   |                                                          |
 |:---------------------------------------------------:|:-----------------------------------------------:|:-------------------------------------------------:|:--------------------------------------------------------:|
-| [`2d_connect`](main_2d_connect.md)<br>![alt text][] | [`rotatept`](main_rotatept.md)<br>![alt text][] | [`createpts`](main_createpts.md)<br>![alt text][] | [`regnpts`](main_regnpts.md)<br>![alt text][]            |
-| [`triangulate`](main_tri.md)<br>![alt text][]       | [`dump`](main_dump.md)<br>![alt text][]         | [`hextotet`](main_hextet.md)<br>![alt text][]     | [`sort`](main_sort.md)<br>![alt text][]                  |
-| [`connect`](main_connect.md)<br>![alt text][]       | [`hextotet`](main_qual.md)<br>![alt text][]     | [`trans`](main_trans.md)<br>![alt text][]         | [`pset`](main_pset.md)<br>![alt text][]                  |
-| [`2d_recon`](main_2d_recon.md)<br>![alt text][]     | [`addmesh`](main_addmesh.md)<br>![alt text][]   | [`rmmat`](main_rmmat.md)<br>![alt text][]         | [`negative_aij/rivara`](main_rivara.md)<br>![alt text][] |
+| [`2d_connect`](main_2d_connect.md)<br>![alt text][2d_connect] | [`rotatept`](main_rotatept.md)<br>![alt text][rotatept] | [`createpts`](main_createpts.md)<br>![alt text][createpts] | [`regnpts`](main_regnpts.md)<br>![alt text][regnpts]            |
+| [`triangulate`](main_tri.md)<br>![alt text][triangulate]       | [`dump`](main_dump.md)<br>![alt text][dump]         | [`hextotet`](main_hextet.md)<br>![alt text][hextotet]     | [`sort`](main_sort.md)<br>![alt text][sort]                  |
+| [`connect`](main_connect.md)<br>![alt text][connect]       | [`hextotet`](main_qual.md)<br>![alt text][hextoquad]     | [`trans`](main_trans.md)<br>![alt text][trans]         | [`pset`](main_pset.md)<br>![alt text][pset]                  |
+| [`2d_recon`](main_2d_recon.md)<br>![alt text][recon2d]     | [`addmesh`](main_addmesh.md)<br>![alt text][addmesh]   | [`rmmat`](main_rmmat.md)<br>![alt text][rmmat]         | [`negative_aij/rivara`](main_rivara.md)<br>![alt text][rivara] |
 
 [recon2d]: https://lagrit.lanl.gov/docs/demos/2d_recon/test/html/image/image1_tn.gif "2d_recon"
 [triangulate]: https://lagrit.lanl.gov/docs/demos/triangulate/test/html/image/triang4_tn.gif "triangulate"
