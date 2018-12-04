@@ -1,20 +1,27 @@
 #================================================================#
-#  LaGriT lg_util Library Creation
+#  LaGriT Makefile
 # -------------------------------------------------------------- #
 #  
 #  Targets:
-#    - lib : build the LaGriT lg_util library
+#    - release : build a LaGriT binary with shared libs
+#    - static : build a LaGriT binary with static libs
+#    - exodus : build the Exodus library
+#    - test : run the LaGriT test suite
+#    - help : show a help screen
+#    - header : build src/lagrit.h header file
 #    - clean : remove all object and mod files
 #    - clobber : remove all object and mod files *and* library
 #
 #  Variables:
-#    - DEBUG : run with DEBUG=1 to build with debug symbols
-#    - CC, FC : change to use other compilers
+#    CC (default: gcc) : C source compiler
+#    FC (default: gfortran) : Fortran source compiler
+#    FC90 (default: gfortran) : Fortran90 source compiler
+#    WITHEXODUS (default: 1) : Build with or without Exodus
+#    DEBUG (default: 0) : Built in debug (1) or optimized (0) mode
+#    EXO_LIB_DIR (default: LAGRIT_ROOT_DIR/seacas/lib) : ExodusII library location
+#    EXE_NAME (default: src/lagrit) : binary filename for LaGriT
+#    EXO_CMAKE_FLAGS (default: none) : Add custom CMake flags to pass to cmake-exodus
 #================================================================#
-#  Changelog:
-#    - 12/03/18 (DRL) : Refactoring to make code easier to read,
-#                       bug fixes for macOS clang compilers
-#
 #  TODO:
 #    - Add support for 32 bit machines
 
@@ -35,6 +42,7 @@ BUILD_TYPE := Release
 EXE_NAME := src/lagrit
 EXO_BUILD_DIR := $(shell pwd)
 EXO_LIB_DIR := $(shell pwd)/seacas/lib
+EXO_CMAKE_FLAGS := 
 
 LG_UTIL_LIB := lg_util_lib.a
 SRC_LIB := lagrit_lib.a
@@ -119,6 +127,7 @@ OPTIONS:
     DEBUG (default: 0) : Built in debug (1) or optimized (0) mode
     EXO_LIB_DIR (default: LAGRIT_ROOT_DIR/seacas/lib) : ExodusII library location
     EXE_NAME (default: src/lagrit) : binary filename for LaGriT
+    EXO_CMAKE_FLAGS (default: none) : Add custom CMake flags to pass to cmake-exodus
 
 endef
 export LAGRIT_HELP
@@ -192,19 +201,19 @@ exodus :
 	cd $(EXO_BUILD_DIR)/seacas; \
 	./install-tpl.sh; \
 	cd TPL; \
-	../cmake-config -DFORTRAN=YES; \
+	../cmake-config $(EXO_CMAKE_FLAGS) -DFORTRAN=YES; \
 	make && make install; \
 	cd $LG_DIR; \
-	echo "Exodus successfully built!"; \
-	echo "Build directory:"; \
-	echo "   $(EXO_BUILD_DIR)/seacas/lib"; \
-	echo ""
-	echo "To compile LaGriT with Exodus, append the above"; \
-	echo "path to LD_LIBRARY_PATH (on Linux) or DYLD_LIBRARY_PATH (on Mac)";\
-	echo "and run \"make [options] [target]\"."; \
-	echo ""; \
-	echo "Alternately, run"; \
-	echo "  make EXO_LIB_DIR=$(EXO_BUILD_DIR)/seacas/lib [target]"
+	@echo "Exodus successfully built!"; \
+	@echo "Build directory:"; \
+	@echo "   $(EXO_BUILD_DIR)/seacas/lib"; \
+	@echo ""
+	@echo "To compile LaGriT with Exodus, append the above"; \
+	@echo "path to LD_LIBRARY_PATH (on Linux) or DYLD_LIBRARY_PATH (on Mac)";\
+	@echo "and run \"make [options] [target]\"."; \
+	@echo ""; \
+	@echo "Alternately, run"; \
+	@echo "  make EXO_LIB_DIR=$(EXO_BUILD_DIR)/seacas/lib [target]"
 
 static: BUILD_TYPE = Static
 static: LINKERFLAGS += -static
