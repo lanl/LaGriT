@@ -197,6 +197,7 @@ exodus :
 	export SHARED=NO; \
 	export LG_DIR=`pwd`; \
 	export NEEDS_ZLIB=YES; \
+	export GNU_PARALLEL=OFF; \
 	git clone https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas; \
 	cd $(EXO_BUILD_DIR)/seacas; \
 	./install-tpl.sh; \
