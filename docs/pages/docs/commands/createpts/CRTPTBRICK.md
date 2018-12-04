@@ -19,7 +19,7 @@ specifies that a mesh be created and connected.
 
 or
 
-**createpts/brick/xyzrtzrtp**/ ni,nj,nk / **pset,get,** name / **connect** /
+**createpts/brick/ xyz rtz rtp** / ni,nj,nk / **pset,get,** name / **connect** /
 
 Use this option (for example, with **quadxyz** ) to create finite element hexahedral connectivity on a logically rectangular set of nodes created via another method..
 
