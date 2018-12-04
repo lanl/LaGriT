@@ -7,6 +7,8 @@ os:
   - windows
 
 matrix:
+  - LG_TARGET=release
+  - LG_TARGET=static
   allow_failures:
     - os: windows
 
@@ -30,7 +32,7 @@ before_install:
 script:
   - if [ $TRAVIS_OS_NAME == "windows" ]; then make exodus EXO_CMAKE_FLAGS=-DTPL_ENABLE_X11=OFF; fi
   - if [ $TRAVIS_OS_NAME == "osx" ];     then make exodus; fi
-  - make release
+  - make $(LG_TARGET)
   - make test
 
 after_success:
