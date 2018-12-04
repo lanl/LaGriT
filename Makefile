@@ -156,6 +156,10 @@ else
 	BUILDFLAGS += -O
 endif
 
+ifeq ($(wildcard $(EXO_LIB_DIR)),)
+        EXO_LIB_DIR := /usr/lib
+endif
+
 ifeq ($(WITHEXODUS),1)
 	BUILDFLAGS += -L$(EXO_LIB_DIR) -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl
 endif
