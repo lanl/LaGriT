@@ -178,7 +178,7 @@ You can stack these, like:
 **`bold code`**, *`italic code`*, ~~`strikethrough_code`~~.
 </pre>
 <div class="rendered">
-  This is <strong>bold</strong>, <i>italics</i>, ~~strikthrough~~, and <code>code</code>.
+  This is <strong>bold</strong>, <i>italics</i>, <s>strikthrough</s>, and <code>code</code>.
 You can stack these, like:
 
 **`bold code`**, *`italic code`*
