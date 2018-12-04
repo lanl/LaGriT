@@ -18,16 +18,18 @@ branches:
     - master
 
 before_install:
-  - if [ $TRAVIS_OS_NAME = windows ]; then choco install make; fi
-  - if [ $TRAVIS_OS_NAME = windows ]; then choco install cmake; fi
-  - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get install gfortran; fi
+  - if [ $TRAVIS_OS_NAME = windows ]; then choco install make cmake; fi
+  - if [ $TRAVIS_OS_NAME = linux ];   then sudo add-apt-repository ppa:nschloe/seacas-nightly; fi
+  - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get update; fi
+  - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get -y install gfortran libz-dev seacas-bin; fi
   - if [ $TRAVIS_OS_NAME = osx ];     then brew install gcc; fi
-  - export FC=$(which gfortran); echo $FC
-  - export CC=$(which gcc); echo $CC
-  - export CXX=$(which g++); echo $CXX
+  - export FC=$(which gfortran);      echo $FC
+  - export CC=$(which gcc);           echo $CC
+  - export CXX=$(which g++);          echo $CXX
   
 script:
-  - if [ $TRAVIS_OS_NAME == "windows" ]; then make exodus EXO_CMAKE_FLAGS=-DTPL_ENABLE_X11=OFF; else make exodus; fi
+  - if [ $TRAVIS_OS_NAME == "windows" ]; then make exodus EXO_CMAKE_FLAGS=-DTPL_ENABLE_X11=OFF; fi
+  - if [ $TRAVIS_OS_NAME == "osx" ];     then make exodus; fi
   - make release
   - make test
 
