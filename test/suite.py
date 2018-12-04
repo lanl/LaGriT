@@ -1,13 +1,3 @@
-#! /n/local_linux/epd/bin/python2.7  
-#
-# /n/local_linux/epd/bin/python2.7
-# /usr/local/bin/python -> python3.2  
-# NOTE: this uses python before vers 3
-#        newer versions use print as function not statement
-#
-# for vers 3 lanl machines /usr/bin/env python
-# for sgi /usr/lanl/bin/python
-#
 #------------------------------------------------------------------------------
 #  Name: suite.py
 #  Last Modified: Jun 2015 by Mikita Yankouski yanki@lanl.gov 
@@ -44,11 +34,10 @@ class readable_dir(argparse.Action):
             else:
                 msg = "\nInvalid Directory: {0} is not a readable dir\n".format(prospective_dir)
                 raise argparse.ArgumentTypeError()
+
         except argparse.ArgumentTypeError:
             
-            print("here!")
-            
-            print >>sys.stderr, msg
+            print(sys.stderr, msg)
             print("/".join(os.listdir(os.curdir)))
             sys.exit(2)
 
@@ -65,8 +54,6 @@ class readable_dir(argparse.Action):
 
 def main(argv=None):
 
-        # xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-14.04-x86_64-gcc4.8.4/lagrit"
-    # xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-16.04-x86_64-gcc5.4.0/lagrit"
     xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-16.04-x86_64-gcc5.4.0/bin/lagrit"
 
     dtop = os.getcwd() 
@@ -85,6 +72,7 @@ def main(argv=None):
     parser.add_argument("checkdir", help = "Target dir for check function; default - recurse through current dir", action = readable_dir, 
                                             default = os.curdir, nargs = "?")
     parser.add_argument("-exe", "--executable", help = "Path to executable for testing", action = "store", type = str, default = xlagrit)
+    parser.add_argument("-hf", "--hard_fail", help = "Quits and returns non-zero exit code on failed test", action = "store", type = int, nargs = 1, default = 0)
     args = parser.parse_args()
 
     if not (args.level or args.full or args.clean or args.test or args.check):
@@ -92,7 +80,7 @@ def main(argv=None):
         sys.exit(2)
     
 
-    if args.full == True:
+    if args.full:
         if args.level:
             if args.level[0] == 1:
                 os.chdir(dtop)
@@ -128,7 +116,7 @@ def main(argv=None):
                 ExecSuiteTwo(args)
 
         else:
-            if args.clean == True:
+            if args.clean:
                 print("Cleaning level01")
                 os.chdir(dtop)
                 os.chdir('level01')
@@ -139,7 +127,7 @@ def main(argv=None):
                 os.chdir('level02')
                 CleanTwo(tag=args.testfile) 
 
-            if args.check == True:
+            if args.check:
                 print("Isolated checking not implemented yet")
                 #print("Checking level01")
                 #os.chdir(dtop)
@@ -151,7 +139,7 @@ def main(argv=None):
                 #os.chdir('level02')
                 #CheckTwo(args)
 
-            if args.test == True:
+            if args.test:
                 print("Testing level01")
                 os.chdir(dtop)
                 os.chdir('level01')
@@ -162,8 +150,6 @@ def main(argv=None):
                 os.chdir('level02')
                 RunTestTwo(args)
 
-
-    sys.exit(2)
             
 # end Main 
 #------------------------------------------------------------------------------

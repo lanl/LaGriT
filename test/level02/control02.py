@@ -51,15 +51,15 @@ def Clean(**args):
 							if os.path.isfile(file_path) and (the_file.startswith("out") or the_file.endswith("gmvF") 
 								or the_file.startswith("tmp_") or the_file.endswith("x3dgen")):
 								os.remove(file_path)
-						except Exception, e:
-							print e
+						except Exception as e:
+							print(e)
 					print("\tClean.")
 			elif os.path.isfile(directory) and not directory.endswith(".old.txt"):
 				if directory.startswith("stdout_" + tag):
 					os.rename(directory, directory[:-4] + ".old" + directory[-4:])
 				elif directory.startswith("diffout_" + tag):
 					os.rename(directory, directory[:-4] + ".old" + directory[-4:])
-		except Exception, e:
-			print e
+		except Exception as e:
+			print(e)
 	print("Done. All output files removed from directories.\n")
 
