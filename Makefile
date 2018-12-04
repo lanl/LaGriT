@@ -192,7 +192,7 @@ help :
 	@echo "$$LAGRIT_HELP"
 
 exodus :
-	@export CGNS=NO; \
+	export CGNS=NO; \
 	export MATIO=NO; \
 	export SHARED=NO; \
 	export LG_DIR=`pwd`; \
@@ -203,13 +203,13 @@ exodus :
 	cd TPL; \
 	../cmake-config $(EXO_CMAKE_FLAGS) -DFORTRAN=YES; \
 	make && make install; \
-	cd $LG_DIR; \
+	cd $(LG_DIR); \
 	echo "Exodus successfully built!"; \
 	echo "Build directory:"; \
 	echo "   $(EXO_BUILD_DIR)/seacas/lib"; \
 	echo ""
 	echo "To compile LaGriT with Exodus, append the above"; \
-	cho "path to LD_LIBRARY_PATH (on Linux) or DYLD_LIBRARY_PATH (on Mac)";\
+	echo "path to LD_LIBRARY_PATH (on Linux) or DYLD_LIBRARY_PATH (on Mac)";\
 	echo "and run \"make [options] [target]\"."; \
 	echo ""; \
 	echo "Alternately, run"; \
