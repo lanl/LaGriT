@@ -204,16 +204,16 @@ exodus :
 	../cmake-config $(EXO_CMAKE_FLAGS) -DFORTRAN=YES; \
 	make && make install; \
 	cd $LG_DIR; \
-	@echo "Exodus successfully built!"; \
-	@echo "Build directory:"; \
-	@echo "   $(EXO_BUILD_DIR)/seacas/lib"; \
-	@echo ""
-	@echo "To compile LaGriT with Exodus, append the above"; \
-	@echo "path to LD_LIBRARY_PATH (on Linux) or DYLD_LIBRARY_PATH (on Mac)";\
-	@echo "and run \"make [options] [target]\"."; \
-	@echo ""; \
-	@echo "Alternately, run"; \
-	@echo "  make EXO_LIB_DIR=$(EXO_BUILD_DIR)/seacas/lib [target]"
+	echo "Exodus successfully built!"; \
+	echo "Build directory:"; \
+	echo "   $(EXO_BUILD_DIR)/seacas/lib"; \
+	echo ""
+	echo "To compile LaGriT with Exodus, append the above"; \
+	cho "path to LD_LIBRARY_PATH (on Linux) or DYLD_LIBRARY_PATH (on Mac)";\
+	echo "and run \"make [options] [target]\"."; \
+	echo ""; \
+	echo "Alternately, run"; \
+	echo "  make EXO_LIB_DIR=$(EXO_BUILD_DIR)/seacas/lib [target]"
 
 static: BUILD_TYPE = Static
 static: LINKERFLAGS += -static
