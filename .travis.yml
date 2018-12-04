@@ -20,9 +20,14 @@ branches:
 before_install:
   - if [ $TRAVIS_OS_NAME = windows ]; then choco install make; fi
   - if [ $TRAVIS_OS_NAME = windows ]; then choco install cmake; fi
+  - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get install gcc; fi
+  - if [ $TRAVIS_OS_NAME = osx ];     then brew install gcc; fi
   - export FC=$(which gfortran)
   - export CC=$(which gcc)
   - export CXX=$(which g++)
+  - echo $FC
+  - echo $CC
+  - echo $CXX
 
 script:
   - make exodus
