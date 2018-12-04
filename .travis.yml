@@ -7,8 +7,6 @@ os:
   - windows
 
 matrix:
-  - LG_TARGET=release
-  - LG_TARGET=static
   allow_failures:
     - os: windows
 
