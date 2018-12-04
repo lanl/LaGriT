@@ -167,7 +167,40 @@ tags: example, quickstart
 </pre>
 </div>
 
-## 6. Further Resources <a name="resources"></a>
+## 6. Miscellaneous 
+
+### 6.1 Inline Text Formatting
+
+<div class="markdown-example" id="example-text">
+<pre class="source">
+This is **bold**, *italics*, ~~strikthrough~~, and `code`.
+You can stack these, like:
+**`bold code`**, *`italic code`*, ~~`strikethrough_code`~~.
+</pre>
+<div class="rendered">
+  This is <strong>bold</strong>, <i>italics</i>, ~~strikthrough~~, and <code>code</code>.
+You can stack these, like:
+
+**`bold code`**, *`italic code`*
+</div>
+</div>
+
+### 6.2 Embedding Images
+
+<div class="markdown-example" id="example-text">
+<pre class="source">
+If you want to embed images, this is how you do it:
+
+&#x0021;&#x005b;Alternate Text Goes Here]&#x0028;https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png)
+</pre>
+<div class="rendered">
+If you want to embed images, this is how you do it:
+
+![Alternate Text Goes Here](https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png)
+</div>
+</div>
+
+## 7. Further Resources <a name="resources"></a>
 
 Markdown supports tables, lists, embedded HTML/Javascript/CSS, images, and more.
 For syntax usage on embedding these elements, a few references can be found below:
