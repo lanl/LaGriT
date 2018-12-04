@@ -24,7 +24,7 @@ title: LaGriT Examples and Demos
 [hextotet]: https://lagrit.lanl.gov/docs/demos/hextotet/test/html/image/output_tet_tn.gif "hextotet"
 [trans]: https://lagrit.lanl.gov/docs/demos/trans/test/html/image/trans2_tn.gif "trans"
 [rmmat]: https://lagrit.lanl.gov/docs/demos/rmmat/test/html/image/rmmat4_tn.gif "rmmat"
-[regenpts]: https://lagrit.lanl.gov/docs/demos/regnpts/test/html/image/regnpts2_tn.gif "regenpts"
+[regnpts]: https://lagrit.lanl.gov/docs/demos/regnpts/test/html/image/regnpts2_tn.gif "regenpts"
 [sort]: https://lagrit.lanl.gov/docs/demos/sort/test/html/image/sort_tn.gif "sort"
 [pset]: https://lagrit.lanl.gov/docs/demos/pset/test/html/image/pset2_tn.gif "pset"
 [rivara]: https://lagrit.lanl.gov/docs/demos/refine_rivara/test/html/image/rivara2_tn.gif "rivara"
