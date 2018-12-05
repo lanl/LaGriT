@@ -169,7 +169,7 @@ release: BUILD_TYPE = Release
 release: build
 
 build : header before
-	$(FC) $(BUILDFLAGS) -o $(EXE_NAME) $(BUILDLIBS)
+	$(FC) -o $(EXE_NAME) $(BUILDLIBS) $(BUILDFLAGS)
 
 header :
 	@echo "$$LAGRIT_H_TEXT" > src/lagrit.h
