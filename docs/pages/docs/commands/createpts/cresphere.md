@@ -49,7 +49,21 @@ createpts/sphere/diamond/5/162/1,.5/0,0,0/1,0,0/
 
 </pre>
 
-Icosohedron tet sphere
+Projected cube onto a sphere connected into tets (Image clipped at half)
+<img width="400" src="https://lanl.github.io/LaGriT/assets/images/createsphere_1_cube_half_TN.PNG">
+
+<pre>
+cmo / create / motet_sph
+createpts/sphere/1/5/162/1.0,0.5/0.,0.,0./1,0,0.0/ 
+cmo / setatt / motet_sph / imt / 1 0 0 / 1
+filter / 1 0 0 
+rmpoint / compress
+connect
+
+</pre>
+
+Icosohedron tet sphere connected into tets (Image clipped at half)
+<img width="400" src="https://lanl.github.io/LaGriT/assets/images/createsphere_2_icso_half_TN.PNG">
 <pre>
 cmo / create / motet_sph
 createpts/sphere/2/5/162/1.0,0.5/0.,0.,0./1,0,0.0/ 
@@ -60,16 +74,6 @@ connect
 
 </pre>
 
-Projected cube onto a sphere connected into tets
-<pre>
-cmo / create / motet_sph
-createpts/sphere/1/5/162/1.0,0.5/0.,0.,0./1,0,0.0/ 
-cmo / setatt / motet_sph / imt / 1 0 0 / 1
-filter / 1 0 0 
-rmpoint / compress
-connect
-
-</pre>
 
  
 
