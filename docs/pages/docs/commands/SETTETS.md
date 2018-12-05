@@ -144,9 +144,7 @@ Image markdown root path no resize<br>
 
 Image html full path<br>
 
-<a>
-<img src="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png" width=500>
-</a>
+<img width="500" src="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png">
 
 Image markdown full path no resize<br>
 
@@ -154,25 +152,15 @@ Image markdown full path no resize<br>
 
 Image html relative path<br>
 
-<a>
-<img src="{{ "/assets/images/sphere_cube_colors26_expand.png" | relative_url }}" width=500>
-</a>
+<img src="{{ "../../../assets/images/sphere_cube_colors26_expand.png" | relative_url }}" width="500">
 
 Image html absolute path<br>
 
-<a>
-<img src="{{'docs/assets/images/sphere_cube_colors26_expand.png' | absolute_url}}" width=500>
-</a>
+<img src="{{'docs/assets/images/sphere_cube_colors26_expand.png' | absolute_url}}" width="500">
 
 Image markdown relative path no resize<br>
 
 ![sphere colors](../../../assets/images/sphere_cube_colors26_expand.png)
-
-Image html root path<br>
-
-
-<img src="{{ "/assets/images/sphere_cube_colors26_expand.png" | relative_url }}" width=500>
-
 
 Image markdown full path no resize<br>
 
@@ -180,6 +168,6 @@ Image markdown full path no resize<br>
 
 Image markdown absolute url<br>
 
-![sphereColors3]({{'docs/assets/images/sphere_cube_colors26_expand.png' | absolute_url}})
+![sphereColors3]({{'assets/images/sphere_cube_colors26_expand.png' | absolute_url}})
 
-HTML absolute url
+<img src="smiley.gif" alt="Smiley face" height="42" width="42">
