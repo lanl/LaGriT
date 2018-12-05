@@ -109,22 +109,28 @@ Creates a sphere shaped triangulated surface with colors 1-26 based on normal di
 
 Image shows triangle elements colored by 26 normal values. Image materials are expanded to show all.
 
-Image html
+Image html<br>
+
 <img src="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png" width=500 >
 
-Image html relative path 4
+Image html relative path 4<br>
+
 <img src="../../../../assets/images/sphere_cube_colors26_expand.png" width=500 >
 
-Image html relative path 5
-<img src="../../../../../assets/images/sphere_cube_colors26_expand.png" width=500 >
+Image html relative path 5<br>
 
-Image html root path
-<img src="/assets/images/sphere_cube_colors26_expand.png" width=500 >
+<img src="../../../../../assets/images/sphere_cube_colors26_expand.png" width=500>
 
-Image markdown full path no resize
+Image html root path<br>
+
+<img src="/assets/images/sphere_cube_colors26_expand.png" width=500>
+
+Image markdown full path no resize<br>
+
 ![sphere colors](https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png)
 
-Image markdown root path no resize
+Image markdown root path no resize<br>
+
 ![sphere colors](/assets/images/sphere_cube_colors26_expand.png)
 
 
@@ -136,21 +142,27 @@ Image markdown root path no resize
 --------------------
 
 
-Image html full path
+Image html full path<br>
+
 <img src="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png" width=500 >
 
-Image markdown full path no resize
+Image markdown full path no resize<br>
+
 ![sphere colors](https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png)
 
-Image html relative path
-<img src="{{ "/assets/images/sphere_cube_colors26_expand.png" | relative_url }}" width=500 >
+Image html relative path<br>
 
-Image markdown relative path no resize
+<img src="{{ "/assets/images/sphere_cube_colors26_expand.png" | relative_url }}" width=500>
+
+Image markdown relative path no resize<br>
+
 ![sphere colors](../../../../assets/images/sphere_cube_colors26_expand.png)
 
-Image html root path
-<img src="{{ site.baseurl }}/assets/images/sphere_cube_colors26_expand.png" width=500 >
+Image html root path<br>
 
-Image markdown full path no resize
+<img src="{{ site.baseurl }}/assets/images/sphere_cube_colors26_expand.png" width=500>
+
+Image markdown full path no resize<br>
+
 ![sphere colors2]({{ site.baseurl }}/assets/images/sphere_cube_colors26_expand.png)
 
