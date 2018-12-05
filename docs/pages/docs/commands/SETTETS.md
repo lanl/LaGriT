@@ -109,5 +109,33 @@ Creates a sphere shaped triangulated surface with colors 1-26 based on normal di
 
 Image shows triangle elements colored by 26 normal values. Image materials are expanded to show all.
 
+Image html
 <img src="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png" width=500 >
+
+Image html relative path 4
+<img src="../../../../assets/images/sphere_cube_colors26_expand.png" width=500 >
+
+Image html relative path 5
+<img src="../../../../../assets/images/sphere_cube_colors26_expand.png" width=500 >
+
+Image html root path
+<img src="/assets/images/sphere_cube_colors26_expand.png" width=500 >
+
+Image markdown full path no resize
+![sphere colors](https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png)
+
+Image markdown root path no resize
+![sphere colors](/assets/images/sphere_cube_colors26_expand.png)
+
+
+
+
+
+
+
+
+
+
+
+
 
