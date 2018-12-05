@@ -133,9 +133,24 @@ Image markdown root path no resize
 
 
 
+--------------------
 
 
+Image html full path
+<img src="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png" width=500 >
 
+Image markdown full path no resize
+![sphere colors](https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png)
 
+Image html relative path
+<img src="{{ "/assets/images/sphere_cube_colors26_expand.png" | relative_url }}" width=500 >
 
+Image markdown relative path no resize
+![sphere colors](../../../../assets/images/sphere_cube_colors26_expand.png)
+
+Image html root path
+<img src="{{ site.baseurl }}/assets/images/sphere_cube_colors26_expand.png" width=500 >
+
+Image markdown full path no resize
+![sphere colors2]({{ site.baseurl }}/assets/images/sphere_cube_colors26_expand.png)
 
