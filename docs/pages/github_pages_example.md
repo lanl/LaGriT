@@ -193,7 +193,7 @@ You can stack these, like:
 Below are multiple ways to embed images in a Markdown file.
 Note that relative paths are relative to LaGriT/docs/pages/docs/commands/.
 
-&lt;img width=&quot;500&quot; src="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png&quot;>
+&lt;img width=&quot;500&quot; src=&quot;https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png">
 &#x0021;&#x005b;alternate text](https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png)
 &lt;img src=&quot;&#123;&#123;'assets/images/sphere_cube_colors26_expand.png' | absolute_url&#125;&#125;&quot; width=&quot;500&quot;>
 &#x0021;&#x005b;alternate text](../../../assets/images/sphere_cube_colors26_expand.png)
