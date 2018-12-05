@@ -189,14 +189,19 @@ You can stack these, like:
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
-If you want to embed images, this is how you do it:
 
-&#x0021;&#x005b;Alternate Text Goes Here]&#x0028;https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png)
+Below are multiple ways to embed images in a Markdown file.
+Note that relative paths are relative to LaGriT/docs/pages/docs/commands/.
+
+&lt;img width=&quot;500&quot; src="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png&quot;>
+&#x0021;&#x005b;alternate text](https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png)
+&lt;img src=&quot;&#123;&#123;'assets/images/sphere_cube_colors26_expand.png' | absolute_url&#125;&#125;&quot; width=&quot;500&quot;>
+&#x0021;&#x005b;alternate text](../../../assets/images/sphere_cube_colors26_expand.png)
+&#x0021;&#x005b;alternate text](&#123;&#123; site.baseurl }}/assets/images/sphere_cube_colors26_expand.png)
+&#x0021;&#x005b;alternate text](&#123;&#123;'assets/images/sphere_cube_colors26_expand.png' | absolute_url&#125;&#125;)
 </pre>
 <div class="rendered">
-If you want to embed images, this is how you do it:
-
-![Alternate Text Goes Here](https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png)
+<img width="200" src="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png">
 </div>
 </div>
 
