@@ -107,3 +107,5 @@ Creates a sphere shaped triangulated surface with colors 1-26 based on normal di
   26   top    front left  corner (magenta)
 </pre>
 
+<a href="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png" ><img src="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png" width=400 ></a> 
+
