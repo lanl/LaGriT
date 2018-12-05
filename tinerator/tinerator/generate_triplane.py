@@ -384,188 +384,93 @@ def generateFaceSetsNaive(lg:pylagrit.PyLaGriT,stacked_mesh,outfile:str):
 def buildUniformTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
                          counterclockwise:bool=False,connectivity:bool=None,
                          min_edge:float=16.):
+    '''
 
+    Generate a uniform triplane mesh from a boundary polygon.
+    The final length scale will have a minimum edge length of 
+    min_edge / 2, and a maximum edge length of min_edge.
+
+    The algorithm works by triangulating only the boundary, and
+    then iterating through each triangle, breaking edges in half
+    where they exceed the given edge length.
+
+    :param lg: Instance of PyLaGriT
+    :type lg: pylagrit.PyLaGriT
+    :param boundary: Boundary nodes with, at least, x and y columns
+    :type boundary: np.ndarray
+    :param outfile: outfile to save triangulation to (set to None to skip)
+    :type outfile: str
+    :param min_edge: approximate minimum triangle edge length
+    :type min_edge: float
+    :param counterclockwise: flag to indicate connectivity ordering
+    :type counterclockwise: bool
+    :param connectivity: optional array declaring node connectivity
+    :type connectivity: np.ndarray
+    '''
+
+    # Generate the boundary polygon
     if connectivity is None:
         connectivity = generateLineConnectivity(boundary)
 
     _writeLineAVS(boundary,"poly_1.inp",connections=connectivity)
 
-    cmd = '# UNIFORM TRIPLANE \n '
+    # Compute length scales to break triangles down into
+    # See below for a more in-depth explanation
+    length_scales = [min_edge*i for i in [1,2,4,8,16,32,64]][::-1]
 
-    cmd += 'define / ID / 1\n'
-    cmd += 'define / OUTFILE_GMV / mesh_1.gmv\n'
-    cmd += 'define / OUTFILE_AVS / %s\n' % outfile
-    cmd += 'define / OUTFILE_LG / mesh_1.lg\n'
+    mo_tmp = lg.read("poly_1.inp")
 
-    cmd += 'define / H_PRIME / ' + str(0.8*min_edge) + '\n'
-    cmd += 'define / H_SCALE / ' + str(min_edge) + '\n'
-    cmd += 'define / H_SCALE2 / ' + str(2*min_edge) + '\n'
-    cmd += 'define / H_SCALE4 / ' + str(4*min_edge) + '\n'
-    cmd += 'define / H_SCALE8 / ' + str(8*min_edge) + '\n'
-    cmd += 'define / H_SCALE16 / ' + str(16*min_edge) + '\n'
-    cmd += 'define / H_SCALE32 / ' + str(32*min_edge) + '\n'
-    cmd += 'define / H_SCALE64 / ' + str(64*min_edge) + '\n'
+    motri = lg.create(elem_type='triplane')
+    motri.setatt('ipolydat','no')
+    lg.sendline('copypts / %s / %s' % (motri.name,mo_tmp.name))
+    motri.setatt('imt',1)
+    mo_tmp.delete()
 
-    cmd += 'define / POLY_FILE / poly_1.inp\n'
-
-    cmd += 'read / POLY_FILE / motmp\n'
-    
-    cmd += 'cmo create motri///triplane\n'
-    cmd += 'cmo setatt motri ipolydat no\n'
-    cmd += 'copypts motri motmp\n'
-    cmd += '  cmo setatt motri imt 1\n'
-    cmd += '  cmo delete motmp\n'
-
-    cmd += 'cmo select motri\n'
-
+    # Triangulate the boundary
+    motri.select()
     if counterclockwise:
-        cmd += 'triangulate/counterclockwise\n'
+        motri.triangulate(order='counterclockwise')
     else:
-        cmd += 'triangulate/clockwise\n'
-        
-    cmd += 'cmo setatt motri itetclr 1\n'
-    cmd += 'cmo setatt motri imt 1\n'
-    cmd += 'resetpts itp\n'
+        motri.triangulate(order='clockwise')
 
-    cmd += 'quality edge_max y\n'
-    cmd += 'cmo printatt motri edgemax minmax\n'
-    cmd += 'quality\n'
-  #  cmd += 'dump gmv tmp_tri.gmv motri\n'
-    cmd += 'cmo copy mo motri \n'
+    # Set material ID to 1        
+    motri.setatt('itetclr',1)
+    motri.setatt('motri',1)
+    motri.resetpts_itp()
 
-    cmd += '# break up very large triangles \n'
-    cmd += 'cmo select motri\n'
+    lg.sendline('cmo/copy/mo/%s' % motri.name)
 
-    cmd += 'refine rivara///edge/1,0,0/H_SCALE64///inclusive\n'
-    cmd += 'recon 0 \n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0 \n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0 \n'
-    cmd += 'smooth\n'
-    cmd += 'rmpoint compress\n'
-    cmd += 'quality edge_max y\n'
-    cmd += 'cmo printatt motri edgemax minmax\n'
-   
-    cmd += 'refine rivara///edge/1,0,0/H_SCALE32///inclusive\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'rmpoint compress\n'
-    cmd += 'quality edge_max y\n'
-    cmd += 'cmo printatt motri edgemax minmax\n'
+    # Move through each length scale, breaking down edges less than the value 'ln'
+    # Eventually this converges on triangles with edges in the range [0.5*min_edge,min_edge]
+    motri.select()
+    for ln in length_scales:
+        motri.refine(refine_option='rivara',refine_type='edge',values=[ln],inclusive_flag='inclusive')
 
-    cmd += 'refine rivara///edge/1,0,0/H_SCALE16///inclusive\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'rmpoint compress\n'
-    cmd += 'quality edge_max y\n'
-    cmd += 'cmo printatt motri edgemax minmax\n'
+        for _ in range(3):
+            motri.recon(0)
+            motri.smooth()
+        motri.rmpoint_compress(resetpts_itp=False)
 
-    cmd += 'define EDGELEN H_SCALE8\n'
-    cmd += 'refine rivara///edge/1,0,0/H_SCALE8///inclusive\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'rmpoint compress\n'
-    cmd += 'quality edge_max y\n'
-    cmd += 'cmo printatt motri edgemax minmax\n'
+    # Smooth and reconnect the triangulation
+    for _ in range(6):
+        motri.smooth()
+        motri.recon(0)
+        motri.rmpoint_compress(resetpts_itp=True)
 
-    cmd += 'refine rivara///edge/1,0,0/H_SCALE4///inclusive\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'rmpoint compress\n'
-    cmd += 'quality edge_max y\n'
-    cmd += 'cmo printatt motri edgemax minmax\n'
-    cmd += 'dump gmv tmp3.gmv motri\n'
+    motri.rmpoint_compress(resetpts_itp=False)
+    motri.recon(1); motri.smooth(); motri.recon(0); motri.recon(1)
 
-    cmd += 'refine rivara///edge/1,0,0/H_SCALE2///inclusive\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'rmpoint compress\n'
-    
-    cmd += 'refine rivara///edge/1,0,0/H_SCALE///inclusive\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'rmpoint compress\n'
+    #pgood = motri.pset_attribute('aratio',0.8,comparison='gt')
+    #prest = motri.pset_not([pgood])
 
-    cmd += '### should be close to target edge length here ###\n'
+    motri.setatt('ipolydat','yes')
+    #motri.addatt('vorvol',keyword='vor_volume')
 
-    cmd += 'quality\n'
-    cmd += 'quality edge_max y\n'
-    cmd += 'quality edge_min y\n'
-    cmd += 'cmo printatt motri edgemax minmax\n'
-    cmd += 'cmo printatt motri edgemin minmax\n'
+    if outfile:
+        motri.dump(outfile)
 
-    cmd += 'define DAMAGE  1. \n'
-    cmd += 'define MAXEDGE  1.e+20 \n'
-   
-    cmd += '# massage/MAXEDGE H_PRIME DAMAGE /1,0,0/\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'rmpoint compress\n'
-    cmd += 'resetpts itp\n'
+    return motri
 
-    # edge lengths good, try to improve aspect toward 1
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'rmpoint compress\n'
-    cmd += 'resetpts itp\n'
-    cmd += 'quality aspect y\n'
-    cmd += 'pset/pgood/attribute aratio/1,0,0/ gt .8\n'
-    cmd += 'pset/prest/ not pgood\n'
-
-    ## connect delaunay
-    cmd += 'rmpoint compress\n'
-    cmd += 'recon 1\n'
-    cmd += 'smooth\n'
-    cmd += 'recon 0\n'
-    cmd += 'recon 1\n'
-
-    cmd += 'quality edge_max y\n'
-    cmd += 'quality edge_min y\n'
-    cmd += 'quality aspect y\n'
-    cmd += 'cmo printatt motri edgemax minmax\n'
-    cmd += 'cmo printatt motri edgemin minmax\n'
-    cmd += 'cmo printatt motri aratio minmax\n'
-    cmd += 'pset/pgood/attribute aratio/1,0,0/ gt .8\n'
-    cmd += 'pset/prest/ not pgood\n'
-
-    cmd += 'quality\n'
-    cmd += 'cmo setatt motri ipolydat yes\n'
-    cmd += 'cmo addatt motri vor_volume vorvol\n'
-    cmd += 'dump gmv OUTFILE_GMV motri\n'
-    cmd += 'dump avs OUTFILE_AVS motri\n'
-
-    cmd += 'finish\n'
-
-    callLaGriT(cmd,lagrit_path=lg.lagrit_exe)
 
 def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.ndarray,outfile:str,
                          h:float,connectivity:bool=None,delta:float=0.75,
