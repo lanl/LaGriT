@@ -49,8 +49,7 @@ createpts/sphere/diamond/5/162/1,.5/0,0,0/1,0,0/
 
 </pre>
 
-Projected cube onto a sphere connected into tets (Image clipped at half)
-
+Projected cube onto a sphere connected into tets (Image clipped at half)<br>
 Number of nodes = 750 Number of elements = 4175
 
 <pre>
@@ -65,8 +64,7 @@ connect
 <img width="400" src="https://lanl.github.io/LaGriT/assets/images/createsphere_1_cube_half_TN.PNG">
 
 
-Icosohedron tet sphere connected into tets (Image clipped at half)
-
+Icosohedron tet sphere connected into tets (Image clipped at half)<br>
 Number of nodes = 812  Number of elements = 4187
 
 
