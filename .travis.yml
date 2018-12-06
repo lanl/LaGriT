@@ -12,6 +12,7 @@ matrix:
 
 compiler:
   - gcc
+  - clang
 
 branches:
   only:
