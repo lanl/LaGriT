@@ -30,8 +30,8 @@ before_install:
 script:
   #- if [ $TRAVIS_OS_NAME == "windows" ]; then make exodus EXO_CMAKE_FLAGS=-DTPL_ENABLE_X11=OFF; fi
   - if [ $TRAVIS_OS_NAME == "osx" ];     then make exodus; fi
-  - make release
-  - make static
+  - make WITHEXODUS=0 release
+  - make WITHEXODUS=0 static
   - make test
 
 after_success:
