@@ -675,6 +675,25 @@ class PyLaGriT(spawn):
             c = ''.join(c.split())
             if len(c) != 0 and 'finish' not in c:
                 self.sendline(c)
+
+    def read_att(self,fname,attributes,mesh=None,operation='add'):
+        '''
+        Reads data from a file into an attribute.
+        '''
+
+        if mesh is None:
+            mesh = self.create()
+
+        if not isinstance(attributes,(list,tuple)):
+            attributes = [attributes]
+
+        if isinstance(operation,(list,tuple)):
+            operation = ','.join(list(map(str,operation)))
+
+        cmd = '/'.join(['cmo','readatt',mesh.name,','.join(attributes),operation,fname])
+        self.sendline(cmd)
+
+        return mesh
                             
     def convert(self, pattern, new_ft):
         '''
@@ -2519,6 +2538,54 @@ class MO(object):
         '''
         return self.subset(geom='xyz', **minus_self(locals()))
         
+    def quadxy(self,NX,NY,v1,v2,v3,v4):
+        '''
+        Define an arbitrary, logical quad of points in 3D space
+        with NDIM1 x NDIM2 number of nodes.
+        '''
+        self.select()
+
+        c = ''
+        for v in [v1,v2,v3,v4]:
+            assert len(v) == 3,'vectors must be of length 3 (x,y,z)'
+            c += '/'+','.join(list(map(str,v)))
+        self.sendline('quadxy/%d,%d%s' % (NX,NY,c))
+
+    def rzbrick(self,n_ijk,connect=True,stride=(1,0,0),coordinate_space='xyz'):
+        '''
+        Builds a brick mesh and generates a nearest neighbor connectivity matrix
+
+        Currently only configured for this flavor of syntax:
+         
+            rzbrick/xyz|rtz|rtp/ni,nj,nk/pset,get,name/connect/
+
+        Use this option with quadxyz to connect logically rectangular grids.
+
+        :arg n_ijk: number of points to be created in each direction. 
+        :type n_ijk: tuple
+        :arg connect: connect points
+        :type connect: bool
+        :arg stride: Stride to select 
+        :type stride: tuple
+        :arg coordinate_space: xyz,rtz,or rtp coordinate spaces
+        :type coordinate_space: str
+        '''
+
+        coordinate_space = coordinate_space.lower()
+        assert coordinate_space in ['xyz','rtz','rtp'],'Unknown coordinate space'
+
+        self.select()
+        cmd = 'rzbrick/%s' % coordinate_space
+
+        for v in [n_ijk,stride]:
+            assert len(v) == 3,'vectors must be of length 3 (x,y,z)'
+            cmd += '/'+','.join(list(map(str,v)))
+
+        if connect:
+            cmd += '/connect'
+
+        self.sendline(cmd)
+
     def subset_rtz(self, mins, maxs):
         '''
         Return Cylindrical MO Subset
