@@ -16,7 +16,7 @@
 #    CC (default: gcc) : C source compiler
 #    FC (default: gfortran) : Fortran source compiler
 #    FC90 (default: gfortran) : Fortran90 source compiler
-#    WITHEXODUS (default: 1) : Build with or without Exodus
+#    WITH_EXODUS (default: 1) : Build with or without Exodus
 #    DEBUG (default: 0) : Built in debug (1) or optimized (0) mode
 #    EXO_LIB_DIR (default: LAGRIT_ROOT_DIR/seacas/lib) : ExodusII library location
 #    EXE_NAME (default: src/lagrit) : binary filename for LaGriT
@@ -29,7 +29,7 @@ CC := gcc
 FC := gfortran
 FC90 := $(FC)
 OBJDIR := objects/
-WITHEXODUS := 1
+WITH_EXODUS := 1
 
 # Detect 64 or 32 bit arch; detect OS name
 BIT_SIZE := $(shell getconf LONG_BIT)
@@ -160,8 +160,11 @@ ifeq ($(wildcard $(EXO_LIB_DIR)),)
         EXO_LIB_DIR := /usr/lib
 endif
 
-ifeq ($(WITHEXODUS),1)
+ifeq ($(WITH_EXODUS),1)
 	BUILDFLAGS += -L$(EXO_LIB_DIR) -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl
+	FAIL_THRESH := 1
+else
+	FAIL_THRESH := 3
 endif
 
 .PHONY: release static header before clean clobber test exodus
@@ -176,7 +179,7 @@ header :
 
 before : src/lagrit_main.o src/lagrit_fdate.o
 	make -C lg_util/src/ LIB=$(LG_UTIL_LIB) CC=$(CC) FC=$(FC)
-	make -C src/ LIB=$(SRC_LIB) WITHEXODUS=$(WITHEXODUS) CC=$(CC) FC=$(FC) EXO_INCLUDE_DIR=$(EXO_LIB_DIR)/../include
+	make -C src/ LIB=$(SRC_LIB) WITHEXODUS=$(WITH_EXODUS) CC=$(CC) FC=$(FC) EXO_INCLUDE_DIR=$(EXO_LIB_DIR)/../include
 
 clean :
 	make -C lg_util/src/ clean
@@ -190,7 +193,7 @@ clobber :
 test :
 	@export LG_CWD=$(shell pwd); \
 	 cd test/; \
-	 python suite.py -f -l 1 -exe=$$LG_CWD/$(EXE_NAME);
+	 python suite.py -f -l 1 -exe=$$LG_CWD/$(EXE_NAME) -hf=$(FAIL_THRESH);
 
 help : 
 	@echo "$$LAGRIT_HELP"
@@ -206,7 +209,7 @@ exodus :
 	cd $(EXO_BUILD_DIR)/seacas; \
 	./install-tpl.sh; \
 	cd TPL; \
-	../cmake-config $(EXO_CMAKE_FLAGS) -DFORTRAN=YES; \
+	../cmake-exodus $(EXO_CMAKE_FLAGS) -DFORTRAN=YES; \
 	make && make install; \
 	cd $(LG_DIR); \
 	echo "Exodus successfully built!"; \
