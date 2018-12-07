@@ -164,12 +164,98 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     triplane.dump(fileout)
     os.remove(_array_out)
 
+def mapFunctionToAttribute(lg:pylagrit.PyLaGriT,mesh:str,
+                           number_of_layers:int,layers=None,
+                           attribute_name:str=None,operator:str='+',
+                           fn=lambda layer: layer*100,outfile:str=None):
+    '''
+
+    Maps a function and on operator onto mesh data.
+    The function fn should take one parameter: the current layer
+    number. The operator will perform on the data and function result.
+
+    In other words, the new attribute data will be a result of:
+
+       attribute_data(layer) = attribute_data [operation] fn(layer)
+
+    For fn = lambda layer: layer*100 and operator '+',
+
+       attribute_data(layer) = attribute_data + layer*100
+
+    meaning that if a selection of attribute data is
+
+        [1,3,5,10,12...]
+
+    then, with operator '+' and lambda layer: layer*100,
+
+        layer 1: [101,103,105,110,112...]
+        layer 2: [201,203,205,210,212...]
+        layer 3: [301,103,305,310,312...]
+        ... 
+
+    '''
+
+    # Sanity check to ensure that function is valid
+    try:
+        fn(1)
+    except TypeError:
+        print(fn)
+        raise TypeError('Function fn is not a valid function.')
+
+    # Remap operators to LaGriT syntax
+    operator = operator.lower()
+    if operator in ['+','add']:
+        operator = 'add'
+    elif operator in ['-','sub','subtract']:
+        operator = 'subtract'
+    elif operator in ['/','div','divide']:
+        operator = 'divide'
+    elif operator in ['*','x','mul','multiply']:
+        operator = 'multiply'
+
+    stacked_mesh = lg.read(mesh)
+
+    info = stacked_mesh.information()
+    v = info['elements'] // number_of_layers
+
+    # Conform scalar to type(list<int>)
+    if isinstance(layers,(int,float)):
+        layers = [int(layers)]
+    elif layers is None:
+        layers = list(range(1,number_of_layers+1))
+
+    # Sanity check - ensure that all layers are numbers
+    if not all(isinstance(x,int) for x in layers):
+        raise ValueError('layers contains non-conforming data')
+
+    if attribute_name is None:
+        attribute_name = 'itetclr'
+
+    stacked_mesh.addatt('elttmp',vtype='VINT',length='nelements')
+    for layer in layers:
+
+        # Set icr1 to 1 for all layers
+        stacked_mesh.setatt('elttmp',1)
+
+        # Set icr1 to 2 *only* for the current layer we're on
+        stacked_mesh.setatt('elttmp',2,stride=[v*(layer-1),v*layer])
+
+        # Capture the current layer elements by creating an eltset from the above line
+        current_layer = stacked_mesh.eltset_attribute('elttmp',2)
+
+        # Apply function to layer data
+        stacked_mesh.math(operator,attribute_name,value=fn(layer),stride=['eltset','get',current_layer.name],attsrc=attribute_name)
+
+    stacked_mesh.delatt('elttmp')
+
+    if outfile is not None:
+        stacked_mesh.dump(outfile)
+
+    return stacked_mesh
 
 def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
-                 outfile:str,dem_dimensions:list,lower_left_corner:list,
-                 cell_size:list,number_of_layers:int,flip:str='y',
-                 no_data_value:float=np.nan,attribute_name:str=None,
-                 layers:int=None):
+                 outfile:str,dem_dimensions:list,number_of_layers:int,extent:list,
+                 attribute_name:str=None,layers:int=None,dtype=None):
     '''
     Adds an attribute to the stacked mesh, over one or more layers. Default is all.
     Data must be an NxM matrix - it does not necessarily have to be the same size at the DEM,
@@ -179,52 +265,56 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
     The default is 'material ID', but can be changed to any
     [a-z][A-Z][0-9] string (outside of reserved LaGriT keywords).
 
-    :param data:
-    :type data:
-    :param layers:
-    :type layers:
-    :param attribute_name:
-    :type attribute_name:
-    :param outfile:
-    :type outfile:
-    :param flip:
-    :type flip:
-
+    :param data: NxM matrix of data to be written as matrix
+    :type data: np.ndarray
+    :param layers: Layer IDs to write attributes to. Defaults to 'all'.
+    :type layers: list<int>
+    :param attribute_name: Attribute name to store data in. Defaults to material ID
+    :type attribute_name: str
+    :param outfile: Filename to write mesh to
+    :type outfile: str
+    :param dtype: Data type of elements in data. Defaults to float
+    :type dtype: type
+    :returns: Prism mesh with new attribute
     '''
 
+    if dtype is None:
+        dtype = type(data[0,0])
+    
+    dtype = 'VINT' if dtype in [int,np.int64,np.int] else 'VDOUBLE'
     data = imresize(data,(dem_dimensions[1],dem_dimensions[0]),interp='nearest')
-
-    # Interpolate no data values on the DEM
-    # This is to prevent a noise effect on LaGriT interpolation 
-    data = deepcopy(data).astype(float)
-    mask = data == no_data_value
-    data[mask] = np.nan
-
-    # Mask invalid values
-    data = np.ma.masked_invalid(data)
-    xx, yy = np.meshgrid(np.arange(0,data.shape[1]),np.arange(0,data.shape[0]))
-
-    #get only the valid values
-    x1 = xx[~mask]
-    y1 = yy[~mask]
-    newarr = data[~mask]
-
-    data = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method='nearest')
-    data[data == np.nan] = no_data_value
 
     # Dump attribute data
     _array_out = "_temp_attrib_array.dat"
-    data.filled().tofile(_array_out,sep=' ',format='%.3f')
+    data = np.flip(data,1).flatten(order='C')[::-1]
 
-    # Read sheet and extrude
-    name = ''.join(random.choice(string.ascii_lowercase) for _ in range(5))
-    tmp_sheet = lg.read_sheetij(name, _array_out, dem_dimensions, lower_left_corner, cell_size, flip=flip)
-    extrusion = tmp_sheet.extrude(10000.)
-    extrusion.addatt('esatt',length='nelements')
+    # TODO: Streamline this
+    with open(_array_out,'w') as f:
+        for i in range(dem_dimensions[1]*dem_dimensions[0]):
+            f.write('%d\n' % (data[i]))
 
-    # Copy read attribute from tmp_sheet to extrusion
-    lg.sendline('interpolate/voronoi/%s,esatt/1,0,0/%s,elev' % (extrusion.name,tmp_sheet.name))
-    tmp_sheet.delete()
+    # Adjusted matrix dimensions for LaGriT
+    NX, NY = (dem_dimensions[0] + 1), (dem_dimensions[1] + 1)
+
+    # Below, we are:
+    #   1. Reading in an attribute 
+    #   2. Creating a quad mesh of the same (rows,cols) as the data
+    #   3. Copying that data to an element-based attribute
+    #   4. Extruding the quad mesh such that the z-axis spans the stacked mesh
+    #   5. Interpolating the data onto the stacked mesh
+
+    mo_pts = lg.read_att(_array_out,'imt',operation=(1,0,0))
+    mo_quad = lg.create(elem_type='quad')
+    mo_quad.quadxy(NX,NY,[extent[0],extent[2],0.],[extent[1],extent[2],0.],
+                         [extent[1],extent[3],0.],[extent[0],extent[3],0.])
+
+    mo_quad.rzbrick([NX,NY,1],stride=(1,0,0),connect=True)
+    mo_quad.addatt('id_strat',vtype=dtype,length='nelements')
+
+    mo_quad.copyatt('imt',mo_src=mo_pts,attname_sink='id_strat')
+    mo_extrude = mo_quad.extrude(10000.)
+    mo_extrude.addatt('id_strat',vtype=dtype,length='nelements')
+    mo_extrude.copyatt('id_strat',mo_src=mo_quad,attname_sink='id_strat')
 
     stacked_mesh = lg.read(stacked_mesh_infile)
 
@@ -237,32 +327,44 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
     info = stacked_mesh.information()
     v = info['elements'] // number_of_layers
 
-    lg.sendline('cmo/addatt/'+stacked_mesh.name+'/eslayer/VINT/scalar/nelements/linear/permanent/gxaf/0.0')
+    if layers is None:
+        stacked_mesh.interpolate('map',attribute_name,mo_extrude,'id_strat',stride=[1,0,0])
+    else:
+        # Conform scalar to type(list<int>)
+        if isinstance(layers,(int,float)):
+            layers = [int(layers)]
 
-    if isinstance(layers,(int,float)):
-        layers = [layers]
-    elif layers is None:
-        layers = list(range(1,number_of_layers+1))
+        # Sanity check - ensure that all layers are numbers
+        if not all(isinstance(x,int) for x in layers):
+            raise ValueError('layers contains non-conforming data')
 
-    if not all(isinstance(x,int) for x in layers):
-        raise ValueError('layers contains non-conforming data')
+        stacked_mesh.addatt('elttmp',vtype='VINT',length='nelements')
+        for layer in layers:
 
-    for layer in layers:
-        start = layer - 1
-        end = layer
+            # Set icr1 to 1 for all layers
+            stacked_mesh.setatt('elttmp',1)
 
-        lg.sendline('cmo/setatt/ %s eslayer 1' % stacked_mesh.name)
-        lg.sendline('cmo/setatt/ %s eslayer/ %d,%d 2' % (stacked_mesh.name,v*start,v*end))
+            # Set icr1 to 2 *only* for the current layer we're on
+            stacked_mesh.setatt('elttmp',2,stride=[v*(layer-1),v*layer])
 
-        test_elt = stacked_mesh.eltset_attribute('eslayer',2)
+            # Capture the current layer elements by creating an eltset from the above line
+            current_layer = stacked_mesh.eltset_attribute('elttmp',2)
 
-        lg.sendline('interpolate/map/%s,%s/eltset,get,%s/%s,esatt' % (stacked_mesh.name,attribute_name,test_elt.name,extrusion.name))
-        stacked_mesh.add('add',attribute_name,value=int(layer*10),stride=['eltset','get',test_elt.name],attsrc=attribute_name)
+            # Iterpolate matrix onto layer
+            stacked_mesh.interpolate('map',attribute_name,mo_extrude,'id_strat',stride=['eltset','get',current_layer.name])
 
-    extrusion.delete()
+        stacked_mesh.delatt('elttmp')
+
+
+    # Remove temporary meshes
+    for mesh in [mo_pts,mo_extrude,mo_quad]:
+        mesh.delete()
+
     os.remove('_temp_attrib_array.dat')
 
-    stacked_mesh.dump(outfile)
+    if outfile is not None:
+        stacked_mesh.dump(outfile)
+
     return stacked_mesh
 
 def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
@@ -387,12 +489,14 @@ def buildUniformTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
     '''
 
     Generate a uniform triplane mesh from a boundary polygon.
-    The final length scale will have a minimum edge length of 
-    min_edge / 2, and a maximum edge length of min_edge.
 
     The algorithm works by triangulating only the boundary, and
     then iterating through each triangle, breaking edges in half
     where they exceed the given edge length.
+
+    Consequently, this means that the final length scale will have
+    a minimum edge length of min_edge / 2, and a maximum edge
+    length of min_edge.
 
     :param lg: Instance of PyLaGriT
     :type lg: pylagrit.PyLaGriT

@@ -221,7 +221,7 @@ class DEM():
         self.stacked_mesh = outfile
         self.number_of_layers = len(layers)
 
-    def addAttribute(self,data,layers=None,attribute_name=None,outfile=None,flip:str='y'):
+    def addAttribute(self,data,layers=None,attribute_name=None,outfile=None,dtype=float):
         '''
         Adds an attribute to the stacked mesh, over one or more layers. Default is all.
         Data must be an NxM matrix - it does not necessarily have to be the same size at the DEM,
@@ -231,27 +231,59 @@ class DEM():
         The default is 'material ID', but can be changed to any
         [a-z][A-Z][0-9] string (outside of reserved LaGriT keywords).
 
-        :param data:
-        :type data:
-        :param layers:
-        :type layers:
-        :param attribute_name:
-        :type attribute_name:
-        :param outfile:
-        :type outfile:
-        :param flip:
-        :type flip:
+        :param data: NxM matrix of data to be written as matrix
+        :type data: np.ndarray
+        :param layers: Layer IDs to write attributes to. Defaults to 'all'.
+        :type layers: list<int>
+        :param attribute_name: Attribute name to store data in. Defaults to material ID
+        :type attribute_name: str
+        :param outfile: Filename to write mesh to
+        :type outfile: str
+        :param dtype: Data type of elements in data. Defaults to float
+        :type dtype: type
 
         '''
         outfile = self.stacked_mesh if outfile is None else outfile
-        addAttribute(self.lg,data,self.stacked_mesh,outfile,
-                    [self.ncols,self.nrows],
-                    [self.xll_corner,self.yll_corner],
-                    [self.cell_size,self.cell_size],
-                    self.number_of_layers,
-                    flip=flip,no_data_value=self.no_data_value,
-                    layers=layers,attribute_name=attribute_name
-                    )
+        addAttribute(self.lg,data,self.stacked_mesh,
+                     outfile,[self.ncols,self.nrows],
+                     self.number_of_layers,self.getBoundingBox(),
+                     attribute_name=attribute_name,layers=layers,
+                     dtype=dtype)
+
+    def mapFunctionToAttribute(self,operator='+',layers=None,attribute_name=None,
+                               outfile=None,fn=lambda layer: layer*100):
+        '''
+
+        Maps a function and on operator onto mesh data.
+        The function fn should take one parameter: the current layer
+        number. The operator will perform on the data and function result.
+
+        In other words, the new attribute data will be a result of:
+
+           attribute_data(layer) = attribute_data [operation] fn(layer)
+
+        For fn = lambda layer: layer*100 and operator '+',
+
+           attribute_data(layer) = attribute_data + layer*100
+
+        meaning that if a selection of attribute data is
+
+            [1,3,5,10,12...]
+
+        then, with operator '+' and lambda layer: layer*100,
+
+            layer 1: [101,103,105,110,112...]
+            layer 2: [201,203,205,210,212...]
+            layer 3: [301,103,305,310,312...]
+            ... 
+
+        '''
+
+        outfile = self.stacked_mesh if outfile is None else outfile
+        mapFunctionToAttribute(self.lg,self.stacked_mesh,
+                               self.number_of_layers,layers=layers,
+                               attribute_name=attribute_name,operator=operator,
+                               fn=fn)
 
     def meshStatistics(self):
         return self.stacked_mesh.information()
