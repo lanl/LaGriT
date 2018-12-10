@@ -2053,7 +2053,7 @@ class MO(object):
         if the calculated offset is to be added or subtracted from the coordinate.
         '''
 
-        cmd = ['perturb',','.join(stride),str(xfactor),str(yfactor),str(zfactor)]
+        cmd = ['perturb',','.join([str(x) for x in stride]),str(xfactor),str(yfactor),str(zfactor)]
         self.sendline('/'.join(cmd))
     
 
