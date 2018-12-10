@@ -188,6 +188,7 @@ class DEM():
         if self.feature is None:
             buildUniformTriplane(self.lg, self.boundary, "_trimesh.inp", min_edge=h)
         else:
+            print('building refined triplane')
             buildRefinedTriplane(self.lg,self.boundary,self.feature,"_trimesh.inp",h,refine_dist=refine_dist,slope=slope,delta=delta)
 
         if apply_elevation:

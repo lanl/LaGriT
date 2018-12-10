@@ -9,6 +9,7 @@ import numpy as np
 from numpy import genfromtxt, sqrt, cos, arcsin
 from tinerator.dump import callLaGriT
 from tinerator.lg_infiles import Infiles
+from tinerator.unit_conversion import cleanup
 import pylagrit
 from copy import deepcopy
 from scipy import interpolate
@@ -234,17 +235,19 @@ def mapFunctionToAttribute(lg:pylagrit.PyLaGriT,mesh:str,
     stacked_mesh.addatt('elttmp',vtype='VINT',length='nelements')
     for layer in layers:
 
-        # Set icr1 to 1 for all layers
+        # Set att to 1 for all layers
         stacked_mesh.setatt('elttmp',1)
 
-        # Set icr1 to 2 *only* for the current layer we're on
+        # Set att to 2 *only* for the current layer we're on
         stacked_mesh.setatt('elttmp',2,stride=[v*(layer-1),v*layer])
 
-        # Capture the current layer elements by creating an eltset from the above line
+        # Capture the current layer elements
         current_layer = stacked_mesh.eltset_attribute('elttmp',2)
 
         # Apply function to layer data
-        stacked_mesh.math(operator,attribute_name,value=fn(layer),stride=['eltset','get',current_layer.name],attsrc=attribute_name)
+        stacked_mesh.math(operator,attribute_name,value=fn(layer),
+                          stride=['eltset','get',current_layer.name],
+                          attsrc=attribute_name)
 
     stacked_mesh.delatt('elttmp')
 
@@ -341,17 +344,18 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
         stacked_mesh.addatt('elttmp',vtype='VINT',length='nelements')
         for layer in layers:
 
-            # Set icr1 to 1 for all layers
+            # Set att to 1 for all layers
             stacked_mesh.setatt('elttmp',1)
 
-            # Set icr1 to 2 *only* for the current layer we're on
+            # Set att to 2 *only* for the current layer we're on
             stacked_mesh.setatt('elttmp',2,stride=[v*(layer-1),v*layer])
 
-            # Capture the current layer elements by creating an eltset from the above line
+            # Capture the current layer elements
             current_layer = stacked_mesh.eltset_attribute('elttmp',2)
 
             # Iterpolate matrix onto layer
-            stacked_mesh.interpolate('map',attribute_name,mo_extrude,'id_strat',stride=['eltset','get',current_layer.name])
+            stacked_mesh.interpolate('map',attribute_name,mo_extrude,'id_strat',
+                                     stride=['eltset','get',current_layer.name])
 
         stacked_mesh.delatt('elttmp')
 
@@ -360,7 +364,7 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
     for mesh in [mo_pts,mo_extrude,mo_quad]:
         mesh.delete()
 
-    os.remove('_temp_attrib_array.dat')
+    os.remove(_array_out)
 
     if outfile is not None:
         stacked_mesh.dump(outfile)
@@ -410,6 +414,7 @@ def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
     cmo_prism.dump(outfile)
 
     return cmo_prism
+
 
 def generateSingleColumnPrism(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
                 matids=None,xy_subset=None,nlayers=None):
@@ -479,8 +484,7 @@ def generateFaceSetsNaive(lg:pylagrit.PyLaGriT,stacked_mesh,outfile:str):
     _cleanup = 'fs1_bottom.avs fs2_top.avs fs3_sides_all.avs'.split()
     _cleanup.extend(tmp_infile)
 
-    for f in _cleanup:
-        os.remove(f)
+    cleanup(_cleanup)
    
 
 def buildUniformTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
@@ -593,7 +597,13 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
     :returns: nodes,connectivity
     '''
 
-    #TODO: convert to pylagrit
+    # Define initial parameters
+    counterclockwise = False
+    h_eps = h*10**-7
+    PARAM_A = slope
+    PARAM_B = h*(1-slope*refine_dist)
+    PARAM_A2 = 0.5*slope
+    PARAM_B2 = h*(1 - 0.5*slope*refine_dist)
 
     if connectivity is None:
         connectivity = generateLineConnectivity(boundary)
@@ -601,126 +611,84 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
     _writeLineAVS(boundary,"poly_1.inp",connections=connectivity)
     _writeLineAVS(feature,"intersections_1.inp")
 
-    cmd = ''
+    # Write massage macros
+    with open('user_function.lgi','w') as f:
+        f.write(Infiles.distance_field)
 
-    h_extrude = 0.5*h # upper limit on spacing of points on interssction line
-    h_radius = sqrt((0.5*h_extrude)**2 + (0.5*h_extrude)**2)
-    h_trans = -0.5*h_extrude + h_radius*cos(arcsin(delta))
-    counterclockwise = False
+    with open('user_function2.lgi','w') as f:
+        f.write(Infiles.distance_field_2)
 
-    cmd += 'define / ID / 1\n'
-    cmd += 'define / OUTFILE_GMV / mesh_1.gmv\n'
-    cmd += 'define / OUTFILE_AVS / %s\n' % outfile
-    cmd += 'define / OUTFILE_LG / mesh_1.lg\n'
+    # Read boundary and feature
+    mo_poly_work = lg.read('poly_1.inp',name='mo_poly_work')
+    mo_line_work = lg.read('intersections_1.inp',name='mo_line_work')
 
-    cmd += 'define / POLY_FILE / poly_1.inp\n'
-    cmd += 'define / LINE_FILE / intersections_1.inp \n'
-
-    cmd += 'define / QUAD_FILE / tmp_quad_1.inp\n'
-    cmd += 'define / EXCAVATE_FILE / tmp_excavate_1.inp\n'
-    cmd += 'define / PRE_FINAL_FILE / tmp_pre_final_1.inp\n'
-    cmd += 'define / PRE_FINAL_MASSAGE / tmp_pre_final_massage_1.gmv\n'
-    cmd += 'define / H_SCALE / ' + str(h) + '\n'
-    cmd += 'define / H_EPS / ' + str(h*10**-7) + '\n'
-    cmd += 'define / H_SCALE2 / ' + str(1.5*h) + '\n'
-    cmd += 'define / H_EXTRUDE / ' + str(h_extrude) + '\n'
-    cmd += 'define / H_TRANS / ' + str(h_trans) + '\n'
-    cmd += 'define / H_PRIME / ' + str(0.8*h) + '\n'
-    cmd += 'define / H_PRIME2 / ' + str(0.3*h) + '\n'
-    cmd += 'define / H_SCALE3 / ' + str(3*h) + '\n'
-    cmd += 'define / H_SCALE8 / ' + str(8*h) + '\n'
-    cmd += 'define / H_SCALE16 / ' + str(16*h) + '\n'
-    cmd += 'define / H_SCALE32 / ' + str(32*h) + '\n'
-    cmd += 'define / H_SCALE64 / ' + str(64*h) + '\n'
-    cmd += 'define / PURTURB8 / ' + str(8*0.05*h) + '\n'
-    cmd += 'define / PURTURB16 / ' + str(16*0.05*h) + '\n'
-    cmd += 'define / PURTURB32 / ' + str(32*0.05*h) + '\n'
-    cmd += 'define / PURTURB64 / ' + str(64*0.05*h) + '\n'
-    cmd += 'define / PARAM_A / '+str(slope)+'\n'
-    cmd += 'define / PARAM_B / '+str(h*(1-slope*refine_dist))+'\n'
-    cmd += 'define / PARAM_A2 / '+str(0.5*slope)+'\n'
-    cmd += 'define / PARAM_B2 / '+str(h*(1 - 0.5*slope*refine_dist))+'\n'
-    cmd += 'define / THETA  / 0.000000000000 \n'
-    cmd += 'define / X1 /  -0.000000000000 \n'
-    cmd += 'define / Y1 / -0.000000000000 \n'
-    cmd += 'define / Z1 / -0.000000000000 \n'
-    cmd += 'define / X2 / 0.000000000000 \n'
-    cmd += 'define / Y2 / 0.000000000000 \n'
-    cmd += 'define / Z2 / 0.000000000000 \n'
-    cmd += 'define / FAMILY / 2 \n'
-
-    #cmd += 'define / POLY_FILE / poly_1.inp \n'
-    cmd += 'define / OUTPUT_INTER_ID_SSINT / id_tri_node_1.list\n'
-
-    cmd += 'read / POLY_FILE / mo_poly_work\n'
-    cmd += 'read / LINE_FILE / mo_line_work \n'
-
-    ## Triangulate Fracture without point addition
-    cmd += 'cmo / create / mo_pts / / / triplane \n'
-    cmd += 'copypts / mo_pts / mo_poly_work \n'
-    cmd += 'cmo / select / mo_pts \n'
+    # Triangulate Fracture without point addition
+    mo_pts = mo_poly_work.copypts(elem_type='triplane')
+    mo_pts.select()
 
     if counterclockwise:
-        cmd += 'triangulate / counterclockwise # change to clockwise based on bndry\n'
+        mo_pts.triangulate(order='counterclockwise')
     else:
-        cmd += 'triangulate / clockwise # change to clockwise based on bndry\n'
+        mo_pts.triangulate(order='clockwise')
 
-    cmd += 'cmo / setatt / mo_pts / imt / 1 0 0 / ID \n'
-    cmd += 'cmo / setatt / mo_pts / itetclr / 1 0 0 / ID \n'
-    cmd += 'resetpts / itp \n'
-    cmd += 'cmo / delete / mo_poly_work \n'
-    cmd += 'cmo / select / mo_pts \n'
+    # Set element attributes for later use
+    mo_pts.setatt('imt',1,stride=(1,0,0))
+    mo_pts.setatt('itetclr',1,stride=(1,0,0))
+    mo_pts.resetpts_itp()
+    
+    mo_pts.select()
 
-    # Creates a Coarse Mesh and then refines it using the distance field from intersections
-    cmd += 'massage / H_SCALE64 / H_EPS  / H_EPS\n'
-    cmd += 'recon 0; smooth;recon 0;smooth;recon 0;smooth;recon 0\n'
-    cmd += 'resetpts / itp\n'
-    cmd += 'pset / p_move / attribute / itp / 1 0 0 / 0 / eq\n'
-    cmd += 'perturb / pset get p_move / PERTURB64 PERTURB64 0.0\n'
-    cmd += 'recon 0; smooth;recon 0;smooth;recon 0;smooth;recon 0\n'
-    cmd += 'smooth;recon 0;smooth;recon 0;smooth;recon 0\n'
+    # Refine at increasingly smaller distances, approaching h
+    for (i,ln) in enumerate([8,16,32,64][::-1]):
+        h_scale = ln*h
+        perturb = h_scale*0.05
 
-    cmd += 'massage / H_SCALE32 / H_EPS / H_EPS\n'
-    cmd += 'resetpts / itp\n'
-    cmd += 'pset / p_move / attribute / itp / 1 0 0 / 0 / eq\n'
-    cmd += 'perturb / pset get p_move / PERTURB32 PERTURB32 0.0\n'
-    cmd += 'recon 0; smooth;recon 0;smooth;recon 0;smooth;recon 0\n'
-    cmd += 'smooth;recon 0;smooth;recon 0;smooth;recon 0\n'
+        mo_pts.massage(h_scale,h_eps,h_eps)
+        
+        # Do a bit of smoothing on the first pass
+        if (i == 0):
+            for _ in range(3):
+                mo_pts.recon(0)
+                mo_pts.smooth()
+            mo_pts.recon(0)
 
-    cmd += 'massage / H_SCALE16 / H_EPS  / H_EPS\n'
-    cmd += 'resetpts / itp\n'
-    cmd += 'pset / p_move / attribute / itp / 1 0 0 / 0 / eq\n'
-    cmd += 'perturb / pset get p_move / PERTURB16 PERTURB16 0.0\n'
-    cmd += 'recon 0; smooth;recon 0;smooth;recon 0;smooth;recon 0\n'
-    cmd += 'smooth;recon 0;smooth;recon 0;smooth;recon 0\n'
+        mo_pts.resetpts_itp()
 
-    cmd += 'massage / H_SCALE8 / H_EPS / H_EPS\n'
-    cmd += 'resetpts / itp\n'
-    cmd += 'pset / p_move / attribute / itp / 1 0 0 / 0 / eq\n'
-    cmd += 'perturb / pset get p_move / PERTURB8 PERTURB8 0.0\n'
-    cmd += 'recon 0; smooth;recon 0;smooth;recon 0;smooth;recon 0\n'
-    cmd += 'smooth;recon 0;smooth;recon 0;smooth;recon 0\n'
+        #p_move = mo_pts.pset_attribute('itp',0,comparison='eq',stride=(1,0,0),name='p_move')
+        #p_move.perturb(perturb,perturb.format(ln),0.0)
 
-    cmd += 'cmo/addatt/ mo_pts /x_four/vdouble/scalar/nnodes \n'
-    cmd += 'cmo/addatt/ mo_pts /fac_n/vdouble/scalar/nnodes \n'
+        # Smooth and reconnect
+        for _ in range(6):
+            mo_pts.recon(0)
+            mo_pts.smooth()
+        mo_pts.recon(0)
 
-    # Massage points based on linear function down to h_prime
-    cmd += 'massage2/user_function2.lgi/H_PRIME/fac_n/1.e-5/1.e-5/1 0 0/strictmergelength \n'
+    # Define attributes to be used for massage functions
+    mo_pts.addatt('x_four',vtype='vdouble',rank='scalar',length='nnodes')
+    mo_pts.addatt('fac_n',vtype='vdouble',rank='scalar',length='nnodes')
 
-    cmd += 'assign///maxiter_sm/1 \n'
-    cmd += 'smooth;recon 0;smooth;recon 0;smooth;recon 0\n'
+    # Define internal variables for user_functions
+    lg.define(mo_pts=mo_pts.name,PARAM_A=PARAM_A,PARAM_A2=PARAM_A2,PARAM_B=PARAM_B,PARAM_B2=PARAM_B2)
 
-    cmd += 'assign///maxiter_sm/10\n'
+    # Run massage2
+    mo_pts.massage2('user_function2.lgi',0.8*h,'fac_n',0.00001,0.00001,stride=(1,0,0),strictmergelength=True)
+    lg.sendline('assign///maxiter_sm/1')
 
-    cmd += 'massage2/user_function.lgi/H_PRIME/fac_n/1.e-5/1.e-5/1 0 0/strictmergelength \n'
-    cmd += 'cmo / DELATT / mo_pts / rf_field_name \n'
+    for _ in range(3):
+        mo_pts.smooth()
+        mo_pts.recon(0)
 
-    ################################################
-    cmd += 'dump / %s / mo_pts\n' % outfile
-    cmd += 'finish\n'
-    ################################################
+    # Massage once more, cleanup, and return
+    lg.sendline('assign///maxiter_sm/10')
+    mo_pts.massage2('user_function.lgi',0.8*h,'fac_n',0.00001,0.00001,stride=(1,0,0),strictmergelength=True)
+    mo_pts.delatt('rf_field_name')
 
-    callLaGriT(cmd,lagrit_path=lg.lagrit_exe)
+    mo_line_work.delete()
+    mo_poly_work.delete()
+
+    mo_pts.dump(outfile)
+
+    cleanup(['user_function.lgi','user_function2.lgi'])
 
 def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
                             boundary:np.ndarray,facesets:np.ndarray):
@@ -898,6 +866,7 @@ def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
 
     lg.sendline(cmd)
     _cleanup.extend(_all_facesets)
+    cleanup(_cleanup)
 
 def getFacesetsFromCoordinates(coords:dict,boundary:np.ndarray):
     '''
