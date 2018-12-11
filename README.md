@@ -26,20 +26,21 @@ If you don't already have [Exodus](http://gsjaardema.github.io/seacas/exodusII-n
 
     make exodus
 
-or, on Ubuntu, you can build Exodus directly from a [PPA](https://launchpad.net/~nschloe/+archive/ubuntu/seacas-nightly/):
-
-    sudo add-apt-repository ppa:nschloe/seacas-nightly
-    sudo apt-get update
-    sudo apt-get install seacas-bin
-
-Finally, to build and test a shared, optimized LaGriT binary, run
+To build and test a shared, optimized LaGriT binary, run
 
     make release
+
+To build LaGriT without Exodus,
+
+    make WITH_EXODUS=0 release
+
+or use target `static` to build a static binary.
+
+Finally, run
+
     make test
 
-To build LaGriT without Exodus, 
-
-    make WITHEXODUS=0 release
+to test build integrity.
 
 More options are available by running `make help`.
 
