@@ -207,6 +207,8 @@ exodus :
 	export GNU_PARALLEL=OFF; \
 	git clone https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas; \
 	cd $(EXO_BUILD_DIR)/seacas; \
+	git checkout 34175e6ae3e00ed2babc488c47fec20b873cb8af .; \
+	export ACCESS=`pwd`; \
 	./install-tpl.sh; \
 	cd TPL; \
 	../cmake-exodus $(EXO_CMAKE_FLAGS) -DFORTRAN=YES; \
