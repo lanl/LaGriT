@@ -395,9 +395,9 @@ If the keyword keepatt_voronoi is specified, three node attributes `(xn_varea, y
 If the keyword keepatt_median is specified, three node attributes `(xn_marea, yn_marea, zn_marea)` representing the median area are added and the file name will be file_name_outside_med.area. 
 Note that the old version file name file_name_outside.area has area vectors computed with the median strategy.
 
-The option `zone_outside_minmax` is used to find the min and max external node along each row and column of a regular structured grid where the index for i, j, and k can be detirmined. The node attributes i_index, j_index, and k_index are created.
+The option `zone_outside_minmax` is used to find the min and max external node along each row and column of a regular structured grid where the index for i, j, and k can be detirmined. The node attributes `i_index, j_index, and k_index` are created.
 
-<a href="../../images/zone_outside.png" target="_blank">Click here for an image </a> showing difference between the default and the minmax options for outside nodes. 
+<a href="https://lanl.github.io/LaGriT/assets/images/zone_outside.png" target="_blank"> Click here for an image </a> showing difference between the default and the minmax options for outside nodes. 
 
 These zone_outside files are part of a set of files written when the zone or fehm file type is called. The fehm zone format and descriptions are  in the `dump/fehm` command details. 
 
