@@ -1,6 +1,6 @@
 ---
 title: "DUMP"
-categories: files
+categories: write output files
 ---
 
 # DUMP #
@@ -41,13 +41,15 @@ AVS (`.inp` or `.avs`), Exodus (`.exo`), GMV (`.gmv`), LaGriT (`.lagrit` or `.lg
 
 <br>
 
-### **`AVS`** <a name="avs"></a>
+### **`AVS`** <a name="avs"></a> OR **`AVS2`** <a name="avs2"></a>
 
 <pre>
-<b>dump / avs</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
+<b>dump / avs</b> OR avs2 / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
 </pre>
 
-Output in AVS-UCD (Unstructured Cell Data) format. One can turn on or off the output of node coordinates (`iopt_points`), element connectivity (`iopt_elements`), node attributes (`iopt_node_attributes`) and element attributes (`iopt_element_attributes`). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file.
+The **`avs`** and **`avs2`** keywords will write the AVS UCD (Unstructured Cell Data) format. The only difference between the keywords is that **`avs`** converts integer values to reals so all output are written as real numbers. The **`avs2`** option will output integers as integers. 
+
+The AVS file format is flexible so that one can turn on or off the information that is written. The output of node coordinates (`iopt_points`), element connectivity (`iopt_elements`), node attributes (`iopt_node_attributes`) and element attributes (`iopt_element_attributes`). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file.
 
 For example, 
 
@@ -60,16 +62,6 @@ will write node coordinates and element connectivity, but not node attributes or
 *Note the **2** option writes an abreviated form of the file format that is non-standard and probably not recognized outside of LaGriT.*
 
 For a description of the AVS file format see the [`read/avs` command](../read_avs.md).
-
-<br>
-
-### **`AVS-2`** <a name="avs2"></a>
-
-<pre>
-<b>dump / avs2</b> / file_name/[cmo_name]/[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes]
-</pre>
-
-This option will output integers as integers instead of floating point. The other avs option converts integers to reals on output. The `/avs/` option above outputs all attributes as real numbers. This option is slower but the files are smaller if there are integers in the node or element attributes. 
 
 <br>
 
@@ -403,7 +395,8 @@ If the keyword keepatt_voronoi is specified, three node attributes `(xn_varea, y
 If the keyword keepatt_median is specified, three node attributes `(xn_marea, yn_marea, zn_marea)` representing the median area are added and the file name will be file_name_outside_med.area. 
 Note that the old version file name file_name_outside.area has area vectors computed with the median strategy.
 
-The option `zone_outside_minmax` is used to find the min and max external node along each row and column of the regular grid.
+The option `zone_outside_minmax` is used to find the min and max external node along each row and column of a regular structured grid where the index for i, j, and k can be detirmined. The node attributes i_index, j_index, and k_index are created.
+
 <a href="../../images/zone_outside.png" target="_blank">Click here for an image </a> showing difference between the default and the minmax options for outside nodes. 
 
 These zone_outside files are part of a set of files written when the zone or fehm file type is called. The fehm zone format and descriptions are  in the `dump/fehm` command details. 
