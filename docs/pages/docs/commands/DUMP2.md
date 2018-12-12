@@ -44,7 +44,7 @@ AVS (`.inp` or `.avs`), Exodus (`.exo`), GMV (`.gmv`), LaGriT (`.lagrit` or `.lg
 ### **`AVS`** <a name="avs"></a> OR **`AVS2`** <a name="avs2"></a>
 
 <pre>
-<b>dump / avs</b> OR avs2 / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
+<b>dump / avs</b> OR <b>avs2</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
 </pre>
 
 The **`avs`** and **`avs2`** keywords will write the AVS UCD (Unstructured Cell Data) format. The only difference between the keywords is that **`avs`** converts integer values to reals so all output are written as real numbers. The **`avs2`** option will output integers as integers. 
@@ -147,7 +147,7 @@ Click here for [more details on options and files that are written for ExodusII]
 
 Write out a series of files for the FEHM flow and transport code. The tokens after the cmo name are all optional. 
 
-The following keyword commands are optional and can occur in any order after the cmo\_name.
+The following keyword commands are optional and can occur in any order after the cmo name.
 
 * `ascii` or `binary`  indicate IO Mode Options for the stor file. Default is ascii.
 * `scalar`,  `vector`,  `both`,  `area_scalar`,  `area_vector`, or `area_both` are Area Coefficient Options for writing stor file coefficient values. Default is scalar.
@@ -228,7 +228,7 @@ Write a gocad TSURF file.
 <b>dump / lagrit /</b> file_name / [cmo_name]/ [binary OR ascii] 
 </pre>
 
-Write a LaGriT restart file that contains geometry and mesh object information.  `cmo_name` can be `-all-` in which case all mesh objects are written to the file or it can specify a list of mesh objects to be written. A subsequent read/lagrit command will restart the code at the state at which the `dump` command was issued. The default file type is binary. 
+Write a LaGriT restart file that contains geometry and mesh object information. The geometry belongs to the `cmo_name` with which it was created.  The  `cmo_name` can be `-all-` in which case all mesh objects are written to the file or it can specify a list of mesh objects to be written. A subsequent read/lagrit command will restart the code at the state at which the `dump` command was issued. The default file type is binary. 
 
 <br>
 
