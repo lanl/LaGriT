@@ -47,17 +47,34 @@ AVS (`.inp` or `.avs`), Exodus (`.exo`), GMV (`.gmv`), LaGriT (`.lagrit` or `.lg
 <b>dump / avs</b> OR <b>avs2</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
 </pre>
 
-The **`avs`** and **`avs2`** keywords will write the AVS UCD (Unstructured Cell Data) format. The only difference between the keywords is that **`avs`** converts integer values to reals so all output are written as real numbers. The **`avs2`** option will output integers as integers. 
+Will write the AVS UCD (Unstructured Cell Data) format. The **`avs`** will output all values as real and **`avs2`** will output real and integer type values. 
 
 The AVS file format is flexible so that one can turn on or off the information that is written. The output of node coordinates (`iopt_points`), element connectivity (`iopt_elements`), node attributes (`iopt_node_attributes`) and element attributes (`iopt_element_attributes`). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file.
 
 For example, 
 
 <pre>
+dump / avs / file.inp / cmo_name
+
 dump / avs / file.inp / cmo_name / 1, 1, 0, 0
 </pre>
 
-will write node coordinates and element connectivity, but not node attributes or element attributes.    
+the first line will write node coordinates, element connectivity, and node and element attributes if they exist. The second line will write node coordinates and element connectivity, but not node attributes or element attributes.  
+
+<pre>
+Default for iopt_points, iopt_elements, iopt_values_node, iopt_values_elem = 1, 1, 1, 1
+iopt_points      = 0 Do not output node coordinate information
+iopt_points      = 1 Output node coordinate information node#, x, y, z (DEFAULT)
+iopt_points      = 2 Output node coordinates information without node number in first column, x, y, z
+iopt_elements    = 0 Do not output element connectivity information
+iopt_elements    = 1 Output element connectivity information (DEFAULT)
+iopt_values_node = 0 Do not output node attribute information
+iopt_values_node = 1 Output node attribute information (DEFAULT)
+iopt_values_node = 2 Output node attribute information without node number in first column
+iopt_values_elem = 0 Do not output element attribute information
+iopt_values_elem = 1 Output element attribute information (DEFAULT)
+iopt_values_elem = 2 Output element attribute information without node number in first column
+</pre>
 
 *Note the **2** option writes an abreviated form of the file format that is non-standard and probably not recognized outside of LaGriT.*
 
