@@ -44,19 +44,19 @@ AVS (`.inp` or `.avs`), Exodus (`.exo`), GMV (`.gmv`), LaGriT (`.lagrit` or `.lg
 ### **`AVS`** <a name="avs"></a> OR **`AVS2`** <a name="avs2"></a>
 
 <pre>
-<b>dump / avs</b> OR <b>avs2</b> OR <b>att_node</b> OR <b>att_elem</b>/ file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
+<b>dump / avs</b> OR <b>avs2</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
 </pre>
 
 Will write the AVS UCD (Unstructured Cell Data) format. The **`avs`** will output all values as real and **`avs2`** will output real and integer type values. 
 
-The AVS file format is flexible so that one can turn on or off the information that is written.
-The first keyword is used to set the general format. The following describe available options.
+The ASCII AVS file format is flexible so that one can turn on or off the information that is written. Note we allow some variations that take advantage of the file format but the output will produce a non-standard AVS output that **read/avs** or VIS packages may not be able to read. A Warning will be written if output is non-standard.
+
 
 <pre>
 avs =         All integer and real attributes are written as real numbers. 
 avs2 =        Attributes are written as real and integer according to type.
-att_node =    Node Attributes are written as real and integer, header info lines start with #
-att_elem =    Element Attributes are written as real and integer, header info lines start with #
+att_node =    No longer supported, use the options listed below.
+att_elem =    No longer supported, use the options listed below.
 </pre>
 
 The options after the first keyword control the various sections of the AVS UDC file format. These are the output of node coordinates (`iopt_points`), element connectivity (`iopt_elements`), node attributes (`iopt_node_attributes`) and element attributes (`iopt_element_attributes`). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file.
