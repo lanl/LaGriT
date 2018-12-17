@@ -7,7 +7,7 @@ tags: cmo set_id
 # cmo/set_id #
 
 <pre>
- **cmo/set_id** /mo_name/ **both**  **node**  **element** /[attribute_name1]/[attribute_name2]
+ <b>cmo/set_id</b> /mo_name/ <b>both</b>  <b>node</b>  <b>element</b> /[attribute_name1]/[attribute_name2]
  </pre>
  
 This command creates integer attributes that contain the node and/or element number. This is useful if later operations delete nodes or elements causing renumbering, these attributes will contain the original node or element number. If no attribute name is given on the command line, the default attribute names *`id_node`* or  *`id_elem`* will be used.
