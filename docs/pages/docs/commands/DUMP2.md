@@ -44,22 +44,15 @@ AVS (`.inp` or `.avs`), Exodus (`.exo`), GMV (`.gmv`), LaGriT (`.lagrit` or `.lg
 ### **`AVS`** <a name="avs"></a> OR **`AVS2`** <a name="avs2"></a>
 
 <pre>
-<b>dump / avs</b> OR <b>avs2</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
+<b>dump / avs</b> OR <b>avs2</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_elem_attributes] 
 </pre>
 
-Will write the AVS UCD (Unstructured Cell Data) format. The **`avs`** will output all values as real and **`avs2`** will output real and integer type values. 
+Will write the AVS UCD (Unstructured Cell Data) file format.
 
-The ASCII AVS file format is flexible so that one can turn on or off the information that is written. Note we allow some variations that take advantage of the file format but the output will produce a non-standard AVS output that **read/avs** or VIS packages may not be able to read. A Warning will be written if output is non-standard.
-
-
-<pre>
-avs =         All integer and real attributes are written as real numbers. 
-avs2 =        Attributes are written as real and integer according to type.
-att_node =    No longer supported, use the options listed below.
-att_elem =    No longer supported, use the options listed below.
-</pre>
-
-The options after the first keyword control the various sections of the AVS UDC file format. These are the output of node coordinates (`iopt_points`), element connectivity (`iopt_elements`), node attributes (`iopt_node_attributes`) and element attributes (`iopt_element_attributes`). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file.
+**`avs`**  = **`avs2`** with attribute values written as real or integer depending on type.
+**`avs1`** = old avs with all attribute values written as real (larger file size).                                           
+ 
+The optional iopt values indicate which information to write or not, default is everything on ( 1 1 1 1 ).
 
 For example, 
 
@@ -69,24 +62,42 @@ dump / avs / file.inp / cmo_name
 dump / avs / file.inp / cmo_name / 1, 1, 0, 0
 </pre>
 
-the first line will write node coordinates, element connectivity, and node and element attributes if they exist. The second line will write node coordinates and element connectivity, but not node attributes or element attributes.  
+the first line will write node coordinates, element connectivity, and node and element attributes if they exist. The second line will write node coordinates and element connectivity, but not node attributes or element attributes. 
 
+If iopt values = 2, or if iopt_points = 0, then the file will not be a valid AVS UCD format file. 
+These options are provided to enable a user the flexiblity of writing ASCII files with desired information,  
+and are not intended to be used with read/avs or other Applications that read AVS UCD files. 
+A WARNING is displayed for non-standard AVS output. 
+The following describe the valid iopt values if used.
+
+*`iopt_points`* is the first section listing node id and their x y z coordinates.
+* = 0 Do not output node coordinate section.
+* = 1 Output node coordinate information (node_id  x  y  z)
+* = 2 Output node coordinates information without node number in first column (  x  y  z)
+
+*`iopt_elements`* is the second section listing element id, material, type, node vertices.
+* = 0 Do not output element connectivity information
+* = 1 Output element connectivity information 
+* = 3 Output points as AVS pt type for VIS applications. This is only for nodes with 0 elements.
+
+*`iopt_node_attributes`* are the node attributes listing name, type, node_id and values for each.  
+Note by default the AVS files include the mesh object node attributes imt1, itp1, icr1, and isn1        
+* = 0 Do not output node attribute information
+* = 1 Output node attribute information 
+* = 2 Output node attribute information without node id in first column
+
+*`iopt_elem_attributes`* are the node attributes listing name, type, element_id and values for each.
+* iopt_values_elem = 0 Do not output element attribute information
+* iopt_values_elem = 1 Output element attribute information 
+* iopt_values_elem = 2 Output element attribute information without element id in first column
+
+Note LaGriT Versions V3.30 and older have the following deprecated syntax:
 <pre>
-Default for iopt_points, iopt_elements, iopt_values_node, iopt_values_elem = 1, 1, 1, 1
-iopt_points      = 0 Do not output node coordinate information
-iopt_points      = 1 Output node coordinate information node#, x, y, z (DEFAULT)
-iopt_points      = 2 Output node coordinates information without node number in first column, x, y, z
-iopt_elements    = 0 Do not output element connectivity information
-iopt_elements    = 1 Output element connectivity information (DEFAULT)
-iopt_values_node = 0 Do not output node attribute information
-iopt_values_node = 1 Output node attribute information (DEFAULT)
-iopt_values_node = 2 Output node attribute information without node number in first column
-iopt_values_elem = 0 Do not output element attribute information
-iopt_values_elem = 1 Output element attribute information (DEFAULT)
-iopt_values_elem = 2 Output element attribute information without node number in first column
+avs = All numbers written as reals.
+att_node =  Node Attributes are written as real and integer, header info lines start with #
+att_elem =  Element Attributes are written as real and integer, header info lines start with #
 </pre>
-
-*Note the **2** option writes an abreviated form of the file format that is non-standard and probably not recognized outside of LaGriT.*
+   
 
 For a description of the AVS file format see the [`read/avs` command](../read_avs.md).
 
