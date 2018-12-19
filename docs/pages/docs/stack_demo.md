@@ -102,9 +102,6 @@ STACK DONE:         4 files read out of         4
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/hex_buffers.jpg">
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/hex_buffers.jpg">
-
-
 Stack quad layers and fill with hex elements, with buffered interfaces. <br>
 Read 6 AVS quad surfaces into 5 material units.
 Label unit colors with 1 on bottom and 5 on top.
