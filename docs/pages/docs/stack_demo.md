@@ -1,113 +1,71 @@
-**ROUTINE: stack / layers**
-------------------------------------------------------------------------
+# EXAMPLES: stack / layers #
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/simple_stack.gif">d
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/simple_stack.gif">
 
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/simple_tet.gif">
 
-`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** *****`
+## Example 1 ##
 
-`* Example 1`
+no buffers, no refinement, no truncation
+STACK TRI LAYERS into cmo name cmo1
+read 4 AVS triangulated surfaces into 3 material units
+stack and pinchout if layers cross
+label unit colors with 1 on bottom and 3 on top
+details:
+The syntax stack/layers/avs
+means stack a list of AVS triangle surface files
+this is followed by a list of files with integers after each file
+the first file in the list is the bottom, the last is the top
+the first integer after each file name is the material value
+(a second integer would be the refinement number, default is 0)
 
-`* file: demo_tri_simple.in`
 
-`* stack/layers`
+'''
+cmo create cmo1
+stack/layers/avs/ &
+     surf-12.inp 1 / surf-5.inp 2/ surf5.inp 3/ surf25.inp   
+                  
+'''
 
-`* no buffers, no refinement, no truncation`
+Screen output:
 
-`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** *****`
-
-`* STACK TRI LAYERS into cmo name cmo1`
-
-`* read 4 AVS triangulated surfaces into 3 material units`
-
-`* stack and pinchout if layers cross`
-
-`* label unit colors with 1 on bottom and 3 on top`
-
-`* details:`
-
-`* the syntax stack/layers/avs`
-
-`* means stack a list of AVS triangle surface files`
-
-`* this is followed by a list of files with integers after each file`
-
-`* the first file in the list is the bottom, the last is the top`
-
-`* the first integer after each file name is the material value`
-
-`* (a second integer would be the refinement number)`
-
-`* after the list of surface files, there are command options`
-
-`* the option "pinch" represents the thinness of a layer before`
-
-`* it is pinched out. If a layer crosses, the lower surface truncates.`
-
-`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** ***`
-
-**`cmo create cmo1`**
-
-**`stack/layers/avs surf-12.inp 1 surf-5.inp 2 surf5.inp 3 surf25.inp pinch 0.`**
-
-*`Layers to create:          4`*
-
-*`Max material number:          4`*
-
-*`Reading     4 surface files...`*
-
-*`................................................................`*
-
-*`         surface name  layer color type llcorner  zic`*
-
-*`          surf-12.inp     1    1   -1         1)  -1.200000E+01`*
-
-*`           surf-5.inp     2    2    0        37)  -5.000000E+00`*
-
-*`            surf5.inp     3    3    0        73)   5.000000E+00`*
-
-*`           surf25.inp     4    4   -2       109)   2.500000E+01`*
-
-*`Elements per layer:         48 total:        192`*
-
-*`Nodes    per layer:         36 total:        144`*
-
-*`STACK DONE:         4 files read out of         4`*
-
-*`................................................................`*
-
+<pre>
+cmo create cmo1
+stack/layers/avs surf-12.inp 1 surf-5.inp 2 surf5.inp 3 surf25.inp 
+Layers to create:          4
+Max material number:          4
+Reading     4 surface files...
+................................................................
+         surface name  layer color type llcorner  zic
+          surf-12.inp     1    1   -1         1)  -1.200000E+01
+           surf-5.inp     2    2    0        37)  -5.000000E+00
+            surf5.inp     3    3    0        73)   5.000000E+00
+           surf25.inp     4    4   -2       109)   2.500000E+01
+Elements per layer:         48 total:        192`*
+Nodes    per layer:         36 total:        144`*
+STACK DONE:         4 files read out of         4`*
+................................................................
+</pre>
  
 
-`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** ***`
+The following commands convert the stacked 2D layers into 3D volumes.
+In this example, triangles are stacked into prism elements. Each of the prism
+elements are then converted into 6 tet elements.
+The command boundary components will check for 1 single boundary.
 
-`* STACK to PRISM to TET`
+'''
+stack/fill/cmopri/cmo1/
+hextotet/6/ cmotet / cmopri
+boundary_components
+finish
+'''
 
-`* convert stacked layers in cmo1 into a tet grid named cmotet`
+Screen output:
 
-`* The stacked layers are filled to create a prism grid.`
-
-`* The prism grid is then converted to a tet grid.`
-
-`* hextotet will check cmo for mesh type then use hextotet/6`
-
-`** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** **** ***`
-
-**`stack/fill/cmopri/cmo1/`**
-
-**`hextotet// cmotet / cmopri`**
-
-**`boundary_components`**
-
-*`   1 different boundary components identified.`*
-
-*`   2 is a representative vertex`*
-
-*`finish`*
-
-*`LaGriT successfully completed`*
-
- 
+<pre>
+1 different boundary components identified.
+2 is a representative vertex
+</pre>
 
  
 
