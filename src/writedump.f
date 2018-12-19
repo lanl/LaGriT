@@ -784,14 +784,14 @@ C     DUMPAVS
 C     DUMP / avs
 C     DUMP / att_node
 C     DUMP / att_elem
+C     DUMP / point_elem
 C     DUMP / geofest
       elseif(idsb(1:lenidsb ).eq.'dumpavs' .or.
-     *         ioption(1:3).eq.'avs' .or. 
-     *         ioption(1:8).eq.'att_node' .or. 
-     *         ioption(1:8).eq.'att_elem' .or. 
+     *         ioption(1:3).eq. 'avs' .or. 
+     *         ioption(1:8).eq. 'att_node' .or. 
+     *         ioption(1:8).eq. 'att_elem' .or. 
      *         ioption(1:7).eq.'geofest') then
-C
-C
+ 
          if(if_cmo_exist.eq.0) then
             len=icharlnf(cmo)
             call cmo_get_info('nnodes',cmo,
@@ -811,7 +811,8 @@ C
      *                        nef,length,icmotype,ierror)
             if (nwds.le.4) then
 C
-C   Default to everything turned on
+C   Set io_format and iopt flags  
+C   Default to elements connectivity, node att, element att turned on
 C
                iopt_points=1
                iopt_elements=1
@@ -834,26 +835,40 @@ C
                   iopt_values_elem=0
                endif
             endif
-            if (nwds.ge.5) then
-C
-C   Default to elements connectivity, node att, element att turned on
-C
-C   Valid input, 0, 1, 2
+
+
+C   Set iopt flags, Valid input, 0, 1, 2 (non-standard), 3
 C   iopt_points      = 0 Do not output node coordinate information
 C   iopt_points      = 1 Output node coordinate information node#, x, y, z (DEFAULT)
 C   iopt_points      = 2 Output node coordinates information without node number in first column, x, y, z
+C
 C   iopt_elements    = 0 Do not output element connectivity information
 C   iopt_elements    = 1 Output element connectivity information (DEFAULT)
+C   iopt_elements    = 3 Output AVS UCD pt connectivity for mesh with nodes and no elements 
+C
 C   iopt_values_node = 0 Do not output node attribute information
 C   iopt_values_node = 1 Output node attribute information (DEFAULT)
 C   iopt_values_node = 2 Output node attribute information without node number in first column
+C
 C   iopt_values_elem = 0 Do not output element attribute information
 C   iopt_values_elem = 1 Output element attribute information (DEFAULT)
 C   iopt_values_elem = 2 Output element attribute information without node number in first column
 C
+C Dec 2018 change default avs to be equal to avs2
+C avs1 =       io_format = 1   All integer and real attributes are written as real numbers. 
+C avs2 = avs   io_format = 2   Attributes are written as real and integer (smaller file size but slower method). 
+C 
+C No longer supported, use iopt flags instead.
+C att_node =   io_format = 3   Node Attributes are written as real and integer, header info lines start with #
+C att_elem =   io_format = 4   Element Attributes are written as real and integer, header info lines start with #
+C
+            if (nwds.ge.5) then
                ist1=5
                if(msgtype(ist1).eq.1) then
-                   if(imsgin(ist1).gt. 2) then
+                   if(imsgin(ist1).gt. 3) then
+                      iopt_points = 1
+                   elseif(imsgin(ist1).eq. 3) then
+                      iopt_elements = 3
                       iopt_points = 1
                    elseif(imsgin(ist1).lt. 0) then
                       iopt_points = 1                   
@@ -861,13 +876,17 @@ C
                       iopt_points = max(0,min(2,imsgin(ist1)))
                    endif
                elseif(msgtype(ist1).eq.2) then
-                   if(xmsgin(ist1).gt. 2.0) then
+                   if(xmsgin(ist1).gt. 3.0) then
                       iopt_points = 1
                    elseif(xmsgin(ist1).lt. 0.0) then
                       iopt_points = 1   
+                   elseif(xmsgin(ist1).eq. 3.0) then
+                      iopt_elements = 3                   
+                      iopt_points = 1
                    else
                       iopt_points = max(zero,min(two,xmsgin(ist1)))
                    endif
+
                else
                    iopt_points=1
                endif
@@ -879,24 +898,31 @@ C
                   iopt_values_elem=0
                endif
             endif
+
             if (nwds.ge.6) then
 C
 C   Default to node att, element att turned on
 C
                ist1=6
                if(msgtype(ist1).eq.1) then
-                   if(imsgin(ist1).gt. 2) then
+                   if(imsgin(ist1).gt. 3) then
                       iopt_elements = 1
                    elseif(imsgin(ist1).lt. 0) then
                       iopt_elements = 1                   
+                   elseif(imsgin(ist1).eq. 3) then
+                      iopt_elements = 3                   
+                      iopt_points = 1
                    else
-                      iopt_elements = max(0,min(2,imsgin(ist1)))
+                      iopt_elements = max(0,min(3,imsgin(ist1)))
                    endif
                elseif(msgtype(ist1).eq.2) then
-                   if(xmsgin(ist1).gt. 2.0) then
+                   if(xmsgin(ist1).gt. 3.0) then
                       iopt_elements = 1
                    elseif(xmsgin(ist1).lt. 0.0) then
                       iopt_elements = 1   
+                   elseif(xmsgin(ist1).eq. 3.0) then
+                      iopt_elements = 3                   
+                      iopt_points = 1
                    else
                       iopt_elements = max(zero,min(two,xmsgin(ist1)))
                    endif
@@ -910,6 +936,7 @@ C
                   iopt_values_elem=0
                endif
             endif
+
             if (nwds.ge.7) then
 C
 C   Default to element att set the same as node attribute flag
@@ -938,6 +965,7 @@ C
                endif
                iopt_values_elem=iopt_values_node
             endif
+
             if (nwds.ge.8) then
                ist1=8
                if(msgtype(ist1).eq.1) then
@@ -961,7 +989,7 @@ C
                endif
             endif
 C
-C    Reset flags
+C    Reset flags based on avs,avs1,avs2,att_node, or att_elem
 C
                if(ioption(1:8).eq.'att_node')then
                   iopt_points=0
@@ -979,17 +1007,21 @@ C
             if(idsb(1:lenidsb ).eq.'dumpavs' .or.
      *         ioption(1:3).eq.'avs' .or.
      *         ioption(1:8).eq.'att_node' .or.
-     *         ioption(1:8).eq.'att_elem')then
+     *         ioption(1:8).eq.'att_elem' ) then
      
-            if(ioption(1:4).eq.'avs2')then
+            if(ioption(1:4).eq.'avs1')then
+               io_format = 1
+            elseif(ioption(1:4).eq.'avs2')then
                io_format = 2
             elseif(ioption(1:8).eq.'att_node')then
                io_format = 3
             elseif(ioption(1:8).eq.'att_elem')then
                io_format = 4
             else
-               io_format = 1
+               io_format = 2
             endif
+
+C    Warnings for non-standard AVS output
             if((iopt_points .eq. 0) .or.
      *         (iopt_points .eq. 2) .or.
      *         (iopt_elements .eq. 2) .or.
@@ -1016,12 +1048,46 @@ C
                call writloga('default',0,logmess,0,ierrw)
             endif
             endif
+
+C     check for syntax no longer supported
+C     allow code to continue so it is backward compatible
+            if (ioption(1:8).eq. 'att_node' ) then
+              write(logmess,'(a)')
+     *    'WARNING: dump/att_node no longer supported, use iopt flags.'
+              call writloga('default',0,logmess,0,ierrw)
+              write(logmess,'(a)')
+     *    'WARNING: dump/att_node writes a non-standard AVS output that'
+              call writloga('default',0,logmess,0,ierrw)
+              write(logmess,'(a)')
+     *        'WARNING: read/avs may not be able to read.'
+              call writloga('default',0,logmess,0,ierrw)
+            endif
+            if (ioption(1:8).eq. 'att_elem' ) then
+              write(logmess,'(a)')
+     *    'WARNING: dump/att_elem no longer supported, use iopt flags.'
+              call writloga('default',0,logmess,0,ierrw)
+              write(logmess,'(a)')
+     *    'WARNING: dump/att_elem writes a non-standard AVS output that'
+              call writloga('default',0,logmess,0,ierrw)
+              write(logmess,'(a)')
+     *        'WARNING: read/avs may not be able to read.'
+              call writloga('default',0,logmess,0,ierrw)
+            endif
+
+
+            if (iopt_elements .eq. 3) then
+               write(logmess,'(a)')
+     *         'Writing AVS UCD PT ELEMENTS.'
+               call writloga('default',0,logmess,0,ierrw)
+            endif
+
             call dumpavs(ifile(1:lenfile),cmo,
-     *                   nsdtopo,nen,nef,
-     *                   npoints,ntets,mbndry,
-     *                   ihcycle,time,dthydro,
-     *                   iopt_points,iopt_elements,
-     *                   iopt_values_node,iopt_values_elem,io_format)
+     *           nsdtopo,nen,nef,
+     *           npoints,ntets,mbndry,
+     *           ihcycle,time,dthydro,
+     *           iopt_points,iopt_elements,
+     *           iopt_values_node,iopt_values_elem,io_format)
+
             ierror_return = 0
             endif
             if(ioption(1:7).eq.'geofest')then
