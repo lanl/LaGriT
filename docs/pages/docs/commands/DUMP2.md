@@ -47,12 +47,7 @@ AVS (`.inp` or `.avs`), Exodus (`.exo`), GMV (`.gmv`), LaGriT (`.lagrit` or `.lg
 <b>dump / avs</b> OR <b>avs2</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_elem_attributes] 
 </pre>
 
-Will write the AVS UCD (Unstructured Cell Data) file format.
-
-**`avs`**  = **`avs2`** with attribute values written as real or integer depending on type.
-**`avs1`** = old avs with all attribute values written as real (larger file size).                                           
- 
-The optional iopt values indicate which information to write or not, default is everything on ( 1 1 1 1 ).
+Will write the AVS UCD (Unstructured Cell Data) file format. The keyword **`avs`**  = **`avs2`** with attribute values written as real or integer depending on type. **`avs1`** = old avs with all attribute values written as real (larger file size). The four optional *`iopt_`* values indicate which information to write or skip, default is everything on with iopt values = 1 1 1 1.
 
 For example, 
 
@@ -64,11 +59,8 @@ dump / avs / file.inp / cmo_name / 1, 1, 0, 0
 
 the first line will write node coordinates, element connectivity, and node and element attributes if they exist. The second line will write node coordinates and element connectivity, but not node attributes or element attributes. 
 
-If iopt values = 2, or if iopt_points = 0, then the file will not be a valid AVS UCD format file. 
-These options are provided to enable a user the flexiblity of writing ASCII files with desired information,  
-and are not intended to be used with read/avs or other Applications that read AVS UCD files. 
-A WARNING is displayed for non-standard AVS output. 
-The following describe the valid iopt values if used.
+If *`iopt_`* values = 2, or if *`iopt_points`* = 0, then the output will not be a valid AVS UCD format file. 
+These options are provided to enable a user the flexiblity of writing ASCII files with desired information, and are not intended to be used with **`read/avs`** or other Applications that read AVS UCD files. A WARNING message is given for non-standard AVS output. The following describe valid *`iopt_`* values.
 
 *`iopt_points`* is the first section listing node id and their x y z coordinates.
 * = 0 Do not output node coordinate section.
@@ -91,9 +83,9 @@ Note by default the AVS files include the mesh object node attributes imt1, itp1
 * iopt_values_elem = 1 Output element attribute information 
 * iopt_values_elem = 2 Output element attribute information without element id in first column
 
-Note LaGriT Versions V3.30 and older have the following deprecated syntax:
+Note LaGriT Versions V3.30 and older have the following keyword definitions:
 <pre>
-avs = All numbers written as reals.
+avs      =  All numbers written as reals.
 att_node =  Node Attributes are written as real and integer, header info lines start with #
 att_elem =  Element Attributes are written as real and integer, header info lines start with #
 </pre>
