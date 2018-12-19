@@ -675,6 +675,47 @@ class PyLaGriT(spawn):
             c = ''.join(c.split())
             if len(c) != 0 and 'finish' not in c:
                 self.sendline(c)
+
+    def read_att(self,fname,attributes,mesh=None,operation='add'):
+        '''
+        Reads data from a file into an attribute.
+        '''
+
+        if mesh is None:
+            mesh = self.create()
+
+        if not isinstance(attributes,(list,tuple)):
+            attributes = [attributes]
+
+        if isinstance(operation,(list,tuple)):
+            operation = ','.join(list(map(str,operation)))
+
+        cmd = '/'.join(['cmo','readatt',mesh.name,','.join(attributes),operation,fname])
+        self.sendline(cmd)
+
+        return mesh
+
+    def define(self,**kwargs):
+        '''
+        Pass in a variable number of arguments to be defined in 
+        LaGriT's internal global scope.
+
+        Note that it is generally considered bad practice in PyLaGriT
+        to rely on LaGriT's variable system for parameters; however,
+        there are use-cases where it is necessary: i.e., macro scripts.
+
+        Usage:
+
+            lg.define(MO_PTS=mo_pts.name,OUTFILE='mesh.inp',PERTURB32=1.3244)
+
+            >> define / MO_PTS / mo1
+            >> define / OUTFILE / mesh.inp
+            >> define / PERTURB32 / 1.3244
+
+        '''
+
+        for key,value in kwargs.items():
+            self.sendline('define / {0} / {1}'.format(key,value))
                             
     def convert(self, pattern, new_ft):
         '''
@@ -1900,6 +1941,122 @@ class MO(object):
         if copy: copystr = 'copy'
         else: copystr = 'nocopy'
         self.sendline('/'.join(['rotateln',','.join(stride),copystr,','.join(coord1),','.join(coord2),str(theta),','.join(center)]))
+
+    def massage(self,bisection_len,merge_len,toldamage,tolroughness=None,stride=None,
+                nosmooth=False,norecon=False,strictmergelength=False,checkaxy=False,
+                semiexclusive=False,ignoremats=False,lite=False):
+        '''
+        MASSAGE creates, annihilates, and moves nodes and swaps connections in a 2D or 3D mesh
+        in order to improve element aspect ratios and establish user-desired edge lengths.
+
+        The actions of MASSAGE are controlled by values of these four parameters:
+
+            bisection_length  - edge length that will trigger bisection.
+            merge_length - edge length that will trigger merging.
+            toldamage - maximum grid deformation of interfaces and external boundaries
+                        allowed in a single merge, smooth or reconnection event.
+            tolroughness - (for 2D surface grids only)  measure of grid roughness
+                           (deviation from average surface normal) that triggers refinement.
+
+        The final, optional keywork argument(s) can be one or more of nosmooth, norecon, lite,
+        ignoremats, strictmergelength, checkaxy, semiexclusive, and exclusive.  
+
+        Specifying nosmooth will turn off the 'smooth' step by skipping the call to SGD.
+        Specifying norecon will turn off all 'recon' steps.
+        If lite is specified, only one iteration of the merging/reconnection/smoothing
+        loop is executed, and a reconnection after edge refinement is omitted. 
+        This is suitable for applications, such as Gradient Weighted Moving Finite
+        Elements, where MASSAGE is called repeatedly.
+
+        The optional argument ignoremats causes MASSAGE to process the multimaterial
+        mesh in a single material mode; it ignores the material interfaces. 
+
+        The optional argument strictmergelength forces strict interpretation of
+        merge_length so that there is no merging along the edges of flat elements.
+        This is important if ignoremats is specified to avoid losing the interfaces.
+
+        If checkaxy is given, then we insure that for 2D meshes, the output mesh
+        will have positive xy-projected triangle areas, provided that the input mesh
+        had them in the first place. 
+
+        If exclusive is given, then edge refinement operations will only be performed
+        on edges whose endpoints are both in the PSET that MASSAGE is working on.
+        (As usual, new nodes created by refinement are added to the PSET so that MASSAGE
+        can refine edges recursively.)  The default behavior is 'inclusive',
+        where only ONE edge endpoint has to belong to the PSET for the edge to be
+        eligible for refinement.
+
+        If semiexclusive is given, refinement will only be triggered by edges with
+        both endpoints in the PSET, but some edges with less than two endpoints in
+        the PSET might be refined as part of a 'Rivara chain' triggered by the refinement
+        of an edge with both endpoints in the PSET.  This represents an intermediate
+        case between 'inclusive' and exclusive
+        '''
+
+        cmd = ['massage',str(bisection_len),str(merge_len),str(toldamage)]
+
+        if tolroughness is not None:
+            cmd.append(str(tolroughness)) 
+        if stride is not None:
+            stride = [str(x) for x in stride]
+            cmd.append(','.join(stride))
+
+        # Add optional boolean arguments
+        _iter = zip(['nosmooth','norecon','strictmergelength','checkaxy','semiexclusive',
+                     'ignoremats','lite'],[nosmooth,norecon,strictmergelength,checkaxy,
+                      semiexclusive,ignoremats,lite])
+        [cmd.append(c[0]) for c in _iter if c[1]]
+        self.sendline('/'.join(cmd))
+
+    def massage2(self,filename,min_scale,bisection_len,merge_len,toldamage,
+                tolroughness=None,stride=None,nosmooth=False,norecon=False,
+                strictmergelength=False,checkaxy=False,semiexclusive=False,
+                ignoremats=False,lite=False):
+        '''
+        MASSAGE2 iteratively calls MASSAGE to refine adaptively according to a
+        gradient field. Thus, the bisection_length option must be a field.
+
+        file_name is a file which contains a set of LaGriT commands that
+        calculates the gradient field based on the distance field. In other
+        words, the gradient field is a function of the distance field.
+        It is necessary to have this file when using this routine, as the field
+        must be updated after each refinement iteration.
+
+        Use this function in conjunction with PyLaGriT.define(**kwargs) for 
+        best results.
+
+        See MASSAGE for other arguments.
+        '''
+
+        cmd = ['massage2',filename,str(min_scale),str(bisection_len),str(merge_len),str(toldamage)]
+        if tolroughness is not None:
+            cmd.append(str(tolroughness)) 
+        if stride is not None:
+            stride = [str(x) for x in stride]
+            cmd.append(','.join(stride)) 
+
+        # Add optional boolean arguments
+        _iter = zip(['nosmooth','norecon','strictmergelength','checkaxy','semiexclusive',
+                     'ignoremats','lite'],[nosmooth,norecon,strictmergelength,checkaxy,
+                      semiexclusive,ignoremats,lite])
+        [cmd.append(c[0]) for c in _iter if c[1]]
+        self.sendline('/'.join(cmd))
+
+    def perturb(self,xfactor,yfactor,zfactor,stride=(1,0,0)):
+        '''
+        This command moves node coordinates in the following manner.
+
+        Three pairs of random numbers between 0 and 1 are generated.
+        These pairs refer to the x, y and z coordinates of the nodes respectively.
+        The first random number of each pair is multiplied by the factor given in
+        the command. The second random number is used to determine
+        if the calculated offset is to be added or subtracted from the coordinate.
+        '''
+
+        cmd = ['perturb',','.join([str(x) for x in stride]),str(xfactor),str(yfactor),str(zfactor)]
+        self.sendline('/'.join(cmd))
+    
+
     def upscale(self, method, attsink, cmosrc, attsrc=None, stride=(1,0,0), boundary_choice=None, keepatt=False,
                 set_id=False):
         '''
@@ -2519,6 +2676,54 @@ class MO(object):
         '''
         return self.subset(geom='xyz', **minus_self(locals()))
         
+    def quadxy(self,NX,NY,v1,v2,v3,v4):
+        '''
+        Define an arbitrary, logical quad of points in 3D space
+        with NDIM1 x NDIM2 number of nodes.
+        '''
+        self.select()
+
+        c = ''
+        for v in [v1,v2,v3,v4]:
+            assert len(v) == 3,'vectors must be of length 3 (x,y,z)'
+            c += '/'+','.join(list(map(str,v)))
+        self.sendline('quadxy/%d,%d%s' % (NX,NY,c))
+
+    def rzbrick(self,n_ijk,connect=True,stride=(1,0,0),coordinate_space='xyz'):
+        '''
+        Builds a brick mesh and generates a nearest neighbor connectivity matrix
+
+        Currently only configured for this flavor of syntax:
+         
+            rzbrick/xyz|rtz|rtp/ni,nj,nk/pset,get,name/connect/
+
+        Use this option with quadxyz to connect logically rectangular grids.
+
+        :arg n_ijk: number of points to be created in each direction. 
+        :type n_ijk: tuple
+        :arg connect: connect points
+        :type connect: bool
+        :arg stride: Stride to select 
+        :type stride: tuple
+        :arg coordinate_space: xyz,rtz,or rtp coordinate spaces
+        :type coordinate_space: str
+        '''
+
+        coordinate_space = coordinate_space.lower()
+        assert coordinate_space in ['xyz','rtz','rtp'],'Unknown coordinate space'
+
+        self.select()
+        cmd = 'rzbrick/%s' % coordinate_space
+
+        for v in [n_ijk,stride]:
+            assert len(v) == 3,'vectors must be of length 3 (x,y,z)'
+            cmd += '/'+','.join(list(map(str,v)))
+
+        if connect:
+            cmd += '/connect'
+
+        self.sendline(cmd)
+
     def subset_rtz(self, mins, maxs):
         '''
         Return Cylindrical MO Subset
@@ -2728,7 +2933,7 @@ class MO(object):
         :returns: mesh object
         '''
         if name is None: name = make_name('mo',self._parent.mo.keys())
-        mo_new = self._parent.create(elem_type=elem_type)
+        mo_new = self._parent.create(elem_type=elem_type,name=name)
         self.sendline('/'.join(['copypts',mo_new.name,self.name]))
         return mo_new
     def extrude(self, offset, offset_type='const', return_type='volume', direction=[], name=None):
@@ -3223,6 +3428,20 @@ class PSet(object):
         scale_center = [str(v) for v in scale_center]
         
         cmd = ['scale',','.join(['pset','get',self.name]),scale_type,scale_geom,','.join(scale_factor),','.join(scale_center)]
+        self._parent.sendline('/'.join(cmd))
+
+    def perturb(self,xfactor,yfactor,zfactor):
+        '''
+        This command moves node coordinates in the following manner.
+
+        Three pairs of random numbers between 0 and 1 are generated.
+        These pairs refer to the x, y and z coordinates of the nodes respectively.
+        The first random number of each pair is multiplied by the factor given in
+        the command. The second random number is used to determine
+        if the calculated offset is to be added or subtracted from the coordinate.
+        '''
+
+        cmd = ['perturb',','.join(['pset','get',self.name]),str(xfactor),str(yfactor),str(zfactor)]
         self._parent.sendline('/'.join(cmd))
     
     def trans(self, xold, xnew):

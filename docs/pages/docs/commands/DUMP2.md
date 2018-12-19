@@ -1,6 +1,6 @@
 ---
 title: "DUMP"
-categories: files
+categories: write output files
 ---
 
 # DUMP #
@@ -41,35 +41,54 @@ AVS (`.inp` or `.avs`), Exodus (`.exo`), GMV (`.gmv`), LaGriT (`.lagrit` or `.lg
 
 <br>
 
-### **`AVS`** <a name="avs"></a>
+### **`AVS`** <a name="avs"></a> OR **`AVS2`** <a name="avs2"></a>
 
 <pre>
-<b>dump / avs</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
+<b>dump / avs</b> OR <b>avs2</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_element_attributes] 
 </pre>
 
-Output in AVS-UCD (Unstructured Cell Data) format. One can turn on or off the output of node coordinates (`iopt_points`), element connectivity (`iopt_elements`), node attributes (`iopt_node_attributes`) and element attributes (`iopt_element_attributes`). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file.
+Will write the AVS UCD (Unstructured Cell Data) format. The **`avs`** will output all values as real and **`avs2`** will output real and integer type values. 
+
+The ASCII AVS file format is flexible so that one can turn on or off the information that is written. Note we allow some variations that take advantage of the file format but the output will produce a non-standard AVS output that **read/avs** or VIS packages may not be able to read. A Warning will be written if output is non-standard.
+
+
+<pre>
+avs =         All integer and real attributes are written as real numbers. 
+avs2 =        Attributes are written as real and integer according to type.
+att_node =    No longer supported, use the options listed below.
+att_elem =    No longer supported, use the options listed below.
+</pre>
+
+The options after the first keyword control the various sections of the AVS UDC file format. These are the output of node coordinates (`iopt_points`), element connectivity (`iopt_elements`), node attributes (`iopt_node_attributes`) and element attributes (`iopt_element_attributes`). 1 (default) is on, 2 is on but the first column will not include the node number or element number, 0 turns off output of that part of the file.
 
 For example, 
 
 <pre>
+dump / avs / file.inp / cmo_name
+
 dump / avs / file.inp / cmo_name / 1, 1, 0, 0
 </pre>
 
-will write node coordinates and element connectivity, but not node attributes or element attributes.    
+the first line will write node coordinates, element connectivity, and node and element attributes if they exist. The second line will write node coordinates and element connectivity, but not node attributes or element attributes.  
+
+<pre>
+Default for iopt_points, iopt_elements, iopt_values_node, iopt_values_elem = 1, 1, 1, 1
+iopt_points      = 0 Do not output node coordinate information
+iopt_points      = 1 Output node coordinate information node#, x, y, z (DEFAULT)
+iopt_points      = 2 Output node coordinates information without node number in first column, x, y, z
+iopt_elements    = 0 Do not output element connectivity information
+iopt_elements    = 1 Output element connectivity information (DEFAULT)
+iopt_values_node = 0 Do not output node attribute information
+iopt_values_node = 1 Output node attribute information (DEFAULT)
+iopt_values_node = 2 Output node attribute information without node number in first column
+iopt_values_elem = 0 Do not output element attribute information
+iopt_values_elem = 1 Output element attribute information (DEFAULT)
+iopt_values_elem = 2 Output element attribute information without node number in first column
+</pre>
 
 *Note the **2** option writes an abreviated form of the file format that is non-standard and probably not recognized outside of LaGriT.*
 
 For a description of the AVS file format see the [`read/avs` command](../read_avs.md).
-
-<br>
-
-### **`AVS-2`** <a name="avs2"></a>
-
-<pre>
-<b>dump / avs2</b> / file_name/[cmo_name]/[iopt_points,iopt_elements,iopt_node_attributes,iopt_element_attributes]
-</pre>
-
-This option will output integers as integers instead of floating point. The other avs option converts integers to reals on output. The `/avs/` option above outputs all attributes as real numbers. This option is slower but the files are smaller if there are integers in the node or element attributes. 
 
 <br>
 
@@ -155,7 +174,7 @@ Click here for [more details on options and files that are written for ExodusII]
 
 Write out a series of files for the FEHM flow and transport code. The tokens after the cmo name are all optional. 
 
-The following keyword commands are optional and can occur in any order after the cmo\_name.
+The following keyword commands are optional and can occur in any order after the cmo name.
 
 * `ascii` or `binary`  indicate IO Mode Options for the stor file. Default is ascii.
 * `scalar`,  `vector`,  `both`,  `area_scalar`,  `area_vector`, or `area_both` are Area Coefficient Options for writing stor file coefficient values. Default is scalar.
@@ -236,7 +255,7 @@ Write a gocad TSURF file.
 <b>dump / lagrit /</b> file_name / [cmo_name]/ [binary OR ascii] 
 </pre>
 
-Write a LaGriT restart file that contains geometry and mesh object information.  `cmo_name` can be `-all-` in which case all mesh objects are written to the file or it can specify a list of mesh objects to be written. A subsequent read/lagrit command will restart the code at the state at which the `dump` command was issued. The default file type is binary. 
+Write a LaGriT restart file that contains geometry and mesh object information. The geometry belongs to the `cmo_name` with which it was created.  The  `cmo_name` can be `-all-` in which case all mesh objects are written to the file or it can specify a list of mesh objects to be written. A subsequent read/lagrit command will restart the code at the state at which the `dump` command was issued. The default file type is binary. 
 
 <br>
 
@@ -403,8 +422,9 @@ If the keyword keepatt_voronoi is specified, three node attributes `(xn_varea, y
 If the keyword keepatt_median is specified, three node attributes `(xn_marea, yn_marea, zn_marea)` representing the median area are added and the file name will be file_name_outside_med.area. 
 Note that the old version file name file_name_outside.area has area vectors computed with the median strategy.
 
-The option `zone_outside_minmax` is used to find the min and max external node along each row and column of the regular grid.
-<a href="../../images/zone_outside.png" target="_blank">Click here for an image </a> showing difference between the default and the minmax options for outside nodes. 
+The option `zone_outside_minmax` is used to find the min and max external node along each row and column of a regular structured grid where the index for i, j, and k can be detirmined. The node attributes `i_index, j_index, and k_index` are created.
+
+<a href="https://lanl.github.io/LaGriT/assets/images/zone_outside.png" target="_blank"> Click here for an image </a> showing difference between the default and the minmax options for outside nodes. 
 
 These zone_outside files are part of a set of files written when the zone or fehm file type is called. The fehm zone format and descriptions are  in the `dump/fehm` command details. 
 

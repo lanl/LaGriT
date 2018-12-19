@@ -1,27 +1,29 @@
 ---
 title: HEXTOTET
-tags: ok
+tags: hex to tet connect
 ---
 
-HEXTOTET
+# HEXTOTET #
 --------
 
-IMPORTANT NOTE: This command, while still recognized, is officially unsupported. Please see [grid2grid](GRID2GRID.md) instead.
+IMPORTANT NOTE: This command, while still recognized, has a newer more readable syntax, see [grid2grid](GRID2GRID.md) instead.
 
- The **hextotet** command creates a tetrahedral grid from 3D grids. In
+ The **`hextotet`** command creates a tetrahedral grid from 3D grids. In
  2D the elements are converted to triangles. The first parameter
  ioption determines how the conversion is performed.
 
-**FORMAT:**
+## FORMAT: ##
 
- **hextotet**/ [ ioption ] / cmo\_snk / cmo\_src / [**rmvolume**]
+<pre>
+ <b>hextotet</b> / [ ioption ] / cmo_snk / cmo_src / [ <b>rmvolume</b>]
+ </pre>
 
-ioption: is a numerical number indicating the number of tets or
+*`ioption`* is a numerical number indicating the number of tets or
 triangles to break each element into. If this parameter is missing then
 default settings are used. The defaults are underlined and will be
-detirmined by reading the mesh\_type of the mesh\_object. If mesh\_type
-is quad, **2** is used. If mesh\_type is prism, **3** is used. If
-mesh\_type is hex, **6** is used. Otherwise **24** is the default value
+detirmined by reading the mesh_type of the mesh_object. If mesh_type
+is quad, **2** is used. If mesh_type is prism, **3** is used. If
+mesh_type is hex, **6** is used. Otherwise **24** is the default value
 for ioption.
 
 The selections include:
@@ -60,24 +62,42 @@ are not removed from the new mesh object cmo\_snk.
 
 **EXAMPLES:**
 
- **hextotet** / **24** / cmo\_tet / cmo\_hex
+<pre>
+ hextotet / 24 / cmo_tet / cmo_hex
+ </pre>
 
- Convert each hex element in cmo\_hex to 24 tets and name the new grid
- cmo\_tet.
+ Convert each hex element in cmo_hex to 24 tets and name the new grid cmo_tet.
  
-
- **hextotet** / / cmo\_tri / cmo\_quad
+<pre>
+hextotet / / cmo_tri / cmo_quad
+</pre>
 
  No value is given for ioption, so the default settings are used. The
- mesh\_type of cmo\_quad is quad, so each element is converted to two
- triangles. The new mesh\_object is named cmo\_tri.
+ mesh_type of cmo_quad is quad, so each element is converted to two
+ triangles. The new mesh_object is named cmo_tri.
  
-
- **hextotet** / **3** / cmo\_tet / cmo\_pri / **rmvolume**
+<pre>
+ hextotet / 3 / cmo_tet / cmo_pri / rmvolume
+ </pre>
  
  Each prism element in cmo\_pri is converted to three tet elements.
  Zero volume elements and duplicate points are removed. The new tet
  mesh object is called cmo\_tet.
+ 
+ <pre>
+cmo/addatt/mohex/imtsav/VINT/scalar/nnodes/linear/  
+cmo copyatt / mohex mohex / imtsav imt
+cmo/addatt/mohex/itetsav/VINT/scalar/nelements/linear/
+cmo copyatt / mohex mohex / itetsav itetclr
+cmo setatt mohex imt 1
+cmo setatt mohex itetclr 1
+resetpts itp
+hextotet / 5 / motet / mohex / 
+ </pre>
+ 
+*CAUTION If mesh is multi-material this can add signifigant time to the hextotet routine!* This example shows a good practice which will avoid this issue. The attributes *`imtsav`* and *`itetsav`* are created and values copied before setting the mesh materials in itetclr and imt to 1. The command **resetpts/itp** will reset boundary and interface accordingly. This mesh mohex has each hex element converted into 5 tets each. The number of nodes will not change.
+
+
 
 LINKS:
 
