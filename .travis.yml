@@ -17,6 +17,7 @@ branches:
   only:
     - master
 
+# Install dependencies for various OS'
 before_install:
   - if [ $TRAVIS_OS_NAME = windows ]; then choco install make cmake; fi
   - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get -y install gfortran libz-dev m4 bison; fi
@@ -24,14 +25,25 @@ before_install:
   - export FC=$(which gfortran);      echo $FC
   - export CC=$(which gcc);           echo $CC
   - export CXX=$(which g++);          echo $CXX
-  
+
+# Build Exodus and binary; test
 script:
   - make exodus  CC=$CC FC=$FC CXX=$CXX
   - make release CC=$CC FC=$FC CXX=$CXX
   - make static  CC=$CC FC=$FC CXX=$CXX
   - make test
 
+# Display successful messages
 after_success:
-  - if [ $TRAVIS_OS_NAME = osx ]; otool -L src/lagrit; fi
+  - if [ $TRAVIS_OS_NAME = osx ];   otool -L src/lagrit; fi
   - if [ $TRAVIS_OS_NAME = linux ]; ldd src/lagrit; fi
   - echo LaGriT successfully compiled
+
+# Deploy binary to Releases
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: "FILE TO UPLOAD"
+  skip_cleanup: true
+  on:
+    branch: master
