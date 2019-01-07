@@ -39,11 +39,3 @@ after_success:
   - if [ $TRAVIS_OS_NAME = linux ]; ldd src/lagrit; fi
   - echo LaGriT successfully compiled
 
-# Deploy binary to Releases
-deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  file: "FILE TO UPLOAD"
-  skip_cleanup: true
-  on:
-    branch: master
