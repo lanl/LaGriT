@@ -209,7 +209,6 @@ exodus :
 	export CC=$(CC); export CXX=$(CXX); export FC=$(FC); export FC90=$(FC90); \
 	git clone https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas; \
 	cd $(EXO_BUILD_DIR)/seacas; \
-	git checkout 34175e6ae3e00ed2babc488c47fec20b873cb8af .; \
 	export ACCESS=`pwd`; \
 	./install-tpl.sh; \
 	cd TPL; \
