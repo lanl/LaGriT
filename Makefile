@@ -124,7 +124,7 @@ OPTIONS:
     CC (default: gcc) : C source compiler
     FC (default: gfortran) : Fortran source compiler
     FC90 (default: gfortran) : Fortran90 source compiler
-    WITHEXODUS (default: 1) : Build with or without Exodus
+    WITH_EXODUS (default: 1) : Build with or without Exodus
     DEBUG (default: 0) : Built in debug (1) or optimized (0) mode
     EXO_LIB_DIR (default: LAGRIT_ROOT_DIR/seacas/lib) : ExodusII library location
     EXE_NAME (default: src/lagrit) : binary filename for LaGriT
