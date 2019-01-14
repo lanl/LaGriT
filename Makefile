@@ -162,7 +162,7 @@ ifeq ($(wildcard $(EXO_LIB_DIR)),)
 endif
 
 ifeq ($(WITH_EXODUS),1)
-	BUILDFLAGS += -L$(EXO_LIB_DIR) -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl
+	BUILDFLAGS += -L$(EXO_LIB_DIR) -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl
 	FAIL_THRESH := 1
 else
 	FAIL_THRESH := 3
