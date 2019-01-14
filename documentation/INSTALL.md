@@ -1,9 +1,9 @@
 # Building LaGriT
 ----------------------------------------------
 
-LaGriT installation is intended to be as straightforward as possible for Linux and macOS systems. If you encounter any problems with the build process, submit a ticket on the (Issues page)[https://github.com/lanl/LaGriT/issues).
+LaGriT installation is intended to be as straightforward as possible for Linux and macOS systems. If you encounter any problems with the build process, submit a ticket on the [Issues page](https://github.com/lanl/LaGriT/issues).
 
-If you are on Windows, see 
+If you are on Windows, see Section 4.0 on this page for more information.
 
 ## 1. Automatic Build (Linux, macOS)
 
