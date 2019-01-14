@@ -1,7 +1,9 @@
 # Building LaGriT
 ----------------------------------------------
 
-LaGriT installation is 
+LaGriT installation is intended to be as straightforward as possible for Linux and macOS systems. If you encounter any problems with the build process, submit a ticket on the (Issues page)[https://github.com/lanl/LaGriT/issues).
+
+If you are on Windows, see 
 
 ## 1. Automatic Build (Linux, macOS)
 
@@ -137,7 +139,7 @@ For most architectures, this should be as simple as:
     $ ../cmake-config -DFORTRAN=YES
     $ make && make install
 
-If the build was unsuccesful, a non-zero exit code will be thrown along with this error:
+If the build was unsuccessful, a non-zero exit code will be thrown along with this error:
 
     -- Configuring incomplete, errors occurred!
 
