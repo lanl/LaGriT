@@ -207,7 +207,7 @@ exodus :
 	export NEEDS_ZLIB=YES; \
 	export GNU_PARALLEL=OFF; \
 	export CC=$(CC); export CXX=$(CXX); export FC=$(FC); export FC90=$(FC90); \
-	git clone https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas; \
+	git clone https://github.com/daniellivingston/seacas.git $(EXO_BUILD_DIR)/seacas; \
 	cd $(EXO_BUILD_DIR)/seacas; \
 	export ACCESS=`pwd`; \
 	./install-tpl.sh; \
