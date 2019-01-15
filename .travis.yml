@@ -4,14 +4,14 @@ sudo: required
 os:
   - linux
   - osx
-  - windows
+#  - windows
 
 compiler:
   - gcc
 
-matrix:
-  allow_failures:
-    - os: windows
+#matrix:
+#  allow_failures:
+#    - os: windows
 
 branches:
   only:
@@ -35,7 +35,29 @@ script:
 
 # Display successful messages
 after_success:
-  - if [ $TRAVIS_OS_NAME = osx ];   otool -L src/lagrit; fi
-  - if [ $TRAVIS_OS_NAME = linux ]; ldd src/lagrit; fi
   - echo LaGriT successfully compiled
+  - cp src/lagrit lagrit-$TRAVIS_OS_NAME
+  
+# Push binaries to GitHub Releases *only* when there is a tagged commit
+jobs:
+  include:
+    - stage: Deploy macOS binary
+      os: osx
+      deploy:
+        provider: releases
+        api_key: $GITHUB_OATH_TOKEN
+        draft: true
+        skip_cleanup: true
+        file: lagrit-$TRAVIS_OS_NAME
+        on:
+          tags: true
+    - stage: Deploy Linux binary and publish
+      deploy:
+        provider: releases
+        api_key: $GITHUB_OATH_TOKEN
+        draft: false
+        skip_cleanup: true
+        file: lagrit-$TRAVIS_OS_NAME
+        on:
+          tags: true
 
