@@ -32,7 +32,7 @@ def directoryList( unused, dirName, fileList ):
     for entry in fileList:
         icount = icount+1 
         
-    print dirName+" has "+repr(icount)+" files."
+    print(dirName+" has "+repr(icount)+" files.")
 
 ##############################################################################
 # MAIN begin
@@ -66,6 +66,14 @@ def RunTest(**args):
   # xlagrit = "/scratch/sft/yanki/lagrit/src/mylagrit"
   # xlagrit = "Y:/yanki/lagrit/src/mylagrit"
   xlagrit = args["executable"]
+
+  if not os.path.isfile(xlagrit):
+    raise IOError("LaGriT binary doesn't exist at path: %s" % xlagrit)
+
+  try:
+    fail_threshold = args["hard_fail"]
+  except KeyError:
+    fail_threshold = 0
 
   print("=======")
 
@@ -111,7 +119,7 @@ def RunTest(**args):
         # itest = itest + 1
         itest += 1
         line = (" " + str(itest) + "  Test Directory " + name + " -----------------------")
-        print line
+        print(line)
         wfile = open(fscreen, 'a')
         wfile.write(line + "\n")
         wfile.close()
@@ -124,7 +132,7 @@ def RunTest(**args):
 
         if (os.path.exists("input.lgi")) : 
           cmd = xlagrit + " < input.lgi >> " + fscreen
-          print cmd
+          print(cmd)
           fo1 = os.system(cmd)
           if fo1 != 0:
             print("System exit: %s" % fo1)
@@ -164,24 +172,26 @@ def RunTest(**args):
           progstr="   "+line[20:55] 
       if suno >= 0 :
           sustr=line[:29] 
-          print dirstr
-          print progstr + " : " + sustr
+          print(dirstr)
+          print(progstr + " : " + sustr)
           nfind = nfind+1
   rfile.close()
 
 # attempt to pass error conditions if found
   if (ierr > 0) :
     i = 0
-    print
-    print  "LAGRIT EXIT ERROR: "+repr(ierr)+" directories failed:"+"/n"
+    print()
+    print("LAGRIT EXIT ERROR: "+repr(ierr)+" directories failed:"+"/n")
     for d in errList :
-      print "    "+errList[i]+" Error: "+errmess[i]
-      print "---- tail outx3dgen ------------------"
+      print("    "+errList[i]+" Error: "+errmess[i])
+      print("---- tail outx3dgen ------------------")
       cmd="tail "+errList[i]+"/outx3dgen"
       fo1 = os.system(cmd)
-      print "--------------------------------------"
-      print " "
+      print("--------------------------------------")
+      print(" ")
       i = i + 1
+  if fail_threshold and ierr >= fail_threshold:
+    sys.exit(1)
 
   print("\nSummary:\t\t%s completed outx3dgen files out of %s test directories" % (repr(nfind), repr(itest)))
   if result_dir:
