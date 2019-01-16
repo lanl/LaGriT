@@ -13,6 +13,7 @@ If you are on Windows, see Section 4.0 on this page for more information.
 * CMake 5.9+ / Make
 * Git
 * Bash
+* wget
 
 Linux users will also require the following:
 
@@ -28,7 +29,7 @@ to install all non-stock pre-requisites.
 
 On macOS, run
 
-    brew update && brew install gcc
+    brew update && brew install gcc wget
     
 if `gfortran` is not present on your system.
 
@@ -73,6 +74,23 @@ Run the command
     make test
     
 to validate the LaGriT compilation. Note that if you compiled without Exodus, one test should fail (`write_exo`).
+
+### 1.6. Troubleshooting
+
+    dumpexodusII.f:130: Error: Can't open included file 'exodusII.inc'
+    make[1]: *** [objects/dumpexodusII.o] Error 1
+    make[1]: Leaving directory `/path/to/LaGriT/src'
+    make: *** [before] Error 2
+    The command "make release" exited with 2.
+
+**Problem**:
+* GFORTRAN cannot find Exodus include files.
+
+**Solution**:
+* This problem typically results from a failed Exodus compilation.
+* Follow the traceback from `make exodus` to see where in the process it failed.
+  * Usually this is because one or more pre-requisites were not found on your system. See Section 1.1 for more information.
+* Alternately, run `make WITH_EXODUS=0 release` to circumvent the Exodus dependency.
 
 ## 2. Makefile Usage
 
