@@ -655,7 +655,7 @@ class PyLaGriT(spawn):
         if external: cmd.append('external')
         if append: cmd.append(append)
         self.sendline( '/'.join(cmd))
-        self.mo[name] = MO(name,self)
+
         return self.mo[name] 
               
     def read_script(self, fname):
@@ -785,7 +785,7 @@ class PyLaGriT(spawn):
             self.sendline('cmo/release/temp_cmo')
             os.unlink('old_format')
             
-    def merge(self, mesh_objs):
+    def merge(self, mesh_objs, elem_type="tet",name=None):
         '''
         Merge Mesh Objects
         
@@ -818,16 +818,20 @@ class PyLaGriT(spawn):
             >>> mo_merge.rmpoint_compress(filter_bool=True,resetpts_itp=True)
             >>> mo_merge.paraview(filename='mo_merge.inp')
         ''' 
-        
+        if name is None:
+            name = make_name('mo',self.mo.keys())
+        self.mo[name] = MO(name,self)
         if len(mesh_objs) > 1:
-            mo_merge = mesh_objs[0].copy()
-            for mo in mesh_objs[1:]:
-                mo_merge = self.addmesh_merge(mo_merge,mo)
-            return mo_merge
+            #mo_merge = self.create(elem_type=elem_type)
+            for mo in mesh_objs:
+                cmd = '/'.join(['addmesh','merge',name,name,mo.name])
+                self.sendline(cmd)
+                #mo_merge = self.addmesh_merge(mo_merge,mo)
+            #return mo_merge
             #return reduce(self.addmesh_merge, mesh_objs)
         else:
             raise ValueError('Must provide at least two objects to merge.')
-            
+        return self.mo[name]
     def create(self, elem_type='tet', name=None, npoints=0, nelements=0):
         '''
         Create a Mesh Object
