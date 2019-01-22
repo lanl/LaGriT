@@ -686,7 +686,8 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
     mo_line_work.delete()
     mo_poly_work.delete()
 
-    mo_pts.dump(outfile)
+    if outfile is not None:
+        mo_pts.dump(outfile)
 
     cleanup(['user_function.lgi','user_function2.lgi'])
 

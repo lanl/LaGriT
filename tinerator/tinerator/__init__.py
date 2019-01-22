@@ -157,9 +157,9 @@ class DEM():
         self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
         return self.boundary
 
-    def generateStackedTIN(self,outfile:str,layers:list,h=None,delta:float=0.75,
-                           slope:float=2.,refine_dist:float=0.5,matids=None,
-                           nlayers=None,xy_subset=None,apply_elevation=True,flip='y',
+    def generateStackedTIN(self,min_edge:float=None,delta:float=0.75,outfile:str=None,
+                           slope:float=2.,refine_dist:float=0.5,
+                           apply_elevation=True,flip='y',
                            plot=False):
         '''
         Generates a refined triangular mesh, with a minimum refinement length 
@@ -186,10 +186,9 @@ class DEM():
             h = 50.
 
         if self.feature is None:
-            buildUniformTriplane(self.lg, self.boundary, "_trimesh.inp", min_edge=h)
+            buildUniformTriplane(self.lg, self.boundary, "_trimesh.inp", min_edge=min_edge)
         else:
-            print('building refined triplane')
-            buildRefinedTriplane(self.lg,self.boundary,self.feature,"_trimesh.inp",h,refine_dist=refine_dist,slope=slope,delta=delta)
+            buildRefinedTriplane(self.lg,self.boundary,self.feature,"_trimesh.inp",min_edge,refine_dist=refine_dist,slope=slope,delta=delta)
 
         if apply_elevation:
             addElevation(self.lg,self,"_trimesh.inp",fileout="_trimesh.inp",flip=flip)
@@ -218,9 +217,11 @@ class DEM():
             mlab.triangular_mesh(points[:,0],points[:,1],points[:,2],triangles-1,representation='wireframe')
             mlab.show()
 
+    def layeredMesh(self,layers,matids=None,xy_subset=None,nlayers=None):
         mo = stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
         self.stacked_mesh = outfile
         self.number_of_layers = len(layers)
+
 
     def addAttribute(self,data,layers=None,attribute_name=None,outfile=None,dtype=float):
         '''
