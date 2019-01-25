@@ -2610,7 +2610,7 @@ class MO(object):
             self, npts, mins, maxs, 
             ctr=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
         '''Create and connect spherical coordinates.'''
-        self.createpts_brick(ntps, **minus_self(locals()))
+        self.createpts_brick(npts, **minus_self(locals()))
         
     def createpts_median(self):
         self.sendline('createpts/median')
@@ -2680,18 +2680,56 @@ class MO(object):
         '''
         return self.subset(geom='xyz', **minus_self(locals()))
         
-    def quadxy(self,NX,NY,v1,v2,v3,v4):
+    def quadxy(self,nnodes,pts):
         '''
-        Define an arbitrary, logical quad of points in 3D space
-        with NDIM1 x NDIM2 number of nodes.
+        Define and connect an arbitrary, logical quad of points in 3D space
+        with nnodes(x,y,z) nodes
+
+        :arg nnodes: The number of nodes to create in each dimension. 
+                      One value must == 1 and the other two must be > 1.
+        :type nnodes: tuple(int, int, int)
+
+        :arg pts: The four corners of the quad surface, defined in counter 
+                   clockwise order (the normal to the quad points is defined
+                   using the right hand rule and the order of the points).
+        :arg pts:  list of 3-tuples (float)
+
+        Example:
+            >>> import pylagrit
+
+            >>> #Start the lagrit session.
+            >>> lg = pylagrit.PyLaGriT()
+
+            >>> #Create a mesh object.
+            >>> qua = lg.create_qua()
+            
+            >>> #Define 4 points in correct order
+            >>> p1 = (0.0,200.0,-400.0)
+            >>> p2 = (0.0,-200.0,-400.0)
+            >>> p3 = (140.0,-200.0,0.0)
+            >>> p4 = (118.0,200.0,0.0)
+            >>> pts = [p1,p2,p3,p4]
+
+            >>> #Define nnodes
+            >>> nnodes = (29,1,82)
+
+            >>> #Create and connect plane
+            >>> qua.quadxy(nnodes,pts)
+            
         '''
         self.select()
+        quadpts = [n for n in nnodes if n != 1]
+        assert len(quadpts) ==2, 'nnodes must be have one value == 1 and two values > 1'
+        nnodes = [str(v) for v in nnodes]
 
         c = ''
-        for v in [v1,v2,v3,v4]:
+        for v in pts:
             assert len(v) == 3,'vectors must be of length 3 (x,y,z)'
             c += '/'+','.join(list(map(str,v)))
-        self.sendline('quadxy/%d,%d%s' % (NX,NY,c))
+        self.sendline('quadxy/%d,%d%s' % (quadpts[0],quadpts[1],c))
+
+        cmd = '/'.join(['createpts','brick','xyz',','.join(nnodes),'1,0,0','connect'])
+        self.sendline(cmd)
 
     def rzbrick(self,n_ijk,connect=True,stride=(1,0,0),coordinate_space='xyz'):
         '''
