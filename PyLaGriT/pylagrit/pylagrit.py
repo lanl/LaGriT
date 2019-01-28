@@ -3023,6 +3023,8 @@ class MO(object):
         :type prd_choice: int
         '''
 
+        itetlevbool = True
+        if level == 1: itetlevbool = False
         if level is None: level = 1; itetlevbool = False
         for i in range(level):
             attr_name = self.intersect_elements(mo)
