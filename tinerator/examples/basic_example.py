@@ -8,6 +8,7 @@ from tinerator import *
 
 # You can use any one of the three methods of importing a DEM:
 my_dem = loadDEM("data/dem.asc") # by file
+
 #my_dem = downloadDEM(bounds=(12.35,41.8,12.65,42)) # by bounding lat/long box
 #my_dem = downloadDEM(shapefile="data/shapefile/example_shapefile.shp",crop=True) # or by shapefile
 
@@ -23,7 +24,7 @@ my_dem.plot() # view the DEM
 # Perform watershed delineation to capture features
 # spacing is distance between adjacent nodes
 # in DEM units (i.e. meters), and will be represented in the mesh
-my_dem.watershedDelineation(threshold=4500.,plot=True,spacing=30.)
+my_dem.watershedDelineation(threshold=4500.,plot=False,spacing=30.)
 
 # Generate a perimeter around the DEM, spaced at 10 meters.
 my_dem.generateBoundary(100.)
@@ -48,7 +49,8 @@ their transistion, are:
 layers = [0.1*50.,0.3*50.,0.6*50.,8.0*50.,21.0*50.]
 matids = [1,2,3,4,5]
 
-my_dem.generateStackedTIN("test_extruded_mesh.inp",layers,matids=matids,plot=True,h=50.)
+my_dem.buildTriplane(50.,plot=False)
+my_dem.layeredMesh(layers,matids=matids)
 
 '''
 
@@ -84,8 +86,7 @@ def makeGaussian(size, fwhm = 600, center=None):
     return np.exp(-4*np.log(2) * ((x-x0)**2 + (y-y0)**2) / fwhm**2)
 
 data = makeGaussian(500)
-
-my_dem.addAttribute(data)
+my_dem.addAttribute(data,layers=[1,3,5],dtype=int)
 
 
 '''

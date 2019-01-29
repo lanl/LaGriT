@@ -308,8 +308,10 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
 
     mo_pts = lg.read_att(_array_out,'imt',operation=(1,0,0))
     mo_quad = lg.create(elem_type='quad')
-    mo_quad.quadxy(NX,NY,[extent[0],extent[2],0.],[extent[1],extent[2],0.],
-                         [extent[1],extent[3],0.],[extent[0],extent[3],0.])
+    mo_quad.quadxy([NX,NY,1],[[extent[0],extent[2],0.],
+                              [extent[1],extent[2],0.],
+                              [extent[1],extent[3],0.],
+                              [extent[0],extent[3],0.]])
 
     mo_quad.rzbrick([NX,NY,1],stride=(1,0,0),connect=True)
     mo_quad.addatt('id_strat',vtype=dtype,length='nelements')
@@ -743,6 +745,12 @@ def generateComplexFacesets(lg:pylagrit.PyLaGriT,outfile:str,mesh_file:str,
     _writeLineAVS(boundary,boundary_file,
                   connections=generateLineConnectivity(boundary,connect_ends=True),
                   material_id=boundary_attributes,cell_atts=cell_atts)
+
+    # TODO: Fix this.
+    # Band-aid approach! Causes segfault if too many
+    # meshes are present in memory.
+    for mesh in lg.mo:
+        lg.sendline('cmo/delete/%s' % mesh)
 
     _cleanup.append(boundary_file)
 

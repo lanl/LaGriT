@@ -70,7 +70,7 @@ def downloadDEM(bounds=None,outfile=None,shapefile=None,margin=None,low_res=True
 
     process = subprocess.call(cmd,shell=True,stderr=subprocess.STDOUT)
 
-    if shapefile is not None and crop == True:
+    if shapefile is not None and crop:
 
         # Capture the shapefile geometry
         with fiona.open(shapefile, "r") as _shapefile:

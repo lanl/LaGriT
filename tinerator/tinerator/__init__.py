@@ -157,10 +157,10 @@ class DEM():
         self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
         return self.boundary
 
-    def generateStackedTIN(self,min_edge:float=None,delta:float=0.75,outfile:str=None,
+    def buildTriplane(self,min_edge:float,delta:float=0.75,outfile:str=None,
                            slope:float=2.,refine_dist:float=0.5,
-                           apply_elevation=True,flip='y',
-                           plot=False):
+                           apply_elevation:bool=True,flip:str='y',
+                           plot:bool=False):
         '''
         Generates a refined triangular mesh, with a minimum refinement length 
         defined by h. Then, extrudes the mesh with user-defined layer thickness
@@ -182,13 +182,16 @@ class DEM():
         :type matids: list<int>
         '''
 
-        if h is None:
-            h = 50.
+        if min_edge is None:
+            min_edge = 50.
 
         if self.feature is None:
-            buildUniformTriplane(self.lg, self.boundary, "_trimesh.inp", min_edge=min_edge)
+            buildUniformTriplane(self.lg,self.boundary,"_trimesh.inp",min_edge=min_edge)
         else:
-            buildRefinedTriplane(self.lg,self.boundary,self.feature,"_trimesh.inp",min_edge,refine_dist=refine_dist,slope=slope,delta=delta)
+            buildRefinedTriplane(self.lg,self.boundary,self.feature,
+                                 "_trimesh.inp",min_edge,
+                                 refine_dist=refine_dist,
+                                 slope=slope,delta=delta)
 
         if apply_elevation:
             addElevation(self.lg,self,"_trimesh.inp",fileout="_trimesh.inp",flip=flip)
@@ -217,8 +220,17 @@ class DEM():
             mlab.triangular_mesh(points[:,0],points[:,1],points[:,2],triangles-1,representation='wireframe')
             mlab.show()
 
-    def layeredMesh(self,layers,matids=None,xy_subset=None,nlayers=None):
-        mo = stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
+
+    def layeredMesh(self,layers,matids=None,xy_subset=None,nlayers=None,outfile=None):
+        '''
+
+        '''
+        if outfile is None:
+            outfile = '_tin_stacked_mo.inp'
+
+        # TODO: apply mat id to itetclr
+        mo = stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,
+                         xy_subset=xy_subset,nlayers=nlayers)
         self.stacked_mesh = outfile
         self.number_of_layers = len(layers)
 
@@ -246,11 +258,13 @@ class DEM():
 
         '''
         outfile = self.stacked_mesh if outfile is None else outfile
-        addAttribute(self.lg,data,self.stacked_mesh,
+        _tmp = addAttribute(self.lg,data,self.stacked_mesh,
                      outfile,[self.ncols,self.nrows],
                      self.number_of_layers,self.getBoundingBox(),
                      attribute_name=attribute_name,layers=layers,
                      dtype=dtype)
+        _tmp.delete()
+
 
     def mapFunctionToAttribute(self,operator='+',layers=None,attribute_name=None,
                                outfile=None,fn=lambda layer: layer*100):
