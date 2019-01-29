@@ -20,6 +20,7 @@ branches:
 # Install dependencies for various OS'
 before_install:
   - if [ $TRAVIS_OS_NAME = windows ]; then choco install make cmake; fi
+  - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get update && sudo apt-get upgrade; fi
   - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get -y install gfortran libz-dev m4 bison; fi
   - if [ $TRAVIS_OS_NAME = osx ];     then brew update && brew install gcc; fi
   - export FC=$(which gfortran);      echo $FC
