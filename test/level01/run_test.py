@@ -66,9 +66,6 @@ def RunTest(**args):
   # xlagrit = "/scratch/sft/yanki/lagrit/src/mylagrit"
   # xlagrit = "Y:/yanki/lagrit/src/mylagrit"
   xlagrit = args["executable"]
-
-  print(args)
-
   flags = args["flags"]
 
   if not os.path.isfile(xlagrit):
