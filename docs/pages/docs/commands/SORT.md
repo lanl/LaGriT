@@ -17,24 +17,25 @@ categories: sort key reorder
  is created can be used in the **reorder** command to change the node
  or element ordering of the mesh object.
  
+ 
 ## SYNTAX for SINGLE KEY ##
 
 <pre>
- <b>sort</b> / cmo_name / <b>bins<\b> / [ <b>ascending  descending<\b> ] / sort_key / sort_attribute / [epsilon_user]
+ <b>sort</b> / cmo_name / <b> bins </b> / [ <b> ascending  descending </b> ] / sort_key / sort_attribute / [epsilon_user]
 </pre>
 
 
 ## SYNTAX for MULTI-KEY ##
 
 <pre>
- <b>sort</b> / cmo_name / <b>index  rank<\b> / [ <b>ascending  descending<\b> ] / sort_key / in_att1, in_att2, in_att3 ...
+ <b>sort</b> / cmo_name / <b>index  rank</b> / [ <b>ascending  descending</b> ] / sort_key / in_att1, in_att2, in_att3 ...
 </pre>
  
  
 ## SYNTAX for LINE GRAPH ##
 
 <pre>
- <b>sort</b> / cmo_name / <b>line_graph<\b> / [ <b>ascending  descending<\b> ] / sort_key / [ <b>elements  nodes<\b> ]
+ <b>sort</b> / cmo_name / <b>line_graph</b> / [ <b>ascending  descending</b> ] / sort_key / [ <b>elements  nodes</b> ]
 </pre>
  
  The command parameters include the cmo_name, followed by the
