@@ -67,6 +67,10 @@ def RunTest(**args):
   # xlagrit = "Y:/yanki/lagrit/src/mylagrit"
   xlagrit = args["executable"]
 
+  print(args)
+
+  flags = args["flags"]
+
   if not os.path.isfile(xlagrit):
     raise IOError("LaGriT binary doesn't exist at path: %s" % xlagrit)
 
@@ -131,7 +135,7 @@ def RunTest(**args):
             os.remove("outx3dgen")
 
         if (os.path.exists("input.lgi")) : 
-          cmd = xlagrit + " < input.lgi >> " + fscreen
+          cmd = xlagrit + " " + flags + " < input.lgi >> " + fscreen
           print(cmd)
           fo1 = os.system(cmd)
           if fo1 != 0:

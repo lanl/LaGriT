@@ -21,7 +21,7 @@ def ExecSuiteTwo(args):
 			
 def TwoFull(args):
 	Clean(tag = args.testfile)
-	RunTest(tag = args.testfile, executable = args.executable)
+	RunTest(tag = args.testfile, executable = args.executable, flags = args.flags)
 	Check(target = args.checkdir)
 
 
@@ -30,7 +30,7 @@ def CheckTwo(args):
 
 
 def RunTestTwo(args):
-	RunTest(tag = args.testfile, executable = args.executable)
+	RunTest(tag = args.testfile, executable = args.executable, flags = args.flags)
 
 
 def Clean(**args):

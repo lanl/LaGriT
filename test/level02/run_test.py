@@ -65,6 +65,7 @@ def RunTest(**args):
   #xlagrit = "/n/swdev/LAGRIT/bin/lagrit_ulin_g_gf_V3.107.so"
   # xlagrit = "/scratch/sft/yanki/lagrit/src/mylagrit"
   xlagrit = args["executable"]
+  flags = args["flags"]
 
   try:
     fail_threshold = args["hard_fail"]
@@ -127,7 +128,7 @@ def RunTest(**args):
             os.remove("outx3dgen")
 
         if (os.path.exists("input.lgi")) : 
-          cmd = xlagrit + " < input.lgi >> " + fscreen
+          cmd = xlagrit + " " + flags + " < input.lgi >> " + fscreen
           print cmd
           fo1 = os.system(cmd)
           if fo1 != 0:
