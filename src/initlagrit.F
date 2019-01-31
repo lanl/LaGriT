@@ -27,6 +27,9 @@ C        Revision 2.00  2007/11/05 19:45:58  spchu
 C        Import to CVS
 C
 CPVCS    
+CPVCS       Rev 1.8   31 Jan 2019 13:29:00   drl
+CPVCS    changed logfile and outfile character values
+CPVCS    
 CPVCS       Rev 1.7   03 Oct 2007 08:18:10   tam
 CPVCS    removed extra args version and compiled from writinit call
 CPVCS    
@@ -148,12 +151,12 @@ C
 C     TREAT SPECIAL CONTROLLEE-RELATED SITUATIONS.
  
          if(batch_file(1:1).eq.' '.or.batch_file(1:4).eq.'-def') then
-            logbat = 'outx3dgen'
+            logbat = 'lagrit.out'
          else
             logbat=batch_file
          endif
          if(log_file(1:1).eq.' '.or.log_file(1:4).eq.'-def') then
-            loglog = 'logx3dgen'
+            loglog = 'lagrit.log'
          else
             loglog=log_file
          endif
