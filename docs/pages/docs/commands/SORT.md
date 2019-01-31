@@ -21,21 +21,21 @@ categories: sort key reorder
 ## SYNTAX for SINGLE KEY ##
 
 <pre>
- <b>sort</b> / cmo_name / <b> bins </b> / [ <b> ascending  descending </b> ] / sort_key / sort_attribute / [epsilon_user]
+ <b>sort</b> / cmo_name / <b> bins </b> / [ <b> ascending  descending </b> ] / sort_key_name / sort_attribute / [epsilon_user]
 </pre>
 
 
 ## SYNTAX for MULTI-KEY ##
 
 <pre>
- <b>sort</b> / cmo_name / <b>index  rank</b> / [ <b>ascending  descending</b> ] / sort_key / in_att1, in_att2, in_att3 ...
+ <b>sort</b> / cmo_name / <b>index</b> or <b>rank</b> / [ <b>ascending</b> or <b>descending</b> ] / sort_key_name / in_att1, in_att2, in_att3 ...
 </pre>
  
  
 ## SYNTAX for LINE GRAPH ##
 
 <pre>
- <b>sort</b> / cmo_name / <b>line_graph</b> / [ <b>ascending  descending</b> ] / sort_key / [ <b>elements  nodes</b> ]
+ <b>sort</b> / cmo_name / <b>line_graph</b> / [ <b>ascending</b> or <b> descending</b> ] / sort_key_name / [ <b>elements </b> or <b> nodes</b> ]
 </pre>
  
  The command parameters include the cmo_name, followed by the
@@ -50,12 +50,11 @@ categories: sort key reorder
 
 ## Command Options ##
 
-*cmo_name* The choices for first parameter are the name of a valid mesh
-object or **-def-** which select the currently active mesh object.
+*`cmo_name`* is the name of a valid mesh object or **-def-** which selects the currently active mesh object.
 
 *`sort_type`* The sorting methods include **`bins`**, **`index`**, **`rank`** and **`line_graph`** See below.
 
-**`bins`** A single-key sort which assigns each in_att1 value a bin
+**`bins`** is a single-key sort which assigns each in_att1 value a bin
  number. If in_att1 is an integer then bins each have a unique integer
  value associated with them. If in_att1 is a real number, bins are
  created with values which are within +-epsilon of each other, where
@@ -63,16 +62,14 @@ object or **-def-** which select the currently active mesh object.
  then the maximum value of the index array will equal the number of
  entries in the sorted list. Otherwise, the maximum value of the index
  array will be less than the number of entries in the sorted list but
- will equal the number of unique entries in the list.
-
- With the **`bins`** method, an optional user specified epsilon
+ will equal the number of unique entries in the list. With the **`bins`** method, an optional user specified epsilon
  multiplier, *epsilon_user*, will override the default value of 1.e-10.
 
 
-**`index`** Constructs a single or multi-key index table such that
+**`index`** is a single or multi-key sort that constructs an index table such that
  in_att1(ikey(1)) is the first entry in the sorted array, in_att1(ikey(2)) is the second, etc.
 
-**`rank`** Constructs a single or multi-key rank table such that the tables ith entry give the rank of the ith entry of the sorted arrays. The rank table is derived from the index table by:
+**`rank`** is a single or multi-key sort that constructs a rank table such that the tables ith entry give the rank of the ith entry of the sorted arrays. The rank table is derived from the index table by:
 <pre>
  foreach j = 1,N
    rank(index(j)) = j
@@ -80,19 +77,17 @@ object or **-def-** which select the currently active mesh object.
 </pre>
 
 
-**`line_graph`** This option requires all elements to be line segments, and it arranges them in a reasonable order. In particular, it makes the following guarantees:
+**`line_graph`** is a sort for connected line segments for arranging into a reasonable order. The sorted order for components which are not polylines or polygons is unspecified, but it will usually be reasonable because the underlying
+ algorithm visits the edges via depth first search. In particular, it makes the following guarantees:
 
  -   Each connected component will be arranged together.
  -   Polylines (chains of line segments with no branching or loops)
      will be in order from one end to the other.
  -   Polygons will be in order starting from one segment and looping
      back around to the same place.
+ 
 
- The sorted order for components which are not polylines or polygons is
- unspecified, but it will usually be reasonable because the underlying
- algorithm visits the edges via depth first search.
-
- **`line_graph`** / **`elements`** generates the following three integer element attributes:
+ **`line_graph`** with **`elements`** generates the following three integer element attributes:
 
  -   cid: A component id for distinguishing separate connected
      components. Each connected component receives a unique positive
@@ -123,7 +118,7 @@ object or **-def-** which select the currently active mesh object.
      this case, the cycle corresponding to the label is not fully
      specified because there is more than one right answer.
 
- **`line_graph`** option for **`nodes`** is based on the option for
+ **`line_graph`** with **`nodes`** is based on the option for
  elements, except that it does not create extra attributes. Based on
  the sorted elements, the nodes will be reordered in the same sequence.
  This is necessary for triangulation as "TRIANGULATE" routine requires
@@ -141,6 +136,14 @@ of input attributes. Attribute in_att1(n) has priority over in_att2(n) in breaki
 
 ## EXAMPLES ##
 
+<pre>
+     sort / cmo / line_graph / ascending / ikey / elements
+     </pre>
+
+ Sort the line segment elements into a reasonable order based on
+ connectivity. This also creates attributes cid, ctype, and loop_id
+ (see above).
+ 
 <pre>
  sort / cmo / index / ascending / ikey / imt zic yic xic
 </pre>
@@ -163,30 +166,33 @@ of input attributes. Attribute in_att1(n) has priority over in_att2(n) in breaki
  sort where the sweep is first along x coordinate then y then z.
 
 <pre>
-     sort / cmo / bins / ascending / i\_index / xic
-     sort/ cmo / bins / ascending / j\_index / yic
-     sort / cmo / bins / ascending / k\_index / zic
+     sort / cmo / bins / ascending / i_index / xic
+     sort/ cmo / bins / ascending / j_index / yic
+     sort / cmo / bins / ascending / k_index / zic
      </pre>
 
  If the cmo were a finite difference grid of points, the above three
  commands would produce the finite difference indexing. All points with
- the same x value would be in the same i\_index bin, all points with
- the same y value would be in the same j\_index bin, etc.
+ the same x value would be in the same i_index bin, all points with
+ the same y value would be in the same j_index bin, etc.
 
 <pre>
-     sort / cmo / line\_graph / ascending / ikey / elements
-     </pre>
+define MOGOOD motet
+define MOSORT mopts
 
- Sort the line segment elements into a reasonable order based on
- connectivity. This also creates attributes cid, ctype, and loop\_id
- (see above).
+cmo/addatt/MOSORT id_mesh1 /VINT/scalar/nnodes/linear/permanent//0      
+interpolate/voronoi/ MOSORT id_mesh1/1,0,0/ MOGOOD id_node
 
-<pre>
-      sort / xyz / bins
-      </pre>
+cmo/addatt/MOSORT id_diff /VINT/scalar/nnodes/linear/permanent//0      
+math/sub/MOSORT id_diff/1,0,0/ MOSORT id_mesh1 /MOGOOD id_node
+cmo/printatt/MOSORT/ id_diff / minmax
 
- Old version no longer supported but syntax will work. Result is the
- same as previous three commands.
+sort/ MOSORT/ index / ascending / ikey / id_mesh1
+reorder/MOSORT/ ikey
+</pre>
+
+Sort and reorder a set of nodes based on a source mesh, based on node id and position xyz. Use **`interpolate/voronoi`** to associate each node with the good mesh node id's. We check to see if the ordering for both mesh objects is different by subtracting the node id of one from the second. The result would be 0 for all nodes that match position and node id. Sort mesh object using the attribute with the interpolated node id's, then reorder using the ikey values.
+ 
 
 **LINKS:**
 
@@ -218,11 +224,11 @@ sort / xyz / [ index  bins  rank ]
 <pre>
  For example given x = 0, 1, 2, 1, 0
 
- sort/xyz/index returns i\_index = 5, 1, 4, 2, 3
+ sort/xyz/index returns i_index = 5, 1, 4, 2, 3
 
- sort/xyz/bins returns i\_index = 1, 2, 3, 2, 1
+ sort/xyz/bins returns i_index = 1, 2, 3, 2, 1
 
- sort/xyz/rank returns i\_index = 2, 4, 5, 3, 1
+ sort/xyz/rank returns i_index = 2, 4, 5, 3, 1
  </pre>
 
 
