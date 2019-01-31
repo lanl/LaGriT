@@ -1,6 +1,7 @@
+
 ---
-title: sort
-categories: sort key reorder
+title: "sort"
+categories: sort command
 ---
 
 # sort #
@@ -21,7 +22,7 @@ categories: sort key reorder
 ## SYNTAX for SINGLE KEY ##
 
 <pre>
- <b>sort</b> / cmo_name / <b> bins </b> / [ <b> ascending  descending </b> ] / sort_key_name / sort_attribute / [epsilon_user]
+ <b>sort</b> / cmo_name / <b> bins </b> / [ <b> ascending</b> or <b> descending </b> ] / sort_key_name / sort_attribute / [epsilon_user]
 </pre>
 
 
