@@ -135,6 +135,7 @@ associate the pset name apset with the set of nodes which belong to at least one
 
  associate the pset name apset with the set of nodes which belong to pset1, and do not belong to pset2, and do not belong to pset3 pset/apset/not/pset1 associate the pset name apset with the set of nodes which do not belong to pset1
 
+
       pset/list/
 
  list the names of all psets
@@ -162,10 +163,16 @@ Write list of nodes in pset mypset to an ascii file named file_name.zone in FEHM
         pset/apset/attribute/itp/1,0,0/10/ge
         
  associate the name apset with the points whose type field(itp1) has value greater than or equal to 10 (these would be boundary nodes).
+ 
+      pset/apset/ inter / pset1,pset2,pset3
 
-      pset/mypset/geom/xyz/1,0,0/1.,1.,-5./10.,20.,10./
+ associate the pset name apset with the set of nodes which belong to pset1, and pset2, and pset3.
 
-associate the name mypset with all nodes that fall with the box with corners at (1,1,-5) and (10,20,10)
+      pset/p1/attribute/zic/1,0,0/gt 1.0
+      pset/p2/attribute/zic/1,0,0/lt 10.0
+      pset/p3/ inter / p1 p2
+
+associate the name p3 with all nodes that have zic values between 1.0 and 10.0
   
     pset/mypset/geom/rtz/pset,get,oldpset/0.,0.,0./10.,360.,10.  
 
