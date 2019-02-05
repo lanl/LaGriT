@@ -1,149 +1,105 @@
 ---
-title: PSET
-tags: ok
+title: "PSET"
+categories: pset point selection command
 ---
 
- **PSET (Point Set)**
+# PSET (Point Set) #
 
-  Associate a name with a point set based on various geometric and
-  logical operators. Manipulate point sets. Output point sets.
+ Associate a name with a point set based on various geometric and logical operators. Manipulate point sets. Output point sets.
  
-  **seq** forms a pset of the nodes defined by ifirst, ilast,
-  istride;
+ ## SYNTAX ##
+ 
+ <pre>
+ <b>pset</b>/ pset_name / select_type / select_type_options
+ </pre>
+ 
+ The following are definitions for the various selection types:
+ 
+**`attribute`** forms a pset from all points in ifirst,ilast,istride which have the specified value for a node based
+  attribute. If the optional comparator field is given; that operation is used to compare the attribute value to the requested value. *This option was previously named* **zq.** in old releases.
+  <pre>
+  pset / [name or -all-] / attribute_name / ifirst,ilast,istride / [eq or ne or lt or gt ] / [value]
+  pset / [name or -all-] / attribute_name / ifirst,ilast,istride / [value] / [eq or ne or lt or gt ]
+  
+  replaces:
+  zq / attribute_name / ifirst,ilast,istride / [value] / [eq or ne or lt or gt ]
+  </pre>
 
-  the special syntax,: 1,0,0 refers to all nodes and 0,0,0 refers to
-  the last set of nodes created.
+**`constraints`** forms a pset of nodes having the specified number of constraints.  The node's **icr** value is used as an index to the **icontab** attribute which gives the number of constraints.  [See chapter III, A](../meshobject.md) for an explanation of the **icontab** entries.
 
-  **union, inter** and **not** are logical operations on previously
-  defined psets.  The definition of the unary operator **not** is
-  extended such that **not**/p1/p2 means p1 and (not(p2)).
+**`delete`** deletes a previously defined pset
+<pre>
+pset/ pset_name / delete
+</pre>
 
-  **list** lists nodes in a pset or names of all psets
+**`eltset`** forms a pset of nodes in the element set named.
+<pre>
+pset/ pset_name /eltset/element_set_name
+</pre>
 
-  **write** write pset node list to a file
 
-  pset / [name-all-] / write/ file\_name[.vertexset] /
-  [asciibinary]
+**`geom`** / shape_type / forms a pset from all points inside a geometric shape as defined in the following options:
+<pre>
+pset/ pset_name /geom / xyz /ifirst,ilast,istride/ xl,yl,zl / xu,yu,zu/ xcen,ycen,zcen
 
-  **zone** write pset node list to a file (FEHM Flow and Transport
-  code zone file format)
+pset/ pset_name /geom / rtz /ifirst,ilast,istride/ r1,t1,z1 / r2,t2,z2/ xcen,ycen,zcen
 
-  pset / [name-all-] / zone / file\_name[.zone] / [ascii]
-  [zone\_number]
+pset/ pset_name /geom / rtp /ifirst,ilast,istride/ r1,t1,p1 / r2/t2/p2/ xcen,ycen,zcen
+</pre>
 
-  **zonn** write pset node list to a file (FEHM Flow and Transport
-  code zonn file format)
+    **`xyz`** forms a pset from all points inside a box whose corners are xl,yl,zl and xu,yu,zu relative to the geometry center at xc,yc,zc.
 
-  pset / [name-all-] / zonn / file\_name[.zonn] / [ascii]
-  [zone\_number]
+    **`rtz`** forms a pset of nodes within the cylinder or cylindrical shell given by radius r1 to r2, angle theta t1 to t2 and height z1 to z2.
 
-  In writezonezonn mode the file name suffix .vertexset.zone.zonn
-  is added if the string provided does not have the file name suffix.
-  The -all- argument specifies that all psets are output. The name
-  argument is the name of a single pset.
+    **`rtp`** forms a pset of nodes within the sphere, sperical shell or sperical section given by radius r1 to r2, and angles theta t1 to t2 and angles phi p1 to p2.  [See chapter II, A. Conventions](../conventions.md) for an explanation of angles theta and phi.
+    
 
-  By default the zone\_number is a number 1-n where n is the number of
-  psets. Specify a number value for a single zone file with the
-  zone\_number option. **delete** deletes a previously defined pset
+**`list`** lists nodes in a pset or names of all psets for the mesh object.
 
-  **attribute** forms a pset from all points in
-  ifirst,ilast,istride which have the specified value for a node based
-  attribute. This option was previously named **zq.**
+logical operations **`union`**, **`inter`** and **`not`** act on previously defined psets.  The definition of the unary operator **`not`** is extended such that **`not`**/p1/p2 means p1 and (not(p2)).
+<p>
+pset/pset_name/ union inter not /pset1[/ pset2/…/psetn ]
+</p>
 
-  If the optional comparator field is given; that operation is used to
-  compare the attribute value to the requested value.
-
-  **geom/xyz**/ forms a pset from all points inside the box whose
-  corners are xl,yl,zl and xu,yu,zu relative to the geometry center at
-  xc,yc,zc.
-
-  **geom/rtz**/ forms a pset of nodes within the cylinder or
-  cylindrical shell given by radius r1 to r2, angle theta t1 to t2 and
-  height z1 to z2.
-
-  **geom/rtp**/ forms a pset of nodes within the sphere, sperical
-  shell or sperical section given by radius r1 to r2, and angles theta
-  t1 to t2 and angles phi p1 to p2.  [See chapter II, A.
-  Conventions](../conventions.md) for an explanation of angles theta
-  and phi.
-
-  **region**/region name/ifirst,ilast,istride
-
-  **mregion**/mregion name/ifirst,ilast,istride will return all nodes
+**`region`** or **`mregion`** will return all nodes
   that are in the specified region/mregion - the definition of the
   region/mregion is evaluated to determine membership.  Hence the
   result may vary from what would be returned if the 'imt1' value of
   the nodes had been queried using the **attribute** option
+<pre>
+pset/ pset_name /region or mregion / region_name / ifirst,ilast,istride
+</pre>
 
-  **surface** identifies nodes on the specified surface.  Keyword
-  surface names have the following meaning:
- 
-   -**all**- will identify nodes on any surface.
+ **`seq`** forms a pset of the nodes defined by ifirst, ilast, istride;
+the special syntax,: 1,0,0 refers to all nodes and 0,0,0 refers to the last set of nodes created.
+<pre>
+pset/ pset_name / seq /ifirst,ilast,istride
+</pre>
 
-   -**interface**- will identify nodes on any interface surface.
+**`surface`** identifies nodes on the specified surface.  Keyword surface names have the following meaning:
+<pre>
+pset/ pset_name /surface/surface_name/[ifirst,ilast,istride]
+</pre>
 
-   -**boundary**- will idendify nodes on exterior surfaces.
+    -**all**- will identify nodes on any surface.
 
-**eltset** form a pset of nodes in the element set listed.
+    -**interface**- will identify nodes on any interface surface.
 
-**constraints** forms a pset of nodes having the specified number of
-constraints.  The node's **icr** value is used as an index to the
-**icontab** attribute which gives the number of constraints.  [See
-chapter III, A](../meshobject.md) for an explanation of the
-**icontab** entries.
+    -**boundary**- will idendify nodes on exterior surfaces.
+   
 
-**FORMAT:**
+ **`write`** write pset node list to a file, options are:
+<pre>
+  pset / [pset_name or -all-] / write/ file_name[.vertexset] / [ascii or binary]
+ </pre>
 
-**pset**/pset name
+ **`zone`** or **`zonn`** write pset node list to a file (FEHM Flow and Transport code zone file format). By default the zone_number is a number 1-n where n is the number of psets defined in the mesh object. Specify a number value for a single zone file with the zone_number option. 
+<pre>
+  pset / [name or -all-] / zone or zonn / file_name[.zone or .zonn] / [ascii] [zone_number]
+  </pre>
 
-**seq**/ifirst,ilast,istride
-
-**unioninternotdelete**/pset1[/pset2/.../psetn]
-
-**list**
-
-**write** / file\_name[.vertexset] / [asciibinary]
-
-**zone** / file\_name[.zone] / [ascii] [zone\_number]
-
-**zonn** / file\_name[.zonn] / [ascii] [zone\_number]
-
-**delete**
-
-**attribute**/attribute
-/ifirst,ilast,istride/value/[ltlegtgeeqne]
-
-**attribute**/attribute
-/ifirst,ilast,istride/[ltlegtgeeqne]/value
-
-**zq**/attribute /ifirst,ilast,istride/value/[ltlegtgeeqne]
-
-**zq**/attribute /ifirst,ilast,istride/[ltlegtgeeqne]/value
-
-**region**/region name/ifirst,ilast,istride
-
-**mregion**/mregion name/ifirst,ilast,istride
-
-**geom** **/xyz**/ifirst,ilast,istride/xl,yl,zl/xu,yu,zu/xcen,ycen,zcen
-
-**geom** **/rtz**/ifirst,ilast,istride/r1,t1,z1/r2,t2,z2/xcen,ycen,zcen
-
-**geom** **/rtp**/ifirst,ilast,istride/r1,t1,p1/r2/t2/p2/xcen,ycen,zcen
-
-**surface**/surface\_name/[ifirst,ilast,istride]
-
-**surface** will select nodes that are on the specified surface.  If
-**-interface-** is specified for the surface name, all interface  nodes 
-will be returned.  If **-boundary-** is specified for the surface name,
-all nodes on external bounding surfaces will be returned. If **-all-**
-is specified all nodes on any surface are returned.
-
-**eltset**/element\_set\_name
-
-**eltset** will return all nodes that are vertices of the elements in
-the specified element set
-
-Examples:
+  
+## EXAMPLES ##
 
     pset/apset/seq/1,0,0/
 
