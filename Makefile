@@ -150,11 +150,11 @@ else ifeq ($(OPSYS),Linux)
 endif
 
 ifeq ($(DEBUG),1)
-	LINKERFLAGS += -g
-	BUILDFLAGS += -g
+	LINKERFLAGS += -g -fbacktrace -ffpe-trap=invalid,zero,overflow,underflow,denormal
+	BUILDFLAGS +=  -g -fbacktrace -ffpe-trap=invalid,zero,overflow,underflow,denormal
 else
-	LINKERFLAGS += -O
-	BUILDFLAGS += -O
+	LINKERFLAGS += -O -ffpe-summary=none
+	BUILDFLAGS += -O -ffpe-summary=none
 endif
 
 ifeq ($(wildcard $(EXO_LIB_DIR)),)
@@ -179,8 +179,8 @@ header :
 	@echo "$$LAGRIT_H_TEXT" > src/lagrit.h
 
 before : src/lagrit_main.o src/lagrit_fdate.o
-	make -C lg_util/src/ LIB=$(LG_UTIL_LIB) CC=$(CC) FC=$(FC)
-	make -C src/ LIB=$(SRC_LIB) WITHEXODUS=$(WITH_EXODUS) CC=$(CC) FC=$(FC) EXO_INCLUDE_DIR=$(EXO_LIB_DIR)/../include
+	make -C lg_util/src/ LIB=$(LG_UTIL_LIB) CC=$(CC) FC=$(FC) DEBUG=$(DEBUG)
+	make -C src/ LIB=$(SRC_LIB) WITHEXODUS=$(WITH_EXODUS) CC=$(CC) FC=$(FC) EXO_INCLUDE_DIR=$(EXO_LIB_DIR)/../include DEBUG=$(DEBUG)
 
 clean :
 	make -C lg_util/src/ clean

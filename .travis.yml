@@ -20,18 +20,23 @@ branches:
 # Install dependencies for various OS'
 before_install:
   - if [ $TRAVIS_OS_NAME = windows ]; then choco install make cmake; fi
-  - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get -y install gfortran libz-dev m4 bison; fi
-  - if [ $TRAVIS_OS_NAME = osx ];     then brew update && brew install gcc; fi
+  - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get -y install gfortran libz-dev m4 bison python cmake; fi
+  - if [ $TRAVIS_OS_NAME = osx ];     then brew update && brew install gcc python; fi
   - export FC=$(which gfortran);      echo $FC
   - export CC=$(which gcc);           echo $CC
   - export CXX=$(which g++);          echo $CXX
 
 # Build Exodus and binary; test
 script:
+  # LaGriT compilation tests
   - make exodus  CC=$CC FC=$FC CXX=$CXX
   - make release CC=$CC FC=$FC CXX=$CXX
   - make static  CC=$CC FC=$FC CXX=$CXX
   - make test
+  # PyLaGriT tests
+  - echo "lagrit_exe : '`pwd`/src/lagrit'" > ~/.pylagritrc
+  - cd PyLaGriT/ && python3 setup.py install
+  - cd tests/ && python3 test_pylagrit.py
 
 # Display successful messages
 after_success:

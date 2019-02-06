@@ -12,9 +12,6 @@
 #    - DEBUG : run with DEBUG=1 to build with debug symbols
 #    - CC, FC : change to use other compilers
 #================================================================#
-#  Changelog:
-#    - 12/03/18 (DRL) : Refactoring to make code easier to read,
-#                       special handling for tempgable.f
 #
 #  TODO:
 #    - Add support for 32 bit machines
@@ -46,8 +43,8 @@ else ifeq ($(OPSYS),Linux)
 endif
 
 ifeq ($(DEBUG),1)
-	FFLAGS += -g
-	CFLAGS += -g
+	FFLAGS += -g -fbacktrace -ffpe-trap=invalid,zero,overflow
+	CFLAGS += -g 
 else
 	FFLAGS += -O
 	CFLAGS += -O

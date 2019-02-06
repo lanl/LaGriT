@@ -72,6 +72,7 @@ def main(argv=None):
     parser.add_argument("checkdir", help = "Target dir for check function; default - recurse through current dir", action = readable_dir, 
                                             default = os.curdir, nargs = "?")
     parser.add_argument("-exe", "--executable", help = "Path to executable for testing", action = "store", type = str, default = xlagrit)
+    parser.add_argument("-fl", "--flags", help = "Command line flags to pass to LaGriT on run", action = "store", type = str, default = "-log logx3dgen -out outx3dgen")
     parser.add_argument("-hf", "--hard_fail", help = "Quits and returns non-zero exit code on failed test", action = "store", type = int, nargs = 1, default = 0)
     args = parser.parse_args()
 

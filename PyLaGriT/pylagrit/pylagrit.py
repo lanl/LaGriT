@@ -655,7 +655,7 @@ class PyLaGriT(spawn):
         if external: cmd.append('external')
         if append: cmd.append(append)
         self.sendline( '/'.join(cmd))
-
+        self.mo[name] = MO(name,self)
         return self.mo[name] 
               
     def read_script(self, fname):
