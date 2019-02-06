@@ -1667,6 +1667,93 @@ class MO(object):
 
         return self.pset[name]
 
+    def compute_distance(self, mo, option='distance_field', attname='dfield'):
+        '''
+        Compute distance from one mesh object to another
+        
+        :kwarg mo: Mesh object to compute distance to base mesh from
+        :type  mo: LaGriT mesh object 
+        
+        :kwarg option: The type of distance field calculation. Available choices
+         are 'distance_field' and 'signed_distance_field'.
+        :type  option: str
+        
+        :kwarg attname: The name of the attribute to be created in the base mesh.
+        :type  attname: str
+        
+        Returns: New attribute in base mesh object
+
+        Example:
+        from pylagrit import PyLaGriT
+        #create source mesh
+        npts = (1,91,1)
+        mins = (3.,0.,0.)
+        maxs = (3.,270.,0.)
+        src_mo = lg.create()
+        src_mo.createpts_rtz(npts,mins,maxs,connect=False)
+
+        #create sink mesh
+        snk_mo = lg.create()
+        snk_mo.createpts_xyz([30,30,1],[-5.,-5.,-5.],[5.,5.,5.],connect=False)
+
+        #compute distance and store in sink mesh attribute 'dfield'
+        snk_mo.compute_distance(src_mo)
+        snk_mo.dump('comptest.gmv')
+        '''        
+        if option not in ['distance_field', 'signed_distance_field']:
+            print("ERROR: 'option' must be 'distance_field' or 'signed_distance_field'")
+            return
+
+        self.sendline('/'.join(['compute',option,self.name,mo.name,attname]))
+
+    def compute_extrapolate(self, surf_mo, dir='zpos',attname='zic'):
+        '''
+        Given a 3D mesh and a 2D surface, this command will extrapolate a scalar
+         value from that surface onto every point of the mesh.
+        
+        :kwarg surf_mo: Surface mesh object to extrapolate from
+        :type  surf_mo: LaGriT mesh object 
+        
+        :kwarg dir: The direction values are extrapolated from. Choices are one 
+        of: 'zpos', 'zneg', 'ypos', 'yneg', 'xpos', 'xneg'
+        :type  dir: str
+        
+        :kwarg attname: The name of the attribute in the surface mesh to be 
+        extrapolated
+        :type  attname: str
+        
+        Returns: New attribute in base mesh object
+
+        Example:
+        from pylagrit import PyLaGriT
+        #create surface mesh
+        p1 = (-1.,-1.,-1.)
+        p2 = (301.,-1.,-1.)
+        p3 = (301.,301.,-1.)
+        p4 = (-1.,301.,-1.)
+        pts = [p1,p2,p3,p4]
+        nnodes = (30,30,1)
+        surf = lg.create_qua()
+        surf.quadxy(nnodes,pts)
+        
+        #make surface mesh interesting
+        surf.math('sin','zic',cmosrc=surf,attsrc='xic')
+        surf.math('multiply','zic',value=5.0,cmosrc=surf,attsrc='zic')
+        surf.perturb(0.,0.,1.)
+        surf.math('add','zic',value=60.0,cmosrc=surf,attsrc='zic')
+        
+        #create base mesh
+        hex = lg.create_hex()
+        hex.createpts_brick_xyz([30,30,20],[0.,0.,0.],[300.,300.,50.])
+        hex.resetpts_itp()
+        
+        #extrapolate z values from surface mesh to base mesh
+        hex.compute_extrapolate(surf)
+        hex.dump('extrapolated.gmv')
+        '''        
+
+        self.sendline('/'.join(['compute','linear_transform',self.name,surf_mo.name,dir,attname]))
+
     def pset_region(self, region, stride=(1,0,0), name=None):
         '''
         Define PSet by region
