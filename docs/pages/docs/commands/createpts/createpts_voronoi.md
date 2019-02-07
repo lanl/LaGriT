@@ -13,7 +13,7 @@ This routine creates new mesh object attributes called **xvor**, **yvor**, and *
 The voronoi point is defined only for triangular and tetrahedral meshes.
 
  
- ## SYNTAX ##
+## SYNTAX ##
 <pre>
 <b>createpts</b> / <b>voronoi</b>
 </pre>
