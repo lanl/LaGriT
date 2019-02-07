@@ -3,29 +3,28 @@ title: "CREATEPTS"
 tags: createpts
 ---
  
- # CREATEPTS #
+# CREATEPTS #
 
-  This command adds points to a mesh object. For some special cases, it
-  will also produce element connectivity. The **createpts** command is a wrapper for the deprecated **rz** type commands.
+This command adds points to a mesh object. For some special cases, it will also produce element connectivity. The **createpts** command is a wrapper for the deprecated **rz** type commands.
   
 
-  **[createpts/ xyz rtz rtp line](createpts/CRTPTSRZ.md)** Create points and distribute by coordinate type selection.
+**[createpts/xyz rtz rtp line](createpts/CRTPTSRZ.md)** Create points and distribute by coordinate type selection.
 
-  **[createpts/ brick](createpts/CRTPTBRICK.md)** Create points in a rectangular distribution for hexahedral connectivity.
+**[createpts/brick](createpts/CRTPTBRICK.md)** Create points in a rectangular distribution for hexahedral connectivity.
 
-  **[createpts/ interp](createpts/createpts_interp.md)** Creates points by linear interpolation between two point sets.
+**[createpts/interp](createpts/createpts_interp.md)** Creates points by linear interpolation between two point sets.
 
-  **[createpts/ sphere](createpts/cresphere.md)** Create points for a sphere.
+**[createpts/sphere](createpts/cresphere.md)** Create points for a sphere.
 
-  **[createpts/ random](createpts/CRTPTRZRAN.md)** Add random points within region.
+**[createpts/random](createpts/CRTPTRZRAN.md)** Add random points within region.
 
-  **[createpts/ vector](createpts/CRTPTRZV_LG.md)** Create points in region of space spanned by input vectors.
+**[createpts/vector](createpts/CRTPTRZV_LG.md)** Create points in region of space spanned by input vectors.
 
-  **[createpts/ voronoi](createpts/createpts_voronoi.md)** Creates element attributes xvor, yvor, and zvor.
+**[createpts/voronoi](createpts/createpts_voronoi.md)** Creates element attributes xvor, yvor, and zvor.
 
-  **[createpts/ median](createpts/createpts_median.md)** Creates element attributes xmed, ymed, and zmed.
+**[createpts/median](createpts/createpts_median.md)** Creates element attributes xmed, ymed, and zmed.
 
-  **[createpts/ amr](createpts/CREATEPTSAMR.md)** Create points using octree type refinement on hexahedral mesh.
+**[createpts/amr](createpts/CREATEPTSAMR.md)** Create points using octree type refinement on hexahedral mesh.
   
   
 
