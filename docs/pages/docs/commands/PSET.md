@@ -5,7 +5,9 @@ categories: pset point selection command
 
 # PSET (Point Set) #
 
- Associate a name with a point set based on various geometric and logical operators. Manipulate point sets. Output point sets.
+Associate a name with a point set based on various geometric and logical operators. Manipulate point sets. Output point sets.
+ 
+By convention, *`ifirst,ilast,istride`* syntax represents a set selection defined either by a set of points from ifirst to ilast, with increments of istride (1 by default). A set selection can also be defined with **pset,get,** *pset_name* where *pset_name* has been defined by the following **pset** commands. Most commands with the syntax *ifirst,ilast,istride* can also use **pset,get,** *pset_name*.
  
  
 ## SYNTAX ##
@@ -176,9 +178,13 @@ Write list of nodes in pset mypset to an ascii file named file_name.zone in FEHM
 
       pset/p1/attribute/zic/1,0,0/gt 1.0
       pset/p2/attribute/zic/1,0,0/lt 10.0
-      pset/p3/ inter / p1 p2
+      pset/pboth/ inter / p1 p2
+      
+      pset/p1/attribute/zic/ 1,0,0 /gt 1.0
+      pset/pboth/attribute/zic/ pset,get,p1 / lt 10.0
+      
 
-associate the name p3 with all nodes that have zic values between 1.0 and 10.0
+associate the name pboth with all nodes that have zic values between 1.0 and 10.0, note both sets of commands have the same result.
   
     pset/mypset/geom/rtz/pset,get,oldpset/0.,0.,0./10.,360.,10.  
 
