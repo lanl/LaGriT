@@ -3,128 +3,171 @@ title: SURFACE
 tags: review
 ---
 
-**SURFACE**
+# SURFACE #
 
-Defines a boundary surface of the type specified in ibtype.
+Defines a boundary, interface, or geometry for a selected mesh object. The **release** will release the previously defined surface referenced by name.  All references will be removed from the geometry data structures and all constraints (icr) values associated with this surface will be removed.
 
-Releases a previously defined surface.
+## FORMAT ##
 
-ibtype can be **free**, **intrface**, **reflect, intrcons** or
-**virtual**. Use **reflect** or **free** for external boundaries,
-**intrface** for interior interfaces, **intrcons** for constrained
-interior interfaces. Use **virtual** for virtual interfaces.  Nodes on
-**reflect**, **intrcons**, or **virtual ** interfaces will be assigned
-icrl values corresponding to the surfaces on which the nodes sit. The
-command **settets** will generate parent/child node chains (isn1) for
-nodes on **intrface** or **intrcons.** Surfaces which have different
-materials on either side of the surface virtual interfaces do not
-separate material regions but are intended to identify other structural
-features of a geometry.  The surface is defined by a set of
-surface-parameters.
+<pre>
+<b>surface</b>/isurname/ ibtype / istype / surface-parameters
 
-istype can be **plane**, **box,** **parallel**(piped), **sphere**,
-ylinder**, one**, **ellipse**(oid), **tabular** (rotated tabular
-profile), or **sheet**. Surface-parameters are specified with the
-surface type in mind.
+<b>surface</b>/isurname/ ibtype /<b>sheet</b>/cmo_name
 
-isurname is the name of the surface and must be unique for each surface
-defined by **surface**.
+<b>surface</b>/isurname/<b>release</b>
+</pre>
 
-**FORMAT:**
 
-**surface**/isurname/ibtype/istype/surface-parameters
+*`isurname`* is the name of the surface and must be unique for each surface defined by **surface**.
 
-**surface**/isurname/ibtype**/sheet**/cmo-name
 
-**surface**/isurname**/release**
+*`ibtype`* defines the boundary type with keywords **free**, **intrface**, **reflect, intrcons** or
+**virtual**. Nodes on **reflect**, **intrcons**, or **virtual** interfaces will be assigned
+node constraint (icr) values corresponding to the surfaces on which the nodes sit. The
+command **settets** will generate parent/child node chains (isn) for nodes on **intrface** or **intrcons** surfaces.
 
-**EXAMPLES:**
+* **`free`**  can be used for external boundaries.
 
-**surface**/s1**/release**
+* **`reflect`** can be used for external boundaries, assigned constraint values (icr).
 
-Release the previously defined surface named s1.  Remove all references
-from the geometry data structures and remove all constraints associated
-with this surface.
+* **`intrface`** for interior interfaces, will generate parent/child node chains (isn).
 
-**surface**/sbox/ibtype**/box**/xmin,ymin,zmin/xmax,ymax,zmax/
+* **`intrcons`** for constrained internal interfaces, are assigned constraint values (icr) and will generate parent/child node chains (isn). 
 
-Where xmin,ymin,zmin and xmax,ymax,zmax are the coordinates of opposite
-corners of a cube, i.e bottom left and top right corners.
+* **`virtual`** used for internal surfaces which have different materials on either side of the virtual interfaces do not
+separate material regions but are intended to identify other structural features of a geometry. Nodes on this surface will be assigned constraint values (icr).
 
-**surface**/mysurf/ibtype/one**/x1,y1,z1/x2,y2,z2/radius/
 
-Where point 1 is the vertex and point 2 is the top center of the cone
-with radius from that point. A cone is finite but open. To create a
-closed cone cap the open end with a plane.
 
-**surface**/acyl/ibtype/ylinder**/x1,y1,z1/x2,y2,z2/radius
+*`istype`* are the surface parameters and are specified with the
+surface type in mind. 
 
-Where point 1 is the bottom center and point 2 is the top center of the
-cylinder. radius is the radius of the cylinder. Cylinders are open but
-finite.  To create a closed cylinder cap both ends with planes.
+**box** Where xmin,ymin,zmin and xmax,ymax,zmax are the coordinates of opposite corners of a cube, i.e bottom left and top right corners.
+<pre>
+<b>surface</b>/sbox_name/ ibtype / <b>box</b> /xmin,ymin,zmin / xmax,ymax,zmax/
+</pre>
 
-**surface**/sellip/ibtype**/ellipse**/x1,y1,z1/x2,y2,z2/x3,y3,z3/ar,br,cr/
+**cylinder** Where point 1 is the bottom center and point 2 is the top center of the cylinder. radius is the radius of the cylinder. Cylinders are open but finite.  To create a closed cylinder cap both ends with planes.
+<pre>
+<b>surface</b>/s_name/ ibtype / <b>cylinder</b> x1,y1,z1 / x2,y2,z2/ radius
+</pre>
 
-Where point 1 is the center of the ellipsoid and point 2 is on the a
-semi-axis (new x), point 3 is on the b semi-axis (new y), and ar, br, cr
-are radii on their respective semi-axes.
+**cone** Where point 1 is the vertex and point 2 is the top center of the cone with radius from that point. A cone is finite but does have an open end. To create a closed cone cap the open end with a plane.
+<pre>
+<b>surface</b>/s_name/ ibtype / <b>cone</b> /x1,y1,z1/x2,y2,z2/radius/
+</pre>
 
-**surface**/s2/ibtype**/parallel**/x1,y1,z1/x2,y2,z2/x3,y3,z3/x4,y4,z4/
+**ellipse** Where point 1 is the center of the ellipsoid and point 2 is on the a semi-axis (new x), point 3 is on the b semi-axis (new y). The values ar, br, cr are radii on their respective semi-axes.
+<pre>
+<b>surface</b>/s_name/ ibtype / <b>ellipse</b> / x1,y1,z1 / x2,y2,z2 / x3,y3,z3 / ar, br, cr /
+</pre>
 
-Where points 1, 2, 3 are the front left, front right and back left
-points of the base and point 4 is the upper left point of the front
-face.
+**parallel** (piped) Where points 1, 2, 3 are the front left, front right and back left points of the base and point 4 is the upper left point of the front face.
+<pre>
+<b>surface</b>/s_name/ ibtype / <b>parallel</b> / x1,y1,z1 / x2,y2,z2 / x3,y3,z3 / x4,y4,z4 
+</pre>
 
-**surface**/s1/ibtype**/plane**/x1,y1,z1/x2,y2,z2/x3,y3,z3
+**plane** Planes are infinite and their direction normal to the plane is determined by the order of the points according to the right hand rule. 
+<pre>
+<b>surface</b>/s_name/ ibtype / <b>plane</b> or <b>planexyz</b>/ x1,y1,z1 / x2,y2,z2 / x3,y3,z3
+<b>surface</b>/s_name/ ibtype / <b>planertz</b> / radius1, theta1, z1, radius2, theta2, z2, radius ,zcen/
+<b>surface</b>/s_name/ ibtype / <b>planertp</b> radius1,theta1,phi1, radius2,theta2,phi2, radius3,theta3,phi3/ xc, yc, zc
+</pre>
 
-**surface**/top/ibtype**/planexyz**/x1,y1,z1/x2, z2/x3,y3,z3
+**sphere** Where xc, yc, zc are the sphere center and radius is distance from center point to sphere surface.
+<pre>
+<b>surface</b>/s_name/ ibtype / <b>sphere</b> / xc, yc, zc, radius
+</pre>
 
-the direction of the normal to the plane is determined by the order of
-the points according to the right hand rule.
+**sheet** surfaces can be defined by cmo_name that is a 2D quad or triangle connected mesh object. See below for a description of inside/outside or left/right with respect to sheet surfaces.
+<pre>
+<b>surface</b>/s_name/ <b>sheet</b> / cmo_name
+</pre>
 
-**surface**/bot/ibtype**/planertz**/radius1,theta1,z1,radius2,theta2,z2,radius
-,zcen/
+**tabular** (rotated tabular profile) Where point 1 and point 2 define the axis of rotation for the tabular profile with point 1 as the origin. This is followed by pairs of profile descriptors depending on the value of geom. Ifgeom is set to **rz**, then the r value is a radius normal to the axis of rotation and z is the distance along the new axis of rotation. If geom is set to **rt** then theta is the angle from the axis of rotation at point 1 and r is the distance from point 1 along theta. The first pair must start on a new line and all lines must contain pairs of data. The last pair of data must be followed by **end**. Note the use of **&** as a line continuation for the command.
+<pre>
+<b>surface</b>/s_name/ ibtype / <b>tabular</b> / x1,y1,z1 / x2,y2,z2 / <b>rz</b> <b>rt</b>/ &
+r1,z1 & 
+r2,z2 & 
+r3,z3 & 
+.... 
+rn,zn & 
+<b>end</b>
 
-**surface**/s10/ibtype**/planertp**/radius1,theta1,p
+or 
 
-**surface**/asheet/ibtype**/sheet**/cmo\_name/&lt;
-Sheet surfaces may be input by specifying a cmo\_name. The Mesh Object
-must be either a 2D quad Mesh Object or a 2D triangle Mesh Object. A
-discussion of inside and outside with respect to sheet surfaces is
-presented after the EXAMPLES section.
+r1,theta1 & 
+r2,theta2 & 
+r3,theta3 & 
+... 
+rn,thetan & 
+<b>end</b>
+</pre>
 
-**surface**/sphere1/ibtype**/sphere**/x\_center,y\_center,z\_center,radius
 
-**surface**/s3/ibtype/tabular**/x1,y1,z1/x2,y2,z2/rzrt/&
+## EXAMPLES ##
 
-r1,z1 &
-r2,z2 &
-r3,z3 &
-....
-rn,zn &
-end
+<pre>
+surface/s1/release
 
-or
+surface / s_box / reflect / box / -1. -1. -1. / 1. 1. 1.
 
-r1,theta1 &
-r2,theta2 &
-r3,theta3 &
-...
-rn,thetan &
-end
+surface / s_cone / reflect / cone / .1 .1 .1 / .5 .5 .5 / .3
 
-Where point 1 and point 2 define the axis of rotation for the tabular
-profile with point 1 as the origin. This is followed by pairs of profile
-descriptors depending on the value of geom.Ifgeom is set to **rz**, then
-the r value is a radius normal to the axis of rotation and z is the
-distance along the new axis of rotation. If geomis set to **rt** then
-theta is the angle from the axis of rotation at point 1 andris the
-distance from point 1 along theta. The first pair must start on a new
-line and all lines must contain pairs of data. The last pair of data
-must be followed by end.
 
-**Inside/outside** with respect to **sheet surfaces** will be determined
-by the following algorithm:
+define XC     498.0
+define YC     539.0
+define ZBOT  -500.0
+define ZTOP   500.0
+define RAD     42.0
+surface/ s_cyl /intrface/cylinder/XC,YC,ZBOT/XC,YC,ZTOP/ RAD
+
+
+surface / sbox / reflect / ellipse / &
+        552250.0 4121975.0 1275.0 / &
+        552251.0 4121975.0 1275.0 / &
+        552250.0 4121976.0 1275.0 / &
+        500.0 225.0 125.0
+region / rbox / le sbox
+eltset/ereset/region/rbox
+
+
+define x1 497000.
+define y1 540612.
+define x2 499300.
+define y2 540100.
+define x3 497000.
+define y3 541316.
+surface/SSBOX/intrface/parallel/x1,y1,1700./ &
+   x2,y2,1700./x3,y3,1700./x1,y1,5000./
+
+
+define x1 499029.5961
+define x2 500174.3616
+define y1 538579.7712
+define y2 539378.5612
+define uleft 1779.9725
+define uright 1778.7472
+define lleft 1779.7481
+define lright 1778.5228
+surface/ swtr / intrface /plane/ x2, y1, lright / x2, y2, uright / x1, y2, uleft
+
+
+surface / bbox / reflect / box / .1 .1 .1 / .9 .9 .9
+surface / s1 / intrface / sheet  / cmo_2
+surface / s2 / intrface / sheet  / cmo_3
+region / r1 / lt bbox and gt s1 and gt s2
+region / r2 / lt bbox and gt s1 and lt s2
+region / r3 / lt bbox and lt s1 and gt s2
+region / r4 / lt bbox and lt s1 and lt s2
+
+</pre>
+
+
+
+### inside/outside with respect to sheet surfaces ##
+
+Inside/outside  will be determined by the following algorithm:
 
 * For the point being considered, p, find the nearest sheet triangle
 and the closest point, q, to p that lies on that triangle.

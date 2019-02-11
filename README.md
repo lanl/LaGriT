@@ -20,12 +20,29 @@ PyLaGriT allows interactive and automated querying of mesh properties, enhanced 
 Download the repo by running:
 
     git clone https://github.com/lanl/LaGriT.git
+    cd LaGriT
 
-Then `cd LaGriT/` and:
+If you don't already have [Exodus](http://gsjaardema.github.io/seacas/exodusII-new.pdf) built on your system, run
 
-    ./install.sh --release
-    
-Or `--help` to see other build configurations. The build script will check if Exodus is installed; if not, download and building of Exodus from the [Seacas repo](https://github.com/gsjaardema/seacas) will automatically begin. If you do not need Exodus, pass the argument `--skipexodus`.
+    make exodus
+
+To build and test a shared, optimized LaGriT binary, run
+
+    make release
+
+To build LaGriT without Exodus,
+
+    make WITH_EXODUS=0 release
+
+or use target `static` to build a static binary.
+
+Finally, run
+
+    make test
+
+to test build integrity.
+
+More options are available by running `make help`.
 
 ### Supporting Documentation ###
 ---

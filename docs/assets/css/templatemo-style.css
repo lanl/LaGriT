@@ -8,25 +8,6 @@ Highlight color (pink)		: #c66995
 --------------------------------------
 
 */
-body {
-	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-	font-size: 13px;
-	font-weight: 300;
-    background: #e6e6e6;
-}
-
-a, button { transition: all 0.3s ease; }
-a:hover,
-a:focus {
-	text-decoration: none;
-	outline: none;
-}
-
-#mainNav {
-    font-family: 'Fira Sans', sans-serif;
-}
-
-p:last-child { margin-bottom: 0; }
 
 .tm-page-wrap { 
     max-width: 1400px;
@@ -520,13 +501,10 @@ footer p { color: white; }
     .tm-top-bar, .tm-top-bar-bg { height: auto; }
 
     #mainNav {
-        width: 200px;
+        width: 250px;
         position: absolute;
         top: 53px;
         right: 15px;
-        -webkit-box-shadow: 0px 0px 7px 0px rgba(214,214,214,1);
-        -moz-box-shadow: 0px 0px 7px 0px rgba(214,214,214,1);
-        box-shadow: 0px 0px 7px 0px rgba(214,214,214,1);
     }
 
     .tm-top-bar {

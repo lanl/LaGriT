@@ -1,8 +1,12 @@
- **FINISH**
+---
+title: "FINISH"
+---
 
-  Terminate processing this command stream and return to the driver
-  routine.
+# FINISH
 
- **FORMAT:**
+Terminate processing this command stream and return to the driver routine.
 
-  finish
+## FORMAT: ##
+
+
+    finish

@@ -1,113 +1,242 @@
 # Building LaGriT
 ----------------------------------------------
 
-If you are trying to build LaGriT on a Windows PC, follow the directions [here](build_win.md). If you are on Linux or macOS, you can build LaGriT manually by following the directions in this document or using the automatic installer script.
+LaGriT installation is intended to be as straightforward as possible for Linux and macOS systems. If you encounter any problems with the build process, submit a ticket on the [Issues page](https://github.com/lanl/LaGriT/issues).
 
-## Automatic Build (Linux, macOS)
-To use the install script, download the repo by running:
+If you are on Windows, see Section 4.0 on this page for more information.
 
-    $ git clone https://github.com/lanl/LaGriT.git
+## 1. Automatic Build (Linux, macOS)
 
-Then `cd LaGriT/` and:
+### 1.1. Pre-requisites
 
-    $ ./install.sh --release
+* GCC / G++ / GFORTRAN 8.0.0+
+* CMake 5.9+ / Make
+* Git
+* Bash
+* wget
 
-| Flag | Option |
-| ------ | ------ |
-| `-h`, `--help` | Displays usage and build options |
-| `-r`, `--release` | Builds a standard release executable with shared libraries |
-| `-s`, `--static` | Builds a static executable |
-| `-d`, `--debug` | Builds a debug executable with shared libraries |
-| `-se`, `--skipexodus` | Removes dependencies on Exodus and bypasses Exodus install |
-| `-e=PATH`, `--exodus=PATH` | Pass `/path/to/exodus/lib` for existing Exodus build* |
+Linux users will also require the following:
 
-**Script automatically parses `LD_LIBRARY_PATH` for Exodus libraries - pass PATH if `echo $LD_LIBRARY_PATH` doesn't find Exodus automatically*
+* [m4](https://www.gnu.org/software/m4/)
+* [bison](https://www.gnu.org/software/bison/)
+* libz-dev
 
-## Manual Build (Linux, macOS)
-### 1. Installing Dependencies
-LaGriT requires the following packages installed:
+On Ubuntu, run
 
-| Library | Source |
-| ------ | ------ |
-| ExodusII 6.39 | https://github.com/gsjaardema/seacas |
-| netCDF | https://www.unidata.ucar.edu/downloads/netcdf/index.jsp |
-| zlib | https://github.com/madler/zlib |
-| HDF5 | https://support.hdfgroup.org/HDF5/ |
+    sudo apt-get -y install gfortran libz-dev m4 bison
 
+to install all non-stock pre-requisites.
 
-For instructions on installing these dependencies, [visit here](DEPENDENCIES.md). LaGriT supports the ExodusII file format as output (which sits atop netCDF). If you have no need for this format, you may continue building LaGriT by skipping the ExodusII installation and following the directions in [Manging Exodus](#21-managing-exodus). 
+On macOS, run
 
----
+    brew update && brew install gcc wget
+    
+if `gfortran` is not present on your system.
 
+### 1.2. Cloning LaGriT
 
-### 2. Cloning and Building LaGriT
-Clone the repository and begin the build process.
+Download the repo by running:
 
-    $ git clone https://github.com/lanl/LaGriT.git
-    $ cd LaGriT/src/
+    git clone https://github.com/lanl/LaGriT.git
+    cd LaGriT
 
-After cloning LaGriT to the directory you want it installed, navigate to the `src/` folder within that directory.
+### 1.3. Building Exodus
 
-#### 2.1 Managing Exodus
+If you don't already have [Exodus](http://gsjaardema.github.io/seacas/exodusII-new.pdf) built on your system, run
 
-LaGriT has the capability to export to the ExodusII file format. If you do not need this format, or would rather not install Exodus, run the following commands from within the `src/` directory:
+    make exodus
 
-    $ cp dumpexodusII.f.withnoexo dumpexodusII.f
-    $ echo "" > exo_init_ext.c
-    $ echo "" > exo_put_sets.c
+or, on Ubuntu, you can build Exodus directly from a [PPA](https://launchpad.net/~nschloe/+archive/ubuntu/seacas-nightly/):
 
-These three files make calls to `exodusII.h`. The first line replaces `dumpexodusII.f` with a file that does not make this call, while the second two lines empty out ExodusII-centric C files.
+    sudo add-apt-repository ppa:nschloe/seacas-nightly
+    sudo apt-get update
+    sudo apt-get install seacas-bin
 
-**If instead you are using Exodus,** export the path to the Exodus library to a variable that will be read by the linker:
+Note that Exodus is optional, though recommended for full functionality.
 
-    $ export $ACCESS=/path/to/exodus/lib/
-   
+### 1.4. Compiling LaGriT
 
-#### 2.2 Building the LaGriT library
+Finally, to build and test a shared, optimized LaGriT binary, run
+
+    make release
+    make test
+
+To build LaGriT without Exodus, 
+
+    make WITH_EXODUS=0 release
+
+More options are available by running `make help`.
+
+### 1.5. Testing LaGriT
+
+Run the command
+
+    make test
+    
+to validate the LaGriT compilation. Note that if you compiled without Exodus, one test should fail (`write_exo`).
+
+### 1.6. Troubleshooting
+
+    dumpexodusII.f:130: Error: Can't open included file 'exodusII.inc'
+    make[1]: *** [objects/dumpexodusII.o] Error 1
+    make[1]: Leaving directory `/path/to/LaGriT/src'
+    make: *** [before] Error 2
+    The command "make release" exited with 2.
+
+**Problem**:
+* GFORTRAN cannot find Exodus include files.
+
+**Solution**:
+* This problem typically results from a failed Exodus compilation.
+* Follow the traceback from `make exodus` to see where in the process it failed.
+  * Usually this is because one or more pre-requisites were not found on your system. See Section 1.1 for more information.
+* Alternately, run `make WITH_EXODUS=0 release` to circumvent the Exodus dependency.
+
+## 2. Makefile Usage
+
+### 2.1. Usage
+
+    make [options] [target]
+
+### 2.2. Targets
+
+* `make release`
+    * Optimized build (with shared libraries)
+
+* `make static`
+    * Optimized build (with static libraries)
+
+* `make DEBUG=1 release`
+    * Debug build (with shared libraries)
+
+* `make DEBUG=1 static`
+    * Debug build (with static libraries)
+
+* `make exodus`
+    * Download and build the Sandia ExodusII Fortran library.
+    By default, it will download to the current working directory.
+    This can be changed by running
+
+      * `make EXO_BUILD_DIR=/exodus/path/out/ exodus`
+
+* `make test`
+    * Run the LaGriT test suite on the created binary.
+    If you have changed or moved LaGriT from src/lagrit, use
+    the option `EXE_NAME=/path/to/lagrit`
+
+### 2.3. Options
+
+* `CC` (default: gcc) : C source compiler
+* `FC` (default: gfortran) : Fortran source compiler
+* `FC90` (default: gfortran) : Fortran90 source compiler
+* `WITH_EXODUS` (default: 1) : Build with or without Exodus
+* `DEBUG` (default: 0) : Built in debug (1) or optimized (0) mode
+* `EXO_LIB_DIR` (default: LAGRIT_ROOT_DIR/seacas/lib) : ExodusII library location
+* `EXE_NAME` (default: src/lagrit) : binary filename for LaGriT
+
+## 3. Manual Build
+
+If you are experiencing issues with the standard compilation procedure, you may need to do a manual install.
+
+### 3.1. Exodus Compilation
+
+See Section 1.3 in this document to build Exodus automatically.
+
+To manually build Exodus, read the [SEACAS Documentation](https://github.com/gsjaardema/seacas/blob/master/README.md) for the most up-to-date instructions.
+
+For most architectures, this should be as simple as:
+
+    $ export CGNS=NO
+    $ export MATIO=NO
+    $ export SHARED=NO
+    $ export NEEDS_ZLIB=YES
+    $ git clone https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas
+    $ cd $(EXO_BUILD_DIR)/seacas
+    $ ./install-tpl.sh
+    $ cd TPL
+    $ ../cmake-config -DFORTRAN=YES
+    $ make && make install
+
+If the build was unsuccessful, a non-zero exit code will be thrown along with this error:
+
+    -- Configuring incomplete, errors occurred!
+
+### 3.2. Building the LaGriT `lg_util` library
 
 If this is your first time installing LaGriT, you will need to navigate to `LaGriT/lg_util/src` and build `lg_util`. To do this, you may either follow the directions in `README` for advanced operations, or simply run
 
+    $ make clean
+    $ make lib
+
+You may pass options to this Makefile, such as:
+
+* `CC` (default: `gcc`)
+* `FC` (default: `gfortran`)
+* `BIT_SIZE` (default: output of `$(shell getconf LONG_BIT)`)
+* `DEBUG` (default: `0`)
+
+Since this library is stable and generally not updated with most releases, it is usually not necessary to recompile with each pull.
+The `lib` target compiles every source file into an object file and combines them into a library using `ar rcu [targets]`.
+
+### 3.3. Building the LaGriT `src/` library
+
+Navigate to `src/` and run
 
     $ make clean
-    $ make MOPT=64 lib
-    $ export $LAGRIT_UTIL_SRC_DIR=`pwd`
-
-
-Since this library is stable and generally not updated with most releases, it  is usually not necessary to recompile with each pull. 
-
-#### 2.3 Building LaGriT
-
-Navigate back to the `LaGriT/src` directory by running `$ cd ../src`.
-
-Clean the directory by running
-
-    $ rm *.o
-    $ rm *.mod
-
-Next, link the Fortran libraries and make:
-
     $ gfortran  -O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_main.o lagrit_main.f
     $ gfortran  -O  -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64 -c -o lagrit_fdate.o lagrit_fdate.f
-    $ make MOPT=64 lib
+    $ make lib
 
-One more command and we are done:
+The `lib` target compiles every source file into an object file and combines them into a library using `ar rcu [targets]`.
+Note that `dumpexodusII.f` must be compiled with the `-cpp` flag, due to `#ifdef` statements. Further, `tempgable.f` must be compiled with the flag `-std=legacy`. These flags may be different on compilers other than GNU gfortran.
 
-    $ gfortran -O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o lagrit lagrit_main.o lagrit_fdate.o lagrit_ulin64_o_gcc.a $LAGRIT_UTIL_SRC_DIR/util_ulin64_o_gcc.a -L$ACCESS -lexoIIv2for -lexodus -lnetcdf -lm -lstdc++
+-----------------
 
-#### Congratulations - LaGriT is built! ####
+To build without Exodus, in lieu of `make lib`, run
+
+    $ make WITH_EXODUS=0 lib
+
+Critically, this flag set to `0` does two things:
+
+1. Compiles `dumpexodusII.f` with flags: `-cpp -DNOEXODUS`
+2. Does **not** compile any source files matching the glob `exo_*.c`
+
+### 3.4. Building LaGriT
+
+Within the `src/` directory, link the generated libraries using the command:
+
+    $ gfortran -O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o lagrit lagrit_main.o lagrit_fdate.o lg_main_lib.a ../lg_util/src/lg_util_lib.a -L$ACCESS -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++ -ldl
+
+Note that `ACCESS` is a shell variable pointing to `$(EXODUS_DIRECTORY)/lib`.
+
+If Exodus has not been built, several flags become unneccessary:
+
+    $ gfortran -O -Dlinx64 -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o lagrit lagrit_main.o lagrit_fdate.o lg_main_lib.a ../lg_util/src/lg_util_lib.a -lm -lstdc++
+
+Note that some flags are architecture-dependant. For example, `-Dlinx64` is a Linux-unique command that translates to `-Dmacx64` on macOS systems.
+
+### 3.5. Running LaGriT
+
 From inside `LaGriT/src/`, run
 
     $ ./lagrit
 
-and welcome to the wonderful world of mesh generation!
+to start the program.
 
+A comprehensive test suite can be found in `LaGriT/test`. Run the command
 
----
+    python suite.py -f -l 1 -exe=path/to/lagrit
+    
+to validate the build.
+
+## 4. Windows Build
+
+Currently, Windows support is limited and will require a manual install. See [here](build_win.md) for build instructions.
+Windows support is under active development. Read this [issue](#null) for current development status.
 
 ## What's next? ##
 
-
-Visit the [offical LANL hompage of LaGriT](http://lagrit.lanl.gov), view the [LaGriT commands](http://lagrit.lanl.gov/commands.shtml), take a look at [what LaGriT](http://lagrit.lanl.gov/graphics.shtml) can do, or view [publications supported in part by LaGriT](http://lagrit.lanl.gov/publications.shtml).
+For documentation, tutorials, and commands, visit the [LaGriT homepage](http://lagrit.lanl.gov).
 
 **If you run into errors building LaGriT or have suggestions on how to improve this documentation, please email Terry Miller (tamiller@lanl.gov), Dylan Harp (dharp@lanl.gov), or Daniel Livingston (livingston@lanl.gov).**
 
