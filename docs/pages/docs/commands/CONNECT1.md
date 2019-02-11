@@ -38,10 +38,9 @@ tags: connect tet
 The **connect** command may refuse to add nodes that will result in near
   zero-volume tetahedra. The volume tests are based on the mesh object
   epsilons. To ensure that these epsilons are based on the geometry,
-  issue a
-  **[setsize](http://lagrit.lanl.gov/SETSIZE.md)** command
-  before **[setpts](http://lagrit.lanl.gov/SETPTS.md)**. 
-  
+  issue a **setsize** command before **setpts**. 
+
+
 The **connect** command does not like duplicate points. Use the following commands before connect to remove duplicate points.
 
 ```
@@ -50,11 +49,7 @@ rmpoint/compress
 ```
 
   
-Expert users may adjust the epsilons with the [cmo/setatt](https://lanl.github.io/LaGriT/docs/pages/docs/commands/cmo/cmo_setatt.md) 
-  command.  **Connect** will generate a 2D triangular mesh if both [**ndimensions_geom** and
-  **ndimenions_topo**](https://lanl.github.io/LaGriT/docs/pages/docs/meshobject.md) are 2.  In this case all nodes must lie in a plane.
-
-The following instructions are for connecting points on a planar surface.  The mesh must have **ndimensions_topo**=2 and **ndimensions_geom**=2.
+Expert users may adjust the epsilons with the **cmo/setatt** command.  **Connect** will generate a 2D triangular mesh if current mesh object attributes **ndimensions_geom** and **ndimenions_topo** are 2.  In this case all nodes must lie in a plane. The following instructions are for connecting points on a planar surface.  The mesh must have **ndimensions_topo**=2 and **ndimensions_geom**=2.
   
 ```
 cmo / create / cmotri / / / tri
@@ -66,7 +61,7 @@ cmo/create/ cmotri / triplane
 ```
 
 
-[Click here for more details on the connect algorithm](https://lanl.github.io/LaGriT/docs/pages/docs/connect_notes.md)
+[Click here for more details on the connect algorithm](https://lanl.github.io/LaGriT/pages/docs/connect_notes.html)
  
 
 ## EXAMPLES ##
