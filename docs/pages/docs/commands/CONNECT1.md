@@ -1,111 +1,146 @@
 ---
 title: CONNECT
-tags: ok
+tags: connect tet
 --- 
 
-**CONNECT**
+# CONNECT #
 
   Connect the nodes into a Delaunay tetrahedral or triangle grid. The
   Delaunay criterion requires that the circumsphere (circumcircle)
   defined by each tetrahedron (triangle) contains no mesh nodes in its
-  interior. At present only the **delaunay** option is implemented;
-  this option will be the default. The delaunay algorithm used
-  requires that a "big tet" be constructed that contains all nodes in
-  its interior. The user has the option of providing the coordinates
-  of this "big tet". The user also has the option of selecting a
-  subset of nodes to connect.   Connect will by default detect
-  material interfaces and will look for edges that intersect the
-  interfaces.  Nodes will be added to the mesh at these intersections
-  to create a conforming mesh.  This activity may be turned off by
-  using the **noadd** option.
+  interior.  
+  
+## SYNTAX ##
 
-  The **heck\_interface** option is more expensive but does a more
-  exhaustive job of making sure there are no edges of the mesh that
-  cross a material boundary.
+<pre>
+<b>connect</b>/[ <b>delaunay</b>/ ifirst,ilast,istride / big_tet_coordinates ]
 
-  **Connect** may refuse to add nodes that will result in near
+<b>connect</b> / <b>noadd</b>
+
+<b>connect</b> / <b>check_interface</b>
+</pre>
+ 
+ **`delaunay`** is the default algorithm and requires that a "big tet" be constructed that contains all nodes in
+  its interior.  For mesh points with multi-materials, connect will detect material interfaces and will look for edges that intersect the interfaces.  Nodes will be added to the mesh at these intersections to create a conforming mesh. 
+  
+*`ifirst,ilast,istride`* The user has the option of selecting a subset of nodes to connect.
+
+*`big_tet_coordinates`* The user has the option of providing the coordinates of this "big tet". 
+
+
+
+**`noadd`** This option will turn off material interface detection.
+
+**`check_interface`** option does a more exhaustive job of making sure there are no edges of the mesh that cross a material boundary.
+
+
+
+The **connect** command may refuse to add nodes that will result in near
   zero-volume tetahedra. The volume tests are based on the mesh object
   epsilons. To ensure that these epsilons are based on the geometry,
   issue a
   **[setsize](http://lagrit.lanl.gov/SETSIZE.md)** command
   before **[setpts](http://lagrit.lanl.gov/SETPTS.md)**. 
-  Expert users may adjust the epsilons with the 
-  [cmo/setatt](http://lagrit.lanl.gov/cmo_setatt.md) 
-  command.  **Connect** will generate a 2D triangular mesh if both
-  [**ndimensions\_geom** and
-  **ndimenions\_topo**](http://lagrit.lanl.gov/meshobject.md)
-  are 2.  In this case all nodes must lie in a plane.
+  
+The **connect** command does not like duplicate points. Use the following commands before connect to remove duplicate points.
 
-  [Click here for more details on the connect
-  algorithm](http://lagrit.lanl.gov/connect_notes.md).
+```
+filter/ 1,0,0
+rmpoint/compress
+```
+
+  
+Expert users may adjust the epsilons with the [cmo/setatt](https://lanl.github.io/LaGriT/docs/pages/docs/commands/cmo/cmo_setatt.md) 
+  command.  **Connect** will generate a 2D triangular mesh if both [**ndimensions_geom** and
+  **ndimenions_topo**](https://lanl.github.io/LaGriT/docs/pages/docs/meshobject.md) are 2.  In this case all nodes must lie in a plane.
+
+The following instructions are for connecting points on a planar surface.  The mesh must have **ndimensions_topo**=2 and **ndimensions_geom**=2.
+  
+```
+cmo / create / cmotri / / / tri
+cmo/setatt/cmotri/ndimensions_geom/1 0 0/2
+```
+or
+```
+cmo/create/ cmotri / triplane
+```
+
+
+[Click here for more details on the connect algorithm](https://lanl.github.io/LaGriT/docs/pages/docs/connect_notes.md)
  
-  The following instructions are for connecting points on a planar
-  surface.  The mesh must have **ndimensions\_topo**=2 and
-  **ndimensions\_geom**=2.
- 
-  **cmo** **/create/trimesh/tri**
 
-  **cmo** **/modatt**/**/ndimensions\_geom** **/default**/2
+## EXAMPLES ##
 
-  ...
+```
+connect
+```
 
-  **connect**
- 
-  an alternate way to achieve this is:
+```
+connect/delaunay/
+```
 
-  **cmo** **/create**/trimesh/triplane
+The two commands are the same, they create the Delaunay tetrahedral connectivity of all nodes in the mesh. Add nodes to break multi-material connections.
 
-  **connect**
+```
+connect/delaunay/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./
 
- **FORMAT:**
+connect/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
 
-  **connect**/[**delaunay**]/ifirst,ilast,istride/big\_tet\_coordinates
+connect/delaunay/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
 
-  **connect** **/noadd**
+connect/delaunay**/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./check_interface
+```
 
-  **connect** **/heck\_interface**
+Create the Delaunay tetrahedral connectivity of all nodes in the mesh and specify explicitly the coordinates of the enclosing tetrahedron. 
 
- **EXAMPLES:**
+```
+connect /pset, get, mypoints
+```
 
-  **connect**
+Create the Delaunay tetrahedral connectivity of a subset of nodes with the name mypoints.
 
-  Create the Delaunay tetrahedral connectivity of all nodes in the
-  mesh. Add nodes to break multi-material connections.
+```
+connect/noadd
+```
 
-  **connect** **/delaunay**/
+Create the Delaunay tetrahedral connectivity of  all nodes in the  mesh and disregard material interfaces.
+  
+```
+# create a 2D triangle mesh
+cmo / create / mo_tri / / / triplane
 
-  Create the Delaunay tetrahedral connectivity of all nodes in the
-  mesh. Add nodes to break multi-material connections.
+# Make some points at the four corners
+createpts / xyz / 5 5 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
 
-  **connect/delaunay**/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./
+# Add some random points and delete duplicate points
+createpts / random / xyz / 0.4 / 0.1 0.1 0. / 0.9 0.9 0.
+filter / 1 0 0
+rmpoint / compress
 
-  **connect**/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
+# set some defaults for the connect routine
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
 
-  **connect/delaunay**/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
+connect
 
-  **connect/delaunay**/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./check\_interface
+# set default materials and boundary tags
+cmo / setatt / mo_tri / itetclr / 1 0 0 / 1
+resetpts / itp
+```
 
-  Create the Delaunay tetrahedral connectivity of all nodes in the
-  mesh and specify explicitly the coordinates of the enclosing
-  tetrahedron. 
+Create a simple 2D triangle mesh. Set defaults for material and boundary tags for nice behavior. This starts with points at the corner of a box and fills with random points. The connect command will create the triangulation and the result is a single material mesh with inside/outside boundary points tagged with the itp attribute.
 
-  **connect** /pset get points
+```
+connect/check_interface
+```
 
-  **Create the Delaunay tetrahedral connectivity of a subset of nodes.**
-
-  **connect/noadd**
-
-  Create the Delaunay tetrahedral connectivity of  all nodes in the
-  mesh and disregard material interfaces.
-
-  **connect/heck\_interface**
-
-  Create the Delaunay tetrahedral connectivity of  all nodes in the
+Create the Delaunay tetrahedral connectivity of  all nodes in the
   mesh with added checking of edges that have both nodes tagged as
   itp='intrface' to be sure that the edge does not cross a material
   interface. This option is more expensive but may fix situations
   where multi-material edges do not get refined because they connect
-  an 'intrface' node to an 'intrface' node.
+  an 'intrface' node to an 'intrface' node. 
+  
 
  [Click here for 2D demos](../demos/main_2d_connect.md)
 
