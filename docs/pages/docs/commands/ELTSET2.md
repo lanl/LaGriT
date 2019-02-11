@@ -1,15 +1,44 @@
 --
 title: ELTSET
-tags: ok
+tags: element set eltset
 ---
 
- **ELTSET**
+# ELTSET (Element Set) #
 
-  This command creates eltsets or element sets with membership
-  criteria:
+Associate a name with a element set based on various selection criteria and logical operators. Output element sets.
+  
+  
+By convention, *`ifirst,ilast,istride`* syntax represents a set selection defined either by a set of elements from ifirst to ilast, with increments of istride (1 by default). A set selection can also be defined with **eltset,get,** *eset_name* where *eset_name* has been defined by the following **eltset** commands. Most commands with the syntax *ifirst,ilast,istride* can also use **eltset,get,** *elset_name*.
+
+
+## SYNTAX ##
+
+<pre>
+<b>eltset</b>/eset_name/element_attribute_name/ <b>eq</b> OR <b>ne</b> OR <b>lt</b> OR <b>gt</b> OR <b>le</b> OR <b>ge</b> /value/
+
+<b>eltset</b>/eset_name/ <b>union</b> <b>inter</b> <b>not</b> / eset_list/
+  
+<b>eltset</b>/eset_name/ <b>delete</b>/eset_name/
+
+<b>eltset</b>/eset_name/ <b>inclusive</b> <b>exclusive</b> <b>face</b> /<b>pset,get</b>, pset_name/
+
+<b>eltset</b>/eset_name/ <b>region</b> <b>mregion</b> / region_name OR mregion_name/
+
+<b>eltset</b>/eset_name/ <b>volume</b>/ <b>eq</b> OR <b>ne</b> OR <b>lt</b> OR <b>gt</b> OR <b>le</b> OR <b>ge</b> /value
+
+<b>eltset</b>/eset_name/ <b>aspect</b>/ <b>eq</b> OR <b>ne</b> OR <b>lt</b> OR <b>gt</b> OR <b>le</b> OR <b>ge</b> /value
+
+<b>eltset</b>/eset_name/ <b>list</b>
+
+<b>eltset</b>/eset_name/ <b>write</b> /file_name[.cellset]/ <b>ascii</b> OR <b>binary</b>
+
+<b>eltset</b>/-all- / <b>write</b> /file_name[.cellset]/ <b>ascii</b> OR <b>binary</b>
+  
+</pre>
+
  
-  1.  **eq**:equal to, gt:greater than, **lt**:less than, **ge**:
-      greater than or equal, **le**: less than or equal to, **ne**: no
+  1.  **eq** equal to, **gt** greater than, **lt** less than, **ge**
+      greater than or equal, **le** less than or equal to, **ne** no
       equal to value of an element attribute
   2.  **inclusive** pset membership - all elements any of whose nodes
       is in pset
@@ -31,34 +60,33 @@ tags: ok
   curved that the center will not lie in the same mregion or region as
   the vertices. Using itetclr will give the better result.
 
- **FORMAT:**
+ 
+## EXAMPLES ##
 
-  **eltset**/eset\_name/element\_attribute\_name**/eq** OR **ne** OR **lt** OR **gt** OR **le** OR **ge**/value/
+```
+eltset/element_set1/itetclr/eq/4 
 
-  **eltset**/eset\_nam**e/unioninternotdelete**/eset\_list/
+eltset/element_set2/face/pset/get/mypset
 
-  **eltset**/eset\_name**/inclusiveexclusiveface/pset/get**/pset\_name/
+eltset/element_set3/inclusive/pset/get/mypset
 
-  **eltset**/eset\_name/regionmregion/region\_name OR mregion\_name/
+eltset/element_set4/region/upper 
 
-  **eltset**/eset\_name **/volume/ eqneltgtlege** /value
+eltset/element_set5/volume/lt/3.0 
 
-  **eltset**/eset\_name **/aspect/ eqneltgtlege** /value
+eltset/element_set5/delete
 
-  **eltset**/eset\_name **/list**
+eltset / /list 
+```
 
-  **eltset**/eset\_name
-  **/write**/file\_name[.cellset]/[**ascii** OR **binary**]
+```
+cmo / select / mo_hex
+intersect_elements / mo_hex / mo_wells / if_inter
+eltset / e_refine / if_inter / gt / 0
+refine/ eltset / eltset,get,e_refine
+cmo / setatt / mo_hex / if_inter / 1,0,0 / 0
+eltset / e_refine / delete
+```
 
-  **eltset**/-all-
-  **/write**/file\_name[.cellset]/[**ascii** OR **binary**]
+These commands will intersect mesh object named mo_hex with mesh object named mo_wells. The attribute if_inter is created by **intersect_elements** and has a non-zero value for elements intersected by mo_wells. The selected set is refined. It is good practice to clean up if using names and attributes over again. Here we set if_inter values to 0 and remove the element set when we are done.
 
- **EXAMPLES:**
-
-      eltset/element_set1/itetclr/eq/4 
-      eltset/element_set2/face/pset/get/mypset
-      eltset/element_set3/inclusive/pset/get/mypset
-      eltset/element_set4/region/upper 
-      eltset/element_set5/volume/lt/3.0 
-      eltset/element_set5/delete
-      eltset / /list (list the names of element sets which have been defined) 
