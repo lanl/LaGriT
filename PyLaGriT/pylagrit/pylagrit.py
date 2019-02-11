@@ -1446,8 +1446,11 @@ class MO(object):
                 out[0] = out[0].getvalue()
                 out[1] = out[1].getvalue()
 
+        _temp = self._parent.verbose
+        self._parent.verbose = True
         with capture() as out:
-            self.sendline('cmo/status/'+self.name)
+            self.sendline('cmo/status/'+self.name,verbose=True)
+        self._parent.verbose = _temp
 
         atts = {}
         in_attributes_section = False
