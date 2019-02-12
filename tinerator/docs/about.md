@@ -4,7 +4,7 @@
 
 TINerator is a collaborative effort between Los Alamos National Laboratory and
 Lawrence Berkeley National Laboratory. Development of TINerator is sponsored in
-part by XXXX and YYYYY.
+part by the NGEE Arctic and DOE IDEAS programs.
 
 ![](assets/images/lanl_logo.png)
 ![](assets/images/lbl_logo.png)
@@ -12,7 +12,7 @@ part by XXXX and YYYYY.
 ## Development Team
 
 * Daniel Livingston (EES-16; Los Alamos National Laboratory)
-* David Moulton (EES-14; Los Alamos National Laboratory)
+* David Moulton (T-5; Los Alamos National Laboratory)
 * Ilhan Ozgen (CESD; Lawrence Berkeley National Laboratory)
 * Zexuan Xu (CESD; Lawrence Berkeley National Laboratory)
 * Richard Middleton (EES-16; Los Alamos National Laboratory)

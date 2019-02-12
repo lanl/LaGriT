@@ -1,16 +1,16 @@
 # Tutorial
 
-## Importing DEMs and Shapefiles
-insert image here
+## [Importing DEMs and Shapefiles](basics.md)
+Overview on loading or downloading DEMs, basic GIS plotting and manipulation.
 
-insert description here
+## [Preparing the DEM](watershed.md)
+Defining a mesh boundary and finding a stream network ('feature') through watershed delineation. 
 
-## Example 2
-insert image here
+## [Generating a Mesh](meshing.md)
+Turning the DEM into a surface or volume mesh; uniform element density, or mesh refinement around a feature.
 
-insert description here
+## [Adding an Attribute](attributes.md)
+Adding and manipulating cell and node attributes.
 
-## Example 3
-insert image here
-
-insert description here
+## [Defining Facesets](facesets.md)
+Defining subdomains of the mesh surfaces for setting solver boundary conditions.

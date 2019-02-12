@@ -15,6 +15,10 @@ repo_url: 'https://github.com/lanl/LaGriT'
 # Copyright
 copyright: 'Copyright &copy; 2018 Los Alamos National Laboratory'
 
+# Set build directory
+site_dir:
+  - site/
+
 # Theme configurations
 theme:
   name: 'material'

@@ -18,7 +18,7 @@ tinerator.DEM.addAttribute(data,layers=[],dtype=int)
 ```
 
 where `layers` is a list containing all layers to apply the attribute to,
-and `dtype` is the desired attribute type (`int` or `float`).
+and `dtype` is the desired attribute type (`int` or `float`). By default, the material will be applied to the mesh's material ID (or, 'cell color'). This can be changed with the `name` parameter.
 
 As an example, consider a stacked mesh with three layers and an arbitrary
 floating point attribute. To apply that attribute *only* to the second layer:
