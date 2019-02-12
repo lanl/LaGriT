@@ -217,6 +217,7 @@ c  arguments
       integer ielts(3,*) 
       real*8 x(*),y(*)
       logical isccw
+      integer, allocatable :: tmp_elts(:)
 
 c variables
       integer npts,j,i,nptsave,iv1,iv2,iv3,inelts
@@ -251,7 +252,21 @@ c  copy in original polygon
       enddo
       nptsave=npts
       i=0
+
+c     Special case handling for 3-node mesh
+      if (npts == 3) then
+        allocate(tmp_elts(3))
+        call singletri_lg(tmp_elts,x(1),y(1),x(2),y(2),x(3),y(3),isccw)
+        nelts = 1
+        ielts(1,nelts) = tmp_elts(1)
+        ielts(2,nelts) = tmp_elts(2)
+        ielts(3,nelts) = tmp_elts(3)
+        deallocate(tmp_elts)
+        go to 9999
+      endif
+
       local_eps=1.d-8
+
 c
 c  loop through edges and try to lop off ears
 c 
@@ -288,6 +303,7 @@ c            call writloga('default',0,logmess,0,icscode)
         ielts(1,nelts)=iv1
         ielts(2,nelts)=iv2
         ielts(3,nelts)=iv3
+
 c check for orientation
         if(isccw) then
            ielts(2,nelts)=iv3
@@ -339,6 +355,47 @@ c  true if point 1 is to the left of line segment 2to3
       return
       end
 
+
+      subroutine singletri_lg(tri,x1,y1,x2,y2,x3,y3,isccw)
+c      returns clockwise or counter clockwise triangle
+c      should be used in the edge case of 3 node mesh
+c      Return value stored in 'tri' array
+
+      implicit none
+      real*8 x1,y1,x2,y2,x3,y3,midx,midy,mid(3)
+      integer :: tri(3),tmp(1)
+      logical isccw
+      integer ix
+
+c     Find midpoint of triangle
+      midx = (x1+x2+x3)/3.
+      midy = (y1+y2+y3)/3.
+
+c     Find angle of nodes to midpoint
+      mid = (/atan2(midy-y1,midx-x1),
+     *        atan2(midy-y2,midx-x2),
+     *        atan2(midy-y3,midx-x3)/)
+
+c     Order nodes by angle
+      tri(2) = -1
+      tmp = minloc(mid)
+      tri(1) = tmp(1)
+      tmp = maxloc(mid)
+      tri(3) = tmp(1)
+
+      do ix = 1, size(mid)
+        if (ix /= tri(1) .and. ix /= tri(3)) tri(2) = ix
+      end do
+
+c     Switch the second and third node pointer if counterclockwise
+      if (isccw) then
+        tmp(1) = tri(2)
+        tri(2) = tri(3)
+        tri(3) = tmp(1)
+      endif
+      
+      end subroutine singletri_lg
+
 c  function isleftoron_lg
 c  true if point 1 is to the left of or on line segment 2to3
 
@@ -348,9 +405,6 @@ c  true if point 1 is to the left of or on line segment 2to3
       real*8 x1,y1,x2,y2,x3,y3,area_tri,local_eps
 
       isleftoron_lg =.false.
-c      print*,"isleftoron_lg: ------------------"
-c      print*,"isccw: ",isccw
-c      print*,"local_eps: ",local_eps
 
       if(isccw) then
         if (area_tri(x1,y1,x2,y2,x3,y3).gt.-local_eps )

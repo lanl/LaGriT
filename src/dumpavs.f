@@ -18,16 +18,23 @@ C        iopt_points      = 1 Output node coordinate information node#, x, y, z 
 C        iopt_points      = 2 Output node coordinates information without node number in first column, x, y, z
 C        iopt_elements    = 0 Do not output element connectivity information
 C        iopt_elements    = 1 Output element connectivity information (DEFAULT)
+C        iopt_elements    = 3 Output coordinate and element pt for AVS UCD pt file 
 C        iopt_values_node = 0 Do not output node attribute information
 C        iopt_values_node = 1 Output node attribute information (DEFAULT)
 C        iopt_values_node = 2 Output node attribute information without node number in first column
 C        iopt_values_elem = 0 Do not output element attribute information
 C        iopt_values_elem = 1 Output element attribute information (DEFAULT)
 C        iopt_values_elem = 2 Output element attribute information without node number in first column
+C
 C        io_format = 1   All attributes are written as real numbers. (dump/avs/...)
 C        io_format = 2   Attributes are written as real and integer (slower method) (dump/avs2/...).
+C
+C        No longer supported but will still write file, replaced with iopt flags
 C        io_format = 3   Node Attributes are written as real and integer, header info lines start with #
 C        io_format = 4   Element Attributes are written as real and integer, header info lines start with #
+C
+C        Note all flags 2 will produce non-standard AVS files.
+C        Note files without coordinate section is non-standard.
 C
 C     OUTPUT ARGUMENTS -
 C
@@ -209,14 +216,15 @@ C
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
       pointer (ipitet, itet)
-      integer nsd, nen, nef
+      pointer (ipjtet, jtet)
+
       integer imt1(*), itp1(*), icr1(*), isn1(*)
       real*8 xic(*), yic(*), zic(*)
       integer itetclr(*), itettyp(*),
      *        itetoff(*), jtetoff(*)
       pointer (ipisetwd, isetwd)
       integer isetwd(*)
-      integer itet(*)
+      integer itet(*), jtet(*)
       integer  itypout
 C
       pointer (ipxvalues, xvalues)
@@ -255,6 +263,8 @@ C
      *  mbndry,nelements,nnodes,ihcycle,nvaluese,lenval,lvalues,
      *  lvaluese,izero,k,irowlen,irowlene, ncolumn_max
       integer nnodes_io,nelements_io,nvalues_node,nvalues_elem
+      integer nsd, nen, nef, nsdgeom,nsdtopo,nee
+      integer ielements, itoff, jtoff
 C
       pointer (ipitype_flag,itype_flag)
       pointer (ipimin_vint, imin_vint)
@@ -279,6 +289,7 @@ C
 C ######################################################################
 C begin
 
+      it = 0
       lenval = 0
 
       if((nnodes .eq. 0) .and. (nelements .eq. 0))then
@@ -322,10 +333,31 @@ C
       call cmo_get_info('jtetoff',cmo,
      *                  ipjtetoff,ilen,ityp,ierr)
       call cmo_get_info('itet',cmo,ipitet,ilen,ityp,ierr)
+      call cmo_get_info('jtet',cmo,ipjtet,ilen,ityp,ierr)
 C
 C     ******************************************************************
 C
-      if(io_format .eq. 3)then
+
+
+C     write AVS UCD pt elements for node mesh with 0 elements 
+      if(iopt_elements .eq. 3)then
+
+         if (nnodes.gt.0 .and. nelements.gt.0 ) then
+           write(logmess,'(a)')'WARNING: AVS UCD PT No output'
+           call writloga('default',0,logmess,0,ierr)
+           write(logmess,'(a)') 
+     *    'Expecting points but mesh has elements and connectivity.'
+           call writloga('default',0,logmess,0,ierr)
+           return
+         endif
+
+         nelements = nnodes
+         io_format = 2
+         iopt_elements = 3
+         io_format_node = 0
+         io_format_elem = 0
+
+      elseif(io_format .eq. 3)then
          io_format = 2
          io_format_node = 1
          io_format_elem = 0
@@ -337,6 +369,18 @@ C
          io_format_node = 0
          io_format_elem = 0
       endif
+
+
+C debug
+C     print*,"nnodes  = ",nnodes
+C     print*,"nelements  = ",nelements
+C     print*,"io format, node, elem = ",
+C    *        io_format,io_format_node,io_format_elem
+C     print*,"iopt_points       = ",iopt_points
+C     print*,"iopt_elements     = ",iopt_elements
+C     print*,"iopt_values_node  = ",iopt_values_node
+C     print*,"iopt_values_elem  = ",iopt_values_elem
+
 C
 C     ******************************************************************
 C     Count the number of AVS fields to write
@@ -572,15 +616,27 @@ C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
 C        Write the connectivity
+C
+C        Option to write 0 element point file at pt elements
+C        This allows paraview to read and display the points
+C        Set nelements to nnodes
+C        Set material id to 1
+C        Set connectivity to single integer value of node_id
+C        Note the mesh attributes related to elements do not exist
+C        Format:
+C        1  1   pt   1
+C        2  1   pt   2
+C        3  1   pt   3
 C         
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
 C     
       if(iopt_elements .ge. 1) then
 C
 C Since this is node connectivity all connectivity
 C entries will be positive. We don't have to leave room for negative signs.
 C
-         if(iopt_elements .eq. 1)then
+         if(iopt_elements.eq.1 .or. iopt_elements.eq.3) then
 C
 C        Output element#, material_id, element_type, connectivity
 C         
@@ -627,14 +683,26 @@ C
      1   ch_elem2 = '1x,i8,1x,a5,8(1x,i10))'
 
       ch_string(1:30) = ch_elem1(1:8)//ch_elem2(1:22)
+
+C debug
+C        print*,"ch_elem1: ",ch_elem1
+C        print*,"ch_elem2: ",ch_elem2
+C        print*,"ch_string: ",ch_string(1:30)
           
-         if(iopt_elements .eq. 1)then
+         if(iopt_elements.eq.1 .or. iopt_elements.eq.3)then
          do it=1,nelements
-            if(itettyp(it).eq.ifelmpnt) then
+
+C           write connectivity for pt mesh with 0 elements
+            if(iopt_elements .eq. 3) then
+
+               write(iunit,ch_string(1:30)) it,1,'pt',it
+
+            elseif(itettyp(it).eq.ifelmpnt) then
+
                index=itetoff(it)
                i1=itet(1+index)
-               write(iunit,ch_string(1:30)) it,itetclr(it),'pt',
-     *                                      i1
+               write(iunit,ch_string(1:30)) it,itetclr(it),'pt',i1
+
             elseif(itettyp(it).eq.ifelmlin) then
                index=itetoff(it)
                i1=itet(1+index)
@@ -1233,6 +1301,7 @@ C
 C
       return
       end
+
       subroutine string_add_entry_r8
      1   (ch_string,n_char_string,
      3    r8, itype,

@@ -2,6 +2,26 @@
 title: LaGriT - Home
 ---
 
+<link rel="stylesheet" href="{{ "/assets/css/index_page_style.css" | relative_url }}">
+
+<div class="extended-content-container">
+  <div class="extended-content">
+  
+    <br>Powerful mesh generation,<br>optimization, and maintenance.<br>
+                
+    <div class="button" id="button-3">
+    <div id="circle"></div>
+    <a href="https://github.com/lanl/LaGriT/releases">Download</a>
+    </div>
+                
+    <div class="button" id="button-4">
+    <div id="underline"></div>
+    <a href="https://lanl.github.io/LaGriT/pages/docs/tutorial.html">Take the Tutorial</a>
+    </div>
+            
+  </div>
+</div>
+
 **LaGriT (Los Alamos Grid Toolbox) LA-CC-15-069** is a library of user
 callable tools that provide mesh generation, mesh optimization and
 dynamic mesh maintenance in two and three dimensions. LaGriT is used for
@@ -61,9 +81,6 @@ BSD 3-Clause License (See
 - [Licensing](pages/licensing.md)
 - [Publications](pages/publications.md)
 - [Release Notes](pages/release.md)
-- <a href="https://deknapp.github.io/assets/images/lagrit.pdf" download> LaGrit Facts (PDF)</a>
-- Contact the LaGriT team through email to tamiller@lanl.gov
+- [LaGriT Style Guide](pages/github_pages_example.md)
 
-*NOTICE: Information from this server resides on a computer system
-funded by the U.S.Department of Energy. Anyone using this system
-consents to monitoring of this use by system or security personnel. See
+Contact the LaGriT team through email to tamiller@lanl.gov.

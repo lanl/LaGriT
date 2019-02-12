@@ -1,315 +1,77 @@
-##########################################################################
-# GNU Make version 3.79.1 or later
-# USAGE (use make, gmake, or gnumake according to setup): 
-# make list  (no action, write to screen only)
-#    will write files and names used for this session and OS
+#================================================================#
+#  LaGriT lg_util Library Creation
+# -------------------------------------------------------------- #
+#  
+#  Targets:
+#    - lib : build the LaGriT lg_util library
+#    - clean : remove all object and mod files
+#    - clobber : remove all object and mod files *and* library
 #
-# make OR make lib 
-#    creates optimized for platform LIB_o.a and  OBJDIR_o 
-# make MOPT=32 COPT=-g lib 
-#    creates debug 32 bit for platform LIB_g.a and OBJDIR_g 
-# make MOPT=64 lib 
-# make lib 
-#    sets 64 bit LIB64_o.a and OBJDIR64_o for platform 
-# make MOPT=64 COPT=-g lib 
-#    sets 64 bit LIB64_g.a and OBJDIR64_g for platform 
+#  Variables:
+#    - DEBUG : run with DEBUG=1 to build with debug symbols
+#    - CC, FC : change to use other compilers
+#================================================================#
 #
-#    NOTE: mm2000.h sets machine dependent sizes
-#    compile with make mm2000.h 
-#    This sets sizeof_int correctly to 8 for 64bit
-#    or just copy mm2000_m64.h to mm2000.h 
-#
-# OBJDIR and LIB are formed by system query from make
-# other compile flags are passed in from command line:
-#
-# make install 
-#    creates or updates *.o in OBJDIR 
-#    creates LIB_o.a in current directory 
-#    creates LIB_o_DATETAG.a
-#    copies both libs.a to LIBDIR
-#    moves LIB_o_DATETAG.a OBJDIR
-#
-# make clean
-#    removes objects and mm2000.h (recommended before install)
-# make clobber
-#    removes all OBJDIRs and .a files 
-# make help
-#    list of targets and defined variables 
-# make list
-#    list of object files and variables 
-# make options include:
-#    -d (debug) -p (print rules and variables) -v (version)
-#
-# platform is detected by uname -s
-# platform and compile mode are used to form lib name and object directories
-# if LIBDIR or OBJDIR do not exist, they are created
-# set compiler options
-# COMPILER=ABSOFT or COMPILER=GFORTRAN
-#
-# Note: assumes Makefile and Makefile.depends
-#
-# Modified Aug 2016 by tamiller@lanl.gov to add mikita cygwin work
-# Modified Mar 2015 by tamiller@lanl.gov to use 64bit as default
-# Modified Mar 2015 by tamiller@lanl.gov to include Ubuntu 
-# Modified Nov 2010 by tamiller@lanl.gov to use gfortran as default
-# Created Jan 7 2008 by tamiller@lanl.gov
-#
-##########################################################################
-# user defined variables
-# create lib path LIBDIR= $(subst lg_util/src,lg_util/lib, $(ROOTDIR)) 
-# ------------------------------------------------------------------
-#
-MAKEFILE  = Makefile
-PROJ  = util
-ROOTDIR= $(shell pwd)
-# check for environment variables
-ifndef LAGRIT_LIBS 
-LIBDIR= $(shell pwd)
+#  TODO:
+#    - Add support for 32 bit machines
+
+CC := gcc
+FC := gfortran
+OBJDIR := objects/
+LIB := lg_util.a
+DEBUG := 0
+
+# Detect 64 or 32 bit
+BIT_SIZE := $(shell getconf LONG_BIT)
+OPSYS := $(shell uname -s)
+
+# Generate compiler flags and append OS-specific properties
+CFLAGS := -m64
+FFLAGS := -fcray-pointer -fdefault-integer-8
+
+ifeq ($(OPSYS),Darwin)
+	FFLAGS += -Dmacx64 -m64
+	CFLAGS += -Dmacx64
+else ifeq ($(OPSYS),Linux)
+	FFLAGS += -Dlinx64
+	CFLAGS += -Dlinx64
+endif
+
+ifeq ($(DEBUG),1)
+	FFLAGS += -g -fbacktrace -ffpe-trap=invalid,zero,overflow
+	CFLAGS += -g 
 else
-LIBDIR = $(LAGRIT_LIBS)
-endif
-#
-##########################################################################
-#  auto variables (May also be set at command line, environment, or script) 
-# ------------------------------------------------------------------
-#
-OPSYS = UNKNOWN 
-OPSYS_FULL = $(shell uname -a )
-OPSYS = $(shell uname -s )
-DATETAG = $(shell date '+_%y%m%d')
-NPROC = $(shell uname -p )
-#
-# set compiler and defaults
-COMPILER = ABSOFT
-COMPILER = GFORTRAN
-
-ifneq ($(MOPT), 32)
-MOPT = 64
-endif
-
-ifeq ($(COMPILER),GFORTRAN)
-FC = gfortran
-CC = gcc
-endif
-
-#
-# Linux OS ------------------------------
-ifeq ($(OPSYS), Linux)
-
-OSTYP = $(shell lsb_release -si)
-OSVER = $(shell lsb_release -sr)
-
-ifeq ($(OSTYP), Ubuntu)
-OSTAG = _ulin
-else
-OSTAG = _rlin
-endif
-
-FFLAGS = -f -m64 -i8 -Dlinx64 -YEXT_NAMES=ASIS -q -w 
-FFLAGS = -fcray-pointer -fdefault-integer-8 -Dlinx64
-CFLAGS = -m64 -Dlinx64
-
-ifeq ($(MOPT), 32)
-FFLAGS = -f -m32 -Dlin -YEXT_NAMES=ASIS -q -w 
-FFLAGS = -fcray-pointer -fno-align-commons -m32 
-FFLAGS = -fcray-pointer -m32 
-CFLAGS = -m32 -Dlin
+	FFLAGS += -O
+	CFLAGS += -O
 endif
 
 
-FF90FLAGS = $FFLAGS 
-endif
-
-# Cygwin -------------------------------
-ifeq ($(COMPILER), cygwin)
-# SUFFC = _cygwin
-FC = /bin/gfortran
-CC = /bin/gcc
-CXX = /bin/c++
-FC90 = /bin/gfortran
-
-OSTAG = _cygwin
-
-FFLAGS = -g -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
-FF90FLAGS = -g -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
-CFLAGS = -g -m64 -Dwin64 -I/cygdrive/c/Users/304285/dev/cygwin/usr/include
-endif
-
-#
-# Mac OSX ------------------------------
-# Absoft9.5+ should not need flags
-ifeq ($(OPSYS), Darwin)
-OSTAG = _mac
-FC = /Applications/Absoft9.5/bin/f77 
-CC= /Applications/Absoft9.5/bin/acc 
-CC = gcc
-FFLAGS = -N113 -N90 -B19 -B100 -q -w
-FFLAGS = -m32 -Dmac -YEXT_NAMES=ASIS -q 
-CFLAGS = -m32 
-#
-# overwrite if this is intel mac
-# these flags work for intel mac
-ifeq ($(NPROC), i386)
-OSTAG = _maci
-FC = /Applications/Absoft10.2/bin/f77
-FC90 = /Applications/Absoft10.2/bin/f90
-CC= /Applications/Absoft10.2/bin/acc
-CC = gcc
-FFLAGS = -Dmac -m32 -q 
-CFLAGS = -m32 -Dmac
-FF90FLAGS = -m32 
-
-ifeq ($(COMPILER),GFORTRAN)
-FC = gfortran
-FC90 = gfortran
-CC= gcc
-FFLAGS = -fcray-pointer -m32  
-FF90FLAGS = -fcray-pointer -m32 
-
-ifeq ($(MOPT), 64)
-OSTAG = _maci64
-FFLAGS = -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64 
-FF90FLAGS = -fcray-pointer -m64 -fdefault-integer-8 -Dmacx64 
-CFLAGS = -m64 -Dmacx64
-endif
-
-endif
-
-
-endif
-endif
-#
-ifndef COPT
-COPT = -O
-endif
-#
-# form the name suffix based on platform and flags
-SUFF = $(OSTAG)_o
-ifeq ($(MOPT), 64)
-SUFF = $(OSTAG)64_o
-endif
-ifeq ($(COPT), -g)
-SUFF = $(OSTAG)_g
-ifeq ($(MOPT), 64)
-SUFF = $(OSTAG)64_g
-endif
-endif
-SUFFC =""
-ifeq ($(COMPILER),GFORTRAN)
-GCCV = $(shell gcc -dumpversion )
-SUFFC = _gf$(GCCV)
-SUFFC = _gcc
-endif
-ifeq ($(COMPILER),ABSOFT)
-SUFFC = _absoft
-endif
-ifeq ($(COMPILER),cygwin)
-SUFF2 = _cygwin
-endif
-# 
-OBJDIR = objects$(SUFF)$(SUFFC)/
-#LIB   = $(PROJ)$(SUFF)$(SUFFC).a
-
-# Hardcoded in for build consistency
-LIB   = util_ulin64_o_gcc.a
-
-ifeq ($(COPT), -g)
-LIB   = util_ulin64_g_gcc.a
-endif
-
-PROG  = $(PROJ)$(SUFF)$(SUFFC)
-LIBDATE   = $(PROJ)$(SUFF)$(DATETAG)$(SUFFC).a
-PROGDATE  = $(PROJ)$(SUFF)$(DATETAG)$(SUFFC)
-# 
 ##########################################################################
 # Source  
 # ------------------------------------------------------------------
-#
+
 F77_OBJS := $(patsubst %.f,$(OBJDIR)%.o,$(wildcard *.f))
-#
 C_OBJS := $(patsubst %.c,$(OBJDIR)%.o,$(wildcard *.c))
-#
 F77C_OBJS = $(OBJDIR)mm2000.o
-#
-#
+
+
 ##########################################################################
 # action targets
 # the first target in the file will run if make is not given a target
-# Note OBJDIR and LIBDIR are dependencies that will be created if needed
+# Note OBJDIR is a dependency that will be created if needed
 # ------------------------------------------------------------------
-#
-lib : $(OBJDIR) mm2000.h ${F77_OBJS} $(C_OBJS) $(F77C_OBJS)
-	ar rcu $(LIB) $(F77_OBJS)
-	ar rcu $(LIB) $(C_OBJS)
-	ar rcu $(LIB) $(F77C_OBJS)
-	@echo "Done $@ $(LIB)"
-#
-install: $(OBJDIR) ${F77_OBJS} $(C_OBJS) $(F77C_OBJS) $(LIBDIR)
-	ar rcu $(LIB) $(F77_OBJS)
-	ar rcu $(LIB) $(C_OBJS)
-	ar rcu $(LIB) $(F77C_OBJS)
-	cp -p $(LIB) $(LIBDIR)
-	cp -p $(LIB) $(LIBDATE)
-	cp -p $(LIBDATE) $(LIBDIR)
-	mv $(LIBDATE) $(OBJDIR)
-	@echo "Done $@ $(LIB) $(LIBDIR)"
-#
-clean:;   @rm -f $(OBJDIR)*.o mm2000.h
-	rm -f *.o *.mod
-#
-clobber:;  -rm -fr objects_* *.a 
-	rm -f *.o *.mod
-#
-##########################################################################
-# targets for information reporting 
-# ------------------------------------------------------------------
-#
-help:;  @echo " "
-	@echo "Operating System Detected: $(OPSYS) "
-	@echo "  $(OPSYS_FULL)"
-	@echo " "
-	@echo "USAGE: "
-	@echo "make" 
-	@echo "make lib"
-	@echo "   Creates or Updates LIB and .o in OBJDIR" 
-	@echo "make COPT=-g lib" 
-	@echo "   Creates or Updates LIB and .o in OBJDIR" 
-	@echo "make clean"
-	@echo "   Remove .o files from OBJDIR"
-	@echo "make clobber"
-	@echo "   Remove all OBJDIR's and .a files"
-	@echo "make install"
-	@echo "   Update and Copy LIB and LIBDATE into LIBDIR"
-	@echo "make list"
-	@echo "   List all the files and variables"
-	@echo " "
-#
-# ------------------------------------------------------------------
-# list: list all files defined under makefile macros
-# ------------------------------------------------------------------
-list:;  
-	@echo
-	@echo "List OS: "$(OPSYS)" "$(OSTYP)
-	@echo "List: "$(ROOTDIR)
-	@echo "List F77 SOURCE FILES (F77_OBJS):"
-	@echo $(F77_OBJS) $(F77C_OBJS)
-	@echo "List C SOURCE FILES (C_OBJS):"
-	@echo $(C_OBJS)
-	@echo "List LIB: $(LIB) " 
-	@echo "List ROOTDIR: $(ROOTDIR)" 
-	@echo "List OBJDIR: $(OBJDIR)" 
-	@echo "List FC Compilers: $(FC)"
-	@echo "List C  Compilers: $(CC)"
-	@echo "List F Flags: "$(FFLAGS) 
-	@echo "List C Flags: "$(CFLAGS)
-ifndef LAGRIT_LIBS
-	@echo "LAGRIT_LIBS undefined, install in: "$(LIBDIR)
-else
-	@echo "LAGRIT_LIBS defined, install in: "$(LIBDIR)
-endif
-	@echo " "
 
-#
+lib : $(OBJDIR) mm2000.h ${F77_OBJS} $(C_OBJS) $(F77C_OBJS)
+	ar rcu $(LIB) $(F77_OBJS) $(C_OBJS) $(F77C_OBJS)
+	@echo "Done: target = $@, fileout = $(LIB)"
+
+clean:
+	rm -f $(OBJDIR)*.o $(OBJDIR)*.mod
+
+clobber:
+	rm -f *.o *.mod lg_util.a
+
+
 ##########################################################################
 # Dependencies
 # In general define order: .mod (.o of .mod) .o and .f90
@@ -323,25 +85,17 @@ endif
 # ------------------------------------------------------------------
 
 $(OBJDIR)%.o : %.f
-	$(FC) $(COPT) $(FFLAGS)  -c -o $@ $<
+	$(FC) $(FFLAGS) -c -o $@ $<
 
 $(OBJDIR)%.o : %.c
-	$(CC) $(COPT) $(CFLAGS)  -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
-# if compiler can not compile mm2000_header.F
-# comment this section and copy mm2000_m32.h or m64.h to mm2000.h
 mm2000.h : mm2000_header.F 
-	@echo "Remove and re-make mm2000.h from mm2000_header.F"
-	-rm -f mm2000.h
-	$(CC) -E $(CFLAGS) mm2000_header.F -o mm2000.h 
-	cp -p mm2000.h $(OBJDIR)
-
-$(LIBDIR) :; mkdir $(LIBDIR)
+	cp -p mm2000_m$(BIT_SIZE).h mm2000.h
 
 $(OBJDIR) :; mkdir $(OBJDIR)
 
 $(OBJDIR)mm2000.o : mm2000.h mm2000.F
-	$(FC) $(COPT) $(FFLAGS)  -c mm2000.F -o $(OBJDIR)mm2000.o  
+	$(FC) $(FFLAGS) -c mm2000.F -o $(OBJDIR)mm2000.o  
 
 include Makefile.depends
-

@@ -65,6 +65,12 @@ def RunTest(**args):
   #xlagrit = "/n/swdev/LAGRIT/bin/lagrit_ulin_g_gf_V3.107.so"
   # xlagrit = "/scratch/sft/yanki/lagrit/src/mylagrit"
   xlagrit = args["executable"]
+  flags = args["flags"]
+
+  try:
+    fail_threshold = args["hard_fail"]
+  except KeyError:
+    fail_threshold = 0
 
   print("=======")
 
@@ -122,20 +128,20 @@ def RunTest(**args):
             os.remove("outx3dgen")
 
         if (os.path.exists("input.lgi")) : 
-          cmd = xlagrit + " < input.lgi >> " + fscreen
+          cmd = xlagrit + " " + flags + " < input.lgi >> " + fscreen
           print cmd
           fo1 = os.system(cmd)
           if fo1 != 0:
             print("System exit: %s" % fo1)
             errList.append(repr(itest) + " " + dwork)
             errmess[ierr] = "Exit code: " + repr(fo1)
-            ierr = ierr + 1
+            ierr += 1
             errors[name].append(str(itest) + " ERROR: Cannot execute input.\nExit code: " + str(fo1))
         else:
           print("ERROR: File missing: input.lgi") 
           errList.append(repr(itest) + " " + dwork)
           errmess[ierr] = "Missing LaGriT input file."
-          ierr = ierr + 1
+          ierr += 1
           errors[name].append(str(itest) + " ERROR: input.lgi file does not exist.")
         
         os.chdir(dtop_path)
@@ -180,7 +186,9 @@ def RunTest(**args):
       fo1 = os.system(cmd)
       print "--------------------------------------"
       print " "
-      i = i + 1
+      i += 1
+  if fail_threshold and ierr >= fail_threshold:
+    sys.exit(1)
 
   print("\nSummary:\t\t%s completed outx3dgen files out of %s test directories" % (repr(nfind), repr(itest)))
   if result_dir:
