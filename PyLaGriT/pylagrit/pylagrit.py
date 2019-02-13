@@ -3199,7 +3199,6 @@ class MO(object):
         cmd = ['stack/layers',file_type]
         if xy_subset is not None: cmd.append(xy_subset)
         cmd.append(' &')
-        print(cmd)
         self.sendline('/'.join(cmd),expectstr='\r\n')
         self._parent.sendline(' '.join([filelist[0],str(matids[0]),'/ &']),expectstr='\r\n')
         for f,nl,md in zip(filelist[1:-1],nlayers[0:-1],matids[1:-1]): 
