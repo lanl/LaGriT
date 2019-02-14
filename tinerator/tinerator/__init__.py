@@ -10,22 +10,38 @@ from tinerator.dump import *
 from tinerator.visualize import *
 from tinerator.downloader import *
 from tinerator.generate_triplane import *
+import tinerator.config as cfg
 
-# Global TINerator settings
-params = {
-    'remove_temporary_files': True,
-    'quiet_lagrit': False,
-    'enable_logging': True,
-    'log_file': '_tin_log.out'
-}
+GLOBAL_NDV = -9999.
+MATERIAL_ID = 'itetclr'
 
 def loadDEM(filepath:str,lagrit_exe:str=None):
+    '''
+    Loads a DEM raster from a local filepath and returns 
+    a `tinerator.DEM` instance.
+
+    # Attributes
+    filepath (str): Filepath to DEM raster
+    lagrit_exe (str,None): Optional filepath to LaGriT binary. If PyLaGriT is
+                           configured correctly, this should be unnecessary.
+    '''
+
     return DEM(filepath,lagrit_exe=lagrit_exe)
 
+
 class DEM():
+    '''
+    This is the 'main' class of TINerator, and stores all DEM and GIS data
+    related to a particular project.
+
+    # Attributes
+    filepath (str): Filepath to DEM raster
+    lagrit_exe (str,None): Optional filepath to LaGriT binary. If PyLaGriT is
+                           configured correctly, this should be unnecessary.
+    '''
     def __init__(self,filepath:str,lagrit_exe:str=None):
         self.dem = rd.LoadGDAL(filepath)
-        self.lg = PyLaGriT(lagrit_exe=lagrit_exe)
+        self.lg = PyLaGriT(lagrit_exe=lagrit_exe,verbose=False)
         self.distance_field = None
         self.triangles = None
         self.feature = None
@@ -50,12 +66,112 @@ class DEM():
         # Mesh characteristics
         self.number_of_layers = 0
 
+        self.__replace_infs_with_nans()
+
+    def __repr__(self):
+        return 'DEM: %d rows, %d cols; cell size: %f' % \
+        (self.nrows,self.ncols,self.cell_size)
+
+    # Replace +/-float('inf') with np.nans which are more managable
+    def __replace_infs_with_nans(self):
+        for _invalid in [float('inf'),float('-inf')]:
+            self.dem[self.dem == _invalid] = GLOBAL_NDV
+            if self.no_data_value == _invalid:
+                cfg.log.debug('Found %s ' % _invalid)
+                self.change_ndv(GLOBAL_NDV)
+
+
+    # Resets the DEM mask
+    def __reset_mask(self):
+        if self.no_data_value in self.dem:
+            self.mask = self.dem == self.dem.no_data
+        else:
+            self.mask = None
+
+    def change_ndv(self,ndv:float):
+        '''
+        Changes `no_data_value` of the DEM object.
+
+        # Example
+        ```python
+        dem.change_ndv(-9999.)
+        print(dem.no_data_value) # -9999.0
+        ```
+
+        # Arguments
+        ndv (float): New `no_data_value`
+        '''
+
+        self.no_data_value = ndv
+        self.dem.no_data = ndv
+        self.dem.wrap()
+        self.__reset_mask()
+
+    def set_to_ndv(self,value:float):
+        '''
+        Changes all occurances of `value` in the DEM data 
+        to `no_data_value`.
+
+        # Example
+        ```
+        dem.set_to_ndv(dem.dem[0][0])
+        print(dem.dem == dem.no_data_value) # True
+        ```
+
+        # Arguments
+        value (float): raster value to replace
+        '''
+        self.dem[self.dem == value] = self.no_data_value
+        self.__reset_mask()
+
+    def set_verbosity(self,verb_level:int,filename:str=None):
+        '''
+        Set the verbosity level of printed output.
+
+        * `NOTHING` : Nothing (except warnings and related)
+        * `INFO` : Log output
+        * `FULL` : Log output and LaGriT output
+        * `DEBUG` : Log output, LaGriT output, and turns on debug mode
+
+        Each of these verbosity levels are variables in `tinerator.config`.
+
+        # Example
+
+        ```python
+        dem.set_verbosity(tinerator.config.FULL)
+        ```
+
+        # Arguments
+        verb_level (int): verbosity level 
+
+        # Optional Arguments
+        filename (str): file to write log output to
+        '''
+
+        cfg.DEBUG_MODE = False
+        if verb_level == cfg.NOTHING:
+            self.lg.verbose = False
+            cfg.log.setLevel(logging.NOTSET)
+        elif verb_level == cfg.DEBUG:
+            self.lg.verbose = True
+            cfg.log.setLevel(logging.DEBUG)
+            cfg.DEBUG_MODE = True
+        elif verb_level == cfg.INFO:
+            self.lg.verbose = False
+            cfg.log.setLevel(logging.INFO)
+        elif verb_level == cfg.FULL:
+            self.lg.verbose = False
+            cfg.log.setLevel(logging.INFO)
+
+        if filename is not None:
+            cfg.log.warning('Dynamic file logging isn\'t enabled yet')
+
     def plot(self,plot_out=None):
         '''
         Draws the DEM and distance map.
 
-        :param plot_out: file path to save image (optional)
-        :type plot_out: string
+        # Attributes
+        plot_out (str,None): file path to save image (optional)
         '''
 
         dem = deepcopy(self.dem)
@@ -67,26 +183,57 @@ class DEM():
             except ValueError:
                 dem = dem.astype(float)
                 dem[self.mask] = np.nan
-            #distance[self.mask] = np.nan
 
         extent = (self.xll_corner,self.ncols*self.cell_size+self.xll_corner,
                   self.yll_corner,self.nrows*self.cell_size+self.yll_corner)
 
         plotDEM(dem,plot_out=plot_out,title="DEM",extent=extent,xlabel="latitude",ylabel="longitude")
-        #plotDEM(distance,plot_out=plot_out,extent=extent,title="Distance Field",xlabel="latitude",ylabel="longitude",hillshade_image=False)
 
-    def watershedDelineation(self,threshold:float=None,plot:bool=False,spacing:float=None):
+    def fillDepressions(self,fill_depressions:bool=True,fill_flats:bool=True):
+        '''
+        Fills flats and depressions on DEM. On meshes intended to be high-
+        resolution, leaving flats and depressions untouched may cause solver
+        issues. This method should be called before generating a triplane.
+
+        # Arguments
+        fill_depressions (bool): fill pits and depressions on DEM
+        fill_flats (bool): fill flats on DEM
+
+        # Example
+        ```python
+        dem1 = loadDEM("example.asc")
+        dem2 = loadDEM("example.asc")
+
+        dem1.fillDepressions()
+
+        plt.imshow(dem1.dem - dem2.dem)
+        plt.show()
         '''
 
+        if fill_depressions:
+            cfg.log.info('Filling depressions')
+            rd.FillDepressions(self.dem,epsilon=False,in_place=True)
+
+        if fill_flats:
+            cfg.log.info('Filling flats')
+            rd.ResolveFlats(self.dem,in_place=True)
+
+
+    def watershedDelineation(self,threshold:float=None,plot:bool=False,spacing:float=None,method:str='D8'):
+        '''
         Performs watershed delineation on a DEM and returns a set of points
         corresponding to the feature.
 
-        :param threshold: threshold for determining feature from noise
-        :type threshold: float
-        :returns: (x,y) pairs of feature
+        # Attributes
+        threshold (float,None): threshold for determining feature from noise
+        plot (bool,None): plot the watershed delineation and captured feature
+        spacing (float,None): the 'resolution' of the feature polygon
+        
+        # Returns
+        Polyline of feature as ordered (x,y) pairs
         '''
 
-        accumulation = watershedDelineation(self.dem)
+        accumulation = watershedDelineation(self.dem,method=method)
 
         if threshold is None:
             _thresh = np.unique(accumulation)
@@ -107,7 +254,7 @@ class DEM():
 
             f, (ax1, ax2) = plt.subplots(1, 2, figsize=(14,6))
 
-            f.suptitle('Watershed delineation (threshold: %2.3e)' % threshold)            
+            f.suptitle('Watershed delineation (threshold: %2.3e)\nMethod: %s' % (threshold,method))
             divider = make_axes_locatable(ax1)
             cax = divider.append_axes('right', size='5%', pad=0.05)
 
@@ -119,29 +266,22 @@ class DEM():
 
         return self.feature
 
-    def writeAVS(self,outfile:str):
-        '''
-        Write out mesh in the UCD-AVS file format.
-
-        :param outfile: path to save mesh
-        :type outfile: string
-        '''
-        writeAVS(outfile,self.points,triangles=self.triangles)
-
-    def setRefinementSettings(self,min_edge=None,max_edge=None,min_distance=None,max_distance=None):
+    def __setRefinementSettings(self,min_edge=None,max_edge=None,min_distance=None,max_distance=None):
         self.min_edge = min_edge if min_edge is not None else self.min_edge
         self.max_edge = max_edge if max_edge is not None else self.max_edge
         self.min_distance = min_distance if min_distance is not None else self.min_distance
         self.max_distance = max_distance if max_distance is not None else self.max_distance
 
-    def generateBoundary(self,distance):
+    def generateBoundary(self,distance:float):
         '''
         Generates a set of spaced nodes corresponding to the boundary of the DEM,
         where the boundary is defined as the intersection of noDataValue and elevation data.
 
-        :param distance: Euclidean distance between adjacent boundary nodes
-        :type distance: float
-        :returns: vertices of boundary
+        # Attributes
+        distance (float): Euclidean distance between adjacent boundary nodes
+
+        # Returns
+        vertices of boundary
         '''
 
         distance /= self.cell_size
@@ -151,7 +291,7 @@ class DEM():
         self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
         return self.boundary
 
-    def rectangularBoundary(self,distance):
+    def __rectangularBoundary(self,distance):
         self.boundary = rectangularBoundary(self.getBoundingBox(),distance)
         self.boundary[:,0] = xVectorToProjection(self.boundary[:,0],self.cell_size,self.xll_corner)
         self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
@@ -160,26 +300,21 @@ class DEM():
     def buildTriplane(self,min_edge:float,delta:float=0.75,outfile:str=None,
                            slope:float=2.,refine_dist:float=0.5,
                            apply_elevation:bool=True,flip:str='y',
-                           plot:bool=False):
+                           plot:bool=False,smooth_boundary:bool=False):
         '''
         Generates a refined triangular mesh, with a minimum refinement length 
         defined by h. Then, extrudes the mesh with user-defined layer thickness
         and material ids.
 
-        :param outfile: filename to save mesh
-        :type outfile: str
-        :param layers: heights of each extruded layer
-        :type layers: list<float>
-        :param h: meshing length scale
-        :type h: float
-        :param delta: buffer zone, amount of h/2 removed around feature
-        :type delta: float
-        :param slope: slope of coarsening function
-        :type slope: float
-        :param refine_dist: distance used in coarsing function
-        :type refine_dist: float
-        :param matids: material ids for layers
-        :type matids: list<int>
+        # Attributes
+        outfile (str): filename to save mesh
+        layers (list<float>): heights of each extruded layer
+        h (float): meshing length scale
+        delta (float): buffer zone, amount of h/2 removed around feature
+        slope (float): slope of coarsening function
+        refine_dist (float): distance used in coarsing function
+        matids (list<int>): material ids for layers
+        plot (bool): plot the surface mesh
         '''
 
         if min_edge is None:
@@ -194,7 +329,7 @@ class DEM():
                                  slope=slope,delta=delta)
 
         if apply_elevation:
-            addElevation(self.lg,self,"_trimesh.inp",fileout="_trimesh.inp",flip=flip)
+            addElevation(self.lg,self,"_trimesh.inp",fileout="_trimesh.inp",flip=flip,smooth_boundary=smooth_boundary)
 
         if plot:
             points = None
@@ -221,14 +356,31 @@ class DEM():
             mlab.show()
 
 
-    def layeredMesh(self,layers,matids=None,xy_subset=None,nlayers=None,outfile=None):
+    def layeredMesh(self,layers,matids=None,xy_subset=None,outfile=None):
         '''
+        Builds a layered mesh from a triplane.
+
+        # Arguments
+        layers (list<float>): List of sequential layer thicknesses
+
+        # Optional Arguments
+        matids (list<int): List of numbers to set as material ID for a list
+        outfile (str): Filepath to save mesh to
+        xy_subset ():
+
+
+        # Example
+        ```python
+        layers = [1.,1.,3.,10.,2.]
+        matids = [1,1,2,1,3]
+
+        dem.layeredMesh(layers,matids=matids)
+        ```
 
         '''
         if outfile is None:
             outfile = '_tin_stacked_mo.inp'
 
-        # TODO: apply mat id to itetclr
         mo = stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,
                          xy_subset=xy_subset,nlayers=nlayers)
         self.stacked_mesh = outfile
@@ -323,7 +475,8 @@ class DEM():
             raise ValueError("A stacked mesh must be generated before calling this function")
 
         if naive:
-            generateFaceSetsNaive(self.lg,self.stacked_mesh,outfile)
+            mo = self.lg.read(self.stacked_mesh)
+            generateFaceSetsNaive(self.lg,mo,outfile)
         else:
             assert facesets is not None, 'Function requires facesets array'
             generateComplexFacesets(self.lg,outfile,self.stacked_mesh,self.boundary,facesets)
@@ -381,17 +534,36 @@ class DEM():
         ax.scatter(self.boundary[:,0],self.boundary[:,1],zorder=2,s=1.,c='red')
         plt.show()
 
-    def getBoundingBox(self):
+    def getBoundingBox(self,mpl_style:bool=True):
         '''
         Returns the bounding box (or extent) of the DEM domain.
 
-        Format of return is:
+        By default, the format of the extent returned is:
 
-           (x_min,x_max,y_min,y_max)
+            (x_min,x_max,y_min,y_max)
 
+        By setting `mpl_style=False`, the format changes to:
+
+            (x_min,y_min,x_max,y_max)
+
+        Extent units are relative to the parent DEM coordinate system.
+
+        # Optional Arguments
+        mpl_style (bool): Change the format of the returned extent
+
+        # Returns
+        DEM domain bounding box
         '''
 
-        return (self.xll_corner,self.ncols*self.cell_size+self.xll_corner,
-                self.yll_corner,self.nrows*self.cell_size+self.yll_corner)
+        if mpl_style:
+            return (self.xll_corner,
+                    self.ncols*self.cell_size+self.xll_corner,
+                    self.yll_corner,
+                    self.nrows*self.cell_size+self.yll_corner)
+        else:
+            return (self.xll_corner,
+                    self.yll_corner,
+                    self.ncols*self.cell_size+self.xll_corner,
+                    self.nrows*self.cell_size+self.yll_corner)
 
 

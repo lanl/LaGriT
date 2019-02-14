@@ -3,6 +3,7 @@ import scipy.ndimage as ndimage
 from copy import deepcopy
 import math
 from scipy.spatial.distance import euclidean,cdist
+import tinerator.config as cfg
 
 def orderPointsClockwise(points:np.ndarray,opt:str='polar',clockwise:bool=True):
     '''
@@ -151,9 +152,6 @@ def imageErosionBoundary(A,nil_value,distance,cell_size=None,xll_corner=0,yll_co
     # point removal.
     from tinerator.visualize import _debugScatterPlot
     _debugScatterPlot(xy)
-
-    #plt.scatter(xy[:,0],xy[:,1],c='black')
-    #plt.show()
     sys.exit()
 
 
@@ -232,8 +230,8 @@ def squareTraceBoundary(A,NDV,dist=10.):
     nRows = np.shape(A)[0] - 1
     nCols = np.shape(A)[1] - 1
 
-    print("\nA Square Tracing method of finding boundary in a psuedo-masked array")
-    print("C T. Pavlidis, Algorithms for Graphics and Image Processing, Computer Science Press, Rockville, Maryland, 1982\n")
+    cfg.log.info("A Square Tracing method of finding boundary in a psuedo-masked array")
+    cfg.log.info("C T. Pavlidis, Algorithms for Graphics and Image Processing, Computer Science Press, Rockville, Maryland, 1982")
 
     global last_point # This point is used to see if boundary is being packed too tightly
     last_point = [-5e4,-5e4]
@@ -276,8 +274,8 @@ def squareTraceBoundary(A,NDV,dist=10.):
             elif (self.direction == self.west):
                 self.x = self.x - 1
             else:
-                print("Error: cannot move. Value {} is not".format(self.direction))
-                print("recognized as one of the cardinal directions.")
+                cfg.log.warn('Cannot move. Value '+ str(self.direction) + \
+                    ' is not recognized as one of the cardinal directions.')
         
         def moveLeft(self):
             self.left()
@@ -325,7 +323,7 @@ def squareTraceBoundary(A,NDV,dist=10.):
                     s = [x,y]
                     break
         if s is None:
-            error("ERROR: Starting pixel not found.")
+            cfg.log.error('Could not find starting pixel')
         
         return s
     
@@ -335,7 +333,7 @@ def squareTraceBoundary(A,NDV,dist=10.):
         x2, y2 = v2[:2]
         return ((x1-x2)**2.+(y1-y2)**2.)**0.5
 
-    print("p Finding starting pixel...")
+    cfg.log.info("p Finding starting pixel...")
 
     # Find starting pixel
     p = _Point()
@@ -347,7 +345,7 @@ def squareTraceBoundary(A,NDV,dist=10.):
     p.moveLeft()
     c = [p.x,p.y]
 
-    print("p Iterating over array...")
+    cfg.log.info("p Iterating over array...")
 
     iters = 0
     while iters < maxiters:
@@ -355,7 +353,7 @@ def squareTraceBoundary(A,NDV,dist=10.):
         
         # Are we back at the origin?
         if [p.x,p.y] == s:
-            print("p Found origin...")
+            cfg.log.info("p Found origin...")
             break
         
         if _blackPixel(p.x,p.y,nCols,nRows):
@@ -364,7 +362,7 @@ def squareTraceBoundary(A,NDV,dist=10.):
         else:
             p.moveRight()
     
-    print("p Generating array...")
+    cfg.log.info("p Generating array...")
     boundary = np.array(tmp_points,dtype=np.double) + 1.
     return boundary
 

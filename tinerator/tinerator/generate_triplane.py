@@ -10,12 +10,28 @@ from numpy import genfromtxt, sqrt, cos, arcsin
 from tinerator.dump import callLaGriT
 from tinerator.lg_infiles import Infiles
 from tinerator.unit_conversion import cleanup
+import tinerator.config as cfg
 import pylagrit
 from copy import deepcopy
 from scipy import interpolate
+from scipy import ndimage as nd
 from scipy.misc import imresize
 import string
 import random
+import logging
+
+def smoothRasterBoundary(raster:np.ndarray,width:int,no_data_value:float=np.nan):
+    raster[raster == no_data_value] = np.nan
+    width += width % 2 # Keep even for padding
+
+    mask = np.array(~np.isnan(raster),dtype=int)
+    dims = mask.shape
+    edges = imresize(mask,(dims[0]-width,dims[1]-width),interp='nearest')
+    edges = np.pad(edges,pad_width=int(width/2),mode='constant',constant_values=True)
+    edges = ~edges & mask
+
+    raster[edges == True] = no_data_value
+    return raster
 
 def generateLineConnectivity(nodes:np.ndarray,connect_ends:bool=False):
     '''
@@ -99,7 +115,8 @@ def _writeLineAVS(boundary,outfile:str,connections=None,material_id=None,
 
         f.write("\n")
 
-def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout=None):
+def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout=None,
+                 smooth_boundary:bool=False):
     '''
 
     Given a triplane mesh and a tinerator.DEM instance, this function will 
@@ -118,26 +135,21 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     if fileout is None:
         fileout = triplane_path
 
+
     # Interpolate no data values on the DEM
     # This is to prevent a noise effect on LaGriT interpolation 
     _dem = deepcopy(dem.dem).astype(float)
     _dem[_dem == dem.no_data_value] = np.nan
 
-    # Mask invalid values
-    _dem = np.ma.masked_invalid(_dem)
-    xx, yy = np.meshgrid(np.arange(0,_dem.shape[1]),np.arange(0,_dem.shape[0]))
+    if smooth_boundary:
+        _dem = smoothRasterBoundary(_dem,width=4,no_data_value=np.nan)
 
-    # Get only the valid values
-    x1 = xx[~_dem.mask]
-    y1 = yy[~_dem.mask]
-    newarr = _dem[~_dem.mask]
-
-    _dem = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method='nearest')
-    _dem[_dem == np.nan] = dem.no_data_value
+    ind = nd.distance_transform_edt(np.isnan(_dem), return_distances=False, return_indices=True)
+    _dem = _dem[tuple(ind)]
 
     # Dump DEM data
     _array_out = "_temp_elev_array.dat"
-    _dem.filled().tofile(_array_out,sep=' ',format='%.3f')
+    _dem.tofile(_array_out,sep=' ',format='%.3f')
 
     # Read DEM as a quad mesh
     tmp_sheet = lg.read_sheetij('surfacemesh',_array_out,dem_dimensions,
@@ -158,7 +170,15 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     # Load triplane && interpolate z-values onto mesh
     triplane = lg.read(triplane_path,name='triplanemesh')
     triplane.addatt('z_new')
-    triplane.interpolate('continuous','z_new',tmp_sheet,'z_elev')
+
+    try:
+        triplane.interpolate('continuous','z_new',tmp_sheet,'z_elev')
+    except Exception as e:
+        _err = 'Caught an unknown exception. Most likely, this is related to'+\
+        'floating point underflow / overflow.\n\nTry setting `xll_corner` and'+\
+        '`yll_corner` to 0.\n\nORIGINAL EXCEPTION: ' + e.msg
+        raise Exception(_err)
+
     triplane.copyatt('z_new','zic')
     triplane.delatt('z_new')
     tmp_sheet.delete()
@@ -281,8 +301,15 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
     :returns: Prism mesh with new attribute
     '''
 
+    if attribute_name is not None:
+        cfg.log.info('Adding attribute '+attribute_name+' to mesh')
+    else:
+        cfg.log.info('Adding attribute MATERIAL_ID to mesh')
+
     if dtype is None:
         dtype = type(data[0,0])
+
+    cfg.log.debug('Raster data type: ' + str(dtype))
     
     dtype = 'VINT' if dtype in [int,np.int64,np.int] else 'VDOUBLE'
     data = imresize(data,(dem_dimensions[1],dem_dimensions[0]),interp='nearest')
@@ -295,6 +322,8 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
     with open(_array_out,'w') as f:
         for i in range(dem_dimensions[1]*dem_dimensions[0]):
             f.write('%d\n' % (data[i]))
+
+    cfg.log.debug('Wrote raster data to ' + _array_out)
 
     # Adjusted matrix dimensions for LaGriT
     NX, NY = (dem_dimensions[0] + 1), (dem_dimensions[1] + 1)
@@ -312,6 +341,8 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
                               [extent[1],extent[2],0.],
                               [extent[1],extent[3],0.],
                               [extent[0],extent[3],0.]])
+
+    cfg.log.debug('Raster dimensions: [' + str(NX) + ',' + str(NY) + ',1]')
 
     mo_quad.rzbrick([NX,NY,1],stride=(1,0,0),connect=True)
     mo_quad.addatt('id_strat',vtype=dtype,length='nelements')
@@ -333,6 +364,7 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
     v = info['elements'] // number_of_layers
 
     if layers is None:
+        cfg.log.info('Interpolating to full mesh')
         stacked_mesh.interpolate('map',attribute_name,mo_extrude,'id_strat',stride=[1,0,0])
     else:
         # Conform scalar to type(list<int>)
@@ -345,6 +377,7 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
 
         stacked_mesh.addatt('elttmp',vtype='VINT',length='nelements')
         for layer in layers:
+            cfg.log.info('Interpolating to layer %d' % layer)
 
             # Set att to 1 for all layers
             stacked_mesh.setatt('elttmp',1)
@@ -364,11 +397,13 @@ def addAttribute(lg:pylagrit.PyLaGriT,data:np.ndarray,stacked_mesh_infile:str,
 
     # Remove temporary meshes
     for mesh in [mo_pts,mo_extrude,mo_quad]:
+        cfg.log.debug('Deleting %s' % mesh.name)
         mesh.delete()
 
     os.remove(_array_out)
 
     if outfile is not None:
+        cfg.log.info('Writing mesh to %s' % outfile)
         stacked_mesh.dump(outfile)
 
     return stacked_mesh
@@ -397,6 +432,8 @@ def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
     stack_files = ['layer%d.inp' % (len(layers)-i) for i in range(len(layers))]
     if nlayers is None:
         nlayers=['']*(len(stack_files)-1)
+
+    cfg.log.info('Stacking %d layers' % nlayers)
     
     motmp_top = lg.read(infile)
 
@@ -407,13 +444,16 @@ def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
     motmp_top.delete()
     stack = lg.create()
     stack.stack_layers(stack_files,flip_opt=True,nlayers=nlayers,matids=matids,xy_subset=xy_subset)
-    stack.dump('tmp_layers.inp')
+    #stack.dump('tmp_layers.inp')
 
     cmo_prism = stack.stack_fill(name='CMO_PRISM')
     cmo_prism.resetpts_itp()
 
     cmo_prism.addatt('cell_vol',keyword='volume')
     cmo_prism.dump(outfile)
+
+    if not cfg.DEBUG_MODE:
+        cleanup(stack_files)
 
     return cmo_prism
 
@@ -457,7 +497,7 @@ def generateSingleColumnPrism(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers
     cmo_prism.addatt('cell_vol',keyword='volume')
     cmo_prism.dump(outfile)
 
-#:pylagrit.PyLaGriT.MO
+
 def generateFaceSetsNaive(lg:pylagrit.PyLaGriT,stacked_mesh,outfile:str):
     '''
 
@@ -470,7 +510,9 @@ def generateFaceSetsNaive(lg:pylagrit.PyLaGriT,stacked_mesh,outfile:str):
 
     '''
 
-    if not isinstance(stacked_mesh,pylagrit.PyLaGriT.MO):
+    _all_facesets = ['fs1_bottom.avs','fs2_top.avs','fs3_sides_all.avs']
+
+    if not isinstance(stacked_mesh,pylagrit.MO):
         raise ValueError('stacked_mesh must be a PyLaGriT mesh object')
 
     tmp_infile = 'infile_tmp_get_facesets3.mlgi'
@@ -480,13 +522,14 @@ def generateFaceSetsNaive(lg:pylagrit.PyLaGriT,stacked_mesh,outfile:str):
 
     lg.sendline('define CMO_PRISM %s' % stacked_mesh.name)
     lg.sendline('infile %s' % tmp_infile)
-    lg.sendline('dump/exo/%s/CMO_PRISM///faceets &' % outfile)
-    lg.sendline('fs1_bottom.avs fs2_top.avs fs3_sides_all.avs')
 
-    _cleanup = 'fs1_bottom.avs fs2_top.avs fs3_sides_all.avs'.split()
-    _cleanup.extend(tmp_infile)
+    cmd = 'dump/exo/'+outfile+'/CMO_PRISM///facesets &\n'
+    cmd += ' &\n'.join(_all_facesets)
 
-    cleanup(_cleanup)
+    lg.sendline(cmd)
+
+    _all_facesets.extend(tmp_infile)
+    cleanup(_all_facesets)
    
 
 def buildUniformTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
