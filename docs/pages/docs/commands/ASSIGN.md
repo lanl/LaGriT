@@ -3,21 +3,35 @@ title: ASSIGN
 tags: ok
 ---
 
- **ASSIGN**
+# ASSIGN
 
-  Assign a value to a global variable.  The set of global variables
-  includes; incycle, ttime, monitor, hextotet\_remove\_volume,
-  hextotet\_check\_imt, hextotet\_radavg,
-  hextotet\_remove\_duplicates.  The default values of these variables
-  are; 0,  0, no, yes, no, no. use **cmo/setatt** to assign values to
-  mesh object **attributes.**
+Assign a value to a global variable.  The set of global variables
+includes: `incycle`, `ttime`, `monitor`, `hextotet_remove_volume`,
+`hextotet_check_imt`, `hextotet_radavg`, `hextotet_remove_duplicates`.
 
- **FORMAT:**
+The default values of these variables are: 0, 0, no, yes, no, no. Use **`cmo/setatt`** to assign values to
+mesh object **attributes**.
 
-  **assign**/category\_name/column/variable\_name/value.
+| GLOBALS                      | DEFAULTS |
+|------------------------------|----------|
+| `incycle`                    | 0        |
+| `ttime`                      | 0        |
+| `monitor`                    | no       |
+| `hextotet_remove_volume`     | yes      |
+| `hextotet_check_imt`         | no       |
+| `hextotet_radavg`            | no       |
+| `hextotet_remove_duplicates` | no       |
 
- **EXAMPLES:**
 
-  **assign/time** / 3.2
+## FORMAT:
 
-  **assign/hextotet\_remove\_duplicates**/ yes
+<pre>
+<b>assign</b>/category_name/column/variable_name/value.
+</pre>
+
+## EXAMPLES:
+
+<pre>
+<b>assign/time</b> / 3.2
+<b>assign/hextotet_remove_duplicates</b>/ yes
+</pre>
