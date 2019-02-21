@@ -3392,6 +3392,25 @@ class MO(object):
         self.sendline(cmd)
         self.region[name] = Region(name,self)
         return self.region[name]
+    def quality(self,*args,quality_type=None,save_att=False):
+        cmd = ['quality']
+        if quality_type is not None:
+            cmd.append(quality_type)
+            if save_att: cmd.append('y')
+            for a in args: cmd.append(a)
+        self.sendline('/'.join(cmd))
+    def quality_aspect(self,save_att=False):
+        self.quality(quality_type='aspect',save_att=save_att)
+    def quality_edge_ratio(self,save_att=False):
+        self.quality(quality_type='edge_ratio',save_att=save_att)
+    def quality_edge_min(self,save_att=False):
+        self.quality(quality_type='edge_min',save_att=save_att)
+    def quality_edge_max(self,save_att=False):
+        self.quality(quality_type='edge_max',save_att=save_att)
+    def quality_angle(self,value,boolean='gt',save_att=False):
+        self.quality(boolean,str(value),quality_type='angle',save_att=save_att)
+    def quality_pcc(self):
+        self.quality(quality_type='pcc')
 
  
 class Surface(object):
