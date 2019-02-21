@@ -3592,6 +3592,14 @@ class PSet(object):
         
         cmd = ['trans',','.join(['pset','get',self.name]),','.join(xold),','.join(xnew)]
         self._parent.sendline('/'.join(cmd))
+    def smooth(self,*args,**kwargs):
+        if 'algorithm' not in kwargs: 
+            algorithm = ' '
+        else:
+            algorthm = kwargs['algorithm']
+        cmd = ['smooth','position',algorithm,'pset get '+self.name]
+        for a in args: cmd.append(a)
+        self._parent.sendline('/'.join(cmd))
 
 class EltSet(object):
     ''' EltSet class'''
