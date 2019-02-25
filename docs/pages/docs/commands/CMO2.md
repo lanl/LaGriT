@@ -16,7 +16,7 @@ Mesh Objects.
 Add a user defined attribute to a Mesh Object:
 
 <pre>
-<a href="cmo/cmo_addatt.md"><b>cmo/addatt</b></a>/mo_name/att_name/type/rank/length/interpolate/persistence/ioflag/value
+<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.md"><b>cmo/addatt</b></a>/mo_name/att_name/type/rank/length/interpolate/persistence/ioflag/value
 <a href="cmo/cmo_addatt.md"><b>cmo/addatt</b></a>/mo_name/keyword/keyword_parameters
 </pre>
 
