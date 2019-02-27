@@ -1,31 +1,34 @@
-**read/LaGriT**
 
-read in a LaGriT restart file
+# read/lagrit #
 
-SHORT **FORMAT:**
+Read a LaGriT restart file, the mesh object name and definitions are included in this file.
 
-**read**/filename.[lglagritLaGriT]/cmo\_name
+## SYNTAX ##
 
-[Note that the filename is case-sensitive, though the extension
-itself is not. When using the short format, the file will be read in
-ascii mode.]
+<pre>
+<b>read</b>/ filename.<b>lg</b> or filename.<b>lagrit</b> [cmo_name (ignored)] [<b>ascii</b> or <b>binary</b>]
 
-LONG **FORMAT:**
+<b>read / lagrit</b>/ filename.<b>lg</b> or filename.<b>lagrit</b> / [cmo_name (ignored)] / [<b>ascii</b> or <b>binary</b>]
+</pre>
 
-**read** **/LaGriT**/file\_name/[cmo-name]/[**ascii**
-**binary**]
 
-     cmo\_name    -    ignored all mesh objects are read from the
-file
+filename.**`lg`** or filename.**`lagrit`** - these extensions are recognized and indicate a LaGriT restart file.
 
-    The default is **ascii**, but the code will determine file type
-if nessary.
+*`cmo_name`*  - This argument is ignored as all mesh objects in the restart file are named and defined.
 
-**EXAMPLES:**
+**`ascii`** or  **`binary`**  - The default is **`ascii`**, but the code will determine file type if this option is missing.
 
-**read**[/]**LaGriT**[/file1]
-file1 will be read as ascii.  If the read fails to find the ascii
-check string, the file will be closed and reopened for a binary
-read.
 
-**read** **/LaGriT**/file2/**/binary**
+
+## EXAMPLES ##
+
+```
+read / lagrit / file1.lg
+```
+
+file1.lg will be read as an ascii restart file.  If the read fails to find the ascii check string, the file will be closed and reopened for a binary read.
+
+```
+read / lagrit / hex1_mohex.bin.lg / binary
+```
+hex1_mohex.bin.lg will be read as a binary restart file. This example has the mesh object named mohex defined.
