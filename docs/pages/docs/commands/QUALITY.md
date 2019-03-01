@@ -5,7 +5,7 @@ tags: quality mesh metrics
 
 # QUALITY #
 
-**quality** provides a collection of mesh quality measurements. Together with commands in **cmo/addatt** a good summary of mesh metrics can be reported or used for further mesh optimization. 
+**quality** provides a collection of mesh quality measurements. Together with commands in **cmo/addatt** a good summary of mesh metrics can be reported or used for further mesh optimization. See [Quality Measures](https://lanl.github.io/LaGriT/pages/docs/QUALITY_sliver_cap_needle_wedge.html).
 
 ## SYNTAX ## 
 
@@ -13,7 +13,9 @@ tags: quality mesh metrics
 <b>quality</b> / [quality_type] / [quality_type_options]
 </pre>
 
-Where *`quality-type`* can be **aspect, pcc, volume, angle, quad, or taylor**. The *`quality_type_options`* depend on the *`quality-type`* used. 
+## DESCRIPTIONS ##
+
+The following are definitions for valid *`quality-type`* commands and their *`quality_type_options`*. 
 
 
 **`quality`** 
@@ -22,27 +24,27 @@ with no arguments writes to screen and outx3dgen or lagrit.out logfile giving vo
 
 **`quality/aspect`** / [y] 
 
-displays a count of the number of elements whose aspect ratio falls in each of 7 bins .  If y is specified create an attribute named aratio that will contain the value of the aspect ratio of each element. 
+displays a count of the number of elements whose aspect ratio falls in each of 7 bins .  If y is specified create an attribute named **aratio** that will contain the value of the aspect ratio of each element. 
 
 **`quality/edge_ratio`** / [y] 
 
-displays a count of the edge length minimum/edge length maximum in each of 7 bins. If y is specified create an attribute named eratio that will contain the value of the min/max edge ratio of each element.
+displays a count of the edge length minimum/edge length maximum in each of 7 bins. If y is specified create an attribute named **eratio** that will contain the value of the min/max edge ratio of each element.
 
 **`quality/edge_min`** / [y] 
 
-displays a count of the minimum edge length in each of 7 bins. If y is specified create an attribute named edgemin that will contain the value of the min edge length of each element.
+displays a count of the minimum edge length in each of 7 bins. If y is specified create an attribute named **edgemin** that will contain the value of the min edge length of each element.
 
 **`quality/edge_max`** / [y] 
 
-displays a count of the maximum edge length in each of 7 bins. If y is specified create an attribute named edgemax that will contain the value of the max edge length of each element.
+displays a count of the maximum edge length in each of 7 bins. If y is specified create an attribute named **edgemax** that will contain the value of the max edge length of each element.
 
 **`quality/angle`** / **gt** OR **lt** / value / 
 
 displays a count of the number of elements with a dihedral angle that is greater than or less than the supplied value. See also **cmo/addatt/cmo/ang_** commands for dihedral angle and solid angle calculations.
 
-**`quality/pc`c**
+**`quality/pc`**
 
-creates an element based attribute called 'neg_coup_coeff' which is a "negative coupling coefficient" indicator.  A value of 1 means the coupling coefficient is OK.  Anything less than 1 means it is negative.  This is  element attribute and is useful when viewing a mesh with GMV to find the negative coupling coefficients. 
+creates an element based attribute called **neg_coup_coeff** which is a "negative coupling coefficient" indicator.  A value of 1 means the coupling coefficient is OK.  Anything less than 1 means it is negative.  This is  element attribute and is useful when viewing a mesh a viewer to find the negative coupling coefficients. 
 
 **`quality/quad`**
 
@@ -52,7 +54,7 @@ generates some quality measures for quads and displays them after binning them i
 
 displays a count of the number of element-edge pairs with a taylor error estimate value whose absolute value is greater than the supplied value. 
 
-Any combination of the quality_type_options may occur with these volume commands. For example: 
+**`quality/volume`** allows any combination of the *`quality_type_options`* for example: 
 ```
 quality/volume/ number_of_bins / itetclr / lt | gt | eq | ne | xvalue / eltset,get,ename 
 ```
@@ -113,6 +115,49 @@ quality/volume/itetclr/eltset,get,e2
 All three commands will loop through itetclr (material values) and report a total volume for each itetclr value.
 The second command will report element volumes lt .03 by the itetclr values.
 The third command will report element volumes by itetclr values, but only for elements in the set e2
+
+```
+quality
+quality/ aspect   / y
+quality/ edge_max / y
+cmo/addatt /cmotri /area_normal/ xyz/ anorm
+cmo/addatt /cmotri /scalar /xnorm ynorm znorm / anorm
+cmo/printatt /cmotri / aratio  minmax
+cmo/printatt /cmotri / edgemax minmax
+cmo/printatt /cmotri / znorm   minmax
+```
+Example calls using **quality** and **cmo/addatt** commands to show mesh quality statistics.
+
+```
+quality  
+
+epsilonl, epsilonaspect:   1.4360051E-10  2.9612012E-30                        
+--------------------------------------------                                   
+elements with aspect ratio < .01:                    0                         
+elements with aspect ratio b/w .01 and .02:          0                         
+elements with aspect ratio b/w .02 and .05:          0                         
+elements with aspect ratio b/w .05 and .1 :          0                         
+elements with aspect ratio b/w .1  and .2 :      12020                         
+elements with aspect ratio b/w .2  and .5 :     625891                         
+elements with aspect ratio b/w .5  and 1. :     157053                         
+min aspect ratio =  0.1053E+00  max aspect ratio =  0.7229E+00                 
+epsilonvol:   1.1335396E-05                                                    
+---------------------------------------                                        
+element volumes b/w  0.1667E+02 and  0.3318E+02:    612924                     
+element volumes b/w  0.3318E+02 and  0.6605E+02:     54612                     
+element volumes b/w  0.6605E+02 and  0.1315E+03:     18204                     
+element volumes b/w  0.1315E+03 and  0.2617E+03:     45510                     
+element volumes b/w  0.2617E+03 and  0.5210E+03:     63714                     
+element volumes b/w  0.2617E+03 and  0.5210E+03:     63714                     
+min volume =   1.6666667E+01  max volume =   5.2100000E+02                     
+-----------------------------------------------------------                    
+    794964 total elements evaluated.    
+```
+Example call and report from the **quality** command with no arguments.
+
+
+[Click Here For more Examples on Quality Measurements](https://lanl.github.io/LaGriT/pages/docs/QUALITY_sliver_cap_needle_wedge.html)
+
 
 
 
