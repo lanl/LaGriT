@@ -24,27 +24,27 @@ with no arguments writes to screen and outx3dgen or lagrit.out logfile giving vo
 
 **`quality/aspect`** / [y] 
 
-displays a count of the number of elements whose aspect ratio falls in each of 7 bins .  If y is specified create an attribute named **aratio** that will contain the value of the aspect ratio of each element. 
+computes the ratio of the radius of the circumsphere to the radius of the inscribed sphere of a tetrahedron. The ratio is multiplied by 3 so that a value of 1 indicates a regular tetrahedron. The display is a count of the number of elements whose aspect ratio falls in each of 7 bins.  Option y creates the element attribute named **aratio** that will contain the value of the aspect ratio for each element. Valid element types are tet and tri, hex, and quad (where the length of the hex or quad diagonals are used). 
 
 **`quality/edge_ratio`** / [y] 
 
-displays a count of the edge length minimum/edge length maximum in each of 7 bins. If y is specified create an attribute named **eratio** that will contain the value of the min/max edge ratio of each element.
+computes the ratio (shortest element edge/longest element edge) and displays a count of the min/max edge ratio in each of 7 bins. Option y creates the element attribute named **eratio** that will contain the value of the min/max edge ratio of each element.
 
 **`quality/edge_min`** / [y] 
 
-displays a count of the minimum edge length in each of 7 bins. If y is specified create an attribute named **edgemin** that will contain the value of the min edge length of each element.
+displays a count of the minimum edge length in each of 7 bins. Option y creates the element attribute named **edgemin** that will contain the value of the min edge length of each element.
 
 **`quality/edge_max`** / [y] 
 
-displays a count of the maximum edge length in each of 7 bins. If y is specified create an attribute named **edgemax** that will contain the value of the max edge length of each element.
+displays a count of the maximum edge length in each of 7 bins. Option y creates the element attribute named **edgemax** that will contain the value of the max edge length of each element.
 
 **`quality/angle`** / **gt** OR **lt** / value / 
 
-displays a count of the number of elements with a dihedral angle that is greater than or less than the supplied value. See also **cmo/addatt/cmo/ang_** commands for dihedral angle and solid angle calculations.
+finds the max and min dihedral angles between adjacent faces (or 2D edges) of an element in radians. If the compare  option is used, it displays a count of the number of elements with a dihedral angle that is greater than or less than the supplied value. See also **cmo/addatt/cmo/ang_** commands for dihedral angle and solid angle calculations.
 
-**`quality/pc`**
+**`quality/pcc`**
 
-creates an element based attribute called **neg_coup_coeff** which is a "negative coupling coefficient" indicator.  A value of 1 means the coupling coefficient is OK.  Anything less than 1 means it is negative.  This is  element attribute and is useful when viewing a mesh a viewer to find the negative coupling coefficients. 
+creates an element based attribute called **neg_coup_coeff** which is a "negative coupling coefficient" indicator.  A value of 1 means the coupling coefficient is OK.  Anything less than 1 means it is negative.  This is useful when viewing a mesh to find where the negative coupling coefficients occur. 
 
 **`quality/quad`**
 
@@ -52,7 +52,7 @@ generates some quality measures for quads and displays them after binning them i
 
 **`quality/taylor`**/ fieldname / value /
 
-displays a count of the number of element-edge pairs with a taylor error estimate value whose absolute value is greater than the supplied value. 
+creates and displays a count of the number of element-edge pairs with a taylor error estimate value whose absolute value is greater than the supplied value. This creates the attribute **quality_taylor** with length in attribute **quality_taylor_len**.
 
 **`quality/volume`** allows any combination of the *`quality_type_options`* for example: 
 ```
