@@ -8,9 +8,9 @@ tags: createpts
 This command adds points to a mesh object. For some special cases, it will also produce element connectivity. The **createpts** command is a wrapper for the deprecated **rz** type commands.
   
 
-**[createpts/xyz rtz rtp line](createpts/CRTPTSRZ.md)** Create points and distribute by coordinate type selection.
+**[createpts/xyz rtz rtp line](createpts/CRTPTSRZ.md)** Create points and distribute by coordinate type selection. No connectivity created.
 
-**[createpts/brick](createpts/CRTPTBRICK.md)** Create points in a rectangular distribution for hexahedral connectivity.
+**[createpts/brick](createpts/CRTPTBRICK.md)** Create points in a rectangular distribution and create finite element hexahedral or quad connectivity.
 
 **[createpts/interp](createpts/createpts_interp.md)** Creates points by linear interpolation between two point sets.
 
