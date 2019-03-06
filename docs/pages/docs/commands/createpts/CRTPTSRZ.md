@@ -5,12 +5,13 @@ title: CREATEPTS xyz rtz rtp line
  
 # CREATEPTS/ xyz rtz rtp line #
 
-  This command adds points to a mesh object. It can distribute points
-  evenly or according to a ratio zoning method as indicated by the choices **xyz**, **rtz**, **rtp**, or **line**.
+  This command adds points to a mesh object. It can distribute points evenly or according to a ratio zoning method as indicated by the choices **xyz**, **rtz**, **rtp**, or **line**. These points can be connected into a tet mesh object. If you want a connected hex mesh object, use the **createpts/brick** commands instead.
   
 ## FORMAT ##
 
 <pre> 
+cmo/create/ mo_name / / / tet
+
 <b>createpts</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b> / ni,nj,nk / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz / [ iirat,ijrat,ikrat /xrz,yrz,zrz ]
 
 <b>createpts</b> / <b>line</b> / npoints / / / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz /
@@ -53,14 +54,16 @@ title: CREATEPTS xyz rtz rtp line
 # EXAMPLES #
 
 ```
-  createpts/xyz/ 5,3,10 /0.,2.,0./5.,6.,2./1,1,1/
+createpts/xyz/ 5,3,10 /0.,2.,0./5.,6.,2./1,1,1/
 ```
-  This results in a set of 150 points, five across from x=0. to x=5.,
-  3 deep from y=2. to y=6. and 10 high from z=0. to z=2.
+This results in a set of 150 points, five across from x=0. to x=5.,
+3 deep from y=2. to y=6. and 10 high from z=0. to z=2.
 ```
-  createpts/rtz/ 4,6,11 /0.,0.,0./3.,360.,10./1,0,1/
-  filter/1,0,0 
-  rmpoint/compress
+cmo/create/ motet / / / tet
+createpts/rtz/ 4,6,11 /0.,0.,0./3.,360.,10./1,0,1/
+cmo/setatt/ motet/ imt/ 1
+filter/1,0,0; rmpoint/compress;
+connect
 ```
   This results in 264 points arranged around the z- axis.   
   There are 3 rings of points at distances r=1., r=2. and r=3. from the z-axis.  
@@ -72,25 +75,8 @@ title: CREATEPTS xyz rtz rtp line
   at 0°.  
   Corresponding to r=0, there will be 6 identical points at 11
   intervals along the z-axis at heights z=0., z=1., z=2.,...z=10.
+The **filter** command tags duplicate points and the **rmpoint/compress** removes the tagged points and updates the mesh object. The **connect** command will create a connected tetrahedral mesh object.
   
-  The **filter** command tags duplicate points and the **rmpoint/compress** removes the tagged points and updates the mesh object.
-  
-
-```
-define RTOP 20.
-define NRADIAL 3
-define NRAYS  20
-define NRINGS 12
-define WRADIUS 2.
-define CIRDEG 360.
-
-createpts/brick/rtz/NRADIAL,NRAYS,NRINGS/0. 0. 0./ &
-         WRADIUS CIRDEG RTOP /1,1,1
-```
-Use the **define** commands to set variables for making a cylinder mesh.   
-This hex mesh has height of 20.
-There are 3 points from center to rim, there are 20 points around and 12 points vertical. 
-Width of radius from center is 2 and the cylinder is a full 360 degrees.
 
 ```
 define XP1 1.
