@@ -12,7 +12,7 @@ Builds a set nodes (logically rectangular) and create finite element hexahedral 
 ## SYNTAX
 
 <pre>
-cmo/create/cmohex / / / hex
+<b>cmo/create</b>/ cmo_name / / / <b>hex</b>
 <b>createpts/brick</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b> / ni,nj,nk / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz / [ iirat,ijrat,ikrat / xrz,yrz,zrz / isym,jsym,ksym ]
 </pre>
 Create points and connect into a finite element hexahedral mesh object.
