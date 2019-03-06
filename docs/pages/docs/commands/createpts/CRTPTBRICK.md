@@ -18,9 +18,11 @@ Builds a set nodes (logically rectangular) and create finite element hexahedral 
 Create points and connect into a finite element hexahedral mesh object.
 
 <pre>
-<b>createpts/brick</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b>/ ni,nj,nk / 1,0,0 / **connect** /
+<b>createpts/brick</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b>/ ni,nj,nk / 1,0,0 / <b>connect</b> /
 </pre>
 Use this option (for example, with **quadxyz** ) to create finite element hexahedral connectivity on a logically rectangular set of nodes created by another method..
+
+
 
 
 **`xyz`** specifies Cartesian coordinates.
