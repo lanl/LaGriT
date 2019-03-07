@@ -273,9 +273,11 @@ C-----Work pointers
       pointer (ipxvals, xvals)
       pointer (ipyvals, yvals)
       pointer (ipzvals, zvals)
+      pointer (ipdistpossleaf, distpossleaf)
       real*8 xattsnk(nplen), xattsrc(nplen), work(nplen),xsource(nplen),
      * xattsrc_near(nplen),xvals(nplen),yvals(nplen),zvals(nplen)
       real*8 sbox(2,3,nplen)
+      real*8 distpossleaf(nplen)
  
 C
       integer ikeep, mk_elatt, mk_ptatt, if_elsearch, if_ptsearch
@@ -283,7 +285,7 @@ C
       integer mtfound,nefound,inelement,ipt_exist,iel_exist,iisrc,iisnk
       integer lenout,len,ilen,ityp,ipt1,ipt2,ipt3,mpno,mbndry,nen
       integer iout,inflag,inflag_prev,index_save,index_prev,index_end
-      integer inflag_save, intie
+      integer inflag_save,intie,icscode
 
       integer npoints,nelements,length,ipointi,ipointj,
      * attsrc_len,attsnk_len,npts_src,npts_snk,nelm_src,nelm_snk,
@@ -1258,6 +1260,11 @@ c       Build kdtree to search for nearest source points
           zs=0.
           if(nsdgeom_src.eq.3) zs=alargenumber
         endif
+C     Allocate a work array used in nearestpoint1
+C     TODO: Might need to be deallocated at end of subroutine
+      length=npts_src
+      call mmgetblk('distpossleaf',isubname,ipdistpossleaf,
+     $     length,2,icscode)
  
 C       Loop through sink points to find nearest source candidates
         do ipt=1,num_snk
@@ -1281,9 +1288,9 @@ c        Get nearest point number iisrc from attribute pt_gtg
          else
            call mmfindbk('itfound',isubname,ipitfound,ilen,ics)
            if(ics.ne.0 )call x3d_error(isubname,' mmfindbk itfound')
-           call nearestpoint0(xp,yp,zp,xs,ys,zs,linkt,sbox,eps,
+           call nearestpoint1(xp,yp,zp,xs,ys,zs,linkt,sbox,eps,
      *                         npts_src,mtfound,itfound,ierr)
-           if(ierr.ne.0 ) call x3d_error(isubname,' nearestpoint0')
+           if(ierr.ne.0 ) call x3d_error(isubname,' nearestpoint1')
          endif
  
 C       -----------------------------------------------------------------
