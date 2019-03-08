@@ -1288,8 +1288,9 @@ c        Get nearest point number iisrc from attribute pt_gtg
          else
            call mmfindbk('itfound',isubname,ipitfound,ilen,ics)
            if(ics.ne.0 )call x3d_error(isubname,' mmfindbk itfound')
+
            call nearestpoint1(xp,yp,zp,xs,ys,zs,linkt,sbox,eps,
-     *                         npts_src,mtfound,itfound,ierr)
+     *                  npts_src,distpossleaf,mtfound,itfound,ierr)
            if(ierr.ne.0 ) call x3d_error(isubname,' nearestpoint1')
          endif
  
