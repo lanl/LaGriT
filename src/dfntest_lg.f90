@@ -23,7 +23,7 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
     integer ierror,nwds
     integer imsgin(nwds),msgtype(nwds)
     real*8 xmsgin(nwds)
-    character*32 cmsgin(nwds)
+    character*32 cmsgin(nwds),cmo,isubname
 
     ! subroutine variables
     character*132 logmess
@@ -36,13 +36,27 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
 
     mtri = 6
     file_unit = 15
+    isubname = 'dfntest'
 
     allocate(scale_factors(mtri))
     scale_factors = 0
 
     ! Verify command arguments
     if (nwds < 2) then
-        call RAISE_ERROR_LG('ERROR: Malformed commandssss',ierror)
+        call RAISE_ERROR_LG('ERROR: Malformed command',ierror)
+        go to 9999
+    else if (nwds > 2) then
+        ! Parse CMO && verify that it exists
+        cmo = cmsgin(3)
+        call cmo_exist(cmo,ierror)
+    else
+        ! Capture CMO
+        call cmo_get_name(cmo,ierror)
+    endif
+
+    ! Verify that captured CMO is valid
+    if (ierror.ne.0) then
+        call RAISE_ERROR_LG('ERROR: CMO does not exist: '//trim(cmo),ierror)
         go to 9999
     endif
 

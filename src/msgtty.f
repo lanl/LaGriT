@@ -2329,7 +2329,8 @@ c
          elseif(idsb(1:lenidsb).eq.'dfntest') then
 C
 C           ************************************************************
-C           Perturb x,y,z coordinates
+C           Compute the Voronoi tessellation of a 2D mesh, with
+C           file-determined pseudo-depth values
 C
             call dfntest_lg(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
             ierr2 = 0
