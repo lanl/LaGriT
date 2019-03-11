@@ -222,29 +222,26 @@ interpolation methods.
 | **voronoi element**      | yes             | no
 
  
- This table shows supported applications for each of the interpolation
- methods.
+This table shows supported applications for each of the interpolation methods.
 
- (parenthesis) means the option should work, but is not untested
+* (parenthesis) means the option should work, but is not untested
 
- NOT means Not Supported
-
- 
+* NOT means Not Supported
 
 
-   | **MAP** | **CONTINUOUS** | **VORONOI**
---- | --- | --- | ---
-| copy element value to enclosed point       |        interpolate element nodes to enclosed point    |    copy nearest node value
-**source elements** | tri, quad, hex, tet, (pyr), (pri), (line) |  tri, quad, NOT hex, tet, (pyr), (pri), (line)  | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)                                                                                                      
-**sink element** | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)                                                                                                      
-**source attribute** | element        |  node     |      node
-**sink attribute** | node or element (centroid)   |     node or element (centroid)  |    node or element (centroid)                                                                                                          
-**source attribute type** |integer or double    |    integer or double      |   integer or double                                                                                                   
-**sink attribute type**  | integer or double   |      NOT integer, double      |   integer or double                                                                                                  
-**interpolation function** | linear, log, sinh, all others pass unaltered | linear, log, sinh, all others pass unaltered | linear, log, sinh, all others pass unaltered  
-**tiebreaker**       | **tiemin or tiemax**             |                      **tiemin or tiemax**            |                       **tiemin or tiemax**
-**error flag**    |   plus1, nearest, or user value              |        plus1, nearest, or user value         |             plus1 or user value
-**added attributes**    |   keepatt creates attribute el\_gtg      |            keepatt creates attribute el\_gtg        |          keepatt creates attribute pt\_gtg
+|                                      | **MAP**                                          | **CONTINUOUS**                                   | **VORONOI**                                       |
+|------------------------------------- | ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------- |
+|                                      | copy element value to enclosed point             | interpolate element nodes to enclosed point      | copy nearest node value                           |
+| **source elements**                  | tri, quad, hex, tet, (pyr), (pri), (line)        | tri, quad, NOT hex, tet, (pyr), (pri), (line)    | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)  |
+| **sink element**                     | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)  |
+| **source attribute**                 | element                                          | node                                             | node                                              |
+| **sink attribute**                   | node or element (centroid)                       | node or element (centroid)                       | node or element (centroid)                        |
+| **source attribute type**            | integer or double                                | integer or double                                | integer or double                                 |
+| **sink attribute type**              | integer or double                                | NOT integer, double                              | integer or double                                 |
+| **interpolation function**           | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered      |
+| **tiebreaker**                       | **tiemin or tiemax**                             | **tiemin or tiemax**                             | **tiemin or tiemax**                              |
+| **error flag**                       | plus1, nearest, or user value                    | plus1, nearest, or user value                    | plus1 or user value                               |
+| **added attributes**                 | keepatt creates attribute `el_gtg`               | keepatt creates attribute `el_gtg`               | keepatt creates attribute `pt_gtg`                |
 
 ## Format
 
@@ -281,7 +278,7 @@ written to sink attribute Pval.
 
 <pre>
 <b>interpolate/ voronoi</b> / cmo_sink imt /1,0,0/ cmo_src imt
-<pre>
+</pre>
 
 For each node in `cmo_sink`, find the closest node in `cmo_src`.
 Assign the imt value from the closest `cmo_src` node to the imt
@@ -289,7 +286,7 @@ attribute of `cmo_sink`.
 
 <pre>
 <b>interpolate/ continuous</b> / cmo_sink xval /1,0,0/ cmo_src Pv
-<pre>
+</pre>
 
 For each node in `cmo_sink`, find a `cmo_src` element the node is
 inside. Interpolate the element node values in Pv on to the sink
@@ -299,7 +296,7 @@ point and write to the sink attribute xval.
 <b>interpolate/ map** /cmo_sink imt /1,0,0/ cmo_src itetclr / <b>nearest,</b> imt / <b>keepatt</b>
 
 <b>interpolate/ map</b> /cmo_sink imtreal /1,0,0/ cmo_src itetreal / <b>nearest,</b> imtreal
-<pre>
+</pre>
 
 The first call to interpolate will assign itetclr values from source
 elements to imt in the sink cmo for points inside the source
