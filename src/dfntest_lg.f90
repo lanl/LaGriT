@@ -16,30 +16,28 @@ end subroutine RAISE_ERROR_LG
 subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
     implicit none
 
-    integer nplen
-    parameter (nplen=1000000)
+    ! Arguments
+    integer      :: ierror,nwds
+    integer      :: imsgin(nwds),msgtype(nwds)
+    real*8       :: xmsgin(nwds)
+    character*32 :: cmsgin(nwds),cmo,isubname
 
-    ! arguments
-    integer ierror,nwds
-    integer imsgin(nwds),msgtype(nwds)
-    real*8 xmsgin(nwds)
-    character*32 cmsgin(nwds),cmo,isubname
-
-    ! subroutine variables
-    character*132 logmess
-    character*100 data_filename
-    integer :: i,ierrw,mtri,ioerr,tmp_int,file_unit
-    real*8 :: tmp_real
-    real*8, allocatable :: scale_factors(:)
+    ! Subroutine variables
+    pointer (ipitetclr, itetclr)
+    character*132        :: logmess
+    character*100        :: data_filename
+    real*8               :: tmp_real
+    real*8, allocatable  :: scale_factors(:)
+    integer              :: i,ierrw,mtri,ioerr,tmp_int,file_unit
+    integer              :: itetclr(1000000)
     integer, allocatable :: indexes(:)
-    logical :: file_exists
+    logical              :: file_exists
 
     mtri = 6
     file_unit = 15
     isubname = 'dfntest'
 
-    allocate(scale_factors(mtri))
-    scale_factors = 0
+    ! -------------------------------------------------------- !
 
     ! Verify command arguments
     if (nwds < 2) then
@@ -61,6 +59,15 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
     endif
 
     data_filename = cmsgin(2)
+
+    call cmo_get_info('itetclr',cmo,ipitetclr,ilen,itype,icscode)
+    call cmo_get_info('nelements',cmo,mtri,ilen,itype,icscode)
+
+    allocate(scale_factors(mtri))
+    scale_factors = 0
+
+    ! -------------------------------------------------------- !
+    ! Read file && map to mesh
 
     ! Check if the file exists...
     inquire(file=data_filename,exist=file_exists)
@@ -88,6 +95,8 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
         i = i + 1
     enddo
     close(file_unit)
+
+    ! -------------------------------------------------------- !
 
     print*,scale_factors
 
