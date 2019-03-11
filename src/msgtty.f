@@ -2326,6 +2326,14 @@ C
             call perturb_lg(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
             ierr2 = 0
 c
+         elseif(idsb(1:lenidsb).eq.'dfntest') then
+C
+C           ************************************************************
+C           Perturb x,y,z coordinates
+C
+            call dfntest_lg(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+            ierr2 = 0
+c
          elseif(idsb(1:lenidsb).eq.'bleed_color') then
 C
 C           ************************************************************
