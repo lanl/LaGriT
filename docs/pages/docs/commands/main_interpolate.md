@@ -293,7 +293,7 @@ inside. Interpolate the element node values in Pv on to the sink
 point and write to the sink attribute xval.
 
 <pre>
-<b>interpolate/ map** /cmo_sink imt /1,0,0/ cmo_src itetclr / <b>nearest,</b> imt / <b>keepatt</b>
+<b>interpolate/ map</b> /cmo_sink imt /1,0,0/ cmo_src itetclr / <b>nearest,</b> imt / <b>keepatt</b>
 
 <b>interpolate/ map</b> /cmo_sink imtreal /1,0,0/ cmo_src itetreal / <b>nearest,</b> imtreal
 </pre>
