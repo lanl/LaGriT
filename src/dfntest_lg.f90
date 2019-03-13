@@ -17,18 +17,19 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
     implicit none
 
     ! Arguments
-    integer      :: ierror,nwds
-    integer      :: imsgin(nwds),msgtype(nwds)
-    real*8       :: xmsgin(nwds)
-    character*32 :: cmsgin(nwds),cmo,isubname
+    integer              :: ierror,nwds
+    integer              :: imsgin(nwds),msgtype(nwds)
+    real*8               :: xmsgin(nwds)
+    character*32         :: cmsgin(nwds),cmo,isubname
 
     ! Subroutine variables
     pointer (ipitetclr, itetclr)
     character*132        :: logmess
-    character*100        :: data_filename
+    character*100        :: data_filename,tmp_string
     real*8               :: tmp_real
     real*8, allocatable  :: scale_factors(:)
-    integer              :: i,ierrw,mtri,ioerr,tmp_int,file_unit
+    integer              :: i,j,ierrw,mtri,ioerr,tmp_int
+    integer              :: ilen,itype,icscode,file_unit
     integer              :: itetclr(1000000)
     integer, allocatable :: indexes(:)
     logical              :: file_exists
@@ -60,8 +61,19 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
 
     data_filename = cmsgin(2)
 
-    call cmo_get_info('itetclr',cmo,ipitetclr,ilen,itype,icscode)
+    ! Get && verify number of elements
     call cmo_get_info('nelements',cmo,mtri,ilen,itype,icscode)
+    if (mtri == 0) then
+        call RAISE_ERROR_LG('ERROR: Mesh has no elements',ierror)
+        go to 9999
+    endif
+
+    print*,'nelements = ',mtri
+
+    ! Get itetclr
+    call cmo_get_info('itetclr',cmo,ipitetclr,ilen,itype,icscode)
+
+    print*,'itetclr = ',itetclr(1:mtri)
 
     allocate(scale_factors(mtri))
     scale_factors = 0
@@ -79,10 +91,12 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
     ! Read over open file until EOF
     ! Fill in scale_factors using the first column as
     ! an index
+    ! TODO: Add comments
     i = 1
     open(unit=file_unit, file=data_filename)
     do
-        read(file_unit, *, IOSTAT=ioerr) tmp_int, tmp_real
+        !read(file_unit, *, IOSTAT=ioerr) tmp_int, tmp_real
+        read(file_unit, '(A)', IOSTAT=ioerr) tmp_string
         if (ioerr > 0) then
             ! Malformed file format / broken stream / etc.
             call RAISE_ERROR_LG('ERROR: Something went wrong during file read',ierror)
@@ -91,17 +105,31 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
             ! EOF
             exit
         endif
-        scale_factors(tmp_int) = tmp_real
+
+        ! Ignore comments and empty lines
+        if (tmp_string(1:1) == '#') cycle
+        if (trim(tmp_string(1:1)) == '') cycle
+
+        read(tmp_string,*) tmp_int, tmp_real
+
+        do j = 1, mtri
+            if (itetclr(j) == tmp_int) scale_factors(j) = tmp_real
+        end do
+
         i = i + 1
     enddo
     close(file_unit)
 
     ! -------------------------------------------------------- !
 
-    print*,scale_factors
+    do i = 1, mtri
+        print*,itetclr(i),': ',scale_factors(i)
+    end do
+
+    !call cmo_addatt(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror_return)
 
 9999 continue
 
-    deallocate(scale_factors)
+    if (allocated(scale_factors)) deallocate(scale_factors)
 
 end subroutine dfntest_lg
