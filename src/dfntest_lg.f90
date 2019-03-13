@@ -13,7 +13,10 @@ subroutine RAISE_ERROR_LG(error_msg,error_code)
 
 end subroutine RAISE_ERROR_LG
 
+
 subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
+    ! USAGE:
+    ! dfntest / filename / [mo]
     implicit none
 
     ! Arguments
@@ -24,10 +27,10 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
 
     ! Subroutine variables
     pointer (ipitetclr, itetclr)
-    character*132        :: logmess
+    pointer (ipzdepths, zdepths)
+    character*132        :: cmd,logmess,att_name
     character*100        :: data_filename,tmp_string
-    real*8               :: tmp_real
-    real*8, allocatable  :: scale_factors(:)
+    real*8               :: tmp_real,zdepths(1000000)
     integer              :: i,j,ierrw,mtri,ioerr,tmp_int
     integer              :: ilen,itype,icscode,file_unit
     integer              :: itetclr(1000000)
@@ -37,6 +40,7 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
     mtri = 6
     file_unit = 15
     isubname = 'dfntest'
+    att_name = 'ZDEPTHVALUES'
 
     ! -------------------------------------------------------- !
 
@@ -68,15 +72,13 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
         go to 9999
     endif
 
-    print*,'nelements = ',mtri
+    ! Create new attribute to store read values
+    cmd = 'cmo / addatt / '// trim(cmo) //' / '// trim(att_name) //' / vdouble / scalar / nelements; finish'
+    call dotask(cmd,ierror)
 
-    ! Get itetclr
+    ! Get itetclr && newly created attribute
     call cmo_get_info('itetclr',cmo,ipitetclr,ilen,itype,icscode)
-
-    print*,'itetclr = ',itetclr(1:mtri)
-
-    allocate(scale_factors(mtri))
-    scale_factors = 0
+    call cmo_get_info(trim(att_name),cmo,ipzdepths,ilen,itype,icscode)
 
     ! -------------------------------------------------------- !
     ! Read file && map to mesh
@@ -85,51 +87,53 @@ subroutine dfntest_lg(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
     inquire(file=data_filename,exist=file_exists)
     if (file_exists .eqv. .false.) then
         call RAISE_ERROR_LG('ERROR: File "'//trim(data_filename)//'" does not exist!',ierror)
-        go to 9999
+        go to 9998
     endif
 
     ! Read over open file until EOF
-    ! Fill in scale_factors using the first column as
+    ! Fill in zdepths using the first column as
     ! an index
-    ! TODO: Add comments
-    i = 1
-    open(unit=file_unit, file=data_filename)
+    open(unit=file_unit,file=data_filename)
     do
-        !read(file_unit, *, IOSTAT=ioerr) tmp_int, tmp_real
-        read(file_unit, '(A)', IOSTAT=ioerr) tmp_string
+        read(file_unit,'(A)',IOSTAT=ioerr) tmp_string
         if (ioerr > 0) then
             ! Malformed file format / broken stream / etc.
             call RAISE_ERROR_LG('ERROR: Something went wrong during file read',ierror)
-            go to 9999
+            close(file_unit)
+            go to 9998
         else if (ioerr < 0) then
             ! EOF
             exit
         endif
 
         ! Ignore comments and empty lines
-        if (tmp_string(1:1) == '#') cycle
+        if (tmp_string(1:1) == '#')      cycle
         if (trim(tmp_string(1:1)) == '') cycle
 
         read(tmp_string,*) tmp_int, tmp_real
 
-        do j = 1, mtri
-            if (itetclr(j) == tmp_int) scale_factors(j) = tmp_real
+        do i = 1, mtri
+            if (itetclr(i) == tmp_int) zdepths(i) = tmp_real
         end do
-
-        i = i + 1
     enddo
     close(file_unit)
 
     ! -------------------------------------------------------- !
 
-    do i = 1, mtri
-        print*,itetclr(i),': ',scale_factors(i)
-    end do
+    !do i = 1, mtri
+    !    print*,itetclr(i),': ',zdepths(i)
+    !end do
 
-    !call cmo_addatt(imsgin,xmsgin,cmsgin,msgtype,nwds,ierror_return)
+    !
+    ! CALL VORONOI
+    !
+
+9998 continue
+
+    ! Remove temp attribute
+    cmd = 'cmo / delatt / '// trim(cmo) //' / '// trim(att_name) //'; finish'
+    call dotask(cmd,ierror)
 
 9999 continue
-
-    if (allocated(scale_factors)) deallocate(scale_factors)
 
 end subroutine dfntest_lg
