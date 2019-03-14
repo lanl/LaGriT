@@ -19,6 +19,7 @@ from scipy.misc import imresize
 import string
 import random
 import logging
+import warnings
 
 def smoothRasterBoundary(raster:np.ndarray,width:int,no_data_value:float=np.nan):
     raster[raster == no_data_value] = np.nan
@@ -128,7 +129,7 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
 
     # Generate sheet metadata
     dem_dimensions = [dem.ncols,dem.nrows]
-    lower_left_corner = [dem.xll_corner,dem.yll_corner]
+    lower_left_corner = [dem.xll_corner,dem.yll_corner,0.]
     cell_size = [dem.cell_size,dem.cell_size]
 
     # Overwrite original mesh if a path isn't provided
@@ -151,9 +152,13 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     _array_out = "_temp_elev_array.dat"
     _dem.tofile(_array_out,sep=' ',format='%.3f')
 
-    # Read DEM as a quad mesh
+    # Read DEM as a quad mesh at 0., 0.
     tmp_sheet = lg.read_sheetij('surfacemesh',_array_out,dem_dimensions,
-                                lower_left_corner,cell_size,flip=flip)
+                                (0.,0.),cell_size,flip=flip)
+
+    # Move mesh to proper position
+    # TODO: Figure out why this is necessary. Overflow problem in readsheet?
+    tmp_sheet.trans((0,0,0),lower_left_corner)
 
     # Remove no_data_value elements
     comp = 'le' if dem.no_data_value <= 0. else 'ge'
@@ -433,18 +438,20 @@ def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
     if nlayers is None:
         nlayers=['']*(len(stack_files)-1)
 
-    cfg.log.info('Stacking %d layers' % nlayers)
+    cfg.log.info('Stacking %d layers' % len(nlayers))
     
     motmp_top = lg.read(infile)
 
     for (i,offset) in enumerate(layers):
+        cfg.log.info('Adding layer %d' % (i+1))
         motmp_top.math('sub','zic',value=offset)
         motmp_top.dump('layer%d.inp' % (i+1))
 
     motmp_top.delete()
+
+    cfg.log.info('Adding volume to layers')
     stack = lg.create()
     stack.stack_layers(stack_files,flip_opt=True,nlayers=nlayers,matids=matids,xy_subset=xy_subset)
-    #stack.dump('tmp_layers.inp')
 
     cmo_prism = stack.stack_fill(name='CMO_PRISM')
     cmo_prism.resetpts_itp()
@@ -510,6 +517,8 @@ def generateFaceSetsNaive(lg:pylagrit.PyLaGriT,stacked_mesh,outfile:str):
 
     '''
 
+    cfg.log.info('Constructing facesets (top, bottom, sides)')
+
     _all_facesets = ['fs1_bottom.avs','fs2_top.avs','fs3_sides_all.avs']
 
     if not isinstance(stacked_mesh,pylagrit.MO):
@@ -521,18 +530,23 @@ def generateFaceSetsNaive(lg:pylagrit.PyLaGriT,stacked_mesh,outfile:str):
         f.write(Infiles.get_facesets3)
 
     lg.sendline('define CMO_PRISM %s' % stacked_mesh.name)
-    lg.sendline('infile %s' % tmp_infile)
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        lg.sendline('infile %s' % tmp_infile)
 
     cmd = 'dump/exo/'+outfile+'/CMO_PRISM///facesets &\n'
     cmd += ' &\n'.join(_all_facesets)
 
     lg.sendline(cmd)
 
+    cfg.log.info('Exodus mesh written to %s' % outfile)
+
     _all_facesets.extend(tmp_infile)
     cleanup(_all_facesets)
    
 
-def buildUniformTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
+def buildTriplaneUniform(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
                          counterclockwise:bool=False,connectivity:bool=None,
                          min_edge:float=16.):
     '''
@@ -625,7 +639,7 @@ def buildUniformTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
     return motri
 
 
-def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.ndarray,outfile:str,
+def buildTriplaneRefined(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.ndarray,outfile:str,
                          h:float,connectivity:bool=None,delta:float=0.75,
                          slope:float=2.,refine_dist:float=0.5):
     '''
@@ -653,7 +667,10 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
     if connectivity is None:
         connectivity = generateLineConnectivity(boundary)
 
+    cfg.log.debug('Writing boundary to poly_1.inp')
     _writeLineAVS(boundary,"poly_1.inp",connections=connectivity)
+
+    cfg.log.debug('Writing feature to intersections_1.inp')
     _writeLineAVS(feature,"intersections_1.inp")
 
     # Write massage macros
@@ -663,6 +680,8 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
     with open('user_function2.lgi','w') as f:
         f.write(Infiles.distance_field_2)
 
+    cfg.log.info('Preparing feature and boundary')
+
     # Read boundary and feature
     mo_poly_work = lg.read('poly_1.inp',name='mo_poly_work')
     mo_line_work = lg.read('intersections_1.inp',name='mo_line_work')
@@ -670,6 +689,8 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
     # Triangulate Fracture without point addition
     mo_pts = mo_poly_work.copypts(elem_type='triplane')
     mo_pts.select()
+
+    cfg.log.info('First pass triangulation')
 
     if counterclockwise:
         mo_pts.triangulate(order='counterclockwise')
@@ -685,6 +706,8 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
 
     # Refine at increasingly smaller distances, approaching h
     for (i,ln) in enumerate([8,16,32,64][::-1]):
+        cfg.log.info('Refining at length %s' % str(ln))
+
         h_scale = ln*h
         perturb = h_scale*0.05
 
@@ -714,6 +737,8 @@ def buildRefinedTriplane(lg:pylagrit.PyLaGriT,boundary:np.ndarray,feature:np.nda
 
     # Define internal variables for user_functions
     lg.define(mo_pts=mo_pts.name,PARAM_A=PARAM_A,PARAM_A2=PARAM_A2,PARAM_B=PARAM_B,PARAM_B2=PARAM_B2)
+
+    cfg.log.info('Smoothing mesh')
 
     # Run massage2
     mo_pts.massage2('user_function2.lgi',0.8*h,'fac_n',0.00001,0.00001,stride=(1,0,0),strictmergelength=True)

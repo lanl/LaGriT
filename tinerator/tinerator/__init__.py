@@ -1,16 +1,23 @@
+import rasterio
+import fiona
+import geopandas
+import os
+import shutil
 import richdem as rd
 import matplotlib.pyplot as plt
 from copy import deepcopy
 from pylagrit import PyLaGriT
 from tinerator.watershed_deliniation import *
-from tinerator.boundary import *
 from tinerator.unit_conversion import *
 from tinerator.pack_points import *
 from tinerator.dump import *
 from tinerator.visualize import *
 from tinerator.downloader import *
 from tinerator.generate_triplane import *
+
 import tinerator.config as cfg
+import tinerator.boundary as boundary
+import tinerator.unit_conversion as convert
 
 GLOBAL_NDV = -9999.
 MATERIAL_ID = 'itetclr'
@@ -26,8 +33,108 @@ def loadDEM(filepath:str,lagrit_exe:str=None):
                            configured correctly, this should be unnecessary.
     '''
 
+    cfg.log.info('Reading DEM: %s' % filepath)
+
+    if not os.path.isfile(filepath):
+        raise FileNotFoundError('Could not find DEM: %s' % filepath)
+
     return DEM(filepath,lagrit_exe=lagrit_exe)
 
+
+def reprojectShapefile(shapefile:str,outfile:str,projection:str):
+    '''
+    Re-projects a shapefile from one coordinate space to
+    another.
+
+    # Arguments
+    shapefile (str): filepath to the shapefile
+    outfile (str): file to write re-projected shapefile to
+    projection (str): string with new projection; i.e. 'epsg:3413'
+    '''
+    shp = geopandas.read_file(shapefile)
+    shp = shp.to_crs({'init': projection})
+    # log.info('Shapefile re-projected from %s to %s' % (,projection))
+    shp.to_file(outfile,driver='ESRI Shapefile')
+
+
+def maskRasterWithShapefile(raster_filename:str,
+                            shapefile_filename:str,
+                            shapefile_reprojection:str=None,
+                            raster_outfile:str=None,
+                            return_dem:bool=True):
+    '''
+
+    # Arguments
+    raster_filename (str): Raster file to be cropped
+    shapefile_filename (str): Shapefile to crop raster with
+
+    # Optional Arguments
+    shapefile_reprojection (str): string with new projection; i.e. 'epsg:3413'
+    raster_outfile (str): Filepath to save cropped raster
+    return_dem (bool): if true, returns a tinerator.DEM object
+    '''
+
+    temp_shp_name = '_temp_shapefile'
+    temp_dem_name = '_temp_raster'
+
+    should_delete_new_raster = False
+
+    if raster_outfile is None:
+        should_delete_new_raster = True
+        raster_outfile = temp_dem_name
+
+    if shapefile_reprojection is not None:
+        reprojectShapefile(shapefile_filename,temp_shp_name,shapefile_reprojection)
+        shapefile_filename = temp_shp_name
+
+    # Capture the shapefile geometry
+    with fiona.open(shapefile_filename, 'r') as _shapefile:
+        _poly = [feature['geometry'] for feature in _shapefile]
+
+    # Open the DEM && mask && update metadata with mask
+    with rasterio.open(raster_filename,'r') as _dem:
+        out_image, out_transform = rasterio.mask.mask(_dem,
+                                                      _poly,
+                                                      crop=True,
+                                                      invert=False)
+        out_meta = _dem.meta.copy()
+
+    # Update raster metadata with new changes
+    out_meta.update({
+                        "driver":    "GTiff",
+                        "height":    out_image.shape[1],
+                        "width":     out_image.shape[2],
+                        "transform": out_transform
+                    })
+
+    # Write out DEM and import into a TINerator class
+    with rasterio.open(raster_outfile, "w", **out_meta) as dest:
+        dest.write(out_image)
+    
+    if return_dem:
+        _dem = DEM(raster_outfile)
+
+    if should_delete_new_raster:
+        os.remove(raster_outfile)
+
+    # Remove shapefile (as a folder or a file)
+    if os.path.isfile(temp_shp_name):
+        os.remove(temp_shp_name)
+    else:
+        shutil.rmtree(temp_shp_name)
+
+    if return_dem:
+        return _dem
+
+'''
+class Mesh(pylagrit.MO):
+    def __init__(self,mo):
+        self.mo = mo
+
+    @property
+    def get_triangles(self):
+        return self.mo.information['elements']
+'''
 
 class DEM():
     '''
@@ -37,7 +144,7 @@ class DEM():
     # Attributes
     filepath (str): Filepath to DEM raster
     lagrit_exe (str,None): Optional filepath to LaGriT binary. If PyLaGriT is
-                           configured correctly, this should be unnecessary.
+    configured correctly, this should be unnecessary.
     '''
     def __init__(self,filepath:str,lagrit_exe:str=None):
         self.dem = rd.LoadGDAL(filepath)
@@ -71,6 +178,14 @@ class DEM():
     def __repr__(self):
         return 'DEM: %d rows, %d cols; cell size: %f' % \
         (self.nrows,self.ncols,self.cell_size)
+
+    @property
+    def extent(self):
+        return self.getBoundingBox()
+
+    @property
+    def ratio(self):
+        return self.nrows / self.ncols
 
     # Replace +/-float('inf') with np.nans which are more managable
     def __replace_infs_with_nans(self):
@@ -170,9 +285,17 @@ class DEM():
         '''
         Draws the DEM and distance map.
 
-        # Attributes
-        plot_out (str,None): file path to save image (optional)
+        # Optional Arguments
+        plot_out (str): file path to save image
+
+        # Example
+        ```python
+        dem = loadDEM("example.asc")
+        dem.plot()
+        ```
         '''
+
+        cfg.log.info('Plotting DEM')
 
         dem = deepcopy(self.dem)
         distance = deepcopy(self.distance_field)
@@ -208,6 +331,8 @@ class DEM():
 
         plt.imshow(dem1.dem - dem2.dem)
         plt.show()
+        ```
+
         '''
 
         if fill_depressions:
@@ -224,10 +349,22 @@ class DEM():
         Performs watershed delineation on a DEM and returns a set of points
         corresponding to the feature.
 
-        # Attributes
-        threshold (float,None): threshold for determining feature from noise
-        plot (bool,None): plot the watershed delineation and captured feature
-        spacing (float,None): the 'resolution' of the feature polygon
+        Available methods are:
+
+        * D8
+        * D4
+        * Rho8
+        * Rho4
+        * Dinf
+        * Quinn
+        * Holmgren
+        * Freeman
+
+        # Arguments
+        threshold (float): threshold for determining feature from noise
+        plot (bool): plot the watershed delineation and captured feature
+        spacing (float): the 'resolution' of the feature polygon
+        method (str): Flow calculation method
         
         # Returns
         Polyline of feature as ordered (x,y) pairs
@@ -240,10 +377,16 @@ class DEM():
             threshold = _thresh[int(0.1*len(_thresh))]
 
         self.feature = getFeatureTrace(accumulation,feature_threshold=threshold)
-        assert np.size(self.feature) != 0,"Feature trace is empty. Try setting a lower threshold."
 
-        self.feature[:,0] = xVectorToProjection(self.feature[:,0],self.cell_size,self.yll_corner)
-        self.feature[:,1] = yVectorToProjection(self.feature[:,1],self.cell_size,self.xll_corner,self.nrows)
+        if np.size(self.feature) == 0:
+            raise ValueError("Feature trace is empty. " + \
+                             "Try setting a lower threshold.")
+
+        self.feature = convert.xyVectorToProjection(self.feature,
+                                                    self.cell_size,
+                                                    self.xll_corner,
+                                                    self.yll_corner,
+                                                    self.nrows)
 
         if spacing is not None:
             self.feature = filterPoints(self.feature,spacing)
@@ -252,16 +395,21 @@ class DEM():
             from mpl_toolkits.axes_grid1 import make_axes_locatable
             from matplotlib.colors import LogNorm
 
+            extent = self.extent
+
             f, (ax1, ax2) = plt.subplots(1, 2, figsize=(14,6))
 
             f.suptitle('Watershed delineation (threshold: %2.3e)\nMethod: %s' % (threshold,method))
             divider = make_axes_locatable(ax1)
             cax = divider.append_axes('right', size='5%', pad=0.05)
 
-            im = ax1.imshow(accumulation,norm=LogNorm(vmin=0.01, vmax=np.max(accumulation)))
+            im = ax1.imshow(accumulation,norm=LogNorm(vmin=0.01, vmax=np.max(accumulation)),extent=extent)
             f.colorbar(im, cax=cax, orientation='vertical')
             
+            ax2.imshow(accumulation,norm=LogNorm(vmin=0.01, vmax=np.max(accumulation)),extent=extent)
             ax2.scatter(self.feature[:,0],self.feature[:,1],c=np.array([[0.,0.,0.]]),s=0.2)
+            ax2.set_xlim(extent[0],extent[1])
+            ax2.set_ylim(extent[2],extent[3])
             plt.show()
 
         return self.feature
@@ -272,7 +420,7 @@ class DEM():
         self.min_distance = min_distance if min_distance is not None else self.min_distance
         self.max_distance = max_distance if max_distance is not None else self.max_distance
 
-    def generateBoundary(self,distance:float):
+    def generateBoundary(self,distance:float,rectangular:bool=False):
         '''
         Generates a set of spaced nodes corresponding to the boundary of the DEM,
         where the boundary is defined as the intersection of noDataValue and elevation data.
@@ -284,76 +432,75 @@ class DEM():
         vertices of boundary
         '''
 
+        if rectangular:
+            self.boundary = boundary.rectangularBoundary(self.getBoundingBox(),distance)
+            return self.boundary
+
         distance /= self.cell_size
-
-        self.boundary = squareTraceBoundary(self.dem,self.no_data_value,dist=distance)
-        self.boundary[:,0] = xVectorToProjection(self.boundary[:,0],self.cell_size,self.xll_corner)
-        self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
+        self.boundary = boundary.squareTraceBoundary(self.dem,self.no_data_value,dist=distance)
+        self.boundary = convert.xyVectorToProjection(self.boundary,
+                                                     self.cell_size,
+                                                     self.xll_corner,
+                                                     self.yll_corner,
+                                                     self.nrows)
         return self.boundary
 
-    def __rectangularBoundary(self,distance):
-        self.boundary = rectangularBoundary(self.getBoundingBox(),distance)
-        self.boundary[:,0] = xVectorToProjection(self.boundary[:,0],self.cell_size,self.xll_corner)
-        self.boundary[:,1] = yVectorToProjection(self.boundary[:,1],self.cell_size,self.yll_corner,self.nrows)
-        return self.boundary
 
-    def buildTriplane(self,min_edge:float,delta:float=0.75,outfile:str=None,
+    def buildUniformTriplane(self,min_edge:float,plot:bool=False,smooth_boundary:bool=False,flip:str='y',apply_elevation:bool=True):
+        '''
+        Generates a triplane with uniformly sized elements.
+
+        # Attributes
+        min_edge (float): triangle edge lengths
+
+        # Optional Arugments
+        plot (bool): display the triangulation on completion
+        flip (str): flips array of the elevation raster along a given axis (x,y,xy)
+        '''
+
+        buildTriplaneUniform(self.lg,self.boundary,"_trimesh.inp",min_edge=min_edge)
+
+        if apply_elevation:
+            addElevation(self.lg,self,"_trimesh.inp",fileout="_trimesh.inp",flip=flip,smooth_boundary=smooth_boundary)
+
+        if plot:
+            plot_triangular_mesh("_trimesh.inp")
+
+
+    def buildRefinedTriplane(self,min_edge:float,delta:float=0.75,outfile:str=None,
                            slope:float=2.,refine_dist:float=0.5,
                            apply_elevation:bool=True,flip:str='y',
                            plot:bool=False,smooth_boundary:bool=False):
         '''
         Generates a refined triangular mesh, with a minimum refinement length 
-        defined by h. Then, extrudes the mesh with user-defined layer thickness
-        and material ids.
+        defined by h.
 
         # Attributes
-        outfile (str): filename to save mesh
-        layers (list<float>): heights of each extruded layer
-        h (float): meshing length scale
-        delta (float): buffer zone, amount of h/2 removed around feature
-        slope (float): slope of coarsening function
-        refine_dist (float): distance used in coarsing function
-        matids (list<int>): material ids for layers
-        plot (bool): plot the surface mesh
+        min_edge (float): triangle edge lengths
+
+        # Optional Arugments
+        plot (bool): display the triangulation on completion
+        flip (str): flips array of the elevation raster along a given axis (x,y,xy)
         '''
 
         if min_edge is None:
             min_edge = 50.
 
         if self.feature is None:
-            buildUniformTriplane(self.lg,self.boundary,"_trimesh.inp",min_edge=min_edge)
-        else:
-            buildRefinedTriplane(self.lg,self.boundary,self.feature,
-                                 "_trimesh.inp",min_edge,
-                                 refine_dist=refine_dist,
-                                 slope=slope,delta=delta)
+            raise ValueError("Feature selection must be performed first")
+
+        # Fix this name...this is why namespaces are used
+        buildTriplaneRefined(self.lg,self.boundary,self.feature,
+                            "_trimesh.inp",min_edge,
+                            refine_dist=refine_dist,
+                            slope=slope,delta=delta)
 
         if apply_elevation:
             addElevation(self.lg,self,"_trimesh.inp",fileout="_trimesh.inp",flip=flip,smooth_boundary=smooth_boundary)
 
         if plot:
-            points = None
-            triangles = None
+            plot_triangular_mesh("_trimesh.inp")
 
-            with open('_trimesh.inp','r') as f:
-                header = f.readline().strip().split()
-                n_pts = int(header[0])
-                n_elems = int(header[1])
-
-                points = np.empty((n_pts,3),dtype=float)
-                triangles = np.empty((n_elems,3),dtype=int)
-
-                for pt in range(n_pts):
-                    line = f.readline().strip().split()
-                    points[pt,:] = np.array([float(x) for x in line[1:]])
-
-                for el in range(n_elems):
-                    line = f.readline().strip().split()
-                    triangles[el,:] = np.array([int(x) for x in line[3:]])
-
-            from mayavi import mlab
-            mlab.triangular_mesh(points[:,0],points[:,1],points[:,2],triangles-1,representation='wireframe')
-            mlab.show()
 
 
     def layeredMesh(self,layers,matids=None,xy_subset=None,outfile=None):
@@ -382,7 +529,7 @@ class DEM():
             outfile = '_tin_stacked_mo.inp'
 
         mo = stackLayers(self.lg,"_trimesh.inp",outfile,layers,matids=matids,
-                         xy_subset=xy_subset,nlayers=nlayers)
+                         xy_subset=xy_subset)
         self.stacked_mesh = outfile
         self.number_of_layers = len(layers)
 

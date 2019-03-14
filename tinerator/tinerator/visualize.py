@@ -7,6 +7,47 @@ try:
 except:
     topocmap = 'Spectral_r'
 
+'''
+http://geologyandpython.com/dem-processing.html
+def plotHistogram(array:np.ndarray,vmin:float=None,vmax:float=None):
+
+    if vmin is None:
+        vmin = np.min(array)
+    if vmax is None:
+        vmax = np.max(array)
+
+    ax = sns.distplot(dem_array.ravel(), axlabel='Elevation (m)')
+    ax = plt.gca()
+    _ = [patch.set_color(topocmap(plt.Normalize(vmin=vmin, vmax=vmax)(patch.xy[0]))) for patch in ax.patches]
+    _ = [patch.set_alpha(1) for patch in ax.patches]
+    plt.show()
+    #ax.get_figure().savefig('images/8/1.png')
+'''
+
+def plot_triangular_mesh(infile:str):
+    from mayavi import mlab
+    points = None
+    triangles = None
+
+    with open(infile,'r') as f:
+        header = f.readline().strip().split()
+        n_pts = int(header[0])
+        n_elems = int(header[1])
+
+        points = np.empty((n_pts,3),dtype=float)
+        triangles = np.empty((n_elems,3),dtype=int)
+
+        for pt in range(n_pts):
+            line = f.readline().strip().split()
+            points[pt,:] = np.array([float(x) for x in line[1:]])
+
+        for el in range(n_elems):
+            line = f.readline().strip().split()
+            triangles[el,:] = np.array([int(x) for x in line[3:]])
+
+    mlab.triangular_mesh(points[:,0],points[:,1],points[:,2],triangles-1,representation='wireframe')
+    mlab.show()
+
 def _hillshade(array, azimuth, angle_altitude):
 
     # Source: http://geoexamples.blogspot.com.br/2014/03/shaded-relief-images-using-gdal-python.html
@@ -18,9 +59,15 @@ def _hillshade(array, azimuth, angle_altitude):
     altituderad = angle_altitude*np.pi / 180.
 
     shaded = np.sin(altituderad) * np.sin(slope) \
-     + np.cos(altituderad) * np.cos(slope) \
-     * np.cos(azimuthrad - aspect)
+             + np.cos(altituderad) * np.cos(slope) \
+             * np.cos(azimuthrad - aspect)
+
     return 255*(shaded + 1)/2
+
+def __apply_grid_to_axis(axis):
+    axis.set_facecolor('#EAEAF1')
+    axis.grid('on',zorder=0,color='white')
+
 
 def plotDEM(dem_array,title=None,xlabel=None,ylabel=None,extent=[],hillshade_image=True,show_plot=True,plot_out=None):
     '''
@@ -50,16 +97,23 @@ def plotDEM(dem_array,title=None,xlabel=None,ylabel=None,extent=[],hillshade_ima
     if not extent:
         extent = (0,np.shape(dem_array)[1],0,np.shape(dem_array)[0])
 
-    vmin, vmax = np.nanmin(dem_array), np.nanmax(dem_array)
+    vmin,vmax = np.nanmin(dem_array),np.nanmax(dem_array)
 
     fig = plt.figure(figsize=(12, 8))
     ax = fig.add_subplot(111)
+
+    __apply_grid_to_axis(ax)
+
     if hillshade_image:
-        ax.matshow(_hillshade(dem_array, 30, 30), extent=extent, cmap='Greys', alpha=.5, zorder=10, vmin=vmin, vmax=vmax)
-    #cax = ax.imshow(dem_array, cmap=topocmap, extent=extent, vmin=vmin, vmax=vmax, origin='image')
-    cax = ax.contourf(dem_array, np.arange(vmin, vmax, 10),extent=extent, 
-                  cmap=topocmap, vmin=vmin, vmax=vmax, origin='image')
-    fig.colorbar(cax, ax=ax)
+        ax.matshow(_hillshade(dem_array, 30, 30),
+            extent=extent, cmap='Greys', alpha=.5,
+            zorder=10, vmin=vmin, vmax=vmax)
+
+    cax = ax.contourf(dem_array,np.arange(vmin,vmax,10),extent=extent, 
+                      cmap=topocmap,vmin=vmin,vmax=vmax,origin='image',zorder=9)
+
+    cbar = fig.colorbar(cax, ax=ax)
+    cbar.set_label('Elevation (m)',rotation=270)
 
     if title is not None:
         plt.title(title)

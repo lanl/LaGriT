@@ -36,6 +36,14 @@ def yProjectionToVector(v,cellSize,yllCorner,nRows):
     nv = np.vectorize(convertProjectiontoY)
     return nv(v,cellSize,yllCorner,nRows)
 
+def xyVectorToProjection(v,cellSize,xllCorner,yllCorner,nRows):
+
+    for row in range(v.shape[0]):
+        v[row][0] = convertXtoProjection(v[row][0],cellSize,xllCorner)
+        v[row][1] = convertYtoProjection(v[row][1],cellSize,yllCorner,nRows)
+
+    return v
+
 def normalizeMatrix(A):
     return (A-np.min(A))/(np.max(A)-np.min(A))
 

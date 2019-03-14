@@ -4,13 +4,13 @@ from distutils.core import setup
 setup(
     name = "tinerator",
     packages = ["tinerator"],
-    version = "0.1.0",
+    version = "0.3.0",
     description = "DEM -> Refined TIN Generation",
     license = 'BSD-3',
     author = "Daniel Livingston, David Moulton, Terry Ann Miller, Zexuan Xu, Ilhan Ozgen",
     author_email = "livingston@lanl.gov",
     url = "http://www.github.com/lanl/tinerator",
-    keywords = ["gis", "dem", "tin", "amanzi", "lagrit"],
+    keywords = ["gis", "dem", "tin", "amanzi", "lagrit", "ats"],
     install_requires=[
         'richdem',
         'matplotlib',
@@ -19,7 +19,8 @@ setup(
         'scipy',
         'rasterio',
         'fiona',
-        'elevation'],
+        'elevation',
+        'scipy-fmm'],
     classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",

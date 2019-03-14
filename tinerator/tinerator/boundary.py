@@ -171,10 +171,10 @@ def rectangularBoundary(bbox:list,spacing:float):
 
     x0 = bbox[0]; x1 = bbox[1]; y0 = bbox[2]; y1 = bbox[3]
 
-    N = (x1 - x0) / spacing
-    horizontal = np.linspace(x0,x1,N,endpoint=True)
+    N = abs(x1 - x0) / spacing
+    horizontal = np.linspace(x0,x1+spacing,N+1,endpoint=False)
 
-    N = (y1 - y0) / spacing
+    N = abs(y1 - y0) / spacing
     vertical = np.linspace(y0,y1,N,endpoint=False)
 
     if np.size(horizontal) == 0 or np.size(vertical) == 0:

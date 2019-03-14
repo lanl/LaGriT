@@ -8,7 +8,7 @@ The below functions *will* be deprecated soon!
 import math
 import numpy as np
 import random
-import progressbar
+#import progressbar
 from scipy.spatial import Delaunay
 from copy import deepcopy
 from tinerator.unit_conversion import *
@@ -98,11 +98,11 @@ def cullTrianglesToAlphaHull(points,triangles,boundary,ncols,cell_size,xll_corne
     triangles_to_remove = []
     reference_point_x = convertXtoProjection(ncols + 10,cell_size,xll_corner)
 
-    bar = progressbar.ProgressBar(max_value=len(triangles))
+    #bar = progressbar.ProgressBar(max_value=len(triangles))
 
     # Iterate over all triangles...
     for i in range(0,len(triangles)):
-        bar.update(i)
+        #bar.update(i)
 
         # Capture the currently active triangle...
         tri = triangles[i]
@@ -113,7 +113,7 @@ def cullTrianglesToAlphaHull(points,triangles,boundary,ncols,cell_size,xll_corne
         centroid = [centroidx,centroidy]
 
         # and determine if it is inside or outside the boundary. If so, remove.
-        if isPointOutsidePolygon(boundary,centroid,[reference_point_x,centroidy]) == True:
+        if isPointOutsidePolygon(boundary,centroid,[reference_point_x,centroidy]):
             triangles_to_remove.append(i)
 
     triangles = np.delete(triangles,triangles_to_remove,axis=0)
@@ -286,11 +286,11 @@ def PlacePoints(elevation,arrayDistance,boundary,nRows,nCols,cellSize,noDataValu
     xvec = random.sample(range(0,nCols),nCols)
     yvec = random.sample(range(0,nRows),nRows)
 
-    bar = progressbar.ProgressBar(max_value=nCols*nRows-1)
+    #bar = progressbar.ProgressBar(max_value=nCols*nRows-1)
 
     # Second
     for (iteration,xy) in enumerate(random.sample(range(0,nCols*nRows),nCols*nRows)):
-        bar.update(iteration)
+        #bar.update(iteration)
         x,y = idxToRC(xy,nRows)
 
         diameterAsCell = int(float(arrayCellDistance[x][y]) / float(cellSize))

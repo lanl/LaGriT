@@ -49,7 +49,7 @@ def calculateDistanceField(accum: np.ndarray,accumulation_threshold:float=750.):
     distance_field = skfmm.distance(distance_field,dx=0.25)
     return distance_field
 
-def watershedDelineation(dem,fill_depressions:bool=True,fill_flats:bool=True,method:str='D8'):
+def watershedDelineation(dem,fill_depressions:bool=True,fill_flats:bool=True,method:str='D8',exponent=None):
     '''
     Performs watershed delination on a DEM.
     Optionally, fills DEM pits and flats.
@@ -76,5 +76,5 @@ def watershedDelineation(dem,fill_depressions:bool=True,fill_flats:bool=True,met
     if fill_flats:
         rd.ResolveFlats(dem,in_place=True)
 
-    accum_d8 = rd.FlowAccumulation(dem, method=method)
+    accum_d8 = rd.FlowAccumulation(dem,method=method,exponent=exponent)
     return accum_d8
