@@ -908,10 +908,10 @@ c          Get nearest point number iisnk from attribute pt_gtg
               endif
            else
 
-             call nearestpoint1(xq,yq,zq,xs,ys,zs,linkt,sbox,eps,
+             call nearestpoint0(xq,yq,zq,xs,ys,zs,linkt,sbox,eps,
      *       npoints,distpossleaf,mtfound,itfound,ierr)
 
-           if(ierr.ne.0 ) call x3d_error(isubname,' nearestpoint1')
+           if(ierr.ne.0 ) call x3d_error(isubname,' nearestpoint0')
 
            endif
            if (mtfound.gt.0) then

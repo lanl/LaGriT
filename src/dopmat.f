@@ -1309,10 +1309,10 @@ c
             if(nsdgeom.eq.3) zq=zic(mpary(ii))
  
 
-           call nearestpoint1(xq,yq,zq,xs,ys,zs,linkt,sbox,eps,
+           call nearestpoint0(xq,yq,zq,xs,ys,zs,linkt,sbox,eps,
      $    npoints_tab,distpossleaf,mtfound,itfound,ierr)
 
-           if(ierr.ne.0 ) call x3d_error(isubname,' nearestpoint1')
+           if(ierr.ne.0 ) call x3d_error(isubname,' nearestpoint0')
  
             do iff=1,mtfound
 c        .........inode_tab is in the source mesh

@@ -313,7 +313,6 @@ $(OBJDIR)multi_material2d_lg.o: geom_lg.h
 $(OBJDIR)nbrsmooth.o: local_element.h chydro.h
 $(OBJDIR)nearestpoint.o: consts.h
 $(OBJDIR)nearestpoint0.o: consts.h
-$(OBJDIR)nearestpoint1.o: consts.h
 $(OBJDIR)neighbor_recolor_lg.o: local_element.h chydro.h local_element.h
 $(OBJDIR)neighbor_recolor_lg.o: chydro.h
 $(OBJDIR)offsetpara.o: chydro.h local_element.h consts.h
