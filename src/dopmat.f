@@ -317,17 +317,17 @@ C
 c     check to see if the attributes use min or max values
       mtype=2
       if(msgtype(10).eq.3) then
-      cirtype=cmsgin(10)
-      cirtype_len=icharlnf(cirtype)
-      if(cirtype(1:cirtype_len).eq.'min')   mtype=1
-      if(cirtype(1:cirtype_len).eq.'max')   mtype=2
-      if(cirtype(1:cirtype_len).eq.'minp')   mtype=1
-      if(cirtype(1:cirtype_len).eq.'maxp')   mtype=2
+        cirtype=cmsgin(10)
+        cirtype_len=icharlnf(cirtype)
+        if(cirtype(1:cirtype_len).eq.'min')   mtype=1
+        if(cirtype(1:cirtype_len).eq.'max')   mtype=2
+        if(cirtype(1:cirtype_len).eq.'minp')   mtype=1
+        if(cirtype(1:cirtype_len).eq.'maxp')   mtype=2
       endif
  
       if(msgtype(11).eq.3) then
-      cirtype=cmsgin(11)
-      cirtype_len=icharlnf(cirtype)
+        cirtype=cmsgin(11)
+        cirtype_len=icharlnf(cirtype)
       if(cirtype(1:cirtype_len).eq.'use')   then
       write(logmess,'(a)') 'ERROR -DOPING, bad input command-use'
         call writloga('default',0,logmess,0,ierrw)
@@ -1064,8 +1064,10 @@ C
       pointer (iplinkt, linkt(nplen))
       pointer (ipitfound, itfound(nplen))
       pointer (ipidop,idop(nplen))
+      pointer (ipdistpossleaf, distpossleaf)
       integer ivalue,linkt,itfound,idop
       real*8 sbox,eps
+      real*8 distpossleaf(nplen)
 
       integer icharlnf
       real*8 alargenumber
@@ -1159,10 +1161,10 @@ C
 c     check to see if the nodal pairs are saved or used
       iptype=0
       if(nwds.ge.11) then
-      cirtype=cmsgin(11)
-      cirtype_len=icharlnf(cirtype)
-      if(cirtype(1:cirtype_len).eq.'create')iptype=1
-      if(cirtype(1:cirtype_len).eq.'use')   iptype=2
+          cirtype=cmsgin(11)
+          cirtype_len=icharlnf(cirtype)
+          if(cirtype(1:cirtype_len).eq.'create')iptype=1
+          if(cirtype(1:cirtype_len).eq.'use')   iptype=2
       endif
  
       cmotable=cmsgin(8)(1:icharlnf(cmsgin(8)))
@@ -1197,12 +1199,12 @@ c     check to see if the nodal pairs are saved or used
 c     check to see if the attributes use min or max values
       mtype=2
       if(nwds.ge.10) then
-      cirtype=cmsgin(10)
-      cirtype_len=icharlnf(cirtype)
-      if(cirtype(1:cirtype_len).eq.'min')    mtype=1
-      if(cirtype(1:cirtype_len).eq.'max')    mtype=2
-      if(cirtype(1:cirtype_len).eq.'minp')   mtype=3
-      if(cirtype(1:cirtype_len).eq.'maxp')   mtype=4
+        cirtype=cmsgin(10)
+        cirtype_len=icharlnf(cirtype)
+        if(cirtype(1:cirtype_len).eq.'min')    mtype=1
+        if(cirtype(1:cirtype_len).eq.'max')    mtype=2
+        if(cirtype(1:cirtype_len).eq.'minp')   mtype=3
+        if(cirtype(1:cirtype_len).eq.'maxp')   mtype=4
       endif
  
  
@@ -1247,12 +1249,10 @@ C
 C
 C        check to see if the two cmo's have the same geometric dimension
          if( nsdgeom .ne. nsdgeom_tab) then
-         write(logmess,'(a)')"ERROR -two cmo's need same dimension"
-         call writloga('default',0,logmess,0,ierrw)
- 
-         stop
+            write(logmess,'(a)')"ERROR -two cmo's need same dimension"
+            call writloga('default',0,logmess,0,ierrw)
+            stop
          endif
- 
  
           len=icharlnf(ctable)
           length=npoints
@@ -1268,7 +1268,7 @@ C        check to see if the two cmo's have the same geometric dimension
       do ii=1,npoints_tab
         matmax=max(matmax, ifield_tab(ii))
       enddo
-        matmax=matmax+1
+      matmax=matmax+1
  
  
  
@@ -1297,6 +1297,9 @@ c
          zs=0.
          if(nsdgeom_tab.eq.3) zs=alargenumber
  
+        length=npoints_tab
+        call mmgetblk('distpossleaf',isubname,ipdistpossleaf,
+     $     length,2,icscode)
  
         do ii=1,mpno
             ifield(mpary(ii))=0
@@ -1305,12 +1308,11 @@ c
             zq=0.
             if(nsdgeom.eq.3) zq=zic(mpary(ii))
  
-           call nearestpoint0(xq,yq,zq,xs,ys,zs,linkt,sbox,eps,
-     $    npoints_tab,mtfound,itfound,ierr)
- 
- 
- 
- 
+
+           call nearestpoint1(xq,yq,zq,xs,ys,zs,linkt,sbox,eps,
+     $    npoints_tab,distpossleaf,mtfound,itfound,ierr)
+
+           if(ierr.ne.0 ) call x3d_error(isubname,' nearestpoint1')
  
             do iff=1,mtfound
 c        .........inode_tab is in the source mesh
