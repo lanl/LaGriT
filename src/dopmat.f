@@ -1346,6 +1346,9 @@ c       ......... jnode is in the current mesh
  
             enddo
          enddo
+
+c        Release memory block
+         call mmrelblk('distpossleaf' ,isubname,ipdistpossleaf,icscode)
  
 c    if iptype=2 then
        else

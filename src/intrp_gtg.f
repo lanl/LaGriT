@@ -1260,8 +1260,7 @@ c       Build kdtree to search for nearest source points
           zs=0.
           if(nsdgeom_src.eq.3) zs=alargenumber
         endif
-C     Allocate a work array used in nearestpoint1
-C     TODO: Might need to be deallocated at end of subroutine
+C     Allocate a work array used in nearestpoint0
       length=npts_src
       call mmgetblk('distpossleaf',isubname,ipdistpossleaf,
      $     length,2,icscode)
@@ -1436,6 +1435,9 @@ c        Unless filling pt_gtg attribute for nearest point flag
         idone = ipt
         enddo
 C       End ipt Loop through sink points
+ 
+C       Release memory block
+        call mmrelblk('distpossleaf' ,isubname,ipdistpossleaf,ierr)
  
       endif
 C     End POINT

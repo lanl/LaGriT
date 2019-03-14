@@ -1067,6 +1067,9 @@ C           itfound is the coarse sink node (or nodes) for that point
 
          enddo
 C        END LOOP through all source points 
+
+C       Release memory block
+        call mmrelblk('distpossleaf' ,isubname,ipdistpossleaf,ierr)
  
 C       NOW ASSIGN FINAL VALUES based on nnum, dups_gtg, and value
 C       avoid divide by zero where 0 nodes found for sink
