@@ -22,8 +22,10 @@ node-based attributes to a mesh, and much more.
 
 ## Documentation
 
-For installation instructions and API usage, refer to the documentation by 
-opening the file `html/index.html` in a web browser or by viewing Markdown
-files in `docs/index.md`.
+
+For installation instructions and API usage,
+[refer to the documentation here](https://raw.githack.com/lanl/LaGriT/tinerator/html/install.html)
+or by navigating to `docs/index.md`.
+
 
 ![](docs/assets/images/examples/attribute_final.png)
