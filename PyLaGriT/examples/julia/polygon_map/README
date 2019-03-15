@@ -1,1 +1,0 @@
-This example demonstrates how PyLaGriT can be used within a Julia script. The julia script "polygon_map.jl" and the python script "polygon_map.py" perform the same LaGriT operations. The two scripts can be compared to see how the syntax is modified for the Julia languange.

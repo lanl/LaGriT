@@ -1,0 +1,923 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Mesh generation from GIS data">
+      
+      
+      
+        <meta name="author" content="Daniel Livingston (EES-16, LANL)">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.0.2">
+    
+    
+      
+        <title>Installation - TINerator</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/application.982221ab.css">
+      
+        <link rel="stylesheet" href="assets/stylesheets/application-palette.224b79ff.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#2196f3">
+      
+    
+    
+      <script src="assets/javascripts/modernizr.1f0bcf2b.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue" data-md-color-accent="light-green">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#installation" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="." title="TINerator" class="md-header-nav__button md-logo">
+          
+            <img src="assets/images/theme_icon.png" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              TINerator
+            </span>
+            <span class="md-header-nav__topic">
+              Installation
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/lanl/LaGriT/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    lanl/LaGriT
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="index.html" title="Home" class="md-tabs__link md-tabs__link--active">
+          Home
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="api/index.html" title="APIs" class="md-tabs__link">
+          APIs
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="tutorials/index.html" title="Tutorial" class="md-tabs__link">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="about.html" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="." title="TINerator" class="md-nav__button md-logo">
+      
+        <img src="assets/images/theme_icon.png" width="48" height="48">
+      
+    </a>
+    TINerator
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/lanl/LaGriT/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    lanl/LaGriT
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" checked>
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="index.html" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Installation
+      </label>
+    
+    <a href="install.html" title="Installation" class="md-nav__link md-nav__link--active">
+      Installation
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#python-requirements" title="Python Requirements" class="md-nav__link">
+    Python Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-lagrit-exodus" title="Building LaGriT + Exodus" class="md-nav__link">
+    Building LaGriT + Exodus
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-pylagrit" title="Installing PyLaGriT" class="md-nav__link">
+    Installing PyLaGriT
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-tinerator" title="Installing TINerator" class="md-nav__link">
+    Installing TINerator
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-mkdocs-optional" title="Installing MkDocs (Optional)" class="md-nav__link">
+    Installing MkDocs (Optional)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" title="Next Steps" class="md-nav__link">
+    Next Steps
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="contributing.html" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="release_notes.html" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="license.html" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      APIs
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        APIs
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="api/index.html" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="api/developernotes.html" title="For Developers" class="md-nav__link">
+      For Developers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="tutorials/index.html" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="tutorials/basics.html" title="Importing DEMs" class="md-nav__link">
+      Importing DEMs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="tutorials/watershed.html" title="Preparing the DEM" class="md-nav__link">
+      Preparing the DEM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="tutorials/meshing.html" title="Generating a Mesh" class="md-nav__link">
+      Generating a Mesh
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="tutorials/attributes.html" title="Adding an Attribute" class="md-nav__link">
+      Adding an Attribute
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="tutorials/facesets.html" title="Defining FaceSets" class="md-nav__link">
+      Defining FaceSets
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="about.html" title="About" class="md-nav__link">
+      About
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#python-requirements" title="Python Requirements" class="md-nav__link">
+    Python Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-lagrit-exodus" title="Building LaGriT + Exodus" class="md-nav__link">
+    Building LaGriT + Exodus
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-pylagrit" title="Installing PyLaGriT" class="md-nav__link">
+    Installing PyLaGriT
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-tinerator" title="Installing TINerator" class="md-nav__link">
+    Installing TINerator
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installing-mkdocs-optional" title="Installing MkDocs (Optional)" class="md-nav__link">
+    Installing MkDocs (Optional)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" title="Next Steps" class="md-nav__link">
+    Next Steps
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/lanl/LaGriT/edit/master/docs/install.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="installation">Installation</h1>
+<p>While TINerator is a relatively light module, it depends on several
+compiled libraries and packages. Consequently, it is recommended that you set up
+a <a href="https://conda.io/en/latest/">Conda environment</a> or <a href="https://virtualenv.pypa.io/en/latest/">virtual-env</a> for managing TINerator:</p>
+<div class="codehilite"><pre><span></span>$ conda create --name tinerator <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.5
+$ <span class="nb">source</span> activate tinerator
+</pre></div>
+
+<p>Note that you will have to re-run the <code class="codehilite">source activate</code> command on each new shell instance.</p>
+<h2 id="python-requirements">Python Requirements</h2>
+<p>TINerator requires Python 3.4+ and the following Python modules:</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RichDEM</td>
+<td><a href="https://richdem.readthedocs.io">https://richdem.readthedocs.io</a></td>
+</tr>
+<tr>
+<td>Matplotlib</td>
+<td><a href="https://matplotlib.org">https://matplotlib.org</a></td>
+</tr>
+<tr>
+<td>Numpy</td>
+<td><a href="http://www.numpy.org">http://www.numpy.org</a></td>
+</tr>
+<tr>
+<td>SciPy</td>
+<td><a href="https://www.scipy.org">https://www.scipy.org</a></td>
+</tr>
+<tr>
+<td>Rasterio</td>
+<td><a href="https://rasterio.readthedocs.io">https://rasterio.readthedocs.io</a></td>
+</tr>
+<tr>
+<td>Fiona</td>
+<td><a href="https://fiona.readthedocs.io">https://fiona.readthedocs.io</a></td>
+</tr>
+<tr>
+<td>Elevation</td>
+<td><a href="http://elevation.bopen.eu/en/stable/">http://elevation.bopen.eu/en/stable/</a></td>
+</tr>
+<tr>
+<td>PyLaGriT</td>
+<td><a href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">https://lanl.github.io/LaGriT/pylagrit/original/index.html</a></td>
+</tr>
+</tbody>
+</table>
+<p>With the exception of PyLaGriT, all modules will be automatically installed 
+when running the <code class="codehilite">python setup.py install</code> command in TINerator.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>On macOS, the default clang C/C++ compilers seem to fail on compilation of
+<code class="codehilite">richdem</code>. To circumvent this, <code class="codehilite">export CC; export CXX</code> to GNU GCC compilers.</p>
+</div>
+<h2 id="building-lagrit-exodus">Building LaGriT + Exodus</h2>
+<p>LaGriT is a mesh generation software suite built by Los Alamos National Laboratories, and it (wrapped by the Python library PyLaGriT) is the 'engine' driving TINerator. </p>
+<p>A LaGriT binary needs to be present on your system before proceeding. You can <a href="https://github.com/lanl/LaGriT/releases">directly download</a> a pre-built binary, or to build one yourself, run:</p>
+<div class="codehilite"><pre><span></span>git clone https://github.com/lanl/LaGriT.git <span class="o">&amp;&amp;</span> <span class="nb">cd</span> LaGriT
+make exodus
+make static <span class="o">&amp;&amp;</span> make <span class="nb">test</span>
+</pre></div>
+
+<p>You will find the LaGriT executable in <code class="codehilite"><span class="k">$(</span><span class="nv">LAGRIT_ROOT_DIR</span><span class="k">)</span><span class="err">/src/lagrit</span></code>. For more information, please see the <a href="https://github.com/lanl/LaGriT/blob/master/documentation/INSTALL.md">LaGriT installation documentation</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>LaGriT does not currently support Windows compilation. Windows support is coming soon.</p>
+</div>
+<h2 id="installing-pylagrit">Installing PyLaGriT</h2>
+<p>PyLaGriT is a subfolder within the LaGriT repo. 
+Navigate to <code class="codehilite"><span class="k">$(</span><span class="nv">LAGRIT_ROOT_DIR</span><span class="k">)</span><span class="err">/PyLaGriT</span></code> and run</p>
+<div class="codehilite"><pre><span></span>python setup.py install
+</pre></div>
+
+<p>Next, create the file <code class="codehilite">~/.pylagritrc</code> with the following text:</p>
+<div class="codehilite"><pre><span></span>lagrit_exe : &#39;path/to/lagrit/executable&#39;
+</pre></div>
+
+
+<p>where <code class="codehilite">path/to/lagrit/executable</code> is the path to the recently downloaded/installed LaGriT binary.</p>
+<p>For more information, visit the <a href="https://lanl.github.io/LaGriT/pylagrit/original/gettingstarted.html#installation">PyLaGriT installation page</a>.</p>
+<h2 id="installing-tinerator">Installing TINerator</h2>
+<p>TINerator is currently a submodule within a branch on the LaGriT repository.</p>
+<p>Navigate to <code class="codehilite"><span class="k">$(</span><span class="nv">LAGRIT_ROOT_DIR</span><span class="k">)</span></code> and run</p>
+<div class="codehilite"><pre><span></span>git checkout tinerator
+<span class="nb">cd</span> tinerator
+python setup.py install
+</pre></div>
+
+<p>TINerator should now be installed and ready for use. </p>
+<p>If you experience any difficulty building TINerator, please open an issue on the <a href="https://github.com/lanl/LaGriT/issues">LaGriT Issues page</a>.</p>
+<h2 id="installing-mkdocs-optional">Installing MkDocs (Optional)</h2>
+<p>Markdown files in the <code class="codehilite">docs/</code> folder can be viewed with MkDocs.</p>
+<p>Build the following packages:</p>
+<div class="codehilite"><pre><span></span>pip install mkdocs pymdown-extensions mkdocs-material pygments pydoc-markdown
+</pre></div>
+
+<p>and run, in the root directory of tinerator,</p>
+<div class="codehilite"><pre><span></span>mkdocs serve
+</pre></div>
+
+<p>For more information, see <a href="api/developernotes.html">Developer Notes</a>.</p>
+<h2 id="next-steps">Next Steps</h2>
+<p>Check out <a href="tutorials/index.html">Examples</a> to get started, or <a href="api/index.html">read the API</a> for function and method documentation.</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="index.html" title="Introduction" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Introduction
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="contributing.html" title="Contributing" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Contributing
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018 Los Alamos National Laboratory
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.css">
+    
+      <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/index.php" class="md-footer-social__link fa fa-globe"></a>
+    
+      <a href="https://github.com/lanl/LaGriT" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://twitter.com/LosAlamosNatLab" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="assets/javascripts/application.d9aa80ab.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"."}})</script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

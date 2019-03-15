@@ -1,0 +1,912 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Mesh generation from GIS data">
+      
+      
+      
+        <meta name="author" content="Daniel Livingston (EES-16, LANL)">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
+    
+    
+      
+        <title>Preparing the DEM - TINerator</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#2196f3">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.8c900955.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue" data-md-color-accent="light-green">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#preparing-the-dem" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="TINerator" class="md-header-nav__button md-logo">
+          
+            <img src="../../assets/images/theme_icon.png" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                TINerator
+              </span>
+              <span class="md-header-nav__topic">
+                Preparing the DEM
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/lanl/LaGriT/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      lanl/LaGriT
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="Home" class="md-tabs__link">
+          Home
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../api/" title="APIs" class="md-tabs__link">
+          APIs
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../" title="Tutorial" class="md-tabs__link md-tabs__link--active">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="TINerator" class="md-nav__button md-logo">
+      
+        <img src="../../assets/images/theme_icon.png" width="48" height="48">
+      
+    </a>
+    TINerator
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/lanl/LaGriT/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      lanl/LaGriT
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../install/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../release_notes/" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      APIs
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        APIs
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/developernotes/" title="For Developers" class="md-nav__link">
+      For Developers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../basics/" title="Importing DEMs" class="md-nav__link">
+      Importing DEMs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Preparing the DEM
+      </label>
+    
+    <a href="./" title="Preparing the DEM" class="md-nav__link md-nav__link--active">
+      Preparing the DEM
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#watershed-delineation" title="Watershed Delineation" class="md-nav__link">
+    Watershed Delineation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resolving-depressions-and-flats" title="Resolving Depressions and Flats" class="md-nav__link">
+    Resolving Depressions and Flats
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-accumulation" title="Flow accumulation" class="md-nav__link">
+    Flow accumulation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boundary-generation" title="Boundary Generation" class="md-nav__link">
+    Boundary Generation
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../meshing/" title="Generating a Mesh" class="md-nav__link">
+      Generating a Mesh
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../attributes/" title="Adding an Attribute" class="md-nav__link">
+      Adding an Attribute
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../facesets/" title="Defining FaceSets" class="md-nav__link">
+      Defining FaceSets
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/" title="About" class="md-nav__link">
+      About
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#watershed-delineation" title="Watershed Delineation" class="md-nav__link">
+    Watershed Delineation
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resolving-depressions-and-flats" title="Resolving Depressions and Flats" class="md-nav__link">
+    Resolving Depressions and Flats
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flow-accumulation" title="Flow accumulation" class="md-nav__link">
+    Flow accumulation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boundary-generation" title="Boundary Generation" class="md-nav__link">
+    Boundary Generation
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/lanl/LaGriT/edit/master/docs/tutorials/watershed.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="preparing-the-dem">Preparing the DEM</h1>
+<p>One of the most powerful features of TINerator is the ability to create meshes
+which are variably refined around some DEM feature, such as a river or stream network.</p>
+<p>To prepare the DEM for mesh generation, a feature needs to be (optionally) defined,
+and a boundary generated. Note that an option in TINerator exists to generate
+a mesh <em>without</em> feature refinement - see the <a href="../meshing/">mesh generation section</a> for more information.</p>
+<h2 id="watershed-delineation">Watershed Delineation</h2>
+<p>Defining a river or stream network ('feature') in the DEM is done through the command:</p>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">watershedDelineation</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mf">4500.</span><span class="p">,</span><span class="n">plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">spacing</span><span class="o">=</span><span class="mf">30.</span><span class="p">)</span>
+</pre></div>
+
+<p>Performing a watershed delineation is a multi-step process:</p>
+<ol>
+<li>Depressions ('pits') are filled</li>
+<li>Flats are resolved</li>
+<li>Flow accumulation is performed</li>
+</ol>
+<h3 id="resolving-depressions-and-flats">Resolving Depressions and Flats</h3>
+<p><img alt="Lindsay (2016) Depression Topology" src="../../assets/images/examples/Lindsay2016_depression_typology.png" /></p>
+<p><em><b>Source:</b> Lindsay, John. (2015). Efficient hybrid breaching-filling
+sink removal methods for flow path enforcement in digital elevation models.
+Hydrological Processes. 30. 846–857.
+doi: <a href="https://www.researchgate.net/publication/281067177_Efficient_hybrid_breaching-filling_sink_removal_methods_for_flow_path_enforcement_in_digital_elevation_models">10.1002/hyp.10648</a>.</em></p>
+<p>Flow accumulation algorithms are
+<a href="https://www.sciencedirect.com/science/article/pii/S1364815214002497">numerous</a>,
+but they all tend to operate relative to elevation deltas between adjacent
+DEM cells.</p>
+<p>Consequently, flats and pits can disrupt accumulation algorithms, causing
+premature termination of the flow patterns. It is therefore, in general, best
+to preprocess a DEM to remove depressions and flats.</p>
+<p><img alt="DEM Pits and Flats" src="../../assets/images/examples/watershed_pits_flats.png" />
+<em>Depressions and flats identified and removed on a standard DEM</em></p>
+<p>Flat and pit resolution is the default behavior of the <code class="codehilite">watershedDelineation</code> 
+function. For more information on better controlling these steps,
+refer to the <a href="null.md">API Documentation</a>.</p>
+<p>The DEM feature will be found in the class variable <code class="codehilite">tinerator.DEM.feature</code>, and
+is an N-by-2 <code class="codehilite">np.ndarray</code> defining a polyline.</p>
+<h3 id="flow-accumulation">Flow accumulation</h3>
+<p>A critical step in determining river networks is through flow accumulation
+algorithms. These algorithms generate a raster of accumulated flow by
+accumulating the weight of all cells that flow into adjacent cells with a negative
+elevation data ('downslope cells').</p>
+<p><img alt="Flow accumulation" src="http://pro.arcgis.com/en/pro-app/tool-reference/spatial-analyst/GUID-9C3A8153-1359-4F0B-8D9A-BC256957AD28-web.png" /></p>
+<p><em><b>Source:</b> ArcGis Pro, <a href="http://pro.arcgis.com/en/pro-app/tool-reference/spatial-analyst/how-flow-accumulation-works.htm">How Flow Accumulation works</a></em></p>
+<p>TINerator supports a number of popular flow accumulation algorithms:</p>
+<ul>
+<li>D8</li>
+<li>D4</li>
+<li>D-Infinity</li>
+<li>Rho8</li>
+<li>Rho4</li>
+<li>Quinn</li>
+<li>Freeman</li>
+<li>Holmgren</li>
+</ul>
+<p>By default, D8 is used. For more information on these different algorithms,
+visit the RichDEM <a href="https://richdem.readthedocs.io/en/latest/flow_metrics.html">Flow Metrics page</a>.</p>
+<p>After flow accumulation is performed, the feature can be extracted by
+setting an accumulation threshold and defining all cells above that threshold
+to be a part of the feature.</p>
+<p>As an example, see the below figure:</p>
+<p><img alt="Watershed delineation" src="../../assets/images/examples/watershed_delin_default.png" /></p>
+<p><em><b>Left:</b> Flow accumulation intensity.
+<b>Right:</b> Feature pulled by thresholding the flow accumulation matrix.</em></p>
+<p>On the left, the raster generated by the flow accumulation algorithm is displayed.
+Note that effectively all non-masked cells in the DEM have some non-zero amount
+of accumulation. By settings <code class="codehilite">threshold = 0.</code>, effectively the entire DEM would
+be 'captured' as a feature. Note that, if you only consider cells with more
+than <span><span class="MathJax_Preview">10^4</span><script type="math/tex">10^4</script></span> accumulations, a river network becomes visible. </p>
+<p>Consequently, the threshold should be set to reflect that.
+Here, <code class="codehilite">threshold = 4.5E10</code>, and the feature derived from setting that threshold
+value is shown on the right of the figure.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The optimal threshold value will change for each distinct DEM.
+Pay careful attention to set a value relative to your workflow goals.</p>
+</div>
+<h2 id="boundary-generation">Boundary Generation</h2>
+<p>Boundary generation is done using a <a href="http://www.imageprocessingplace.com/downloads_V3/root_downloads/tutorials/contour_tracing_Abeer_George_Ghuneim/square.html">Square Tracing Algorithm</a>
+to quickly capture the perimeter of the DEM. The boundary is defined as the interface
+between cells with NoDataValue entries (<span><span class="MathJax_Preview">z_{i,j} = NDV</span><script type="math/tex">z_{i,j} = NDV</script></span>) and cells with
+data (<span><span class="MathJax_Preview">z_{i,j} \ne NDV</span><script type="math/tex">z_{i,j} \ne NDV</script></span>).</p>
+<p>For DEMs that do not have cells with NoDataValue elements 
+(<span><span class="MathJax_Preview">z(i,j) \cap NDV = \emptyset</span><script type="math/tex">z(i,j) \cap NDV = \emptyset</script></span>), a rectangular boundary spanning the domain
+of the DEM is generated instead.</p>
+<p>The boundary is generated with the method</p>
+<div class="codehilite"><pre><span></span><span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">generateBoundary</span><span class="p">(</span><span class="n">delta</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span>
+</pre></div>
+
+<p>where <code class="codehilite">delta</code> is the spacing between adjacent boundary nodes. The units of
+<code class="codehilite">delta</code> will be the same as the units of the parent DEM.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Boundary generation <strong>must</strong> be done before proceeding to mesh generation.</p>
+</div>
+<p>As an example, </p>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">generateBoundary</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
+<span class="n">my_dem</span><span class="o">.</span><span class="n">plotBoundary</span><span class="p">()</span>
+</pre></div>
+
+<p>will generate (and plot) a boundary with 100 meter spacing.</p>
+<p><img alt="DEM boundary generation" src="../../assets/images/examples/watershed_dem_boundary.png" /></p>
+<p>The boundary array is mutable and can be found in the class
+variable <code class="codehilite">tinerator.DEM.boundary</code>.</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../basics/" title="Importing DEMs" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Importing DEMs
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../meshing/" title="Generating a Mesh" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Generating a Mesh
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018 Los Alamos National Laboratory
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/index.php" class="md-footer-social__link fa fa-globe"></a>
+    
+      <a href="https://github.com/lanl/LaGriT" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://twitter.com/LosAlamosNatLab" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.b41f3d20.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+    
+      
+    
+  </body>
+</html>

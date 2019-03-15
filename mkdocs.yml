@@ -1,0 +1,94 @@
+# Before running:
+#     MathJax (pip install pymdown-extensions)
+#     Codehilite (pip install pygments)
+#     Materials theme (pip install mkdocs-material)
+
+# Project information
+site_name: TINerator
+site_description: 'Mesh generation from GIS data'
+site_author: 'Daniel Livingston (EES-16, LANL)'
+
+# Repo
+repo_name: 'lanl/LaGriT'
+repo_url: 'https://github.com/lanl/LaGriT'
+
+# Copyright
+copyright: 'Copyright &copy; 2018 Los Alamos National Laboratory'
+
+# Set build directory
+site_dir: html/
+
+# Change urls from api/ to api/index.md
+use_directory_urls: false
+
+# Theme configurations
+theme:
+  name: 'material'
+  show_sidebar: true
+  palette:
+    primary: 'blue'
+    accent: 'light green'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+  logo: 'assets/images/theme_icon.png'
+  language: 'en'
+  feature:
+    tabs: true
+
+extra:
+  version: 1.0
+  social:
+    - type: globe
+      link: https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/index.php
+    - type: github-alt
+      link: https://github.com/lanl/LaGriT
+    - type: twitter
+      link: https://twitter.com/LosAlamosNatLab
+
+# Extensions
+markdown_extensions:
+  - codehilite
+  - admonition
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+
+# Used for MathJax
+extra_javascript:
+  - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+
+# Page tree
+nav:
+  - Home:
+    - Introduction: index.md
+    - Installation: install.md
+    - Contributing: contributing.md
+    - Release Notes: release_notes.md
+    - License: license.md
+  - APIs:
+    - Index: api/index.md
+    - For Developers: api/developernotes.md
+  - Tutorial:
+    - Index: tutorials/index.md
+    - Importing DEMs: tutorials/basics.md
+    - Preparing the DEM: tutorials/watershed.md
+    - Generating a Mesh: tutorials/meshing.md
+    - Adding an Attribute: tutorials/attributes.md
+    - Defining FaceSets: tutorials/facesets.md
+  - About:
+    - About: about.md

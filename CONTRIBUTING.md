@@ -1,5 +1,5 @@
-# External Contributions to LaGriT
-LaGriT is actively being developed by Los Alamos National Laboratory, LLC. If you are external to this organization, then please read the following document for procedures on contributing.
+# External Contributions to Tinerator
+Tinerator is actively being developed by Triad Laboratory, LLC. If you are external to this organization, then please read the following document for procedures on contributing.
 
 # Pull Requests
 
@@ -16,7 +16,7 @@ Copy and paste this to the top of any created source code (replacing `!` with an
 
 ```
 !
-! Copyright (c) 2017 Los Alamos National Laboratory, LLC
+! Copyright (c) 2019 Triad National Security, LLC.
 ! All rights reserved.
 !
 ! This source code is licensed under the BSD-style license found in the
@@ -26,10 +26,10 @@ Copy and paste this to the top of any created source code (replacing `!` with an
 
 # Contributor License Agreement (CLA)
 
-In order to accept your pull request, we need you to submit a CLA. If you are submitting a pull request for the first time, just let us know after you have completed the CLA so that we can cross-check signers with your GitHub username. This license is for your protection as a Contributor as well as the protection of LANL and the LaGriT users; it does not change your rights to use your own Contributions for any other purpose.
+In order to accept your pull request, we need you to submit a CLA. If you are submitting a pull request for the first time, just let us know after you have completed the CLA so that we can cross-check signers with your GitHub username. This license is for your protection as a Contributor as well as the protection of LANL and Tinerator users; it does not change your rights to use your own Contributions for any other purpose.
 
 Sign the CLA here: https://www.clahub.com/agreements/lanl/LaGriT
 
 # License
 
-By contributing to LaGriT, you agree that your contributions will be licensed under the BSD-3 license.
+By contributing to Tinerator, you agree that your contributions will be licensed under the BSD-3 license.

@@ -1,8 +1,0 @@
-dist/
-build/
-*.egg-info
-__pycache__
-*.pyc
-*DS_Store
-*.inp
-*.in

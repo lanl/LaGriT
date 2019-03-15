@@ -1,0 +1,965 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Mesh generation from GIS data">
+      
+      
+      
+        <meta name="author" content="Daniel Livingston (EES-16, LANL)">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.0.2">
+    
+    
+      
+        <title>Generating a Mesh - TINerator</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.982221ab.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.224b79ff.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#2196f3">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1f0bcf2b.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue" data-md-color-accent="light-green">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#mesh-generation" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="TINerator" class="md-header-nav__button md-logo">
+          
+            <img src="../assets/images/theme_icon.png" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              TINerator
+            </span>
+            <span class="md-header-nav__topic">
+              Generating a Mesh
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/lanl/LaGriT/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    lanl/LaGriT
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../index.html" title="Home" class="md-tabs__link">
+          Home
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../api/index.html" title="APIs" class="md-tabs__link">
+          APIs
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="index.html" title="Tutorial" class="md-tabs__link md-tabs__link--active">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../about.html" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href=".." title="TINerator" class="md-nav__button md-logo">
+      
+        <img src="../assets/images/theme_icon.png" width="48" height="48">
+      
+    </a>
+    TINerator
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/lanl/LaGriT/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    lanl/LaGriT
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../index.html" title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../install.html" title="Installation" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../contributing.html" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../release_notes.html" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../license.html" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      APIs
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        APIs
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/index.html" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/developernotes.html" title="For Developers" class="md-nav__link">
+      For Developers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="index.html" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="basics.html" title="Importing DEMs" class="md-nav__link">
+      Importing DEMs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="watershed.html" title="Preparing the DEM" class="md-nav__link">
+      Preparing the DEM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Generating a Mesh
+      </label>
+    
+    <a href="meshing.html" title="Generating a Mesh" class="md-nav__link md-nav__link--active">
+      Generating a Mesh
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#building-a-surface-mesh" title="Building a Surface Mesh" class="md-nav__link">
+    Building a Surface Mesh
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uniform" title="Uniform" class="md-nav__link">
+    Uniform
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refined" title="Refined" class="md-nav__link">
+    Refined
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mesh-quality" title="Mesh Quality" class="md-nav__link">
+    Mesh Quality
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stacking-the-mesh" title="Stacking the Mesh" class="md-nav__link">
+    Stacking the Mesh
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layers" title="Layers" class="md-nav__link">
+    Layers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#materials" title="Materials" class="md-nav__link">
+    Materials
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="attributes.html" title="Adding an Attribute" class="md-nav__link">
+      Adding an Attribute
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="facesets.html" title="Defining FaceSets" class="md-nav__link">
+      Defining FaceSets
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../about.html" title="About" class="md-nav__link">
+      About
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#building-a-surface-mesh" title="Building a Surface Mesh" class="md-nav__link">
+    Building a Surface Mesh
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uniform" title="Uniform" class="md-nav__link">
+    Uniform
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refined" title="Refined" class="md-nav__link">
+    Refined
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mesh-quality" title="Mesh Quality" class="md-nav__link">
+    Mesh Quality
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stacking-the-mesh" title="Stacking the Mesh" class="md-nav__link">
+    Stacking the Mesh
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#layers" title="Layers" class="md-nav__link">
+    Layers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#materials" title="Materials" class="md-nav__link">
+    Materials
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/lanl/LaGriT/edit/master/docs/tutorials/meshing.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="mesh-generation">Mesh Generation</h1>
+<p>At this point, the DEM should be sufficiently post-processed, and
+we can begin the process of constructing a TIN.</p>
+<p>TIN generation is done in several discrete steps:</p>
+<ol>
+<li>Triplane (surface) generation</li>
+<li>Applying elevation to surface</li>
+<li>Extruding into defined layers</li>
+<li>Applying materials to layers</li>
+</ol>
+<p>Steps 1+2 and steps 3+4 are controlled with the following methods, respectively:</p>
+<div class="codehilite"><pre><span></span><span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">generateStackedTIN</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># Steps 1 &amp; 2</span>
+<span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">layeredMesh</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>        <span class="c1"># Steps 3 &amp; 4</span>
+</pre></div>
+
+<p>Details on using these methods will be explained in the subsections below; for
+more information, read the <a href="null.md">method documentation</a>.</p>
+<h2 id="building-a-surface-mesh">Building a Surface Mesh</h2>
+<p>By default, TINerator will automatically determine whether to contruct a surface
+with refined or uniform triangles. If watershed delineation has not been performed,
+or the class variable <code class="codehilite">tinerator.DEM.feature = None</code>, then TINerator will 
+generate a uniform surface. Otherwise, it will be refined.</p>
+<p>The generated surface mesh will maintain the same spatial domain as the parent 
+DEM. This may cause overflow errors if the DEM domain is close to or exceeds
+the limit of a double-precision float.</p>
+<h3 id="uniform">Uniform</h3>
+<p>Once the boundary is generated, calculating a triplane is as simple as:</p>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">generateStackedTIN</span><span class="p">()</span>
+</pre></div>
+
+<p>The minimum edge length of the surface triangles will be equivalent to the spacing
+between adjacent boundary nodes, as defined in <code class="codehilite">tinerator.DEM.generateBoundary()</code>.</p>
+<p><img alt="Uniform triplane" src="../assets/images/examples/mesh_refined_triplane.png" /></p>
+<p>To define a different edge length, use the method parameter <code class="codehilite"><span class="n">min_edge</span><span class="o">:</span><span class="n">float</span></code>, where
+the units of <code class="codehilite">min_edge</code> are the same units as the parent DEM.</p>
+<p>By default, DEM elevation data will be continuously interpolated onto the
+Z-values of the surface triangles. A completely flat mesh can be constructed 
+instead with the method argument <code class="codehilite">apply_elevation = False</code>.</p>
+<h3 id="refined">Refined</h3>
+<p>For generating a refined surface, call the method:</p>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">generateStackedTIN</span><span class="p">(</span><span class="n">min_edge</span><span class="p">)</span>
+</pre></div>
+
+<p>where <code class="codehilite">min_edge</code> will be the shortest edge generated in the refining process.</p>
+<p>This method works by (i) coarsely triangulating the interior of the boundary,
+and (ii) adaptively refining triangles according to a gradient field.</p>
+<p>The gradient field is a raster with values that scale relative to the Euclidean
+distance from the feature.</p>
+<p><img alt="Gradient field" src="../assets/images/examples/mesh_distancefield.png" /></p>
+<p>Triangle edge length scales linearly from <code class="codehilite">min_edge</code>, where the gradient field is
+0 (at the feature), towards <code class="codehilite">max_edge</code>, where the gradient field is 1 (at the
+edge of the DEM domain), according to this equation:</p>
+<div>
+<div class="MathJax_Preview">e(i,j) = e_{min} + \left( e_{max} - e_{min} \right) \cdot \nabla D(i,j)</div>
+<script type="math/tex; mode=display">e(i,j) = e_{min} + \left( e_{max} - e_{min} \right) \cdot \nabla D(i,j)</script>
+</div>
+<p><img alt="Refined triplane" src="../assets/images/examples/mesh_refined_triplane.png" /></p>
+<p>As stated above, DEM elevation data will be interpolated onto the Z-coordinate
+of the surface nodes unless explicitly defined otherwise.</p>
+<h3 id="mesh-quality">Mesh Quality</h3>
+<p>Triangulation is done with a <a href="http://www.geom.uiuc.edu/~samuelp/del_project.html">Delaunay triangulation</a> algorithm, and 
+the mesh is iteratively smoothed with <a href="https://dl.acm.org/citation.cfm?doid=1057432.1057456">Laplacian smoothing</a>.
+The number of smoothing / reconnection iterations can be controlled with the keyword <code class="codehilite"><span class="n">iterations</span><span class="o">:</span><span class="n">int</span></code>.</p>
+<p>Mesh quality can be found through the method:</p>
+<div class="codehilite"><pre><span></span><span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">quality</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">)</span>
+</pre></div>
+
+<p>This returns a dictionary containing aspect ratio statistics (<span><span class="MathJax_Preview">\theta_{max} / \theta_{min}</span><script type="math/tex">\theta_{max} / \theta_{min}</script></span>),
+edge length ratio statistics (<span><span class="MathJax_Preview">e_{max} / e_{min}</span><script type="math/tex">e_{max} / e_{min}</script></span>), and count of malformed
+elements (triangles with very large angles, very small angles, or very small areas).</p>
+<h2 id="stacking-the-mesh">Stacking the Mesh</h2>
+<p>Mesh extrusion is the process of extruding a triangular surface mesh into a 
+volumetric prism mesh. This method is called using</p>
+<div class="codehilite"><pre><span></span><span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">layeredMesh</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
+<p>For more information, see the <a href="null.md">documentation</a>.</p>
+<p>As an example, after generating a triangular surface mesh, it can be layered by:</p>
+<div class="codehilite"><pre><span></span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">8.</span><span class="p">,</span> <span class="mf">21.</span><span class="p">]</span> <span class="c1"># Define layer thickness</span>
+<span class="n">matids</span> <span class="o">=</span> <span class="p">[</span>  <span class="mi">1</span><span class="p">,</span>   <span class="mi">2</span><span class="p">,</span>   <span class="mi">3</span><span class="p">,</span>  <span class="mi">4</span><span class="p">,</span>   <span class="mi">5</span><span class="p">]</span> <span class="c1"># Define material ID</span>
+
+<span class="n">my_dem</span><span class="o">.</span><span class="n">layeredMesh</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span><span class="n">matids</span><span class="o">=</span><span class="n">matids</span><span class="p">)</span>
+</pre></div>
+
+<p>where <code class="codehilite">layers</code> is a list of length <em>N</em>, containing the sequential depths of
+layers to extrude, and <code class="codehilite">matids</code> is a list of length <em>N</em> containing the
+sequential integer IDs for each layer.</p>
+<p>For example, layer 1 will have a depth of 0.1 meters and a material ID of 1,
+layer 2 will have a depth of 0.3 and a material ID of 2, and so on.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The length of list <code class="codehilite">layers</code> <em>must</em> equal the length of list <code class="codehilite">matids</code></p>
+</div>
+<h3 id="layers">Layers</h3>
+<p>Depending on your particular use case, you may want as few as one layer, or 
+many more. Layers may be of any arbitrary thickness, with units the same as the DEM parent.</p>
+<p>Note that the number of elements in the volumetric mesh, <span><span class="MathJax_Preview">N_{volume}</span><script type="math/tex">N_{volume}</script></span>,
+is directly proportional to the number of layers <span><span class="MathJax_Preview">n_{layers}</span><script type="math/tex">n_{layers}</script></span>:</p>
+<div>
+<div class="MathJax_Preview"> N_{volume} = N_{surface} \cdot n_{layers} </div>
+<script type="math/tex; mode=display"> N_{volume} = N_{surface} \cdot n_{layers} </script>
+</div>
+<p><img alt="" src="../assets/images/examples/mesh_layers.png" />
+<em>Five-layer prism mesh. Layer depths have been strongly exaggerated for effect.</em></p>
+<h3 id="materials">Materials</h3>
+<p>Each layer can optionally have its own material ID - this provides an easy way to identify
+which layer an element is in, or to find elements within a defined layer. Note
+that material ID is not necessarily an attribute - it is a non-zero integer
+value mapped to an element. Cell and node based attributes are applied using a 
+different process - <a href="attributes.html">read more here</a>.</p>
+<p><img alt="" src="../assets/images/examples/mesh_materialid.png" />
+<em>An exaggerated view of layers colored by material ID. Note that some values are
+unique to its layer, while other layers share an ID.</em></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="watershed.html" title="Preparing the DEM" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Preparing the DEM
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="attributes.html" title="Adding an Attribute" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Adding an Attribute
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018 Los Alamos National Laboratory
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome.css">
+    
+      <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/index.php" class="md-footer-social__link fa fa-globe"></a>
+    
+      <a href="https://github.com/lanl/LaGriT" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://twitter.com/LosAlamosNatLab" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.d9aa80ab.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

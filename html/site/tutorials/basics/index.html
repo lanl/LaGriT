@@ -1,0 +1,898 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Mesh generation from GIS data">
+      
+      
+      
+        <meta name="author" content="Daniel Livingston (EES-16, LANL)">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-3.2.0">
+    
+    
+      
+        <title>Importing DEMs - TINerator</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.572ca0f0.css">
+      
+        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.22915126.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#2196f3">
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.8c900955.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="blue" data-md-color-accent="light-green">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448"
+    viewBox="0 0 416 448" id="__github">
+  <path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19-18.125
+        8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19 18.125-8.5
+        18.125 8.5 10.75 19 3.125 20.5zM320 304q0 10-3.125 20.5t-10.75
+        19-18.125 8.5-18.125-8.5-10.75-19-3.125-20.5 3.125-20.5 10.75-19
+        18.125-8.5 18.125 8.5 10.75 19 3.125 20.5zM360
+        304q0-30-17.25-51t-46.75-21q-10.25 0-48.75 5.25-17.75 2.75-39.25
+        2.75t-39.25-2.75q-38-5.25-48.75-5.25-29.5 0-46.75 21t-17.25 51q0 22 8
+        38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0
+        37.25-1.75t35-7.375 30.5-15 20.25-25.75 8-38.375zM416 260q0 51.75-15.25
+        82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5-41.75
+        1.125q-19.5 0-35.5-0.75t-36.875-3.125-38.125-7.5-34.25-12.875-30.25-20.25-21.5-28.75q-15.5-30.75-15.5-82.75
+        0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25
+        30.875q36.75-8.75 77.25-8.75 37 0 70 8 26.25-20.5
+        46.75-30.25t47.25-9.75q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34
+        99.5z" />
+</svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#importing-dems-and-gis-data" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="../.." title="TINerator" class="md-header-nav__button md-logo">
+          
+            <img src="../../assets/images/theme_icon.png" width="24" height="24">
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            
+              <span class="md-header-nav__topic">
+                TINerator
+              </span>
+              <span class="md-header-nav__topic">
+                Importing DEMs
+              </span>
+            
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          
+            <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+            
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+          
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+
+  <a href="https://github.com/lanl/LaGriT/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      lanl/LaGriT
+    </div>
+  </a>
+
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="Home" class="md-tabs__link">
+          Home
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../api/" title="APIs" class="md-tabs__link">
+          APIs
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../" title="Tutorial" class="md-tabs__link md-tabs__link--active">
+          Tutorial
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../about/" title="About" class="md-tabs__link">
+          About
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="../.." title="TINerator" class="md-nav__button md-logo">
+      
+        <img src="../../assets/images/theme_icon.png" width="48" height="48">
+      
+    </a>
+    TINerator
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+
+  <a href="https://github.com/lanl/LaGriT/" title="Go to repository" class="md-source" data-md-source="github">
+    
+      <div class="md-source__icon">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <use xlink:href="#__github" width="24" height="24"></use>
+        </svg>
+      </div>
+    
+    <div class="md-source__repository">
+      lanl/LaGriT
+    </div>
+  </a>
+
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../install/" title="Installation" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contributing/" title="Contributing" class="md-nav__link">
+      Contributing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../release_notes/" title="Release Notes" class="md-nav__link">
+      Release Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      APIs
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        APIs
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../api/developernotes/" title="For Developers" class="md-nav__link">
+      For Developers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
+    
+    <label class="md-nav__link" for="nav-3">
+      Tutorial
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Tutorial
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../" title="Index" class="md-nav__link">
+      Index
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Importing DEMs
+      </label>
+    
+    <a href="./" title="Importing DEMs" class="md-nav__link md-nav__link--active">
+      Importing DEMs
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-dem-class-structure" title="The DEM class structure" class="md-nav__link">
+    The DEM class structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-dems" title="Reading DEMs" class="md-nav__link">
+    Reading DEMs
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-a-dem-by-file" title="Reading a DEM by file" class="md-nav__link">
+    Reading a DEM by file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloading-from-coordinates" title="Downloading from coordinates" class="md-nav__link">
+    Downloading from coordinates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloading-by-shapefile" title="Downloading by Shapefile" class="md-nav__link">
+    Downloading by Shapefile
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applying-a-shapefile" title="Applying a Shapefile" class="md-nav__link">
+    Applying a Shapefile
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../watershed/" title="Preparing the DEM" class="md-nav__link">
+      Preparing the DEM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../meshing/" title="Generating a Mesh" class="md-nav__link">
+      Generating a Mesh
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../attributes/" title="Adding an Attribute" class="md-nav__link">
+      Adding an Attribute
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../facesets/" title="Defining FaceSets" class="md-nav__link">
+      Defining FaceSets
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      About
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        About
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../about/" title="About" class="md-nav__link">
+      About
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-dem-class-structure" title="The DEM class structure" class="md-nav__link">
+    The DEM class structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-dems" title="Reading DEMs" class="md-nav__link">
+    Reading DEMs
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#reading-a-dem-by-file" title="Reading a DEM by file" class="md-nav__link">
+    Reading a DEM by file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloading-from-coordinates" title="Downloading from coordinates" class="md-nav__link">
+    Downloading from coordinates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloading-by-shapefile" title="Downloading by Shapefile" class="md-nav__link">
+    Downloading by Shapefile
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applying-a-shapefile" title="Applying a Shapefile" class="md-nav__link">
+    Applying a Shapefile
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/lanl/LaGriT/edit/master/docs/tutorials/basics.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                <h1 id="importing-dems-and-gis-data">Importing DEMs and GIS data</h1>
+<h2 id="the-dem-class-structure">The DEM class structure</h2>
+<p>After reading or downloading a DEM, an object of type <code class="codehilite">tinerator.DEM</code> is returned. This class contains all information related to tinning a particular GIS object: GIS data, such as the DEM matrix and shapefile polygons, meshing data, spatial data, and more. Further information on this class can be found by reading the <a href="../../api/">API Documentation</a>.</p>
+<p>The DEM - and associated metadata - is stored in the <code class="codehilite">tinerator.DEM.dem</code> attribute, which itself is a <a href="https://richdem.readthedocs.io/en/latest/python_api.html#richdem.rdarray"><code class="codehilite">richdem.rdarray</code></a> object:</p>
+<div class="codehilite"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">my_dem</span><span class="o">.</span><span class="n">dem</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;PROCESSING_HISTORY&#39;</span><span class="p">:</span>
+       <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">2019-01-23 18:53:20.598492 UTC | RichDEM (Python 0.3.4) (hash=&quot;ee05922&quot;, hashdate=&quot;2018-07-13 13:01:09 -0700&quot;) | LoadGDAL(filename=data/dem.asc, no_data=-9999.0)&#39;</span><span class="p">},</span>
+  <span class="s1">&#39;no_data&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">9999.0</span><span class="p">,</span>
+  <span class="s1">&#39;projection&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;geotransform&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">7510.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Upon load, this metadata is parsed into specific <code class="codehilite">tinerator.DEM</code> variables. It is unlikely an end-user will need access to this RichDEM metadata.</p>
+<h2 id="reading-dems">Reading DEMs</h2>
+<h3 id="reading-a-dem-by-file">Reading a DEM by file</h3>
+<p>Reading a DEM via file is simply called by:</p>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span> <span class="o">=</span> <span class="n">tinerator</span><span class="o">.</span><span class="n">loadDEM</span><span class="p">(</span><span class="s2">&quot;data/dem.asc&quot;</span><span class="p">)</span>
+</pre></div>
+
+<p>The loading function uses GDAL as the I/O driver. Supported input filetypes can be <a href="https://www.gdal.org/formats_list.html">found here</a>.</p>
+<p>To verify import integrity, we can then plot the DEM and print metadata:</p>
+<p><div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+<img alt="Imported DEM" src="../../assets/images/examples/dem_import.png" /></p>
+<p><div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;NODATAVALUE: {0}</span><span class="se">\n</span><span class="s2">Lower-left Corner: ({1},{2})</span><span class="se">\n</span><span class="s2">Cell Size: {3}&quot;</span>
+  <span class="o">.</span><span class="n">format</span><span class="p">(</span>
+      <span class="n">my_dem</span><span class="o">.</span><span class="n">no_data_value</span><span class="p">,</span>
+      <span class="n">my_dem</span><span class="o">.</span><span class="n">xll_corner</span><span class="p">,</span>
+      <span class="n">my_dem</span><span class="o">.</span><span class="n">yll_corner</span><span class="p">,</span>
+      <span class="n">my_dem</span><span class="o">.</span><span class="n">cell_size</span>
+  <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+<div class="codehilite"><pre><span></span>&gt;&gt;&gt; NODATAVALUE: -9999.0
+&gt;&gt;&gt; Lower-left Corner: (0.0,0.0)
+&gt;&gt;&gt; Cell Size: 10.0
+</pre></div></p>
+<p>Each of these metadata values are mutable and can be changed as circumstances dictate.</p>
+<h3 id="downloading-from-coordinates">Downloading from coordinates</h3>
+<p>To download an SRTM 90m DEM by through a latitude / longitude bounding box,</p>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span> <span class="o">=</span> <span class="n">tinerator</span><span class="o">.</span><span class="n">downloadDEM</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">12.35</span><span class="p">,</span><span class="mf">41.8</span><span class="p">,</span><span class="mf">12.65</span><span class="p">,</span><span class="mi">42</span><span class="p">),</span>
+                               <span class="n">outfile</span><span class="o">=</span><span class="s1">&#39;Rome-90m-DEM.tif&#39;</span><span class="p">)</span>
+</pre></div>
+
+<p>where <code class="codehilite">bounds</code> is the bounding box values in geodetic coordinates (left, bottom, right, top), and <code class="codehilite">outfile</code> is an optional filepath to save the DEM.</p>
+<p>In this example, <code class="codehilite">(12.35,41.8,12.65,42)</code> represents a subsection of Rome:</p>
+<p><img alt="Downloading a DEM by bounding box" src="../../assets/images/examples/dem_rome_download.png" /></p>
+<h3 id="downloading-by-shapefile">Downloading by Shapefile</h3>
+<p>To download an SRTM 90m DEM through a Shapefile (<code class="codehilite"><span class="na">.shp</span></code>), </p>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span> <span class="o">=</span> <span class="n">tinerator</span><span class="o">.</span><span class="n">downloadDEM</span><span class="p">(</span><span class="n">shapefile</span><span class="o">=</span><span class="s2">&quot;shapefile.shp&quot;</span><span class="p">,</span><span class="n">crop</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+<p>The argument <code class="codehilite">crop</code> replaces all areas of the DEM not covered by the shapefile with a NoDataValue. Setting <code class="codehilite">crop = False</code> will only return a DEM bound by the spatial domain of the shapefile.</p>
+<p><strong>With <code class="codehilite">crop = True</code>:</strong>
+<img alt="" src="../../assets/images/examples/dem_shapefile_download.png" /></p>
+<p><strong>With <code class="codehilite">crop = False</code>:</strong>
+<img alt="" src="../../assets/images/examples/dem_shapefile_download_nocrop.png" /></p>
+<h2 id="applying-a-shapefile">Applying a Shapefile</h2>
+<p><em>Coming soon</em></p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../" title="Index" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Index
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../watershed/" title="Preparing the DEM" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Preparing the DEM
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2018 Los Alamos National Laboratory
+          </div>
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+        
+  <div class="md-footer-social">
+    <link rel="stylesheet" href="../../assets/fonts/font-awesome.css">
+    
+      <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/index.php" class="md-footer-social__link fa fa-globe"></a>
+    
+      <a href="https://github.com/lanl/LaGriT" class="md-footer-social__link fa fa-github-alt"></a>
+    
+      <a href="https://twitter.com/LosAlamosNatLab" class="md-footer-social__link fa fa-twitter"></a>
+    
+  </div>
+
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.b41f3d20.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+    
+      
+    
+  </body>
+</html>

@@ -1,6 +1,0 @@
-.. _quadxyz:
-
-# Not Found
-
-The requested URL /docs/commands/QUADXYZ1.html was not found on this server.
-
