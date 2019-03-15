@@ -148,6 +148,8 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     ind = nd.distance_transform_edt(np.isnan(_dem), return_distances=False, return_indices=True)
     _dem = _dem[tuple(ind)]
 
+    cfg.log.info('Parsing elevation data')
+
     # Dump DEM data
     _array_out = "_temp_elev_array.dat"
     _dem.tofile(_array_out,sep=' ',format='%.3f')
@@ -159,6 +161,8 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     # Move mesh to proper position
     # TODO: Figure out why this is necessary. Overflow problem in readsheet?
     tmp_sheet.trans((0,0,0),lower_left_corner)
+
+    cfg.log.info('Applying elevation to surface mesh')
 
     # Remove no_data_value elements
     comp = 'le' if dem.no_data_value <= 0. else 'ge'
@@ -187,6 +191,8 @@ def addElevation(lg:pylagrit.PyLaGriT,dem,triplane_path:str,flip:str='y',fileout
     triplane.copyatt('z_new','zic')
     triplane.delatt('z_new')
     tmp_sheet.delete()
+
+    cfg.log.debug('Writing mesh to %s' % fileout)
     triplane.dump(fileout)
     os.remove(_array_out)
 
@@ -443,7 +449,7 @@ def stackLayers(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
     motmp_top = lg.read(infile)
 
     for (i,offset) in enumerate(layers):
-        cfg.log.info('Adding layer %d' % (i+1))
+        cfg.log.info('Adding layer %d with thickness %s' % (i+1,str(offset)))
         motmp_top.math('sub','zic',value=offset)
         motmp_top.dump('layer%d.inp' % (i+1))
 
@@ -579,11 +585,14 @@ def buildTriplaneUniform(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
     if connectivity is None:
         connectivity = generateLineConnectivity(boundary)
 
+    cfg.log.debug('Writing boundary to poly_1.inp')
     _writeLineAVS(boundary,"poly_1.inp",connections=connectivity)
 
     # Compute length scales to break triangles down into
     # See below for a more in-depth explanation
     length_scales = [min_edge*i for i in [1,2,4,8,16,32,64]][::-1]
+
+    cfg.log.info('Preparing boundary')
 
     mo_tmp = lg.read("poly_1.inp")
 
@@ -592,6 +601,8 @@ def buildTriplaneUniform(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
     lg.sendline('copypts / %s / %s' % (motri.name,mo_tmp.name))
     motri.setatt('imt',1)
     mo_tmp.delete()
+
+    cfg.log.info('First pass triangulation')
 
     # Triangulate the boundary
     motri.select()
@@ -611,12 +622,19 @@ def buildTriplaneUniform(lg:pylagrit.PyLaGriT,boundary:np.ndarray,outfile:str,
     # Eventually this converges on triangles with edges in the range [0.5*min_edge,min_edge]
     motri.select()
     for ln in length_scales:
-        motri.refine(refine_option='rivara',refine_type='edge',values=[ln],inclusive_flag='inclusive')
+        cfg.log.info('Refining at length %s' % str(ln))
+
+        motri.refine(refine_option='rivara',
+                     refine_type='edge',
+                     values=[ln],
+                     inclusive_flag='inclusive')
 
         for _ in range(3):
             motri.recon(0)
             motri.smooth()
         motri.rmpoint_compress(resetpts_itp=False)
+
+    cfg.log.info('Smoothing mesh')
 
     # Smooth and reconnect the triangulation
     for _ in range(6):

@@ -22,6 +22,7 @@ import tinerator.unit_conversion as convert
 GLOBAL_NDV = -9999.
 MATERIAL_ID = 'itetclr'
 
+
 def loadDEM(filepath:str,lagrit_exe:str=None):
     '''
     Loads a DEM raster from a local filepath and returns 
@@ -712,5 +713,61 @@ class DEM():
                     self.yll_corner,
                     self.ncols*self.cell_size+self.xll_corner,
                     self.nrows*self.cell_size+self.yll_corner)
+
+    def save(self,filename,file_format=None,mesh=None):
+        '''
+        Saves a mesh to a given filepath.
+        '''
+
+        self.generateFacesets(filename,naive=True)
+        return
+
+        # BELOW METHOD NOT FULLY IMPLEMENTED YET
+
+        # Determine file format
+        if file_format is None:
+            if '.exo' in filename.lower():
+                file_format = 'exodus'
+            elif '.avs' in filename.lower():
+                file_format = 'avs'
+            else:
+                cfg.log.warn('Unknown file_format - defaulting to AVS')
+                file_format = 'avs'
+        else:
+            if 'exo' in file_format.lower():
+                file_format = 'exodus'
+            elif 'avs' in file_format.lower():
+                file_format = 'avs'
+            else:
+                cfg.log.warn('Unknown file_format - defaulting to AVS')
+                file_format = 'avs'
+
+        # Determine mesh to dump
+        if mesh is None:
+            mesh = 'current'
+
+        if mesh.lower() in ['surface','triplane']:
+            mesh = self.surface
+        elif mesh.lower() in ['prism','layers','layered','stack','stacked']:
+            mesh = self.stacked
+        elif mesh.lower() in ['current','full','final']:
+            if self.stacked is not None:
+                mesh = self.stacked
+            elif self.surface is not None:
+                mesh = self.surface
+            else:
+                raise ValueError('No meshes are available for export')
+
+        if mesh == self.stacked:
+            mtype = 'stacked mesh'
+        elif mesh == self.surface:
+            mtype = 'surface mesh'
+        else:
+            mtype = 'UNKNOWN'
+
+        fformat = file_format.upper()
+
+        cfg.log.info('Writing %s to %s in %s format' % (mtype,filename,fformat))
+        mesh.dump(file_format,filename)
 
 
