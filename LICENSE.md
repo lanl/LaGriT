@@ -10,9 +10,9 @@ which is operated by Triad National Security, LLC for the U.S. Department of Ene
 Administration.  All rights in the program are reserved by Triad National Security, LLC, and the U.S. Department of
 Energy/National Nuclear Security Administration. The Government is granted for itself and others acting on its behalf 
 a nonexclusive, paid-up, irrevocable worldwide license in this material to reproduce, prepare derivative works, distribute
-copies to the public, perform publicly and display publicly, and to permit others to do so.
-This software is open source and available under the BSD-3 License. If software is modified to produce derivative works,
-such modified software should be clearly marked, so as not to confuse it with the version available from LANL.
+copies to the public, perform publicly and display publicly, and to permit others to do so. If software is modified to
+produce derivative works, such modified software should be clearly marked, so as not to confuse it with the version 
+available from LANL.
  
 Additionally, redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
