@@ -126,8 +126,7 @@ C
 C     ******************************************************************
 C     Parse the command and options
 
-      coption = cmsgin(2)(1:icharlnf(cmsgin(3)))
-
+      coption = cmsgin(2)(1:icharlnf(cmsgin(2)))
       fname = cmsgin(3)(1:icharlnf(cmsgin(3)))
 
       if(nwds .lt. 4)then
