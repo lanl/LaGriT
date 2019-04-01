@@ -8,24 +8,14 @@ tags: map continuous voronoi nearest node
 The `interpolate` (or `intrp`) command is used to interpolate
 attribute values from nodes or elements of a source mesh to node or
 element attributes of a sink mesh. Normally the source grid is coarser or the same resolution as the sink grid.
-Consider using **`upscale`** to assign values from high resolution to coaser resolution.
+Consider using **`upscale`** to assign values from source high resolution to sink coarse resolution.
 
-The `map` method replaces the command `doping/integer1` which copied source itetclr values
-to sink imt values. The `voronoi` method replaces
-`doping/integer2` which copied nearest node source imt to sink imt.
-`continuous` evolved from the `doping/table` command. These
+Note `interpolate/map` replaces the command `doping/integer1` which copied source itetclr values
+to sink imt values. `interpolate/voronoi` replaces `doping/integer2` which copied nearest node source imt to sink imt.
+`interpolate/continuous` evolved from the `doping/table` command. These
 commands are still similar to the old versions except that they have
-been generalized to include user chosen attributes and more element
-types.
+been generalized to include user chosen attributes and expanded options.
 
-
-The `interpolate` methods depend on the location of sink nodes as
-they relate to the source grid nodes or elements. The interpolations
-are from either source nodes or elements on to sink points. The
-`interpolate` values are written to the indicated sink attribute for
-each sink point. If the indicated sink attribute is of element type,
-then the centroids for each element are calculated and used for the
-interpolated sink points.
 
 ## SYNTAX
 
@@ -36,54 +26,53 @@ interpolated sink points.
   [ <b>tiemin</b> or <b>tiemax</b> ] [ flag_value or   <b>plus1</b> ] [<b>nearest,</b> node_attribute ] [<b>keepatt</b> or <b>delatt</b> ]  [ intrp_function ]
 </pre>
 
-*Parameters appearing after the source cmo attribute name are optional.*
+
 
 `intrp_method` defines the method of interpolation used from mesh object cmosrc to mesh object cmosink.
 
-**`map`** method copies the value from the enclosing source element to sink node or element (centroid). 
+* **`map`** method copies the value from the enclosing source element to sink node or element (centroid). 
 Sink nodes located outside the source elements are tagged with values according to flag options. 
 If undefined, the flag value will be a value 1 greater than the max source attribute values. To copy from a source of type node, use voronoi method.
 
-**`voronoi`** copies the value from the nearest source node to the sink node. By selecting the nearest source points, 
+* **`voronoi`** copies the value from the nearest source node to the sink node. By selecting the nearest source points, 
 Voronoi regions are generated around each sink point. The resulting sink point (node or centroid) is given the value of the 
 attribute associated with the Voronoi generating point whose Voronoi cell the sink point lands in. The outside flag options
 do not apply for this method, even if a sink point is outside the source, a nearest node will be found.
 
 
-**`continuous`** interpolates values from the enclosing source element nodes to the sink nodes. Use the vertices of 
-enclosing element to interpolate a value on to the sink point. The source attribute is of type node. 
+* **`continuous`** interpolates values from the enclosing source element nodes to the sink nodes (or centriod of element). 
 The interpolation is the sum of vertice values multiplied by the relative volume of elements formed by the sink point 
 location on or inside the found element. The element is divided into volumes as determined by the sink point location 
 and its relationship to the vertices of the enclosing element. A triangle becomes three triangles each with a vertices 
 on the sink point. A quad becomes four quads.  A tet becomes four tets. The assigned sink point value is the sum of 
 these values divided by the number of element vertices. The interpolation function belonging to the attribute is applied 
-to the vertice values before being summed. 
+to the vertice values before being summed. See also the `interp_function` option.
 **WARNING** A hex becomes 8 hexs which depends on orthogonal hexs and so is not currently supported. 
 Use hextotet to convert hex elements to tets. 
 
-**`default`** - If source attribute is element type then use `map`. If source attribute is node type then use `continuous`.
+* **`default`** - If source attribute is element type then use `map`. If source attribute is node type then use `continuous`.
 
 
-`cmosink`, `attsink` are the sink mesh object name the attribute name to write
-interpolated values into. If the sink attribute is element type, centroids are
-calculated for each element and these are used for the interpolation methods. 
-
-`indexed_set` 1,0,0 (start,stride,stop) or pset,get,pset_name or eltset,get,eltset_name are the set of sink nodes or elements to write
-interpolated values to. 1,0,0 will select all sink nodes or elements. 
-
-`cmosrc`, `attsrc` are the source mesh object name and name of attribute values to use. 
+`cmosink`, `attsink` are the sink mesh object name and attribute to write interpolated values to. If the sink attribute is element type, centroids are calculated for each element and these are used for the interpolation methods. 
 
 
-The remaining **`interpolate`** parameters are optional on the command line:
+`indexed_set` 1,0,0 (start,stride,stop) or pset,get,pset_name or eltset,get,eltset_name are the set of sink nodes or elements to write interpolated values to. 1,0,0 will select all sink nodes or elements. 
+
+
+`cmosrc`, `attsrc` are the source mesh object name and attribute values interpolating from.
+
+
+
+The following parameters are optional on the command line:
+
 
 `tie_option` is used to break a tie when a sink point has more than one valid candidate source node or element. 
-Along with kdtree search,
-`nearestpoint()` and `retrieve_within_eps()` routines return a list of
+Along with kdtree search, `nearestpoint()` and `retrieve_within_eps()` routines return a list of
 candidate objects for a sink point. These can be either a list of
 closest points, or a list of elements the point is on or inside.
 `tie_option` chooses one candidate from the possible candidates. The
 result is a one-to-one correspondence with each sink point paired with
-a single source node or a single source element.
+a single source node or a single source element. See `keep_option` for saving attributes with this correspondence.
 
 *  **tiemax** selects the maximum value from candidate nodes or
   elements. This is the default selection.
@@ -96,28 +85,26 @@ a single source node or a single source element.
 These flag values indicate either that there was an error and a value could
 not be written to the sink attribute. The kdtree element search will
 assign a flag value if a sink point is located outside the source
-grid. *This does not apply to Voronoi as nearest node will always be found.*
+grid. *This does not apply to Voronoi method which finds nearest node and does not depend on finding an enclosing element.*
 
-* **plus1** will assign a flag value of maximum source value plus 1.
+* **plus1** will assign a flag value of maximum source value plus 1, this is the default behavior.
 
 * **nearest** `node_attribute` will find the nearest source node and
  use the node's attribute value as the flag value. The keyword
- **nearest** must be followed with the name of the source node
- attribute to use for the flag values.
+ **nearest** must be followed with the name of the source attribute name to be used for the flag values.
 
 * `flag_value` given as an integer or real value will use this numeric value for the flag assignments.
 
-`keep_option` is used during multiple calls to **interpolate** with the mesh objects unchanged. 
-It keeps attributes created during the search routines
-and uses these attributes to look up associated node or element
-numbers. The `interpolate` command uses kdtree to create sink
-attributes that pair sink points to associated source node or element
-numbers. If **map** or **continuous** methods are used, the element
+
+`keep_option` is useful during multiple calls to **interpolate** on the same sink and source mesh objects.
+The `interpolate` command uses kdtree and candidate searches to create sink
+attributes that pair sink points to associated source node or element. By using the keyword 'keepatt' these
+attributes are not deleted. On subsequent calls to
+interpolate these attributes are used to look up associated node or element
+numbers.  If **map** or **continuous** methods are used, the element
 attribute named el_gtg will be created. If **voronoi** or the
 flag_option **nearest** are used, the node attribute named pt_gtg
-will be created.
-
- **delatt** deletes any attributes created during the kdtree searches. By default these attributes are removed.
+will be created. The keyword **delatt** deletes any attributes created during the kdtree searches. By default these attributes are removed.
  
 
 `intrp_function` replaces the interpolation function associated with
@@ -225,24 +212,13 @@ interpolate attributes are always deleted unless the keyword **`keepatt`** is us
  
 ## Demos
 
- MAP from element to element.
 
-<img src="https://lanl.github.io/LaGriT/assets/images/map03_view.gif">
+ [Example 1: interpolate / voronoi](../description_voronoi.md)  Copy nearest source node value to sink point
+
+ [Example 2: interpolate / map](../description_map.md)  Copy source element value to enclosed sink point
+
+ [Example 3: interpolate / continuous](../description_cont.md)  Interpolate source element vertices to sink point 
  
-CONTINUOUS from triangles
-
-<img src="https://lanl.github.io/LaGriT/assets/images/con02_sink.gif">
-
- [Example 1: interpolate / voronoi](../description_voronoi.md)
-
-Copy nearest source node value to sink point
-
- [Example 2: interpolate / map](../description_map.md)
-
-Copy source element value to enclosed sink point
-
- [Example 3: interpolate / continuous](../description_cont.md)
-
- Interpolate source element vertices to sink point 
+ 
  
 
