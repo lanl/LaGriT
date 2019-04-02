@@ -10,7 +10,7 @@ import tinerator.config as cfg
 def _remove_attribute(mesh,attribute_name):
     mesh.delatt(attribute_name)
 
-def mapFunctionToAttribute(lg:pylagrit.PyLaGriT,mesh:str,
+def mapFunctionToAttribute(lg,mesh:str,
                            number_of_layers:int,layers=None,
                            attribute_name:str=None,operator:str='+',
                            fn=lambda layer: layer*100,outfile:str=None):

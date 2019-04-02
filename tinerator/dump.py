@@ -4,22 +4,25 @@ import numpy as np
 import tinerator.facesets as fs
 import tinerator.config as cfg
 
-def __get_latest_mesh(dem_object,mesh_object=None):
+def __get_latest_mesh(dem_object,mesh_object):
     '''
     Given a string describing the mesh type, returns
     the proper DEM class attribute.
     '''
 
+    if mesh_object is None:
+        if dem_object._stacked_mesh is not None:
+            return dem_object._stacked_mesh,3
+        elif dem_object._surface_mesh is not None:
+            return dem_object._surface_mesh,2
+        else:
+            raise ValueError('Could not find a valid mesh')
+
+
     if mesh_object.lower() in ['triplane','surface']:
         return dem_object._surface_mesh,2
     elif mesh_object.lower() in ['prism','stacked','full']:
         return dem_object._stacked_mesh,3
-
-    if mesh_object is None:
-        if dem_object._stacked_mesh is not None:
-            return dem_object._stacked_mesh
-        elif dem_object._surface_mesh is not None:
-            return dem_object._surface_mesh
 
     raise ValueError('Could not find a valid mesh')
 

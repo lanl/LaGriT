@@ -104,6 +104,8 @@ class DEM():
     def change_ndv(self,ndv:float):
         '''
         Changes `no_data_value` of the DEM object.
+        This should be used instead of resetting `dem.no_data_value`
+        manually, as it makes deeper changes.
 
         # Example
         ```python
@@ -193,8 +195,8 @@ class DEM():
 
         # Example
         ```python
-        dem1 = loadDEM("example.asc")
-        dem2 = loadDEM("example.asc")
+        dem1 = tin.load.from_file("example.asc")
+        dem2 = tin.load.from_file("example.asc")
 
         dem1.fill_depressions()
 
@@ -260,40 +262,9 @@ class DEM():
                                                  self.yll_corner,
                                                  self.nrows)
 
-        #if spacing is not None:
-        #    self.feature = util.filterPoints(self.feature,spacing)
-
-        '''
-        if plot:
-            from matplotlib import pyplot as plt
-            from mpl_toolkits.axes_grid1 import make_axes_locatable
-            from matplotlib.colors import LogNorm
-
-            extent = self.extent
-
-            f, (ax1, ax2) = plt.subplots(1, 2, figsize=(14,6))
-
-            f.suptitle('Watershed delineation (threshold: %2.3e)\nMethod: %s' % (threshold,method))
-            divider = make_axes_locatable(ax1)
-            cax = divider.append_axes('right', size='5%', pad=0.05)
-
-            im = ax1.imshow(accumulation,norm=LogNorm(vmin=0.01, vmax=np.max(accumulation)),extent=extent)
-            f.colorbar(im, cax=cax, orientation='vertical')
-            
-            ax2.imshow(accumulation,norm=LogNorm(vmin=0.01, vmax=np.max(accumulation)),extent=extent)
-            ax2.scatter(self.feature[:,0],self.feature[:,1],c=np.array([[0.,0.,0.]]),s=0.2)
-            ax2.set_xlim(extent[0],extent[1])
-            ax2.set_ylim(extent[2],extent[3])
-            plt.show()
-        '''
 
         return self.feature
 
-    def __setRefinementSettings(self,min_edge=None,max_edge=None,min_distance=None,max_distance=None):
-        self.min_edge = min_edge if min_edge is not None else self.min_edge
-        self.max_edge = max_edge if max_edge is not None else self.max_edge
-        self.min_distance = min_distance if min_distance is not None else self.min_distance
-        self.max_distance = max_distance if max_distance is not None else self.max_distance
 
     def _generate_boundary(self,distance:float,rectangular:bool=False):
         '''
@@ -577,38 +548,6 @@ class DEM():
             assert facesets is not None, 'Function requires facesets array'
             generateComplexFacesets(self.lg,outfile,self.stacked_mesh,self.boundary,facesets)
 
-    def generateSingleColumnPrism(self,outfile:str,layers:list,matids=None,nlayers=None,xy_subset=None):
-        generateSingleColumnPrism(self.lg,"_trimesh.inp",outfile,layers,matids=matids,xy_subset=xy_subset,nlayers=nlayers)
-
-    def calculateDistanceField(self,accumulation_threshold:float=75.,mask:bool=True,normalize:bool=True):
-        '''
-        Calculates the distance field for a DEM.
-        To adjust the visibility of features, you may have to 
-        tweak the accumulation threshold.
-
-        :param accumulation_threshold: feature threshold 
-        :type accumulation_threshold: float
-        :param mask: flag to mask distance map similar to DEM
-        :type mask: bool
-        :returns: generated distance field
-        '''
-
-        if self.mask is None:
-            mask = False
-
-        accumulation = watershedDelineation(self.dem)
-        self.distance_field = calculateDistanceField(accumulation,accumulation_threshold=accumulation_threshold)
-
-        if normalize:
-            if mask:
-                self.distance_field[self.mask] = 0.
-            self.distance_field = normalizeMatrix(self.distance_field) * 100.
-
-        if mask:
-            self.distance_field[self.mask] = self.no_data_value
-
-        return self.distance_field
-
     def getBoundingBox(self,mpl_style:bool=True):
         '''
         Returns the bounding box (or extent) of the DEM domain.
@@ -640,62 +579,6 @@ class DEM():
                     self.yll_corner,
                     self.ncols*self.cell_size+self.xll_corner,
                     self.nrows*self.cell_size+self.yll_corner)
-
-    def save(self,filename,file_format=None,mesh=None):
-        '''
-        Saves a mesh to a given filepath.
-        '''
-
-        self.generateFacesets(filename,naive=True)
-        return
-
-        # BELOW METHOD NOT FULLY IMPLEMENTED YET
-
-        # Determine file format
-        if file_format is None:
-            if '.exo' in filename.lower():
-                file_format = 'exodus'
-            elif '.avs' in filename.lower():
-                file_format = 'avs'
-            else:
-                cfg.log.warn('Unknown file_format - defaulting to AVS')
-                file_format = 'avs'
-        else:
-            if 'exo' in file_format.lower():
-                file_format = 'exodus'
-            elif 'avs' in file_format.lower():
-                file_format = 'avs'
-            else:
-                cfg.log.warn('Unknown file_format - defaulting to AVS')
-                file_format = 'avs'
-
-        # Determine mesh to dump
-        if mesh is None:
-            mesh = 'current'
-
-        if mesh.lower() in ['surface','triplane']:
-            mesh = self.surface
-        elif mesh.lower() in ['prism','layers','layered','stack','stacked']:
-            mesh = self.stacked
-        elif mesh.lower() in ['current','full','final']:
-            if self.stacked is not None:
-                mesh = self.stacked
-            elif self.surface is not None:
-                mesh = self.surface
-            else:
-                raise ValueError('No meshes are available for export')
-
-        if mesh == self.stacked:
-            mtype = 'stacked mesh'
-        elif mesh == self.surface:
-            mtype = 'surface mesh'
-        else:
-            mtype = 'UNKNOWN'
-
-        fformat = file_format.upper()
-
-        cfg.log.info('Writing %s to %s in %s format' % (mtype,filename,fformat))
-        mesh.dump(file_format,filename)
 
 
     def plot_dem(self,hillshade:bool=False,plot_out:str=None):

@@ -399,8 +399,13 @@ def _stacked_mesh(lg,
 
     return cmo_prism
 
-def __generateSingleColumnPrism(lg:pylagrit.PyLaGriT,infile:str,outfile:str,layers:list,
-                matids=None,xy_subset=None,nlayers=None):
+def __generateSingleColumnPrism(lg,
+                                infile:str,
+                                outfile:str,
+                                layers:list,
+                                matids=None,
+                                xy_subset=None,
+                                nlayers=None):
     '''
     Created a stacked mesh with layer thickness described by the variable
     layers.

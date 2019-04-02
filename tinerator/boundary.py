@@ -11,13 +11,15 @@ def orderPointsClockwise(points:np.ndarray,opt:str='polar',clockwise:bool=True):
     Available methods are: 'angle', to sort by angle, 'polar', to sort by
     polar coordinates, and 'nearest_neighbor', to sort by nearest neighbor.
 
-    :param points: Array of unsorted points
-    :type points: np.ndarray
-    :param refvec: Vector pointing in direction of sorted origin
-    :type refvec: list
-    :param opt: Sorting method
-    :type opt: str
-    :returns: sorted points
+    # Arguments
+    points (np.ndarray): Array of unsorted points
+
+    # Optional Arguments
+    opt (str): Sorting method
+    clockwise (bool): order points clockwise or counterclockwise
+
+    # Returns
+    Sorted points
     '''
 
     origin = np.mean(points,axis=0)
@@ -81,12 +83,12 @@ def imageErosionBoundary(A,nil_value,distance,cell_size=None,xll_corner=0,yll_co
     As such, this function is not called anywhere within this package.
     Once that is implemented, this function will depreciate squareTraceBoundary().
 
-    :param A: matrix to perform boundary analysis on
-    :type A: np.ndarray
-    :param nil_value: value characterizing undefined array values
-    :type nil_value: float
-    :param distance: spacing between boundary nodes
-    :type distance: float
+    # Arguments
+    A (np.ndarray): matrix to perform boundary analysis on
+    nil_value (float): value characterizing undefined array values
+    distance (float): spacing between boundary nodes
+
+    # Returns
     :returns: boundary nodes
     '''
 
@@ -160,13 +162,15 @@ def rectangularBoundary(bbox:list,spacing:float):
     Generates a rectangular boundary with evenly spaced points.
 
     bbox should be a list of values in the following format:
+        
         min(x), max(x), min(y), max(y)
 
-    :param bbox: bounding box coordinates
-    :type bbox: list<float>
-    :param spacing: spacing between adjacent nodes
-    :type spacing: float
-    :returns: array of interpolated bounding box values
+    # Arguments
+    bbox (list<float>): bounding box coordinates
+    spacing (float): spacing between adjacent nodes
+
+    # Returns
+    Array of interpolated bounding box values
     '''
 
     x0 = bbox[0]; x1 = bbox[1]; y0 = bbox[2]; y1 = bbox[3]
@@ -209,23 +213,22 @@ def squareTraceBoundary(A,NDV,dist=10.):
     composing the boundary at the interface of data and "empty" (noDataValue)
     cells in a DEM matrix.
 
-    The optional parameter 'dist' denotes the seperation the points should have between each other.
+    The optional parameter 'dist' denotes the seperation the points should
+    have between each other.
     A smaller value will result in more points being created.
 
-    For more information:
-    http://www.imageprocessingplace.com/downloads_V3/root_downloads/tutorials/contour_tracing_Abeer_George_Ghuneim/square.html
+    For more information, visit [this page](http://www.imageprocessingplace.com/downloads_V3/root_downloads/tutorials/contour_tracing_Abeer_George_Ghuneim/square.html).
 
-    :param A: matrix to perform boundary analysis on
-    :type A: np.ndarray
-    :param NDV: value characterizing undefined array values
-    :type NDV: float
-    :param dist: spacing between boundary nodes
-    :type dist: float
-    :returns: boundary nodes
+    # Arguments
+    A (np.ndarray): matrix to perform boundary analysis on
+    NDV (float): value characterizing undefined array values
+
+    # Optional Arguments
+    dist (float): spacing between boundary nodes
+
+    # Returns
+    Boundary nodes
     '''
-
-    #A = np.vstack([A,np.repeat(666.,A.shape[1])])
-    #A = np.hstack([A,np.resize(np.repeat(66666666.,A.shape[0]),(A.shape[0],1))])
 
     nRows = np.shape(A)[0] - 1
     nCols = np.shape(A)[1] - 1
