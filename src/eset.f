@@ -211,6 +211,8 @@ C
       character*32 cpt1, cpt2, cpt3,operation
       character*32  cpset
       character*32 cmo
+      character*10 elemtyp_name(nelmtypes)
+
 C
       integer itest(nbitsmax),ibpos(nbitsmax)
  
@@ -247,6 +249,7 @@ C
      * lenmode,mpno,ierrw,nen,nef,nnf,inode,i1,
      * idebug, n_entry_per_line,
      * ntets
+      integer ielm_invalid, nelm_invalid
       pointer(ipout,out)
       real*8 out(*),rout
       integer icharlnf
@@ -265,6 +268,15 @@ C
 C
  
       isubname='esetnames'
+      elemtyp_name(ifelmtet) = 'tets'
+      elemtyp_name(ifelmpyr) = 'pyramids'
+      elemtyp_name(ifelmpri) = 'prisms'
+      elemtyp_name(ifelmhex) = 'hexes'
+      elemtyp_name(ifelmhyb) = 'hybrids'
+      elemtyp_name(ifelmply) = 'polygons'
+      elemtyp_name(ifelmtri) = 'triangles'
+      elemtyp_name(ifelmqud) = 'quads'
+
  
 C
       ierror = 0
@@ -332,6 +344,8 @@ C
       xxlarge=alargenumber
       xxsmall=1.0e-20
       xsmall=1.0e-20
+      ielm_invalid = 0
+      nelm_invalid = 0
 C
       name=cmsgin(2)
       lenname=icharlnf(name)
@@ -923,27 +937,50 @@ C
                yv(j)=yic(itet(itetoff(it)+j))
                zv(j)=zic(itet(itetoff(it)+j))
             enddo
-            call aratio_element(ityp,xv,yv,zv,volelm,eps)
-            if (cmsgin(4)(1:2).eq.'le'.and.volelm.le.xmsgin(5)) then
+
+C           protect the routine against invalid element types
+            if (ityp.eq.ifelmtet .or. ityp.eq.ifelmtri .or.
+     *       ityp.eq.ifelmhex .or. ityp.eq.ifelmqud ) then
+
+              call aratio_element(ityp,xv,yv,zv,volelm,eps)
+
+          if (cmsgin(4)(1:2).eq.'le'.and.volelm.le.xmsgin(5)) then
                xtetwd(it)=ior(xtetwd(it),mask)
-            ict=ict+1
-            elseif (cmsgin(4)(1:2).eq.'lt'.and.volelm.lt.xmsgin(5)) then
-               xtetwd(it)=ior(xtetwd(it),mask)
-            ict=ict+1
-            elseif (cmsgin(4)(1:2).eq.'ge'.and.volelm.ge.xmsgin(5)) then
-               xtetwd(it)=ior(xtetwd(it),mask)
-            ict=ict+1
-            elseif (cmsgin(4)(1:2).eq.'gt'.and.volelm.gt.xmsgin(5)) then
-               xtetwd(it)=ior(xtetwd(it),mask)
-            ict=ict+1
-            elseif (cmsgin(4)(1:2).eq.'eq'.and.volelm.eq.xmsgin(5)) then
-               xtetwd(it)=ior(xtetwd(it),mask)
-            ict=ict+1
-            elseif (cmsgin(4)(1:2).eq.'ne'.and.volelm.ne.xmsgin(5)) then
-               xtetwd(it)=ior(xtetwd(it),mask)
-            ict=ict+1
+              ict=ict+1
+          elseif (cmsgin(4)(1:2).eq.'lt'.and.volelm.lt.xmsgin(5)) then
+                 xtetwd(it)=ior(xtetwd(it),mask)
+              ict=ict+1
+          elseif (cmsgin(4)(1:2).eq.'ge'.and.volelm.ge.xmsgin(5)) then
+                 xtetwd(it)=ior(xtetwd(it),mask)
+              ict=ict+1
+          elseif (cmsgin(4)(1:2).eq.'gt'.and.volelm.gt.xmsgin(5)) then
+                 xtetwd(it)=ior(xtetwd(it),mask)
+              ict=ict+1
+          elseif (cmsgin(4)(1:2).eq.'eq'.and.volelm.eq.xmsgin(5)) then
+                 xtetwd(it)=ior(xtetwd(it),mask)
+              ict=ict+1
+          elseif (cmsgin(4)(1:2).eq.'ne'.and.volelm.ne.xmsgin(5)) then
+                 xtetwd(it)=ior(xtetwd(it),mask)
+              ict=ict+1
+          endif
+
+            else
+                volelm = -1. 
+                nelm_invalid = nelm_invalid + 1
+                ielm_invalid = ityp
             endif
          enddo
+
+         if (nelm_invalid .gt. 0) then
+            write (logmess ,'(a,a)')
+     >       "Warning: No aspect ratio for invalid element type: ",
+     >      elemtyp_name(ielm_invalid)
+            call writloga('default',0,logmess ,0,ierrw)
+
+            write(logmess ,'(a,i14)')
+     >      "Warning: Number of invalid elements: ", nelm_invalid
+            call writloga('default',0,logmess ,0,ierrw)
+         endif
          go to 9997
       endif
  

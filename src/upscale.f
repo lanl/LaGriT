@@ -176,6 +176,8 @@ C
       pointer (ipitp1, itp1)
       integer isetwd(nplen), itp1(nplen)
 
+      pointer (ipdistpossleaf, distpossleaf)
+      real*8 distpossleaf(nplen)
 
       pointer (ipnneigh, nneigh)
       pointer(ipmpary, mpary)
@@ -874,6 +876,10 @@ C      FOR EACH SOURCE NODE
 C           LOOP THROUGH SINK POINTS 
 C           COMPUTE NODES FOR FOUND VORONOI VOLUME 
 C
+       length=npoints
+       call mmgetblk('distpossleaf',isubname,ipdistpossleaf,
+     * length,2,ierr)
+
        icntsrc = 0
        iisnk=0
        do ii=1,npoints_src
@@ -901,9 +907,12 @@ c          Get nearest point number iisnk from attribute pt_gtg
                 mtfound = -1
               endif
            else
+
              call nearestpoint0(xq,yq,zq,xs,ys,zs,linkt,sbox,eps,
-     *       npoints,mtfound,itfound,ierr)
-             if(ierr.ne.0) call x3d_error(isubname,' nearestpoint0')
+     *       npoints,distpossleaf,mtfound,itfound,ierr)
+
+           if(ierr.ne.0 ) call x3d_error(isubname,' nearestpoint0')
+
            endif
            if (mtfound.gt.0) then
               totfind=totfind+mtfound
@@ -1058,6 +1067,9 @@ C           itfound is the coarse sink node (or nodes) for that point
 
          enddo
 C        END LOOP through all source points 
+
+C       Release memory block
+        call mmrelblk('distpossleaf' ,isubname,ipdistpossleaf,ierr)
  
 C       NOW ASSIGN FINAL VALUES based on nnum, dups_gtg, and value
 C       avoid divide by zero where 0 nodes found for sink

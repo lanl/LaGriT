@@ -193,12 +193,13 @@ C  local variables
       character*32 cmo, isubname
       character* 132 lgms 
       integer i1,it,ic,icolor
-      integer id_edge_min, id_edge_max
+      integer id_edge_min, id_edge_max, ielm_invalid,nelm_invalid
       real*8  edge_min, edge_max, edge_min_max_ratio
       real*8 srat,voltest
       real*8 xic,yic,zic,sratmin,sratmax
       integer jtetoff, jtet, itetclr
       integer itetoff,itet,itettyp,nelements,length,ifound
+
 C  variables for volume computation
       integer nbins,nsmallvol,nsmallvoleq,nonposvol,nonzero,ielmtyp
       integer totbyclr(*)
@@ -210,6 +211,7 @@ C  variables for volume computation
       pointer(iptotbyop,totbyop)
       pointer(ipiclr,iclr)
       pointer(ipsumbyclr,sumbyclr)
+
 C  New volume variables
       logical ifposvol, ifbins
       integer istart,iinc,nclrs,icount
@@ -252,7 +254,7 @@ C  Element sets
       integer xtetwd
       pointer (ipxtetwd,xtetwd(1000000))
 C  Parameter reading vars
-      logical ifaspseen, ifvolseen, ifangseen,iftaylorseen
+      logical ifaspseen, ifvolseen, ifangseen,iftaylorargs
       integer parcount
       integer ierrw, icscode
 
@@ -294,6 +296,16 @@ c
       ipt1=1
       ipt2=0
       ipt3=0
+
+      badcountname(ifelmtet) = 'tets'
+      badcountname(ifelmpyr) = 'pyramids'
+      badcountname(ifelmpri) = 'prisms'
+      badcountname(ifelmhex) = 'hexes'
+      badcountname(ifelmhyb) = 'hybrids'
+      badcountname(ifelmply) = 'polygons'
+      badcountname(ifelmtri) = 'triangles'
+      badcountname(ifelmqud) = 'quads'
+
  
 C  get mesh object name
       call cmo_get_name(cmo,ier)
@@ -312,7 +324,7 @@ C  Determine calling parameters
       ifaspseen = .false.
       ifvolseen = .false.
       ifangseen = .false.
-      iftaylorseen = .false.
+      iftaylorargs = .false.
       parcount = 0
       ifaspect = .false.
       ifedge_ratio = .false.
@@ -323,8 +335,10 @@ C  Determine calling parameters
       iftaylor = .false.
       ifquad = .false.
       nbins = 5
- 
-c parse command string
+c 
+c PARSE command string
+c
+
 c 1) quality
 c 2) quality_type = aspect, volume, angle, taylor, pcc
 c    2+i) options for quality_type
@@ -337,6 +351,8 @@ C     Set defaults
       ifbyclr = .false.
       ifbins = .true.
       nbins = 5
+      ielm_invalid = 0
+      nelm_invalid = 0
  
       if (nwds.eq.1) then
         ifaspect = .true.
@@ -502,12 +518,14 @@ c........angle command
  
  
 c........taylor command
+c        quality/taylor/ fieldname / value /
+
          elseif (cmsgin(i) (1:6) .eq. 'taylor') then
-            iftaylorseen = .true.
             iftaylor = .true.
             i = i + 1
             if (nwds.ge.i .and. msgtyp(i).eq.3) then
               fieldname = cmsgin(i) (1:icharlnf(cmsgin(i)))
+              iftaylorargs = .true.
               i = i + 1
             endif
  
@@ -518,6 +536,8 @@ c........taylor command
                 taylorval = xmsgin(i)
               endif
               i = i + 1
+            else
+              iftaylorargs = .false.
             endif
  
 c........eltset command
@@ -534,7 +554,7 @@ c........eltset command
             endif
  
         endif
-c       END quality options
+c       END quality command options
  
 c       check for undefined command words
         if (iprev .eq. i ) then
@@ -544,7 +564,19 @@ c       check for undefined command words
         endif
       enddo
 c     END while loop over commands
+
+      if (iftaylor .eqv. .true. .and. iftaylorargs .eqv. .false.) then
+         write(lgms ,'(a)')
+     *   'Error: quality/taylor missing arguments: /field/value'
+         call writloga('default',1,lgms ,1,ierrw)
+         goto 9999
+      endif
+
  
+c
+c SETUP prepare the mesh object and memory 
+c
+
 c     Get memory for current cmo
       call cmo_get_info('nnodes',cmo,npoints,ilen,ityp,ier)
       call cmo_get_info('nelements',cmo,nelements,ilen,ityp,ier)
@@ -645,20 +677,10 @@ c     do not loop through by color, do all elements
       endif
 c     end setup for volumes by material(itetclr)
  
- 
- 
-C***********************************************************************
-C***********************************************************************
-C FOR EACH COLOR OF ITETCLR
-c loop through material colors
-c the loop will happen once if itetclr option not chosen
-c     note - this can be changed to attribute of choice
- 
+c     loop through material colors and setup element sets
+c     the loop will happen once if itetclr option not chosen
       icount = 0
       do icolor = istart, nclrs, iinc
- 
- 
-c     get element set with current material color
       if (ifbyclr) then
  
         call writset('stat','tty','off',ierrw)
@@ -693,27 +715,41 @@ c       nelement is length of mpary, mpno = num pts in mpary set
         if (icolor .eq. istart) ifirst = mpary(1)
  
       endif
+c     end setup for element sets by material itetclr
  
  
  
+c
+c     SWITCH on quality options
+c
  
-C***********************************************************************
-C     switch on quality options
- 
-c.....option aspect
+c.....options aspect and edge_ratio and edge_min and edge_max
+
       if ((ifaspect).or.(ifedge_ratio).or.
      *    (ifedge_min).or.(ifedge_max)) then
+
+C    aspect (aspect ratio) 
+C    Computes the ratio of the radius of the circumsphere to
+C    the radius of the inscribed sphere of a tetrahedron.
+C    Ratio is multiplied by 3 so that a value of one
+C    indicates a regular tetrahedron. If the ratio is
+C    smaller than xrefine(1) the tet and edges are tagged.
+C    The ratio should never be greater than one.
+C    Valid types are tet, tri, hex (diagonals), and quad
+C    
+C    edge_ratio
+C    computes the ratio (shortest element edge/longest element edge)
+C    All element types are valid
 C
-C           THIS IS ASPECT_RATIO/TET
-C
-C           Computes the ratio of the radius of the circumsphere to
-C               the radius of the inscribed sphere of a tetrahedron.
-C               Ratio is multiplied by 3 so that a value of one
-C               indicates a regular tetrahedron. If the ratio is
-C               smaller than xrefine(1) the tet and edges are tagged.
-C               The ratio should never be greater than one.
+C    edge_min and edge_max
+C    finds the min or max edge length for each element
+C    All element types are valid
  
-C  put aspect ratios into an attribute array
+
+c.....option aspect 
+
+      ielm_invalid = 0
+      nelm_invalid = 0
       if(ifattrib) then
         if(ifaspect)then
          cbuff='cmo/addatt//aratio/VDOUBLE/scalar/nelements' //
@@ -776,9 +812,26 @@ C  prepare bins for storing the ratio counts
             zica(i)=zic(i1)
          enddo
  
+C
+C     for aspect, currently valid types include:
+C     tet hex tri and quad
+
       if(ifaspect)then
+
+         if (ielmtyp.eq.ifelmtet .or. ielmtyp.eq.ifelmtri .or. 
+     *       ielmtyp.eq.ifelmhex .or. ielmtyp.eq.ifelmqud ) then 
+
          call aratio_element(ielmtyp,xica,yica,zica,srat,epsilonaspect)
+
+         else
+             srat = 0.0
+             nelm_invalid = nelm_invalid + 1
+             ielm_invalid = ielmtyp
+         endif
+
+c.....option edge_ratio and edge_min and edge_max
       elseif((ifedge_ratio).or.(ifedge_min).or.(ifedge_max))then
+
          call aratio_element_edge(ielmtyp,xica,yica,zica,
      *          id_edge_min,id_edge_max,
      *          edge_min,edge_max,edge_min_max_ratio)
@@ -807,7 +860,12 @@ C     Split the loop so we know the min/max during bin distribution.
 C
       do ii=1,mpno
          it=mpary(ii)
-         srat = aratio(it)/sratmax
+
+         if (sratmax .eq. 0.) then
+             srat = 0.
+         else
+             srat = aratio(it)/sratmax
+         endif
 C
 C  Calculate some distribution here
 C  Using simple linear search to find appropriate bins
@@ -831,11 +889,11 @@ C  Using simple linear search to find appropriate bins
             endif
          endif
        enddo
- 
-      if (nerr.gt.0) then
+
+       if (nerr.gt.0) then
          write(lgms ,"('Total elem w/ aspect ratio > 1: ',i10)") nerr
          call writloga('default',0,lgms ,0,ierrw)
-      endif
+       endif
 C
 C  Write totals for quantities
 C
@@ -843,34 +901,65 @@ C
       call writloga('default',0,lgms ,0,ierrw)
 C
 C     Aspect Ratio Output
-C
       if(ifaspect)then
-      write(lgms ,"('elements with aspect ratio < ',a3,
+
+c     report only if there are some valid numbers
+
+      if (sratmin .eq. 0. .and. sratmax .eq. 0.) then
+
+        write(lgms ,"('elements with aspect ratio not set: ',i10)") 
+     >  nelm_invalid
+        call writloga('default',0,lgms ,0,ierrw)
+      
+      else
+
+        write(lgms ,"('elements with aspect ratio < ',a3,
      *     ':           ',i10)") arbinchars(1), arbincnts(1)
-      call writloga('default',0,lgms ,0,ierrw)
-      do i=2,numarbins
-         write(lgms ,"('elements with aspect ratio b/w ',a3,
-     *        ' and ',a3,': ',i10)") arbinchars(i-1),
-     *        arbinchars(i), arbincnts(i)
-         call writloga('default',0,lgms ,0,ierrw)
-      enddo
+        call writloga('default',0,lgms ,0,ierrw)
+
+        do i=2,numarbins
+             write(lgms ,"('elements with aspect ratio b/w ',a3,
+     *       ' and ',a3,': ',i10)") arbinchars(i-1),
+     *       arbinchars(i), arbincnts(i)
+             call writloga('default',0,lgms ,0,ierrw)
+        enddo
  
-      if (nneg .gt. 0) then
-        write(lgms ,"('elements with aspect ratio < 0.: ',i10)") nneg
-        call writloga('default',0,lgms ,0,ierrw)
-      endif
-      if (nerr .gt. 0) then
-        write(lgms ,"('elements with aspect ratio > 1.: ',i10)") nerr
-        call writloga('default',0,lgms ,0,ierrw)
+        if (nneg .gt. 0) then
+          write(lgms ,"('elements with aspect ratio < 0.: ',i10)") nneg
+          call writloga('default',0,lgms ,0,ierrw)
+        endif
+        if (nerr .gt. 0) then
+          write(lgms ,"('elements with aspect ratio > 1.: ',i10)") nerr
+          call writloga('default',0,lgms ,0,ierrw)
+        endif
       endif
  
       write(lgms ,"('min aspect ratio = ',e11.4,
      *  '  max aspect ratio = ',e11.4)") sratmin,sratmax
       call writloga('default',0,lgms ,0,ierrw)
-C
-C     min/max Edge Ratio Output
-C
+
+c     report invalid elements
+      if (nelm_invalid .gt. 0) then
+         write (lgms ,'(a,a)')
+     >    "Warning: No aspect ratio for invalid element type: ",
+     >   badcountname(ielm_invalid)
+         call writloga('default',0,lgms ,0,ierrw)
+
+         write(lgms ,'(a,i14)')
+     >   "Warning: Number of invalid elements: ", nelm_invalid
+         call writloga('default',0,lgms ,0,ierrw)
+ 
+         write(lgms ,'(i10,a,i10,a)')mpno-nelm_invalid,
+     >    ' out of ',mpno,' total elements evaluated.'
+         call writloga('default',0,lgms ,1,ierrw)
+      endif
+
+C     end aspect ratio summary for valid types
+
+c     min/max Edge Ratio Output
+
       elseif(ifedge_ratio)then
+
       write(lgms ,"('element norm min/max edge ratio < ',a3,
      *     ':           ',i10)") arbinchars(1), arbincnts(1)
       call writloga('default',0,lgms ,0,ierrw)
@@ -1205,7 +1294,15 @@ c     all volumes are same, ichk is false
 c     END volume
  
  
-c.....option angle of elements
+c.....option angle 
+
+C     angle
+C     Finds the max and min dihedral angles between adjacent
+C     faces of a 3D element or edges of a 2D element in radians
+C     If the compare  option is used, it displays a count of 
+C     the number of elements with a dihedral angle that is 
+C     greater than or less than the supplied value.
+
       if (ifangle) then
  
       minangle = 8.0
@@ -1286,11 +1383,29 @@ C  Write total number of elements with bad angles
 c     END angle
  
 c.....option taylor
+
       if (iftaylor) then
+
+C     taylor / field/ value
+C     see taylor_error() which generates an attribute with edges 
+C     whose H1 seminorm of the error between a function with 
+C     specified piecewise constant Hessian and the piecewise linear 
+C     approximation over the tetrahedra is greater than badval.  
+C     The attribute contains 10* element number + edge number.  
+C     The name of the attribute is quality_taylor.  The length of 
+C     this array is stored in  the attribute quality_taylor_len.
+C     The seminorm functional is evaluated over the polyhedron
+C     consisting of the union of tetrahedra sharing node NODE.
+C     The functional being used
+C     here is a generalization to 3D of the 2D analysis
+C     of Bank and Smith.)
  
 c     This needs to be checked, to see if can be called with
 c     an eltset set of elements
 c     for now, will use entire set of elements
+
+C     Assume by here that field and value are set  
+
       if (mpno.ne.nelements) then
          write(lgms ,'(a)')'eltset not implemented for taylor option.'
          call writloga('default',0,lgms ,0,ierrw)
@@ -1556,6 +1671,7 @@ c     report on total elements
       endif
  
  9998 call mmrelprt(isubname,ier)
+
       if (.not.idone .and. ifbyclr) then
         call writset('stat','tty','off',ierr1)
         call dotaskx3d('eltset/-etmp-/delete/ ; finish ',ier)

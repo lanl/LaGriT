@@ -1,0 +1,11 @@
+cmo/create/mo1///triplane                                                       
+read/avs/mesh_4.inp/mo1                                                         
+triangulate/clockwise                                                           
+dump/test_4.inp/mo1                                                             
+cmo/create/mo2///triplane                                                       
+read/avs/mesh_3.inp/mo2                                                         
+triangulate/clockwise                                                           
+dump/test_3.inp/mo2                                                             
+cmo/status/mo1                                                                  
+cmo/status/mo2                                                                  
+finish                                                                          
