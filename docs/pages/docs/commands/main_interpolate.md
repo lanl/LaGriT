@@ -222,8 +222,8 @@ interpolate attributes are always deleted unless the keyword **`keepatt`** is us
 ## Demos
 
 
- [Example 1: interpolate / voronoi](../description_voronoi.md)  15 Examples from test/level01/interp_voronoi
+ [Examples: interpolate / voronoi](../description_voronoi.md)  15 Examples from test/level01/interp_voronoi
 
- [Example 2: interpolate / map](../description_map.md)  12 Examples from test/level01/interp_map
+ [Examples: interpolate / map](../description_map.md)  12 Examples from test/level01/interp_map
 
- [Example 3: interpolate / continuous](../description_cont.md)  5 Examples from test/level01/interp_continuous
+ [Examples: interpolate / continuous](../description_cont.md)  5 Examples from test/level01/interp_continuous
