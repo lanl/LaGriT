@@ -222,12 +222,8 @@ interpolate attributes are always deleted unless the keyword **`keepatt`** is us
 ## Demos
 
 
- [Example 1: interpolate / voronoi](../description_voronoi.md)  Copy nearest source node attribute to sink node attribute.
+ [Example 1: interpolate / voronoi](../description_voronoi.md)  15 Examples from test/level01/interp_voronoi
 
- [Example 2: interpolate / map](../description_map.md)  Copy source element attribute to enclosed sink node or element attribute.
+ [Example 2: interpolate / map](../description_map.md)  12 Examples from test/level01/interp_map
 
- [Example 3: interpolate / continuous](../description_cont.md)  Interpolate source element node attribute to sink node or element attribute. 
- 
- 
- 
-
+ [Example 3: interpolate / continuous](../description_cont.md)  5 Examples from test/level01/interp_continuous
