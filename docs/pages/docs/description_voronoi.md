@@ -17,28 +17,38 @@ title: Example interpolate/voronoi
 
  The output consists of GMV files.
 
- The input consists of AVS and GMV files. The input deck has 15 Examples of the interpolate command.
+ The input consists of AVS and GMV files. The input command file has 15 Examples of the interpolate command.
  
- [lagrit_input_voronoi](docs/lagrit_input_voronoi.md) View command file.
+ [lagrit_input_voronoi](lagrit_input_voronoi.md) View LaGriT command file.
  
- [lagrit_input_voronoi](https://lanl.github.io/LaGriT/docs/pages/docs/lagrit_input_voronoi) Download command file.
+ [lagrit_input_voronoi](https://lanl.github.io/LaGriT/docs/pages/docs/lagrit_input_voronoi) Download LaGriT command file.
 
 
-## Example 1:
+The following **interpolate/voronoi** Examples are in the LaGriT command file.
+
+## Example 1
 
 
- The objective is to test the ability of **interpolate** to find the nearest node in the source coarse hex mesh to each sink node of a refined triangle mesh. The imt value of each nearest source node attribute is copied to the sink imt
- attribute. 
- 
- This image shows the imt attribute colors of the source hex mesh and the refined triangle sink mesh.
- 
- <img width="400" src="https://lanl.github.io/LaGriT/assets/images/vor1.gif">
+Copy node attribute values from a source coarse hex mesh to each sink node of a refined triangle mesh. 
+The image shows the imt attribute colors of the source hex mesh and the refined triangle sink mesh.
+
+```
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/ 
+```
+<img width="400" src="https://lanl.github.io/LaGriT/assets/images/vor1.gif">
  
 
- The objective is to test the ability of **interpolate** to find the
- nearest node in a quad grid and copy imt values to sink quad grid.
- Image shows both the irregular quad grid and the refined quad sink
- grid.
+## Example 2
+
+Copy node attribute values from a source quad mesh to each sink node of a quad mesh.
+The image shows the source quad mesh and the sink refined quad mesh.
+
+```
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/ 
+```
+<img width="400" src="https://lanl.github.io/LaGriT/assets/images/vor1.gif">
+ 
+
 [source and sink quad grids](image/vor_rand.gif">
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/vor_rand_TN.GIF)](image/vor_rand.gif">
 
