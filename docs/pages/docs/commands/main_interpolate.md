@@ -151,9 +151,9 @@ NOT means Not Supported
 | **source attribute type**            | integer or double                                | integer or double                                | integer or double                                 |
 | **sink attribute type**              | integer or double                                | double, NOT integer                              | integer or double                                 |
 | **interp function**           | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered      |
-| **tie option**                       | tiemin or tiemax                                 | tiemin or tiemax                                 | tiemin or tiemax                                  |
-| **flag option**                       | plus1, nearest, or user value                    | plus1, nearest, or user value                    | plus1 or user value                               |
-| **keepatt option**               | source elements attribute `el_gtg`            | source elements attribute `el_gtg`            | source node attribute `pt_gtg`                |
+| **tie option**                | tiemin or tiemax                | tiemin or tiemax           | tiemin or tiemax                                  |
+| **flag option**               | plus1, nearest, or user value   | plus1, nearest, or user value       | plus1 or user value                               |
+| **keepatt option**        | sink attribute `el_gtg`          | sink attribute `el_gtg`        | sink attribute `pt_gtg`                |
 
 
 
@@ -165,6 +165,12 @@ interpolate / map / cmo_sink imt /1,0,0/ cmo_src itetclr
 For each node in cmo_sink find an enclosing element from mesh
 cmo_src. Assign the element's itetclr value to the corresponding
 imt attribute of `cmo_sink`. For sink points outside of the source elements, a value 1 greater than itetclr max value is assigned.
+
+```
+interpolate / voronoi / cmo_sink itetclr /1,0,0/ cmo_src imt / keepatt
+```
+For each element centroid in cmo_sink find nearest node in cmo_src. Assign the source node imt value to the corresponding
+itetclr attribute of `cmo_sink`. The keepatt option keeps the sink attribute pt_gtg with nearest node values for each element centroid.
 
 ```
 interpolate / map / cmo_sink Pval /1,0,0/ cmo_src Vval / tiemin, log
