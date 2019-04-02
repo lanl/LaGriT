@@ -70,7 +70,7 @@ The following parameters are optional on the command line:
 
 
 `tie_option` is used to break a tie when a sink point has more than one valid candidate source node or element. 
-Along with kdtree search, `nearestpoint()` and `retrieve_within_eps()` routines return a list of
+Along with kdtree search, nearestpoint() and retrieve_within_eps() routines return a list of
 candidate objects for a sink point. These can be either a list of
 closest points, or a list of elements the point is on or inside.
 `tie_option` chooses one candidate from the possible candidates. The
@@ -118,14 +118,9 @@ user. Functions such as min and max pass the interpolation value
 unchanged.
 
 
-## Tables
-
-The following tables identify what combinations of methods,
-options, and element types are supported with the command
-**`interpolate`**.
+## Table 1
 
 This table indicates the type of attributes that can be used with the interpolation methods. 
-
 
 | **Method**       | **Sink**     | **Source**   
 | ---------------- | -------------| ------------- 
@@ -137,23 +132,29 @@ This table indicates the type of attributes that can be used with the interpolat
 | **voronoi**      | element      | node
 
  
-This table shows supported applications for each of the interpolation methods.
+
+## Table 2
+
+This Table shows supported applications for each of the interpolation methods.
+
 (parenthesis) means the option should work, but may be undefined.
-NOT means Not Supported
+
+NOT indicates Not Supported
+
+|       OPTIONS                |             **MAP**            |         **CONTINUOUS**         |         **VORONOI**            |
+|------------------------------| ------------------------------ | ------------------------------ | ------------------------------ |
+| **source element type**      | tri, quad, hex, tet, (pyr), (pri), (line)        | tri, quad, NOT hex, tet, (pyr), (pri), (line)    | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)  |
+| **sink element type**        | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)  |
+| **source attribute**         | element                                          | nodes (on element)                                           | node                                  |
+| **sink attribute**           | node or element (centroid)                       | node or element (centroid)                       | node or element (centroid)                        |
+| **source attribute type**    | integer or double                                | integer or double                                | integer or double                                 |
+| **sink attribute type**      | integer or double                                | double, NOT integer                              | integer or double                                 |
+| **interp function**          | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered      |
+| **tie option**               | tiemin or tiemax                | tiemin or tiemax           | tiemin or tiemax                                  |
+| **flag option**              | plus1, nearest, or user value   | plus1, nearest, or user value       | plus1 or user value                               |
+| **keepatt option**           | element attribute `el_gtg`          | element attribute `el_gtg`        | node attribute `pt_gtg`                |
 
 
-|       OPTIONS                        | **MAP**                                          | **CONTINUOUS**                                   | **VORONOI**                                       |
-|------------------------------------- | ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------- |
-| **source element type**              | tri, quad, hex, tet, (pyr), (pri), (line)        | tri, quad, NOT hex, tet, (pyr), (pri), (line)    | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)  |
-| **sink element type**                | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)  |
-| **source attribute**                 | element                                          | nodes (on element)                                           | node                                              |
-| **sink attribute**                   | node or element (centroid)                       | node or element (centroid)                       | node or element (centroid)                        |
-| **source attribute type**            | integer or double                                | integer or double                                | integer or double                                 |
-| **sink attribute type**              | integer or double                                | double, NOT integer                              | integer or double                                 |
-| **interp function**           | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered      |
-| **tie option**                | tiemin or tiemax                | tiemin or tiemax           | tiemin or tiemax                                  |
-| **flag option**               | plus1, nearest, or user value   | plus1, nearest, or user value       | plus1 or user value                               |
-| **keepatt option**        | sink attribute `el_gtg`          | sink attribute `el_gtg`        | sink attribute `pt_gtg`                |
 
 
 
@@ -219,11 +220,12 @@ used. Note that the **`delatt`** keyword does not have to exist, the
 interpolate attributes are always deleted unless the keyword **`keepatt`** is used.
 
  
+ 
 ## Demos
 
 
- [Examples: interpolate / voronoi](../description_voronoi.md)  15 Examples from test/level01/interp_voronoi
+ [Examples: interpolate / voronoi](../description_voronoi.md)  Examples from test/level01/interp_voronoi
 
- [Examples: interpolate / map](../description_map.md)  12 Examples from test/level01/interp_map
+ [Examples: interpolate / map](../description_map.md)  Examples from test/level01/interp_map
 
- [Examples: interpolate / continuous](../description_cont.md)  5 Examples from test/level01/interp_continuous
+ [Examples: interpolate / continuous](../description_cont.md)  Examples from test/level01/interp_continuous
