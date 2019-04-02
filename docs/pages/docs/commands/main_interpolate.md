@@ -28,7 +28,9 @@ been generalized to include user chosen attributes and expanded options.
 
 
 
+
 `intrp_method` defines the method of interpolation used from mesh object cmosrc to mesh object cmosink.
+
 
 * **`map`** method copies the value from the enclosing source element to sink node or element (centroid). 
 Sink nodes located outside the source elements are tagged with values according to flag options. 
@@ -51,6 +53,7 @@ to the vertice values before being summed. See also the `interp_function` option
 Use hextotet to convert hex elements to tets. 
 
 * **`default`** - If source attribute is element type then use `map`. If source attribute is node type then use `continuous`.
+
 
 
 `cmosink`, `attsink` are the sink mesh object name and attribute to write interpolated values to. If the sink attribute is element type, centroids are calculated for each element and these are used for the interpolation methods. 
@@ -96,7 +99,7 @@ grid. *This does not apply to Voronoi method which finds nearest node and does n
 * `flag_value` given as an integer or real value will use this numeric value for the flag assignments.
 
 
-`keep_option` is useful during multiple calls to **interpolate** on the same sink and source mesh objects.
+`keep_option` is useful during multiple calls to **interpolate** to use attributes pt_gtg and el_gtg instead of creating these search attributes for every call. The sink and source mesh objects and their index selection must not change.
 The `interpolate` command uses kdtree and candidate searches to create sink
 attributes that pair sink points to associated source node or element. By using the keyword 'keepatt' these
 attributes are not deleted. On subsequent calls to
@@ -119,7 +122,7 @@ unchanged.
 
 The following tables identify what combinations of methods,
 options, and element types are supported with the command
-**interpolate**.
+**`interpolate`**.
 
 This table indicates the type of attributes that can be used with the interpolation methods. 
 
@@ -147,10 +150,10 @@ NOT means Not Supported
 | **sink attribute**                   | node or element (centroid)                       | node or element (centroid)                       | node or element (centroid)                        |
 | **source attribute type**            | integer or double                                | integer or double                                | integer or double                                 |
 | **sink attribute type**              | integer or double                                | double, NOT integer                              | integer or double                                 |
-| **interpolation function**           | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered      |
-| **tiebreaker**                       | tiemin or tiemax                                 | tiemin or tiemax                                 | tiemin or tiemax                                  |
-| **error flag**                       | plus1, nearest, or user value                    | plus1, nearest, or user value                    | plus1 or user value                               |
-| **keepatt attributes**               | enclosing elements attribute `el_gtg`            | enclosing elements attribute `el_gtg`            | nearest node attribute `pt_gtg`                |
+| **interp function**           | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered     | linear, log, sinh, all others pass unaltered      |
+| **tie option**                       | tiemin or tiemax                                 | tiemin or tiemax                                 | tiemin or tiemax                                  |
+| **flag option**                       | plus1, nearest, or user value                    | plus1, nearest, or user value                    | plus1 or user value                               |
+| **keepatt option**               | source elements attribute `el_gtg`            | source elements attribute `el_gtg`            | source node attribute `pt_gtg`                |
 
 
 
@@ -213,11 +216,11 @@ interpolate attributes are always deleted unless the keyword **`keepatt`** is us
 ## Demos
 
 
- [Example 1: interpolate / voronoi](../description_voronoi.md)  Copy nearest source node value to sink point
+ [Example 1: interpolate / voronoi](../description_voronoi.md)  Copy nearest source node attribute to sink node attribute.
 
- [Example 2: interpolate / map](../description_map.md)  Copy source element value to enclosed sink point
+ [Example 2: interpolate / map](../description_map.md)  Copy source element attribute to enclosed sink node or element attribute.
 
- [Example 3: interpolate / continuous](../description_cont.md)  Interpolate source element vertices to sink point 
+ [Example 3: interpolate / continuous](../description_cont.md)  Interpolate source element node attribute to sink node or element attribute. 
  
  
  
