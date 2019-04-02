@@ -19,7 +19,9 @@ title: Example interpolate/voronoi
 
  The input consists of AVS and GMV files. The input deck has 15 Examples of the interpolate command.
  
- [lagrit_input_voronoi](https://lanl.github.io/LaGriT/docs/pages/docs/lagrit_input_voronoi)
+ [lagrit_input_voronoi](docs/lagrit_input_voronoi.md) View command file.
+ 
+ [lagrit_input_voronoi](https://lanl.github.io/LaGriT/docs/pages/docs/lagrit_input_voronoi) Download command file.
 
 
 ## Example 1:
