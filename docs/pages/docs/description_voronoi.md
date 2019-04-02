@@ -1,17 +1,14 @@
 ---
-GENERATOR: 'Mozilla/4. [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
-Generator: Microsoft Word 98
-title: 'interpolate / voronoi'
+title: Example interpolate/voronoi
 ---
 
  
 
-interpolate / voronoi
----------------------
+# interpolate/voronoi
 
 
-Example 1: show results from using the **voronoi** (nearest node) option
-of interpolate.
+
+## Example 1: show results from using the **`interpolate/voronoi`** (nearest node) method.
 
 
  For each point in the sink grid, the nearest node is found from the
@@ -20,21 +17,21 @@ of interpolate.
 
  The output consists of GMV files.
 
- The input consists of AVS and GMV files. The input deck for this
- example is
- [lagrit\_input\_voronoi](lagrit_input_voronoi)
+ The input consists of AVS and GMV files. The input deck has 15 Examples of the interpolate command.
+ 
+ [lagrit_input_voronoi](https://lanl.github.io/LaGriT/docs/pages/docs/lagrit_input_voronoi)
 
 
-Results from Example 1:
+## Example 1:
 
 
- The objective is to test the ability of **interpolate** to find the
- nearest node in a coarse hex grid to each point of a refined triangle
- grid. The imt value of each found node is copied to the sink imt
- attribute. Image shows the imt colors of the coarse hex grid and the
- refined triangle sink grid.
-[source hex and sink tri grids](image/vor1.gif">
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/vor1_TN.GIF)](image/vor1.gif">
+ The objective is to test the ability of **interpolate** to find the nearest node in the source coarse hex mesh to each sink node of a refined triangle mesh. The imt value of each nearest source node attribute is copied to the sink imt
+ attribute. 
+ 
+ This image shows the imt attribute colors of the source hex mesh and the refined triangle sink mesh.
+ 
+ <img width="400" src="https://lanl.github.io/LaGriT/assets/images/vor1.gif">
+ 
 
  The objective is to test the ability of **interpolate** to find the
  nearest node in a quad grid and copy imt values to sink quad grid.
