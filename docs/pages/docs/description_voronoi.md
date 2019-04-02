@@ -21,7 +21,7 @@ title: Example interpolate/voronoi
  
  [lagrit_input_voronoi](lagrit_input_voronoi.md) View LaGriT command file.
  
- [lagrit_input_voronoi](https://lanl.github.io/LaGriT/docs/pages/docs/lagrit_input_voronoi) Download LaGriT command file.
+ [lagrit_input_voronoi](lagrit_input_voronoi) Download LaGriT command file.
 
 
 The following **interpolate/voronoi** Examples are in the LaGriT command file.
