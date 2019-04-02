@@ -22,7 +22,7 @@ ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)
 
 # create formatter
-formatter = logging.Formatter('[%(asctime)s] %(levelname)s - %(message)s')
+formatter = logging.Formatter('[%(asctime)s - %(funcName)20s()] %(levelname)s - %(message)s', "%H:%M:%S")
 
 # add formatter to ch
 ch.setFormatter(formatter)
@@ -34,3 +34,6 @@ log.addHandler(ch)
 '''
 CONSTANTS - NOT FOR END-USER MODIFICATIONS
 '''
+
+GLOBAL_NDV = -9999.
+MATERIAL_ID = 'itetclr'

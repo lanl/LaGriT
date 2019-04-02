@@ -6,6 +6,32 @@ Import these routines and write to file.
 '''
 
 class Infiles:
+
+    def _surf_mesh_backup(in_name,out_name):
+        # Driver for producing a surface mesh from 
+        # a 
+        infile = '''read/avs/{0}/mo1
+resetpts/itp
+
+
+createpts/median
+
+sort/mo1/index/ascending/ikey/itetclr zmed ymed xmed
+
+reorder/mo1/ikey
+cmo/DELATT/mo1/ikey
+cmo/DELATT/mo1/xmed
+cmo/DELATT/mo1/ymed
+cmo/DELATT/mo1/zmed
+cmo/DELATT/mo1/ikey
+
+extract/surfmesh/1,0,0/mo2/mo1/external
+dump/avs/{1}/mo2
+
+finish
+'''.format(in_name,out_name)
+        return infile
+
     # user_function
     distance_field = '''cmo/DELATT/mo_pts/dfield
 compute / distance_field / mo_pts / mo_line_work / dfield

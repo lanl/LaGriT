@@ -11,7 +11,7 @@ import random
 #import progressbar
 from scipy.spatial import Delaunay
 from copy import deepcopy
-from tinerator.unit_conversion import *
+from tinerator.utilities import *
 
 def isPointOutsidePolygon(vertices,pt1,pt2):
     '''

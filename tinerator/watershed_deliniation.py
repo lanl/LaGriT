@@ -3,7 +3,6 @@ import skfmm
 from matplotlib import pyplot as plt
 import numpy as np
 from copy import deepcopy
-import skimage.draw as draw
 
 def getFeatureTrace(feature:np.ndarray,feature_threshold:float=750.):
     '''
@@ -48,6 +47,7 @@ def calculateDistanceField(accum: np.ndarray,accumulation_threshold:float=750.):
 
     distance_field = skfmm.distance(distance_field,dx=0.25)
     return distance_field
+
 
 def watershedDelineation(dem,fill_depressions:bool=True,fill_flats:bool=True,method:str='D8',exponent=None):
     '''

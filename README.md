@@ -24,7 +24,7 @@ node-based attributes to a mesh, and much more.
 
 
 For installation instructions and API usage,
-[refer to the documentation here](https://raw.githack.com/lanl/LaGriT/tinerator/html/install.html)
+[refer to the documentation here](https://raw.githack.com/lanl/LaGriT/tinerator/html/index.html)
 or by navigating to `docs/index.md`.
 
 
