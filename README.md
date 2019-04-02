@@ -27,5 +27,10 @@ For installation instructions and API usage,
 [refer to the documentation here](https://raw.githack.com/lanl/LaGriT/tinerator/html/index.html)
 or by navigating to `docs/index.md`.
 
+## Docker
+
+A [Docker image](https://hub.docker.com/r/ees16/tinerator) can be pulled via:
+
+    docker pull ees16/tinerator
 
 ![](docs/assets/images/examples/attribute_final.png)
