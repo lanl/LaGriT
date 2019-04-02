@@ -1,59 +1,70 @@
 ---
-title: 'interpolate / continuous'
+title: interpolate/continuous
 ---
 
-interpolate / continuous
-------------------------
-
-Example 3: show results from using the **continuous** option of
-interpolate.
+# interpolate/continuous
 
 
- For each point in the sink grid, the enclosing element is found from
- the source grid. The attribute value associated with the sink point is
- assigned the interpolated attribute values from the element nodes.
- WARNING! continuous interpolation from a hex is not supported. Use
- hextotet to convert the source grid.
+Show examples using the **interpolate/continuous** method. For each point in the sink mesh, the enclosing element is found from the source mesh. The sink node or element (centroid) is assigned the interpolated attribute values from the element nodes. WARNING! continuous interpolation from a hex is not supported. Use hextotet to convert the mesh from hex to tet elements.
 
- The output consists of GMV files.
+The full set of 5 examples and input.lgi command file are found in test/level01/interp_continuous/
 
- The input consists of AVS and GMV files. The input deck for this
- example is [LaGriT\_input\_continuous](lagrit_input_continuous)
+ 
+[lagrit_input_continuous](lagrit_input_map.md) View LaGriT command file.
+ 
+[lagrit_input_continuous](lagrit_input_map) Download LaGriT command file.
 
 
-Results from Example 3:
+
+## Example 1
+
+Interpolate source node values to sink nodes.
+Source is 3 high, the bottom set of tets are a flat bottom xval is 0. top xval is 500.
+The sink mesh is a single hex with bottom nodes located at bottom of source mesh.
+
+```
+read avs input_tet3x3_flat.inp cmo_src 
+read avs input_hex1_med.inp    cmo_sink
+intrp/continuous/cmo_sink xval /1,0,0/ cmo_src xval
+```
+Interpolate from cmo_src node attribute xval to cmo_sink node attribute xval.
+
+<img width="400" src="https://lanl.github.io/LaGriT/assets/images/con01_src.gif">
+ 
+Image shows the tall source tet mesh in same view with the sink hex element positioned in the lower left corner.
 
 
- The objective is to test the ability of **interpolate** to use
- **continuous** interpolation from source element vertices on to sink
- points.
+<img width="350" src="https://lanl.github.io/LaGriT/assets/images/con01_sink.gif">
 
- Image on left shows the source tet grid and location of the sink hex
- element in the lower left corner of the tet grid. Values from the
- enclosing tet nodes are interpolated on to each hex point based on the
- point location in the found source element.
+This image shows the sink hex element with the interpolated values written to the node attribute called xval.
 
- The image on the right is the sink hex element with the interpolated
- values written to node attribute called xval.
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/con01_src_TN.GIF"> 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/con01_sink_TN.GIF">
+## Example 2
 
- The objective is use the **continuous** method to interpolate node
- values from a triangle grid to a high resolution quad grid.
+Interpolate node values from a set of large triangles to a high resolution quad mesh.
 
- Image on the left shows the source triangles colored by the node
- attribute numreal.
+```
+read avs input_random500_tri.inp cmo_src
+read avs input_500_quad.inp      cmo_sink
+intrp/continuous/cmo_sink numreal/1,0,0/cmo_src numreal
+```
+Interpolate from cmo_src triangle attribute numreal to cmo_sink node attribute numreal.
 
- Image on the right shows the sink quad grid with the interpolated
- values at the quad nodes. As seen by this image, the sink grid does
- not extend as high as the source grid, and has nodes outside the
- source grid. These nodes are flagged with the dark red values.
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/con02_src_TN.GIF">
+<img width="380" src="https://lanl.github.io/LaGriT/assets/images/con02_src.gif">
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/con02_sink_TN.GIF">
+Image shows the source triangles colored by the node attribute numreal. Source mesh is an irregular triangle mesh with 12 nodes.
 
-[Back to main page.](commands/main_interpolate.md#DEMOS)
+
+<img width="400" src="https://lanl.github.io/LaGriT/assets/images/con02_sink.gif">
+
+Image shows the higher resolution sink quad mesh with the interpolated
+ values at the quad nodes. As seen by this image, the sink mesh does
+ not extend as far as the source triangles. It has nodes outside the
+ source mesh. These nodes are flagged with the dark red values (1 greater than the max of numreal attribute).
+
+
+
+[Back to main page.](commands/main_interpolate.md)
 
