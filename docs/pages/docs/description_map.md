@@ -7,12 +7,14 @@ title: interpolate/map examples
 
 Show examples using the **`interpolate/map`** method. For each node or element centroid in the sink mesh, find the enclosing element source or background mesh. The attribute value associated with the sink point is assigned the attribute value from the source element attribute. 
 
-The full set of 15 examples and input.lgi command file are found in test/level01/interp_map/
+The full set of 12 examples and input.lgi command file are found in test/level01/interp_map/
 
  
 [lagrit_input_map](lagrit_input_map.md) View LaGriT command file.
  
 [lagrit_input_map](lagrit_input_map) Download LaGriT command file.
+
+
 
 # Example 1
 
@@ -39,7 +41,7 @@ The tie breaker for this command is set using the keyword tiemin. Additionally t
 This image shows the coarse source hex mesh in same view as the higher resolution triangle mesh.
 The itetclr values are 1(blue), 2(green), and 3(red).
 
-<img width="400" src="https://lanl.github.io/LaGriT/assets/images/map01_max.gif"> <img width="400" src="https://lanl.github.io/LaGriT/assets/images/map01_min.gif">
+<img width="400" src="https://lanl.github.io/LaGriT/assets/images/map01_max.gif">   <img width="400" src="https://lanl.github.io/LaGriT/assets/images/map01_min.gif">
 
 These two images show the sink mesh after interpolation of hex itetclr to sink node attribute imt1. 
 
@@ -47,32 +49,38 @@ The left image shows the result of using default tiemax option, with top nodes s
 The right image shows the result of using the tiemin option, with top nodes set to value 2.
 
 
+
 ## Example 2
 
-This example shows how the flag option is used for points outside the source grid. The sink grid has been translated so that part of the grid lies outside the source grid. 
+This example shows how the flag option is used when sink nodes are located outside the elements of the source mesh. 
 
 ```
 read gmv input_3d_hex.gmv   cmo_src
 read gmv input_2d_hires.gmv cmo_sink
 intrp/map/cmo_sink imt1/1,0,0/cmo_src itetclr/ plus1
 ```
-The flag value plus1 can be left off the command line as it is the default. For each sink node not inside a source element, the value 1 + max value in the itetclr attribute will be assigned to sink node imt1.
+This examples uses the plus1 option to flag outside nodes. For each sink node not inside a source element, the value 1 + max value in the itetclr attribute will be assigned to sink node imt1. The flag value plus1 can be left off the command line as it is the default.
 
 ```
 intrp/map/cmo_sink imt1/1,0,0/cmo_src itetclr/nearest,imt1/mintie
 ```
-Outside nodes will be assigned the nearest node value in imt, mintie will break any tie by choosing the min value.
+This second call uses the option nearest with attribute imt to tag outside node values. The mintie option will break any tie canidates by choosing the min value.
 
 
 <img width="400" src="https://lanl.github.io/LaGriT/assets/images/view_map02.gif">
 
 This image shows the source hex mesh with itetclr values 1(blue), 2(green), and 3(red). The high resolution sink triangles are shown in the same view to see the sink nodes located outside the source mesh and will not to have enclosing source elements.
  
- <img width="400" src="https://lanl.github.io/LaGriT/assets/images/map02_plus1.gif"> <img width="400" src="https://lanl.github.io/LaGriT/assets/images/map02_nearest.gif">
+ <img width="400" src="https://lanl.github.io/LaGriT/assets/images/map02_plus1.gif"> 
+ 
+This image shows results from the first call using plus1 option. It shows the sink triangles after imt values are assigned from source itetclr values using the flag option plus1.  The points outside the source mesh are flagged with the value of maximum itetclr value, plus one, which in this case is 4. 
+ 
+ 
+ <img width="400" src="https://lanl.github.io/LaGriT/assets/images/map02_nearest.gif">
 
-The left image shows the sink triangles after imt values are assigned from source itetclr values using the flag option plus1.  The points outside the source mesh are flagged with the value of maximum itetclr value, plus one, which in this cas e is 4. 
+This image is the second call which is the same command, except that outside nodes are flagged with the nearest point imt1 value of the source nodes. Note that the keyword nearest must be followed with a node attribute name to be used for the flagged points. The tiemin option is used for any tie candidate values.
 
-The image on the right is the same command, except that outside nodes are flagged with the nearest point imt1 value of the source nodes. Note that the keyword nearest must be followed with a node attribute name to be used for the flagged points.
+
 
 # Example 3
 
