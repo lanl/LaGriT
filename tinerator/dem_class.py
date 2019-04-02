@@ -42,18 +42,10 @@ class DEM():
         self.mask = self.dem == self.dem.no_data if self.no_data_value in self.dem else None
 
         self._surface_mesh = None
-
-        # The below values are defaults and should be changed based on DEM
-        self.max_distance = 20.
-        self.min_distance = 0.3
-        self.max_edge = 10.
-        self.min_edge = 0.1
+        self._stacked_mesh = None
 
         # Mesh characteristics
         self.number_of_layers = 0
-
-        # Temp files generated in the meshing process
-        self.__dirty_files = []
 
         self.__replace_infs_with_nans()
 
@@ -305,7 +297,8 @@ class DEM():
                                flip:str='y',
                                apply_elevation:bool=True,
                                outfile:str=None,
-                               rectangular_boundary:bool=False):
+                               rectangular_boundary:bool=False,
+                               boundary_distance:float=None):
         '''
         Generates a triplane with uniformly sized elements.
 
@@ -318,12 +311,16 @@ class DEM():
         apply_elevation (bool): If True, interpolate DEM elevations onto surface mesh
         outfile (str): filepath to save generated mesh to
         rectangular_boundary (bool): set to true if the DEM domain is rectangular
+        boundary_distance (float): Overrides edge length and manually sets spacing between boundary nodes
 
         # Returns
         PyLaGriT mesh object
         '''
 
-        self._generate_boundary(edge_length,rectangular=rectangular_boundary)
+        if boundary_distance is None:
+            boundary_distance = edge_length
+
+        self._generate_boundary(boundary_distance,rectangular=rectangular_boundary)
         self._surface_mesh = mesh._uniform_surface_mesh(self.lg,
                                                         self.boundary,
                                                         outfile=outfile,
@@ -352,24 +349,38 @@ class DEM():
                                refine_dist:float=0.5,
                                flip:str='y',
                                smooth_boundary:bool=False,
-                               rectangular_boundary:bool=False):
+                               rectangular_boundary:bool=False,
+                               boundary_distance:float=None):
         '''
         Generates a refined triangular mesh, with a minimum refinement length 
         defined by h.
 
         # Attributes
-        min_edge (float): triangle edge lengths
+        min_edge_length (float): minimum triangle edge lengths
+        max_edge_length (float): maximum triangle edge lengths
 
         # Optional Arugments
-        plot (bool): display the triangulation on completion
-        flip (str): flips array of the elevation raster along a given axis (x,y,xy)
+        outfile (str): Filepath to save mesh to
+        apply_elevation (bool): If True, interpolate DEM elevations onto surface mesh
+        slope (float): slope of refine function
+        refine_dist (float): Threshold for minimum distance in distance map
+        flip (str): flips array of the elevation raster along a given axis (`'x','y','xy'`)
+        smooth_boundary (bool): If True, smooth the DEM boundary for better interpolation
+        rectangular_boundary (bool): set to true if the DEM domain is rectangular
+        boundary_distance (float): Overrides edge length and manually sets spacing between boundary nodes
+
+        # Returns
+        PyLaGriT mesh object
         '''
 
         if self.feature is None:
             raise ValueError("Feature selection must be performed first")
 
+        if boundary_distance is None:
+            boundary_distance = max_edge_length
+
         # Generate boundary at max edge length
-        self._generate_boundary(max_edge_length,rectangular=rectangular_boundary)
+        self._generate_boundary(boundary_distance,rectangular=rectangular_boundary)
 
         # Filter feature to min edge length
         feature = deepcopy(self.feature)
@@ -399,7 +410,10 @@ class DEM():
 
 
 
-    def build_layered_mesh(self,layers,matids=None,xy_subset=None,outfile=None):
+    def build_layered_mesh(self,
+                           layers,
+                           matids=None,
+                           outfile:str=None):
         '''
         Builds a layered mesh from a triplane.
 
@@ -407,10 +421,8 @@ class DEM():
         layers (list<float>): List of sequential layer thicknesses
 
         # Optional Arguments
-        matids (list<int): List of numbers to set as material ID for a list
+        matids (list<int>): List of material IDs to set each respective layer to
         outfile (str): Filepath to save mesh to
-        xy_subset ():
-
 
         # Example
         ```python
@@ -429,15 +441,19 @@ class DEM():
                                                 self._surface_mesh,
                                                 outfile,
                                                 layers,
-                                                matids=matids,
-                                                xy_subset=xy_subset)
+                                                matids=matids)
 
         self.number_of_layers = len(layers)
         
         return self._stacked_mesh
 
 
-    def add_attribute(self,data,layers=None,attribute_name=None,outfile=None,dtype=float):
+    def add_attribute(self,
+                      data,
+                      layers=None,
+                      attribute_name=None,
+                      outfile=None,
+                      dtype=None):
         '''
         Adds an attribute to the stacked mesh, over one or more layers. Default is all.
         Data must be an NxM matrix - it does not necessarily have to be the same size at the DEM,

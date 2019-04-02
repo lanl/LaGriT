@@ -1,8 +1,8 @@
 import numpy as np
 from copy import deepcopy
-from scipy import interpolate
-from scipy import ndimage as nd
-from scipy.misc import imresize
+#from scipy import interpolate
+#from scipy import ndimage as nd
+import skimage
 
 import tinerator.utilities as util
 import tinerator.config as cfg
@@ -122,7 +122,10 @@ def _add_attribute(lg,
     '''
 
     if dtype is None:
-        dtype = type(data[0,0])
+        try:
+            dtype = type(data[0,0])
+        except:
+            dtype = float
 
     cfg.log.debug('Raster data type: ' + str(dtype))
     
@@ -133,7 +136,13 @@ def _add_attribute(lg,
     else:
         cfg.log.info('Adding attribute \"MATERIAL_ID\" to mesh (type: %s)' % dtype)
 
-    data = imresize(data,(dem_dimensions[1],dem_dimensions[0]),interp='nearest')
+    data = skimage.transform.resize(data,
+                                   (dem_dimensions[1],dem_dimensions[0]),
+                                   mode='edge',
+                                   anti_aliasing=False,
+                                   anti_aliasing_sigma=None,
+                                   preserve_range=True,
+                                   order=0)
 
     # Dump attribute data
     _array_out = "_temp_attrib_array.dat"
@@ -177,7 +186,7 @@ def _add_attribute(lg,
 
     # Default to material_id - 'itetclr'
     if attribute_name is not None:
-        stacked_mesh.addatt(attribute_name,length='nelements')
+        stacked_mesh.addatt(attribute_name,vtype=dtype,length='nelements')
     else:
         attribute_name = 'itetclr'
 
