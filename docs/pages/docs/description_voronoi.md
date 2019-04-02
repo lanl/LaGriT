@@ -33,7 +33,9 @@ Copy node attribute values from a source coarse hex mesh to each sink node of a 
 The image shows the imt attribute colors of the source hex mesh and the refined triangle sink mesh.
 
 ```
-intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/ 
+read gmv input_3d_hex.gmv   cmo_src
+read gmv input_2d_hires.gmv cmo_sink
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/
 ```
 <img width="400" src="https://lanl.github.io/LaGriT/assets/images/vor1.gif">
  
@@ -44,25 +46,25 @@ Copy node attribute values from a source quad mesh to each sink node of a quad m
 The image shows the source quad mesh and the sink refined quad mesh.
 
 ```
-intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/ 
+read gmv input_random500_quad.gmv cmo_src
+read gmv input_500_quad.gmv cmo_sink
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/
 ```
-<img width="400" src="https://lanl.github.io/LaGriT/assets/images/vor1.gif">
+<img width="400" src="https://lanl.github.io/LaGriT/assets/images/vor_rand.gif">
  
 
-[source and sink quad grids](image/vor_rand.gif">
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/vor_rand_TN.GIF)](image/vor_rand.gif">
+## Example 3
 
- The objective is to test the ability of **interpolate** to find the
- nearest node in a tet sphere and copy to a 2D triangle sphere surface.
- The 2D surface has a radius slightly smaller than the 3D sphere. Image
- on left is the 3D tet sphere. Image on right is the triangulated
- surface with imt values copied from the 3D source sphere. The ends
- have been cutaway to show the surface elements.
-[Source 3D tet grid](image/vor_sphere_src.gif">
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/vor_sphere_src_TN.GIF)](image/vor_sphere_src.gif">
-[Sink 2D tri grid](image/vor_sphere_cut.gif">
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/vor_sphere_cut_TN.GIF)](image/vor_sphere_cut.gif">
+Copy node attribute values from a source tet sphere to each sink node of a triangle surface.
+The triangle surface is slightly inside the radius of the 3D sphere.
+The image shows the source 3D tet sphere mesh and the sink triangle surface with interpolated values.
 
+```
+read gmv input_sphere3d.gmv cmo_src
+read gmv input_sphere2d.gmv cmo_sink
+intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/
+```
+<img width="400" src="https://lanl.github.io/LaGriT/assets/images/vor_sphere_src.gif"> <img width="400" src="https://lanl.github.io/LaGriT/assets/images/vor_sphere_cut.gif">
 
 
 [Back to main page.](commands/main_interpolate.md)
