@@ -15,6 +15,7 @@ The full set of 5 examples and input.lgi command file are found in test/level01/
 [lagrit_input_continuous](lagrit_input_map) Download LaGriT command file.
 
 
+
 ## Example 1
 
 Interpolate source node values to sink nodes.
@@ -33,9 +34,10 @@ Interpolate from cmo_src node attribute xval to cmo_sink node attribute xval.
 Image shows the tall source tet mesh in same view with the sink hex element positioned in the lower left corner.
 
 
-<img width="400" src="https://lanl.github.io/LaGriT/assets/images/con01_sink.gif">
+<img width="350" src="https://lanl.github.io/LaGriT/assets/images/con01_sink.gif">
 
-This image the sink shows hex element with the interpolated values written to the node attribute called xval.
+This image shows the sink hex element with the interpolated values written to the node attribute called xval.
+
 
 
 ## Example 2
@@ -47,21 +49,20 @@ read avs input_random500_tri.inp cmo_src
 read avs input_500_quad.inp      cmo_sink
 intrp/continuous/cmo_sink numreal/1,0,0/cmo_src numreal
 ```
-Interpolate from cmo_src attribute numreal to cmo_sink node attribute numreal.
+Interpolate from cmo_src triangle attribute numreal to cmo_sink node attribute numreal.
 
 
-<img width="400" src="https://lanl.github.io/LaGriT/assets/images/con02_src.gif">
+<img width="380" src="https://lanl.github.io/LaGriT/assets/images/con02_src.gif">
 
-Image shows the source triangles colored by the node
-attribute numreal. Source mesh is an irregular triangle mesh with 12 nodes.
-The sink mesh is a high resolution square quad mesh.
+Image shows the source triangles colored by the node attribute numreal. Source mesh is an irregular triangle mesh with 12 nodes.
+
 
 <img width="400" src="https://lanl.github.io/LaGriT/assets/images/con02_sink.gif">
 
-Image shows the sink quad grid with the interpolated
+Image shows the higher resolution sink quad mesh with the interpolated
  values at the quad nodes. As seen by this image, the sink mesh does
- not extend as high as the source grid, and has nodes outside the
- source mesh. These nodes are flagged with the dark red values 1 greater than the max of numreal attribute.
+ not extend as far as the source triangles. It has nodes outside the
+ source mesh. These nodes are flagged with the dark red values (1 greater than the max of numreal attribute).
 
 
 
