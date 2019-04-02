@@ -10,10 +10,14 @@ import tinerator.config as cfg
 def _remove_attribute(mesh,attribute_name):
     mesh.delatt(attribute_name)
 
-def mapFunctionToAttribute(lg,mesh:str,
-                           number_of_layers:int,layers=None,
-                           attribute_name:str=None,operator:str='+',
-                           fn=lambda layer: layer*100,outfile:str=None):
+def _map_function_to_attribute(lg,
+                               stacked_mesh:str,
+                               number_of_layers:int,
+                               layers=None,
+                               attribute_name:str=None,
+                               operator:str='+',
+                               fn=lambda layer: layer*100,
+                               outfile:str=None):
     '''
 
     Maps a function and on operator onto mesh data.
@@ -58,8 +62,6 @@ def mapFunctionToAttribute(lg,mesh:str,
         operator = 'divide'
     elif operator in ['*','x','mul','multiply']:
         operator = 'multiply'
-
-    stacked_mesh = lg.read(mesh)
 
     info = stacked_mesh.information()
     v = info['elements'] // number_of_layers

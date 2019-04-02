@@ -501,8 +501,12 @@ class DEM():
         attrib.remove_attribute(mesh,attribute_name)
 
 
-    def mapFunctionToAttribute(self,operator='+',layers=None,attribute_name=None,
-                               outfile=None,fn=lambda layer: layer*100):
+    def map_function_to_attribute(self,
+                                  operator='+',
+                                  layers=None,
+                                  attribute_name=None,
+                                  outfile=None,
+                                  fn=lambda layer: layer*100):
         '''
 
         Maps a function and on operator onto mesh data.
@@ -530,11 +534,15 @@ class DEM():
 
         '''
 
-        outfile = self.stacked_mesh if outfile is None else outfile
-        mapFunctionToAttribute(self.lg,self.stacked_mesh,
-                               self.number_of_layers,layers=layers,
-                               attribute_name=attribute_name,operator=operator,
-                               fn=fn)
+        attrib._map_function_to_attribute(self.lg,
+                                          self._stacked_mesh,
+                                          self.number_of_layers,
+                                          layers=layers,
+                                          attribute_name=attribute_name,
+                                          operator=operator,
+                                          fn=fn,
+                                          outfile=outfile)
+
 
     def meshStatistics(self):
         return self.stacked_mesh.information()
