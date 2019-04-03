@@ -26,15 +26,14 @@ import matplotlib.pyplot as plt
 from copy import deepcopy
 from pylagrit import PyLaGriT
 
-from . import load as load
-from . import dump as dump
-from . import facesets as facesets
-from . import config as config
-from . import boundary as boundary
-from . import utilities as utilities
-from . import plot as plot
-from . import dem_class as dem_class
-from .dem_class import DEM
+import tinerator.load as load
+import tinerator.dump as dump
+import tinerator.facesets as facesets
+import tinerator.config as cfg
+import tinerator.boundary as boundary
+import tinerator.utilities as util
+import tinerator.plot as plot
+from tinerator.dem_class import DEM
 
 def reprojectShapefile(shapefile:str,outfile:str,projection:str):
     '''
