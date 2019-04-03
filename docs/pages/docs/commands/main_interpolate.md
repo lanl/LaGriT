@@ -27,10 +27,9 @@ been generalized to include user chosen attributes and expanded options.
 </pre>
 
 
-
+## PARAMETER DESCRIPTIONS
 
 `intrp_method` defines the method of interpolation used from mesh object cmosrc to mesh object cmosink.
-
 
 * **`map`** method copies the value from the enclosing source element to sink node or element (centroid). 
 Sink nodes located outside the source elements are tagged with values according to flag options. 
@@ -118,7 +117,15 @@ user. Functions such as min and max pass the interpolation value
 unchanged.
 
 
-## Table 1
+### DEBUG SYNTAX
+<pre>
+<b>cmo/setatt/</b> cmosink / <b>idebug</b> debug_level
+</pre>
+For debugging purposes idebug will output information from the interpolate routines. The integer value 'debug_level' is used to set the reporting level. 0 is no debug and is the default, 1 is minimum output and triggers calls to mmverify(), 5 is the middle amount of debug information, 9 and greater is verbose and includes information on every point and or element in the mesh.
+
+
+
+## Table 1 Attribute Types for Interpolate
 
 This table indicates the type of attributes that can be used with the interpolation methods. 
 
@@ -133,7 +140,7 @@ This table indicates the type of attributes that can be used with the interpolat
 
  
 
-## Table 2
+## Table 2 Interpolation Methods and Options
 
 This Table shows supported applications for each of the interpolation methods.
 
