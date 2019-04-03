@@ -35,7 +35,6 @@ import tinerator.utilities as util
 import tinerator.plot as plot
 from tinerator.dem_class import DEM
 
-
 def reprojectShapefile(shapefile:str,outfile:str,projection:str):
     '''
     Re-projects a shapefile from one coordinate space to

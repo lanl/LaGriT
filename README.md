@@ -29,8 +29,9 @@ or by navigating to `docs/index.md`.
 
 ## Docker
 
-A [Docker image](https://hub.docker.com/r/ees16/tinerator) can be pulled via:
+A [Docker image](https://hub.docker.com/r/ees16/tinerator) can be pulled and run via:
 
     docker pull ees16/tinerator
+    docker run --rm -p 8888:8888 ees16/tinerator
 
 ![](docs/assets/images/examples/attribute_final.png)

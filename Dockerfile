@@ -21,7 +21,9 @@ LABEL maintainer="Daniel Livingston <livingston@lanl.gov>"
 USER root
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gfortran libz-dev m4 bison cmake
+    apt-get install -y --no-install-recommends \
+    gfortran libz-dev m4 bison cmake \
+    libgl1-mesa-glx
 
 USER $NB_UID
 

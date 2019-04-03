@@ -35,5 +35,25 @@ log.addHandler(ch)
 CONSTANTS - NOT FOR END-USER MODIFICATIONS
 '''
 
+def __isnotebook():
+    '''
+    Detects if package is being run in Jupyter
+    notebook, so that interactive functions may be
+    enabled.
+
+    Function author: Gustavo Bezerra
+    '''
+    try:
+        shell = get_ipython().__class__.__name__
+        if shell == 'ZMQInteractiveShell':
+            return True   # Jupyter notebook or qtconsole
+        elif shell == 'TerminalInteractiveShell':
+            return False  # Terminal running IPython
+        else:
+            return False  # Other type (?)
+    except NameError:
+        return False      # Probably standard Python interpreter
+
+IN_NOTEBOOK = __isnotebook() # change this variable if function fails
 GLOBAL_NDV = -9999.
 MATERIAL_ID = 'itetclr'

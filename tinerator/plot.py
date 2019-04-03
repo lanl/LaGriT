@@ -13,11 +13,21 @@ import tinerator.utilities as util
 import tinerator.watershed_deliniation as delin
 
 
+# Custom color map
 try:
     import pycpt
     topocmap = pycpt.load.cmap_from_cptcity_url('wkp/schwarzwald/wiki-schwarzwald-cont.cpt')
 except:
     topocmap = 'Spectral_r'
+
+
+# Jupyter notebook interactive widgets
+try:
+    from ipywidgets import interact,interactive,fixed,interact_manual
+    from ipywidgets import FloatSlider
+    import ipywidgets as widgets
+except NameError:
+    cfg.IN_NOTEBOOK = False
 
 
 # -- helper functions ------------- #
@@ -265,10 +275,30 @@ def preview_boundary(dem_object,distance:float,rectangular:bool=False):
     # Returns
     vertices of boundary
     '''
-        
+
+    # Put into a function for easy Jupyter integration
+    def __gen_and_plot(dem_object,distance,rectangular):
+        dem_object._generate_boundary(distance,rectangular=rectangular)
+        plot_boundary(dem_object)
+
     frozen_boundary = dem_object.boundary
-    dem_object._generate_boundary(distance,rectangular=rectangular)
-    plot_boundary(dem_object)
+
+    if cfg.IN_NOTEBOOK:
+        delta_x = abs(dem_object.extent[0] - dem_object.extent[1]) / 5.0
+
+        if distance > delta_x:
+            distance = delta_x
+
+        interact_manual(__gen_and_plot,
+                        dem_object=fixed(dem_object),
+                        distance=widgets.FloatSlider(min=1,
+                                                     max=delta_x,
+                                                     step=5,
+                                                     value=distance),
+                        rectangular=fixed(rectangular));
+    else:
+        __gen_and_plot(dem_object,distance,rectangular)
+
     tmp_boundary = deepcopy(dem_object.boundary)
     dem_object.boundary = frozen_boundary
 
