@@ -26,10 +26,10 @@ import matplotlib.pyplot as plt
 from copy import deepcopy
 from pylagrit import PyLaGriT
 
+import tinerator.config as cfg
 import tinerator.load as load
 import tinerator.dump as dump
 import tinerator.facesets as facesets
-import tinerator.config as cfg
 import tinerator.boundary as boundary
 import tinerator.utilities as util
 import tinerator.plot as plot

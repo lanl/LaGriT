@@ -209,7 +209,8 @@ class DEM():
 
     def watershed_delineation(self,
                               threshold:float,
-                              method:str='D8'):
+                              method:str='D8',
+                              interactive:bool=False):
         '''
         Performs watershed delineation on a DEM and returns a set of points
         corresponding to the feature.
@@ -230,12 +231,25 @@ class DEM():
 
         # Optional Arguments
         method (str): Flow calculation method
+        interactive (bool): if True and function is called within a
+                            Jupyter notebook, then function params
+                            can be controlled with sliders
         
         # Returns
         Polyline of feature as ordered (x,y) pairs
         '''
 
-        self.accumulation_matrix = delin.watershedDelineation(self.dem,method=method)
+        if threshold is None:
+            threshold = 1.0
+
+        if interactive:
+            if cfg.IN_NOTEBOOK:
+                return self.__watershed_delin_as_interactive(threshold,method)
+            else:
+                cfg.log.warn('Cannot init Jupyter notebook functionality')
+
+        self.accumulation_matrix = delin.watershedDelineation(self.dem,
+                                                              method=method)
 
         if threshold is None:
             _thresh = np.unique(accumulation)
@@ -246,7 +260,8 @@ class DEM():
 
         if np.size(self.feature) == 0:
             raise ValueError("Feature trace is empty. " + \
-                             "Try setting a lower threshold.")
+                             "Try setting a lower threshold or " + \
+                             "using a different method.")
 
         self.feature = util.xyVectorToProjection(self.feature,
                                                  self.cell_size,
@@ -256,6 +271,39 @@ class DEM():
 
 
         return self.feature
+
+
+    def __watershed_delin_as_interactive(self,threshold,method):
+        '''
+        Driver for handling interactive watershed delineation.
+        '''
+
+        try:
+            from ipywidgets import interact,interactive,fixed,interact_manual
+            from ipywidgets import FloatSlider
+            import ipywidgets as widgets
+        except NameError:
+            cfg.IN_NOTEBOOK = False
+            raise NameError('Could not init Jupyter notebook functionality')
+
+        def __fnc_driver(threshold,method):
+            self.watershed_delineation(threshold,method=method,interactive=False)
+            tinplot.plot_feature(self)
+
+        accum = delin.watershedDelineation(self.dem,method=method)
+        max_accum = np.nanmax(accum)
+        min_accum = min(1,np.nanmin(accum))
+        step = (max_accum - min_accum) / 100.
+
+        threshold = max(min_accum,min(max_accum,threshold))
+
+        interact_manual(__fnc_driver,
+                        threshold=widgets.FloatSlider(min=min_accum,
+                                                      max=max_accum,
+                                                      step=step,
+                                                      value=threshold),
+                        method=['D8','D4','Rho8','Rho4','Dinf','Quinn']);
+                        # 'Holmgren','Freeman' require exponents
 
 
     def _generate_boundary(self,distance:float,rectangular:bool=False):
@@ -298,7 +346,8 @@ class DEM():
                                apply_elevation:bool=True,
                                outfile:str=None,
                                rectangular_boundary:bool=False,
-                               boundary_distance:float=None):
+                               boundary_distance:float=None,
+                               interactive:bool=False):
         '''
         Generates a triplane with uniformly sized elements.
 
@@ -311,11 +360,26 @@ class DEM():
         apply_elevation (bool): If True, interpolate DEM elevations onto surface mesh
         outfile (str): filepath to save generated mesh to
         rectangular_boundary (bool): set to true if the DEM domain is rectangular
-        boundary_distance (float): Overrides edge length and manually sets spacing between boundary nodes
+        boundary_distance (float): Overrides edge length and manually sets
+                                   spacing between boundary nodes
 
         # Returns
         PyLaGriT mesh object
         '''
+
+        if interactive:
+            if cfg.IN_NOTEBOOK:
+                return self.__interactive_triplane_uniform_driver(edge_length,
+                                                                  smooth_boundary,
+                                                                  flip,
+                                                                  apply_elevation,
+                                                                  outfile,
+                                                                  rectangular_boundary)
+            else:
+                cfg.log.warn('Cannot init Jupyter notebook functionality')
+
+        if self._surface_mesh is not None:
+            self._surface_mesh.delete()
 
         if boundary_distance is None:
             boundary_distance = edge_length
@@ -625,5 +689,107 @@ class DEM():
         (if available).
         '''
         tinplot.plot_feature(self)
+
+
+    # =====================================
+    # Hidden class methods
+    # =====================================
+    def __interactive_triplane_uniform_driver(self,
+                                              edge_length,
+                                              smooth_boundary,
+                                              flip,
+                                              apply_elevation,
+                                              outfile,
+                                              rectangular_boundary):
+        '''
+        Driver for Jupyter uniform triplane interactivity.
+        '''
+        def __fnc_driver(edge_length,smooth_boundary,flip,
+                         apply_elevation,outfile,rectangular_boundary):
+            self.build_uniform_triplane(edge_length,
+                                        smooth_boundary=smooth_boundary,
+                                        flip=flip,
+                                        apply_elevation=apply_elevation,
+                                        outfile=outfile,
+                                        rectangular_boundary=rectangular_boundary,
+                                        interactive=False)
+            # plot here
+
+
+        try:
+            from ipywidgets import interact,interactive,fixed,interact_manual
+            from ipywidgets import FloatSlider
+            import ipywidgets as widgets
+        except NameError:
+            cfg.IN_NOTEBOOK = False
+            raise NameError('Could not init Jupyter notebook functionality')
+
+        max_edge = abs(self.extent[1]-self.extent[0]) / 20.0
+        min_edge = 0.0
+        step = (max_edge - min_edge) / 100.
+
+        edge_length = max(min_edge,min(max_edge,edge_length))
+
+        interact_manual(__fnc_driver,
+                        edge_length=widgets.FloatSlider(min=min_edge,
+                                                        max=max_edge,
+                                                        step=step,
+                                                        value=edge_length),
+                        smooth_boundary=[('No', False), ('Yes', True)],
+                        flip=['y','x','xy'],
+                        apply_elevation=fixed(apply_elevation),
+                        outfile=fixed(outfile),
+                        rectangular_boundary=fixed(rectangular_boundary));
+
+
+    def __interactive_triplane_refined_driver(self,
+                                              min_edge,
+                                              max_edge
+                                              smooth_boundary,
+                                              flip,
+                                              apply_elevation,
+                                              outfile,
+                                              rectangular_boundary):
+        '''
+        Driver for Jupyter refined triplane interactivity.
+        '''
+        def __fnc_driver(min_edge,max_edge,smooth_boundary,flip,
+                         apply_elevation,outfile,rectangular_boundary):
+            self.build_refined_triplane(min_edge,
+                                        max_edge,
+                                        smooth_boundary=smooth_boundary,
+                                        flip=flip,
+                                        apply_elevation=apply_elevation,
+                                        outfile=outfile,
+                                        rectangular_boundary=rectangular_boundary,
+                                        interactive=False)
+            # plot here
+
+        try:
+            from ipywidgets import interact,interactive,fixed,interact_manual
+            from ipywidgets import FloatSlider
+            import ipywidgets as widgets
+        except NameError:
+            cfg.IN_NOTEBOOK = False
+            raise NameError('Could not init Jupyter notebook functionality')
+
+        _max_edge = abs(self.extent[1]-self.extent[0]) / 20.0
+        _min_edge = 0.0
+        step = (max_edge - min_edge) / 100.
+
+        interact_manual(__fnc_driver,
+                        min_edge_length=widgets.FloatSlider(min=_min_edge,
+                                                            max=_max_edge,
+                                                            step=step,
+                                                            value=min_edge),
+                        max_edge_length=widgets.FloatSlider(min=_min_edge,
+                                                            max=_max_edge,
+                                                            step=step,
+                                                            value=max_edge),
+                        smooth_boundary=[('No', False), ('Yes', True)],
+                        flip=['y','x','xy'],
+                        apply_elevation=fixed(apply_elevation),
+                        outfile=fixed(outfile),
+                        rectangular_boundary=fixed(rectangular_boundary));
 
 
