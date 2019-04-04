@@ -20,7 +20,7 @@ setup(
         'rasterio',
         'fiona',
         'elevation',
-        'scipy-fmm'],
+        'scikit-fmm'],
     classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",

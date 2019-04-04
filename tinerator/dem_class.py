@@ -744,7 +744,7 @@ class DEM():
 
     def __interactive_triplane_refined_driver(self,
                                               min_edge,
-                                              max_edge
+                                              max_edge,
                                               smooth_boundary,
                                               flip,
                                               apply_elevation,
