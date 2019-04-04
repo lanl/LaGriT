@@ -1,15 +1,5 @@
 ---
-Keywords: 
-    Mesh generation focused on Delaunay triangle and tetrahedral meshing.
-    Mesh generation for geological applications. Mesh smoothing
-    (optimization), reconnection, hybrid meshing (quadrilateral, prism,
-    pyramid, line elements). Constructive solid geometry, Voronoi control
-    volume area volume coefficient calculation.
-description: 
-    LaGriT is a library of user callable tools that provide mesh generation,
-    mesh optimization and dynamic mesh maintenance in two and three
-    dimensions for a variety of applications.
-title: LANL  LaGriT 
+title: LaGriT Licensing
 ---
 
  
@@ -27,7 +17,7 @@ instructions for downloading LaGriT will be emailed to you.
 *Note: The username for the site is "lagrit" and the password is
 "register".*
 
-For questions contact LaGriT registration at lagrit-reg@lanl.gov.
+For questions contact LaGriT registration at [lagrit-reg@lanl.gov](mailto:lagrit-reg@lanl.gov).
 
 ------------------------------------------------------------------------
 
@@ -53,7 +43,27 @@ at Sandia National Laboratories (gdsjaar@sandia.gov).
 
 ------------------------------------------------------------------------
 
-<object data="https://raw.githubusercontent.com/lanl/LaGriT/master/LICENSE.md"> 
-    View the license agreement [here](https://raw.githubusercontent.com/lanl/LaGriT/master/LICENSE.md).
-</object>
+# License (BSD)
+
+LANL Software: LA-CC-15-069 No. C15097
+
+This software is open source available under the BSD-3 license.
+
+Copyright (c) 2016. Triad National Security, LLC. All rights reserved. 
+This program was produced under U.S. Government contract 89233218CNA000001 for Los Alamos National Laboratory (LANL), 
+which is operated by Triad National Security, LLC for the U.S. Department of Energy/National Nuclear Security 
+Administration.  All rights in the program are reserved by Triad National Security, LLC, and the U.S. Department of
+Energy/National Nuclear Security Administration. The Government is granted for itself and others acting on its behalf 
+a nonexclusive, paid-up, irrevocable worldwide license in this material to reproduce, prepare derivative works, distribute
+copies to the public, perform publicly and display publicly, and to permit others to do so. If software is modified to
+produce derivative works, such modified software should be clearly marked, so as not to confuse it with the version 
+available from LANL.
+ 
+Additionally, redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* 1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+* 2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+* 3. Neither the name of Triad National Security, LLC, Los Alamos National Laboratory, LANL, the U.S. Government, nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY TRIAD NATIONAL SECURITY, LLC AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL TRIAD NATIONAL SECURITY, LLC OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
