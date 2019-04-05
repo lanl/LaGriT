@@ -27,7 +27,9 @@ been generalized to include user chosen attributes and expanded options.
 </pre>
 
 
+
 ## PARAMETER DESCRIPTIONS
+
 
 `intrp_method` defines the method of interpolation used from mesh object cmosrc to mesh object cmosink.
 
@@ -52,7 +54,6 @@ to the vertice values before being summed. See also the `interp_function` option
 Use hextotet to convert hex elements to tets. 
 
 * **`default`** - If source attribute is element type then use `map`. If source attribute is node type then use `continuous`.
-
 
 
 `cmosink`, `attsink` are the sink mesh object name and attribute to write interpolated values to. If the sink attribute is element type, centroids are calculated for each element and these are used for the interpolation methods. 
@@ -160,7 +161,6 @@ NOT indicates Not Supported
 | **tie option**               | tiemin or tiemax                | tiemin or tiemax           | tiemin or tiemax                                  |
 | **flag option**              | plus1, nearest, or user value   | plus1, nearest, or user value       | plus1 or user value                               |
 | **keepatt option**           | element attribute `el_gtg`          | element attribute `el_gtg`        | node attribute `pt_gtg`                |
-
 
 
 
