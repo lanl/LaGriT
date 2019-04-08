@@ -1,3 +1,29 @@
 *pyc
-*x3dgen
 *DS_Store
+
+# Mesh files
+*.gmv
+*.inp
+*.exo
+*.vertexset
+*.cellset
+*.faceset
+*diffout_mac*.txt
+*.zone
+*.zonn
+*.uge
+*.gmvF
+*.fehmn
+*.area
+*.stor
+
+# Log files
+*stdout_darwin.*txt
+*x3dgen
+*.lagrit
+
+# Build files
+*.o 
+*.a
+*.mod
+src/lagrit
