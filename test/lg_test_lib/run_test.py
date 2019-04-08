@@ -55,18 +55,15 @@ def RunTest(**args):
   osname="unknown"
   # ostag=""
   result_dir = 0
+  
   tag = args['tag'] # output file name tag
+  xlagrit = args["executable"]
+  flags = args["flags"]
+
   dtop = os.curdir # getting top level directory
   dtop_path = os.getcwd() # getting filepath to top directory
   osname = sys.platform # getting platform
   directories = os.listdir(dtop)
-
-  # define executable
-  #xlagrit = "/n/swdev/LAGRIT/bin/lagrit_ulin_g_gf_V3.107.so"
-  # xlagrit = "/scratch/sft/yanki/lagrit/src/mylagrit"
-  # xlagrit = "Y:/yanki/lagrit/src/mylagrit"
-  xlagrit = args["executable"]
-  flags = args["flags"]
 
   if not os.path.isfile(xlagrit):
     raise IOError("LaGriT binary doesn't exist at path: %s" % xlagrit)
@@ -91,9 +88,9 @@ def RunTest(**args):
   # wfile = open(fscreen, 'w')
   wfile = open(outfile, 'w')
   line = ("Operating System:\t" + osname + "\n" +
-        "Executable:\t\t" + xlagrit + "\n" +
-        "Top directory:\t\t" + dtop_path + "\n" +
-        "Out file:\t\tstdout_" + tag + ".txt\n\tOn " + date)
+          "Executable:\t\t" + xlagrit + "\n" +
+          "Top directory:\t\t" + dtop_path + "\n" +
+          "Out file:\t\tstdout_" + tag + ".txt\n\tOn " + date)
   print(line)
   print("=======")
   wfile.write(line + "\n")
@@ -183,6 +180,7 @@ def RunTest(**args):
     i = 0
     print()
     print("LAGRIT EXIT ERROR: "+repr(ierr)+" directories failed:"+"/n")
+
     for d in errList :
       print("    "+errList[i]+" Error: "+errmess[i])
       print("---- tail outx3dgen ------------------")
@@ -191,10 +189,12 @@ def RunTest(**args):
       print("--------------------------------------")
       print(" ")
       i = i + 1
+
   if fail_threshold and ierr >= fail_threshold:
     sys.exit(1)
 
   print("\nSummary:\t\t%s completed outx3dgen files out of %s test directories" % (repr(nfind), repr(itest)))
+  
   if result_dir:
     shutil.copyfile(outfile, "./test_results/" + outfile)
     print("Output written to:\t%s\nAnd moved to:\t\t./test_results\n" % outfile)
