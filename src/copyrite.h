@@ -11,6 +11,26 @@ C        TAM - modifed to include most recent Copyright notice
 C
 C     The copyright notice is written to screen and file at run time
 C     from the routine writinit.f
+C 
+C ######################################################################
+C
+C LaGriT V3 (OSS) LANL Copyright No. C15097  https://github.com/lanl/LaGriT             
+C
+C ######################################################################
+C Copyright 2016. Triad National Security, LLC. All rights reserved.
+C This program was produced under U.S. Government contract 89233218CNA000001 
+C for Los Alamos National Laboratory (LANL), which is operated by Triad National 
+C Security, LLC for the U.S. Department of Energy/National Nuclear Security 
+C Administration.  All rights in the program are reserved by Triad National 
+C Security, LLC, and the U.S. Department of Energy/National Nuclear Security 
+C Administration. The Government is granted for itself and others acting on its 
+C behalf a nonexclusive, paid-up, irrevocable worldwide license in this material 
+C to reproduce, prepare derivative works, distribute copies to the public, 
+C perform publicly and display publicly, and to permit others to do so.
+C 
+C This software is open source and available under the BSD-3 License. If software 
+C is modified to produce derivative works, such modified software should be 
+C clearly marked, so as not to confuse it with the version available from LANL. 
 C
 C ######################################################################
 C Copyright Disclosure: CODE-2015-151, LaGriT, Version 3.x (OSS) 

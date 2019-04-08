@@ -1,31 +1,124 @@
 
 Directory to hold unit testing files.
 
-TO RUN AND CHECK ALL LEVEL01 AND LEVEL02: 
-     edit suite.py to assign xlagrit to executable
-     ./suite.py -f
-     grep successful */diffout*txt
+USAGE:
+     ./suite.py --help
+or   python3 ./suite.py --help
 
-       level01/diffout_lin.txt:All 31 successful!
-       level02/diffout_lin.txt:All 4 successful!
+To test and check level01 with new exectuable:
+
+     python3 suite.py -l 1 -f -exe=EXE_NAME
+
+OUTPUT:
+The screen output will give summary of results, see below.
+Summary files written: diffout_$OS.txt and stdout_$OS.txt
  
-TO RUN AND CHECK LEVEL01 OR LEVEL02:   
-     cd [level01 or level02]
-     edit run_test.py to assign xlagrit to executable
-     clean_testdirs.scr ; run_test.py ; check_test.py;
-
 TO RUN AND CHECK SINGLE TEST:   
-  Single test cases are run within any subdirectory.
+  Go to the level*/test_name directory
   Run lagrit exectuable and compare to files in reference directory. 
     lagrit < input.lgi
     diff outx3dgen reference/outx3dgen
 
-run_test.py writes 2 summary files: diffout_$OS.txt and stdout_$OS.txt
-
-level01 tests are required for QA projects and test basic and required functionality.
-level02 tests are for certain select algorithms and advanced applications
-level03 tests are created by student or guest users
+level01 tests are required for QA projects and basic functionality for all Versions of code.
+level02 and level03 tests are for algorithms and capability added for V3.2 and newer 
 
 NOTES:
   Windows doesn't automatically see .py files as python, so unless .py files are associated 
   with the correct executable the shell command should be "python <target-script>"
+
+
+################################################################
+Sample screen output for report:
+
+=======
+Operating System:	linux
+Executable:		/project/eesdev/tam/LaGriT/src/xlagrit
+Top directory:		/project/eesdev/tam/LaGriT/test/level01
+Out file:		stdout_linux.txt
+	On Mon Mar 18 12:36:05 2019
+=======
+ 1  Test Directory addmesh_add -----------------------
+/project/eesdev/tam/LaGriT/src/xlagrit -log logx3dgen -out outx3dgen < input.lgi >> /project/eesdev/tam/LaGriT/test/level01/stdout_linux.txt
+...
+38  Test Directory zone_outside_minmax -----------------------
+/project/eesdev/tam/LaGriT/src/xlagrit -log logx3dgen -out outx3dgen < input.lgi >> /project/eesdev/tam/LaGriT/test/level01/stdout_linux.txt
+Testing Done.
+Check outx3dgen  1  Test Directory addmesh_add -------------------
+    Program:  LaGriT V3.304   Linux    : LaGriT successfully completed
+Check outx3dgen  1  Test Directory addmesh_add -------------------
+    Program:  LaGriT V3.304   Linux    : LaGriT successfully completed
+Check outx3dgen  2  Test Directory addmesh_append ----------------
+    Program:  LaGriT V3.304   Linux    : LaGriT successfully completed
+...
+Check outx3dgen  38  Test Directory zone_outside_minmax ----------
+    Program:  LaGriT V3.304   Linux    : LaGriT successfully completed
+
+Summary:		38 completed outx3dgen files out of 40 test directories
+Output written to:	stdout_linux.txt
+And moved to:		./test_results
+
+Start in directory: /project/eesdev/tam/LaGriT/test/level01 at Mon Mar 18 12:38:52 2019
+.
+.
+1 Check Directory ./addmesh_add --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+
+Removed 3 comment lines.
+No lines differ.
+1 Done with Directory ./addmesh_add -----------------------
+ 
+2 Check Directory ./addmesh_append --------------------------
+
+Test has 3 diffs at line 5 >>
+Lines Essentially the Same: 3 out of 3
+
+...
+
+################################################################
+Sample screen output for acceptable changes to LaGriT output information:
+
+Test has 9 diffs at line 132 >>
+Test has 6 extra lines in this chunk.
+-              8               10              8    Total
++              8               10              8       100%
+
++Max Candidates each element:                12
+-
++Min Candidates each element:                 6
+-
++Total Elements Searched:                    10
+-
++Total Source Elements:                      27
+-
++Total Sink   Elements:                       8
+
+################################################################
+Sample screen output for failure:
+
+39 Check Directory ./single_triangle --------------------------
+
+Test has 258 diffs at line 1 >>
+Test has 258 extra lines in this chunk.
+
+...
+ 
+-
++ 64       fsetnames VCHA     scalar max_number_sets const perma   l
+-
++ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00
+-
++finish
+-
++LaGriT successfully completed
+
+Lines Essentially the Same: 0 out of 258
+
+Removed 10 comment lines.
+516 lines failed.
+39 Done with Directory ./single_triangle -----------------------
+
+All checks complete, 1 directories failed out of 40
+
+
