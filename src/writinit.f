@@ -380,48 +380,58 @@ C
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'Copyright 2015. Los Alamos National Security, LLC. ' 
-     * //' This software was produced'
+     * '  Copyright 2016. Triad National Security, LLC. ' 
+     * //' All rights reserved. This'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'under U.S. Government contract DE-AC52-06NA25396 '
-     * //'for Los Alamos National'
+     * '  program was produced under '
+     * //'U.S. Government contract 89233218CNA000001'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'Laboratory (LANL), which is operated by Los Alamos '
-     * //'National Security, LLC'
+     * '  for Los Alamos National Laboratory (LANL),'
+     * //' which is operated by Triad'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'for the U.S. Department of Energy. The U.S. Government'
-     * // ' has rights to use,'
+     * '  National Security, LLC for the U.S. Department of'
+     * // ' Energy/National Nuclear'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'reproduce, and distribute this software. Neither the '
-     * // ' government nor Los Alamos' 
+     * '  Security Administration.  All rights in the program '
+     * // 'are reserved by Triad' 
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'National Security, LLC makes any warranty, express or '
-     * // ' implied, or assumes any'
+     * '  National Security, LLC, and the U.S. Department'
+     * // ' of Energy/National Nuclear'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     * 'liability for the use of this software. If software '
-     * // 'is modified to produce'
+     * '  Security Administration. The Government is granted'
+     * // ' for itself and others'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     *  'derivative works, such modified software should be  '
-     * // 'clearly marked, so as not'
+     *  '  acting on its behalf a nonexclusive, paid-up,'
+     * // ' irrevocable worldwide license'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
-     *  'to confuse it with the version available '
-     * // 'from LANL.'
+     *  '  in this material to reproduce, prepare derivative'
+     * // ' works, distribute copies'
+      call writloga('default',0,interfil,0,ierrdum)
+
+      write(interfil,'(a)')
+     *  '  to the public, perform publicly and display publicly,'
+     * // ' and to permit others to'
+      call writloga('default',0,interfil,0,ierrdum)
+
+      write(interfil,'(a)')
+     *  '  do so. This software is open source and available'
+     * // ' under the BSD-3 License.'
       call writloga('default',0,interfil,0,ierrdum)
 
 
