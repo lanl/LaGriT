@@ -210,6 +210,7 @@ class DEM():
     def watershed_delineation(self,
                               threshold:float,
                               method:str='D8',
+                              exponent:float=None,
                               interactive:bool=False):
         '''
         Performs watershed delineation on a DEM and returns a set of points
@@ -249,7 +250,8 @@ class DEM():
                 cfg.log.warn('Cannot init Jupyter notebook functionality')
 
         self.accumulation_matrix = delin.watershedDelineation(self.dem,
-                                                              method=method)
+                                                              method=method,
+                                                              exponent=exponent)
 
         if threshold is None:
             _thresh = np.unique(accumulation)
