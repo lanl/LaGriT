@@ -15,17 +15,22 @@
 
 ARG BASE_CONTAINER=jupyter/minimal-notebook
 FROM $BASE_CONTAINER
+SHELL ["/bin/bash", "-c"] 
 
 LABEL maintainer="Daniel Livingston <livingston@lanl.gov>"
 
 USER root
 
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     gfortran libz-dev m4 bison cmake \
-    libgl1-mesa-glx
+    libgl1-mesa-dev xvfb
 
 USER $NB_UID
+
+#RUN conda install --yes -c conda-forge mesalib
 
 # Build dependencies
 RUN conda install --quiet --yes \
@@ -37,9 +42,10 @@ RUN conda install --quiet --yes \
     'rasterio' \
     'fiona' \
     'geopandas' \
+    'scikit-image' \
     'scikit-fmm' && \
     pip install richdem && \
-    conda remove --quiet --yes --force qt pyqt && \
+    ##conda remove --quiet --yes --force qt pyqt && \
     conda clean -tipsy && \
     # Activate ipywidgets extension in the environment that runs the notebook server
     jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
@@ -69,10 +75,11 @@ RUN git clone http://github.com/lanl/LaGriT.git tinerator && \
     cd tinerator && git checkout tinerator && \
     python setup.py install
 
-
 # Import matplotlib the first time to build the font cache.
 ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
     fix-permissions /home/$NB_USER
+
+RUN echo $DISPLAY
 
 USER $NB_UID

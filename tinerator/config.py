@@ -3,6 +3,7 @@ CONFIGURATION FILE FOR TINERATOR
 '''
 
 import logging
+import os
 
 NOTHING     = 0
 DEBUG       = 10
@@ -54,6 +55,40 @@ def __isnotebook():
     except NameError:
         return False      # Probably standard Python interpreter
 
-IN_NOTEBOOK = __isnotebook() # change this variable if function fails
+
+def activate_virtual_framebuffer():
+    '''
+    Activates a virtual (headless) framebuffer for rendering 3D
+    scenes via VTK.
+
+    Most critically, this function is useful when this code is being run
+    in a Dockerized notebook, or over a server without X forwarding.
+
+    * Requires the following packages:
+      * `sudo apt-get install libgl1-mesa-dev xvfb`
+    '''
+
+    import subprocess
+    import vtki
+
+    vtki.OFFSCREEN = True
+    os.environ['DISPLAY']=':99.0'
+
+    commands = ['Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &',
+                'sleep 3',
+                'exec "$@"']
+
+    for command in commands:
+        subprocess.call(command,shell=True)
+
+    log.debug('Activated framebuffer')
+
+
+# This is the home directory of the TINerator
+# Docker - this could be made more elegant
+if os.path.isdir('/home/jovyan'):
+    activate_virtual_framebuffer()
+
+IN_NOTEBOOK = __isnotebook()
 GLOBAL_NDV = -9999.
 MATERIAL_ID = 'itetclr'

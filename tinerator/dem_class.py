@@ -50,8 +50,19 @@ class DEM():
         self.__replace_infs_with_nans()
 
     def __repr__(self):
-        return 'DEM: %d rows, %d cols; cell size: %f' % \
-        (self.nrows,self.ncols,self.cell_size)
+        # DEM information
+        display = "Name: {0}\nPath: {1}\nCRS: {2}\nExtent: {3}\n"\
+                  "Dimensions: {4}\nOrigin: {5}\nCell size: {6}"\
+                  "Maximum elevation: {7}\nMinimum elevation: {8}"
+                    .format(None,None,None,self.extent,
+                            'X: %d, Y: %d' % (self.ncols,self.nrows),
+                            self.origin,self.cell_size,self.min_z,
+                            self.max_z)
+        return display
+
+    @property
+    def origin(self):
+        return (self.xll_corner,self.yll_corner)
 
     @property
     def extent(self):
