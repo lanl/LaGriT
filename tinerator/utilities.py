@@ -6,6 +6,7 @@ a DEM projection, and vice versa.
 '''
 
 import numpy as np
+import skimage
 import os
 
 '''
@@ -98,7 +99,15 @@ def _smooth_raster_boundary(raster:np.ndarray,width:int,no_data_value:float=np.n
 
     mask = np.array(~np.isnan(raster),dtype=int)
     dims = mask.shape
-    edges = imresize(mask,(dims[0]-width,dims[1]-width),interp='nearest')
+
+    edges = skimage.transform.resize(mask,
+                                    (dims[0]-width,dims[1]-width),
+                                    mode='edge',
+                                    anti_aliasing=False,
+                                    anti_aliasing_sigma=None,
+                                    preserve_range=True,
+                                    order=0)
+
     edges = np.pad(edges,pad_width=int(width/2),mode='constant',constant_values=True)
     edges = ~edges & mask
 

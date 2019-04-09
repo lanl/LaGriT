@@ -398,6 +398,9 @@ def plot_triplane(dem_object):
 
     '''
 
+    if cfg.IN_NOTEBOOK:
+        cfg.log.info('3D visualization still in beta - full mesh interactivity coming soon')
+
     temp_fileid = '__render_exo.exo'
     dump.to_exodus(dem_object,temp_fileid,mesh='surface')
 
@@ -405,6 +408,7 @@ def plot_triplane(dem_object):
     exii_mesh['Element Blocks'].plot()
 
     util.cleanup([temp_fileid])
+
 
 def plot_full_mesh(dem_object,facesets:list=None):
     '''
@@ -417,6 +421,9 @@ def plot_full_mesh(dem_object,facesets:list=None):
     enable_text (bool): If True, displays mesh information on screen
 
     '''
+
+    if cfg.IN_NOTEBOOK:
+        cfg.log.info('3D visualization still in beta - full mesh interactivity coming soon')
 
     temp_fileid = '__render_exo.exo'
     dump.to_exodus(dem_object,temp_fileid,mesh='prism',facesets=facesets)

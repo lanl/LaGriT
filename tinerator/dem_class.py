@@ -725,6 +725,9 @@ class DEM():
         min_edge = 0.0
         step = (max_edge - min_edge) / 100.
 
+        if edge_length is None:
+            edge_length = max_edge / 2.
+
         edge_length = max(min_edge,min(max_edge,edge_length))
 
         interact_manual(__fnc_driver,
@@ -737,6 +740,8 @@ class DEM():
                         apply_elevation=fixed(apply_elevation),
                         outfile=fixed(outfile),
                         rectangular_boundary=fixed(rectangular_boundary));
+
+        tinplot.plot_triplane(self)
 
 
     def __interactive_triplane_refined_driver(self,
@@ -774,6 +779,12 @@ class DEM():
         _min_edge = 0.0
         step = (max_edge - min_edge) / 100.
 
+        if min_edge is None:
+            min_edge = _min_edge
+
+        if max_edge is None:
+            max_edge = _max_edge
+
         interact_manual(__fnc_driver,
                         min_edge_length=widgets.FloatSlider(min=_min_edge,
                                                             max=_max_edge,
@@ -788,5 +799,7 @@ class DEM():
                         apply_elevation=fixed(apply_elevation),
                         outfile=fixed(outfile),
                         rectangular_boundary=fixed(rectangular_boundary));
+
+        tinplot.plot_triplane(self)
 
 
