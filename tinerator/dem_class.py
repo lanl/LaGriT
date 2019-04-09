@@ -249,6 +249,10 @@ class DEM():
             else:
                 cfg.log.warn('Cannot init Jupyter notebook functionality')
 
+        if (exponent is not None) and (method not in ['Holmgren', 'Freeman']):
+            cfg.log.warn("Ignoring exponent: exponent is only valid " + \
+                         "for Holmgren/Freeman methods")
+        
         self.accumulation_matrix = delin.watershedDelineation(self.dem,
                                                               method=method,
                                                               exponent=exponent)
