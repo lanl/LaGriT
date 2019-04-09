@@ -384,6 +384,9 @@ class DEM():
         rectangular_boundary (bool): set to true if the DEM domain is rectangular
         boundary_distance (float): Overrides edge length and manually sets
                                    spacing between boundary nodes
+        interactive (bool): if True and function is called within a
+                            Jupyter notebook, then function params
+                            can be controlled with sliders
 
         # Returns
         PyLaGriT mesh object
@@ -436,7 +439,8 @@ class DEM():
                                flip:str='y',
                                smooth_boundary:bool=False,
                                rectangular_boundary:bool=False,
-                               boundary_distance:float=None):
+                               boundary_distance:float=None,
+                               interactive:bool=False):
         '''
         Generates a refined triangular mesh, with a minimum refinement length 
         defined by h.
@@ -454,10 +458,26 @@ class DEM():
         smooth_boundary (bool): If True, smooth the DEM boundary for better interpolation
         rectangular_boundary (bool): set to true if the DEM domain is rectangular
         boundary_distance (float): Overrides edge length and manually sets spacing between boundary nodes
+        interactive (bool): if True and function is called within a
+                            Jupyter notebook, then function params
+                            can be controlled with sliders
 
         # Returns
         PyLaGriT mesh object
         '''
+
+        if interactive:
+            if cfg.IN_NOTEBOOK:
+                return self.__interactive_triplane_refined_driver(min_edge_length,
+                                                                  max_edge_length,
+                                                                  smooth_boundary,
+                                                                  flip,
+                                                                  apply_elevation,
+                                                                  outfile,
+                                                                  rectangular_boundary,
+                                                                  slope)
+            else:
+                cfg.log.warn('Cannot init Jupyter notebook functionality')        
 
         if self.feature is None:
             raise ValueError("Feature selection must be performed first")
@@ -710,7 +730,7 @@ class DEM():
                                         outfile=outfile,
                                         rectangular_boundary=rectangular_boundary,
                                         interactive=False)
-            # plot here
+            tinplot.plot_triplane(self)
 
 
         try:
@@ -741,7 +761,6 @@ class DEM():
                         outfile=fixed(outfile),
                         rectangular_boundary=fixed(rectangular_boundary));
 
-        tinplot.plot_triplane(self)
 
 
     def __interactive_triplane_refined_driver(self,
@@ -751,21 +770,23 @@ class DEM():
                                               flip,
                                               apply_elevation,
                                               outfile,
-                                              rectangular_boundary):
+                                              rectangular_boundary,
+                                              slope):
         '''
         Driver for Jupyter refined triplane interactivity.
         '''
-        def __fnc_driver(min_edge,max_edge,smooth_boundary,flip,
-                         apply_elevation,outfile,rectangular_boundary):
-            self.build_refined_triplane(min_edge,
-                                        max_edge,
+        def __fnc_driver(min_edge_length,max_edge_length,smooth_boundary,flip,
+                         apply_elevation,outfile,rectangular_boundary,slope):
+            self.build_refined_triplane(min_edge_length,
+                                        max_edge_length,
                                         smooth_boundary=smooth_boundary,
                                         flip=flip,
                                         apply_elevation=apply_elevation,
                                         outfile=outfile,
                                         rectangular_boundary=rectangular_boundary,
-                                        interactive=False)
-            # plot here
+                                        interactive=False,
+                                        slope=slope)
+            tinplot.plot_triplane(self)
 
         try:
             from ipywidgets import interact,interactive,fixed,interact_manual
@@ -777,13 +798,14 @@ class DEM():
 
         _max_edge = abs(self.extent[1]-self.extent[0]) / 20.0
         _min_edge = 0.0
-        step = (max_edge - min_edge) / 100.
 
         if min_edge is None:
             min_edge = _min_edge
 
         if max_edge is None:
             max_edge = _max_edge
+
+        step = (max_edge - min_edge) / 100.
 
         interact_manual(__fnc_driver,
                         min_edge_length=widgets.FloatSlider(min=_min_edge,
@@ -794,12 +816,14 @@ class DEM():
                                                             max=_max_edge,
                                                             step=step,
                                                             value=max_edge),
+                        slope =         widgets.FloatSlider(min=0.0,
+                                                            max=2.5,
+                                                            step=0.1,
+                                                            value=0.5),
                         smooth_boundary=[('No', False), ('Yes', True)],
                         flip=['y','x','xy'],
                         apply_elevation=fixed(apply_elevation),
                         outfile=fixed(outfile),
                         rectangular_boundary=fixed(rectangular_boundary));
-
-        tinplot.plot_triplane(self)
 
 

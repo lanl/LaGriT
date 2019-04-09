@@ -238,6 +238,9 @@ def __driver_naive(lg,surface_mesh,top,bottom,sides):
             warnings.simplefilter("ignore")
             lg.sendline('dump / avs2 / '+fname+'/'+mo_tmp.name+'/ 0 0 0 2')
 
+        if cfg.DEBUG_MODE:
+            mo_tmp.dump('DEBUG_naive_top_fs.inp')
+
         faceset_fnames.append(fname)
         mo_tmp.delete()
 
@@ -254,6 +257,9 @@ def __driver_naive(lg,surface_mesh,top,bottom,sides):
             warnings.simplefilter("ignore")
             lg.sendline('dump / avs2 / '+fname+'/'+mo_tmp.name+'/ 0 0 0 2')
 
+        if cfg.DEBUG_MODE:
+            mo_tmp.dump('DEBUG_naive_bottom_fs.inp')
+
         faceset_fnames.append(fname)
         mo_tmp.delete()
 
@@ -269,6 +275,9 @@ def __driver_naive(lg,surface_mesh,top,bottom,sides):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             lg.sendline('dump / avs2 / '+fname+'/'+mo_tmp.name+'/ 0 0 0 2')
+
+        if cfg.DEBUG_MODE:
+            mo_tmp.dump('DEBUG_naive_sides_fs.inp')
 
         faceset_fnames.append(fname)
         mo_tmp.delete()
@@ -632,7 +641,7 @@ def write_facesets(dem_object,facesets):
                          material_id=full_sidesets,
                          cell_atts=cell_atts)
 
-    dem_object._stacked_mesh = dem_object.lg.read('__tmp_pri.inp')
+    #dem_object._stacked_mesh = dem_object.lg.read('__tmp_pri.inp')
 
     # -- MAIN PREPARATION -------------------------------------- #
 
@@ -678,8 +687,6 @@ def write_facesets(dem_object,facesets):
         util.cleanup([tmp_infile,mesh_surf,mesh_prism])
 
     cmo_in.delete()
-
-
     mo_surf.select()
 
     exported_fs = []
