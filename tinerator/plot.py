@@ -318,6 +318,33 @@ def preview_boundary(dem_object,
     tmp_boundary = deepcopy(dem_object.boundary)
     dem_object.boundary = frozen_boundary
 
+def plot_faceset(dem_object,faceset):
+    '''
+    Displays a topological preview of how facesets will look after
+    generation.
+
+    # Arguments
+    dem_object (tinerator.DEM): A DEM class instance
+    faceset (tinerator.Faceset): An initialized Faceset object
+    '''
+    if faceset._has_type == '__FROM_ELEVATION':
+        
+        discrete_dem = np.zeros(dem_object.dem.shape)
+
+        heights = faceset.heights
+        for i in range(len(heights)):
+            discrete_dem[dem_object.dem > heights[i]] = i * 10
+
+        plt.imshow(discrete_dem)
+        plt.show()
+
+    elif facesets._has_type == '__SIDESETS':
+        pass
+    elif facesets._has_type == '__NAIVE':
+        pass
+    else:
+        raise ValueError('Corrupted faceset data - aborting')
+    
 
 # -- 3D visualization ------------- #
 

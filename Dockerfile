@@ -30,8 +30,6 @@ RUN apt-get update && \
 
 USER $NB_UID
 
-#RUN conda install --yes -c conda-forge mesalib
-
 # Build dependencies
 RUN conda install --quiet --yes \
     'conda-forge::blas=*=openblas' \
@@ -79,7 +77,5 @@ RUN git clone http://github.com/lanl/LaGriT.git tinerator && \
 ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
 RUN MPLBACKEND=Agg python -c "import matplotlib.pyplot" && \
     fix-permissions /home/$NB_USER
-
-RUN echo $DISPLAY
 
 USER $NB_UID

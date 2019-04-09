@@ -628,31 +628,6 @@ class DEM():
     def meshStatistics(self):
         return self.stacked_mesh.information()
 
-    def generateFacesets(self,outfile,facesets=None,naive=False):
-        '''
-        Generate boundary face sets according to normal vectors and layer ID.
-
-        :param lg: running instance of PyLaGriT
-        :type lg: pylagrit.PyLaGriT
-        :param outfile: filepath to save Exodus facesets
-        :type outfile: str
-        :param facesets: generated facesets integer array with length equal to boundary
-        :type facesets: np.ndarray
-        :param naive: flag to generate Exodus mesh with 3 facesets: top, bottom, sides
-        :type naive: bool
-
-        '''
-
-        if self.stacked_mesh is None:
-            raise ValueError("A stacked mesh must be generated before calling this function")
-
-        if naive:
-            mo = self.lg.read(self.stacked_mesh)
-            generateFaceSetsNaive(self.lg,mo,outfile)
-        else:
-            assert facesets is not None, 'Function requires facesets array'
-            generateComplexFacesets(self.lg,outfile,self.stacked_mesh,self.boundary,facesets)
-
     def getBoundingBox(self,mpl_style:bool=True):
         '''
         Returns the bounding box (or extent) of the DEM domain.
