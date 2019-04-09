@@ -10,6 +10,7 @@ DEBUG       = 10
 INFO        = 20
 FULL        = 30
 DEBUG_MODE  = False
+KEEP_LAGRIT_LOGS = False
 
 remove_temp_files = True
 log_file = None

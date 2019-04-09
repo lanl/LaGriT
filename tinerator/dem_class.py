@@ -53,12 +53,17 @@ class DEM():
         # DEM information
         display = "Name: {0}\nPath: {1}\nCRS: {2}\nExtent: {3}\n"\
                   "Dimensions: {4}\nOrigin: {5}\nCell size: {6}"\
-                  "Maximum elevation: {7}\nMinimum elevation: {8}"
+                  "Maximum elevation: {7}\nMinimum elevation: {8}"\
                     .format(None,None,None,self.extent,
                             'X: %d, Y: %d' % (self.ncols,self.nrows),
                             self.origin,self.cell_size,self.min_z,
                             self.max_z)
         return display
+
+    def __del__(self):
+        if not cfg.KEEP_LAGRIT_LOGS:
+            util.cleanup(['logx3dgen','outx3dgen',
+                          'lagrit.log','lagrit.out'])
 
     @property
     def origin(self):
