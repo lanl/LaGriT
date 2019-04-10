@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.300   macOS          *                 
-*               *    date_compile: 2019/04/08 Static          *                 
-*               *    Run Time: 2019/Apr 10  12:30:48          *                 
+*               *    Program:  LaGriT V3.300   Linux          *                 
+*               *    date_compile: 2019/04/10 Release         *                 
+*               *    Run Time: 2019/Apr 10  09:31:32          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -184,17 +184,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmosource idebug/0                                                   
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             501              501            501       25 %                      
            1001             1001           1001       50 %                      
            1501             1501           1501       75 %                      
-           2000             2001           2000    Total                        
+           2000             2001           2000       100%                      
+ 
+Total Source Elements:                    4000                                  
+Total Sink   Nodes:                       2000                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select cmosink                                                              
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmosource/sbox                                                       
 finish                                                                          
@@ -305,17 +317,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmosource idebug/0                                                   
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             501              501            501       25 %                      
            1001             1001           1001       50 %                      
            1501             1501           1501       75 %                      
-           2000             2001           2000    Total                        
+           2000             2001           2000       100%                      
+ 
+Total Source Elements:                    4000                                  
+Total Sink   Nodes:                       2000                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select cmosink                                                              
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmosource/sbox                                                       
 finish                                                                          
@@ -429,17 +453,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmosource idebug/0                                                   
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             501              501            501       25 %                      
            1001             1001           1001       50 %                      
            1501             1501           1501       75 %                      
-           2000             2002           2000    Total                        
+           2000             2002           2000       100%                      
+ 
+Total Source Elements:                    4000                                  
+Total Sink   Nodes:                       2000                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select cmosink                                                              
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmosource/sbox                                                       
 finish                                                                          
@@ -553,17 +589,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmosource idebug/0                                                   
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             501              519            501       25 %                      
            1001             1041           1001       50 %                      
            1501             1593           1501       75 %                      
-           2000             2217           2000    Total                        
+           2000             2217           2000       100%                      
+ 
+Total Source Elements:                    4000                                  
+Total Sink   Nodes:                       2000                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select cmosink                                                              
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmosource/sbox                                                       
 finish                                                                          
@@ -687,11 +735,18 @@ pt_gtg attribute will be added and kept.
 el_gtg attribute will be added and kept.                                        
 Building pt_gtg for nearest point flag, element search follows.                 
  
-     Sink point   Points searched   Points Found  Percent Done                  
+Build kdtree0 done - assign nearest node for each.                              
+ 
+ 
+     Sink point   Points Searched   Points Found  Percent Done                  
+ 
             501              501            501       25 %                      
            1001             1001           1001       50 %                      
            1501             1501           1501       75 %                      
-           2000             2000           2000    Total                        
+           2000             2000           2000       100%                      
+ 
+Total Source Nodes:                    2121                                     
+Total Sink   Nodes:                    2000                                     
  
 cmo select cmosource                                                            
 finish                                                                          
@@ -705,17 +760,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmosource idebug/0                                                   
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             501              519            501       25 %                      
            1001             1041           1001       50 %                      
            1501             1593           1501       75 %                      
-           2000             2217           2000    Total                        
+           2000             2217           2000       100%                      
+ 
+Total Source Elements:                    4000                                  
+Total Sink   Nodes:                       2000                                  
+ 
+ 
+interpolate/map done.                                                           
  
 cmo select cmosink                                                              
 finish                                                                          
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmosource/sbox                                                       
 finish                                                                          
@@ -824,25 +891,28 @@ INTRP METHOD:        map   FUNCTION:     linear
 pt_gtg attribute will be added and kept.                                        
 Building pt_gtg for nearest point flag, element search follows.                 
 SKIPPING POINT SEARCH... using lookup attribute pt_gtg                          
- 
-     Sink point   Points searched   Points Found  Percent Done                  
             501              501            501       25 %                      
            1001             1001           1001       50 %                      
            1501             1501           1501       75 %                      
-           2000             2000           2000    Total                        
+           2000             2000           2000       100%                      
+ 
+Total Source Nodes:                    2121                                     
+Total Sink   Nodes:                    2000                                     
  
 SKIPPING ELEMENT SEARCH... using lookup attribute el_gtg                        
- 
-     Sink point   Elems Searched  Elements Found  Percent Done                  
             501              501            501       25 %                      
            1001             1001           1001       50 %                      
            1501             1501           1501       75 %                      
-           2000             2000           2000    Total                        
+           2000             2000           2000       100%                      
+ 
+Total Source Elements:                    4000                                  
+Total Sink   Nodes:                       2000                                  
+ 
+ 
+interpolate/map done.                                                           
  
 cmo select cmosink                                                              
 finish                                                                          
-intrp/map done.                                                                 
- 
 cmo printatt cmosource id_elem minmax                                           
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  id_elem                          1             4000            3999      4000  

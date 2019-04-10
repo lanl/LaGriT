@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.300   macOS          *                 
-*               *    date_compile: 2019/04/08 Static          *                 
-*               *    Run Time: 2019/Apr 10  12:30:52          *                 
+*               *    Program:  LaGriT V3.300   Linux          *                 
+*               *    date_compile: 2019/04/10 Release         *                 
+*               *    Run Time: 2019/Apr 10  11:39:17          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -690,16 +690,24 @@ INTRP METHOD:    voronoi   FUNCTION:     linear
  
 pt_gtg attribute will be added and kept.                                        
  
-     Sink point   Points searched   Points Found  Percent Done                  
+Build kdtree0 done - assign nearest node for each.                              
+ 
+ 
+     Sink point   Points Searched   Points Found  Percent Done                  
+ 
            1137             1137           1137       25 %                      
            2273             2273           2273       50 %                      
            3409             3409           3409       75 %                      
-           4543             4543           4543    Total                        
+           4543             4543           4543       100%                      
+ 
+Total Source Nodes:                     320                                     
+Total Sink   Nodes:                    4543                                     
+ 
+ 
+interpolate/voronoi done.                                                       
  
 cmo select cmotri                                                               
 finish                                                                          
-intrp/voronoi done.                                                             
- 
 cmo kdtree release                                                              
 finish                                                                          
 finish                                                                          
@@ -710,17 +718,19 @@ INTRP METHOD:    voronoi   FUNCTION:     linear
       TIEBREAKER:     maxtie   FLAG:      plus1  0.100010000000E+05             
  
 SKIPPING POINT SEARCH... using lookup attribute pt_gtg                          
- 
-     Sink point   Points searched   Points Found  Percent Done                  
            1137             1137           1137       25 %                      
            2273             2273           2273       50 %                      
            3409             3409           3409       75 %                      
-           4543             4543           4543    Total                        
+           4543             4543           4543       100%                      
+ 
+Total Source Nodes:                     320                                     
+Total Sink   Nodes:                    4543                                     
+ 
+ 
+interpolate/voronoi done.                                                       
  
 cmo select cmotri                                                               
 finish                                                                          
-intrp/voronoi done.                                                             
- 
 cmo kdtree release                                                              
 finish                                                                          
 finish                                                                          
@@ -731,19 +741,21 @@ INTRP METHOD:    voronoi   FUNCTION:     linear
       TIEBREAKER:     maxtie   FLAG:      plus1  0.100000000000E+01             
  
 SKIPPING POINT SEARCH... using lookup attribute pt_gtg                          
- 
-     Sink point   Points searched   Points Found  Percent Done                  
            1137             1137           1137       25 %                      
            2273             2273           2273       50 %                      
            3409             3409           3409       75 %                      
-           4543             4543           4543    Total                        
+           4543             4543           4543       100%                      
+ 
+Total Source Nodes:                     320                                     
+Total Sink   Nodes:                    4543                                     
+ 
+ 
+interpolate/voronoi done.                                                       
  
 cmo DELATT cmotri/pt_gtg                                                        
 finish                                                                          
 cmo select cmotri                                                               
 finish                                                                          
-intrp/voronoi done.                                                             
- 
 cmo kdtree release                                                              
 finish                                                                          
 finish                                                                          
