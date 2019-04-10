@@ -19,6 +19,8 @@ c
 c         xic,yic,zic  - arrays of spatial coordinates of the
 c                        points.
 c         mtri -         total number of points.
+c         ierr -         is used to pass in a value for idebug
+C                        idebug 1 is least, 5 more, 9 verbose 
 c
 c     output arguments -
 c         linkt -        k-D tree links and leaf links to points.
@@ -40,32 +42,45 @@ CPVCS
 CPVCS       Rev 1.2   Fri Jun 20 15:56:18 1997   dcg
 CPVCS    remove open statement
 CPVCS    add some temporary memory calls
+c #####################################################################
  
       implicit none
       include 'consts.h'
  
-      integer mtri,linkt(2*mtri),ierr, length
+      integer mtri,linkt(2*mtri),ierr
       real*8 xic(mtri),yic(mtri),zic(mtri),sbox(2,3,2*mtri)
  
       pointer(ipitri,itri)
- 
       integer itri(mtri)
- 
-      integer icscode,i,node,nextt,itop,imn,imx,icut,imd,k1,ierrw,
-     &   icrstack(100),imin(100),imax(100),ict(100)
+
+      integer icrstack(100),imin(100),imax(100),ict(100)
       pointer(ipimin,imin)
       pointer(ipimax,imax)
       pointer(ipict,ict)
       pointer(ipicrstack,icrstack)
+
+      integer icscode,i,node,nextt,itop,imn,imx,icut,imd,
+     &   k1,length, ierrw,idebug, icount
  
       real*8 dimx,dimy,dimz
+
+c     variables to save min and max search box for idebug
+c     use volume of box lengths for debug reporting 
+      real*8 maxdimx,maxdimy,maxdimz,mindimx,mindimy,mindimz
+      real*8 sizebox, maxbox, minbox, xmult,ymult,zmult
  
       character*132 logmess
       character*32 isubname
       real*8 alargenumber
       data alargenumber/1.d99/
  
+C---------------------------------------------------------------
+C BEGIN
       isubname='kdtree0'
+      idebug = 0
+      if (ierr .gt. 0) then 
+         idebug = ierr
+      endif
       ierr=0
  
 c.... If the number of points is not positive, give an error.
@@ -86,10 +101,14 @@ c....Obtain allocation for array.
       call mmgetblk('imax',isubname,ipimax,length,1,icscode)
       call mmgetblk('ict',isubname,ipict,length,1,icscode)
       call mmgetblk('icrstack',isubname,ipicrstack,length,1,icscode)
-      call mmverify()
+      if (idebug .gt. 0) call mmverify()
  
 c.... Let the bounding box associated with the root node
 c.... [SBOX(*,*,1)] exactly contain all points.
+
+c.... ITRI will contain a permutation of the integers
+c.... {1,...,MTRI}.  This permutation will be altered as we
+c.... create our balanced binary tree.
  
       sbox(1,1,1)=alargenumber
       sbox(2,1,1)=-alargenumber
@@ -104,7 +123,13 @@ c.... [SBOX(*,*,1)] exactly contain all points.
          sbox(2,2,1)=max(sbox(2,2,1),yic(i))
          sbox(1,3,1)=min(sbox(1,3,1),zic(i))
          sbox(2,3,1)=max(sbox(2,3,1),zic(i))
+         itri(i)=i
       enddo
+
+c     set defaults for saved min and max box sizes
+      sizebox = 0.
+      maxbox = 0.
+      minbox = alargenumber
  
 c.... If there is only one point, the root node is a leaf.
 c.... (Our convention is to set the link corresponding to a leaf
@@ -123,15 +148,9 @@ c.... under consideration.
       dimy=sbox(2,2,1)-sbox(1,2,1)
       dimz=sbox(2,3,1)-sbox(1,3,1)
  
-c.... ITRI will contain a permutation of the integers
-c.... {1,...,MTRI}.  This permutation will be altered as we
-c.... create our balanced binary tree.  NEXTT contains the
-c.... address of the next available node to be filled.
+c.... NEXTT is the address of the next available node to be filled.
  
       nextt=2
-      do i=1,mtri
-         itri(i)=i
-      enddo
  
 c.... Use a stack to create the tree.  Put the root node
 c.... ``1'' on the top of the stack (ICRSTACK).  The array
@@ -161,11 +180,15 @@ c.... of the bounding box is largest.
 c.... Pop nodes off stack, create children nodes and put them
 c.... on stack.  Continue until k-D tree has been created.
  
+c     LOOP through all stack options
+
+      icount = 1
       do while (itop.gt.0)
  
 c.... Pop top node off stack.
  
          node=icrstack(itop)
+         icount = icount + 1
  
 c.... Make this node point to next available node location (NEXTT).
 c.... This link represents the location of the FIRST CHILD
@@ -300,16 +323,46 @@ c.... be the smallest box containing all the associated points.
                sbox(2,3,nextt)=max(sbox(2,3,nextt),
      &            zic(itri(i)))
             enddo
- 
+
+            dimx=sbox(2,1,nextt)-sbox(1,1,nextt)
+            dimy=sbox(2,2,nextt)-sbox(1,2,nextt)
+            dimz=sbox(2,3,nextt)-sbox(1,3,nextt)
+
+c           for debug reporting use volume of box
+c           protect against 0 length axis
+            xmult = dimx
+            ymult = dimy
+            zmult = dimz
+            if (dimx.le. 0.0) xmult = 1.
+            if (dimy.le. 0.0) ymult = 1.
+            if (dimz.le. 0.0) zmult = 1.
+
+            sizebox=xmult*ymult*zmult
+            if (idebug .ge. 5) then
+              write(logmess,'(a,i17)')
+     &        "count: ",icount
+              call writloga('default',0,logmess,0,ierrw)
+              write(logmess,'(a,f17.5,f17.5,f17.5)')
+     &        "dimx, dimy, dimz: ",dimx,dimy,dimz
+              call writloga('default',0,logmess,0,ierrw)
+            endif
+            if (sizebox.ge.maxbox) then
+              maxbox = sizebox
+              maxdimx = dimx
+              maxdimy = dimy
+              maxdimz = dimz
+            endif
+            if (sizebox.lt.minbox) then
+              minbox = sizebox
+              mindimx = dimx
+              mindimy = dimy
+              mindimz = dimz
+            endif
  
 c.... Put the second child onto the stack, noting the
 c.... associated point subset in IMIN and IMAX, and
 c.... putting the appropriate cutting direction in ICT.
- 
-            dimx=sbox(2,1,nextt)-sbox(1,1,nextt)
-            dimy=sbox(2,2,nextt)-sbox(1,2,nextt)
-            dimz=sbox(2,3,nextt)-sbox(1,3,nextt)
- 
+
             itop=itop+1
             icrstack(itop)=nextt
             imin(itop)=imd+1
@@ -323,11 +376,35 @@ c.... putting the appropriate cutting direction in ICT.
             endif
             nextt=nextt+1
          endif
+
       enddo
+C     END LOOP building kd-tree
  
  9999 continue
- 
+
        call mmrelprt(isubname,icscode)
+
+       if (idebug .gt. 0) then
+         write(logmess,'(a,i17)')
+     &   '  kdtree0: build total: ',icount
+         call writloga('default',1,logmess,0,ierrw)
+
+         write(logmess,'(a,f17.5)')'  Max box volume: ',maxbox
+         call writloga('default',0,logmess,0,ierrw)
+
+         write(logmess,'(a,f17.5)')'  Min box volume: ',minbox
+         call writloga('default',0,logmess,0,ierrw)
+
+         write(logmess,'(a,f17.5,f17.5,f17.5)')
+     &   '  Max dim xyz:    ',
+     &   maxdimx,maxdimy,maxdimz
+         call writloga('default',0,logmess,0,ierrw)
+
+         write(logmess,'(a,f17.5,f17.5,f17.5)')
+     &   '  Min dim xyz:    ',
+     &   mindimx,mindimy,mindimz
+         call writloga('default',0,logmess,1,ierrw)
+       endif
  
       return
       end

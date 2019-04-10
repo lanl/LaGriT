@@ -12,6 +12,7 @@ c     of triangle overlap, KDTREE also produces an array SBOX which
 c     gives 'safety boxes'.  For each node in the k-D tree,
 c     there is a corresponding safety box which is just big enough
 c     to contain all the triangles ``under'' the node.
+c     Note: kdtree0 is used by interpolate for nearest node
 c
 c     input arguments -
 c
@@ -57,16 +58,29 @@ CPVCS    fix changes comment
  
       integer icscode,i,node,nextt,itop,imn,imx,icut,imd,k1,k2,
      &   icrstack(100),imin(100),imax(100),ict(100),ierrw
+      integer idebug
  
       real*8 dimx,dimy,dimz
+c     variables to save min and max search box for idebug
+c     use volume of box lengths for debug reporting
+      real*8 maxdimx,maxdimy,maxdimz,mindimx,mindimy,mindimz
+      real*8 sizebox, maxbox, minbox, xmult,ymult,zmult
  
       character*132 logmess
       character*32 isubname
       real*8 alargenumber
       data alargenumber/1.d+99/
  
+C---------------------------------------------------------------
+C BEGIN
       isubname='kdtree'
       ierr=0
+      idebug = 0
+      if (ierr .gt. 0) then
+         idebug = ierr
+      endif
+      ierr=0
+
  
 c.... If the number of triangles is not positive, give an error.
  
@@ -121,6 +135,12 @@ c.... triangle bounding boxes into XBBC, YBBC, ZBBC.
          sbox(1,3,1)=min(sbox(1,3,1),sboxtri(1,3,i))
          sbox(2,3,1)=max(sbox(2,3,1),sboxtri(2,3,i))
       enddo
+
+c     set defaults for saved min and max box sizes
+      sizebox = 0.
+      maxbox = 0.
+      minbox = alargenumber
+
  
 c.... If there is only one triangle, the root node is a leaf.
 c.... (Our convention is to set the link corresponding to a leaf
@@ -255,6 +275,29 @@ c.... putting the appropriate cutting direction in ICT.
             dimx=sbox(2,1,nextt)-sbox(1,1,nextt)
             dimy=sbox(2,2,nextt)-sbox(1,2,nextt)
             dimz=sbox(2,3,nextt)-sbox(1,3,nextt)
+
+c           for debug reporting use volume of box
+c           protect against 0 length axis
+            xmult = dimx
+            ymult = dimy
+            zmult = dimz
+            if (dimx.le. 0.0) xmult = 1.
+            if (dimy.le. 0.0) ymult = 1.
+            if (dimz.le. 0.0) zmult = 1.
+
+            sizebox=xmult*ymult*zmult
+            if (sizebox.ge.maxbox) then
+              maxbox = sizebox
+              maxdimx = dimx
+              maxdimy = dimy
+              maxdimz = dimz
+            endif
+            if (sizebox.lt.minbox) then
+              minbox = sizebox
+              mindimx = dimx
+              mindimy = dimy
+              mindimz = dimz
+            endif
  
             itop=itop+1
             icrstack(itop)=nextt
@@ -332,6 +375,29 @@ c.... putting the appropriate cutting direction in ICT.
  9999 continue
  
       call mmrelprt(isubname,icscode)
+
+       if (idebug .gt. 0) then
+         write(logmess,'(a)')
+     &   '  kdtree: build done.'
+         call writloga('default',1,logmess,0,ierrw)
+
+         write(logmess,'(a,f17.5)')'  Max box volume: ',maxbox
+         call writloga('default',0,logmess,0,ierrw)
+
+         write(logmess,'(a,f17.5)')'  Min box volume: ',minbox
+         call writloga('default',0,logmess,0,ierrw)
+
+         write(logmess,'(a,f17.5,f17.5,f17.5)')
+     &   '  Max dim xyz:    ',
+     &   maxdimx,maxdimy,maxdimz
+         call writloga('default',0,logmess,0,ierrw)
+
+         write(logmess,'(a,f17.5,f17.5,f17.5)')
+     &   '  Min dim xyz:    ',
+     &   mindimx,mindimy,mindimz
+         call writloga('default',0,logmess,1,ierrw)
+       endif
+
  
       return
       end
