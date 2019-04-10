@@ -7,9 +7,19 @@ Import these routines and write to file.
 
 class Infiles:
 
-    def _surf_mesh_backup(in_name,out_name):
+    def _surf_mesh_backup(in_name,out_name,skip_sort=False):
         # Driver for producing a surface mesh from 
-        # a 
+        # a prism mesh
+
+        if skip_sort:
+            infile = '''read/avs/{0}/mo1
+resetpts/itp
+extract/surfmesh/1,0,0/mo2/mo1/external
+dump/avs/{1}/mo2
+
+finish'''.format(in_name,out_name)
+            return infile
+
         infile = '''read/avs/{0}/mo1
 resetpts/itp
 

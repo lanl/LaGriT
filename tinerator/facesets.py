@@ -646,9 +646,19 @@ def write_facesets(dem_object,facesets):
     # -- MAIN PREPARATION -------------------------------------- #
 
     _cleanup.append(boundary_file)
+    dem_object._stacked_mesh.resetpts_itp()
+
+    dem_object.lg.sendline('resetpts/itp')
+    dem_object.lg.sendline('createpts/median')
+    dem_object.lg.sendline('sort/{0}/index/ascending/ikey/itetclr zmed ymed xmed'.format(dem_object._stacked_mesh.name))
+    dem_object.lg.sendline('reorder/{0}/ikey'.format(dem_object._stacked_mesh.name))
+    dem_object.lg.sendline('cmo/DELATT/{0}/ikey'.format(dem_object._stacked_mesh.name))
+    dem_object.lg.sendline('cmo/DELATT/{0}/xmed'.format(dem_object._stacked_mesh.name))
+    dem_object.lg.sendline('cmo/DELATT/{0}/ymed'.format(dem_object._stacked_mesh.name))
+    dem_object.lg.sendline('cmo/DELATT/{0}/zmed'.format(dem_object._stacked_mesh.name))
+    dem_object.lg.sendline('cmo/DELATT/{0}/ikey'.format(dem_object._stacked_mesh.name))
 
     cmo_in = dem_object._stacked_mesh.copy()
-    cmo_in.resetpts_itp()
 
     # Extract surface w/ cell & face attributes to get the outside face
     # to element relationships
@@ -675,7 +685,7 @@ def write_facesets(dem_object,facesets):
         cmo_in.dump(mesh_prism)
 
         with open(tmp_infile,'w') as f:
-            f.write(Infiles._surf_mesh_backup(mesh_prism,mesh_surf))
+            f.write(Infiles._surf_mesh_backup(mesh_prism,mesh_surf,skip_sort=True))
 
         subprocess.check_output(
             dem_object.lg.lagrit_exe+' < '+tmp_infile,
