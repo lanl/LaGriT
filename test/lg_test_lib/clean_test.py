@@ -28,10 +28,8 @@ def Clean(tag:str=None):
                     print("\tClean.")
             elif os.path.isfile(directory) and not directory.endswith(".old.txt"):
                 if directory.startswith("stdout_" + tag):
-                    print("FOUND STDOUT")
                     os.rename(directory, directory[:-4] + ".old" + directory[-4:])
                 elif directory.startswith("diffout_" + tag):
-                    print("FOUND DIFFOUT_")
                     os.rename(directory, directory[:-4] + ".old" + directory[-4:])
         except Exception as e:
             print(e)

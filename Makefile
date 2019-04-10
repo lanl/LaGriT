@@ -37,7 +37,7 @@ BIT_SIZE := $(shell getconf LONG_BIT)
 OPSYS := $(shell uname -s)
 
 MAJOR_VERSION := 3
-MINOR_VERSION := 300
+MINOR_VERSION := 320
 BUILD_DATE := $(shell date +%Y/%m/%d)
 BUILD_TYPE := Release
 EXE_NAME := src/lagrit
