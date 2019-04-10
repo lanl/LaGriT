@@ -2,24 +2,26 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.203   Linux          *                 
-*               *    date_compile: 2017/09/26 Static DB       *                 
-*               *    Run Time: 2017/Oct  4  15:22:06          *                 
+*               *    Program:  LaGriT V3.300   macOS          *                 
+*               *    date_compile: 2019/04/08 Static          *                 
+*               *    Run Time: 2019/Apr  8  16:38:29          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
@@ -202,19 +204,13 @@ finish
 quality                                                                         
  
 epsilonl, epsilonaspect:   9.9999999E-09  9.9999998E-25                         
-Invalid element aratio type:          7                                         
-gt 1 aspect ratio for elem          1 is         NaN                            
-Total elem w/ aspect ratio > 1:          1                                      
 --------------------------------------------                                    
-elements with aspect ratio < .01:                    0                          
-elements with aspect ratio b/w .01 and .02:          0                          
-elements with aspect ratio b/w .02 and .05:          0                          
-elements with aspect ratio b/w .05 and .1 :          0                          
-elements with aspect ratio b/w .1  and .2 :          0                          
-elements with aspect ratio b/w .2  and .5 :          0                          
-elements with aspect ratio b/w .5  and 1. :          0                          
-elements with aspect ratio > 1.:          1                                     
+elements with aspect ratio not set:          1                                  
 min aspect ratio =  0.0000E+00  max aspect ratio =  0.0000E+00                  
+Warning: No aspect ratio for invalid element type: prisms                       
+Warning: Number of invalid elements:              1                             
+         0 out of          1 total elements evaluated.                          
+ 
  
 epsilonvol:   2.2204460E-14                                                     
 ---------------------------------------                                         
@@ -530,219 +526,13 @@ finish
 quality                                                                         
  
 epsilonl, epsilonaspect:   9.9999999E-09  9.9999998E-25                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-Invalid element aratio type:          7                                         
-gt 1 aspect ratio for elem          1 is         NaN                            
-gt 1 aspect ratio for elem          2 is         NaN                            
-Total elem w/ aspect ratio > 1:        200                                      
 --------------------------------------------                                    
-elements with aspect ratio < .01:                    0                          
-elements with aspect ratio b/w .01 and .02:          0                          
-elements with aspect ratio b/w .02 and .05:          0                          
-elements with aspect ratio b/w .05 and .1 :          0                          
-elements with aspect ratio b/w .1  and .2 :          0                          
-elements with aspect ratio b/w .2  and .5 :          0                          
-elements with aspect ratio b/w .5  and 1. :          0                          
-elements with aspect ratio > 1.:        200                                     
+elements with aspect ratio not set:        200                                  
 min aspect ratio =  0.0000E+00  max aspect ratio =  0.0000E+00                  
+Warning: No aspect ratio for invalid element type: prisms                       
+Warning: Number of invalid elements:            200                             
+         0 out of        200 total elements evaluated.                          
+ 
  
 epsilonvol:   2.2204460E-14                                                     
 ---------------------------------------                                         
