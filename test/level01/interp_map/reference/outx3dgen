@@ -2,24 +2,26 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:45          *                 
+*               *    Program:  LaGriT V3.300   Linux          *                 
+*               *    date_compile: 2019/04/10 Release         *                 
+*               *    Run Time: 2019/Apr 10  09:43:19          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
@@ -135,17 +137,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             101              134            101       25 %                      
             201              244            201       50 %                      
             301              354            301       75 %                      
-            400              484            400    Total                        
+            400              484            400       100%                      
+ 
+Total Source Elements:                      36                                  
+Total Sink   Nodes:                        400                                  
+ 
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -412,17 +426,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             101              134            101       25 %                      
             201              244            201       50 %                      
             301              354            301       75 %                      
-            400              484            400    Total                        
+            400              484            400       100%                      
+ 
+Total Source Elements:                      36                                  
+Total Sink   Nodes:                        400                                  
+ 
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -688,19 +714,31 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             101                1              1       25 %                      
             201               86             86       50 %                      
             301              171            171       75 %                      
-            400              255            255    Total                        
+            400              255            255       100%                      
+ 
+Total Source Elements:                      36                                  
+Total Sink   Nodes:                        400                                  
+ 
+WARNING: Sink points not inside source grid:                      145           
+Outside sink points flagged with value:                          4.00           
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-WARNING: Sink points not inside source grid:             145                    
-Total sink points marked:             145 with flag:           4.00             
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -963,11 +1001,18 @@ INTRP METHOD:        map   FUNCTION:       user
 pt_gtg attribute will be added and deleted.                                     
 Building pt_gtg for nearest point flag, element search follows.                 
  
-     Sink point   Points searched   Points Found  Percent Done                  
+Build kdtree0 done - assign nearest node for each.                              
+ 
+ 
+     Sink point   Points Searched   Points Found  Percent Done                  
+ 
             101              214            101       25 %                      
             201              424            201       50 %                      
             301              634            301       75 %                      
-            400              840            400    Total                        
+            400              840            400       100%                      
+ 
+Total Source Nodes:                      98                                     
+Total Sink   Nodes:                     400                                     
  
 cmo select cmo_src                                                              
 finish                                                                          
@@ -981,21 +1026,33 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             101                1              1       25 %                      
             201               86             86       50 %                      
             301              171            171       75 %                      
-            400              255            255    Total                        
+            400              255            255       100%                      
+ 
+Total Source Elements:                      36                                  
+Total Sink   Nodes:                        400                                  
+ 
+WARNING: Sink points not inside source grid:                      145           
+Total sink points flagged with nearest point values:              145           
+ 
+interpolate/map done.                                                           
  
 cmo DELATT cmo_sink/pt_gtg                                                      
 finish                                                                          
 cmo select cmo_sink                                                             
 finish                                                                          
-WARNING: Sink points not inside source grid:             145                    
-Total sink points flagged with nearest point value:             145             
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -1262,19 +1319,31 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             101                1              1       25 %                      
             201               86             86       50 %                      
             301              171            171       75 %                      
-            400              255            255    Total                        
+            400              255            255       100%                      
+ 
+Total Source Elements:                      36                                  
+Total Sink   Nodes:                        400                                  
+ 
+WARNING: Sink points not inside source grid:                      145           
+Outside sink points flagged with value:                          5.00           
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-WARNING: Sink points not inside source grid:             145                    
-Total sink points marked:             145 with flag:           5.00             
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -1543,17 +1612,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
              55               55             55       25 %                      
             109              109            109       50 %                      
             163              163            163       75 %                      
-            216              216            216    Total                        
+            216              216            216       100%                      
+ 
+Total Source Elements:                      36                                  
+Total Sink   Centroids:                    216                                  
+ 
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -1828,18 +1909,31 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
              34               37             34       25 %                      
              67               73             67       50 %                      
             100              110            100       75 %                      
-            130              154            130    Total                        
+            130              154            130       100%                      
+ 
+Total Source Elements:                      36                                  
+Total Sink   Nodes:                        130                                  
+ 
+Indexed sink points:             130 Total unchanged:             270           
+ 
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-Indexed sink points:             130 Total unchanged:             270           
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -2102,16 +2196,28 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
               2                2              2       25 %                      
               3                3              3       50 %                      
-              4                4              4    Total                        
+              4                4              4       100%                      
+ 
+Total Source Elements:                       9                                  
+Total Sink   Centroids:                      4                                  
+ 
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -2349,14 +2455,26 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
-              2                2              2    Total                        
+ 
+              2                2              2       100%                      
+ 
+Total Source Elements:                       9                                  
+Total Sink   Centroids:                      2                                  
+ 
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -2594,14 +2712,26 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
-              2                2              2    Total                        
+ 
+              2                2              2       100%                      
+ 
+Total Source Elements:                       9                                  
+Total Sink   Centroids:                      2                                  
+ 
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -2841,17 +2971,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
               4                4              4       25 %                      
               7                7              7       50 %                      
              10               10             10       75 %                      
-             12               12             12    Total                        
+             12               12             12       100%                      
+ 
+Total Source Elements:                       9                                  
+Total Sink   Centroids:                     12                                  
+ 
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -3105,18 +3247,31 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
              49               49             49       25 %                      
              97               97             97       50 %                      
             145              145            145       75 %                      
-            192              192            192    Total                        
+            192              192            192       100%                      
+ 
+Total Source Elements:                       9                                  
+Total Sink   Centroids:                    192                                  
+ 
+Indexed sink points:             192 Total unchanged:              24           
+ 
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-Indexed sink points:             192 Total unchanged:              24           
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -3337,19 +3492,31 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
              55               63             55       25 %                      
             109              120            105       50 %                      
             163              174            155       75 %                      
-            216              228            204    Total                        
+            216              228            204       100%                      
+ 
+Total Source Elements:                       9                                  
+Total Sink   Centroids:                    216                                  
+ 
+WARNING: Sink points not inside source grid:                       12           
+Outside sink points flagged with value:                         10.00           
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-WARNING: Sink points not inside source grid:              12                    
-Total sink points marked:              12 with flag:          10.00             
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -3615,11 +3782,18 @@ pt_gtg attribute will be added and kept.
 el_gtg attribute will be added and kept.                                        
 Building pt_gtg for nearest point flag, element search follows.                 
  
-     Sink point   Points searched   Points Found  Percent Done                  
+Build kdtree0 done - assign nearest node for each.                              
+ 
+ 
+     Sink point   Points Searched   Points Found  Percent Done                  
+ 
             101              242            101       25 %                      
             201              442            201       50 %                      
             301              642            301       75 %                      
-            400              840            400    Total                        
+            400              840            400       100%                      
+ 
+Total Source Nodes:                      98                                     
+Total Sink   Nodes:                     400                                     
  
 cmo select cmo_src                                                              
 finish                                                                          
@@ -3633,19 +3807,31 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt cmo_src idebug/0                                                     
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             101               82             76       25 %                      
             201              162            151       50 %                      
             301              242            226       75 %                      
-            400              256            240    Total                        
+            400              256            240       100%                      
+ 
+Total Source Elements:                      36                                  
+Total Sink   Nodes:                        400                                  
+ 
+WARNING: Sink points not inside source grid:                      160           
+Total sink points flagged with nearest point values:              160           
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-WARNING: Sink points not inside source grid:             160                    
-Total sink points flagged with nearest point value:             160             
-intrp/map done.                                                                 
- 
 cmo kdtree release                                                              
 cmo/DELATT/cmo_src/sbox                                                         
 finish                                                                          
@@ -3704,27 +3890,30 @@ INTRP METHOD:        map   FUNCTION:     linear
 pt_gtg attribute will be added and kept.                                        
 Building pt_gtg for nearest point flag, element search follows.                 
 SKIPPING POINT SEARCH... using lookup attribute pt_gtg                          
- 
-     Sink point   Points searched   Points Found  Percent Done                  
             101              101            101       25 %                      
             201              201            201       50 %                      
             301              301            301       75 %                      
-            400              400            400    Total                        
+            400              400            400       100%                      
+ 
+Total Source Nodes:                      98                                     
+Total Sink   Nodes:                     400                                     
  
 SKIPPING ELEMENT SEARCH... using lookup attribute el_gtg                        
- 
-     Sink point   Elems Searched  Elements Found  Percent Done                  
             101               76             76       25 %                      
             201              151            151       50 %                      
             301              226            226       75 %                      
-            400              240            240    Total                        
+            400              240            240       100%                      
+ 
+Total Source Elements:                      36                                  
+Total Sink   Nodes:                        400                                  
+ 
+WARNING: Sink points not inside source grid:                      160           
+Total sink points flagged with nearest point values:              160           
+ 
+interpolate/map done.                                                           
  
 cmo select cmo_sink                                                             
 finish                                                                          
-WARNING: Sink points not inside source grid:             160                    
-Total sink points flagged with nearest point value:             160             
-intrp/map done.                                                                 
- 
 dump gmv output_map12.gmv                                                       
  
 Second argument is not a filename. Trying to use default mesh object.           
