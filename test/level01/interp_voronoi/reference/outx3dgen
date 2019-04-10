@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.300   Linux          *                 
-*               *    date_compile: 2019/04/09 Release         *                 
-*               *    Run Time: 2019/Apr  9  13:46:18          *                 
+*               *    Program:  LaGriT V3.300   macOS          *                 
+*               *    date_compile: 2019/04/08 Static          *                 
+*               *    Run Time: 2019/Apr 10  12:30:47          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -119,24 +119,16 @@ INTRP METHOD:    voronoi   FUNCTION:        max
       TIEBREAKER:     maxtie   FLAG:      plus1  0.400000000000E+01             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             101              202            101       25 %                      
             201              402            201       50 %                      
             301              602            301       75 %                      
-            400              800            400       100%                      
- 
-Total Source Nodes:                      98                                     
-Total Sink   Nodes:                     400                                     
- 
- 
-interpolate/voronoi done.                                                       
+            400              800            400    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor01.gmv cmo_sink                                              
@@ -372,24 +364,16 @@ INTRP METHOD:    voronoi   FUNCTION:        max
       TIEBREAKER:     maxtie   FLAG:      plus1  0.130000000000E+02             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             626              626            626       25 %                      
            1251             1251           1251       50 %                      
            1876             1876           1876       75 %                      
-           2500             2500           2500       100%                      
- 
-Total Source Nodes:                      12                                     
-Total Sink   Nodes:                    2500                                     
- 
- 
-interpolate/voronoi done.                                                       
+           2500             2500           2500    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor02.gmv cmo_sink                                              
@@ -628,24 +612,16 @@ INTRP METHOD:    voronoi   FUNCTION:        max
       TIEBREAKER:     maxtie   FLAG:      plus1  0.500000000000E+01             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
              39               39             39       25 %                      
              77               77             77       50 %                      
             115              115            115       75 %                      
-            150              150            150       100%                      
- 
-Total Source Nodes:                     750                                     
-Total Sink   Nodes:                     150                                     
- 
- 
-interpolate/voronoi done.                                                       
+            150              150            150    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor03.gmv cmo_sink                                              
@@ -892,26 +868,17 @@ INTRP METHOD:    voronoi   FUNCTION:     linear
       TIEBREAKER:     maxtie   FLAG:      plus1  0.400000000000E+01             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
              34               68             34       25 %                      
              67              134             67       50 %                      
             100              200            100       75 %                      
-            130              260            130       100%                      
- 
-Total Source Nodes:                      98                                     
-Total Sink   Nodes:                     400                                     
- 
-Indexed sink points:             130 Total unchanged:             270           
- 
- 
-interpolate/voronoi done.                                                       
+            130              260            130    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+Indexed sink points:             130 Total unchanged:             270           
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor04.gmv cmo_sink                                              
@@ -1154,24 +1121,16 @@ INTRP METHOD:    voronoi   FUNCTION:        min
       TIEBREAKER:     mintie   FLAG:      plus1  0.400000000000E+01             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             101              202            101       25 %                      
             201              402            201       50 %                      
             301              602            301       75 %                      
-            400              800            400       100%                      
- 
-Total Source Nodes:                      98                                     
-Total Sink   Nodes:                     400                                     
- 
- 
-interpolate/voronoi done.                                                       
+            400              800            400    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor05.gmv cmo_sink                                              
@@ -1411,24 +1370,16 @@ INTRP METHOD:    voronoi   FUNCTION:        max
       TIEBREAKER:     maxtie   FLAG:      plus1  0.400000000000E+01             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             101              202            101       25 %                      
             201              402            201       50 %                      
             301              602            301       75 %                      
-            400              800            400       100%                      
- 
-Total Source Nodes:                      98                                     
-Total Sink   Nodes:                     400                                     
- 
- 
-interpolate/voronoi done.                                                       
+            400              800            400    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor06.gmv cmo_sink                                              
@@ -1671,24 +1622,16 @@ INTRP METHOD:    voronoi   FUNCTION:        max
       TIEBREAKER:     maxtie   FLAG:      plus1  0.130000000000E+02             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             626              626            626       25 %                      
            1251             1251           1251       50 %                      
            1876             1876           1876       75 %                      
-           2500             2500           2500       100%                      
- 
-Total Source Nodes:                      12                                     
-Total Sink   Nodes:                    2500                                     
- 
- 
-interpolate/voronoi done.                                                       
+           2500             2500           2500    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor07.gmv cmo_sink                                              
@@ -1928,24 +1871,16 @@ INTRP METHOD:    voronoi   FUNCTION:        max
       TIEBREAKER:     maxtie   FLAG:      plus1  0.130000000000E+02             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             626              626            626       25 %                      
            1251             1251           1251       50 %                      
            1876             1876           1876       75 %                      
-           2500             2500           2500       100%                      
- 
-Total Source Nodes:                      12                                     
-Total Sink   Nodes:                    2500                                     
- 
- 
-interpolate/voronoi done.                                                       
+           2500             2500           2500    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor08.gmv cmo_sink                                              
@@ -2189,24 +2124,16 @@ INTRP METHOD:    voronoi   FUNCTION:        max
       TIEBREAKER:     maxtie   FLAG:      plus1  0.130000000000E+02             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             626              626            626       25 %                      
            1251             1251           1251       50 %                      
            1876             1876           1876       75 %                      
-           2500             2500           2500       100%                      
- 
-Total Source Nodes:                      12                                     
-Total Sink   Nodes:                    2500                                     
- 
- 
-interpolate/voronoi done.                                                       
+           2500             2500           2500    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor09.gmv cmo_sink                                              
@@ -2452,24 +2379,16 @@ INTRP METHOD:    voronoi   FUNCTION:        max
       TIEBREAKER:     maxtie   FLAG:      plus1  0.600000000000E+01             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             282              294            282       25 %                      
             563              583            563       50 %                      
             844              872            844       75 %                      
-           1125             1165           1125       100%                      
- 
-Total Source Nodes:                      42                                     
-Total Sink   Nodes:                    1125                                     
- 
- 
-interpolate/voronoi done.                                                       
+           1125             1165           1125    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor10.gmv cmo_sink                                              
@@ -2710,24 +2629,16 @@ INTRP METHOD:    voronoi   FUNCTION:        max
       TIEBREAKER:     maxtie   FLAG:      plus1  0.600000000000E+01             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
            1143             1668           1143       25 %                      
            2285             3349           2285       50 %                      
            3427             5208           3427       75 %                      
-           4569             7065           4569       100%                      
- 
-Total Source Nodes:                    1125                                     
-Total Sink   Nodes:                    4569                                     
- 
- 
-interpolate/voronoi done.                                                       
+           4569             7065           4569    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor11.gmv cmo_sink                                              
@@ -2966,24 +2877,16 @@ INTRP METHOD:    voronoi   FUNCTION:   sequence
       TIEBREAKER:     maxtie   FLAG:      plus1  0.130000000000E+02             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             626              626            626       25 %                      
            1251             1251           1251       50 %                      
            1876             1876           1876       75 %                      
-           2500             2500           2500       100%                      
- 
-Total Source Nodes:                      12                                     
-Total Sink   Nodes:                    2500                                     
- 
- 
-interpolate/voronoi done.                                                       
+           2500             2500           2500    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor12.gmv                                                       
@@ -3180,24 +3083,16 @@ INTRP METHOD:    voronoi   FUNCTION:     linear
       TIEBREAKER:     maxtie   FLAG:      plus1  0.101200000000E+03             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             626              626            626       25 %                      
            1251             1251           1251       50 %                      
            1876             1876           1876       75 %                      
-           2500             2500           2500       100%                      
- 
-Total Source Nodes:                      12                                     
-Total Sink   Nodes:                    2500                                     
- 
- 
-interpolate/voronoi done.                                                       
+           2500             2500           2500    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor13.gmv                                                       
@@ -3397,24 +3292,16 @@ INTRP METHOD:    voronoi   FUNCTION:   sequence
       TIEBREAKER:     maxtie   FLAG:      plus1  0.130000000000E+02             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             626              626            626       25 %                      
            1251             1251           1251       50 %                      
            1876             1876           1876       75 %                      
-           2500             2500           2500       100%                      
- 
-Total Source Nodes:                      12                                     
-Total Sink   Nodes:                    2500                                     
- 
- 
-interpolate/voronoi done.                                                       
+           2500             2500           2500    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor14.gmv                                                       
@@ -3614,24 +3501,16 @@ INTRP METHOD:    voronoi   FUNCTION:     linear
       TIEBREAKER:     maxtie   FLAG:      plus1  0.101200000000E+03             
  
  
-Build kdtree0 done - assign nearest node for each.                              
- 
- 
-     Sink point   Points Searched   Points Found  Percent Done                  
- 
+     Sink point   Points searched   Points Found  Percent Done                  
             626              626            626       25 %                      
            1251             1251           1251       50 %                      
            1876             1876           1876       75 %                      
-           2500             2500           2500       100%                      
- 
-Total Source Nodes:                      12                                     
-Total Sink   Nodes:                    2500                                     
- 
- 
-interpolate/voronoi done.                                                       
+           2500             2500           2500    Total                        
  
 cmo select cmo_sink                                                             
 finish                                                                          
+intrp/voronoi done.                                                             
+ 
 cmo kdtree release                                                              
 finish                                                                          
 dump gmv output_vor15.gmv                                                       
