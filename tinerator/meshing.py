@@ -114,8 +114,6 @@ def _uniform_surface_mesh(lg,
     lg (pylagrit.PyLaGriT): Instance of PyLaGriT
     boundary (np.ndarray): Boundary nodes with, at least, x and y columns
     min_edge (float): approximate minimum triangle edge length
-
-    # Optional Arguments
     outfile (str): outfile to save triangulation to (set to None to skip)
     counterclockwise (bool): flag to indicate connectivity ordering
     connectivity (np.ndarray): optional array declaring boundary node connectivity

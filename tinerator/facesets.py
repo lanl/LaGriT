@@ -8,7 +8,7 @@ import warnings
 
 class Faceset():
     '''
-    Facesets class
+    Object that stores faceset formatting data
     '''
     def __init__(self,fs_type,data,metadata=None):
         
@@ -57,8 +57,6 @@ def from_elevations(heights:list,keep_body:bool=False) -> Faceset:
     # Arguments
     dem_object (tinerator.DEM): an instance of tinerator.DEM class
     heights (list<float>): a list of vertical (z) layers
-
-    # Optional Arguments
     keep_body (bool): when True, elevation-based facesets are applied across
     the *entire mesh*. When False, elevation-based facesets only apply to
     the top layer.
@@ -109,8 +107,6 @@ def sidesets(coords:np.ndarray,top_layer:bool=False) -> Faceset:
 
     # Arguments
     coords (np.ndarray): clockwise array of points indicating faceset junctions
-
-    # Optional Arguments
     top_layer (bool): when True, apply to only the top layer. when False, apply
     to all layers.
 

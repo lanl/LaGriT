@@ -420,6 +420,114 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/tinerator.html" title="__init__" class="md-nav__link">
+      __init__
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/dem.html" title="DEM" class="md-nav__link">
+      DEM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/load.html" title="load" class="md-nav__link">
+      load
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/dump.html" title="dump" class="md-nav__link">
+      dump
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/facesets.html" title="facesets" class="md-nav__link">
+      facesets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/plot.html" title="plot" class="md-nav__link">
+      plot
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/boundary.html" title="boundary" class="md-nav__link">
+      boundary
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/config.html" title="config" class="md-nav__link">
+      config
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/util.html" title="util" class="md-nav__link">
+      util
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/developernotes.html" title="For Developers" class="md-nav__link">
       For Developers
     </a>
@@ -560,13 +668,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#side-selection-via-gui" title="Side selection via GUI" class="md-nav__link">
-    Side selection via GUI
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#side-selection-via-coordinates" title="Side selection via Coordinates" class="md-nav__link">
     Side selection via Coordinates
   </a>
@@ -582,6 +683,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-mesh-with-facesets" title="Writing Mesh with Facesets" class="md-nav__link">
+    Writing Mesh with Facesets
+  </a>
   
 </li>
       
@@ -673,13 +781,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#side-selection-via-gui" title="Side selection via GUI" class="md-nav__link">
-    Side selection via GUI
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#side-selection-via-coordinates" title="Side selection via Coordinates" class="md-nav__link">
     Side selection via Coordinates
   </a>
@@ -695,6 +796,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-mesh-with-facesets" title="Writing Mesh with Facesets" class="md-nav__link">
+    Writing Mesh with Facesets
+  </a>
   
 </li>
       
@@ -722,7 +830,9 @@
 <h2 id="naive-facesets">Naive Facesets</h2>
 <p>'Naive' facesets are a collection of only three facesets: top, bottom, and sides.
 They can be generated with:</p>
-<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">generateFacesets</span><span class="p">(</span><span class="n">output_filepath</span><span class="p">,</span><span class="n">naive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">sides_basic</span> <span class="o">=</span> <span class="n">tin</span><span class="o">.</span><span class="n">facesets</span><span class="o">.</span><span class="n">basic</span><span class="p">(</span><span class="n">has_top</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                 <span class="n">has_bottom</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                 <span class="n">has_sides</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 <h2 id="complex-facesets">Complex Facesets</h2>
@@ -739,45 +849,61 @@ They can be generated with:</p>
 <p>Note that the outlet faceset is localized entirely to the top layer.</p>
 <p>Faceset definitions such as these are unique to simulation parameters and goals.
 Consequently, they must be defined manually using one of two methods:</p>
-<h3 id="side-selection-via-gui">Side selection via GUI</h3>
-<div class="codehilite"><pre><span></span><span class="n">fs_sides</span> <span class="o">=</span> <span class="n">selectFacesetsFromBoundary</span><span class="p">(</span><span class="n">dem</span><span class="p">)</span>
-</pre></div>
-
-<p>Upon running the above function, a Matplotlib-powered GUI will appear and Python will suspend further script execution until the window is closed.</p>
-<p>To use this tool, simply click a boundary node defining the start of a sideset.
-Then, in a clockwise manner, click the boundary node defining the end of a sideset. Nodes contained within that sideset will disappear from the boundary as
-they are no longer selectable.</p>
-<p>This process may be performed an arbitrary amount of times - note that the nodes 
-'left over' when the GUI window is closed will be defined as a sideset.</p>
-<p><img alt="Faceset generation" src="../assets/images/examples/fs_gui_selection.png" /></p>
-<p>When the window is closed, the function will return an array with sideset definitions. </p>
-<p>You can also run this function again to define top-layer sidesets - for, as an example, defining an inlet or outlet. </p>
-<div class="codehilite"><pre><span></span><span class="n">fs_sides</span> <span class="o">=</span> <span class="n">selectFacesetsFromBoundary</span><span class="p">(</span><span class="n">dem</span><span class="p">)</span>  <span class="c1"># Capture general sidesets</span>
-<span class="n">fs_outlet</span> <span class="o">=</span> <span class="n">selectFacesetsFromBoundary</span><span class="p">(</span><span class="n">dem</span><span class="p">)</span> <span class="c1"># Capture the outlet sideset (top layer only!)</span>
-<span class="n">my_dem</span><span class="o">.</span><span class="n">generateFacesets</span><span class="p">(</span><span class="s1">&#39;facesets_example.exo&#39;</span><span class="p">,</span><span class="n">facesets</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;all&#39;</span><span class="p">:</span> <span class="n">fs_sides</span><span class="p">,</span>
-                                                         <span class="s1">&#39;top&#39;</span><span class="p">:</span> <span class="n">fs_outlet</span><span class="p">})</span>
-</pre></div>
-
 <h3 id="side-selection-via-coordinates">Side selection via Coordinates</h3>
 <p>If already you know the coordinates of the sidesets you wish to define, you can create an array defining starting/ending boundary nodes (in <em>clockwise order</em>). Note that the coordinate space must be the same as the DEM.</p>
 <p>As an example, consider the following:</p>
-<div class="codehilite"><pre><span></span><span class="n">scoords</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;all&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">3352.82</span><span class="p">,</span><span class="mf">7284.46</span><span class="p">],</span>
-                             <span class="p">[</span><span class="mf">7936.85</span><span class="p">,</span><span class="mf">4870.53</span><span class="p">],</span>
-                             <span class="p">[</span><span class="mf">1798.4</span><span class="p">,</span> <span class="mf">256.502</span><span class="p">],</span>
-                             <span class="p">[</span><span class="mf">1182.73</span><span class="p">,</span><span class="mf">1030.19</span><span class="p">]]),</span>
+<div class="codehilite"><pre><span></span><span class="n">ss_all_layers</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">3352.82</span><span class="p">,</span><span class="mf">7284.46</span><span class="p">],</span>
+                          <span class="p">[</span><span class="mf">7936.85</span><span class="p">,</span><span class="mf">4870.53</span><span class="p">],</span>
+                          <span class="p">[</span><span class="mf">1798.4</span><span class="p">,</span> <span class="mf">256.502</span><span class="p">],</span>
+                          <span class="p">[</span><span class="mf">1182.73</span><span class="p">,</span><span class="mf">1030.19</span><span class="p">]])</span>
 
-            <span class="s1">&#39;top&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">780.41</span><span class="p">,</span><span class="mf">304.79</span><span class="p">],</span>
-                             <span class="p">[</span><span class="mf">567.05</span><span class="p">,</span><span class="mf">524.24</span><span class="p">]])</span>
-           <span class="p">}</span>
+<span class="n">ss_top_layer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">780.41</span><span class="p">,</span><span class="mf">304.79</span><span class="p">],</span>
+                         <span class="p">[</span><span class="mf">567.05</span><span class="p">,</span><span class="mf">524.24</span><span class="p">]])</span>
 
-<span class="n">fs</span> <span class="o">=</span> <span class="n">getFacesetsFromCoordinates</span><span class="p">(</span><span class="n">scoords</span><span class="p">,</span><span class="n">my_dem</span><span class="o">.</span><span class="n">boundary</span><span class="p">)</span>
-<span class="n">my_dem</span><span class="o">.</span><span class="n">generateFacesets</span><span class="p">(</span><span class="s1">&#39;facesets_example.exo&#39;</span><span class="p">,</span><span class="n">facesets</span><span class="o">=</span><span class="n">fs</span><span class="p">)</span>
+<span class="n">sides_all</span> <span class="o">=</span> <span class="n">tin</span><span class="o">.</span><span class="n">facesets</span><span class="o">.</span><span class="n">sidesets</span><span class="p">(</span><span class="n">ss_all_layers</span><span class="p">)</span>
+<span class="n">sides_outlet</span> <span class="o">=</span> <span class="n">tin</span><span class="o">.</span><span class="n">facesets</span><span class="o">.</span><span class="n">sidesets</span><span class="p">(</span><span class="n">ss_all_layers</span><span class="p">,</span><span class="n">top_layer</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
-<p>The above code generates the exact same sidesets as in the GUI example.</p>
 <h3 id="top-surface-selection">Top surface selection</h3>
-<p><em>Feature under development</em></p>
+<p>Facesets can be generated using top-layer elevation
+discretization.</p>
+<p>Consider the <code class="codehilite">heights</code> array:</p>
+<div class="codehilite"><pre><span></span><span class="n">heights</span> <span class="o">=</span> <span class="p">[</span><span class="mf">50.</span><span class="p">,</span><span class="mf">100.</span><span class="p">,</span><span class="mf">150.</span><span class="p">,</span><span class="mf">200.</span><span class="p">]</span>
+</pre></div>
+
+<p>Five top-surface facesets will be created:</p>
+<ul>
+<li>all surface elements lower than 50 meters</li>
+<li>all surface elements between 50 and 100 meters</li>
+<li>all surface elements between 100 and 150 meters</li>
+<li>all surface elements between 150 and 200 meters</li>
+<li>all surface elements greater than 200 meters</li>
+</ul>
+<p>Another approach is to split the elevation range into layers using
+ properties <code class="codehilite">min_z</code> and <code class="codehilite">max_z</code>:</p>
+<div class="codehilite"><pre><span></span> <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Elevation range = ({0},{1})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dem</span><span class="o">.</span><span class="n">min_z</span><span class="p">,</span><span class="n">dem</span><span class="o">.</span><span class="n">max_z</span><span class="p">))</span>
+ <span class="n">Elevation</span> <span class="nb">range</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2365.3</span><span class="p">,</span><span class="mf">3942.2</span><span class="p">)</span>
+
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">heights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">dem</span><span class="o">.</span><span class="n">min_z</span><span class="p">,</span><span class="n">dem</span><span class="o">.</span><span class="n">max_z</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">heights</span><span class="p">)</span>
+ <span class="n">array</span><span class="p">([</span><span class="mf">2365.3</span>       <span class="p">,</span> <span class="mf">2540.51111111</span><span class="p">,</span> <span class="mf">2715.72222222</span><span class="p">,</span> <span class="mf">2890.93333333</span><span class="p">,</span>
+        <span class="mf">3066.14444444</span><span class="p">,</span> <span class="mf">3241.35555556</span><span class="p">,</span> <span class="mf">3416.56666667</span><span class="p">,</span> <span class="mf">3591.77777778</span><span class="p">,</span>
+        <span class="mf">3766.98888889</span><span class="p">,</span> <span class="mf">3942.2</span>       <span class="p">])</span>
+</pre></div>
+
+<p>To capture the faceset, call:</p>
+<div class="codehilite"><pre><span></span><span class="n">faceset_top</span> <span class="o">=</span> <span class="n">tin</span><span class="o">.</span><span class="n">facesets</span><span class="o">.</span><span class="n">from_elevation</span><span class="p">(</span><span class="n">heights</span><span class="p">)</span>
+</pre></div>
+
+<h2 id="writing-mesh-with-facesets">Writing Mesh with Facesets</h2>
+<p>To write an Exodus mesh with these facesets, call</p>
+<div class="codehilite"><pre><span></span><span class="n">tin</span><span class="o">.</span><span class="n">dump</span><span class="o">.</span><span class="n">to_exodus</span><span class="p">(</span><span class="n">my_dem</span><span class="p">,</span><span class="n">facesets</span><span class="o">=</span><span class="p">[</span><span class="n">sides_all</span><span class="p">,</span>
+                                    <span class="n">sides_outlet</span><span class="p">,</span>
+                                    <span class="n">sides_basic</span><span class="p">])</span>
+</pre></div>
+
+<p>Any permutation of faceset objects is possible - just be aware that
+they may overlap if not constructed properly.</p>
                 
                   
                 

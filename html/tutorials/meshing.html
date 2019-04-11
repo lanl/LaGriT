@@ -420,6 +420,114 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/tinerator.html" title="__init__" class="md-nav__link">
+      __init__
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/dem.html" title="DEM" class="md-nav__link">
+      DEM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/load.html" title="load" class="md-nav__link">
+      load
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/dump.html" title="dump" class="md-nav__link">
+      dump
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/facesets.html" title="facesets" class="md-nav__link">
+      facesets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/plot.html" title="plot" class="md-nav__link">
+      plot
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/boundary.html" title="boundary" class="md-nav__link">
+      boundary
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/config.html" title="config" class="md-nav__link">
+      config
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/util.html" title="util" class="md-nav__link">
+      util
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/developernotes.html" title="For Developers" class="md-nav__link">
       For Developers
     </a>
@@ -768,39 +876,35 @@ we can begin the process of constructing a TIN.</p>
 <li>Applying materials to layers</li>
 </ol>
 <p>Steps 1+2 and steps 3+4 are controlled with the following methods, respectively:</p>
-<div class="codehilite"><pre><span></span><span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">generateStackedTIN</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># Steps 1 &amp; 2</span>
-<span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">layeredMesh</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>        <span class="c1"># Steps 3 &amp; 4</span>
+<div class="codehilite"><pre><span></span><span class="n">DEM</span><span class="o">.</span><span class="n">build_refined_triplane</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="c1"># Steps 1 &amp; 2</span>
+<span class="n">DEM</span><span class="o">.</span><span class="n">build_layered_mesh</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>     <span class="c1"># Steps 3 &amp; 4</span>
 </pre></div>
 
 <p>Details on using these methods will be explained in the subsections below; for
-more information, read the <a href="null.md">method documentation</a>.</p>
+more information, read the <a href="../api/dem.html">method documentation</a>.</p>
 <h2 id="building-a-surface-mesh">Building a Surface Mesh</h2>
 <p>By default, TINerator will automatically determine whether to contruct a surface
 with refined or uniform triangles. If watershed delineation has not been performed,
-or the class variable <code class="codehilite">tinerator.DEM.feature = None</code>, then TINerator will 
+or the class variable <code class="codehilite">DEM.feature = None</code>, then TINerator will 
 generate a uniform surface. Otherwise, it will be refined.</p>
 <p>The generated surface mesh will maintain the same spatial domain as the parent 
 DEM. This may cause overflow errors if the DEM domain is close to or exceeds
 the limit of a double-precision float.</p>
 <h3 id="uniform">Uniform</h3>
 <p>Once the boundary is generated, calculating a triplane is as simple as:</p>
-<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">generateStackedTIN</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">build_uniform_triplane</span><span class="p">(</span><span class="n">edge_length</span><span class="p">)</span>
 </pre></div>
 
-<p>The minimum edge length of the surface triangles will be equivalent to the spacing
-between adjacent boundary nodes, as defined in <code class="codehilite">tinerator.DEM.generateBoundary()</code>.</p>
 <p><img alt="Uniform triplane" src="../assets/images/examples/mesh_refined_triplane.png" /></p>
-<p>To define a different edge length, use the method parameter <code class="codehilite"><span class="n">min_edge</span><span class="o">:</span><span class="n">float</span></code>, where
-the units of <code class="codehilite">min_edge</code> are the same units as the parent DEM.</p>
 <p>By default, DEM elevation data will be continuously interpolated onto the
 Z-values of the surface triangles. A completely flat mesh can be constructed 
 instead with the method argument <code class="codehilite">apply_elevation = False</code>.</p>
 <h3 id="refined">Refined</h3>
 <p>For generating a refined surface, call the method:</p>
-<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">generateStackedTIN</span><span class="p">(</span><span class="n">min_edge</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">build_refined_triplane</span><span class="p">(</span><span class="n">min_edge</span><span class="p">,</span><span class="n">max_edge</span><span class="p">)</span>
 </pre></div>
 
-<p>where <code class="codehilite">min_edge</code> will be the shortest edge generated in the refining process.</p>
+<p>where <code class="codehilite">min_edge</code> will be the shortest edge generated in the refining process, and <code class="codehilite">max_edge</code> will be the longest.</p>
 <p>This method works by (i) coarsely triangulating the interior of the boundary,
 and (ii) adaptively refining triangles according to a gradient field.</p>
 <p>The gradient field is a raster with values that scale relative to the Euclidean
@@ -821,7 +925,7 @@ of the surface nodes unless explicitly defined otherwise.</p>
 the mesh is iteratively smoothed with <a href="https://dl.acm.org/citation.cfm?doid=1057432.1057456">Laplacian smoothing</a>.
 The number of smoothing / reconnection iterations can be controlled with the keyword <code class="codehilite"><span class="n">iterations</span><span class="o">:</span><span class="n">int</span></code>.</p>
 <p>Mesh quality can be found through the method:</p>
-<div class="codehilite"><pre><span></span><span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">quality</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">DEM</span><span class="o">.</span><span class="n">quality</span><span class="p">(</span><span class="s1">&#39;surface&#39;</span><span class="p">)</span>
 </pre></div>
 
 <p>This returns a dictionary containing aspect ratio statistics (<span><span class="MathJax_Preview">\theta_{max} / \theta_{min}</span><script type="math/tex">\theta_{max} / \theta_{min}</script></span>),
@@ -833,12 +937,12 @@ volumetric prism mesh. This method is called using</p>
 <div class="codehilite"><pre><span></span><span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">layeredMesh</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 
-<p>For more information, see the <a href="null.md">documentation</a>.</p>
+<p>For more information, see the <a href="../api/dem.html">documentation</a>.</p>
 <p>As an example, after generating a triangular surface mesh, it can be layered by:</p>
 <div class="codehilite"><pre><span></span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">8.</span><span class="p">,</span> <span class="mf">21.</span><span class="p">]</span> <span class="c1"># Define layer thickness</span>
 <span class="n">matids</span> <span class="o">=</span> <span class="p">[</span>  <span class="mi">1</span><span class="p">,</span>   <span class="mi">2</span><span class="p">,</span>   <span class="mi">3</span><span class="p">,</span>  <span class="mi">4</span><span class="p">,</span>   <span class="mi">5</span><span class="p">]</span> <span class="c1"># Define material ID</span>
 
-<span class="n">my_dem</span><span class="o">.</span><span class="n">layeredMesh</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span><span class="n">matids</span><span class="o">=</span><span class="n">matids</span><span class="p">)</span>
+<span class="n">my_dem</span><span class="o">.</span><span class="n">build_layered_mesh</span><span class="p">(</span><span class="n">layers</span><span class="p">,</span><span class="n">matids</span><span class="o">=</span><span class="n">matids</span><span class="p">)</span>
 </pre></div>
 
 <p>where <code class="codehilite">layers</code> is a list of length <em>N</em>, containing the sequential depths of

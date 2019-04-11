@@ -27,7 +27,8 @@ Upon load, this metadata is parsed into specific `tinerator.DEM` variables. It i
 Reading a DEM via file is simply called by:
 
 ```python
-my_dem = tinerator.loadDEM("data/dem.asc")
+import tinerator as tin
+my_dem = tin.load.from_file("data/dem.asc")
 ```
 
 The loading function uses GDAL as the I/O driver. Supported input filetypes can be [found here](https://www.gdal.org/formats_list.html).
@@ -35,7 +36,7 @@ The loading function uses GDAL as the I/O driver. Supported input filetypes can 
 To verify import integrity, we can then plot the DEM and print metadata:
 
 ```python
-my_dem.plot()
+my_dem.plot_dem() # Or, tin.plot.plot_dem(my_dem)
 ```
 ![Imported DEM](../assets/images/examples/dem_import.png)
 
@@ -62,8 +63,8 @@ Each of these metadata values are mutable and can be changed as circumstances di
 To download an SRTM 90m DEM by through a latitude / longitude bounding box,
 
 ```python
-my_dem = tinerator.downloadDEM(bounds=(12.35,41.8,12.65,42),
-                               outfile='Rome-90m-DEM.tif')
+my_dem = tin.load.from_coordinates((12.35,41.8,12.65,42),
+                                    outfile='Rome-90m-DEM.tif')
 ```
 
 where `bounds` is the bounding box values in geodetic coordinates (left, bottom, right, top), and `outfile` is an optional filepath to save the DEM.
@@ -77,7 +78,7 @@ In this example, `(12.35,41.8,12.65,42)` represents a subsection of Rome:
 To download an SRTM 90m DEM through a Shapefile (`.shp`), 
 
 ```python
-my_dem = tinerator.downloadDEM(shapefile="shapefile.shp",crop=True)
+my_dem = tin.load.from_shapefile("shapefile.shp",crop=True)
 ```
 
 The argument `crop` replaces all areas of the DEM not covered by the shapefile with a NoDataValue. Setting `crop = False` will only return a DEM bound by the spatial domain of the shapefile.
@@ -90,4 +91,4 @@ The argument `crop` replaces all areas of the DEM not covered by the shapefile w
 
 ## Applying a Shapefile
 
-*Coming soon*
+A DEM can be masked with a shapefile with the function `tin.maskRasterWithShapefile`. See the API for more information.

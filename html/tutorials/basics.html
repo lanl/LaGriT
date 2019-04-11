@@ -420,6 +420,114 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/tinerator.html" title="__init__" class="md-nav__link">
+      __init__
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/dem.html" title="DEM" class="md-nav__link">
+      DEM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/load.html" title="load" class="md-nav__link">
+      load
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/dump.html" title="dump" class="md-nav__link">
+      dump
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/facesets.html" title="facesets" class="md-nav__link">
+      facesets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/plot.html" title="plot" class="md-nav__link">
+      plot
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/boundary.html" title="boundary" class="md-nav__link">
+      boundary
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/config.html" title="config" class="md-nav__link">
+      config
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/util.html" title="util" class="md-nav__link">
+      util
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/developernotes.html" title="For Developers" class="md-nav__link">
       For Developers
     </a>
@@ -750,12 +858,13 @@
 <h2 id="reading-dems">Reading DEMs</h2>
 <h3 id="reading-a-dem-by-file">Reading a DEM by file</h3>
 <p>Reading a DEM via file is simply called by:</p>
-<div class="codehilite"><pre><span></span><span class="n">my_dem</span> <span class="o">=</span> <span class="n">tinerator</span><span class="o">.</span><span class="n">loadDEM</span><span class="p">(</span><span class="s2">&quot;data/dem.asc&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">tinerator</span> <span class="kn">as</span> <span class="nn">tin</span>
+<span class="n">my_dem</span> <span class="o">=</span> <span class="n">tin</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s2">&quot;data/dem.asc&quot;</span><span class="p">)</span>
 </pre></div>
 
 <p>The loading function uses GDAL as the I/O driver. Supported input filetypes can be <a href="https://www.gdal.org/formats_list.html">found here</a>.</p>
 <p>To verify import integrity, we can then plot the DEM and print metadata:</p>
-<p><div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<p><div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">plot_dem</span><span class="p">()</span> <span class="c1"># Or, tin.plot.plot_dem(my_dem)</span>
 </pre></div>
 <img alt="Imported DEM" src="../assets/images/examples/dem_import.png" /></p>
 <p><div class="codehilite"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;NODATAVALUE: {0}</span><span class="se">\n</span><span class="s2">Lower-left Corner: ({1},{2})</span><span class="se">\n</span><span class="s2">Cell Size: {3}&quot;</span>
@@ -774,8 +883,8 @@
 <p>Each of these metadata values are mutable and can be changed as circumstances dictate.</p>
 <h3 id="downloading-from-coordinates">Downloading from coordinates</h3>
 <p>To download an SRTM 90m DEM by through a latitude / longitude bounding box,</p>
-<div class="codehilite"><pre><span></span><span class="n">my_dem</span> <span class="o">=</span> <span class="n">tinerator</span><span class="o">.</span><span class="n">downloadDEM</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">12.35</span><span class="p">,</span><span class="mf">41.8</span><span class="p">,</span><span class="mf">12.65</span><span class="p">,</span><span class="mi">42</span><span class="p">),</span>
-                               <span class="n">outfile</span><span class="o">=</span><span class="s1">&#39;Rome-90m-DEM.tif&#39;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span> <span class="o">=</span> <span class="n">tin</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">from_coordinates</span><span class="p">((</span><span class="mf">12.35</span><span class="p">,</span><span class="mf">41.8</span><span class="p">,</span><span class="mf">12.65</span><span class="p">,</span><span class="mi">42</span><span class="p">),</span>
+                                    <span class="n">outfile</span><span class="o">=</span><span class="s1">&#39;Rome-90m-DEM.tif&#39;</span><span class="p">)</span>
 </pre></div>
 
 <p>where <code class="codehilite">bounds</code> is the bounding box values in geodetic coordinates (left, bottom, right, top), and <code class="codehilite">outfile</code> is an optional filepath to save the DEM.</p>
@@ -783,7 +892,7 @@
 <p><img alt="Downloading a DEM by bounding box" src="../assets/images/examples/dem_rome_download.png" /></p>
 <h3 id="downloading-by-shapefile">Downloading by Shapefile</h3>
 <p>To download an SRTM 90m DEM through a Shapefile (<code class="codehilite"><span class="na">.shp</span></code>), </p>
-<div class="codehilite"><pre><span></span><span class="n">my_dem</span> <span class="o">=</span> <span class="n">tinerator</span><span class="o">.</span><span class="n">downloadDEM</span><span class="p">(</span><span class="n">shapefile</span><span class="o">=</span><span class="s2">&quot;shapefile.shp&quot;</span><span class="p">,</span><span class="n">crop</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span> <span class="o">=</span> <span class="n">tin</span><span class="o">.</span><span class="n">load</span><span class="o">.</span><span class="n">from_shapefile</span><span class="p">(</span><span class="s2">&quot;shapefile.shp&quot;</span><span class="p">,</span><span class="n">crop</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 
 <p>The argument <code class="codehilite">crop</code> replaces all areas of the DEM not covered by the shapefile with a NoDataValue. Setting <code class="codehilite">crop = False</code> will only return a DEM bound by the spatial domain of the shapefile.</p>
@@ -792,7 +901,7 @@
 <p><strong>With <code class="codehilite">crop = False</code>:</strong>
 <img alt="" src="../assets/images/examples/dem_shapefile_download_nocrop.png" /></p>
 <h2 id="applying-a-shapefile">Applying a Shapefile</h2>
-<p><em>Coming soon</em></p>
+<p>A DEM can be masked with a shapefile with the function <code class="codehilite">tin.maskRasterWithShapefile</code>. See the API for more information.</p>
                 
                   
                 

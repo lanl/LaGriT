@@ -13,18 +13,18 @@ TIN generation is done in several discrete steps:
 Steps 1+2 and steps 3+4 are controlled with the following methods, respectively:
 
 ```python
-tinerator.DEM.generateStackedTIN(**kwargs) # Steps 1 & 2
-tinerator.DEM.layeredMesh(**kwargs)        # Steps 3 & 4
+DEM.build_refined_triplane(**kwargs) # Steps 1 & 2
+DEM.build_layered_mesh(**kwargs)     # Steps 3 & 4
 ```
 
 Details on using these methods will be explained in the subsections below; for
-more information, read the [method documentation](null.md).
+more information, read the [method documentation](../api/dem.md).
 
 ## Building a Surface Mesh
 
 By default, TINerator will automatically determine whether to contruct a surface
 with refined or uniform triangles. If watershed delineation has not been performed,
-or the class variable `tinerator.DEM.feature = None`, then TINerator will 
+or the class variable `DEM.feature = None`, then TINerator will 
 generate a uniform surface. Otherwise, it will be refined.
 
 The generated surface mesh will maintain the same spatial domain as the parent 
@@ -36,16 +36,10 @@ the limit of a double-precision float.
 Once the boundary is generated, calculating a triplane is as simple as:
 
 ```python
-my_dem.generateStackedTIN()
+my_dem.build_uniform_triplane(edge_length)
 ```
 
-The minimum edge length of the surface triangles will be equivalent to the spacing
-between adjacent boundary nodes, as defined in `tinerator.DEM.generateBoundary()`.
-
 ![Uniform triplane](../assets/images/examples/mesh_refined_triplane.png)
-
-To define a different edge length, use the method parameter `min_edge:float`, where
-the units of `min_edge` are the same units as the parent DEM.
 
 By default, DEM elevation data will be continuously interpolated onto the
 Z-values of the surface triangles. A completely flat mesh can be constructed 
@@ -56,10 +50,10 @@ instead with the method argument `apply_elevation = False`.
 For generating a refined surface, call the method:
 
 ```python
-my_dem.generateStackedTIN(min_edge)
+my_dem.build_refined_triplane(min_edge,max_edge)
 ```
 
-where `min_edge` will be the shortest edge generated in the refining process.
+where `min_edge` will be the shortest edge generated in the refining process, and `max_edge` will be the longest.
 
 This method works by (i) coarsely triangulating the interior of the boundary,
 and (ii) adaptively refining triangles according to a gradient field.
@@ -89,7 +83,7 @@ The number of smoothing / reconnection iterations can be controlled with the key
 Mesh quality can be found through the method:
 
 ```python
-tinerator.DEM.quality('surface')
+DEM.quality('surface')
 ```
 
 This returns a dictionary containing aspect ratio statistics ($\theta_{max} / \theta_{min}$),
@@ -105,7 +99,7 @@ volumetric prism mesh. This method is called using
 tinerator.DEM.layeredMesh(**kwargs)
 ```
 
-For more information, see the [documentation](null.md).
+For more information, see the [documentation](../api/dem.md).
 
 As an example, after generating a triangular surface mesh, it can be layered by:
 
@@ -113,7 +107,7 @@ As an example, after generating a triangular surface mesh, it can be layered by:
 layers = [0.1, 0.3, 0.6, 8., 21.] # Define layer thickness
 matids = [  1,   2,   3,  4,   5] # Define material ID
 
-my_dem.layeredMesh(layers,matids=matids)
+my_dem.build_layered_mesh(layers,matids=matids)
 ```
 
 where `layers` is a list of length *N*, containing the sequential depths of

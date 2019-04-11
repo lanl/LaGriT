@@ -13,8 +13,6 @@ def orderPointsClockwise(points:np.ndarray,opt:str='polar',clockwise:bool=True):
 
     # Arguments
     points (np.ndarray): Array of unsorted points
-
-    # Optional Arguments
     opt (str): Sorting method
     clockwise (bool): order points clockwise or counterclockwise
 
@@ -89,7 +87,7 @@ def imageErosionBoundary(A,nil_value,distance,cell_size=None,xll_corner=0,yll_co
     distance (float): spacing between boundary nodes
 
     # Returns
-    :returns: boundary nodes
+    boundary nodes
     '''
 
     use_struct = False
@@ -222,8 +220,6 @@ def squareTraceBoundary(A,NDV,dist=10.):
     # Arguments
     A (np.ndarray): matrix to perform boundary analysis on
     NDV (float): value characterizing undefined array values
-
-    # Optional Arguments
     dist (float): spacing between boundary nodes
 
     # Returns

@@ -61,6 +61,9 @@ def filter_points(points:np.ndarray,eps:float):
     # Arguments
     points (np.ndarray): point array to filter
     eps (float): remove adjacent points within this distance of each other
+
+    # Returns
+    Filtered points
     '''
     from scipy.spatial.distance import cdist
     mask = np.ones(np.shape(points)[0],dtype=bool)

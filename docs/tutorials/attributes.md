@@ -14,7 +14,7 @@ one or more layers.
 To add an attribute to a layered TIN, use the command:
 
 ```python
-tinerator.DEM.addAttribute(data,layers=[],dtype=int)
+DEM.add_attribute(data,layers=[],dtype=int)
 ```
 
 where `layers` is a list containing all layers to apply the attribute to,
@@ -24,7 +24,7 @@ As an example, consider a stacked mesh with three layers and an arbitrary
 floating point attribute. To apply that attribute *only* to the second layer:
 
 ```python
-my_dem.addAttribute(data,layers=[2],dtype=float)
+my_dem.add_attribute(data,layers=[2],dtype=float)
 ```
 
 ![Attribute applied to a single layer](../assets/images/examples/attribute_single.png)
@@ -76,9 +76,9 @@ The below method maps a user-defined function and operator onto mesh data:
 
 
 ```python
-tinerator.DEM.mapFunctionToAttribute(self,operator='+',layers=None,
-                                     attribute_name=None,outfile=None,
-                                     fn=lambda layer: layer*100)
+tinerator.DEM.map_function_to_attribute(self,operator='+',layers=None,
+                                        attribute_name=None,outfile=None,
+                                        fn=lambda layer: layer*100)
 ```
 
 In other words, the new attribute data will be a result of:
@@ -117,9 +117,9 @@ That is, adding $100 \cdot layer_{ID}$ to every attribute data point.
 Consequently, we want the operator to be $+$ and $f(layer) = 100 \cdot layer$, or,
 
 ```python
-my_dem.mapFunctionToAttribute(attribute_name='exampleAttribute',
-                              operator='+',
-                              fn=lambda layer: layer*100)
+my_dem.map_function_to_attribute(attribute_name='exampleAttribute',
+                                 operator='+',
+                                 fn=lambda layer: layer*100)
 ```
 
 

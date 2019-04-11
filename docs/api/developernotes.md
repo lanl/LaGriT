@@ -41,10 +41,9 @@ pip install pydoc-markdown
 
 Then, run:
 
-```bash
-pydocmd simple tinerator+ > docs.md
-```
+    ./pydocmd_build.sh
 
+in the `docs/api/` directory.
 
 
 ### Viewing the Site

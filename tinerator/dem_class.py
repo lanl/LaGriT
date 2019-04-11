@@ -166,8 +166,6 @@ class DEM():
 
         # Arguments
         verb_level (int): verbosity level 
-
-        # Optional Arguments
         filename (str): file to write log output to
         '''
 
@@ -212,6 +210,8 @@ class DEM():
         plt.show()
         ```
 
+        This example shows the different in topology between
+        a post-processed and unprocessed DEM.
         '''
 
         if fill_depressions:
@@ -245,8 +245,6 @@ class DEM():
 
         # Arguments
         threshold (float): threshold for determining feature from noise
-
-        # Optional Arguments
         method (str): Flow calculation method
         interactive (bool): if True and function is called within a
                             Jupyter notebook, then function params
@@ -336,8 +334,6 @@ class DEM():
 
         # Arguments
         distance (float): Euclidean distance between adjacent boundary nodes
-
-        # Optional Arguments
         rectangular (bool): if True, generates a boundary around the extent of the DEM
 
         # Returns
@@ -375,8 +371,6 @@ class DEM():
 
         # Attributes
         edge_length (float): desired lengths for triangle edges
-
-        # Optional Arugments
         flip (str): flips array of the elevation raster along a given axis (x,y,xy)
         smooth_boundary (bool): If True, smooth the DEM boundary for better interpolation
         apply_elevation (bool): If True, interpolate DEM elevations onto surface mesh
@@ -448,8 +442,6 @@ class DEM():
         # Attributes
         min_edge_length (float): minimum triangle edge lengths
         max_edge_length (float): maximum triangle edge lengths
-
-        # Optional Arugments
         outfile (str): Filepath to save mesh to
         apply_elevation (bool): If True, interpolate DEM elevations onto surface mesh
         slope (float): slope of refine function
@@ -525,8 +517,6 @@ class DEM():
 
         # Arguments
         layers (list<float>): List of sequential layer thicknesses
-
-        # Optional Arguments
         matids (list<int>): List of material IDs to set each respective layer to
         outfile (str): Filepath to save mesh to
 
@@ -571,8 +561,6 @@ class DEM():
 
         # Arguments
         data (np.ndarray): NxM matrix of data to be written as matrix
-
-        # Optional Arguments
         layers (list<int>): Layer IDs to write attributes to. Defaults to 'all'.
         attribute_name (str): Attribute name to store data in. Defaults to material ID
         outfile (str): Filename to write mesh to
@@ -621,22 +609,22 @@ class DEM():
 
         In other words, the new attribute data will be a result of:
 
-           attribute_data(layer) = attribute_data [operation] fn(layer)
+             attribute_data(layer) = attribute_data [operation] fn(layer)
 
-        For fn = lambda layer: layer*100 and operator '+',
+        For `fn = lambda layer: layer*100` and operator `+`,
 
-           attribute_data(layer) = attribute_data + layer*100
+             attribute_data(layer) = attribute_data + layer*100
 
         meaning that if a selection of attribute data is
 
-            [1,3,5,10,12...]
+             [1,3,5,10,12...]
 
         then, with operator '+' and lambda layer: layer*100,
 
-            layer 1: [101,103,105,110,112...]
-            layer 2: [201,203,205,210,212...]
-            layer 3: [301,103,305,310,312...]
-            ... 
+              layer 1: [101,103,105,110,112...]
+              layer 2: [201,203,205,210,212...]
+              layer 3: [301,103,305,310,312...]
+              ... 
 
         '''
 
@@ -667,7 +655,7 @@ class DEM():
 
         Extent units are relative to the parent DEM coordinate system.
 
-        # Optional Arguments
+        # Arguments
         mpl_style (bool): Change the format of the returned extent
 
         # Returns

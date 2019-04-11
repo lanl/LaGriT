@@ -420,6 +420,114 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/tinerator.html" title="__init__" class="md-nav__link">
+      __init__
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/dem.html" title="DEM" class="md-nav__link">
+      DEM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/load.html" title="load" class="md-nav__link">
+      load
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/dump.html" title="dump" class="md-nav__link">
+      dump
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/facesets.html" title="facesets" class="md-nav__link">
+      facesets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/plot.html" title="plot" class="md-nav__link">
+      plot
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/boundary.html" title="boundary" class="md-nav__link">
+      boundary
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/config.html" title="config" class="md-nav__link">
+      config
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/util.html" title="util" class="md-nav__link">
+      util
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/developernotes.html" title="For Developers" class="md-nav__link">
       For Developers
     </a>
@@ -753,14 +861,14 @@ one or more layers.</p>
 <h2 id="reading-and-applying-an-attribute">Reading and applying an attribute</h2>
 <h3 id="basic-syntax">Basic syntax</h3>
 <p>To add an attribute to a layered TIN, use the command:</p>
-<div class="codehilite"><pre><span></span><span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">addAttribute</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">layers</span><span class="o">=</span><span class="p">[],</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">DEM</span><span class="o">.</span><span class="n">add_attribute</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">layers</span><span class="o">=</span><span class="p">[],</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 </pre></div>
 
 <p>where <code class="codehilite">layers</code> is a list containing all layers to apply the attribute to,
 and <code class="codehilite">dtype</code> is the desired attribute type (<code class="codehilite">int</code> or <code class="codehilite">float</code>). By default, the material will be applied to the mesh's material ID (or, 'cell color'). This can be changed with the <code class="codehilite">name</code> parameter.</p>
 <p>As an example, consider a stacked mesh with three layers and an arbitrary
 floating point attribute. To apply that attribute <em>only</em> to the second layer:</p>
-<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">addAttribute</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">layers</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">add_attribute</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">layers</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 </pre></div>
 
 <p><img alt="Attribute applied to a single layer" src="../assets/images/examples/attribute_single.png" /></p>
@@ -818,9 +926,9 @@ such as soil ID, which only hold value as defined integers.</p>
 In some situations, it may be beneficial to change the attribute values
 based on the layer ID.</p>
 <p>The below method maps a user-defined function and operator onto mesh data:</p>
-<div class="codehilite"><pre><span></span><span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">mapFunctionToAttribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">operator</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span><span class="n">layers</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                                     <span class="n">attribute_name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">outfile</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                                     <span class="n">fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">layer</span><span class="p">:</span> <span class="n">layer</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">map_function_to_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">operator</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span><span class="n">layers</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                        <span class="n">attribute_name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span><span class="n">outfile</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                        <span class="n">fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">layer</span><span class="p">:</span> <span class="n">layer</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 
 <p>In other words, the new attribute data will be a result of:</p>
@@ -857,9 +965,9 @@ we would like to prefix each value with the layer ID.</p>
 </div>
 <p>That is, adding <span><span class="MathJax_Preview">100 \cdot layer_{ID}</span><script type="math/tex">100 \cdot layer_{ID}</script></span> to every attribute data point.</p>
 <p>Consequently, we want the operator to be <span><span class="MathJax_Preview">+</span><script type="math/tex">+</script></span> and <span><span class="MathJax_Preview">f(layer) = 100 \cdot layer</span><script type="math/tex">f(layer) = 100 \cdot layer</script></span>, or,</p>
-<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">mapFunctionToAttribute</span><span class="p">(</span><span class="n">attribute_name</span><span class="o">=</span><span class="s1">&#39;exampleAttribute&#39;</span><span class="p">,</span>
-                              <span class="n">operator</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
-                              <span class="n">fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">layer</span><span class="p">:</span> <span class="n">layer</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">map_function_to_attribute</span><span class="p">(</span><span class="n">attribute_name</span><span class="o">=</span><span class="s1">&#39;exampleAttribute&#39;</span><span class="p">,</span>
+                                 <span class="n">operator</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span>
+                                 <span class="n">fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">layer</span><span class="p">:</span> <span class="n">layer</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
                 
                   

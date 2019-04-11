@@ -12,7 +12,7 @@ a mesh *without* feature refinement - see the [mesh generation section](meshing.
 Defining a river or stream network ('feature') in the DEM is done through the command:
 
 ```python
-my_dem.watershedDelineation(threshold=4500.,plot=False,spacing=30.)
+my_dem.watershed_delineation(4500.)
 ```
 
 Performing a watershed delineation is a multi-step process:
@@ -44,7 +44,7 @@ to preprocess a DEM to remove depressions and flats.
 
 Flat and pit resolution is the default behavior of the `watershedDelineation` 
 function. For more information on better controlling these steps,
-refer to the [API Documentation](null.md).
+refer to the [API Documentation](../api/dem.md).
 
 The DEM feature will be found in the class variable `tinerator.DEM.feature`, and
 is an N-by-2 `np.ndarray` defining a polyline.
@@ -110,28 +110,12 @@ For DEMs that do not have cells with NoDataValue elements
 ($z(i,j) \cap NDV = \emptyset$), a rectangular boundary spanning the domain
 of the DEM is generated instead.
 
-The boundary is generated with the method
-
-```python
-tinerator.DEM.generateBoundary(delta:float)
-```
-
-where `delta` is the spacing between adjacent boundary nodes. The units of
-`delta` will be the same as the units of the parent DEM.
-
-!!! warning
-    Boundary generation **must** be done before proceeding to mesh generation.
-
-As an example, 
-
-```python
-my_dem.generateBoundary(100.)
-my_dem.plotBoundary()
-```
-
-will generate (and plot) a boundary with 100 meter spacing.
+The boundary is generated automatically on `DEM.build_refined_triplane` or `DEM.build_uniform_triplane`.
 
 ![DEM boundary generation](../assets/images/examples/watershed_dem_boundary.png)
 
-The boundary array is mutable and can be found in the class
-variable `tinerator.DEM.boundary`.
+This boundary can be previewed using 
+
+```python
+tin.plot.preview_boundary(my_dem)
+```

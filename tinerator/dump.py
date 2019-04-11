@@ -36,8 +36,6 @@ def to_exodus(dem_object,outfile:str,facesets:list=None,mesh:str=None):
     # Arguments
     dem_object (tinerator.DEM): a Tinerator DEM object
     outfile (str): path to save Exodus mesh to
-
-    # Optional Arguments
     facesets (list): a list containing Faceset objects
     mesh (str): type of mesh to export ('surface' or 'prism')
     '''
@@ -81,8 +79,6 @@ def to_avs(dem_object,outfile:str,mesh_object:str=None):
     # Arguments
     dem_object (tinerator.DEM): a Tinerator DEM object
     outfile (str): path to save Exodus mesh to
-
-    # Optional Arguments
     mesh (str): type of mesh to export ('surface' or 'prism')
     '''
 

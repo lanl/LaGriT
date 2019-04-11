@@ -420,6 +420,114 @@
 
 
   <li class="md-nav__item">
+    <a href="../api/tinerator.html" title="__init__" class="md-nav__link">
+      __init__
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/dem.html" title="DEM" class="md-nav__link">
+      DEM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/load.html" title="load" class="md-nav__link">
+      load
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/dump.html" title="dump" class="md-nav__link">
+      dump
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/facesets.html" title="facesets" class="md-nav__link">
+      facesets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/plot.html" title="plot" class="md-nav__link">
+      plot
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/boundary.html" title="boundary" class="md-nav__link">
+      boundary
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/config.html" title="config" class="md-nav__link">
+      config
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../api/util.html" title="util" class="md-nav__link">
+      util
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../api/developernotes.html" title="For Developers" class="md-nav__link">
       For Developers
     </a>
@@ -711,7 +819,7 @@ and a boundary generated. Note that an option in TINerator exists to generate
 a mesh <em>without</em> feature refinement - see the <a href="meshing.html">mesh generation section</a> for more information.</p>
 <h2 id="watershed-delineation">Watershed Delineation</h2>
 <p>Defining a river or stream network ('feature') in the DEM is done through the command:</p>
-<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">watershedDelineation</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mf">4500.</span><span class="p">,</span><span class="n">plot</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">spacing</span><span class="o">=</span><span class="mf">30.</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">watershed_delineation</span><span class="p">(</span><span class="mf">4500.</span><span class="p">)</span>
 </pre></div>
 
 <p>Performing a watershed delineation is a multi-step process:</p>
@@ -737,7 +845,7 @@ to preprocess a DEM to remove depressions and flats.</p>
 <em>Depressions and flats identified and removed on a standard DEM</em></p>
 <p>Flat and pit resolution is the default behavior of the <code class="codehilite">watershedDelineation</code> 
 function. For more information on better controlling these steps,
-refer to the <a href="null.md">API Documentation</a>.</p>
+refer to the <a href="../api/dem.html">API Documentation</a>.</p>
 <p>The DEM feature will be found in the class variable <code class="codehilite">tinerator.DEM.feature</code>, and
 is an N-by-2 <code class="codehilite">np.ndarray</code> defining a polyline.</p>
 <h3 id="flow-accumulation">Flow accumulation</h3>
@@ -788,25 +896,11 @@ data (<span><span class="MathJax_Preview">z_{i,j} \ne NDV</span><script type="ma
 <p>For DEMs that do not have cells with NoDataValue elements 
 (<span><span class="MathJax_Preview">z(i,j) \cap NDV = \emptyset</span><script type="math/tex">z(i,j) \cap NDV = \emptyset</script></span>), a rectangular boundary spanning the domain
 of the DEM is generated instead.</p>
-<p>The boundary is generated with the method</p>
-<div class="codehilite"><pre><span></span><span class="n">tinerator</span><span class="o">.</span><span class="n">DEM</span><span class="o">.</span><span class="n">generateBoundary</span><span class="p">(</span><span class="n">delta</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span>
-</pre></div>
-
-<p>where <code class="codehilite">delta</code> is the spacing between adjacent boundary nodes. The units of
-<code class="codehilite">delta</code> will be the same as the units of the parent DEM.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Boundary generation <strong>must</strong> be done before proceeding to mesh generation.</p>
-</div>
-<p>As an example, </p>
-<div class="codehilite"><pre><span></span><span class="n">my_dem</span><span class="o">.</span><span class="n">generateBoundary</span><span class="p">(</span><span class="mf">100.</span><span class="p">)</span>
-<span class="n">my_dem</span><span class="o">.</span><span class="n">plotBoundary</span><span class="p">()</span>
-</pre></div>
-
-<p>will generate (and plot) a boundary with 100 meter spacing.</p>
+<p>The boundary is generated automatically on <code class="codehilite">DEM.build_refined_triplane</code> or <code class="codehilite">DEM.build_uniform_triplane</code>.</p>
 <p><img alt="DEM boundary generation" src="../assets/images/examples/watershed_dem_boundary.png" /></p>
-<p>The boundary array is mutable and can be found in the class
-variable <code class="codehilite">tinerator.DEM.boundary</code>.</p>
+<p>This boundary can be previewed using </p>
+<div class="codehilite"><pre><span></span><span class="n">tin</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">preview_boundary</span><span class="p">(</span><span class="n">my_dem</span><span class="p">)</span>
+</pre></div>
                 
                   
                 

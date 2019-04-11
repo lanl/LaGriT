@@ -82,6 +82,15 @@ nav:
     - License: license.md
   - APIs:
     - Index: api/index.md
+    - __init__: api/tinerator.md
+    - DEM: api/dem.md
+    - load: api/load.md
+    - dump: api/dump.md
+    - facesets: api/facesets.md
+    - plot: api/plot.md
+    - boundary: api/boundary.md
+    - config: api/config.md
+    - util: api/util.md
     - For Developers: api/developernotes.md
   - Tutorial:
     - Index: tutorials/index.md

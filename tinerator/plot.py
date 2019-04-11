@@ -121,8 +121,6 @@ def plot_dem(dem_object,hillshade:bool=False,plot_out:str=None):
 
     # Arguments
     dem_object (tinerator.DEM): A DEM object to plot
-
-    # Optional Arguments
     hillshade (bool): use hillshading on plot
     plot_out (str): filepath to save plot
     '''
@@ -156,8 +154,6 @@ def preview_accumulation(dem_object,method:str='D8'):
 
     # Arguments
     dem_object (tinerator.DEM): A DEM class instance
-
-    # Optional Arguments
     method (str): Flow calculation method
     at_threshold
 
@@ -282,8 +278,6 @@ def preview_boundary(dem_object,
 
     # Arguments
     distance (float): Euclidean distance between adjacent boundary nodes
-
-    # Optional Arguments
     rectangular (bool): if True, generates a boundary around the extent of the DEM
     interactive (bool): if True and function is called within a
     Jupyter notebook, then function params can be controlled with sliders
@@ -392,10 +386,6 @@ def plot_triplane(dem_object):
 
     # Arguments
     dem_object (tinerator.DEM): A DEM class instance
-
-    # Optional Arguments
-    enable_text (bool): If True, displays mesh information on screen
-
     '''
 
     if cfg.IN_NOTEBOOK:
@@ -416,10 +406,7 @@ def plot_full_mesh(dem_object,facesets:list=None):
 
     # Arguments
     dem_object (tinerator.DEM): A DEM class instance
-
-    # Optional Arguments
-    enable_text (bool): If True, displays mesh information on screen
-
+    facesets (list<Facesets>): facesets to render
     '''
 
     if cfg.IN_NOTEBOOK:
@@ -438,29 +425,6 @@ def plot_full_mesh(dem_object,facesets:list=None):
     exii_mesh[render_blocks].plot()
 
     util.cleanup([temp_fileid])
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
