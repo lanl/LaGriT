@@ -4,7 +4,7 @@ from distutils.core import setup
 setup(
     name = "tinerator",
     packages = ["tinerator"],
-    version = "0.3.0",
+    version = "0.3.1",
     description = "DEM -> Refined TIN Generation",
     license = 'BSD-3',
     author = "Daniel Livingston, David Moulton, Terry Ann Miller, Zexuan Xu, Ilhan Ozgen",
@@ -20,7 +20,8 @@ setup(
         'rasterio',
         'fiona',
         'elevation',
-        'scikit-fmm'],
+        'scikit-fmm',
+        'panel'],
     classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",

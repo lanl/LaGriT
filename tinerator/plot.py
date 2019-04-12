@@ -11,6 +11,7 @@ import tinerator.config as cfg
 import tinerator.dump as dump
 import tinerator.utilities as util
 import tinerator.watershed_deliniation as delin
+import tinerator.facesets as fs_lib
 
 
 # Custom color map
@@ -312,105 +313,166 @@ def preview_boundary(dem_object,
     tmp_boundary = deepcopy(dem_object.boundary)
     dem_object.boundary = frozen_boundary
 
-def plot_faceset(dem_object,faceset):
+def plot_facesets(dem_object,fs_list):
     '''
     Displays a topological preview of how facesets will look after
-    generation.
+    Exodus generation.
 
     # Arguments
     dem_object (tinerator.DEM): A DEM class instance
-    faceset (tinerator.Faceset): An initialized Faceset object
+    fs_list (list<tinerator.Faceset>): One or more initialized Faceset objects
     '''
-    if faceset._has_type == '__FROM_ELEVATION':
+    import warnings
+    np.warnings.filterwarnings('ignore')
+    
+    cmap = 'tab10'
+    
+    def plot_row(fs_object,row):
+        empty = np.zeros(np.shape(dem))
+        empty.fill(np.nan)
         
-        discrete_dem = np.zeros(dem_object.dem.shape)
+        if fs_object._has_type == '__NAIVE':
 
-        heights = faceset.heights
-        for i in range(len(heights)):
-            discrete_dem[dem_object.dem > heights[i]] = i * 10
+            if fs_object._metadata['top']:
+                row[0].imshow(dem,cmap=cmap,extent=extent)
+            else:
+                row[0].imshow(empty,extent=extent)
+            
+            if fs_object._metadata['sides']:
+                row[1].plot(dem_object.boundary[:,0],dem_object.boundary[:,1])
+                row[1].set_aspect(dem_object.ratio)
+            else:
+                row[1].imshow(empty,extent=extent)
+                
+            if fs_object._metadata['bottom']:
+                row[2].imshow(dem,cmap=cmap,extent=extent)
+            else:
+                row[2].imshow(empty)
 
-        plt.imshow(discrete_dem)
-        plt.show()
+        elif fs_object._has_type == '__FROM_ELEVATION':
 
-    elif facesets._has_type == '__SIDESETS':
-        pass
-    elif facesets._has_type == '__NAIVE':
-        pass
+            row[1].imshow(empty,extent=extent)
+            row[2].imshow(empty,extent=extent)
+            
+            discrete_dem = np.zeros(dem_object.dem.shape)
+            discrete_dem.fill(np.nan)
+            heights = [0] + fs_object._data
+            heights.sort()
+            
+            for i in range(len(heights)):
+                discrete_dem[dem_object.dem > heights[i]] = i * 10
+            
+            row[0].imshow(discrete_dem,cmap=cmap,extent=extent)
+            
+        elif fs_object._has_type == '__SIDESETS':
+            # TODO: has issue where node connection may span across
+            # plot
+
+            row[0].imshow(empty,extent=extent)
+            row[2].imshow(empty,extent=extent)
+            
+            data = fs_lib.__facesets_from_coordinates(
+                                {'all': fs_object._data},
+                                dem_object.boundary)['all']
+            
+            bnd = dem_object.boundary
+            
+            for i in np.unique(data):
+                mask = data == i
+                row[1].plot(bnd[:,0][mask],bnd[:,1][mask])
+
+            row[1].set_aspect(dem_object.ratio)
+                
+        else:
+            raise ValueError('Malformed faceset object')
+                
+    if not isinstance(fs_list,list):
+        fs_list = [fs_list]
+    
+    if dem_object.boundary is None:
+        raise ValueError('Please generate a DEM boundary before '\
+                         'running this function')
+        
+    dem = deepcopy(dem_object.dem)
+    dem = np.ones(dem.shape)
+    dem[dem_object.dem == dem_object.no_data_value] = np.nan
+    extent = dem_object.extent
+    
+    rows,cols = len(fs_list),3
+
+    f, axes = plt.subplots(rows,cols,figsize=(12,8),sharex=True,sharey=True)
+    
+    top_axes_row = axes[0] if rows > 1 else axes
+
+    top_axes_row[0].set_title('Top')
+    top_axes_row[1].set_title('Sides')
+    top_axes_row[2].set_title('Bottom')
+    
+    if rows > 1:
+        for row in range(rows):
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                plot_row(fs_list[row],axes[row])
     else:
-        raise ValueError('Corrupted faceset data - aborting')
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            plot_row(fs_list[0],top_axes_row)
+
+    plt.show()
     
 
 # -- 3D visualization ------------- #
-
-def __vtk_exodusii_reader(filename:str, 
-                          animate_mode_shapes:bool=True, 
-                          apply_displacements:bool=True, 
-                          displacement_magnitude:float=1.0,
-                          enabled_sidesets:list=None):
-    '''
-    ExodusII VTKI reader developed by Bane Sullivan (CSM) with
-    contributions by Daniel Livingston.
-
-    https://github.com/vtkiorg/vtki/issues/143
-    '''
-    
-    # Read Exodus Data
-    reader = vtk.vtkExodusIIReader()
-    reader.SetFileName(filename)
-    reader.UpdateInformation()
-    reader.SetAnimateModeShapes(animate_mode_shapes)
-    reader.SetApplyDisplacements(apply_displacements)
-    reader.SetDisplacementMagnitude(displacement_magnitude)
-
-    if enabled_sidesets is None:
-        enabled_sidesets = list(range(reader.GetNumberOfSideSetArrays()))
-
-    for sideset in enabled_sidesets:
-        if isinstance(sideset,int):
-            name = reader.GetSideSetArrayName(sideset)
-        elif isinstance(sideset,str):
-            name = sideset
-        else:
-            raise ValueError('Could not parse sideset ID/name: {}'\
-                .format(sideset))
-
-        reader.SetSideSetArrayStatus(name,1)
-
-    reader.Update()
-    return vtki.wrap(reader.GetOutput())
 
 
 def plot_triplane(dem_object):
     '''
     Plots the triangular surface mesh.
 
+    !!! note
+        Note - due to underlying issues with the renderer, 
+        this must be called in `__main__` with the syntax:
+
+    ```python
+    tin.plot_triplane(dem).plot()
+    ```
+
     # Arguments
     dem_object (tinerator.DEM): A DEM class instance
     '''
 
-    if cfg.IN_NOTEBOOK:
-        cfg.log.info('3D visualization still in beta - full mesh interactivity coming soon')
+    print('WARNING: This function may not render correctly.\n'\
+          'Please use tinerator.plot_triplane until a '\
+          'patch is issued.')
 
     temp_fileid = '__render_exo.exo'
     dump.to_exodus(dem_object,temp_fileid,mesh='surface')
+    exii_mesh = vtki.read(temp_fileid)
+    return exii_mesh
 
-    exii_mesh = __vtk_exodusii_reader(temp_fileid)
-    exii_mesh['Element Blocks'].plot()
-
-    util.cleanup([temp_fileid])
+    #exii_mesh['Element Blocks'].plot()
+    #util.cleanup([temp_fileid])
 
 
 def plot_full_mesh(dem_object,facesets:list=None):
     '''
     Plots the triangular surface mesh.
+    
+    !!! note
+        Note - due to underlying render issues, 
+        this must be called in `__main__` with the syntax:
+
+    ```python
+    tin.plot_full_mesh(dem).plot()
+    ```
 
     # Arguments
     dem_object (tinerator.DEM): A DEM class instance
     facesets (list<Facesets>): facesets to render
     '''
 
-    if cfg.IN_NOTEBOOK:
-        cfg.log.info('3D visualization still in beta - full mesh interactivity coming soon')
+    print('WARNING: This function may not render correctly.\n'\
+          'Please use tinerator.plot_full_mesh until a '\
+          'patch is issued.')
 
     temp_fileid = '__render_exo.exo'
     dump.to_exodus(dem_object,temp_fileid,mesh='prism',facesets=facesets)
@@ -421,10 +483,11 @@ def plot_full_mesh(dem_object,facesets:list=None):
     else:
         render_blocks = 'Side Sets'
 
-    exii_mesh = __vtk_exodusii_reader(temp_fileid,)
-    exii_mesh[render_blocks].plot()
+    exii_mesh = vtki.read(temp_fileid)
+    return exii_mesh
 
-    util.cleanup([temp_fileid])
+    #exii_mesh[render_blocks].plot()
+    #util.cleanup([temp_fileid])
 
 
 

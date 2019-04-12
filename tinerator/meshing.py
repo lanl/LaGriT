@@ -354,6 +354,9 @@ def _stacked_mesh(lg,
     layers.
     '''
 
+    if matids is None:
+        matids = [1]*len(layers)
+
     if layers[0] != 0.:
         layers = [0.0] + layers
         matids = [0] + matids

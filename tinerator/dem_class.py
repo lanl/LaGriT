@@ -718,7 +718,8 @@ class DEM():
                                         outfile=outfile,
                                         rectangular_boundary=rectangular_boundary,
                                         interactive=False)
-            tinplot.plot_triplane(self)
+            #tinplot.plot_triplane(self)
+            cfg.log.info('Done.')
 
 
         try:
@@ -763,8 +764,12 @@ class DEM():
         '''
         Driver for Jupyter refined triplane interactivity.
         '''
-        def __fnc_driver(min_edge_length,max_edge_length,smooth_boundary,flip,
+        def __fnc_driver(edge_range,smooth_boundary,flip,
                          apply_elevation,outfile,rectangular_boundary,slope):
+
+            min_edge_length = edge_range[0]
+            max_edge_length = edge_range[1]
+
             self.build_refined_triplane(min_edge_length,
                                         max_edge_length,
                                         smooth_boundary=smooth_boundary,
@@ -774,7 +779,8 @@ class DEM():
                                         rectangular_boundary=rectangular_boundary,
                                         interactive=False,
                                         slope=slope)
-            tinplot.plot_triplane(self)
+            #tinplot.plot_triplane(self)
+            cfg.log.info('Done.')
 
         try:
             from ipywidgets import interact,interactive,fixed,interact_manual
@@ -784,7 +790,7 @@ class DEM():
             cfg.IN_NOTEBOOK = False
             raise NameError('Could not init Jupyter notebook functionality')
 
-        _max_edge = abs(self.extent[1]-self.extent[0]) / 20.0
+        _max_edge = abs(self.extent[1]-self.extent[0]) / 50.0
         _min_edge = 0.0
 
         if min_edge is None:
@@ -796,19 +802,32 @@ class DEM():
         step = (max_edge - min_edge) / 100.
 
         interact_manual(__fnc_driver,
-                        min_edge_length=widgets.FloatSlider(min=_min_edge,
-                                                            max=_max_edge,
-                                                            step=step,
-                                                            value=min_edge),
-                        max_edge_length=widgets.FloatSlider(min=_min_edge,
-                                                            max=_max_edge,
-                                                            step=step,
-                                                            value=max_edge),
-                        slope =         widgets.FloatSlider(min=0.0,
-                                                            max=2.5,
-                                                            step=0.1,
-                                                            value=0.5),
-                        smooth_boundary=[('No', False), ('Yes', True)],
+                        edge_range = widgets.FloatRangeSlider(
+                                                value=[min_edge,max_edge],
+                                                min=_min_edge,
+                                                max=_max_edge,
+                                                step=step,
+                                                description='Edge Lengths:',
+                                                disabled=False,
+                                                continuous_update=False,
+                                                orientation='horizontal',
+                                                readout=True,
+                                                readout_format='.1f'
+                                            ),
+
+                        slope =      widgets.FloatSlider(
+                                                min=0.0,
+                                                max=2.5,
+                                                step=0.1,
+                                                value=0.5
+                                            ),
+
+                        smooth_boundary = widgets.Checkbox(
+                                                value=False,
+                                                description='Smooth DEM boundary',
+                                                disabled=False
+                                            ),
+
                         flip=['y','x','xy'],
                         apply_elevation=fixed(apply_elevation),
                         outfile=fixed(outfile),

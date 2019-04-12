@@ -36,11 +36,12 @@ RUN conda install --quiet --yes \
     'ipywidgets=7.4*' \
     'matplotlib=3.0*' \
     'vtk' \
-    'vtki' \
+    #'vtki' \ <- removed until inline interactive mode is on conda
     'rasterio' \
     'fiona' \
     'geopandas' \
     'scikit-image' \
+    'panel' \
     'scikit-fmm' && \
     pip install richdem && \
     ##conda remove --quiet --yes --force qt pyqt && \
@@ -58,6 +59,12 @@ RUN conda install --quiet --yes \
     rm -rf /home/$NB_USER/.node-gyp && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
+
+# Install dev version of VTKI
+RUN git clone https://github.com/vtkiorg/vtki.git && \
+    cd vtki && \
+    pip install -e . && \
+    cd ..
 
 # Build LaGriT and PyLaGriT
 RUN git clone --depth 1 http://github.com/lanl/LaGriT.git LaGriT && \

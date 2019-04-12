@@ -16,6 +16,8 @@ perform publicly and display publicly, and to permit others to do so.
 
 '''
 
+import vtk
+import vtki
 import rasterio
 import fiona
 import geopandas
@@ -34,6 +36,14 @@ import tinerator.boundary as boundary
 import tinerator.utilities as util
 import tinerator.plot as plot
 from tinerator.dem_class import DEM
+
+from tinerator.plot import plot_triplane
+from tinerator.plot import plot_full_mesh
+
+_MAJOR = 0
+_MINOR = 3
+_PATCH = 1
+VERSION = 'v{0}.{1}.{2}'.format(_MAJOR,_MINOR,_PATCH)
 
 def reprojectShapefile(shapefile:str,outfile:str,projection:str):
     '''
@@ -120,5 +130,3 @@ def maskRasterWithShapefile(raster_filename:str,
 
     if return_dem:
         return _dem
-
-
