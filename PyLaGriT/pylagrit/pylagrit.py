@@ -3194,7 +3194,7 @@ class MO(object):
     def stack_layers(self,filelist,file_type='avs',nlayers=None,matids=None,xy_subset=None,
                      buffer_opt=None,truncate_opt=None,
                      pinchout_opt=None,flip_opt=False,fill=False):
-        if nlayers is None: nlayers = ['']*len(filelist-1)
+        if nlayers is None: nlayers = ['']*(len(filelist)-1)
         if matids is None: matids = [1]*len(filelist)
         cmd = ['stack/layers',file_type]
         if xy_subset is not None: cmd.append(xy_subset)
