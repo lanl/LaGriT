@@ -35,6 +35,30 @@ class readable_dir(argparse.Action):
             print("/".join(os.listdir(os.curdir)))
             sys.exit(2)
 
+def TestSingle(testcase:str,clean:bool=True,test:bool=True,check:bool=True):
+    '''
+    Runs a single test case.
+    '''
+    os.chdir(os.path.join(dtop,testcase))
+    print(os.getcwd())
+
+    if clean:
+        cln.CleanSingleDir(os.getcwd())
+
+    os.chdir('..')
+
+    if test:
+        run.RunTest(tag=testfile,
+                    executable=lagrit_exe,
+                    flags=flags,
+                    test_dir=testcase.split('/')[-1])
+
+    if check:
+        chk.Check(target=checkdir,
+                  test_dir=testcase.split('/')[-1])
+    
+    os.chdir(os.path.join(dtop,testcase))
+
 
 def TestDir(testing_dir:str,clean:bool=True,test:bool=True,check:bool=True):
     '''

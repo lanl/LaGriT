@@ -2,24 +2,26 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.203   Linux          *                 
-*               *    date_compile: 2017/09/26 Static DB       *                 
-*               *    Run Time: 2017/Oct  5  11:38:52          *                 
+*               *    Program:  LaGriT V3.320   macOS          *                 
+*               *    date_compile: 2019/04/15 Static          *                 
+*               *    Run Time: 2019/Apr 15  13:29:39          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
@@ -374,18 +376,37 @@ cmo/addatt//v12/INT/scalar/scalar/constant/temporary//12.0
 finish                                                                          
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
+ 
+  KDTREE_CMO: build done.                                                       
+  Max box volume:  5000000000.00000                                             
+  Min box volume:    17361111.11111                                             
+  Max dim xyz:          50000.00000     100000.00000          0.00000           
+  Min dim xyz:           4166.66667       4166.66667          0.00000           
+ 
+finish                                                                          
+cmo setatt surf_mo_lin_ext_tmp idebug/0                                         
+         1 values reset for attribute idebug                                    
+ 
 finish                                                                          
  
+Build kdtree done - assign the enclosing element for each.                      
+ 
+ 
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845             1025            845       25 %                      
            1689             2045           1689       50 %                      
            2533             3058           2533       75 %                      
-           3375             4080           3375    Total                        
+           3375             4080           3375       100%                      
+ 
+Total Source Elements:                    1152                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/surf_mo_lin_ext_tmp/sbox                                             
 finish                                                                          
@@ -416,17 +437,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt top_mo_lin_ext_tmp idebug/0                                          
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845             4437            845       25 %                      
            1689             8830           1689       50 %                      
            2533            13221           2533       75 %                      
-           3375            17640           3375    Total                        
+           3375            17640           3375       100%                      
+ 
+Total Source Elements:                     392                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/top_mo_lin_ext_tmp/sbox                                              
 finish                                                                          
@@ -457,17 +490,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt bot_mo_lin_ext_tmp idebug/0                                          
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845             4438            845       25 %                      
            1689             8829           1689       50 %                      
            2533            13221           2533       75 %                      
-           3375            17640           3375    Total                        
+           3375            17640           3375       100%                      
+ 
+Total Source Elements:                     392                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/bot_mo_lin_ext_tmp/sbox                                              
 finish                                                                          
@@ -686,17 +731,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt surf_mo_lin_ext_tmp idebug/0                                         
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845             1025            845       25 %                      
            1689             2045           1689       50 %                      
            2533             3058           2533       75 %                      
-           3375             4080           3375    Total                        
+           3375             4080           3375       100%                      
+ 
+Total Source Elements:                    1152                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/surf_mo_lin_ext_tmp/sbox                                             
 finish                                                                          
@@ -727,17 +784,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt top_mo_lin_ext_tmp idebug/0                                          
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845             4438            845       25 %                      
            1689             8829           1689       50 %                      
            2533            13221           2533       75 %                      
-           3375            17640           3375    Total                        
+           3375            17640           3375       100%                      
+ 
+Total Source Elements:                     392                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/top_mo_lin_ext_tmp/sbox                                              
 finish                                                                          
@@ -768,17 +837,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt bot_mo_lin_ext_tmp idebug/0                                          
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845             4437            845       25 %                      
            1689             8830           1689       50 %                      
            2533            13221           2533       75 %                      
-           3375            17640           3375    Total                        
+           3375            17640           3375       100%                      
+ 
+Total Source Elements:                     392                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/bot_mo_lin_ext_tmp/sbox                                              
 finish                                                                          
@@ -996,18 +1077,37 @@ cmo/addatt//v12/INT/scalar/scalar/constant/temporary//12.0
 finish                                                                          
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
+ 
+  KDTREE_CMO: build done.                                                       
+  Max box volume:  5000000000.00000                                             
+  Min box volume:    17361111.11111                                             
+  Max dim xyz:          50000.00000          0.00000     100000.00000           
+  Min dim xyz:           4166.66667          0.00000       4166.66667           
+ 
+finish                                                                          
+cmo setatt surf_mo_lin_ext_tmp idebug/0                                         
+         1 values reset for attribute idebug                                    
+ 
 finish                                                                          
  
+Build kdtree done - assign the enclosing element for each.                      
+ 
+ 
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845              901            845       25 %                      
            1689             1802           1689       50 %                      
            2533             2702           2533       75 %                      
-           3375             3600           3375    Total                        
+           3375             3600           3375       100%                      
+ 
+Total Source Elements:                    1152                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/surf_mo_lin_ext_tmp/sbox                                             
 finish                                                                          
@@ -1038,17 +1138,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt top_mo_lin_ext_tmp idebug/0                                          
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845             4102            845       25 %                      
            1689             8830           1689       50 %                      
            2533            13556           2533       75 %                      
-           3375            17640           3375    Total                        
+           3375            17640           3375       100%                      
+ 
+Total Source Elements:                     392                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/top_mo_lin_ext_tmp/sbox                                              
 finish                                                                          
@@ -1079,17 +1191,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt bot_mo_lin_ext_tmp idebug/0                                          
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845             4102            845       25 %                      
            1689             8828           1689       50 %                      
            2533            13558           2533       75 %                      
-           3375            17640           3375    Total                        
+           3375            17640           3375       100%                      
+ 
+Total Source Elements:                     392                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/bot_mo_lin_ext_tmp/sbox                                              
 finish                                                                          
@@ -1308,17 +1432,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt surf_mo_lin_ext_tmp idebug/0                                         
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845              901            845       25 %                      
            1689             1802           1689       50 %                      
            2533             2702           2533       75 %                      
-           3375             3600           3375    Total                        
+           3375             3600           3375       100%                      
+ 
+Total Source Elements:                    1152                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/surf_mo_lin_ext_tmp/sbox                                             
 finish                                                                          
@@ -1349,17 +1485,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt top_mo_lin_ext_tmp idebug/0                                          
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845             4102            845       25 %                      
            1689             8828           1689       50 %                      
            2533            13558           2533       75 %                      
-           3375            17640           3375    Total                        
+           3375            17640           3375       100%                      
+ 
+Total Source Elements:                     392                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/top_mo_lin_ext_tmp/sbox                                              
 finish                                                                          
@@ -1390,17 +1538,29 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt bot_mo_lin_ext_tmp idebug/0                                          
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             845             4102            845       25 %                      
            1689             8830           1689       50 %                      
            2533            13556           2533       75 %                      
-           3375            17640           3375    Total                        
+           3375            17640           3375       100%                      
+ 
+Total Source Elements:                     392                                  
+Total Sink   Nodes:                       3375                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/bot_mo_lin_ext_tmp/sbox                                              
 finish                                                                          
@@ -1691,8 +1851,16 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt surf_mo_lin_ext_tmp idebug/0                                         
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             901              934            901        5 %                      
            1801             1866           1801       10 %                      
            2701             2798           2701       15 %                      
@@ -1712,12 +1880,16 @@ finish
           15301            15846          15301       85 %                      
           16201            16778          16201       90 %                      
           17101            17710          17101       95 %                      
-          18000            18640          18000    Total                        
+          18000            18640          18000       100%                      
+ 
+Total Source Elements:                    3364                                  
+Total Sink   Nodes:                      18000                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/surf_mo_lin_ext_tmp/sbox                                             
 finish                                                                          
@@ -1748,8 +1920,16 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt top_mo_lin_ext_tmp idebug/0                                          
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             901             6730            901        5 %                      
            1801            13458           1801       10 %                      
            2701            20186           2701       15 %                      
@@ -1769,12 +1949,16 @@ finish
           15301           114378          15301       85 %                      
           16201           121106          16201       90 %                      
           17101           127834          17101       95 %                      
-          18000           134560          18000    Total                        
+          18000           134560          18000       100%                      
+ 
+Total Source Elements:                    3364                                  
+Total Sink   Nodes:                      18000                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/top_mo_lin_ext_tmp/sbox                                              
 finish                                                                          
@@ -1805,8 +1989,16 @@ finish
 cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo setatt bot_mo_lin_ext_tmp idebug/0                                          
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
  
      Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
             901             6730            901        5 %                      
            1801            13458           1801       10 %                      
            2701            20186           2701       15 %                      
@@ -1826,12 +2018,16 @@ finish
           15301           114378          15301       85 %                      
           16201           121106          16201       90 %                      
           17101           127834          17101       95 %                      
-          18000           134560          18000    Total                        
+          18000           134560          18000       100%                      
+ 
+Total Source Elements:                    3364                                  
+Total Sink   Nodes:                      18000                                  
+ 
+ 
+interpolate/continuous done.                                                    
  
 cmo select main_mo_lin_ext_tmp                                                  
 finish                                                                          
-intrp/continuous done.                                                          
- 
 cmo kdtree release                                                              
 cmo/DELATT/bot_mo_lin_ext_tmp/sbox                                              
 finish                                                                          

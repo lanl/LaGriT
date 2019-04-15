@@ -60,6 +60,12 @@ def RunTest(**args):
   xlagrit = args["executable"]
   flags = args["flags"]
 
+  try:
+    test_dir = args["test_dir"]
+  except KeyError:
+    test_dir = None
+
+
   dtop = os.curdir # getting top level directory
   dtop_path = os.getcwd() # getting filepath to top directory
   osname = sys.platform # getting platform
@@ -77,7 +83,7 @@ def RunTest(**args):
 
   for name in directories:
     # if directory exists, add to dict of errors
-    if os.path.isdir(name) : 
+    if os.path.isdir(name):
         errmess.append("empty")
         errors[name] = []
 
@@ -110,6 +116,11 @@ def RunTest(**args):
         result_dir = 1
 #---go into each directory and do some work
     elif os.path.isdir(name):
+
+        # Handle the single-test directory case
+        if test_dir is not None:
+          if name != test_dir:
+            continue
 
         errmess.append("empty")
         os.chdir(name)
@@ -159,7 +170,6 @@ def RunTest(**args):
   rfile = open(fscreen,'r')
   # outx3dgen = rfile.readlines()
   for line in rfile.readlines():
-      
       dirno = line.find("Test Directory")
       progno = line.find("Program")
       suno = line.find("successfully")
@@ -173,6 +183,7 @@ def RunTest(**args):
           print(dirstr)
           print(progstr + " : " + sustr)
           nfind = nfind+1
+
   rfile.close()
 
 # attempt to pass error conditions if found
