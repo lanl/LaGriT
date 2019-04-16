@@ -4,14 +4,9 @@ sudo: required
 os:
   - linux
   - osx
-#  - windows
 
 compiler:
   - gcc
-
-#matrix:
-#  allow_failures:
-#    - os: windows
 
 branches:
   only:
@@ -33,10 +28,6 @@ script:
   - make release CC=$CC FC=$FC CXX=$CXX
   - make static  CC=$CC FC=$FC CXX=$CXX
   - make test
-  # PyLaGriT tests
-  - echo "lagrit_exe : '`pwd`/src/lagrit'" > ~/.pylagritrc
-  - cd PyLaGriT/ && python3 setup.py install
-  - cd tests/ && python3 test_pylagrit.py
 
 # Display successful messages
 after_success:
