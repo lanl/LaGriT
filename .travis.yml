@@ -45,9 +45,7 @@ install:
 script:
   # LaGriT compilation tests
   - make exodus  CC=$CC FC=$FC CXX=$CXX
-  - make release CC=$CC FC=$FC CXX=$CXX
   - make static  CC=$CC FC=$FC CXX=$CXX
-  - make test
 
 # Display successful messages
 after_success:
