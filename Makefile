@@ -153,8 +153,8 @@ ifeq ($(DEBUG),1)
 	LINKERFLAGS += -g -fbacktrace -ffpe-trap=invalid,zero,overflow,underflow,denormal
 	BUILDFLAGS +=  -g -fbacktrace -ffpe-trap=invalid,zero,overflow,underflow,denormal
 else
-	LINKERFLAGS += -O -ffpe-summary=none
-	BUILDFLAGS += -O -ffpe-summary=none
+	LINKERFLAGS += -O
+	BUILDFLAGS += -O
 endif
 
 ifeq ($(wildcard $(EXO_LIB_DIR)),)
