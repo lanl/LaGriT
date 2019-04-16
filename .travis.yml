@@ -15,11 +15,31 @@ branches:
 # Install dependencies for various OS'
 before_install:
   - if [ $TRAVIS_OS_NAME = windows ]; then choco install make cmake; fi
-  - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get -y -f --allow-unauthenticated install gfortran libz-dev m4 bison python3 cmake && sudo apt-get upgrade cmake; fi
+  - if [ $TRAVIS_OS_NAME = linux ];   then sudo apt-get purge cmake && sudo apt-key update && sudo apt-get update && sudo apt-get -y -f install gfortran libz-dev m4 bison python3 cmake; fi
   - if [ $TRAVIS_OS_NAME = osx ];     then brew update && brew install gcc; fi
   - export FC=$(which gfortran);      echo $FC
   - export CC=$(which gcc);           echo $CC
   - export CXX=$(which g++);          echo $CXX
+
+install:
+  ############################################################################
+  # Install a recent CMake
+  ############################################################################
+  - DEPS_DIR="${HOME}/deps"
+  - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
+
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.tar.gz"
+      mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+      export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+    else
+      brew install cmake || brew upgrade cmake
+    fi
+  - cd -
+  - cmake --version
+  #- ./cmake-config
+  #- cd ${TRAVIS_BUILD_DIR}
 
 # Build Exodus and binary; test
 script:
