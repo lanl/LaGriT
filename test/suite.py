@@ -35,6 +35,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description = "Perform LaGrit Tests", prog = "./suite.py", )
     parser.add_argument("-f", "--full", help = "Runs the entire test suite, cancels other options", action = "store_true", default = False)
     parser.add_argument("-l", "--level", help = "Designate level of testing", action = "store", type = int, nargs = 1, default = 0)
+    parser.add_argument("-s", "--single", help = "Specify by name a single test to run", action = "store", type = str, default = '')
     parser.add_argument("-cl", "--clean", help = "Clean directories of previous test results; cleans default output file unless testfile is specified", action = "store_true")
     parser.add_argument("-t", "--test", help = "Runs tests on directories; option for out file tag - stdout_[testfile].txt", action = "store_true")
     parser.add_argument("testfile", help = "Name <tag> for the test's out file stdout_<tag>.txt; default - <tag> = os name", nargs = "?", default = sys.platform)
@@ -46,7 +47,7 @@ def main(argv=None):
     args = parser.parse_args()
 
     # If no valid options, raise help screen
-    if not (args.level or args.full or args.clean or args.test or args.check):
+    if not (args.level or args.full or args.clean or args.test or args.check or args.single):
         args = parser.parse_args("--help".split())
         sys.exit(2)
 
@@ -66,6 +67,10 @@ def main(argv=None):
             for level in lg_test.all_levels:
                 print('Running full tests on %s' % level)
                 lg_test.TestDir(level)
+
+    elif args.single:
+        # Run a single test directory
+        lg_test.TestSingle(args.single)
 
     else:
 

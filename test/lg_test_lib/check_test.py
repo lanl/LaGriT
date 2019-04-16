@@ -224,12 +224,22 @@ def diff_chunk(rlines,tlines,rcnt,tcnt, wfile) :
 
 #------------------------------------------------------------------------------
 
+
 ##############################################################################
 # MAIN begin
 #
 #------------------------------------------------------------------------------
-# if __name__ == "__main__":
-def Check(**args):
+def Check(target=None,test_dir:str=None):
+  '''
+  Checks run and reference outx3dgen files for differences.
+  If differences are higher than some threshold, fails.
+
+  Arguments
+  ---------
+      target (str):
+      test_dir (str): Sub-directory to test. Default (None)
+          tests all in current directory.
+  '''
 
   debug = 0
   JUNK='\n \t'
@@ -244,12 +254,11 @@ def Check(**args):
   nfail=0
   ndirs=0
   result_dir = 0
-  target=args['target']
   diffcopy = ''
 
 # get platform
   osname="unknown"
-  osname= sys.platform.lower()
+  osname=sys.platform.lower()
   if osname.find("linux") >= 0 :
      ostag="_lin" 
   elif osname.find("sun")>=0 or osname.find("sol")>=0 :
@@ -260,7 +269,6 @@ def Check(**args):
      ostag="_sgi" 
   else :
      ostag="" 
-
 
 # define top directory as current directory
   dtop = os.curdir
@@ -276,12 +284,6 @@ def Check(**args):
 # for each test directory
 # main loop
 
-  """if len(sys.argv) > 1 :
-    dirnames = sys.argv[1:]
-    fout=dtop_path+"/diffout"+ostag+"_select.txt"
-  else :
-    dirnames = os.listdir(dtop)"""
-
   if target == dtop:
   	dirnames = os.listdir(dtop)
   else:
@@ -293,7 +295,7 @@ def Check(**args):
   wfile.close()
 
   for name in dirnames:
-    dwork = os.path.join(dtop, name)
+    dwork = os.path.join(dtop,name)
 
 #---skip results directory until end 
     if (dwork == "./test_results") : 
@@ -301,7 +303,14 @@ def Check(**args):
 
 #---check output for each directory and reference 
 #   header --- old reference file +++ new test file 
-    elif os.path.isdir(dwork) : 
+    elif os.path.isdir(dwork):
+
+        # If configured for a single test,
+        # then validate that we are parsing the correct test.
+        if test_dir is not None:
+          if dwork.split('/')[-1] != test_dir:
+            continue
+
         wfile = open(fout,'a')
         wfile.write("\n"+"Diff Summary "+'='*67+"\n\n")
         ndirs = ndirs+1
@@ -437,7 +446,7 @@ def Check(**args):
             print(buff)
             errList.append(dwork)
             errmess.append(repr(ifail)+" lines failed.")
-            ierr = ierr+1
+            ierr += 1
           else :
             buff = "No lines differ."
             wfile.write(buff+"\n")
@@ -451,10 +460,11 @@ def Check(**args):
           print("File missing: outx3dgen" )
           errList.append(dwork)
           errmess.append("Missing LaGriT outx3dgen file.")
-          ierr = ierr+1
+          ierr  += 1
+          nfail += 1
 
 #-------done with compare 
-        if ifail > 0 : nfail=nfail+1
+        if ifail > 0: nfail += 1
         wfile.write("Check done."+"\n\n")
         wfile.write("Full Report from diff ========================================================="+"\n\n")
         wfile.writelines(diffcopy)
@@ -491,14 +501,6 @@ def Check(**args):
     print("Check done."+"\n"+"Full result written to: "+"\n")
     print(fout+"\n")
     print("and copied to ./test_results "+"\n")
-
-#    fromfile = "./test_results/diffout"+ostag+".txt" 
-#    tofile="./test_results/reference/diffout"+ostag+".txt" 
-#    print  "Compare "+fromfile+" to "+tofile 
-#    fromlines = open(fromfile, 'U').readlines()
-#    tolines = open(tofile, 'U').readlines()
-#    fdiff = difflib.ndiff(fromlines, tolines)
-#    sys.stdout.writelines(fdiff) 
 
   else :
     print("Check done."+"\n"+"Full result written to "+fout+"\n")
