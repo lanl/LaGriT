@@ -194,7 +194,7 @@ clobber :
 test :
 	@export LG_CWD=$(shell pwd); \
 	 cd test/; \
-	 python suite.py -f -l 1 -exe=$$LG_CWD/$(EXE_NAME) -hf=$(FAIL_THRESH);
+	 python3 suite.py -f -l 1 -exe=$$LG_CWD/$(EXE_NAME) -hf=$(FAIL_THRESH);
 
 help : 
 	@echo "$$LAGRIT_HELP"
