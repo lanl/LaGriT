@@ -38,8 +38,8 @@ install:
     fi
   - cd -
   - cmake --version
-  - ./cmake-config
-  - cd ${TRAVIS_BUILD_DIR}
+  #- ./cmake-config
+  #- cd ${TRAVIS_BUILD_DIR}
 
 # Build Exodus and binary; test
 script:
