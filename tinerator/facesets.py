@@ -356,7 +356,8 @@ def __driver_sidesets(lg,surface_mesh,has_top,boundary_file,full_sidesets):
     # and set numbering so 1 and 2 are top and bottom
 
     cmo_bndry.math('add','itetclr',value=2,stride=[1,0,0],cmosrc=cmo_bndry,attsrc='itetclr')
-    mo_surf.interpolate('map','id_side',cmo_bndry,'itetclr',stride=['eltset','get',esides.name])
+    cmo_bndry.math('add','imt1',   value=2,stride=[1,0,0],cmosrc=cmo_bndry,attsrc='imt1')
+    mo_surf.interpolate('map','id_side',cmo_bndry,'itetclr',stride=['eltset','get',esides.name],flag_option='nearest, imt1')
 
     if has_top:
         mo_surf.addatt('ioutlet',vtype='vint',rank='scalar',length='nelements')
