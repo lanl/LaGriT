@@ -28,6 +28,8 @@ install:
   - DEPS_DIR="${HOME}/deps"
   - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
 
+  # Exodus requires CMAKE 1.10.X+, which apt-get doesn't serve
+  # Manually build
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
       CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.tar.gz"
@@ -38,14 +40,13 @@ install:
     fi
   - cd -
   - cmake --version
-  #- ./cmake-config
-  #- cd ${TRAVIS_BUILD_DIR}
 
 # Build Exodus and binary; test
 script:
   # LaGriT compilation tests
   - make exodus  CC=$CC FC=$FC CXX=$CXX
   - make release CC=$CC FC=$FC CXX=$CXX
+  - make test
   - make static  CC=$CC FC=$FC CXX=$CXX
   - make test
 
@@ -55,25 +56,25 @@ after_success:
   - cp src/lagrit lagrit-$TRAVIS_OS_NAME
   
 # Push binaries to GitHub Releases *only* when there is a tagged commit
-jobs:
-  include:
-    - stage: Deploy macOS binary
-      os: osx
-      deploy:
-        provider: releases
-        api_key: $GITHUB_OATH_TOKEN
-        draft: true
-        skip_cleanup: true
-        file: lagrit-$TRAVIS_OS_NAME
-        on:
-          tags: true
-    - stage: Deploy Linux binary and publish
-      deploy:
-        provider: releases
-        api_key: $GITHUB_OATH_TOKEN
-        draft: false
-        skip_cleanup: true
-        file: lagrit-$TRAVIS_OS_NAME
-        on:
-          tags: true
+#jobs:
+#  include:
+#    - stage: Deploy macOS binary
+#      os: osx
+#      deploy:
+#        provider: releases
+#        api_key: $GITHUB_OATH_TOKEN
+#        draft: true
+#        skip_cleanup: true
+#        file: lagrit-$TRAVIS_OS_NAME
+#        on:
+#          tags: true
+#    - stage: Deploy Linux binary and publish
+#      deploy:
+#        provider: releases
+#        api_key: $GITHUB_OATH_TOKEN
+#        draft: false
+#        skip_cleanup: true
+#        file: lagrit-$TRAVIS_OS_NAME
+#        on:
+#          tags: true
 

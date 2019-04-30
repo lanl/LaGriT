@@ -200,14 +200,15 @@ help :
 	@echo "$$LAGRIT_HELP"
 
 exodus :
-	export CGNS=NO; \
-	export MATIO=NO; \
+	set -e; \
+	export CGNS=OFF; \
+	export MATIO=OFF; \
 	export SHARED=NO; \
 	export LG_DIR=`pwd`; \
 	export NEEDS_ZLIB=YES; \
 	export GNU_PARALLEL=OFF; \
 	export CC=$(CC); export CXX=$(CXX); export FC=$(FC); export FC90=$(FC90); \
-	git clone https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas; \
+	git clone https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas || true; \
 	cd $(EXO_BUILD_DIR)/seacas; \
 	export ACCESS=`pwd`; \
 	./install-tpl.sh; \
