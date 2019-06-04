@@ -36,7 +36,6 @@ RUN conda install --quiet --yes \
     'ipywidgets=7.4*' \
     'matplotlib=3.0*' \
     'vtk' \
-    #'vtki' \ <- removed until inline interactive mode is on conda
     'rasterio' \
     'fiona' \
     'geopandas' \
@@ -60,9 +59,9 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
-# Install dev version of VTKI
-RUN git clone https://github.com/vtkiorg/vtki.git && \
-    cd vtki && \
+# Install dev version of PyVista
+RUN git clone https://github.com/pyvista/pyvista.git && \
+    cd pyvista && \
     pip install -e . && \
     cd ..
 

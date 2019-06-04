@@ -17,7 +17,7 @@ perform publicly and display publicly, and to permit others to do so.
 '''
 
 import vtk
-import vtki
+import pyvista
 import rasterio
 import fiona
 import geopandas

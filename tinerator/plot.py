@@ -1,5 +1,5 @@
 import vtk
-import vtki
+import pyvista
 import numpy as np
 
 from copy import deepcopy
@@ -446,7 +446,7 @@ def plot_triplane(dem_object):
 
     temp_fileid = '__render_exo.exo'
     dump.to_exodus(dem_object,temp_fileid,mesh='surface')
-    exii_mesh = vtki.read(temp_fileid)
+    exii_mesh = pyvista.read(temp_fileid)
     return exii_mesh
 
     #exii_mesh['Element Blocks'].plot()
@@ -483,7 +483,7 @@ def plot_full_mesh(dem_object,facesets:list=None):
     else:
         render_blocks = 'Side Sets'
 
-    exii_mesh = vtki.read(temp_fileid)
+    exii_mesh = pyvista.read(temp_fileid)
     return exii_mesh
 
     #exii_mesh[render_blocks].plot()
