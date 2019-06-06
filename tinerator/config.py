@@ -70,9 +70,9 @@ def activate_virtual_framebuffer():
     '''
 
     import subprocess
-    import vtki
+    import pyvista
 
-    vtki.OFFSCREEN = True
+    pyvista.OFFSCREEN = True
     os.environ['DISPLAY']=':99.0'
 
     commands = ['Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &',
