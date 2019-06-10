@@ -176,7 +176,7 @@ c     vars in place of nelmnen and nelmnef - quan
       integer elem_id, iblk_id
       integer idexo, icompws, iows, inumatt, num_qa_rec
       integer idexi, in_compws, in_ws, in_numatt, in_num
-      integer iunit, iflag, ncount, ival, ival2, itp1
+      integer iunit, iflag, ncount, ival, ival2
       integer setcount, index, mpno, set_id
 
 
