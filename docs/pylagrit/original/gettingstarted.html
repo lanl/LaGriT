@@ -59,7 +59,7 @@ To use the paraview and gmv methods, you will need ParaView (<a class="reference
 </div>
 <div class="section" id="simple-example">
 <h2>Simple example<a class="headerlink" href="#simple-example" title="Permalink to this headline">¶</a></h2>
-<p>The following is a PyLaGriT script for creating a simple cube shaped mesh using the <code class="xref py py-func docutils literal notranslate"><span class="pre">gridder</span></code> and <cite>connect &lt;pylagrit.PyLaGriT.connect&gt;</cite> methods:</p>
+<p>The following is a PyLaGriT script for creating a simple cube shaped mesh using the <a class="reference internal" href="autodoc_pylagrit.html#pylagrit.PyLaGriT.gridder" title="pylagrit.PyLaGriT.gridder"><code class="xref py py-func docutils literal notranslate"><span class="pre">gridder</span></code></a> and <cite>connect &lt;pylagrit.PyLaGriT.connect&gt;</cite> methods:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import PyLaGriT class from pylagrit module</span>
 <span class="kn">from</span> <span class="nn">pylagrit</span> <span class="kn">import</span> <span class="n">PyLaGriT</span>
 
@@ -92,13 +92,13 @@ To use the paraview and gmv methods, you will need ParaView (<a class="reference
 <p>Additional example PyLaGriT scripts are provided in the PyLaGriT/examples folder and in the <a class="reference internal" href="autodoc.html#class-docs"><span class="std std-ref">Class Documentation</span></a>.</p>
 <div class="section" id="combining-lagrit-and-python-functionality">
 <h3>Combining LaGriT and Python functionality<a class="headerlink" href="#combining-lagrit-and-python-functionality" title="Permalink to this headline">¶</a></h3>
-<p>An example of using PyLaGriT to facilitate looping over LaGriT functionality is described in the <code class="xref py py-func docutils literal notranslate"><span class="pre">merge</span> <span class="pre">method</span></code> documentation, where a mesh is successively copied, translated and merged into a larger mesh.
+<p>An example of using PyLaGriT to facilitate looping over LaGriT functionality is described in the <a class="reference internal" href="autodoc_pylagrit.html#pylagrit.PyLaGriT.merge" title="pylagrit.PyLaGriT.merge"><code class="xref py py-func docutils literal notranslate"><span class="pre">merge</span> <span class="pre">method</span></code></a> documentation, where a mesh is successively copied, translated and merged into a larger mesh.
 Other examples of usage are provided for other methods and more will be added in the future.</p>
 </div>
 <div class="section" id="user-defined-error-checking">
 <h3>User defined error checking<a class="headerlink" href="#user-defined-error-checking" title="Permalink to this headline">¶</a></h3>
 <p>Since PyLaGriT stores the LaGriT terminal output from each command in the PyLaGriT object attribute <code class="docutils literal notranslate"><span class="pre">before</span></code>, user-defined error checking can be easily implemented.
-The example provided with the <code class="xref py py-func docutils literal notranslate"><span class="pre">refine</span> <span class="pre">method</span></code> demonstrates this by checking for the string <cite>The mesh is complete but could not include all points.</cite> in the LaGriT output using <code class="docutils literal notranslate"><span class="pre">lg.before</span></code>.
+The example provided with the <a class="reference internal" href="autodoc_eltset.html#pylagrit.EltSet.refine" title="pylagrit.EltSet.refine"><code class="xref py py-func docutils literal notranslate"><span class="pre">refine</span> <span class="pre">method</span></code></a> demonstrates this by checking for the string <cite>The mesh is complete but could not include all points.</cite> in the LaGriT output using <code class="docutils literal notranslate"><span class="pre">lg.before</span></code>.
 In this example, an error message is printed to the screen and the script is aborted.</p>
 </div>
 </div>
