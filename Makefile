@@ -210,12 +210,17 @@ exodus :
 	export LG_DIR=`pwd`; \
 	export NEEDS_ZLIB=YES; \
 	export GNU_PARALLEL=OFF; \
+	export BUILD=YES; \
 	export CC=$(CC); export CXX=$(CXX); export FC=$(FC); export FC90=$(FC90); \
-	git clone https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas || true; \
+	git clone --depth 1 https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas || true; \
 	cd $(EXO_BUILD_DIR)/seacas; \
 	export ACCESS=`pwd`; \
+	if [[ `uname -s` == *"CYGWIN"* ]]; then \
+		BUILD=NO ./install-tpl.sh; \
+		sed -i 's/defined(_WIN32) || defined(__CYGWIN__)/defined(_WIN32)/g' `ls -t -d TPL/zlib-* | head -1`/gzguts.h; \
+		export DOWNLOAD=NO; \
+	fi; \
 	./install-tpl.sh; \
-	if [[ `uname -s` == *"CYGWIN"* ]]; then sed -i 's/defined(_WIN32) || defined(__CYGWIN__)/defined(_WIN32)/g' `ls -t -d seacas/TPL/zlib-* | head -1`/gzguts.h; ./install-tpl.sh; fi; \
 	cd TPL; \
 	../cmake-exodus $(EXO_CMAKE_FLAGS) -DFORTRAN=YES; \
 	make && make install; \
