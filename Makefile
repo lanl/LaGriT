@@ -215,6 +215,7 @@ exodus :
 	cd $(EXO_BUILD_DIR)/seacas; \
 	export ACCESS=`pwd`; \
 	./install-tpl.sh; \
+	if [[ `uname -s` == *"CYGWIN"* ]]; then sed -i 's/defined(_WIN32) || defined(__CYGWIN__)/defined(_WIN32)/g' `ls -t -d seacas/TPL/zlib-* | head -1`/gzguts.h; ./install-tpl.sh; fi; \
 	cd TPL; \
 	../cmake-exodus $(EXO_CMAKE_FLAGS) -DFORTRAN=YES; \
 	make && make install; \
