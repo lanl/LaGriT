@@ -142,11 +142,14 @@ OSX_STATIC_LIBS :=
 
 ifeq ($(OPSYS),Darwin)
 	LINKERFLAGS += -Dmacx64
-	BUILDFLAGS += -Dmacx64
+	BUILDFLAGS  += -Dmacx64
 	OSX_STATIC_LIBS := 
 else ifeq ($(OPSYS),Linux)
 	LINKERFLAGS += -Dlinx64
-	BUILDFLAGS += -Dlinx64
+	BUILDFLAGS  += -Dlinx64
+else ifeq ($(findstring CYGWIN_NT,$(OPSYS)),CYGWIN_NT)
+	LINKERFLAGS += -Dwin64
+	BUILDFLAGS  += -Dwin64
 endif
 
 ifeq ($(DEBUG),1)
