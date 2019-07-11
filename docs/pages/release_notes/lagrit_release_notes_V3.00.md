@@ -2,11 +2,7 @@
 title: 'LaGriT Release Notes V3.0'
 ---
 
-LaGriT Release Notes
-====================
-
-
-##LaGriT V3.001 August 2011
+# LaGriT Release Notes V3.001 August 2011
 
 
 Major changes incoporating work from Andrew Kuprat (64bit work) and
