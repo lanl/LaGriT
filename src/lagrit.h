@@ -21,7 +21,7 @@ c     make sure it is a version recognized in Makefile
 c     and writinit.f for forming header info
       data os_name      /'Darwin'/
 c
-      data date_compile /'2018/12/03 Static '/
+      data date_compile /'2019/01/16 Release '/
 c
       integer         NCall
       save            NCall

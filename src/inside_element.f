@@ -23,6 +23,10 @@ C        xicelm(),yicelm(),zicelm()  - THE COORDINATES OF THE ELEMENT.
 C        xtestpt,ytestpt,ztestpt     - THE COORDINATES OF THE POINT
 C                                      IN QUESTION.
 C
+C        iflag is used to pass in idebug values to inside_ routines
+C        idebug is passed as 0 for values less than idebug_min
+C        as these routines are called often and usually for every point 
+C
 C     OUTPUT ARGUMENTS -
 C
 C        iflag  - RETURNS -1 IF THE TEST POINT IS OUTSIDE THE ELEMENT,
@@ -65,7 +69,7 @@ C
       real*8 xtestpt, ytestpt, ztestpt
 C
       integer ielmtyp
-      integer iflag, itmp, ierror, idebug
+      integer iflag, itmp, ierror, idebug, idebug_min
 C
 C     ******************************************************************
 C     Initialize Variables
@@ -79,8 +83,11 @@ C
 C#######################################################################
 C
 C
+C     set the min value that will trigger iformation from routines
+      idebug_min = 9
       idebug = iflag
       iflag = 0
+
       if(ielmtyp.eq.ifelmpnt) then
          if((abs(xicelm(1)-xtestpt).lt.local_epsilon).AND.
      &      (abs(yicelm(1)-ytestpt).lt.local_epsilon).AND.
@@ -112,7 +119,7 @@ C     So, the first call ensures that the point is in the plane,
 C
       elseif(ielmtyp.eq.ifelmtri) then
          itmp=idebug
-         if (idebug.eq.1) itmp=0
+         if (idebug.lt. idebug_min) itmp=0
          call inside_tri(xicelm(1),yicelm(1),zicelm(1),
      &                     xicelm(2),yicelm(2),zicelm(2),
      &                     xicelm(3),yicelm(3),zicelm(3),
@@ -122,7 +129,7 @@ C
             goto 9999
          endif
          itmp=idebug
-         if (idebug.eq.1) itmp=0
+         if (idebug.lt. idebug_min) itmp=0
          call inside_tri2d(xicelm(1),yicelm(1),zicelm(1),
      &                     xicelm(2),yicelm(2),zicelm(2),
      &                     xicelm(3),yicelm(3),zicelm(3),
@@ -130,7 +137,7 @@ C
          iflag=itmp
       elseif(ielmtyp.eq.ifelmqud) then
          itmp=idebug
-         if (idebug.eq.1) itmp=0
+         if (idebug.lt. idebug_min) itmp=0
          call inside_quad(xicelm(1),yicelm(1),zicelm(1),
      &                      xicelm(2),yicelm(2),zicelm(2),
      &                      xicelm(3),yicelm(3),zicelm(3),
@@ -141,7 +148,7 @@ C
             goto 9999
          endif
          itmp=idebug
-         if (idebug.eq.1) itmp=0
+         if (idebug.lt. idebug_min) itmp=0
          call inside_quad2d(xicelm(1),yicelm(1),zicelm(1),
      &                      xicelm(2),yicelm(2),zicelm(2),
      &                      xicelm(3),yicelm(3),zicelm(3),
@@ -150,7 +157,7 @@ C
          iflag=itmp
       elseif(ielmtyp.eq.ifelmtet) then
          itmp=idebug
-         if (idebug.eq.1) itmp=0
+         if (idebug.lt. idebug_min) itmp=0
          call inside_tet(xicelm(1),yicelm(1),zicelm(1),
      &                   xicelm(2),yicelm(2),zicelm(2),
      &                   xicelm(3),yicelm(3),zicelm(3),
@@ -159,7 +166,7 @@ C
          iflag=itmp
       elseif(ielmtyp.eq.ifelmpyr) then
          itmp=idebug
-         if (idebug.eq.1) itmp=0
+         if (idebug.lt. idebug_min) itmp=0
          call inside_pyr(xicelm(1),yicelm(1),zicelm(1),
      &                   xicelm(2),yicelm(2),zicelm(2),
      &                   xicelm(3),yicelm(3),zicelm(3),
@@ -169,7 +176,7 @@ C
          iflag=itmp
       elseif(ielmtyp.eq.ifelmpri) then
          itmp=idebug
-         if (idebug.eq.1) itmp=0
+         if (idebug.lt. idebug_min) itmp=0
          call inside_pri(xicelm(1),yicelm(1),zicelm(1),
      &                   xicelm(2),yicelm(2),zicelm(2),
      &                   xicelm(3),yicelm(3),zicelm(3),
@@ -180,7 +187,7 @@ C
          iflag=itmp
       elseif(ielmtyp.eq.ifelmhex) then
          itmp=idebug
-         if (idebug.eq.1) itmp=0
+         if (idebug.lt. idebug_min) itmp=0
          call inside_hex(xicelm(1),yicelm(1),zicelm(1),
      &                   xicelm(2),yicelm(2),zicelm(2),
      &                   xicelm(3),yicelm(3),zicelm(3),
@@ -199,12 +206,6 @@ C
       endif
 C
  9999 continue
-      if (idebug.gt.0) then
-         write(logmess,'(a,i5,a,i5)')
-     *   "Exit inside_element type ",ielmtyp,
-     *   "  with iflag: ",iflag
-         call writloga('default',0,logmess,0,ierror)
-      endif
       return
       end
  

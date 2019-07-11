@@ -78,7 +78,7 @@ scale/ 1 0 0 / relative / xyz / 1.e2 1.e2 1.0
  interpolate/ continuous / cmosink field3 /1,0,0/ &
           cmosource field3
 cmo printatt cmosink field3 1,2000,100 
- dump / gmv / out_1.ep06_new.gmv / cmosink 
+ dump / gmv / out_1.ep06_new.gmv / cmosink ascii 
 
 cmo printatt cmosource -xyz- minmax
 cmo printatt cmosource field3 minmax 
@@ -118,7 +118,7 @@ cmo printatt cmosink el_gtg 100,2000,100
 
 dump / gmv / 2d_sink_new.gmv / cmosink  ascii
 dump / avs / 2d_sink_new.inp / cmosink 
-dump / gmv / 2d_source.gmv / cmosource
+dump / gmv / 2d_source.gmv / cmosource ascii
 
 * view result with field2 nodes against source id_elem
 cmo/addatt/cmosource/field2/vdouble/scalar/nnodes
@@ -127,7 +127,7 @@ cmo setatt cmosource itetclr 1
 cmo setatt cmosink itetclr 2
 
 addmesh merge cmoa cmosource cmosink
-dump gmv view_field2_id_elem.gmv cmoa
+dump gmv view_field2_id_elem.gmv cmoa ascii
 dump avs view_field2_id_elem.inp cmoa
 
 

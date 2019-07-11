@@ -1,33 +1,21 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>PyLaGriT &#8212; PyLaGriT 0.0.0 documentation</title>
-    
     <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.0.0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="PyLaGriT 0.0.0 documentation" href="index.html" />
-    <link rel="up" title="Class Documentation" href="autodoc.html" />
     <link rel="next" title="Mesh Object" href="autodoc_mo.html" />
     <link rel="prev" title="Class Documentation" href="autodoc.html" />
    
@@ -36,13 +24,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-pylagrit">
@@ -56,18 +45,92 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>lagrit_exe</strong> (<em>str</em>) &#8211; Path to LaGriT executable</li>
-<li><strong>verbose</strong> (<em>bool</em>) &#8211; If True, LaGriT terminal output will be displayed</li>
-<li><strong>batch</strong> (<em>bool</em>) &#8211; If True, PyLaGriT will be run in batch mode, collecting LaGriT commands until the run_batch method is called.</li>
-<li><strong>batchfile</strong> (<em>str</em>) &#8211; Name of batch file to use if batch is True</li>
-<li><strong>gmv_exe</strong> (<em>str</em>) &#8211; Path to GMV executable</li>
-<li><strong>paraview_exe</strong> (<em>str</em>) &#8211; Path to ParaView executable</li>
-<li><strong>timeout</strong> &#8211; Number of seconds to wait for response from LaGriT</li>
+<li><strong>lagrit_exe</strong> (<em>str</em>) – Path to LaGriT executable</li>
+<li><strong>verbose</strong> (<em>bool</em>) – If True, LaGriT terminal output will be displayed</li>
+<li><strong>batch</strong> (<em>bool</em>) – If True, PyLaGriT will be run in batch mode, collecting LaGriT commands until the run_batch method is called.</li>
+<li><strong>batchfile</strong> (<em>str</em>) – Name of batch file to use if batch is True</li>
+<li><strong>gmv_exe</strong> (<em>str</em>) – Path to GMV executable</li>
+<li><strong>paraview_exe</strong> (<em>str</em>) – Path to ParaView executable</li>
+<li><strong>timeout</strong> – Number of seconds to wait for response from LaGriT</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.addmesh">
+<code class="descname">addmesh</code><span class="sig-paren">(</span><em>mo1</em>, <em>mo2</em>, <em>style='add'</em>, <em>name=None</em>, <em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.addmesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.addmesh_add">
+<code class="descname">addmesh_add</code><span class="sig-paren">(</span><em>mo1</em>, <em>mo2</em>, <em>name=None</em>, <em>refine_factor=None</em>, <em>refine_style='edge'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.addmesh_add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.addmesh_amr">
+<code class="descname">addmesh_amr</code><span class="sig-paren">(</span><em>mo1</em>, <em>mo2</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.addmesh_amr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.addmesh_append">
+<code class="descname">addmesh_append</code><span class="sig-paren">(</span><em>mo1</em>, <em>mo2</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.addmesh_append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.addmesh_delete">
+<code class="descname">addmesh_delete</code><span class="sig-paren">(</span><em>mo1</em>, <em>mo2</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.addmesh_delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.addmesh_excavate">
+<code class="descname">addmesh_excavate</code><span class="sig-paren">(</span><em>mo1</em>, <em>mo2</em>, <em>name=None</em>, <em>bfs=False</em>, <em>connect=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.addmesh_excavate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.addmesh_glue">
+<code class="descname">addmesh_glue</code><span class="sig-paren">(</span><em>mo1</em>, <em>mo2</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.addmesh_glue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.addmesh_intersect">
+<code class="descname">addmesh_intersect</code><span class="sig-paren">(</span><em>pset</em>, <em>mo1</em>, <em>mo2</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.addmesh_intersect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.addmesh_merge">
+<code class="descname">addmesh_merge</code><span class="sig-paren">(</span><em>mo1</em>, <em>mo2</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.addmesh_merge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.addmesh_pyramid">
+<code class="descname">addmesh_pyramid</code><span class="sig-paren">(</span><em>mo1</em>, <em>mo2</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.addmesh_pyramid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.boundary_components">
+<code class="descname">boundary_components</code><span class="sig-paren">(</span><em>style='node'</em>, <em>material_id_number=None</em>, <em>reset=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.boundary_components" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the number of connected components of a mesh for diagnostic purposes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>style</strong> (<em>string</em>) – May be element or node</li>
+<li><strong>material_id_number</strong> (<em>int</em>) – Only examines nodes with imt = mat. id number</li>
+<li><strong>reset</strong> (<em>bool</em>) – May be either True, False, or None</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.cmo_status">
+<code class="descname">cmo_status</code><span class="sig-paren">(</span><em>cmo=None</em>, <em>brief=False</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.cmo_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pylagrit.PyLaGriT.convert">
 <code class="descname">convert</code><span class="sig-paren">(</span><em>pattern</em>, <em>new_ft</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.convert" title="Permalink to this definition">¶</a></dt>
@@ -83,9 +146,9 @@ Supports conversion to avs, exo, and gmv files.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>pattern</strong> (<em>str</em>) &#8211; Path, name or unix style file pattern of files to be 
+<li><strong>pattern</strong> (<em>str</em>) – Path, name or unix style file pattern of files to be 
 converted.</li>
-<li><strong>new_ft</strong> (<em>str</em>) &#8211; New format to convert files.</li>
+<li><strong>new_ft</strong> (<em>str</em>) – New format to convert files.</li>
 </ul>
 </td>
 </tr>
@@ -93,7 +156,7 @@ converted.</li>
 </table>
 <dl class="docutils">
 <dt>Example:</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pylagrit</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#Create your pylagrit session.</span>
@@ -131,10 +194,10 @@ the mesh object.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<em>str</em>) &#8211; Name to be given to the mesh object.</li>
-<li><strong>mesh</strong> (<em>str</em>) &#8211; The type of mesh object to create.</li>
-<li><strong>npoints</strong> (<em>int</em>) &#8211; The number of points.</li>
-<li><strong>nelements</strong> (<em>int</em>) &#8211; The number of elements.</li>
+<li><strong>name</strong> (<em>str</em>) – Name to be given to the mesh object.</li>
+<li><strong>mesh</strong> (<em>str</em>) – The type of mesh object to create.</li>
+<li><strong>npoints</strong> (<em>int</em>) – The number of points.</li>
+<li><strong>nelements</strong> (<em>int</em>) – The number of elements.</li>
 </ul>
 </td>
 </tr>
@@ -206,14 +269,14 @@ the mesh object.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>crd</strong> (<em>str</em>) &#8211; Coordinate type of either &#8216;xyz&#8217; (cartesian coordinates), 
-&#8216;rtz&#8217; (cylindrical coordinates), or 
-&#8216;rtp&#8217; (spherical coordinates).</li>
-<li><strong>npts</strong> (<em>tuple(int)</em>) &#8211; The number of points to create in line</li>
-<li><strong>mins</strong> (<em>tuple(int, int, int)</em>) &#8211; The starting value for each dimension.</li>
-<li><strong>maxs</strong> (<em>tuple(int, int, int)</em>) &#8211; The ending value for each dimension.</li>
-<li><strong>elem_type</strong> (<em>str</em>) &#8211; The type of mesh object to create</li>
-<li><strong>rz_switch</strong> (<em>tuple(int, int, int)</em>) &#8211; Determines true or false (1 or 0) for using ratio zoning values.</li>
+<li><strong>crd</strong> (<em>str</em>) – Coordinate type of either ‘xyz’ (cartesian coordinates), 
+‘rtz’ (cylindrical coordinates), or 
+‘rtp’ (spherical coordinates).</li>
+<li><strong>npts</strong> (<em>tuple</em><em>(</em><em>int</em><em>)</em>) – The number of points to create in line</li>
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The starting value for each dimension.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The ending value for each dimension.</li>
+<li><strong>elem_type</strong> (<em>str</em>) – The type of mesh object to create</li>
+<li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio zoning values.</li>
 </ul>
 </td>
 </tr>
@@ -231,7 +294,7 @@ the mesh object.</p>
 vertex spacing is based on dxyz and the mins and maxs specified. mins
 (default, see hard_bound option) or maxs will be adhered to, while maxs
 (default) or mins will be modified based on the clip option to be
-truncated at the nearest value &#8216;under&#8217; (default) or &#8216;over&#8217; the range
+truncated at the nearest value ‘under’ (default) or ‘over’ the range
 maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 (see description below).</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -239,14 +302,14 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>dxyz</strong> (<em>tuple(float,float,float)</em>) &#8211; The spacing between points in x, y, and z directions</li>
-<li><strong>mins</strong> (<em>tuple(float,float,float)</em>) &#8211; The starting value for each dimension.</li>
-<li><strong>maxs</strong> (<em>tuple(float,float,float)</em>) &#8211; The ending value for each dimension.</li>
-<li><strong>mesh</strong> (<em>str</em>) &#8211; The type of mesh object to create, automatically set to &#8216;triplane&#8217; if 2d or &#8216;tet&#8217; if 3d.</li>
-<li><strong>clip</strong> (<em>string or tuple(string,string,string)</em>) &#8211; How to handle bounds if range does not divide by dxyz, either clip &#8216;under&#8217; or &#8216;over&#8217; range</li>
-<li><strong>hard_bound</strong> (<em>string or tuple(string,string,string)</em>) &#8211; Whether to use the &#8220;min&#8221; or &#8220;max&#8221; as the hard constraint on dimension</li>
-<li><strong>rz_switch</strong> (<em>tuple(int, int, int)</em>) &#8211; Determines true or false (1 or 0) for using ratio zoning values.</li>
-<li><strong>connect</strong> (<em>boolean</em>) &#8211; Whether or not to connect points</li>
+<li><strong>dxyz</strong> (<em>tuple</em><em>(</em><em>float</em><em>,</em><em>float</em><em>,</em><em>float</em><em>)</em>) – The spacing between points in x, y, and z directions</li>
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>float</em><em>,</em><em>float</em><em>,</em><em>float</em><em>)</em>) – The starting value for each dimension.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>float</em><em>,</em><em>float</em><em>,</em><em>float</em><em>)</em>) – The ending value for each dimension.</li>
+<li><strong>mesh</strong> (<em>str</em>) – The type of mesh object to create, automatically set to ‘triplane’ if 2d or ‘tet’ if 3d.</li>
+<li><strong>clip</strong> (<em>string</em><em> or </em><em>tuple</em><em>(</em><em>string</em><em>,</em><em>string</em><em>,</em><em>string</em><em>)</em>) – How to handle bounds if range does not divide by dxyz, either clip ‘under’ or ‘over’ range</li>
+<li><strong>hard_bound</strong> (<em>string</em><em> or </em><em>tuple</em><em>(</em><em>string</em><em>,</em><em>string</em><em>,</em><em>string</em><em>)</em>) – Whether to use the “min” or “max” as the hard constraint on dimension</li>
+<li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio zoning values.</li>
+<li><strong>connect</strong> (<em>boolean</em>) – Whether or not to connect points</li>
 </ul>
 </td>
 </tr>
@@ -254,7 +317,7 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 </table>
 <dl class="docutils">
 <dt>Example:</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create 2x2x2 cell mesh</span>
@@ -296,15 +359,47 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>npts</strong> (<em>int</em>) &#8211; The number of points to create in line</li>
-<li><strong>mins</strong> (<em>tuple(int, int, int)</em>) &#8211; The starting value for each dimension.</li>
-<li><strong>maxs</strong> (<em>tuple(int, int, int)</em>) &#8211; The ending value for each dimension.</li>
-<li><strong>rz_switch</strong> (<em>tuple(int, int, int)</em>) &#8211; Determines true or false (1 or 0) for using ratio zoning values.</li>
+<li><strong>npts</strong> (<em>int</em>) – The number of points to create in line</li>
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The starting value for each dimension.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The ending value for each dimension.</li>
+<li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio zoning values.</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.createpts_rtp">
+<code class="descname">createpts_rtp</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts_rtp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.createpts_rtz">
+<code class="descname">createpts_rtz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts_rtz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.createpts_xyz">
+<code class="descname">createpts_xyz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts_xyz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.define">
+<code class="descname">define</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.define" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pass in a variable number of arguments to be defined in 
+LaGriT’s internal global scope.</p>
+<p>Note that it is generally considered bad practice in PyLaGriT
+to rely on LaGriT’s variable system for parameters; however,
+there are use-cases where it is necessary: i.e., macro scripts.</p>
+<p>Usage:</p>
+<blockquote>
+<div><p>lg.define(MO_PTS=mo_pts.name,OUTFILE=’mesh.inp’,PERTURB32=1.3244)</p>
+<p>&gt;&gt; define / MO_PTS / mo1
+&gt;&gt; define / OUTFILE / mesh.inp
+&gt;&gt; define / PERTURB32 / 1.3244</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -315,25 +410,123 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 :type filename: string
 :arg mos: List of mesh objects to include, default is all
 :type mos: list(MO)
-:arg filetype: Filetype to dump, &#8216;binary&#8217; or &#8216;ascii&#8217;
+:arg filetype: Filetype to dump, ‘binary’ or ‘ascii’
 :type mos: string</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pylagrit.PyLaGriT.expect">
+<code class="descname">expect</code><span class="sig-paren">(</span><em>expectstr='Enter a command'</em>, <em>timeout=8640000.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.expect" title="Permalink to this definition">¶</a></dt>
+<dd><p>This seeks through the stream until a pattern is matched. The
+pattern is overloaded and may take several types. The pattern can be a
+StringType, EOF, a compiled re, or a list of any of those types.
+Strings will be compiled to re types. This returns the index into the
+pattern list. If the pattern was not a list this returns index 0 on a
+successful match. This may raise exceptions for EOF or TIMEOUT. To
+avoid the EOF or TIMEOUT exceptions add EOF or TIMEOUT to the pattern
+list. That will cause expect to match an EOF or TIMEOUT condition
+instead of raising an exception.</p>
+<p>If you pass a list of patterns and more than one matches, the first
+match in the stream is chosen. If more than one pattern matches at that
+point, the leftmost in the pattern list is chosen. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># the input is &#39;foobar&#39;</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">expect</span><span class="p">([</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;foobar&#39;</span><span class="p">])</span>
+<span class="c1"># returns 1(&#39;foo&#39;) even though &#39;foobar&#39; is a &quot;better&quot; match</span>
+</pre></div>
+</div>
+<p>Please note, however, that buffering can affect this behavior, since
+input arrives in unpredictable chunks. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># the input is &#39;foobar&#39;</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">expect</span><span class="p">([</span><span class="s1">&#39;foobar&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">])</span>
+<span class="c1"># returns 0(&#39;foobar&#39;) if all input is available at once,</span>
+<span class="c1"># but returns 1(&#39;foo&#39;) if parts of the final &#39;bar&#39; arrive late</span>
+</pre></div>
+</div>
+<p>When a match is found for the given pattern, the class instance
+attribute <em>match</em> becomes an re.MatchObject result.  Should an EOF
+or TIMEOUT pattern match, then the match attribute will be an instance
+of that exception class.  The pairing before and after class
+instance attributes are views of the data preceding and following
+the matching pattern.  On general exception, class attribute
+<em>before</em> is all data received up to the exception, while <em>match</em> and
+<em>after</em> attributes are value None.</p>
+<p>When the keyword argument timeout is -1 (default), then TIMEOUT will
+raise after the default value specified by the class timeout
+attribute. When None, TIMEOUT will not be raised and may block
+indefinitely until match.</p>
+<p>When the keyword argument searchwindowsize is -1 (default), then the
+value specified by the class maxread attribute is used.</p>
+<p>A list entry may be EOF or TIMEOUT instead of a string. This will
+catch these exceptions and return the index of the list entry instead
+of raising the exception. The attribute ‘after’ will be set to the
+exception type. The attribute ‘match’ will be None. This allows you to
+write code like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">expect</span><span class="p">([</span><span class="s1">&#39;good&#39;</span><span class="p">,</span> <span class="s1">&#39;bad&#39;</span><span class="p">,</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">EOF</span><span class="p">,</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">TIMEOUT</span><span class="p">])</span>
+<span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">do_something</span><span class="p">()</span>
+<span class="k">elif</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">do_something_else</span><span class="p">()</span>
+<span class="k">elif</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="n">do_some_other_thing</span><span class="p">()</span>
+<span class="k">elif</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="n">do_something_completely_different</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>instead of code like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">expect</span><span class="p">([</span><span class="s1">&#39;good&#39;</span><span class="p">,</span> <span class="s1">&#39;bad&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">do_something</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">do_something_else</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">EOF</span><span class="p">:</span>
+    <span class="n">do_some_other_thing</span><span class="p">()</span>
+<span class="k">except</span> <span class="n">TIMEOUT</span><span class="p">:</span>
+    <span class="n">do_something_completely_different</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>These two forms are equivalent. It all depends on what you want. You
+can also just expect the EOF if you are waiting for all output of a
+child to finish. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="s1">&#39;/bin/ls&#39;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">pexpect</span><span class="o">.</span><span class="n">EOF</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">p</span><span class="o">.</span><span class="n">before</span>
+</pre></div>
+</div>
+<p>If you are trying to optimize for speed then see expect_list().</p>
+<p>On Python 3.4, or Python 3.3 with asyncio installed, passing
+<code class="docutils literal notranslate"><span class="pre">async_=True</span></code>  will make this return an <code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> coroutine,
+which you can yield from to get the same result that this method would
+normally give directly. So, inside a coroutine, you can replace this code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">patterns</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With this non-blocking form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">p</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">patterns</span><span class="p">,</span> <span class="n">async_</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.extract_surfmesh">
+<code class="descname">extract_surfmesh</code><span class="sig-paren">(</span><em>name=None, cmo_in=None, stride=[1, 0, 0], reorder=True, resetpts_itp=True, external=False, append=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.extract_surfmesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pylagrit.PyLaGriT.gridder">
-<code class="descname">gridder</code><span class="sig-paren">(</span><em>x=None</em>, <em>y=None</em>, <em>z=None</em>, <em>connect=False</em>, <em>elem_type='tet'</em>, <em>filename='gridder.inp'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.gridder" title="Permalink to this definition">¶</a></dt>
+<code class="descname">gridder</code><span class="sig-paren">(</span><em>x=None</em>, <em>y=None</em>, <em>z=None</em>, <em>connect=False</em>, <em>elem_type='tet'</em>, <em>name=None</em>, <em>filename='gridder.inp'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.gridder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate a logically rectangular orthogonal mesh corresponding to vectors of nodal positions.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<em>array(floats)</em>) &#8211; x node locations</li>
-<li><strong>y</strong> (<em>array(floats)</em>) &#8211; y node locations</li>
-<li><strong>z</strong> (<em>array(floats)</em>) &#8211; z node locations</li>
-<li><strong>connect</strong> (<em>bool</em>) &#8211; Should the points be connected</li>
-<li><strong>elem_type</strong> (<em>string</em>) &#8211; Type of element for created mesh object</li>
-<li><strong>filename</strong> (<em>string</em>) &#8211; Name of avs file created with nodal coordinates</li>
+<li><strong>x</strong> (<em>array</em><em>(</em><em>floats</em><em>)</em>) – x discretization locations</li>
+<li><strong>y</strong> (<em>array</em><em>(</em><em>floats</em><em>)</em>) – y discretization locations</li>
+<li><strong>z</strong> (<em>array</em><em>(</em><em>floats</em><em>)</em>) – z discretization locations</li>
+<li><strong>connect</strong> (<em>bool</em>) – Should the points be connected</li>
+<li><strong>elem_type</strong> (<em>string</em>) – Type of element for created mesh object</li>
+<li><strong>filename</strong> (<em>string</em>) – Name of avs file created with nodal coordinates</li>
 </ul>
 </td>
 </tr>
@@ -344,7 +537,7 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 </table>
 <dl class="docutils">
 <dt>Example:</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x0</span> <span class="o">=</span> <span class="o">-</span><span class="n">numpy</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -361,8 +554,47 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 </dd></dl>
 
 <dl class="method">
+<dt id="pylagrit.PyLaGriT.interact">
+<code class="descname">interact</code><span class="sig-paren">(</span><em>escape_character='^'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.interact" title="Permalink to this definition">¶</a></dt>
+<dd><p>This gives control of the child process to the interactive user (the
+human at the keyboard). Keystrokes are sent to the child process, and
+the stdout and stderr output of the child process is printed. This
+simply echos the child stdout and child stderr to the real stdout and
+it echos the real stdin to the child stdin. When the user types the
+escape_character this method will return None. The escape_character
+will not be transmitted.  The default for escape_character is
+entered as <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">-</span> <span class="pre">]</span></code>, the very same as BSD telnet. To prevent
+escaping, escape_character may be set to None.</p>
+<p>If a logfile is specified, then the data sent and received from the
+child process in interact mode is duplicated to the given log.</p>
+<p>You may pass in optional input and output filter functions. These
+functions should take a string and return a string. The output_filter
+will be passed all the output from the child process. The input_filter
+will be passed all the keyboard input from the user. The input_filter
+is run BEFORE the check for the escape_character.</p>
+<p>Note that if you change the window size of the parent the SIGWINCH
+signal will not be passed through to the child. If you want the child
+window size to change when the parent’s window size changes then do
+something like the following example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pexpect</span><span class="o">,</span> <span class="nn">struct</span><span class="o">,</span> <span class="nn">fcntl</span><span class="o">,</span> <span class="nn">termios</span><span class="o">,</span> <span class="nn">signal</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="k">def</span> <span class="nf">sigwinch_passthrough</span> <span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s2">&quot;HHHH&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;hhhh&#39;</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">ioctl</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">fileno</span><span class="p">(),</span>
+        <span class="n">termios</span><span class="o">.</span><span class="n">TIOCGWINSZ</span> <span class="p">,</span> <span class="n">s</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">p</span><span class="o">.</span><span class="n">closed</span><span class="p">:</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">setwinsize</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Note this &#39;p&#39; is global and used in sigwinch_passthrough.</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="s1">&#39;/bin/bash&#39;</span><span class="p">)</span>
+<span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGWINCH</span><span class="p">,</span> <span class="n">sigwinch_passthrough</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">interact</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="pylagrit.PyLaGriT.merge">
-<code class="descname">merge</code><span class="sig-paren">(</span><em>mesh_objs</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.merge" title="Permalink to this definition">¶</a></dt>
+<code class="descname">merge</code><span class="sig-paren">(</span><em>mesh_objs</em>, <em>elem_type='tet'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.merge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Merge Mesh Objects</p>
 <p>Merges two or more mesh objects together and returns the combined mesh
 object.</p>
@@ -370,14 +602,14 @@ object.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mesh_objs</strong> (<em>MO list</em>) &#8211; An argument list of mesh objects.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mesh_objs</strong> (<em>MO list</em>) – An argument list of mesh objects.</td>
 </tr>
 </tbody>
 </table>
 <p>Returns: MO.</p>
 <dl class="docutils">
 <dt>Example:</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pylagrit</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#Instantiate the lagrit object.</span>
@@ -403,6 +635,40 @@ object.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pylagrit.PyLaGriT.points">
+<code class="descname">points</code><span class="sig-paren">(</span><em>coords</em>, <em>connect=False</em>, <em>elem_type='tet'</em>, <em>filename='points.inp'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a mesh object of points defined by x, y, z vectors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>coords</strong> – list of 3-tuples containing (x,y,z) coorinates</li>
+<li><strong>connect</strong> (<em>bool</em>) – Should the points be connected</li>
+<li><strong>elem_type</strong> (<em>string</em>) – Type of element for created mesh object</li>
+<li><strong>filename</strong> (<em>string</em>) – Name of avs file created with nodal coordinates</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">MO</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coords</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">points</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span><span class="n">elem_type</span><span class="o">=</span><span class="s1">&#39;tet&#39;</span><span class="p">,</span><span class="n">connect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">paraview</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pylagrit.PyLaGriT.read">
 <code class="descname">read</code><span class="sig-paren">(</span><em>filename</em>, <em>filetype=None</em>, <em>name=None</em>, <em>binary=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read in mesh</p>
@@ -411,10 +677,10 @@ object.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>filename</strong> (<em>str</em>) &#8211; Name of mesh file to read in</li>
-<li><strong>filetype</strong> (<em>str</em>) &#8211; Type of file, automatically detected if not specified</li>
-<li><strong>name</strong> (<em>str</em>) &#8211; Internal Lagrit name of new mesh object, automatically created if None</li>
-<li><strong>binary</strong> (<em>bool</em>) &#8211; Indicates that file is binary if True, ascii if False</li>
+<li><strong>filename</strong> (<em>str</em>) – Name of mesh file to read in</li>
+<li><strong>filetype</strong> (<em>str</em>) – Type of file, automatically detected if not specified</li>
+<li><strong>name</strong> (<em>str</em>) – Internal Lagrit name of new mesh object, automatically created if None</li>
+<li><strong>binary</strong> (<em>bool</em>) – Indicates that file is binary if True, ascii if False</li>
 </ul>
 </td>
 </tr>
@@ -425,7 +691,7 @@ object.</p>
 </table>
 <dl class="docutils">
 <dt>Example 1:</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pylagrit</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#Create your pylagrit session.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">pylagrit</span><span class="o">.</span><span class="n">PyLaGriT</span><span class="p">()</span>
@@ -442,7 +708,7 @@ object.</p>
 </div>
 </dd>
 <dt>Example 2 - Reading in LaGriT binary file, autodetect mesh object name</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pylagrit</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1">#Instantiate the lagrit object.</span>
@@ -468,6 +734,44 @@ object.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pylagrit.PyLaGriT.read_att">
+<code class="descname">read_att</code><span class="sig-paren">(</span><em>fname</em>, <em>attributes</em>, <em>mesh=None</em>, <em>operation='add'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.read_att" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads data from a file into an attribute.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.read_fehm">
+<code class="descname">read_fehm</code><span class="sig-paren">(</span><em>filename</em>, <em>avs_filename='temp.inp'</em>, <em>elem_type=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.read_fehm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.read_modflow">
+<code class="descname">read_modflow</code><span class="sig-paren">(</span><em>materials_file, nrows, ncols, name=None, DXY=[100, 100], height=7.75, filename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.read_modflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in a Modflow elevation file (and, optionally, an HDF5/txt file containing node materials) and generates and returns hexagonal mesh.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<em>str</em>) – Filename of Modflow elevation data file</li>
+<li><strong>nrows</strong> (<em>int</em>) – Number of rows in elevation file</li>
+<li><strong>ncols</strong> (<em>int</em>) – Number of columns in elevation file</li>
+<li><strong>name</strong> (<em>str</em>) – Name of returned mesh (optional)</li>
+<li><strong>DXY</strong> (<em>list</em><em> (</em><em>number</em><em>)</em>) – Spacing in x/y directions</li>
+<li><strong>height</strong> (<em>float</em>) – The ‘thickness’ in the Z-direction of the returned hex mesh</li>
+<li><strong>materials_file</strong> (<em>str</em>) – A text or HDF5 binary file containing materials properties for an elevation mesh</li>
+<li><strong>materials_keys</strong> (<em>list</em><em> (</em><em>str</em><em>)</em>) – A list containing the keys to the materials array, ordered sequentially. If set, it is assumed materials_file is an HDF5 file.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">MO</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="pylagrit.PyLaGriT.read_script">
 <code class="descname">read_script</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.read_script" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a LaGriT Script</p>
@@ -476,10 +780,60 @@ object.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fname</strong> (<em>str</em>) &#8211; The name or path to the lagrit script.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fname</strong> (<em>str</em>) – The name or path to the lagrit script.</td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.read_sheetij">
+<code class="descname">read_sheetij</code><span class="sig-paren">(</span><em>name</em>, <em>filename</em>, <em>NXY</em>, <em>minXY</em>, <em>DXY</em>, <em>connect=True</em>, <em>file_type='ascii'</em>, <em>flip='none'</em>, <em>skip_lines=0</em>, <em>data_type='float'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.read_sheetij" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a quad mesh from an elevation file. Note the input file is read as Z(i,j) into the cmo attribute ‘zic’</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>string</em>) – name of mesh object</li>
+<li><strong>filename</strong> (<em>string</em>) – Elevation filename</li>
+<li><strong>NXY</strong> (<em>list</em>) – [nx, ny] - [columns in x-direction, rows in y-direction]</li>
+<li><strong>minXY</strong> (<em>list</em>) – [minX, minY] - location of lower left corner</li>
+<li><strong>DXY</strong> (<em>list</em>) – [Dx, Dy] - cell size in x and y directions</li>
+<li><strong>connect</strong> (<em>bool</em>) – True will create a quad grid, otherwise keeps data as points</li>
+<li><strong>file_type</strong> (<em>string</em>) – May be either ascii or binary</li>
+<li><strong>flip</strong> (<em>string</em>) – May be ‘x’, ‘y’ to reflect across those axes, or ‘none’ to keep static</li>
+<li><strong>skip_lines</strong> (<em>integer</em>) – skip n number of header lines</li>
+<li><strong>data_type</strong> (<em>string</em>) – read in elevation data as either float or double</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">MO</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Example 1 - Building a surface mesh from Modflow elevation file:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Instantiate PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Elevation files are typically headerless unwrapped vectors</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Define parameters to pack these elements into a matrix</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ncols</span> <span class="o">=</span> <span class="mi">276</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nrows</span> <span class="o">=</span> <span class="mi">313</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DXY</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">elev_surface</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">read_sheetij</span><span class="p">(</span><span class="s1">&#39;surfacemesh&#39;</span><span class="p">,</span> <span class="s1">&#39;example.mod&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">ncols</span><span class="p">,</span> <span class="n">nrows</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">DXY</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">elev_surface</span><span class="o">.</span><span class="n">paraview</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -491,8 +845,8 @@ object.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>bool</strong> (<em>str</em>) &#8211; String of boolean operations</li>
-<li><strong>name</strong> (<em>string</em>) &#8211; Internal lagrit name for mesh object</li>
+<li><strong>bool</strong> (<em>str</em>) – String of boolean operations</li>
+<li><strong>name</strong> (<em>string</em>) – Internal lagrit name for mesh object</li>
 </ul>
 </td>
 </tr>
@@ -503,7 +857,7 @@ object.</p>
 </table>
 <dl class="docutils">
 <dt>Example:</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Read in mesh</span>
@@ -542,6 +896,35 @@ object.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pylagrit.PyLaGriT.run_batch">
+<code class="descname">run_batch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.run_batch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.sendline">
+<code class="descname">sendline</code><span class="sig-paren">(</span><em>cmd</em>, <em>verbose=True</em>, <em>expectstr='Enter a command'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.sendline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wraps send(), sending string <code class="docutils literal notranslate"><span class="pre">s</span></code> to child process, with
+<code class="docutils literal notranslate"><span class="pre">os.linesep</span></code> automatically appended. Returns number of bytes
+written.  Only a limited number of bytes may be sent for each
+line in the default terminal mode, see docstring of <code class="xref py py-meth docutils literal notranslate"><span class="pre">send()</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.surface_box">
+<code class="descname">surface_box</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.surface_box" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.surface_cylinder">
+<code class="descname">surface_cylinder</code><span class="sig-paren">(</span><em>coord1</em>, <em>coord2</em>, <em>radius</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.surface_cylinder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PyLaGriT.surface_plane">
+<code class="descname">surface_plane</code><span class="sig-paren">(</span><em>coord1</em>, <em>coord2</em>, <em>coord3</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.surface_plane" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pylagrit.PyLaGriT.tri_mo_from_polyline">
 <code class="descname">tri_mo_from_polyline</code><span class="sig-paren">(</span><em>coords</em>, <em>order='clockwise'</em>, <em>filename='polyline.inp'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.tri_mo_from_polyline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create polygon tri mesh object from points
@@ -551,10 +934,10 @@ Points are expected to be defined clockwise by default</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>coords</strong> (<em>lst(floats) or ndarray(floats)</em>) &#8211; x,y,z coordinates defined in npoints by 3 array, points expected to be ordered clockwise by default</li>
-<li><strong>order</strong> (<em>string</em>) &#8211; ordering of points, clockwise by default</li>
-<li><strong>filename</strong> (<em>string</em>) &#8211; Name of avs polyline file to create</li>
-<li><strong>name</strong> (<em>string</em>) &#8211; Internal lagrit name for mesh object</li>
+<li><strong>coords</strong> (<em>lst</em><em>(</em><em>floats</em><em>) or </em><em>ndarray</em><em>(</em><em>floats</em><em>)</em>) – x,y,z coordinates defined in npoints by 3 array, points expected to be ordered clockwise by default</li>
+<li><strong>order</strong> (<em>string</em>) – ordering of points, clockwise by default</li>
+<li><strong>filename</strong> (<em>string</em>) – Name of avs polyline file to create</li>
+<li><strong>name</strong> (<em>string</em>) – Internal lagrit name for mesh object</li>
 </ul>
 </td>
 </tr>
@@ -565,7 +948,7 @@ Points are expected to be defined clockwise by default</p>
 </table>
 <dl class="docutils">
 <dt>Example:</dt>
-<dd><div class="first last highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mo</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">tri_mo_from_polyline</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">],[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">],[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">]])</span>
 </pre></div>
@@ -580,10 +963,35 @@ Points are expected to be defined clockwise by default</p>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLaGriT</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="autodoc.html">Class Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PyLaGriT Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_mo.html">Mesh Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_pset.html">Point Set Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_eltset.html">Element Set Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_faceset.html">Face Set Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_region.html">Region Class</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
@@ -594,23 +1002,26 @@ Points are expected to be defined clockwise by default</p>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="sources/autodoc_pylagrit.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -619,11 +1030,11 @@ Points are expected to be defined clockwise by default</p>
       &copy;2016, Dylan R. Harp.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="sources/autodoc_pylagrit.txt"
+      <a href="sources/autodoc_pylagrit.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

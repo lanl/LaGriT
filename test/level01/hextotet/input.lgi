@@ -1,0 +1,44 @@
+#*************************************************
+# Test hextotet 5, 6, and 24 
+#*************************************************
+
+cmo / create / mohex /// hex
+createpts/brick/xyz/ 3 3 3 /0. 0. 0. / 1. 1. 1. / 1 1 1
+hextotet / 24 / motet / mohex
+cmo/set_id/ motet/ element / itetclr
+cmo/select/motet; quality;
+cmo printatt motet -all- minmax
+cmo status motet
+cmo status mohex
+
+cmo delete mohex
+cmo delete motet
+
+cmo / create / mohex / / / hex
+createpts/brick/xyz/ 3 3 3 /0. 0. 0. / 1. 1. 1. / 1 1 1
+hextotet / 6 / motet / mohex
+cmo/set_id/ motet/ element / itetclr
+cmo/select/motet; quality;
+cmo printatt motet -all- minmax
+cmo status motet
+cmo status mohex
+
+cmo delete mohex
+cmo delete motet
+
+cmo / create / mohex / / / hex
+createpts/brick/xyz/ 3 3 3 /0. 0. 0. / 1. 1. 1. / 1 1 1
+hextotet / 5 / motet / mohex
+cmo/set_id/ motet/ element / itetclr
+cmo/select/motet; quality;
+cmo printatt motet -all- minmax
+cmo status motet
+cmo status mohex
+
+cmo delete mohex
+cmo delete motet
+
+finish
+
+
+

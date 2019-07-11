@@ -3194,7 +3194,7 @@ class MO(object):
     def stack_layers(self,filelist,file_type='avs',nlayers=None,matids=None,xy_subset=None,
                      buffer_opt=None,truncate_opt=None,
                      pinchout_opt=None,flip_opt=False,fill=False):
-        if nlayers is None: nlayers = ['']*len(filelist-1)
+        if nlayers is None: nlayers = ['']*(len(filelist)-1)
         if matids is None: matids = [1]*len(filelist)
         cmd = ['stack/layers',file_type]
         if xy_subset is not None: cmd.append(xy_subset)
@@ -3619,6 +3619,37 @@ class PSet(object):
         cmd = ['smooth','position',algorithm,'pset get '+self.name]
         for a in args: cmd.append(a)
         self._parent.sendline('/'.join(cmd))
+
+    def pset_attribute(self, attribute,value,comparison='eq',name=None):
+        '''
+        Define PSet from another PSet by attribute 
+        
+        :kwarg attribute: Nodes defined by attribute ID.
+        :type  attribute: str
+        
+        :kwarg value: attribute ID value.
+        :type  value: integer
+        
+        :kwarg comparison: attribute comparison, default is eq.
+        :type  comparison: can use default without specifiy anything, or list[lt|le|gt|ge|eq|ne] 
+        
+        :kwarg name: The name to be assigned to the PSet created.
+        :type  name: str
+        
+        Returns: PSet object
+
+        Usage: newpset = oldpset.pset_attribute('attribute','value','comparison')
+        '''
+        if name is None:
+            name = make_name('p',self._parent.pset.keys())
+                    
+        cmd = '/'.join(['pset', name, 'attribute '+attribute, 'pset,get,'+self.name,
+                        ' '+comparison+' '+str(value)])
+
+        self._parent.sendline(cmd)
+        self._parent.pset[name] = PSet(name, self._parent)
+        return self._parent.pset[name]
+
 
 class EltSet(object):
     ''' EltSet class'''

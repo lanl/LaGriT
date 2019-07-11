@@ -40,11 +40,11 @@ C     points of element containing the point (continuous).
 C     If the source attribute is element, then element values
 C     are mapped to the point contained in the element.
 C
-C     kdtree  is used to locate enclosing element.
-C     kdtree0 is used to locate nearest points.
+C     kdtree_cmo, retrieve_within_eps are used to find source element.
+C     kdtree0 and nearestpoint0 are used to find nearest points.
 c       xs,ys,zs  - spatial coordinates of PREVIOUS nearest point
 c       eps  -    epsilon for length comparisons
-c       mtfound or mefound - number of objects  returned
+c       mtfound or nefound - number of objects  returned
 c       itfound or iefound - array of pts or elems returned
 c       linkt,sbox -   k-D tree arrays
 c
@@ -130,7 +130,9 @@ C                  attribute's interpolate type.
 C                  Valid interpolate types include: linear, asinh, log,
 C                  copy, sequence, min, incmin, max, incmax, and, or, user
 C
-C                  idebug can be set for more screen output, use 5 or larger
+C                  idebug 1 is minimal output with calls to mmverify  
+C                  idebug 5 output candidate plus levels 1-4 
+C                  idebug ge 9 will write all debug output verbose  
 C
 C  EXAMPLES:
 C
@@ -290,8 +292,9 @@ C
       integer npoints,nelements,length,ipointi,ipointj,
      * attsrc_len,attsnk_len,npts_src,npts_snk,nelm_src,nelm_snk,
      * nsdgeom_snk,num_src,num_snk,num_snk_all,nwrite,istep,iwrite,
-     * nsdgeom_src,nen_snk,nen_src,nef_snk,nef_src,iperc,totfind,
-     * totsrchd,nsdtopo_snk,nsdtopo_src,ielmtyp,ielmtyp2,
+     * nsdgeom_src,nen_snk,nen_src,nef_snk,nef_src,iperc,
+     * nsdtopo_snk,nsdtopo_src,ielmtyp,ielmtyp2,
+     * maxsrchd,minsrchd,totsrchd,totfind,
      * ifirst,ifound,totflag,just_pt_gtg,if_centroid,volzero, 
      * ierr_eps
  
@@ -569,6 +572,16 @@ c     get sink attribute info and assign attribute length
       else
         num_snk = npts_snk
       endif
+
+      if(idebug.gt.0) then
+         write(logmess,'(a,i5)')
+     *   'DEBUG for interpolate is set to: ',idebug
+         call writloga('default',1,logmess,0,ierrw)
+         write(logmess,'(a,a)')
+     *   'mmverify will be called to verify integrity of memory arrays.'
+         call writloga('default',0,logmess,1,ierrw)
+       endif
+
  
 C     ******************************************************************
 C     set the point index boundaries
@@ -837,10 +850,10 @@ c     other first pass tiebreakers
  
 C     Do some error checking and final setup of commands
       if(idebug.gt.0) then
-        write(logmess,'(a,a15,a10,a10,a10)')
+        write(logmess,'(a,a17,a10,a10,a10)')
      *     'sink attribute:   ',attsnk,ctype_snk,clen_snk,cinter_snk
         call writloga('default',0,logmess,0,ierrw)
-        write(logmess,'(a,a15,a10,a10,a10)')
+        write(logmess,'(a,a17,a10,a10,a10)')
      *     'source attribute: ',attsrc,ctype_src,clen_src,cinter_src
         call writloga('default',0,logmess,0,ierrw)
       endif
@@ -870,7 +883,7 @@ C     Do some error checking and final setup of commands
  
         if (itettyp_src(1).eq.ifelmhex) then
           write(logmess,'(a,a)')
-     *'WARNING: continuous interpolation may not work for hex elements:'
+     *'WARNING: interpolate/continuous may not work for hex: '
      *     ,cmosrc(1:icharlnf(cmosrc))
           call writloga('default',1,logmess,0,ierrw)
           write(logmess,'(a)')
@@ -1132,21 +1145,21 @@ C          check precision of centroid calculation
            ierr=0
            if (xic_cntr(idx)-xmin .ne. xcntr0 ) then
             ierr=ierr+1
-              if(idebug.gt.9) then
+              if(idebug.ge.9) then
               print*,"Centroid  x = ", xic_cntr(idx)-xmin," - ",xcntr0
      &        ,"Difference: ",(xic_cntr(idx)-xmin)-xcntr0
               endif
            endif
            if (yic_cntr(idx)-ymin .ne. ycntr0 ) then
             ierr=ierr+1
-            if(idebug.gt.9) then
+            if(idebug.ge.9) then
               print*,"Centroid  y = ", yic_cntr(idx)-ymin," - ",ycntr0
      &        ,"Difference: ",(yic_cntr(idx)-ymin)-ycntr0
             endif
            endif
            if (zic_cntr(idx)-zmin .ne. zcntr0 ) then
             ierr=ierr+1
-            if(idebug.gt.9) then
+            if(idebug.ge.9) then
               print*,"Centroid  z = ", zic_cntr(idx)-zmin," - ",zcntr0
      &        ,"Difference: ",(zic_cntr(idx)-zmin)-zcntr0
             endif
@@ -1218,7 +1231,8 @@ C     PAIR POINT TO NEAREST SOURCE POINT
 C     DO NEAREST POINT SEARCH or READ LOOKUP ATTRIBUTE pt_gtg
 C
 C     Valid interpolation method is voronoi (or nearest point)
-C     or just fill pt_gtg for other methods using nearest point flag
+C     or fill pt_gtg for other methods using nearest point flag
+C     such as nearest keyword to break a tie for inside elements
 C
 C***********************************************************************
  
@@ -1233,7 +1247,7 @@ C***********************************************************************
         endif
  
  
-c       Build kdtree to search for nearest source points
+c       Build kdtree0 to search for nearest source points
         length=5*npts_src
         call mmgetblk('itfound',isubname,ipitfound,length,1,ics)
         if(ics.ne.0 ) call x3d_error(isubname,' get itfound')
@@ -1250,9 +1264,19 @@ c       Build kdtree to search for nearest source points
           call mmgetblk('linkt',isubname,iplinkt,length,1,ics)
           if(ierr.ne.0 .or. ics.ne.0)
      *       call x3d_error(isubname,' get linkt and sbox')
- 
+
+c use ierr to pass idebug level in and error out
+          if (idebug .gt. 0) then
+              write(logmess,"(a)")
+     *       'Build kdtree0 for nearest nodes.'
+             call writloga('default',0,logmess,0,ierrw)
+          endif
+          ierr = idebug
           call kdtree0(xic_src,yic_src,zic_src,npts_src,linkt,sbox,ierr)
           if(ierr.ne.0 ) call x3d_error(isubname,' kdtree0 ')
+
+c initialize for nearestpoint0 
+c eps -1 will trigger DEFAULT_EPSILON_FRACTION 
           eps=-1.
           mtfound=0
           xs=alargenumber
@@ -1260,12 +1284,23 @@ c       Build kdtree to search for nearest source points
           zs=0.
           if(nsdgeom_src.eq.3) zs=alargenumber
         endif
-C     Allocate a work array used in nearestpoint0
-      length=npts_src
-      call mmgetblk('distpossleaf',isubname,ipdistpossleaf,
+
+C       Allocate a work array used in nearestpoint0
+        length=npts_src
+        call mmgetblk('distpossleaf',isubname,ipdistpossleaf,
      $     length,2,icscode)
- 
-C       Loop through sink points to find nearest source candidates
+
+
+C ######################################################################
+C       LOOP through sink points for nearest node 
+C       these will be all leaves within distance defined in nearestpoint0
+C       the result mtfound are the number of possible candidates 
+C       overlapping points will have 1 leaf and 1 candidate
+C       a sink median point will have 8 leaves and 8 candidates
+C       the final selection is detirmined in this loop
+
+        maxsrchd=0
+        minsrchd=num_src
         do ipt=1,num_snk
          iisnk=mpary(ipt)
          xp=xvals(iisnk)
@@ -1274,6 +1309,16 @@ C       Loop through sink points to find nearest source candidates
  
 c        preset work array in case of errors
          work(iisnk)=xflag
+
+         if(ipt.eq.1 .and. if_ptsearch.ne.0) then
+           write(logmess,"(a)")
+     *     'Build kdtree0 done - assign nearest node for each.'
+           call writloga('default',1,logmess,1,ierrw)
+
+           write(logmess,"(a)")
+     *'     Sink point   Points Searched   Points Found  Percent Done'
+           call writloga('default',1,logmess,1,ierrw)
+         endif
  
 c        Get nearest point number iisrc from attribute pt_gtg
          if(if_ptsearch.eq.0) then
@@ -1294,9 +1339,9 @@ c        Get nearest point number iisrc from attribute pt_gtg
          endif
  
 C       -----------------------------------------------------------------
-C       NEAREST POINT FOUND
+C       NEAREST POINT CANDIDATES FOUND
 c
-c        Loop through nearest point candidates
+c        Loop through nearest point candidates mtfound
 c        choose a single value with tiebreaker option
 c          idx is the index to a candidate source point
 c          ipt is the index to current sink point
@@ -1307,7 +1352,7 @@ c          iisrc is in the source att, iisnk is the sink attribute
            iisrc=itfound(idx)
            if (iisrc.le.0) then
               write(logmess,"(a,i15)")
-     *        "Using kdtree - invalid source node: ",iisrc
+     *        "Using kdtree0 - invalid source node: ",iisrc
               call writloga('default',0,logmess,0,ierrw)
            endif
  
@@ -1342,7 +1387,7 @@ c          save source number and value of chosen candidate
                   index_end = index_prev
                   val_end = val_prev
                endif
-               if(idebug.gt.3) then
+               if(idebug.gt.6) then
                 write(logmess,'(a,i15,a,1pe14.5e3)')
      *          ' min TIE ASSIGN INDEX: ',index_end,
      *          ' associated value: ',val_end
@@ -1357,7 +1402,7 @@ c          save source number and value of chosen candidate
                   index_end = index_prev
                   val_end = val_prev
                endif
-               if(idebug.gt.3) then
+               if(idebug.gt.6) then
                 write(logmess,'(a,i15,a,1pe14.5e3)')
      *          ' max TIE ASSIGN INDEX: ',index_end,
      *          ' associated value: ',val_end
@@ -1370,18 +1415,26 @@ c          save source number and value of chosen candidate
            val_prev = val_end
            totsrchd = totsrchd+1
 
-c        assign index of last found element
+c        assign index of last found nearest node
 c        we will assume best is last
-c        Fill pt_gtg attribute with found point index
+c        Fill pt_gtg attribute with found node index
          if(mk_ptatt.eq.1) then
              pt_gtg(iisnk)=index_end
          endif
 
          enddo
-c        End idx Loop through candidates
+c        End idx loop through candidate nodes
+
+         if (idebug .ge. 5 .and. ipt.ne.num_snk) then
+           write(logmess,"(a,i17,a,i10)")
+     *    'Sink node: ',iisnk,' number of candidates: ',mtfound
+           call writloga('default',0,logmess,0,ierrw)
+         endif
+         if (maxsrchd .lt. mtfound) maxsrchd = mtfound
+         if (mtfound.ge.0 .and. minsrchd.gt.mtfound) minsrchd = mtfound
 
 
-c        Assign value from final candidate element
+c        Assign value from final candidate node
 c        or flag with special value or nearest point value
 c        Unless filling pt_gtg attribute for nearest point flag
          if(mtfound.gt.0) totfind=totfind+1
@@ -1394,24 +1447,45 @@ c        Unless filling pt_gtg attribute for nearest point flag
            endif
          endif
  
-        if(ipt.eq.1) then
-           write(logmess,"(a)")
-     *'     Sink point   Points searched   Points Found  Percent Done'
-           call writloga('default',1,logmess,0,ierrw)
-        endif
- 
         if((iwrite.eq.nwrite).and.(ipt.ne.num_snk)) then
            iwrite = 0
            write(logmess,"(i15,i17,i15,i9,a2)")
      *     ipt,totsrchd,totfind,istep*iperc,' %'
            call writloga('default',0,logmess,0,ierrw)
            istep = istep + 1
+
+C       Done
         elseif(ipt .eq. num_snk) then
+
            write(logmess,"(i15,i17,i15,a)")
-     *     ipt,totsrchd,totfind,'    Total'
+     *     ipt,totsrchd,totfind,'       100%'
            call writloga('default',0,logmess,1,ierrw)
+
+           if (idebug.gt.0) then
+           write(logmess,"(a,i17)")
+     *     'Max Candidates each node: ',maxsrchd
+           call writloga('default',0,logmess,0,ierrw)
+           write(logmess,"(a,i17)")
+     *     'Min Candidates each node: ',minsrchd
+           call writloga('default',0,logmess,0,ierrw)
+
+           write(logmess,"(a,i20)")         
+     *     'Total kdtree searches: ', totsrchd
+           call writloga('default',0,logmess,0,ierrw)
+           endif
+
+           write(logmess,"(a,i20)")         
+     *     'Total Source Nodes:    ', npts_src
+           call writloga('default',0,logmess,0,ierrw)
+
+           write(logmess,"(a,i20)")         
+     *     'Total Sink   Nodes:    ', npts_snk
+           call writloga('default',0,logmess,1,ierrw)
+
+
         endif
-        if(idebug.ge.5) then
+
+        if(idebug.ge.9) then
          write(logmess,"(i17,a,1pe14.5e3,1pe14.5e3,1pe14.5e3,a)")
      *     iisnk,' sink point at ( ',xp,yp,zp,' )'
            call writloga('default',0,logmess,0,ierrw)
@@ -1434,13 +1508,15 @@ c        Unless filling pt_gtg attribute for nearest point flag
         iwrite = iwrite+1
         idone = ipt
         enddo
-C       End ipt Loop through sink points
- 
-C       Release memory block
-        call mmrelblk('distpossleaf' ,isubname,ipdistpossleaf,ierr)
 
+C       END LOOP through sink points for nearest node
+C ######################################################################
+
+C       Release memory block used as work array for nearestpoint0
+        call mmrelblk('distpossleaf' ,isubname,ipdistpossleaf,ierr)
+ 
       endif
-C     End POINT
+C     END VORONOI and nearest point
 C     End filling values for work array for VORONOI method
 C     and/or filling nearest point values for attribute pt_gtg
 C***********************************************************************
@@ -1472,31 +1548,62 @@ c       Build kdtree to search source elements, else use el_gtg
  
         else
  
-          if(idebug.le.1) call writset('stat','tty','off',ierrw)
- 
+          if(idebug.eq.0) call writset('stat','tty','off',ierrw)
+
+          if (idebug .gt. 0) then
+              write(logmess,"(a)")
+     *       'Build kdtree for inside element.'
+             call writloga('default',0,logmess,0,ierrw)
+          endif
+
           len=icharlnf(cmosrc)
+          if (idebug.ne.0) then
+          cbuff='cmo setatt '//cmosrc(1:len)//' idebug/1 ; finish'
+          call dotaskx3d(cbuff,ierr)
+          endif
           cbuff = 'cmo select '//cmosrc(1:len)//' ;  finish'
           call dotaskx3d(cbuff,ierr)
           cbuff = 'cmo kdtree build ; finish'
           call dotaskx3d(cbuff,ierr)
+          if(idebug.eq.0) call writset('stat','tty','off',ierrw)
+
+          cbuff='cmo setatt '//cmosrc(1:len)//' idebug/0 ; finish'
+          call dotaskx3d(cbuff,ierr)
+
           call cmo_get_info('linkt',cmosrc,iplinkt,ilen,ityp,ierr)
           call cmo_get_info('sbox',cmosrc,ipsbox,ilen,ityp,ics)
+
+          call writset('stat','tty','on',ierrw)
           if(ierr.ne.0 .or. ics.ne.0)
      *     call x3d_error(isubname,' get linkt and sbox')
- 
-          if(idebug.le.1) call writset('stat','tty','on',ierrw)
+
  
         endif
         length=5*nelm_src
         call mmgetblk('iefound',isubname,ipiefound,length,1,ics)
         if(ics.ne.0 ) call x3d_error(isubname,' get iefound')
  
-c       Loop through each sink point to find enclosing source element
+C ######################################################################
+C       LOOP through each sink point for enclosing element
+
+ 
+        maxsrchd=0
+        minsrchd=num_src
         do ipt = 1,num_snk
           iisnk=mpary(ipt)
           xp=xvals(iisnk)
           yp=yvals(iisnk)
           zp=zvals(iisnk)
+
+          if(ipt.eq.1 .and. if_elsearch.ne.0) then
+           write(logmess,"(a)")
+     *     'Build kdtree done - assign the enclosing element for each.'
+           call writloga('default',1,logmess,1,ierrw)
+            write(logmess,"(a)")
+     *'     Sink point   Elems Searched  Elements Found  Percent Done'
+           call writloga('default',1,logmess,1,ierrw)
+          endif
+
  
 c         preset work array in case of errors
           if(flag_opt(1:7).eq.'nearest') then
@@ -1522,7 +1629,7 @@ c         Get enclosing element number iisrc from attribute
               inelement = -1
             endif
 
-C         otherwise search through candidate elemements
+C         otherwise search through candidate elements
           else
             inelement = -1
             call mmfindbk('iefound',isubname,ipiefound,ilen,ics)
@@ -1530,18 +1637,16 @@ C         otherwise search through candidate elemements
             call get_epsilon('epsilonl',eps)
             call retrieve_within_eps(xp,yp,zp,linkt,sbox,eps,
      *                           nefound,iefound,ierr)
-
           endif
-          if (idebug.ge.5) then
-           write(logmess,"(a)")
-     *     '----------------------------------------------------------'
-           call writloga('default',0,logmess,0,ierrw)
-           write(logmess,"(a,i14)")
-     *     'Search Point: ',iisnk
-           call writloga('default',0,logmess,0,ierrw)
-           write(logmess,"(a,e20.12,a,i9)")
-     *     'Retrieve within epsilonl: ',eps,' candidates: ',nefound
-           call writloga('default',0,logmess,0,ierrw)
+
+          if (idebug.ge.5 .and. ipt.ne.num_snk) then
+            write(logmess,"(a,i17,a,i10)")
+     *      'Sink point: ',iisnk," number of candidates: ",nefound
+            call writloga('default',0,logmess,0,ierrw)
+
+            write(logmess,"(a,e20.12)")
+     *      '  Retrieve within epsilonl: ',eps
+            call writloga('default',0,logmess,0,ierrw)
           endif
  
  
@@ -1591,15 +1696,8 @@ c           check that src point is inside or on element candidate
 c           check for point inside the element 
 c           inelement < 0 are points found outside the object 
 c           the second object is always the query point
+
             if(if_elsearch.ne.0) then
-
-               if (idebug.gt.0) then
-                 write(logmess,"(a,i10,a,i3,a,i10)")
-     &           "*** SEARCH SINK Pnt: ",ipt," Candidate: ",idx
-     &           ,"   SOURCE Elem: ",iisrc
-                 call writloga('default',1,logmess,0,ierror)
-               endif
-
                ielmtyp2 = ifelmpnt
                inelement=idebug
                call inside_element(ielmtyp,xnew1,ynew1,znew1,
@@ -1611,30 +1709,30 @@ c           flag indicates point or edge that succeeded for inside
             if (idebug.ge.5 .and. inelement.ge.0) then
               if (inelement.lt.20) then
                 write(logmess,"(a,i14,a,i5)")
-     *          'FOUND in element: ',iisrc,
+     *          '  FOUND in element: ',iisrc,
      *          ' flag: ',inflag
               else
                 write(logmess,"(a,i14,a,i5)")
-     *          'FOUND in element near point: ',iisrc,
+     *          '  FOUND in element near point: ',iisrc,
      *          ' flag: ',inflag
               endif
               call writloga('default',0,logmess,0,ierrw)
             endif
 
-            if (idebug.ge.5) then
+            if (idebug.ge.9) then
 
               write(logmess,"(a,1pe20.12e2,1pe20.12e2,1pe20.12e2)")
-     &        "Element xyz(1):  ", xnew1(1),ynew1(1),znew1(1)
+     &        "  Element xyz(1):  ", xnew1(1),ynew1(1),znew1(1)
               call writloga('default',0,logmess,0,ierror)
               write(logmess,"(a,1pe20.12e2,1pe20.12e2,1pe20.12e2)")
-     &        "Element xyz(2):  ", xnew1(2),ynew1(2),znew1(2)
+     &        "  Element xyz(2):  ", xnew1(2),ynew1(2),znew1(2)
               call writloga('default',0,logmess,0,ierror)
               write(logmess,"(a,1pe20.12e2,1pe20.12e2,1pe20.12e2)")
-     &        "Element xyz(3):  ", xnew1(3),ynew1(3),znew1(3)
+     &        "  Element xyz(3):  ", xnew1(3),ynew1(3),znew1(3)
               call writloga('default',0,logmess,0,ierror)
 
               write(logmess,"(a,1pe20.12e2,1pe20.12e2,1pe20.12e2)")
-     &        "Query Pnt:   ", xnew2(1),ynew2(1),znew2(1)
+     &        "  Query Pnt:   ", xnew2(1),ynew2(1),znew2(1)
               call writloga('default',0,logmess,0,ierror)
 
              endif
@@ -1654,7 +1752,7 @@ c           check that this element has volume, skip if continuous intrp
             if (tie_opt2(1:3).eq.'mat' ) then
             if (idebug.ge.9 .and. inelement.lt.0) then
               write(logmess,"(a,i14,a,i14,a,i14)")
-     *        'NOT in element: ',iisrc,' mat: ',imat_src(iisrc),
+     *        '  NOT in element: ',iisrc,' mat: ',imat_src(iisrc),
      *        ' point mat: ',imat(iisnk)
               call writloga('default',0,logmess,0,ierrw)
             endif
@@ -1667,7 +1765,7 @@ c           choose candidate elements with material equal to imt
                 inelement = -1
                 if (idebug.ge.9) then
                   write(logmess,"(a,i14,a,i14,a,i14)")
-     *            'NOT element: ',iisrc,' mat: ',imat_src(iisrc),
+     *            '  NOT element: ',iisrc,' mat: ',imat_src(iisrc),
      *            ' point mat: ',imat(iisnk)
                   call writloga('default',0,logmess,0,ierrw)
                 endif
@@ -1681,10 +1779,10 @@ c           interpolate values, apply tie-breaker
             if (inelement.ge.0) then
               ifound = 1
 
-              if (idebug.ge.3) then
+              if (idebug.ge.5) then
                 if (tie_opt2(1:3).eq.'mat' ) then
                 write(logmess,"(a,i14,a,i14,a,i14)")
-     *          'GOOD  element: ',iisrc,' mat: ',imat_src(iisrc),
+     *          '  GOOD  element: ',iisrc,' mat: ',imat_src(iisrc),
      *          ' point mat: ',imat(iisnk)
                 call writloga('default',0,logmess,0,ierrw)
                 endif
@@ -1793,7 +1891,7 @@ c               break tie with min or max value of associated element
                          inflag_save = inflag_prev
                       endif
                    endif
-                   if(idebug.gt.0) then
+                   if(idebug.gt.6) then
                    write(logmess,'(a3,a,i15,a,i5,1pe14.5e3)')
      *             tie_opt(1:3),' TIE ASSIGN INDEX: ',index_save,
      *             ' with flag and value: ',inflag_save,val_save
@@ -1811,10 +1909,14 @@ c             overwrite previous with winning index and value
               totsrchd=totsrchd+1
 
             endif
-c           End found element
+c           End found enclosing element
 
           enddo
-c         End idx Loop through candidate elements
+c         End idx loop through candidate elements
+
+          if (maxsrchd .lt. nefound) maxsrchd = nefound
+          if (nefound.ge.0 .and. minsrchd.gt.nefound) minsrchd = nefound
+
           index_end = index_save
           val_end = val_save
 
@@ -1830,12 +1932,8 @@ c         or flag with special value or nearest point value
                el_gtg(iisnk) = index_end
             endif
           endif
- 
-          if(ipt.eq.1) then
-            write(logmess,"(a)")
-     *'     Sink point   Elems Searched  Elements Found  Percent Done'
-           call writloga('default',1,logmess,0,ierrw)
-          endif
+
+C         Report Status
  
           if((iwrite.eq.nwrite).and.(ipt.ne.num_snk)) then
             iwrite = 0
@@ -1843,48 +1941,76 @@ c         or flag with special value or nearest point value
      *      ipt,totsrchd,totfind,istep*iperc,' %'
             call writloga('default',0,logmess,0,ierrw)
             istep = istep + 1
+
           elseif(ipt .eq. num_snk) then
-            write(logmess,"(i15,i17,i15,a)")
-     *      ipt,totsrchd,totfind,'    Total'
-            call writloga('default',0,logmess,1,ierrw)
-            if (volzero.gt.0) then
-              write(logmess,"(a,i17)")
-     *        'WARNING: Negative-volume source elements: ',volzero
-              call writloga('default',0,logmess,0,ierrw)
-            endif
+
+           write(logmess,"(i15,i17,i15,a)")
+     *     ipt,totsrchd,totfind,'       100%'
+           call writloga('default',0,logmess,1,ierrw)
+
+           if (idebug.gt.0) then
+           write(logmess,"(a,i17)")
+     *  'Max Candidates each element: ',maxsrchd
+           call writloga('default',0,logmess,0,ierrw)
+           write(logmess,"(a,i17)")
+     *  'Min Candidates each element: ',minsrchd
+           call writloga('default',0,logmess,0,ierrw)
+
+           write(logmess,"(a,i20)")
+     *       'Total kdtree searches:    ', totsrchd
+           call writloga('default',0,logmess,0,ierrw)
+           endif
+
+           write(logmess,"(a,i20)")
+     *       'Total Source Elements:    ', nelm_src
+           call writloga('default',0,logmess,0,ierrw)
+
+           if (if_centroid.eq.1) then
+             write(logmess,"(a,i20)")
+     *       'Total Sink   Centroids:   ', num_snk
+           else
+             write(logmess,"(a,i20)")
+     *       'Total Sink   Nodes:       ', num_snk
+           endif
+             call writloga('default',0,logmess,1,ierrw)
+
+           if (volzero.gt.0) then
+             write(logmess,"(a,i20)")
+     *       'WARNING: Negative-volume source elements: ',volzero
+             call writloga('default',0,logmess,0,ierrw)
+           endif
+
+
           endif
 
 c         use end source elem number which is 0 if no candidates
 c         old code would wrongly write elem number of last found
-          if(idebug.gt.0 ) then
+
+          if(idebug.ge.9 ) then
             write(logmess,"(i17,a,1pe14.5e3,1pe14.5e3,1pe14.5e3,a)")
      *      iisnk,' sink point at ( ',xp,yp,zp,' )'
             call writloga('default',0,logmess,0,ierrw)
 
             if (ifound.lt.1) then
-
-              if (iisrc.le.0) then
-              write(logmess,"(f17.5,a)")
+                if (iisrc.le.0) then
+                  write(logmess,"(f17.5,a)")
      *      work(iisnk),'  FLAG assigned, element NOT found. '
-              call writloga('default',0,logmess,0,ierrw)
-              else
-              write(logmess,"(f17.5,a,i5)")
+                  call writloga('default',0,logmess,0,ierrw)
+                else
+                  write(logmess,"(f17.5,a,i5)")
      *      work(iisnk),'  FLAG assigned, NOT in elem: ',iisrc
-              call writloga('default',0,logmess,0,ierrw)
-              endif
-
-            else
-              write(logmess,"(f17.5,a,i17)")
-     *      work(iisnk),' value assigned from element: ',index_end
-              call writloga('default',0,logmess,0,ierrw)
+                  call writloga('default',0,logmess,0,ierrw)
+                endif
             endif
-
           endif
  
           iwrite = iwrite+1
           idone = ipt
         enddo
-c       End ipt Loop through sink points
+
+C       END LOOP through sink points for enclosing elements
+C ######################################################################
+
  
         if (idebug.le.1) call writset('stat','tty','off',ierrw)
 C       if(if_elsearch.gt.0) then
@@ -1911,8 +2037,54 @@ C     Assign the final interpolated values to the sink attribute
       ierror=0
  9999 continue
  
+ 
+c     Final screen output
+
+      call writset('stat','tty','on',ierrw)
+ 
+      if (num_snk.ne.num_snk_all) then
+         write(logmess,"(a,i15,a,i15)") 'Indexed sink points: ',
+     *      num_snk,' Total unchanged: ',num_snk_all-num_snk
+         call writloga('default',0,logmess,1,ierrw)
+      endif
+ 
+      if (totfind.le.0) then
+        write(logmess,"(a)")
+     * 'ERROR: INTERPOLATE found zero sink points inside source grid.'
+        call writloga('default',0,logmess,0,ierrw)
+      elseif ((idone-totfind).gt.0) then
+         write(logmess,"(a,i17)")
+     * 'WARNING: Sink points not inside source grid:        ',
+     *  idone-totfind
+         call writloga('default',0,logmess,0,ierrw)
+      endif
+ 
+      if (totflag.gt.0) then
+        if (flag_opt(1:7).eq.'nearest') then
+          write(logmess,"(a,i17)")
+     *  'Total sink points flagged with nearest point values:',totflag
+          call writloga('default',0,logmess,0,ierrw)
+        else
+          write(logmess,"(a,f17.2)")
+     *  'Outside sink points flagged with value:             ',xflag
+          call writloga('default',0,logmess,0,ierrw)
+        endif
+      endif
+ 
+      write(logmess,"(a,a,a)")
+     * 'interpolate/',intrp_opt(1:icharlnf(intrp_opt)),' done.'
+      call writloga('default',1,logmess,1,ierrw)
+ 
+      if(idebug.gt.0) then
+         write(logmess,'(a)')'Call mmverify for memory check.'
+         call writloga('default',1,logmess,0,ierrw)
+         call mmverify()
+      endif
+
 c     if attributes were created and not keeping, delete them now
+
       if (idebug.le.1) call writset('stat','tty','off',ierrw)
+
       if(ikeep.ne.1 .and. ipt_exist.ne.0) then
         len=icharlnf(cmosnk)
         cbuff = 'cmo DELATT '//cmosnk(1:len)//'/pt_gtg ;  finish'
@@ -1923,48 +2095,12 @@ c     if attributes were created and not keeping, delete them now
         cbuff = 'cmo DELATT '//cmosnk(1:len)//'/el_gtg ;  finish'
         call dotaskx3d(cbuff,ierr)
       endif
- 
+
       len=icharlnf(cmosnk)
       cbuff = 'cmo select '//cmosnk(1:len)//' ;  finish'
       call dotaskx3d(cbuff,ierr)
- 
- 
-c     Final screen output
+
       call writset('stat','tty','on',ierrw)
- 
-      if (num_snk.ne.num_snk_all) then
-         write(logmess,"(a,i15,a,i15)") 'Indexed sink points: ',
-     *      num_snk,' Total unchanged: ',num_snk_all-num_snk
-         call writloga('default',0,logmess,0,ierrw)
-      endif
- 
-      if (totfind.le.0) then
-        write(logmess,"(a)")
-     * 'ERROR: INTRP found zero sink points inside source grid.'
-        call writloga('default',0,logmess,0,ierrw)
-      elseif ((idone-totfind).gt.0) then
-         write(logmess,"(a,i15)")
-     * 'WARNING: Sink points not inside source grid: ',idone-totfind
-         call writloga('default',0,logmess,0,ierrw)
-      endif
- 
-      if (totflag.gt.0) then
-        if (flag_opt(1:7).eq.'nearest') then
-          write(logmess,"(a,i15)")
-     *    'Total sink points flagged with nearest point value: ',totflag
-          call writloga('default',0,logmess,0,ierrw)
-        else
-          write(logmess,"(a,i15,a,f14.2)")
-     *    'Total sink points marked: ',totflag,' with flag: ',xflag
-          call writloga('default',0,logmess,0,ierrw)
-        endif
-      endif
- 
-      write(logmess,"(a,a,a)")
-     * 'intrp/',intrp_opt(1:icharlnf(intrp_opt)),' done.'
-      call writloga('default',0,logmess,1,ierrw)
- 
-      if(idebug.gt.0) call mmverify()
  
 c     Return here if error is found before setup is done
  9000 if(ierror.ne.0) then

@@ -9,38 +9,9 @@
 #------------------------------------------------------------------------------
 
 import os, sys, argparse
-sys.path.append('./level01')
-from control01 import *
-from control01 import Clean as CleanOne
-#from check_test import Check as CheckOne
-#from run_test import RunTest as RunTestOne
 
-sys.path.append('./level02')
-from control02 import *
-from control02 import Clean as CleanTwo
-#from check_test import Check as CheckTwo
-#from run_test import RunTest as RunTestTwo
-
-
-class readable_dir(argparse.Action):
-    def __call__(self,parser, namespace, values, option_string=None):
-        try:
-            prospective_dir = values
-            if not os.path.isdir(prospective_dir):
-                msg = "\nInvalid Directory: {0} is not a valid path\n".format(prospective_dir)
-                raise argparse.ArgumentTypeError()
-            if os.access(prospective_dir, os.R_OK):
-                setattr(namespace,self.dest,prospective_dir)
-            else:
-                msg = "\nInvalid Directory: {0} is not a readable dir\n".format(prospective_dir)
-                raise argparse.ArgumentTypeError()
-
-        except argparse.ArgumentTypeError:
-            
-            print(sys.stderr, msg)
-            print("/".join(os.listdir(os.curdir)))
-            sys.exit(2)
-
+sys.path.append('.')
+import lg_test_lib as lg_test
 
 ##############################################################################
 # MAIN begin
@@ -51,12 +22,12 @@ class readable_dir(argparse.Action):
 #
 #------------------------------------------------------------------------------
 
-
 def main(argv=None):
 
-    xlagrit = "/n/swdev/mesh_tools/lagrit/install-Ubuntu-16.04-x86_64-gcc5.4.0/bin/lagrit"
-
-    dtop = os.getcwd() 
+    test_dir_root = 'level0'
+    xlagrit = os.path.join(os.getcwd(),'..','src','lagrit')
+    lg_test.dtop = os.getcwd()
+    lg_test.all_levels = [d for d in os.listdir('.') if 'level' in d]
 
     if argv is None:
         argv = sys.argv
@@ -64,97 +35,67 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description = "Perform LaGrit Tests", prog = "./suite.py", )
     parser.add_argument("-f", "--full", help = "Runs the entire test suite, cancels other options", action = "store_true", default = False)
     parser.add_argument("-l", "--level", help = "Designate level of testing", action = "store", type = int, nargs = 1, default = 0)
+    parser.add_argument("-s", "--single", help = "Specify by name a single test to run", action = "store", type = str, default = '')
     parser.add_argument("-cl", "--clean", help = "Clean directories of previous test results; cleans default output file unless testfile is specified", action = "store_true")
     parser.add_argument("-t", "--test", help = "Runs tests on directories; option for out file tag - stdout_[testfile].txt", action = "store_true")
-    parser.add_argument("testfile", help = "Name <tag> for the test's out file stdout_<tag>.txt; default - <tag> = os name", 
-                                            nargs = "?", default = sys.platform)
+    parser.add_argument("testfile", help = "Name <tag> for the test's out file stdout_<tag>.txt; default - <tag> = os name", nargs = "?", default = sys.platform)
     parser.add_argument("-c", "--check", help = "Checks output files of tests; option for specific directory name [checkdir]", action = "store_true")
-    parser.add_argument("checkdir", help = "Target dir for check function; default - recurse through current dir", action = readable_dir, 
-                                            default = os.curdir, nargs = "?")
+    parser.add_argument("checkdir", help = "Target dir for check function; default - recurse through current dir", action = lg_test.readable_dir, default = os.curdir, nargs = "?")
     parser.add_argument("-exe", "--executable", help = "Path to executable for testing", action = "store", type = str, default = xlagrit)
     parser.add_argument("-fl", "--flags", help = "Command line flags to pass to LaGriT on run", action = "store", type = str, default = "-log logx3dgen -out outx3dgen")
     parser.add_argument("-hf", "--hard_fail", help = "Quits and returns non-zero exit code on failed test", action = "store", type = int, nargs = 1, default = 0)
     args = parser.parse_args()
 
-    if not (args.level or args.full or args.clean or args.test or args.check):
+    # If no valid options, raise help screen
+    if not (args.level or args.full or args.clean or args.test or args.check or args.single):
         args = parser.parse_args("--help".split())
         sys.exit(2)
-    
+
+    # Pass arguments to module-level variables
+    lg_test.testfile = args.testfile
+    lg_test.lagrit_exe = args.executable
+    lg_test.flags = args.flags
+    lg_test.checkdir = args.checkdir
 
     if args.full:
-        if args.level:
-            if args.level[0] == 1:
-                os.chdir(dtop)
-                os.chdir('level01')
-                OneFull(args)
 
-            elif args.level[0] == 2:
-                os.chdir(dtop)
-                os.chdir('level02')
-                TwoFull(args)
-        
+        if args.level:
+            # Run full on defined level
+            lg_test.TestDir(test_dir_root+str(args.level[0]))
         else:
-            print("Running full tests on level01")
-            os.chdir(dtop)                                                                                                                                                                  
-            os.chdir('level01')                                                                                                                                                             
-            OneFull(args)                                                                                                                                                                   
-                                                                                                                                                                                                
-            print("Running full tests on level02")
-            os.chdir(dtop)                                                                                                                                                                  
-            os.chdir('level02')                                                                                                                                                             
-            TwoFull(args)  
+            # Run full on all levels
+            for level in lg_test.all_levels:
+                print('Running full tests on %s' % level)
+                lg_test.TestDir(level)
+
+    elif args.single:
+        # Run a single test directory
+        lg_test.TestSingle(args.single)
 
     else:
+
         if args.level:
-            if args.level[0] == 1:
-                os.chdir(dtop)
-                os.chdir('level01')
-                ExecSuiteOne(args)
-
-            elif args.level[0] == 2:
-                os.chdir(dtop)
-                os.chdir('level02')
-                ExecSuiteTwo(args)
-
+            testable_levels = [test_dir_root+str(args.level[0])]
         else:
-            if args.clean:
-                print("Cleaning level01")
-                os.chdir(dtop)
-                os.chdir('level01')
-                CleanOne(tag=args.testfile)
+            testable_levels = lg_test.all_levels
 
-                print("Cleaning level02") 
-                os.chdir(dtop) 
-                os.chdir('level02')
-                CleanTwo(tag=args.testfile) 
+        # Run only user defined clean/check/test on levels
+        for level in testable_levels:
 
-            if args.check:
-                print("Isolated checking not implemented yet")
-                #print("Checking level01")
-                #os.chdir(dtop)
-                #os.chdir('level01')
-                #CheckOne(args)
+            params = ['clean'*args.clean,
+                      'test'*args.test,
+                      'check'*args.check]
 
-                #print("Checking level02")
-                #os.chdir(dtop)
-                #os.chdir('level02')
-                #CheckTwo(args)
-
-            if args.test:
-                print("Testing level01")
-                os.chdir(dtop)
-                os.chdir('level01')
-                RunTestOne(args)
-                            
-                print("Testing level02")
-                os.chdir(dtop)
-                os.chdir('level02')
-                RunTestTwo(args)
+            params = ', '.join([x for x in params if x != ''])
+            print('Running %s on %s' % (params,level))
+            lg_test.TestDir(level,
+                            clean=args.clean,
+                            test=args.test,
+                            check=args.checkdir)
 
             
 # end Main 
 #------------------------------------------------------------------------------
-
 
 if __name__ == "__main__":
     sys.exit(main())

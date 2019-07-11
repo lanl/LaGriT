@@ -1,34 +1,22 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Mesh Object &#8212; PyLaGriT 0.0.0 documentation</title>
-    
+    <title>Point Set Object &#8212; PyLaGriT 0.0.0 documentation</title>
     <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.0.0',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="PyLaGriT 0.0.0 documentation" href="index.html" />
-    <link rel="up" title="Class Documentation" href="autodoc.html" />
-    <link rel="next" title="Mesh Object" href="autodoc_eltset.html" />
+    <link rel="next" title="Element Set Object" href="autodoc_eltset.html" />
     <link rel="prev" title="Mesh Object" href="autodoc_mo.html" />
    
   <link rel="stylesheet" href="static/custom.css" type="text/css" />
@@ -36,28 +24,34 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-pylagrit">
-<span id="mesh-object"></span><h1>Mesh Object<a class="headerlink" href="#module-pylagrit" title="Permalink to this headline">¶</a></h1>
+<span id="point-set-object"></span><h1>Point Set Object<a class="headerlink" href="#module-pylagrit" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="pylagrit.PSet">
 <em class="property">class </em><code class="descclassname">pylagrit.</code><code class="descname">PSet</code><span class="sig-paren">(</span><em>name</em>, <em>parent</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pset class</p>
+<dl class="method">
+<dt id="pylagrit.PSet.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pylagrit.PSet.dump">
 <code class="descname">dump</code><span class="sig-paren">(</span><em>filerootname</em>, <em>zonetype='zone'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.dump" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dump zone file of pset nodes
 :arg filerootname: rootname of files to create, pset name will be added to name
 :type filerootname: string
-:arg zonetype: Type of zone file to dump, &#8216;zone&#8217; or &#8216;zonn&#8217;
+:arg zonetype: Type of zone file to dump, ‘zone’ or ‘zonn’
 :tpye zonetype: string</p>
 </dd></dl>
 
@@ -70,8 +64,8 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>membership</strong> (<em>str</em>) &#8211; type of element membership, one of [inclusive,exclusive,face]</li>
-<li><strong>name</strong> (<em>str</em>) &#8211; Name of element set to be used within LaGriT</li>
+<li><strong>membership</strong> (<em>str</em>) – type of element membership, one of [inclusive,exclusive,face]</li>
+<li><strong>name</strong> (<em>str</em>) – Name of element set to be used within LaGriT</li>
 </ul>
 </td>
 </tr>
@@ -90,7 +84,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>membership</strong> (<em>str</em>) &#8211; type of element membership, one of [inclusive,exclusive,face]</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>membership</strong> (<em>str</em>) – type of element membership, one of [inclusive,exclusive,face]</td>
 </tr>
 </tbody>
 </table>
@@ -102,43 +96,231 @@
 <dd><p>Interpolate values from attribute attsrc from mesh object cmosrc to current mesh object</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="pylagrit.PSet.interpolate_continuous">
+<code class="descname">interpolate_continuous</code><span class="sig-paren">(</span><em>attsink</em>, <em>cmosrc</em>, <em>attsrc</em>, <em>interp_function=None</em>, <em>nearest=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.interpolate_continuous" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.interpolate_default">
+<code class="descname">interpolate_default</code><span class="sig-paren">(</span><em>attsink</em>, <em>cmosrc</em>, <em>attsrc</em>, <em>tie_option='tiemax'</em>, <em>flag_option='plus1'</em>, <em>keep_option='delatt'</em>, <em>interp_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.interpolate_default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.interpolate_map">
+<code class="descname">interpolate_map</code><span class="sig-paren">(</span><em>attsink</em>, <em>cmosrc</em>, <em>attsrc</em>, <em>tie_option='tiemax'</em>, <em>flag_option='plus1'</em>, <em>keep_option='delatt'</em>, <em>interp_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.interpolate_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.interpolate_voronoi">
+<code class="descname">interpolate_voronoi</code><span class="sig-paren">(</span><em>attsink</em>, <em>cmosrc</em>, <em>attsrc</em>, <em>interp_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.interpolate_voronoi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.list">
+<code class="descname">list</code><span class="sig-paren">(</span><em>attname=None, stride=[1, 0, 0]</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.minmax">
+<code class="descname">minmax</code><span class="sig-paren">(</span><em>attname=None, stride=[1, 0, 0]</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.minmax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.minmax_xyz">
+<code class="descname">minmax_xyz</code><span class="sig-paren">(</span><em>stride=[1, 0, 0], verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.minmax_xyz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.perturb">
+<code class="descname">perturb</code><span class="sig-paren">(</span><em>xfactor</em>, <em>yfactor</em>, <em>zfactor</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.perturb" title="Permalink to this definition">¶</a></dt>
+<dd><p>This command moves node coordinates in the following manner.</p>
+<p>Three pairs of random numbers between 0 and 1 are generated.
+These pairs refer to the x, y and z coordinates of the nodes respectively.
+The first random number of each pair is multiplied by the factor given in
+the command. The second random number is used to determine
+if the calculated offset is to be added or subtracted from the coordinate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.pset_attribute">
+<code class="descname">pset_attribute</code><span class="sig-paren">(</span><em>attribute</em>, <em>value</em>, <em>comparison='eq'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.pset_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define PSet from another PSet by attribute</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attribute</strong> (<em>str</em>) – Nodes defined by attribute ID.</li>
+<li><strong>value</strong> (<em>integer</em>) – attribute ID value.</li>
+<li><strong>comparison</strong> (<em>can use default without specifiy anything</em><em>, or </em><em>list</em><em>[</em><em>lt|le|gt|ge|eq|ne</em><em>]</em>) – attribute comparison, default is eq.</li>
+<li><strong>name</strong> (<em>str</em>) – The name to be assigned to the PSet created.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: PSet object</p>
+<p>Usage: newpset = oldpset.pset_attribute(‘attribute’,’value’,’comparison’)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.refine">
+<code class="descname">refine</code><span class="sig-paren">(</span><em>refine_type='element', refine_option='constant', interpolation=' ', prange=[-1, 0, 0], field=' ', inclusive_flag='exclusive', prd_choice=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.refine" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.scale">
+<code class="descname">scale</code><span class="sig-paren">(</span><em>scale_type='relative', scale_geom='xyz', scale_factor=[1, 1, 1], scale_center=[0, 0, 0]</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale pset nodes by a relative or absolute amount
+:arg scale_type: Scaling type may be ‘relative’ or ‘absolute’
+:type scale_type: string
+:arg scale_geom: May be one of the geometry types ‘xyz’ (Cartesian), ‘rtz’ (cylindrical), or ‘rtp’ (spherical)
+:type scale_geom: string
+:arg scale_factor: If scale_factor is relative, scaling factors are unitless multipliers. If absolute, scaling factors are constants added to existing coordinates.
+:type scale_factor: list
+:arg scale_center: Geometric center to scale from
+:type scale_center: list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.setatt">
+<code class="descname">setatt</code><span class="sig-paren">(</span><em>attname</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.setatt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.smooth">
+<code class="descname">smooth</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.smooth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.PSet.trans">
+<code class="descname">trans</code><span class="sig-paren">(</span><em>xold</em>, <em>xnew</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PSet.trans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate points within a pset by the linear translation from (xold, yold, zold) to (xnew, ynew, znew)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xold</strong> (<em>tuple</em>) – Tuple containing point (xold, yold, zold) to translate from</li>
+<li><strong>xnew</strong> (<em>tuple</em>) – Tuple containing point (xnew, ynew, znew) to translate to</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.PSet.xlength">
+<code class="descname">xlength</code><a class="headerlink" href="#pylagrit.PSet.xlength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.PSet.xmax">
+<code class="descname">xmax</code><a class="headerlink" href="#pylagrit.PSet.xmax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.PSet.xmin">
+<code class="descname">xmin</code><a class="headerlink" href="#pylagrit.PSet.xmin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.PSet.ylength">
+<code class="descname">ylength</code><a class="headerlink" href="#pylagrit.PSet.ylength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.PSet.ymax">
+<code class="descname">ymax</code><a class="headerlink" href="#pylagrit.PSet.ymax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.PSet.ymin">
+<code class="descname">ymin</code><a class="headerlink" href="#pylagrit.PSet.ymin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.PSet.zlength">
+<code class="descname">zlength</code><a class="headerlink" href="#pylagrit.PSet.zlength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.PSet.zmax">
+<code class="descname">zmax</code><a class="headerlink" href="#pylagrit.PSet.zmax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.PSet.zmin">
+<code class="descname">zmin</code><a class="headerlink" href="#pylagrit.PSet.zmin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLaGriT</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="autodoc.html">Class Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="autodoc_pylagrit.html">PyLaGriT Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_mo.html">Mesh Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Point Set Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_eltset.html">Element Set Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_faceset.html">Face Set Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_region.html">Region Class</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="autodoc.html">Class Documentation</a><ul>
       <li>Previous: <a href="autodoc_mo.html" title="previous chapter">Mesh Object</a></li>
-      <li>Next: <a href="autodoc_eltset.html" title="next chapter">Mesh Object</a></li>
+      <li>Next: <a href="autodoc_eltset.html" title="next chapter">Element Set Object</a></li>
   </ul></li>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="sources/autodoc_pset.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
@@ -147,11 +329,11 @@
       &copy;2016, Dylan R. Harp.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="sources/autodoc_pset.txt"
+      <a href="sources/autodoc_pset.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
