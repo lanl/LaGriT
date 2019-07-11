@@ -7,7 +7,8 @@ title: 'LaGriT V1.100 Release Notes 1999'
 This text is converted from old pdf files and may have translation errors.
 See original pdf for clarification.
 
-<a href="/assets/images/release_notes6.pdf" download> LaGriT V1.0 May 1999 </a>  Development
+<a href="/assets/images/release_notes6.pdf" download> LaGriT V1.0 May 1999 </a>  PDF Version
+
 
 
 A summary of the major Changes found in this release are listed below.
