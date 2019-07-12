@@ -2,9 +2,13 @@
 title: 'LaGriT V2 Release Notes'
 ---
 
+# Versions 2.002 2008 to 2.2 Release November 2010
+
+This covers work from 2008 to 2010 and includes V2.2 major release before changing all code to support 64 bit.
+
+
 ## Version 2.2 Release November 2010
 
-This is the last release before work to support 64 bit.
 
 ```
 *               *    Program:  LaGriT V2.200   Linux m32      *                 
