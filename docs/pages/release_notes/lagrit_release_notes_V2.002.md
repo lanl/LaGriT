@@ -116,7 +116,7 @@ but allows better reporting of errors and memory usage for useful diagnostic inf
 *               *    date_compile: 2009/08/03                 *                   
 ```
 
-###Enhancements:
+### Code Enhancements:
 
 - Executable build for Mac with Intel chip
 
@@ -180,7 +180,7 @@ This routine is called  by matbld3d_stor
 added error check and message for every mmgetblk and mmrelblk
 added calls to mmprint when mm calls fail
 
-###These issues were fixed:
+### These issues were fixed:
 
 - readatt not working correctly for psets
 
@@ -191,7 +191,7 @@ added calls to mmprint when mm calls fail
 ## Version 2.004 10/21/2008
 
 
-### Enhancements:
+### Code Enhancements:
 
 -  resetpts bug fix, boundary_components and extract_surfmesh added features
 -  boundary_components: added id_numb boundary index number
@@ -257,4 +257,4 @@ Modified header correcting spelling, changed X3D to LaGriT.
     crashing at rmpoint due to MALLOC failure.
     
  
- *changesets tracked with Mecurial/Trac 0.10.4 on ancho.lanl.gov/lagrit/hg/lagrit*
+ *changesets were tracked with Mecurial/Trac 0.10.4 on ancho.lanl.gov/lagrit/hg/lagrit*
