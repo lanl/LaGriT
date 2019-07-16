@@ -7,9 +7,9 @@ title: 'LaGriT V1.1.3 and V1.1.4 Release Notes 2005'
 This combines notes for development work June 2005 and November 2005. These notes are converted from
 old pdf files and may contain translation mistakes. See the original pdf for clarification.
 
-<a href="/assets/images/release_notes15.pdf" download> LaGriT V1.1.4 November 2005 </a> PDF Version 
+<a href="/docs/pages/release_notes/release_notes15.pdf" download> LaGriT V1.1.4 November 2005 </a> PDF Version 
 
-<a href="/assets/images/release_notes14.pdf" download> LaGriT V1.1.3 June 2005 </a> PDF Version 
+<a href="release_notes/release_notes14.pdf" download> LaGriT V1.1.3 June 2005 </a> PDF Version 
 
 
 A summary of the major changes found in this release are listed below. A complete list of
