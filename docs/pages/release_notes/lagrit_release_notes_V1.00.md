@@ -346,4 +346,3 @@ connect2d_lg -  new code to connect 2d planar node distributions into 2d grids
 delaunay2d_lg, delaunay2d_connect_lg, multi_material2d_lg, fix_small_triangles_lg, make_big_triangle_lg
 scale_lg, msgtty change subroutine name ‘scale’ to ‘scale_lg' to avoid conﬂicts with other libraries
 
-
