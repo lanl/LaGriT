@@ -4,13 +4,13 @@ title: LaGriT Release Notes
 
 Release Notes
 --------------
-[LaGriT V3.3 October 2017](release_notes/lagrit_release_notes_V3.200.md) Release Open Source LA-CC-15-069 
+[LaGriT V3.2 and V3.3 2017](release_notes/lagrit_release_notes_V3.200.md) Release Open Source LA-CC-15-069
 
-[LaGriT V3.1 November 2012](release_notes/lagrit_release_notes_V3.100.md) Release Added ExodusII Libraries
+[LaGriT V3.1 2012](release_notes/lagrit_release_notes_V3.100.md) Release Added ExodusII Libraries
 
-[LaGriT V3.0 August 2011](release_notes/lagrit_release_notes_V3.00.md) Release V3 64 bit LA-CC-07-084
+[LaGriT V3.0 2011](release_notes/lagrit_release_notes_V3.00.md) Release V3 64 bit LA-CC-07-084
 
-[LaGriT V2.002 November 2010](release_notes/lagrit_release_notes_V2.002.md) Release V2 Open Distribution LA-CC-07-038  
+[LaGriT V2.002 2010](release_notes/lagrit_release_notes_V2.002.md) Release V2 Open Distribution LA-CC-07-038  
 
 [LaGriT V1.1.4 2005 ](release_notes/lagrit_release_notes_V1.1.4.md) V1.1.3 and V1.1.4 Notes
 
