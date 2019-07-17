@@ -36,12 +36,12 @@ quality
  
 Input points:
 
-<img width="350" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1.gif" 
+<img width="350" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1.gif" > 
 
 
 Triangulation after connect:
 
-<img width="350" src="https://lanl.github.io/LaGriT/assets/images/2d_connect2.gif"
+<img width="350" src="https://lanl.github.io/LaGriT/assets/images/2d_connect2.gif" >
 
 
 
