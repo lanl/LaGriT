@@ -1011,13 +1011,33 @@ C          CMO 2D in 2 dimensions
      *                              ierr2)
              if (ierr2 .ne.0) then
                write(logmess,'(a,i5)')
-     *         'LaGriT WARNING: connect (2d) returned error: ',ierr2
+     *         'LaGriT WARNING: connect (2d) error: ',ierr2
                call writloga('default',0,logmess,1,ierrw)
                ierr2 = 0
+
              else
                write(logmess,'(a)')
      *         'LaGriT FINISH: connect '
                call writloga('default',0,logmess,1,ierrw)
+
+C              some 2D planar distributions are not delaunay
+C              call recon/0 to ensure delaunay
+              
+               ierr2 = 0
+               call dotaskx3d('recon/0 ; finish',ierr2)
+
+               if (ierr2.ne.0) then
+                   write(logmess,'(a,i5)')
+     *             'LaGriT WARNING: recon 0 for 2d error: ',ierr2
+                   call writloga('default',0,logmess,1,ierrw)
+                   ierr2 = 0
+
+               else
+                   write(logmess,'(a)')
+     *             'LaGriT FINISH: recon 0 for connect 2d'
+                   call writloga('default',0,logmess,1,ierrw)
+              endif
+
              endif
 
 C          CMO 3D in 3 dimensions

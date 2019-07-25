@@ -2,24 +2,26 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.203   Linux          *                 
-*               *    date_compile: 2017/09/26 Static DB       *                 
-*               *    Run Time: 2017/Oct  5  08:40:19          *                 
+*               *    Program:  LaGriT V3.400   Linux          *                 
+*               *    date_compile: 2019/07/04 dev             *                 
+*               *    Run Time: 2019/Jul 24  15:38:54          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
@@ -54,6 +56,12 @@ connect
  The mesh is now complete!                                                      
  
 LaGriT FINISH: connect                                                          
+ 
+recon/0                                                                         
+RECON2D reconnection loop2d:     1                                              
+RECON: done.                                                                    
+finish                                                                          
+LaGriT FINISH: recon 0 for connect 2d                                           
  
 quality                                                                         
  
@@ -96,7 +104,7 @@ connect2d > invalid number of nodes:          1
 connect2d > ending with ierr1 flag:         1                                   
 ERROR END COUNT:     1 for connect2d                                            
  
-LaGriT WARNING: connect (2d) returned error:     1                              
+LaGriT WARNING: connect (2d) error:     1                                       
  
 quality                                                                         
          0 total elements in mesh.                                              
@@ -168,6 +176,12 @@ ERROR END: delaunay2d
  Number of points that could not be connected:          4                       
  
 LaGriT FINISH: connect                                                          
+ 
+recon/0                                                                         
+RECON2D reconnection loop2d:     1                                              
+RECON: done.                                                                    
+finish                                                                          
+LaGriT FINISH: recon 0 for connect 2d                                           
  
 quality                                                                         
          0 total elements in mesh.                                              
