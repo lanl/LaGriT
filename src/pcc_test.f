@@ -39,18 +39,12 @@ C
       real*8 ncc(10000000)
       real*8 dist,dist2,radius2,centx,centy,centz,
      *    a11,a12,a13,a21,a22,a23
-      character*32 isubname
-      character*132 ibuff
 C
-      integer ierror, ilen,itype
+      integer ierror, ierr, ierrw, ilen,itype
 C
 C ######################################################################
-C
-      character*40 cmo
-      character* 132 logmess
  
-C
-      integer npoints, ntets, nen, nef, nsdtopo, nsdgeom,mbndry
+      integer npoints, ntets, nen, nef, nsdtopo, nsdgeom,mbndry, icount
       integer p1,p2,p3
 C
       pointer (ipitp1, itp1)
@@ -72,7 +66,12 @@ C
       integer itetclr(1000000), jtetoff(1000000)
       integer itet(10000000),  jtet(10000000)
       real*8 xic(1000000), yic(1000000), zic(1000000)
+
       character*8 cglobal,cdefault
+      character*40 cmo
+      character* 132 logmess
+      character*32 isubname
+      character*132 cbuff
 
 C     Count the number of non-tets so that we can give a useful warning.
       integer nnontets
@@ -80,21 +79,46 @@ C
       dist2(a11,a12,a13,a21,a22,a23)  =
      *  (a11-a21)**2 + (a12-a22)**2 + (a13-a23)**2
 C
+C     ******************************************************************
+C     Begin
+
       isubname='pcc_test'
       cglobal='global'
       cdefault='default'
       nnontets = 0
+      icount = 0
 C
 C
 C     ******************************************************************
 C     Get mesh object data.
 C
  
+
+C     get mesh object name
       call cmo_get_name(cmo,ierror)
+      if (ierror.ne.0) then
+         write(logmess ,"('No current mesh object')")
+         call writloga('default',0,logmess ,0,ierrw)
+         return
+      endif
+
+
       call cmo_get_info('nnodes', cmo, npoints, ilen, itype, ierror)
       if(ierror.ne.0) call x3d_error(isubname,'cmo_get_info')
       call cmo_get_info('nelements', cmo, ntets, ilen, itype, ierror)
       if(ierror.ne.0) call x3d_error(isubname,'cmo_get_info')
+
+      if (npoints .le. 0) then
+        write (logmess ,'(i10,a)')ntets,' total nodes in mesh.'
+        call writloga('default',0,logmess ,1,ierrw)
+        goto 9999
+      endif
+      if (ntets .le. 0) then
+        write (logmess ,'(i10,a)')ntets,' total elements in mesh.'
+        call writloga('default',0,logmess ,1,ierrw)
+        goto 9999
+      endif
+
       call cmo_get_info('mbndry',cmo,
      *                   mbndry,ilen, itype, ierror)
       call cmo_get_info('ndimensions_topo',cmo,
@@ -128,13 +152,12 @@ C
       call cmo_get_info('zic',cmo,ipzic,ilen,itype,ierror)
  
       isubname='pcc_test'
+
+      cbuff='cmo/addatt//neg_coup_coeff/VDOUBLE/scalar/nelements' //
+     *     ' ; finish'
+      call dotaskx3d(cbuff,ierror)
+      call mmgetpr('neg_coup_coeff',cmo,ipncc,ierror)
  
-      ibuff='cmo/addatt//neg_coup_coeff/VDOUBLE/' //
-     *         'scalar/nelements/linear/temporary/gx/0' //
-     *         ' ; finish'
- 
-      call dotaskx3d(ibuff,ierror)
-      call cmo_get_info('neg_coup_coeff',  cmo,ipncc,ilen,itype,ierror)
  
 C#######################################################################
  
@@ -144,7 +167,8 @@ c        jtet1= boundary flag
 c        itp1=boundary flag(0,10,2,12,etc)
 c        ielmface0=node numbers on face
  
-      write(logmess,'(a)')'Negative Coupling Coefficients indicated: '
+      write(logmess,'(a)')
+     * 'Coupling Coefficients marked in attribute neg_coup_coeff:'
       call writloga('default',1,logmess,0,ierror)
  
       do it=1,ntets
@@ -184,17 +208,19 @@ c
          if (ncc(it).lt.0.999999999) then
            write(logmess,'("tet ",i10," has negative coeff ",e11.4)')
      *      it, -ncc(it)
-            call writloga('default',1,logmess,0,ierror)
+            call writloga('default',0,logmess,0,ierror)
+            icount = icount +1
          endif
       enddo
+
+      write(logmess, '(a,i10)') 'Total negative ccoefs found: ',icount
+      call writloga('default',0,logmess,1,ierror)
 
       if (nnontets .gt. 0) then
           write(logmess, '(a,i10,a)') 'pcc_test warning: found ',
      *       nnontets, ' non-tetrahedral elements'
           call writloga('default',1,logmess,0,ierror)
       endif
- 
-      call cmo_set_info('neg_coup_coeff',  cmo,ipncc,ilen,itype,ierror)
  
  9999 return
       end

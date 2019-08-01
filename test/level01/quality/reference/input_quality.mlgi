@@ -1,0 +1,37 @@
+*
+********************************************
+* Aspect Ratio
+quality / aspect / y
+* Minimum Dihedral Angle, (degree)
+cmo / addatt / MO_NAME / ang_mind / a_mind
+* Maximum Dihedral Angle, (degree)
+cmo / addatt / MO_NAME / ang_maxd / a_maxd
+* Maximum Solid Angle, (degree)
+cmo / addatt / MO_NAME / ang_maxd_solid / s_maxd
+* Minimum Solid Angle, (degree)
+cmo / addatt / MO_NAME / ang_mind_solid / s_mind
+* ( min edge length ) / ( max edge length )
+quality / edge_ratio / y
+********************************************
+* Minimum Dihedral Angle, (radian)
+cmo / addatt / MO_NAME / ang_minr / a_minr
+* Maximum Dihedral Angle, (radian)
+cmo / addatt / MO_NAME / ang_maxr / a_maxr
+* Minimum Solid Angle, (radian)
+cmo / addatt / MO_NAME / ang_minr_solid / s_minr
+* Maximum Solid Angle, (radian)
+cmo / addatt / MO_NAME / ang_maxr_solid / s_maxr
+* Edge length minimum
+quality / edge_min / y
+* Edge length maximum
+quality / edge_max / y
+* volume 
+quality/ volume 
+*
+quality
+*
+quality/angle/ lt 20.
+quality/angle/ gt 90.
+
+finish
+

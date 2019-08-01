@@ -213,7 +213,7 @@ C  variables for volume computation
       pointer(ipsumbyclr,sumbyclr)
 
 C  New volume variables
-      logical ifposvol, ifbins
+      logical ifposvol, ifbins, ifnormalized
       integer istart,iinc,nclrs,icount
       integer ifirst,ilast
       real*8 volposmin
@@ -297,6 +297,7 @@ c
       ipt2=0
       ipt3=0
 
+
       badcountname(ifelmtet) = 'tets'
       badcountname(ifelmpyr) = 'pyramids'
       badcountname(ifelmpri) = 'prisms'
@@ -353,10 +354,15 @@ C     Set defaults
       nbins = 5
       ielm_invalid = 0
       nelm_invalid = 0
+
+C     the default is to normalize values for log scale bin numbers 0 to 1 
+C     do not normalize ascpect or edge_ratio
+      ifnormalized = .true.
  
       if (nwds.eq.1) then
         ifaspect = .true.
         ifvolume = .true.
+        ifnormalized = .false.
       endif
  
 c     loop through command words
@@ -374,6 +380,7 @@ c........aspect command
          if (cmsgin(i)(1:6) .eq. 'aspect') then
             ifaspseen = .true.
             ifaspect = .true.
+            ifnormalized = .false.
             i = i + 1
             if (nwds.ge.i .and. msgtyp(i).eq.3) then
               if (cmsgin(i)(1:icharlnf(cmsgin(i))).eq.'y') then
@@ -389,6 +396,7 @@ c........edge_ratio command
          elseif (cmsgin(i)(1:10) .eq. 'edge_ratio') then
             ifaspseen = .true.
             ifedge_ratio = .true.
+            ifnormalized = .false.
             i = i + 1
             if (nwds.ge.i .and. msgtyp(i).eq.3) then
               if (cmsgin(i)(1:icharlnf(cmsgin(i))).eq.'y') then
@@ -791,6 +799,7 @@ C
       call writloga('default',1,lgms ,0,ierrw)
  
 C  prepare bins for storing the ratio counts
+C  bins are numbers between 0 and 1 using log scale
       call mmgetblk('arbincnts',isubname,iparbincnts,numarbins,1,ier)
       DATA arbinends/0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0/
       DATA arbinchars/'.01','.02','.05','.1','.2','.5','1.'/
@@ -855,7 +864,7 @@ C
          if (srat .gt. sratmax)
      *     sratmax = srat
       enddo
-C
+
 C     Split the loop so we know the min/max during bin distribution.
 C
       do ii=1,mpno
@@ -864,11 +873,18 @@ C
          if (sratmax .eq. 0.) then
              srat = 0.
          else
-             srat = aratio(it)/sratmax
+             if (ifnormalized) then
+               srat = aratio(it)/sratmax
+c   print*,"srat set norm: ",srat," from ",aratio(it)
+             else
+               srat = aratio(it)
+c   print*,"srat set real: ",srat," from ",aratio(it)
+             endif
          endif
 C
 C  Calculate some distribution here
 C  Using simple linear search to find appropriate bins
+
          if (srat .lt. 0.0) then
             nneg = nneg + 1
          else
@@ -897,6 +913,7 @@ C  Using simple linear search to find appropriate bins
 C
 C  Write totals for quantities
 C
+
       write (lgms ,"('--------------------------------------------')")
       call writloga('default',0,lgms ,0,ierrw)
 C
@@ -912,6 +929,12 @@ c     report only if there are some valid numbers
         call writloga('default',0,lgms ,0,ierrw)
       
       else
+
+      if (ifnormalized) then
+         write(lgms ,'(a)')
+     *   'Aspect ratio normalized by dividing with max value.'
+         call writloga('default',0,lgms ,0,ierrw)
+      endif
 
         write(lgms ,"('elements with aspect ratio < ',a3,
      *     ':           ',i10)") arbinchars(1), arbincnts(1)
@@ -960,7 +983,14 @@ c     min/max Edge Ratio Output
 
       elseif(ifedge_ratio)then
 
-      write(lgms ,"('element norm min/max edge ratio < ',a3,
+      if (ifnormalized) then
+         write(lgms ,'(a)')
+     *   'Edge ratio normalized by dividing with max value.'
+         call writloga('default',0,lgms ,0,ierrw)
+      endif
+
+
+      write(lgms ,"('elements with min/max edge ratio < ',a3,
      *     ':           ',i10)") arbinchars(1), arbincnts(1)
       call writloga('default',0,lgms ,0,ierrw)
       do i=2,numarbins
@@ -988,8 +1018,15 @@ C
 C     min Edge length Output
 C
       elseif(ifedge_min)then
+
+      if (ifnormalized) then
+         write(lgms ,'(a)')
+     *   'Edge min normalized by dividing with max value.'
+         call writloga('default',0,lgms ,0,ierrw)
+      endif
+
       write(lgms ,"('element norm min edge length < ',a3,
-     *     ':           ',i10)") arbinchars(1), arbincnts(1)
+     *     ':       ',i10)") arbinchars(1), arbincnts(1)
       call writloga('default',0,lgms ,0,ierrw)
       do i=2,numarbins
          write(lgms ,"('element norm edge length b/w ',a3,
@@ -1015,8 +1052,15 @@ C
 C     max Edge Length Output
 C
       elseif(ifedge_max)then
+
+      if (ifnormalized) then
+         write(lgms ,'(a)')
+     *   'Edge max normalized by dividing with max value.'
+         call writloga('default',0,lgms ,0,ierrw)
+      endif
+
       write(lgms ,"('element norm max edge length < ',a3,
-     *     ':           ',i10)") arbinchars(1), arbincnts(1)
+     *     ':       ',i10)") arbinchars(1), arbincnts(1)
       call writloga('default',0,lgms ,0,ierrw)
       do i=2,numarbins
          write(lgms ,"('element norm edge length b/w ',a3,
@@ -1098,6 +1142,7 @@ C        Count volumes lt and eq to epsilonvol
          if(volumelt.le.epsilonvol) nsmallvoleq=nsmallvoleq+1
  
 C        Count non-positive and zero volumes
+C        NOTE vol() index is set by mpary 1 to mpno
          if(volumelt.lt.0.d0) nonzero=nonzero+1
          if(volumelt.le.0.d0) nonposvol=nonposvol+1
          vol(it)=volumelt
@@ -1228,6 +1273,7 @@ C           Using simple linear search to find the appropriate bin
 c        end filling bins
  
          if (ifbins) then
+
          write (lgms ,"('---------------------------------------')")
          call writloga('default',0,lgms ,0,ierrw)
          if (ifbyclr .and. (ifbins)) then
@@ -1282,8 +1328,9 @@ c     all volumes are same, ichk is false
            write (lgms ,"('...........................')")
            call writloga('default',0,lgms ,0,ierrw)
          endif
+
          write (lgms ,"('All elements have volume'
-     *        ,1pe15.7)")vol(1)
+     *        ,1pe15.7)") vol(mpary(1))
          call writloga('default',0,lgms ,0,ierrw)
          endif
  

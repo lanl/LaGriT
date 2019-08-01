@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.300   Linux          *                 
-*               *    date_compile: 2019/04/10 Release         *                 
-*               *    Run Time: 2019/Apr 10  11:39:17          *                 
+*               *    Program:  LaGriT V3.400   Linux          *                 
+*               *    date_compile: 2019/07/04 dev             *                 
+*               *    Run Time: 2019/Aug  1  09:44:57          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -93,8 +93,8 @@ elements with aspect ratio b/w .01 and .02:          0
 elements with aspect ratio b/w .02 and .05:          1                          
 elements with aspect ratio b/w .05 and .1 :          0                          
 elements with aspect ratio b/w .1  and .2 :          0                          
-elements with aspect ratio b/w .2  and .5 :          1                          
-elements with aspect ratio b/w .5  and 1. :          3                          
+elements with aspect ratio b/w .2  and .5 :          2                          
+elements with aspect ratio b/w .5  and 1. :          2                          
 min aspect ratio =  0.3703E-01  max aspect ratio =  0.8284E+00                  
  
 epsilonvol:   1.1102230E-04                                                     
@@ -114,7 +114,8 @@ finish
  
 epsilonl, epsilonaspect:   4.9650683E-09  1.2239838E-25                         
 --------------------------------------------                                    
-element norm max edge length < .01:                    0                        
+Edge max normalized by dividing with max value.                                 
+element norm max edge length < .01:                0                            
 element norm edge length b/w .01 and .02:          0                            
 element norm edge length b/w .02 and .05:          0                            
 element norm edge length b/w .05 and .1 :          0                            
@@ -190,7 +191,8 @@ finish
  
 epsilonl, epsilonaspect:   4.9650683E-09  1.2239838E-25                         
 --------------------------------------------                                    
-element norm max edge length < .01:                    0                        
+Edge max normalized by dividing with max value.                                 
+element norm max edge length < .01:                0                            
 element norm edge length b/w .01 and .02:          0                            
 element norm edge length b/w .02 and .05:          0                            
 element norm edge length b/w .05 and .1 :          0                            
@@ -368,7 +370,8 @@ finish
  
 epsilonl, epsilonaspect:   4.9650683E-09  1.2239838E-25                         
 --------------------------------------------                                    
-element norm max edge length < .01:                    0                        
+Edge max normalized by dividing with max value.                                 
+element norm max edge length < .01:                0                            
 element norm edge length b/w .01 and .02:          0                            
 element norm edge length b/w .02 and .05:          0                            
 element norm edge length b/w .05 and .1 :          0                            
@@ -476,7 +479,8 @@ finish
  
 epsilonl, epsilonaspect:   4.9650683E-09  1.2239838E-25                         
 --------------------------------------------                                    
-element norm max edge length < .01:                    0                        
+Edge max normalized by dividing with max value.                                 
+element norm max edge length < .01:                0                            
 element norm edge length b/w .01 and .02:          0                            
 element norm edge length b/w .02 and .05:          0                            
 element norm edge length b/w .05 and .1 :          0                            
@@ -638,7 +642,8 @@ finish
  
 epsilonl, epsilonaspect:   4.9650683E-09  1.2239838E-25                         
 --------------------------------------------                                    
-element norm max edge length < .01:                    0                        
+Edge max normalized by dividing with max value.                                 
+element norm max edge length < .01:                0                            
 element norm edge length b/w .01 and .02:          0                            
 element norm edge length b/w .02 and .05:          0                            
 element norm edge length b/w .05 and .1 :          0                            
@@ -1010,7 +1015,8 @@ finish
  
 epsilonl, epsilonaspect:   4.9650683E-09  1.2239838E-25                         
 --------------------------------------------                                    
-element norm max edge length < .01:                    0                        
+Edge max normalized by dividing with max value.                                 
+element norm max edge length < .01:                0                            
 element norm edge length b/w .01 and .02:          0                            
 element norm edge length b/w .02 and .05:          0                            
 element norm edge length b/w .05 and .1 :          0                            
@@ -1143,7 +1149,8 @@ finish
  
 epsilonl, epsilonaspect:   4.9650683E-09  1.2239838E-25                         
 --------------------------------------------                                    
-element norm max edge length < .01:                    0                        
+Edge max normalized by dividing with max value.                                 
+element norm max edge length < .01:                0                            
 element norm edge length b/w .01 and .02:          0                            
 element norm edge length b/w .02 and .05:          0                            
 element norm edge length b/w .05 and .1 :          0                            
@@ -1267,7 +1274,8 @@ finish
  
 epsilonl, epsilonaspect:   4.9650683E-09  1.2239838E-25                         
 --------------------------------------------                                    
-element norm max edge length < .01:                    0                        
+Edge max normalized by dividing with max value.                                 
+element norm max edge length < .01:                0                            
 element norm edge length b/w .01 and .02:          0                            
 element norm edge length b/w .02 and .05:          0                            
 element norm edge length b/w .05 and .1 :          0                            
@@ -1433,7 +1441,8 @@ finish
  
 epsilonl, epsilonaspect:   4.9650683E-09  1.2239838E-25                         
 --------------------------------------------                                    
-element norm max edge length < .01:                    0                        
+Edge max normalized by dividing with max value.                                 
+element norm max edge length < .01:                0                            
 element norm edge length b/w .01 and .02:          0                            
 element norm edge length b/w .02 and .05:          0                            
 element norm edge length b/w .05 and .1 :          0                            
@@ -1520,7 +1529,8 @@ finish
  
 epsilonl, epsilonaspect:   4.9650683E-09  1.2239838E-25                         
 --------------------------------------------                                    
-element norm max edge length < .01:                    0                        
+Edge max normalized by dividing with max value.                                 
+element norm max edge length < .01:                0                            
 element norm edge length b/w .01 and .02:          0                            
 element norm edge length b/w .02 and .05:          0                            
 element norm edge length b/w .05 and .1 :          0                            

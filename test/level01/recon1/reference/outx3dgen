@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V3.400   Linux          *                 
 *               *    date_compile: 2019/07/04 dev             *                 
-*               *    Run Time: 2019/Jul 24  15:38:33          *                 
+*               *    Run Time: 2019/Aug  1  09:44:45          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -171,11 +171,11 @@ epsilonl, epsilonaspect:   3.5108335E-13  4.3274364E-38
 --------------------------------------------                                    
 elements with aspect ratio < .01:                    0                          
 elements with aspect ratio b/w .01 and .02:          0                          
-elements with aspect ratio b/w .02 and .05:          0                          
-elements with aspect ratio b/w .05 and .1 :          0                          
-elements with aspect ratio b/w .1  and .2 :          0                          
-elements with aspect ratio b/w .2  and .5 :          2                          
-elements with aspect ratio b/w .5  and 1. :          3                          
+elements with aspect ratio b/w .02 and .05:          2                          
+elements with aspect ratio b/w .05 and .1 :          2                          
+elements with aspect ratio b/w .1  and .2 :          1                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :          0                          
 min aspect ratio =  0.3865E-01  max aspect ratio =  0.1140E+00                  
  
 epsilonvol:   5.5511151E-13                                                     
@@ -1121,8 +1121,8 @@ elements with aspect ratio b/w .01 and .02:          0
 elements with aspect ratio b/w .02 and .05:          0                          
 elements with aspect ratio b/w .05 and .1 :          1                          
 elements with aspect ratio b/w .1  and .2 :          6                          
-elements with aspect ratio b/w .2  and .5 :         23                          
-elements with aspect ratio b/w .5  and 1. :        108                          
+elements with aspect ratio b/w .2  and .5 :         24                          
+elements with aspect ratio b/w .5  and 1. :        107                          
 min aspect ratio =  0.8499E-01  max aspect ratio =  0.9981E+00                  
  
 epsilonvol:   5.5511151E-13                                                     
@@ -1389,9 +1389,9 @@ elements with aspect ratio < .01:                    0
 elements with aspect ratio b/w .01 and .02:          0                          
 elements with aspect ratio b/w .02 and .05:          0                          
 elements with aspect ratio b/w .05 and .1 :          0                          
-elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .1  and .2 :          1                          
 elements with aspect ratio b/w .2  and .5 :          0                          
-elements with aspect ratio b/w .5  and 1. :          1                          
+elements with aspect ratio b/w .5  and 1. :          0                          
 min aspect ratio =  0.1872E+00  max aspect ratio =  0.1872E+00                  
  
 epsilonvol:   2.3323565E-11                                                     
@@ -1521,9 +1521,9 @@ elements with aspect ratio < .01:                    0
 elements with aspect ratio b/w .01 and .02:          0                          
 elements with aspect ratio b/w .02 and .05:          0                          
 elements with aspect ratio b/w .05 and .1 :          0                          
-elements with aspect ratio b/w .1  and .2 :          0                          
-elements with aspect ratio b/w .2  and .5 :          0                          
-elements with aspect ratio b/w .5  and 1. :          3                          
+elements with aspect ratio b/w .1  and .2 :          2                          
+elements with aspect ratio b/w .2  and .5 :          1                          
+elements with aspect ratio b/w .5  and 1. :          0                          
 min aspect ratio =  0.1891E+00  max aspect ratio =  0.3597E+00                  
  
 epsilonvol:   2.3323565E-11                                                     

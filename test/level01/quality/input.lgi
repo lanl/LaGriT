@@ -1,0 +1,125 @@
+# TEST QUALITY 
+# test quality reports based on tets at
+# https://lanl.github.io/LaGriT/pages/docs/QUALITY_sliver_cap_needle_wedge.html
+# does not include taylor or quad located in other test directories
+
+# ------------------------------------- 
+# EQUILATERAL
+define MO_NAME mo_equal
+read input_tet_equilateral.inp MO_NAME
+infile input_quality.mlgi 
+cmo printatt MO_NAME -all- minmax
+# aratio = 1.
+# a_mind = 7.05288E+01
+# a_maxd = 7.05288E+01
+# s_mind = 3.15863E+01 
+# eratio = 1.0
+
+# ------------------------------------- 
+# SLIVER
+define MO_NAME mo_sliver
+read input_tet_sliver.inp MO_NAME
+infile input_quality.mlgi 
+cmo printatt MO_NAME -all- minmax
+# aratio = 0.2927 
+# a_mind = 1.59424E+01 
+# a_maxd = 1.57380E+02 
+# s_mind = 9.26487E+00 
+# eratio = 7.14143E-01
+
+# ------------------------------------- 
+# CAP
+define MO_NAME mo_cap
+read input_tet_cap.inp mo_cap
+infile input_quality.mlgi 
+cmo printatt MO_NAME -all- minmax
+# aratio = 0.07447   
+# a_mind = 1.57931E+01 
+# a_maxd = 1.49549E+02 
+# s_mind = 2.60111E+02 
+# eratio = 2.59807E-01 
+
+
+# ------------------------------------- 
+# NEEDLE
+define MO_NAME mo_needle
+read input_tet_needle.inp MO_NAME
+infile input_quality.mlgi 
+cmo printatt MO_NAME -all- minmax
+# aratio = 0.3429   
+# a_mind = 5.33585E+01 
+# a_maxd = 8.74394E+01 
+# s_mind = 5.56182E+01 
+# eratio = 1.98030E-01 
+
+# ------------------------------------- 
+# WEDGE
+define MO_NAME mo_wedge
+read input_tet_wedge.inp MO_NAME
+infile input_quality.mlgi 
+cmo printatt MO_NAME -all- minmax
+# aratio = 0.2617   
+# a_mind = 1.14212E+01 
+# a_maxd = 90.0 
+# s_mind = 8.19307E+01 
+# eratio = 0.1 
+
+# ------------------------------------- 
+# RIGHT ANGLE
+define MO_NAME mo_right
+read input_tet_right.inp MO_NAME
+infile input_quality.mlgi 
+cmo printatt MO_NAME -all- minmax
+
+# ------------------------------------- 
+# CUBES quality/volume/ 
+
+# create and connect cube points 
+cmo/create/mo
+createpts/brick/xyz/2 2 2/0. 0. 0./1. 1. 1./1 1 1
+createpts/brick/xyz/2 2 2/0. 0. 1./1. 1. 2.2 /1 1 1
+cmo/select/mo
+filter 1,0,0
+rmpoint compress; resetpts itp;
+
+cmo/create/cmotet///tet
+copypts/cmotet/mo
+cmo/delete/mo
+cmo/select/cmotet
+connect
+cmo/setatt/cmotet/itetclr/1
+resetpts/itp
+
+# assign material 2 to top cube
+pset/p2/attribute zic/1,0,0/ge 1.
+eltset/e2/exclusive pset,get,p2
+cmo setatt cmotet itetclr eltset,get,e2 2
+cmo setatt cmotet imt pset,get,p2 2
+resetpts itp
+
+cmo/addatt/cmotet/volume/ voltet
+cmo/printatt/cmotet/voltet
+#########################
+quality
+quality/volume/itetclr
+quality/volume/ 3
+eltset/e1/itetclr/ eq 1
+quality/volume/eltset,get,e1
+#########################
+# pcc
+# no negative ccoefs
+quality
+quality/pcc
+cmo/printatt/cmotet/-all- minmax
+cmo/printatt/cmotet/neg_coup_coeff
+
+#########################
+# pcc
+# skew tets by moving a node
+cmo/setatt/cmotet/xic 12,12,1 .5 
+cmo/DELATT/cmotet/neg_coup_coeff
+quality
+quality/pcc
+cmo/printatt/cmotet/neg_coup_coeff
+
+finish                                                                          
