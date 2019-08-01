@@ -1,3 +1,14 @@
+<html>
+<body>
+
+  <style type="text/css">
+    {% capture include_to_scssify %}
+      {% include style.scss %}
+    {% endcapture %}
+    {{ include_to_scssify | scssify }}
+  </style>
+<script src="script.js"></script>
+
 <nav class="toc">
 	<ul>
 		<li><a href="#intro">Intro</a></li>
@@ -197,3 +208,6 @@
 
 	</section>
 </article>
+
+</body>
+</html>
