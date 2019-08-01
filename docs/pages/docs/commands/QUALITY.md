@@ -5,7 +5,7 @@ tags: quality mesh metrics
 
 # QUALITY #
 
-**quality** provides a collection of mesh quality measurements. Together with commands in **cmo/addatt** a good summary of mesh metrics can be reported or used for further mesh optimization. See [Quality Measures](https://lanl.github.io/LaGriT/pages/docs/QUALITY_sliver_cap_needle_wedge.html).
+**quality** provides a collection of mesh quality measurements. Together with commands in **cmo/addatt** a good summary of mesh metrics can be reported or used for further mesh optimization. For quality measurments to characterize tet elements by various types, see [Quality Measures](https://lanl.github.io/LaGriT/pages/docs/QUALITY_sliver_cap_needle_wedge.html).
 
 ## SYNTAX ## 
 
@@ -20,23 +20,31 @@ The following are definitions for valid *`quality-type`* commands and their *`qu
 
 **`quality`** 
 
-with no arguments writes to screen and outx3dgen or lagrit.out logfile giving volume and aspect ratio distribution information. Aspect ratios and element volumes are binned into 5 bins then totaled, min and max values are also reported. 
+with no arguments writes to screen and outx3dgen or lagrit.out logfile reports on the min, max, and counts of aspect ratios and volumes. The aspect ratios are displayed with 7 bins (log scale) with counts of values between .01 and 1. The element volumes are displayed with 5 bins with counts of values between the min and max volumes.
 
 **`quality/aspect`** / [y] 
 
-computes the ratio of the radius of the circumsphere to the radius of the inscribed sphere of a tetrahedron. The ratio is multiplied by 3 so that a value of 1 indicates a regular tetrahedron. The display is a count of the number of elements whose aspect ratio falls in each of 7 bins.  Option y creates the element attribute named **aratio** that will contain the value of the aspect ratio for each element. Valid element types are tet and tri, hex, and quad (where the length of the hex or quad diagonals are used). 
+computes the ratio of the radius of the circumsphere to the radius of the inscribed sphere of a tetrahedron. The ratio is multiplied by 3 so that a value of 1 indicates a regular tetrahedron. The display is a binned count of the number of elements whose aspect ratio falls in each of 7 bins (log scale between .01 and 1).
+**y** option creates **aratio** mesh element attribute containing the value of the aspect ratio for each element. Valid element types are tet and tri, hex, and quad (where the length of the hex or quad diagonals are used). 
 
 **`quality/edge_ratio`** / [y] 
 
-computes the ratio (shortest element edge/longest element edge) and displays a count of the min/max edge ratio in each of 7 bins. Option y creates the element attribute named **eratio** that will contain the value of the min/max edge ratio of each element.
+computes the ratio (shortest element edge/longest element edge) and displays a binned count of the min/max edge ratio in each of 7 bins (log scale between .01 and 1). **y** option creates **eratio** mesh element attribute containing the value of the min/max edge ratio for each element.
+
 
 **`quality/edge_min`** / [y] 
 
-displays a count of the minimum edge length in each of 7 bins. Option y creates the element attribute named **edgemin** that will contain the value of the min edge length of each element.
+displays a binned count of the minimum edge lengths displayed log scale between .01 and 1. The binned values are normalized by dividing with the max value. The min and max of the mininum edge length for each element are also reported.
+**y** option creates **edgemin** mesh element attribute containing the value of the min edge length of each element.
+
+
 
 **`quality/edge_max`** / [y] 
 
-displays a count of the maximum edge length in each of 7 bins. Option y creates the element attribute named **edgemax** that will contain the value of the max edge length of each element.
+displays a binned count of the maximum edge lengths displayed log scale between .01 and 1. 
+The binned values are normalized by dividing with the max value. The min and max of the maximum edge length for each element are also reported.
+**y** option creates **edgemax** mesh element attribute containing the value of the max edge length of each element.
+
 
 **`quality/angle`** / **gt** OR **lt** / value / 
 
@@ -46,13 +54,16 @@ finds the max and min dihedral angles between adjacent faces (or 2D edges) of an
 
 creates an element based attribute called **neg_coup_coeff** which is a "negative coupling coefficient" indicator.  A value of 1 means the coupling coefficient is OK.  Anything less than 1 means it is negative.  This is useful when viewing a mesh to find where the negative coupling coefficients occur. 
 
+
 **`quality/quad`**
 
-generates some quality measures for quads and displays them after binning them into seven bins. Please see cmo / addatt // quad_quality for details on the quality measures used.
+generates some quality measures for quads and displays them after binning them into seven bins. For details on the quad quality measures see [cmo/addatt/ quad_quality](https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html).
+
 
 **`quality/taylor`**/ fieldname / value /
 
 creates and displays a count of the number of element-edge pairs with a taylor error estimate value whose absolute value is greater than the supplied value. This creates the attribute **quality_taylor** with length in attribute **quality_taylor_len**.
+
 
 **`quality/volume`** allows any combination of the *`quality_type_options`* for example: 
 ```
