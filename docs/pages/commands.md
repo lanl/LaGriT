@@ -24,6 +24,7 @@ title: "LaGriT Commands - Alphabetical"
 * [`COPYPTS`](docs/commands/COPYPTS.md) (copy existing points)
 * [`CREATEPTS`](docs/commands/createpts.md) (create points)
 * [`CREATE_GRAPH`](docs/commands/create_graph.md) (create adjacency graph)
+* [`CRUSH_THIN_TETS`](docs/commands/crush_thin_tets.md) (reduce number of thin tets)
 
 ### D
 * [`DEFINE`](docs/commands/DEFINE.md) (give a name to a number)
