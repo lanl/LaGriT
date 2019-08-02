@@ -96,7 +96,7 @@ material)
 
 [RMPOINT](docs/commands/RMPOINT.md) (remove nodes/elements)
 
-#### Creating, modifying, assessing and deleting mesh objects and their attributes:
+## Creating, modifying, assessing and deleting mesh objects and their attributes:
 [ADDMESH](docs/commands/ADDMESH.md) (join meshes)
 
 [BOUNDARY](docs/commands/BOUNDAR1.md) (set attributes on surfaces)
@@ -146,7 +146,7 @@ attribute values from nodes or elements )
 [UPSCALE](docs/commands/UPSCALE.md) (attribute from fine to coarse
 grid)
 
-#### Optimize or customize the mesh:
+## Optimize or customize the mesh:
 [BUBBLE](docs/commands/bubble.md) (extrude to 3d and extract bndry)
 
 [CRUSH_THIN_TETS](docs/commands/crush_thin_tets.md) (reduce number of thin tets)
