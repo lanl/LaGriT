@@ -1,152 +1,226 @@
-<!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
-  <head>
+<html lang="en-gb" dir="ltr">
 
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width,maximum-scale=2">
-    <meta name="description" content="{{ site.title | default: site.github.repository_name }} : {{ site.description | default: site.github.project_tagline }}">
-    
+<head>
     <title>{{ page.title | default: site.title }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ site.title | default: site.github.repository_name }} : {{ site.description | default: site.github.project_tagline }}">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="https://getuikit.com/css/theme.css?1180">
     <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
 
-    <!-- Load Google fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300|Open+Sans:300,400|Open+Sans+Condensed:700|Source+Code+Pro" rel="stylesheet">
-
     <!-- load stylesheets -->
-    <link rel="stylesheet" href="{{ "/assets/font-awesome-4.7.0/css/font-awesome.min.css" | relative_url }}">
-    <link rel="stylesheet" href="{{ "/assets/css/bootstrap.min.css" | relative_url }}">
-    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick.css" | relative_url }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick-theme.css" | relative_url }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ "/assets/css/datepicker.css" | relative_url }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick.css" | relative_url }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ "/assets/slick/slick-theme.css" | relative_url }}"/>
-    <link rel="stylesheet" href="{{ "/assets/css/templatemo-style.css" | relative_url }}">
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
 
     <!-- tipuesearch files -->
+    <!--
     <link rel="stylesheet" href="{{ "/assets/tipuesearch/css/normalize.css" | relative_url }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="{{ "/assets/tipuesearch/tipuesearch_content.js" | relative_url }}"></script>
     <link rel="stylesheet" href="{{ "/assets/tipuesearch/css/tipuesearch.css" | relative_url }}">
     <script src="{{ "/assets/tipuesearch/tipuesearch_set.js" | relative_url }}"></script>
     <script src="{{ "/assets/tipuesearch/tipuesearch.min.js" | relative_url }}"></script>
+-->
 
     <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
     <link rel="stylesheet" href="{{ "/assets/globalstyle.css" | relative_url }}">
+</head>
 
-  </head>
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 1702px;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="../" class="uk-navbar-item uk-logo">
+                            <img uk-img src="https://daniellivingston.github.io/LaGriT/assets/img/logo.png" width="50" class="uk-margin-small-right">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="../pro">Manual</a></li>
+                            <li class="uk-active"><a href="./">PyLaGriT</a></li>
+                            <li><a href="../changelog">Commands</a></li>
+                            <li><a href="../changelog">Publications</a></li>
+                            <li><a href="../changelog"><img uk-img src="https://lanl.github.io/LaGriT/assets/img/github_hover.png" width="20"></a></li>
+                        </ul>
+                        <div class="uk-navbar-item uk-visible@m"><a href="../download" class="uk-button uk-button-default tm-button-default uk-icon">Download <canvas uk-icon="icon: download" width="20" height="20" class="uk-icon" hidden="true"></canvas><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="download"><polyline fill="none" stroke="#000" points="14,10 9.5,14.5 5,10"></polyline><rect x="3" y="17" width="13" height="1"></rect><line fill="none" stroke="#000" x1="9.5" y1="13.91" x2="9.5" y2="3"></line></svg></a></div>
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
 
-  <body>
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
 
-        <div class="tm-main-content" id="top">
-            <div class="tm-top-bar-bg"></div>    
-            <div class="tm-top-bar" id="tm-top-bar">
-                <div class="container">
-                    <div class="row">
-                        <nav class="navbar navbar-expand-lg narbar-light">
-                            <a class="navbar-brand mr-auto" style="font-family: 'Do Hyeon', sans-serif; color: white;" href="https://lanl.github.io/LaGriT/">
-                                <img src="{{ "/assets/img/logo.png" | relative_url }}" alt="LANL">
-                                LaGriT
-                            </a>
-                            <button type="button" id="nav-toggle" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#mainNav" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div id="mainNav" class="collapse navbar-collapse tm-bg-white">
-                                <ul class="navbar-nav ml-auto">
-                                  <li class="nav-item">
-                                    <!-- change to class="nav-link active" for highlighting -->
-                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pages/manual.html">Manual</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pages/commands.html">Commands</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="https://lanl.github.io/LaGriT/pages/publications">Publications</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="http://github.com/lanl/LaGriT"><img src="{{ "assets/img/github_white.png" | relative_url }}" style="width: 20px;" alt="GitHub" onmouseover="this.src='{{ "assets/img/github_hover.png" | relative_url }}';" onmouseout="this.src='{{ "/assets/img/github_white.png" | relative_url }}';"></a>
-                                </li>
-                            </ul>
+                {{ content }}
 
+            </div>
+        </div>
 
-                            <!-- Search bar -->
-                            <ul class="nav navbar-nav ml-auto" style="background-color: #222429;">
-                                <form class="form-inline my-2 my-md-0" action="https://lanl.github.io/LaGriT/search/">
-                                    <input type="text" name="q" placeholder="Search" id="tipue_search_input" autocomplete="off" required>
-                                </form>
-                            </ul>
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="{{ "assets/img/lanl_logo_white.png" | relative_url }}" height="80"></div>
+            </div>
 
-                            <script>
-                                $(document).ready(function() {
-                                  $('#tipue_search_input').tipuesearch({
-                                        'show': 10,
-                                        'newWindow'  : true,
-                                        'showURL' : true,
-                                        'showTitleCount' : true,
-                                        'descriptiveWords' : 20,
-                                        'highlightTerms' : true,
-                                        'mode': 'static',
-                                });
-                                });
-                            </script>
-                        </div>
-                    </nav>
-                </div> <!-- row -->
-            </div> <!-- container -->
-        </div> <!-- .tm-top-bar -->
+            <div class="footer-left">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="https://lanl.github.io/LaGriT/">Home</a>
+                    ·
+                    <a href="https://lanl.github.io/LaGriT/pages/docs/demos/">Examples</a>
+                    ·
+                    <a href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="https://lanl.github.io/LaGriT/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
 
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
 
-    <div style="width: 80%; margin: 0 auto; position: relative;" id="mainContent">
-
-        {{ content }}
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="../index">Home</a></li>
+                        <li><a href="../pro">PyLaGriT</a></li>
+                        <li><a href="../changelog">GitHub</a></li>
+                        <li><a href="../download">Search</a></li>
+                    </ul>
+                    <ul class="uk-nav uk-nav-default tm-nav uk-margin-top">
+                        <li class="uk-nav-header">Getting started</li>
+                        <li exact=""><a href="./introduction">Introduction</a></li>
+                        <li exact=""><a href="./installation">Installation</a></li>
+                        <li exact=""><a href="./less">Less</a></li>
+                        <li exact=""><a href="./sass">Sass</a></li>
+                        <li exact=""><a href="./javascript">JavaScript</a></li>
+                        <li exact=""><a href="./webpack">Webpack</a></li>
+                        <li exact=""><a href="./custom-icons">Custom icons</a></li>
+                        <li exact=""><a href="./avoiding-conflicts">Avoiding conflicts</a></li>
+                        <li exact=""><a href="./rtl">RTL support</a></li>
+                        <li exact=""><a href="./migration">Migration</a></li>
+                    </ul>
+                    <ul class="uk-nav uk-nav-default tm-nav uk-margin-top">
+                        <li class="uk-nav-header">Functions</li>
+                        <li exact=""><a href="./accordion">Accordion</a></li>
+                        <li exact=""><a href="./alert">Alert</a></li>
+                        <li exact=""><a href="./align">Align</a></li>
+                        <li exact=""><a href="./animation">Animation</a></li>
+                        <li exact=""><a href="./article">Article</a></li>
+                        <li exact=""><a href="./background">Background</a></li>
+                        <li exact=""><a href="./badge">Badge</a></li>
+                        <li exact=""><a href="./base">Base</a></li>
+                        <li exact=""><a href="./breadcrumb">Breadcrumb</a></li>
+                        <li exact=""><a href="./button">Button</a></li>
+                        <li exact=""><a href="./card">Card</a></li>
+                        <li exact=""><a href="./close">Close</a></li>
+                        <li exact=""><a href="./column">Column</a></li>
+                        <li exact=""><a href="./comment">Comment</a></li>
+                        <li exact=""><a href="./container">Container</a></li>
+                        <li exact=""><a href="./countdown">Countdown</a></li>
+                        <li exact=""><a href="./cover">Cover</a></li>
+                        <li exact=""><a href="./description-list">Description List</a></li>
+                        <li exact=""><a href="./divider">Divider</a></li>
+                        <li exact=""><a href="./dotnav">Dotnav</a></li>
+                        <li exact=""><a href="./drop">Drop</a></li>
+                        <li exact=""><a href="./dropdown">Dropdown</a></li>
+                        <li exact=""><a href="./filter">Filter</a></li>
+                        <li exact=""><a href="./flex">Flex</a></li>
+                        <li exact=""><a href="./form">Form</a></li>
+                        <li exact=""><a href="./grid">Grid</a></li>
+                        <li exact=""><a href="./heading">Heading</a></li>
+                        <li exact=""><a href="./height">Height</a></li>
+                        <li exact=""><a href="./icon">Icon</a></li>
+                        <li exact=""><a href="./iconnav">Iconnav</a></li>
+                        <li exact=""><a href="./image">Image</a></li>
+                        <li exact=""><a href="./inverse">Inverse</a></li>
+                        <li exact=""><a href="./label">Label</a></li>
+                        <li exact=""><a href="./leader">Leader</a></li>
+                        <li exact=""><a href="./lightbox">Lightbox</a></li>
+                        <li exact=""><a href="./link">Link</a></li>
+                        <li exact=""><a href="./list">List</a></li>
+                        <li exact=""><a href="./margin">Margin</a></li>
+                        <li exact=""><a href="./marker">Marker</a></li>
+                        <li exact=""><a href="./modal">Modal</a></li>
+                        <li exact=""><a href="./nav">Nav</a></li>
+                        <li exact=""><a href="./navbar">Navbar</a></li>
+                        <li exact=""><a href="./notification">Notification</a></li>
+                        <li exact=""><a href="./offcanvas">Off-canvas</a></li>
+                        <li exact=""><a href="./overlay">Overlay</a></li>
+                        <li exact=""><a href="./padding">Padding</a></li>
+                        <li exact=""><a href="./pagination">Pagination</a></li>
+                        <li exact=""><a href="./parallax">Parallax</a></li>
+                        <li exact=""><a href="./placeholder">Placeholder</a></li>
+                        <li exact=""><a href="./position">Position</a></li>
+                        <li exact=""><a href="./print">Print</a></li>
+                        <li exact=""><a href="./progress">Progress</a></li>
+                        <li exact=""><a href="./scroll">Scroll</a></li>
+                        <li exact=""><a href="./scrollspy">Scrollspy</a></li>
+                        <li exact=""><a href="./search">Search</a></li>
+                        <li exact=""><a href="./section">Section</a></li>
+                        <li exact=""><a href="./slidenav">Slidenav</a></li>
+                        <li exact=""><a href="./slider">Slider</a></li>
+                        <li exact=""><a href="./slideshow">Slideshow</a></li>
+                        <li exact=""><a href="./sortable">Sortable</a></li>
+                        <li exact=""><a href="./spinner">Spinner</a></li>
+                        <li exact=""><a href="./sticky">Sticky</a></li>
+                        <li exact=""><a href="./subnav">Subnav</a></li>
+                        <li exact=""><a href="./svg">SVG</a></li>
+                        <li exact=""><a href="./switcher">Switcher</a></li>
+                        <li exact=""><a href="./tab">Tab</a></li>
+                        <li exact=""><a href="./table">Table</a></li>
+                        <li exact=""><a href="./text">Text</a></li>
+                        <li exact=""><a href="./thumbnav">Thumbnav</a></li>
+                        <li exact=""><a href="./tile">Tile</a></li>
+                        <li exact=""><a href="./toggle">Toggle</a></li>
+                        <li exact=""><a href="./tooltip">Tooltip</a></li>
+                        <li exact=""><a href="./totop">Totop</a></li>
+                        <li exact=""><a href="./transition">Transition</a></li>
+                        <li exact=""><a href="./upload">Upload</a></li>
+                        <li exact=""><a href="./utility">Utility</a></li>
+                        <li exact=""><a href="./video">Video</a></li>
+                        <li exact=""><a href="./visibility">Visibility</a></li>
+                        <li exact=""><a href="./width">Width</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
 
     </div>
 
-    <!-- Begin footer -->
-    <footer class="footer-distributed">
+</body>
 
-        <div class="footer-right">
-
-          <div><img src="{{ "assets/img/lanl_logo_white.png" | relative_url }}" height="80"></div>
-
-        </div>
-
-        <div class="footer-left">
-
-            <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
-                <a href="https://lanl.github.io/LaGriT/">Home</a>
-                ·
-                <a href="https://lanl.github.io/LaGriT/pages/docs/demos/">Examples</a>
-                ·
-                <a href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT</a>
-                ·
-                <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
-                ·
-                <a href="https://lanl.github.io/LaGriT/pages/licensing.html">License</a>
-                ·
-                <a href="mailto:tamiller@lanl.gov">Contact</a>
-            </p>
-
-            <p>&copy; 2018 Los Alamos National Laboratory</p>
-            <p>EES-16 | Computational Earth and Environmental Sciences</p>
-            <p>LA-CC-15-069</p>
-        </div>
-
-    </footer>
-
-    <!-- load JS files -->
-   <!-- <script src="{{ "/assets/js/jquery-1.11.3.min.js" | relative_url }}"></script>-->             <!-- jQuery (https://jquery.com/download/) -->
-    <script src="{{ "/assets/js/popper.min.js" | relative_url }}"></script>                    <!-- https://popper.js.org/ -->       
-    <script src="{{ "/assets/js/bootstrap.min.js" | relative_url }}"></script>                 <!-- https://getbootstrap.com/ -->
-    <script src="{{ "/assets/js/datepicker.min.js" | relative_url }}"></script>                <!-- https://github.com/qodesmith/datepicker -->
-    <script src="{{ "/assets/js/jquery.singlePageNav.min.js" | relative_url }}"></script>      <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->
-    <script src="{{ "/assets/slick/slick.min.js" | relative_url }}"></script>                  <!-- http://kenwheeler.github.io/slick/ -->
-    <script src="{{ "/assets/js/jquery.scrollTo.min.js" | relative_url }}"></script>           <!-- https://github.com/flesler/jquery.scrollTo -->
-
-  </body>
 </html>
