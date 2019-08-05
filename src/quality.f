@@ -875,10 +875,10 @@ C
          else
              if (ifnormalized) then
                srat = aratio(it)/sratmax
-c   print*,"srat set norm: ",srat," from ",aratio(it)
+c      print*,"srat set norm: ",srat," from ",aratio(it)
              else
                srat = aratio(it)
-c   print*,"srat set real: ",srat," from ",aratio(it)
+c      print*,"srat set real: ",srat," from ",aratio(it)
              endif
          endif
 C
@@ -895,13 +895,23 @@ C  Using simple linear search to find appropriate bins
             if (srat .le. arbinends(i)) then
                arbincnts(i) = arbincnts(i) + 1
             else
-               nerr = nerr + 1
-               if(iwrite.le.nwrite) then
-                  write(lgms ,"('gt 1 aspect ratio for elem ',i10,
-     *                            ' is ',e11.4)") it,srat
-                  call writloga('default',0,lgms ,0,ierrw)
-                  iwrite=iwrite+1
-               endif
+
+c           print*,"srat, arbin : ",srat,arbinends(i)
+c           print*,"abs diff: ",abs(srat-arbinends(i))
+
+c              check for values greater than 1 within epsilon
+               if (abs(srat-arbinends(i)) .gt. epsilon) then
+                 nerr = nerr + 1
+                 if(iwrite.le.nwrite) then
+                 write(lgms ,"('gt 1 aspect ratio for elem ',i10,
+     *          ' is ',e11.4)") it,srat
+                 call writloga('default',0,lgms ,0,ierrw)
+                 iwrite=iwrite+1
+                 endif
+               else
+c         put values within epsilon back into the bin count 
+                 arbincnts(i) = arbincnts(i) + 1
+               endif 
             endif
          endif
        enddo

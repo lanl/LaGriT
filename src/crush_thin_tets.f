@@ -235,7 +235,7 @@ C
       integer nmrg,trip,maxtrip,nnodes
      &   ,mpno,nbis,ntrisect,ierrdum,mpno_old,k,nodeorig
      &   ,nod,flag,node,ict,ntrisect_used,nef,idies,ilives
-     &   ,nnodes_actual
+     &   ,nnodes_actual, nodes_save, elems_save
       real*8 scalelen
       parameter (maxtrip=10)
       integer len_changed,len_mpary,len_ireal1
@@ -243,7 +243,7 @@ C
      &   ,len_zadd_bis,len_ieadd,len_itadd_bis,len_iadd_bis,len_xadd_tr
      &   ,len_yadd_tr,len_zadd_tr,len_ifadd,len_itadd_tr
      &   ,len_iadd_tr,len_nodeadd_tr,len_itpadd,len_icradd,len_imerge
-     &   ,len_iprm,len_relwidth
+     &   ,len_iprm,len_relwidth, pcount
       logical itsttp
       real*8 relative_width,ascend,ssq,tolrelwidth_orig
       integer n00,n01,n02,n11,i1,i2,i3,nd(4),ii,minextra,idata,jj,
@@ -252,7 +252,7 @@ C
       real*8 epsilonv_save,vtol
 
       pointer (ipout,out)
-      real*8 rout,out(*)
+      real*8 out(*)
       integer iout
       character*32 cout
 C     
@@ -345,6 +345,7 @@ c     several (nonoverlapping) places to 'crush thin tets'.
       nbis=-1
       ntrisect=-1
       trip=0
+      pcount = 0
 
       call mmgetblk('elts1',isubname,ipelts1,1000,1,icscode)
       call mmgetblk('elts2',isubname,ipelts2,1000,1,icscode)
@@ -353,15 +354,19 @@ c     several (nonoverlapping) places to 'crush thin tets'.
       call mmgetblk('eltse2',isubname,ipeltse2,1000,1,icscode)
       call mmgetblk('edges2',isubname,ipedges2,1000,1,icscode)
 
-      call cmo_get_attinfo('tolrelwidth',cmo,iout,rout,cout,
-     &   ipout,length,itype,ierror)
-      tolrelwidth_orig=rout
-      call cmo_get_intinfo('ivoronoi',cmo,ivoronoi_orig,length,icmotype
-     &   ,ierror)
+C     tolrelwidth does not exist in default cmo so add it here
+C     this attribute may not be necessary for lagrit mesh objects
+      cbuff = 'cmo/addatt/'//cmo(1:icharlnf(cmo))//
+     >     '/tolrelwidth/' //
+     >     'VDOUBLE/scalar/scalar//permanent/x/0 ; finish'
+      call dotaskx3d(cbuff,ierror)
 
       write (cbuff,'(a,d16.8,a)') 'cmo/setatt//tolrelwidth//// ',
      &   tolcrush,' ; finish'
       call dotaskx3d(cbuff,ierror)
+
+      call cmo_get_intinfo('ivoronoi',cmo,ivoronoi_orig,length,icmotype
+     &   ,ierror)
 
       write (cbuff,'(a)') 'cmo/setatt//ivoronoi////-4 ; finish'
       call dotaskx3d(cbuff,ierror)
@@ -390,6 +395,13 @@ c... Get some more space so we can name the nodes we are going to create.
      &      ,ierror)
          call cmo_get_info('mbndry',cmo,mbndry,length,icmotype,ierror
      &      )
+
+C        save original number of nodes and elements for reporting
+         if (trip .eq. 1) then
+            nodes_save = nnodes_actual
+            elems_save = nelements
+         endif
+
          call cmo_get_stdptrs(cmo,ipimt1,ipitp1,ipicr1,ipisn1,ipxic
      &      ,ipyic,ipzic,ipitetclr,ipitettyp,ipitetoff,ipjtetoff
      &      ,ipitet,ipjtet,ierror)
@@ -538,6 +550,8 @@ c...  We process this element only if no node is `changed'
 
             if (.not.process) then
                goto 1000
+            else
+               pcount = pcount + 1
             endif
 
 c     Check if this element has any edge shorter than tolcrush.
@@ -834,8 +848,9 @@ c... restore original values of these variables...
       call cmo_set_attinfo('epsilonv',cmo,idata,epsilonv_save,cdata
      &   ,2,icscode)
 
-      write (cbuff,'(a,d16.8,a)') 'cmo/setatt//tolrelwidth//// ',
-     &   tolrelwidth_orig,' ; finish'
+C     remove added attribute tolrelwidth
+      write (cbuff,'(a)') 
+     & 'cmo/DELATT//tolrelwidth  ; finish'
       call dotaskx3d(cbuff,ierror)
 
       write (cbuff,'(a,i4,a)') 'cmo/setatt//ivoronoi//// ',
@@ -844,10 +859,37 @@ c... restore original values of these variables...
 
       write(cbuff,*) 'quality ; finish'
       call dotaskx3d(cbuff,ierror)
+     
+      call cmo_get_info('nnodes',cmo,nnodes,length,icmotype
+     &         ,ierror)
+      call cmo_get_info('nelements',cmo,nelements,length,icmotype
+     &         ,ierror)
+
+      write(logmess,'(a,i5,a,i5,a)')
+     & "crush_thin_tets processed: ",pcount,
+     & " tets in ",trip," trips."
+      call writloga('default',1,logmess,0,ierrw)
+
+      write(logmess,'(a,i15,i15)')
+     & "nodes and elements before: ",nodes_save,elems_save
+      call writloga('default',0,logmess,0,ierrw)
+
+      write(logmess,'(a,i15,i15)')
+     & "nodes and elements after : ",nnodes,nelements
+      call writloga('default',0,logmess,1,ierrw)
 
       return
+
       end
+C     END crust_thin_tets()
  
+
+c     Check if this element has any edge shorter than tolcrush.
+c     Merging this edge would be a '00': a projection from a zero
+c     dimensional entity (a point) onto another zero dimensional entity.  
+c     If this possibility is detected, do nothing here.  
+c     (We anticipate that this edge will be merged later by agd3d.)
+
       subroutine find_00(tolcrush,scalelen,it,itet,itetoff,jtet,jtetoff
      &   ,itp1,itettyp,iparent,xic,yic,zic,nmrg,imerge
      &   ,ipelts1,ipelts2,nef,mbndry,changed,did00)
@@ -951,6 +993,7 @@ c Mark nodes in old list
            
       return
       end
+C     end subroutine find00 for small edge lengths
 
       function relative_width(xica,yica,zica,xicb,yicb,zicb,xicc
      &   ,yicc,zicc,xicd,yicd,zicd)
@@ -1008,6 +1051,12 @@ c Min signed altitude
       relative_width=salt/scalelen
       return
       end
+
+c     Check if we can project a point onto an edge with distance less
+c     than tolcrush.  If so, schedule a bisection of the edge (at the
+c     proj. point).  
+c     This is a '01': a projection from a zero dimensional entity
+c     (a point) onto a one dimensional entity (edge).  
 
       subroutine find_01(tolcrush,scalelen,it,ipelts1,ipeltse1,ipedges1
      &   ,ipitetoff,ipjtetoff,ipitet,ipjtet,itp1,ipitettyp,ipiparent,nef
