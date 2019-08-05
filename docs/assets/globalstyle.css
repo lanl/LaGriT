@@ -24,6 +24,10 @@ Global document settings
 
 */
 
+.lg-background-color {
+  background-color: #212328;
+}
+
 code.bold {
   font-weight: bold;
 }
@@ -160,7 +164,6 @@ Begin footer CSS
 
 
 .footer-distributed{
-  background-color: #212328;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
   width: 100%;
