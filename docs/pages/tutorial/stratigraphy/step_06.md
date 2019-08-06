@@ -9,10 +9,16 @@
 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
     <ul class="uk-slideshow-items">
         <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/03_hex_01_set_imt_itetclr.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+            <img data-src="{{ "/pages/tutorial/stratigraphy/images/06_boundary_truncate.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
         </li>
         <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/03_hex_01_set_imt_itetclr_threshold_remove_material3.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+            <img data-src="{{ "/pages/tutorial/stratigraphy/images/06_boundary_truncate_fence.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+        </li>
+        <li>
+            <img data-src="{{ "/pages/tutorial/stratigraphy/images/06_truncate_set_id.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+        </li>
+        <li>
+            <img data-src="{{ "/pages/tutorial/stratigraphy/images/06_truncate_set_id_close_up.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
         </li>
     </ul>
     <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
@@ -73,6 +79,40 @@ pset / p_bndry / region r_bndry
 **Method 3:**
 
     eltset / e_delete3 / inclusive / pset get p_bndry
+
+Next, add the integer cell attribute `id_in_out_bndry`:
+
+    cmo / addatt / MONAME / id_in_out_bndry / vint / scalar / nelements
+
+and 'color' it based on the three element sets created above:
+
+```
+cmo / setatt / MONAME / id_in_out_bndry / 1 0 0 / 4
+cmo / setatt / MONAME / id_in_out_bndry / eltset get e_delete3 / 3
+cmo / setatt / MONAME / id_in_out_bndry / eltset get e_delete2 / 2
+cmo / setatt / MONAME / id_in_out_bndry / eltset get e_delete1 / 1
+```
+
+All elements colored 4 (the default value for `id_in_out_bndry`) are elements
+who evaluate false for all of the above `eltsets`.
+
+Create an element set for all `id_in_out_bndry(cell_i) == 4`:
+
+```
+eltset / e_delete4 /    id_in_out_bndry / eq / 4
+eltset / e_delete3 /    id_in_out_bndry / eq / 3
+eltset / e_delete2 /    id_in_out_bndry / eq / 2
+eltset / e_delete1 /    id_in_out_bndry / eq / 1
+```
+
+Finally, remove all elements 'colored' by method 3 and all elements *not* colored by any of methods 1, 2, or 3:
+
+```
+rmpoint / element / eltset get e_delete4
+rmpoint / element / eltset get e_delete3
+rmpoint / compress
+resetpts / itp
+```
 
 <!-- Next / Prev -->
 <ul class="uk-pagination">

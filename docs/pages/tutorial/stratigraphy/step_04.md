@@ -16,7 +16,7 @@
 <!-- End image slideshow -->
 <br/>
 
-<h2 id="4-map-surfaces-to-mesh" class="uk-h3 uk-margin-remove">4. Map Surfaces to Mesh</h2>
+<h2 id="map-surfaces-to-mesh" class="uk-h3 uk-margin-remove">4. Map Surfaces to Mesh</h2>
 
 Now that the straitipgrahy has been modeled and we are comfortable with our
 results, we will map their spanning domain to the parent mesh. As done with the
@@ -132,7 +132,7 @@ as expected:
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_01.html" | relative_url }}">Building a Hex Mesh</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_02.html" | relative_url }}">Define Boundaries Using Point Sets</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_03.html" | relative_url }}">Constructing Stratigraphy</a></li>
-            <li class="uk-active"><a href="#4-map-surfaces-to-mesh">Map Surfaces to Mesh</a></li>
+            <li class="uk-active"><a href="#map-surfaces-to-mesh">Map Surfaces to Mesh</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_05.html" | relative_url }}">Constructing a Fault</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_06.html" | relative_url }}">Truncate with Polyline</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_07.html" | relative_url }}">Refine Fault</a></li>

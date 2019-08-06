@@ -48,7 +48,21 @@ refine / eltset / eltset get e_refine
 cmo / DELATT / MONAME / if_inter
 ```
 
-### TODO: add 'repeat this process'
+The element density has now increased where the mesh intersects `s_f`.
+We can then run this step *again*, further refining elements along that intersection:
+
+```
+intersect_elements / MONAME / s_f / if_inter
+eltset / e_refine / if_inter / gt / 0
+refine/ eltset / eltset get e_refine
+cmo / setatt / MONAME / if_inter / 1 0 0 / 0
+```
+
+And finally, remove the attribute `if_inter`, as it is no longer needed:
+
+```
+cmo / DELATT / MONAME / if_inter
+```
 
 <!-- Next / Prev -->
 <ul class="uk-pagination">

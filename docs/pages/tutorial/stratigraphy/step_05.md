@@ -9,28 +9,21 @@
 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
     <ul class="uk-slideshow-items">
         <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/03_hex_01_set_imt_itetclr.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
-        </li>
-        <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/03_hex_01_set_imt_itetclr_threshold_remove_material3.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+            <img data-src="{{ "/pages/tutorial/stratigraphy/images/05_hex_01_fault_imt_itetclr.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
         </li>
     </ul>
-    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
 </div>
 <!-- End image slideshow -->
 <br/>
 
 ## 5. Constructing a Fault
 
-![](/Users/livingston/playground/tutorial/Tutorial_Hex_Mesh/images/05_hex_01_fault_imt_itetclr.png)
-
 ### 5.1 Creating a Fault and Subsurface Layers
 
 Next, we are going to map a fault and surfaces to our mesh. The objects created
 will be:
 
-![](images_new/05_fault_objects.png)
+![](images/05_fault_objects.png)
 
 For all five of these surfaces, we will:
 
@@ -138,10 +131,10 @@ cmo / setatt / MONAME / itetclr / eltset get e_r_2_fp / 5
 cmo / setatt / MONAME / itetclr / eltset get e_r_3_fp / 6
 ```
 
-The six distinct regions can now be seen by viewing itetclr on the
+The six distinct regions can now be seen by viewing `itetclr` on the
 parent mesh:
 
-![](Tutorial_Hex_Mesh/images/05_hex_01_fault_imt_itetclr.png)
+![](images/05_hex_01_fault_imt_itetclr.png)
 
 
 <!-- Next / Prev -->
