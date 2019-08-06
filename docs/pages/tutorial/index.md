@@ -29,28 +29,7 @@
 
 <h1 class="uk-heading-line"><span>Tutorials</span></h1>
 
-## Test 2
-
-<!--
-<a href="#">
-    <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
-        <div class="uk-flex-last@s uk-card-media-right uk-cover-container">
-            <img src="{{ "/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" | relative_url }}" alt="" uk-cover>
-            <canvas width="600" height="400"></canvas>
-        </div>
-        <div>
-            <div class="uk-card-body">
-                <h3 class="uk-card-title">Stratigraphic Hex Mesh Tutorial</h3>
-                <p>Mesh basics, materials, and regions</p>
-                <span class="uk-badge">Advanced</span>
-            </div>
-        </div>
-    </div>
-</a>
--->
-
-## Test 3
-
+<!-- Tutorial card -->
 <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
     <div class="uk-card-media-left uk-cover-container">
         <img src="{{ "/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" | relative_url }}" alt="" uk-cover>
@@ -64,11 +43,13 @@
         </div>
     </div>
 </div>
+<!-- End tutorial card -->
 
 <br/><br/>
 
 <h1 class="uk-heading-line"><span>Examples &amp; Demos</span></h1>
 
+<!-- Demos grid card -->
 <div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
     <div>
         <a href="#">
@@ -246,3 +227,4 @@
         </a>
     </div>
 </div>
+<!-- End demos grid -->
