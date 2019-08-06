@@ -1,12 +1,18 @@
-<div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
+<!-- Begin breadcrumb -->
+<ul class="uk-breadcrumb">
+    <li><a href="{{ "/pages/tutorial/index.html" | relative_url }}">Tutorials &amp; Examples</a></li>
+    <li><span>Stratigraphic Hex Mesh Tutorial</span></li>
+</ul>
+<!-- Begin breadcrumb -->
 
+<div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
     <ul class="uk-slideshow-items">
         <li>
             <img data-src="{{ "/pages/tutorial/stratigraphy/images/ch1.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
         </li>
     </ul>
-
 </div>
+<br/>
 
 <h2 id="build-hex" class="uk-h3 uk-margin-remove">1. Building a Hex Mesh</h2>
 
