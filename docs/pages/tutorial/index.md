@@ -3,7 +3,7 @@
 <a href="#">
     <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin uk-card-hover" uk-grid>
         <div class="uk-card-media-left uk-cover-container">
-            <img src="{{ "/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" | relative_url }}" alt="" uk-cover>
+            <img src="https://daniellivingston.github.io/LaGriT/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" alt="" uk-cover>
             <canvas width="400" height="200"></canvas>
         </div>
         <div>
