@@ -149,10 +149,12 @@
                             <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
                         </form>
                         <li class="uk-nav-header">General</li>
-                        <li><a href="../index">Home</a></li>
-                        <li><a href="../pro">PyLaGriT</a></li>
-                        <li><a href="../changelog">GitHub</a></li>
-                        <li><a href="../download">Search</a></li>
+                        <li><a href="{{ "/" | relative_url }}">Home</a></li>
+                        <li><a href="{{ "/pages/manual" | relative_url }}">Manual</a></li>
+                        <li class="uk-active"><a href="{{ "/pylagrit/original/index.html" | relative_url }}">PyLaGriT</a></li>
+                        <li><a href="{{ "/pages/commands" | relative_url }}">Commands</a></li>
+                        <li><a href="{{ "/pages/publications" | relative_url }}">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
                     </ul>
                     <ul class="uk-nav uk-nav-default tm-nav uk-margin-top">
                         <li class="uk-nav-header">Getting started</li>
