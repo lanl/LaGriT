@@ -31,17 +31,21 @@
 
 <!-- Tutorial card -->
 <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
-    <div class="uk-card-media-left uk-cover-container">
-        <img src="{{ "/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" | relative_url }}" alt="" uk-cover>
-        <canvas width="600" height="400"></canvas>
-    </div>
-    <div>
-        <div class="uk-card-body">
-            <h3 class="uk-card-title">Stratigraphic Hex Mesh Tutorial</h3>
-            <p>Mesh basics, materials, and regions</p>
-            <span class="uk-badge">Advanced</span>
+    <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
+        <div class="uk-card-media-left uk-cover-container">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" | relative_url }}" alt="" uk-cover>
+            <canvas width="600" height="400"></canvas>
         </div>
-    </div>
+    </a>
+    <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
+        <div>
+            <div class="uk-card-body">
+                <h3 class="uk-card-title">Stratigraphic Hex Mesh Tutorial</h3>
+                <p>Mesh basics, materials, and regions</p>
+                <span class="uk-badge">Advanced</span>
+            </div>
+        </div>
+    </a>
 </div>
 <!-- End tutorial card -->
 
@@ -52,7 +56,7 @@
 <!-- Demos grid card -->
 <div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_2d_connect.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/2d_connect/test/html/image/2d_connect2_tn.gif" alt="">
@@ -63,7 +67,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_rotatept.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/rotatept/test/html/image/rotatept2_tn.gif" alt="">
@@ -74,7 +78,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_createpts.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/createpts/test/html/image/image6tn.gif" alt="" width="70">
@@ -85,7 +89,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_regnpts.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/regnpts/test/html/image/regnpts2_tn.gif" alt="">
@@ -96,7 +100,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_tri.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/triangulate/test/html/image/triang4_tn.gif" alt="">
@@ -107,7 +111,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_dump.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/dump/test/html/image/output_tn.gif" alt="">
@@ -118,7 +122,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_hextet.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/hextotet/test/html/image/output_tet_tn.gif" alt="">
@@ -129,7 +133,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_sort.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/sort/test/html/image/sort_tn.gif" alt="">
@@ -140,7 +144,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/connect/test/html/image/output_connect_tn.gif" alt="">
@@ -151,18 +155,18 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_qual.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/2d_recon/test/html/image/image1_tn.gif" alt="" width="65">
                 </div>
-                <p>hextotet</p>
+                <p>quality</p>
             </div>
         </a>
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_trans.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/trans/test/html/image/trans2_tn.gif" alt="">
@@ -173,7 +177,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_pset.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/pset/test/html/image/pset2_tn.gif" alt="">
@@ -184,7 +188,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_2d_recon.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/2d_recon/test/html/image/image1_tn.gif" alt="" width="65">
@@ -195,7 +199,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_addmesh.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/addmesh/test/html/image/addmesh_add/addmesh_out1_tn.gif" alt="">
@@ -206,7 +210,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_rmmat.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/rmmat/test/html/image/rmmat4_tn.gif" alt="">
@@ -217,7 +221,7 @@
     </div>
 
     <div>
-        <a href="#">
+        <a href="{{ "/pages/docs/demos/main_rivara.html" | relative_url }}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                 <div class="uk-card-media-top">
                     <img src="https://lagrit.lanl.gov/docs/demos/refine_rivara/test/html/image/rivara2_tn.gif" alt="">
