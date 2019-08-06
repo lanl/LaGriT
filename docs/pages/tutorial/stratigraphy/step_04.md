@@ -9,19 +9,14 @@
 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
     <ul class="uk-slideshow-items">
         <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/03_hex_01_set_imt_itetclr.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
-        </li>
-        <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/03_hex_01_set_imt_itetclr_threshold_remove_material3.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+            <img data-src="{{ "/pages/tutorial/stratigraphy/images/ch4.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
         </li>
     </ul>
-    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
 </div>
 <!-- End image slideshow -->
 <br/>
 
-## 4. Map Surfaces to Mesh
+<h2 id="4-map-surfaces-to-mesh" class="uk-h3 uk-margin-remove">4. Map Surfaces to Mesh</h2>
 
 Now that the straitipgrahy has been modeled and we are comfortable with our
 results, we will map their spanning domain to the parent mesh. As done with the
