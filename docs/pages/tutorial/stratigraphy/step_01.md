@@ -36,7 +36,7 @@ Above, the spatial domain (`X0,X1,Y0,...`), element density (`NX/NY/NZ`), and
 mesh name (`MONAME`) have been defined.
 
 Next, we will create an empty mesh object, with element type `hex`, using the
-[`cmo / create`](null.md) command:
+[`cmo / create`](../../docs/commands/cmo/cmo_create.md) command:
 
 ```
 cmo / create / MONAME / / / hex
@@ -50,7 +50,7 @@ cmo / create / mohex / / / hex
 ```
 
 This empty object can then be populated with nodes and elements. 
-The [`createpts / brick`](null.md) command will generate a defined number of
+The [`createpts / brick`](../../docs/commands/createpts/CRTPTBRICK.md) command will generate a defined number of
 hex elements across a defined domain. 
 
 ```
@@ -61,7 +61,7 @@ createpts / brick / xyz / NX NY NZ / X0 Y0 Z0 / X1 Y1 Z1 / 1 1 1
 created in the spatial domain spanning `X0->X1`, along with `NY` elements in
 the Y domain and `NZ` elements in the Z domain.
 
-Optionally, [save the mesh object](null.md):
+Optionally, [save the mesh object](../../docs/commands/DUMP2.md):
 
 ```
 dump / avs / tmp_hex_01.inp / MONAME
@@ -85,6 +85,12 @@ such as [ParaView](https://www.paraview.org).
             <li class="uk-active"><a href="#build-hex">Building a Hex Mesh</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_02.html" | relative_url }}">Define Boundaries Using Point Sets</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_03.html" | relative_url }}">Constructing Stratigraphy</a></li>
+            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_04.html" | relative_url }}">Map Surfaces to Mesh</a></li>
+            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_05.html" | relative_url }}">Constructing a Fault</a></li>
+            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_06.html" | relative_url }}">Truncate with Polyline</a></li>
+            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_07.html" | relative_url }}">Refine Fault</a></li>
+            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_08.html" | relative_url }}">Insert Well</a></li>
+            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_09.html" | relative_url }}">Convert Hex Mesh to Tet</a></li>
             <li class="uk-nav-divider"></li>
             <!---->
             <li><a href="https://github.com/lanl/LaGriT/issues" target="_blank"><span uk-icon="icon: warning" class="uk-margin-small-right uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="warning"><circle cx="10" cy="14" r="1"></circle><circle fill="none" stroke="#000" stroke-width="1.1" cx="10" cy="10" r="9"></circle><path d="M10.97,7.72 C10.85,9.54 10.56,11.29 10.56,11.29 C10.51,11.87 10.27,12 9.99,12 C9.69,12 9.49,11.87 9.43,11.29 C9.43,11.29 9.16,9.54 9.03,7.72 C8.96,6.54 9.03,6 9.03,6 C9.03,5.45 9.46,5.02 9.99,5 C10.53,5.01 10.97,5.44 10.97,6 C10.97,6 11.04,6.54 10.97,7.72 L10.97,7.72 Z"></path></svg></span> <span class="uk-text-middle">Report issue</span></a></li>
