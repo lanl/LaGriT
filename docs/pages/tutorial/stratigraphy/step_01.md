@@ -3,8 +3,9 @@
     <li><a href="{{ "/pages/tutorial/index.html" | relative_url }}">Tutorials &amp; Examples</a></li>
     <li><span>Stratigraphic Hex Mesh Tutorial</span></li>
 </ul>
-<!-- Begin breadcrumb -->
+<!-- End breadcrumb -->
 
+<!-- Begin image slideshow -->
 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
     <ul class="uk-slideshow-items">
         <li>
@@ -12,6 +13,7 @@
         </li>
     </ul>
 </div>
+<!-- End image slideshow -->
 <br/>
 
 <h2 id="build-hex" class="uk-h3 uk-margin-remove">1. Building a Hex Mesh</h2>
