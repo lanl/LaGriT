@@ -1,3 +1,8 @@
+<ul class="uk-breadcrumb">
+    <li><a href="#">Tutorials &amp; Examples</a></li>
+    <li><span>Stratigraphic Hex Mesh Tutorial</span></li>
+</ul>
+
 <div class="uk-inline">
     <img src="{{ "/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" | relative_url }}" alt="">
     <div class="uk-overlay uk-light uk-position-bottom">
