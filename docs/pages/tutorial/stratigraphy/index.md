@@ -1,5 +1,5 @@
 <div class="uk-inline">
-    <img src="{{ "images/19_hex_01_to_tet.png" | relative_url }}" alt="">
+    <img src="{{ "/pages/tutorial/straigraphy/images/19_hex_01_to_tet.png" | relative_url }}" alt="">
     <div class="uk-overlay uk-light uk-position-bottom">
         <h2 class="uk-margin-remove">Stratigraphic Hex Mesh Tutorial</h2>
     </div>
@@ -32,7 +32,7 @@
 </ul>
 
 <ul class="uk-pagination">
-    <li class="uk-margin-auto-left"><a href="{{ "step_01.html" | relative_url }}">Next <span class="uk-margin-small-left" uk-pagination-next></span></a></li>
+    <li class="uk-margin-auto-left"><a href="{{ "/pages/tutorial/straigraphy/step_01.html" | relative_url }}">Next <span class="uk-margin-small-left" uk-pagination-next></span></a></li>
 </ul>
 
 <div class="tm-sidebar-right uk-visible@l">
