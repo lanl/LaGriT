@@ -45,48 +45,47 @@
             <div class="uk-container uk-container-expand">
                 <nav class="uk-navbar">
                     <div class="uk-navbar-left">
-                        <a href="../" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
-                            <img uk-img src="https://daniellivingston.github.io/LaGriT/assets/img/logo.png" width="50" class="uk-margin-small-right">
+                        <a href="{{ "/" | relative_url }}" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="{{ "/assets/img/logo.png" | relative_url }}" width="50" class="uk-margin-small-right" alt="LANL logo">
                             LaGriT
                         </a>
                     </div>
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav uk-visible@m">
-                            <li><a href="../pro">Manual</a></li>
-                            <li class="uk-active"><a href="./">PyLaGriT</a></li>
-                            <li><a href="../changelog">Commands</a></li>
-                            <li><a href="../changelog">Publications</a></li>
-                            <li><a href="../changelog"><img uk-img src="https://lanl.github.io/LaGriT/assets/img/github_hover.png" width="20"></a></li>
+                            <li><a href="{{ "/pages/manual" | relative_url }}">Manual</a></li>
+                            <li class="uk-active"><a href="{{ "/pylagrit/original/index.html" | relative_url }}">PyLaGriT</a></li>
+                            <li><a href="{{ "/pages/commands" | relative_url }}">Commands</a></li>
+                            <li><a href="{{ "/pages/publications" | relative_url }}">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
 
-                        <!-- Begin search bar -->
-                        <div class="nav-overlay uk-navbar-right">
-                            <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
-                        </div>
-
-                        <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
-                            <div class="uk-navbar-item uk-width-expand">
-                                <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
-                                    <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
-                                </form>
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
                             </div>
-                            <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
-                        </div>
 
-                        <script>
-                            $(document).ready(function() {
-                              $('#tipue_search_input').tipuesearch({
-                                    'show': 10,
-                                    'newWindow'  : true,
-                                    'showURL' : true,
-                                    'showTitleCount' : true,
-                                    'descriptiveWords' : 20,
-                                    'highlightTerms' : true,
-                                    'mode': 'static',
-                            });
-                            });
-                        </script>
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
 
-                        <!-- End search bar -->
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
 
                         </ul>
                         
