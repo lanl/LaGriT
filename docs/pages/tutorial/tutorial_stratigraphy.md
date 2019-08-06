@@ -1,8 +1,4 @@
-<div>
-    <!---->
-    <div>
-
-## Requirments:
+## Requirements:
 
 * LaGriT 3.3.0+
 * ParaView
@@ -733,8 +729,6 @@ cmo / DELATT / MONAME / if_inter
 
 ![](/Users/livingston/playground/tutorial/Tutorial_Hex_Mesh/images/19_hex_01_to_tet.png)
 
-    </div>
-</div>
 <div class="tm-sidebar-right uk-visible@l">
     <div uk-sticky="offset: 160" class="uk-sticky uk-active uk-sticky-fixed" style="position: fixed; top: 160px; width: 200px;">
         <ul uk-scrollspy-nav="closest: li; scroll: true; offset: 100" class="uk-nav uk-nav-default tm-nav uk-nav-parent-icon">
