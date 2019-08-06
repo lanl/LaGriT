@@ -1,18 +1,38 @@
-<h1 class="uk-heading-line"><span>LaGriT Tutorials</span></h1>
+<h1 class="uk-heading-line"><span>Tutorials</span></h1>
 
-<div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin uk-card-hover" uk-grid>
-    <div class="uk-card-media-left uk-cover-container">
-    <img src="https://daniellivingston.github.io/LaGriT/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" alt="" uk-cover>
-    <canvas width="400" height="200"></canvas>
+## Test 2
+
+<div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+    <div class="uk-flex-last@s uk-card-media-right uk-cover-container">
+        <img src="images/light.jpg" alt="" uk-cover>
+        <canvas width="600" height="400"></canvas>
     </div>
     <div>
-    <div class="uk-card-body">
-    <h2 class="uk-card-title">Stratigraphic Hex Mesh Tutorial</h3>
-    <p>Mesh basics, materials, and regions</p>
-    <span class="uk-badge">Advanced</span>
-    </div>
+        <div class="uk-card-body">
+            <h3 class="uk-card-title">Media Right</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+        </div>
     </div>
 </div>
+
+## Test 3
+
+<!--
+<a href="#">
+    <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin uk-card-hover" uk-grid>
+        <div class="uk-card-media-left uk-cover-container">
+            <img src="https://daniellivingston.github.io/LaGriT/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" alt="" uk-cover>
+            <canvas width="400" height="200"></canvas>
+        </div>
+        <div>
+            <div class="uk-card-body">
+                <h2 class="uk-card-title">Stratigraphic Hex Mesh Tutorial</h3>
+                <p>Mesh basics, materials, and regions</p>
+                <span class="uk-badge">Advanced</span>
+            </div>
+        </div>
+    </div>
+</a>
 
 <br/><br/>
 
@@ -196,3 +216,5 @@
         </a>
     </div>
 </div>
+
+-->
