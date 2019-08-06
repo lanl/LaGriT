@@ -31,6 +31,7 @@
 
 ## Test 2
 
+<!--
 <a href="#">
     <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
         <div class="uk-flex-last@s uk-card-media-right uk-cover-container">
@@ -46,6 +47,7 @@
         </div>
     </div>
 </a>
+-->
 
 ## Test 3
 
