@@ -41,7 +41,7 @@
         <div>
             <div class="uk-card-body">
                 <h3 class="uk-card-title">Stratigraphic Hex Mesh Tutorial</h3>
-                <p>Mesh basics, materials, and regions</p>
+                <p>Complex stratigraphic mesh creation with faults, wells, and subsurface layering</p>
                 <span class="uk-badge">Advanced</span>
             </div>
         </div>
