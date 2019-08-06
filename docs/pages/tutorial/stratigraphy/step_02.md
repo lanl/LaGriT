@@ -1,3 +1,19 @@
+<div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
+
+    <ul class="uk-slideshow-items">
+        <li>
+            <img data-src="{{ "/pages/tutorial/stratigraphy/images/ch2_transparent_cbar.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+        </li>
+        <li>
+            <img data-src="{{ "/pages/tutorial/stratigraphy/images/02_hex_01_top_region.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+        </li>
+    </ul>
+
+    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+
+</div>
+
 ## 2. Define Boundaries Using Point Sets 
 
 In LaGriT, a pset (or *point-set*) is a collection of points (nodes) within a 
@@ -27,8 +43,6 @@ where `pset_name` is an arbitrary variable name to store the pset into,
 `select_type` is the method of pset selection, and `select_type_options` are
 parameters specific to the chosen `select_type` for configuring the subset
 selection (see the [documentation](null.md) for more information).
-
-![](/Users/livingston/playground/tutorial/Tutorial_Hex_Mesh/images/02_hex_01_top_region.png)
 
 ### 2.1 PSet Definitions
 
@@ -118,7 +132,7 @@ cmo / setatt / MONAME / id_top_region / pset get p_region / 5
 Cutting through the mesh, the defined psets and their intersections become
 obvious:
 
-![test.png](Cut_plane_mesh)
+`INSERT IMAGE HERE`
 
 Finally, release the psets from memory:
 
