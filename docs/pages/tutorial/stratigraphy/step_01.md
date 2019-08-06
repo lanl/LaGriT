@@ -1,3 +1,7 @@
+<div class="uk-inline">
+    <img src="{{ "/pages/tutorial/stratigraphy/images/ch1.png" | relative_url }}" alt="">
+</div>
+
 ## 1. Building a Hex Mesh
 
 First, we are going to construct a structured hex mesh. The hex mesh will span
@@ -60,11 +64,9 @@ dump / avs / tmp_hex_01.inp / MONAME
 This file can be rendered in certain scientific 3D visualization applications,
 such as [ParaView](https://www.paraview.org).
 
-![](/Users/livingston/playground/tutorial/Tutorial_Hex_Mesh/images/01_hex_01.png)
-
 <ul class="uk-pagination">
-    <li><a href="#"><span class="uk-margin-small-right" uk-pagination-previous></span> Previous</a></li>
-    <li class="uk-margin-auto-left"><a href="#">Next <span class="uk-margin-small-left" uk-pagination-next></span></a></li>
+    <li><a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}"><span class="uk-margin-small-right" uk-pagination-previous></span> Previous</a></li>
+    <li class="uk-margin-auto-left"><a href="{{ "/pages/tutorial/stratigraphy/step_02.html" | relative_url }}">Next <span class="uk-margin-small-left" uk-pagination-next></span></a></li>
 </ul>
 
 <div class="tm-sidebar-right uk-visible@l">

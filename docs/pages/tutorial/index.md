@@ -1,5 +1,6 @@
 <h1 class="uk-heading-line"><span>Tutorials</span></h1>
-<a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}>
+
+<a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
     <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin uk-card-hover" uk-grid>
         <div class="uk-card-media-left uk-cover-container">
             <img src="{{ "/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" | relative_url }}" alt="" uk-cover>

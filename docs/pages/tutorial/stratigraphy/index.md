@@ -1,7 +1,7 @@
 <div class="uk-inline">
     <img src="{{ "/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" | relative_url }}" alt="">
     <div class="uk-overlay uk-light uk-position-bottom">
-        <h2 id="strat-index" class="uk-h3 tm-heading-fragment uk-margin-remove"><a href="#strat-index">Stratigraphic Hex Mesh Tutorial</a></h2>
+        <h2 id="strat-index" class="uk-h3 uk-margin-remove">Stratigraphic Hex Mesh Tutorial</h2>
     </div>
 </div>
 
