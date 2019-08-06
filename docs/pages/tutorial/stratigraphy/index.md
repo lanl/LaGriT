@@ -5,6 +5,11 @@
     </div>
 </div>
 
+<a href="../download" class="uk-button uk-button-primary tm-button-default uk-icon">
+    Download Resources (42 KB)
+    <span uk-icon="download"></span>
+</a>
+
 <div uk-alert>
     In this tutorial, we will be constructing a complex geostratigraphic mesh with a fault, distinct subsurface layering and multiple wells.
     The goal of this tutorial is to introduce the reader to intermediate and advanced LaGriT topics, including refinement, truncation, point-sets, element-sets and more.
