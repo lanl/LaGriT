@@ -35,7 +35,7 @@
 -->
 
     <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
-    <!--<link rel="stylesheet" href="{{ "/assets/globalstyle.css" | relative_url }}">-->
+    <link rel="stylesheet" href="{{ "/assets/globalstyle.css" | relative_url }}">
 </head>
 
 <body>
@@ -115,20 +115,20 @@
         <!-- Begin footer -->
         <footer class="footer-distributed">
             <div class="footer-right">
-              <div><img src="{{ "assets/img/lanl_logo_white.png" | relative_url }}" height="80"></div>
+              <div><img src="{{ "/assets/img/lanl_logo_white.png" | relative_url }}" height="80"></div>
             </div>
 
             <div class="footer-left lg-background-color">
                 <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
-                    <a href="https://lanl.github.io/LaGriT/">Home</a>
+                    <a href="{{ "/" | relative_url }}">Home</a>
                     ·
-                    <a href="https://lanl.github.io/LaGriT/pages/docs/demos/">Examples</a>
+                    <a href="{{ "/pages/docs/demos" | relative_url }}">Examples</a>
                     ·
-                    <a href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT</a>
+                    <a href="{{ "/pylagrit/original/index.html" | relative_url }}">PyLaGriT</a>
                     ·
                     <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
                     ·
-                    <a href="https://lanl.github.io/LaGriT/pages/licensing.html">License</a>
+                    <a href="{{ "/pages/licensing.html" | relative_url }}">License</a>
                     ·
                     <a href="mailto:tamiller@lanl.gov">Contact</a>
                 </p>
