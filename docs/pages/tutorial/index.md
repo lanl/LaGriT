@@ -17,7 +17,6 @@
 
 ## Test 3
 
-<!--
 <a href="#">
     <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin uk-card-hover" uk-grid>
         <div class="uk-card-media-left uk-cover-container">
@@ -26,13 +25,15 @@
         </div>
         <div>
             <div class="uk-card-body">
-                <h2 class="uk-card-title">Stratigraphic Hex Mesh Tutorial</h3>
+                <h2 class="uk-card-title">Stratigraphic Hex Mesh Tutorial</h2>
                 <p>Mesh basics, materials, and regions</p>
                 <span class="uk-badge">Advanced</span>
             </div>
         </div>
     </div>
 </a>
+
+<!--
 
 <br/><br/>
 
