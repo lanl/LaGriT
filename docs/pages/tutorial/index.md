@@ -31,12 +31,10 @@
 
 <!-- Tutorial card -->
 <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
-    <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
         <div class="uk-card-media-left uk-cover-container">
             <img src="{{ "/pages/tutorial/stratigraphy/images/19_hex_01_to_tet.png" | relative_url }}" alt="" uk-cover>
             <canvas width="600" height="400"></canvas>
         </div>
-    </a>
     <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
         <div>
             <div class="uk-card-body">
