@@ -18,26 +18,57 @@
 
 <h2 id="convert-hex-mesh-to-tet" class="uk-h3 uk-margin-remove">9. Convert Hex Mesh to Tet</h2>
 
+In this final step, we will convert our mesh from hexahedral to tetrahedral
+elements.
+
+Create an empty mesh object, `motet`, and copy all nodes from `MONAME`
+(or, `mohex_octree`) to `motet`:
+
 ```
-#
-# Convert hex mesh to tet mesh
-# Previously defined: mohex_octree
-#
 cmo / create / motet
-#
+
 copypts / motet / mohex_octree
+```
+
+Next, reset the `imt` and `itp` variables and connect the nodes into
+tetrahedral elements:
+
+```
 cmo / setatt / motet / imt / 1 0 0 / 1
 cmo / setatt / motet / itp / 1 0 0 / 0
 connect
 resetpts / itp
-#
+```
+
+Interpolate the node and cell 'colors' over the tetrahedral mesh, using
+`interpolate / voronoi` for node-to-node interpolations, and 
+`interpolate / map` for cell-to-cell interpolations:
+
+```
 interpolate / voronoi / motet / imt / 1 0 0 / mohex_octree / imt
 interpolate / map / motet / itetclr / 1 0 0 / mohex_octree / itetclr
-#
+```
+
+Recall in step 5 that we set `imt` and `itetclr` to the value 7 for all
+nodes and elements that weren't captured by the surface-created element sets. 
+We can use the command `rmmat / 7` to remove all nodes and elements with
+`imt` and `itetclr` values of 7:
+
+```
 rmmat / 7
 rmpoint / compress
 resetpts / itp
-#
+```
+
+Finally, write the mesh object to AVS and FEHM formats and signal the EOF
+`finish` command:
+
+
+```
+dump / avs / tmp_tet_mesh.inp / motet
+dump / fehm / mesh / motet keepatt
+dump / avs / mesh.inp / motet
+
 finish
 ```
 
