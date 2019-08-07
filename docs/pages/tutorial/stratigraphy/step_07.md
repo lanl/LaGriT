@@ -21,7 +21,7 @@
 <!-- End image slideshow -->
 <br/>
 
-## 7. Refine Fault
+<h2 id="refine-fault" class="uk-h3 uk-margin-remove">7. Refine Fault</h2>
 
 In step 5, we defined a fault surface (named `s_f`) intersecting the mesh. In 
 this section, we are going to refine the mesh where the fault intersects it.
@@ -64,6 +64,29 @@ And finally, remove the attribute `if_inter`, as it is no longer needed:
 cmo / DELATT / MONAME / if_inter
 ```
 
+At this point, many different mesh objects and surfaces still exist in memory from previous steps. Let's deallocate them and verify with the `memory` command:
+
+```
+cmo / status / brief
+cmo / status / MONAME
+memory / verify
+memory / print
+
+cmo / delete / s_bndry
+cmo / delete / mo_fence
+cmo / delete / mo_bndry
+cmo / delete / s_f
+cmo / delete / s_2_fp
+cmo / delete / s_1_fp
+cmo / delete / s_2_fm
+cmo / delete / s_1_fm
+cmo / delete / s_2
+cmo / delete / s_1
+
+memory / verify
+memory / print
+```
+
 <!-- Next / Prev -->
 <ul class="uk-pagination">
     <li><a href="{{ "/pages/tutorial/stratigraphy/step_06.html" | relative_url }}"><span class="uk-margin-small-right" uk-pagination-previous></span> Previous</a></li>
@@ -81,7 +104,7 @@ cmo / DELATT / MONAME / if_inter
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_04.html" | relative_url }}">Map Surfaces to Mesh</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_05.html" | relative_url }}">Constructing a Fault</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_06.html" | relative_url }}">Truncate with Polyline</a></li>
-            <li class="uk-active"><a href="#7-refine-fault">Refine Fault</a></li>
+            <li class="uk-active"><a href="#refine-fault">Refine Fault</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_08.html" | relative_url }}">Insert Well</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_09.html" | relative_url }}">Convert Hex Mesh to Tet</a></li>
             <li class="uk-nav-divider"></li>

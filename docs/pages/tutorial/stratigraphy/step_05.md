@@ -16,7 +16,7 @@
 <!-- End image slideshow -->
 <br/>
 
-## 5. Constructing a Fault
+<h2 id="constructing-a-fault" class="uk-h3 uk-margin-remove">5. Constructing a Fault</h2>
 
 ### 5.1 Creating a Fault and Subsurface Layers
 
@@ -152,7 +152,7 @@ parent mesh:
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_02.html" | relative_url }}">Define Boundaries Using Point Sets</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_03.html" | relative_url }}">Constructing Stratigraphy</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_04.html" | relative_url }}">Map Surfaces to Mesh</a></li>
-            <li class="uk-active"><a href="#5-constructing-a-fault">Constructing a Fault</a></li>
+            <li class="uk-active"><a href="#constructing-a-fault">Constructing a Fault</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_06.html" | relative_url }}">Truncate with Polyline</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_07.html" | relative_url }}">Refine Fault</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_08.html" | relative_url }}">Insert Well</a></li>

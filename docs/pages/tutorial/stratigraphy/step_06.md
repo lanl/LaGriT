@@ -27,7 +27,7 @@
 <!-- End image slideshow -->
 <br/>
 
-## 6. Truncate with Polyline
+<h2 id="truncate-with-polyline" class="uk-h3 uk-margin-remove">6. Truncate with Polyline</h2>
 
 We now have a mesh with complex stratigraphy encoded in its material ID. 
 However, the domain of this mesh is a rather boring cuboid and doesn't
@@ -114,6 +114,8 @@ rmpoint / compress
 resetpts / itp
 ```
 
+![](06_hex_01_truncate_w_grid.png)
+
 <!-- Next / Prev -->
 <ul class="uk-pagination">
     <li><a href="{{ "/pages/tutorial/stratigraphy/step_05.html" | relative_url }}"><span class="uk-margin-small-right" uk-pagination-previous></span> Previous</a></li>
@@ -130,7 +132,7 @@ resetpts / itp
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_03.html" | relative_url }}">Constructing Stratigraphy</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_04.html" | relative_url }}">Map Surfaces to Mesh</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_05.html" | relative_url }}">Constructing a Fault</a></li>
-            <li class="uk-active"><a href="#6-truncate-with-polyline">Truncate with Polyline</a></li>
+            <li class="uk-active"><a href="#truncate-with-polyline">Truncate with Polyline</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_07.html" | relative_url }}">Refine Fault</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_08.html" | relative_url }}">Insert Well</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_09.html" | relative_url }}">Convert Hex Mesh to Tet</a></li>
