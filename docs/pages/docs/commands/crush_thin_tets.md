@@ -63,14 +63,38 @@ Currently we are using these effective tolerances (on relative length):
 
 ## EXAMPLES
 
+The LaGriT input is an AVS format file with a thin tet number 1 with aspect ratio of .149 making it a sliver.
 ```
-crush_thin_tets / cmotet / 0.05
-rmpoint / compress
-resetpts / itp
-
-crush_thin_tets / cmotet
-rmpoint / compress
-resetpts / itp
-
-
+  6   5  0 0 0
+1  0. -1. .05 
+2  1. 0. -.05 
+3  0. 1. .05 
+4  -1. 0. -.05 
+5  0.  0. -2.
+6  0.  0. 2.
+1 1 tet 1 4 2 3
+2 2 tet 1 2 4 5
+3 3 tet 1 4 3 6
+4 4 tet 2 3 4 5
+4 5 tet 2 1 3 6
 ```
+
+This example calls crush_thin_tets twice, once with TOLCRUSH= .1 and again with TOLCRUSH .15, a value larger than the known aspect ratio of .149.
+As a result, nothing will happen on the first call. The second call will find and crush the sliver by splitting elements and merging edges to create a new mesh without the sliver.
+```
+crush_thin_tets / cmotet / .1
+rmpoint/compress
+resetpts itp
+
+crush_thin_tets / cmotet / .15
+rmpoint/compress
+resetpts itp
+```
+
+The first call has no change to the input. The second call splits tets such that thin tet is eliminated. Images show the input tet cell numbers and node numbers (left), the input tet elements exploded for viewing (middle), the output from crush_thin_tets with exploded view (right).
+
+|  |  |   | 
+| :---: | :---: | :---:  | 
+|  |  |   | 
+|  **input tet id numbers** |  **input tets exploded** |  **output tets exploded**  | 
+| <img width="400" src="https://lanl.github.io/LaGriT/assets/images/crush_input.png"> | <img width="400" src="https://lanl.github.io/LaGriT/assets/images/crush_input_ex.png"> | <img width="400" src="https://lanl.github.io/LaGriT/assets/images/crush_output_ex.png">  | 
