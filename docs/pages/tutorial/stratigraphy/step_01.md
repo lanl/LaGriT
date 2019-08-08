@@ -9,7 +9,7 @@
 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
     <ul class="uk-slideshow-items">
         <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/ch1.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+            <img data-src="{{ "/pages/tutorial/stratigraphy/images/01_hex_01.png" | relative_url }}" width="1800" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
         </li>
     </ul>
 </div>
