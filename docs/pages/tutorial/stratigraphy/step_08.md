@@ -24,7 +24,7 @@
 <!-- End image slideshow -->
 <br/>
 
-<h2 id="insert-well" class="uk-h3 uk-margin-remove">8. Insert Well</h2>
+<h2 id="insert-well" class="uk-h3 uk-margin-remove">8. Insert Wells</h2>
 
 In this step, we will generate two cylindrical 'wells', refine the mesh
 `MONAME` around them, and identify a line of nodes that will be the well
@@ -136,9 +136,18 @@ grid2grid / tree_to_fe / mohex_octree /  mohex
 define / MONAME / mohex_octree
 ```
 
+<!-- Lightbox -->
+<div class="uk-child-width-1-2@m" uk-grid uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/08_hex_01_insert_wells_dfield_wells.png" | relative_url }}" data-caption="Node Euclidean distances to wells">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/08_hex_01_insert_wells_dfield_wells.png" | relative_url }}" alt="">
+        </a>
+    </div>
+</div>
+
 ### 8.3 Writing `zone` files based on well distances
 
-The `zone` file format, used by geomechanics codes such as [FEHM](https://fehm.lanl.gov), is a list of nodes satisfying certain constraints, such as multi-material connections or location on external boundaries.
+The `zone` files are lists of node numbers in [FEHM](https://fehm.lanl.gov) file format and used to identify materials, well source/sinks, and boundary conditions.
 
 In this subsection, we will generate `zone` files describing all nodes within 32, 16, 8, 4, 2 and 1 meters of the wells.
 

@@ -87,6 +87,15 @@ memory / verify
 memory / print
 ```
 
+<!-- Lightbox -->
+<div class="uk-child-width-1-2@m" uk-grid uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/07_hex_01_fault_refine_close_up.png" | relative_url }}" data-caption="Boundary fence intersection with hex mesh">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/07_hex_01_fault_refine_close_up.png" | relative_url }}" alt="">
+        </a>
+    </div>
+</div>
+
 <!-- Next / Prev -->
 <ul class="uk-pagination">
     <li><a href="{{ "/pages/tutorial/stratigraphy/step_06.html" | relative_url }}"><span class="uk-margin-small-right" uk-pagination-previous></span> Previous</a></li>
