@@ -5,16 +5,10 @@
 </ul>
 <!-- End breadcrumb -->
 
-<!-- Begin image slideshow -->
-<div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
-    <ul class="uk-slideshow-items">
-        <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/02_hex_01_top_region.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
-        </li>
-    </ul>
-</div>
-<!-- End image slideshow -->
+<!-- Begin image -->
+<img data-src="{{ "/pages/tutorial/stratigraphy/images/02_hex_01_top_region.png" | relative_url }}" width="639" height="525" alt="" uk-img>
 <br/>
+<!-- End image -->
 
 <h2 id="psets" class="uk-h3 uk-margin-remove">2. Define Boundaries Using Point Sets</h2>
 
@@ -145,7 +139,7 @@ Cutting through the mesh in ParaView, we can visualize `id_top_region` and
 validate that the mesh is being constructed as expected:
 
 <!-- Lightbox image -->
-<div class="uk-child-width-1-3@m" uk-grid uk-lightbox="animation: slide">
+<div class="uk-child-width-1-2@m" uk-grid uk-lightbox="animation: slide">
     <div>
         <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/ch2_transparent_cbar.png" | relative_url }}" data-caption="Visualization of id_top_region">
             <img src="{{ "/pages/tutorial/stratigraphy/images/ch2_transparent_cbar.png" | relative_url }}" alt="">

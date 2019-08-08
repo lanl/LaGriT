@@ -5,11 +5,10 @@
 </ul>
 <!-- End breadcrumb -->
 
-<!-- Begin image slideshow -->
+<!-- Begin image -->
 <img data-src="{{ "/pages/tutorial/stratigraphy/images/01_hex_01.png" | relative_url }}" width="639" height="525" alt="" uk-img>
-
-<!-- End image slideshow -->
 <br/>
+<!-- End image -->
 
 <h2 id="build-hex" class="uk-h3 uk-margin-remove">1. Building a Hex Mesh</h2>
 

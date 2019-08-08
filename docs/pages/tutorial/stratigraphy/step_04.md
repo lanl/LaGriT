@@ -121,10 +121,8 @@ Our mesh's cells and nodes now store information about their intersections
 with the cut-planes. Visualizing `itetclr`, we can see that this has behaved
 as expected:
 
-![](images/ch4.png)
-
 <!-- Lightbox image -->
-<div class="uk-child-width-1-3@m" uk-grid uk-lightbox="animation: slide">
+<div class="uk-child-width-1-2@m" uk-grid uk-lightbox="animation: slide">
     <div>
         <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/ch4.png" | relative_url }}" data-caption="Visualization of materialID">
             <img src="{{ "/pages/tutorial/stratigraphy/images/ch4.png" | relative_url }}" alt="">

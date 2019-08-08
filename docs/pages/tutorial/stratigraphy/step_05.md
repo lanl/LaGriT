@@ -25,7 +25,7 @@ will be:
 
 
 <!-- Lightbox image -->
-<div class="uk-child-width-1-3@m" uk-grid uk-lightbox="animation: slide">
+<div class="uk-child-width-1-2@m" uk-grid uk-lightbox="animation: slide">
     <div>
         <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/05_fault_objects.png" | relative_url }}" data-caption="Fault and layer surfaces">
             <img src="{{ "/pages/tutorial/stratigraphy/images/05_fault_objects.png" | relative_url }}" alt="">
@@ -145,7 +145,7 @@ parent mesh:
 
 
 <!-- Lightbox image -->
-<div class="uk-child-width-1-3@m" uk-grid uk-lightbox="animation: slide">
+<div class="uk-child-width-1-2@m" uk-grid uk-lightbox="animation: slide">
     <div>
         <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/05_hex_01_fault_imt_itetclr.png" | relative_url }}" data-caption="Visualizing the fault in relation to subsurface layers">
             <img src="{{ "/pages/tutorial/stratigraphy/images/05_hex_01_fault_imt_itetclr.png" | relative_url }}" alt="">
