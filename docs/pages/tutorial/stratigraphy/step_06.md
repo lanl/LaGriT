@@ -9,25 +9,25 @@
 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
     <ul class="uk-slideshow-items">
         <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/06_boundary_truncate.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
-        </li>
-        <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/06_boundary_truncate_fence.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
-        </li>
-        <li>
             <img data-src="{{ "/pages/tutorial/stratigraphy/images/06_truncate_set_id.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
         </li>
         <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/06_truncate_set_id_close_up.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+            <img data-src width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+        </li>
+        <li>
+            <img data-src width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+        </li>
+        <li>
+            <img data-src width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
         </li>
     </ul>
-    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
 </div>
 <!-- End image slideshow -->
 <br/>
 
 <h2 id="truncate-with-polyline" class="uk-h3 uk-margin-remove">6. Truncate with Polyline</h2>
+
+### 6.1 Create boundary surface
 
 We now have a mesh with complex stratigraphy encoded in its material ID. 
 However, the domain of this mesh is a rather boring cuboid and doesn't
@@ -52,6 +52,22 @@ of the hex mesh:
 ```
 trans / 1 0 0 / 0. 0. -3200. / 0. 0. 0.
 ```
+
+<!-- Lightbox -->
+<div class="uk-child-width-1-2@m" uk-grid uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/06_boundary_truncate.png" | relative_url }}" data-caption="Polyline boundary">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/06_boundary_truncate.png" | relative_url }}" alt="">
+        </a>
+    </div>
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/06_boundary_truncate_fence.png" | relative_url }}" data-caption="Polyline boundary extruded">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/06_boundary_truncate_fence.png" | relative_url }}" alt="">
+        </a>
+    </div>
+</div>
+
+### 6.2 Truncate mesh
 
 Next, we use the boundary to truncate (remove) cells outside the boundary.
 
@@ -114,7 +130,19 @@ rmpoint / compress
 resetpts / itp
 ```
 
-![](06_hex_01_truncate_w_grid.png)
+<!-- Lightbox -->
+<div class="uk-child-width-1-2@m" uk-grid uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/06_truncate_set_id_close_up.png" | relative_url }}" data-caption="Boundary fence intersection with hex mesh">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/06_truncate_set_id_close_up.png" | relative_url }}" alt="">
+        </a>
+    </div>
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/06_hex_01_truncate_w_grid.png" | relative_url }}" data-caption="Hex mesh truncated with boundary fence">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/06_hex_01_truncate_w_grid.png" | relative_url }}" alt="">
+        </a>
+    </div>
+</div>
 
 <!-- Next / Prev -->
 <ul class="uk-pagination">
