@@ -9,9 +9,14 @@
 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
     <ul class="uk-slideshow-items">
         <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/ch4.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+            <img data-src="{{ "/pages/tutorial/stratigraphy/images/03_hex_01_set_imt_itetclr.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
+        </li>
+        <li>
+            <img data-src="{{ "/pages/tutorial/stratigraphy/images/03_hex_01_set_imt_itetclr_threshold_remove_material3.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
         </li>
     </ul>
+    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
 </div>
 <!-- End image slideshow -->
 <br/>
@@ -117,6 +122,15 @@ with the cut-planes. Visualizing `itetclr`, we can see that this has behaved
 as expected:
 
 ![](images/ch4.png)
+
+<!-- Lightbox image -->
+<div class="uk-child-width-1-3@m" uk-grid uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/ch4.png" | relative_url }}" data-caption="Visualization of materialID">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/ch4.png" | relative_url }}" alt="">
+        </a>
+    </div>
+</div>
 
 <!-- Next / Prev -->
 <ul class="uk-pagination">

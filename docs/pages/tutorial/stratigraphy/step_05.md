@@ -16,14 +16,23 @@
 <!-- End image slideshow -->
 <br/>
 
-<h2 id="constructing-a-fault" class="uk-h3 uk-margin-remove">5. Constructing a Fault</h2>
+<h2 id="constructing-a-fault" class="uk-h3 uk-margin-remove">5. Constructing a Fault and Layers</h2>
 
 ### 5.1 Creating a Fault and Subsurface Layers
 
 Next, we are going to map a fault and surfaces to our mesh. The objects created
 will be:
 
-![](images/05_fault_objects.png)
+
+<!-- Lightbox image -->
+<div class="uk-child-width-1-3@m" uk-grid uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/05_fault_objects.png" | relative_url }}" data-caption="Fault and layer surfaces">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/05_fault_objects.png" | relative_url }}" alt="">
+        </a>
+    </div>
+</div>
+
 
 For all five of these surfaces, we will:
 
@@ -134,7 +143,15 @@ cmo / setatt / MONAME / itetclr / eltset get e_r_3_fp / 6
 The six distinct regions can now be seen by viewing `itetclr` on the
 parent mesh:
 
-![](images/05_hex_01_fault_imt_itetclr.png)
+
+<!-- Lightbox image -->
+<div class="uk-child-width-1-3@m" uk-grid uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/05_hex_01_fault_imt_itetclr.png" | relative_url }}" data-caption="Visualizing the fault in relation to subsurface layers">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/05_hex_01_fault_imt_itetclr.png" | relative_url }}" alt="">
+        </a>
+    </div>
+</div>
 
 
 <!-- Next / Prev -->
