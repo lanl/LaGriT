@@ -49,7 +49,47 @@
 
 <br/><br/>
 
-<h1 class="uk-heading-line"><span>Examples &amp; Demos</span></h1>
+<h1 class="uk-heading-line"><span>Examples</span></h1>
+
+<!-- Demos grid card -->
+<div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
+    <div>
+        <a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">
+            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                <div class="uk-card-media-top">
+                    <img src="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/mesh_mat_fs5_and_fs8.png" alt="">
+                </div>
+                <p>Stacked Mesh with Facesets from Boundary Lines</p>
+            </div>
+        </a>
+    </div>
+
+    <div>
+        <a href="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/index.html">
+            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                <div class="uk-card-media-top">
+                    <img src="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/tets_add_02_TN.PNG" alt="">
+                </div>
+                <p>Octree Refine Hex, Intersect Object</p>
+            </div>
+        </a>
+    </div>
+
+    <div>
+        <a href="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/index.html">
+            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                <div class="uk-card-media-top">
+                    <img src="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/03_output_modified_surface.gif" alt="">
+                </div>
+                <p>Merge Intersecting Surfaces</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+<br/><br/>
+
+<h1 class="uk-heading-line"><span>Demos</span></h1>
 
 <!-- Demos grid card -->
 <div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
