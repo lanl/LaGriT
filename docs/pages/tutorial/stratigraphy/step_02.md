@@ -9,14 +9,9 @@
 <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow>
     <ul class="uk-slideshow-items">
         <li>
-            <img data-src="{{ "/pages/tutorial/stratigraphy/images/ch2_transparent_cbar.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
-        </li>
-        <li>
             <img data-src="{{ "/pages/tutorial/stratigraphy/images/02_hex_01_top_region.png" | relative_url }}" width="1800" height="1200" alt="" uk-cover uk-img="target: !.uk-slideshow-items">
         </li>
     </ul>
-    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
 </div>
 <!-- End image slideshow -->
 <br/>
@@ -146,6 +141,19 @@ pset / p_circle3 / release
 pset / p_region / release
 ```
 
+Cutting through the mesh in ParaView, we can visualize `id_top_region` and
+validate that the mesh is being constructed as expected:
+
+<!-- Lightbox image -->
+<div class="uk-child-width-1-3@m" uk-grid uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/ch2_transparent_cbar.png" | relative_url }}" data-caption="Visualization of id_top_region">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/ch2_transparent_cbar.png" | relative_url }}" alt="">
+        </a>
+    </div>
+</div>
+
+<!-- Next / Prev -->
 <ul class="uk-pagination">
     <li><a href="{{ "/pages/tutorial/stratigraphy/step_01.html" | relative_url }}"><span class="uk-margin-small-right" uk-pagination-previous></span> Previous</a></li>
     <li class="uk-margin-auto-left"><a href="{{ "/pages/tutorial/stratigraphy/step_03.html" | relative_url }}">Next <span class="uk-margin-small-left" uk-pagination-next></span></a></li>
