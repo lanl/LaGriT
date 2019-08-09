@@ -11,7 +11,7 @@
 </div>
 
 <a href="{{ "/pages/tutorial/stratigraphy/Tutorial_Hex_Mesh.zip" | relative_url }}" class="uk-button uk-button-primary tm-button-default uk-icon">
-    Download Resources (6.9 MB)
+    Download Resources (7.5 MB)
     <span uk-icon="download"></span>
 </a>
 
