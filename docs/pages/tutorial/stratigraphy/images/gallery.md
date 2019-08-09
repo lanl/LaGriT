@@ -2,7 +2,7 @@
 
 Gallery written: Fri Aug  9 16:26:43 2019
 
-Image Directory: /Users/livingston/playground/tutorial/Terry/FinalTutorial/images
+Image Directory: /project/meshing/demos/Tutorial\_Hex\_Mesh/images 
 
 
 |  |  |   | 
