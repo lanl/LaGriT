@@ -150,6 +150,8 @@ as expected:
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_07.html" | relative_url }}">7. Refine Fault</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_08.html" | relative_url }}">8. Insert Wells</a></li>
             <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_09.html" | relative_url }}">9. Convert Hex Mesh to Tet</a></li>
+            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_10_fehm.html" | relative_url }}">10.1 Write FEHM Files</a></li>
+            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_10_exo.html" | relative_url }}">10.2 Write ExodusII Files</a></li>
             <li class="uk-nav-divider"></li>
             <!---->
             <li><a href="{{ "/pages/tutorial/stratigraphy/images/gallery.html" | relative_url }}" target="_blank"><span uk-icon="icon: image" class="uk-margin-small-right uk-icon"></span> <span class="uk-text-middle">Image Gallery</span></a></li>
