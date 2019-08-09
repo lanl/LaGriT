@@ -60,14 +60,40 @@ rmpoint / compress
 resetpts / itp
 ```
 
-Finally, write the mesh object to AVS and FEHM formats and signal the EOF
-`finish` command:
-
+Check the mesh that it has all positive element volumes and no bad aspect ratios.
+Use the `quality` command for a report on these mesh quantities.
 
 ```
-dump / avs / tmp_tet_mesh.inp / motet
-dump / fehm / mesh / motet keepatt
-dump / avs / mesh.inp / motet
+quality
+
+epsilonl, epsilonaspect:   1.3230281E-09  2.3158330E-27                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :         18                          
+elements with aspect ratio b/w .2  and .5 :      20538                          
+elements with aspect ratio b/w .5  and 1. :     631394                          
+min aspect ratio =  0.1613E+00  max aspect ratio =  0.9377E+00                  
+ 
+epsilonvol:   8.8249408E-03                                                     
+---------------------------------------                                         
+element volumes b/w  0.2500E+03 and  0.8706E+03:     43109                      
+element volumes b/w  0.8706E+03 and  0.3031E+04:    273639                      
+element volumes b/w  0.3031E+04 and  0.1056E+05:     98379                      
+element volumes b/w  0.1056E+05 and  0.3676E+05:     63075                      
+element volumes b/w  0.3676E+05 and  0.1280E+06:    173748                      
+min volume =   2.5000000E+02  max volume =   1.2800000E+05                      
+-----------------------------------------------------------                     
+    651950 total elements evaluated.                                        
+```
+
+Finally, write the mesh object to AVS UCD file format and signal the EOF
+`finish` command:
+
+```
+dump/avs/tet_mesh.inp/motet                                                     
 
 finish
 ```
@@ -75,6 +101,7 @@ finish
 <!-- Next / Prev -->
 <ul class="uk-pagination">
     <li><a href="{{ "/pages/tutorial/stratigraphy/step_08.html" | relative_url }}"><span class="uk-margin-small-right" uk-pagination-previous></span> Previous</a></li>
+    <li class="uk-margin-auto-left"><a href="{{ "/pages/tutorial/stratigraphy/step_10_fehm.html" | relative_url }}">Next <span class="uk-margin-small-left" uk-pagination-next></span></a></li>
 </ul>
 
 <!-- Sidebar -->
