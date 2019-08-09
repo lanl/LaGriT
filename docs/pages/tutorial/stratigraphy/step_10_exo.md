@@ -6,20 +6,25 @@
 <!-- End breadcrumb -->
 
 <!-- Begin image -->
-<img data-src="{{ "/pages/tutorial/stratigraphy/images/01_hex_01.png" | relative_url }}" width="639" height="525" alt="" uk-img>
+<img data-src="{{ "/pages/tutorial/stratigraphy/images/21_tet_01_exo_blocks.png" | relative_url }}" width="639" height="525" alt="" uk-img>
 <br/>
 <!-- End image -->
 
 <h2 id="dump-exo" class="uk-h3 uk-margin-remove">10.2 Write ExodusII Files</h2>
 
-21_tet_01_exo_blocks.png
-
 Write the tet mesh in Exodus II format. This format defines materials as blocks
 and is element based.
-The node properties will be ignored. The image shows the Exodus mesh
-(read with GMV or ParaView) with material blocks shown in exploded view.
+The node properties will be ignored. The below image shows the Exodus mesh
+(read with GMV or ParaView) with material blocks shown in 'exploded' view.
 
-21_tet_01_exo_blocks_ex.png
+<!-- Lightbox -->
+<div class="uk-child-width-1-2@m" uk-grid uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/21_tet_01_exo_blocks_ex.png" | relative_url }}" data-caption="Exodus cells 'exploded' by material blocks">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/21_tet_01_exo_blocks_ex.png" | relative_url }}" alt="">
+        </a>
+    </div>
+</div>
 
 We can define the boundary faces for this mesh by extracting the 2D external
 surface and writing the element and face id for each. These can be written as
@@ -67,8 +72,8 @@ define / SS_ID / 2
   cmo / delete / mo_tmp
 ```
 
-Write the Exodus II mesh with the faceset files. This mesh and associated face sets can be 
-viewed with GMV or paraview.
+Write the Exodus II mesh with the faceset files. This mesh and associated
+face sets can be viewed with GMV or ParaView.
 
 ```
 dump/exo/ mesh_fs.exo / MO_MESH / / / facesets &
@@ -109,7 +114,14 @@ Done ExodusII Side Sets Total:       3
 
 Image show the Exodus face sets (side sets) with bottom (blue), top (red), and sides (light blue).
 
-21_tet_01_exo_bndry_faces.png
+<!-- Lightbox -->
+<div class="uk-child-width-1-2@m" uk-grid uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="{{ "/pages/tutorial/stratigraphy/images/21_tet_01_exo_bndry_faces.png" | relative_url }}" data-caption="Exodus side sets: bottom (blue), top (red), and sides (light blue).">
+            <img src="{{ "/pages/tutorial/stratigraphy/images/21_tet_01_exo_bndry_faces.png" | relative_url }}" alt="">
+        </a>
+    </div>
+</div>
 
 <!-- Next / Prev -->
 <ul class="uk-pagination">
