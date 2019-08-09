@@ -99,82 +99,82 @@
             </div>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_2d_connect.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_2d_connect.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">2d_connect</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_rotatept.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_rotatept.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">rotatept</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_createpts.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_createpts.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">createpts</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_regnpts.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_regnpts.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">regnpts</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_tri.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_tri.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">triangulate</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_dump.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_dump.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">dump</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_hextet.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_hextet.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">hextotet</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_sort.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_sort.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">sort</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_connect.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">connect</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_qual.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_qual.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">quality</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_trans.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_trans.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">trans</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_pset.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_pset.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">pset</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_2d_recon.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_2d_recon.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">2d_recon</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_addmesh.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_addmesh.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">addmesh</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_rmmat.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_rmmat.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">rmmat</div>
             </a>
         </li>
         <li data-color="command">
-            <a href=""{{ "/pages/docs/demos/main_rivara.html" | relative_url }}"" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/main_rivara.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">negative_aij</div>
             </a>
         </li>
