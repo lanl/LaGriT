@@ -51,222 +51,133 @@
 
 <h1 class="uk-heading-line"><span>Examples</span></h1>
 
-<!-- Demos grid card -->
-<div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
-    <div>
-        <a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/mesh_mat_fs5_and_fs8.png" alt="">
-                </div>
-                <p>Stacked Mesh with Facesets from Boundary Lines</p>
-            </div>
-        </a>
-    </div>
+<!-- Examples grid card -->
+<div uk-filter="target: .js-filter">
 
-    <div>
-        <a href="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/index.html">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/tets_add_02_TN.PNG" alt="">
-                </div>
-                <p>Octree Refine Hex, Intersect Object</p>
-            </div>
-        </a>
-    </div>
+    <ul class="uk-subnav uk-subnav-pill">
+        <li class="uk-active" uk-filter-control><a href="#">All</a></li>
+        <li uk-filter-control="[data-color='command']"><a href="#">Commands</a></li>
+        <li uk-filter-control="[data-color='utility']"><a href="#">Utility</a></li>
+        <li uk-filter-control="[data-color='workflow']"><a href="#">Workflow</a></li>
+    </ul>
 
-    <div>
-        <a href="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/index.html">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/03_output_modified_surface.gif" alt="">
-                </div>
-                <p>Merge Intersecting Surfaces</p>
+    <ul class="js-filter uk-child-width-1-2 uk-child-width-1-3@m uk-text-center" uk-grid="masonry: true">
+        <li data-color="workflow">
+            <div>
+                <a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/mesh_mat_fs5_and_fs8.png" alt="">
+                        </div>
+                        <p>Stacked Mesh with Facesets from Boundary Lines</p>
+                    </div>
+                </a>
             </div>
-        </a>
-    </div>
+        </li>
+        <li data-color="workflow">
+            <div>
+                <a href="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/index.html">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/tets_add_02_TN.PNG" alt="">
+                        </div>
+                        <p>Octree Refine Hex, Intersect Object</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+        <li data-color="utility">
+            <div>
+                <a href="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/index.html">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/03_output_modified_surface.gif" alt="">
+                        </div>
+                        <p>Merge Intersecting Surfaces</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_2d_connect.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">2d_connect</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_rotatept.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">rotatept</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_createpts.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">createpts</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_regnpts.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">regnpts</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_tri.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">triangulate</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_dump.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">dump</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_hextet.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">hextotet</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_sort.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">sort</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_connect.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">connect</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_qual.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">quality</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_trans.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">trans</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_pset.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">pset</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_2d_recon.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">2d_recon</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_addmesh.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">addmesh</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_rmmat.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">rmmat</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href=""{{ "/pages/docs/demos/main_rivara.html" | relative_url }}"" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">negative_aij</div>
+            </a>
+        </li>
+    </ul>
 </div>
-
-<br/><br/>
-
-<h1 class="uk-heading-line"><span>Demos</span></h1>
-
-<!-- Demos grid card -->
-<div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid>
-    <div>
-        <a href="{{ "/pages/docs/demos/main_2d_connect.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/2d_connect/test/html/image/2d_connect2_tn.gif" alt="">
-                </div>
-                <p>2d_connect</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_rotatept.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/rotatept/test/html/image/rotatept2_tn.gif" alt="">
-                </div>
-                <p>rotatept</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_createpts.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/createpts/test/html/image/image6tn.gif" alt="" width="70">
-                </div>
-                <p>createpts</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_regnpts.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/regnpts/test/html/image/regnpts2_tn.gif" alt="">
-                </div>
-                <p>regnpts</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_tri.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/triangulate/test/html/image/triang4_tn.gif" alt="">
-                </div>
-                <p>triangulate</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_dump.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/dump/test/html/image/output_tn.gif" alt="">
-                </div>
-                <p>dump</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_hextet.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/hextotet/test/html/image/output_tet_tn.gif" alt="">
-                </div>
-                <p>hextotet</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_sort.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/sort/test/html/image/sort_tn.gif" alt="">
-                </div>
-                <p>sort</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/connect/test/html/image/output_connect_tn.gif" alt="">
-                </div>
-                <p>connect</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_qual.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/2d_recon/test/html/image/image1_tn.gif" alt="" width="65">
-                </div>
-                <p>quality</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_trans.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/trans/test/html/image/trans2_tn.gif" alt="">
-                </div>
-                <p>trans</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_pset.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/pset/test/html/image/pset2_tn.gif" alt="">
-                </div>
-                <p>pset</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_2d_recon.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/2d_recon/test/html/image/image1_tn.gif" alt="" width="65">
-                </div>
-                <p>2d_recon</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_addmesh.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/addmesh/test/html/image/addmesh_add/addmesh_out1_tn.gif" alt="">
-                </div>
-                <p>addmesh</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_rmmat.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/rmmat/test/html/image/rmmat4_tn.gif" alt="">
-                </div>
-                <p>rmmat</p>
-            </div>
-        </a>
-    </div>
-
-    <div>
-        <a href="{{ "/pages/docs/demos/main_rivara.html" | relative_url }}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                <div class="uk-card-media-top">
-                    <img src="https://lagrit.lanl.gov/docs/demos/refine_rivara/test/html/image/rivara2_tn.gif" alt="">
-                </div>
-                <p>negative_aij</p>
-            </div>
-        </a>
-    </div>
-</div>
-<!-- End demos grid -->
+<!-- Examples demos grid -->
